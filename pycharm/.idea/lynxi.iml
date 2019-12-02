@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../doc" />
+    <content url="file://$MODULE_DIR$/../plug/maya/definition">
+      <excludeFolder url="file://$MODULE_DIR$/../plug/maya/definition/lynxinode/1.0/deploy/scripts" />
+    </content>
+    <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
+    <content url="file://$MODULE_DIR$/../setup" />
+    <content url="file://$MODULE_DIR$/../source/python">
+      <sourceFolder url="file://$MODULE_DIR$/../source/python" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../test" />
+    <content url="file://$MODULE_DIR$/../tool/maya" />
+    <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
+  </component>
+</module>

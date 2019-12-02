@@ -1,0 +1,2280 @@
+DESCRIPTION
+    It provides Layout classes similar to classes found in Qt/GTK/Tcl/Tk that
+    helps to manage region handling and UI control positioning.
+
+    It also gives functions to create/destroy and manage Tools created in Python.
+
+CLASSES
+    pyfbsdk.FBLayout(pyfbsdk.FBVisualComponent)
+        FBBoxLayout
+            FBHBoxLayout
+            FBVBoxLayout
+        FBGridLayout
+        FBTabControl
+    FBButtonGroup
+
+    class FBBoxLayout(pyfbsdk.FBLayout)
+     |  Base class for a line layout (either vertical or horizontal)
+     |
+     |  This class is made to ease the creation of Tool in Python. It manages
+     |  all the 'FBLayout' region stuff (no need to use FBAddRegionParam anymore!).
+     |
+     |  Generally you just Add a Control to the layout specifying some parameters.
+     |
+     |  There are 2 kinds of Add: Add with fixed size and AddRelative which ensure
+     |  the control Added will occupy a 'percentage' of the available space AFTER the
+     |  fixed space has been assigned.
+     |
+     |  Method resolution order:
+     |      FBBoxLayout
+     |      pyfbsdk.FBLayout
+     |      pyfbsdk.FBVisualComponent
+     |      pyfbsdk.FBComponent
+     |      pyfbsdk.FBPlug
+     |      pyfbsdk.FBPythonWrapper
+     |      Boost.Python.instance
+     |      __builtin__.object
+     |
+     |  Methods defined here:
+     |
+     |  Add(self, control, size, **customparams)
+     |      Add a control to layout specifying its FIXED size.
+     |
+     |      customparams:
+     |      space: space between previous control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  AddRelative(self, control, ratio=1.0, **customparams)
+     |      Add a control to layout specifying its RATIO. This means
+     |      the control will be assigned a size based on the space left when all FIXED
+     |      size have been allocated.
+     |
+     |      customparams:
+     |      space: space between prev control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  Remove(self, control)
+     |      Remove a control from the layout.
+     |
+     |  RemoveAll(self)
+     |      Remove all controls from layout
+     |
+     |  __init__(self, floworientation)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  ControlDesc = <class pyfbsdk_additions.ControlDesc>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBLayout:
+     |
+     |  AddRegion(...)
+     |      AddRegion( (FBLayout)arg1, (str)arg2, (str)arg3, (FBAddRegionParam)arg4, (FBAddRegionParam)arg5, (FBAddRegionParam)arg6, (FBAddRegionParam)arg7) -> bool
+     |
+     |  ClearControl(...)
+     |      ClearControl( (FBLayout)arg1, (str)arg2) -> None
+     |
+     |  GetControl(...)
+     |      GetControl( (FBLayout)arg1, (str)arg2) -> object
+     |
+     |  GetRegion(...)
+     |      GetRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  GetRegionPositions(...)
+     |      GetRegionPositions( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4, (object)arg5 [, (object)arg6 [, (object)arg7]]) -> bool
+     |
+     |  GetSplitStyle(...)
+     |      GetSplitStyle( (FBLayout)arg1, (str)arg2) -> FBSplitStyle
+     |
+     |  MoveRegion(...)
+     |      MoveRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  RemoveRegion(...)
+     |      RemoveRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  RenameRegion(...)
+     |      RenameRegion( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  Restructure(...)
+     |      Restructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetAutoRestructure(...)
+     |      SetAutoRestructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetBorder(...)
+     |      SetBorder( (FBLayout)arg1, (str)arg2, (FBBorderStyle)arg3, (object)arg4, (object)arg5, (object)arg6, (object)arg7, (float)arg8, (object)arg9) -> bool
+     |
+     |  SetControl(...)
+     |      SetControl( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SetRegionTitle(...)
+     |      SetRegionTitle( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  SetSplitStyle(...)
+     |      SetSplitStyle( (FBLayout)arg1, (str)arg2, (FBSplitStyle)arg3) -> bool
+     |
+     |  SetView(...)
+     |      SetView( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SizeRegion(...)
+     |      SizeRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  __reduce__ = <unnamed Boost.Python function>(...)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBLayout:
+     |
+     |  OnIdle
+     |
+     |  OnInput
+     |
+     |  OnPaint
+     |
+     |  OnResize
+     |
+     |  OnShow
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from pyfbsdk.FBLayout:
+     |
+     |  ClassGroupName = ''
+     |
+     |  TypeInfo = 155
+     |
+     |  __instance_size__ = 80
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  AddChild(...)
+     |      AddChild( (FBVisualComponent)arg1, (FBVisualComponent)arg2 [, (object)arg3]) -> bool
+     |
+     |  GetChild(...)
+     |      GetChild( (FBVisualComponent)arg1, (object)arg2) -> object
+     |
+     |  GetQWidgetAddress(...)
+     |      GetQWidgetAddress( (FBVisualComponent)arg1) -> int
+     |
+     |  IsView(...)
+     |      IsView( (FBVisualComponent)arg1) -> bool
+     |
+     |  Refresh(...)
+     |      Refresh( (FBVisualComponent)arg1 [, (object)arg2]) -> None
+     |
+     |  ViewExpose(...)
+     |      ViewExpose( (FBVisualComponent)arg1) -> None
+     |
+     |  ViewInput(...)
+     |      ViewInput( (FBVisualComponent)arg1, (object)arg2, (object)arg3, (FBInputType)arg4, (object)arg5, (object)arg6) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  BorderCaption
+     |
+     |  BorderCornerRadius
+     |
+     |  BorderInSet
+     |
+     |  BorderMaxAngle
+     |
+     |  BorderShowCaption
+     |
+     |  BorderSpacing
+     |
+     |  BorderStyle
+     |
+     |  BorderWidth
+     |
+     |  Caption
+     |
+     |  Enabled
+     |
+     |  Height
+     |
+     |  Hint
+     |
+     |  Left
+     |
+     |  ReadOnly
+     |
+     |  RegionAttachToHeight
+     |
+     |  RegionAttachToWidth
+     |
+     |  RegionAttachToX
+     |
+     |  RegionAttachToY
+     |
+     |  RegionAttachTypeHeight
+     |
+     |  RegionAttachTypeWidth
+     |
+     |  RegionAttachTypeX
+     |
+     |  RegionAttachTypeY
+     |
+     |  RegionName
+     |
+     |  RegionOffsetHeight
+     |
+     |  RegionOffsetWidth
+     |
+     |  RegionOffsetX
+     |
+     |  RegionOffsetY
+     |
+     |  RegionPosMaxX
+     |
+     |  RegionPosMaxY
+     |
+     |  RegionPosMinX
+     |
+     |  RegionPosMinY
+     |
+     |  RegionRatioHeight
+     |
+     |  RegionRatioWidth
+     |
+     |  RegionRatioX
+     |
+     |  RegionRatioY
+     |
+     |  Top
+     |
+     |  Visible
+     |
+     |  Width
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBComponent:
+     |
+     |  ClassName(...)
+     |      ClassName( (FBComponent)arg1) -> str
+     |
+     |  DisableObjectFlags(...)
+     |      DisableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  EnableObjectFlags(...)
+     |      EnableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  FBCreate(...)
+     |      FBCreate( (FBComponent)arg1) -> bool
+     |
+     |  FBDelete(...)
+     |      FBDelete( (FBComponent)arg1) -> None
+     |
+     |  FBDestroy(...)
+     |      FBDestroy( (FBComponent)arg1) -> None
+     |
+     |  GetObjectFlags(...)
+     |      GetObjectFlags( (FBComponent)arg1) -> FBObjectFlag
+     |
+     |  GetObjectStatus(...)
+     |      GetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2) -> bool
+     |
+     |  GetOwnerFileReference(...)
+     |      GetOwnerFileReference( (FBComponent)arg1) -> object
+     |
+     |  HardSelect(...)
+     |      HardSelect( (FBComponent)arg1) -> None
+     |
+     |  HasObjectFlags(...)
+     |      HasObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> bool
+     |
+     |  Is(...)
+     |      Is( (FBComponent)arg1, (object)arg2) -> bool
+     |
+     |  ProcessNamespaceHierarchy(...)
+     |      ProcessNamespaceHierarchy( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  ProcessObjectNamespace(...)
+     |      ProcessObjectNamespace( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  PropertyAdd(...)
+     |      PropertyAdd( (FBComponent)arg1, (FBProperty)arg2) -> int
+     |
+     |  PropertyAddReferenceProperty(...)
+     |      PropertyAddReferenceProperty( (FBComponent)arg1, (FBProperty)arg2) -> bool
+     |
+     |  PropertyCreate(...)
+     |      PropertyCreate( (FBComponent)arg1, (str)arg2, (FBPropertyType)arg3, (str)arg4, (object)arg5, (object)arg6, (FBProperty)arg7) -> object
+     |
+     |  PropertyGetModifiedList(...)
+     |      PropertyGetModifiedList( (FBComponent)arg1, (FBPlugModificationFlag)arg2) -> FBPropertyList
+     |
+     |  PropertyRemove(...)
+     |      PropertyRemove( (FBComponent)arg1, (FBProperty)arg2) -> None
+     |
+     |  SetObjectFlags(...)
+     |      SetObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  SetObjectStatus(...)
+     |      SetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2, (object)arg3) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBComponent:
+     |
+     |  Components
+     |
+     |  FullName
+     |
+     |  LongName
+     |
+     |  Name
+     |
+     |  OwnerNamespace
+     |
+     |  Parents
+     |
+     |  PropertyList
+     |
+     |  Selected
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBPlug:
+     |
+     |  BeginChange(...)
+     |      BeginChange( (FBPlug)arg1) -> bool
+     |
+     |  ConnectDst(...)
+     |      ConnectDst( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectDstAt(...)
+     |      ConnectDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  ConnectSrc(...)
+     |      ConnectSrc( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectSrcAt(...)
+     |      ConnectSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  DisconnectAllDst(...)
+     |      DisconnectAllDst( (FBPlug)arg1) -> None
+     |
+     |  DisconnectAllSrc(...)
+     |      DisconnectAllSrc( (FBPlug)arg1) -> None
+     |
+     |  DisconnectDst(...)
+     |      DisconnectDst( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectDstAt(...)
+     |      DisconnectDstAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  DisconnectSrc(...)
+     |      DisconnectSrc( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectSrcAt(...)
+     |      DisconnectSrcAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  EndChange(...)
+     |      EndChange( (FBPlug)arg1) -> None
+     |
+     |  GetContentModified(...)
+     |      GetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetDst(...)
+     |      GetDst( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetDstCount(...)
+     |      GetDstCount( (FBPlug)arg1) -> int
+     |
+     |  GetDstType(...)
+     |      GetDstType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  GetOwned(...)
+     |      GetOwned( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetOwnedCount(...)
+     |      GetOwnedCount( (FBPlug)arg1) -> int
+     |
+     |  GetOwner(...)
+     |      GetOwner( (FBPlug)arg1) -> object
+     |
+     |  GetPlugConnectionModifiedList(...)
+     |      GetPlugConnectionModifiedList( (FBPlug)arg1, (FBPlugList)arg2, (FBPlugModificationFlag)arg3, (object)arg4) -> int
+     |
+     |  GetSelfModified(...)
+     |      GetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetSrc(...)
+     |      GetSrc( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetSrcCount(...)
+     |      GetSrcCount( (FBPlug)arg1) -> int
+     |
+     |  GetSrcType(...)
+     |      GetSrcType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  IsSDKComponent(...)
+     |      IsSDKComponent( (FBPlug)arg1) -> bool
+     |
+     |  MoveSrcAt(...)
+     |      MoveSrcAt( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |      MoveSrcAt( (FBPlug)arg1, (FBPlug)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceDstAt(...)
+     |      ReplaceDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceSrcAt(...)
+     |      ReplaceSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  RevertModification(...)
+     |      RevertModification( (FBPlug)arg1 [, (FBPlugModificationFlag)arg2]) -> bool
+     |
+     |  SetContentModified(...)
+     |      SetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SetSelfModified(...)
+     |      SetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SwapSrc(...)
+     |      SwapSrc( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from pyfbsdk.FBPlug:
+     |
+     |  PrintClassDefinitions(...)
+     |      PrintClassDefinitions() -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBPythonWrapper:
+     |
+     |  OnUnbind
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Boost.Python.instance:
+     |
+     |  __dict__
+     |
+     |  __weakref__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Boost.Python.instance:
+     |
+     |  __new__ = <built-in method __new__ of Boost.Python.class object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+
+    class FBButtonGroup
+     |  Button group class used to manage multiple radio buttons.
+     |  This class ensure that only one radio button is enabled (it does all the ClickState management)
+     |
+     |  - Use the Add method to Add new radio button to the group.
+     |  - Use AddCallback method to register a UNIQUE callback that will be called when ANY
+     |    of the registered radio buttons is clicked.
+     |
+     |  Methods defined here:
+     |
+     |  Add(self, btn)
+     |      Add a radio button to group.
+     |
+     |  AddCallback(self, callback)
+     |      Add a callback that will be call when a radiobutton in the group is clicked.
+     |
+     |  __init__(self)
+
+    class FBGridLayout(pyfbsdk.FBLayout)
+     |  More advance layout that allow organisation of control in a grid.
+     |  User can place a control at specific coordinates.
+     |  User can also setup parameters that affect whole row or column.
+     |
+     |  Method resolution order:
+     |      FBGridLayout
+     |      pyfbsdk.FBLayout
+     |      pyfbsdk.FBVisualComponent
+     |      pyfbsdk.FBComponent
+     |      pyfbsdk.FBPlug
+     |      pyfbsdk.FBPythonWrapper
+     |      Boost.Python.instance
+     |      __builtin__.object
+     |
+     |  Methods defined here:
+     |
+     |  Add(self, control, r, c, attachX=pyfbsdk.FBAttachType.kFBAttachLeft, attachY=pyfbsdk.FBAttachType.kFBAttachTop, width=None, height=None)
+     |      Add control in row r and column c.
+     |      attachX: specifies a control horizontal attachment in a column (kFBAttachLeft, kFBAttachRight)
+     |      attachY: specifies a control veritcal attachment in a row (kFBAttachTop, kFBAttachBottom)
+     |      width: fixed width of a control
+     |      height: fixed height of a control
+     |
+     |  AddRange(self, control, r1, r2, c1, c2, attachX=pyfbsdk.FBAttachType.kFBAttachLeft, attachY=pyfbsdk.FBAttachType.kFBAttachTop)
+     |      Add control in a range of coordinates. Control will span from row1 to row2 and from col1 to col2
+     |      attachX: specifies a control horizontal attachment in a column (kFBAttachLeft, kFBAttachRight)
+     |      attachY: specifies a control veritcal attachment in a row (kFBAttachTop, kFBAttachBottom)
+     |
+     |  Remove(self, control)
+     |      Remove a control from the grid
+     |
+     |  RemoveAll(self)
+     |      Remove all controls from the grid
+     |
+     |  SetColRatio(self, c, ratio)
+     |      Set col c ratio. this col will be allocated width according to this ratio
+     |      when all fixed width has been allocated.
+     |
+     |  SetColSpacing(self, c, spacing)
+     |      Set col c spacing between previous col.
+     |
+     |  SetColWidth(self, c, w)
+     |      Set col c fixed width.
+     |
+     |  SetRowHeight(self, r, h)
+     |      Set row r fixed height
+     |
+     |  SetRowRatio(self, r, ratio)
+     |      Set row r ratio. this row will be allocated height according to this ratio
+     |      when all fixed height has been allocated.
+     |
+     |  SetRowSpacing(self, r, spacing)
+     |      Set row r spacing between previous row.
+     |
+     |  __init__(self, spacing=5)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  ColDesc = <class pyfbsdk_additions.ColDesc>
+     |
+     |  ControlDesc = <class pyfbsdk_additions.ControlDesc>
+     |
+     |  RowDesc = <class pyfbsdk_additions.RowDesc>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBLayout:
+     |
+     |  AddRegion(...)
+     |      AddRegion( (FBLayout)arg1, (str)arg2, (str)arg3, (FBAddRegionParam)arg4, (FBAddRegionParam)arg5, (FBAddRegionParam)arg6, (FBAddRegionParam)arg7) -> bool
+     |
+     |  ClearControl(...)
+     |      ClearControl( (FBLayout)arg1, (str)arg2) -> None
+     |
+     |  GetControl(...)
+     |      GetControl( (FBLayout)arg1, (str)arg2) -> object
+     |
+     |  GetRegion(...)
+     |      GetRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  GetRegionPositions(...)
+     |      GetRegionPositions( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4, (object)arg5 [, (object)arg6 [, (object)arg7]]) -> bool
+     |
+     |  GetSplitStyle(...)
+     |      GetSplitStyle( (FBLayout)arg1, (str)arg2) -> FBSplitStyle
+     |
+     |  MoveRegion(...)
+     |      MoveRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  RemoveRegion(...)
+     |      RemoveRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  RenameRegion(...)
+     |      RenameRegion( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  Restructure(...)
+     |      Restructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetAutoRestructure(...)
+     |      SetAutoRestructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetBorder(...)
+     |      SetBorder( (FBLayout)arg1, (str)arg2, (FBBorderStyle)arg3, (object)arg4, (object)arg5, (object)arg6, (object)arg7, (float)arg8, (object)arg9) -> bool
+     |
+     |  SetControl(...)
+     |      SetControl( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SetRegionTitle(...)
+     |      SetRegionTitle( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  SetSplitStyle(...)
+     |      SetSplitStyle( (FBLayout)arg1, (str)arg2, (FBSplitStyle)arg3) -> bool
+     |
+     |  SetView(...)
+     |      SetView( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SizeRegion(...)
+     |      SizeRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  __reduce__ = <unnamed Boost.Python function>(...)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBLayout:
+     |
+     |  OnIdle
+     |
+     |  OnInput
+     |
+     |  OnPaint
+     |
+     |  OnResize
+     |
+     |  OnShow
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from pyfbsdk.FBLayout:
+     |
+     |  ClassGroupName = ''
+     |
+     |  TypeInfo = 155
+     |
+     |  __instance_size__ = 80
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  AddChild(...)
+     |      AddChild( (FBVisualComponent)arg1, (FBVisualComponent)arg2 [, (object)arg3]) -> bool
+     |
+     |  GetChild(...)
+     |      GetChild( (FBVisualComponent)arg1, (object)arg2) -> object
+     |
+     |  GetQWidgetAddress(...)
+     |      GetQWidgetAddress( (FBVisualComponent)arg1) -> int
+     |
+     |  IsView(...)
+     |      IsView( (FBVisualComponent)arg1) -> bool
+     |
+     |  Refresh(...)
+     |      Refresh( (FBVisualComponent)arg1 [, (object)arg2]) -> None
+     |
+     |  ViewExpose(...)
+     |      ViewExpose( (FBVisualComponent)arg1) -> None
+     |
+     |  ViewInput(...)
+     |      ViewInput( (FBVisualComponent)arg1, (object)arg2, (object)arg3, (FBInputType)arg4, (object)arg5, (object)arg6) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  BorderCaption
+     |
+     |  BorderCornerRadius
+     |
+     |  BorderInSet
+     |
+     |  BorderMaxAngle
+     |
+     |  BorderShowCaption
+     |
+     |  BorderSpacing
+     |
+     |  BorderStyle
+     |
+     |  BorderWidth
+     |
+     |  Caption
+     |
+     |  Enabled
+     |
+     |  Height
+     |
+     |  Hint
+     |
+     |  Left
+     |
+     |  ReadOnly
+     |
+     |  RegionAttachToHeight
+     |
+     |  RegionAttachToWidth
+     |
+     |  RegionAttachToX
+     |
+     |  RegionAttachToY
+     |
+     |  RegionAttachTypeHeight
+     |
+     |  RegionAttachTypeWidth
+     |
+     |  RegionAttachTypeX
+     |
+     |  RegionAttachTypeY
+     |
+     |  RegionName
+     |
+     |  RegionOffsetHeight
+     |
+     |  RegionOffsetWidth
+     |
+     |  RegionOffsetX
+     |
+     |  RegionOffsetY
+     |
+     |  RegionPosMaxX
+     |
+     |  RegionPosMaxY
+     |
+     |  RegionPosMinX
+     |
+     |  RegionPosMinY
+     |
+     |  RegionRatioHeight
+     |
+     |  RegionRatioWidth
+     |
+     |  RegionRatioX
+     |
+     |  RegionRatioY
+     |
+     |  Top
+     |
+     |  Visible
+     |
+     |  Width
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBComponent:
+     |
+     |  ClassName(...)
+     |      ClassName( (FBComponent)arg1) -> str
+     |
+     |  DisableObjectFlags(...)
+     |      DisableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  EnableObjectFlags(...)
+     |      EnableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  FBCreate(...)
+     |      FBCreate( (FBComponent)arg1) -> bool
+     |
+     |  FBDelete(...)
+     |      FBDelete( (FBComponent)arg1) -> None
+     |
+     |  FBDestroy(...)
+     |      FBDestroy( (FBComponent)arg1) -> None
+     |
+     |  GetObjectFlags(...)
+     |      GetObjectFlags( (FBComponent)arg1) -> FBObjectFlag
+     |
+     |  GetObjectStatus(...)
+     |      GetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2) -> bool
+     |
+     |  GetOwnerFileReference(...)
+     |      GetOwnerFileReference( (FBComponent)arg1) -> object
+     |
+     |  HardSelect(...)
+     |      HardSelect( (FBComponent)arg1) -> None
+     |
+     |  HasObjectFlags(...)
+     |      HasObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> bool
+     |
+     |  Is(...)
+     |      Is( (FBComponent)arg1, (object)arg2) -> bool
+     |
+     |  ProcessNamespaceHierarchy(...)
+     |      ProcessNamespaceHierarchy( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  ProcessObjectNamespace(...)
+     |      ProcessObjectNamespace( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  PropertyAdd(...)
+     |      PropertyAdd( (FBComponent)arg1, (FBProperty)arg2) -> int
+     |
+     |  PropertyAddReferenceProperty(...)
+     |      PropertyAddReferenceProperty( (FBComponent)arg1, (FBProperty)arg2) -> bool
+     |
+     |  PropertyCreate(...)
+     |      PropertyCreate( (FBComponent)arg1, (str)arg2, (FBPropertyType)arg3, (str)arg4, (object)arg5, (object)arg6, (FBProperty)arg7) -> object
+     |
+     |  PropertyGetModifiedList(...)
+     |      PropertyGetModifiedList( (FBComponent)arg1, (FBPlugModificationFlag)arg2) -> FBPropertyList
+     |
+     |  PropertyRemove(...)
+     |      PropertyRemove( (FBComponent)arg1, (FBProperty)arg2) -> None
+     |
+     |  SetObjectFlags(...)
+     |      SetObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  SetObjectStatus(...)
+     |      SetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2, (object)arg3) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBComponent:
+     |
+     |  Components
+     |
+     |  FullName
+     |
+     |  LongName
+     |
+     |  Name
+     |
+     |  OwnerNamespace
+     |
+     |  Parents
+     |
+     |  PropertyList
+     |
+     |  Selected
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBPlug:
+     |
+     |  BeginChange(...)
+     |      BeginChange( (FBPlug)arg1) -> bool
+     |
+     |  ConnectDst(...)
+     |      ConnectDst( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectDstAt(...)
+     |      ConnectDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  ConnectSrc(...)
+     |      ConnectSrc( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectSrcAt(...)
+     |      ConnectSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  DisconnectAllDst(...)
+     |      DisconnectAllDst( (FBPlug)arg1) -> None
+     |
+     |  DisconnectAllSrc(...)
+     |      DisconnectAllSrc( (FBPlug)arg1) -> None
+     |
+     |  DisconnectDst(...)
+     |      DisconnectDst( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectDstAt(...)
+     |      DisconnectDstAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  DisconnectSrc(...)
+     |      DisconnectSrc( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectSrcAt(...)
+     |      DisconnectSrcAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  EndChange(...)
+     |      EndChange( (FBPlug)arg1) -> None
+     |
+     |  GetContentModified(...)
+     |      GetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetDst(...)
+     |      GetDst( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetDstCount(...)
+     |      GetDstCount( (FBPlug)arg1) -> int
+     |
+     |  GetDstType(...)
+     |      GetDstType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  GetOwned(...)
+     |      GetOwned( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetOwnedCount(...)
+     |      GetOwnedCount( (FBPlug)arg1) -> int
+     |
+     |  GetOwner(...)
+     |      GetOwner( (FBPlug)arg1) -> object
+     |
+     |  GetPlugConnectionModifiedList(...)
+     |      GetPlugConnectionModifiedList( (FBPlug)arg1, (FBPlugList)arg2, (FBPlugModificationFlag)arg3, (object)arg4) -> int
+     |
+     |  GetSelfModified(...)
+     |      GetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetSrc(...)
+     |      GetSrc( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetSrcCount(...)
+     |      GetSrcCount( (FBPlug)arg1) -> int
+     |
+     |  GetSrcType(...)
+     |      GetSrcType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  IsSDKComponent(...)
+     |      IsSDKComponent( (FBPlug)arg1) -> bool
+     |
+     |  MoveSrcAt(...)
+     |      MoveSrcAt( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |      MoveSrcAt( (FBPlug)arg1, (FBPlug)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceDstAt(...)
+     |      ReplaceDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceSrcAt(...)
+     |      ReplaceSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  RevertModification(...)
+     |      RevertModification( (FBPlug)arg1 [, (FBPlugModificationFlag)arg2]) -> bool
+     |
+     |  SetContentModified(...)
+     |      SetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SetSelfModified(...)
+     |      SetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SwapSrc(...)
+     |      SwapSrc( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from pyfbsdk.FBPlug:
+     |
+     |  PrintClassDefinitions(...)
+     |      PrintClassDefinitions() -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBPythonWrapper:
+     |
+     |  OnUnbind
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Boost.Python.instance:
+     |
+     |  __dict__
+     |
+     |  __weakref__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Boost.Python.instance:
+     |
+     |  __new__ = <built-in method __new__ of Boost.Python.class object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+
+    class FBHBoxLayout(FBBoxLayout)
+     |  This class manages a FBBoxLayout Horizontal (see FBBoxLayout for documentation on how to Add/Remove control).
+     |  Add method specify the fixed width of a control.
+     |
+     |  Method resolution order:
+     |      FBHBoxLayout
+     |      FBBoxLayout
+     |      pyfbsdk.FBLayout
+     |      pyfbsdk.FBVisualComponent
+     |      pyfbsdk.FBComponent
+     |      pyfbsdk.FBPlug
+     |      pyfbsdk.FBPythonWrapper
+     |      Boost.Python.instance
+     |      __builtin__.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, floworientation=pyfbsdk.FBAttachType.kFBAttachLeft)
+     |      floworientation:
+     |      FBAttachType.kFBAttachLeft : all controls added from left to right ->
+     |      FBAttachType.kFBAttachRight: all controls added from right to left <-
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from FBBoxLayout:
+     |
+     |  Add(self, control, size, **customparams)
+     |      Add a control to layout specifying its FIXED size.
+     |
+     |      customparams:
+     |      space: space between previous control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  AddRelative(self, control, ratio=1.0, **customparams)
+     |      Add a control to layout specifying its RATIO. This means
+     |      the control will be assigned a size based on the space left when all FIXED
+     |      size have been allocated.
+     |
+     |      customparams:
+     |      space: space between prev control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  Remove(self, control)
+     |      Remove a control from the layout.
+     |
+     |  RemoveAll(self)
+     |      Remove all controls from layout
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from FBBoxLayout:
+     |
+     |  ControlDesc = <class pyfbsdk_additions.ControlDesc>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBLayout:
+     |
+     |  AddRegion(...)
+     |      AddRegion( (FBLayout)arg1, (str)arg2, (str)arg3, (FBAddRegionParam)arg4, (FBAddRegionParam)arg5, (FBAddRegionParam)arg6, (FBAddRegionParam)arg7) -> bool
+     |
+     |  ClearControl(...)
+     |      ClearControl( (FBLayout)arg1, (str)arg2) -> None
+     |
+     |  GetControl(...)
+     |      GetControl( (FBLayout)arg1, (str)arg2) -> object
+     |
+     |  GetRegion(...)
+     |      GetRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  GetRegionPositions(...)
+     |      GetRegionPositions( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4, (object)arg5 [, (object)arg6 [, (object)arg7]]) -> bool
+     |
+     |  GetSplitStyle(...)
+     |      GetSplitStyle( (FBLayout)arg1, (str)arg2) -> FBSplitStyle
+     |
+     |  MoveRegion(...)
+     |      MoveRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  RemoveRegion(...)
+     |      RemoveRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  RenameRegion(...)
+     |      RenameRegion( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  Restructure(...)
+     |      Restructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetAutoRestructure(...)
+     |      SetAutoRestructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetBorder(...)
+     |      SetBorder( (FBLayout)arg1, (str)arg2, (FBBorderStyle)arg3, (object)arg4, (object)arg5, (object)arg6, (object)arg7, (float)arg8, (object)arg9) -> bool
+     |
+     |  SetControl(...)
+     |      SetControl( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SetRegionTitle(...)
+     |      SetRegionTitle( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  SetSplitStyle(...)
+     |      SetSplitStyle( (FBLayout)arg1, (str)arg2, (FBSplitStyle)arg3) -> bool
+     |
+     |  SetView(...)
+     |      SetView( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SizeRegion(...)
+     |      SizeRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  __reduce__ = <unnamed Boost.Python function>(...)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBLayout:
+     |
+     |  OnIdle
+     |
+     |  OnInput
+     |
+     |  OnPaint
+     |
+     |  OnResize
+     |
+     |  OnShow
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from pyfbsdk.FBLayout:
+     |
+     |  ClassGroupName = ''
+     |
+     |  TypeInfo = 155
+     |
+     |  __instance_size__ = 80
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  AddChild(...)
+     |      AddChild( (FBVisualComponent)arg1, (FBVisualComponent)arg2 [, (object)arg3]) -> bool
+     |
+     |  GetChild(...)
+     |      GetChild( (FBVisualComponent)arg1, (object)arg2) -> object
+     |
+     |  GetQWidgetAddress(...)
+     |      GetQWidgetAddress( (FBVisualComponent)arg1) -> int
+     |
+     |  IsView(...)
+     |      IsView( (FBVisualComponent)arg1) -> bool
+     |
+     |  Refresh(...)
+     |      Refresh( (FBVisualComponent)arg1 [, (object)arg2]) -> None
+     |
+     |  ViewExpose(...)
+     |      ViewExpose( (FBVisualComponent)arg1) -> None
+     |
+     |  ViewInput(...)
+     |      ViewInput( (FBVisualComponent)arg1, (object)arg2, (object)arg3, (FBInputType)arg4, (object)arg5, (object)arg6) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  BorderCaption
+     |
+     |  BorderCornerRadius
+     |
+     |  BorderInSet
+     |
+     |  BorderMaxAngle
+     |
+     |  BorderShowCaption
+     |
+     |  BorderSpacing
+     |
+     |  BorderStyle
+     |
+     |  BorderWidth
+     |
+     |  Caption
+     |
+     |  Enabled
+     |
+     |  Height
+     |
+     |  Hint
+     |
+     |  Left
+     |
+     |  ReadOnly
+     |
+     |  RegionAttachToHeight
+     |
+     |  RegionAttachToWidth
+     |
+     |  RegionAttachToX
+     |
+     |  RegionAttachToY
+     |
+     |  RegionAttachTypeHeight
+     |
+     |  RegionAttachTypeWidth
+     |
+     |  RegionAttachTypeX
+     |
+     |  RegionAttachTypeY
+     |
+     |  RegionName
+     |
+     |  RegionOffsetHeight
+     |
+     |  RegionOffsetWidth
+     |
+     |  RegionOffsetX
+     |
+     |  RegionOffsetY
+     |
+     |  RegionPosMaxX
+     |
+     |  RegionPosMaxY
+     |
+     |  RegionPosMinX
+     |
+     |  RegionPosMinY
+     |
+     |  RegionRatioHeight
+     |
+     |  RegionRatioWidth
+     |
+     |  RegionRatioX
+     |
+     |  RegionRatioY
+     |
+     |  Top
+     |
+     |  Visible
+     |
+     |  Width
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBComponent:
+     |
+     |  ClassName(...)
+     |      ClassName( (FBComponent)arg1) -> str
+     |
+     |  DisableObjectFlags(...)
+     |      DisableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  EnableObjectFlags(...)
+     |      EnableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  FBCreate(...)
+     |      FBCreate( (FBComponent)arg1) -> bool
+     |
+     |  FBDelete(...)
+     |      FBDelete( (FBComponent)arg1) -> None
+     |
+     |  FBDestroy(...)
+     |      FBDestroy( (FBComponent)arg1) -> None
+     |
+     |  GetObjectFlags(...)
+     |      GetObjectFlags( (FBComponent)arg1) -> FBObjectFlag
+     |
+     |  GetObjectStatus(...)
+     |      GetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2) -> bool
+     |
+     |  GetOwnerFileReference(...)
+     |      GetOwnerFileReference( (FBComponent)arg1) -> object
+     |
+     |  HardSelect(...)
+     |      HardSelect( (FBComponent)arg1) -> None
+     |
+     |  HasObjectFlags(...)
+     |      HasObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> bool
+     |
+     |  Is(...)
+     |      Is( (FBComponent)arg1, (object)arg2) -> bool
+     |
+     |  ProcessNamespaceHierarchy(...)
+     |      ProcessNamespaceHierarchy( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  ProcessObjectNamespace(...)
+     |      ProcessObjectNamespace( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  PropertyAdd(...)
+     |      PropertyAdd( (FBComponent)arg1, (FBProperty)arg2) -> int
+     |
+     |  PropertyAddReferenceProperty(...)
+     |      PropertyAddReferenceProperty( (FBComponent)arg1, (FBProperty)arg2) -> bool
+     |
+     |  PropertyCreate(...)
+     |      PropertyCreate( (FBComponent)arg1, (str)arg2, (FBPropertyType)arg3, (str)arg4, (object)arg5, (object)arg6, (FBProperty)arg7) -> object
+     |
+     |  PropertyGetModifiedList(...)
+     |      PropertyGetModifiedList( (FBComponent)arg1, (FBPlugModificationFlag)arg2) -> FBPropertyList
+     |
+     |  PropertyRemove(...)
+     |      PropertyRemove( (FBComponent)arg1, (FBProperty)arg2) -> None
+     |
+     |  SetObjectFlags(...)
+     |      SetObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  SetObjectStatus(...)
+     |      SetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2, (object)arg3) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBComponent:
+     |
+     |  Components
+     |
+     |  FullName
+     |
+     |  LongName
+     |
+     |  Name
+     |
+     |  OwnerNamespace
+     |
+     |  Parents
+     |
+     |  PropertyList
+     |
+     |  Selected
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBPlug:
+     |
+     |  BeginChange(...)
+     |      BeginChange( (FBPlug)arg1) -> bool
+     |
+     |  ConnectDst(...)
+     |      ConnectDst( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectDstAt(...)
+     |      ConnectDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  ConnectSrc(...)
+     |      ConnectSrc( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectSrcAt(...)
+     |      ConnectSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  DisconnectAllDst(...)
+     |      DisconnectAllDst( (FBPlug)arg1) -> None
+     |
+     |  DisconnectAllSrc(...)
+     |      DisconnectAllSrc( (FBPlug)arg1) -> None
+     |
+     |  DisconnectDst(...)
+     |      DisconnectDst( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectDstAt(...)
+     |      DisconnectDstAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  DisconnectSrc(...)
+     |      DisconnectSrc( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectSrcAt(...)
+     |      DisconnectSrcAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  EndChange(...)
+     |      EndChange( (FBPlug)arg1) -> None
+     |
+     |  GetContentModified(...)
+     |      GetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetDst(...)
+     |      GetDst( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetDstCount(...)
+     |      GetDstCount( (FBPlug)arg1) -> int
+     |
+     |  GetDstType(...)
+     |      GetDstType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  GetOwned(...)
+     |      GetOwned( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetOwnedCount(...)
+     |      GetOwnedCount( (FBPlug)arg1) -> int
+     |
+     |  GetOwner(...)
+     |      GetOwner( (FBPlug)arg1) -> object
+     |
+     |  GetPlugConnectionModifiedList(...)
+     |      GetPlugConnectionModifiedList( (FBPlug)arg1, (FBPlugList)arg2, (FBPlugModificationFlag)arg3, (object)arg4) -> int
+     |
+     |  GetSelfModified(...)
+     |      GetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetSrc(...)
+     |      GetSrc( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetSrcCount(...)
+     |      GetSrcCount( (FBPlug)arg1) -> int
+     |
+     |  GetSrcType(...)
+     |      GetSrcType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  IsSDKComponent(...)
+     |      IsSDKComponent( (FBPlug)arg1) -> bool
+     |
+     |  MoveSrcAt(...)
+     |      MoveSrcAt( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |      MoveSrcAt( (FBPlug)arg1, (FBPlug)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceDstAt(...)
+     |      ReplaceDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceSrcAt(...)
+     |      ReplaceSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  RevertModification(...)
+     |      RevertModification( (FBPlug)arg1 [, (FBPlugModificationFlag)arg2]) -> bool
+     |
+     |  SetContentModified(...)
+     |      SetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SetSelfModified(...)
+     |      SetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SwapSrc(...)
+     |      SwapSrc( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from pyfbsdk.FBPlug:
+     |
+     |  PrintClassDefinitions(...)
+     |      PrintClassDefinitions() -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBPythonWrapper:
+     |
+     |  OnUnbind
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Boost.Python.instance:
+     |
+     |  __dict__
+     |
+     |  __weakref__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Boost.Python.instance:
+     |
+     |  __new__ = <built-in method __new__ of Boost.Python.class object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+
+    class FBTabControl(pyfbsdk.FBLayout)
+     |  A real FBTabControl that improve the behavior of the FBTabPanel.
+     |
+     |  This class manage the Tabs and the 'middle region' used to display. It manages
+     |  all the region 'swapping' necessary to implement a Tab behavior.
+     |
+     |  - Use Add method to Add a Control to the FBTabControl. This will create a tab
+     |    and ensure that when that tab is clicked the Control is shown.
+     |  - Use SetContent with a tab index To specify which tab should be displayed.
+     |
+     |  Method resolution order:
+     |      FBTabControl
+     |      pyfbsdk.FBLayout
+     |      pyfbsdk.FBVisualComponent
+     |      pyfbsdk.FBComponent
+     |      pyfbsdk.FBPlug
+     |      pyfbsdk.FBPythonWrapper
+     |      Boost.Python.instance
+     |      __builtin__.object
+     |
+     |  Methods defined here:
+     |
+     |  Add(self, name, content)
+     |      Create a tab with <name> that will display <content> when clicked.
+     |
+     |  SetContent(self, index)
+     |      Show <content> associated with tab at <index>
+     |
+     |  __init__(self)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBLayout:
+     |
+     |  AddRegion(...)
+     |      AddRegion( (FBLayout)arg1, (str)arg2, (str)arg3, (FBAddRegionParam)arg4, (FBAddRegionParam)arg5, (FBAddRegionParam)arg6, (FBAddRegionParam)arg7) -> bool
+     |
+     |  ClearControl(...)
+     |      ClearControl( (FBLayout)arg1, (str)arg2) -> None
+     |
+     |  GetControl(...)
+     |      GetControl( (FBLayout)arg1, (str)arg2) -> object
+     |
+     |  GetRegion(...)
+     |      GetRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  GetRegionPositions(...)
+     |      GetRegionPositions( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4, (object)arg5 [, (object)arg6 [, (object)arg7]]) -> bool
+     |
+     |  GetSplitStyle(...)
+     |      GetSplitStyle( (FBLayout)arg1, (str)arg2) -> FBSplitStyle
+     |
+     |  MoveRegion(...)
+     |      MoveRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  RemoveRegion(...)
+     |      RemoveRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  RenameRegion(...)
+     |      RenameRegion( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  Restructure(...)
+     |      Restructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetAutoRestructure(...)
+     |      SetAutoRestructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetBorder(...)
+     |      SetBorder( (FBLayout)arg1, (str)arg2, (FBBorderStyle)arg3, (object)arg4, (object)arg5, (object)arg6, (object)arg7, (float)arg8, (object)arg9) -> bool
+     |
+     |  SetControl(...)
+     |      SetControl( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SetRegionTitle(...)
+     |      SetRegionTitle( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  SetSplitStyle(...)
+     |      SetSplitStyle( (FBLayout)arg1, (str)arg2, (FBSplitStyle)arg3) -> bool
+     |
+     |  SetView(...)
+     |      SetView( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SizeRegion(...)
+     |      SizeRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  __reduce__ = <unnamed Boost.Python function>(...)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBLayout:
+     |
+     |  OnIdle
+     |
+     |  OnInput
+     |
+     |  OnPaint
+     |
+     |  OnResize
+     |
+     |  OnShow
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from pyfbsdk.FBLayout:
+     |
+     |  ClassGroupName = ''
+     |
+     |  TypeInfo = 155
+     |
+     |  __instance_size__ = 80
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  AddChild(...)
+     |      AddChild( (FBVisualComponent)arg1, (FBVisualComponent)arg2 [, (object)arg3]) -> bool
+     |
+     |  GetChild(...)
+     |      GetChild( (FBVisualComponent)arg1, (object)arg2) -> object
+     |
+     |  GetQWidgetAddress(...)
+     |      GetQWidgetAddress( (FBVisualComponent)arg1) -> int
+     |
+     |  IsView(...)
+     |      IsView( (FBVisualComponent)arg1) -> bool
+     |
+     |  Refresh(...)
+     |      Refresh( (FBVisualComponent)arg1 [, (object)arg2]) -> None
+     |
+     |  ViewExpose(...)
+     |      ViewExpose( (FBVisualComponent)arg1) -> None
+     |
+     |  ViewInput(...)
+     |      ViewInput( (FBVisualComponent)arg1, (object)arg2, (object)arg3, (FBInputType)arg4, (object)arg5, (object)arg6) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  BorderCaption
+     |
+     |  BorderCornerRadius
+     |
+     |  BorderInSet
+     |
+     |  BorderMaxAngle
+     |
+     |  BorderShowCaption
+     |
+     |  BorderSpacing
+     |
+     |  BorderStyle
+     |
+     |  BorderWidth
+     |
+     |  Caption
+     |
+     |  Enabled
+     |
+     |  Height
+     |
+     |  Hint
+     |
+     |  Left
+     |
+     |  ReadOnly
+     |
+     |  RegionAttachToHeight
+     |
+     |  RegionAttachToWidth
+     |
+     |  RegionAttachToX
+     |
+     |  RegionAttachToY
+     |
+     |  RegionAttachTypeHeight
+     |
+     |  RegionAttachTypeWidth
+     |
+     |  RegionAttachTypeX
+     |
+     |  RegionAttachTypeY
+     |
+     |  RegionName
+     |
+     |  RegionOffsetHeight
+     |
+     |  RegionOffsetWidth
+     |
+     |  RegionOffsetX
+     |
+     |  RegionOffsetY
+     |
+     |  RegionPosMaxX
+     |
+     |  RegionPosMaxY
+     |
+     |  RegionPosMinX
+     |
+     |  RegionPosMinY
+     |
+     |  RegionRatioHeight
+     |
+     |  RegionRatioWidth
+     |
+     |  RegionRatioX
+     |
+     |  RegionRatioY
+     |
+     |  Top
+     |
+     |  Visible
+     |
+     |  Width
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBComponent:
+     |
+     |  ClassName(...)
+     |      ClassName( (FBComponent)arg1) -> str
+     |
+     |  DisableObjectFlags(...)
+     |      DisableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  EnableObjectFlags(...)
+     |      EnableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  FBCreate(...)
+     |      FBCreate( (FBComponent)arg1) -> bool
+     |
+     |  FBDelete(...)
+     |      FBDelete( (FBComponent)arg1) -> None
+     |
+     |  FBDestroy(...)
+     |      FBDestroy( (FBComponent)arg1) -> None
+     |
+     |  GetObjectFlags(...)
+     |      GetObjectFlags( (FBComponent)arg1) -> FBObjectFlag
+     |
+     |  GetObjectStatus(...)
+     |      GetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2) -> bool
+     |
+     |  GetOwnerFileReference(...)
+     |      GetOwnerFileReference( (FBComponent)arg1) -> object
+     |
+     |  HardSelect(...)
+     |      HardSelect( (FBComponent)arg1) -> None
+     |
+     |  HasObjectFlags(...)
+     |      HasObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> bool
+     |
+     |  Is(...)
+     |      Is( (FBComponent)arg1, (object)arg2) -> bool
+     |
+     |  ProcessNamespaceHierarchy(...)
+     |      ProcessNamespaceHierarchy( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  ProcessObjectNamespace(...)
+     |      ProcessObjectNamespace( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  PropertyAdd(...)
+     |      PropertyAdd( (FBComponent)arg1, (FBProperty)arg2) -> int
+     |
+     |  PropertyAddReferenceProperty(...)
+     |      PropertyAddReferenceProperty( (FBComponent)arg1, (FBProperty)arg2) -> bool
+     |
+     |  PropertyCreate(...)
+     |      PropertyCreate( (FBComponent)arg1, (str)arg2, (FBPropertyType)arg3, (str)arg4, (object)arg5, (object)arg6, (FBProperty)arg7) -> object
+     |
+     |  PropertyGetModifiedList(...)
+     |      PropertyGetModifiedList( (FBComponent)arg1, (FBPlugModificationFlag)arg2) -> FBPropertyList
+     |
+     |  PropertyRemove(...)
+     |      PropertyRemove( (FBComponent)arg1, (FBProperty)arg2) -> None
+     |
+     |  SetObjectFlags(...)
+     |      SetObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  SetObjectStatus(...)
+     |      SetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2, (object)arg3) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBComponent:
+     |
+     |  Components
+     |
+     |  FullName
+     |
+     |  LongName
+     |
+     |  Name
+     |
+     |  OwnerNamespace
+     |
+     |  Parents
+     |
+     |  PropertyList
+     |
+     |  Selected
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBPlug:
+     |
+     |  BeginChange(...)
+     |      BeginChange( (FBPlug)arg1) -> bool
+     |
+     |  ConnectDst(...)
+     |      ConnectDst( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectDstAt(...)
+     |      ConnectDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  ConnectSrc(...)
+     |      ConnectSrc( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectSrcAt(...)
+     |      ConnectSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  DisconnectAllDst(...)
+     |      DisconnectAllDst( (FBPlug)arg1) -> None
+     |
+     |  DisconnectAllSrc(...)
+     |      DisconnectAllSrc( (FBPlug)arg1) -> None
+     |
+     |  DisconnectDst(...)
+     |      DisconnectDst( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectDstAt(...)
+     |      DisconnectDstAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  DisconnectSrc(...)
+     |      DisconnectSrc( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectSrcAt(...)
+     |      DisconnectSrcAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  EndChange(...)
+     |      EndChange( (FBPlug)arg1) -> None
+     |
+     |  GetContentModified(...)
+     |      GetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetDst(...)
+     |      GetDst( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetDstCount(...)
+     |      GetDstCount( (FBPlug)arg1) -> int
+     |
+     |  GetDstType(...)
+     |      GetDstType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  GetOwned(...)
+     |      GetOwned( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetOwnedCount(...)
+     |      GetOwnedCount( (FBPlug)arg1) -> int
+     |
+     |  GetOwner(...)
+     |      GetOwner( (FBPlug)arg1) -> object
+     |
+     |  GetPlugConnectionModifiedList(...)
+     |      GetPlugConnectionModifiedList( (FBPlug)arg1, (FBPlugList)arg2, (FBPlugModificationFlag)arg3, (object)arg4) -> int
+     |
+     |  GetSelfModified(...)
+     |      GetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetSrc(...)
+     |      GetSrc( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetSrcCount(...)
+     |      GetSrcCount( (FBPlug)arg1) -> int
+     |
+     |  GetSrcType(...)
+     |      GetSrcType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  IsSDKComponent(...)
+     |      IsSDKComponent( (FBPlug)arg1) -> bool
+     |
+     |  MoveSrcAt(...)
+     |      MoveSrcAt( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |      MoveSrcAt( (FBPlug)arg1, (FBPlug)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceDstAt(...)
+     |      ReplaceDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceSrcAt(...)
+     |      ReplaceSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  RevertModification(...)
+     |      RevertModification( (FBPlug)arg1 [, (FBPlugModificationFlag)arg2]) -> bool
+     |
+     |  SetContentModified(...)
+     |      SetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SetSelfModified(...)
+     |      SetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SwapSrc(...)
+     |      SwapSrc( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from pyfbsdk.FBPlug:
+     |
+     |  PrintClassDefinitions(...)
+     |      PrintClassDefinitions() -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBPythonWrapper:
+     |
+     |  OnUnbind
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Boost.Python.instance:
+     |
+     |  __dict__
+     |
+     |  __weakref__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Boost.Python.instance:
+     |
+     |  __new__ = <built-in method __new__ of Boost.Python.class object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+
+    class FBVBoxLayout(FBBoxLayout)
+     |  This class manages a FBBoxLayout Vertical (see FBBoxLayout for documentation on how to Add/Remove control).
+     |  Add method specify the fixed height of a control.
+     |
+     |  Method resolution order:
+     |      FBVBoxLayout
+     |      FBBoxLayout
+     |      pyfbsdk.FBLayout
+     |      pyfbsdk.FBVisualComponent
+     |      pyfbsdk.FBComponent
+     |      pyfbsdk.FBPlug
+     |      pyfbsdk.FBPythonWrapper
+     |      Boost.Python.instance
+     |      __builtin__.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, floworientation=pyfbsdk.FBAttachType.kFBAttachTop)
+     |      floworientation:
+     |      FBAttachType.kFBAttachTop : all controls added from top to bottom
+     |      FBAttachType.kFBAttachBottom: all controls added from bottom to top
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from FBBoxLayout:
+     |
+     |  Add(self, control, size, **customparams)
+     |      Add a control to layout specifying its FIXED size.
+     |
+     |      customparams:
+     |      space: space between previous control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  AddRelative(self, control, ratio=1.0, **customparams)
+     |      Add a control to layout specifying its RATIO. This means
+     |      the control will be assigned a size based on the space left when all FIXED
+     |      size have been allocated.
+     |
+     |      customparams:
+     |      space: space between prev control
+     |      width: fixed width if layout is vertical based
+     |      height: fixed height if layout is horizontal based.
+     |
+     |  Remove(self, control)
+     |      Remove a control from the layout.
+     |
+     |  RemoveAll(self)
+     |      Remove all controls from layout
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from FBBoxLayout:
+     |
+     |  ControlDesc = <class pyfbsdk_additions.ControlDesc>
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBLayout:
+     |
+     |  AddRegion(...)
+     |      AddRegion( (FBLayout)arg1, (str)arg2, (str)arg3, (FBAddRegionParam)arg4, (FBAddRegionParam)arg5, (FBAddRegionParam)arg6, (FBAddRegionParam)arg7) -> bool
+     |
+     |  ClearControl(...)
+     |      ClearControl( (FBLayout)arg1, (str)arg2) -> None
+     |
+     |  GetControl(...)
+     |      GetControl( (FBLayout)arg1, (str)arg2) -> object
+     |
+     |  GetRegion(...)
+     |      GetRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  GetRegionPositions(...)
+     |      GetRegionPositions( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4, (object)arg5 [, (object)arg6 [, (object)arg7]]) -> bool
+     |
+     |  GetSplitStyle(...)
+     |      GetSplitStyle( (FBLayout)arg1, (str)arg2) -> FBSplitStyle
+     |
+     |  MoveRegion(...)
+     |      MoveRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  RemoveRegion(...)
+     |      RemoveRegion( (FBLayout)arg1, (str)arg2) -> bool
+     |
+     |  RenameRegion(...)
+     |      RenameRegion( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  Restructure(...)
+     |      Restructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetAutoRestructure(...)
+     |      SetAutoRestructure( (FBLayout)arg1, (object)arg2) -> None
+     |
+     |  SetBorder(...)
+     |      SetBorder( (FBLayout)arg1, (str)arg2, (FBBorderStyle)arg3, (object)arg4, (object)arg5, (object)arg6, (object)arg7, (float)arg8, (object)arg9) -> bool
+     |
+     |  SetControl(...)
+     |      SetControl( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SetRegionTitle(...)
+     |      SetRegionTitle( (FBLayout)arg1, (str)arg2, (str)arg3) -> bool
+     |
+     |  SetSplitStyle(...)
+     |      SetSplitStyle( (FBLayout)arg1, (str)arg2, (FBSplitStyle)arg3) -> bool
+     |
+     |  SetView(...)
+     |      SetView( (FBLayout)arg1, (str)arg2, (FBVisualComponent)arg3) -> bool
+     |
+     |  SizeRegion(...)
+     |      SizeRegion( (FBLayout)arg1, (str)arg2, (object)arg3, (object)arg4) -> bool
+     |
+     |  __reduce__ = <unnamed Boost.Python function>(...)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBLayout:
+     |
+     |  OnIdle
+     |
+     |  OnInput
+     |
+     |  OnPaint
+     |
+     |  OnResize
+     |
+     |  OnShow
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from pyfbsdk.FBLayout:
+     |
+     |  ClassGroupName = ''
+     |
+     |  TypeInfo = 155
+     |
+     |  __instance_size__ = 80
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  AddChild(...)
+     |      AddChild( (FBVisualComponent)arg1, (FBVisualComponent)arg2 [, (object)arg3]) -> bool
+     |
+     |  GetChild(...)
+     |      GetChild( (FBVisualComponent)arg1, (object)arg2) -> object
+     |
+     |  GetQWidgetAddress(...)
+     |      GetQWidgetAddress( (FBVisualComponent)arg1) -> int
+     |
+     |  IsView(...)
+     |      IsView( (FBVisualComponent)arg1) -> bool
+     |
+     |  Refresh(...)
+     |      Refresh( (FBVisualComponent)arg1 [, (object)arg2]) -> None
+     |
+     |  ViewExpose(...)
+     |      ViewExpose( (FBVisualComponent)arg1) -> None
+     |
+     |  ViewInput(...)
+     |      ViewInput( (FBVisualComponent)arg1, (object)arg2, (object)arg3, (FBInputType)arg4, (object)arg5, (object)arg6) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBVisualComponent:
+     |
+     |  BorderCaption
+     |
+     |  BorderCornerRadius
+     |
+     |  BorderInSet
+     |
+     |  BorderMaxAngle
+     |
+     |  BorderShowCaption
+     |
+     |  BorderSpacing
+     |
+     |  BorderStyle
+     |
+     |  BorderWidth
+     |
+     |  Caption
+     |
+     |  Enabled
+     |
+     |  Height
+     |
+     |  Hint
+     |
+     |  Left
+     |
+     |  ReadOnly
+     |
+     |  RegionAttachToHeight
+     |
+     |  RegionAttachToWidth
+     |
+     |  RegionAttachToX
+     |
+     |  RegionAttachToY
+     |
+     |  RegionAttachTypeHeight
+     |
+     |  RegionAttachTypeWidth
+     |
+     |  RegionAttachTypeX
+     |
+     |  RegionAttachTypeY
+     |
+     |  RegionName
+     |
+     |  RegionOffsetHeight
+     |
+     |  RegionOffsetWidth
+     |
+     |  RegionOffsetX
+     |
+     |  RegionOffsetY
+     |
+     |  RegionPosMaxX
+     |
+     |  RegionPosMaxY
+     |
+     |  RegionPosMinX
+     |
+     |  RegionPosMinY
+     |
+     |  RegionRatioHeight
+     |
+     |  RegionRatioWidth
+     |
+     |  RegionRatioX
+     |
+     |  RegionRatioY
+     |
+     |  Top
+     |
+     |  Visible
+     |
+     |  Width
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBComponent:
+     |
+     |  ClassName(...)
+     |      ClassName( (FBComponent)arg1) -> str
+     |
+     |  DisableObjectFlags(...)
+     |      DisableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  EnableObjectFlags(...)
+     |      EnableObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  FBCreate(...)
+     |      FBCreate( (FBComponent)arg1) -> bool
+     |
+     |  FBDelete(...)
+     |      FBDelete( (FBComponent)arg1) -> None
+     |
+     |  FBDestroy(...)
+     |      FBDestroy( (FBComponent)arg1) -> None
+     |
+     |  GetObjectFlags(...)
+     |      GetObjectFlags( (FBComponent)arg1) -> FBObjectFlag
+     |
+     |  GetObjectStatus(...)
+     |      GetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2) -> bool
+     |
+     |  GetOwnerFileReference(...)
+     |      GetOwnerFileReference( (FBComponent)arg1) -> object
+     |
+     |  HardSelect(...)
+     |      HardSelect( (FBComponent)arg1) -> None
+     |
+     |  HasObjectFlags(...)
+     |      HasObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> bool
+     |
+     |  Is(...)
+     |      Is( (FBComponent)arg1, (object)arg2) -> bool
+     |
+     |  ProcessNamespaceHierarchy(...)
+     |      ProcessNamespaceHierarchy( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  ProcessObjectNamespace(...)
+     |      ProcessObjectNamespace( (FBComponent)arg1, (FBNamespaceAction)arg2, (str)arg3 [, (str)arg4 [, (object)arg5]]) -> bool
+     |
+     |  PropertyAdd(...)
+     |      PropertyAdd( (FBComponent)arg1, (FBProperty)arg2) -> int
+     |
+     |  PropertyAddReferenceProperty(...)
+     |      PropertyAddReferenceProperty( (FBComponent)arg1, (FBProperty)arg2) -> bool
+     |
+     |  PropertyCreate(...)
+     |      PropertyCreate( (FBComponent)arg1, (str)arg2, (FBPropertyType)arg3, (str)arg4, (object)arg5, (object)arg6, (FBProperty)arg7) -> object
+     |
+     |  PropertyGetModifiedList(...)
+     |      PropertyGetModifiedList( (FBComponent)arg1, (FBPlugModificationFlag)arg2) -> FBPropertyList
+     |
+     |  PropertyRemove(...)
+     |      PropertyRemove( (FBComponent)arg1, (FBProperty)arg2) -> None
+     |
+     |  SetObjectFlags(...)
+     |      SetObjectFlags( (FBComponent)arg1, (FBObjectFlag)arg2) -> None
+     |
+     |  SetObjectStatus(...)
+     |      SetObjectStatus( (FBComponent)arg1, (FBObjectStatus)arg2, (object)arg3) -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBComponent:
+     |
+     |  Components
+     |
+     |  FullName
+     |
+     |  LongName
+     |
+     |  Name
+     |
+     |  OwnerNamespace
+     |
+     |  Parents
+     |
+     |  PropertyList
+     |
+     |  Selected
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from pyfbsdk.FBPlug:
+     |
+     |  BeginChange(...)
+     |      BeginChange( (FBPlug)arg1) -> bool
+     |
+     |  ConnectDst(...)
+     |      ConnectDst( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectDstAt(...)
+     |      ConnectDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  ConnectSrc(...)
+     |      ConnectSrc( (FBPlug)arg1, (FBPlug)arg2 [, (FBConnectionType)arg3]) -> bool
+     |
+     |  ConnectSrcAt(...)
+     |      ConnectSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3 [, (FBConnectionType)arg4]) -> bool
+     |
+     |  DisconnectAllDst(...)
+     |      DisconnectAllDst( (FBPlug)arg1) -> None
+     |
+     |  DisconnectAllSrc(...)
+     |      DisconnectAllSrc( (FBPlug)arg1) -> None
+     |
+     |  DisconnectDst(...)
+     |      DisconnectDst( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectDstAt(...)
+     |      DisconnectDstAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  DisconnectSrc(...)
+     |      DisconnectSrc( (FBPlug)arg1, (FBPlug)arg2) -> bool
+     |
+     |  DisconnectSrcAt(...)
+     |      DisconnectSrcAt( (FBPlug)arg1, (object)arg2) -> bool
+     |
+     |  EndChange(...)
+     |      EndChange( (FBPlug)arg1) -> None
+     |
+     |  GetContentModified(...)
+     |      GetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetDst(...)
+     |      GetDst( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetDstCount(...)
+     |      GetDstCount( (FBPlug)arg1) -> int
+     |
+     |  GetDstType(...)
+     |      GetDstType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  GetOwned(...)
+     |      GetOwned( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetOwnedCount(...)
+     |      GetOwnedCount( (FBPlug)arg1) -> int
+     |
+     |  GetOwner(...)
+     |      GetOwner( (FBPlug)arg1) -> object
+     |
+     |  GetPlugConnectionModifiedList(...)
+     |      GetPlugConnectionModifiedList( (FBPlug)arg1, (FBPlugList)arg2, (FBPlugModificationFlag)arg3, (object)arg4) -> int
+     |
+     |  GetSelfModified(...)
+     |      GetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2) -> bool
+     |
+     |  GetSrc(...)
+     |      GetSrc( (FBPlug)arg1, (object)arg2) -> object
+     |
+     |  GetSrcCount(...)
+     |      GetSrcCount( (FBPlug)arg1) -> int
+     |
+     |  GetSrcType(...)
+     |      GetSrcType( (FBPlug)arg1, (object)arg2) -> FBConnectionType
+     |
+     |  IsSDKComponent(...)
+     |      IsSDKComponent( (FBPlug)arg1) -> bool
+     |
+     |  MoveSrcAt(...)
+     |      MoveSrcAt( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |      MoveSrcAt( (FBPlug)arg1, (FBPlug)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceDstAt(...)
+     |      ReplaceDstAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  ReplaceSrcAt(...)
+     |      ReplaceSrcAt( (FBPlug)arg1, (object)arg2, (FBPlug)arg3) -> bool
+     |
+     |  RevertModification(...)
+     |      RevertModification( (FBPlug)arg1 [, (FBPlugModificationFlag)arg2]) -> bool
+     |
+     |  SetContentModified(...)
+     |      SetContentModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SetSelfModified(...)
+     |      SetSelfModified( (FBPlug)arg1, (FBPlugModificationFlag)arg2, (object)arg3) -> None
+     |
+     |  SwapSrc(...)
+     |      SwapSrc( (FBPlug)arg1, (object)arg2, (object)arg3) -> bool
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from pyfbsdk.FBPlug:
+     |
+     |  PrintClassDefinitions(...)
+     |      PrintClassDefinitions() -> None
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from pyfbsdk.FBPythonWrapper:
+     |
+     |  OnUnbind
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Boost.Python.instance:
+     |
+     |  __dict__
+     |
+     |  __weakref__
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from Boost.Python.instance:
+     |
+     |  __new__ = <built-in method __new__ of Boost.Python.class object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+
+FUNCTIONS
+    FBAddTool(tool)
+        Method that can be used for custom tool deriving from FBTool to add themselves to the too list
+
+    FBAddToolListener(toollistener)
+        Add a tool listener that will be notified on new tool creation/destruction.
+
+    FBCreateTool(name)
+        Create a tool given a tool name. Notify all Tool listeners about it.
+
+    FBCreateUniqueTool(name)
+        Create a Tool with a unique name. Will destroy
+        any other similarly named tool.
+
+    FBDestroyTool(tool)
+        Destroy a Tool.
+
+    FBDestroyToolByName(name)
+        Destroy a tool given its name. Notify all Tool listeners about it
+
+    FBGetTools()
+        Get the list of Python Tools instantiated in MotionBuilder
+
+    FBRemoveTool(tool)
+        Remove a given tool from the tool list. It won't be managed anymore by the Tool Manager
+
+    FBRemoveToolListener(toollistener)
+        Remove a tool listener.
+
+DATA
+    FBToolList = {'Batch Tool (scripted)': <BatchTool object>, 'Character ...
+    FBToolListeners = [<bound method ToolMgr.UpdateTools of <ToolMgr objec...
+    FBToolManager = <ToolMgr object>

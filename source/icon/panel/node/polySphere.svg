@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" width="245.81px" height="245.809px" viewBox="0 0 245.81 245.809" xml:space="preserve">
+<g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="38.208" y1="38.207" x2="207.6029" y2="207.6019">
+		<stop  offset="0" style="stop-color:#A19874"/>
+		<stop  offset="0.241" style="stop-color:#9A926D"/>
+		<stop  offset="0.5829" style="stop-color:#88805B"/>
+		<stop  offset="0.9835" style="stop-color:#6A623C"/>
+		<stop  offset="1" style="stop-color:#69613B"/>
+	</linearGradient>
+	<circle fill="url(#SVGID_1_)" stroke="#000000" stroke-width="2.5" cx="122.905" cy="122.904" r="119.78"/>
+	
+		<circle fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" cx="122.905" cy="122.904" r="119.78"/>
+	<path fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M228.554,179.36
+		c-29.629,21.685-66.172,34.492-105.698,34.492c-39.158,0-75.386-12.568-104.866-33.887"/>
+	<path fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M219.253,51.714
+		c-28.561,15.849-61.434,24.872-96.409,24.872c-34.543,0-67.031-8.797-95.339-24.276"/>
+	<g>
+		<circle fill="#FFFFFF" cx="85.062" cy="83.734" r="10.858"/>
+	</g>
+	<path fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M240.408,107.759
+		c-31.45,27.383-72.559,43.96-117.539,43.96c-44.717,0-85.596-16.372-116.968-43.467"/>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="6.25" x1="123.237" y1="4.01" x2="123.237" y2="240.884"/>
+		<path fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M121.963,239.973
+			c-40.386-15.336-69.795-62.521-69.795-118.349c0-55.667,29.238-102.738,69.441-118.215"/>
+		<path fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M124.524,239.973
+			c40.386-15.336,69.795-62.521,69.795-118.349c0-55.667-29.238-102.738-69.44-118.215"/>
+	</g>
+</g>
+</svg>

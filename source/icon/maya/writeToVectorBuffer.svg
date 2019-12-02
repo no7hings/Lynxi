@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" width="240.652px" height="241.11px" viewBox="0 0 240.652 241.11" xml:space="preserve">
+<g>
+	<path fill="#FFFFFF" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M237.527,194.976
+		c0,40.754-2.262,43.01-43.018,43.01H87.334c-40.757,0-43.018-2.256-43.018-43.01V87.815c0-40.757,2.261-43.018,43.018-43.018
+		H194.51c40.756,0,43.018,2.261,43.018,43.018V194.976z"/>
+	<g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="50.4468" y1="3.125" x2="50.4468" y2="97.7612">
+			<stop  offset="0" style="stop-color:#8F8F8F"/>
+			<stop  offset="0.1624" style="stop-color:#898989"/>
+			<stop  offset="0.3765" style="stop-color:#787878"/>
+			<stop  offset="0.6194" style="stop-color:#5D5D5D"/>
+			<stop  offset="0.8817" style="stop-color:#373737"/>
+			<stop  offset="1" style="stop-color:#242424"/>
+		</linearGradient>
+		<polygon fill="url(#SVGID_1_)" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+			17.31,97.761 97.769,97.761 97.769,3.125 3.125,3.125 3.125,83.616 		"/>
+		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="50.4102" y1="47.6489" x2="50.4102" y2="3.2202">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0.2092" style="stop-color:#F9F9F9"/>
+			<stop  offset="0.485" style="stop-color:#E9E9E9"/>
+			<stop  offset="0.7966" style="stop-color:#CDCDCD"/>
+			<stop  offset="1" style="stop-color:#B8B8B8"/>
+		</linearGradient>
+		
+			<rect x="20.291" y="3.22" fill="url(#SVGID_2_)" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" width="60.239" height="44.429"/>
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="50.8237" y1="67.1704" x2="50.8237" y2="97.5854">
+			<stop  offset="0" style="stop-color:#B5B5B5"/>
+			<stop  offset="0.16" style="stop-color:#AFAFAF"/>
+			<stop  offset="0.371" style="stop-color:#9F9F9F"/>
+			<stop  offset="0.6104" style="stop-color:#838383"/>
+			<stop  offset="0.869" style="stop-color:#5D5D5D"/>
+			<stop  offset="1" style="stop-color:#474747"/>
+		</linearGradient>
+		
+			<rect x="27.639" y="67.17" fill="url(#SVGID_3_)" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" width="46.37" height="30.415"/>
+		
+			<rect x="38.13" y="79.39" fill="#333333" stroke="#333333" stroke-width="2.7695" stroke-linecap="round" stroke-linejoin="round" width="5.691" height="5.693"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#000000" stroke-width="8.75" stroke-linecap="round" stroke-linejoin="bevel" points="
+			155.801,110.063 155.801,157.07 181.206,182.476 		"/>
+		
+			<line fill="none" stroke="#000000" stroke-width="8.75" stroke-linecap="round" stroke-linejoin="bevel" x1="103.088" y1="156.792" x2="155.037" y2="156.792"/>
+		<path fill="#48B049" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M155.923,56.003
+			l-22.119,55.708c-7.653,13.213,50.374,14.099,44.856,0.269L155.923,56.003z"/>
+		<path fill="#1B75BB" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M55.19,156.394
+			l55.708,22.117c13.205,7.651,14.092-50.371,0.266-44.854L55.19,156.394z"/>
+		<path fill="#CA2128" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" d="M221.807,223.909
+			l-23.223-55.262c-3.781-14.78-45.828,25.217-32.205,31.221L221.807,223.909z"/>
+	</g>
+</g>
+</svg>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" width="221.297px" height="247.206px" viewBox="0 0 221.297 247.206" xml:space="preserve">
+<g>
+	
+		<polyline fill-rule="evenodd" fill="#4C4526" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.63,244.081 110.63,203.72 3.125,183.542 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#655F42" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.603,244.081 110.603,203.72 218.107,183.542 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#7A7252" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.603,203.72 218.14,183.542 185.584,77.854 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#655F42" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.964,203.72 3.428,183.542 35.984,77.854 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#4C4424" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		3.125,183.542 35.713,77.854 4.902,63.012 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#8E8768" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		218.172,183.542 185.584,77.854 216.395,63.012 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#7A7357" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.898,4.78 35.713,77.854 4.902,63.012 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#AFA787" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		110.898,4.78 185.835,77.854 216.395,63.012 	"/>
+	
+		<polyline fill-rule="evenodd" fill="#C4BC9C" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		186.086,77.854 110.898,4.78 35.713,77.854 	"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="110.7651" y1="77.8545" x2="110.7651" y2="203.7202">
+		<stop  offset="0" style="stop-color:#B7AE8A"/>
+		<stop  offset="0.2539" style="stop-color:#B2A985"/>
+		<stop  offset="0.5692" style="stop-color:#A29975"/>
+		<stop  offset="0.9157" style="stop-color:#89805C"/>
+		<stop  offset="1" style="stop-color:#827955"/>
+	</linearGradient>
+	
+		<polygon fill-rule="evenodd" fill="url(#SVGID_1_)" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		185.818,77.854 110.767,203.72 35.713,77.854 	"/>
+	
+		<polygon fill-rule="evenodd" fill="none" stroke="#000000" stroke-width="6.25" stroke-linecap="round" stroke-linejoin="round" points="
+		218.137,183.542 110.63,244.081 3.125,183.542 3.125,63.661 110.63,3.125 218.137,63.661 	"/>
+</g>
+</svg>
