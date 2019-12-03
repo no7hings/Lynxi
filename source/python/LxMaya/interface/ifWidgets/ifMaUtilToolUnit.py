@@ -7,8 +7,7 @@ from LxCore.config import appCfg
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi import uiCore
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -84,12 +83,12 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self.refreshButton().clicked.connect(self.setListNode)
     #
     def setupLeftWidget(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Config(s)')
         self.setupConfigToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Actions(s)')
         self.setupActionToolUiBox(toolBox)
@@ -97,31 +96,31 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupConfigToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicConfig)
         #
-        self._useShapeButton = uiWidgets.UiCheckbutton()
+        self._useShapeButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useShape', self._useShapeButton)
         self._useShapeButton.setChecked(True)
         #
-        self.nodeTypeLabel = uiWidgets.UiEnterlabel()
+        self.nodeTypeLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('nodeType', self.nodeTypeLabel)
         self.nodeTypeLabel.setChooseEnable(True)
         #
-        self.getAttrButton = uiWidgets.UiPressbutton()
+        self.getAttrButton = qtWidgets.QtPressbutton()
         toolBox.addButton('getAttr', self.getAttrButton)
         self.getAttrButton.clicked.connect(self.setListAvailableAttr)
         #
-        self.getNodeButton = uiWidgets.UiPressbutton()
+        self.getNodeButton = qtWidgets.QtPressbutton()
         toolBox.addButton('getNode', self.getNodeButton)
         self.getNodeButton.clicked.connect(self.setListNode)
         #
-        self.availableSearchBar = uiWidgets.UiFilterEnterlabel()
+        self.availableSearchBar = qtWidgets.QtFilterEnterlabel()
         toolBox.addButton('availableSearch', self.availableSearchBar)
         #
-        self.addAttrButton = uiWidgets.UiPressbutton()
+        self.addAttrButton = qtWidgets.QtPressbutton()
         toolBox.addButton('addAttr', self.addAttrButton)
         self.addAttrButton.setPressable(False)
         self.addAttrButton.clicked.connect(self.setListActiveAttr)
         #
-        self._availableAttrTreeView = uiWidgets_.QTreeWidget_()
+        self._availableAttrTreeView = qtWidgets_.QTreeWidget_()
         toolBox.addButton('treeView', self._availableAttrTreeView)
         #
         toolBox.addSeparators()
@@ -129,18 +128,18 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupActionToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicAction)
         #
-        self.activeSearchBar = uiWidgets.UiFilterEnterlabel()
+        self.activeSearchBar = qtWidgets.QtFilterEnterlabel()
         toolBox.addButton('activeSearch', self.activeSearchBar)
         #
-        self.removeAttrButton = uiWidgets.UiPressbutton()
+        self.removeAttrButton = qtWidgets.QtPressbutton()
         toolBox.addButton('removeAttr', self.removeAttrButton)
         self.removeAttrButton.setPressable(False)
         self.removeAttrButton.clicked.connect(self.setRemoveAttr)
         #
-        self._activeAttrTreeView = uiWidgets_.QTreeWidget_()
+        self._activeAttrTreeView = qtWidgets_.QTreeWidget_()
         toolBox.addButton('treeView', self._activeAttrTreeView)
         #
-        self.setAttrButton = uiWidgets.UiPressbutton()
+        self.setAttrButton = qtWidgets.QtPressbutton()
         toolBox.addButton('setAttr', self.setAttrButton)
         self.setAttrButton.setPressable(False)
         self.setAttrButton.clicked.connect(self.setAttr)
@@ -148,7 +147,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addSeparators()
     #
     def setupRightWidget(self, layout):
-        self.nodeTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.nodeTreeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.nodeTreeViewBox)
         #
         self.nodeTreeViewBox.itemSelectionChanged.connect(self.setSetAttrBtnState)
@@ -240,7 +239,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 nodeName = maUtils._toNodeName(node, useMode=1)
                 #
-                nodeItem = uiWidgets_.QTreeWidgetItem_([node])
+                nodeItem = qtWidgets_.QTreeWidgetItem_([node])
                 treeBox.addItem(nodeItem)
                 #
                 nodeItem.name = nodeName
@@ -285,7 +284,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     if self._connectObject:
                         self._connectObject.updateProgress()
                     #
-                    treeItem = uiWidgets_.QTreeWidgetItem_()
+                    treeItem = qtWidgets_.QTreeWidgetItem_()
                     treeBox.addItem(treeItem)
                     #
                     treeItem.name = attrName
@@ -310,21 +309,21 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             for treeItem_ in selItemLis:
                 attrName, value, dataType = self._availableAttrDatumDic[treeItem_]
                 if not attrName in activeTreeItemDic:
-                    treeItem = uiWidgets_.QTreeWidgetItem_()
+                    treeItem = qtWidgets_.QTreeWidgetItem_()
                     treeBox.addItem(treeItem)
                     #
                     if dataType == 'int':
-                        itemWidget = uiWidgets.UiValueEnterlabel()
+                        itemWidget = qtWidgets.QtValueEnterlabel()
                         itemWidget.setEnterEnable(True)
                         itemWidget.setDefaultValue(int(value))
                         treeBox.setItemWidget(treeItem, 1, itemWidget)
                     elif dataType == 'float':
-                        itemWidget = uiWidgets.UiValueEnterlabel()
+                        itemWidget = qtWidgets.QtValueEnterlabel()
                         itemWidget.setEnterEnable(True)
                         itemWidget.setDefaultValue(float(value))
                         treeBox.setItemWidget(treeItem, 1, itemWidget)
                     elif dataType == 'bool':
-                        itemWidget = uiWidgets.UiEnterlabel()
+                        itemWidget = qtWidgets.QtEnterlabel()
                         itemWidget.setCheckEnable(True)
                         itemWidget.setChecked(bool(value))
                         treeBox.setItemWidget(treeItem, 1, itemWidget)
@@ -487,23 +486,23 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupUnit(self):
         self.topToolBar().show()
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        rightWidgetLayout = uiCore.QVBoxLayout_(widget)
+        rightWidgetLayout = qtCore.QVBoxLayout_(widget)
         rightWidgetLayout.setContentsMargins(0, 0, 0, 0)
         rightWidgetLayout.setSpacing(2)
         self.setupRightWidget(rightWidgetLayout)
@@ -512,7 +511,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfNamespaceManagerUnit(
     ifWidgetBasic.IfToolUnitBasic,
-    _maUiMethod.MaUiViewMethod
+    _maUiMethod.MaQtViewMethod
 ):
     projectName = projectPr.getMayaProjectName()
     UnitTitle = 'Namespace Manager'
@@ -554,31 +553,31 @@ class IfNamespaceManagerUnit(
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        _toolBar = uiWidgets_.xToolBar()
+        _toolBar = qtWidgets_.xToolBar()
         layout.addWidget(_toolBar)
         self.setupLeftToolBar(_toolBar)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
         #
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        self.namespaceTreeViewBox = uiWidgets.UiTreeView()
+        self.namespaceTreeViewBox = qtWidgets.QtTreeview()
         layout.addWidget(self.namespaceTreeViewBox)
         self.setupLeftViewBox(self.namespaceTreeViewBox)
         #
-        _toolBox = uiWidgets.UiToolBox()
+        _toolBox = qtWidgets.QtToolbox()
         layout.addWidget(_toolBox)
         _toolBox.setTitle('Modify')
         self.setupLeftBottomToolUiBox(_toolBox)
     #
     def setupLeftToolBar(self, toolBar):
-        self._namespaceFilterLabel = uiWidgets.UiFilterEnterlabel()
+        self._namespaceFilterLabel = qtWidgets.QtFilterEnterlabel()
         toolBar.addWidget(self._namespaceFilterLabel)
         #
-        refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolBar.addWidget(refreshButton)
         refreshButton.clicked.connect(self.setListNamespace)
     #
@@ -607,17 +606,17 @@ class IfNamespaceManagerUnit(
     def setupLeftBottomToolUiBox(self, toolBox):
         inData = self.dicNs
         #
-        self.namespacePathLabel = uiWidgets.UiEnterlabel()
+        self.namespacePathLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'namespacePath', self.namespacePathLabel)
 
         #
-        self._referenceNodeRepairButton = uiWidgets.UiPressbutton()
+        self._referenceNodeRepairButton = qtWidgets.QtPressbutton()
         self._referenceNodeRepairButton.setPercentEnable(True)
         toolBox.setButton(inData, 'repairReferenceNodeError', self._referenceNodeRepairButton)
         self._referenceNodeRepairButton.setTooltip('''Repair Reference Node Error''')
         self._referenceNodeRepairButton.clicked.connect(self.setReferenceNodeRepairCmd)
         #
-        self._namespaceRepairButton = uiWidgets.UiPressbutton()
+        self._namespaceRepairButton = qtWidgets.QtPressbutton()
         self._namespaceRepairButton.setPercentEnable(True)
         toolBox.setButton(inData, 'repairNamespaceError', self._namespaceRepairButton)
         self._namespaceRepairButton.setTooltip('''Repair Namespace Error''')
@@ -626,31 +625,31 @@ class IfNamespaceManagerUnit(
         toolBox.setSeparators(inData)
     #
     def setupRightWidget(self, layout):
-        _toolBar = uiWidgets_.xToolBar()
+        _toolBar = qtWidgets_.xToolBar()
         layout.addWidget(_toolBar)
         self.setupRightTopToolBar(_toolBar)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        self.nodeTreeViewBox = uiWidgets.UiTreeView()
+        self.nodeTreeViewBox = qtWidgets.QtTreeview()
         layout.addWidget(self.nodeTreeViewBox)
         self.setupRightViewBox(self.nodeTreeViewBox)
         #
-        _toolBox = uiWidgets.UiToolBox()
+        _toolBox = qtWidgets.QtToolbox()
         layout.addWidget(_toolBox)
         _toolBox.setTitle('Modify')
         #
         self.setNodeBottomToolBox(_toolBox)
     #
     def setupRightTopToolBar(self, toolBar):
-        self._nodeFilterLabel = uiWidgets.UiFilterEnterlabel()
+        self._nodeFilterLabel = qtWidgets.QtFilterEnterlabel()
         toolBar.addWidget(self._nodeFilterLabel)
         #
-        refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolBar.addWidget(refreshButton)
         refreshButton.clicked.connect(self.setListNode)
     #
@@ -666,7 +665,7 @@ class IfNamespaceManagerUnit(
     def setNodeBottomToolBox(self, toolBox):
         inData = self.dicNd
         #
-        self.nodePathLabel = uiWidgets.UiEnterlabel()
+        self.nodePathLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'nodePath', self.nodePathLabel)
     #
     def setViewNamespacePath(self):
@@ -719,7 +718,7 @@ class IfNamespaceManagerUnit(
             nodeLis = maUtils.getDependNodesByNamespace(namespacePath)
             count = 0
             if not nodeLis:
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
                 self.emptyNamespaceLis.append(namespacePath)
             if nodeLis:
                 count = len(nodeLis)
@@ -729,13 +728,13 @@ class IfNamespaceManagerUnit(
                 if parentItem:
                     parentItem.setExpanded(True)
                     if not isAssemblyNode:
-                        treeItem._setUiPressStatus(uiCore.WarningStatus)
+                        treeItem._setQtPressStatus(qtCore.WarningStatus)
                         self.errorNamespaceLis.append(namespacePath)
                 # Reference
                 elif isReferenceNode:
                     self.referenceNamespaceLis.append(namespacePath)
                     if not namespacePath in self.referenceNamespaceDic:
-                        treeItem._setUiPressStatus(uiCore.ErrorStatus)
+                        treeItem._setQtPressStatus(qtCore.ErrorStatus)
                         self.fileNamespaceArray.append(namespacePath)
                 #
                 if isReferenceNode:
@@ -847,7 +846,7 @@ class IfNamespaceManagerUnit(
                 #
                 if subNodeArray:
                     for node in subNodeArray:
-                        nodeItem = uiWidgets.UiTreeItem()
+                        nodeItem = qtWidgets.QtTreeviewItem()
                         subTreeBox.addItem(nodeItem)
                         nodeItem.path = node
                         nodeItem.name = node
@@ -898,24 +897,24 @@ class IfNamespaceManagerUnit(
         return nodePaths
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         self.mainLayout().setContentsMargins(2, 2, 2, 2)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        self.rightViewBox = uiCore.QWidget_()
+        self.rightViewBox = qtCore.QWidget_()
         layout.addWidget(self.rightViewBox)
-        self.leftViewBoxLayout = uiCore.QVBoxLayout_(self.rightViewBox)
+        self.leftViewBoxLayout = qtCore.QVBoxLayout_(self.rightViewBox)
         #
         self.setupRightWidget(self.leftViewBoxLayout)
 
@@ -985,23 +984,23 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         self.setLeftTopToolBar(toolBar)
         #
-        self.leftTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.leftTreeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.leftTreeViewBox)
         self.leftTreeViewBox.setSingleSelection()
         self.setLeftTreeViewBox()
     #
     def setLeftTopToolBar(self, layout):
-        self._leftFilterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._leftFilterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._leftFilterButton)
         #
-        self._leftFilterLabel = uiWidgets.UiFilterEnterlabel()
+        self._leftFilterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._leftFilterLabel)
         #
-        self._leftRefreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._leftRefreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         layout.addWidget(self._leftRefreshButton)
         self._leftRefreshButton.clicked.connect(self.setListDir)
     #
@@ -1030,22 +1029,22 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         treeBox.itemSelectionChanged.connect(self.setListFile)
     #
     def setupRightWidget(self, layout):
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         self.setupRightTopToolBar(toolBar)
         #
-        self.rightTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.rightTreeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.rightTreeViewBox)
         self.rightTreeViewBox.setSingleSelection()
     #
     def setupRightTopToolBar(self, layout):
-        self._rightFilterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._rightFilterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._rightFilterButton)
         #
-        self.rightSearchBar = uiWidgets.UiFilterEnterlabel()
+        self.rightSearchBar = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self.rightSearchBar)
         #
-        self.rightRefreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self.rightRefreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         layout.addWidget(self.rightRefreshButton)
         self.rightRefreshButton.clicked.connect(self.setListFile)
     #
@@ -1064,19 +1063,19 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         treeBox.itemSelectionChanged.connect(self.setNodeSelCmd)
     #
     def setupBottomWidget(self, toolBoxLayout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(toolBox)
         toolBox.setTitle('Filter(s)', useMode=1)
         toolBox.setExpanded(False)
         self.setupFilterToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(toolBox)
         toolBox.setTitle('Config(s)', useMode=1)
         self.setupConfigToolUiBox(toolBox)
         toolBox.setExpanded(False)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(toolBox)
         toolBox.setTitle('Action(s)', useMode=1)
         self.setupModifyToolUiBox(toolBox)
@@ -1089,24 +1088,24 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 for i in checkButtonLis:
                     i.setCheckable(mainCheckButton.isChecked())
             #
-            self._isCollectionButton = uiWidgets.UiCheckbutton()
+            self._isCollectionButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'collection', self._isCollectionButton)
             self._isCollectionButton.setChecked(True)
             self._isCollectionButton.clicked.connect(subRefreshCmd)
             #
-            self.ignoreExistsButton = uiWidgets.UiCheckbutton()
+            self.ignoreExistsButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'ignoreExists', self.ignoreExistsButton)
             self.ignoreExistsButton.setChecked(True)
             #
-            self.ignoreTimeChangedButton = uiWidgets.UiCheckbutton()
+            self.ignoreTimeChangedButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'ignoreMtimeChanged', self.ignoreTimeChangedButton)
             self.ignoreExistsButton.toggled.connect(self.ignoreTimeChangedButton.setCheckable)
             #
-            self.withTxButton = uiWidgets.UiCheckbutton()
+            self.withTxButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'withTx', self.withTxButton)
             self.withTxButton.setChecked(True)
             #
-            self.autoFurCacheButton = uiWidgets.UiCheckbutton()
+            self.autoFurCacheButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'autoCache', self.autoFurCacheButton)
             #
             subRefreshCmd()
@@ -1118,12 +1117,12 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 for i in checkButtonLis:
                     i.setCheckable(mainCheckButton.isChecked())
             #
-            self._isRepathButton = uiWidgets.UiCheckbutton()
+            self._isRepathButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'isRepath', self._isRepathButton)
             self._isRepathButton.setChecked(True)
             self._isRepathButton.clicked.connect(subRefreshCmd)
             #
-            self.isExistsOnlyButton = uiWidgets.UiCheckbutton()
+            self.isExistsOnlyButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'isExistsOnly', self.isExistsOnlyButton)
             self.isExistsOnlyButton.setChecked(True)
             #
@@ -1142,60 +1141,60 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         inData = self.dicFilter
         #
-        self._enableAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self._enableAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBox.setButton(inData, 'enableAll', self._enableAllButton)
         self._enableAllButton.clicked.connect(self.setFilterEnableAll)
         #
-        self._enableClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self._enableClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBox.setButton(inData, 'enableClear', self._enableClearButton)
         self._enableClearButton.clicked.connect(self.setFilterEnableClear)
         #
-        self.withTextureButton = uiWidgets.UiCheckbutton()
+        self.withTextureButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withTexture', self.withTextureButton)
         self.withTextureButton.setChecked(True)
         self.filterItemArray.append(self.withTextureButton)
         #
-        self.withReferenceButton = uiWidgets.UiCheckbutton()
+        self.withReferenceButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withReference', self.withReferenceButton)
         self.withReferenceButton.setChecked(True)
         self.filterItemArray.append(self.withReferenceButton)
         #
-        self.withAssemblyButton = uiWidgets.UiCheckbutton()
+        self.withAssemblyButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAssembly', self.withAssemblyButton)
         self.withAssemblyButton.setChecked(True)
         self.filterItemArray.append(self.withAssemblyButton)
         #
-        self._withProxyCacheButton = uiWidgets.UiCheckbutton()
+        self._withProxyCacheButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withProxyCache', self._withProxyCacheButton)
         self._withProxyCacheButton.setChecked(True)
         self.filterItemArray.append(self._withProxyCacheButton)
         #
-        self._withVolumeCacheButton = uiWidgets.UiCheckbutton()
+        self._withVolumeCacheButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withVolumeCache', self._withVolumeCacheButton)
         self._withVolumeCacheButton.setChecked(True)
         self.filterItemArray.append(self._withVolumeCacheButton)
         #
-        self.withGpuButton = uiWidgets.UiCheckbutton()
+        self.withGpuButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withGpu', self.withGpuButton)
         self.withGpuButton.setChecked(True)
         self.filterItemArray.append(self.withGpuButton)
         #
-        self.withAbcButton = uiWidgets.UiCheckbutton()
+        self.withAbcButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAbc', self.withAbcButton)
         self.withAbcButton.setChecked(True)
         self.filterItemArray.append(self.withAbcButton)
         #
-        self.withGeometryCacheButton = uiWidgets.UiCheckbutton()
+        self.withGeometryCacheButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withGeometryCache', self.withGeometryCacheButton)
         self.withGeometryCacheButton.setChecked(True)
         self.filterItemArray.append(self.withGeometryCacheButton)
         #
-        self.withFurCacheButton = uiWidgets.UiCheckbutton()
+        self.withFurCacheButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAstCfxFurCache', self.withFurCacheButton)
         self.withFurCacheButton.setChecked(True)
         self.filterItemArray.append(self.withFurCacheButton)
         #
-        self.withMapButton = uiWidgets.UiCheckbutton()
+        self.withMapButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withMap', self.withMapButton)
         self.withMapButton.setChecked(True)
         self.filterItemArray.append(self.withMapButton)
@@ -1205,18 +1204,18 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupModifyToolUiBox(self, toolBox):
         inData = self.dicTool
         #
-        self.ignoreStructureButton = uiWidgets.UiCheckbutton()
+        self.ignoreStructureButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'ignoreStructure', self.ignoreStructureButton)
         #
-        self._sourceDirectoryLabel = uiWidgets.UiEnterlabel()
+        self._sourceDirectoryLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'sourceDirectory', self._sourceDirectoryLabel)
         #
-        self._targetDirectoryLabel = uiWidgets.UiEnterlabel()
+        self._targetDirectoryLabel = qtWidgets.QtEnterlabel()
         self._targetDirectoryLabel.setEnterEnable(True)
         toolBox.setInfo(inData, 'targetDirectory', self._targetDirectoryLabel)
         self._targetDirectoryLabel.entryChanged.connect(self.setListFile)
         #
-        self._directoryModifyButton = uiWidgets.UiPressbutton()
+        self._directoryModifyButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'directoryModify', self._directoryModifyButton)
         self._directoryModifyButton.setPercentEnable(True)
         self._directoryModifyButton.clicked.connect(self.setDirectoryModify)
@@ -1307,7 +1306,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 fileName = lxBasic.getOsFileBasename(osFile)
                 nodeCount = len(nodes)
-                fileItem = uiWidgets_.QTreeWidgetItem_()
+                fileItem = qtWidgets_.QTreeWidgetItem_()
                 subTreeBox.addItem(fileItem)
                 #
                 fileItem.path = osFile
@@ -1366,7 +1365,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                             #
                             subIconKeyword = 'svg_basic@svg#file'
                             #
-                            subFileItem = uiWidgets_.QTreeWidgetItem_()
+                            subFileItem = qtWidgets_.QTreeWidgetItem_()
                             fileItem.addChild(subFileItem)
                             #
                             subTargetFile = getTargetFile(subSourceFile)
@@ -1517,28 +1516,28 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         )
     #
     def setupUnit(self):
-        scrollArea = uiCore.QScrollArea_()
+        scrollArea = qtCore.QScrollArea_()
         self.mainLayout().addWidget(scrollArea)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         scrollArea.addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        rightWidget = uiCore.QWidget_()
+        rightWidget = qtCore.QWidget_()
         layout.addWidget(rightWidget)
-        rightLayout = uiCore.QVBoxLayout_(rightWidget)
+        rightLayout = qtCore.QVBoxLayout_(rightWidget)
         self.setupRightWidget(rightLayout)
         #
-        bottomWidget = uiCore.QWidget_()
+        bottomWidget = qtCore.QWidget_()
         scrollArea.addWidget(bottomWidget)
-        bottomLayout = uiCore.QVBoxLayout_(bottomWidget)
+        bottomLayout = qtCore.QVBoxLayout_(bottomWidget)
         self.setupBottomWidget(bottomLayout)
 
 
@@ -1613,32 +1612,32 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupLeftWidget(self):
         toolBoxLayout = self.leftBoxLayout
         #
-        self.leftTopToolBar = uiWidgets_.xToolBar()
+        self.leftTopToolBar = qtWidgets_.xToolBar()
         toolBoxLayout.addWidget(self.leftTopToolBar)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolBoxLayout.addWidget(widget)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        self.leftTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.leftTreeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.leftTreeViewBox)
     #
     def setLeftTopToolBar(self):
         toolBar = self.leftTopToolBar
         #
-        self.leftSelectAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self.leftSelectAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBar.addWidget(self.leftSelectAllButton)
         # self.leftSelectAllButton.setNameText('All')
         self.leftSelectAllButton.clicked.connect(self.setLeftSelectAll)
         #
-        self.leftSelectClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self.leftSelectClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBar.addWidget(self.leftSelectClearButton)
         # self.leftSelectClearButton.setNameText('Clear')
         self.leftSelectClearButton.clicked.connect(self.setLeftSelectClear)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         toolBar.addWidget(self._filterEnterLabel)
     #
     def setLeftViewBox(self):
@@ -1652,15 +1651,15 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setBottomBox(self):
         toolBoxLayout = self.bottomBoxLayout
         #
-        self.filterBox = uiWidgets.UiToolBox()
+        self.filterBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(self.filterBox)
         self.filterBox.setTitle('Filter', 1)
         #
-        self.configBox = uiWidgets.UiToolBox()
+        self.configBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(self.configBox)
         self.configBox.setTitle('Config', 1)
         #
-        self.toolBox = uiWidgets.UiToolBox()
+        self.toolBox = qtWidgets.QtToolbox()
         toolBoxLayout.addWidget(self.toolBox)
         self.toolBox.setTitle('Tool')
     #
@@ -1670,20 +1669,20 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
         inData = self.dicFilter
         toolBox = self.filterBox
         #
-        self._enableAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self._enableAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBox.setButton(inData, 'enableAll', self._enableAllButton)
         self._enableAllButton.clicked.connect(self.setFilterEnableAll)
         #
-        self._enableClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self._enableClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBox.setButton(inData, 'enableClear', self._enableClearButton)
         self._enableClearButton.clicked.connect(self.setFilterEnableClear)
         #
-        self.withMeshButton = uiWidgets.UiCheckbutton()
+        self.withMeshButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withMesh', self.withMeshButton)
         self.withMeshButton.setChecked(True)
         self.filterItemArray.append(self.withMeshButton)
         #
-        self.withCurveButton = uiWidgets.UiCheckbutton()
+        self.withCurveButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withCurve', self.withCurveButton)
         self.withCurveButton.setCheckable(False)
         self.filterItemArray.append(self.withCurveButton)
@@ -1694,11 +1693,11 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
         inData = self.dicConfig
         toolBox = self.configBox
         #
-        self.withShapeButton = uiWidgets.UiCheckbutton()
+        self.withShapeButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withShape', self.withShapeButton)
         self.withShapeButton.setChecked(True)
         #
-        self.floatRoundBox = uiWidgets.UiValueEnterlabel()
+        self.floatRoundBox = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'floatRound', self.floatRoundBox)
         self.floatRoundBox.setDefaultValue(8)
     #
@@ -1706,17 +1705,17 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
         inData = self.dicTool
         toolBox = self.toolBox
         #
-        self.sourceRootLabel = uiWidgets.UiEnterlabel()
+        self.sourceRootLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'sourceRoot', self.sourceRootLabel)
         #
-        self.targetRootLabel = uiWidgets.UiEnterlabel()
+        self.targetRootLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'targetRoot', self.targetRootLabel)
         #
-        self.constantButton = uiWidgets.UiPressbutton()
+        self.constantButton = qtWidgets.QtPressbutton()
         toolBox.setInfo(inData, 'constant', self.constantButton)
         self.constantButton.clicked.connect(self.setListObjects)
         #
-        self.cloneHierarchyButton = uiWidgets.UiPressbutton()
+        self.cloneHierarchyButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'cloneHierarchy', self.cloneHierarchyButton)
         self.cloneHierarchyButton.clicked.connect(self.setCloneHierarchy)
         #
@@ -1740,7 +1739,7 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 sourceObjects.append(sourceObjectPath)
                 objectName = maUtils._toNodeName(sourceObjectPath)
                 #
-                sourceObjectItem = uiWidgets_.QTreeWidgetItem_([objectName, objectType])
+                sourceObjectItem = qtWidgets_.QTreeWidgetItem_([objectName, objectType])
                 sourceObjectItem.path = sourceObjectPath
                 #
                 treeBox.addItem(sourceObjectItem)
@@ -1755,7 +1754,7 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         subLabel = 'error'
                     for targetObjectPath, targetObjectType in objectDataArray:
                         targetObjectName = maUtils._toNodeName(targetObjectPath)
-                        targetObjectItem = uiWidgets_.QTreeWidgetItem_([targetObjectName, objectType])
+                        targetObjectItem = qtWidgets_.QTreeWidgetItem_([targetObjectName, objectType])
                         targetObjectItem.path = targetObjectPath
                         #
                         sourceObjectItem.addChild(targetObjectItem)
@@ -1925,17 +1924,17 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
         return objectKeyDic
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        self.leftBoxLayout = uiCore.QVBoxLayout_(widget)
+        self.leftBoxLayout = qtCore.QVBoxLayout_(widget)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        self.bottomBoxLayout = uiCore.QVBoxLayout_(widget)
+        self.bottomBoxLayout = qtCore.QVBoxLayout_(widget)
 
 
 #
@@ -1984,13 +1983,13 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Clean')
         self.setupCleanToolUiBox(toolBox)
     #
     def setupRightWidget(self, layout):
-        self._treeWidget = uiWidgets_.QTreeWidget_()
+        self._treeWidget = qtWidgets_.QTreeWidget_()
         layout.addWidget(self._treeWidget)
         self._treeWidget.setColumns(
             ['Name', 'Type'], [4, 4],
@@ -1999,33 +1998,33 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setupCleanToolUiBox(self, toolBox):
         def setDisplayLayerSub():
-            widget = uiCore.QWidget_()
-            layout = uiCore.QHBoxLayout_(widget)
+            widget = qtCore.QWidget_()
+            layout = qtCore.QHBoxLayout_(widget)
             toolBox.addButton('withDisplayLayerConfig', widget)
             #
-            self._withUnuseDisplayLayerButton = uiWidgets.UiRadioCheckbutton()
+            self._withUnuseDisplayLayerButton = qtWidgets.QtRadioCheckbutton()
             layout.addWidget(self._withUnuseDisplayLayerButton)
             self._withUnuseDisplayLayerButton.setNameText('Empty')
             self._withUnuseDisplayLayerButton.setChecked(True)
             self._withDisplayLayerButton.toggled.connect(self._withUnuseDisplayLayerButton.setCheckable)
             #
-            self._withAllDisplayLayerButton = uiWidgets.UiRadioCheckbutton()
+            self._withAllDisplayLayerButton = qtWidgets.QtRadioCheckbutton()
             layout.addWidget(self._withAllDisplayLayerButton)
             self._withAllDisplayLayerButton.setNameText('All')
             self._withDisplayLayerButton.toggled.connect(self._withAllDisplayLayerButton.setCheckable)
         #
         def setRenderLayerSub():
-            widget = uiCore.QWidget_()
-            layout = uiCore.QHBoxLayout_(widget)
+            widget = qtCore.QWidget_()
+            layout = qtCore.QHBoxLayout_(widget)
             toolBox.addButton('withRenderLayerConfig', widget)
             #
-            self._withUnuseRenderLayerButton = uiWidgets.UiRadioCheckbutton()
+            self._withUnuseRenderLayerButton = qtWidgets.QtRadioCheckbutton()
             layout.addWidget(self._withUnuseRenderLayerButton)
             self._withUnuseRenderLayerButton.setNameText('Empty')
             self._withUnuseRenderLayerButton.setChecked(True)
             self._withRenderLayerButton.toggled.connect(self._withUnuseRenderLayerButton.setCheckable)
             #
-            self._withAllRenderLayerButton = uiWidgets.UiRadioCheckbutton()
+            self._withAllRenderLayerButton = qtWidgets.QtRadioCheckbutton()
             layout.addWidget(self._withAllRenderLayerButton)
             self._withAllRenderLayerButton.setNameText('All')
             self._withRenderLayerButton.toggled.connect(self._withAllRenderLayerButton.setCheckable)
@@ -2033,67 +2032,67 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._configItemLis = []
         toolBox.setUiData(self.toolDic_Clean)
         #
-        self._enableAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self._enableAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBox.addButton('enableAll', self._enableAllButton)
         self._enableAllButton.clicked.connect(self.setFilterEnableAll)
         #
-        self._enableClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self._enableClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBox.addButton('enableClear', self._enableClearButton)
         self._enableClearButton.clicked.connect(self.setFilterEnableClear)
         # Unknown Plug(s)
-        self._withUnknownPlugButton = uiWidgets.UiCheckbutton()
+        self._withUnknownPlugButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withUnknownPlug', self._withUnknownPlugButton)
         self._withUnknownPlugButton.setChecked(True)
         self._configItemLis.append(self._withUnknownPlugButton)
         #
-        self._listUnknownPlugButton = uiWidgets.UiPressbutton()
+        self._listUnknownPlugButton = qtWidgets.QtPressbutton()
         toolBox.addButton('listUnknownPlug', self._listUnknownPlugButton)
         self._listUnknownPlugButton.clicked.connect(self._listUnknownPlugCmd)
         #
-        self._cleanUnknownPlugButton = uiWidgets.UiPressbutton()
+        self._cleanUnknownPlugButton = qtWidgets.QtPressbutton()
         toolBox.addButton('cleanUnknownPlug', self._cleanUnknownPlugButton)
         self._cleanUnknownPlugButton.clicked.connect(self._cleanUnknownPlugCmd)
         # Unknown Node(s)
-        self._withUnknownNodeButton = uiWidgets.UiCheckbutton()
+        self._withUnknownNodeButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withUnknownNode', self._withUnknownNodeButton)
         self._withUnknownNodeButton.setChecked(True)
         self._configItemLis.append(self._withUnknownNodeButton)
         #
-        self._listUnknownNodeButton = uiWidgets.UiPressbutton()
+        self._listUnknownNodeButton = qtWidgets.QtPressbutton()
         toolBox.addButton('listUnknownNode', self._listUnknownNodeButton)
         self._listUnknownNodeButton.clicked.connect(self._listUnknownNodeCmd)
         #
-        self._cleanUnknownNodeButton = uiWidgets.UiPressbutton()
+        self._cleanUnknownNodeButton = qtWidgets.QtPressbutton()
         toolBox.addButton('cleanUnknownNode', self._cleanUnknownNodeButton)
         self._cleanUnknownNodeButton.clicked.connect(self._cleanUnknownNodeCmd)
         # Display Layer(s)
-        self._withDisplayLayerButton = uiWidgets.UiCheckbutton()
+        self._withDisplayLayerButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withDisplayLayer', self._withDisplayLayerButton)
         self._withDisplayLayerButton.setChecked(True)
         self._configItemLis.append(self._withDisplayLayerButton)
         #
         setDisplayLayerSub()
         #
-        self._listDisplayLayerButton = uiWidgets.UiPressbutton()
+        self._listDisplayLayerButton = qtWidgets.QtPressbutton()
         toolBox.addButton('listDisplayLayer', self._listDisplayLayerButton)
         self._listDisplayLayerButton.clicked.connect(self._listDisplayLayerCmd)
         #
-        self._cleanDisplayLayerButton = uiWidgets.UiPressbutton()
+        self._cleanDisplayLayerButton = qtWidgets.QtPressbutton()
         toolBox.addButton('cleanDisplayLayer', self._cleanDisplayLayerButton)
         self._cleanDisplayLayerButton.clicked.connect(self._cleanDisplayLayerCmd)
         # Render Layer(s)
-        self._withRenderLayerButton = uiWidgets.UiCheckbutton()
+        self._withRenderLayerButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withRenderLayer', self._withRenderLayerButton)
         self._withRenderLayerButton.setChecked(True)
         self._configItemLis.append(self._withRenderLayerButton)
         #
         setRenderLayerSub()
         #
-        self._listRenderLayerButton = uiWidgets.UiPressbutton()
+        self._listRenderLayerButton = qtWidgets.QtPressbutton()
         toolBox.addButton('listRenderLayer', self._listRenderLayerButton)
         self._listRenderLayerButton.clicked.connect(self._listRenderLayerCmd)
         #
-        self._cleanRenderLayerButton = uiWidgets.UiPressbutton()
+        self._cleanRenderLayerButton = qtWidgets.QtPressbutton()
         toolBox.addButton('cleanRenderLayer', self._cleanRenderLayerButton)
         self._cleanRenderLayerButton.clicked.connect(self._cleanRenderLayerCmd)
         #
@@ -2133,20 +2132,20 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        rightWidget = uiCore.QWidget_()
+        rightWidget = qtCore.QWidget_()
         layout.addWidget(rightWidget)
-        rightLayout = uiCore.QVBoxLayout_(rightWidget)
+        rightLayout = qtCore.QVBoxLayout_(rightWidget)
         #
         self.setupRightWidget(rightLayout)
 
@@ -2199,7 +2198,7 @@ class IfLightGroupManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupTreeView(self, layout):
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.treeViewBox)
     #
     def setTreeViewBox(self):
@@ -2373,7 +2372,7 @@ class IfLightGroupManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         lightGroup = maUtils.getAttrDatum(nodePath, attrName)
         if lightGroup is not None:
             if not lightUuid in self.nodeDic:
-                treeItem = uiWidgets_.QTreeWidgetItem_([lightName, lightGroup])
+                treeItem = qtWidgets_.QTreeWidgetItem_([lightName, lightGroup])
                 treeItem.path = nodePath
                 treeItem.name = lightName
                 treeItem.uuid = lightUuid
@@ -2410,9 +2409,9 @@ class IfLightGroupManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     nodeDic.pop(uuid)
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         #
         self.topToolBar().show()
         #

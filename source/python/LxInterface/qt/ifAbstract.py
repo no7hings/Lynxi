@@ -1,7 +1,8 @@
 # coding:utf-8
 from LxCore.config import appConfig
 #
-from LxUi import uiCore
+from LxUi.qt import qtCore
+
 #
 none = ''
 
@@ -79,7 +80,7 @@ class IfUnitAbs(appConfig.LxUiConfig):
     def setIcon(self, string):
         self._uiIconKeyword = string
         if self._uiIconKeyword is not None:
-            self._uiIcon = uiCore._toLxOsIconFile(self._uiIconKeyword)
+            self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword)
         else:
             self._uiIcon = None
     #
@@ -133,10 +134,10 @@ class IfUnitAbs(appConfig.LxUiConfig):
                 #
                 thread.wait()
             #
-            timer = uiCore.QtCore.QTimer(self)
+            timer = qtCore.QtCore.QTimer(self)
             self._timerLis.append(timer)
             #
-            thread = uiCore.QThread_(self)
+            thread = qtCore.QThread_(self)
             self._threadLis.append(thread)
             #
             thread.setThreadIndex(index)

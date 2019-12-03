@@ -9,9 +9,8 @@ from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
 from LxCore.operation import envOp
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -19,11 +18,13 @@ from LxInterface.qt.ifModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
+serverBasicPath = lxConfigure.Root().root()
+#
 none = ''
 
 
 #
-class IfAstModelRadarUnit(uiCore.QWidget):
+class IfAstModelRadarUnit(qtCore.QWidget):
     evaluateItems = [
         'worldArea',
         'shell',
@@ -78,9 +79,9 @@ class IfAstModelRadarUnit(uiCore.QWidget):
         self._astModelRadarChart.setChartDatum(evaluateData)
     #
     def setupUnit(self):
-        layout = uiCore.QVBoxLayout_(self)
+        layout = qtCore.QVBoxLayout_(self)
         # Radar
-        self._astModelRadarChart = uiWidgets.UiRadarChart()
+        self._astModelRadarChart = qtWidgets.QtRadarchart()
         layout.addWidget(self._astModelRadarChart)
 
 
@@ -110,12 +111,12 @@ class IfScIndexManagerUnit(
         self._args = args
     #
     def setupLeftWidget(self, layout):
-        groupBox = uiWidgets.UiToolGroupBox()
+        groupBox = qtWidgets.QtToolboxGroup()
         layout.addWidget(groupBox)
         groupBox.setTitle('Record')
         groupBox.setExpanded(True)
         #
-        self._recordTreeView = uiWidgets.UiTreeView()
+        self._recordTreeView = qtWidgets.QtTreeview()
         groupBox.addWidget(self._recordTreeView)
         self._recordTreeView.setCheckEnable(True)
         self._recordTreeView.setColorEnable(True)
@@ -123,16 +124,16 @@ class IfScIndexManagerUnit(
         self._recordTreeView.currentChanged.connect(self.setConfigRefresh)
     #
     def setupCentralWidget(self, layout):
-        groupBox = uiWidgets.UiToolGroupBox()
+        groupBox = qtWidgets.QtToolboxGroup()
         layout.addWidget(groupBox)
         groupBox.setTitle('Assign Unit(s)')
         groupBox.setExpanded(True)
         #
-        self._composeTreeView = uiWidgets.UiTreeView()
+        self._composeTreeView = qtWidgets.QtTreeview()
         groupBox.addWidget(self._composeTreeView)
         self._composeTreeView.setFilterConnect(self.filterEnterLabel())
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         groupBox.addWidget(toolBox)
         toolBox.setTitle('Config(s)')
         self.setupConfigBox(toolBox)
@@ -140,23 +141,23 @@ class IfScIndexManagerUnit(
     def setupConfigBox(self, toolBox):
         toolBox.setUiData(self.ConfigUiDic)
         #
-        self._startFrameLabel = uiWidgets.UiEnterlabel()
+        self._startFrameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('startFrame', self._startFrameLabel)
         self._startFrameLabel.setEnterEnable(True)
         self._startFrameLabel.setIntValidator()
         #
-        self._endFrameLabel = uiWidgets.UiEnterlabel()
+        self._endFrameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('endFrame', self._endFrameLabel)
         self._endFrameLabel.setEnterEnable(True)
         self._endFrameLabel.setIntValidator()
     #
     def setupRightBox(self, layout):
-        groupBox = uiWidgets.UiToolGroupBox()
+        groupBox = qtWidgets.QtToolboxGroup()
         layout.addWidget(groupBox)
         groupBox.setTitle('Available Unit(s)')
         groupBox.setExpanded(True)
         #
-        self._rightTreeView = uiWidgets.UiTreeView()
+        self._rightTreeView = qtWidgets.QtTreeview()
         groupBox.addWidget(self._rightTreeView)
     #
     def setListRecord(self):
@@ -178,7 +179,7 @@ class IfScIndexManagerUnit(
             user = lxBasic.readOsJsonDic(osJsonFile, lxConfigure.Lynxi_Key_Info_Artist)
             personnel = personnelPr.getPersonnelUserCnName(user)
             #
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             activeItem.addChild(treeItem)
             treeItem.setNameText(u'{} @ {}'.format(lxBasic.translateRecordViewTime(timeTag), personnel))
             treeItem.setIcon('svg_basic@svg#history')
@@ -215,7 +216,7 @@ class IfScIndexManagerUnit(
                 projectName, sceneClass, sceneName, sceneVariant
             )[1]
             #
-            activeItem = uiWidgets.UiTreeItem()
+            activeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(activeItem)
             activeItem.setNameText('Scene Index')
             activeItem.setIcon('svg_basic@svg#branch_main')
@@ -250,7 +251,7 @@ class IfScIndexManagerUnit(
     #
     def _addClassItem(self, treeView):
         def setModuleBranch(moduleKey, datumText):
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             #
             enViewName, chViewName = datumText
@@ -263,7 +264,7 @@ class IfScIndexManagerUnit(
             return treeItem
         #
         def setClassBranch(classKey, datumText, parentItem):
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             parentItem.addChild(treeItem)
             #
             enViewName, chViewName = datumText
@@ -329,7 +330,7 @@ class IfScIndexManagerUnit(
                 assetIndex, assetClass, assetName, number, assetVariant = value
                 self._assetIndexLis.append(assetIndex)
                 #
-                treeItem = uiWidgets.UiTreeItem()
+                treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[assetClass]
                 classItem.addChild(treeItem)
                 #
@@ -357,7 +358,7 @@ class IfScIndexManagerUnit(
             def setUnitSubBranch(seq, value):
                 sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage = value
                 if self.isLxSceneryClass(sceneryClass):
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     classItem = classItemDic[sceneryClass]
                     classItem.addChild(treeItem)
                     #
@@ -369,7 +370,7 @@ class IfScIndexManagerUnit(
                     #
                     treeItem.sceneryVariant = sceneryVariant
                 else:
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     classItem = classItemDic[self.LynxiProduct_Scenery_Class_Assembly]
                     classItem.addChild(treeItem)
                     #
@@ -436,7 +437,7 @@ class IfScIndexManagerUnit(
                 assetName, assetViewName = value
                 assetVariant = appVariant.astDefaultVariant
                 #
-                treeItem = uiWidgets.UiTreeItem()
+                treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[assetClass]
                 classItem.addChild(treeItem)
                 #
@@ -455,7 +456,7 @@ class IfScIndexManagerUnit(
                 assetName, assetViewName = value
                 assetVariant = appVariant.astDefaultVariant
                 #
-                treeItem = uiWidgets.UiTreeItem()
+                treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[self.LynxiProduct_Scenery_Class_Assembly]
                 classItem.addChild(treeItem)
                 #
@@ -571,29 +572,29 @@ class IfScIndexManagerUnit(
         self._backupFile = None
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
         self.setupCentralWidget(layout)
         #
-        rightExpandWidget = uiWidgets_.UiExpandWidget()
+        rightExpandWidget = qtWidgets_.QtExpandWidget()
         rightExpandWidget.setUiWidth(self.SideWidth*2)
-        rightExpandWidget.setExpandDir(uiCore.LeftDir)
+        rightExpandWidget.setExpandDir(qtCore.LeftDir)
         layout.addWidget(rightExpandWidget)
         rightExpandWidget.setExpanded(False)
         #
-        rightScrollBox = uiCore.QScrollArea_()
+        rightScrollBox = qtCore.QScrollArea_()
         rightExpandWidget.addWidget(rightScrollBox)
         self.setupRightBox(rightScrollBox)
 
@@ -616,7 +617,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
         self._args = args
     #
     def setupTopToolBar(self, layout):
-        self._fileStringLabel = uiWidgets.UiEnterlabel()
+        self._fileStringLabel = qtWidgets.QtEnterlabel()
         self._fileStringLabel.setEnterEnable(True)
         self._fileStringLabel.setEnterable(True)
         #
@@ -640,7 +641,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     cacheFile = treeItem.cacheFile
                     self._fileStringLabel.setDatum(cacheFile)
         #
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.treeViewBox)
         #
         treeBox = self.treeViewBox
@@ -761,7 +762,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     #
                     isActive = currentTimeTag == activeTimeTag
                     #
-                    cacheFileItem_ = uiWidgets_.QTreeWidgetItem_()
+                    cacheFileItem_ = qtWidgets_.QTreeWidgetItem_()
                     treeBox.addItem(cacheFileItem_)
                     #
                     cacheFileItem_.indexFile = indexFile
@@ -803,7 +804,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 isActive = currentTimeTag == activeTimeTag
                 #
-                cacheFileItem_ = uiWidgets_.QTreeWidgetItem_()
+                cacheFileItem_ = qtWidgets_.QTreeWidgetItem_()
                 treeBox.addItem(cacheFileItem_)
                 #
                 cacheFileItem_.indexFile = indexFile
@@ -912,30 +913,30 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
         self._args = None
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
         self.topToolBar().hide()
         #
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         self.setupTopToolBar(toolBar)
         #
-        centralWidget = uiCore.QWidget_()
+        centralWidget = qtCore.QWidget_()
         layout.addWidget(centralWidget)
-        centralLayout = uiCore.QHBoxLayout_(centralWidget)
+        centralLayout = qtCore.QHBoxLayout_(centralWidget)
         centralLayout.setContentsMargins(0, 0, 0, 0)
         centralLayout.setSpacing(2)
         #
-        self.leftScrollArea = uiCore.QScrollArea_()
+        self.leftScrollArea = qtCore.QScrollArea_()
         centralLayout.addWidget(self.leftScrollArea)
         self.setupLeftToolUiBox(self.leftScrollArea)
         #
-        self.rightScrollBox = uiCore.QScrollArea_()
+        self.rightScrollBox = qtCore.QScrollArea_()
         self.rightScrollBox.hide()
         self.rightScrollBox.setUiSize(320, 320)
         centralLayout.addWidget(self.rightScrollBox)
@@ -973,11 +974,11 @@ class IfProductUnitRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self._productModule = productModule
     #
     def setupCentralWidget(self, layout):
-        self._toolGroup = uiWidgets.UiToolGroupBox()
+        self._toolGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(self._toolGroup)
         self._toolGroup.setExpanded(True)
         #
-        self._presetView = uiWidgets.UiPresetView()
+        self._presetView = qtWidgets.QtPresetview()
         self._toolGroup.addWidget(self._presetView)
         self._presetView.setFilterConnect(self.filterEnterLabel())
     #
@@ -985,19 +986,19 @@ class IfProductUnitRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self._presetViewModel._initUnitItems()
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
-        layout = uiCore.QHBoxLayout_(widget)
+        widget = qtCore.QWidget_()
+        layout = qtCore.QHBoxLayout_(widget)
         self.mainLayout().addWidget(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
         leftExpandWidget.setExpanded(False)
         #
-        self._leftScrollLayout = uiCore.QScrollArea_()
+        self._leftScrollLayout = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(self._leftScrollLayout)
         #
-        self._centralScrollLayout = uiCore.QScrollArea_()
+        self._centralScrollLayout = qtCore.QScrollArea_()
         layout.addWidget(self._centralScrollLayout)
         self.setupCentralWidget(self._centralScrollLayout)
 
@@ -1039,7 +1040,7 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
     def setupMainToolUiBox(self, toolBox):
         inData = self.dicMain
         #
-        self._timeChooseLabel = uiWidgets.UiEnterlabel()
+        self._timeChooseLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, lxConfigure.Lynxi_Key_Info_Update, self._timeChooseLabel)
         self._timeChooseLabel.setChooseEnable(True)
         self._timeChooseLabel.setIconKeyword('svg_basic@svg#history')
@@ -1051,30 +1052,30 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
         for k, v in inData.items():
             if k in self.keywords:
                 if k == lxConfigure.Lynxi_Key_Info_Note:
-                    infoLabel = uiWidgets.UiEnterbox()
+                    infoLabel = qtWidgets.QtEnterbox()
                     self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Note] = infoLabel
                     self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Notes] = infoLabel
                 else:
-                    infoLabel = uiWidgets.UiEnterlabel()
+                    infoLabel = qtWidgets.QtEnterlabel()
                     self._uiInfoItemDic[k] = infoLabel
                 #
                 toolBox.setInfo(inData, k, infoLabel)
         #
-        self._sourceFileLabel = uiWidgets.UiEnterlabel()
+        self._sourceFileLabel = qtWidgets.QtEnterlabel()
         toolBox.setButton(inData, 'sourceFile', self._sourceFileLabel)
         self._sourceFileLabel.setEnterEnable(True)
         #
-        self._loadSourceButton = uiWidgets.UiPressbutton()
+        self._loadSourceButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'loadSource', self._loadSourceButton)
         self._loadSourceButton.setPressable(False)
         self._loadSourceButton.setTooltip('Load Source ( History ) File')
         self._loadSourceButton.clicked.connect(self.loadSourceFile)
         #
-        self._productFileLabel = uiWidgets.UiEnterlabel()
+        self._productFileLabel = qtWidgets.QtEnterlabel()
         toolBox.setButton(inData, 'productFile', self._productFileLabel)
         self._productFileLabel.setEnterEnable(True)
         #
-        self._loadProductButton = uiWidgets.UiPressbutton()
+        self._loadProductButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'loadProduct', self._loadProductButton)
         self._loadProductButton.setPressable(False)
         self._loadProductButton.setTooltip('Load Integration ( History ) File')
@@ -1206,7 +1207,7 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
     def setupUnit(self):
         self.topToolBar().hide()
         #
-        self._mainToolBox = uiWidgets.UiToolBox()
+        self._mainToolBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._mainToolBox)
         self._mainToolBox.setTitle('Record')
         self.setupMainToolUiBox(self._mainToolBox)
@@ -1236,39 +1237,39 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
     #
     def setupCentralWidget(self, layout):
         def setToolGroupTitleSwitch():
-            currentItem = self._centralGridView.currentItem()
+            currentItem = self._centralGridview.currentItem()
             if currentItem:
                 toolGroup.setTitle('Project > {}'.format(currentItem.name()))
         #
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(toolGroup)
         toolGroup.setTitle('Project')
         toolGroup.setExpanded(True)
         #
-        self._centralGridView = uiWidgets.UiGridView()
-        toolGroup.addWidget(self._centralGridView)
-        self._centralGridView.setCheckEnable(True)
+        self._centralGridview = qtWidgets.QtGridview()
+        toolGroup.addWidget(self._centralGridview)
+        self._centralGridview.setCheckEnable(True)
         #
         width = 320
         height = int(width * (float(1080) / float(1920)))
         #
         self._uiItemWidth, self._uiItemHeight = width, height
         #
-        self._centralGridView.setItemSize(self._uiItemWidth, self._uiItemHeight + 20)
-        self._centralGridView.setItemListModeSize(self._uiItemWidth, 20)
-        self._centralGridView.setItemIconModeSize(self._uiItemWidth, self._uiItemHeight + 20)
+        self._centralGridview.setItemSize(self._uiItemWidth, self._uiItemHeight + 20)
+        self._centralGridview.setItemListModeSize(self._uiItemWidth, 20)
+        self._centralGridview.setItemIconModeSize(self._uiItemWidth, self._uiItemHeight + 20)
         #
-        self._centralGridView.setFilterConnect(self.filterEnterLabel())
+        self._centralGridview.setFilterConnect(self.filterEnterLabel())
         #
-        self._centralGridView.currentChanged.connect(setToolGroupTitleSwitch)
+        self._centralGridview.currentChanged.connect(setToolGroupTitleSwitch)
     #
     def setupRightWidget(self, layout):
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(toolGroup)
         toolGroup.setTitle('Preset & Information')
         toolGroup.setExpanded(True)
         #
-        self._rightTreeView = uiWidgets.UiTreeView()
+        self._rightTreeView = qtWidgets.QtTreeview()
         toolGroup.addWidget(self._rightTreeView)
         self._rightTreeView.setFilterConnect(self.filterEnterLabel())
     #
@@ -1322,14 +1323,14 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
             #
             enabled, projectViewName = value
             if enabled is True:
-                gridItem = uiWidgets.UiGridItem()
+                gridItem = qtWidgets.QtGridviewItem()
                 gridView.addItem(gridItem)
                 #
                 gridItem.setName(projectName)
                 gridItem.setNameText(u'{} ( {} )'.format(projectViewName, projectName))
                 gridItem.setIcon('svg_basic@svg#project')
                 #
-                messageWidget = uiWidgets.UiMessageWidget()
+                messageWidget = qtWidgets.QtMessageWidget()
                 gridItem.addWidget(messageWidget, 0, 0, 1, 1)
                 #
                 messageLis = [
@@ -1357,7 +1358,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         self.connectObject()._mainWindow.updateProgress()
                     setBranch(seq, k, v)
         #
-        gridView = self._centralGridView
+        gridView = self._centralGridview
         #
         if lxBasic.isMayaApp():
             projectNameData = projectPr.getMayaProjectNameDic()
@@ -1376,12 +1377,12 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
             data = projectPr.getProjectPresetVariantDic()
             if data:
                 for k, v in data.items():
-                    mainPresetItem = uiWidgets.UiTreeItem()
+                    mainPresetItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(mainPresetItem)
                     #
                     mainPresetItem.setNameText('{} ( {} )'.format(k, len(v)))
                     for ik, iv in v.items():
-                        subPresetItem = uiWidgets.UiTreeItem()
+                        subPresetItem = qtWidgets.QtTreeviewItem()
                         mainPresetItem.addChild(subPresetItem)
                         #
                         if isinstance(iv, tuple) or isinstance(iv, list):
@@ -1396,12 +1397,12 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         def setSoftwarePresetBranch(parentItem):
             def setSubBranch(key, value):
                 if value:
-                    mainPresetItem = uiWidgets.UiTreeItem()
+                    mainPresetItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(mainPresetItem)
                     #
                     mainPresetItem.setNameText(u'{} ( {} )'.format(key, len(value)))
                     for ik, iv in value.items():
-                        subPresetItem = uiWidgets.UiTreeItem()
+                        subPresetItem = qtWidgets.QtTreeviewItem()
                         mainPresetItem.addChild(subPresetItem)
                         #
                         if isinstance(iv, str) or isinstance(iv, unicode):
@@ -1409,19 +1410,19 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         elif isinstance(iv, tuple) or isinstance(iv, list):
                             subPresetItem.setNameText(u'{} ( {} )'.format(ik, len(iv)))
                             for i in iv:
-                                branchPresetItem = uiWidgets.UiTreeItem()
+                                branchPresetItem = qtWidgets.QtTreeviewItem()
                                 subPresetItem.addChild(branchPresetItem)
                                 branchPresetItem.setNameText(i)
                         elif isinstance(iv, dict):
                             subPresetItem.setNameText(u'{} ( {} )'.format(ik, len(iv)))
                             for jk, jv in iv.items():
-                                branchPresetItem = uiWidgets.UiTreeItem()
+                                branchPresetItem = qtWidgets.QtTreeviewItem()
                                 subPresetItem.addChild(branchPresetItem)
                                 branchPresetItem.setNameText('{} = {}'.format(jk, jv))
             #
             if lxBasic.isMayaApp():
                 setSubBranch('Maya Tool', projectPr.getProjectMayaToolDataDic())
-                setSubBranch('Maya Script', projectPr.getProjectMayaScriptDataDic())
+                setSubBranch('Maya Script', projectPr.getProjectMayaScriptDatumDic())
                 setSubBranch('Maya Plug', projectPr.getMaCustomPlugPathDic())
             return 3
         #
@@ -1429,12 +1430,12 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
             data = envOp.getOsEnvironStatisticsData()
             if data:
                 for k, v in data.items():
-                    mainPresetItem = uiWidgets.UiTreeItem()
+                    mainPresetItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(mainPresetItem)
                     #
                     mainPresetItem.setNameText('{} ( {} )'.format(k, len(v)))
                     for i in v:
-                        subPresetItem = uiWidgets.UiTreeItem()
+                        subPresetItem = qtWidgets.QtTreeviewItem()
                         mainPresetItem.addChild(subPresetItem)
                         #
                         subPresetItem.setNameText(i)
@@ -1446,21 +1447,21 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                 data = maUtils.getModuleInfo()
                 if data:
                     for k, v in data.items():
-                        mainPresetItem = uiWidgets.UiTreeItem()
+                        mainPresetItem = qtWidgets.QtTreeviewItem()
                         parentItem.addChild(mainPresetItem)
                         #
                         mainPresetItem.setNameText('{} ( {} )'.format(k, len(v)))
                         for ik, iv in v.items():
-                            subPresetItem = uiWidgets.UiTreeItem()
+                            subPresetItem = qtWidgets.QtTreeviewItem()
                             mainPresetItem.addChild(subPresetItem)
                             #
                             subPresetItem.setNameText(u'{} = {}'.format(ik, iv))
         #
         def setPythonModuleBranch(parentItem):
-            data = pipePr.getPythonModuleData(lxConfigure.getLxRelatedPythonModuleLis())
+            data = pipePr.getPythonModuleData(lxConfigure.Python().relateModules())
             if data:
                 for i in data:
-                    mainPresetItem = uiWidgets.UiTreeItem()
+                    mainPresetItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(mainPresetItem)
                     #
                     mainPresetItem.setNameText('{}'.format(i))
@@ -1477,7 +1478,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         treeView = self._rightTreeView
         #
         for mainExplain, method in dataLis:
-            mainItem = uiWidgets.UiTreeItem()
+            mainItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(mainItem)
             #
             if method is not None:
@@ -1489,7 +1490,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
     #
     def confirmCmd(self):
         if lxBasic.isMayaApp():
-            targetProjectItem = self._centralGridView.currentItem()
+            targetProjectItem = self._centralGridview.currentItem()
             if targetProjectItem is not None:
                 from LxCore.setup import appSetup
                 #
@@ -1521,24 +1522,24 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                 )
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        centralScrollBox = uiCore.QScrollArea_()
+        centralScrollBox = qtCore.QScrollArea_()
         layout.addWidget(centralScrollBox)
         self.setupCentralWidget(centralScrollBox)
         #
-        rightExpandWidget = uiWidgets_.UiExpandWidget()
+        rightExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(rightExpandWidget)
-        rightExpandWidget.setExpandDir(uiCore.LeftDir)
+        rightExpandWidget.setExpandDir(qtCore.LeftDir)
         rightExpandWidget.setUiWidth(self.SideWidth*2)
         rightExpandWidget.setExpanded(False)
         #
-        rightScrollBox = uiCore.QScrollArea_()
+        rightScrollBox = qtCore.QScrollArea_()
         rightExpandWidget.addWidget(rightScrollBox)
         self.setupRightWidget(rightScrollBox)
 
@@ -1589,47 +1590,47 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self.setCentralRefresh()
     #
     def setupCentralWidget(self, layout):
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         toolGroup.setTitle('Register')
         toolGroup.setExpanded(True)
         layout.addWidget(toolGroup)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         toolGroup.addWidget(toolBox)
         self.setupRegisterToolUiBox(toolBox)
     #
     def setupRegisterToolUiBox(self, toolBox):
         inData = self.dicRegister
         # User Name
-        self._osUserNameLabel = uiWidgets.UiEnterlabel()
+        self._osUserNameLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'user', self._osUserNameLabel)
         #
-        self._chNameLabel = uiWidgets.UiEnterlabel()
+        self._chNameLabel = qtWidgets.QtEnterlabel()
         self._chNameLabel.setEnterEnable(True)
         toolBox.setInfo(inData, 'chName', self._chNameLabel)
         #
-        self._enNameLabel = uiWidgets.UiEnterlabel()
+        self._enNameLabel = qtWidgets.QtEnterlabel()
         self._enNameLabel.setEnterEnable(True)
         toolBox.setInfo(inData, 'enName', self._enNameLabel)
         #
-        self._mailLabel = uiWidgets.UiEnterlabel()
+        self._mailLabel = qtWidgets.QtEnterlabel()
         self._mailLabel.setEnterEnable(True)
         toolBox.setInfo(inData, 'mail', self._mailLabel)
         #
-        self._teamLabel = uiWidgets.UiEnterlabel()
+        self._teamLabel = qtWidgets.QtEnterlabel()
         self._teamLabel.setChooseEnable(True)
         toolBox.setInfo(inData, 'team', self._teamLabel)
         #
-        self._postLabel = uiWidgets.UiEnterlabel()
+        self._postLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'post', self._postLabel)
         #
-        self._pcLabel = uiWidgets.UiEnterlabel()
+        self._pcLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'pc', self._pcLabel)
         #
-        self._ipLabel = uiWidgets.UiEnterlabel()
+        self._ipLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ip', self._ipLabel)
         #
-        self._tipLabel = uiWidgets.UiTextBrower()
+        self._tipLabel = qtWidgets.QtTextBrower()
         self._tipLabel.setEnterEnable(False)
         toolBox.setInfo(inData, 'tip', self._tipLabel)
     #
@@ -1700,10 +1701,10 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
             lxTip.viewMessage(u'提示：', u'设置用户信息成功')
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         self.setupCentralWidget(layout)
@@ -1724,12 +1725,12 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         pass
     #
     def setupCentralWidget(self, layout):
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         toolGroup.setTitle('Personnel')
         toolGroup.setExpanded(True)
         layout.addWidget(toolGroup)
         #
-        self._treeView = uiWidgets.UiTreeView()
+        self._treeView = qtWidgets.QtTreeview()
         self._treeView.setCheckEnable(True)
         self._treeView.setColorEnable(True)
         toolGroup.addWidget(self._treeView)
@@ -1741,13 +1742,13 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
             if teamLis:
                 count = len(teamLis)
                 for seq, teamName in enumerate(teamLis):
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(treeItem)
                     treeItem.setName(teamName)
                     treeItem.setIcon('object#mainBranch')
                     treeItem.setExpanded(True)
                     #
-                    r, g, b = uiCore.hsvToRgb(360 * (float(seq) / float(count)), 1, 1)
+                    r, g, b = qtCore.hsvToRgb(360 * (float(seq) / float(count)), 1, 1)
                     treeItem.setFilterColor((r, g, b, 255))
                     #
                     self._teamItemDic[teamName] = treeItem
@@ -1765,7 +1766,7 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         team = userDataDic[lxConfigure.LynxiTeamPresetKey]
                         post = userDataDic[lxConfigure.LynxiPostPresetKey]
                         #
-                        treeItem = uiWidgets.UiTreeItem()
+                        treeItem = qtWidgets.QtTreeviewItem()
                         treeItem.setName(u'{} ( {} )'.format(chName, userName))
                         treeItem.setIcon('object#character')
                         #
@@ -1780,7 +1781,7 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         #
         treeView.cleanItems()
         #
-        personnelItem = uiWidgets.UiTreeItem()
+        personnelItem = qtWidgets.QtTreeviewItem()
         treeView.addItem(personnelItem)
         personnelItem.setName('All')
         personnelItem.setIcon('object#guideBranch')
@@ -1794,10 +1795,10 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         treeView.setRefresh()
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         self.setupCentralWidget(layout)
@@ -1823,18 +1824,18 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
         self._initMethod()
     #
     def setupLeftWidget(self, layout):
-        self._treeView = uiWidgets.UiTreeView()
+        self._treeView = qtWidgets.QtTreeview()
         layout.addWidget(self._treeView)
         self._treeView.setSelectEnable(True)
         self._treeView.setExpandEnable(False)
         #
-        self._treeView.selectedChanged.connect(self.setToolGroupBoxExpandedRefresh)
+        self._treeView.selectedChanged.connect(self.setToolboxGroupExpandedRefresh)
         self._treeView.setFilterConnect(self.filterEnterLabel())
     #
     def setupCentralWidget(self, layout):
         self._toolGroupDic = {}
         # Scroll Bar
-        self._centralScrollBox = uiCore.QScrollArea_()
+        self._centralScrollBox = qtCore.QScrollArea_()
         layout.addWidget(self._centralScrollBox)
     #
     def _initMethod(self):
@@ -1859,13 +1860,13 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
             #
             projectCount, utilitiesCount = len(mainToolDatumLis), len(subToolDatumLis)
             #
-            toolGroupBox = uiWidgets.UiToolGroupBox()
+            toolGroupBox = qtWidgets.QtToolboxGroup()
             self._centralScrollBox.addWidget(toolGroupBox)
             toolGroupBox.setNameText(showExplain)
             toolGroupBox.setIndexText('( {} + {} )'.format(projectCount, utilitiesCount))
             self._toolGroupDic[k] = toolGroupBox
             #
-            tagItem = uiWidgets.UiTreeItem()
+            tagItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(tagItem)
             tagItem.setName(k)
             tagItem.setNameText(showExplain)
@@ -1916,7 +1917,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
     def setupToolUiBox(self, data, treeView, tag, tagItem, toolGroupBox, itemData, keyword):
         def setBranch(seq, k, subToolBox):
             def openCommandCmd():
-                osCmdExe = '{}/exe/windows/Sublime Text 3/sublime_text.exe'.format(lxConfigure._getLxBasicPath())
+                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.Root().windowAppRoot())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(commandFile)
                     if subOsFiles:
@@ -1929,14 +1930,14 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
             #
             viewExplain = self._toStringPrettify(toolName)
             #
-            toolItem = uiWidgets.UiTreeItem()
+            toolItem = qtWidgets.QtTreeviewItem()
             tagItem.addChild(toolItem)
             toolItem.setNameText(viewExplain)
             toolItem.setIcon('svg_basic@svg#tag')
             itemIndex = treeView.itemIndex(toolItem)
             self._tagFilterIndexDic.setdefault(tag, []).append(itemIndex)
             #
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             button.setPressCommand(command)
             if toolTip:
                 button.setTooltip(toolTip)
@@ -1989,7 +1990,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 for k, v in dicStep01.items():
                     if v:
-                        subToolBox = uiWidgets.UiToolBox()
+                        subToolBox = qtWidgets.QtToolbox()
                         subToolBox.setTitle(k)
                         toolGroupBox.addWidget(subToolBox)
                         for seq, i in enumerate(v):
@@ -1997,7 +1998,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
         #
         setMain()
     #
-    def setToolGroupBoxExpandedRefresh(self):
+    def setToolboxGroupExpandedRefresh(self):
         itemModels = self._treeView.itemModels()
         for itemModel in itemModels:
             key = itemModel.name()
@@ -2006,22 +2007,22 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
                 toolGroupBox.setExpanded(itemModel.isSelected() or itemModel.isSubSelected())
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
-        layout = uiCore.QHBoxLayout_(widget)
+        widget = qtCore.QWidget_()
+        layout = qtCore.QHBoxLayout_(widget)
         self.mainLayout().addWidget(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setExpanded(False)
         leftExpandWidget.setUiWidth(self.SideWidth)
         #
-        leftWidget = uiCore.QWidget_()
+        leftWidget = qtCore.QWidget_()
         leftExpandWidget.addWidget(leftWidget)
-        leftLayout = uiCore.QVBoxLayout_(leftWidget)
+        leftLayout = qtCore.QVBoxLayout_(leftWidget)
         self.setupLeftWidget(leftLayout)
         #
-        centralWidget = uiCore.QWidget_()
+        centralWidget = qtCore.QWidget_()
         layout.addWidget(centralWidget)
-        centralLayout = uiCore.QVBoxLayout_(centralWidget)
+        centralLayout = qtCore.QVBoxLayout_(centralWidget)
         self.setupCentralWidget(centralLayout)
 

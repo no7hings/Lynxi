@@ -8,9 +8,8 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -56,7 +55,7 @@ class IfScLightLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox = self.scLightUtilsToolUiBox
         inData = self.dicScLightUtilsTool
         #
-        self.sceneAssetManagerButton = uiWidgets.UiPressbutton()
+        self.sceneAssetManagerButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'sceneAssetManager', self.sceneAssetManagerButton)
         self.sceneAssetManagerButton.clicked.connect(self.setOpenScAstManager)
     #
@@ -64,7 +63,7 @@ class IfScLightLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self.scLightUtilsToolUiBox = uiWidgets.UiToolBox()
+        self.scLightUtilsToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self.scLightUtilsToolUiBox)
         self.scLightUtilsToolUiBox.setTitle('Scene ( Light ) Utilities')
 
@@ -180,14 +179,14 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     def setupScLoadToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScAstLoad)
         #
-        self._scLoadCameraUnitButton = uiWidgets.UiPressbutton()
+        self._scLoadCameraUnitButton = qtWidgets.QtPressbutton()
         self._scLoadCameraUnitButton.setPercentEnable(True)
         toolBox.addButton('scLoadCameraUnit', self._scLoadCameraUnitButton)
         self._scLoadCameraUnitButton.setTooltip(
             u'''点击 加载 相机'''
         )
         #
-        self._scLoadAssetUnitButton = uiWidgets.UiPressbutton()
+        self._scLoadAssetUnitButton = qtWidgets.QtPressbutton()
         self._scLoadAssetUnitButton.setPercentEnable(True)
         toolBox.addButton('scLoadAssetUnit', self._scLoadAssetUnitButton)
         self._scLoadAssetUnitButton.clicked.connect(self._scAssetUnitUpdateCmd)
@@ -200,7 +199,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     def setupScUpdateToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScAstUpdate)
         #
-        self._scUpdateIgnoreNonExistsCheckbutton = uiWidgets.UiCheckbutton()
+        self._scUpdateIgnoreNonExistsCheckbutton = qtWidgets.QtCheckbutton()
         toolBox.addButton('scUpdateIgnoreNonExists', self._scUpdateIgnoreNonExistsCheckbutton)
         self._scUpdateIgnoreNonExistsCheckbutton.setChecked(True)
         self._scUpdateIgnoreNonExistsCheckbutton.setTooltip(
@@ -208,7 +207,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         )
         self._scUpdateIgnoreNonExistsCheckbutton.clicked.connect(self.refreshMethod)
         #
-        self._scUpdateIgnoreNonAnimationCheckbutton = uiWidgets.UiCheckbutton()
+        self._scUpdateIgnoreNonAnimationCheckbutton = qtWidgets.QtCheckbutton()
         toolBox.addButton('scUpdateIgnoreNonAnimation', self._scUpdateIgnoreNonAnimationCheckbutton)
         self._scUpdateIgnoreNonAnimationCheckbutton.setChecked(True)
         self._scUpdateIgnoreNonAnimationCheckbutton.setTooltip(
@@ -216,14 +215,14 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         )
         self._scUpdateIgnoreNonAnimationCheckbutton.clicked.connect(self.refreshMethod)
         #
-        self._scUpdateIgnoreUnloadCheckbutton = uiWidgets.UiCheckbutton()
+        self._scUpdateIgnoreUnloadCheckbutton = qtWidgets.QtCheckbutton()
         toolBox.addButton('scUpdateIgnoreUnload', self._scUpdateIgnoreUnloadCheckbutton)
         self._scUpdateIgnoreUnloadCheckbutton.setTooltip(
             u'''启用 / 关闭 忽略 未加载的 缓存（Maya Local）：\n1，启用此选项将会忽略该项检查。'''
         )
         self._scUpdateIgnoreUnloadCheckbutton.clicked.connect(self.refreshMethod)
         # Camera Cache
-        self._scUpdateCameraCacheButton = uiWidgets.UiPressbutton()
+        self._scUpdateCameraCacheButton = qtWidgets.QtPressbutton()
         self._scUpdateCameraCacheButton.setPercentEnable(True)
         toolBox.addButton('scUpdateCameraCache', self._scUpdateCameraCacheButton)
         self._scUpdateCameraCacheButton.setTooltip(
@@ -231,7 +230,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         )
         self._scUpdateCameraCacheButton.clicked.connect(self._scCameraCacheUpdateCmd)
         # Model Cache
-        self._scUpdateAstModelCacheButton = uiWidgets.UiPressbutton()
+        self._scUpdateAstModelCacheButton = qtWidgets.QtPressbutton()
         self._scUpdateAstModelCacheButton.setPercentEnable(True)
         toolBox.addButton('scUpdateAstModelCache', self._scUpdateAstModelCacheButton)
         self._scUpdateAstModelCacheButton.setTooltip(
@@ -239,7 +238,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         )
         self._scUpdateAstModelCacheButton.clicked.connect(self._scAstModelCacheUpdateCmd)
         # Cfx Fur Cache(s)
-        self._scUpdateAstCfxCacheButton = uiWidgets.UiPressbutton()
+        self._scUpdateAstCfxCacheButton = qtWidgets.QtPressbutton()
         self._scUpdateAstCfxCacheButton.setPercentEnable(True)
         toolBox.addButton('scUpdateAstCfxFurCache', self._scUpdateAstCfxCacheButton)
         self._scUpdateAstCfxCacheButton.setTooltip(
@@ -247,7 +246,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         )
         self._scUpdateAstCfxCacheButton.clicked.connect(self._scAstCfxFurCacheUpdateCmd)
         # Extra Cache
-        self._updateScAstExtraCacheButton = uiWidgets.UiPressbutton()
+        self._updateScAstExtraCacheButton = qtWidgets.QtPressbutton()
         self._updateScAstExtraCacheButton.setPercentEnable(True)
         toolBox.addButton('scUpdateAstExtraCache', self._updateScAstExtraCacheButton)
         self._updateScAstExtraCacheButton.setTooltip(
@@ -531,21 +530,21 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
             self.refreshMethod()
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         #
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.treeViewBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Load')
         #
         self.setupScLoadToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Update')
         #
@@ -622,11 +621,11 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     def setupModifyToolUiBox(self, toolBox):
         inData = self.dicModifyTool
         #
-        self._ignoreProjectButton = uiWidgets.UiCheckbutton()
+        self._ignoreProjectButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'ignoreProject', self._ignoreProjectButton)
         self._ignoreProjectButton.clicked.connect(self.setListFile)
         #
-        self._scOsFileCollectionButton = uiWidgets.UiPressbutton()
+        self._scOsFileCollectionButton = qtWidgets.QtPressbutton()
         self._scOsFileCollectionButton.setPercentEnable(True)
         toolBox.setButton(inData, 'collectionFile', self._scOsFileCollectionButton)
         self._scOsFileCollectionButton.clicked.connect(self.setCollectionFile)
@@ -823,15 +822,15 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         self.collectionDic = {}
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         #
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         layout.addWidget(self.treeViewBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Modify')
         self.setupModifyToolUiBox(toolBox)
@@ -902,7 +901,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             assetIndex, assetClass, assetName, number, assetVariant = value
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             listBox.addItem(gridItem)
             #
             showExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, number)
@@ -911,7 +910,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             preview = dbGet.getDbAstPreviewFile(assetIndex, assetVariant)
             #
-            astModelSectorChart = uiWidgets.UiSectorChart()
+            astModelSectorChart = qtWidgets.QtSectorchart()
             astModelSectorChart.setImage(preview)
             #
             if maUtils.getNodeType(keyNode) == 'reference':
@@ -959,10 +958,10 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 numberCheck = False
             #
             if geometryCheck is False or numberCheck is False:
-                gridItem._setUiPressStatus(uiCore.ErrorStatus)
+                gridItem._setQtPressStatus(qtCore.ErrorStatus)
                 # gridItem.setSelectable(False)
             elif geometryCheck is True and numberCheck is True:
-                gridItem._setUiPressStatus(uiCore.OnStatus)
+                gridItem._setQtPressStatus(qtCore.OnStatus)
                 # gridItem.setSelectable(True)
             assetNumberKeys.append(assetNumberKey)
             #
@@ -1050,7 +1049,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     lxTip.viewMessage('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
-                IfToolWindow = uiWidgets.UiToolWindow(self)
+                IfToolWindow = qtWidgets.UiToolWindow(self)
                 toolBox = ifMaAnimToolUnit.IfScRigLoadedUnit()
                 #
                 IfToolWindow.addWidget(toolBox)
@@ -1118,7 +1117,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         frameOffset = appVariant.animKeyFrameOffset
         #
-        listBox = self._scAstGridView
+        listBox = self._scAstGridview
         #
         setMain()
         setActionData()
@@ -1138,9 +1137,9 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._uiItemHeight = 320
     #
     def setupUi(self):
-        self._scAstGridView = uiWidgets.UiGridView()
-        self.mainLayout().addWidget(self._scAstGridView)
-        self._scAstGridView.setCheckEnable(True)
+        self._scAstGridview = qtWidgets.QtGridview()
+        self.mainLayout().addWidget(self._scAstGridview)
+        self._scAstGridview.setCheckEnable(True)
         #
-        self._scAstGridView.setItemSize(self._uiItemWidth, self._uiItemHeight)
-        self._scAstGridView.setItemListModeSize(self._uiItemWidth, 20)
+        self._scAstGridview.setItemSize(self._uiItemWidth, self._uiItemHeight)
+        self._scAstGridview.setItemListModeSize(self._uiItemWidth, 20)

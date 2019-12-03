@@ -3,13 +3,12 @@ from LxCore import lxBasic, lxConfigure, lxProgress
 #
 from LxCore.config import appCfg, assetCfg
 #
-from LxCore.preset import pipePr, appVariant
+from LxCore.preset import pipePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxMaya.interface.ifCommands import maAstTreeViewCmds
 #
@@ -25,13 +24,13 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Asset Production'
-_version = lxConfigure.Version().active()
+_version = lxConfigure.Version().local()
 
 
 #
-class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
+class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
     widthSet = 400
-    def __init__(self, parent=uiCore.getAppWindow()):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfAssetProductToolWindow, self).__init__(parent)
         #
         self.setNameText(_title)
@@ -96,7 +95,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             ['Group : Node', 'Node Type', 'Explain'],
             self.widthSet * 2
         )
-        self.rightToolGroupBox.setTitle('%s' % explain)
+        self.rightToolboxGroup.setTitle('%s' % explain)
     #
     def setAstHierarchyView(self):
         assetName = self.assetName
@@ -138,7 +137,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             ['Class : Mesh', 'Status', 'Unique ID'],
             self.widthSet * 2
         )
-        self.rightToolGroupBox.setTitle('%s' % explain)
+        self.rightToolboxGroup.setTitle('%s' % explain)
     #
     def setAstGeometryConstantMain(self):
         projectName = self.projectName
@@ -172,7 +171,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
     #
     def setAstMeshTopoConstantBox(self, treeBox, explain):
         treeBox.setColumns_(['Group : Node', 'Unique ID'], self.widthSet * 2)
-        self.rightToolGroupBox.setTitle('%s' % explain)
+        self.rightToolboxGroup.setTitle('%s' % explain)
     #
     def setAstMeshTopoConstantView(self):
         assetIndex = self.assetIndex
@@ -191,7 +190,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
     def setCheckInfoLabel(self, inCheck, outGeo, checkType):
         inCheckCount = len(inCheck)
         outGeoCount = len(outGeo)
-        self.rightToolGroupBox.setTitle(
+        self.rightToolboxGroup.setTitle(
             'Mesh ( %s [ %s + %s ] )' % (checkType, outGeoCount, (inCheckCount - outGeoCount))
         )
     #
@@ -215,7 +214,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
         elif assetPr.isAstLightLink(assetStage):
             checkConfig = assetCfg.astLightCheckConfig()
         #
-        self.rightToolGroupBox.setTitle('Check List')
+        self.rightToolboxGroup.setTitle('Check List')
         treeBox.setColumns_(
             ['Inspection Item', 'Explain'],
             self.widthSet*2
@@ -224,7 +223,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
         if checkConfig:
             for k, v in checkConfig.items():
                 enable, enExplain, cnExplain = v
-                inspectionItem = uiWidgets_.QTreeWidgetItem_([enExplain, cnExplain])
+                inspectionItem = qtWidgets_.QTreeWidgetItem_([enExplain, cnExplain])
                 self.treeBox.addItem(inspectionItem)
                 if enable is True:
                     inspectionItem.setItemIcon(0, 'svg_basic@svg#check')
@@ -344,7 +343,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             #
             self.setProgressValue(seq + 1, len(checkConfig))
             #
-            inspectionItem = uiWidgets_.QTreeWidgetItem_([enExplain, cnExplain])
+            inspectionItem = qtWidgets_.QTreeWidgetItem_([enExplain, cnExplain])
             inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
             self.treeBox.addItem(inspectionItem)
             #
@@ -356,7 +355,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
                     for i in inCheck:
                         geomObjectName = maUtils._toNodeName(i)
                         if i in errorData:
-                            geomItem = uiWidgets_.QTreeWidgetItem_([geomObjectName])
+                            geomItem = qtWidgets_.QTreeWidgetItem_([geomObjectName])
                             inspectionItem.addChild(geomItem)
                             tempErrorData.append(i)
                             if i in outGeo:
@@ -378,7 +377,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
                     inspectionItem.setExpanded(True)
                     for i in errorData:
                         transformName = maUtils._toNodeName(i)
-                        transformItem = uiWidgets_.QTreeWidgetItem_([transformName])
+                        transformItem = qtWidgets_.QTreeWidgetItem_([transformName])
                         transformItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform, 'error')
                         inspectionItem.addChild(transformItem)
                 else:
@@ -391,7 +390,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             ['Folder > File > Node', 'Node Type', 'Local Time', 'Local Time ( tx )'],
             self.widthSet * 2
         )
-        self.rightToolGroupBox.setTitle(explain)
+        self.rightToolboxGroup.setTitle(explain)
     #
     def setAstTextureCheckView(self):
         self.astTextureData = []
@@ -438,7 +437,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             ['Inspection Item : Object', 'Type', 'Explain'],
             self.widthSet * 2
         )
-        self.rightToolGroupBox.setTitle(explain)
+        self.rightToolboxGroup.setTitle(explain)
     #
     def setAstCfxCheckCmd(self):
         self.astCfxFurData = []
@@ -483,7 +482,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             ['Shading Group : Node', 'Node Type', 'Explain'],
             self.widthSet * 2
         )
-        self.rightToolGroupBox.setTitle(explain)
+        self.rightToolboxGroup.setTitle(explain)
     #
     def setShaderCheckView(self):
         assetClass = self.assetClass
@@ -502,18 +501,18 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
         self.setupRightWidget(self.rightBottomToolBar)
     #
     def setAstTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._infoLabel = uiWidgets.UiEnterlabel()
+        self._infoLabel = qtWidgets.QtEnterlabel()
         layout.addWidget(self._infoLabel)
         self._infoLabel.setNameTextWidth(0)
         #
-        self.filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self.filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self.filterEnterLabel)
         self.treeBox.setFilterConnect(self.filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         layout.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setRefresh)
     # Tool Panel
@@ -552,7 +551,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             tooltip = toolUnit.UnitTooltip
             # Toggle Button
             toggleButton = None
-            toggleButtonCreateCmd = 'self.{0}ToggleButton = uiWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
+            toggleButtonCreateCmd = 'self.{0}ToggleButton = qtWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
             exec toggleButtonCreateCmd
             toggleButton.setIconExplain(iconKeyword, 32, 32)
             #
@@ -568,7 +567,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             toggleButton.setTooltip(tooltip)
             # Tool Group
             toolGroupBox = None
-            toolGroupBoxCreateCmd = 'self.{0}GroupBox = uiWidgets.UiToolGroupBox();toolGroupBox = self.{0}GroupBox'.format(key)
+            toolGroupBoxCreateCmd = 'self.{0}GroupBox = qtWidgets.QtToolboxGroup();toolGroupBox = self.{0}GroupBox'.format(key)
             exec toolGroupBoxCreateCmd
             toolGroupBox.hide()
             toolGroupBox.setExpanded(True)
@@ -599,7 +598,7 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
         for i in uiDatumLis:
             key, iconKeyword, tooltip, visible, connectMethodLis = i
             toggleButton = None
-            toggleButtonCreateCmd = 'self.{0}ToggleButton = uiWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
+            toggleButtonCreateCmd = 'self.{0}ToggleButton = qtWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
             exec toggleButtonCreateCmd
             toggleButton.setIconExplain(iconKeyword, 32, 32)
             #
@@ -736,85 +735,85 @@ class IfAssetProductToolWindow(uiWidgets.UiToolWindow):
             self.assetVariant = assetVariant
     #
     def setupWindow(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.addWidget(widget)
-        mainLayout = uiCore.QHBoxLayout_(widget)
+        mainLayout = qtCore.QHBoxLayout_(widget)
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         #
-        self.createWidget = uiCore.QWidget_()
+        self.createWidget = qtCore.QWidget_()
         self.createWidget.hide()
         mainLayout.addWidget(self.createWidget)
         #
-        createLayout = uiCore.QHBoxLayout_(self.createWidget)
+        createLayout = qtCore.QHBoxLayout_(self.createWidget)
         createLayout.setContentsMargins(0, 0, 0, 0)
         createLayout.setSpacing(0)
         #
-        self.leftCreateWidget = uiCore.QWidget_()
+        self.leftCreateWidget = qtCore.QWidget_()
         createLayout.addWidget(self.leftCreateWidget)
         #
-        leftCreateLayout = uiCore.QVBoxLayout_(self.leftCreateWidget)
+        leftCreateLayout = qtCore.QVBoxLayout_(self.leftCreateWidget)
         leftCreateLayout.setContentsMargins(0, 0, 0, 0)
         leftCreateLayout.setSpacing(0)
         #
-        self.rightCreateWidget = uiCore.QWidget_()
+        self.rightCreateWidget = qtCore.QWidget_()
         self.rightCreateWidget.hide()
         createLayout.addWidget(self.rightCreateWidget)
         #
-        self.toolWidget = uiCore.QWidget_()
+        self.toolWidget = qtCore.QWidget_()
         self.toolWidget.hide()
         mainLayout.addWidget(self.toolWidget)
         #
-        toolLayout = uiCore.QGridLayout_(self.toolWidget)
+        toolLayout = qtCore.QGridLayout_(self.toolWidget)
         toolLayout.setContentsMargins(4, 4, 4, 4)
         toolLayout.setSpacing(2)
         #
-        self.topToolBar = uiWidgets_.xToolBar()
+        self.topToolBar = qtWidgets_.xToolBar()
         toolLayout.addWidget(self.topToolBar, 0, 0, 1, 2)
         #
-        self.leftExpandWidget = uiWidgets_.UiExpandWidget()
+        self.leftExpandWidget = qtWidgets_.QtExpandWidget()
         toolLayout.addWidget(self.leftExpandWidget, 1, 0, 1, 1)
         self.leftExpandWidget.setUiWidth(self.widthSet)
         #
-        self.leftToolWidget = uiCore.QWidget_()
+        self.leftToolWidget = qtCore.QWidget_()
         self.leftExpandWidget.addWidget(self.leftToolWidget)
         #
-        leftToolLayout = uiCore.QVBoxLayout_(self.leftToolWidget)
+        leftToolLayout = qtCore.QVBoxLayout_(self.leftToolWidget)
         leftToolLayout.setContentsMargins(0, 0, 0, 0)
         leftToolLayout.setSpacing(0)
         #
-        self.leftToolScrollBox = uiCore.QScrollArea_()
+        self.leftToolScrollBox = qtCore.QScrollArea_()
         leftToolLayout.addWidget(self.leftToolScrollBox)
         #
-        self.leftBottomToolBar = uiWidgets_.xToolBar()
+        self.leftBottomToolBar = qtWidgets_.xToolBar()
         leftToolLayout.addWidget(self.leftBottomToolBar)
         #
-        self._rightWidget = uiCore.QWidget_()
+        self._rightWidget = qtCore.QWidget_()
         toolLayout.addWidget(self._rightWidget, 1, 1, 1, 1)
         self._rightWidget.setMinimumWidth(self.widthSet)
         #
-        rightToolLayout = uiCore.QVBoxLayout_(self._rightWidget)
+        rightToolLayout = qtCore.QVBoxLayout_(self._rightWidget)
         rightToolLayout.setContentsMargins(0, 0, 0, 0)
         rightToolLayout.setSpacing(0)
         #
-        self.rightToolScrollBox = uiCore.QScrollArea_()
+        self.rightToolScrollBox = qtCore.QScrollArea_()
         rightToolLayout.addWidget(self.rightToolScrollBox)
         #
-        self.rightToolGroupBox = uiWidgets.UiToolGroupBox()
-        self.rightToolGroupBox.setExpanded(True)
-        self.rightToolScrollBox.addWidget(self.rightToolGroupBox)
+        self.rightToolboxGroup = qtWidgets.QtToolboxGroup()
+        self.rightToolboxGroup.setExpanded(True)
+        self.rightToolScrollBox.addWidget(self.rightToolboxGroup)
         #
-        self.treeBox = uiWidgets_.QTreeWidget_()
-        self.rightToolGroupBox.addWidget(self.treeBox)
+        self.treeBox = qtWidgets_.QTreeWidget_()
+        self.rightToolboxGroup.addWidget(self.treeBox)
         self.treeBox.itemSelectionChanged.connect(self.setSel)
         #
-        self.rightBottomToolBar = uiWidgets_.xToolBar()
+        self.rightBottomToolBar = qtWidgets_.xToolBar()
         rightToolLayout.addWidget(self.rightBottomToolBar)
         #
         self.setAstTopToolBar(self.topToolBar)
 
 
-@uiCore.uiSetupShowMethod
+@qtCore.uiSetupShowMethod
 def tableShow():
     ui = IfAssetProductToolWindow()
     ui.uiShow()

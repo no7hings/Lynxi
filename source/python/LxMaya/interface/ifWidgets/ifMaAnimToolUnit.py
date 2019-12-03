@@ -11,8 +11,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
-from LxUi import uiCore
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -31,7 +30,8 @@ from LxMaya.product import maScUploadCmds
 #
 from LxMaya.interface.ifCommands import maAnimTreeViewCmds
 #
-from LxDeadline import deadlineOp
+from LxDeadline.command import ddlUtil
+
 # Project Data
 currentProjectName = projectPr.getMayaProjectName()
 # File Label
@@ -119,7 +119,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
 
         width, height = 240, 240
         #
-        self._gridView = uiWidgets.UiGridView()
+        self._gridView = qtWidgets.QtGridview()
         self._gridView.setCheckEnable(True)
         self._gridView.setItemSize(240, 240 + 40)
         layout.addWidget(self._gridView)
@@ -180,7 +180,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             self._tagFilterIndexDic.setdefault(tag, []).append(seq)
             #
             viewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {}'.format(assetName, assetVariant))
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             gridView.addItem(gridItem)
             #
             gridItem.setName(viewExplain)
@@ -188,7 +188,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             #
             preview = dbGet.getDbAstPreviewFile(assetIndex, assetVariant)
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             #
@@ -240,7 +240,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
         self._initTagFilterAction(gridView)
     @staticmethod
     def setOpenAnimationManager():
-        IfToolWindow = uiWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.UiToolWindow()
         toolBox = IfScAnimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -256,23 +256,23 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
     def setupUnit(self):
         self.topToolBar().show()
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
         leftExpandWidget.setExpanded(False)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        centralLayout = uiCore.QVBoxLayout_(widget)
+        centralLayout = qtCore.QVBoxLayout_(widget)
         centralLayout.setContentsMargins(0, 0, 0, 0)
         centralLayout.setSpacing(0)
         self.setupCentralWidget(centralLayout)
@@ -349,12 +349,12 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setupModifyTab(self, layout):
         # Camera Box
-        self._cameraToolBox = uiWidgets.UiToolBox()
+        self._cameraToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self._cameraToolBox)
         self._cameraToolBox.setTitle('Scene ( Camera ) Modify')
         self.setupCameraToolUiBox(self._cameraToolBox)
         # Preview Box
-        self._previewToolBox = uiWidgets.UiToolBox()
+        self._previewToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self._previewToolBox)
         self._previewToolBox.setTitle('Scene ( Preview ) Modify')
         self.setupPreviewToolUiBox(self._previewToolBox)
@@ -362,51 +362,51 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupCameraToolUiBox(self, toolBox):
         inData = self.dicScCamTool
         #
-        self._scCameraFilterLabel = uiWidgets.UiFilterEnterlabel()
+        self._scCameraFilterLabel = qtWidgets.QtFilterEnterlabel()
         toolBox.setButton(inData, 'cameraSearch', self._scCameraFilterLabel)
         #
-        self._availableCameraTreeViewBox = uiWidgets_.QTreeWidget_()
+        self._availableCameraTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._availableCameraTreeViewBox, 1, 0, 1, 2)
         self._availableCameraTreeViewBox.setColumns(['Available Camera'], [4], self.widthSet / 2 - 32)
         self._availableCameraTreeViewBox.itemSelectionChanged.connect(self.setModifyBtnState)
         self._availableCameraTreeViewBox.itemSelectionChanged.connect(self.setRefreshMayaSceneSelection)
         self._availableCameraTreeViewBox.setFilterConnect(self._scCameraFilterLabel)
         #
-        self._activeCameraTreeViewBox = uiWidgets_.QTreeWidget_()
+        self._activeCameraTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._activeCameraTreeViewBox, 1, 2, 1, 2)
         self._activeCameraTreeViewBox.setColumns(['Active Camera'], [4], self.widthSet / 2 - 32)
         self._activeCameraTreeViewBox.itemSelectionChanged.connect(self.setModifyBtnState)
         self._activeCameraTreeViewBox.itemSelectionChanged.connect(self.setRefreshMayaSceneSelection)
         self._activeCameraTreeViewBox.setFilterConnect(self._scCameraFilterLabel)
         #
-        self._addCameraButton = uiWidgets.UiPressbutton()
+        self._addCameraButton = qtWidgets.QtPressbutton()
         self._addCameraButton.setPressable(False)
         toolBox.setButton(inData, 'addCamera', self._addCameraButton)
         self._addCameraButton.clicked.connect(self.setAddSceneCameras)
         #
-        self._removeCameraButton = uiWidgets.UiPressbutton()
+        self._removeCameraButton = qtWidgets.QtPressbutton()
         self._removeCameraButton.setPressable(False)
         toolBox.setButton(inData, 'removeCamera', self._removeCameraButton)
         self._removeCameraButton.clicked.connect(self.setRemoveSceneCameras)
         #
-        self._setCameraViewButton = uiWidgets.UiPressbutton()
+        self._setCameraViewButton = qtWidgets.QtPressbutton()
         self._setCameraViewButton.setPressable(False)
         toolBox.setButton(inData, 'setCameraView', self._setCameraViewButton)
         self._setCameraViewButton.clicked.connect(self.setCameraView)
         #
-        self.openHudButton = uiWidgets.UiPressbutton()
+        self.openHudButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'openHud', self.openHudButton)
         self.openHudButton.clicked.connect(self.setOpenHud)
         #
-        self.closeHudButton = uiWidgets.UiPressbutton()
+        self.closeHudButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'closeHud', self.closeHudButton)
         self.closeHudButton.clicked.connect(self.setCloseHud)
         #
-        self.createCameraButton = uiWidgets.UiPressbutton()
+        self.createCameraButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'createCamera', self.createCameraButton)
         self.createCameraButton.clicked.connect(self.setCreateCamera)
         #
-        self.updateCameraButton = uiWidgets.UiPressbutton()
+        self.updateCameraButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'updateCamera', self.updateCameraButton)
         self.updateCameraButton.setPressable(False)
         self.updateCameraButton.clicked.connect(self.setUpdateCamera)
@@ -416,38 +416,38 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupPreviewToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScPrvTool)
         #
-        self._previewFrameBox = uiWidgets.UiValueEnterlabel()
+        self._previewFrameBox = qtWidgets.QtValueEnterlabel()
         toolBox.addInfo('frame', self._previewFrameBox)
         self._previewFrameBox.setEnterEnable(True)
         #
-        self._previewSizeBox = uiWidgets.UiValueEnterlabel()
+        self._previewSizeBox = qtWidgets.QtValueEnterlabel()
         toolBox.addInfo('size', self._previewSizeBox)
         self._previewSizeBox.setEnterEnable(True)
         #
-        self._previewQualityLabel = uiWidgets.UiValueEnterlabel()
+        self._previewQualityLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addInfo('quality', self._previewQualityLabel)
         self._previewQualityLabel.setEnterEnable(True)
         self._previewQualityLabel.setDefaultValue(100)
         self._previewQualityLabel.setValueRange(0, 100)
         #
-        self._previewPercentLabel = uiWidgets.UiValueEnterlabel()
+        self._previewPercentLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addInfo('percent', self._previewPercentLabel)
         self._previewPercentLabel.setEnterEnable(True)
         self._previewPercentLabel.setDefaultValue(100)
         self._previewPercentLabel.setValueRange(0, 100)
         #
-        self.aviFormatButton = uiWidgets.UiRadioCheckbutton()
+        self.aviFormatButton = qtWidgets.QtRadioCheckbutton()
         toolBox.addButton('aviFormat', self.aviFormatButton)
         self.aviFormatButton.setChecked(True)
         #
-        self.movFormatButton = uiWidgets.UiRadioCheckbutton()
+        self.movFormatButton = qtWidgets.QtRadioCheckbutton()
         toolBox.addButton('movFormat', self.movFormatButton)
         #
-        self.openFolderButton = uiWidgets.UiCheckbutton()
+        self.openFolderButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('openFolder', self.openFolderButton)
         self.openFolderButton.setChecked(True)
         #
-        self._updateScenePreviewButton = uiWidgets.UiPressbutton()
+        self._updateScenePreviewButton = qtWidgets.QtPressbutton()
         self._updateScenePreviewButton.setPressable(False)
         toolBox.addButton('updatePreview', self._updateScenePreviewButton)
         self._updateScenePreviewButton.clicked.connect(self._updateScPreviewCmd)
@@ -455,7 +455,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addSeparators()
     #
     def setupImportTab(self, layout):
-        self._importCameraBox = uiWidgets.UiToolBox()
+        self._importCameraBox = qtWidgets.QtToolbox()
         layout.addWidget(self._importCameraBox)
         self._importCameraBox.setTitle('Scene ( Camera ) Import')
         self.setupCameraImportToolUiBox(self._importCameraBox)
@@ -463,31 +463,31 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupCameraImportToolUiBox(self, toolBox):
         inData = self.dicScCamImportTool
         #
-        self._scClassLabel = uiWidgets.UiEnterlabel()
+        self._scClassLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'classify', self._scClassLabel)
         self._scClassLabel.setChooseEnable(True)
         self._scClassLabel.chooseChanged.connect(self.setSceneNameUiLabelShow)
         #
-        self._scNameLabel = uiWidgets.UiEnterlabel()
+        self._scNameLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'name', self._scNameLabel)
         self._scNameLabel.setChooseEnable(True)
         self._scNameLabel.chooseChanged.connect(self.setSceneVariantUiLabelShow)
         #
-        self._scVariantLabel = uiWidgets.UiEnterlabel()
+        self._scVariantLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'variant', self._scVariantLabel)
         self._scVariantLabel.setChooseEnable(True)
         self._scVariantLabel.chooseChanged.connect(self.setImportBtnState)
         #
-        self._useMayaFileButton = uiWidgets.UiRadioCheckbutton()
+        self._useMayaFileButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'mayaFile', self._useMayaFileButton)
         self._useMayaFileButton.setChecked(True)
         self._useMayaFileButton.toggled.connect(self.setImportBtnState)
         #
-        self._useFbxFileButton = uiWidgets.UiRadioCheckbutton()
+        self._useFbxFileButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'fbxFile', self._useFbxFileButton)
         self._useFbxFileButton.toggled.connect(self.setImportBtnState)
         #
-        self._importCameraButton = uiWidgets.UiPressbutton()
+        self._importCameraButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'importCamera', self._importCameraButton)
         self._importCameraButton.setPressable(False)
         self._importCameraButton.clicked.connect(self.setImportCameraCmd)
@@ -513,7 +513,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 if not cameraPath in activeCameraLis:
                     cameraName = maUtils._toNodeName(cameraPath)
                     #
-                    cameraItem = uiWidgets_.QTreeWidgetItem_([cameraName])
+                    cameraItem = qtWidgets_.QTreeWidgetItem_([cameraName])
                     availableTreeBox.addItem(cameraItem)
                     cameraItem.setItemMayaIcon(0, appCfg.MaCameraType)
                     #
@@ -527,7 +527,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             for cameraPath in activeCameraLis:
                 cameraName = maUtils._toNodeName(cameraPath)
                 #
-                cameraItem = uiWidgets_.QTreeWidgetItem_([cameraName])
+                cameraItem = qtWidgets_.QTreeWidgetItem_([cameraName])
                 activeTreeBox.addItem(cameraItem)
                 cameraItem.setItemMayaIcon(0, appCfg.MaCameraType)
                 #
@@ -890,20 +890,20 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Modify', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupModifyTab(layout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Import', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupImportTab(layout)
 
 
@@ -934,15 +934,15 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupUtilToolUiBox(self, toolBox):
         inData = self.dicUtilsTool
         #
-        self.rigLoadedButton = uiWidgets.UiPressbutton()
+        self.rigLoadedButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'rigLoaded', self.rigLoadedButton)
         self.rigLoadedButton.clicked.connect(self.setRigLoadedShow)
         #
-        self.animationManagerButton = uiWidgets.UiPressbutton()
+        self.animationManagerButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'animationManager', self.animationManagerButton)
         self.animationManagerButton.clicked.connect(self.setOpenAnimationManager)
         #
-        self.simulationManagerButton = uiWidgets.UiPressbutton()
+        self.simulationManagerButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'simulationManager', self.simulationManagerButton)
         self.simulationManagerButton.clicked.connect(self.setOpenSimulationManager)
         #
@@ -965,7 +965,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         selectedData.append(i)
     @staticmethod
     def setRigLoadedShow():
-        IfToolWindow = uiWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.UiToolWindow()
         toolBox = IfScRigLoadedUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -979,7 +979,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         IfToolWindow.uiShow()
     @staticmethod
     def setOpenAnimationManager():
-        IfToolWindow = uiWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.UiToolWindow()
         toolBox = IfScAnimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -993,7 +993,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         IfToolWindow.uiShow()
     @staticmethod
     def setOpenSimulationManager():
-        IfToolWindow = uiWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.UiToolWindow()
         toolBox = IfSimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -1007,7 +1007,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         IfToolWindow.uiShow()
     #
     def setupUnit(self):
-        self._utilsToolUiBox = uiWidgets.UiToolBox()
+        self._utilsToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._utilsToolUiBox)
         self._utilsToolUiBox.setTitle('Scene ( Animation ) Utilities')
         self.setupUtilToolUiBox(self._utilsToolUiBox)
@@ -1035,13 +1035,13 @@ class IfScUtilToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupUtilsToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicUtils)
         #
-        self._cleanSceneButton = uiWidgets.UiPressbutton()
+        self._cleanSceneButton = qtWidgets.QtPressbutton()
         toolBox.addButton('astUnitClearScene', self._cleanSceneButton)
         #
         toolBox.addSeparators()
     #
     def setupUtilitiesToolPanel(self):
-        self.utilsBox = uiWidgets.UiToolBox()
+        self.utilsBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self.utilsBox)
         self.utilsBox.setTitle('Animation Utilities')
         self.setupUtilsToolUiBox(self.utilsBox)
@@ -1118,23 +1118,23 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             self._connectObject._scNoteUiLabel = self._scNoteUiLabel
     #
     def setupBasicTab(self, layout):
-        self._scTipToolUiBox = uiWidgets.UiToolBox()
+        self._scTipToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scTipToolUiBox)
         self._scTipToolUiBox.setTitle('Tip & Note')
         self.setupTipToolUiBox(self._scTipToolUiBox)
         #
-        self._scRangeUiToolBox = uiWidgets.UiToolBox()
-        layout.addWidget(self._scRangeUiToolBox)
-        self._scRangeUiToolBox.setTitle('Frame & Size')
-        self.setupRangeToolUiBox(self._scRangeUiToolBox)
+        self._scRangeQtToolbox = qtWidgets.QtToolbox()
+        layout.addWidget(self._scRangeQtToolbox)
+        self._scRangeQtToolbox.setTitle('Frame & Size')
+        self.setupRangeToolUiBox(self._scRangeQtToolbox)
         #
-        self._scAnimUploadUiBox = uiWidgets.UiToolBox()
+        self._scAnimUploadUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scAnimUploadUiBox)
         self._scAnimUploadUiBox.setTitle('Upload / Update')
         self.setupScUploadUiBox(self._scAnimUploadUiBox)
     #
     def setupExtendTab(self, layout):
-        self._scExtendUploadToolUiBox = uiWidgets.UiToolBox()
+        self._scExtendUploadToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scExtendUploadToolUiBox)
         self._scExtendUploadToolUiBox.setTitle('Upload / Update')
         self.setupScnExtendUploadToolUiBox(self._scExtendUploadToolUiBox)
@@ -1142,21 +1142,21 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupTipToolUiBox(self, toolBox):
         inData = self.dicScTip
         #
-        self._scTipUiLabel = uiWidgets.UiTextBrower()
+        self._scTipUiLabel = qtWidgets.QtTextBrower()
         toolBox.setInfo(inData, 'tips', self._scTipUiLabel)
         self._scTipUiLabel.setEnterEnable(False)
         self._scTipUiLabel.setRule(self.uploadTips)
         #
-        self._scNoteUiLabel = uiWidgets.UiTextBrower()
+        self._scNoteUiLabel = qtWidgets.QtTextBrower()
         toolBox.setButton(inData, 'notes', self._scNoteUiLabel)
     #
     def setupRangeToolUiBox(self, toolBox):
         inData = self.dicScRange
         #
-        self._scFrameValueLabel = uiWidgets.UiValueEnterlabel()
+        self._scFrameValueLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'animFrame', self._scFrameValueLabel)
         #
-        self._scRenderValueLabel = uiWidgets.UiValueEnterlabel()
+        self._scRenderValueLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'renderSize', self._scRenderValueLabel)
     #
     def setupScUploadUiBox(self, toolBox):
@@ -1169,28 +1169,28 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     i.setCheckable(boolean)
                     i.setChecked(boolean)
             #
-            self._scWithIndexButton = uiWidgets.UiCheckbutton()
+            self._scWithIndexButton = qtWidgets.QtCheckbutton()
             self._scWithIndexButton.setTooltip(
                 u'''是/否更新镜头索引'''
             )
             toolBox.setButton(inData, 'withIndex', self._scWithIndexButton)
             self._scWithIndexButton.clicked.connect(subRefreshCmd)
             #
-            indexSubWidget = uiCore.QWidget_()
-            indexSubLayout = uiCore.QHBoxLayout_(indexSubWidget)
+            indexSubWidget = qtCore.QWidget_()
+            indexSubLayout = qtCore.QHBoxLayout_(indexSubWidget)
             toolBox.setButton(inData, 'indexSub', indexSubWidget)
             #
-            self._scIndexWithCameraSubButton = uiWidgets.UiCheckbutton()
+            self._scIndexWithCameraSubButton = qtWidgets.QtCheckbutton()
             indexSubLayout.addWidget(self._scIndexWithCameraSubButton)
             self._scIndexWithCameraSubButton.setNameText('Camera')
             self._scIndexWithCameraSubButton.setChecked(True)
             #
-            self._scIndexWithAssetSubButton = uiWidgets.UiCheckbutton()
+            self._scIndexWithAssetSubButton = qtWidgets.QtCheckbutton()
             indexSubLayout.addWidget(self._scIndexWithAssetSubButton)
             self._scIndexWithAssetSubButton.setNameText('Asset')
             self._scIndexWithAssetSubButton.setChecked(True)
             #
-            self._scIndexWithScenerySubButton = uiWidgets.UiCheckbutton()
+            self._scIndexWithScenerySubButton = qtWidgets.QtCheckbutton()
             indexSubLayout.addWidget(self._scIndexWithScenerySubButton)
             self._scIndexWithScenerySubButton.setNameText('Scenery')
             self._scIndexWithScenerySubButton.setChecked(True)
@@ -1204,7 +1204,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 for i in checkButtonLis:
                     i.setCheckable(mainCheckButton.isChecked())
             #
-            self._scWithPreviewButton = uiWidgets.UiCheckbutton()
+            self._scWithPreviewButton = qtWidgets.QtCheckbutton()
             self._scWithPreviewButton.setTooltip(
                 u'''是/否更新镜头预览'''
             )
@@ -1212,18 +1212,18 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             self._scWithPreviewButton.setChecked(True)
             self._scWithPreviewButton.clicked.connect(subRefreshCmd)
             #
-            self._withLightSubButton = uiWidgets.UiCheckbutton()
+            self._withLightSubButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'withLight', self._withLightSubButton)
             #
-            previewSubWidget = uiCore.QWidget_()
-            previewSubLayout = uiCore.QHBoxLayout_(previewSubWidget)
+            previewSubWidget = qtCore.QWidget_()
+            previewSubLayout = qtCore.QHBoxLayout_(previewSubWidget)
             toolBox.setButton(inData, 'previewSub', previewSubWidget)
             #
-            self._aviFormatSubButton = uiWidgets.UiRadioCheckbutton()
+            self._aviFormatSubButton = qtWidgets.QtRadioCheckbutton()
             previewSubLayout.addWidget(self._aviFormatSubButton)
             self._aviFormatSubButton.setNameText('.avi')
             #
-            self._movFormatSubButton = uiWidgets.UiRadioCheckbutton()
+            self._movFormatSubButton = qtWidgets.QtRadioCheckbutton()
             previewSubLayout.addWidget(self._movFormatSubButton)
             self._movFormatSubButton.setNameText('.mov')
             self._movFormatSubButton.setChecked(True)
@@ -1231,7 +1231,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             subRefreshCmd()
         #
         def setupCameraBranch():
-            self._scWithCameraButton = uiWidgets.UiCheckbutton()
+            self._scWithCameraButton = qtWidgets.QtCheckbutton()
             self._scWithCameraButton.setTooltip(
                 u'''是/否更新镜头相机'''
             )
@@ -1244,28 +1244,28 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 for i in checkButtonLis:
                     i.setCheckable(mainCheckButton.isChecked())
             #
-            self._scWithAssetButton = uiWidgets.UiCheckbutton()
+            self._scWithAssetButton = qtWidgets.QtCheckbutton()
             toolBox.setButton(inData, 'withAsset', self._scWithAssetButton)
             self._scWithAssetButton.setTooltip(
                 u'''是/否更新镜头资产'''
             )
             #
-            assetSubWidget = uiCore.QWidget_()
-            assetSubLayout = uiCore.QHBoxLayout_(assetSubWidget)
+            assetSubWidget = qtCore.QWidget_()
+            assetSubLayout = qtCore.QHBoxLayout_(assetSubWidget)
             toolBox.setButton(inData, 'assetSub', assetSubWidget)
             self._scWithAssetButton.toggled.connect(subRefreshCmd)
             #
-            self._scAstWithModelCacheSubButton = uiWidgets.UiCheckbutton()
+            self._scAstWithModelCacheSubButton = qtWidgets.QtCheckbutton()
             assetSubLayout.addWidget(self._scAstWithModelCacheSubButton)
             self._scAstWithModelCacheSubButton.setNameText('Model Cache')
             self._scAstWithModelCacheSubButton.setChecked(True)
             #
-            self._scAstWithSolverCacheSubButton = uiWidgets.UiCheckbutton()
+            self._scAstWithSolverCacheSubButton = qtWidgets.QtCheckbutton()
             assetSubLayout.addWidget(self._scAstWithSolverCacheSubButton)
             self._scAstWithSolverCacheSubButton.setNameText('Solver Cache')
             self._scAstWithSolverCacheSubButton.setChecked(True)
             #
-            self._scAstWithRigExtraCacheSubButton = uiWidgets.UiCheckbutton()
+            self._scAstWithRigExtraCacheSubButton = qtWidgets.QtCheckbutton()
             assetSubLayout.addWidget(self._scAstWithRigExtraCacheSubButton)
             self._scAstWithRigExtraCacheSubButton.setNameText('Extra Cache')
             self._scAstWithRigExtraCacheSubButton.setChecked(True)
@@ -1282,15 +1282,15 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         # Asset
         setupAssetBranch()
         #
-        self._scWithSceneryButton = uiWidgets.UiCheckbutton()
+        self._scWithSceneryButton = qtWidgets.QtCheckbutton()
         self._scWithSceneryButton.setTooltip(
             u'''是/否更新镜头场景'''
         )
         toolBox.setButton(inData, 'withScenery', self._scWithSceneryButton)
         self._scWithSceneryButton.setChecked(True)
         #
-        self._scAnimUploadButton = uiWidgets.UiPressbutton()
-        self._scAnimUploadButton._setUiPressStatus(uiCore.OnStatus)
+        self._scAnimUploadButton = qtWidgets.QtPressbutton()
+        self._scAnimUploadButton._setQtPressStatus(qtCore.OnStatus)
         toolBox.setButton(inData, 'uploadAnimation', self._scAnimUploadButton)
         self._scAnimUploadButton.clicked.connect(self._scAnimUploadCmd)
         #
@@ -1299,7 +1299,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnExtendUploadToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScExtendUpload)
         #
-        self._assemblyComposeUploadButton = uiWidgets.UiPressbutton()
+        self._assemblyComposeUploadButton = qtWidgets.QtPressbutton()
         toolBox.addButton('assemblyComposeUpload', self._assemblyComposeUploadButton)
         self._assemblyComposeUploadButton.clicked.connect(self._scAssemblyComposeUploadCmd)
         self._assemblyComposeUploadButton.setTooltip(
@@ -1497,20 +1497,20 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         )
     #
     def setupUnit(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Basic', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupBasicTab(layout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Extend', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupExtendTab(layout)
 
 
@@ -1629,34 +1629,34 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupTipToolUiBox(self, toolBox):
         inData = self.dicScTip
         #
-        self._scTipUiLabel = uiWidgets.UiTextBrower()
+        self._scTipUiLabel = qtWidgets.QtTextBrower()
         toolBox.setInfo(inData, 'tips', self._scTipUiLabel)
         self._scTipUiLabel.setEnterEnable(False)
         self._scTipUiLabel.setRule(self.uploadTips)
         #
-        self._scNoteUiLabel = uiWidgets.UiTextBrower()
+        self._scNoteUiLabel = qtWidgets.QtTextBrower()
         toolBox.setButton(inData, 'notes', self._scNoteUiLabel)
     #
     def setupRenderOptionToolUiBox(self, toolBox):
         inData = self.dicScRenderInfo
         #
-        self._scRendererLabel = uiWidgets.UiEnterlabel()
+        self._scRendererLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'renderer', self._scRendererLabel)
         #
-        self._scTimeUnitLabel = uiWidgets.UiEnterlabel()
+        self._scTimeUnitLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'timeUnit', self._scTimeUnitLabel)
         #
-        self._scRenderImageLabel = uiWidgets.UiEnterlabel()
+        self._scRenderImageLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'renderImage', self._scRenderImageLabel)
         #
-        self._scRenderCameraLabel = uiWidgets.UiEnterlabel()
+        self._scRenderCameraLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'renderCamera', self._scRenderCameraLabel)
         #
-        self._scRenderFrameLabel = uiWidgets.UiValueEnterlabel()
+        self._scRenderFrameLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'renderFrame', self._scRenderFrameLabel)
         # self._scRenderFrameLabel.setEnterEnable(False)
         #
-        self._scRenderSizeBox = uiWidgets.UiValueEnterlabel()
+        self._scRenderSizeBox = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'renderSize', self._scRenderSizeBox)
         # self._scRenderSizeBox.setEnterEnable(False)
     #
@@ -1698,29 +1698,29 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupCustomizeToolUiBox(self, toolBox):
         inData = self.dicScWorkspace
         #
-        self._scRenderPathLabel = uiWidgets.UiEnterlabel()
+        self._scRenderPathLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'renderPath', self._scRenderPathLabel)
         #
-        self._scCustomizeLabel = uiWidgets.UiEnterlabel()
+        self._scCustomizeLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'customize', self._scCustomizeLabel)
         self._scCustomizeLabel.setEnterEnable(True)
         self._scCustomizeLabel.setChooseEnable(True)
         self._scCustomizeLabel.setTextValidator(48)
         #
-        self._scProjectUseLocalButton = uiWidgets.UiRadioCheckbutton()
+        self._scProjectUseLocalButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'useLocal', self._scProjectUseLocalButton)
         self._scProjectUseLocalButton.setChecked(True)
         #
-        self._scProjectUseServerButton = uiWidgets.UiRadioCheckbutton()
+        self._scProjectUseServerButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'useServer', self._scProjectUseServerButton)
         #
-        self.setRenderPathButton = uiWidgets.UiPressbutton()
+        self.setRenderPathButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'setRenderPath', self.setRenderPathButton)
         #
-        self.openRenderPathButton = uiWidgets.UiPressbutton()
+        self.openRenderPathButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'openRenderPath', self.openRenderPathButton)
         #
-        self.updateRenderIndexButton = uiWidgets.UiPressbutton()
+        self.updateRenderIndexButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'updateRenderIndex', self.updateRenderIndexButton)
         #
         toolBox.setSeparators(inData)
@@ -1871,23 +1871,23 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         inData = self.dicScUpload
         #
-        self.withLightLabel = uiWidgets.UiCheckbutton()
+        self.withLightLabel = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withLight', self.withLightLabel)
         self.withLightLabel.setTooltip(u'''启用 / 关闭 ：更新 镜头 - 灯光 文件''')
         self.withLightLabel.setChecked(True)
         #
-        self.withRenderLabel = uiWidgets.UiCheckbutton()
+        self.withRenderLabel = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withRender', self.withRenderLabel)
         self.withRenderLabel.setTooltip(u'''启用 / 关闭 ：更新 镜头 - 渲染 文件''')
         self.withRenderLabel.setChecked(True)
         #
-        self.withDeadlineLabel = uiWidgets.UiCheckbutton()
+        self.withDeadlineLabel = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withDeadline', self.withDeadlineLabel)
         self.withDeadlineLabel.setTooltip(u'''启用 / 关闭 ：发布 镜头 - 渲染（Deadline）任务''')
         self.withRenderLabel.toggled.connect(self.withDeadlineLabel.setCheckable)
         #
-        self._scLightUpdateButton = uiWidgets.UiPressbutton()
-        self._scLightUpdateButton._setUiPressStatus(uiCore.OnStatus)
+        self._scLightUpdateButton = qtWidgets.QtPressbutton()
+        self._scLightUpdateButton._setQtPressStatus(qtCore.OnStatus)
         toolBox.setButton(inData, 'updateScene', self._scLightUpdateButton)
         self._scLightUpdateButton.clicked.connect(setUpdateRender)
     #
@@ -1972,51 +1972,51 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupDdlOptionToolUiBox(self, toolBox):
         inData = self.dicDeadlineOption
         #
-        self._ddlJobTypeLabel = uiWidgets.UiEnterlabel()
+        self._ddlJobTypeLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ddlJobType', self._ddlJobTypeLabel)
         self._ddlJobTypeLabel.setChooseEnable(True)
         #
-        self._ddlJobPoolLabel = uiWidgets.UiEnterlabel()
+        self._ddlJobPoolLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ddlJobPool', self._ddlJobPoolLabel)
         self._ddlJobPoolLabel.setChooseEnable(True)
         #
-        self._ddlJobPriorityLabel = uiWidgets.UiValueEnterlabel()
+        self._ddlJobPriorityLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'ddlJobPriority', self._ddlJobPriorityLabel)
         self._ddlJobPriorityLabel.setEnterEnable(True)
         self._ddlJobPriorityLabel.setDefaultValue(50)
         self._ddlJobPriorityLabel.setValueRange(0, 100)
         #
-        self._ddlJobTimeoutLabel = uiWidgets.UiValueEnterlabel()
+        self._ddlJobTimeoutLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'ddlJobTimeout', self._ddlJobTimeoutLabel)
         self._ddlJobTimeoutLabel.setEnterEnable(True)
         self._ddlJobTimeoutLabel.setDefaultValue(4000)
         self._ddlJobTimeoutLabel.setValueRange(0, 5000)
         #
-        self._ddlJobMachineLimitLabel = uiWidgets.UiValueEnterlabel()
+        self._ddlJobMachineLimitLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'ddlJobMachineLimit', self._ddlJobMachineLimitLabel)
         self._ddlJobMachineLimitLabel.setEnterEnable(True)
         self._ddlJobMachineLimitLabel.setDefaultValue(20)
         self._ddlJobMachineLimitLabel.setValueRange(0, 100)
         #
-        self._ddlJobAbortErrorLabel = uiWidgets.UiValueEnterlabel()
+        self._ddlJobAbortErrorLabel = qtWidgets.QtValueEnterlabel()
         toolBox.setInfo(inData, 'ddlJobAbortError', self._ddlJobAbortErrorLabel)
         self._ddlJobAbortErrorLabel.setEnterEnable(True)
         self._ddlJobAbortErrorLabel.setDefaultValue(1)
         self._ddlJobAbortErrorLabel.setValueRange(0, 2)
         #
-        self._ddlJobWithEachLayerButton = uiWidgets.UiEnterlabel()
+        self._ddlJobWithEachLayerButton = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ddlJobWithEachLayer', self._ddlJobWithEachLayerButton)
         self._ddlJobWithEachLayerButton.setCheckEnable(True)
         self._ddlJobWithEachLayerButton.setChecked(True)
         #
-        self._ddlJobSizePercentLabel = uiWidgets.UiEnterlabel()
+        self._ddlJobSizePercentLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ddlJobSizePercent', self._ddlJobSizePercentLabel)
         self._ddlJobSizePercentLabel.setChooseEnable(True)
         #
         toolBox.setSeparators(inData)
     #
     def _initDdlOptionToolUiBox(self):
-        renderPools = deadlineOp.getDdlPools()
+        renderPools = ddlUtil.getDdlPools()
         #
         self._ddlJobTypeLabel.setDatumLis(appCfg.DdlJobs)
         self._ddlJobTypeLabel.setChoose(appCfg.DdlMaCmdJob)
@@ -2036,7 +2036,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._ddlJobSizePercentLabel.setChoose(self.percentLis[0])
     #
     def setupDdlRenderLayerToolUiBox(self, toolBox):
-        self._renderLayerTreeView = uiWidgets.UiTreeView()
+        self._renderLayerTreeView = qtWidgets.QtTreeview()
         self._renderLayerTreeView.setCheckEnable(True)
         toolBox.addWidget(self._renderLayerTreeView)
     #
@@ -2072,7 +2072,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             treeView.setActionData(actionDatumLis)
         #
-        self._frameTreeView = uiWidgets.UiTreeView()
+        self._frameTreeView = qtWidgets.QtTreeview()
         self._frameTreeView.setCheckEnable(True)
         toolBox.addWidget(self._frameTreeView)
         #
@@ -2145,24 +2145,26 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 data = self._commandEditBox.text()
                 maRender.setRenderPreMelCommand(data)
         #
-        self._melCommandFile = lxConfigure.getLxUserOsPath() + '/.render/melCommand/deadlineCommand.mel'
+        self._melCommandFile = '{}/{}/maya.mel/deadline.mel'.format(
+            lxConfigure.UserPreset().renderRoot(), self.projectName
+        )
         #
         inData = self.dicMelCommand
         #
-        self._addToMayaButton = uiWidgets.UiCheckbutton()
+        self._addToMayaButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'addToMayaFile', self._addToMayaButton)
         self._addToMayaButton.setChecked(False)
         self._addToMayaButton.clicked.connect(setRenderPreMelCommand)
         #
-        self._commandEditBox = uiWidgets.UiTextBrower()
+        self._commandEditBox = qtWidgets.QtTextBrower()
         toolBox.addWidget(self._commandEditBox, 1, 0, 1, 4)
         self._commandEditBox.textEdit().entryChanged.connect(setRenderPreMelCommand)
         #
-        self._commandSaveButton = uiWidgets.UiPressbutton()
+        self._commandSaveButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'save', self._commandSaveButton)
         self._commandSaveButton.clicked.connect(saveCmd)
         #
-        self._commandLoadButton = uiWidgets.UiPressbutton()
+        self._commandLoadButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'load', self._commandLoadButton)
         self._commandLoadButton.clicked.connect(loadCmd)
         #
@@ -2225,7 +2227,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             )
         inData = self.dicDeadlineSubmit
         #
-        self._ddlSubmitButton = uiWidgets.UiPressbutton()
+        self._ddlSubmitButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'submitDeadline', self._ddlSubmitButton)
         self._ddlSubmitButton.clicked.connect(scSubmitDeadlineCmd)
     #
@@ -2260,7 +2262,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 treeItem.setCheckable(boolean)
                 treeItem.setChecked(boolean)
             #
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             treeItem.setName(renderLayer)
             treeItem.setNameText([renderLayer, 'masterLayer'][renderLayer == 'defaultRenderLayer'])
@@ -2289,7 +2291,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setListFrame(self):
         def setBranch(frame):
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             treeItem.setName(str(frame))
             treeItem.setChecked(True)
@@ -2355,69 +2357,69 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         layout.addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
         self._tabWidget.currentChanged.connect(self._initDdlSubmitToolUiBox)
         #
-        renderScrollBox = uiCore.QScrollArea_()
+        renderScrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(renderScrollBox, 'Render', 'svg_basic@svg#tab')
         renderScrollBox.setSpacing(2)
         #
-        deadlineScrollBox = uiCore.QScrollArea_()
+        deadlineScrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(deadlineScrollBox, 'Deadline', 'svg_basic@svg#tab')
         deadlineScrollBox.setSpacing(2)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         renderScrollBox.addWidget(toolBox)
         toolBox.setTitle('Tip & Note', 1)
         self.setupTipToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         renderScrollBox.addWidget(toolBox)
         toolBox.setTitle('Render Option')
         self.setupRenderOptionToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         renderScrollBox.addWidget(toolBox)
         toolBox.setTitle('Customize')
         self.setupCustomizeToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         renderScrollBox.addWidget(toolBox)
         toolBox.setTitle('Upload / Update')
         self.setupUploadToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         deadlineScrollBox.addWidget(toolBox)
         toolBox.setTitle('Option')
         self.setupDdlOptionToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         deadlineScrollBox.addWidget(toolBox)
         toolBox.setTitle('Render Layer')
         toolBox.setExpanded(False)
         self.setupDdlRenderLayerToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         deadlineScrollBox.addWidget(toolBox)
         toolBox.setTitle('Frame')
         toolBox.setExpanded(False)
         self.setupDdlFrameTooUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         deadlineScrollBox.addWidget(toolBox)
         toolBox.setTitle('Mel Command')
         self.setupDdlMelCommandToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         deadlineScrollBox.addWidget(toolBox)
         toolBox.setTitle('Submit')
         self.setupDdlSubmitToolUiBox(toolBox)
@@ -2531,72 +2533,72 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         layout.addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
         self.modifyToolRefreshEnable = False
         self.switchToolRefreshEnable = False
         self.actToolRefreshEnable = False
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Basic', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupConstantTab(layout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Extend', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupModifyTab(layout)
         #
         self._tabWidget.currentChanged.connect(self.setRefreshEnableSwitch)
         self._tabWidget.currentChanged.connect(self.setRefreshUiState)
     # Constant Tab
     def setupConstantTab(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         #
         layout.addWidget(toolBox)
         toolBox.setTitle('Assets ( Rig ) Constant')
         self.setupChartToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Assets ( Rig ) Namespace')
         self.setupNamespaceToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Assets ( Rig ) Check')
         self.setupCheckToolUiBox(toolBox)
     #
     def setupChartToolUiBox(self, toolBox):
-        self._astModelSectorChart = uiWidgets.UiSectorChart()
+        self._astModelSectorChart = qtWidgets.QtSectorchart()
         toolBox.addWidget(self._astModelSectorChart, 0, 0, 1, 4)
     #
     def setupCheckToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicCheck)
         #
-        self.reduceAssetFileButton = uiWidgets.UiPressbutton()
+        self.reduceAssetFileButton = qtWidgets.QtPressbutton()
         self.reduceAssetFileButton.setPercentEnable(True)
         toolBox.addButton('reduceAssetFile', self.reduceAssetFileButton)
         self.reduceAssetFileButton.setTooltip('''Reduce Assets's ( Rig ) Directory''')
         self.reduceAssetFileButton.clicked.connect(self.setReduceAssetDirectory)
         #
-        self.reduceAssetNumberButton = uiWidgets.UiPressbutton()
+        self.reduceAssetNumberButton = qtWidgets.QtPressbutton()
         self.reduceAssetNumberButton.setPercentEnable(True)
         toolBox.addButton('reduceAssetNumber', self.reduceAssetNumberButton)
         self.reduceAssetNumberButton.setTooltip('''Reduce Assets's ( Rig ) Number''')
         self.reduceAssetNumberButton.clicked.connect(self.setAssetNumbers)
         #
-        self.reduceAssetNamespaceNamingButton = uiWidgets.UiPressbutton()
+        self.reduceAssetNamespaceNamingButton = qtWidgets.QtPressbutton()
         self.reduceAssetNamespaceNamingButton.setPercentEnable(True)
         toolBox.addButton('reduceAssetNamespaceNaming', self.reduceAssetNamespaceNamingButton)
         self.reduceAssetNamespaceNamingButton.setTooltip('''Reduce Assets's ( Rig ) Namespace Naming''')
         self.reduceAssetNamespaceNamingButton.clicked.connect(self.setReduceAssetNamespaceNaming)
         #
-        self.clearAssetHierarchyButton = uiWidgets.UiPressbutton()
+        self.clearAssetHierarchyButton = qtWidgets.QtPressbutton()
         self.clearAssetHierarchyButton.setPercentEnable(True)
         toolBox.addButton('clearAssetHierarchy', self.clearAssetHierarchyButton)
         self.clearAssetHierarchyButton.setTooltip('''Clear Assets's ( Rig ) Hierarchy''')
@@ -2606,7 +2608,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupNamespaceToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicNamespace)
         #
-        self.reduceAssetNamespaceHierarchyButton = uiWidgets.UiPressbutton()
+        self.reduceAssetNamespaceHierarchyButton = qtWidgets.QtPressbutton()
         self.reduceAssetNamespaceHierarchyButton.setPercentEnable(True)
         toolBox.addButton('reduceAssetNamespaceHierarchy', self.reduceAssetNamespaceHierarchyButton)
         self.reduceAssetNamespaceHierarchyButton.setTooltip('''Reduce Assets's ( Rig ) Namespace Hierarchy''')
@@ -2615,17 +2617,17 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addSeparators()
     # Modify Tab
     def setupModifyTab(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Modify')
         self.setupModifyToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Switch')
         self.setupSwitchToolUiBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Animation Key(s) Export')
         self.setupAnimExportToolUiBox(toolBox)
@@ -2633,21 +2635,21 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupModifyToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicModify)
         #
-        self.variantLabel = uiWidgets.UiEnterlabel()
+        self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
         self.variantLabel.setDatum(appVariant.astDefaultVersion)
         #
-        self.setVariantButton = uiWidgets.UiPressbutton()
+        self.setVariantButton = qtWidgets.QtPressbutton()
         toolBox.addButton('setVariant', self.setVariantButton)
         self.setVariantButton.clicked.connect(self.setAssetVariant)
         #
-        self.numberLabel = uiWidgets.UiValueEnterlabel()
+        self.numberLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addInfo('number', self.numberLabel)
         self.numberLabel.setDefaultValue(0)
         self.numberLabel.setValue(0)
         #
-        self.setNumberButton = uiWidgets.UiPressbutton()
+        self.setNumberButton = qtWidgets.QtPressbutton()
         toolBox.addButton('setNumber', self.setNumberButton)
         self.setNumberButton.clicked.connect(self.setAssetNumber)
         #
@@ -2656,22 +2658,22 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupSwitchToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicSwitch)
         #
-        self.switchToLowButton = uiWidgets.UiPressbutton()
+        self.switchToLowButton = qtWidgets.QtPressbutton()
         toolBox.addButton('switchToLow', self.switchToLowButton)
         self.switchToLowButton.setTooltip('''Switch Rig to Low - Quality''')
         self.switchToLowButton.clicked.connect(self.setRigSwitchToLow)
         #
-        self.switchToHighButton = uiWidgets.UiPressbutton()
+        self.switchToHighButton = qtWidgets.QtPressbutton()
         toolBox.addButton('switchToHigh', self.switchToHighButton)
         self.switchToHighButton.setTooltip('''Switch Rig to High - Quality''')
         self.switchToHighButton.clicked.connect(self.setRigSwitchToHigh)
         #
-        self.switchToGpuButton = uiWidgets.UiPressbutton()
+        self.switchToGpuButton = qtWidgets.QtPressbutton()
         toolBox.addButton('switchToGpu', self.switchToGpuButton)
         self.switchToGpuButton.setTooltip('''Switch Rig to GPU''')
         self.switchToGpuButton.clicked.connect(self.setRigSwitchToGpu)
         #
-        self.switchToRigButton = uiWidgets.UiPressbutton()
+        self.switchToRigButton = qtWidgets.QtPressbutton()
         toolBox.addButton('switchToRig', self.switchToRigButton)
         self.switchToRigButton.setTooltip('''Switch GPU to Rig''')
         self.switchToRigButton.clicked.connect(self.setGpuSwitchToRig)
@@ -2688,43 +2690,43 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         toolBox.setUiData(self.dicAnim)
         #
-        self.rootLabel = uiWidgets.UiEnterlabel()
+        self.rootLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('root', self.rootLabel)
         #
-        self.animExportTipsLabel = uiWidgets.UiTextBrower()
+        self.animExportTipsLabel = qtWidgets.QtTextBrower()
         toolBox.addInfo('tips', self.animExportTipsLabel)
         self.animExportTipsLabel.setEnterEnable(False)
         self.animExportTipsLabel.setRule(self.animExportTips)
         #
-        self.autoRootButton = uiWidgets.UiCheckbutton()
+        self.autoRootButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('autoRoot', self.autoRootButton)
         self.autoRootButton.setChecked(True)
         self.autoRootButton.toggled.connect(self.setAnimExpBtnState)
         #
-        self.exportAnimationButton = uiWidgets.UiPressbutton()
+        self.exportAnimationButton = qtWidgets.QtPressbutton()
         toolBox.addButton('exportAnimation', self.exportAnimationButton)
         self.exportAnimationButton.clicked.connect(self.setExportAnimation)
         #
-        self.importAnimationButton = uiWidgets.UiPressbutton()
+        self.importAnimationButton = qtWidgets.QtPressbutton()
         toolBox.addButton('importAnimation', self.importAnimationButton)
         self.importAnimationButton.clicked.connect(self.setImportAnimation)
         #
-        self.transferAnimationButton = uiWidgets.UiPressbutton()
+        self.transferAnimationButton = qtWidgets.QtPressbutton()
         # toolBox.addButton('transferAnimation', self.transferAnimationButton)
         self.transferAnimationButton.clicked.connect(self.setTransferAnimation)
         #
-        self.fromLabel = uiWidgets.UiEnterlabel()
+        self.fromLabel = qtWidgets.QtEnterlabel()
         # toolBox.addInfo('from', self.fromLabel)
         #
-        self.toLabel = uiWidgets.UiEnterlabel()
+        self.toLabel = qtWidgets.QtEnterlabel()
         # toolBox.addInfo('to', self.toLabel)
     #
     def setupRightWidget(self, layout):
-        self._rightTreeView = uiWidgets_.QTreeWidget_()
+        self._rightTreeView = qtWidgets_.QTreeWidget_()
         layout.addWidget(self._rightTreeView)
         self.setupRightTreeWidget(self._rightTreeView)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Information')
         self.setupRightBottomToolUiBox(toolBox)
@@ -2732,10 +2734,10 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupRightBottomToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicView)
         #
-        self.namespaceLabel = uiWidgets.UiEnterlabel()
+        self.namespaceLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('namespace', self.namespaceLabel)
         #
-        self.fileLabel = uiWidgets.UiEnterlabel()
+        self.fileLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('file', self.fileLabel)
     #
     def setupRightTreeWidget(self, treeBox):
@@ -2794,7 +2796,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     self._connectObject.setProgressValue(seq + 1, maxValue)
                 referenceNode = k
                 assetClass, assetName, number, assetVariant, state = v
-                assetItem = uiWidgets_.QTreeWidgetItem_()
+                assetItem = qtWidgets_.QTreeWidgetItem_()
                 #
                 treeBox.addItem(assetItem)
                 #
@@ -3509,21 +3511,21 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupUnit(self):
         self.topToolBar().show()
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.panelWidth / 2)
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         leftExpandWidget.addWidget(widget)
-        self._leftScrollLayout = uiCore.QVBoxLayout_(widget)
+        self._leftScrollLayout = qtCore.QVBoxLayout_(widget)
         self.setupLeftWidget(self._leftScrollLayout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        self._rightScrollLayout = uiCore.QVBoxLayout_(widget)
+        self._rightScrollLayout = qtCore.QVBoxLayout_(widget)
         self.setupRightWidget(self._rightScrollLayout)
 
 
@@ -3637,8 +3639,8 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget.setTabPosition(qtCore.South)
         layout.addWidget(self._tabWidget)
         self.setupLeftTabWidget(self._tabWidget)
     #
@@ -3647,22 +3649,22 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self.switchToolRefreshEnable = False
         self.actToolRefreshEnable = False
         #
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         tabWidget.addTab(scrollBox, 'Fur Cache(s)', 'svg_basic@svg#tab')
         self.setupScAstCfxFurCacheTab(scrollBox)
     #
     def setupScAstCfxFurCacheTab(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Upload')
         self.setupScAstCfxFurCacheWriteToolBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Load')
         self.setupScAstCfxFurCacheLoadToolBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Modify')
         #
@@ -3671,44 +3673,44 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScAstCfxFurCacheWriteToolBox(self, toolBox):
         inData = self.dicFurCacheWrite
         #
-        self.writeAllNodeButton = uiWidgets.UiCheckbutton()
+        self.writeAllNodeButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'writeAllNode', self.writeAllNodeButton)
         self.writeAllNodeButton.setChecked(True)
         self.writeAllNodeButton.toggled.connect(self.setUploadBtnState)
         self.writeAllNodeButton.toggled.connect(self.setWriteFurCacheTip)
         #
-        self.continueWriteButton = uiWidgets.UiCheckbutton()
+        self.continueWriteButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'continueWrite', self.continueWriteButton)
         self.continueWriteButton.setChecked(True)
         self.continueWriteButton.toggled.connect(self.setUploadBtnState)
         self.continueWriteButton.toggled.connect(self.setWriteFurCacheTip)
         #
-        self.overrideFrameButton = uiWidgets.UiCheckbutton()
+        self.overrideFrameButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'overrideFrame', self.overrideFrameButton)
         #
-        self._frameValueLabel = uiWidgets.UiValueEnterlabel()
+        self._frameValueLabel = qtWidgets.QtValueEnterlabel()
         self._frameValueLabel.hide()
         toolBox.setInfo(inData, 'frame', self._frameValueLabel)
         startFrame, endFrame = maUtils.getFrameRange()
         self._frameValueLabel.setDefaultValue([startFrame, endFrame])
         self.overrideFrameButton.toggled.connect(self._frameValueLabel.setVisible)
         #
-        self.overrideSampleButton = uiWidgets.UiCheckbutton()
+        self.overrideSampleButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'overrideSample', self.overrideSampleButton)
         #
-        self._sampleValueLabel = uiWidgets.UiValueEnterlabel()
+        self._sampleValueLabel = qtWidgets.QtValueEnterlabel()
         self._sampleValueLabel.hide()
         toolBox.setInfo(inData, 'sample', self._sampleValueLabel)
         self._sampleValueLabel.setDefaultValue(3)
         self.overrideSampleButton.toggled.connect(self._sampleValueLabel.setVisible)
         #
-        self._writeScAstCfxFurCacheButton = uiWidgets.UiPressbutton()
+        self._writeScAstCfxFurCacheButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'writeFurCache', self._writeScAstCfxFurCacheButton)
         self._writeScAstCfxFurCacheButton.setPercentEnable(True)
         self._writeScAstCfxFurCacheButton.setTooltip('''Upload Asset Character FX Fur Cache(s) to Server''')
         self._writeScAstCfxFurCacheButton.clicked.connect(self.setUploadScAstCfxFurCache)
         #
-        self.writeFurCacheTipLabel = uiWidgets.UiTextBrower()
+        self.writeFurCacheTipLabel = qtWidgets.QtTextBrower()
         toolBox.setInfo(inData, 'tip', self.writeFurCacheTipLabel)
         self.writeFurCacheTipLabel.setEnterEnable(False)
         self.writeFurCacheTipLabel.setRule(self.furCacheTips)
@@ -3718,31 +3720,31 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScAstCfxFurCacheLoadToolBox(self, toolBox):
         inData = self.dicFurCacheRead
         #
-        self.readAllNodeButton = uiWidgets.UiCheckbutton()
+        self.readAllNodeButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'readAllNode', self.readAllNodeButton)
         self.readAllNodeButton.setChecked(True)
         self.readAllNodeButton.toggled.connect(self.setLoadBtnState)
         self.readAllNodeButton.toggled.connect(self.setReadFurCacheTip)
         #
-        self.ignoreExistsButton = uiWidgets.UiCheckbutton()
+        self.ignoreExistsButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'ignoreExists', self.ignoreExistsButton)
         self.ignoreExistsButton.setChecked(True)
         self.ignoreExistsButton.toggled.connect(self.setLoadBtnState)
         self.ignoreExistsButton.toggled.connect(self.setReadFurCacheTip)
         #
-        self.ignoreStaticButton = uiWidgets.UiCheckbutton()
+        self.ignoreStaticButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'ignoreStatic', self.ignoreStaticButton)
         self.ignoreStaticButton.setChecked(True)
         self.ignoreStaticButton.toggled.connect(self.setLoadBtnState)
         self.ignoreStaticButton.toggled.connect(self.setReadFurCacheTip)
         #
-        self._readScAstCfxFurCacheButton = uiWidgets.UiPressbutton()
+        self._readScAstCfxFurCacheButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'readFurCache', self._readScAstCfxFurCacheButton)
         self._readScAstCfxFurCacheButton.setPercentEnable(True)
         self._readScAstCfxFurCacheButton.setTooltip('''Load Asset Character FX Fur Cache(s) from Server''')
         self._readScAstCfxFurCacheButton.clicked.connect(self.setLoadScAstCfxFurCache)
         #
-        self.readFurCacheTipLabel = uiWidgets.UiTextBrower()
+        self.readFurCacheTipLabel = qtWidgets.QtTextBrower()
         toolBox.setInfo(inData, 'tip', self.readFurCacheTipLabel)
         self.readFurCacheTipLabel.setEnterEnable(False)
         self.readFurCacheTipLabel.setRule(self.furCacheTips)
@@ -3750,11 +3752,11 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.setSeparators(inData)
     #
     def setupRightWidget(self, layout):
-        self.topToolBar = uiWidgets_.xToolBar()
+        self.topToolBar = qtWidgets_.xToolBar()
         layout.addWidget(self.topToolBar)
         self.setupTopToolBar(self.topToolBar)
         #
-        self._rightTreeView = uiWidgets_.QTreeWidget_()
+        self._rightTreeView = qtWidgets_.QTreeWidget_()
         layout.addWidget(self._rightTreeView)
         self._rightTreeView.setFilterConnect(self._filterEnterLabel)
     #
@@ -3767,35 +3769,35 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             treeBox = self._rightTreeView
             return treeBox.clearSelection()
         #
-        self._selectAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self._selectAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBar.addWidget(self._selectAllButton)
         self._selectAllButton.clicked.connect(setSelectAll)
         #
-        self._selectClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self._selectClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBar.addWidget(self._selectClearButton)
         self._selectClearButton.clicked.connect(setSelectClear)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         toolBar.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolBar.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setListScAstCfxFurNode)
     #
     def setupScAstCfxFurCacheModifyToolBox(self, toolBox):
         inData = self.dicBottomTool
-        self.openCacheLocalFolderButton = uiWidgets.UiPressbutton()
+        self.openCacheLocalFolderButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'openLocalFolder', self.openCacheLocalFolderButton)
         self.openCacheLocalFolderButton.clicked.connect(self.setOpenCacheLocalFolder)
         #
-        self.openCacheServerFolderButton = uiWidgets.UiPressbutton()
+        self.openCacheServerFolderButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'openServerFolder', self.openCacheServerFolderButton)
         self.openCacheServerFolderButton.clicked.connect(self.setOpenCacheServerFolder)
         #
-        self.checkAllNodeButton = uiWidgets.UiCheckbutton()
+        self.checkAllNodeButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'checkAllNode', self.checkAllNodeButton)
         #
-        self.nurbsHairCacheCheckButton = uiWidgets.UiPressbutton()
+        self.nurbsHairCacheCheckButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'nurbsHairCacheCheck', self.nurbsHairCacheCheckButton)
         self.nurbsHairCacheCheckButton.setPercentEnable(True)
         #
@@ -3828,7 +3830,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             def setScAstBranch(assetDataLis):
                 def setAstCfxFurBranch(nodeDataLis):
                     def setAstCfxFurSubBranch(furObjectPath):
-                        cfxFurItem = uiWidgets_.QTreeWidgetItem_()
+                        cfxFurItem = qtWidgets_.QTreeWidgetItem_()
                         assetItem.addChild(cfxFurItem)
                         #
                         cfxFurLabel = maFur.getFurObjectLabel(furObjectPath, assetName)
@@ -4101,7 +4103,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 for assetIndex, assetClass, assetName, number, assetVariant, furNodesInAsset in assetDataLis:
                     furNodesInScene.extend(furNodesInAsset)
                     #
-                    assetItem = uiWidgets_.QTreeWidgetItem_()
+                    assetItem = qtWidgets_.QTreeWidgetItem_()
                     sceneItem.addChild(assetItem)
                     #
                     assetIcon = 'svg_basic@svg#package_object'
@@ -4137,7 +4139,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 sceneShowName = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneVariant)
                 #
-                sceneItem = uiWidgets_.QTreeWidgetItem_()
+                sceneItem = qtWidgets_.QTreeWidgetItem_()
                 treeBox.addItem(sceneItem)
                 #
                 sceneItemWidget = sceneItem.setItemIconWidget(0, sceneItemIcon0, sceneShowName, sceneIconSubLabel)
@@ -4619,21 +4621,21 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self._correctCfxNurbsHairItems = []
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         leftExpandWidget.addWidget(widget)
-        self._leftScrollLayout = uiCore.QVBoxLayout_(widget)
+        self._leftScrollLayout = qtCore.QVBoxLayout_(widget)
         self.setupLeftWidget(self._leftScrollLayout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        self._rightScrollLayout = uiCore.QVBoxLayout_(widget)
+        self._rightScrollLayout = qtCore.QVBoxLayout_(widget)
         self.setupRightWidget(self._rightScrollLayout)

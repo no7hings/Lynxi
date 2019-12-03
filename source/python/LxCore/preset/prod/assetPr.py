@@ -6,8 +6,9 @@ from LxCore.config import assetCfg
 from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr
-#
-serverBasicPath = lxConfigure._getLxBasicPath()
+# do not delete and rename
+serverBasicPath = lxConfigure.Root().root()
+localBasicPath = lxConfigure.Root().userRoot()
 #
 none = ''
 

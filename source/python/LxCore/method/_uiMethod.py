@@ -1,11 +1,10 @@
 # coding:utf-8
 import types
 #
-from LxUi import uiCore
 #
 from LxCore.config import appConfig
 #
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets, qtCore
 #
 from LxCore.method import _osMethod
 #
@@ -69,7 +68,7 @@ class UiSvgMethod(_osMethod.OsFileMethod):
                 cls.writeOsData(curData, osSvgCurFile)
     @classmethod
     def getOsSvgFileLis(cls):
-        developPath = cls._lxDevelopPath()
+        developPath = cls._lxDevelopRoot()
         osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
         stringLis = cls.getOsFileBasenameLisByPath(osPath)
@@ -85,7 +84,7 @@ class UiSvgMethod(_osMethod.OsFileMethod):
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis_(cls):
-        developPath = cls._lxDevelopPath()
+        developPath = cls._lxDevelopRoot()
         osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
         stringLis = cls.getOsFileBasenameLisByPath(osPath)
@@ -101,7 +100,7 @@ class UiSvgMethod(_osMethod.OsFileMethod):
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis__(cls):
-        developPath = cls._lxDevelopPath()
+        developPath = cls._lxDevelopRoot()
         osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
         stringLis = cls.getOsFileBasenameLisByPath(osPath)
@@ -118,7 +117,7 @@ class UiSvgMethod(_osMethod.OsFileMethod):
 
 
 #
-class UiViewMethod(_methodBasic.LxUiMethodBasic, _methodBasic.LxPathMethodBasic, appConfig.LxUiConfig):
+class QtViewMethod(_methodBasic.LxUiMethodBasic, _methodBasic.LxPathMethodBasic, appConfig.LxUiConfig):
     @classmethod
     def setTreeView(cls, treeBox, treeViewBuildDic, branchViewMethod=None, expandedDic=None):
         def setBranch(parentData):
@@ -127,7 +126,7 @@ class UiViewMethod(_methodBasic.LxUiMethodBasic, _methodBasic.LxPathMethodBasic,
                 branchArray = treeViewBuildDic[parentData]
                 for branchData in branchArray:
                     nameString, pathString = branchData
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     treeItem.path = pathString
                     treeItem.name = nameString
                     #
@@ -175,7 +174,7 @@ class UiViewMethod(_methodBasic.LxUiMethodBasic, _methodBasic.LxPathMethodBasic,
                 else:
                     iconKeyword = 'svg_basic@svg#file'
             else:
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
                 iconKeyword = 'object#unknown'
             #
             treeItem.setName(osName)
@@ -196,7 +195,7 @@ class UiViewMethod(_methodBasic.LxUiMethodBasic, _methodBasic.LxPathMethodBasic,
                 pass
             #
             enable, enExplain, chExplain = value
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             #
             treeItem.setName(key)

@@ -5,9 +5,9 @@ from LxCore.preset import pipePr, personnelPr
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi import uiCore
+from LxUi import uiConfigure
 #
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets, qtCore
 #
 from LxInterface.qt.ifWidgets import ifProductGroup
 #
@@ -15,20 +15,20 @@ from LxInterface.qt.ifWidgets import ifShelf
 
 
 #
-class IfProjectWindow(uiWidgets.UiDialogWindow):
+class IfProjectWindow(qtWidgets.UiDialogWindow):
     _Title = 'Project'
-    _Version = lxConfigure.Version().active()
+    _Version = lxConfigure.Version().local()
     def __init__(self):
         super(IfProjectWindow, self).__init__()
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
@@ -38,7 +38,7 @@ class IfProjectWindow(uiWidgets.UiDialogWindow):
 
 
 # Artist Panel
-class IfPersonnelWindow(uiWidgets.UiDialogWindow):
+class IfPersonnelWindow(qtWidgets.UiDialogWindow):
     user = personnelPr.getUser()
     #
     tips = [
@@ -63,8 +63,8 @@ class IfPersonnelWindow(uiWidgets.UiDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfPersonnelWindow, self).__init__(parent)
         #
         self.setDefaultSize(960, 480)
@@ -80,52 +80,52 @@ class IfPersonnelWindow(uiWidgets.UiDialogWindow):
     def setupLeftToolUiBox(self, layout):
         w = 100
         # User Name
-        self._userNameLabel = uiWidgets.UiEnterlabel()
+        self._userNameLabel = qtWidgets.QtEnterlabel()
         self._userNameLabel.setNameText('User')
         self._userNameLabel.setNameTextWidth(w)
         layout.addWidget(self._userNameLabel, 0, 0, 1, 1)
         #
-        self._chNameLabel = uiWidgets.UiEnterlabel()
+        self._chNameLabel = qtWidgets.QtEnterlabel()
         self._chNameLabel.setNameText('CH - Name')
         self._chNameLabel.setNameTextWidth(w)
         self._chNameLabel.setEnterEnable(True)
         layout.addWidget(self._chNameLabel, 1, 0, 1, 1)
         #
-        self._enNameLabel = uiWidgets.UiEnterlabel()
+        self._enNameLabel = qtWidgets.QtEnterlabel()
         self._enNameLabel.setNameText('EN - Name')
         self._enNameLabel.setNameTextWidth(w)
         self._enNameLabel.setEnterEnable(True)
         layout.addWidget(self._enNameLabel, 2, 0, 1, 1)
         #
-        self._mailLabel = uiWidgets.UiEnterlabel()
+        self._mailLabel = qtWidgets.QtEnterlabel()
         self._mailLabel.setNameText('E - Mail')
         self._mailLabel.setNameTextWidth(w)
         self._mailLabel.setEnterEnable(True)
         layout.addWidget(self._mailLabel, 3, 0, 1, 1)
         #
-        self._teamLabel = uiWidgets.UiEnterlabel()
+        self._teamLabel = qtWidgets.QtEnterlabel()
         self._teamLabel.setNameText('Team')
         self._teamLabel.setNameTextWidth(w)
         self._teamLabel.setChooseEnable(True)
         layout.addWidget(self._teamLabel, 4, 0, 1, 1)
         #
-        self._postLabel = uiWidgets.UiEnterlabel()
+        self._postLabel = qtWidgets.QtEnterlabel()
         self._postLabel.setNameText('Post')
         self._postLabel.setNameTextWidth(w)
         layout.addWidget(self._postLabel, 5, 0, 1, 1)
         #
-        self._pcLabel = uiWidgets.UiEnterlabel()
+        self._pcLabel = qtWidgets.QtEnterlabel()
         self._pcLabel.setNameText('PC')
         self._pcLabel.setNameTextWidth(w)
         layout.addWidget(self._pcLabel, 6, 0, 1, 1)
         #
-        self._ipLabel = uiWidgets.UiEnterlabel()
+        self._ipLabel = qtWidgets.QtEnterlabel()
         self._ipLabel.setNameText('IP')
         self._ipLabel.setNameTextWidth(w)
         layout.addWidget(self._ipLabel, 7, 0, 1, 1)
     #
     def setupRightToolUiBox(self, layout):
-        self._tipLabel = uiWidgets.UiTextBrower()
+        self._tipLabel = qtWidgets.QtTextBrower()
         self._tipLabel.setEnterEnable(False)
         layout.addWidget(self._tipLabel)
     #
@@ -188,41 +188,41 @@ class IfPersonnelWindow(uiWidgets.UiDialogWindow):
             #
             lxTip.viewMessage(u'提示：', u'设置用户信息成功')
             self.uiQuit()
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        group = uiWidgets.UiVShelfTabGroup()
+        group = qtWidgets.QtVShelfTabGroup()
         self.addWidget(group)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         group.addTab(widget, 'personnelShelf', 'svg_basic@svg#personnel', u'User Panel （用户面板）')
-        layout = uiCore.QHBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QHBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         #
-        leftWidget = uiCore.QWidget_()
+        leftWidget = qtCore.QWidget_()
         layout.addWidget(leftWidget)
-        rightWidget = uiCore.QWidget_()
+        rightWidget = qtCore.QWidget_()
         layout.addWidget(rightWidget)
         rightWidget.setMaximumWidth(480)
         #
-        userLeftLayout = uiCore.QGridLayout_(leftWidget)
+        userLeftLayout = qtCore.QGridLayout_(leftWidget)
         userLeftLayout.setContentsMargins(2, 2, 2, 2)
-        userLeftLayout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        userLeftLayout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupLeftToolUiBox(userLeftLayout)
         #
-        userRightLayout = uiCore.QVBoxLayout_(rightWidget)
-        userRightLayout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        userRightLayout = qtCore.QVBoxLayout_(rightWidget)
+        userRightLayout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         userRightLayout.setContentsMargins(2, 2, 2, 2)
         self.setupRightToolUiBox(userRightLayout)
 
 
 #
-class IfToolFloatWindow(uiWidgets.UiFloatWindow):
+class IfToolFloatWindow(qtWidgets.UiFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfToolFloatWindow, self).__init__(parent)
         #
         self.setDefaultSize(160, 320)
@@ -245,7 +245,7 @@ class IfToolFloatWindow(uiWidgets.UiFloatWindow):
     def setupShelf(self):
         presetDic = projectPr.getProjectMayaShelfDataDic()
         if presetDic:
-            shelf = uiWidgets.UiVShelfTabGroup()
+            shelf = qtWidgets.QtVShelfTabGroup()
             self.addWidget(shelf)
             #
             shelfDic = {}
@@ -254,12 +254,12 @@ class IfToolFloatWindow(uiWidgets.UiFloatWindow):
                     shelfName = v['shelfName']
                     shelfIcon = v['shelfIcon']
                     shelfTip = v['shelfTip']
-                    widget = uiCore.QWidget_()
+                    widget = qtCore.QWidget_()
                     shelf.addTab(widget, k, 'svg_basic@svg#{}'.format(k)[:-5], shelfTip)
-                    layout = uiCore.QVBoxLayout_(widget)
+                    layout = qtCore.QVBoxLayout_(widget)
                     layout.setContentsMargins(2, 2, 2, 2)
                     #
-                    gridView = uiWidgets.UiGridView()
+                    gridView = qtWidgets.QtGridview()
                     layout.addWidget(gridView)
                     gridView.setItemSize(48, 48)
                     shelfDic[k] = gridView
@@ -277,7 +277,7 @@ class IfToolFloatWindow(uiWidgets.UiFloatWindow):
                     helpCommand = v['helpCommand']
                     helpTip = v['helpTip']
                     #
-                    iconButton = uiWidgets.UiIconbutton()
+                    iconButton = qtWidgets.QtIconbutton()
                     gridView.addItem(iconButton)
                     iconButton.setName(toolName)
                     iconButton.setIcon(toolIcon, 32, 32, 48, 48)
@@ -285,7 +285,7 @@ class IfToolFloatWindow(uiWidgets.UiFloatWindow):
                     iconButton.setPressCommand(toolCommand)
                     iconButton.setExtendPressCommand(helpCommand)
                     iconButton.setTooltip(toolTip)
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
@@ -295,13 +295,13 @@ class IfToolFloatWindow(uiWidgets.UiFloatWindow):
 
 
 #
-class IfToolkitWindow(uiWidgets.UiToolWindow):
+class IfToolkitWindow(qtWidgets.UiToolWindow):
     leftBoxWidth = 160
     #
     projectName = projectPr.getMayaProjectName()
     _Title = 'Tool Kit'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfToolkitWindow, self).__init__(parent)
         #
         self.setDefaultSize(600, 800)
@@ -312,7 +312,7 @@ class IfToolkitWindow(uiWidgets.UiToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiSetupShowMethod_
+    @qtCore.uiSetupShowMethod_
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -326,20 +326,20 @@ class IfToolkitWindow(uiWidgets.UiToolWindow):
 
 
 #
-class IfProductManagerWindow(uiWidgets.UiWindow):
+class IfProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfProductManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiSetupShowMethod_
+    @qtCore.uiSetupShowMethod_
     def windowShow(self):
         self.uiShow()
     #
@@ -349,20 +349,20 @@ class IfProductManagerWindow(uiWidgets.UiWindow):
 
 
 #
-class IfAssetManagerWindow(uiWidgets.UiToolWindow):
+class IfAssetManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfAssetManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiSetupShowMethod_
+    @qtCore.uiSetupShowMethod_
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -371,7 +371,7 @@ class IfAssetManagerWindow(uiWidgets.UiToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = uiWidgets.UiVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabGroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfAssetProductGroup(self)
@@ -381,20 +381,20 @@ class IfAssetManagerWindow(uiWidgets.UiToolWindow):
 
 
 #
-class IfSceneryManagerWindow(uiWidgets.UiToolWindow):
+class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneryManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiSetupShowMethod_
+    @qtCore.uiSetupShowMethod_
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -403,7 +403,7 @@ class IfSceneryManagerWindow(uiWidgets.UiToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = uiWidgets.UiVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabGroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfSceneryProductGroup(self)
@@ -413,20 +413,20 @@ class IfSceneryManagerWindow(uiWidgets.UiToolWindow):
 
 
 #
-class IfSceneManagerWindow(uiWidgets.UiToolWindow):
+class IfSceneManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxConfigure.Version().active()
-    def __init__(self, parent=uiCore.getAppWindow()):
+    _Version = lxConfigure.Version().local()
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @uiCore.uiSetupShowMethod_
+    @qtCore.uiSetupShowMethod_
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -435,7 +435,7 @@ class IfSceneManagerWindow(uiWidgets.UiToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = uiWidgets.UiVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabGroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfSceneProductGroup(self)

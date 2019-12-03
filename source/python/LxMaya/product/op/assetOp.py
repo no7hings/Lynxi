@@ -19,14 +19,14 @@ none = ''
 # Clean Node By Name
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     nodes = [i for i in inData if maUtils.isAppExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
             if maUtils.isAppExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
-                lxConfigure.traceResult(node)
+                lxConfigure.Message().traceResult(node)
 
 
 # Assign Default Shader
@@ -65,7 +65,7 @@ def setObjectTransparentRefresh(objectLis):
 # Clean Object's Unused Shape
 def setObjectUnusedShapeClear(objectLis):
     explain = u'''Clean Unused - Shape'''
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     errorObjects = []
     # Get Error Objects
     for objectString in objectLis:
@@ -81,7 +81,7 @@ def setObjectUnusedShapeClear(objectLis):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    lxConfigure.traceResult(maUtils._toNodeName(shape))
+                    lxConfigure.Message().traceResult(maUtils._toNodeName(shape))
 
 
 # Clean Unused Shader
@@ -130,35 +130,35 @@ def cleanUnusedAov(logWin):
 #
 def setDisplayLayerClear():
     explain = u'''Clean Display - Layer'''
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     displayLayers = [i for i in cmds.ls(type='displayLayer') if i != 'defaultLayer' and cmds.getAttr(i + '.displayOrder') != 0 and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if displayLayers:
         cmds.lockNode(displayLayers, lock=0)
         cmds.delete(displayLayers)
-        [lxConfigure.traceResult(i) for i in displayLayers]
+        [lxConfigure.Message().traceResult(i) for i in displayLayers]
 
 
 #
 def setCleanRenderLayer():
     explain = u'''Clean Render - Layer'''
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     renderLayers = [i for i in cmds.ls(type='renderLayer') if i != 'defaultRenderLayer' and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if renderLayers:
         cmds.lockNode(renderLayers, lock=0)
         cmds.delete(renderLayers)
-        [lxConfigure.traceResult(i) for i in renderLayers]
+        [lxConfigure.Message().traceResult(i) for i in renderLayers]
 
 
 #
 def setCleanReferenceFile():
     explain = u'''Clean Reference - File(s)'''
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     referenceNodeLis = cmds.ls(type='reference')
     if referenceNodeLis:
         for referenceNode in referenceNodeLis:
             try:
                 cmds.file(cmds.referenceQuery(referenceNode, filename=1), removeReference=1)
-                lxConfigure.traceResult(referenceNode)
+                lxConfigure.Message().traceResult(referenceNode)
             except:
                 pass
 
@@ -166,12 +166,12 @@ def setCleanReferenceFile():
 #
 def setCleanReferenceNode():
     explain = u'''Clean Reference - Node(s)'''
-    lxConfigure.traceMessage(explain)
+    lxConfigure.Message().trace(explain)
     referenceNodeLis = [i for i in cmds.ls(type="reference") if cmds.lockNode(i, q=1)]
     if referenceNodeLis:
         cmds.lockNode(referenceNodeLis, lock=0)
         cmds.delete(referenceNodeLis)
-        [lxConfigure.traceResult(i) for i in referenceNodeLis]
+        [lxConfigure.Message().traceResult(i) for i in referenceNodeLis]
 
 
 # Link Component Main Object Group Step01

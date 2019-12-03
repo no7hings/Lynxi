@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxUi import uiCore
+from LxUi.qt import qtCore
 # noinspection PyUnresolvedReferences
 import shiboken2
 # noinspection PyUnresolvedReferences
@@ -47,7 +47,7 @@ def setMayaMenu():
         #
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap(uiCore._toLxOsIconFile(iconKeyword)),
+            QtGui.QPixmap(qtCore._toLxOsIconFile(iconKeyword)),
             QtGui.QIcon.Normal, QtGui.QIcon.Off
         )
         actionItem.setIcon(icon)
@@ -59,11 +59,6 @@ def setMayaMenu():
         #
         w = ifProductWindow.IfToolFloatWindow()
         w.windowShow()
-    #
-    def toolKitControlCmd():
-        from LxMaya.operation import maUiBuild
-        toolKit = maUiBuild.MaToolKitBuild()
-        toolKit.show()
     #
     def toolKitCmd():
         from LxInterface.qt.ifWidgets import ifProductWindow
@@ -96,7 +91,7 @@ def setMayaMenu():
                             actionItem = lynxiMenu.addAction(suTitle)
                             icon = QtGui.QIcon()
                             icon.addPixmap(
-                                QtGui.QPixmap(uiCore._toLxOsIconFile(iconKeyword)),
+                                QtGui.QPixmap(qtCore._toLxOsIconFile(iconKeyword)),
                                 QtGui.QIcon.Normal, QtGui.QIcon.Off
                             )
                             actionItem.setIcon(icon)

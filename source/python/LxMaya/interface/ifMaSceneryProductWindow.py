@@ -8,9 +8,8 @@ from LxCore.preset import pipePr, appVariant
 #
 from LxCore.preset.prod import projectPr, sceneryPr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit
 #
@@ -24,13 +23,13 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxConfigure.Version().active()
+_version = lxConfigure.Version().local()
 
 
 #
-class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
+class IfSceneryProductToolWindow(qtWidgets.UiToolWindow):
     widthSet = 400
-    def __init__(self, parent=uiCore.getAppWindow()):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneryProductToolWindow, self).__init__(parent)
         self.setDefaultSize(self.widthSet, 875)
         #
@@ -60,18 +59,18 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
         self.createWidget.hide()
     #
     def setScnTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._infoLabel = uiWidgets.UiEnterlabel()
+        self._infoLabel = qtWidgets.QtEnterlabel()
         layout.addWidget(self._infoLabel)
         self._infoLabel.setNameTextWidth(0)
         #
-        self.filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self.filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self.filterEnterLabel)
         self.treeBox.setFilterConnect(self.filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         layout.addWidget(self._refreshButton)
         # self._refreshButton.clicked.connect(self.setRefresh)
     #
@@ -102,7 +101,7 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
             tooltip = toolUnit.UnitTooltip
             # Toggle Button
             toggleButton = None
-            toggleButtonCreateCmd = 'self.{0}ToggleButton = uiWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
+            toggleButtonCreateCmd = 'self.{0}ToggleButton = qtWidgets_.QRadioButton_();toggleButton = self.{0}ToggleButton'.format(key)
             exec toggleButtonCreateCmd
             toggleButton.setIconExplain(iconKeyword, 32, 32)
             #
@@ -112,7 +111,7 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
             toggleButton.setTooltip(tooltip)
             # Tool Group
             toolGroupBox = None
-            toolGroupBoxCreateCmd = 'self.{0}GroupBox = uiWidgets.UiToolGroupBox();toolGroupBox = self.{0}GroupBox'.format(key)
+            toolGroupBoxCreateCmd = 'self.{0}GroupBox = qtWidgets.QtToolboxGroup();toolGroupBox = self.{0}GroupBox'.format(key)
             exec toolGroupBoxCreateCmd
             toolGroupBox.hide()
             toolGroupBox.setExpanded(True)
@@ -127,7 +126,7 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
         self.toolWidget.show()
     #
     def setScnRightToolBox(self):
-        self.scnHierarchyToggleButton = uiWidgets_.QRadioButton_()
+        self.scnHierarchyToggleButton = qtWidgets_.QRadioButton_()
         #
         uiData = [
             (self.scnHierarchyToggleButton, 'window#hierarchyPanel', u'点击显示场景层级', True, (self.setScnHierarchyView,))
@@ -161,7 +160,7 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
         maxWidth = self.widthSet * 2
         columnNameData = ['Group : Assemble', 'Active', 'Explain']
         self.treeBox.setColumns_(columnNameData, maxWidth)
-        self.rightToolGroupBox.setTitle('Scenery Hierarchy')
+        self.rightToolboxGroup.setTitle('Scenery Hierarchy')
     #
     def setScnHierarchyView(self):
         self.searchDic = {}
@@ -236,87 +235,87 @@ class IfSceneryProductToolWindow(uiWidgets.UiToolWindow):
         return selLis
     #
     def setupPanel(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.addWidget(widget)
-        mainLayout = uiCore.QHBoxLayout_(widget)
+        mainLayout = qtCore.QHBoxLayout_(widget)
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         #
-        self.createWidget = uiCore.QWidget_()
+        self.createWidget = qtCore.QWidget_()
         self.createWidget.hide()
         mainLayout.addWidget(self.createWidget)
         #
-        createLayout = uiCore.QHBoxLayout_(self.createWidget)
+        createLayout = qtCore.QHBoxLayout_(self.createWidget)
         createLayout.setContentsMargins(0, 0, 0, 0)
         createLayout.setSpacing(0)
         #
-        self.leftCreateWidget = uiCore.QWidget_()
+        self.leftCreateWidget = qtCore.QWidget_()
         createLayout.addWidget(self.leftCreateWidget)
         self.leftCreateWidget.setMinimumWidth(self.widthSet)
         self.leftCreateWidget.setMaximumWidth(self.widthSet)
         #
-        leftCreateLayout = uiCore.QVBoxLayout_(self.leftCreateWidget)
+        leftCreateLayout = qtCore.QVBoxLayout_(self.leftCreateWidget)
         leftCreateLayout.setContentsMargins(0, 0, 0, 0)
         leftCreateLayout.setSpacing(0)
         #
-        self.rightCreateWidget = uiCore.QWidget_()
+        self.rightCreateWidget = qtCore.QWidget_()
         self.rightCreateWidget.hide()
         createLayout.addWidget(self.rightCreateWidget)
         #
-        self.toolWidget = uiCore.QWidget_()
+        self.toolWidget = qtCore.QWidget_()
         self.toolWidget.hide()
         mainLayout.addWidget(self.toolWidget)
         #
-        toolLayout = uiCore.QGridLayout_(self.toolWidget)
+        toolLayout = qtCore.QGridLayout_(self.toolWidget)
         toolLayout.setContentsMargins(4, 4, 4, 4)
         toolLayout.setSpacing(2)
         #
-        self.topToolBar = uiWidgets_.xToolBar()
+        self.topToolBar = qtWidgets_.xToolBar()
         toolLayout.addWidget(self.topToolBar, 0, 0, 1, 2)
         #
-        self.expandBox = uiWidgets_.UiExpandWidget()
+        self.expandBox = qtWidgets_.QtExpandWidget()
         toolLayout.addWidget(self.expandBox, 1, 0, 1, 1)
         self.expandBox.setUiWidth(self.widthSet)
         #
-        self.leftToolWidget = uiCore.QWidget_()
+        self.leftToolWidget = qtCore.QWidget_()
         self.expandBox.addWidget(self.leftToolWidget)
         #
-        leftToolLayout = uiCore.QVBoxLayout_(self.leftToolWidget)
+        leftToolLayout = qtCore.QVBoxLayout_(self.leftToolWidget)
         leftToolLayout.setContentsMargins(0, 0, 0, 0)
         leftToolLayout.setSpacing(0)
         #
-        self.leftToolScrollBox = uiCore.QScrollArea_()
+        self.leftToolScrollBox = qtCore.QScrollArea_()
         leftToolLayout.addWidget(self.leftToolScrollBox)
         #
-        self.leftBottomToolBar = uiWidgets_.xToolBar()
+        self.leftBottomToolBar = qtWidgets_.xToolBar()
         leftToolLayout.addWidget(self.leftBottomToolBar)
         #
-        self.rightToolWidget = uiCore.QWidget_()
+        self.rightToolWidget = qtCore.QWidget_()
         toolLayout.addWidget(self.rightToolWidget, 1, 1, 1, 1)
         self.rightToolWidget.setMinimumWidth(self.widthSet)
         #
-        rightToolLayout = uiCore.QVBoxLayout_(self.rightToolWidget)
+        rightToolLayout = qtCore.QVBoxLayout_(self.rightToolWidget)
         rightToolLayout.setContentsMargins(0, 0, 0, 0)
         rightToolLayout.setSpacing(0)
         #
-        self.rightToolScrollBox = uiCore.QScrollArea_()
+        self.rightToolScrollBox = qtCore.QScrollArea_()
         rightToolLayout.addWidget(self.rightToolScrollBox)
         #
-        self.rightToolGroupBox = uiWidgets.UiToolGroupBox()
-        self.rightToolGroupBox.setExpanded(True)
-        self.rightToolScrollBox.addWidget(self.rightToolGroupBox)
+        self.rightToolboxGroup = qtWidgets.QtToolboxGroup()
+        self.rightToolboxGroup.setExpanded(True)
+        self.rightToolScrollBox.addWidget(self.rightToolboxGroup)
         #
-        self.treeBox = uiWidgets_.QTreeWidget_()
-        self.rightToolGroupBox.addWidget(self.treeBox)
+        self.treeBox = qtWidgets_.QTreeWidget_()
+        self.rightToolboxGroup.addWidget(self.treeBox)
         self.treeBox.itemSelectionChanged.connect(self.setSel)
         #
-        self.rightBottomToolBar = uiWidgets_.xToolBar()
+        self.rightBottomToolBar = qtWidgets_.xToolBar()
         rightToolLayout.addWidget(self.rightBottomToolBar)
         #
         self.setScnTopToolBar(self.topToolBar)
 
 
-@uiCore.uiSetupShowMethod
+@qtCore.uiSetupShowMethod
 def tableShow():
     w = IfSceneryProductToolWindow()
     w.uiShow()

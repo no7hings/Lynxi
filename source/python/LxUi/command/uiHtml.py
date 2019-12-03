@@ -1,11 +1,13 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic
 #
 from LxCore.config import appCfg
 #
-_htmlColors = lxConfigure.LynxiUi_HtmlColor_Lis
+from LxUi import uiConfigure
 #
-_families = lxConfigure.Lynxi_Ui_Family_Lis
+_htmlColors = uiConfigure.Lynxi_Ui_Color_Html_Lis
+#
+_families = uiConfigure.Lynxi_Ui_Family_Lis
 
 
 #

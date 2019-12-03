@@ -1,13 +1,13 @@
 # encoding: utf-8
-from LxUi.qt import uiChart_, uiWidgets
+from LxUi.qt import qtChart_, qtWidgets
 
 #
 #
-win = uiWidgets.UiDialogWindow()
+win = qtWidgets.UiDialogWindow()
 win.setDefaultSize(720, 720)
 win.setNameText('Color Manager')
 #
-w = uiChart_.xColorChart()
+w = qtChart_.QtColorchart_()
 #
 win.addWidget(w)
 #

@@ -13,7 +13,7 @@ from itertools import product
 #
 from LxCore.method.basic import _methodBasic
 #
-from LxUi import uiCore
+from LxUi.qt import qtCore
 #
 from LxMaya.method.config import _maConfig
 
@@ -521,25 +521,25 @@ class M2MethodBasic(_methodBasic.LxAppMethodBasic):
 #
 class MaUiMethodBasic(_methodBasic.LxUiMethodBasic, _maConfig.MaUiConfig):
     @staticmethod
-    def _toQtObject(ptr, base=uiCore.QWidget):
+    def _toQtObject(ptr, base=qtCore.QWidget):
         # noinspection PyUnresolvedReferences
         import sip
         return sip.wrapinstance(long(ptr), base)
     @classmethod
-    def _toQtWidget(cls, controlName, base=uiCore.QWidget):
+    def _toQtWidget(cls, controlName, base=qtCore.QWidget):
         ptr = OpenMayaUI.MQtUtil.findControl(controlName)
         if ptr is not None:
             return cls._toQtObject(ptr, base)
     @classmethod
     def getUiMainWindow(cls):
-        return cls._toQtWidget(cls.MaUiName_MainWindow, uiCore.QMainWindow)
+        return cls._toQtWidget(cls.MaUiName_MainWindow, qtCore.QMainWindow)
     @classmethod
     def getUiMainControl(cls):
         return cls._toQtWidget(cls.MaUiName_MainControl)
     @classmethod
     def getUiMenuBar(cls):
         for eachChild in cls.getUiMainWindow().children():
-            if type(eachChild) == uiCore.QMenuBar:
+            if type(eachChild) == qtCore.QMenuBar:
                 return eachChild
     @classmethod
     def getResultByDialog(cls, **kwargs):

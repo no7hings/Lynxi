@@ -9,7 +9,7 @@ from LxCore.preset.prod import assetPr, scenePr
 #
 from LxUi.command import uiHtml
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets
 #
 #
 from LxDatabase import dbGet
@@ -33,7 +33,7 @@ class IfScObjectAbs(object):
 
 
 #
-class _IfScCameraItemBasic(uiWidgets_.QTreeWidgetItem_, IfScObjectAbs):
+class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
     def _initItemBasic(
         self,
         parentItem,
@@ -380,7 +380,7 @@ class IfScCameraCacheItem(_IfScCameraItemBasic):
 
 
 # Asset
-class IfScAssetUnitItem(uiWidgets_.QTreeWidgetItem_, IfScObjectAbs):
+class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
     def __init__(
         self,
         parentItem,
@@ -559,7 +559,7 @@ class IfScAssetUnitItem(uiWidgets_.QTreeWidgetItem_, IfScObjectAbs):
 
 
 #
-class IfScAstBranchItemBasic(uiWidgets_.QTreeWidgetItem_, IfScObjectAbs):
+class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
     def _initItemBasic(
         self,
         parentItem,
@@ -913,7 +913,7 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
             )
         #
         def connectionWindowShowCmd():
-            tipWin = uiWidgets.UiTipWindow()
+            tipWin = qtWidgets.UiTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)
@@ -1316,7 +1316,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
             )
         #
         def connectionWindowShowCmd():
-            tipWin = uiWidgets.UiTipWindow()
+            tipWin = qtWidgets.UiTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)
@@ -1575,7 +1575,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
                 self._connectMethod()
         #
         def connectionWindowShowCmd():
-            tipWin = uiWidgets.UiTipWindow()
+            tipWin = qtWidgets.UiTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)

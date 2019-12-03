@@ -3,13 +3,13 @@ from LxCore import lxConfigure
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets
 #
 from LxMaya.interface.ifWidgets import ifMaSceneToolUnit
 
 
 #
-class IfToolWindow(uiWidgets.UiToolWindow):
+class IfToolWindow(qtWidgets.UiToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
         self.tool = ifMaSceneToolUnit.IfScOsComposeToolUnit()

@@ -9,9 +9,9 @@ none = ''
 #
 def setMaCustomPlugFilePushCmd(datumDic, showProgress):
     # Plug
-    plugPath = lxConfigure.getLxMayaPlugPath()
+    root = lxConfigure.PlugRoot().mayaRoot()
     # Push
-    pushPath = lxConfigure.getLxMayaPushPath()
+    userRoot = lxConfigure.PlugRoot().userMayaRoot()
     #
     if datumDic:
         # View Progress
@@ -28,18 +28,17 @@ def setMaCustomPlugFilePushCmd(datumDic, showProgress):
             if progressBar is not None:
                 progressBar.updateProgress(plugName)
             #
-            serverOsPath = plugPath + localOsPlugPath[len(pushPath):]
+            serverOsPath = root + localOsPlugPath[len(userRoot):]
             targetOsPath = localOsPlugPath
             #
-            sourceCheckJson = serverOsPath + '/' + '.check'
-            targetCheckJson = targetOsPath + '/' + '.check'
-            #
+            sourceCheckJson = serverOsPath + '/timestamp.json'
+            targetCheckJson = targetOsPath + '/timestamp.json'
             #  Constant Plug - In
             if lxBasic.isOsExist(targetOsPath):
                 changedRelativeFiles = lxBasic.getChangedOsFiles(serverOsPath, targetOsPath)
                 if not changedRelativeFiles:
                     traceMessage = u'Exists Plug "{}" : "{}"'.format(plugName, targetOsPath)
-                    lxConfigure.traceResult(traceMessage)
+                    lxConfigure.Message().traceResult(traceMessage)
                 else:
                     for relativeFilePath in changedRelativeFiles:
                         sourceFile = serverOsPath + relativeFilePath
@@ -47,7 +46,7 @@ def setMaCustomPlugFilePushCmd(datumDic, showProgress):
                         lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
                         #
                         traceMessage = u'Update Plug "{}" : "{}" > "{}"'.format(plugName, sourceFile, targetFile)
-                        lxConfigure.traceResult(traceMessage)
+                        lxConfigure.Message().traceResult(traceMessage)
                     #
                     if lxBasic.isOsExist(sourceCheckJson):
                         lxBasic.setOsFileCopy(sourceCheckJson, targetCheckJson)
@@ -58,7 +57,7 @@ def setMaCustomPlugFilePushCmd(datumDic, showProgress):
                     lxBasic.setOsFileCopy(sourceCheckJson, targetCheckJson)
                 #
                 traceMessage = u'Push Plug "{}" : "{}" > "{}"'.format(plugName, serverOsPath, targetOsPath)
-                lxConfigure.traceResult(traceMessage)
+                lxConfigure.Message().traceResult(traceMessage)
 
 
 #
@@ -100,7 +99,7 @@ def setMaCustomPlugModulePushCmd(datumDic, mayaVersion):
                             if isPush is True:
                                 pushModDataArray.append((sourceOsFile, targetOsFile))
                             else:
-                                lxConfigure.traceResult(u'Exists Plug Module : "{}"'.format(targetOsFile))
+                                lxConfigure.Message().traceResult(u'Exists Plug Module : "{}"'.format(targetOsFile))
     #
     localModPath = lxBasic.getMayaAppOsModPath(mayaVersion)
     #
@@ -117,18 +116,18 @@ def setMaCustomPlugModulePushCmd(datumDic, mayaVersion):
             for modFile in localModuleLis:
                 if not modFile in usedModuleFileLis:
                     lxBasic.setOsFileRemove(modFile)
-                    lxConfigure.traceResult(u'Remove Invalid Plug Module : "{}"'.format(modFile))
+                    lxConfigure.Message().traceResult(u'Remove Invalid Plug Module : "{}"'.format(modFile))
         #
         else:
             for modFile in localModuleLis:
                 lxBasic.setOsFileRemove(modFile)
-                lxConfigure.traceResult(u'Remove Invalid Plug Module : "{}"'.format(modFile))
+                lxConfigure.Message().traceResult(u'Remove Invalid Plug Module : "{}"'.format(modFile))
     # Push Non - Exists Mod
     if pushModDataArray:
         for sourcePlugModuleFile, targetPlugModuleFile in pushModDataArray:
             lxBasic.setOsFileCopy(sourcePlugModuleFile, targetPlugModuleFile)
             #
-            lxConfigure.traceResult(u'Push Plug Module : "{}" > "{}"'.format(sourcePlugModuleFile, targetPlugModuleFile))
+            lxConfigure.Message().traceResult(u'Push Plug Module : "{}" > "{}"'.format(sourcePlugModuleFile, targetPlugModuleFile))
 
 
 #
@@ -167,7 +166,7 @@ def setMaCustomPlugEnvironPushCmd(datumDic, mayaVersion):
             envData.append(data)
             #
             traceMessage = u'Write Maya Environ "{}" : "{}"'.format(k, lxBasic.osPathsep().join(v))
-            lxConfigure.traceResult(traceMessage)
+            lxConfigure.Message().traceResult(traceMessage)
         #
         if envData:
             reduceData = '\r\n'.join(envData)
@@ -185,7 +184,7 @@ def setMaCustomPlugRlmPushCmd(datumDic):
             lxBasic.setOsCommandRun(rlmBat)
             #
             traceMessage = u'Set RLM "{}" : "{}"'.format(plugName, folder)
-            lxConfigure.traceResult(traceMessage)
+            lxConfigure.Message().traceResult(traceMessage)
 
 
 #
@@ -199,7 +198,7 @@ def setMaCustomPlugPushCmd(projectName=None, showProgress=False, isCloseMaya=Fal
     datumDic = projectPr.getMaCustomPlugPathDic(projectName)
     if datumDic:
         traceMessage = u'Setup Maya Plug(s)"'
-        lxConfigure.traceMessage(traceMessage)
+        lxConfigure.Message().trace(traceMessage)
         #
         projectMayaVersion = projectPr.getProjectMayaVersion(projectName)
         #
@@ -224,7 +223,7 @@ def setMaCustomPlugPushCmd(projectName=None, showProgress=False, isCloseMaya=Fal
                 progressBar.updateProgress()
             #
             if enable is True:
-                lxConfigure.traceMessage(explain)
+                lxConfigure.Message().trace(explain)
                 method(*args)
         #
         if isCloseMaya:
@@ -234,4 +233,4 @@ def setMaCustomPlugPushCmd(projectName=None, showProgress=False, isCloseMaya=Fal
             tipWindow = lxTip.viewTip('Pipeline Tip', uiHtml.getHtml(u'''需要关闭 Maya 以完成插件推送（ 点击“Confirm”关闭 Maya ）；''', 1))
             tipWindow.confirmClicked.connect(appCloseCmd)
     else:
-        lxConfigure.traceWarning(u'Project "{}" is Non - Register'.format(projectName))
+        lxConfigure.Message().traceWarning(u'Project "{}" is Non - Register'.format(projectName))

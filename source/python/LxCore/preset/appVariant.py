@@ -1,13 +1,11 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.preset import basicPr, pipePr, appPr
 #
 from LxCore.preset.prod import projectPr
-#
-serverBasicPath = lxConfigure._getLxBasicPath()
-#
-localBasicPath = lxConfigure.getLxUserOsPath()
+# do not delete
+serverBasicPath = lxConfigure.Root().root()
 
 
 #

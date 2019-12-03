@@ -3,6 +3,8 @@ from LxCore import lxBasic, lxConfigure, lxLog, lxProgress
 #
 from LxCore.config import assetCfg, sceneryCfg, sceneCfg
 #
+from LxUi import uiConfigure
+#
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
 from LxInterface.qt.ifWidgets import ifUnit, ifProductToolWindow
@@ -11,13 +13,11 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
-from LxUi import uiCore
-#
-from LxUi.qt import uiWidgets_, uiWidgets
-#
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxDatabase import dbGet
-
+#
+serverBasicPath = lxConfigure.Root().root()
 #
 none = ''
 
@@ -25,7 +25,7 @@ none = ''
 #
 def setAssetToolBar(layout):
     if lxBasic.isMayaApp():
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示资产生产面板',
@@ -35,7 +35,7 @@ def setAssetToolBar(layout):
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
-            toolButton = uiWidgets.UiIconbutton()
+            toolButton = qtWidgets.QtIconbutton()
             toolBar.addWidget(toolButton)
             toolButton.setIcon(iconKeyword, 32, 32, 32, 32)
             toolButton.setTooltip(uiTip)
@@ -45,7 +45,7 @@ def setAssetToolBar(layout):
 #
 def setSceneryToolBar(layout):
     if lxBasic.isMayaApp():
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示场景生产面板',
@@ -55,7 +55,7 @@ def setSceneryToolBar(layout):
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
-            toolButton = uiWidgets.UiIconbutton()
+            toolButton = qtWidgets.QtIconbutton()
             toolBar.addWidget(toolButton)
             toolButton.setIcon(iconKeyword, 32, 32, 32, 32)
             toolButton.setTooltip(uiTip)
@@ -65,7 +65,7 @@ def setSceneryToolBar(layout):
 #
 def setSceneToolBar(layout):
     if lxBasic.isMayaApp():
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示场景生产面板',
@@ -75,7 +75,7 @@ def setSceneToolBar(layout):
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
-            toolButton = uiWidgets.UiIconbutton()
+            toolButton = qtWidgets.QtIconbutton()
             toolBar.addWidget(toolButton)
             toolButton.setIcon(iconKeyword, 32, 32, 32, 32)
             toolButton.setTooltip(uiTip)
@@ -110,7 +110,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
     #
     def setupCentralWidget(self, layout):
         def centralCurrentChangedMethod():
-            currentItem = self._centralUpGridView.currentItem()
+            currentItem = self._centralUpGridview.currentItem()
             if currentItem:
                 self._curUnitIndex = currentItem.assetIndex
                 self._curProjectName = currentItem.projectName
@@ -118,31 +118,31 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 self._curUnitName = currentItem.assetName
                 self._curUnitVariant = currentItem.assetVariant
                 #
-                self._centralUpToolGroupBox.setTitle('Asset > {} > {}'.format(self._curUnitName, self._curUnitVariant))
+                self._centralUpToolboxGroup.setTitle('Asset > {} > {}'.format(self._curUnitName, self._curUnitVariant))
                 #
                 self.setRecordRefresh()
         #
-        self._centralUpToolGroupBox = uiWidgets.UiToolGroupBox()
-        self._centralUpToolGroupBox.setTitle('Asset(s)')
-        self._centralUpToolGroupBox.setExpanded(True)
-        layout.addWidget(self._centralUpToolGroupBox)
+        self._centralUpToolboxGroup = qtWidgets.QtToolboxGroup()
+        self._centralUpToolboxGroup.setTitle('Asset(s)')
+        self._centralUpToolboxGroup.setExpanded(True)
+        layout.addWidget(self._centralUpToolboxGroup)
         #
-        self._centralUpGridView = uiWidgets.UiGridView()
-        self._centralUpToolGroupBox.addWidget(self._centralUpGridView)
-        self._centralUpGridView.setCheckEnable(True)
+        self._centralUpGridview = qtWidgets.QtGridview()
+        self._centralUpToolboxGroup.addWidget(self._centralUpGridview)
+        self._centralUpGridview.setCheckEnable(True)
         #
         width, height = self.MessageWidth, self.MessageWidth
         self._uiItemWidth, self._uiItemHeight = width, height
-        self._centralUpGridView.setItemSize(width, height + 20 + 20*len(self.LinkLis))
-        self._centralUpGridView.setItemListModeSize(width, 20)
-        self._centralUpGridView.setItemIconModeSize(width, height + 20)
+        self._centralUpGridview.setItemSize(width, height + 20 + 20*len(self.LinkLis))
+        self._centralUpGridview.setItemListModeSize(width, 20)
+        self._centralUpGridview.setItemIconModeSize(width, height + 20)
         #
-        self._centralUpGridView.setFilterConnect(self._filterEnterLabel)
+        self._centralUpGridview.setFilterConnect(self._filterEnterLabel)
         #
-        self._centralUpGridView.currentChanged.connect(centralCurrentChangedMethod)
+        self._centralUpGridview.currentChanged.connect(centralCurrentChangedMethod)
         #
         if self._filterItemDic:
-            [i.setFilterViewWidget(self._centralUpGridView) for i in self._filterItemDic.values()]
+            [i.setFilterViewWidget(self._centralUpGridview) for i in self._filterItemDic.values()]
     #
     def setupRightWidget(self, layout):
         def setLinkButtonBranch(button, link):
@@ -151,15 +151,15 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             button.clicked.connect(setCurrentStage)
             button.clicked.connect(self.setRecordRefresh)
         #
-        self.assetRightToolGroupBox = uiWidgets.UiToolGroupBox()
-        self.assetRightToolGroupBox.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
-        self.assetRightToolGroupBox.setExpanded(True)
-        layout.addWidget(self.assetRightToolGroupBox)
+        self.assetRightToolboxGroup = qtWidgets.QtToolboxGroup()
+        self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
+        self.assetRightToolboxGroup.setExpanded(True)
+        layout.addWidget(self.assetRightToolboxGroup)
         #
-        linkToolBar = uiWidgets_.xToolBar()
-        self.assetRightToolGroupBox.addWidget(linkToolBar)
+        linkToolBar = qtWidgets_.xToolBar()
+        self.assetRightToolboxGroup.addWidget(linkToolBar)
         for seq, i in enumerate(self.LinkLis):
-            linkButton = uiWidgets.UiEnableButton('link#{}'.format(i))
+            linkButton = qtWidgets.QtEnablebutton('link#{}'.format(i))
             linkToolBar.addWidget(linkButton)
             linkButton.setAutoExclusive(True)
             if seq == 0:
@@ -168,7 +168,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             setLinkButtonBranch(linkButton, i)
         #
         self.recordBox = ifUnit.IfProductUnitRecordUnit()
-        self.assetRightToolGroupBox.addWidget(self.recordBox)
+        self.assetRightToolboxGroup.addWidget(self.recordBox)
     #
     def setCentralRefresh(self):
         def setBranch(seq, key, value, gridItem, messageWidget):
@@ -574,8 +574,8 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     if self.connectObject():
                         self.connectObject().mainWindow().updateProgress()
                     #
-                    gridItem = uiWidgets.UiGridItem()
-                    messageWidget = uiWidgets.UiMessageWidget()
+                    gridItem = qtWidgets.QtGridviewItem()
+                    messageWidget = qtWidgets.QtMessageWidget()
                     #
                     gridView.addItem(gridItem)
                     gridItem.addWidget(messageWidget, 0, 0, 1, 1)
@@ -601,7 +601,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         #
         projectName = self._connectObject.getProjectName()
         #
-        gridView = self._centralUpGridView
+        gridView = self._centralUpGridview
         #
         setMain()
         self._initTagFilterAction(gridView)
@@ -629,7 +629,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if assetStage:
-                self.assetRightToolGroupBox.setTitle('Asset Record > {}'.format(assetStage))
+                self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(assetStage))
     #
     def setupUnitAction(self):
         def isForce():
@@ -713,7 +713,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
     #
     def setupCentralWidget(self, layout):
         def centralCurrentChangedMethod():
-            currentItem = self._centralUpGridView.currentItem()
+            currentItem = self._centralUpGridview.currentItem()
             if currentItem:
                 self._curUnitIndex = currentItem.sceneryIndex
                 self._curProjectName = currentItem.projectName
@@ -721,41 +721,41 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 self._curUnitName = currentItem.sceneryName
                 self._curUnitVariant = currentItem.sceneryVariant
                 #
-                self._centralUpToolGroupBox.setTitle('Scenery > {} > {}'.format(self._curUnitName, self._curUnitVariant))
+                self._centralUpToolboxGroup.setTitle('Scenery > {} > {}'.format(self._curUnitName, self._curUnitVariant))
                 #
                 self.setRecordRefresh()
         #
-        self._centralUpToolGroupBox = uiWidgets.UiToolGroupBox()
-        layout.addWidget(self._centralUpToolGroupBox)
-        self._centralUpToolGroupBox.setTitle('Scenery(s)')
-        self._centralUpToolGroupBox.setExpanded(True)
+        self._centralUpToolboxGroup = qtWidgets.QtToolboxGroup()
+        layout.addWidget(self._centralUpToolboxGroup)
+        self._centralUpToolboxGroup.setTitle('Scenery(s)')
+        self._centralUpToolboxGroup.setExpanded(True)
         #
-        self._centralUpGridView = uiWidgets.UiGridView()
-        self._centralUpToolGroupBox.addWidget(self._centralUpGridView)
-        self._centralUpGridView.setCheckEnable(True)
+        self._centralUpGridview = qtWidgets.QtGridview()
+        self._centralUpToolboxGroup.addWidget(self._centralUpGridview)
+        self._centralUpGridview.setCheckEnable(True)
         #
         renderWidth, renderHeight = appVariant.rndrImageWidth, appVariant.rndrImageHeight
         width = self.MessageWidth
         height = int(width * (float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
         self._uiItemHeight = height
-        self._centralUpGridView.setItemSize(width, height + 20 + 20*len(self.LinkLis))
-        self._centralUpGridView.setItemListModeSize(width, 20)
-        self._centralUpGridView.setItemIconModeSize(width, height + 20)
+        self._centralUpGridview.setItemSize(width, height + 20 + 20*len(self.LinkLis))
+        self._centralUpGridview.setItemListModeSize(width, 20)
+        self._centralUpGridview.setItemIconModeSize(width, height + 20)
         #
-        self._centralUpGridView.setFilterConnect(self._filterEnterLabel)
+        self._centralUpGridview.setFilterConnect(self._filterEnterLabel)
         #
-        self._centralUpGridView.currentChanged.connect(centralCurrentChangedMethod)
+        self._centralUpGridview.currentChanged.connect(centralCurrentChangedMethod)
         #
         if self._filterItemDic:
-            [i.setFilterViewWidget(self._centralUpGridView) for i in self._filterItemDic.values()]
+            [i.setFilterViewWidget(self._centralUpGridview) for i in self._filterItemDic.values()]
         #
-        self._centralDownToolGroupBox = uiWidgets.UiToolGroupBox()
-        layout.addWidget(self._centralDownToolGroupBox)
-        self._centralDownToolGroupBox.setTitle('Compose(s)')
+        self._centralDownToolboxGroup = qtWidgets.QtToolboxGroup()
+        layout.addWidget(self._centralDownToolboxGroup)
+        self._centralDownToolboxGroup.setTitle('Compose(s)')
         #
-        self._centralDownTreeView = uiWidgets.UiTreeView()
-        self._centralDownToolGroupBox.addWidget(self._centralDownTreeView)
+        self._centralDownTreeView = qtWidgets.QtTreeview()
+        self._centralDownToolboxGroup.addWidget(self._centralDownTreeView)
     #
     def setupRightWidget(self, layout):
         def setLinkButtonBranch(button, link):
@@ -765,15 +765,15 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             button.clicked.connect(setCurrentStage)
             button.clicked.connect(self.setRecordRefresh)
         #
-        self.assetRightToolGroupBox = uiWidgets.UiToolGroupBox()
-        self.assetRightToolGroupBox.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
-        self.assetRightToolGroupBox.setExpanded(True)
-        layout.addWidget(self.assetRightToolGroupBox)
+        self.assetRightToolboxGroup = qtWidgets.QtToolboxGroup()
+        self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
+        self.assetRightToolboxGroup.setExpanded(True)
+        layout.addWidget(self.assetRightToolboxGroup)
         #
-        linkToolBar = uiWidgets_.xToolBar()
-        self.assetRightToolGroupBox.addWidget(linkToolBar)
+        linkToolBar = qtWidgets_.xToolBar()
+        self.assetRightToolboxGroup.addWidget(linkToolBar)
         for seq, i in enumerate(self.LinkLis):
-            linkButton = uiWidgets.UiEnableButton('link#{}'.format(i))
+            linkButton = qtWidgets.QtEnablebutton('link#{}'.format(i))
             linkToolBar.addWidget(linkButton)
             linkButton.setAutoExclusive(True)
             if seq == 0:
@@ -782,7 +782,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             setLinkButtonBranch(linkButton, i)
         #
         self.recordBox = ifUnit.IfProductUnitRecordUnit()
-        self.assetRightToolGroupBox.addWidget(self.recordBox)
+        self.assetRightToolboxGroup.addWidget(self.recordBox)
     #
     def setCentralRefresh(self):
         def setBranch(seq, key, value):
@@ -897,7 +897,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             viewName, sceneryClass, sceneryName, assetPriority, sceneryEnabled, scLayoutEnable, scAnimationEnable, scSimulationEnable, scLightEnable = value
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             gridView.addItem(gridItem)
             #
             viewExplain = sceneryPr.getSceneryViewInfo(sceneryIndex, sceneryClass, '{} - {}'.format(sceneryName, sceneryVariant))
@@ -942,7 +942,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 actionDatumLis
             )
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             messageWidget.setDefaultHeight(self.MessageHeight)
             imageIndex = [0, 1][lxBasic.isOsExist(renderPreview)]
@@ -988,7 +988,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         #
         projectName = self._connectObject.getProjectName()
         #
-        gridView = self._centralUpGridView
+        gridView = self._centralUpGridview
         setMain()
     #
     def setComposeRefresh(self):
@@ -1017,7 +1017,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if unitStage:
-                self.assetRightToolGroupBox.setTitle('Asset Record > {}'.format(unitStage))
+                self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(unitStage))
     #
     def setupUnitAction(self):
         if self.connectObject():
@@ -1076,14 +1076,14 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
     #
     def setupCentralWidget(self, layout):
         def setDownRefreshEnable():
-            self._downRefreshEnable = downToolGroupBox.isExpanded() or downToolGroupBox.isSeparated()
+            self._downRefreshEnable = downToolboxGroup.isExpanded() or downToolboxGroup.isSeparated()
             #
             if self._downRefreshEnable is True:
                 self.setCameraRefresh()
                 self.setAssetRefresh()
         #
         def centralCurrentChangedMethod():
-            currentItem = self._scGridView.currentItem()
+            currentItem = self._scGridview.currentItem()
             if currentItem:
                 self._curSceneIndex = currentItem.sceneIndex
                 self._curProjectName = currentItem.projectName
@@ -1091,7 +1091,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 self._curSceneName = currentItem.sceneName
                 self._curSceneVariant = currentItem.sceneVariant
                 #
-                self._scUpToolGroupBox.setTitle('Scene > {} > {}'.format(self._curSceneName, self._curSceneVariant))
+                self._scUpToolboxGroup.setTitle('Scene > {} > {}'.format(self._curSceneName, self._curSceneVariant))
                 #
                 self.setCameraRefresh()
                 self.setAssetRefresh()
@@ -1099,48 +1099,48 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 self.setRecordRefresh()
         #
-        self._scUpToolGroupBox = uiWidgets.UiToolGroupBox()
-        self._scUpToolGroupBox.setTitle('Scene(s)')
-        self._scUpToolGroupBox.setExpanded(True)
-        layout.addWidget(self._scUpToolGroupBox)
-        self._scUpToolGroupBox.setTooltip(
+        self._scUpToolboxGroup = qtWidgets.QtToolboxGroup()
+        self._scUpToolboxGroup.setTitle('Scene(s)')
+        self._scUpToolboxGroup.setExpanded(True)
+        layout.addWidget(self._scUpToolboxGroup)
+        self._scUpToolboxGroup.setTooltip(
             u'''镜头单元\n1，显示当前项目所有镜头信息；\n2，显示当前项目所有镜头各环节的预览视频；\n3，显示当前项目所有镜头各环节的更新时间。'''
         )
         #
-        self._scGridView = uiWidgets.UiGridView()
-        self._scUpToolGroupBox.addWidget(self._scGridView)
-        self._scGridView.setCheckEnable(True)
+        self._scGridview = qtWidgets.QtGridview()
+        self._scUpToolboxGroup.addWidget(self._scGridview)
+        self._scGridview.setCheckEnable(True)
         #
         renderWidth, renderHeight = appVariant.rndrImageWidth, appVariant.rndrImageHeight
         width = self.MessageWidth
         height = int(width*(float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
         self._uiItemHeight = height
-        self._scGridView.setItemSize(width, height + 20 + 20*len(self.LinkLis))
-        self._scGridView.setItemListModeSize(width, 20)
-        self._scGridView.setItemIconModeSize(width, height + 20)
+        self._scGridview.setItemSize(width, height + 20 + 20*len(self.LinkLis))
+        self._scGridview.setItemListModeSize(width, 20)
+        self._scGridview.setItemIconModeSize(width, height + 20)
         #
-        self._scGridView.setFilterConnect(self._filterEnterLabel)
+        self._scGridview.setFilterConnect(self._filterEnterLabel)
         #
-        self._scGridView.currentChanged.connect(centralCurrentChangedMethod)
+        self._scGridview.currentChanged.connect(centralCurrentChangedMethod)
         #
         if self._filterItemDic:
-            [i.setFilterViewWidget(self._scGridView) for i in self._filterItemDic.values()]
+            [i.setFilterViewWidget(self._scGridview) for i in self._filterItemDic.values()]
         #
-        downToolGroupBox = uiWidgets.UiToolGroupBox()
-        downToolGroupBox.setTitle('Compose(s)')
-        layout.addWidget(downToolGroupBox)
+        downToolboxGroup = qtWidgets.QtToolboxGroup()
+        downToolboxGroup.setTitle('Compose(s)')
+        layout.addWidget(downToolboxGroup)
         #
-        tabWidget = uiWidgets.UiButtonTabGroup()
-        downToolGroupBox.addWidget(tabWidget)
-        tabWidget.setTabPosition(uiCore.South)
+        tabWidget = qtWidgets.QtButtonTabGroup()
+        downToolboxGroup.addWidget(tabWidget)
+        tabWidget.setTabPosition(qtCore.South)
         #
-        widget = uiCore.QWidget_()
-        downToolGroupBox.addWidget(widget)
-        downToolGroupBox.expanded.connect(setDownRefreshEnable)
-        downToolGroupBox.separated.connect(setDownRefreshEnable)
+        widget = qtCore.QWidget_()
+        downToolboxGroup.addWidget(widget)
+        downToolboxGroup.expanded.connect(setDownRefreshEnable)
+        downToolboxGroup.separated.connect(setDownRefreshEnable)
         # Camera
-        self._cameraListViewBox = uiWidgets.UiGridView()
+        self._cameraListViewBox = qtWidgets.QtGridview()
         tabWidget.addTab(self._cameraListViewBox, 'Camera(s)', 'svg_basic@svg#tab')
         self._cameraListViewBox.setCheckEnable(True)
         #
@@ -1153,19 +1153,19 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         self._cameraListViewBox.setItemListModeSize(width, 20)
         self._cameraListViewBox.setItemIconModeSize(width, height + 20)
         # Asset
-        self._scAstGridView = uiWidgets.UiGridView()
-        tabWidget.addTab(self._scAstGridView, 'Asset(s)', 'svg_basic@svg#tab')
-        self._scAstGridView.setCheckEnable(True)
+        self._scAstGridview = qtWidgets.QtGridview()
+        tabWidget.addTab(self._scAstGridview, 'Asset(s)', 'svg_basic@svg#tab')
+        self._scAstGridview.setCheckEnable(True)
         #
         height = 240
         width = 240
         self._assetItemWidth = width
         self._assetItemHeight = height
-        self._scAstGridView.setItemSize(width + 32, height + 20*3 + 20)
-        self._scAstGridView.setItemListModeSize(width + 32, 20)
-        self._scAstGridView.setItemIconModeSize(width + 32, height + 20)
+        self._scAstGridview.setItemSize(width + 32, height + 20*3 + 20)
+        self._scAstGridview.setItemListModeSize(width + 32, 20)
+        self._scAstGridview.setItemIconModeSize(width + 32, height + 20)
         # Scenery
-        self._sceneryTreeView = uiWidgets.UiTreeView()
+        self._sceneryTreeView = qtWidgets.QtTreeview()
         tabWidget.addTab(self._sceneryTreeView, 'Scenery(s)', 'svg_basic@svg#tab')
         self._sceneryTreeView.setCheckEnable(True)
         #
@@ -1173,10 +1173,10 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
     #
     def setupRightWidget(self, layout):
         def setRemarkGroup():
-            self.scRemarkToolGroupBox = uiWidgets.UiToolGroupBox()
-            self.scRemarkToolGroupBox.setTitle('Remark')
+            self.scRemarkToolboxGroup = qtWidgets.QtToolboxGroup()
+            self.scRemarkToolboxGroup.setTitle('Remark')
             #
-            layout.addWidget(self.scRemarkToolGroupBox)
+            layout.addWidget(self.scRemarkToolboxGroup)
         #
         def setRecordGroup():
             def setLinkButtonBranch(button, link):
@@ -1186,15 +1186,15 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 button.clicked.connect(setCurrentStage)
                 button.clicked.connect(self.setRecordRefresh)
             #
-            self.scRecordToolGroupBox = uiWidgets.UiToolGroupBox()
-            self.scRecordToolGroupBox.setTitle('Record > {}'.format(self.LinkLis[0]))
-            self.scRecordToolGroupBox.setExpanded(True)
-            layout.addWidget(self.scRecordToolGroupBox)
+            self.scRecordToolboxGroup = qtWidgets.QtToolboxGroup()
+            self.scRecordToolboxGroup.setTitle('Record > {}'.format(self.LinkLis[0]))
+            self.scRecordToolboxGroup.setExpanded(True)
+            layout.addWidget(self.scRecordToolboxGroup)
             #
-            linkToolBar = uiWidgets_.xToolBar()
-            self.scRecordToolGroupBox.addWidget(linkToolBar)
+            linkToolBar = qtWidgets_.xToolBar()
+            self.scRecordToolboxGroup.addWidget(linkToolBar)
             for seq, i in enumerate(self.LinkLis):
-                linkButton = uiWidgets.UiEnableButton('link#{}'.format(i))
+                linkButton = qtWidgets.QtEnablebutton('link#{}'.format(i))
                 linkToolBar.addWidget(linkButton)
                 linkButton.setAutoExclusive(True)
                 if seq == 0:
@@ -1203,14 +1203,14 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 setLinkButtonBranch(linkButton, i)
             #
             self.recordBox = ifUnit.IfProductUnitRecordUnit()
-            self.scRecordToolGroupBox.addWidget(self.recordBox)
+            self.scRecordToolboxGroup.addWidget(self.recordBox)
         #
         def setBatchTool():
             def setLinkToolBar():
-                linkToolBar = uiWidgets_.xToolBar()
+                linkToolBar = qtWidgets_.xToolBar()
                 toolGroupBox.addWidget(linkToolBar)
                 for seq, i in enumerate(self.LinkLis):
-                    linkButton = uiWidgets.UiEnableButton('link#{}'.format(i))
+                    linkButton = qtWidgets.QtEnablebutton('link#{}'.format(i))
                     linkToolBar.addWidget(linkButton)
                     linkButton.setAutoExclusive(True)
                     if seq == 0:
@@ -1219,7 +1219,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     self._batchLinkButtonLis.append(linkButton)
             #
             def setToolBox():
-                toolBox = uiWidgets.UiToolBox()
+                toolBox = qtWidgets.QtToolbox()
                 toolBox.setTitle('Command Batch')
                 #
                 toolGroupBox.addWidget(toolBox)
@@ -1227,7 +1227,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             self._batchLinkButtonLis = []
             #
-            toolGroupBox = uiWidgets.UiToolGroupBox()
+            toolGroupBox = qtWidgets.QtToolboxGroup()
             toolGroupBox.setTitle('Batch Tool')
             #
             layout.addWidget(toolGroupBox)
@@ -1237,10 +1237,10 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         #
         def setCheckTool():
             def setLinkToolBar():
-                linkToolBar = uiWidgets_.xToolBar()
+                linkToolBar = qtWidgets_.xToolBar()
                 toolGroupBox.addWidget(linkToolBar)
                 for seq, i in enumerate(self.LinkLis):
-                    linkButton = uiWidgets.UiRadioCheckbutton('basic#{}'.format(i))
+                    linkButton = qtWidgets.QtRadioCheckbutton('basic#{}'.format(i))
                     linkToolBar.addWidget(linkButton)
                     #
                     if seq == 0:
@@ -1249,7 +1249,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     self._checkLinkButtonLis.append(linkButton)
             #
             def setToolBox():
-                toolBox = uiWidgets.UiToolBox()
+                toolBox = qtWidgets.QtToolbox()
                 toolBox.setTitle('Common Check')
                 #
                 toolGroupBox.addWidget(toolBox)
@@ -1257,7 +1257,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             self._checkLinkButtonLis = []
             #
-            toolGroupBox = uiWidgets.UiToolGroupBox()
+            toolGroupBox = qtWidgets.QtToolboxGroup()
             toolGroupBox.setTitle('Batch Check Tool')
             #
             layout.addWidget(toolGroupBox)
@@ -1538,7 +1538,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 from LxInterface.qt.ifWidgets import ifProductToolWindow
                 #
                 w = ifProductToolWindow.IfScIndexManagerWindow(parent=self)
-                w.setDefaultSize(*lxConfigure.LynxiWindow_SubSize_Default)
+                w.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
                 w.setNameText(viewExplain)
                 w.setArgs(
                     '',
@@ -1583,7 +1583,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             if not tag in self._tagFilterSubExplainDic:
                 self._tagFilterSubExplainDic[tag] = lxBasic.frameToTime(frameCount)
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             viewExplain = scenePr.getSceneViewInfo(sceneIndex, sceneClass, '{} - {}'.format(sceneName, sceneVariant))
             gridView.addItem(gridItem)
             #
@@ -1655,7 +1655,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 actionDatumLis, viewExplain
             )
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             messageWidget.setDefaultHeight(self.MessageHeight)
             messageWidget.setImageIndex(imageIndex)
@@ -1669,7 +1669,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         def setActionData():
             def openVedioCmd(osFiles):
                 fileCmd = '" "'.join(osFiles)
-                osCmdExe = '{}/exe/windows/KMPlayer.4.0.8.1/KMPlayer.exe'.format(lxConfigure._getLxBasicPath())
+                osCmdExe = '{}/KMPlayer.4.0.8.1/KMPlayer.exe'.format(lxConfigure.Root().windowAppRoot())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     osCmd = '''"{}" "{}"'''.format(osCmdExe, fileCmd)
                     lxBasic.setOsCommandRun_(osCmd.replace('/', '\\'))
@@ -1735,7 +1735,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             ])
         #
         def setMain():
-            self._scUpToolGroupBox.setTitle('Scene')
+            self._scUpToolboxGroup.setTitle('Scene')
             #
             setData = scenePr.getUiSceneSetDataDic(projectName)
             gridView.cleanItems()
@@ -1774,7 +1774,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         #
         projectName = self._connectObject.getProjectName()
         #
-        gridView = self._scGridView
+        gridView = self._scGridview
         #
         setMain()
         setActionData()
@@ -1830,7 +1830,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             else:
                 viewExplain = key.capitalize()
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             gridItem.setName(viewExplain)
             gridItem.setIcon('basic#camera')
             gridView.addItem(gridItem)
@@ -1846,7 +1846,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             messageLis.append((4, previewFileLis))
             messageLis.append((1, ('link#{}'.format(sceneLink), lxBasic.getCnViewTime(timestamp))))
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             messageWidget.setDatumLis(messageLis, self._cameraItemWidth, self._cameraItemHeight)
@@ -1988,7 +1988,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 assetClass, assetName, number, assetVariant
             ) = value
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             viewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {} - {}'.format(assetName, number, assetVariant))
             gridItem.setName(viewExplain)
             gridItem.setIcon('svg_basic@svg#package')
@@ -2035,20 +2035,20 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 gridItem.setPressable(False)
                 gridItem.setCheckable(False)
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             imageIndex = [0, 1][renderPreview is not none]
             messageWidget.setImageIndex(imageIndex)
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             #
-            widget = uiCore.QWidget_()
+            widget = qtCore.QWidget_()
             widget.setMaximumWidth(32)
             gridItem.addWidget(widget, 0, 1, 1, 1)
-            operationLayout = uiCore.QVBoxLayout_(widget)
-            operationLayout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+            operationLayout = qtCore.QVBoxLayout_(widget)
+            operationLayout.setAlignment(qtCore.QtCore.Qt.AlignTop)
             operationLayout.setContentsMargins(4, 4, 4, 4)
             # CFX Product
-            scWithCfxProdSubButton = uiWidgets.UiEnableButton('link#cfx')
+            scWithCfxProdSubButton = qtWidgets.QtEnablebutton('link#cfx')
             scWithCfxProdSubButton.setCheckable(isAstCfxEnable)
             scWithCfxProdSubButton.setTooltip(
                 'Clicked to Enable / Disable Load Asset with CFX'
@@ -2056,7 +2056,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             operationLayout.addWidget(scWithCfxProdSubButton)
             scWithCfxProdSubButton.setChecked(True)
             #
-            scWithCfxCacheSubButton = uiWidgets.UiEnableButton('basic#cacheFile')
+            scWithCfxCacheSubButton = qtWidgets.QtEnablebutton('basic#cacheFile')
             scWithCfxCacheSubButton.setCheckable(isAstCfxEnable)
             scWithCfxCacheSubButton.setTooltip(
                 'Clicked to Enable / Disable Load Asset with CFX Cache'
@@ -2064,12 +2064,12 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             operationLayout.addWidget(scWithCfxCacheSubButton)
             scWithCfxCacheSubButton.setChecked(True)
             #
-            scWithSolverCacheSubButton = uiWidgets.UiEnableButton('link#solver')
+            scWithSolverCacheSubButton = qtWidgets.QtEnablebutton('link#solver')
             scWithSolverCacheSubButton.setCheckable(isAstSolverEnable)
             operationLayout.addWidget(scWithSolverCacheSubButton)
             scWithSolverCacheSubButton.setChecked(True)
             #
-            scWithExtraSubButton = uiWidgets.UiEnableButton('link#rig')
+            scWithExtraSubButton = qtWidgets.QtEnablebutton('link#rig')
             scWithExtraSubButton.setCheckable(isAstRigEnable)
             scWithExtraSubButton.setTooltip(
                 'Clicked to Enable / Disable Load Asset with Extra'
@@ -2299,7 +2299,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         sceneName = self._curSceneName
         sceneVariant = self._curSceneVariant
         #
-        gridView = self._scAstGridView
+        gridView = self._scAstGridview
         #
         if self._downRefreshEnable is True:
             setMain()
@@ -2309,7 +2309,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         def setBranch(arg):
             objectPath, definition, namespace = arg
             #
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             treeItem.setIcon('svg_basic@svg#assembly_object')
             treeItem.setNameText(definition)
@@ -2435,7 +2435,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             def setMain():
                 enableLinks = getLinks()
-                checkedGridItems = self._scGridView.checkedItems()
+                checkedGridItems = self._scGridview.checkedItems()
                 pythonCommandString = commandEditBox.text()
                 if checkedGridItems and enableLinks and pythonCommandString:
                     # View Progress
@@ -2452,11 +2452,11 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 from LxMaya.command import maFile
                 setMain()
         #
-        commandEditBox = uiWidgets.UiTextBrower()
+        commandEditBox = qtWidgets.QtTextBrower()
         layout.addWidget(commandEditBox, 0, 0, 1, 1)
-        self.highlighter = uiCore.xPythonHighlighter(commandEditBox.textEdit().document())
+        self.highlighter = qtCore.xPythonHighlighter(commandEditBox.textEdit().document())
         #
-        pressButton = uiWidgets.UiPressbutton()
+        pressButton = qtWidgets.QtPressbutton()
         layout.addWidget(pressButton, 1, 0, 1, 1)
         pressButton.setNameText('File Command Batch')
         pressButton.setIcon('svg_basic@svg#python')
@@ -2546,7 +2546,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                                     #     for j_ in lis:
                                     #         print '>>', j_[0], j_[1], j_[2]
                 #
-                checkedGridItems = self._scGridView.checkedItems()
+                checkedGridItems = self._scGridview.checkedItems()
                 if checkedGridItems:
                     assetIndexDic = assetPr.getAssetIndexDic()
                     sceneryIndexDic = sceneryPr.getSceneryDescriptionDic()
@@ -2580,10 +2580,10 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             setMain()
         #
-        noteBox = uiWidgets.UiTextBrower()
+        noteBox = qtWidgets.QtTextBrower()
         layout.addWidget(noteBox, 0, 0, 1, 1)
         #
-        pressButton = uiWidgets.UiPressbutton()
+        pressButton = qtWidgets.QtPressbutton()
         layout.addWidget(pressButton, 1, 0, 1, 1)
         pressButton.setNameText('Scenery Check')
         pressButton.setIcon('svg_basic@svg#python')
@@ -2612,7 +2612,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if sceneStage:
-                self.scRecordToolGroupBox.setTitle('Record > {}'.format(lxBasic._toStringPrettify(sceneStage)))
+                self.scRecordToolboxGroup.setTitle('Record > {}'.format(lxBasic._toStringPrettify(sceneStage)))
     #
     def setFilterItemRefresh(self, ignoreRefresh=False):
         for filterKey, filterItem in self._filterItemDic.items():

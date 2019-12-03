@@ -5,7 +5,7 @@ from LxCore.preset.prod import scenePr
 #
 from LxUi.command import uiHtml
 #
-from LxUi.qt import uiWidgets_, uiChart_, uiWidgets
+from LxUi.qt import qtWidgets_, qtChart_, qtWidgets
 #
 none = ''
 
@@ -59,7 +59,7 @@ def setListScRenderImageCustomize(
         if data:
             iconKeyword = 'svg_basic@svg#name'
             stateLabel = none
-            treeItem = uiWidgets_.QTreeWidgetItem_()
+            treeItem = qtWidgets_.QTreeWidgetItem_()
             #
             if hasattr(parentUi, 'addItem'):
                 parentUi.addItem(treeItem)
@@ -142,11 +142,11 @@ def setListRenderImages(
         return dic
     #
     def setLayerBranch(layer):
-        treeItem = uiWidgets_.QTreeWidgetItem_()
+        treeItem = qtWidgets_.QTreeWidgetItem_()
         #
-        if type(parentUi) == uiWidgets_.QTreeWidget_:
+        if type(parentUi) == qtWidgets_.QTreeWidget_:
             parentUi.addItem(treeItem)
-        elif type(parentUi) == uiWidgets_.QTreeWidgetItem_:
+        elif type(parentUi) == qtWidgets_.QTreeWidgetItem_:
             parentUi.addChild(treeItem)
             #
             parentUi.setExpanded(True)
@@ -163,7 +163,7 @@ def setListRenderImages(
                 return lxBasic.isOsExist(imageFolder)
             #
             def openImage():
-                osCmdExe = '{}/exe/windows/Pdplayer 64/pdplayer64.exe'.format(lxConfigure._getLxBasicPath())
+                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.Root().windowAppRoot())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(imageFile)
                     if subOsFiles:
@@ -172,9 +172,9 @@ def setListRenderImages(
                         lxBasic.setOsCommandRun_(osCmd)
             #
             def showSizeHistogramWindow():
-                win = uiWidgets.UiDialogWindow()
+                win = qtWidgets.UiDialogWindow()
                 win.setNameText('Image Size Histogram')
-                chart = uiChart_.xHistogramChart()
+                chart = qtChart_.QtHistogramchart_()
                 win.addWidget(chart)
                 chart.setDrawData(lxBasic.getOsSeqFileSizes(imageFile, startFrame, endFrame), (startFrame, 0), ('Frame', 'Size'))
                 win.uiShow()
@@ -203,7 +203,7 @@ def setListRenderImages(
         if index == 0:
             treeItem = parentItem
         else:
-            treeItem = uiWidgets_.QTreeWidgetItem_()
+            treeItem = qtWidgets_.QTreeWidgetItem_()
             parentItem.addChild(treeItem)
         #
         iconKeyword = 'svg_basic@svg#image'
@@ -214,7 +214,7 @@ def setListRenderImages(
         # Action
         setActionData()
         #
-        lineChart = uiChart_.xSequenceChart()
+        lineChart = qtChart_.QtSequencechart_()
         treeItem.setItemWidget(2, lineChart)
         #
         methods.append(updateCompletion)

@@ -1,9 +1,8 @@
 # coding:utf-8
 from LxCore.config import appConfig, basicCfg
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt import ifAbstract
 #
@@ -14,7 +13,7 @@ none = ''
 
 #
 class IfShelfBasic_(
-    uiWidgets.UiVShelfTabGroup,
+    qtWidgets.QtVShelfTabGroup,
     ifAbstract.IfShelfAbs
 ):
     ShelfWidth = 800
@@ -35,7 +34,7 @@ class IfShelfBasic_(
         self._filterFrameDic = {}
     #
     def _initShelfBasicUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(0, 0, 0, 0)
         self._mainLayout.setSpacing(0)
     #
@@ -55,7 +54,7 @@ class IfShelfBasic_(
 
 #
 class IfGroupBasic_(
-    uiWidgets.UiHShelfTabGroup,
+    qtWidgets.QtHShelfTabGroup,
     ifAbstract.IfGroupModelAbs
 ):
     GroupWidth = 800
@@ -99,7 +98,7 @@ class IfGroupBasic_(
 
 #
 class IfUnitBasic(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
@@ -120,11 +119,11 @@ class IfUnitBasic(
         self._filterFrameDic = {}
     #
     def _initUnitBasicUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
         #
-        self._topToolBar = uiWidgets_.xToolBar()
+        self._topToolBar = qtWidgets_.xToolBar()
         self._mainLayout.addWidget(self._topToolBar)
         self.setupTopToolBar(self._topToolBar)
     #
@@ -220,13 +219,13 @@ class IfUnitBasic(
             self.setCentralRefresh()
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setCentralRefresh)
@@ -258,7 +257,7 @@ class IfUnitBasic(
 
 #
 class IfUnitBasic_(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
@@ -279,11 +278,11 @@ class IfUnitBasic_(
         self._filterFrameDic = {}
     #
     def _initUnitBasicUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
         #
-        self._topToolBar = uiWidgets_.xToolBar()
+        self._topToolBar = qtWidgets_.xToolBar()
         self._mainLayout.addWidget(self._topToolBar)
         self.setupTopToolBar(self._topToolBar)
     #
@@ -379,13 +378,13 @@ class IfUnitBasic_(
             self.setCentralRefresh()
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setCentralRefresh)
@@ -414,7 +413,7 @@ class IfUnitBasic_(
 
 #
 class IfOverviewUnitBasic(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs
 ):
     SideWidth = 320
@@ -441,7 +440,7 @@ class IfOverviewUnitBasic(
         self._filterFrameDic = {}
     #
     def _initOverviewUnitBasicUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
     #
@@ -450,13 +449,13 @@ class IfOverviewUnitBasic(
             self.setCentralRefresh()
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setCentralRefresh)
@@ -471,32 +470,32 @@ class IfOverviewUnitBasic(
         def setRightRefreshEnable():
             self._rightRefreshEnable = self._rightExpandBox.isExpanded()
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         self._mainLayout.addWidget(toolBar)
         self.setupTopToolBar(toolBar)
         #
-        widget = uiCore.QWidget_()
-        layout = uiCore.QHBoxLayout_(widget)
+        widget = qtCore.QWidget_()
+        layout = qtCore.QHBoxLayout_(widget)
         self._mainLayout.addWidget(widget)
         #
-        self._leftExpandBox = uiWidgets_.UiExpandWidget()
+        self._leftExpandBox = qtWidgets_.QtExpandWidget()
         layout.addWidget(self._leftExpandBox)
         self._leftExpandBox.setUiWidth(self.SideWidth)
         #
-        self._leftScrollLayout = uiCore.QScrollArea_()
+        self._leftScrollLayout = qtCore.QScrollArea_()
         self._leftExpandBox.addWidget(self._leftScrollLayout)
         #
-        self._centralScrollLayout = uiCore.QScrollArea_()
+        self._centralScrollLayout = qtCore.QScrollArea_()
         layout.addWidget(self._centralScrollLayout)
         #
-        self._rightExpandBox = uiWidgets_.UiExpandWidget()
+        self._rightExpandBox = qtWidgets_.QtExpandWidget()
         layout.addWidget(self._rightExpandBox)
-        self._rightExpandBox.setExpandDir(uiCore.LeftDir)
+        self._rightExpandBox.setExpandDir(qtCore.LeftDir)
         self._rightExpandBox.setExpanded(False)
         self._rightExpandBox.setUiWidth(self.SideWidth)
         self._rightExpandBox.expanded.connect(setRightRefreshEnable)
         #
-        self._rightScrollLayout = uiCore.QScrollArea_()
+        self._rightScrollLayout = qtCore.QScrollArea_()
         self._rightExpandBox.addWidget(self._rightScrollLayout)
     #
     def setupUnitAction(self):
@@ -511,7 +510,7 @@ class IfOverviewUnitBasic(
 
 #
 class IfProductUnitOverviewUnitBasic(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs
 ):
     LxProductConfig = appConfig.LxProductConfig
@@ -539,7 +538,7 @@ class IfProductUnitOverviewUnitBasic(
         self._filterFrameDic = {}
     #
     def _initOverviewUnitBasicUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
     #
@@ -548,13 +547,13 @@ class IfProductUnitOverviewUnitBasic(
             self.setCentralRefresh()
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setCentralRefresh)
@@ -564,19 +563,19 @@ class IfProductUnitOverviewUnitBasic(
     #
     def _setupLinkFilter(self, productModule, layout):
         uiSetDic = self.LxProductConfig._lxProductLinkUiSetDic(productModule)
-        toolGroupBox = uiWidgets.UiToolGroupBox()
+        toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Link Filter')
         toolGroupBox.setExpanded(True)
         layout.addWidget(toolGroupBox)
         #
-        checkView = uiWidgets.UiCheckView()
+        checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #
         filterColumn = 0
         for filterRow, (keyword, explainLis) in enumerate(uiSetDic.items()):
-            filterItem = uiWidgets.UiFilterCheckbutton('link#{}'.format(keyword))
+            filterItem = qtWidgets.QtFilterCheckbutton('link#{}'.format(keyword))
             checkView.addWidget(filterItem)
             #
             filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
@@ -589,12 +588,12 @@ class IfProductUnitOverviewUnitBasic(
     #
     def _setupClassFilter(self, productModule, layout):
         uiSetDic = self.LxProductConfig._lxProductClassUiSetDic(productModule)
-        toolGroupBox = uiWidgets.UiToolGroupBox()
+        toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Class Filter')
         toolGroupBox.setExpanded(True)
         layout.addWidget(toolGroupBox)
         #
-        checkView = uiWidgets.UiCheckView()
+        checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
@@ -602,7 +601,7 @@ class IfProductUnitOverviewUnitBasic(
         filterColumn = 1
         filterRow = 0
         for seq, (keyword, explainLis) in enumerate(uiSetDic.items()):
-            mainFilterButton = uiWidgets.UiFilterCheckbutton('object#{}'.format(keyword))
+            mainFilterButton = qtWidgets.QtFilterCheckbutton('object#{}'.format(keyword))
             checkView.addWidget(mainFilterButton)
             #
             mainFilterButton.setNameText(explainLis[self.LynxiUiIndex_Language])
@@ -614,7 +613,7 @@ class IfProductUnitOverviewUnitBasic(
             #
             subFilterConfigDic = self.LxProductConfig._lxProductPriorityUiSetDic(productModule)
             for subSeq, (subKeyword, subExplainLis) in enumerate(subFilterConfigDic.items()):
-                subFilterButton = uiWidgets.UiFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
+                subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
                 #
                 subFilterButton.setNameText(subExplainLis[self.LynxiUiIndex_Language])
@@ -623,7 +622,7 @@ class IfProductUnitOverviewUnitBasic(
                 subFilterButton.setItemFilterColumn(filterColumn)
                 subFilterButton.setItemFilterRow(filterRow)
                 #
-                r, g, b = uiCore.hsvToRgb(60 * seq, 1 / float(subSeq + 1), 1)
+                r, g, b = qtCore.hsvToRgb(60 * seq, 1 / float(subSeq + 1), 1)
                 subFilterButton.setFilterColor((r, g, b, 255))
                 #
                 mainFilterButton.addFilterChild(subFilterButton)
@@ -635,22 +634,22 @@ class IfProductUnitOverviewUnitBasic(
     def _setupStageFilter(self, productModule, layout):
         linkLis = self.LxProductConfig._lxProductLinkLis(productModule)
         #
-        toolGroupBox = uiWidgets.UiToolGroupBox()
+        toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
         layout.addWidget(toolGroupBox)
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         toolGroupBox.addWidget(toolBar)
         #
         for seq, i in enumerate(linkLis):
-            enableItem = uiWidgets.UiEnableButton('basic#{}Link'.format(i))
+            enableItem = qtWidgets.QtEnablebutton('basic#{}Link'.format(i))
             enableItem.setAutoExclusive(True)
             toolBar.addWidget(enableItem)
             #
             if seq == 0:
                 enableItem.setChecked(True)
         #
-        checkView = uiWidgets.UiCheckView()
+        checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
         uiSetDic = self.LxProductConfig._lxProductStageUiSetDic(productModule)
         checkView.setMargins(2, 2, 2, 2)
@@ -659,13 +658,13 @@ class IfProductUnitOverviewUnitBasic(
         filterColumn = 0
         filterRow = 0
         for seq, (mainFilterKey, explainLis) in enumerate(uiSetDic.items()):
-            filterItem = uiWidgets.UiFilterCheckbutton()
+            filterItem = qtWidgets.QtFilterCheckbutton()
             checkView.addWidget(filterItem)
             #
             filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
-            r, g, b = uiCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -676,22 +675,22 @@ class IfProductUnitOverviewUnitBasic(
             filterRow += 1
     @staticmethod
     def setupStageFilterBox(linkLis, filterItemDic, layout):
-        toolGroupBox = uiWidgets.UiToolGroupBox()
+        toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
         layout.addWidget(toolGroupBox)
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         toolGroupBox.addWidget(toolBar)
         #
         for seq, i in enumerate(linkLis):
-            enableItem = uiWidgets.UiEnableButton('basic#{}Link'.format(i))
+            enableItem = qtWidgets.QtEnablebutton('basic#{}Link'.format(i))
             enableItem.setAutoExclusive(True)
             toolBar.addWidget(enableItem)
             #
             if seq == 0:
                 enableItem.setChecked(True)
         #
-        checkView = uiWidgets.UiCheckView()
+        checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
         filterConfigDic = basicCfg.basicProductionStageDic()
         checkView.setMargins(2, 2, 2, 2)
@@ -700,13 +699,13 @@ class IfProductUnitOverviewUnitBasic(
         filterColumn = 0
         filterRow = 0
         for seq, (mainFilterKey, (keyword, enExplain, cnExplain)) in enumerate(filterConfigDic.items()):
-            filterItem = uiWidgets.UiFilterCheckbutton()
+            filterItem = qtWidgets.QtFilterCheckbutton()
             checkView.addWidget(filterItem)
             #
             filterItem.setName(u'{} ( {} )'.format(enExplain, cnExplain))
             filterItem.setChecked(True)
             #
-            r, g, b = uiCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -780,32 +779,32 @@ class IfProductUnitOverviewUnitBasic(
             #
             self.setRecordRefresh()
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         self._mainLayout.addWidget(toolBar)
         self.setupTopToolBar(toolBar)
         #
-        widget = uiCore.QWidget_()
-        layout = uiCore.QHBoxLayout_(widget)
+        widget = qtCore.QWidget_()
+        layout = qtCore.QHBoxLayout_(widget)
         self._mainLayout.addWidget(widget)
         #
-        self._leftExpandBox = uiWidgets_.UiExpandWidget()
+        self._leftExpandBox = qtWidgets_.QtExpandWidget()
         layout.addWidget(self._leftExpandBox)
         self._leftExpandBox.setUiWidth(self.SideWidth)
         #
-        self._leftScrollLayout = uiCore.QScrollArea_()
+        self._leftScrollLayout = qtCore.QScrollArea_()
         self._leftExpandBox.addWidget(self._leftScrollLayout)
         #
-        self._centralScrollLayout = uiCore.QScrollArea_()
+        self._centralScrollLayout = qtCore.QScrollArea_()
         layout.addWidget(self._centralScrollLayout)
         #
-        self._rightExpandBox = uiWidgets_.UiExpandWidget()
+        self._rightExpandBox = qtWidgets_.QtExpandWidget()
         layout.addWidget(self._rightExpandBox)
-        self._rightExpandBox.setExpandDir(uiCore.LeftDir)
+        self._rightExpandBox.setExpandDir(qtCore.LeftDir)
         self._rightExpandBox.setExpanded(False)
         self._rightExpandBox.setUiWidth(self.SideWidth)
         self._rightExpandBox.expanded.connect(setRightRefreshEnable)
         #
-        self._rightScrollLayout = uiCore.QScrollArea_()
+        self._rightScrollLayout = qtCore.QScrollArea_()
         self._rightExpandBox.addWidget(self._rightScrollLayout)
     #
     def setupUnitAction(self):
@@ -820,7 +819,7 @@ class IfProductUnitOverviewUnitBasic(
 
 #
 class IfProductToolUnitBasic(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs
 ):
     pass
@@ -828,7 +827,7 @@ class IfProductToolUnitBasic(
 
 #
 class IfToolUnitBasic(
-    uiCore.UiMainWidget,
+    qtCore.UiMainWidget,
     ifAbstract.IfToolUnitAbs
 ):
     SideWidth = 400
@@ -843,23 +842,23 @@ class IfToolUnitBasic(
         pass
     #
     def _initBasicToolUnitUi(self):
-        self._mainLayout = uiCore.QVBoxLayout_(self)
+        self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(0, 0, 0, 0)
         self._mainLayout.setSpacing(2)
         #
-        self._topToolBar = uiWidgets_.xToolBar()
+        self._topToolBar = qtWidgets_.xToolBar()
         self._topToolBar.hide()
         self._mainLayout.addWidget(self._topToolBar)
         self.setupTopToolBar(self._topToolBar)
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
     #

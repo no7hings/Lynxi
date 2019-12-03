@@ -7,17 +7,18 @@ from LxCore.config import appCfg
 #
 from LxCore.preset import appVariant
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
+from LxCore.preset.prod import assetPr, scenePr
 #
 from LxCore.product.op import messageOp
 #
-from LxMaya.command import maUtils, maFile, maFur, maKeyframe, maMshBox, maAsb, maPrv, maAnim, maRender, maDir
+from LxMaya.command import maUtils, maFile, maFur, maPrv, maRender, maDir
 #
-from LxMaya.product.data import datAsset, datScenery, datScene, datAnim
+from LxMaya.product.data import datScene
 #
-from LxMaya.product.op import sceneryOp, sceneOp
+from LxMaya.product.op import sceneOp
 #
-from LxDeadline import deadlineOp
+from LxDeadline.command import ddlUtil
+
 #
 astDefaultVersion = appVariant.astDefaultVersion
 #
@@ -1370,7 +1371,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
             jobName = scenePr.scDeadlineJobName(currentRenderLayer, startFrame, endFrame, width, height, timeTag)
             imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, renderLayerOverride=currentRenderLayer)
             #
-            subInfoData, subJobData = deadlineOp.getDdlMayaBatchData(
+            subInfoData, subJobData = ddlUtil.getDdlMayaBatchData(
                 batchName=batchName, jobName=jobName,
                 scenePath=serverRenderPath, sceneFile=serverRenderFile,
                 composeFiles=composeFileLis,
@@ -1424,7 +1425,7 @@ def scUnitDeadlineJobSubmitCmd(
         # Test Boolean
         enable = True
         if enable is True:
-            result = deadlineOp.runDdlJob(multLineInfoFile, multLineJobFile)
+            result = ddlUtil.runDdlJob(multLineInfoFile, multLineJobFile)
             if result:
                 for i in result:
                     if not i.startswith('\r\n'):

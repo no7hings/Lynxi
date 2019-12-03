@@ -1,25 +1,14 @@
 # coding=utf-8
 from LxCore import lxBasic, lxConfigure
 #
-from LxCore.preset import basicPr, pipePr
+from LxCore.preset import basicPr
 #
-guidePresetKey = lxConfigure.LynxiProjectPresetKey
-#
-serverBasicPath = lxConfigure._getLxBasicPath()
-#
-localBasicPath = lxConfigure.getLxUserOsPath()
+guidePresetKey = lxConfigure.Lynxi_Key_Preset_Project
+# do not delete and rename
+serverBasicPath = lxConfigure.Root().root()
+localBasicPath = lxConfigure.Root().userRoot()
 #
 none = ''
-
-
-#
-def localProjectPresetFile():
-    return basicPr.localPresetFile()
-
-
-#
-def localMayaProjectPresetFile(mayaVersion):
-    return basicPr.localAppProjectPresetFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
 
 
 #
@@ -144,7 +133,7 @@ def getProjectMayaTdPresetDic(projectName):
 
 
 # noinspection PyShadowingNames
-def getProjectMayaScriptDataDic(projectName=none):
+def getProjectMayaScriptDatumDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
@@ -156,8 +145,8 @@ def getProjectMayaScriptDataDic(projectName=none):
             if v:
                 for ik, iv in v.items():
                     var = ''
-                    pathCmd = lxBasic._toVariantConvert('var', iv)
-                    exec pathCmd
+                    scriptText = lxBasic._toVariantConvert('var', iv)
+                    exec scriptText
                     if var:
                         dic.setdefault(k, []).append(var)
     return dic
@@ -174,8 +163,8 @@ def getProjectMayaTdPackagePathLis(projectName):
                 mayaPackageStr = v[lxConfigure.LynxiMayaPackageKey]
                 #
                 var = ''
-                pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
-                exec pathCmd
+                scriptText = lxBasic._toVariantConvert('var', mayaPackageStr)
+                exec scriptText
                 #
                 if var:
                     lis.append(var)
@@ -188,7 +177,7 @@ def getMaCustomPlugPresetDic(projectName=none):
         projectName = getMayaProjectName()
     #
     mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.LynxiPlugPresetKey
+    subPresetKey = lxConfigure.Lynxi_Key_Plug_PresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -217,12 +206,13 @@ def getMaCustomPlugPathDic(projectName=none):
         mayaVersion = getProjectMayaVersion(projectName)
         for k, v in data.items():
             plugName = k
-            plugVersion = v[lxConfigure.LynxiPlugVersionKey]
-            plugPath = basicPr.localAppPlugPath(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
+            plugVersion = v[lxConfigure.Lynxi_Key_Plug_Version]
+
+            plugPath = lxConfigure.PlugRoot().userPlugFolder(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
             dic[plugName] = plugPath
     # Definition
     plugName, plugVersion = 'lynxinode', '1.0'
-    dic[plugName] = basicPr.localAppPlugPath(lxConfigure.Lynxi_App_Maya, 'definition', plugName, plugVersion)
+    dic[plugName] = lxConfigure.PlugRoot().userPlugFolder(lxConfigure.Lynxi_App_Maya, 'definition', plugName, plugVersion)
     #
     return dic
 
@@ -308,9 +298,9 @@ def getProjectMayaCustomPlugLoadNames(projectName=none):
     data = getMaCustomPlugPresetDic(projectName)
     if data:
         for k, v in data.items():
-            autoLoad = v[lxConfigure.LynxiPlugAutoLoadKey]
+            autoLoad = v[lxConfigure.Lynxi_Key_Plug_Load_Enable_Auto]
             if autoLoad is True:
-                loadNames = v[lxConfigure.LynxiPlugLoadNamesKey]
+                loadNames = v[lxConfigure.Lynxi_Key_Plug_Load_Names]
                 if loadNames:
                     lis.extend(loadNames)
     return lis
@@ -328,11 +318,12 @@ def getProjectMayaCustomPlugCheckDic(projectName=None):
         mayaVersion = getProjectMayaVersion(projectName)
         for k, v in data.items():
             plugName = k
-            autoLoad = v[lxConfigure.LynxiPlugAutoLoadKey]
+            autoLoad = v[lxConfigure.Lynxi_Key_Plug_Load_Enable_Auto]
             if autoLoad is True:
-                plugVersion = v[lxConfigure.LynxiPlugVersionKey]
-                loadNames = v[lxConfigure.LynxiPlugLoadNamesKey]
-                plugPath = basicPr.localAppPlugPath(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
+                plugVersion = v[lxConfigure.Lynxi_Key_Plug_Version]
+                loadNames = v[lxConfigure.Lynxi_Key_Plug_Load_Names]
+
+                plugPath = lxConfigure.PlugRoot().userPlugFolder(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
                 dic[plugName] = loadNames, plugPath
     #
     return dic
@@ -349,8 +340,8 @@ def getProjectMayaCustomPlugSetupCommands(projectName=none):
         mayaVersion = getProjectMayaVersion(projectName)
         for k, v in data.items():
             plugName = k
-            plugVersion = v[lxConfigure.LynxiPlugVersionKey]
-            setupPyFile = basicPr.serverPlugSetupPy(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
+            plugVersion = v[lxConfigure.Lynxi_Key_Plug_Version]
+            setupPyFile = lxConfigure.PlugRoot().appPlugSetupFile(lxConfigure.Lynxi_App_Maya, mayaVersion, plugName, plugVersion)
             if lxBasic.isOsExistsFile(setupPyFile):
                 setupCommand = open(setupPyFile, 'r').read()
                 setupCommandReduce = 'python({0});'.format(lxBasic.getJsonDumps(setupCommand))
@@ -442,7 +433,7 @@ def getMayaProjectNameDic():
 def getProjectName():
     # String <Project Name>
     string = lxConfigure.LynxiDefaultProjectValue
-    osFile = localProjectPresetFile()
+    osFile = lxConfigure.UserPreset().projectFile()
     if not lxBasic.isOsExistsFile(osFile):
         setLocalProjectPreset(string)
     else:
@@ -473,7 +464,7 @@ def getMayaProjectName():
             string = environValue
         else:
             currentMayaVersion = lxBasic.getMayaAppVersion()
-            osFile = localMayaProjectPresetFile(currentMayaVersion)
+            osFile = lxConfigure.UserPreset().appProjectFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
             if not lxBasic.isOsExistsFile(osFile):
                 setLocalMayaProjectPreset(string, currentMayaVersion)
             #
@@ -521,7 +512,7 @@ def setLocalAppProjectPreset(projectName):
 
 # Set Project Config
 def setLocalProjectPreset(projectName):
-    osFile = localProjectPresetFile()
+    osFile = lxConfigure.UserPreset().projectFile()
     lxBasic.setOsFilePathCreate(osFile)
     data = dict(project=projectName)
     lxBasic.writeOsJson(data, osFile)
@@ -530,18 +521,10 @@ def setLocalProjectPreset(projectName):
 # Set Project Config
 def setLocalMayaProjectPreset(projectName, mayaVersion):
     if lxBasic.isMayaApp():
-        osFile = localMayaProjectPresetFile(mayaVersion)
+        osFile = lxConfigure.UserPreset().appProjectFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
         lxBasic.setOsFilePathCreate(osFile)
         data = dict(project=projectName)
         lxBasic.writeOsJson(data, osFile)
-
-
-# Set Project Config
-def setLocalMayaPlugPreset(projectName, mayaVersion):
-    osFile = localMayaProjectPresetFile(mayaVersion)
-    lxBasic.setOsFilePathCreate(osFile)
-    data = dict(project=projectName)
-    lxBasic.writeOsJson(data, osFile)
 
 
 #

@@ -5,11 +5,8 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg
 #
-_serverBasicPath = lxConfigure._getLxBasicPath()
-_localBasicPath = lxConfigure.getLxUserOsPath()
-#
-basicPresetPath = lxConfigure._getLxProductPath()
-basicPlugPath = lxConfigure.getLxPlugPath()
+basicPresetPath = lxConfigure.Root().productRoot()
+basicPlugPath = lxConfigure.Root().plugRoot()
 #
 IsPresetVariantKey = True
 #
@@ -36,9 +33,9 @@ def basicPresetConfig(guidePresetKey):
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiKitPresetKey, lxConfigure.LynxiDefinitionPresetKey),
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiScriptPresetKey),
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiScriptPresetKey, lxConfigure.LynxiDefinitionPresetKey),
-        (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey),
-        (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey, lxConfigure.LynxiDefinitionPresetKey),
-        (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey, lxConfigure.LynxiEnvironPresetKey)
+        (lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey),
+        (lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey, lxConfigure.LynxiDefinitionPresetKey),
+        (lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey, lxConfigure.LynxiEnvironPresetKey)
     ]
     # Pipeline
     dic[lxConfigure.LynxiPipelinePresetKey] = [
@@ -57,7 +54,7 @@ def basicPresetConfig(guidePresetKey):
         (lxConfigure.LynxiSoftwarePresetKey,),
         #
         (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey),
-        (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey, lxConfigure.LynxiPlugPresetKey)
+        (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey)
     ]
     # Maya
     dic[lxConfigure.LynxiMayaPresetKey] = [
@@ -67,36 +64,36 @@ def basicPresetConfig(guidePresetKey):
         (lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiRendererPresetKey),
     ]
     # Project
-    dic[lxConfigure.LynxiProjectPresetKey] = [
+    dic[lxConfigure.Lynxi_Key_Preset_Project] = [
         # Project
-        (lxConfigure.LynxiProjectPresetKey,),
+        (lxConfigure.Lynxi_Key_Preset_Project,),
         # Project > Basic
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiDefinitionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiDefinitionPresetKey),
         # Project > Production
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey),
         # Project > Inspection
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey),
         #
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey),
         #
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiFilePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiFilePresetKey),
         #
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiShelfPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiKitPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiScriptPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiTdPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiPlugPresetKey)
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiShelfPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiKitPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiScriptPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiTdPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey)
     ]
     # Personnel
     dic[lxConfigure.LynxiPersonnelPresetKey] = [
@@ -120,7 +117,7 @@ def basicMainPresetKeySchemeConfig():
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiShelfToolPresetKey),
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiKitPresetKey),
         (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiScriptPresetKey),
-        (lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey),
+        (lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey),
         # Pipeline
         (lxConfigure.LynxiPipelinePresetKey, lxConfigure.LynxiBasicPresetKey),
         (lxConfigure.LynxiPipelinePresetKey, lxConfigure.LynxiNamePresetKey),
@@ -128,15 +125,15 @@ def basicMainPresetKeySchemeConfig():
         (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey),
         # Maya
         # Project > Basic
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey),
         # Project > Production
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey),
         # Project > Inspection
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey),
         # Project > Name
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey)
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey)
     ]
     return lis
 
@@ -154,17 +151,17 @@ def basicVariantPresetKeys():
         # Maya
         # Project
         # Project > Basic > Option
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey),
         # Project > Production > Asset
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey),
         # Project > Inspection > Asset
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey),
         #
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey),
-        (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey)
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey),
+        (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey)
     ]
     return lis
 
@@ -193,65 +190,6 @@ def defaultSetConfig(setDatumLis=None):
 def presetPath(basicPath):
     string = '{0}/{1}'.format(basicPath, '.preset')
     return string
-
-
-#
-def serverAppPlugsPath(appName, appVersion):
-    return '{0}/plug/{1}/{2}'.format(basicPlugPath, appName, appVersion)
-
-
-#
-def localAppPlugsPath(appName, appVersion):
-    return '{0}/plug/{1}/{2}'.format('c:/_pipe', appName, appVersion)
-
-
-#
-def localAppPlugPath(appName, appVersion, plugName, plugVersion):
-    return 'C:/_pipe/plug/{0}/{1}/{2}/{3}'.format(appName, appVersion, plugName, plugVersion)
-
-
-#
-def serverPlugConfig(appName, appVersion, plugName):
-    return '{0}/plug/{1}/{2}/{3}/{3}{4}'.format(basicPlugPath, appName, appVersion, plugName, configExt)
-
-
-#
-def serverPlugSetupPy(appName, appVersion, plugName, plugVersion):
-    return '{0}/plug/{1}/{2}/{3}/{4}/userSetup.py'.format(basicPlugPath, appName, appVersion, plugName, plugVersion)
-
-
-#
-def getAppPlugDataDic(appName, appVersion):
-    dic = lxBasic.orderedDict()
-    if appName != lxConfigure.LynxiValue_Unspecified:
-        osPath = serverAppPlugsPath(appName, appVersion)
-        if lxBasic.isOsExist(osPath):
-            osFileNames = lxBasic.getOsFileBasenameLisByPath(osPath)
-            if osFileNames:
-                for osFileName in osFileNames:
-                    configFile = serverPlugConfig(appName, appVersion, osFileName)
-                    if lxBasic.isOsExistsFile(configFile):
-                        data = lxBasic.readOsJson(configFile)
-                        if data:
-                            enabled, versions, mllName = data
-                            mllNames = []
-                            if isinstance(mllName, str) or isinstance(mllName, unicode):
-                                mllNames.append(mllName)
-                            elif isinstance(mllName, list) or isinstance(mllName, tuple):
-                                [mllNames.append(i) for i in mllName]
-                            if enabled:
-                                plugName = osFileName
-                                dic[plugName] = [
-                                    False,
-                                    u'插件预设',
-                                    [
-                                        [lxConfigure.LynxiPlugVersionKey, versions],
-                                        [lxConfigure.LynxiPlugLoadNamesKey, tuple(mllNames)],
-                                        [lxConfigure.LynxiPlugAutoLoadKey, False],
-                                        ['loadCondition', ()]
-                                    ]
-                                ]
-    return dic
 
 
 #
@@ -750,12 +688,12 @@ def defaultPresetPlugSchemeConfig():
 #
 def defaultAppPlugSetConfig():
     lis = [
-        (lxConfigure.LynxiPlugLoadNamesKey, ()),
+        (lxConfigure.Lynxi_Key_Plug_Load_Names, ()),
         (lxConfigure.LynxiServerPathKey, '<serverBasicPath>/<pipeBasicPlugFolder>/<app>/<appVersion>/<plugName>/<plugVersion>'),
         (lxConfigure.LynxiLocalPathKey, '<localBasicPath>/<pipeBasicPlugFolder>/<app>/<appVersion>/<plugName>/<plugVersion>'),
-        (lxConfigure.LynxiPlugDeployPathKey, '<localPath>/deploy'),
-        (lxConfigure.LynxiPlugModulePathKey, '<localPath>/module'),
-        (lxConfigure.LynxiPlugRlmPathKey, '<localPath>/rlm')
+        (lxConfigure.Lynxi_Key_Plug_Path_Deploy, '<localPath>/deploy'),
+        (lxConfigure.Lynxi_Key_Plug_Path_Module, '<localPath>/module'),
+        (lxConfigure.Lynxi_Key_Plug_Path_Rlm, '<localPath>/rlm')
     ]
     return lis
 
@@ -821,27 +759,27 @@ def defaultProjectSetConfig():
     lis = [
         [
             lxConfigure.LynxiBasicPresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey))
         ],
         [
             lxConfigure.LynxiProductionPresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey))
         ],
         [
             lxConfigure.LynxiInspectionPresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey))
         ],
         [
             lxConfigure.LynxiNamePresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey))
         ],
         [
             lxConfigure.LynxiStoragePresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey))
         ],
         [
             lxConfigure.LynxiMayaPresetKey,
-            getPresetSchemes((lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey))
+            getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey))
         ]
     ]
     return lis
@@ -2489,18 +2427,6 @@ def presetSetFileMethod(presetKeys, mainSchemeKey=none):
 
 
 #
-def localPresetFile():
-    string = '{0}/.{1}'.format(presetPath(_localBasicPath), lxConfigure.LynxiProjectPresetKey)
-    return string
-
-
-#
-def localAppProjectPresetFile(appName, appVersion):
-    string = '{0}/.{1}_{2}.{3}'.format(presetPath(_localBasicPath), appName, appVersion, lxConfigure.LynxiProjectPresetKey)
-    return string
-
-
-#
 def presetDicMethod(fn):
     def subMethod(*args):
         inputFn = fn(*args)
@@ -2525,13 +2451,13 @@ def basicPresetSchemeConfig(presetKeys, mainSchemeKey=none):
     # Maya 01
     dic[(lxConfigure.LynxiMayaPresetKey,)] = defaultMayaSchemeConfig
     # Project 01
-    dic[(lxConfigure.LynxiProjectPresetKey,)] = defaultProjectSchemeConfig
+    dic[(lxConfigure.Lynxi_Key_Preset_Project,)] = defaultProjectSchemeConfig
     # Preset 02
     dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiShelfPresetKey)] = defaultAppShelfSchemeConfig
     dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiShelfToolPresetKey)] = defaultAppShelfToolSchemeConfig
     dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiKitPresetKey)] = defaultAppKitSchemeConfig
     dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiScriptPresetKey)] = defaultAppScriptSchemeConfig
-    dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey)] = defaultPresetPlugSchemeConfig
+    dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey)] = defaultPresetPlugSchemeConfig
     # Pipeline 02
     dic[(lxConfigure.LynxiPipelinePresetKey, lxConfigure.LynxiBasicPresetKey)] = [
         [
@@ -2556,7 +2482,7 @@ def basicPresetSchemeConfig(presetKeys, mainSchemeKey=none):
     dic[(lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiRendererPresetKey)] = defaultMayaRendererSchemeConfig
     dic[(lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiVersionPresetKey)] = defaultMayaVersionSchemeConfig
     # Project 02
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
@@ -2564,35 +2490,35 @@ def basicPresetSchemeConfig(presetKeys, mainSchemeKey=none):
         ]
     ]
     # Project 02
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
             u'默认项目制作配置'
         ]
     ]
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
             u'默认项目检查配置'
         ]
     ]
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
             u'默认项目存储配置'
         ]
     ]
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
             u'默认项目命名配置'
         ]
     ]
-    dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey)] = [
+    dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey)] = [
         [
             lxConfigure.LynxiDefaultSchemeValue,
             None,
@@ -2617,7 +2543,7 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
         dic[(lxConfigure.LynxiPipelinePresetKey,)] = \
             defaultPipelineSetConfig
         # Project 01
-        dic[(lxConfigure.LynxiProjectPresetKey,)] = \
+        dic[(lxConfigure.Lynxi_Key_Preset_Project,)] = \
             defaultProjectSetConfig
     elif len(presetKeys) == 2:
         # Variant 02
@@ -2629,7 +2555,7 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
             defaultAppKitSetConfig
         dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiScriptPresetKey)] = \
             defaultAppScriptSetConfig
-        dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey)] = \
+        dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey)] = \
             defaultAppPlugSetConfig
         # Personnel 02
         dic[(lxConfigure.LynxiPersonnelPresetKey, lxConfigure.LynxiPostPresetKey)] = \
@@ -2639,9 +2565,9 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
         # Software 02
         # Maya 02
         # Project 02
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey)] = \
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey)] = \
             defaultProjectBasicSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey)] = defaultMayaProjectSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey)] = defaultMayaProjectSetConfig
     elif len(presetKeys) == 3:
         # Preset 03
         # Pipeline 03
@@ -2658,19 +2584,19 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
         # Software 03
         # Maya 03
         # Project 03
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey)] = defaultProjectOptionSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey)] = defaultAssetProductionSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey)] = defaultSceneProductionSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey)] = defaultAssetInspectionSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey)] = defaultDirectoryNameConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey)] = lxSet_name_node_dic
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey)] = defaultAttributeNameSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey)] = defaultRootStorageSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiFilePresetKey)] = defaultFileStorageSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiShelfPresetKey)] = defaultProjectMayaShelfSetDic
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiKitPresetKey)] = defaultProjectMayaToolKitSetDic
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiScriptPresetKey)] = defaultProjectMayaScriptSetConfig
-        dic[(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiTdPresetKey)] = defaultProjectMayaTdSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiBasicPresetKey, lxConfigure.LynxiOptionPresetKey)] = defaultProjectOptionSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiAssetPresetKey)] = defaultAssetProductionSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiProductionPresetKey, lxConfigure.LynxiScenePresetKey)] = defaultSceneProductionSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiInspectionPresetKey, lxConfigure.LynxiAssetPresetKey)] = defaultAssetInspectionSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiDirectoryPresetKey)] = defaultDirectoryNameConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiNodePresetKey)] = lxSet_name_node_dic
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiNamePresetKey, lxConfigure.LynxiAttributePresetKey)] = defaultAttributeNameSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiRootPresetKey)] = defaultRootStorageSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiStoragePresetKey, lxConfigure.LynxiFilePresetKey)] = defaultFileStorageSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiShelfPresetKey)] = defaultProjectMayaShelfSetDic
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiKitPresetKey)] = defaultProjectMayaToolKitSetDic
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiScriptPresetKey)] = defaultProjectMayaScriptSetConfig
+        dic[(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiTdPresetKey)] = defaultProjectMayaTdSetConfig
     #
     key = presetKeys
     if key in dic:
@@ -2681,10 +2607,10 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
             # noinspection PyCallingNonCallable
             return data()
     else:
-        if key == (lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, lxConfigure.LynxiPlugPresetKey):
-            return getAppPlugDataDic(
+        if key == (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey):
+            return lxConfigure.PlugRoot().appDatumDic(
                 lxConfigure.Lynxi_App_Maya,
-                getMainPresetSetValue(lxConfigure.LynxiProjectPresetKey, lxConfigure.LynxiMayaPresetKey, mainSchemeKey, lxConfigure.LynxiMayaVersionKey)
+                getMainPresetSetValue(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, mainSchemeKey, lxConfigure.LynxiMayaVersionKey)
             )
 
 
@@ -2692,7 +2618,7 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
 def basicSubPresetSchemeConfig(presetKeys, mainSchemeKey=none):
     dic = lxBasic.orderedDict()
     #
-    dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.LynxiPlugPresetKey, lxConfigure.LynxiEnvironPresetKey)] = basicCfg.defaultVariantConfig
+    dic[(lxConfigure.LynxiVariantPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey, lxConfigure.LynxiEnvironPresetKey)] = basicCfg.defaultVariantConfig
     key = presetKeys
     if key in dic:
         data = dic[key]
@@ -2702,7 +2628,7 @@ def basicSubPresetSchemeConfig(presetKeys, mainSchemeKey=none):
             # noinspection PyCallingNonCallable
             return data()
     elif not key in dic:
-        if key == (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey, lxConfigure.LynxiPlugPresetKey):
+        if key == (lxConfigure.LynxiSoftwarePresetKey, lxConfigure.LynxiAppPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey):
             return getPlugVariantLis(lxConfigure.LynxiMayaPresetKey, getMayaVersions(), '')
 
 
@@ -3293,7 +3219,7 @@ def getToolNames():
 #
 def getPlugNames():
     guidePresetKey = lxConfigure.LynxiVariantPresetKey
-    mainPresetKey = lxConfigure.LynxiPlugPresetKey
+    mainPresetKey = lxConfigure.Lynxi_Key_Plug_PresetKey
     return getPresetSchemes((guidePresetKey, mainPresetKey))
 
 
@@ -3301,7 +3227,7 @@ def getPlugNames():
 def getPlugVariantLis(appName, appVersions, plugName):
     lis = []
     guidePresetKey = lxConfigure.LynxiVariantPresetKey
-    mainPresetKey = lxConfigure.LynxiPlugPresetKey
+    mainPresetKey = lxConfigure.Lynxi_Key_Plug_PresetKey
     mainSchemeKey = plugName
     subPresetKey = lxConfigure.LynxiDefinitionPresetKey
     data = getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSchemeKey)
@@ -3314,7 +3240,7 @@ def getPlugVariantLis(appName, appVersions, plugName):
                     value = appName
                 if key == lxConfigure.LynxiAppVersionKey:
                     value = appVersions
-                if key == lxConfigure.LynxiPlugNameKey:
+                if key == lxConfigure.Lynxi_Key_Plug_Name:
                     value = getPlugNames()
                 setValue = value
                 defValue = value

@@ -3,23 +3,23 @@ from LxCore import lxConfigure, lxBasic, lxProgress, lxTip
 #
 from LxCore.preset import basicPr, pipePr
 #
-from LxUi import uiCore
+from LxUi import uiConfigure
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
 
 #
-class IfPresetWindow(uiWidgets.UiToolWindow):
+class IfPresetWindow(qtWidgets.UiToolWindow):
     leftBoxWidth = 320
     widthSet = 55
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxConfigure.Version().active()
+    _Version = lxConfigure.Version().local()
     def __init__(self):
         super(IfPresetWindow, self).__init__()
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -34,18 +34,18 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         self.setupWindow()
     #
     def setupPresetUnit(self, key, layout):
-        topToolBar = uiWidgets_.xToolBar()
+        topToolBar = qtWidgets_.xToolBar()
         self.setupTopToolBar(key, topToolBar)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(key, leftScrollArea)
         #
-        rightWidget = uiCore.QWidget_()
-        rightLayout = uiCore.QVBoxLayout_(rightWidget)
+        rightWidget = qtCore.QWidget_()
+        rightLayout = qtCore.QVBoxLayout_(rightWidget)
         rightLayout.setContentsMargins(0, 0, 0, 0)
         self.setupRightBox(key, rightLayout)
         #
@@ -56,13 +56,13 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         self.setBuildPreset(key)
     #
     def setupTopToolBar(self, key, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
     #
@@ -73,7 +73,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
                 toolGroupBox = treeItem.toolGroupBox
                 toolGroupBox.setVisible(treeItem.isSelected())
         #
-        guideTreeBox = uiWidgets_.QTreeWidget_()
+        guideTreeBox = qtWidgets_.QTreeWidget_()
         guideTreeBox.setColumns(
             ['Preset', 'Scheme'],
             [2, 2],
@@ -88,7 +88,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         self.guideTreeBoxDic[key] = guideTreeBox
     #
     def setupRightBox(self, key, layout):
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         layout.addWidget(scrollBox)
         scrollBox.setScrollBarVisible('off', 'normal')
         scrollBox.setContentsMargins(0, 0, 0, 0)
@@ -123,12 +123,12 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
             parentKey = None
             explainKey = None
             #
-            treeItem = uiWidgets_.QTreeWidgetItem_()
+            treeItem = qtWidgets_.QTreeWidgetItem_()
             treeItemDic[presetKeys] = treeItem
             #
-            chooseBox = uiWidgets.UiEnterlabel()
+            chooseBox = qtWidgets.QtEnterlabel()
             #
-            toolGroupBox = uiWidgets.UiToolGroupBox()
+            toolGroupBox = qtWidgets.QtToolboxGroup()
             treeItem.toolGroupBox = toolGroupBox
             treeItem.chooseBox = chooseBox
             treeItem.presetKeys = presetKeys
@@ -175,8 +175,8 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
     #
     def setBuildGuidePreset(self, treeItem):
         self.setGuidePresetChooseBox(treeItem)
-        self.setGuidePresetToolGroupBox(treeItem)
-        self.setToolGroupBoxTitle(treeItem)
+        self.setGuidePresetToolboxGroup(treeItem)
+        self.setToolboxGroupTitle(treeItem)
     # Guide
     def setGuidePresetChooseBox(self, treeItem):
         def setRefresh():
@@ -192,7 +192,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
                 if not message == mainSchemeKey:
                     mainChooseBox.setChoose(mainSchemeKey)
             #
-            self.setSubPresetToolGroupBoxTitle(treeItem)
+            self.setSubPresetToolboxGroupTitle(treeItem)
         #
         guidePresetKey = treeItem.presetKeys[0]
         chooseBox = treeItem.chooseBox
@@ -204,7 +204,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         #
         chooseBox.chooseChanged.connect(setRefresh)
     #
-    def setGuidePresetToolGroupBox(self, treeItem):
+    def setGuidePresetToolboxGroup(self, treeItem):
         def getExpandedMethod():
             presetItems = presetBox.items()
             if presetItems:
@@ -252,16 +252,16 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         #
         expandedDic = {}
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        toolLayout = uiCore.QHBoxLayout_(widget)
+        toolLayout = qtCore.QHBoxLayout_(widget)
         toolLayout.setContentsMargins(4, 4, 4, 4)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(4, 4, 4, 4)
-        presetBox = uiWidgets_.xRegisterListViewBox()
+        presetBox = qtWidgets_.xRegisterListViewBox()
         layout.addWidget(presetBox)
         #
         self.setGuidePresetToolBar(guidePresetKey, toolLayout, presetBox, (refreshMethod, saveMethod))
@@ -278,10 +278,10 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
             entryLabel.setEnterClear()
         #
         refreshMethod, saveMethod = methods
-        filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         toolLayout.addWidget(filterButton)
         #
-        entryLabel = uiWidgets.UiEnterlabel()
+        entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
         entryLabel.setNameText('%s Name / Scheme' % lxBasic._toStringPrettify(guidePresetKey))
@@ -289,23 +289,23 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
         #
-        addButton = uiWidgets.UiIconbutton('svg_basic@svg#add')
+        addButton = qtWidgets.QtIconbutton('svg_basic@svg#add')
         toolLayout.addWidget(addButton)
         addButton.clicked.connect(addMethod)
         addButton.setTooltip(u'点击添加方案')
         #
-        _refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        _refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolLayout.addWidget(_refreshButton)
         _refreshButton.clicked.connect(refreshMethod)
         _refreshButton.setTooltip(u'点击刷新方案')
         #
-        saveButton = uiWidgets.UiIconbutton('svg_basic@svg#save')
+        saveButton = qtWidgets.QtIconbutton('svg_basic@svg#save')
         toolLayout.addWidget(saveButton)
         saveButton.clicked.connect(saveMethod)
         saveButton.setTooltip(u'点击保存方案')
     @staticmethod
     def addGuidePresetItem(presetBox, guidePresetKey, guideSchemeKey, schemeData, isExpanded=True):
-        presetWidget = uiWidgets_.xPresetItemWidget()
+        presetWidget = qtWidgets_.xPresetItemWidget()
         presetBox.addItem(presetWidget)
         #
         presetWidget.setMainData(guideSchemeKey, schemeData)
@@ -316,8 +316,8 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
     # Main
     def setBuildMainPreset(self, treeItem):
         self.setMainPresetChooseBox(treeItem)
-        self.setMainPresetToolGroupBox(treeItem)
-        self.setToolGroupBoxTitle(treeItem)
+        self.setMainPresetToolboxGroup(treeItem)
+        self.setToolboxGroupTitle(treeItem)
     #
     def setMainPresetChooseBox(self, treeItem):
         def setRefresh():
@@ -328,7 +328,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
                     for i in methods:
                         i()
             #
-            self.setSubPresetToolGroupBoxTitle(treeItem)
+            self.setSubPresetToolboxGroupTitle(treeItem)
         #
         guidePresetKey, mainPresetKey = treeItem.presetKeys
         chooseBox = treeItem.chooseBox
@@ -340,7 +340,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         #
         chooseBox.chooseChanged.connect(setRefresh)
     #
-    def setMainPresetToolGroupBox(self, treeItem):
+    def setMainPresetToolboxGroup(self, treeItem):
         def getExpandedMethod():
             presetItems = presetBox.items()
             if presetItems:
@@ -392,16 +392,16 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         #
         expandedDic = {}
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        toolLayout = uiCore.QHBoxLayout_(widget)
+        toolLayout = qtCore.QHBoxLayout_(widget)
         toolLayout.setContentsMargins(4, 4, 4, 4)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(4, 4, 4, 4)
-        presetBox = uiWidgets_.xRegisterListViewBox()
+        presetBox = qtWidgets_.xRegisterListViewBox()
         layout.addWidget(presetBox)
         #
         self.setMainPresetToolBar(guidePresetKey, mainPresetKey, toolLayout, presetBox, (refreshMethod, saveMethod))
@@ -419,10 +419,10 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
             entryLabel.setEnterClear()
         #
         refreshMethod, saveMethod = methods
-        filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         toolLayout.addWidget(filterButton)
         #
-        entryLabel = uiWidgets.UiEnterlabel()
+        entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
         entryLabel.setNameText('%s Name / Scheme' % lxBasic._toStringPrettify(mainPresetKey))
@@ -430,23 +430,23 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
         #
-        addButton = uiWidgets.UiIconbutton('svg_basic@svg#add')
+        addButton = qtWidgets.QtIconbutton('svg_basic@svg#add')
         toolLayout.addWidget(addButton)
         addButton.clicked.connect(addMethod)
         addButton.setTooltip(u'点击添加方案')
         #
-        _refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        _refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolLayout.addWidget(_refreshButton)
         _refreshButton.clicked.connect(refreshMethod)
         _refreshButton.setTooltip(u'点击刷新方案')
         #
-        saveButton = uiWidgets.UiIconbutton('svg_basic@svg#save')
+        saveButton = qtWidgets.QtIconbutton('svg_basic@svg#save')
         toolLayout.addWidget(saveButton)
         saveButton.clicked.connect(saveMethod)
         saveButton.setTooltip(u'点击保存方案')
     @staticmethod
     def addMainPresetItem(presetBox, guidePresetKey, mainPresetKey, mainSchemeKey, schemeData, isExpanded=True):
-        presetWidget = uiWidgets_.xPresetItemWidget()
+        presetWidget = qtWidgets_.xPresetItemWidget()
         presetBox.addItem(presetWidget)
         #
         presetWidget.setMainData(mainSchemeKey, schemeData)
@@ -456,11 +456,11 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
             presetWidget.setSubData(setsData, isExpanded)
     # Sub
     def setBuildSubPreset(self, treeItem):
-        self.setSubPresetToolGroupBox(treeItem)
+        self.setSubPresetToolboxGroup(treeItem)
         #
-        self.setToolGroupBoxTitle(treeItem)
+        self.setToolboxGroupTitle(treeItem)
     #
-    def setSubPresetToolGroupBox(self, treeItem):
+    def setSubPresetToolboxGroup(self, treeItem):
         def getExpandedMethod():
             presetItems = presetBox.items()
             if presetItems:
@@ -517,16 +517,16 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         #
         expandedDic = {}
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        toolLayout = uiCore.QHBoxLayout_(widget)
+        toolLayout = qtCore.QHBoxLayout_(widget)
         toolLayout.setContentsMargins(4, 4, 4, 4)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolGroupBox.addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(4, 4, 4, 4)
-        presetBox = uiWidgets_.xRegisterListViewBox()
+        presetBox = qtWidgets_.xRegisterListViewBox()
         layout.addWidget(presetBox)
         #
         self.setSubPresetToolBar(guidePresetKey, mainPresetKey, subPresetKey, schemeChooseBox, toolLayout, presetBox, (refreshMethod, saveMethod))
@@ -534,12 +534,12 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         refreshMethod()
         self.refreshMethodDic.setdefault((guidePresetKey, mainPresetKey), []).append(refreshMethod)
     #
-    def setSubPresetToolGroupBoxTitle(self, parentItem):
+    def setSubPresetToolboxGroupTitle(self, parentItem):
         childItems = parentItem.childItems()
         for treeItem in childItems:
             presetKeys = treeItem.presetKeys
             if len(presetKeys) == 3:
-                self.setToolGroupBoxTitle(treeItem)
+                self.setToolboxGroupTitle(treeItem)
     #
     def setSubPresetToolBar(self, guidePresetKey, mainPresetKey, subPresetKey, mainChooseBox, toolLayout, presetBox, methods):
         def addMethod():
@@ -552,37 +552,37 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
                 self.addSubPresetItem(presetBox, guidePresetKey, mainPresetKey, subPresetKey, mainScheme, preset, setData)
         #
         refreshMethod, saveMethod = methods
-        filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         toolLayout.addWidget(filterButton)
         #
         subSetDatas = basicPr.basicSubPresetSchemeConfig((guidePresetKey, mainPresetKey, subPresetKey))
         if subSetDatas is not None:
-            entryLabel = uiWidgets.UiEnterlabel()
+            entryLabel = qtWidgets.QtEnterlabel()
             entryLabel.setEnterEnable(True)
             entryLabel.setEnterable(True)
             entryLabel.setNameText('Add Variant_####...')
             entryLabel.setNameTextWidth(0)
             #
             toolLayout.addWidget(entryLabel)
-            addButton = uiWidgets.UiIconbutton('svg_basic@svg#add')
+            addButton = qtWidgets.QtIconbutton('svg_basic@svg#add')
             toolLayout.addWidget(addButton)
             addButton.clicked.connect(addMethod)
             addButton.setTooltip(u'点击添加预设')
         else:
-            toolLayout.addWidget(uiWidgets_.xSpacer())
+            toolLayout.addWidget(qtWidgets_.xSpacer())
         #
-        _refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        _refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolLayout.addWidget(_refreshButton)
         _refreshButton.clicked.connect(refreshMethod)
         _refreshButton.setTooltip(u'点击刷新预设')
         #
-        saveButton = uiWidgets.UiIconbutton('svg_basic@svg#save')
+        saveButton = qtWidgets.QtIconbutton('svg_basic@svg#save')
         toolLayout.addWidget(saveButton)
         saveButton.clicked.connect(saveMethod)
         saveButton.setTooltip(u'点击保存预设')
     @staticmethod
     def addSubPresetItem(presetBox, guidePresetKey, mainPresetKey, subPresetKey, mainSchemeKey, setKey, setData, isExpanded=True):
-        presetWidget = uiWidgets_.xPresetItemWidget()
+        presetWidget = qtWidgets_.xPresetItemWidget()
         presetBox.addItem(presetWidget)
         #
         mainData, subData = setData
@@ -591,7 +591,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         if subData:
             presetWidget.setSubData(subData, isExpanded)
     #
-    def setToolGroupBoxTitle(self, treeItem):
+    def setToolboxGroupTitle(self, treeItem):
         presetKeys = treeItem.presetKeys
         scheme = None
         toolGroupBox = treeItem.toolGroupBox
@@ -601,7 +601,7 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         explains = [lxBasic._toStringPrettify(i) for i in presetKeys]
         title = lxBasic.getUiStringPath(explains, lxConfigure.LynxiUiPathsep)
         toolGroupBox.setTitle(title + ['', ' ( {} )'.format(scheme)][scheme is not None])
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -610,10 +610,10 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        tabView = uiWidgets.UiVShelfTabGroup()
+        tabView = qtWidgets.QtVShelfTabGroup()
         self.addWidget(tabView)
         buildData = [
-            (lxConfigure.LynxiProjectPresetKey, 'svg_basic@svg#project', u'项目预设'),
+            (lxConfigure.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
             (lxConfigure.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
             (lxConfigure.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
             (lxConfigure.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
@@ -627,10 +627,10 @@ class IfPresetWindow(uiWidgets.UiToolWindow):
             keyword, iconKeyword, tooltip = i
             progressBar.updateProgress(keyword)
             #
-            widget = uiCore.QWidget_()
+            widget = qtCore.QWidget_()
             tabView.addTab(widget, keyword, iconKeyword, tooltip)
             #
-            layout = uiCore.QGridLayout_(widget)
+            layout = qtCore.QGridLayout_(widget)
             layout.setContentsMargins(4, 4, 4, 4)
             layout.setSpacing(2)
             self.setupPresetUnit(keyword, layout)

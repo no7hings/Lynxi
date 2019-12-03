@@ -3,10 +3,8 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import basicPr
 #
-_serverBasicPath = lxConfigure._getLxBasicPath()
-_productPath = lxConfigure._getLxProductPath()
-#
-_userPath = lxConfigure.getLxUserOsPath()
+serverBasicPath = lxConfigure.Root().root()
+productRoot = lxConfigure.Root().productRoot()
 #
 _mayaVersion = lxBasic.getMayaAppVersion()
 #
@@ -21,16 +19,7 @@ def getPipelinePresetVariantDic(pipelineScheme):
 
 
 #
-def userPresetFileDic(userPath=_userPath):
-    dic = lxBasic.orderedDict()
-    dic[lxConfigure.LynxiProjectPresetKey] = '{0}/{1}/{2}{3}'.format(
-        userPath, lxConfigure.LynxiPresetKey, lxConfigure.LynxiProjectPresetKey, configExt
-    )
-    return dic
-
-
-#
-def env_basic_pipeline_dic(basicPath=_serverBasicPath, mayaVersion=_mayaVersion):
+def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     dic = lxBasic.orderedDict()
     dic['config'] = basicPath + '/{0}'.format(lxConfigure.LynxiPresetKey)
     dic['environ'] = basicPath + '/preset/environ'
@@ -47,10 +36,10 @@ def env_basic_pipeline_dic(basicPath=_serverBasicPath, mayaVersion=_mayaVersion)
     #
     dic['icon'] = basicPath + '/icon'
     #
-    dic['windowsPlug'] = _productPath + '/plug/windows'
+    dic['windowsPlug'] = productRoot + '/plug/windows'
     dic['windowsPush'] = 'C:/_pipe' + '/plug/windows'
     #
-    dic['mayaPlug'] = _productPath + '/plug/maya/' + mayaVersion
+    dic['mayaPlug'] = productRoot + '/plug/maya/' + mayaVersion
     dic['mayaPush'] = 'C:/_pipe' + '/plug/maya/' + mayaVersion
     #
     dic['pythonScript'] = basicPath + '/script/python/'
@@ -72,30 +61,22 @@ def env_basic_pipeline_dic(basicPath=_serverBasicPath, mayaVersion=_mayaVersion)
 def env_app_maya_pipeline_dic(mayaVersion):
     dic = lxBasic.orderedDict()
     #
-    productPath = lxConfigure._getLxProductPath()
+    dic[lxConfigure.Lynxi_Key_Environ_Path_Plug_Windows_Server] = productRoot + '/plug/windows'
+    dic[lxConfigure.Lynxi_Key_Environ_Path_Plug_Windows_Local] = 'C:/_pipe' + '/plug/windows'
     #
-    dic[lxConfigure.Lynxi_Key_Environ_Path_WindowsPlug] = productPath + '/plug/windows'
-    dic[lxConfigure.Lynxi_Key_Environ_Path_WindowsPush] = 'C:/_pipe' + '/plug/windows'
-    #
-    dic[lxConfigure.Lynxi_Key_Environ_Path_MayaPlug] = productPath + '/plug/maya/'
-    dic[lxConfigure.Lynxi_Key_Environ_Path_MayaPush] = 'C:/_pipe' + '/plug/maya/'
+    dic[lxConfigure.Lynxi_Key_Environ_Path_Plug_Maya_Server] = productRoot + '/plug/maya/'
+    dic[lxConfigure.Lynxi_Key_Environ_Path_Plug_Maya_Local] = 'C:/_pipe' + '/plug/maya/'
     return dic
 
 
 #
-def env_app_maya_dic(basicPath=_serverBasicPath, mayaVersion=_mayaVersion):
+def env_app_maya_dic(root, mayaVersion=_mayaVersion):
     dic = lxBasic.orderedDict()
-    #
-    data = env_basic_pipeline_dic(basicPath, mayaVersion)
-    # Script Path
-    dic['MAYA_SCRIPT_PATH'] = data['mayaScript']
-    # Plug Path
-    dic['MAYA_PLUG_IN_PATH'] = data['mayaPlug']
     return dic
 
 
 #
-def env_basic_python_package_lis(basicPath=_serverBasicPath):
+def env_basic_python_package_lis(basicPath=serverBasicPath):
     lis = []
     #
     sharePackagePath = basicPath + '/package/python/share/2.7.x'
@@ -104,7 +85,7 @@ def env_basic_python_package_lis(basicPath=_serverBasicPath):
 
 
 # Pack Path
-def env_app_maya_python_package_lis(basicPath=_serverBasicPath, mayaVersion=_mayaVersion):
+def env_app_maya_python_package_lis(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     # List [ <Path> ]
     lis = []
     data = env_basic_pipeline_dic(basicPath, mayaVersion)
@@ -204,18 +185,8 @@ def objectShapePreset():
 
 #
 def mayaHelpDirectory(keyword):
-    osPath = '{0}/{1}/{2}/{3}'.format(_serverBasicPath, 'doc', lxConfigure.Lynxi_App_Maya, keyword)
+    osPath = '{0}/{1}/{2}/{3}'.format(serverBasicPath, 'doc', lxConfigure.Lynxi_App_Maya, keyword)
     return osPath
-
-
-#
-def information():
-    osFile = lxConfigure._getLxDevelopVersionFile()
-    info = none
-    if lxBasic.isOsExistsFile(osFile):
-        data = lxBasic.readOsJson(osFile)
-        info = data['update']
-    return info
 
 
 #

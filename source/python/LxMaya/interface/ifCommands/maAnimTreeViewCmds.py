@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxCore.preset import appVariant
 #
-from LxUi.qt import uiWidgets_
+from LxUi.qt import qtWidgets_
 #
 from LxMaya.product.data import datAnim
 # File Label
@@ -27,7 +27,7 @@ def setAnimationAssetMeshCheck(treeItem, localData, serverData, columnSet):
     mapCheck = ['Error', 'On'][checkResults[3]]
     mapShapeCheck = ['Error', 'On'][checkResults[4]]
     #
-    statusBar = uiWidgets_.xTreeLabelBar()
+    statusBar = qtWidgets_.xTreeLabelBar()
     statusBar.addItem('object#meshPath', pathCheck)
     statusBar.addItem('object#meshGeo', geomCheck)
     statusBar.addItem('object#meshGeoShape', geomShapeCheck)

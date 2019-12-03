@@ -236,9 +236,9 @@ def basicAppPlugSetConfig():
     lis = [
         (lxConfigure.LynxiAppNameKey, '<appName>'),
         (lxConfigure.LynxiAppVersionKey, '<appVersions>'),
-        (lxConfigure.LynxiPlugNameKey, '<plugName>'),
-        (lxConfigure.LynxiPlugVersionKey, '<plugVersions>'),
-        (lxConfigure.LynxiPlugLoadNamesKey, '<plugLoadNames>'),
+        (lxConfigure.Lynxi_Key_Plug_Name, '<plugName>'),
+        (lxConfigure.Lynxi_Key_Plug_Version, '<plugVersions>'),
+        (lxConfigure.Lynxi_Key_Plug_Load_Names, '<plugLoadNames>'),
         (lxConfigure.LynxiServerPathKey, '<serverBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>'),
         (lxConfigure.LynxiLocalPathKey, '<localBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>')
     ]

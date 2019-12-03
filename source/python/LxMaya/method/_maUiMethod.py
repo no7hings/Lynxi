@@ -81,7 +81,7 @@ class MaUiControlMethod(_maMethodBasic.MaUiMethodBasic):
 
 
 #
-class MaUiViewMethod(_maMethodBasic.MaNodeMethodBasic, _uiMethod.UiViewMethod):
+class MaQtViewMethod(_maMethodBasic.MaNodeMethodBasic, _uiMethod.QtViewMethod):
     @classmethod
     def setTreeViewListNamespace(cls, treeView, pathString, branchViewMethod):
         pathsep = cls.Ma_Separator_Namespace

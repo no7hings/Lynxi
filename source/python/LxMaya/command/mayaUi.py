@@ -14,7 +14,7 @@ _uiBackgroundRgba = (.267, .267, .267)
 shelfWidth = 480
 statusWidth = 480
 #
-_iconRoot = lxConfigure.BasicPath().iconRoot
+_iconRoot = lxConfigure.Root().iconRoot()
 #
 none = ''
 

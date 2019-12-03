@@ -7,17 +7,19 @@ from LxCore import lxBasic, lxConfigure
 #
 version = '1.0.0.1'
 #
-Path_Develop = lxConfigure.DevelopPath()
-Path_Develop_Python_Source = Path_Develop.pythonSourceRoot
-Path_Develop_Icon = Path_Develop.iconRoot
+lynxiPath = lxConfigure.Root()
+lynxiVersion = lxConfigure.Version()
+
+Path_Develop_Python_Source = lynxiPath.developPythonSourceRoot()
+Path_Develop_Icon = lynxiPath.developIconRoot()
+File_Develop_Version_File = lynxiVersion.developFile()
 #
-Path_Product = lxConfigure.ProductPath(version)
-Path_Product_Python_Source = Path_Product.pythonSourceRoot
-Path_Product_Python_Compile = Path_Product.pythonCompileRoot
-Path_Product_Icon = Path_Product.iconRoot
-File_Product_Version_Info = Path_Product.pythonVersionInfoFile
+Path_Product_Python_Source = lynxiPath.productPythonSourceRoot()
+Path_Product_Python_Compile = lynxiPath.productPythonCompileRoot()
+Path_Product_Icon = lynxiPath.productIconRoot()
+File_Product_Version_File = lynxiVersion.productFile()
+
 Path_Backup_Product_Python = 'L:/tdAsset/lynxi/.bck'
-Path_Product_Version = 'L:/tdAsset/lynxi/.info/version.info'
 
 
 # Get Pyc File
@@ -164,21 +166,20 @@ def setUploadIcon():
 
 
 def setPythonVersion(version_):
-    lxConfigure.setDevelopLogAdd('Set Python Version: {}'.format(version_))
+    lxConfigure.Log().addDevelop('Set Python Version: {}'.format(version_))
     lxConfigure.Version()._upload(version_)
 
 
 def setPythonProductVersionInfo(version_):
-    lxConfigure.setDevelopLogAdd('Set Python Product Version Info: {}'.format(version_))
+    lxConfigure.Log().addDevelop('Set Python Product Version Info: {}'.format(version_))
     info = {
         lxConfigure.Lynxi_Key_Info_User: lxBasic.getOsUser(),
         lxConfigure.Lynxi_Key_Info_Timestamp: lxBasic.getOsActiveTimestamp()
     }
-    lxBasic.writeOsJson(info, File_Product_Version_Info)
+    lxBasic.writeOsJson(info, File_Product_Version_File)
 
 
 if __name__ == '__main__':
-    # print Path_Develop
     # print Path_Product_Python_Source
     # print Path_Product_Icon
     # setPythonVersion(version)

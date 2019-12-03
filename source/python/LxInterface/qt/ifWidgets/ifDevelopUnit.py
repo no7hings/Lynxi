@@ -3,22 +3,22 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.method import _dbMethod, _uiMethod
 #
-from LxUi import uiCore
-#
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets, qtCore
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
+#
+serverBasicPath = lxConfigure.Root().root()
 
 
 #
 class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
     _dbMethod = _dbMethod.DbOsUnitMethod
-    _uiMethod = _uiMethod.UiViewMethod
+    _uiMethod = _uiMethod.QtViewMethod
     #
     dbClass = 'develop'
     dbUnitType = _dbMethod.LxDb_Type_Unit_Python
     dbUnitBranch = 'main'
-    def __init__(self, parent=uiCore.getAppWindow()):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(ifDevelopOverviewUnit, self).__init__(parent)
         self._initOverviewUnitBasic()
     #
@@ -27,23 +27,23 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
             self.setLeftRefresh()
     #
     def setupLeftWidget(self, layout):
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(toolGroup)
         toolGroup.setTitle('Python(s)')
         toolGroup.setExpanded(True)
-        self._leftTreeView = uiWidgets.UiTreeView()
+        self._leftTreeView = qtWidgets.QtTreeview()
         toolGroup.addWidget(self._leftTreeView)
         self._leftTreeView.currentChanged.connect(self.setCentralRefresh)
         #
-        toolGroup = uiWidgets.UiToolGroupBox()
+        toolGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(toolGroup)
         toolGroup.setTitle('Note(s)')
         toolGroup.setExpanded(True)
-        self._noteEnterBox = uiWidgets.UiTextBrower()
+        self._noteEnterBox = qtWidgets.QtTextBrower()
         toolGroup.addWidget(self._noteEnterBox)
         self._noteEnterBox.setNameText('Note(s)')
         #
-        self._backupButton = uiWidgets.UiPressbutton()
+        self._backupButton = qtWidgets.QtPressbutton()
         toolGroup.addWidget(self._backupButton)
         self._backupButton.setPercentEnable(True)
         self._backupButton.setNameText('Backup')
@@ -51,24 +51,24 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         self._backupButton.clicked.connect(self._backupCmd)
     #
     def setupCentralWidget(self, layout):
-        self._centralTopTooGroup = uiWidgets.UiToolGroupBox()
+        self._centralTopTooGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(self._centralTopTooGroup)
         self._centralTopTooGroup.setTitle('File(s)')
         self._centralTopTooGroup.setExpanded(True)
         #
-        self._centralTreeView = uiWidgets.UiTreeView()
+        self._centralTreeView = qtWidgets.QtTreeview()
         self._centralTopTooGroup.addWidget(self._centralTreeView)
         self._centralTreeView.setColorEnable(True)
         self._centralTreeView.setFilterConnect(self._filterEnterLabel)
         self._centralTreeView.currentChanged.connect(self.setDatumRefresh)
         #
-        self._centralBottomTooGroup = uiWidgets.UiToolGroupBox()
+        self._centralBottomTooGroup = qtWidgets.QtToolboxGroup()
         layout.addWidget(self._centralBottomTooGroup)
         self._centralBottomTooGroup.setTitle('Datum')
         #
-        self._datumEnterBox = uiWidgets.UiTextBrower()
+        self._datumEnterBox = qtWidgets.QtTextBrower()
         self._centralBottomTooGroup.addWidget(self._datumEnterBox)
-        self.highlighter = uiCore.xPythonHighlighter(self._datumEnterBox.textEdit().document())
+        self.highlighter = qtCore.xPythonHighlighter(self._datumEnterBox.textEdit().document())
     #
     def setupRightWidget(self, layout):
         pass
@@ -84,7 +84,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
             treeView.cleanItems()
             #
             for dbUnitSource, (dbDatumIndexUiDic, currentIndex) in datumDic.items():
-                branchItem = uiWidgets.UiTreeItem()
+                branchItem = qtWidgets.QtTreeviewItem()
                 treeView.addItem(branchItem)
                 branchItem.setNameText(dbUnitSource)
                 branchItem.setIcon('svg_basic@svg#branch_main')
@@ -92,7 +92,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
                 branchItem.dbUnitSource = dbUnitSource
                 branchItem.dbDatumIndex = dbDatumIndexUiDic[currentIndex][0]
                 for seq, (dbDatumIndex, versionText) in dbDatumIndexUiDic.items():
-                    versionItem = uiWidgets.UiTreeItem()
+                    versionItem = qtWidgets.QtTreeviewItem()
                     branchItem.addChild(versionItem)
                     versionItem.setNameText(versionText)
                     versionItem.setIcon('svg_basic@svg#tag')
@@ -106,7 +106,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         def setBranch(value):
             def setBranchActions():
                 def openDatumFileCmd():
-                    osCmdExe = '{}/exe/windows/Sublime Text 3/sublime_text.exe'.format(lxConfigure._getLxBasicPath())
+                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.Root().windowAppRoot())
                     if lxBasic.isOsExistsFile(osCmdExe):
                         tempOsFile = '{}/{}/{}/{}'.format(self._dbMethod.LynxiOsPath_LocalTemporary, dbDatumType, dbDatumId, osRelativeFile)
                         if not self._dbMethod.isOsExistsFile(tempOsFile):
@@ -122,7 +122,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
                 treeItem.setActionData(actionDatumLis)
             #
             dbDatumType, dbDatumId, osRelativeFile = eval(value)
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             treeItem.setNameText(osRelativeFile)
             treeItem.setIcon('svg_basic@svg#{}'.format(dbDatumType))
@@ -135,7 +135,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
                     treeItem.setFilterColor((255, 255, 64, 255))
                     self._changedCount += 1
             else:
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
             #
             dbDatumFile = self._dbMethod._lxDbOsUnitDatumFile(
                     self.dbClass,

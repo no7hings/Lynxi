@@ -9,8 +9,7 @@ from LxCore.preset import appVariant, databasePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
-from LxUi import uiCore
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -167,8 +166,8 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 self.connectObject().astHierarchyToggleButton.setChecked(True)
         #
         for k, v in uiData.items():
-            button = uiWidgets.UiPressbutton()
-            button.setTextAlignment(uiCore.QtCore.Qt.AlignHCenter | uiCore.QtCore.Qt.AlignVCenter)
+            button = qtWidgets.QtPressbutton()
+            button.setTextAlignment(qtCore.QtCore.Qt.AlignHCenter | qtCore.QtCore.Qt.AlignVCenter)
             size = v[0]
             button.setMinimumHeight(20 + 22 * size)
             button.setMaximumHeight(20 + 22 * size)
@@ -188,7 +187,7 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 groupPath = self._objectPathDic[groupName]
                 #
                 boolean = maUtils.isAppExist(groupPath)
-                button._setUiPressStatus([uiCore.OffStatus, uiCore.NormalStatus][boolean])
+                button._setQtPressStatus([qtCore.OffStatus, qtCore.NormalStatus][boolean])
                 if boolean is True:
                     childObjects = maUtils.getObjectChildObjects(
                         groupName,
@@ -196,7 +195,7 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         fullPath=1
                     )
                     subBoolean = len(childObjects) > 0
-                    button._setUiPressStatus([uiCore.NormalStatus, uiCore.OnStatus][subBoolean])
+                    button._setQtPressStatus([qtCore.NormalStatus, qtCore.OnStatus][subBoolean])
                     if subBoolean is True:
                         childNames = [maUtils._toNodeName(i) for i in childObjects]
                         button.setTooltip('\r\n'.join(childNames[:10]))
@@ -212,20 +211,20 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._initButtonDic()
     #
     def setupUnitWidgets(self):
-        self._upToolUiBox = uiWidgets.UiToolBox()
+        self._upToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._upToolUiBox)
         self._upToolUiBox.setTitle('Upper Body')
         self._upToolUiBox.setBackground(
-            uiCore.iconRoot() + '/utils/modelArrangeUp.png',
+            qtCore.iconRoot() + '/utils/modelArrangeUp.png',
             360, 300
         )
         self.setupUpToolUiBox(self._upToolUiBox)
         #
-        self._downToolUiBox = uiWidgets.UiToolBox()
+        self._downToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._downToolUiBox)
         self._downToolUiBox.setTitle('Lower Body')
         self._downToolUiBox.setBackground(
-            uiCore.iconRoot() + '/utils/modelArrangeLow.png',
+            qtCore.iconRoot() + '/utils/modelArrangeLow.png',
             360, 300
         )
         self.setupDownToolUiBox(self._downToolUiBox)
@@ -283,63 +282,63 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstModelRepairToolUiBox(self, toolBox):
         inData = self.ToolLayoutDic_AstModelRepair
         #
-        self.withTransformationButton = uiWidgets.UiCheckbutton()
+        self.withTransformationButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withTransformation', self.withTransformationButton)
         self.withTransformationButton.setChecked(True)
         self.withTransformationButton.setTooltip(
             u'''1. Clean Mesh's Transformation Keyframe\r\n2. Unlock Mesh's Transformation\r\n3. Freeze and Rest Mesh's Transformation'''
         )
         #
-        self.withUnlockNormalButton = uiWidgets.UiCheckbutton()
+        self.withUnlockNormalButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'repairUnlockNormal', self.withUnlockNormalButton)
         self.withUnlockNormalButton.setTooltip(
             u'''1. Unlock Mesh's Normal'''
         )
-        self.withSoftNormalButton = uiWidgets.UiCheckbutton()
+        self.withSoftNormalButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'repairSoftNormal', self.withSoftNormalButton)
         self.withSoftNormalButton.setTooltip(
             u'''1. Soft ( Smooth ) Mesh's Edge'''
         )
         #
-        self.withUvButton = uiWidgets.UiCheckbutton()
+        self.withUvButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'repairUv', self.withUvButton)
         self.withUvButton.setChecked(True)
         self.withUvButton.setTooltip(
             u'''1. Repair Mesh's Uv ( Map )'''
         )
         #
-        self.withHistoryButton = uiWidgets.UiCheckbutton()
+        self.withHistoryButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'repairHistory', self.withHistoryButton)
         self.withHistoryButton.setChecked(True)
         self.withHistoryButton.setTooltip(
             u'''1. Clean Mesh's History'''
         )
         #
-        self._modelMeshRepairButton = uiWidgets.UiPressbutton()
+        self._modelMeshRepairButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'astRepairMesh', self._modelMeshRepairButton)
         self._modelMeshRepairButton.clicked.connect(self.setRepairMeshCmd)
         #
-        self.withMaterialButton = uiWidgets.UiCheckbutton()
+        self.withMaterialButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withMaterial', self.withMaterialButton)
         self.withMaterialButton.setChecked(True)
         self.withMaterialButton.setTooltip(
             u'''1. Repair Material's Object - Set\r\n2. Repair Material's Color - Space ( Texture Node )'''
         )
         #
-        self.withTextureButton = uiWidgets.UiCheckbutton()
+        self.withTextureButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withTexture', self.withTextureButton)
         self.withTextureButton.setTooltip(
             u'''1. Repair Texture's Tx ( Arnold )'''
         )
         #
-        self.withAovButton = uiWidgets.UiCheckbutton()
+        self.withAovButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAov', self.withAovButton)
         self.withAovButton.setChecked(True)
         self.withAovButton.setTooltip(
             u'''1. Repair AOV's Driver and Filter ( Arnold )\r\n2. Repair AOV's Option ( Arnold )'''
         )
         #
-        self._modelShaderRepairButton = uiWidgets.UiPressbutton()
+        self._modelShaderRepairButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'repairShader', self._modelShaderRepairButton)
         self._modelShaderRepairButton.clicked.connect(self.setRepairShaderCmd)
         #
@@ -348,15 +347,15 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstModelUtilsToolUiBox(self, toolBox):
         inData = self.ToolLayoutDic_AstModelUtils
         #
-        self._addModelSolverHierarchyButton = uiWidgets.UiPressbutton()
+        self._addModelSolverHierarchyButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addSolverHierarchy', self._addModelSolverHierarchyButton)
         self._addModelSolverHierarchyButton.clicked.connect(self.setAddSolverHierarchyCmd)
         #
-        self._addModelReferenceHierarchyButton = uiWidgets.UiPressbutton()
+        self._addModelReferenceHierarchyButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addReferenceHierarchy', self._addModelReferenceHierarchyButton)
         self._addModelReferenceHierarchyButton.clicked.connect(self.setAddReferenceHierarchyCmd)
         #
-        self._collectionReferenceObjectButton = uiWidgets.UiPressbutton()
+        self._collectionReferenceObjectButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'collectionReferenceObject', self._collectionReferenceObjectButton)
         self._collectionReferenceObjectButton.clicked.connect(self.setCollectionReferenceObjectCmd)
         #
@@ -452,12 +451,12 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             )
     #
     def setupUnitWidgets(self):
-        self._repairToolBox = uiWidgets.UiToolBox()
+        self._repairToolBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._repairToolBox)
         self._repairToolBox.setTitle('Asset Model Repair')
         self.setupAstModelRepairToolUiBox(self._repairToolBox)
         #
-        self._utilitiesToolBox = uiWidgets.UiToolBox()
+        self._utilitiesToolBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._utilitiesToolBox)
         self._utilitiesToolBox.setTitle('Asset Model Utilities')
         self.setupAstModelUtilsToolUiBox(self._utilitiesToolBox)
@@ -490,7 +489,7 @@ class IfAstRigToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnitWidgets(self):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(toolBox)
         toolBox.setTitle('Asset ( Rig ) Graph')
         #
@@ -594,16 +593,16 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         inData = self.ToolLayoutDic_AstCfxGraph
         #
-        self._nodeFullNameUiLabel = uiWidgets.UiEnterlabel()
+        self._nodeFullNameUiLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'childNode', self._nodeFullNameUiLabel)
         #
-        self._addNodeButton = uiWidgets.UiPressbutton()
+        self._addNodeButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addNode', self._addNodeButton)
         self._addNodeButton.setPressable(False)
         self._addNodeButton.setTooltip('Add Node ( Yeti / pfxHair ) to Group')
         self._addNodeButton.clicked.connect(self.setAddAstCfxFur)
         #
-        self._furNodeKeywordEntryLabel = uiWidgets.UiEnterlabel()
+        self._furNodeKeywordEntryLabel = qtWidgets.QtEnterlabel()
         self._furNodeKeywordEntryLabel.setNameText(0)
         self._furNodeKeywordEntryLabel.setTextValidator(24)
         self._furNodeKeywordEntryLabel.setEnterEnable(True)
@@ -612,19 +611,19 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._furNodeKeywordEntryLabel.entryChanged.connect(self.setAstFurNodeName)
         self._furNodeKeywordEntryLabel.entryChanged.connect(self.setAddNodeBtnState)
         #
-        self._addNFurNodeTipLabel = uiWidgets.UiEnterlabel()
+        self._addNFurNodeTipLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'tips', self._addNFurNodeTipLabel)
         self._addNFurNodeTipLabel.setDatum(self.addNodeTips)
         #
-        self.updateHierarchyButton = uiWidgets.UiCheckbutton()
+        self.updateHierarchyButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'updateHierarchy', self.updateHierarchyButton)
         self.updateHierarchyButton.setChecked(True)
         #
-        self.deleteHistoryButton = uiWidgets.UiCheckbutton()
+        self.deleteHistoryButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'deleteHistory', self.deleteHistoryButton)
         self.deleteHistoryButton.setChecked(True)
         #
-        self._astCfxFurObjectsTreeViewBox = uiWidgets_.QTreeWidget_()
+        self._astCfxFurObjectsTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._astCfxFurObjectsTreeViewBox, 6, 0, 1, 4)
         self._astCfxFurObjectsTreeViewBox.setColumns(['Node', 'Node Type'], [4, 1], self.widthSet - 60)
         self._astCfxFurObjectsTreeViewBox.itemSelectionChanged.connect(setSelObject)
@@ -645,20 +644,20 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         inData = self.ToolLayoutDic_AstCfxUtils
         #
-        self._astModelGeometryFilterLabel = uiWidgets.UiFilterEnterlabel()
+        self._astModelGeometryFilterLabel = qtWidgets.QtFilterEnterlabel()
         toolBox.setButton(inData, 'growSourceSearch', self._astModelGeometryFilterLabel)
         #
-        self.createGrowSourceButton = uiWidgets.UiPressbutton()
+        self.createGrowSourceButton = qtWidgets.QtPressbutton()
         self.createGrowSourceButton.setPressable(False)
         toolBox.setButton(inData, 'createGrowSource', self.createGrowSourceButton)
         self.createGrowSourceButton.setTooltip('Create Grow ( Mesh ) Source')
         self.createGrowSourceButton.clicked.connect(self.astCreateGrowSourceCmd)
         #
-        self._growSourceCreateTipLabel = uiWidgets.UiEnterlabel()
+        self._growSourceCreateTipLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'tips', self._growSourceCreateTipLabel)
         self._growSourceCreateTipLabel.setDatum(self.createGrowSourceTips)
         #
-        self._astModelGeometryObjectTreeViewBox = uiWidgets_.QTreeWidget_()
+        self._astModelGeometryObjectTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._astModelGeometryObjectTreeViewBox, 3, 0, 1, 4)
         self._astModelGeometryObjectTreeViewBox.setSingleSelection()
         self._astModelGeometryObjectTreeViewBox.setColumns(['Node', 'Node Type'], [4, 1], self.widthSet - 60)
@@ -666,15 +665,15 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._astModelGeometryObjectTreeViewBox.itemSelectionChanged.connect(self.setGrowSourceName)
         self._astModelGeometryObjectTreeViewBox.setFilterConnect(self._astModelGeometryFilterLabel)
         #
-        self.addGrowTargetButton = uiWidgets.UiPressbutton()
+        self.addGrowTargetButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addGrowTarget', self.addGrowTargetButton)
         self.addGrowTargetButton.clicked.connect(self.astAddGrowTargetCmd)
         #
-        self.addGrowDeformButton = uiWidgets.UiPressbutton()
+        self.addGrowDeformButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addGrowDeform', self.addGrowDeformButton)
         self.addGrowDeformButton.clicked.connect(self.astAddGrowDeformCmd)
         #
-        self.addCollisionButton = uiWidgets.UiPressbutton()
+        self.addCollisionButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addCollision', self.addCollisionButton)
         self.addCollisionButton.clicked.connect(self.astAddGrowCollisionCmd)
         #
@@ -684,7 +683,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         def setListAstFurYeti(inData):
             for yetiObjectPath in inData:
                 yetiObjectName = maUtils._toNodeName(yetiObjectPath)
-                yetiItem = uiWidgets_.QTreeWidgetItem_([yetiObjectName, 'Yeti'])
+                yetiItem = qtWidgets_.QTreeWidgetItem_([yetiObjectName, 'Yeti'])
                 yetiItem.name = yetiObjectName
                 yetiItem.path = yetiObjectPath
                 yetiItem.setItemMayaIcon(0, appCfg.MaNodeType_Plug_Yeti)
@@ -699,7 +698,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 groomObjects = maUtils.getYetiGroomDic(yetiObjectPath)
                 if groomObjects:
                     for groomObject in groomObjects:
-                        groomItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(groomObject), 'Groom'])
+                        groomItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(groomObject), 'Groom'])
                         groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom)
                         #
                         groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiGroomGroupLabel)
@@ -717,7 +716,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 growObjects = maUtils.getYetiGrowDic(yetiObjectPath)
                 if growObjects:
                     for growObject in growObjects:
-                        growItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(growObject), 'Grow'])
+                        growItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(growObject), 'Grow'])
                         growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
                         #
                         growObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiGrowGroupLabel)
@@ -735,7 +734,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         referenceObjects = maUtils.getYetiRefObject(growObject)
                         if referenceObjects:
                             for referenceObject in referenceObjects:
-                                referenceItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(referenceObject), 'Reference'])
+                                referenceItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(referenceObject), 'Reference'])
                                 referenceItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
                                 #
                                 referenceObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiReferenceGroupLabel)
@@ -755,13 +754,13 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     guideCurveGroup = assetPr.guideCurveGroupName(assetName)
                     for guideSet, data in guideData.items():
                         setCheck = True
-                        guideSetItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSet), 'Set'])
+                        guideSetItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSet), 'Set'])
                         guideSetItem.setItemMayaIcon(0, 'list')
                         yetiItem.addChild(guideSetItem)
                         for k, v in data.items():
                             guideCurve = k
                             #
-                            guideCurveItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideCurve), 'Guide Curve'])
+                            guideCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideCurve), 'Guide Curve'])
                             guideCurveItem.setItemMayaIcon(0, appCfg.MaNodeType_NurbsCurve)
                             #
                             if maUtils.isChild(guideCurveGroup, guideCurve):
@@ -775,7 +774,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                             follicle, localCurve, hairSystem, nucleus = v
                             #
                             if follicle:
-                                follicleItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(follicle), 'Follicle'])
+                                follicleItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(follicle), 'Follicle'])
                                 follicleItem.setItemMayaIcon(0, appCfg.MaFollicleType)
                                 guideCurveItem.addChild(follicleItem)
                                 #
@@ -786,7 +785,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                                     setCheck = False
                             #
                             if localCurve:
-                                localCurveItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(localCurve), 'Local Curve'])
+                                localCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(localCurve), 'Local Curve'])
                                 localCurveItem.setItemMayaIcon(0, appCfg.MaNodeType_NurbsCurve)
                                 guideCurveItem.addChild(localCurveItem)
                                 #
@@ -805,7 +804,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         if guideSystemData:
                             guideSystems = maUtils.getReduceList(guideSystemData)
                             for guideSystem in guideSystems:
-                                guideSystemItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSystem), 'System'])
+                                guideSystemItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSystem), 'System'])
                                 guideSystemItem.setItemMayaIcon(0, appCfg.MaHairSystemType)
                                 guideSetItem.addChild(guideSystemItem)
                                 #
@@ -818,7 +817,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         if guideNucleusData:
                             guideNuclei = maUtils.getReduceList(guideNucleusData)
                             for guideNucleus in guideNuclei:
-                                guideNucleusItem = uiWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideNucleus), 'Nucleus'])
+                                guideNucleusItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideNucleus), 'Nucleus'])
                                 guideNucleusItem.setItemMayaIcon(0, appCfg.MaNucleusType)
                                 guideSetItem.addChild(guideNucleusItem)
                                 #
@@ -839,12 +838,12 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
             def listBranch(objects, rootItem, explain, nodeType, objectGroup=False, subRootItem=False):
                 notInGroup = []
                 if subRootItem:
-                    subRootItem = uiWidgets_.QTreeWidgetItem_([explain, 'Nodes'])
+                    subRootItem = qtWidgets_.QTreeWidgetItem_([explain, 'Nodes'])
                     subRootItem.setItemMayaIcon(0, 'list')
                     rootItem.addChild(subRootItem)
                 for maObj in objects:
                     showObject = maUtils._toNodeName(maObj)
-                    objectItem = uiWidgets_.QTreeWidgetItem_([showObject, explain])
+                    objectItem = qtWidgets_.QTreeWidgetItem_([showObject, explain])
                     objectItem.setItemMayaIcon(0, nodeType)
                     if subRootItem:
                         subRootItem.addChild(objectItem)
@@ -865,7 +864,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     self.connectObject().setProgressValue(seq + 1, maxValue)
                 #
                 pfxHairObjectName = maUtils._toNodeName(pfxHairObjectPath)
-                pfxHairItem = uiWidgets_.QTreeWidgetItem_([pfxHairObjectName, 'Pfx Hair'])
+                pfxHairItem = qtWidgets_.QTreeWidgetItem_([pfxHairObjectName, 'Pfx Hair'])
                 pfxHairItem.name = pfxHairObjectName
                 pfxHairItem.path = pfxHairObjectPath
                 pfxHairItem.setItemMayaIcon(0, appCfg.MaPfxHairType)
@@ -919,7 +918,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 objectType = maUtils.getShapeType(objectPath)
                 objectUuid = maUuid.getNodeUniqueId(objectPath)
                 #
-                objectItem = uiWidgets_.QTreeWidgetItem_([objectName, objectType])
+                objectItem = qtWidgets_.QTreeWidgetItem_([objectName, objectType])
                 stateLabel = none
                 if astCfxRoot in objectPath:
                     stateLabel = 'off'
@@ -1604,13 +1603,13 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         return treeBox.selectedItemPaths()
     #
     def setupUnitWidgets(self):
-        self._astCfxHirToolUiBox = uiWidgets.UiToolBox()
+        self._astCfxHirToolUiBox = qtWidgets.QtToolbox()
         self._astCfxHirToolUiBox.hide()
         self.mainLayout().addWidget(self._astCfxHirToolUiBox)
         self._astCfxHirToolUiBox.setTitle('Asset ( Groom ) Graph')
         self.setupAstCfxGraphToolUiBox(self._astCfxHirToolUiBox)
         #
-        self._astCfxUtilsToolUiBox = uiWidgets.UiToolBox()
+        self._astCfxUtilsToolUiBox = qtWidgets.QtToolbox()
         self._astCfxUtilsToolUiBox.hide()
         self.mainLayout().addWidget(self._astCfxUtilsToolUiBox)
         self._astCfxUtilsToolUiBox.setTitle('Asset ( Groom ) Utilities')
@@ -1654,8 +1653,8 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def refreshMethod(self):
         if self.connectObject() is not None:
             if assetPr.isAstCfxLink(self.connectObject().assetStage) or assetPr.isAstSolverLink(self.connectObject().assetStage):
-                self.setupAstRigSolFurSolGuideUiToolBox()
-                self.setupAstRigSolSolGuideConnectUiToolBox()
+                self.setupAstRigSolFurSolGuideQtToolbox()
+                self.setupAstRigSolSolGuideConnectQtToolbox()
                 #
                 self.setAstListFurObjects()
                 self.setAstListGuideObjects()
@@ -1675,7 +1674,7 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def delScriptJob(self):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
-    def setupAstRigSolFurSolGuideUiToolBox(self):
+    def setupAstRigSolFurSolGuideQtToolbox(self):
         def setSelObject():
             data = self.astSolverFurNodeTreeViewBox.selectedItemPaths()
             if data:
@@ -1686,13 +1685,13 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox = self._astCfxRigGuideToolUiBox
         uiData = self.dicSolverNodeTool
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolBox.addWidget(widget, 0, 0, 1, 4)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        self.astSolverFurNodeTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.astSolverFurNodeTreeViewBox = qtWidgets_.QTreeWidget_()
         self.astSolverFurNodeTreeViewBox.setUiStyle('B')
         layout.addWidget(self.astSolverFurNodeTreeViewBox)
         self.astSolverFurNodeTreeViewBox.setColumns(['Node', 'Node Type'], [4, 4], self.widthSet * 2)
@@ -1700,14 +1699,14 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self.astSolverFurNodeTreeViewBox.itemSelectionChanged.connect(setSelObject)
         self.astSolverFurNodeTreeViewBox.itemSelectionChanged.connect(self.setButtonState)
         #
-        self.nhrGuideObjectModifyButton = uiWidgets.UiPressbutton()
+        self.nhrGuideObjectModifyButton = qtWidgets.QtPressbutton()
         toolBox.setButton(uiData, 'nhrGuideObjectModify', self.nhrGuideObjectModifyButton)
         self.nhrGuideObjectModifyButton.setPercentEnable(True)
         self.nhrGuideObjectModifyButton.clicked.connect(self.nhrGuideObjectModifyCmd)
         #
         toolBox.setSeparators(uiData)
     #
-    def setupAstRigSolSolGuideConnectUiToolBox(self):
+    def setupAstRigSolSolGuideConnectQtToolbox(self):
         def setSelObject():
             data = self.astSolverFurGuideTreeViewBox.selectedItemPaths()
             if data:
@@ -1718,20 +1717,20 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox = self._astCfxRigConnectToolUiBox
         uiData = self.dicSolverGuideTool
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         toolBox.addWidget(widget, 0, 0, 1, 4)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         #
-        self.astSolverFurGuideTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.astSolverFurGuideTreeViewBox = qtWidgets_.QTreeWidget_()
         self.astSolverFurGuideTreeViewBox.setUiStyle('B')
         layout.addWidget(self.astSolverFurGuideTreeViewBox)
         self.astSolverFurGuideTreeViewBox.setColumns(['Node', 'Node Type'], [4, 4], self.widthSet * 2)
         #
         self.astSolverFurGuideTreeViewBox.itemSelectionChanged.connect(setSelObject)
         #
-        self.connectNurbsHairGuideButton = uiWidgets.UiPressbutton()
+        self.connectNurbsHairGuideButton = qtWidgets.QtPressbutton()
         toolBox.setButton(uiData, 'connectNurbsHairGuide', self.connectNurbsHairGuideButton)
         self.connectNurbsHairGuideButton.clicked.connect(self.setCreateNurbsHairSolverConnection)
         #
@@ -1863,11 +1862,11 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         setMain(refreshData)
     #
     def setupUnitWidgets(self):
-        self._astCfxRigGuideToolUiBox = uiWidgets.UiToolBox()
+        self._astCfxRigGuideToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._astCfxRigGuideToolUiBox)
         self._astCfxRigGuideToolUiBox.setTitle('Asset ( Solver Rig ) Guide')
         #
-        self._astCfxRigConnectToolUiBox = uiWidgets.UiToolBox()
+        self._astCfxRigConnectToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._astCfxRigConnectToolUiBox)
         self._astCfxRigConnectToolUiBox.setTitle('Asset ( Solver Rig ) Connection')
 
@@ -2052,20 +2051,20 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         lenLimit = 12
         #
-        self._autoRenameCheckbutton = uiWidgets.UiCheckbutton()
+        self._autoRenameCheckbutton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'autoRename', self._autoRenameCheckbutton)
         self._autoRenameCheckbutton.setChecked(True)
         self._autoRenameCheckbutton.setTooltip(
             u'''启用 / 关闭 添加物件的时候 重命名物件（工具组名）'''
         )
         #
-        self._parentGroupLabel = uiWidgets.UiEnterlabel()
+        self._parentGroupLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'parentGroup', self._parentGroupLabel)
         self._parentGroupLabel.setTooltip(
             u'''显示 父级组的名字：\n1，在“Outliner”中选中可用的组以切换父级组名'''
         )
         #
-        self._addObjectButton = uiWidgets.UiPressbutton()
+        self._addObjectButton = qtWidgets.QtPressbutton()
         self._addObjectButton.setPressable(False)
         toolBox.setButton(inData, 'addObject', self._addObjectButton)
         self._addObjectButton.clicked.connect(setAddObject)
@@ -2073,13 +2072,13 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
             u'''点击 添加选中的物体到父级组'''
         )
         #
-        self._childGroupLabel = uiWidgets.UiEnterlabel()
+        self._childGroupLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'childGroup', self._childGroupLabel)
         self._childGroupLabel.setTooltip(
             u'''显示 子级组的名字：\n1，在输入框中输入的关键词以生成子级组名'''
         )
         #
-        self._addGroupButton = uiWidgets.UiPressbutton()
+        self._addGroupButton = qtWidgets.QtPressbutton()
         self._addGroupButton.setPressable(False)
         toolBox.setButton(inData, 'addGroup', self._addGroupButton)
         self._addGroupButton.clicked.connect(setAddGroup)
@@ -2087,7 +2086,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
             u'''点击 添加子级组到父级组'''
         )
         #
-        self._groupKeywordEntryLabel = uiWidgets.UiEnterlabel()
+        self._groupKeywordEntryLabel = qtWidgets.QtEnterlabel()
         self._groupKeywordEntryLabel.setTextValidator(48)
         self._groupKeywordEntryLabel.setEnterEnable(True)
         self._groupKeywordEntryLabel.setEnterable(True)
@@ -2095,7 +2094,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._groupKeywordEntryLabel.entryChanged.connect(setChildGroupName)
         self._groupKeywordEntryLabel.entryChanged.connect(setAddGrpBtnState)
         #
-        self._groupNameTipsLabel = uiWidgets.UiEnterlabel()
+        self._groupNameTipsLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'tips', self._groupNameTipsLabel)
         self._groupNameTipsLabel.setDatum(self._groupCreateTip)
         #
@@ -2137,7 +2136,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         index = 0
         for seq, i in enumerate(buttonConfig):
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             explain = lxBasic._toStringPrettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
@@ -2197,7 +2196,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         buttonConfig = assetPr.astLightBasicLeafs()
         index = 0
         for seq, i in enumerate(buttonConfig):
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             explain = lxBasic._toStringPrettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
@@ -2220,53 +2219,53 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         assetName = self.connectObject().assetName
         #
-        self.connectLightToScaleButton = uiWidgets.UiPressbutton()
+        self.connectLightToScaleButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'connectLightToScale', self.connectLightToScaleButton)
         self.connectLightToScaleButton.clicked.connect(setConnectLightToScale)
     #
     def setupAstUtilsToolUiBox(self, toolBox):
         inData = self.dicAstUtils
         #
-        self.importWithMaterialButton = uiWidgets.UiCheckbutton()
+        self.importWithMaterialButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withMaterial', self.importWithMaterialButton)
         self.importWithMaterialButton.setChecked(True)
         #
-        self.importWithAovButton = uiWidgets.UiCheckbutton()
+        self.importWithAovButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAov', self.importWithAovButton)
         self.importWithAovButton.setCheckable(False)
         #
-        self._astShaderVariantLabel = uiWidgets.UiEnterlabel()
+        self._astShaderVariantLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'variant', self._astShaderVariantLabel)
         self._astShaderVariantLabel.setChooseEnable(True)
         #
-        self._importShaderButton = uiWidgets.UiPressbutton()
+        self._importShaderButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'importShader', self._importShaderButton)
         self._importShaderButton.clicked.connect(self.setImportShader)
         #
-        self._cleanSceneButton = uiWidgets.UiPressbutton()
+        self._cleanSceneButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'astUnitClearScene', self._cleanSceneButton)
         self._cleanSceneButton.clicked.connect(self.setCleanScene)
         #
-        self._renameSceneButton = uiWidgets.UiPressbutton()
+        self._renameSceneButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'astUnitRenameScene', self._renameSceneButton)
         self._renameSceneButton.clicked.connect(self.setRenameScene)
         #
-        self.usePathButton = uiWidgets.UiRadioCheckbutton()
+        self.usePathButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'usePath', self.usePathButton)
         self.usePathButton.setChecked(True)
         #
-        self.useNameButton = uiWidgets.UiRadioCheckbutton()
+        self.useNameButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'useName', self.useNameButton)
         #
-        self.useGeomButton = uiWidgets.UiRadioCheckbutton()
+        self.useGeomButton = qtWidgets.QtRadioCheckbutton()
         toolBox.setButton(inData, 'useGeom', self.useGeomButton)
         self.useGeomButton.setCheckable(False)
         #
-        self._loadMeshIndexButton = uiWidgets.UiPressbutton()
+        self._loadMeshIndexButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'loadMeshIndex', self._loadMeshIndexButton)
         self._loadMeshIndexButton.clicked.connect(self._loadAstGeometryObjectsIndexCmd)
         #
-        self._loadRigProductButton = uiWidgets.UiPressbutton()
+        self._loadRigProductButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'loadRigAsset', self._loadRigProductButton)
         self._loadRigProductButton.setPressable(False)
         #
@@ -2382,36 +2381,36 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         return self._astShaderVariantLabel.datum()
     #
     def setupUnitWidgets(self):
-        self._astUtilsGraphToolUiBox = uiWidgets.UiToolBox()
+        self._astUtilsGraphToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._astUtilsGraphToolUiBox)
         self._astUtilsGraphToolUiBox.setTitle('Asset Utilities Graph')
         #
-        self._astModelPropHierToolUiBox = uiWidgets.UiToolBox()
+        self._astModelPropHierToolUiBox = qtWidgets.QtToolbox()
         self._astModelPropHierToolUiBox.hide()
         self.mainLayout().addWidget(self._astModelPropHierToolUiBox)
         self._astModelPropHierToolUiBox.setTitle('Asset Prop Graph')
         #
-        self._astModelSolClothHierToolUiBox = uiWidgets.UiToolBox()
+        self._astModelSolClothHierToolUiBox = qtWidgets.QtToolbox()
         self._astModelSolClothHierToolUiBox.hide()
         self.mainLayout().addWidget(self._astModelSolClothHierToolUiBox)
         self._astModelSolClothHierToolUiBox.setTitle('Asset Solver - Cloth Graph')
         #
-        self._astModelSolverHairGraphToolUiBox = uiWidgets.UiToolBox()
+        self._astModelSolverHairGraphToolUiBox = qtWidgets.QtToolbox()
         self._astModelSolverHairGraphToolUiBox.hide()
         self.mainLayout().addWidget(self._astModelSolverHairGraphToolUiBox)
         self._astModelSolverHairGraphToolUiBox.setTitle('Asset Solver - Hair Graph')
         #
-        self.astLightHierToolUiBox = uiWidgets.UiToolBox()
+        self.astLightHierToolUiBox = qtWidgets.QtToolbox()
         self.astLightHierToolUiBox.hide()
         self.mainLayout().addWidget(self.astLightHierToolUiBox)
         self.astLightHierToolUiBox.setTitle('Asset Light Graph')
         #
-        self._astLightToolUiBox = uiWidgets.UiToolBox()
+        self._astLightToolUiBox = qtWidgets.QtToolbox()
         self._astLightToolUiBox.hide()
         self.mainLayout().addWidget(self._astLightToolUiBox)
         self._astLightToolUiBox.setTitle('Asset Light')
         #
-        self._astUtilsToolUiBox = uiWidgets.UiToolBox()
+        self._astUtilsToolUiBox = qtWidgets.QtToolbox()
         self.mainLayout().addWidget(self._astUtilsToolUiBox)
         self._astUtilsToolUiBox.setTitle('Asset Utilities')
         self.setupAstUtilsToolUiBox(self._astUtilsToolUiBox)
@@ -2449,18 +2448,18 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def refreshMethod(self):
         pass
     #
-    def setupGeometryUiTab(self, layout):
-        self._astGeometryRadarChart = uiWidgets.UiRadarChart()
+    def setupGeometryQtTab(self, layout):
+        self._astGeometryRadarChart = qtWidgets.QtRadarchart()
         layout.addWidget(self._astGeometryRadarChart)
         #
-        self._astGeometrySectorChart = uiWidgets.UiSectorChart()
+        self._astGeometrySectorChart = qtWidgets.QtSectorchart()
         layout.addWidget(self._astGeometrySectorChart)
     #
-    def setupShaderUiTab(self, layout):
-        self._astModelShaderRadarChart = uiWidgets.UiRadarChart()
+    def setupShaderQtTab(self, layout):
+        self._astModelShaderRadarChart = qtWidgets.QtRadarchart()
         layout.addWidget(self._astModelShaderRadarChart)
         #
-        self._astModelShaderSectorChart = uiWidgets.UiSectorChart()
+        self._astModelShaderSectorChart = qtWidgets.QtSectorchart()
         layout.addWidget(self._astModelShaderSectorChart)
     #
     def setTabSwitch(self):
@@ -2638,22 +2637,22 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
         return lis
     #
     def setupUnitWidgets(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         self._tabWidget.currentChanged.connect(self.setTabSwitch)
         # Geometry
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Geometry', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
-        self.setupGeometryUiTab(layout)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
+        self.setupGeometryQtTab(layout)
         # Shader
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Shader', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
-        self.setupShaderUiTab(layout)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
+        self.setupShaderQtTab(layout)
 
 
 #
@@ -2795,43 +2794,43 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             self._initAstUploadUiBox()
     #
     def setupUploadTab(self, layout):
-        self._astTipToolUiBox = uiWidgets.UiToolBox()
+        self._astTipToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._astTipToolUiBox)
         self._astTipToolUiBox.setTitle('Tip & Note')
         #
-        self._astSnapToolUiBox = uiWidgets.UiToolBox()
+        self._astSnapToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._astSnapToolUiBox)
         self._astSnapToolUiBox.setTitle('Snapshot')
         #
-        self._uploadToolWidget = uiCore.QWidget_()
+        self._uploadToolWidget = qtCore.QWidget_()
         layout.addWidget(self._uploadToolWidget)
-        uploadLayout = uiCore.QVBoxLayout_(self._uploadToolWidget)
+        uploadLayout = qtCore.QVBoxLayout_(self._uploadToolWidget)
         #
-        self._checkToolUiBox = uiWidgets.UiToolBox()
+        self._checkToolUiBox = qtWidgets.QtToolbox()
         uploadLayout.addWidget(self._checkToolUiBox)
         self._checkToolUiBox.setTitle('Check')
         #
-        self._uploadToolUiBox = uiWidgets.UiToolBox()
+        self._uploadToolUiBox = qtWidgets.QtToolbox()
         uploadLayout.addWidget(self._uploadToolUiBox)
         self._uploadToolUiBox.setTitle('Upload')
     #
     def setupExtendTab(self, layout):
-        self._extendToolUiBox = uiWidgets.UiToolBox()
+        self._extendToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._extendToolUiBox)
         self._extendToolUiBox.setTitle('Extend')
         #
-        self._variantToolUiBox = uiWidgets.UiToolBox()
+        self._variantToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._variantToolUiBox)
         self._variantToolUiBox.setTitle('Variant')
     #
     def setupAstTipToolUiBox(self, toolBox):
         inData = self.dicAstTip
         #
-        self._tipTextBrower = uiWidgets.UiTextBrower()
+        self._tipTextBrower = qtWidgets.QtTextBrower()
         toolBox.setInfo(inData, 'tip', self._tipTextBrower)
         self._tipTextBrower.setEnterEnable(False)
         #
-        self._noteTexBrower = uiWidgets.UiTextBrower()
+        self._noteTexBrower = qtWidgets.QtTextBrower()
         toolBox.setButton(inData, 'note', self._noteTexBrower)
         self._noteTexBrower.setTooltip(
             u'''输入 备注信息'''
@@ -2843,20 +2842,20 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstUploadToolUiBox(self, toolBox):
         inData = self.dicAstUpload
         #
-        self._astWithProductButton = uiWidgets.UiCheckbutton()
+        self._astWithProductButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withProduct', self._astWithProductButton)
         self._astWithProductButton.setChecked(True)
         self._astWithProductButton.setTooltip(
             u'''启用 / 关闭 上传 资产产品文件：\n1，启用 上传时会上传该项目。'''
         )
         #
-        self._astWithAssemblyButton = uiWidgets.UiCheckbutton()
+        self._astWithAssemblyButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAssembly', self._astWithAssemblyButton)
         self._astWithAssemblyButton.setTooltip(
             u'''启用 / 关闭 上传 资产组装文件：\n1，启用 上传时会上传该项目。'''
         )
         #
-        self._assemblyPercentLabel = uiWidgets.UiValueEnterlabel()
+        self._assemblyPercentLabel = qtWidgets.QtValueEnterlabel()
         self._assemblyPercentLabel.hide()
         toolBox.setInfo(inData, 'percentage', self._assemblyPercentLabel)
         self._assemblyPercentLabel.setEnterEnable(True)
@@ -2864,14 +2863,14 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._astWithAssemblyButton.toggled.connect(self._assemblyPercentLabel.setVisible)
         self._astWithAssemblyButton.clicked.connect(self.setAssemblyPercentageBoxShow)
         #
-        self._astWithAnimationButton = uiWidgets.UiCheckbutton()
+        self._astWithAnimationButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAnimation', self._astWithAnimationButton)
         self._astWithAnimationButton.setCheckable(False)
         self._astWithAnimationButton.setTooltip(
             u'''启用 / 关闭 上传 资产动画文件：\n1，启用 上传时会上传该项目。'''
         )
         #
-        self._astFrameLabel = uiWidgets.UiValueEnterlabel()
+        self._astFrameLabel = qtWidgets.QtValueEnterlabel()
         self._astFrameLabel.hide()
         toolBox.setInfo(inData, 'frame', self._astFrameLabel)
         self._astFrameLabel.setEnterEnable(True)
@@ -2879,16 +2878,16 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._astWithAnimationButton.toggled.connect(self._astFrameLabel.setVisible)
         self._astWithAnimationButton.clicked.connect(self.setFrameBoxShow)
         #
-        self._astWithAovButton = uiWidgets.UiCheckbutton()
+        self._astWithAovButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'withAov', self._astWithAovButton)
         self._astWithAovButton.setChecked(False)
         self._astWithAovButton.setTooltip(
             u'''启用 / 关闭 上传 Aov(s)数据：\n1，启用 上传时会上传该项目。'''
         )
         #
-        self._astUploadButton = uiWidgets.UiPressbutton()
+        self._astUploadButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'upload', self._astUploadButton)
-        self._astUploadButton._setUiPressStatus(uiCore.OnStatus)
+        self._astUploadButton._setQtPressStatus(qtCore.OnStatus)
         self._astUploadButton.setTooltip(
             u'点击 上传 / 更新 资产：\n1，检查通过后激活按钮。'
         )
@@ -2898,14 +2897,14 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstCheckToolUiBox(self, toolBox):
         inData = self.dicAstCheck
         #
-        self._astMainCheckButton = uiWidgets.UiPressbutton()
+        self._astMainCheckButton = qtWidgets.QtPressbutton()
         self._astMainCheckButton.setPercentEnable(True)
         toolBox.setButton(inData, 'mainCheck', self._astMainCheckButton)
         self._astMainCheckButton.setTooltip(
             u'''点击 进行 主要项目检查（模型，节点）'''
         )
         #
-        self._astSubCheckButton = uiWidgets.UiPressbutton()
+        self._astSubCheckButton = qtWidgets.QtPressbutton()
         self._astSubCheckButton.setPercentEnable(True)
         toolBox.setButton(inData, 'subCheck', self._astSubCheckButton)
         self._astSubCheckButton.setTooltip(
@@ -2917,28 +2916,28 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstSnapshotToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicAstPreview)
         #
-        self._useDefaultViewButton = uiWidgets.UiCheckbutton()
+        self._useDefaultViewButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useDefaultView', self._useDefaultViewButton)
         self._useDefaultViewButton.setChecked(True)
         self._useDefaultViewButton.setTooltip(
             u'''启用 / 关闭 截屏的时候 是否使用 默认摄像机视角'''
         )
         #
-        self._useDefaultLightButton = uiWidgets.UiCheckbutton()
+        self._useDefaultLightButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useDefaultLight', self._useDefaultLightButton)
         self._useDefaultLightButton.setChecked(True)
         self._useDefaultLightButton.setTooltip(
             u'''启用 / 关闭 截屏（渲染）的时候 是否创建 默认灯光'''
         )
         #
-        self._makeViewportSnapshotButton = uiWidgets.UiPressbutton()
+        self._makeViewportSnapshotButton = qtWidgets.QtPressbutton()
         toolBox.addButton('makeViewportSnapshot', self._makeViewportSnapshotButton)
         self._makeViewportSnapshotButton.released.connect(self._astViewportSnapshotCmd)
         self._makeViewportSnapshotButton.setTooltip(
             u'''点击 上传视窗截屏'''
         )
         #
-        self._makeRenderSnapshotButton = uiWidgets.UiPressbutton()
+        self._makeRenderSnapshotButton = qtWidgets.QtPressbutton()
         toolBox.addButton('makeRenderSnapshot', self._makeRenderSnapshotButton)
         self._makeRenderSnapshotButton.clicked.connect(self._astRenderSnapshotCmd)
         self._makeRenderSnapshotButton.setTooltip(
@@ -2950,18 +2949,18 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupAstModelExtendToolUiBox(self, toolBox):
         inData = self.dicAstModelExtend
         #
-        self._withSolverGeometryButton = uiWidgets.UiPressbutton()
+        self._withSolverGeometryButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'updateSolverGeometry', self._withSolverGeometryButton)
     #
     def setupAstVariantModifyToolUiBox(self, toolBox):
         inData = self.dicAstVariantModify
         #
-        self._astVariantChangeLabel = uiWidgets.UiEnterlabel()
+        self._astVariantChangeLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'variant', self._astVariantChangeLabel)
         self._astVariantChangeLabel.setChooseEnable(True)
         self._astVariantChangeLabel.chooseChanged.connect(self.setVarBtnState)
         #
-        self._astVariantChangeButton = uiWidgets.UiPressbutton()
+        self._astVariantChangeButton = qtWidgets.QtPressbutton()
         self._astVariantChangeButton.setPressable(False)
         toolBox.setButton(inData, 'setVariant', self._astVariantChangeButton)
         self._astVariantChangeButton.clicked.connect(self.setAssetVariant)
@@ -3719,19 +3718,19 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnitWidgets(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Upload', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupUploadTab(layout)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Extend', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupExtendTab(layout)
 

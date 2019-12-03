@@ -312,14 +312,14 @@ class LxMethodBasic(appConfig.LxConfigBasic):
         #
         return lis
     @classmethod
-    def _lxBasicPath(cls):
-        return lxConfigure.BasicPath().root
+    def _lxRoot(cls):
+        return lxConfigure.Root().root()
     @classmethod
-    def _lxIconBasicPath(cls):
-        return lxConfigure.BasicPath().iconRoot
+    def _lxIconRoot(cls):
+        return lxConfigure.Root().iconRoot()
     @classmethod
-    def _lxDevelopPath(cls):
-        return lxConfigure.DevelopPath().root
+    def _lxDevelopRoot(cls):
+        return lxConfigure.Root().developRoot()
 
 
 #
@@ -574,13 +574,13 @@ class LxUiMethodBasic(LxMethodBasic, appConfig.LxUiConfig):
         else:
             iconKeyword = ''
         #
-        osFile = cls._lxIconBasicPath() + '/{}/{}{}'.format(subLabel, iconKeyword, ext)
+        osFile = cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, iconKeyword, ext)
         #
         if isMayaIcon:
             if cls.isOsExistsFile(osFile):
                 return osFile
             else:
-                return cls._lxIconBasicPath() + '/{}/{}{}'.format(subLabel, 'default', ext)
+                return cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, 'default', ext)
         else:
             return osFile
     @staticmethod
@@ -1592,7 +1592,7 @@ class LxProductMethodBasic(appConfig.LxProductConfig):
 #
 class LxUpdateMethod(LxMethodBasic):
     @classmethod
-    def getPythonModuleLis(cls, modulePath, moduleLimitStrings=None):
+    def getPythonModules(cls, modulePath, moduleLimitStrings=None):
         def getBranch(directory, keywordFilterString=None):
             osFileBasenameLis = cls.getOsFileBasenameLisByPath(directory)
             if osFileBasenameLis:
@@ -1635,7 +1635,7 @@ class LxUpdateMethod(LxMethodBasic):
         return lis
     @classmethod
     def setPythonModuleUpdate(cls, modulePath, moduleLimitStrings=None):
-        moduleLis = cls.getPythonModuleLis(modulePath, moduleLimitStrings)
+        moduleLis = cls.getPythonModules(modulePath, moduleLimitStrings)
         if moduleLis:
             for module in moduleLis:
                 stringLis = module.split('.')

@@ -4,8 +4,9 @@ from LxCore import lxBasic, lxConfigure
 from LxCore.config import sceneryCfg
 #
 from LxCore.preset import appVariant
-# Type Config
-typeLabel = appVariant.assetClassifyAbbDic
+# do not delete and rename
+serverBasicPath = lxConfigure.Root().root()
+localBasicPath = lxConfigure.Root().userRoot()
 #
 none = ''
 
@@ -172,12 +173,6 @@ def sceneryAssemblyMainLocatorName(sceneryName, sceneryVariant):
 # Scene Object Locator Name
 def sceneryAssemblySubLocatorName(assetName, number, assetVariant):
     string = '%s_%s_%s_%s%s' % (appVariant.scnAssemblyPrefix, assetName, number, assetVariant, appVariant.scnSceneryLocatorLabel)
-    return string
-
-
-# Scene Object Locator Name
-def sceneryObjectLocatorName(sceneryClass, sceneryName, number, assetVariant=none):
-    string = '%s_%s_%s_%s%s' % (typeLabel[sceneryClass], sceneryName, number, assetVariant, appVariant.scnSceneryLocatorLabel)
     return string
 
 

@@ -3,9 +3,8 @@ from LxCore import lxBasic
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets, qtCore
 
 #
 # Project Data
@@ -15,7 +14,7 @@ none = ''
 
 
 #
-class IfAstModelRadarChartUnit(uiCore.QWidget_):
+class IfAstModelRadarChartUnit(qtCore.QWidget_):
     widthSet = 400
     def __init__(self, *args, **kwargs):
         super(IfAstModelRadarChartUnit, self).__init__(*args, **kwargs)
@@ -56,7 +55,7 @@ class IfAstModelRadarChartUnit(uiCore.QWidget_):
         if lxBasic.isOsExistsFile(image):
             self._radarChart.setImage(image)
         else:
-            self._radarChart.setImage(uiCore.iconRoot() + '/panel/defaultPreview.png')
+            self._radarChart.setImage(qtCore.iconRoot() + '/panel/defaultPreview.png')
     #
     def setDef(self, config):
         defValue = [6, 1, 8, 12, 6, 12]
@@ -64,9 +63,9 @@ class IfAstModelRadarChartUnit(uiCore.QWidget_):
         self._radarChart.setChartDatum(lis)
     #
     def setupUnit(self):
-        mainLayout = uiCore.QGridLayout_(self)
+        mainLayout = qtCore.QGridLayout_(self)
         # Statistics
-        self._radarChart = uiWidgets.UiRadarChart()
+        self._radarChart = qtWidgets.QtRadarchart()
         mainLayout.addWidget(self._radarChart, 0, 0, 0, 0)
 
 

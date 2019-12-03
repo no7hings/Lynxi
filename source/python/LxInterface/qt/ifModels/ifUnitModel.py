@@ -1,11 +1,10 @@
 # coding:utf-8
 from LxCore import lxProgress
 #
-from LxUi import uiCore
 #
 from LxCore.method import _presetMethod
 #
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets, qtCore
 
 
 #
@@ -49,7 +48,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         # Local Index
         self._subLocalUnitIndex(dbUnitId)
         #
-        self.setUnitStatus(unitItem, uiCore.NormalStatus)
+        self.setUnitStatus(unitItem, qtCore.NormalStatus)
         self.setUnitAction(unitItem)
         # Update Default Set
         self.updateUnitDefaultSet(unitItem, unitSetDatum)
@@ -64,7 +63,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             unitIndexDatum, unitSetDatum
         )
         #
-        self.setUnitStatus(unitItem, uiCore.NormalStatus)
+        self.setUnitStatus(unitItem, qtCore.NormalStatus)
         # Update Default Set
         self.updateUnitDefaultSet(unitItem, unitSetDatum)
     #
@@ -121,7 +120,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
                     )
                     #
                     unitItem.setDefaultPresetSetDatum(unitSetDatum)
-                    self.setUnitStatus(unitItem, uiCore.NormalStatus)
+                    self.setUnitStatus(unitItem, qtCore.NormalStatus)
         #
         def reloadAllCmd():
             if self._unitItemLis:
@@ -207,7 +206,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         if dbUnitId is None:
             dbUnitId = self.getUniqueId()
         #
-        unitItem = uiWidgets.UiPresetItem()
+        unitItem = qtWidgets.QtPresetviewItem()
         self.presetView().addItem(unitItem)
         #
         unitItem.setName(dbUnitId), unitItem.setEnable(enable), unitItem.setDescription(description)
@@ -228,7 +227,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         if dbUnitId in serverUnitIndexLis:
             unitNumber = serverUnitIndexLis.index(dbUnitId) + 1
             #
-            self.setUnitStatus(unitItem, uiCore.NormalStatus)
+            self.setUnitStatus(unitItem, qtCore.NormalStatus)
             #
             self.setUnitAction(unitItem)
             #
@@ -239,7 +238,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             #
             unitNumber = serverUnitCount + self._localUnitIndexLis.index(dbUnitId) + 1
             #
-            self.setUnitStatus(unitItem, uiCore.OnStatus)
+            self.setUnitStatus(unitItem, qtCore.OnStatus)
             #
             self.setUnitSubAction(unitItem)
             #
@@ -265,16 +264,16 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             unitItem.refreshPresetSet(overrideSetDatum)
     @staticmethod
     def setUnitStatus(unitItem, status):
-        if status is uiCore.NormalStatus:
+        if status is qtCore.NormalStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 95, 95, 95, 255
-        elif status is uiCore.WarningStatus:
+        elif status is qtCore.WarningStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 255, 255, 97, 255
-        elif status is uiCore.ErrorStatus:
+        elif status is qtCore.ErrorStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 255, 0, 63, 255
-        elif status is uiCore.OnStatus:
+        elif status is qtCore.OnStatus:
             iconKeyword = 'svg_basic@svg#addFile'
             rgba = 63, 255, 127, 255
         else:
@@ -333,7 +332,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         # Local Index
         self._subLocalUnitIndex(dbUnitId)
         #
-        self.setUnitStatus(unitItem, uiCore.NormalStatus)
+        self.setUnitStatus(unitItem, qtCore.NormalStatus)
         self.setUnitAction(unitItem)
         # Update Default Set
         self.updateUnitDefaultSet(unitItem, unitSetDatum)
@@ -348,7 +347,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             unitIndexDatum, unitSetDatum
         )
         #
-        self.setUnitStatus(unitItem, uiCore.NormalStatus)
+        self.setUnitStatus(unitItem, qtCore.NormalStatus)
         # Update Default Set
         self.updateUnitDefaultSet(unitItem, unitSetDatum)
     #
@@ -404,7 +403,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
                     )
                     #
                     unitItem.setDefaultPresetSetDatum(unitSetDatum)
-                    self.setUnitStatus(unitItem, uiCore.NormalStatus)
+                    self.setUnitStatus(unitItem, qtCore.NormalStatus)
         #
         def reloadAllCmd():
             if self._unitItemLis:
@@ -490,7 +489,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         if dbUnitId is None:
             dbUnitId = self.getUniqueId()
         #
-        unitItem = uiWidgets.UiPresetItem()
+        unitItem = qtWidgets.QtPresetviewItem()
         self.presetView().addItem(unitItem)
         #
         unitItem.setName(dbUnitId), unitItem.setEnable(enable), unitItem.setDescription(description)
@@ -511,7 +510,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         if dbUnitId in serverUnitIndexLis:
             unitNumber = serverUnitIndexLis.index(dbUnitId) + 1
             #
-            self.setUnitStatus(unitItem, uiCore.NormalStatus)
+            self.setUnitStatus(unitItem, qtCore.NormalStatus)
             #
             self.setUnitAction(unitItem)
             #
@@ -522,7 +521,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             #
             unitNumber = serverUnitCount + self._localUnitIndexLis.index(dbUnitId) + 1
             #
-            self.setUnitStatus(unitItem, uiCore.OnStatus)
+            self.setUnitStatus(unitItem, qtCore.OnStatus)
             #
             self.setUnitSubAction(unitItem)
             #
@@ -548,16 +547,16 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             unitItem.refreshPresetSet(overrideSetDatum)
     @staticmethod
     def setUnitStatus(unitItem, status):
-        if status is uiCore.NormalStatus:
+        if status is qtCore.NormalStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 95, 95, 95, 255
-        elif status is uiCore.WarningStatus:
+        elif status is qtCore.WarningStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 255, 255, 97, 255
-        elif status is uiCore.ErrorStatus:
+        elif status is qtCore.ErrorStatus:
             iconKeyword = 'svg_basic@svg#document'
             rgba = 255, 0, 63, 255
-        elif status is uiCore.OnStatus:
+        elif status is qtCore.OnStatus:
             iconKeyword = 'svg_basic@svg#addFile'
             rgba = 63, 255, 127, 255
         else:

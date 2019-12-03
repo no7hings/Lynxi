@@ -33,7 +33,7 @@ def setMayaPlugSetup():
                     progressBar.updateProgress(plug)
                     maUtils.setPlugLoad(plug)
                 #
-                lxTip.viewMessage(u'加载插件', u'成功')
+                lxTip.viewMessage(u'Plug(s) Load', u'Complete')
             # Setup Plug
             mayaPlugSetupCommandLis = plugPr.getMayaPlugSetupCommands()
             if mayaPlugSetupCommandLis:
@@ -44,7 +44,7 @@ def setMayaPlugSetup():
                     progressBar.updateProgress()
                     maUtils.runMelCommand(command)
                 #
-                lxTip.viewMessage(u'启动插件', u'成功')
+                lxTip.viewMessage(u'Plug(s) Setup', u'Complete')
             #
             currentRenderer = projectPr.getProjectMayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)
@@ -64,16 +64,16 @@ def setMayaPlugCheck(projectName=None):
                 for plugLoadName in plugLoadNames:
                     if plugLoadName:
                         if maUtils.isPlugRegistered(plugLoadName) is True:
-                            lxConfigure.traceResult('{} ( {} ) Registered is Successful'.format(plugName, plugLoadName))
+                            lxConfigure.Message().traceResult('{} ( {} ) Registered is Successful'.format(plugName, plugLoadName))
                             #
                             plugFile = maUtils.getPlugPath(plugLoadName)
                             if plugFile.lower().startswith(plugPath.lower()):
-                                lxConfigure.traceResult('{} ( {} ) Path is Available'.format(plugName, plugFile))
+                                lxConfigure.Message().traceResult('{} ( {} ) Path is Available'.format(plugName, plugFile))
                             else:
                                 errorMessage = '{} ( {} ) Path is Unavailable'.format(plugName, plugFile)
-                                lxConfigure.traceError(errorMessage)
-                                lxConfigure.setErrorLogAdd(errorMessage)
+                                lxConfigure.Message().traceError(errorMessage)
+                                lxConfigure.Log().addError(errorMessage)
                         else:
                             errorMessage = '{} ( {} ) Registered is Failed'.format(plugName, plugLoadName)
-                            lxConfigure.traceError(errorMessage)
-                            lxConfigure.setErrorLogAdd(errorMessage)
+                            lxConfigure.Message().traceError(errorMessage)
+                            lxConfigure.Log().addError(errorMessage)

@@ -5,7 +5,7 @@ from LxCore.config import appCfg
 #
 from LxCore.preset.prod import scenePr
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets
 #
 #
 from LxMaya.interface.ifObjects import ifMaScTreeItem
@@ -43,7 +43,7 @@ def setListNodes(treeBox, nodes):
         nodeName = maUtils._toNodeName(node, 1)
         nodeType = maUtils.getNodeType(node)
         #
-        treeItem = uiWidgets_.QTreeWidgetItem_()
+        treeItem = qtWidgets_.QTreeWidgetItem_()
         treeBox.addItem(treeItem)
         #
         treeItem.setItemMayaIcon(0, nodeType)
@@ -122,7 +122,7 @@ def setListDirectory(
         treeItemWidget = treeItem.setItemIconWidget(0, iconLabel, showExplain, stateLabel)
         setActionData()
         # Check Box
-        checkBox = uiWidgets.UiCheckbutton()
+        checkBox = qtWidgets.QtCheckbutton()
         checkBox.setNameText('Enable')
         checkBox.setChecked(True)
         column = 1
@@ -280,9 +280,9 @@ def setListFileBranch(
         fileData
 ):
     def setBranch(treeItem, parentItem, osFile, iconKeyword_, iconState, explain):
-        if type(parentItem) == uiWidgets_.QTreeWidget_:
+        if type(parentItem) == qtWidgets_.QTreeWidget_:
             parentItem.addItem(treeItem)
-        elif type(parentItem) == uiWidgets_.QTreeWidgetItem_:
+        elif type(parentItem) == qtWidgets_.QTreeWidgetItem_:
             parentItem.addChild(treeItem)
             #
             parentItem.setExpanded(True)
@@ -313,7 +313,7 @@ def setListFileBranch(
     existsSourceFiles = lxBasic.getOsMultFileLis(sourceFile)
     existsSourceCount = len(existsSourceFiles)
     #
-    fileItem = uiWidgets_.QTreeWidgetItem_()
+    fileItem = qtWidgets_.QTreeWidgetItem_()
     #
     if existsSourceFiles > 0:
         if existsSourceCount > 1:
@@ -325,7 +325,7 @@ def setListFileBranch(
             #
             subSourceFiles = existsSourceFiles[1:]
             for subSourceFile in subSourceFiles:
-                subFileItem = uiWidgets_.QTreeWidgetItem_()
+                subFileItem = qtWidgets_.QTreeWidgetItem_()
                 subShowExplain = lxBasic.getOsFileBasename(subSourceFile)
                 setBranch(subFileItem, fileItem, subSourceFile, subIconKeyword, subState, subShowExplain)
     else:
@@ -357,7 +357,7 @@ def setListScMayaComposeCmdMain(
                 )
             #
             scCameraIcon = 'svg_basic@svg#branch_main'
-            scCameraComposeItem = uiWidgets_.QTreeWidgetItem_()
+            scCameraComposeItem = qtWidgets_.QTreeWidgetItem_()
             sceneItem.addChild(scCameraComposeItem)
             setRefreshScCameraItem('')
             scCameraComposeItem.setExpanded(True)
@@ -393,7 +393,7 @@ def setListScMayaComposeCmdMain(
                 )
             #
             scAssetIcon = 'svg_basic@svg#branch_main'
-            scAssetComposeItem = uiWidgets_.QTreeWidgetItem_()
+            scAssetComposeItem = qtWidgets_.QTreeWidgetItem_()
             sceneItem.addChild(scAssetComposeItem)
             setRefreshScAssetItem('')
             scAssetComposeItem.setExpanded(True)
@@ -428,7 +428,7 @@ def setListScMayaComposeCmdMain(
             sceneClass, sceneName, sceneVariant
         )
         #
-        sceneItem = uiWidgets_.QTreeWidgetItem_()
+        sceneItem = qtWidgets_.QTreeWidgetItem_()
         treeBox.addItem(sceneItem)
         #
         itemIcon0 = 'svg_basic@svg#package_object'

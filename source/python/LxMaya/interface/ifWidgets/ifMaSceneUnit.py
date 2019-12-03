@@ -1,9 +1,7 @@
 # coding=utf-8
 from LxCore import lxProgress, lxTip
 #
-from LxUi import uiCore
-from LxUi.qt import uiWidgets_, uiWidgets
-#
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -77,12 +75,12 @@ class IfScLightLinkUpdateUnit(
         pass
     #
     def setupLeftWidget(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Information')
         self.setupInfoToolBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Upload')
         self.setupModifyToolBox(toolBox)
@@ -91,13 +89,13 @@ class IfScLightLinkUpdateUnit(
         self.setupTreeViewBox(layout)
     #
     def setupInfoToolBox(self, toolBox):
-        self._radarChart = uiWidgets.UiRadarChart()
+        self._radarChart = qtWidgets.QtRadarchart()
         toolBox.addWidget(self._radarChart)
     #
     def setupModifyToolBox(self, toolBox):
         toolBox.setUiData(self.ToolLayoutDic_ScLightLinkUpload)
         #
-        self._ignoreUnusedButton = uiWidgets.UiCheckbutton()
+        self._ignoreUnusedButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('ignoreUnused', self._ignoreUnusedButton)
         self._ignoreUnusedButton.setChecked(True)
         self._ignoreUnusedButton.setTooltip(
@@ -106,25 +104,25 @@ class IfScLightLinkUpdateUnit(
         self._ignoreUnusedButton.checked.connect(self._initInfo)
         self._ignoreUnusedButton.checked.connect(self._initView)
         #
-        self._lightLinkNameLabel = uiWidgets.UiEnterlabel()
+        self._lightLinkNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('lightLinkName', self._lightLinkNameLabel)
         self._lightLinkNameLabel.setEnterEnable(True)
         self._lightLinkNameLabel.chooseChanged.connect(self._initInfo)
         #
-        self._branchNameLabel = uiWidgets.UiEnterlabel()
+        self._branchNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('branchName', self._branchNameLabel)
         self._branchNameLabel.setChooseEnable(True)
         self._branchNameLabel.chooseChanged.connect(self._initInfo)
         self._branchNameLabel.setDatumLis(self.dbUserLocalUnitBranchLis())
         #
-        self._versionNameLabel = uiWidgets.UiEnterlabel()
+        self._versionNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('versionName', self._versionNameLabel)
         #
-        self._withRenderOptionButton = uiWidgets.UiCheckbutton()
+        self._withRenderOptionButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withRenderOption', self._withRenderOptionButton)
         self._withRenderOptionButton.setChecked(True)
         #
-        self._updateButton = uiWidgets.UiPressbutton()
+        self._updateButton = qtWidgets.QtPressbutton()
         toolBox.addButton('update', self._updateButton)
         self._updateButton.clicked.connect(self._updateLightLinkCmd)
         self._updateButton.clicked.connect(self._updateRenderOptionCmd)
@@ -132,7 +130,7 @@ class IfScLightLinkUpdateUnit(
         toolBox.addSeparators()
     #
     def setupTreeViewBox(self, layout):
-        self._treeView = uiWidgets.UiTreeView()
+        self._treeView = qtWidgets.QtTreeview()
         layout.addWidget(self._treeView)
         self._treeView.setSelectEnable(True)
         self._treeView.setColorEnable(True)
@@ -182,7 +180,7 @@ class IfScLightLinkUpdateUnit(
     def _initView(self):
         def setLightBranch(searchDatum, useDefaultSet):
             nodeType, pathDatum, namespaceDatum = eval(searchDatum)
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             #
             nodeName = self._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
@@ -194,13 +192,13 @@ class IfScLightLinkUpdateUnit(
             if self.isAppExist(nodePath):
                 treeItem.path = nodePath
             else:
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
             #
             return treeItem
         #
         def setObjectBranch(linkItem, searchDatum, mainAttrName):
             nodeType, pathDatum, namespaceDatum = eval(searchDatum)
-            treeItem = uiWidgets.UiTreeItem()
+            treeItem = qtWidgets.QtTreeviewItem()
             linkItem.addChild(treeItem)
             #
             nodeName = self._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
@@ -215,7 +213,7 @@ class IfScLightLinkUpdateUnit(
                 treeItem.path = nodePath
             else:
                 print searchDatum, nodePath
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
         #
         def setMain():
             datumDic = self.orderedDict(self._localLightLinkDic)
@@ -353,18 +351,18 @@ class IfScLightLinkUpdateUnit(
         self.topToolBar().show()
         self.refreshButton().clicked.connect(self.refreshMethod)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        rightScrollBox = uiCore.QScrollArea_()
+        rightScrollBox = qtCore.QScrollArea_()
         layout.addWidget(rightScrollBox)
         self.setupRightWidget(rightScrollBox)
 
@@ -425,12 +423,12 @@ class IfScLightLinkLoadUnit(
         pass
     #
     def setupLeftWidget(self, layout):
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Information')
         self.setupInfoToolBox(toolBox)
         #
-        toolBox = uiWidgets.UiToolBox()
+        toolBox = qtWidgets.QtToolbox()
         layout.addWidget(toolBox)
         toolBox.setTitle('Load')
         self.setupModifyToolBox(toolBox)
@@ -439,13 +437,13 @@ class IfScLightLinkLoadUnit(
         self.setupTreeViewBox(layout)
     #
     def setupInfoToolBox(self, toolBox):
-        self._sectorChart = uiWidgets.UiSectorChart()
+        self._sectorChart = qtWidgets.QtSectorchart()
         toolBox.addWidget(self._sectorChart)
     #
     def setupModifyToolBox(self, toolBox):
         toolBox.setUiData(self.ToolLayoutDic_ScLightLinkUpload)
         #
-        self._ignorePathButton = uiWidgets.UiCheckbutton()
+        self._ignorePathButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('ignorePath', self._ignorePathButton)
         self._ignorePathButton.setChecked(True)
         self._ignorePathButton.setTooltip(
@@ -454,7 +452,7 @@ class IfScLightLinkLoadUnit(
         self._ignorePathButton.checked.connect(self._initInfo)
         self._ignorePathButton.checked.connect(self._initView)
         #
-        self._ignoreNamespaceButton = uiWidgets.UiCheckbutton()
+        self._ignoreNamespaceButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('ignoreNamespace', self._ignoreNamespaceButton)
         self._ignoreNamespaceButton.setChecked(True)
         self._ignoreNamespaceButton.setTooltip(
@@ -463,30 +461,30 @@ class IfScLightLinkLoadUnit(
         self._ignoreNamespaceButton.checked.connect(self._initInfo)
         self._ignoreNamespaceButton.checked.connect(self._initView)
         #
-        self._lightLinkNameLabel = uiWidgets.UiEnterlabel()
+        self._lightLinkNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('lightLinkName', self._lightLinkNameLabel)
         self._lightLinkNameLabel.setChooseEnable(True)
         self._lightLinkNameLabel.chooseChanged.connect(self._updateBranchLabel)
         #
-        self._branchNameLabel = uiWidgets.UiEnterlabel()
+        self._branchNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('branchName', self._branchNameLabel)
         self._branchNameLabel.setChooseEnable(True)
         self._branchNameLabel.chooseChanged.connect(self._updateVersionLabel)
         #
-        self._versionNameLabel = uiWidgets.UiEnterlabel()
+        self._versionNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('versionName', self._versionNameLabel)
         self._versionNameLabel.setChooseEnable(True)
         self._versionNameLabel.chooseChanged.connect(self._initInfo)
         self._versionNameLabel.chooseChanged.connect(self._initView)
         #
-        self._loadButton = uiWidgets.UiPressbutton()
+        self._loadButton = qtWidgets.QtPressbutton()
         toolBox.addButton('load', self._loadButton)
         self._loadButton.clicked.connect(self._loadLightLinkCmd)
         #
         toolBox.addSeparators()
     #
     def setupTreeViewBox(self, layout):
-        self._treeView = uiWidgets.UiTreeView()
+        self._treeView = qtWidgets.QtTreeview()
         layout.addWidget(self._treeView)
         self._treeView.setSelectEnable(True)
         self._treeView.setColorEnable(True)
@@ -561,7 +559,7 @@ class IfScLightLinkLoadUnit(
             if localNodeLis:
                 for seq, nodePath in enumerate(localNodeLis):
                     localDefaultSet = nodePath in defaultSetLis
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     treeView.addItem(treeItem)
                     treeItem.setNamespaceText(self._toNamespaceByNodeName(nodeName))
                     treeItem.setNameText(self._toNameByNodeName(nodeName))
@@ -569,7 +567,7 @@ class IfScLightLinkLoadUnit(
                     treeItem.path = nodePath
                     #
                     if seq > 0:
-                        treeItem._setUiPressStatus(uiCore.WarningStatus)
+                        treeItem._setQtPressStatus(qtCore.WarningStatus)
                     #
                     if localDefaultSet == serverDefaultSet:
                         treeItem.setFilterColor((63, 255, 127, 255))
@@ -580,12 +578,12 @@ class IfScLightLinkLoadUnit(
                     #
                     lis.append(treeItem)
             else:
-                treeItem = uiWidgets.UiTreeItem()
+                treeItem = qtWidgets.QtTreeviewItem()
                 treeView.addItem(treeItem)
                 treeItem.setNamespaceText(self._toNamespaceByNodeName(nodeName))
                 treeItem.setNameText(self._toNameByNodeName(nodeName))
                 treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
                 #
                 lis.append(treeItem)
             #
@@ -602,7 +600,7 @@ class IfScLightLinkLoadUnit(
             )
             if localNodeLis:
                 for seq, nodePath in enumerate(localNodeLis):
-                    treeItem = uiWidgets.UiTreeItem()
+                    treeItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(treeItem)
                     treeItem.setNamespaceText(self._toNamespaceByNodeName(nodeName))
                     treeItem.setNameText(self._toNameByNodeName(nodeName))
@@ -613,7 +611,7 @@ class IfScLightLinkLoadUnit(
                     treeItem.path = nodePath
                     #
                     if seq > 0:
-                        treeItem._setUiPressStatus(uiCore.WarningStatus)
+                        treeItem._setQtPressStatus(qtCore.WarningStatus)
                     #
                     if lightNodePath is not None:
                         if nodePath in localLightLinkObjectLis:
@@ -623,7 +621,7 @@ class IfScLightLinkLoadUnit(
                                 (mainAttrName, lightNodePath, nodePath)
                             )
             else:
-                treeItem = uiWidgets.UiTreeItem()
+                treeItem = qtWidgets.QtTreeviewItem()
                 parentItem.addChild(treeItem)
                 treeItem.setNamespaceText(self._toNamespaceByNodeName(nodeName))
                 treeItem.setNameText(self._toNameByNodeName(nodeName))
@@ -631,7 +629,7 @@ class IfScLightLinkLoadUnit(
                 subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
                 treeItem.setSubIcon(subIconKeyword)
                 #
-                treeItem._setUiPressStatus(uiCore.OffStatus)
+                treeItem._setQtPressStatus(qtCore.OffStatus)
         #
         def setMain():
             dataDic = self._serverLightLinkDic
@@ -749,17 +747,17 @@ class IfScLightLinkLoadUnit(
         self.topToolBar().show()
         self.refreshButton().clicked.connect(self.refreshMethod)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         leftExpandWidget.setUiWidth(self.SideWidth)
         layout.addWidget(leftExpandWidget)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        rightScrollBox = uiCore.QScrollArea_()
+        rightScrollBox = qtCore.QScrollArea_()
         layout.addWidget(rightScrollBox)
         self.setupRightWidget(rightScrollBox)

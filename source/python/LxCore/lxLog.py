@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxCore import lxBasic
 #
-from LxUi import uiCore
+from LxUi.qt import qtCore
 from LxUi.command import uiHtml
 
 #
@@ -24,14 +24,14 @@ indentSubResultIndent = uiHtml.getHtml(u'{0}{1}{1}{1}'.format(midLabel, indentLa
 
 #
 def viewLogWin_(title=None):
-    existsWin = uiCore.lxGetLogWin()
+    existsWin = qtCore.lxGetLogWin()
     if existsWin:
         existsWin.uiShow((10, 10), (720, 320))
         return existsWin
     else:
-        from LxUi.qt import uiWidgets
+        from LxUi.qt import qtWidgets
         #
-        win = uiWidgets.UiLogWindow()
+        win = qtWidgets.UiLogWindow()
         #
         if title:
             win.setNameText(title)
@@ -44,14 +44,14 @@ def viewLogWin_(title=None):
 
 #
 def logWin_(title=None):
-    from LxUi import uiCore
-    existsWin = uiCore.lxGetLogWin()
+    from LxUi import qtCore
+    existsWin = qtCore.lxGetLogWin()
     if existsWin:
         return existsWin
     else:
-        from LxUi.qt import uiWidgets
+        from LxUi.qt import qtWidgets
         #
-        win = uiWidgets.UiLogWindow()
+        win = qtWidgets.UiLogWindow()
         #
         if title:
             win.setNameText(title)

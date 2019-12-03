@@ -13,7 +13,7 @@ from LxCore.setup import maSetup
 #
 def setBasicPythonPackageSetup():
     traceMessage = '''Setup Windows Python Package(s)'''
-    lxConfigure.traceMessage(traceMessage)
+    lxConfigure.Message().trace(traceMessage)
     #
     osPaths = pipePr.env_basic_python_package_lis()
     for osPath in osPaths:
@@ -22,12 +22,13 @@ def setBasicPythonPackageSetup():
 
 #
 def setLynxiSetup(showProgress=False, isCloseMaya=False):
+    lxConfigure.Version().setLocalRefresh()
     if lxBasic.isMayaApp():
         isEnable = False
         #
         mayaVersion = lxBasic.getMayaAppVersion()
         projectName = projectPr.getMayaProjectName()
-        if lxConfigure.isLxDevelop():
+        if lxConfigure.Basic().isDevelop():
             isEnable = True
         else:
             mayaProjectNameLis = projectPr.getMayaProjectNames(mayaVersion)
@@ -35,9 +36,9 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
                 isEnable = True
             else:
                 errorMessage = 'Invalid Maya Project Name : {}'.format(projectName)
-                lxConfigure.traceError(errorMessage)
+                lxConfigure.Message().traceError(errorMessage)
                 #
-                lxConfigure.setErrorLogAdd(errorMessage)
+                lxConfigure.Log().addError(errorMessage)
         #
         if isEnable is True:
             maSetup.setMayaSetup(projectName=projectName, showProgress=showProgress, isCloseMaya=isCloseMaya)

@@ -1,19 +1,19 @@
 # coding:utf-8
-from LxUi import uiCore
+from LxUi.qt import qtCore
 #
 from LxCore.method.basic import _methodBasic
 #
-from LxUi.qt.uiBasic import uiWidgetBasic
+from LxUi.qt.qtBasic import qtWidgetBasic
 #
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class IfMaNodeTreeItem(uiWidgetBasic._UiTreeItemBasic):
+class IfMaNodeTreeItem(qtWidgetBasic._QtTreeviewItemBasic):
     _UiMethod = _methodBasic.LxUiMethodBasic
     _MaNodeMethod = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(uiCore.QWidget, self)
+        self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
         self._initItemBasic()

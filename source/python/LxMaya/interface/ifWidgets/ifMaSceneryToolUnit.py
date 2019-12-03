@@ -9,9 +9,8 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -96,7 +95,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
         #
         width, height = 240, 240
         #
-        self._gridView = uiWidgets.UiGridView()
+        self._gridView = qtWidgets.QtGridview()
         self._gridView.setCheckEnable(True)
         self._gridView.setItemSize(240, 240 + 40)
         layout.addWidget(self._gridView)
@@ -160,17 +159,17 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             #
             self._tagFilterIndexDic.setdefault(tag, []).append(seq)
             #
-            gridItem = uiWidgets.UiGridItem()
+            gridItem = qtWidgets.QtGridviewItem()
             gridView.addItem(gridItem)
             viewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {}'.format(assetName, assetVariant))
             gridItem.setNameText(viewExplain)
             gridItem.setIcon('svg_basic@svg#assembly_object')
-            r, g, b = uiCore.getRgbByString(assetName)
+            r, g, b = qtCore.getRgbByString(assetName)
             gridItem.setFilterColor((r, g, b, 255))
             #
             preview = dbGet.getDbAstPreviewFile(assetIndex, assetVariant)
             #
-            messageWidget = uiWidgets.UiMessageWidget()
+            messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             #
@@ -231,24 +230,24 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
     def setupUnit(self):
         self.topToolBar().show()
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
         #
-        layout = uiCore.QHBoxLayout_(widget)
+        layout = qtCore.QHBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         layout.addWidget(leftExpandWidget)
         leftExpandWidget.setUiWidth(self.SideWidth)
         leftExpandWidget.setExpanded(False)
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         self.setupLeftWidget(leftScrollArea)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         layout.addWidget(widget)
-        centralLayout = uiCore.QVBoxLayout_(widget)
+        centralLayout = qtCore.QVBoxLayout_(widget)
         centralLayout.setContentsMargins(0, 0, 0, 0)
         centralLayout.setSpacing(0)
         self.setupCentralWidget(centralLayout)
@@ -269,7 +268,7 @@ class IfScnComposeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 # Scenery Tool
-class IfScnLinkToolUnit(uiCore.QWidget_):
+class IfScnLinkToolUnit(qtCore.QWidget_):
     UnitTitle = 'Scenery Tool Unit'
     UnitIcon = 'window#sceneryToolPanel'
     #
@@ -307,23 +306,23 @@ class IfScnLinkToolUnit(uiCore.QWidget_):
         def setupUtilsToolUiBox(toolBox):
             inData = self.dicTool
             #
-            self.assemblyLoadedButton = uiWidgets.UiPressbutton()
+            self.assemblyLoadedButton = qtWidgets.QtPressbutton()
             toolBox.setButton(inData, 'assemblyLoaded', self.assemblyLoadedButton)
             self.assemblyLoadedButton.clicked.connect(self.setAssemblyLoadedShow)
             #
-            self.assemblyManagerButton = uiWidgets.UiPressbutton()
+            self.assemblyManagerButton = qtWidgets.QtPressbutton()
             toolBox.setButton(inData, 'assemblyManager', self.assemblyManagerButton)
             self.assemblyManagerButton.clicked.connect(self.setOpenAssemblyManager)
             #
             toolBox.setSeparators(inData)
         #
-        self._utilsToolUiBox = uiWidgets.UiToolBox()
+        self._utilsToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._utilsToolUiBox)
         self._utilsToolUiBox.setTitle('Scenery Utilities')
         setupUtilsToolUiBox(self._utilsToolUiBox)
     @staticmethod
     def setAssemblyLoadedShow():
-        IfToolWindow = uiWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.UiToolWindow()
         toolBox = IfScnAssemblyLoadedUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -342,20 +341,20 @@ class IfScnLinkToolUnit(uiCore.QWidget_):
         w.windowShow()
     #
     def setupUnit(self):
-        mainLayout = uiCore.QVBoxLayout_(self)
+        mainLayout = qtCore.QVBoxLayout_(self)
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         #
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         mainLayout.addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         #
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Modify', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupModifyTab(layout)
 
 
@@ -377,14 +376,14 @@ class IfScnAssemblyInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
         if self.connectObject():
             self._setAssemblyChartRefresh()
     #
-    def setupAssemblyUiTab(self, layout):
-        self._scnAssemblyRadarChart = uiWidgets.UiRadarChart()
+    def setupAssemblyQtTab(self, layout):
+        self._scnAssemblyRadarChart = qtWidgets.QtRadarchart()
         layout.addWidget(self._scnAssemblyRadarChart)
         #
-        self._scnAssemblySectorChart = uiWidgets.UiSectorChart()
+        self._scnAssemblySectorChart = qtWidgets.QtSectorchart()
         layout.addWidget(self._scnAssemblySectorChart)
     #
-    def setupLightUiTab(self, layout):
+    def setupLightQtTab(self, layout):
         pass
     #
     def _setAssemblyChartRefresh(self):
@@ -436,21 +435,21 @@ class IfScnAssemblyInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         # Assembly
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Assembly', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
-        self.setupAssemblyUiTab(layout)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
+        self.setupAssemblyQtTab(layout)
         # Light
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Light', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
-        self.setupLightUiTab(layout)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
+        self.setupLightQtTab(layout)
 
 
 #
@@ -602,26 +601,26 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         lenLimit = 12
         #
-        self._autoRenameCheckbutton = uiWidgets.UiCheckbutton()
+        self._autoRenameCheckbutton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'autoRename', self._autoRenameCheckbutton)
         #
-        self._parentGroupLabel = uiWidgets.UiEnterlabel()
+        self._parentGroupLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'parentGroup', self._parentGroupLabel)
         #
-        self._addObjectButton = uiWidgets.UiPressbutton()
+        self._addObjectButton = qtWidgets.QtPressbutton()
         self._addObjectButton.setPressable(False)
         toolBox.setButton(inData, 'addObject', self._addObjectButton)
         self._addObjectButton.clicked.connect(setAddObject)
         #
-        self._childGroupLabel = uiWidgets.UiEnterlabel()
+        self._childGroupLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'childGroup', self._childGroupLabel)
         #
-        self._addGroupButton = uiWidgets.UiPressbutton()
+        self._addGroupButton = qtWidgets.QtPressbutton()
         self._addGroupButton.setPressable(False)
         toolBox.setButton(inData, 'addGroup', self._addGroupButton)
         self._addGroupButton.clicked.connect(setAddGroup)
         #
-        self._groupKeywordEntryLabel = uiWidgets.UiEnterlabel()
+        self._groupKeywordEntryLabel = qtWidgets.QtEnterlabel()
         self._groupKeywordEntryLabel.setTextValidator(48)
         self._groupKeywordEntryLabel.setEnterEnable(True)
         self._groupKeywordEntryLabel.setEnterable(True)
@@ -629,7 +628,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._groupKeywordEntryLabel.entryChanged.connect(setChildGroupName)
         self._groupKeywordEntryLabel.entryChanged.connect(setAddGrpBtnState)
         #
-        self._groupNameTipsLabel = uiWidgets.UiEnterlabel()
+        self._groupNameTipsLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'tips', self._groupNameTipsLabel)
         self._groupNameTipsLabel.setDatum(self._groupCreateTip)
         #
@@ -644,22 +643,22 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnUtilToolBox(self, toolBox):
         toolBox.setUiData(self.dicScnUtils)
         #
-        self.assemblyLoadedButton = uiWidgets.UiPressbutton()
+        self.assemblyLoadedButton = qtWidgets.QtPressbutton()
         toolBox.addButton('assemblyLoaded', self.assemblyLoadedButton)
         self.assemblyLoadedButton.clicked.connect(self._assemblyLoadWindowShowCmd)
         #
-        self.assemblyManagerButton = uiWidgets.UiPressbutton()
+        self.assemblyManagerButton = qtWidgets.QtPressbutton()
         toolBox.addButton('assemblyManager', self.assemblyManagerButton)
         self.assemblyManagerButton.clicked.connect(self._assemblyManagerWindowShowCmd)
         #
-        self.astUnitSceneClearCmd = uiWidgets.UiPressbutton()
+        self.astUnitSceneClearCmd = qtWidgets.QtPressbutton()
         toolBox.addButton('astUnitClearScene', self.astUnitSceneClearCmd)
         self.astUnitSceneClearCmd.clicked.connect(self.setCleanScene)
         #
         toolBox.addSeparators()
     @staticmethod
     def _assemblyLoadWindowShowCmd():
-        win = uiWidgets.UiToolWindow()
+        win = qtWidgets.UiToolWindow()
         #
         unit = IfScnAssemblyLoadedUnit()
         #
@@ -696,17 +695,17 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         return sceneryName
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.mainLayout().addWidget(widget)
-        layout = uiCore.QVBoxLayout_(widget)
+        layout = qtCore.QVBoxLayout_(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        self._scnGraphToolUiBox = uiWidgets.UiToolBox()
+        self._scnGraphToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scnGraphToolUiBox)
         self._scnGraphToolUiBox.setTitle('Assembly Graph')
         #
-        self._scnUtilTooUiBox = uiWidgets.UiToolBox()
+        self._scnUtilTooUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scnUtilTooUiBox)
         self._scnUtilTooUiBox.setTitle('Assembly Utilities')
 
@@ -773,23 +772,23 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             pass
     #
     def setupBasicTab(self, layout):
-        self._scnTipToolUiBox = uiWidgets.UiToolBox()
+        self._scnTipToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scnTipToolUiBox)
         self._scnTipToolUiBox.setTitle('Tip & Note')
         self.setupScnTipToolUiBox(self._scnTipToolUiBox)
         #
-        self._scnSnapToolUiBox = uiWidgets.UiToolBox()
+        self._scnSnapToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scnSnapToolUiBox)
         self._scnSnapToolUiBox.setTitle('Snapshot')
         self.setupScnSnapshotToolUiBox(self._scnSnapToolUiBox)
         #
-        self._scnUploadToolUiBox = uiWidgets.UiToolBox()
+        self._scnUploadToolUiBox = qtWidgets.QtToolbox()
         self._scnUploadToolUiBox.setTitle('Upload / Update')
         self._scnUploadToolUiBox.hide()
         layout.addWidget(self._scnUploadToolUiBox)
     #
     def setupExtendTab(self, layout):
-        self._scnExtendUploadToolUiBox = uiWidgets.UiToolBox()
+        self._scnExtendUploadToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self._scnExtendUploadToolUiBox)
         self._scnExtendUploadToolUiBox.setTitle('Upload / Update')
         self.setupScnExtendUploadToolUiBox(self._scnExtendUploadToolUiBox)
@@ -797,12 +796,12 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnTipToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScnTip)
         #
-        self._scnTipLabel = uiWidgets.UiTextBrower()
+        self._scnTipLabel = qtWidgets.QtTextBrower()
         toolBox.addInfo('tip', self._scnTipLabel)
         self._scnTipLabel.setEnterEnable(False)
         self._scnTipLabel.setRule(self.uploadTips)
         #
-        self._scnNoteTextBrower = uiWidgets.UiTextBrower()
+        self._scnNoteTextBrower = qtWidgets.QtTextBrower()
         toolBox.addButton('note', self._scnNoteTextBrower)
         self._scnNoteTextBrower.setTooltip(
             u'''输入 备注信息'''
@@ -813,28 +812,28 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnSnapshotToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScnPreview)
         #
-        self._useDefaultViewButton = uiWidgets.UiCheckbutton()
+        self._useDefaultViewButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useDefaultView', self._useDefaultViewButton)
         self._useDefaultViewButton.setChecked(True)
         self._useDefaultViewButton.setTooltip(
             u'''启用 / 关闭 截屏的时候 是否使用 默认摄像机视角'''
         )
         #
-        self._useDefaultLightButton = uiWidgets.UiCheckbutton()
+        self._useDefaultLightButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useDefaultLight', self._useDefaultLightButton)
         self._useDefaultLightButton.setChecked(True)
         self._useDefaultLightButton.setTooltip(
             u'''启用 / 关闭 截屏（渲染）的时候 是否创建 默认灯光'''
         )
         #
-        self._makeViewportSnapshotButton = uiWidgets.UiPressbutton()
+        self._makeViewportSnapshotButton = qtWidgets.QtPressbutton()
         toolBox.addButton('makeViewportSnapshot', self._makeViewportSnapshotButton)
         self._makeViewportSnapshotButton.released.connect(self._scnViewportSnapshotCmd)
         self._makeViewportSnapshotButton.setTooltip(
             u'''点击 上传视窗截屏'''
         )
         #
-        self._makeRenderSnapshotButton = uiWidgets.UiPressbutton()
+        self._makeRenderSnapshotButton = qtWidgets.QtPressbutton()
         toolBox.addButton('makeRenderSnapshot', self._makeRenderSnapshotButton)
         self._makeRenderSnapshotButton.clicked.connect(self._scnRenderSnapshotCmd)
         self._makeRenderSnapshotButton.setTooltip(
@@ -846,7 +845,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnUploadToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScnUpload)
         #
-        self._uploadButton = uiWidgets.UiPressbutton()
+        self._uploadButton = qtWidgets.QtPressbutton()
         toolBox.addButton('upload', self._uploadButton)
         self._uploadButton.clicked.connect(self._scnAssemblyUploadCmd)
         #
@@ -855,7 +854,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnExtendUploadToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScnExtendUpload)
         #
-        self._assemblyComposeUploadButton = uiWidgets.UiPressbutton()
+        self._assemblyComposeUploadButton = qtWidgets.QtPressbutton()
         toolBox.addButton('assemblyComposeUpload', self._assemblyComposeUploadButton)
         self._assemblyComposeUploadButton.clicked.connect(self._scnAssemblyComposeUploadCmd)
     #
@@ -981,23 +980,23 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         self.mainLayout().addWidget(self._tabWidget)
-        self._tabWidget.setTabPosition(uiCore.South)
+        self._tabWidget.setTabPosition(qtCore.South)
         # Upload
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Basic', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupBasicTab(layout)
         # Extend
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self._tabWidget.addTab(widget, 'Extend', 'svg_basic@svg#tab')
-        layout = uiCore.QVBoxLayout_(widget)
-        layout.setAlignment(uiCore.QtCore.Qt.AlignTop)
+        layout = qtCore.QVBoxLayout_(widget)
+        layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupExtendTab(layout)
 
 
 #
-class IfScnAssemblyManagerUnit(uiCore.QWidget_):
+class IfScnAssemblyManagerUnit(qtCore.QWidget_):
     pass

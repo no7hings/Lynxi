@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxCore import lxProgress
 #
-from LxUi.qt import uiWidgets
+from LxUi.qt import qtWidgets
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -25,7 +25,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitScriptJobWindowName = 'astModelMeshGeomCheckWindow'
     #
     _MaCheckMethod = _maMethod.MaCheckMethod
-    _UiViewMethod = _uiMethod.UiViewMethod
+    _QtViewMethod = _uiMethod.QtViewMethod
     def __init__(self, *args, **kwargs):
         super(IfAstModelCheckViewerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -42,7 +42,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupTreeView(self, layout):
-        self._treeView = uiWidgets.UiTreeView()
+        self._treeView = qtWidgets.QtTreeview()
         layout.addWidget(self._treeView)
         self._treeView.setSelectEnable(True)
         self._treeView.setColorEnable(True)
@@ -121,7 +121,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             enable, enExplain, tooltip, filterMethod, fixMethod = value
             if enable is True:
-                inspectionItem = uiWidgets.UiTreeItem()
+                inspectionItem = qtWidgets.QtTreeviewItem()
                 treeView.addItem(inspectionItem)
                 #
                 inspectionItem.setName(key)

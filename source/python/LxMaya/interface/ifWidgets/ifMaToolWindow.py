@@ -11,9 +11,8 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-from LxUi import uiCore
 #
-from LxUi.qt import uiWidgets_, uiWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxMaya.command import maUtils, maFile, maAsb, maScnAsb
 #
@@ -30,7 +29,7 @@ none = ''
 
 
 #
-class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
+class IfAssemblyManagerWindow(qtWidgets.UiToolWindow):
     UnitScriptJobWindowName = 'assemblyManagerScriptJobWindow'
     # Scene Box
     dicSwitch = {
@@ -138,84 +137,84 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
     def setTopToolBar(self):
         toolBar = self.topToolBar
         #
-        self._selectAllButton = uiWidgets.UiIconbutton('svg_basic@svg#checkedAll')
+        self._selectAllButton = qtWidgets.QtIconbutton('svg_basic@svg#checkedAll')
         toolBar.addWidget(self._selectAllButton)
         self._selectAllButton.clicked.connect(self.setSelectAll)
         #
-        self._selectClearButton = uiWidgets.UiIconbutton('svg_basic@svg#uncheckedAll')
+        self._selectClearButton = qtWidgets.QtIconbutton('svg_basic@svg#uncheckedAll')
         toolBar.addWidget(self._selectClearButton)
         self._selectClearButton.clicked.connect(self.setSelectClear)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         toolBar.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         toolBar.addWidget(self._refreshButton)
         self._refreshButton.clicked.connect(self.setListAr)
     #
     def setupLeftUiBox(self, toolBoxLayout):
-        self._tabWidget = uiWidgets.UiButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabGroup()
         toolBoxLayout.addWidget(self._tabWidget)
         #
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(scrollBox, 'Switch', 'svg_basic@svg#tab')
         self.setupSwitchTab(scrollBox)
         #
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(scrollBox, 'Render', 'svg_basic@svg#tab')
         self.setupRenderTab(scrollBox)
         #
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(scrollBox, 'Modify', 'svg_basic@svg#tab')
         self.setupModifyTab(scrollBox)
         #
-        scrollBox = uiCore.QScrollArea_()
+        scrollBox = qtCore.QScrollArea_()
         self._tabWidget.addTab(scrollBox, 'Import', 'svg_basic@svg#tab')
         self.setupImportTab(scrollBox)
     #
     def setupSwitchTab(self, layout):
-        self.levelToolBox = uiWidgets.UiToolBox()
+        self.levelToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.levelToolBox)
         self.levelToolBox.setTitle('Level')
         self.setupLevelToolUiBox(self.levelToolBox)
         #
-        self.switchToolBox = uiWidgets.UiToolBox()
+        self.switchToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.switchToolBox)
         self.switchToolBox.setTitle('Active')
         self.setupActiveToolUiBox(self.switchToolBox)
     #
     def setupRenderTab(self, layout):
-        self.variantToolBox = uiWidgets.UiToolBox()
+        self.variantToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.variantToolBox)
         self.variantToolBox.setTitle('Variant')
         self.setupVariantToolBox(self.variantToolBox)
         #
-        self.selectToolBox = uiWidgets.UiToolBox()
+        self.selectToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.selectToolBox)
         self.selectToolBox.setTitle('Select')
         self.setupSelectToolUiBox(self.selectToolBox)
         #
-        self.attrToolBox = uiWidgets.UiToolBox()
+        self.attrToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.attrToolBox)
         self.attrToolBox.setTitle('Attribute')
         self.setupAttrToolUiBox(self.attrToolBox)
     #
     def setupModifyTab(self, layout):
-        self.transformationToolBox = uiWidgets.UiToolBox()
+        self.transformationToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.transformationToolBox)
         self.transformationToolBox.setTitle('Transformation')
         self.setupTransformationToolBox(self.transformationToolBox)
         #
-        self.setModifyToolUiBox = uiWidgets.UiToolBox()
+        self.setModifyToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self.setModifyToolUiBox)
         self.setModifyToolUiBox.setTitle('Set')
         #
-        self.layerModifyToolUiBox = uiWidgets.UiToolBox()
+        self.layerModifyToolUiBox = qtWidgets.QtToolbox()
         layout.addWidget(self.layerModifyToolUiBox)
         self.layerModifyToolUiBox.setTitle('Layer')
     #
     def setupImportTab(self, layout):
-        self.importToolBox = uiWidgets.UiToolBox()
+        self.importToolBox = qtWidgets.QtToolbox()
         layout.addWidget(self.importToolBox)
         self.importToolBox.setTitle('Import')
     #
@@ -223,18 +222,18 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         self.assembleTreeItemDic = {}
         self.arTreeItemLis = []
         #
-        self._treeView = uiWidgets_.QTreeWidget_()
+        self._treeView = qtWidgets_.QTreeWidget_()
         toolBoxLayout.addWidget(self._treeView)
     #
     def setupLevelToolUiBox(self, toolBox):
         self._uiItemLevelDic = {}
         #
         toolBox.setUiData(self.dicLevel)
-        self.keepSelectedButton = uiWidgets.UiCheckbutton()
+        self.keepSelectedButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('keepSelected', self.keepSelectedButton)
         self.keepSelectedButton.setChecked(True)
         #
-        self.autoSelectedButton = uiWidgets.UiCheckbutton()
+        self.autoSelectedButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('autoSelected', self.autoSelectedButton)
         #
         uiDatumDic = {
@@ -244,7 +243,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         }
         for k, v in uiDatumDic.items():
             keyword, method = v
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             button.setPercentEnable(True)
             toolBox.addButton(k, button)
             button.setPressable(False)
@@ -267,7 +266,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         }
         for k, v in uiDatumDic.items():
             keyword, method = v
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             button.setPercentEnable(True)
             toolBox.addButton(k, button)
             button.setPressable(False)
@@ -291,7 +290,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
             'lowQualityDisplayOn': self.setProxyLowQualityDisplayOn,'lowQualityDisplayOff': self.setProxyLowQualityDisplayOff
         }
         for k, v in uiDatumDic.items():
-            button = uiWidgets.UiPressbutton()
+            button = qtWidgets.QtPressbutton()
             button.setPercentEnable(True)
             toolBox.addButton(k, button)
             button.setPressable(False)
@@ -308,27 +307,27 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         inData = self.dicSelect
         toolBox.setUiData(inData)
         #
-        self.keywordFilterLabel = uiWidgets.UiEnterlabel()
+        self.keywordFilterLabel = qtWidgets.QtEnterlabel()
         self.keywordFilterLabel.setChooseEnable(True)
         toolBox.addInfo('keywordFilter', self.keywordFilterLabel)
         representations = sceneryPr.assemblyRepresentationsConfig()
         self.keywordFilterLabel.setDatumLis(representations)
         self.keywordFilterLabel.chooseChanged.connect(self.getAssemblyFilterData)
         #
-        self.keywordFilterSelBtn = uiWidgets.UiPressbutton()
+        self.keywordFilterSelBtn = qtWidgets.QtPressbutton()
         self.keywordFilterSelBtn.setPercentEnable(True)
         toolBox.addButton('keywordFilterSelect', self.keywordFilterSelBtn)
         self.keywordFilterSelBtn.setPressable(False)
         self.keywordFilterSelBtn.clicked.connect(self.setSelAsbFilterByKeyword)
         #
-        self.levelFilterLabel = uiWidgets.UiEnterlabel()
+        self.levelFilterLabel = qtWidgets.QtEnterlabel()
         self.levelFilterLabel.setChooseEnable(True)
         toolBox.addInfo('levelFilter', self.levelFilterLabel)
         representations = sceneryPr.assembleLodConfig()
         self.levelFilterLabel.setDatumLis(representations)
         self.levelFilterLabel.chooseChanged.connect(self.getAssemblyFilterData)
         #
-        self.levelFilterSelBtn = uiWidgets.UiPressbutton()
+        self.levelFilterSelBtn = qtWidgets.QtPressbutton()
         self.levelFilterSelBtn.setPercentEnable(True)
         toolBox.addButton('levelFilterSelect', self.levelFilterSelBtn)
         self.levelFilterSelBtn.setPressable(False)
@@ -341,12 +340,12 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         #
         toolBox.setUiData(self.dicVariant)
         #
-        self.variantLabel = uiWidgets.UiEnterlabel()
+        self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
         self.variantLabel.setDatumLis([appVariant.astDefaultVersion])
         #
-        self.switchVariantButton = uiWidgets.UiPressbutton()
+        self.switchVariantButton = qtWidgets.QtPressbutton()
         self.switchVariantButton.setPercentEnable(True)
         toolBox.addButton('switchVariant', self.switchVariantButton)
         self.switchVariantButton.setPressable(False)
@@ -357,36 +356,36 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
     def setupTransformationToolBox(self, toolBox):
         self.objectPoseDic = {}
         #
-        self._translateLabel = uiWidgets.UiValueEnterlabel()
+        self._translateLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addWidget(self._translateLabel, 0, 0, 1, 3)
         self._translateLabel.setDefaultValue((0.0, 0.0, 0.0))
         self._translateLabel.setNameText('Translate')
         self._translateLabel.setNameTextWidth(80)
         #
-        self._rotateLabel = uiWidgets.UiValueEnterlabel()
+        self._rotateLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addWidget(self._rotateLabel, 1, 0, 1, 3)
         self._rotateLabel.setDefaultValue((0.0, 0.0, 0.0))
         self._rotateLabel.setNameText('Rotate')
         self._rotateLabel.setNameTextWidth(80)
         #
-        self._scaleLabel = uiWidgets.UiValueEnterlabel()
+        self._scaleLabel = qtWidgets.QtValueEnterlabel()
         toolBox.addWidget(self._scaleLabel, 2, 0, 1, 3)
         self._scaleLabel.setDefaultValue((1.0, 1.0, 1.0))
         self._scaleLabel.setNameText('Scale')
         self._scaleLabel.setNameTextWidth(80)
         #
-        self.getPoseButton = uiWidgets.UiPressbutton()
+        self.getPoseButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.getPoseButton, 3, 0, 1, 1)
         self.getPoseButton.setNameText('Get Pose [ 0000 ]')
         self.getPoseButton.setPressable(False)
         self.getPoseButton.clicked.connect(self.getPose)
         #
-        self.restPoseButton = uiWidgets.UiPressbutton()
+        self.restPoseButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.restPoseButton, 3, 1, 1, 1)
         self.restPoseButton.setNameText('Rest Pose')
         self.restPoseButton.clicked.connect(self.restPose)
         #
-        self.trnRandomButton = uiWidgets.UiPressbutton()
+        self.trnRandomButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.trnRandomButton, 3, 2, 1, 1)
         self.trnRandomButton.setNameText('Random Pose [ 0000 ]')
         self.trnRandomButton.setPressable(False)
@@ -395,29 +394,29 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
     def setSetToolUiBox(self):
         toolBox = self.setModifyToolUiBox
         #
-        self.setTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.setTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self.setTreeViewBox, 0, 0, 1, 2)
     #
     def setLayerToolUiBox(self):
         toolBox = self.layerModifyToolUiBox
         #
-        self.layerTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.layerTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self.layerTreeViewBox, 0, 0, 1, 2)
         self.layerTreeViewBox.setSingleSelection()
         #
-        self.addLayerButton = uiWidgets.UiPressbutton()
+        self.addLayerButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.addLayerButton, 1, 0, 1, 1)
         self.addLayerButton.setNameText('Add Assembly  [ 0000 ]')
         self.addLayerButton.setPressable(False)
         self.addLayerButton.clicked.connect(self.setLayerConnectOn)
         #
-        self.removeLayerButton = uiWidgets.UiPressbutton()
+        self.removeLayerButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.removeLayerButton, 1, 1, 1, 1)
         self.removeLayerButton.setNameText('Remove Assembly  [ 0000 ]')
         self.removeLayerButton.setPressable(False)
         self.removeLayerButton.clicked.connect(self.setLayerConnectOff)
         #
-        self.selectAssemblyInLayerButton = uiWidgets.UiPressbutton()
+        self.selectAssemblyInLayerButton = qtWidgets.QtPressbutton()
         toolBox.addWidget(self.selectAssemblyInLayerButton, 2, 0, 1, 2)
         self.selectAssemblyInLayerButton.setNameText('Select Assembly in Layer [ 0000 ]')
         self.selectAssemblyInLayerButton.setPressable(False)
@@ -427,55 +426,55 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         inData = self.dicImport
         toolBox = self.importToolBox
         #
-        self.ignoreHideButton = uiWidgets.UiCheckbutton()
+        self.ignoreHideButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'ignoreHide', self.ignoreHideButton)
         self.ignoreHideButton.setChecked(True)
         #
-        self.isHideButton = uiWidgets.UiCheckbutton()
+        self.isHideButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'isHide', self.isHideButton)
         self.isHideButton.setChecked(True)
         #
-        self.isWithAnimationButton = uiWidgets.UiCheckbutton()
+        self.isWithAnimationButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'isWithAnimation', self.isWithAnimationButton)
         #
-        self.isProxyRemoveGpuButton = uiWidgets.UiCheckbutton()
+        self.isProxyRemoveGpuButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'isProxyRemoveGpu', self.isProxyRemoveGpuButton)
         self.isProxyRemoveGpuButton.setChecked(True)
         #
-        self.isAssetUseReferenceButton = uiWidgets.UiCheckbutton()
+        self.isAssetUseReferenceButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'isAssetUseReference', self.isAssetUseReferenceButton)
         self.isAssetUseReferenceButton.setChecked(True)
         #
-        self.isAssetWithCfxButton = uiWidgets.UiCheckbutton()
+        self.isAssetWithCfxButton = qtWidgets.QtCheckbutton()
         toolBox.setButton(inData, 'isAssetWithCfx', self.isAssetWithCfxButton)
         self.isAssetWithCfxButton.setChecked(True)
         #
-        self.importAssemblyBoxButton = uiWidgets.UiPressbutton()
+        self.importAssemblyBoxButton = qtWidgets.QtPressbutton()
         self.importAssemblyBoxButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyBox', self.importAssemblyBoxButton)
         self.importAssemblyBoxButton.clicked.connect(self.setImportAssemblyBox)
         #
-        self.importAssemblyGpuButton = uiWidgets.UiPressbutton()
+        self.importAssemblyGpuButton = qtWidgets.QtPressbutton()
         self.importAssemblyGpuButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyGpu', self.importAssemblyGpuButton)
         self.importAssemblyGpuButton.clicked.connect(self.setImportAssemblyGpu)
         #
-        self.importAssemblyDsoButton = uiWidgets.UiPressbutton()
+        self.importAssemblyDsoButton = qtWidgets.QtPressbutton()
         self.importAssemblyDsoButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyDso', self.importAssemblyDsoButton)
         self.importAssemblyDsoButton.clicked.connect(self.setImportAssemblyDso)
         #
-        self.importAssemblyAssetButton = uiWidgets.UiPressbutton()
+        self.importAssemblyAssetButton = qtWidgets.QtPressbutton()
         self.importAssemblyAssetButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyAsset', self.importAssemblyAssetButton)
         self.importAssemblyAssetButton.clicked.connect(self.setImportAssemblyAsset)
         #
-        self.importAssemblyCurrentButton = uiWidgets.UiPressbutton()
+        self.importAssemblyCurrentButton = qtWidgets.QtPressbutton()
         self.importAssemblyCurrentButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyCurrent', self.importAssemblyCurrentButton)
         self.importAssemblyCurrentButton.clicked.connect(self.setImportAssemblyCurrent)
         #
-        self.importAssemblyLightButton = uiWidgets.UiPressbutton()
+        self.importAssemblyLightButton = qtWidgets.QtPressbutton()
         self.importAssemblyLightButton.setPressable(False)
         toolBox.setButton(inData, 'importAssemblyLight', self.importAssemblyLightButton)
         self.importAssemblyLightButton.clicked.connect(self.setImportLight)
@@ -525,7 +524,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
                     assemblyReferencePath, assetName = i
                     activeItem = maAsb.getAssemblyActive(assemblyReferencePath)
                     #
-                    arItem = uiWidgets_.QTreeWidgetItem_()
+                    arItem = qtWidgets_.QTreeWidgetItem_()
                     #
                     self._treeView.addItem(arItem)
                     #
@@ -584,7 +583,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         if inData:
             for mSet in inData:
                 showExplain = maUtils._toNodeName(mSet, useMode=1)
-                setItem = uiWidgets_.QTreeWidgetItem_([showExplain])
+                setItem = qtWidgets_.QTreeWidgetItem_([showExplain])
                 treeBox.addItem(setItem)
                 setItem.setItemMayaIcon(0, 'set', none)
                 #
@@ -598,7 +597,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         if inData:
             for i in inData:
                 layerName = i
-                layerItem = uiWidgets_.QTreeWidgetItem_([layerName])
+                layerItem = qtWidgets_.QTreeWidgetItem_([layerName])
                 layerItem.setItemMayaIcon(0, 'displayLayer')
                 layerItem.setText(1, str(len(maUtils.getConnectAttrData(layerName, 'visibility'))))
                 layerItem.setText(2, ['Off', 'On'][maUtils.getAttrDatum(layerName, 'visibility')])
@@ -1587,39 +1586,39 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         treeBox.clearSelection()
         #
         self.setSelObjForAction()
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupUnit(self):
-        widget = uiCore.QWidget_()
+        widget = qtCore.QWidget_()
         self.addWidget(widget)
-        mainLayout = uiCore.QGridLayout_(widget)
+        mainLayout = qtCore.QGridLayout_(widget)
         mainLayout.setContentsMargins(2, 2, 2, 2)
         mainLayout.setSpacing(2)
         #
-        self.topToolBar = uiWidgets_.xToolBar()
+        self.topToolBar = qtWidgets_.xToolBar()
         mainLayout.addWidget(self.topToolBar, 0, 0, 1, 2)
         #
-        self.topToolBar = uiWidgets_.xToolBar()
+        self.topToolBar = qtWidgets_.xToolBar()
         mainLayout.addWidget(self.topToolBar, 0, 0, 1, 2)
         #
-        leftExpandWidget = uiWidgets_.UiExpandWidget()
+        leftExpandWidget = qtWidgets_.QtExpandWidget()
         mainLayout.addWidget(leftExpandWidget, 1, 0, 1, 1)
         leftExpandWidget.setUiWidth(self.widthSet / 2)
         #
-        leftScrollArea = uiCore.QScrollArea_()
+        leftScrollArea = qtCore.QScrollArea_()
         leftExpandWidget.addWidget(leftScrollArea)
         #
-        leftWidget = uiCore.QWidget_()
+        leftWidget = qtCore.QWidget_()
         leftScrollArea.addWidget(leftWidget)
-        self.leftLayout = uiCore.QVBoxLayout_(leftWidget)
+        self.leftLayout = qtCore.QVBoxLayout_(leftWidget)
         self.leftLayout.setContentsMargins(0, 0, 0, 0)
         self.leftLayout.setSpacing(0)
         self.setupLeftUiBox(self.leftLayout)
         #
-        rightWidget = uiCore.QWidget_()
-        self.treeViewLayout = uiCore.QVBoxLayout_(rightWidget)
+        rightWidget = qtCore.QWidget_()
+        self.treeViewLayout = qtCore.QVBoxLayout_(rightWidget)
         self.treeViewLayout.setContentsMargins(0, 0, 5, 5)
         self.treeViewLayout.setSpacing(0)
         self.setupRightUiBox(self.treeViewLayout)
@@ -1627,7 +1626,7 @@ class IfAssemblyManagerWindow(uiWidgets.UiToolWindow):
         mainLayout.addWidget(rightWidget, 1, 1, 1, 1)
 
 
-@uiCore.uiSetupShowMethod
+@qtCore.uiSetupShowMethod
 def tableShow():
     ui = IfAssemblyManagerWindow()
     ui.uiShow()

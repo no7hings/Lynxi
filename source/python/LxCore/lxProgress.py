@@ -3,14 +3,14 @@
 
 #
 def viewSubProgress(explain, maxValue):
-    from LxUi import uiCore
+    from LxUi.qt import qtCore
     #
-    from LxUi.qt import uiWidgets
+    from LxUi.qt import qtWidgets
     #
-    w = uiWidgets.UiMessageWindow()
+    w = qtWidgets.QtMessageWindow()
     if maxValue > 0:
-        if uiCore.getAppWindow():
-            parent = uiCore.getAppWindow()
+        if qtCore.getAppWindow():
+            parent = qtCore.getAppWindow()
             w.setParent(parent)
             #
             w.startProgress(explain, maxValue)
@@ -20,7 +20,7 @@ def viewSubProgress(explain, maxValue):
 
 
 #
-def runSubProgress(explain, methodData):
+def runSubProgress(explain, methods):
     def runBranch(subData):
         enabled, subExplain, function, args = subData
         if enabled is True:
@@ -32,7 +32,7 @@ def runSubProgress(explain, methodData):
         for i in data:
             runBranch(i)
     # View Progress
-    maxValue = len(methodData)
+    maxValue = len(methods)
     progressBar = viewSubProgress(explain, maxValue)
     # Run Method
-    runMain(methodData)
+    runMain(methods)

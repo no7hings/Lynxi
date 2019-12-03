@@ -821,7 +821,7 @@ def getOsFileIsHashChanged(sourceOsFile, targetOsFile):
 #
 def getChangedOsFiles(sourceOsPath, targetOsPath):
     def getBranch(osPath):
-        checkJson = osPath + '/' + '.check'
+        checkJson = osPath + '/timestamp.json'
         if not isOsExist(checkJson):
             dic = {}
             isAscii = False
@@ -1319,7 +1319,7 @@ def readJsonTarGzip(osFile):
 
 #
 def writeOsJson(data, osFile, indent=4, ensure_ascii=True):
-    if data:
+    if data is not None:
         tempFile = getOsTemporaryFile(osFile)
         #
         with open(tempFile, 'w') as j:
@@ -1417,7 +1417,7 @@ def readDataGzip(osFile):
 
 #
 def writeOsData(data, osFile):
-    if data:
+    if data is not None:
         setOsFilePathCreate(osFile)
         with open(osFile, 'wb') as f:
             if isinstance(data, str) or isinstance(data, unicode):

@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$/../doc" />
     <content url="file://$MODULE_DIR$/../plug/maya/definition">
       <excludeFolder url="file://$MODULE_DIR$/../plug/maya/definition/lynxinode/1.0/deploy/scripts" />
+      <excludeFolder url="file://$MODULE_DIR$/../plug/maya/definition/lynxinode/1.0/source/scripts" />
     </content>
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup" />

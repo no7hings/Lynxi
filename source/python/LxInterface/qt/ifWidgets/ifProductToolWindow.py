@@ -5,9 +5,9 @@ from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxCore.preset.prod import projectPr, scenePr
 #
-from LxUi import uiCore
+from LxUi import uiConfigure
 #
-from LxUi.qt import uiWidgets_, uiChart_, uiWidgets
+from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtCore
 #
 from LxInterface.qt.ifCommands import treeViewCmds
 #
@@ -15,10 +15,10 @@ none = ''
 
 
 #
-class IfCacheManagerWindow(uiWidgets.UiToolWindow):
-    def __init__(self, parent=uiCore.getAppWindow()):
+class IfCacheManagerWindow(qtWidgets.UiToolWindow):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfCacheManagerWindow, self).__init__(parent)
-        self.setDefaultSize(*lxConfigure.LynxiWindow_Size_Dialog)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Dialog)
         #
         self.setupWindow()
     #
@@ -27,14 +27,14 @@ class IfCacheManagerWindow(uiWidgets.UiToolWindow):
     #
     def setListCache(self):
         self._managerUnit.setListCache()
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        mainWidget = uiCore.QWidget_()
+        mainWidget = qtCore.QWidget_()
         self.addWidget(mainWidget)
-        mainLayout = uiCore.QVBoxLayout_(mainWidget)
+        mainLayout = qtCore.QVBoxLayout_(mainWidget)
         mainLayout.setContentsMargins(2, 2, 2, 2)
         mainLayout.setSpacing(2)
         #
@@ -44,11 +44,11 @@ class IfCacheManagerWindow(uiWidgets.UiToolWindow):
 
 
 #
-class IfScIndexManagerWindow(uiWidgets.UiDialogWindow):
-    def __init__(self, parent=uiCore.getAppWindow()):
+class IfScIndexManagerWindow(qtWidgets.UiDialogWindow):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScIndexManagerWindow, self).__init__(parent)
         self.setDefaultSize(960, 480)
-        self.setIndexText(lxConfigure.Version().active())
+        self.setIndexText(lxConfigure.Version().local())
         #
         self.setupWindow()
     #
@@ -61,7 +61,7 @@ class IfScIndexManagerWindow(uiWidgets.UiDialogWindow):
     def refreshMethod(self):
         reload(ifUnit)
         self._unit.refreshMethod()
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
@@ -74,13 +74,13 @@ class IfScIndexManagerWindow(uiWidgets.UiDialogWindow):
 
 
 #
-class IfScRenderManagerWindow(uiWidgets.UiToolWindow):
+class IfScRenderManagerWindow(qtWidgets.UiToolWindow):
     SideWidth = 320
-    def __init__(self, parent=uiCore.getAppWindow()):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScRenderManagerWindow, self).__init__(parent)
         #
         self.setNameText('Scene Render ( Image ) Manager')
-        self.setDefaultSize(*lxConfigure.LynxiWindow_SubSize_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -140,7 +140,7 @@ class IfScRenderManagerWindow(uiWidgets.UiToolWindow):
             sceneIndex, sceneClass, '{} - {}'.format(sceneName, sceneVariant)
         )
         #
-        sceneItem = uiWidgets_.QTreeWidgetItem_()
+        sceneItem = qtWidgets_.QTreeWidgetItem_()
         treeBox.addItem(sceneItem)
         sceneItem.setText(0, viewExplain)
         sceneItem.setItemIcon_(0, 'svg_basic@svg#package_object')
@@ -215,10 +215,10 @@ class IfScRenderManagerWindow(uiWidgets.UiToolWindow):
                 #
                 thread.wait()
             #
-            timer = uiWidgets_.QtCore.QTimer(self)
+            timer = qtWidgets_.QtCore.QTimer(self)
             self._timerLis.append(timer)
             #
-            thread = uiCore.QThread_(self)
+            thread = qtCore.QThread_(self)
             thread.setThreadIndex(index)
             thread.started.connect(threadMethod)
             thread.start()
@@ -233,40 +233,40 @@ class IfScRenderManagerWindow(uiWidgets.UiToolWindow):
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        mainWidget = uiCore.QWidget_()
+        mainWidget = qtCore.QWidget_()
         self.addWidget(mainWidget)
-        mainLayout = uiCore.QHBoxLayout_(mainWidget)
+        mainLayout = qtCore.QHBoxLayout_(mainWidget)
         mainLayout.setContentsMargins(2, 2, 2, 2)
         mainLayout.setSpacing(0)
         #
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         mainLayout.addWidget(self.treeViewBox)
         self.setTreeViewBox(self.treeViewBox)
         self.treeViewBox.itemSelectionChanged.connect(self.setRecordRefresh)
         #
-        self._rightExpandBox = uiWidgets_.UiExpandWidget()
+        self._rightExpandBox = qtWidgets_.QtExpandWidget()
         mainLayout.addWidget(self._rightExpandBox)
-        self._rightExpandBox.setExpandDir(uiCore.LeftDir)
+        self._rightExpandBox.setExpandDir(qtCore.LeftDir)
         self._rightExpandBox.setExpanded(False)
         self._rightExpandBox.setUiWidth(self.SideWidth)
         #
-        self._rightScrollLayout = uiCore.QScrollArea_()
+        self._rightScrollLayout = qtCore.QScrollArea_()
         self._rightExpandBox.addWidget(self._rightScrollLayout)
 
 
 #
-class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
-    def __init__(self, parent=uiCore.getAppWindow()):
+class IfRenderImageComposeWindow(qtWidgets.UiToolWindow):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfRenderImageComposeWindow, self).__init__(parent)
         #
         self.setNameText('Scene Render ( Image ) Manager')
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_SubSize_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -276,13 +276,13 @@ class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
         self.setListTreeItem()
     #
     def setupTopToolBar(self, layout):
-        self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+        self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         layout.addWidget(self._filterButton)
         #
-        self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+        self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
         layout.addWidget(self._filterEnterLabel)
         #
-        self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+        self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
         self._refreshButton.setTooltip(u'点击刷新')
         layout.addWidget(self._refreshButton)
         # self._refreshButton.clicked.connect(self.setCentralRefresh)
@@ -297,10 +297,10 @@ class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
             #
             treeBox.setFilterConnect(self._filterEnterLabel)
         #
-        splitterLayout = uiWidgets_.xSplitter()
+        splitterLayout = qtWidgets_.xSplitter()
         layout.addWidget(splitterLayout)
         #
-        self.treeViewBox = uiWidgets_.QTreeWidget_()
+        self.treeViewBox = qtWidgets_.QTreeWidget_()
         splitterLayout.addWidget(self.treeViewBox)
         setTreeViewBox(self.treeViewBox)
         #
@@ -329,7 +329,7 @@ class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage
             )
-            sceneItem = uiWidgets_.QTreeWidgetItem_()
+            sceneItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(sceneItem)
             #
             sceneItem.setItemIcon(0, 'object#scene')
@@ -397,10 +397,10 @@ class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
                 #
                 thread.wait()
             #
-            timer = uiWidgets_.QtCore.QTimer(self)
+            timer = qtWidgets_.QtCore.QTimer(self)
             self._timerLis.append(timer)
             #
-            thread = uiCore.QThread_(self)
+            thread = qtCore.QThread_(self)
             thread.setThreadIndex(index)
             thread.started.connect(threadMethod)
             thread.start()
@@ -419,42 +419,42 @@ class IfRenderImageComposeWindow(uiWidgets.UiToolWindow):
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        mainWidget = uiCore.QWidget_()
+        mainWidget = qtCore.QWidget_()
         self.addWidget(mainWidget)
-        mainLayout = uiCore.QVBoxLayout_(mainWidget)
+        mainLayout = qtCore.QVBoxLayout_(mainWidget)
         mainLayout.setContentsMargins(2, 2, 2, 2)
         mainLayout.setSpacing(0)
         #
-        topToolBar = uiWidgets_.xToolBar()
+        topToolBar = qtWidgets_.xToolBar()
         mainLayout.addWidget(topToolBar)
         self.setupTopToolBar(topToolBar)
         #
-        centralWidget = uiWidgets_.QTreeWidget_()
+        centralWidget = qtWidgets_.QTreeWidget_()
         mainLayout.addWidget(centralWidget)
-        centralLayout = uiCore.QHBoxLayout_(centralWidget)
+        centralLayout = qtCore.QHBoxLayout_(centralWidget)
         mainLayout.setContentsMargins(0, 0, 0, 0)
         centralLayout.setSpacing(0)
         self.setupCentralWidget(centralLayout)
 
 
 #
-class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
+class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
     w = 80
     dicTool = lxBasic.orderedDict()
     dicTool['sourceDirectory'] = [w, 0, 0, 1, 4, 'Source']
     dicTool['targetDirectory'] = [w, 1, 0, 1, 4, 'Target']
     dicTool['collectionFile'] = [w, 2, 0, 1, 4, 'Collection']
-    def __init__(self, parent=uiCore.getAppWindow()):
+    def __init__(self, parent=qtCore.getAppWindow()):
         super(IfRenderFileComposeWindow, self).__init__(parent)
         #
         self.setNameText('Scene Render ( Compose ) Manager')
         #
-        self.setDefaultSize(*lxConfigure.LynxiWindow_SubSize_Default)
+        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -494,7 +494,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
                 )[1]
                 #
-                customizeItem = uiWidgets_.QTreeWidgetItem_()
+                customizeItem = qtWidgets_.QTreeWidgetItem_()
                 sceneItem.addChild(customizeItem)
                 #
                 itemWidget = customizeItem.setItemIconWidget(0, 'object#mayaFile', customize)
@@ -520,7 +520,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
             #
             sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
             #
-            sceneItem = uiWidgets_.QTreeWidgetItem_()
+            sceneItem = qtWidgets_.QTreeWidgetItem_()
             projectItem.addChild(sceneItem)
             #
             customizes = scenePr.getScRenderCustomizes(
@@ -545,7 +545,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
         #
         treeBox.clear()
         #
-        projectItem = uiWidgets_.QTreeWidgetItem_()
+        projectItem = qtWidgets_.QTreeWidgetItem_()
         projectItem.setItemIcon(0, 'svg_basic@svg#project')
         treeBox.addItem(projectItem)
         #
@@ -569,7 +569,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
             #
             self.setProgressValue(index + 1, maxValue)
             #
-            treeItem = uiWidgets_.QTreeWidgetItem_()
+            treeItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(treeItem)
             state = none
             if not lxBasic.isOsExistsFile(osFile):
@@ -728,7 +728,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
             dv = 255 / len(statisticsData)
             for seq, (k, v) in enumerate(statisticsData.items()):
                 count = len(v)
-                r, g, b = uiCore.hsvToRgb(dv * seq, 1, 1)
+                r, g, b = qtCore.hsvToRgb(dv * seq, 1, 1)
                 lis.append(('{0} ( {1} / {2} )'.format(k, count, maxCount), count, (r, g, b, 255)))
         #
         self.fileTypeCountPieChart.setDrawData(
@@ -743,7 +743,7 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
             dv = 255 / len(statisticsData)
             for seq, (k, v) in enumerate(statisticsData.items()):
                 count = sum(v)
-                r, g, b = uiCore.hsvToRgb(dv * seq, 1, 1)
+                r, g, b = qtCore.hsvToRgb(dv * seq, 1, 1)
                 lis.append(('{0} ( {1} / {2} )'.format(k, lxBasic.getShowNumber(count, 1), lxBasic.getShowNumber(maxCount, 1)), count, (r, g, b, 255)))
         #
         self.fileTypeSizePieChart.setDrawData(
@@ -799,19 +799,19 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
         self._fileConstantStatisticsDic = {}
         #
         self._fileSizes = []
-    @uiCore.uiShowMethod_
+    @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
         def setupTopToolBar(layout):
-            self._filterButton = uiWidgets.UiMenuIconbutton('svg_basic@svg#filter')
+            self._filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
             layout.addWidget(self._filterButton)
             #
-            self._filterEnterLabel = uiWidgets.UiFilterEnterlabel()
+            self._filterEnterLabel = qtWidgets.QtFilterEnterlabel()
             layout.addWidget(self._filterEnterLabel)
             #
-            self._refreshButton = uiWidgets.UiIconbutton('svg_basic@svg#refresh')
+            self._refreshButton = qtWidgets.QtIconbutton('svg_basic@svg#refresh')
             self._refreshButton.setTooltip(u'点击刷新')
             layout.addWidget(self._refreshButton)
             self._refreshButton.clicked.connect(self.setListRightTreeItem)
@@ -836,15 +836,15 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
         #
         def setupBottomToolBox(toolBox):
             inData = self.dicTool
-            self._sourceDirectoryLabel = uiWidgets.UiEnterlabel()
+            self._sourceDirectoryLabel = qtWidgets.QtEnterlabel()
             toolBox.setInfo(inData, 'sourceDirectory', self._sourceDirectoryLabel)
             self._sourceDirectoryLabel.setDatum('l:')
             #
-            self._targetDirectoryLabel = uiWidgets.UiEnterlabel()
+            self._targetDirectoryLabel = qtWidgets.QtEnterlabel()
             toolBox.setInfo(inData, 'targetDirectory', self._targetDirectoryLabel)
             self._targetDirectoryLabel.setDatum('l:/forRender_L/forRender_L')
             #
-            self.collectionFileButton = uiWidgets.UiPressbutton()
+            self.collectionFileButton = qtWidgets.QtPressbutton()
             toolBox.setButton(inData, 'collectionFile', self.collectionFileButton)
             self.collectionFileButton.setPercentEnable(True)
             self.collectionFileButton.clicked.connect(self.setCollection)
@@ -852,53 +852,53 @@ class IfRenderFileComposeWindow(uiWidgets.UiToolWindow):
             toolBox.setSeparators(inData)
         #
         def setupStatisticsBox(scrollBox):
-            self.fileTypeCountPieChart = uiChart_.xPieChart()
+            self.fileTypeCountPieChart = qtChart_.QtPiechart_()
             self.fileTypeCountPieChart.setNameText('Count')
             scrollBox.addWidget(self.fileTypeCountPieChart)
             self.fileTypeCountPieChart.setUiSize(sideWidth-40, sideWidth-40)
             #
-            self.fileTypeSizePieChart = uiChart_.xPieChart()
+            self.fileTypeSizePieChart = qtChart_.QtPiechart_()
             self.fileTypeSizePieChart.setNameText('Size')
             scrollBox.addWidget(self.fileTypeSizePieChart)
             self.fileTypeSizePieChart.setUiSize(sideWidth-40, sideWidth-40)
             #
-            self.fileConstantPieChart = uiChart_.xPieChart()
+            self.fileConstantPieChart = qtChart_.QtPiechart_()
             self.fileConstantPieChart.setNameText('Constant')
             scrollBox.addWidget(self.fileConstantPieChart)
             self.fileConstantPieChart.setUiSize(sideWidth-40, sideWidth-40)
         #
-        mainWidget = uiCore.QWidget_()
+        mainWidget = qtCore.QWidget_()
         self.addWidget(mainWidget)
-        mainLayout = uiCore.QVBoxLayout_(mainWidget)
+        mainLayout = qtCore.QVBoxLayout_(mainWidget)
         mainLayout.setContentsMargins(2, 2, 2, 2)
         mainLayout.setSpacing(2)
         #
-        toolBar = uiWidgets_.xToolBar()
+        toolBar = qtWidgets_.xToolBar()
         mainLayout.addWidget(toolBar)
         setupTopToolBar(toolBar)
         #
-        splitterLayout = uiWidgets_.xSplitter()
+        splitterLayout = qtWidgets_.xSplitter()
         mainLayout.addWidget(splitterLayout)
         #
         sideWidth = 320
         #
-        self.leftTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.leftTreeViewBox = qtWidgets_.QTreeWidget_()
         splitterLayout.addWidget(self.leftTreeViewBox)
         setupLeftTreeViewBox(self.leftTreeViewBox)
         self.leftTreeViewBox.setMaximumWidth(sideWidth)
         self.leftTreeViewBox.setMinimumWidth(sideWidth)
         #
-        self.rightTreeViewBox = uiWidgets_.QTreeWidget_()
+        self.rightTreeViewBox = qtWidgets_.QTreeWidget_()
         splitterLayout.addWidget(self.rightTreeViewBox)
         setupRightTreeViewBox(self.rightTreeViewBox)
         #
-        statisticsScrollBox = uiCore.QScrollArea_()
+        statisticsScrollBox = qtCore.QScrollArea_()
         splitterLayout.addWidget(statisticsScrollBox)
         statisticsScrollBox.setMaximumWidth(sideWidth)
         statisticsScrollBox.setMinimumWidth(sideWidth)
         setupStatisticsBox(statisticsScrollBox)
         #
-        bottomToolBox = uiWidgets.UiToolBox()
+        bottomToolBox = qtWidgets.QtToolbox()
         mainLayout.addWidget(bottomToolBox)
         bottomToolBox.setTitle('Modify')
         setupBottomToolBox(bottomToolBox)

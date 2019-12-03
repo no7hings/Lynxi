@@ -10,17 +10,17 @@ def setOsEnviron(osEnvironKey, path):
             if not path in envData:
                 lxBasic.setAddOsEnvironData(osEnvironKey, path)
                 traceMessage = 'Add Path "{}" : {}'.format(osEnvironKey, path)
-                lxConfigure.traceResult(traceMessage)
+                lxConfigure.Message().traceResult(traceMessage)
             else:
                 traceMessage = 'Exists Path "{}" : {}'.format(osEnvironKey, path)
-                lxConfigure.traceResult(traceMessage)
+                lxConfigure.Message().traceResult(traceMessage)
         else:
             traceMessage = 'Non - Exists Path "{}" : {}'.format(osEnvironKey, path)
-            lxConfigure.traceWarning(traceMessage)
+            lxConfigure.Message().traceWarning(traceMessage)
     else:
         lxBasic.setOsEnvironValue(osEnvironKey, path)
         traceMessage = 'Set Path "{}" : {}'.format(osEnvironKey, path)
-        lxConfigure.traceResult(traceMessage)
+        lxConfigure.Message().traceResult(traceMessage)
 
 
 # Set System Path
@@ -31,13 +31,13 @@ def setSysPath(path):
         if not path in sysData:
             lxBasic.setInsertSystemPath(path)
             traceMessage = 'Add Path "{}" : {}'.format(osEnvironKey, path)
-            lxConfigure.traceResult(traceMessage)
+            lxConfigure.Message().traceResult(traceMessage)
         else:
             traceMessage = 'Exists Path "{}" : {}'.format(osEnvironKey, path)
-            lxConfigure.traceResult(traceMessage)
+            lxConfigure.Message().traceResult(traceMessage)
     else:
         traceMessage = 'Non - Exists Path "{}" : {}'.format(osEnvironKey, path)
-        lxConfigure.traceWarning(traceMessage)
+        lxConfigure.Message().traceWarning(traceMessage)
 
 
 #
@@ -45,11 +45,11 @@ def setPipeEnviron(osEnvironKey, path):
     envData = lxBasic.getOsEnvironValue(osEnvironKey)
     if envData:
         traceMessage = 'Exists Path "{}" : {}'.format(osEnvironKey, path)
-        lxConfigure.traceResult(traceMessage)
+        lxConfigure.Message().traceResult(traceMessage)
     else:
         lxBasic.setOsEnvironValue(osEnvironKey, path)
         traceMessage = 'Set Path "{}" : {}'.format(osEnvironKey, path)
-        lxConfigure.traceResult(traceMessage)
+        lxConfigure.Message().traceResult(traceMessage)
 
 
 #
