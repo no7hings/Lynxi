@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
- <g>
-  <title>Layer 1</title>
-  <ellipse ry="6" rx="6" id="svg_1" cy="8" cx="8" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="null" stroke="#000000" fill="#292929"/>
-  <ellipse ry="5" rx="5" id="svg_2" cy="8" cx="8" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="null" stroke="#292929" fill="#000000"/>
- </g>
-</svg>

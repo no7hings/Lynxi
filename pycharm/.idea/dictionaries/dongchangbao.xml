@@ -51,6 +51,7 @@
       <w>mayaversion</w>
       <w>minimizeable</w>
       <w>modulename</w>
+      <w>moduleversion</w>
       <w>mtime</w>
       <w>mtimestamp</w>
       <w>mtos</w>
@@ -62,6 +63,10 @@
       <w>nurbs</w>
       <w>objs</w>
       <w>overscan</w>
+      <w>packageapp</w>
+      <w>packagename</w>
+      <w>packagepath</w>
+      <w>packageversion</w>
       <w>pathsep</w>
       <w>percentable</w>
       <w>piechart</w>
@@ -74,6 +79,10 @@
       <w>pressable</w>
       <w>procname</w>
       <w>projectname</w>
+      <w>pyqt</w>
+      <w>pythonmodule</w>
+      <w>pythonpackage</w>
+      <w>pythonversion</w>
       <w>radarchart</w>
       <w>raws</w>
       <w>recordview</w>
