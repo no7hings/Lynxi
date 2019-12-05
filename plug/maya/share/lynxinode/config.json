@@ -1,0 +1,6 @@
+{
+    "enable": true, 
+    "version": ["1.0"], 
+    "loadname": ["lynxinode"],
+    "modulename": "lynxinode"
+}
