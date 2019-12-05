@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 240 240" style="enable-background:new 0 0 240 240;" xml:space="preserve">
+<rect style="fill-rule:evenodd;clip-rule:evenodd;fill:none;" width="240" height="240"/>
+<rect style="fill-rule:evenodd;clip-rule:evenodd;fill:none;" width="240" height="240"/>
+<path style="fill:#BDBDBD;stroke:#1D1D1D;stroke-width:8;stroke-linecap:round;stroke-miterlimit:10;" d="M214.612,25.388H25.388
+	v189.224l0,0h189.224V25.388z"/>
+<polyline style="fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#1D1D1D;stroke-width:12;stroke-miterlimit:10;" points="
+	25.888,77.785 86.381,77.785 150.757,162.098 215.112,162.098 "/>
+<g>
+	<rect x="63.358" y="55.363" style="fill:#7895CF;" width="101.998" height="48.465"/>
+	<g>
+		<path style="fill:#1D1D1D;" d="M161.356,59.363v40.465H67.358V59.363H161.356 M169.356,51.363h-8H67.358h-8v8v40.465v8h8h93.998h8
+			v-8V59.363V51.363L169.356,51.363z"/>
+	</g>
+</g>
+<g>
+	<rect x="75.16" y="137.065" style="fill:#7895CF;" width="101.999" height="48.465"/>
+	<g>
+		<path style="fill:#1D1D1D;" d="M173.158,141.065v40.465H79.16v-40.465H173.158 M181.158,133.065h-8H79.16h-8v8v40.465v8h8h93.998
+			h8v-8v-40.465V133.065L181.158,133.065z"/>
+	</g>
+</g>
+<circle style="fill:#BDBDBD;stroke:#1D1D1D;stroke-width:8;stroke-linecap:round;stroke-miterlimit:10;" cx="215.112" cy="162.098" r="16.757"/>
+<circle style="fill:#BDBDBD;stroke:#1D1D1D;stroke-width:8;stroke-linecap:round;stroke-miterlimit:10;" cx="25.888" cy="77.785" r="16.757"/>
+</svg>
