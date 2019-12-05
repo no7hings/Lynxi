@@ -1,0 +1,35 @@
+# coding:utf-8
+Separator_String_File = '/'
+Separator_String_Node = '/'
+Separator_String_Attribute = '.'
+Separator_String_Raw = ','
+Separator_String_Raw_Array = ', '
+
+Value_Type_String_Integer = 'integer'
+Value_Type_String_Integer_Array = 'integerarray'
+Value_Type_String_Boolean = 'boolean'
+Value_Type_String_Float = 'float'
+Value_Type_String_Float_Array = 'floatarray'
+
+Value_Type_String_Color2 = 'color2'
+Value_Type_String_Color2_Array = 'color2array'
+Value_Type_String_Color3 = 'color3'
+Value_Type_String_Color3_Array = 'color3array'
+Value_Type_String_Color4 = 'color4'
+Value_Type_String_Color4_Array = 'color4array'
+
+Value_Type_String_Vector2 = 'vector2'
+Value_Type_String_Vector2_Array = 'vector2array'
+Value_Type_String_Vector3 = 'vector3'
+Value_Type_String_Vector3_Array = 'vector3array'
+Value_Type_String_Vector4 = 'vector4'
+Value_Type_String_Vector4_Array = 'vector4array'
+
+Value_Type_String_Matrix33 = 'matrix33'
+Value_Type_String_Matrix44 = 'matrix44'
+
+Value_Type_String_String = 'string'
+Value_Type_String_String_Array = 'stringarray'
+Value_Type_String_FileName = 'filename'
+Value_Type_String_GeometryName = 'geomname'
+Value_Type_String_GeometryName_Array = 'geomnamearray'

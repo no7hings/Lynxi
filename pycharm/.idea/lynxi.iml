@@ -8,8 +8,8 @@
     </content>
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup" />
-    <content url="file://$MODULE_DIR$/../source/python">
-      <sourceFolder url="file://$MODULE_DIR$/../source/python" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../module/python">
+      <sourceFolder url="file://$MODULE_DIR$/../module/python" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../test" />
     <content url="file://$MODULE_DIR$/../tool/maya" />
