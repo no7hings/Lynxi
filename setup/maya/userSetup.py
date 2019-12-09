@@ -11,7 +11,13 @@ import maya.utils as utils
 
 
 class Setup(object):
-    ProductPath = 'L:/tdAsset/lynxi'
+    ModulePath = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
+    ToolkitPath = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
+
+    ProductModulePathDic = {
+        'LxCore': ''
+    }
+
     @staticmethod
     def getOsActiveViewTime():
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
@@ -97,15 +103,16 @@ class Setup(object):
         if isLxDevelop is True:
             moduleDirectory = self.getLxDevelopPath()
         else:
-            moduleDirectory = self.ProductPath
+            moduleDirectory = self.ModulePath
 
         if os.path.isdir(moduleDirectory):
-            self.setEnviron('LYNXI_PRODUCT_PATH', self.ProductPath)
+            self.setEnviron('LYNXI_MODULE_PATH', self.ModulePath)
+            self.setEnviron('LYNXI_TOOLKIT_PATH', self.ToolkitPath)
             # Step 02
             if isLxDevelop:
-                modulePath = moduleDirectory + '/source/python'
+                modulePath = moduleDirectory + '/module/python'
             else:
-                modulePath = moduleDirectory + '/module.pyc'
+                modulePath = moduleDirectory + '/product/python/compile'
             # Step 03
             self.addPath(modulePath)
             # Step 04

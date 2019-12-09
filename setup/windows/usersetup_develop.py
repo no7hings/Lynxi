@@ -75,7 +75,7 @@ def setPipelinePath(osPath):
 
 # Set Pipeline Environ
 def setProductPath(osPath):
-    key = 'LYNXI_PRODUCT_PATH'
+    key = 'LYNXI_MODULE_PATH'
     envDatum = os.environ.get(key)
     if envDatum:
         message = 'Exists Environ "{}" : {}'.format(key, osPath)

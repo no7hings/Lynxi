@@ -33,6 +33,7 @@
       <w>htmls</w>
       <w>iconfont</w>
       <w>iconkeyword</w>
+      <w>importname</w>
       <w>keyable</w>
       <w>lgroups</w>
       <w>loadname</w>
@@ -50,6 +51,7 @@
       <w>maximizeable</w>
       <w>mayaversion</w>
       <w>minimizeable</w>
+      <w>moduleapp</w>
       <w>modulename</w>
       <w>moduleversion</w>
       <w>mtime</w>
@@ -66,6 +68,7 @@
       <w>packageapp</w>
       <w>packagename</w>
       <w>packagepath</w>
+      <w>packagesource</w>
       <w>packageversion</w>
       <w>pathsep</w>
       <w>percentable</w>
@@ -96,6 +99,7 @@
       <w>sectorchart</w>
       <w>sequencechart</w>
       <w>shaders</w>
+      <w>sourcepath</w>
       <w>sqlite</w>
       <w>sqrt</w>
       <w>storable</w>

@@ -1,4 +1,4 @@
-# coding:utf-8
+# coding=utf-8
 import os
 #
 import sys
@@ -54,8 +54,29 @@ def setProductPath(osPath):
 
 # Set Python Environ
 def setModulePath(osPath):
+    key = 'PYTHONPATH'
+    # Environ Path
+    envData = os.environ.get(key)
+    if envData:
+        if os.path.exists(osPath):
+            if not osPath in envData:
+                os.environ[key] += '%s%s' % (os.pathsep, osPath)
+                traceMessage = 'Set Environ [ %s ] : %s' % (key, osPath)
+                print traceMessage
+
+            elif osPath in envData:
+                traceMessage = 'Exists - Environ [ %s ] : %s' % (key, osPath)
+                print traceMessage
+
+        elif not os.path.exists(osPath):
+            traceMessage = 'Non - Exists Path [ %s ] : %s' % (key, osPath)
+            print traceMessage
+
+    elif not envData:
+        os.environ[key] = osPath
+        traceMessage = 'Set Environ [ %s ] : %s' % (key, osPath)
+        print traceMessage
     # System Path
-    key = 'PATH'
     sysData = sys.path
     if os.path.exists(osPath):
         if not osPath in sysData:
@@ -71,31 +92,13 @@ def setModulePath(osPath):
 
 
 # Setup Pipeline
-def setupPipeline():
+def setupPipeline(projectName):
     from LxCore.setup import appSetup
-    #
-    appSetup.setLynxiSetup()
-
-
-#
-def openUi():
-    import sys
-    #
-    from PyQt5 import QtWidgets
-    #
-    from LxInterface.qt.ifWidgets import ifProductWindow
-    #
-    app = QtWidgets.QApplication(sys.argv)
-    w = ifProductWindow.IfProductManagerWindow()
-    w.windowShow()
-    sys.exit(app.exec_())
+    appSetup.setBasicPythonPackageSetup()
 
 
 #
 def setup():
-    traceMessage = '>>>> [ Set Environ ]'
-    print traceMessage
-    #
     setProductPath(productPath)
     #
     isDevelopBoolean = isLxDevelop()
@@ -114,10 +117,4 @@ def setup():
             modulePath = pipelinePath + '/module.pyc'
         # Step 03
         setModulePath(modulePath)
-        # Step 04
-        setupPipeline()
-        #
-        openUi()
 
-#
-setup()
