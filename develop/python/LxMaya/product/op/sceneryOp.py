@@ -2,13 +2,14 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
-from LxMaya.command import maUtils, maAsb, maScnBox
+from LxMaya.command import maUtils, maAsb
 #
 from LxMaya.product.data import datScenery
 # Utilities Label
@@ -26,7 +27,7 @@ def setAssembliesActiveSwitch(keyword='GPU'):
                 # View Progress
                 explain = '''Switch Assembly(s) "{}" to "{}"'''.format(k, keyword)
                 maxValue = len(v)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for i in v:
                     progressBar.updateProgress()
                     assemblyReferenceString = i

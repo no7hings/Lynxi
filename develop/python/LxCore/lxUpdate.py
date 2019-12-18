@@ -8,7 +8,7 @@ none = ''
 
 #
 def setUpdate(force=0):
-    module = lxConfigure.Lynxi_Module_Python()
+    module = lxConfigure.Lynxi_Scheme_Python()
     ui = lxConfigure.Ui()
 
     localVersion = module.localVersion()
@@ -27,7 +27,7 @@ def setUpdate(force=0):
             isUpdate = True
 
     if force is True or isUpdate is True:
-        from LxCore import lxTip
+        from LxUi.qt import qtTip  # import in Method
 
         if isDevelop is False:
             ui.closeAll()
@@ -37,7 +37,7 @@ def setUpdate(force=0):
 
         module.setLocalRefresh()
 
-        lxTip.viewMessage(
+        qtTip.viewMessage(
             u'Lynxi Tool(s) Update to',
             u'{}'.format(serverVersion)
         )

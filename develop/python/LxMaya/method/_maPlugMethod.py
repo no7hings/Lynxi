@@ -232,7 +232,7 @@ class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.MaPlugM
 
 
 #
-class MaYetiGraphObjectMethod(_maMethodBasic.MaSetMethodBasic, MaYetiObjectMethod):
+class MaYetiGraphObjectMethod(MaYetiObjectMethod, _maMethodBasic.MaSetMethodBasic):
     @classmethod
     def getYetiShapeLisByImportShape(cls, importType, importParam):
         if importType == cls.MaYetiImportType_Geometry:

@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxLog
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg, sceneryCfg, sceneCfg
 #
-from LxCore.preset import personnelPr, appVariant
+from LxCore.preset import personnelPr
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #

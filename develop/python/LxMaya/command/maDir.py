@@ -2,7 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxProgress, lxLog, lxTip
+from LxCore import lxBasic
+from LxUi.qt import qtLog, qtProgress, qtTip
 #
 from LxCore.config import appCfg
 #
@@ -583,7 +584,7 @@ def getDirDataByNamespaceFilter(
     return getDirData(*args)
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def setDirectory(
         logWin,
         collectionDataLis,
@@ -594,9 +595,9 @@ def setDirectory(
         isRepath):
     maxProgress = 6
     logWin.setMaxProgressValue(maxProgress)
-    lxLog.viewStartProcessMessage(logWin, u'Directory Modify')
+    qtLog.viewStartProcessMessage(logWin, u'Directory Modify')
     # Step 01 ( Get Collection and Repath Data )
-    lxLog.viewStartProcess(logWin, u'''Directory Statistical''')
+    qtLog.viewStartProcess(logWin, u'''Directory Statistical''')
     (
         collectionDataArray,
         referenceRepathDataArray,
@@ -609,9 +610,9 @@ def setDirectory(
         collectionDataLis,
         isCollection, isRepath
     )
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Collection File(s)
-    lxLog.viewStartProcess(logWin, u'''Collection File(s)''')
+    qtLog.viewStartProcess(logWin, u'''Collection File(s)''')
     #
     setCollectionFile(
         logWin,
@@ -620,21 +621,21 @@ def setDirectory(
         isIgnoreTimeChanged,
         isWithTx
     )
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Repath Reference First ( Debug )
-    lxLog.viewStartProcess(logWin, u'''Repath Reference Node''')
+    qtLog.viewStartProcess(logWin, u'''Repath Reference Node''')
     if referenceRepathDataArray:
         progressExplain = u'''Repath Reference Node'''
         maxValue = len(referenceRepathDataArray)
-        progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progress = qtProgress.viewSubProgress(progressExplain, maxValue)
         for node, osFile in referenceRepathDataArray:
             progress.updateProgress()
             setReferenceRepath(node, osFile)
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
     else:
-        lxLog.viewFailProcess(logWin, u'Non - Data ( Reference )')
+        qtLog.viewFailProcess(logWin, u'Non - Data ( Reference )')
     # Repath Assembly
-    lxLog.viewStartProcess(logWin, u'''Repath Assembly - Reference Node''')
+    qtLog.viewStartProcess(logWin, u'''Repath Assembly - Reference Node''')
     if arRepathDataArray:
         sceneryArRepathDataArray = []
         arUnitRepathDataArray = []
@@ -648,7 +649,7 @@ def setDirectory(
         if sceneryArRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Scenery ) Node'''
             maxValue = len(sceneryArRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile in sceneryArRepathDataArray:
                 progress.updateProgress()
                 setAssemblyReferenceRepath(node, osFile)
@@ -656,72 +657,72 @@ def setDirectory(
         if arUnitRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Unit ) Node'''
             maxValue = len(arUnitRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile in arUnitRepathDataArray:
                 progress.updateProgress()
                 setAssemblyReferenceRepath(node, osFile)
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
     else:
-        lxLog.viewFailProcess(logWin, u'Non - Data ( Assembly Reference )')
+        qtLog.viewFailProcess(logWin, u'Non - Data ( Assembly Reference )')
     # Step 05
     if isAutoCache is False:
-        lxLog.viewStartProcess(logWin, u'''Repath Fur Cache and Fur Map''')
+        qtLog.viewStartProcess(logWin, u'''Repath Fur Cache and Fur Map''')
         #
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
                 progress.updateProgress()
                 setRepathFurMap(node, osFile)
         #
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
         if not mapRepathDataArray:
-            lxLog.viewFailProcess(logWin, u'Non - Data ( Fur Map )')
+            qtLog.viewFailProcess(logWin, u'Non - Data ( Fur Map )')
         #
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.updateProgress()
                 setFurCacheRepath(node, sourceFile, targetFile, force=False)
         else:
-            lxLog.viewFailProcess(logWin, u'Non - Data ( Fur Cache )')
+            qtLog.viewFailProcess(logWin, u'Non - Data ( Fur Cache )')
     else:
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
                 progress.updateProgress()
                 setRepathFurMap(node, osFile, force=True)
         else:
-            lxLog.viewFailProcess(logWin, u'Non - Data ( Fur Map )')
+            qtLog.viewFailProcess(logWin, u'Non - Data ( Fur Map )')
         #
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.updateProgress()
                 setFurCacheRepath(node, sourceFile, targetFile, force=True)
         else:
-            lxLog.viewFailProcess(logWin, u'Non - Data ( Fur Cache )')
+            qtLog.viewFailProcess(logWin, u'Non - Data ( Fur Cache )')
     # Step 06 Other Nodes
-    lxLog.viewStartProcess(logWin, u'''Repath Other Node ( Texture, DSO...)''')
+    qtLog.viewStartProcess(logWin, u'''Repath Other Node ( Texture, DSO...)''')
     if otherRepathDataArray:
         progressExplain = u'''Repath Other Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
-        progress = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progress = qtProgress.viewSubProgress(progressExplain, maxValue)
         for node, osFile, fileType in otherRepathDataArray:
             progress.updateProgress()
             setRepathGeneral(node, osFile, fileType)
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
     else:
-        lxLog.viewFailProcess(logWin, u'Non - Data ( Other Node )')
+        qtLog.viewFailProcess(logWin, u'Non - Data ( Other Node )')
     #
-    lxLog.viewCompleteProcessMessage(logWin)
+    qtLog.viewCompleteProcessMessage(logWin)
     #
     # maFile.saveTempFile()
 
@@ -740,11 +741,11 @@ def getCollectionDataLis(
     mapRepathDataArray = []
     furCacheRepathDataArray = []
     if collectionDataLis:
-        lxLog.viewStartProcess(logWin, u'''Directory Statistical''')
+        qtLog.viewStartProcess(logWin, u'''Directory Statistical''')
         #
         progressExplain = u'''Directory Statistical'''
         maxValue = len(collectionDataLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for fileType, nodes, osFileArray in collectionDataLis:
             progressBar.updateProgress(fileType)
             if osFileArray:
@@ -762,10 +763,10 @@ def getCollectionDataLis(
                 if isRepath:
                     progressExplain = '''Get Repath Data %s''' % lxBasic._toStringPrettify(fileType)
                     maxValue = len(nodes)
-                    subProgressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+                    subProgressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                     for seq, node in enumerate(nodes):
                         subProgressBar.updateProgress()
-                        lxLog.viewStartSubProcess(logWin, 'Statistical Directory: ', node)
+                        qtLog.viewStartSubProcess(logWin, 'Statistical Directory: ', node)
                         #
                         if fileType == 'reference':
                             referenceRepathDataArray.append((node, targetFile))
@@ -778,9 +779,9 @@ def getCollectionDataLis(
                         else:
                             otherRepathDataArray.append((node, targetFile, fileType))
                         #
-                        lxLog.viewCompleteSubProcess(logWin)
+                        qtLog.viewCompleteSubProcess(logWin)
         #
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
     #
     return collectionDataArray, referenceRepathDataArray, arRepathDataArray, otherRepathDataArray, mapRepathDataArray, furCacheRepathDataArray
 
@@ -815,24 +816,24 @@ def setCollectionFile(
             #
             txEnable = getCollectionEnable(sourceTx, targetTx, fileType)
             if txEnable:
-                lxLog.viewStartSubProcess(logWin, 'Collection : ', targetTx)
+                qtLog.viewStartSubProcess(logWin, 'Collection : ', targetTx)
                 sourceTxExists = lxBasic.isOsExistsFile(sourceTx)
                 if sourceTxExists:
                     maFile.setCopyFile(sourceTx, targetTx)
-                    lxLog.viewCompleteSubProcess(logWin)
+                    qtLog.viewCompleteSubProcess(logWin)
                 else:
-                    lxLog.viewError(logWin, sourceTx, 'Non - Exists')
+                    qtLog.viewError(logWin, sourceTx, 'Non - Exists')
     #
     def setCollectionBranch(sourceFile, targetFile, fileType):
         enable = getCollectionEnable(sourceFile, targetFile, fileType)
         # Main File
-        lxLog.viewStartSubProcess(logWin, 'Collection : ', targetFile)
+        qtLog.viewStartSubProcess(logWin, 'Collection : ', targetFile)
         #
         if enable:
             lxBasic.setOsFileCopy(sourceFile, targetFile)
-            lxLog.viewCompleteSubProcess(logWin)
+            qtLog.viewCompleteSubProcess(logWin)
         else:
-            lxLog.viewWarning(logWin, targetFile, 'Is - Ignore')
+            qtLog.viewWarning(logWin, targetFile, 'Is - Ignore')
         # Tx File
         if isWithTx:
             setCollectionTx(sourceFile, targetFile, fileType)
@@ -841,7 +842,7 @@ def setCollectionFile(
         if data:
             progressExplain = u'''Collection File(s)'''
             maxValue = len(data)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for sourceFile, targetFile, fileType in data:
                 progressBar.updateProgress(lxBasic._toStringPrettify(fileType))
                 setCollectionBranch(sourceFile, targetFile, fileType)

@@ -5,8 +5,8 @@ from LxCore.preset import basicPr
 #
 guidePresetKey = lxConfigure.Lynxi_Key_Preset_Project
 # do not delete and rename
-serverBasicPath = lxConfigure.LynxiRoot().serverDirectory()
-localBasicPath = lxConfigure.LynxiRoot().localDirectory()
+serverBasicPath = lxConfigure.Root()._serverDirectory()
+localBasicPath = lxConfigure.Root()._localDirectory()
 #
 none = ''
 

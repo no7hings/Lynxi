@@ -61,7 +61,7 @@ class LxConfigBasic(object):
     #
     LynxiUniqueId_Basic = '4908BDB4-911F-3DCE-904E-96E4792E75F1'
     #
-    Key_Environ_Path = 'LYNXI_PATH'
+    Key_Environ_Value = 'LYNXI_PATH'
     Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
     Key_Environ_Path_Module = 'LYNXI_MODULE_PATH'
     #

@@ -1,5 +1,6 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxLog, lxTip
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtLog, qtTip
 #
 from LxCore.preset import appVariant
 #
@@ -22,8 +23,8 @@ isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
 none = ''
 
 
-@lxTip.viewExceptionMethod
-@lxTip.viewTimeMethod
+@qtTip.viewExceptionMethod
+@qtTip.viewTimeMethod
 def scnUnitAssemblyUploadCmd(
         logWin,
         projectName,
@@ -104,17 +105,17 @@ def scnUnitAssemblyUploadCmd(
     #
     maxValue = len(methodDatumLis) + 1
     logWin.setMaxProgressValue(maxValue)
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     for i in methodDatumLis:
         explain, enable, method, args = i
-        lxLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneryStage)))
+        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneryStage)))
         if enable is not False:
             method(*args)
-            lxLog.viewCompleteProcess(logWin)
+            qtLog.viewCompleteProcess(logWin)
         else:
-            lxLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
+            qtLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -150,7 +151,7 @@ def scnUnitAssemblySourceUploadCmd(
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backSourceFile, timeTag)
     maFile.saveMayaFile(linkFile)
-    lxLog.viewResult(logWin, linkFile)
+    qtLog.viewResult(logWin, linkFile)
     #
     sceneryUnitIndex = dbGet.getDbSceneryUnitIndex(sceneryIndex, sceneryVariant)
     #
@@ -187,7 +188,7 @@ def scnUnitAssemblyComposeUploadCmd(
     datumLis = datScenery.getScnAssemblyComposeDatumLis(projectName, sceneryName)
     #
     lxBasic.writeOsJson(datumLis, serverFile)
-    lxLog.viewResult(logWin, serverFile)
+    qtLog.viewResult(logWin, serverFile)
     #
     lxBasic.backupOsFile(serverFile, backupFile, timeTag)
 
@@ -221,7 +222,7 @@ def scnUnitAssemblyProductUploadCmd(
     )
     #
     maFile.saveMayaFile(serverFile)
-    lxLog.viewResult(logWin, serverFile)
+    qtLog.viewResult(logWin, serverFile)
     #
     maFile.backupFile(serverFile, backupFile, timeTag)
 
@@ -252,7 +253,7 @@ def scnUnitAssemblyPreviewUploadCmd(
         useDefaultMaterial=useDefaultMaterial,
         width=appVariant.rndrImageWidth/2, height=appVariant.rndrImageHeight/2
     )
-    lxLog.viewResult(logWin, serverFile)
+    qtLog.viewResult(logWin, serverFile)
     #
     lxBasic.backupOsFile(serverFile, backupFile, timeTag)
 
@@ -286,7 +287,7 @@ def scnUnitAssemblyDefinitionUploadCmd(
     maAsb.setAssemblySceneDefinitionCreate(sceneryAdName, serverProductFile)
     #
     maFile.saveMayaFile(serverFile)
-    lxLog.viewResult(logWin, serverFile)
+    qtLog.viewResult(logWin, serverFile)
     #
     maFile.backupFile(serverFile, backupFile, timeTag)
     maFile.new()
@@ -316,4 +317,4 @@ def scnUnitAssemblySourceOpenCmd(
         localFile,
         timeTag
     )
-    lxLog.viewResult(logWin, localFile)
+    qtLog.viewResult(logWin, localFile)

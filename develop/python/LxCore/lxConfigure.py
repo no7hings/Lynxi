@@ -325,6 +325,15 @@ def _toLxProductResultFile(osFile):
 
 
 class Basic(object):
+    Category_Windows_Bin = 'windows_bin'
+    Category_Windows_Python_Scheme = 'windows_python_scheme'
+    Category_Windows_App_Python_Scheme = 'windows_app_python_scheme'
+    Category_Windows_Python_Module = 'windows_python_module'
+    Category_Windows_App_Python_Module = 'windows_app_python_module'
+    Category_Windows_Python_Package = 'windows_python_package'
+    Category_Windows_App_Python_Package = 'windows_app_python_package'
+    Category_Windows_App_Plug = 'windows_app_plug'
+
     Root_Develop_Default = 'e:/myworkspace/td/lynxi'
 
     Path_Local_Default = 'c:/.lynxi'
@@ -332,11 +341,6 @@ class Basic(object):
     Key_Environ_Python_Version = 'LYNXI_PYTHON_VERSION'
 
     Key_Environ_Enable_Develop = 'LYNXI_DEVELOP'
-
-    Key_Environ_Path_Plug_Maya_Local = 'LYNXI_MAYA_PUSH_PATH'
-    Key_Environ_Path_Plug_Maya_Server = 'LYNXI_MAYA_PLUG_PATH'
-    Key_Environ_Path_Plug_Windows_Local = 'LYNXI_WINDOWS_PUSH_PATH'
-    Key_Environ_Path_Plug_Windows_Server = 'LYNXI_WINDOWS_PLUG_PATH'
 
     Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
     Key_Environ_Path_Preset = 'LYNXI_PRESET_PATH'
@@ -351,8 +355,12 @@ class Basic(object):
     Folder_Icon = 'icon'
     Folder_Product = 'product'
     Folder_Module = 'module'
+    Folder_Resource = 'resource'
+    Folder_Develop = 'develop'
+    Folder_Version = 'version'
     Folder_Source = 'source'
     Folder_Compile = 'compile'
+    Folder_Workspace = 'workspace'
     Folder_Plug = 'plug'
 
     Folder_Maya = 'maya'
@@ -360,7 +368,7 @@ class Basic(object):
     Folder_Python = 'python'
     Folder_Package = 'package'
     Folder_Qt = 'qt'
-    Folder_Exe = 'exe'
+    Folder_Bin = 'exe'
 
     Folder_User = 'user'
 
@@ -370,59 +378,152 @@ class Basic(object):
     Key_User = 'user'
     Key_Timestamp = 'timestamp'
 
-    Key_Server = 'server'
-    Key_Local = 'local'
-
     Ext_Json = '.json'
-    
+
     Key_Enable = 'enable'
+    Key_Category = 'category'
+    Key_Name = 'name'
+
     Key_Version = 'version'
+    Key_Record = 'record'
     Key_Active = 'active'
+
+    Key_Application = 'application'
+    Key_Bin = 'bin'
+    Key_Platform = 'platform'
+
+    Key_App = 'app'
+
+    Key_Python_Version = 'python_version'
+
+    Key_Resource = 'resource'
+    Key_Argument = 'argument'
+
+    Key_Config = 'config'
+
     Key_Dependent = 'dependent'
+    Key_Dependent_Module = 'dependent_module'
+    Key_Dependent_Package = 'dependent_package'
 
-    Key_App_Name = 'appname'
-    Key_App_Version = 'appversion'
+    Key_Language = 'language'
+    Key_Language_Name = 'language_name'
+    Key_Language_Version = 'language_version'
 
-    Key_Python_Version = 'pythonversion'
-    Key_Python_Package = 'pythonpackage'
-    Key_Python_Module = 'pythonmodule'
+    Key_Package = 'package'
+    Key_Module = 'module'
 
-    Key_Python_Import_Name = 'importname'
+    Key_Python_Package = 'python_package'
+    Key_Python_Module = 'python_module'
 
-    Key_Module_App = 'moduleapp'
-    Key_Module_Name = 'modulename'
-    Key_Module_Version = 'moduleversion'
-
-    Key_Package_App = 'packageapp'
-    Key_Package_Name = 'packagename'
-    Key_Package_Version = 'packageversion'
-    Key_Package_Path = 'packagepath'
-    Key_Package_Source_Path = 'sourcepath'
+    Key_Resource_Source_Path = 'sourcepath'
+    Key_Resource_Compile_Path = 'compilepath'
 
     Key_Plug_Name = 'plugname'
     Key_Plug_Version = 'plugversion'
+    Key_Plug_App = 'plugapp'
     Key_Plug_Source_Path = 'plugpath'
 
     Key_Plug_Load_Name = 'loadname'
     Key_Plug_Module_Name = 'modulename'
 
+    Language_Python = 'python'
+    Language_Share = 'share'
+
     Version_Default = '0.0.0'
     Version_Active = 'active'
 
-    App_Share = 'share'
+    Bin_Share = 'share'
     App_Maya = 'maya'
+    Version_Share = 'share'
 
-    Value_Python_Version_Default = '2.7.x'
+    Platform_Windows = 'windows'
 
-    Python_Package_PyQt = 'PtQt'
+    Python_Version_27 = '2.7.x'
+
+    Python_Package_Pyqt5 = 'PyQt5'
+    Python_Package_Yaml = 'yaml'
+    Python_Package_Chardet = 'chardet'
+    Python_Package_Materialx = 'MaterialX'
+    Python_Package_Pil = 'PIL'
+    Python_Package_Dingtalkchatbot = 'dingtalkchatbot'
+
+    Python_Module_Core = 'LxCore'
+    Python_Module_Command = 'LxCommand'
+    Python_Module_Database = 'LxDatabase'
+    Python_Module_Ui = 'LxUi'
+    Python_Module_Interface = 'LxInterface'
+
+    Python_Module_Maya = 'LxMaya'
+    Python_Module_Deadline = 'LxDeadline'
+
+    Python_Module_Graph = 'LxGraph'
+    Python_Module_Material = 'LxMaterial'
+
+    App_Plug_Lynxinode = 'lynxinode'
+
+    Environ_Key_Path = 'PATH'
+    Environ_Key_Maya_Python_Path = 'PYTHONPATH'
+    Environ_Key_Maya_Icon_Path = 'XBMLANGPATH'
+    Environ_Key_Maya_Plug_Path = 'MAYA_PLUG_IN_PATH'
+    Environ_Key_Maya_Script_Path = 'MAYA_SCRIPT_PATH'
+
+    Key_Value = 'value'
+    Key_Operate = 'operate'
+    Key_Environ = 'environ'
+    Key_Environ_Key = 'environ_key'
+    Key_Environ_Value = 'environ_value'
+    Key_Environ_Operate = 'environ_operation'
+
+    Key_Path_Source = 'path_source'
+    Key_Path_Compile = 'path_compile'
+    Key_Path_Workspace = 'path_workspace'
+
+    Operation_Add = '+='
+    Operation_Replace = '='
+
+    Attr_Key_Self = 'self'
+    Attr_Key_Root = 'root'
+    Attr_Key_Path = 'path'
+
+    Attr_Key_Active = 'active'
+    Attr_Key_Server = 'server'
+    Attr_Key_Local = 'local'
+    Attr_Key_Develop = 'develop'
+    Attr_Key_Product = 'product'
+
+    Attr_Path_Root = 'root'
+    Attr_Path_Server_Root = 'serverroot'
+    Attr_Path_Local_Root = 'localroot'
+    Attr_Path_Develop_Root = 'developroot'
+    Attr_Path_Product_Root = 'productroot'
+
+    Attr_Path = 'path'
+    Attr_Path_Source = 'sourcepath'
+
+    Key_Path_SubPath = 'subpath'
+    Key_Path_SubName = 'subname'
+    Key_Path_Base_Name = 'basename'
+
+    _String_Indent = '    '
 
     @staticmethod
     def _toSubPathMethod(*args):
         if args:
+            sep = '/'
             if len(args) > 1:
                 if isinstance(args[0], list) or isinstance(args[0], tuple):
-                    return '/'.join(list(args[0]))
-                return '/'.join(list(args))
+                    return sep.join(list(args[0]))
+                return sep.join(list(args))
+            return args[0]
+
+    @staticmethod
+    def _toSubNameMethod(*args):
+        if args:
+            sep = '-'
+            if len(args) > 1:
+                if isinstance(args[0], list) or isinstance(args[0], tuple):
+                    return sep.join(list(args[0]))
+                return sep.join(list(args))
             return args[0]
 
     @staticmethod
@@ -447,6 +548,7 @@ class Basic(object):
     @staticmethod
     def _getChangedFileMethod(sourceTimestamp, targetTimestamp):
         lis = []
+
         for localOsFile, sourceTime in sourceTimestamp.items():
             if targetTimestamp.__contains__(localOsFile):
                 targetTime = targetTimestamp[localOsFile]
@@ -455,6 +557,7 @@ class Basic(object):
             #
             else:
                 lis.append(localOsFile)
+
         return lis
 
     @classmethod
@@ -466,20 +569,117 @@ class Basic(object):
                 boolean = True
         return boolean
 
-    def dict(self):
+    def _strDatum(self):
         return {}
 
-    #
-    def _toStr(self, dic):
-        return 'object = {}\r\n'.format(self.__class__.__name__) + '\r\n'.join(['{} = {}'.format(k, v) for k, v in dic.items()])
+    @classmethod
+    def _toStringMethod(cls, datum, indent=4):
+        def addNone(lString, rString):
+            lis.append(u'{}null{}'.format(lString, rString))
+
+        def addString(raw, lString, rString):
+            lis.append(u'{}"{}"{}'.format(lString, raw, rString))
+
+        def addUnicode(raw, lString, rString):
+            lis.append(u'{}"{}"{}'.format(lString, raw, rString))
+
+        def addNumber(raw, lString, rString):
+            lis.append(u'{}{}{}'.format(lString, raw, rString))
+
+        def addBoolean(raw, lString, rString):
+            lis.append(u'{}{}{}'.format(lString, str(raw).lower(), rString))
+
+        def addMember(raw, lString, rString):
+            if isinstance(raw, bool):
+                addBoolean(raw, lString, rString)
+
+            elif isinstance(raw, int) or isinstance(raw, float):
+                addNumber(raw, lString, rString)
+
+            elif isinstance(raw, str):
+                addString(raw, lString, rString)
+
+            elif isinstance(raw, unicode):
+                addUnicode(raw, lString, rString)
+
+        def addValue(raw, lString, rString, rawType=dict):
+            if raw is None:
+                addNone(lString=lString, rString='\r\n')
+
+            elif isinstance(raw, list) or isinstance(raw, tuple):
+                lString += defIndentString
+                addList(raw, lString=lString, rString=rString)
+
+            elif isinstance(raw, dict):
+                lString += defIndentString
+                addDictionary(raw, lString=lString, rString=rString)
+
+            else:
+                if rawType == dict:
+                    addMember(raw, lString='', rString=rString)
+                else:
+                    addMember(raw, lString=lString+defIndentString, rString=rString)
+
+        def addList(raw, lString, rString):
+            if raw:
+                lis.append(u'{lString}[{rString}'.format(lString='', rString='\r\n'))
+
+                c = len(raw)
+                for seq, i in enumerate(raw):
+                    if seq < c - 1:
+                        addValue(i, lString=lString, rString=',\r\n', rawType=list)
+                    else:
+                        addValue(i, lString=lString, rString='\r\n', rawType=list)
+
+                lis.append(u'{lString}]{rString}'.format(lString=lString, rString=rString))
+
+            else:
+                lis.append(u'{lString}[]{rString}\r\n'.format(lString=lString, rString=rString))
+
+        def addDictionary(raw, lString, rString):
+            if raw:
+                lis.append(u'{lString}{{{rString}'.format(lString='', rString='\r\n'))
+
+                c = len(raw)
+                for seq, (k, v) in enumerate(raw.items()):
+                    addMember(k, lString=lString + defIndentString, rString=': ')
+
+                    if seq < c - 1:
+                        addValue(v, lString=lString, rString=',\r\n', rawType=dict)
+                    else:
+                        addValue(v, lString=lString, rString='\r\n', rawType=dict)
+
+                lis.append(u'{lString}}}{rString}'.format(lString=lString, rString=rString))
+
+            else:
+                lis.append(u'{lString}{{}}{rString}'.format(lString='', rString=rString))
+
+        def addRaw(raw):
+            if raw is None:
+                addNone(lString='', rString='\r\n')
+
+            elif isinstance(raw, list) or isinstance(raw, tuple):
+                addList(raw, lString='', rString='\r\n')
+
+            elif isinstance(raw, dict):
+                addDictionary(raw, lString='', rString='\r\n')
+
+        defIndentString = ' ' * indent
+        lis = [
+            u'{} = '.format(cls.__name__)
+        ]
+
+        addRaw(datum)
+
+        return ''.join(lis)
 
     def __str__(self):
-        if self.dict():
-            return self._toStr(self.dict())
+        if self._strDatum():
+            return self._toStringMethod(self._strDatum())
         return ''
 
 
-class Message(Basic):
+class Message(object):
     Lynxi_Message_Enable = True
     def __init__(self):
         pass
@@ -517,55 +717,83 @@ class _AbcRoot(Basic):
     def _initAbcRoot(self):
         pass
 
-    @classmethod
-    def serverDirectory(cls):
+    @property
+    def active(self):
+        return self._activeDirectory()
+
+    def _activeDirectory(self):
         pass
 
-    @classmethod
-    def localDirectory(cls):
-        pass
+    @property
+    def server(self):
+        return self._serverDirectory()
 
     @classmethod
-    def developDirectory(cls):
+    def _serverDirectory(cls):
         pass
+
+    @property
+    def local(self):
+        return self._localDirectory()
 
     @classmethod
-    def productDirectory(cls):
+    def _localDirectory(cls):
         pass
 
-    def dict(self):
-        return {
-            self.Key_Server: self.serverDirectory(),
-            self.Key_Local: self.localDirectory()
-        }
+    @property
+    def develop(self):
+        return self._developDirectory()
+
+    @classmethod
+    def _developDirectory(cls):
+        pass
+
+    @property
+    def product(self):
+        return self._productDirectory()
+
+    @classmethod
+    def _productDirectory(cls):
+        pass
+
+    def _strDatum(self):
+        return lxBasic.orderedDict(
+            [
+                (self.Attr_Key_Active, self.server),
+                (self.Attr_Key_Server, self.server),
+                (self.Attr_Key_Local, self.local),
+                (self.Attr_Key_Develop, self.develop),
+                (self.Attr_Key_Product, self.product)
+            ]
+        )
 
 
-class LynxiRoot(_AbcRoot):
+class Root(_AbcRoot):
     def __init__(self):
         self._initAbcRoot()
 
-    def directory(self):
-        return self.serverDirectory()
+    def _activeDirectory(self):
+        return self._serverDirectory()
 
     @classmethod
-    def serverDirectory(cls):
+    def _serverDirectory(cls):
         if cls.isDevelop():
-            return cls.developDirectory()
-        return cls.productDirectory()
+            return cls._developDirectory()
+        return cls._productDirectory()
 
     @classmethod
-    def localDirectory(cls):
+    def _localDirectory(cls):
         return cls.Path_Local_Default
 
     @classmethod
-    def developDirectory(cls):
+    def _developDirectory(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Develop)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
     @classmethod
-    def productDirectory(cls):
+    def _productDirectory(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Module)
         if data is not None:
             return data.replace('\\', '/')
@@ -576,28 +804,28 @@ class ToolkitRoot(_AbcRoot):
     def __init__(self):
         self._initAbcRoot()
 
-    def directory(self):
-        return self.serverDirectory()
+    def _activeDirectory(self):
+        return self._serverDirectory()
 
     @classmethod
-    def serverDirectory(cls):
+    def _serverDirectory(cls):
         if cls.isDevelop():
-            return cls.developDirectory()
-        return cls.productDirectory()
+            return cls._developDirectory()
+        return cls._productDirectory()
 
     @classmethod
-    def localDirectory(cls):
+    def _localDirectory(cls):
         return cls.Path_Local_Default
 
     @classmethod
-    def developDirectory(cls):
+    def _developDirectory(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Develop)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
     @classmethod
-    def productDirectory(cls):
+    def _productDirectory(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Toolkit)
         if data is not None:
             return data.replace('\\', '/')
@@ -608,740 +836,156 @@ class _AbcPath(Basic):
     ROOT_CLS = None
 
     def _initAbcPath(self, *args):
-        self._root = self.ROOT_CLS()
-        self._subPath = self._toSubPathMethod(*args)
+        self._formatStringDic = {
+            self.Attr_Key_Active: u'{self.root.active}/{self.subpath}',
+            self.Attr_Key_Server: u'{self.root.server}/{self.subpath}',
+            self.Attr_Key_Local: u'{self.root.local}/{self.subpath}',
+            self.Attr_Key_Develop: u'{self.root.develop}/{self.subpath}',
+            self.Attr_Key_Product: u'{self.root.product}/{self.subpath}'
+        }
 
+        self._root = self.ROOT_CLS()
+
+        self._subPathString = self._toSubPathMethod(*args)
+        self._subNameString = self._toSubNameMethod(*args)
+
+        if args:
+            self._baseName = args[-1]
+
+    @property
     def root(self):
         return self._root
 
-    def directory(self):
-        return u'{}/{}'.format(self._root.directory(), self._subPath)
+    def subPath(self):
+        return self._subPathString
 
-    def serverDirectory(self):
-        return u'{}/{}'.format(self._root.serverDirectory(), self._subPath)
+    @property
+    def subpath(self):
+        return self.subPath()
 
-    def localDirectory(self):
-        return u'{}/{}'.format(self._root.localDirectory(), self._subPath)
+    def subName(self):
+        return self._subNameString
 
-    def developDirectory(self):
-        return u'{}/{}'.format(self._root.developDirectory(), self._subPath)
+    @property
+    def subname(self):
+        return self.subName()
 
-    def productDirectory(self):
-        return u'{}/{}'.format(self._root.productDirectory(), self._subPath)
+    def baseName(self):
+        return self._baseName
 
-    def dict(self):
+    @property
+    def basename(self):
+        return self.baseName()
+
+    def _activeDirectory(self):
+        return self._formatStringDic[self.Attr_Key_Active].format(**self._formatDict())
+
+    @property
+    def active(self):
+        return self._activeDirectory()
+
+    def _serverDirectory(self):
+        return self._formatStringDic[self.Attr_Key_Server].format(**self._formatDict())
+
+    @property
+    def server(self):
+        return self._serverDirectory()
+
+    def _localDirectory(self):
+        return self._formatStringDic[self.Attr_Key_Local].format(**self._formatDict())
+
+    @property
+    def local(self):
+        return self._localDirectory()
+
+    def _developDirectory(self):
+        return self._formatStringDic[self.Attr_Key_Develop].format(**self._formatDict())
+
+    @property
+    def develop(self):
+        return self._developDirectory()
+
+    def _productDirectory(self):
+        return self._formatStringDic[self.Attr_Key_Product].format(**self._formatDict())
+
+    @property
+    def product(self):
+        return self._productDirectory()
+
+    def _formatDict(self):
         return {
-            self.Key_Server: self.serverDirectory(),
-            self.Key_Local: self.localDirectory()
+            self.Attr_Key_Self: self,
         }
 
-
-class _AbcFile(Basic):
-    PATH_CLS = None
-    DefaultRaw = {}
-
-    def _initAbcFile(self, pathArgs, fileBasename, ext):
-        self._path = self.PATH_CLS(*pathArgs)
-
-        self._fileName = '{}{}'.format(fileBasename, ext)
-
-    def path(self):
-        return self._path
-
-    def createDevelopFile(self):
-        pass
-
-    def directory(self):
-        return self._path.directory()
-
-    def serverDirectory(self):
-        return self._path.serverDirectory()
-
-    def localDirectory(self):
-        return self._path.localDirectory()
-
-    def developDirectory(self):
-        return self._path.developDirectory()
-
-    def productDirectory(self):
-        return self._path.productDirectory()
-
-    def fileName(self):
-        return self._fileName
-
-    def file(self):
-        return u'{}/{}'.format(self.directory(), self.fileName())
-
-    def hasFile(self):
-        return lxBasic.isOsExist(self.file())
-
-    def developFile(self):
-        return u'{}/{}'.format(self.developDirectory(), self.fileName())
-
-    def hasDevelopFile(self):
-        return lxBasic.isOsExist(self.developFile())
-
-    def productFile(self):
-        return u'{}/{}'.format(self.productDirectory(), self.fileName())
-
-    def hasProductFile(self):
-        return lxBasic.isOsExist(self.productFile())
-
-    def raw(self):
-        pass
-
-    def __str__(self):
-        return self._toStr(self.raw())
+    def _strDatum(self):
+        return lxBasic.orderedDict(
+            [
+                (self.Attr_Key_Active, self.server),
+                (self.Attr_Key_Server, self.server),
+                (self.Attr_Key_Local, self.local),
+                (self.Attr_Key_Develop, self.develop),
+                (self.Attr_Key_Product, self.product)
+            ]
+        )
 
 
-class _AbcJsonFile(_AbcFile):
-    def _initAbcJsonFile(self, pathArgs, fileBasename):
-        self._initAbcFile(pathArgs, fileBasename, '.json')
-
-    def createDevelopFile(self):
-        lxBasic.writeOsJson(self.DefaultRaw, self.file())
-
-    def raw(self):
-        if self.hasFile():
-            return lxBasic.readOsJson(self.file())
-        return self.DefaultRaw
-
-
-class _AbcConfig(_AbcJsonFile):
-    def _initAbcConfig(self, *args):
-        self._initAbcJsonFile(args, 'config')
-
-    def addVersion(self, version):
-        pass
-
-
-class _AbcModule(_AbcJsonFile):
-    def _initAbcModule(self, *args):
-        self._initAbcJsonFile(args, 'module')
-
-
-class ExeSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
+class BinSubRoot(_AbcPath):
+    ROOT_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_Exe)
-
-
-class CodeModuleSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
-
-    def __init__(self):
-        self._initAbcPath(self.Folder_Module)
+        self._initAbcPath(self.Folder_Bin)
 
 
 class PythonModuleBranch(_AbcPath):
-    ROOT_CLS = CodeModuleSubRoot
+    ROOT_CLS = Root
 
     def __init__(self, *args):
         self._initAbcPath(self.Folder_Python, *args)
 
+    def _overrideFormatString(self):
+        self._formatStringDic = {
+            self.Attr_Key_Active: u'{self.root.active}/resource/module',
+            self.Attr_Key_Server: u'{self.root.server}/resource/module',
+            self.Attr_Key_Local: u'{self.root.local}/resource/module',
+            self.Attr_Key_Develop: u'{self.root.develop}/resource/module',
+            self.Attr_Key_Product: u'{self.root.product}/resource/module'
+        }
 
-class CodeProductSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
+
+class WorkspaceModuleRoot(_AbcPath):
+    ROOT_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_Product)
+        self._initAbcPath(self.Folder_Workspace)
+
+        self._overrideFormatString()
+
+    def _overrideFormatString(self):
+        self._formatStringDic = {
+            self.Attr_Key_Active: u'{self.root.active}/workspace/module',
+            self.Attr_Key_Server: u'{self.root.server}/workspace/module',
+            self.Attr_Key_Local: u'{self.root.local}/workspace/module',
+            self.Attr_Key_Develop: u'{self.root.develop}/workspace/module',
+            self.Attr_Key_Product: u'{self.root.product}/workspace/module'
+        }
 
 
-class PythonProductBranch(_AbcPath):
-    ROOT_CLS = CodeProductSubRoot
+class WorkspaceModulePath(_AbcPath):
+    ROOT_CLS = WorkspaceModuleRoot
 
     def __init__(self, *args):
-        self._initAbcPath(self.Folder_Python, *args)
-
-
-class PythonProductCompileBranch(_AbcPath):
-    ROOT_CLS = CodeProductSubRoot
-
-    def __init__(self, *args):
-        self._initAbcPath(self.Folder_Python, self.Folder_Compile, *args)
+        self._initAbcPath(*args)
 
 
 class IconSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
+    ROOT_CLS = Root
 
     def __init__(self):
         self._initAbcPath(self.Folder_Icon)
 
 
-class PlugSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
-
-    def __init__(self):
-        self._initAbcPath(self.Folder_Plug)
-
-
-class _AbcAppPlugBranch(_AbcPath):
-    ROOT_CLS = PlugSubRoot
-    AppName = None
-
-    def __init__(self, *args):
-        self._initAbcAppPlugBranch(*args)
-
-    def _initAbcAppPlugBranch(self, *args):
-        self._initAbcPath(self.AppName, *args)
-
-
-class PlugMayaBranch(_AbcAppPlugBranch):
-    AppName = Lynxi_App_Maya
-    def __init__(self, *args):
-        self._initMayaPlugRoot(*args)
-
-    def _initMayaPlugRoot(self, *args):
-        self._initAbcAppPlugBranch(*args)
-
-
-class _AbcAppPlugConfig(_AbcConfig):
-    PATH_CLS = None
-    DefaultRaw = {
-        Basic.Key_Enable: True,
-        Basic.Key_Version: [],
-        Basic.Key_Plug_Load_Name: [],
-        Basic.Key_Plug_Module_Name: None
-    }
-    AppName = None
-
-    def _initAbcAppPlugConfig(self, appVersion, plugName):
-        self._appName = self.AppName
-        self._appVersion = appVersion
-        self._plugName = plugName
-
-        self._initAbcConfig(self.appVersion(), self.plugName())
-
-    def appName(self):
-        return self._appName
-
-    def appVersion(self):
-        return self._appVersion
-
-    def plugName(self):
-        return self._plugName
-
-    def moduleName(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Plug_Module_Name, False)
-        return self.plugName()
-
-    def enable(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Enable, False)
-        return False
-
-    def versions(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Version, [])
-        return []
-
-    def loadNames(self):
-        if self.raw():
-            return self.raw().get(self.Key_Plug_Load_Name, [])
-        return []
-
-
-class MayaPlugConfig(_AbcAppPlugConfig):
-    PATH_CLS = PlugMayaBranch
-    AppName = Lynxi_App_Maya
-    def __init__(self, appVersion, plugName):
-        self._initMayaPlugConfig(appVersion, plugName)
-
-    def _initMayaPlugConfig(self, appVersion, plugName):
-        self._initAbcAppPlugConfig(appVersion, plugName)
-
-
-class MayaSharePlugConfig(_AbcAppPlugConfig):
-    PATH_CLS = PlugMayaBranch
-    AppName = Lynxi_App_Maya
-    def __init__(self, appVersion, plugName):
-        self._initMayaSharePlugConfig(appVersion, plugName)
-
-    def _initMayaSharePlugConfig(self, appVersion, plugName):
-        self._appName = self.AppName
-        self._appVersion = appVersion
-        self._plugName = plugName
-
-        self._initAbcConfig(self.Folder_Share, self.plugName())
-
-
-class _AbcAppPlug(Basic):
-    APP_PLUG_CONFIG_CLS = None
-
-    def _initAbcAppPlug(self, appVersion, plugName, plugVersion):
-        self._plugConfig = self.APP_PLUG_CONFIG_CLS(appVersion, plugName)
-
-        self._plugVersion = plugVersion
-
-    def plugConfig(self):
-        return self._plugConfig
-
-    def appName(self):
-        return self.plugConfig().appName()
-
-    def appVersion(self):
-        return self.plugConfig().appVersion()
-
-    def plugName(self):
-        return self.plugConfig().plugName()
-    
-    def plugVersion(self):
-        return self._plugVersion
-
-    def serverDirectory(self):
-        return u'{}/{}'.format(self._plugConfig.serverDirectory(), self._plugVersion)
-
-    def localDirectory(self):
-        return u'{}/{}'.format(self._plugConfig.localDirectory(), self._plugVersion)
-
-    def createServerTimestamp(self):
-        self._createTimestampMethod(
-            self.serverSourcePath(), self.serverTimestampFile()
-        )
-
-    def createLocalTimestamp(self):
-        self._createTimestampMethod(
-            self.localSourcePath(), self.localTimestampFile()
-        )
-
-    def serverTimestampFile(self):
-        return u'{}/timestamp.json'.format(
-            self.serverDirectory()
-        )
-
-    def localTimestampFile(self):
-        return u'{}/timestamp.json'.format(
-            self.localDirectory()
-        )
-
-    def serverTimestampDatum(self):
-        if lxBasic.isOsExist(self.serverTimestampFile()) is False:
-            self.createServerTimestamp()
-        return lxBasic.readOsJson(self.serverTimestampFile()) or {}
-
-    def localTimestampDatum(self):
-        if lxBasic.isOsExist(self.localTimestampFile()) is False:
-            self.createLocalTimestamp()
-        return lxBasic.readOsJson(self.localTimestampFile()) or {}
-
-    def environFile(self):
-        return u'{}/environ.json'.format(
-            self.serverDirectory()
-        )
-
-    def environDatum(self):
-        return lxBasic.readOsJson(self.environFile()) or []
-
-    def toAppEnvironString(self):
-        if self.environDatum():
-            return '\r\n'.join([i.format(**self.dict())for i in self.environDatum()])
-
-    def sourceDirectory(self):
-        return '{}/source'.format(self.serverDirectory())
-
-    def serverSourceDirectory(self):
-        return '{}/source'.format(self.serverDirectory())
-
-    def localSourceDirectory(self):
-        return '{}/source'.format(self.localDirectory())
-
-    def dict(self):
-        return {
-            self.Key_Plug_Name: self.plugConfig().plugName(),
-            self.Key_Plug_Version: self.plugVersion(),
-            self.Key_Plug_Source_Path: self.sourceDirectory()
-        }
-
-    def _getChangedSourceFiles(self):
-        return self._getChangedFileMethod(
-            self.serverTimestampDatum(), self.localTimestampDatum()
-        )
-
-    def localizationSource(self):
-        changedFileLis = self._getChangedSourceFiles()
-        if changedFileLis:
-            for relativeOsFile in changedFileLis:
-                sourceFile = self.serverSourceDirectory() + relativeOsFile
-                targetFile = self.localSourceDirectory() + relativeOsFile
-
-                lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
-
-                traceMessage = u'localization Plug "{}" : "{}" > "{}"'.format(self.plugName(), sourceFile, targetFile)
-                Message().traceResult(traceMessage)
-
-                lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
-        else:
-            traceMessage = u'Plug "{}" is "Non - Changed"'.format(self.plugName())
-            Message().traceResult(traceMessage)
-
-    def addPath(self):
-        env.PATH += self.sourceDirectory()
-
-
-class MayaPlug(_AbcAppPlug):
-    RESOURCE_CONFIG_CLS = MayaPlugConfig
-
-    def __init__(self, appVersion, plugName, plugVersion):
-        self._initMayaPlug(
-            appVersion, plugName, plugVersion
-        )
-    
-    def _initMayaPlug(self, appVersion, plugName, plugVersion):
-        self._initAbcAppPlug(
-            appVersion, plugName, plugVersion
-        )
-
-    def moduleName(self):
-        return self.plugConfig().moduleName()
-
-    def moduleFile(self):
-        return u'{}/module.json'.format(
-            self.serverDirectory()
-        )
-
-    def moduleDatum(self):
-        return lxBasic.readOsJson(self.moduleFile()) or []
-
-    def dict(self):
-        return {
-            self.Key_Plug_Name: self.plugConfig().plugName(),
-            self.Key_Plug_Module_Name: self.plugConfig().moduleName(),
-            self.Key_Plug_Version: self.plugVersion(),
-            self.Key_Plug_Source_Path: self.sourceDirectory()
-        }
-
-    def appModuleDatum(self):
-        if self.moduleDatum():
-            return '\r\n'.join([i.format(**self.dict())for i in self.moduleDatum()])
-
-    def appModuleFile(self):
-        return '{}/{}.mod'.format(lxBasic.getMayaAppOsModPath(self.appVersion()), self.moduleName())
-
-    def pushModule(self):
-        origDatum = lxBasic.readOsData(self.appModuleFile())
-        raw = self.appModuleDatum()
-        if origDatum != raw:
-            lxBasic.writeOsData(
-                raw, self.appModuleFile()
-            )
-            traceMessage = u'Plug "{}" Update Module : "{}" '.format(self.plugName(), self.appModuleFile())
-            Message().traceResult(traceMessage)
-        else:
-            traceMessage = u'Plug "{}" Module is "Non - Changed"'.format(self.plugName())
-            Message().traceResult(traceMessage)
-
-
-class MayaSharePlug(MayaPlug):
-    RESOURCE_CONFIG_CLS = MayaSharePlugConfig
-
-    def __init__(self, appVersion, plugName, plugVersion):
-        self._initMayaPlug(
-            appVersion, plugName, plugVersion
-        )
-
-
-class PackageSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
-
-    def __init__(self):
-        self._initAbcPath(self.Folder_Package)
-
-
-class PythonPackageBranch(_AbcPath):
-    ROOT_CLS = PackageSubRoot
-
-    def __init__(self, *args):
-        self._initAbcPath(self.Folder_Python, *args)
-
-
-class _AbcPythonResourceConfig(_AbcConfig):
-    PATH_CLS = None
-    DefaultRaw = {
-        Basic.Key_Enable: True,
-        Basic.Key_Version: [],
-   }
-    def _initAbcPythonResourceConfig(self, pythonVersion, *args):
-        self._pythonVersion = pythonVersion
-        self._initAbcConfig(pythonVersion, *args)
-
-    def pythonVersion(self):
-        return self._pythonVersion
-
-    def enable(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Enable, False)
-        return False
-
-    def versions(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Version, [])
-        return []
-
-
-class _AbcPythonModuleConfig(_AbcPythonResourceConfig):
-    PATH_CLS = None
-    DefaultRaw = {
-        Basic.Key_Enable: True,
-        Basic.Key_Version: [],
-        Basic.Key_Python_Import_Name: None,
-        Basic.Key_Python_Package: [],
-        Basic.Key_Python_Module: []
-    }
-    def _initAbcPythonModuleConfig(self, pythonVersion, *args):
-        self._moduleName = args[-1]
-        args_ = list(args[:-1])
-        args_.append(self._moduleName.lower())
-        self._initAbcPythonResourceConfig(pythonVersion, *args_)
-
-    def moduleName(self):
-        return self._moduleName
-
-
-class PythonShareModuleConfig(_AbcPythonModuleConfig):
-    PATH_CLS = PythonModuleBranch
-    def __init__(self, pythonVersion, moduleName):
-        self._initPythonShareModuleConfig(pythonVersion, moduleName)
-
-    def _initPythonShareModuleConfig(self, pythonVersion, moduleName):
-        self._initAbcPythonModuleConfig(
-            pythonVersion,
-            self.App_Share,
-            moduleName
-        )
-
-
-class _AbcPythonPackageConfig(_AbcPythonResourceConfig):
-    PATH_CLS = None
-    DefaultRaw = {
-        Basic.Key_Enable: True,
-        Basic.Key_Version: [],
-        Basic.Key_Python_Import_Name: None,
-        Basic.Key_Python_Package: []
-    }
-
-    def _initAbcPythonPackageConfig(self, pythonVersion, *args):
-        self._packageName = args[-1]
-        args_ = list(args[:-1])
-        args_.append(self._packageName.lower())
-        self._initAbcPythonResourceConfig(pythonVersion, *args_)
-
-    def packageName(self):
-        return self._packageName
-
-
-class PythonSharePackageConfig(_AbcPythonPackageConfig):
-    PATH_CLS = PythonPackageBranch
-
-    def __init__(self, pythonVersion, packageName):
-        self._initPythonSharePackageConfig(pythonVersion, packageName)
-
-    def _initPythonSharePackageConfig(self, pythonVersion, packageName):
-        self._initAbcPythonPackageConfig(
-            pythonVersion,
-            self.App_Share,
-            packageName
-        )
-
-
-class _AbcPythonAppPackageConfig(_AbcPythonPackageConfig):
-    def _initAbcPythonAppPackageConfig(self, pythonVersion, appName, appVersion, packageName):
-        self._initAbcPythonPackageConfig(pythonVersion, packageName)
-
-        self._appName = appName
-        self._appVersion = appVersion
-
-        self._initAbcConfig(
-            self.pythonVersion(),
-            appName, appVersion,
-            self.packageName().lower()
-        )
-
-    def appName(self):
-        return self._appName
-
-    def appVersion(self):
-        return self._appVersion
-
-
-class PythonMayaPackageConfig(_AbcPythonAppPackageConfig):
-    PATH_CLS = PythonPackageBranch
-
-    def __init__(self, pythonVersion, appVersion, packageName):
-        self._initPythonMayaPackageConfig(pythonVersion, appVersion, packageName)
-
-    def _initPythonMayaPackageConfig(self, pythonVersion, appVersion, packageName):
-        self._initAbcPythonAppPackageConfig(
-            pythonVersion,
-            Lynxi_App_Maya,
-            appVersion, packageName
-        )
-
-
-class _AbcPythonPackage(Basic):
-    RESOURCE_CONFIG_CLS = None
-    def _initAbcPythonPackage(self, pythonVersion, packageName, packageVersion):
-        self._packageConfig = self.RESOURCE_CONFIG_CLS(pythonVersion, packageName)
-
-        self._packageVersion = packageVersion
-
-    def packageConfig(self):
-        return self._packageConfig
-
-    def pythonVersion(self):
-        return self.packageConfig().pythonVersion()
-
-    def packageName(self):
-        return self.packageConfig().packageName()
-
-    def packageVersion(self):
-        return self._packageVersion
-
-    def directory(self):
-        return u'{}/{}'.format(self.packageConfig().directory(), self.packageVersion())
-
-    def serverDirectory(self):
-        return u'{}/{}'.format(self.packageConfig().serverDirectory(), self.packageVersion())
-
-    def localDirectory(self):
-        return u'{}/{}'.format(self.packageConfig().localDirectory(), self.packageVersion())
-
-    def developDirectory(self):
-        return u'{}/{}'.format(self.packageConfig().developDirectory(), self.packageVersion())
-
-    def productDirectory(self):
-        return u'{}/{}'.format(self.packageConfig().productDirectory(), self.packageVersion())
-
-    def sourceDirectory(self):
-        return u'{}/{}'.format(self.directory(), self.Folder_Source)
-
-    def hasSource(self):
-        return lxBasic.isOsExist(self.sourceDirectory())
-
-    def serverSourceDirectory(self):
-        return u'{}/{}'.format(self.serverDirectory(), self.Folder_Source)
-
-    def hasServerSource(self):
-        return lxBasic.isOsExist(self.serverDirectory())
-
-    def localSourceDirectory(self):
-        return u'{}/{}'.format(self.localDirectory(), self.Folder_Source)
-
-    def developSourceDirectory(self):
-        return u'{}/{}'.format(self.developDirectory(), self.Folder_Source)
-
-    def hasDevelopSource(self):
-        return lxBasic.isOsExist(self.developSourceDirectory())
-
-    def productSourceDirectory(self):
-        return u'{}/{}'.format(self.productDirectory(), self.Folder_Source)
-
-    def hasProductSource(self):
-        return lxBasic.isOsExist(self.productSourceDirectory())
-
-    def serverTimestampFile(self):
-        return u'{}/timestamp.json'.format(
-            self.serverDirectory()
-        )
-
-    def createServerTimestamp(self):
-        self._createTimestampMethod(
-            self.serverSourceDirectory(), self.serverTimestampFile()
-        )
-
-    def serverTimestampDatum(self):
-        if lxBasic.isOsExist(self.serverTimestampFile()) is False:
-            self.createServerTimestamp()
-        return lxBasic.readOsJson(self.serverTimestampFile()) or {}
-
-    def localTimestampFile(self):
-        return u'{}/timestamp.json'.format(
-            self.localDirectory()
-        )
-
-    def createLocalTimestamp(self):
-        self._createTimestampMethod(
-            self.localSourceDirectory(), self.localTimestampFile()
-        )
-
-    def localTimestampDatum(self):
-        if lxBasic.isOsExist(self.localTimestampFile()) is False:
-            self.createLocalTimestamp()
-        return lxBasic.readOsJson(self.localTimestampFile()) or {}
-
-    def _getChangedSourceFiles(self):
-        return self._getChangedFileMethod(
-            self.serverTimestampDatum(), self.localTimestampDatum()
-        )
-
-    def dict(self):
-        return lxBasic.orderedDict(
-            [
-                (self.Key_Python_Version, self.pythonVersion()),
-                (self.Key_Package_Name, self.packageName()),
-                (self.Key_Package_Version, self.packageVersion()),
-                (self.Key_Package_Source_Path, self.sourceDirectory())
-            ]
-        )
-
-    def addPath(self):
-        env.PATH += self.sourceDirectory()
-
-    def localizationSource(self):
-        changedFileLis = self._getChangedSourceFiles()
-        if changedFileLis:
-            for relativeOsFile in changedFileLis:
-                sourceFile = self.serverSourceDirectory() + relativeOsFile
-                targetFile = self.localSourceDirectory() + relativeOsFile
-
-                lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
-
-                traceMessage = u'Localization Package "{}" : "{}" > "{}"'.format(self.packageName(), sourceFile, targetFile)
-                Message().traceResult(traceMessage)
-
-                lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
-        else:
-            traceMessage = u'Package "{}"  is "Non - Changed"'.format(self.packageName())
-            Message().traceResult(traceMessage)
-
-
-class PythonSharePackage(_AbcPythonPackage):
-    RESOURCE_CONFIG_CLS = PythonSharePackageConfig
-    def __init__(self, pythonVersion, packageName, packageVersion):
-        self._initAbcPythonPackage(pythonVersion, packageName, packageVersion)
-
-
-class _AbcPythonAppPackage(_AbcPythonPackage):
-    RESOURCE_CONFIG_CLS = None
-
-    def _initAbcPythonAppPackage(self, pythonVersion, appName, appVersion, packageName, packageVersion):
-        self._packageConfig = self.RESOURCE_CONFIG_CLS(pythonVersion, appVersion, packageName)
-
-        self._packageVersion = packageVersion
-
-        self._appName = appName
-        self._appVersion = appVersion
-
-    def appName(self):
-        return self._appName
-
-    def appVersion(self):
-        return self._appVersion
-
-
-class PythonMayaPackage(_AbcPythonAppPackage):
-    RESOURCE_CONFIG_CLS = PythonMayaPackageConfig
-    def __init__(self, pythonVersion, appVersion, packageName, packageVersion):
-        self._initAbcPythonAppPackage(
-            pythonVersion,
-            Lynxi_App_Maya, appVersion,
-            packageName, packageVersion
-        )
-
-
 class UserSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
+    ROOT_CLS = Root
 
     def __init__(self):
         self._initAbcPath(self.Folder_User)
@@ -1364,30 +1008,167 @@ class UserPreset(Basic):
     def __init__(self):
         self._root = UserBranch(lxBasic.getOsUser())
 
-    def directory(self):
-        return self._root.localDirectory()
+    def _activeDirectory(self):
+        return self._root._localDirectory()
 
     def uiDirectory(self):
-        return u'{}/{}'.format(self.directory(), self.Folder_Ui)
+        return u'{}/{}'.format(self._activeDirectory(), self.Folder_Ui)
 
     def renderDirectory(self):
-        return u'{}/{}'.format(self.directory(), self.Folder_Render)
+        return u'{}/{}'.format(self._activeDirectory(), self.Folder_Render)
 
     def projectConfigFile(self):
-        return u'{}/{}{}'.format(self.directory(), self.Folder_Project, self.Ext_Json)
+        return u'{}/{}{}'.format(self._activeDirectory(), self.Folder_Project, self.Ext_Json)
 
     def appProjectFile(self, appName, appVersion):
-        return u'{}/{}/{}.{}{}'.format(self.directory(), self.Folder_Project, appName, appVersion, self.Ext_Json)
+        return u'{}/{}/{}.{}{}'.format(self._activeDirectory(), self.Folder_Project, appName, appVersion, self.Ext_Json)
 
     def uiFilterHistoryFile(self):
         return u'{}/{}.history{}'.format(self.uiDirectory(), self.Folder_Filter, self.Ext_Json)
 
 
 class LogSubRoot(_AbcPath):
-    ROOT_CLS = LynxiRoot
+    ROOT_CLS = Root
 
     def __init__(self):
         self._initAbcPath(self.Folder_Log)
+
+
+class _AbcFile(Basic):
+    PATH_CLS = None
+    PATH_WORKSPACE_CLS = None
+
+    FILE_CLS = None
+
+    def _initAbcFile(self, pathArgs, fileBasename, ext):
+        self._formatStringDic = {
+            self.Attr_Key_Active: u'{self.path.active}/{self.basename}',
+            self.Attr_Key_Server: u'{self.path.server}/{self.basename}',
+            self.Attr_Key_Local: u'{self.path.local}/{self.basename}',
+            self.Attr_Key_Develop: u'{self.path.develop}/{self.basename}',
+            self.Attr_Key_Product: u'{self.path.product}/{self.basename}'
+        }
+
+        self._raw = {}
+
+        self._path = self.PATH_CLS(*pathArgs)
+        self._workspacePath = self.PATH_WORKSPACE_CLS(*pathArgs)
+
+        self._baseName = u'{}{}'.format(fileBasename, ext)
+
+    @property
+    def root(self):
+        return self._path.root
+
+    @property
+    def path(self):
+        return self._path
+
+    @property
+    def workspacepath(self):
+        return self._workspacePath
+
+    def _activeDirectory(self):
+        return self._path._activeDirectory()
+
+    def _serverDirectory(self):
+        return self._path._serverDirectory()
+
+    def _localDirectory(self):
+        return self._path._localDirectory()
+
+    def _developDirectory(self):
+        return self._path._developDirectory()
+
+    def _productDirectory(self):
+        return self._path._productDirectory()
+
+    def _workspaceDirectory(self):
+        return self._workspacePath._developDirectory()
+
+    def subPath(self):
+        return self._path.subPath()
+
+    def subName(self):
+        return self._path.subName()
+
+    def baseName(self):
+        return self._baseName
+
+    @property
+    def basename(self):
+        return self.baseName()
+
+    def file(self):
+        return self._formatStringDic[self.Attr_Key_Active].format(**self._formatDict())
+
+    def hasFile(self):
+        return lxBasic.isOsExist(self.file())
+
+    def raw(self):
+        return self._raw
+
+    def cacheRaw(self):
+        if self.hasFile():
+            return self.FILE_CLS(self.file()).read()
+        return {}
+
+    def severFile(self):
+        return self._formatStringDic[self.Attr_Key_Server].format(**self._formatDict())
+
+    def hasServerFile(self):
+        return lxBasic.isOsExist(self.severFile())
+
+    def localFile(self):
+        return self._formatStringDic[self.Attr_Key_Local].format(**self._formatDict())
+
+    def hasLocalFile(self):
+        return lxBasic.isOsExist(self.localFile())
+
+    def developFile(self):
+        return self._formatStringDic[self.Attr_Key_Develop].format(**self._formatDict())
+
+    def hasDevelopFile(self):
+        return lxBasic.isOsExist(self.developFile())
+
+    def productFile(self):
+        return self._formatStringDic[self.Attr_Key_Product].format(**self._formatDict())
+
+    def hasProductFile(self):
+        return lxBasic.isOsExist(self.productFile())
+
+    def _formatDict(self):
+        return {
+            self.Attr_Key_Self: self,
+        }
+
+
+class _AbcConfigFile(_AbcFile):
+    FILE_CLS = lxBasic.JsonFile
+
+    def _initAbcConfigFile(self, *args):
+        self._initAbcFile(args, 'config', '.json')
+
+        self._overrideFormatString()
+
+    def _overrideFormatString(self):
+        formatDict = {
+            self.Attr_Key_Active: u'{self.root.active}/{self.subname}',
+            self.Attr_Key_Server: u'{self.root.server}/{self.subname}',
+            self.Attr_Key_Local: u'{self.root.local}/{self.subname}',
+            self.Attr_Key_Develop: u'{self.root.develop}/{self.subname}',
+            self.Attr_Key_Product: u'{self.root.product}/{self.subname}'
+        }
+        self.path._formatStringDic = formatDict
+        self.workspacepath._formatStringDic = formatDict
+
+
+class _AbcSchemeFile(_AbcFile):
+    FILE_CLS = lxBasic.JsonFile
+    PATH_WORKSPACE_CLS = WorkspaceModulePath
+
+    def _initAbcSchemeFile(self, schemeName):
+        self._initAbcFile((), '{}.scheme'.format(schemeName), '.json')
 
 
 class Log(Basic):
@@ -1396,17 +1177,17 @@ class Log(Basic):
 
     def exceptionFile(self):
         return u'{}/{}.exception.log'.format(
-            self._subRoot.serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
         )
 
     def errorFile(self):
         return u'{}/{}.error.log'.format(
-            self._subRoot.serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
         )
 
     def developFile(self):
         return u'{}/{}.develop.log'.format(
-            self._subRoot.serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
         )
 
     def addException(self, text):
@@ -1442,125 +1223,20 @@ class ToolkitSubRoot(_AbcPath):
         self._initAbcPath(self.Folder_Tool)
 
 
-class PythonModule(_AbcConfig):
-    PATH_CLS = PythonModuleBranch
-    DefaultRaw = {
-        Basic.Key_Python_Package: {},
-        Basic.Key_Version: [],
-        Basic.Key_Active: Basic.Version_Default,
-        Basic.Key_Python_Version: '2.7.x'
-    }
-    def __init__(self, moduleName):
-        self._initPythonModule(moduleName)
-
-    def _initPythonModule(self, moduleName):
-        self._initAbcConfig()
-
-        self._moduleName = moduleName
-
-    def _getPythonPackageLis(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Python_Package, {})
-        return {}
-
-    def developDirectory(self):
-        return self.path().developDirectory()
-
-    def productDirectory(self):
-        return self.productCompileDirectory()
-
-    def productCompileDirectory(self):
-        return u'{}/{}/{}/{}'.format(
-            PythonProductBranch().developDirectory(),
-            self.moduleName().lower(), self.active(), self.Folder_Compile
-        )
-
-    def productSourceDirectory(self):
-        return u'{}/{}/{}/{}'.format(
-            PythonProductBranch().developDirectory(),
-            self.moduleName().lower(), self.active(), self.Folder_Source
-        )
-
-    def moduleName(self):
-        return self._moduleName
-
-    def active(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Active, self.Version_Default)
-        return self.Version_Default
-
-    def versions(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Version, [])
-        return []
-
-    def pythonVersion(self):
-        if self.hasFile():
-            return self.raw().get(self.Key_Python_Version, '2.7.x')
-        return '2.7.x'
-
-    def _getRelativePyFileLis(self):
-        lis = []
-
-        osPath = '{}/{}'.format(self.developDirectory(), self.moduleName())
-
-        osFiles = lxBasic.getOsFiles(osPath)
-        if osFiles:
-            for osFile in osFiles:
-                if osFile.endswith('.py'):
-                    lis.append('/{}{}'.format(self.moduleName(), osFile[len(osPath):]))
-        return lis
-
-    def publishProduct(self):
-        relativeFileLis = self._getRelativePyFileLis()
-        if relativeFileLis:
-            import py_compile
-
-            developDirectory = self.developDirectory()
-
-            productPyDirectory = self.productSourceDirectory()
-            productPycDirectory = self.productCompileDirectory()
-            for relativeFile in relativeFileLis:
-                pyFile = developDirectory + relativeFile
-                py_compile.compile(pyFile)
-
-                pycFile = pyFile[:-3] + '.pyc'
-
-                productPyFile = productPyDirectory + pyFile[len(developDirectory):]
-                lxBasic.setOsFileCopy(pyFile, productPyFile)
-                Message().traceResult(
-                    u'{} > {}'.format(pyFile, productPyFile)
-                )
-
-                productPycFile = productPycDirectory + pycFile[len(developDirectory):]
-                lxBasic.setOsFileCopy(pycFile, productPycFile)
-                Message().traceResult(
-                    u'{} > {}'.format(pycFile, productPycFile)
-                )
-
-    def addDevelopPath(self):
-        env.PATH += self.developDirectory()
-
-    def addProductPath(self):
-        env.PATH += self.productDirectory()
-
-    def hashKey(self):
-        return u'{}/{}'.format(self.developDirectory(), 'hash.json')
-
-
-class Lynxi_Module_Python(_AbcModule):
+class Lynxi_Scheme_Python(_AbcSchemeFile):
     PATH_CLS = PythonModuleBranch
 
-    Lynxi_Python_Module_Core = 'LxCore'
-    Lynxi_Python_Module_Database = 'LxDatabase'
-    Lynxi_Python_Module_Ui = 'LxUi'
-    Lynxi_Python_Module_Interface = 'LxInterface'
+    Python_Module_Core = 'LxCore'
+    Python_Module_Command = 'LxCommand'
+    Python_Module_Database = 'LxDatabase'
+    Python_Module_Ui = 'LxUi'
+    Python_Module_Interface = 'LxInterface'
 
-    Lynxi_Python_Module_Maya = 'LxMaya'
-    Lynxi_Python_Module_Deadline = 'LxDeadline'
+    Python_Module_Maya = 'LxMaya'
+    Python_Module_Deadline = 'LxDeadline'
 
-    Lynxi_Python_Module_Graph = 'LxGraph'
-    Lynxi_Python_Module_Material = 'LxMaterial'
+    Python_Module_Graph = 'LxGraph'
+    Python_Module_Material = 'LxMaterial'
 
     Lynxi_Python_Module_Basic_Lis = [
         'LxCore.config.appConfig',
@@ -1569,10 +1245,17 @@ class Lynxi_Module_Python(_AbcModule):
         'LxCore.method._dbMethod',
         'LxCore.method._uiMethod',
         'LxCore.method._productMethod',
-
+        #
         'LxCore.lxBasic',
         'LxCore.lxConfigure',
+        'LxCore.definition.abstract',
+        'LxCore.definition.path',
+        'LxCore.definition.raw',
+        'LxCore.definition.bin',
+        'LxCore.definition.resource',
+        'LxCore.definition.preset',
         # Ui
+        'LxUi.uiConfigure',
         'LxUi.command.uiHtml',
         'LxUi.qt.qtCore',
         'LxUi.qt.qtDefinition',
@@ -1587,10 +1270,10 @@ class Lynxi_Module_Python(_AbcModule):
         'LxUi.qt.qtWidgets',
         'LxUi.qt.qtWidgets_',
         'LxUi.qt.qtChart_',
+        'LxUi.qt.qtLog',
+        'LxUi.qt.qtProgress',
+        'LxUi.qt.qtTip',
         # Behind Ui
-        'LxCore.lxLog',
-        'LxCore.lxProgress',
-        'LxCore.lxTip',
         'LxCore.config.appCfg',
         'LxCore.config.basicCfg',
         'LxCore.config.assetCfg',
@@ -1623,89 +1306,54 @@ class Lynxi_Module_Python(_AbcModule):
 
     ]
 
-    DefaultRaw = {
-        Basic.Key_Active: Basic.Version_Default,
-        Basic.Key_Python_Version: Basic.Value_Python_Version_Default,
-        Basic.Key_Python_Module: {
-            Lynxi_Python_Module_Core: {
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default,
-            },
-            Lynxi_Python_Module_Ui: {
-                Basic.Key_Enable: True,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default,
-                Basic.Key_Python_Package: {
-                    Basic.Python_Package_PyQt: {
-                        Basic.Key_Package_App: Basic.App_Share,
-                        Basic.Key_Active: "5.3.2"
-                    }
-                },
-                Basic.Key_Python_Module: {
-                    Lynxi_Python_Module_Core: {
-                        Basic.Key_Active: Basic.Version_Active
-                    }
-                }
-            },
-            Lynxi_Python_Module_Interface: {
-                Basic.Key_Enable: True,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default,
-                Basic.Key_Python_Module: {
-                    Lynxi_Python_Module_Ui: {
-                        Basic.Key_Active: Basic.Version_Active
-                    }
-                }
-            },
-            Lynxi_Python_Module_Database: {
-                Basic.Key_Enable: True,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default
-            },
-            Lynxi_Python_Module_Deadline: {
-                Basic.Key_Enable: True,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default
-            },
-            Lynxi_Python_Module_Graph: {
-                Basic.Key_Enable: False,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default
-            },
+    def __init__(self, schemeName='default'):
+        self._initAbcSchemeFile(schemeName)
 
-            Lynxi_Python_Module_Material: {
-                Basic.Key_Enable: False,
-                Basic.Key_Module_App: Basic.App_Share,
-                Basic.Key_Active: Basic.Version_Default
+        self._defRaw = {
+            self.Key_Python_Version: self.Python_Version_27,
+            self.Key_Active: self.Version_Default,
+            self.Key_Dependent: {
             },
-
-            Lynxi_Python_Module_Maya: {
-                Basic.Key_Enable: True,
-                Basic.Key_Module_App: Basic.App_Maya,
-                Basic.Key_Active: Basic.Version_Default
+            self.Key_Environ: {
             }
         }
-    }
 
-    def __init__(self):
-        self._initAbcModule()
+    @classmethod
+    def languageVersion(cls):
+        return cls.Python_Version_27
+
+    def _dependentDic(self):
+        if self.hasFile():
+            return self.raw().get(self.Key_Dependent, {})
+        return {}
+
+    def _pythonModuleDic(self):
+        if self._dependentDic():
+            return self._dependentDic().get(self.Key_Python_Module, {})
+        return {}
+
+    def _setModulesCreateWorkareaDirectory(self):
+        pass
+
+    def _setModulesAddDevelopWorkareaPath(self):
+        pass
+
+    def _addPythonPackagePath(self):
+        pass
+
+    def _addPythonModulePath(self):
+        pass
+
+    def createDefaultSchemeFile(self):
+        pass
 
     def publishProduct(self):
-        moduleLis = [
-            self.Lynxi_Python_Module_Core,
-            self.Lynxi_Python_Module_Database,
-            self.Lynxi_Python_Module_Ui,
-            self.Lynxi_Python_Module_Interface,
-            self.Lynxi_Python_Module_Maya,
-            self.Lynxi_Python_Module_Deadline
-        ]
-        for i in moduleLis:
-            pythonModule = PythonModule(i)
-            pythonModule.publishProduct()
+        pass
 
-    def getPythonModules(self, osPath, moduleName):
+    @classmethod
+    def _getPythonModuleLisMethod(cls, osPath, moduleName):
 
-        if self.isDevelop():
+        if cls.isDevelop():
             ext = '.py'
         else:
             ext = '.pyc'
@@ -1740,13 +1388,13 @@ class Lynxi_Module_Python(_AbcModule):
         return lis
 
     @staticmethod
-    def setPythonModuleUpdate_(modulePaths):
+    def _pythonModuleReloadMethod(modulePaths):
         if modulePaths:
-            from LxCore import lxProgress
+            from LxUi.qt import qtProgress  # import in Method
             # View Progress
             progressExplain = '''Update Python Module(s)'''
             maxValue = len(modulePaths)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for i in modulePaths:
                 modulePath = '.'.join(i.split('.')[:-1])
                 moduleName = i.split('.')[-1]
@@ -1766,24 +1414,24 @@ class Lynxi_Module_Python(_AbcModule):
         if lxBasic.isMayaApp():
             moduleLis += cls.Lynxi_Python_Module_Maya_Lis
 
-        cls.setPythonModuleUpdate_(moduleLis)
+        cls._pythonModuleReloadMethod(moduleLis)
 
     def reloadAll(self):
         import pkgutil
 
         moduleLis = [
-            self.Lynxi_Python_Module_Core,
-            self.Lynxi_Python_Module_Database,
-            self.Lynxi_Python_Module_Ui,
-            self.Lynxi_Python_Module_Interface,
-            self.Lynxi_Python_Module_Maya,
-            self.Lynxi_Python_Module_Deadline
+            self.Python_Module_Core,
+            self.Python_Module_Database,
+            self.Python_Module_Ui,
+            self.Python_Module_Interface,
+            self.Python_Module_Maya,
+            self.Python_Module_Deadline
         ]
         for i in moduleLis:
             loader = pkgutil.find_loader(i)
             if loader:
                 osPath = loader.filename.replace('\\', '/')
-                self.setPythonModuleUpdate_(self.getPythonModules(osPath, i))
+                self._pythonModuleReloadMethod(self._getPythonModuleLisMethod(osPath, i))
 
     def serverVersion(self):
         if lxBasic.isOsExistsFile(self.file()):
@@ -1804,7 +1452,7 @@ class Lynxi_Module_Python(_AbcModule):
         )
 
 
-class Lynxi_Icon(_AbcConfig):
+class Lynxi_Icon(_AbcConfigFile):
     pass
 
 
@@ -1832,7 +1480,7 @@ class Ui(Basic):
 
     @staticmethod
     def closeAll():
-        from LxUi.qt import qtCore
+        from LxUi.qt import qtCore  # import in Method
         reload(qtCore)
         #
         w = qtCore.getAppWindow()
@@ -1862,74 +1510,3 @@ class Ui(Basic):
 class Product(Basic):
     def __init__(self):
         pass
-
-
-class _AppBasic(Basic):
-    AppName = None
-    PLUG_APP_BRANCH_CLS = None
-    APP_PLUG_CONFIG_CLS = None
-
-    def _initAppBasic(self, appVersion):
-        self._appName = self.AppName
-        self._appVersion = appVersion
-
-    def appName(self):
-        return self._appName
-
-    def appVersion(self):
-        return self._appVersion
-
-    def plugConfigs(self):
-        lis = []
-        osPath = self.PLUG_APP_BRANCH_CLS(self.appName(), self.appVersion()).serverDirectory()
-        if lxBasic.isOsExist(osPath):
-            osFileNameLis = lxBasic.getOsFileBasenameLisByPath(osPath)
-            if osFileNameLis:
-                for osFileName in osFileNameLis:
-                    plugConfig = self.APP_PLUG_CONFIG_CLS(self._appVersion, osFileName)
-                    if plugConfig.hasFile():
-                        lis.append(plugConfig)
-        return lis
-
-    def plugDatumDic(self):
-        dic = lxBasic.orderedDict()
-        if self._appName != LynxiValue_Unspecified:
-            osPath = self.PLUG_APP_BRANCH_CLS(self._appVersion).serverDirectory()
-            if lxBasic.isOsExist(osPath):
-                osFileNameLis = lxBasic.getOsFileBasenameLisByPath(osPath)
-                if osFileNameLis:
-                    for osFileName in osFileNameLis:
-                        plugConfig = self.APP_PLUG_CONFIG_CLS(self._appVersion, osFileName)
-                        configFile = plugConfig.file()
-                        if lxBasic.isOsExist(configFile):
-                            if plugConfig.enable() is True:
-                                plugName = osFileName
-                                dic[plugName] = [
-                                    False,
-                                    u'插件预设',
-                                    [
-                                        [Key_Plug_Version, plugConfig.versions()],
-                                        [Lynxi_Key_Plug_Load_Names, tuple(plugConfig.loadNames())],
-                                        [Lynxi_Key_Plug_Load_Enable_Auto, False],
-                                        ['loadCondition', ()]
-                                    ]
-                                ]
-        return dic
-
-    def dict(self):
-        return {
-            self.Key_App_Name: self.appName(),
-            self.Key_App_Version: self.appVersion()
-        }
-
-
-class Maya(_AppBasic):
-    AppName = Lynxi_App_Maya
-
-    PLUG_APP_BRANCH_CLS = PlugMayaBranch
-    APP_PLUG_CONFIG_CLS = MayaPlugConfig
-    def __init__(self, appVersion):
-        self._initAppBasic(appVersion)
-
-    def environFile(self):
-        return lxBasic.getMayaAppsEnvFile(self._appVersion)

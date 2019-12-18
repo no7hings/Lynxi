@@ -14,7 +14,7 @@ def getMayaAppPresetVariantDic():
                     lis.append(nodeType)
         return lis
     #
-    mayaIconPath = lxConfigure.IconSubRoot().serverDirectory() + '/' + 'maya'
+    mayaIconPath = lxConfigure.IconSubRoot()._serverDirectory() + '/' + 'maya'
     dic = {
         'mayaApp':
             {'maIconNodeTypes': tuple(getMayaNodeIcons(mayaIconPath))}

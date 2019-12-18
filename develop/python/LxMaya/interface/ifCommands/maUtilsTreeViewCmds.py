@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
 #
 from LxCore.config import appCfg
 #
 from LxCore.preset.prod import scenePr
 #
-from LxUi.qt import qtWidgets_, qtWidgets
+from LxUi.qt import qtWidgets_, qtWidgets, qtProgress
 #
 #
 from LxMaya.interface.ifObjects import ifMaScTreeItem
@@ -141,7 +141,7 @@ def setListDirectory(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -262,7 +262,7 @@ def setListFile(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -478,7 +478,7 @@ def setListScMayaComposeCmdMain(
     if inData:
         explain = '''List Scene Compose'''
         maxValue = len(inData)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for k, v in inData.items():
             progressBar.updateProgress()
             #
@@ -541,7 +541,7 @@ def setListScCameraComposeCmdSub(
     if scCameraDatumLis:
         progressExplain = u'''List Scene Camera(s)'''
         maxValue = len(scCameraDatumLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for scCameraData in scCameraDatumLis:
             progressBar.updateProgress()
             setScCameraBranch(scCameraData)
@@ -689,7 +689,7 @@ def setListScAssetComposeCmdSub(
     if scAssetDatumLis:
         progressExplain = u'''List Scene Asset(s)'''
         maxValue = len(scAssetDatumLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for scAssetDatum in scAssetDatumLis:
             progressBar.updateProgress()
             setScAstBranch(scAssetDatum)

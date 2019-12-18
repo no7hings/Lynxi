@@ -1,0 +1,7 @@
+[
+	"+ {modulename} {plugversion} {plugpath}",
+	"MAYA_PLUG_IN_PATH +:= plug-ins",
+	"MAYA_SCRIPT_PATH +:= scripts",
+	"PYTHONPATH +:= scripts",
+	"XBMLANGPATH +:= icons"
+]

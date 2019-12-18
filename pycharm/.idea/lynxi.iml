@@ -5,10 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../develop/python" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../doc" />
-    <content url="file://$MODULE_DIR$/../plug/maya/share">
-      <excludeFolder url="file://$MODULE_DIR$/../plug/maya/share/lynxinode/1.0/source/plug-ins" />
-      <excludeFolder url="file://$MODULE_DIR$/../plug/maya/share/lynxinode/1.0/source/scripts" />
-    </content>
+    <content url="file://$MODULE_DIR$/../plug/maya/share" />
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup" />
     <content url="file://$MODULE_DIR$/../test" />

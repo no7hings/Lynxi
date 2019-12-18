@@ -1,7 +1,8 @@
 # coding=utf-8
 import os
 #
-from LxCore import lxBasic, lxConfigure, lxProgress, lxLog, lxTip
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtLog, qtProgress, qtTip
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -39,7 +40,7 @@ none = ''
 
 
 # Upload Model / Texture / Shader( Key Method )
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def astUnitModelUploadMainCmd(
         logWin,
         projectName,
@@ -69,7 +70,7 @@ def astUnitModelUploadMainCmd(
     )
     logWin.setLogFile(logTarget)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     #
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -188,7 +189,7 @@ def astUnitModelUploadMainCmd(
         timeTag
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -215,11 +216,11 @@ def astUnitSceneRenameCmd_(
         assetName, assetVariant, assetStage,
         renderer
 ):
-    lxLog.viewStartProcess(logWin, u'Rename Maya - Scene')
+    qtLog.viewStartProcess(logWin, u'Rename Maya - Scene')
     # View Progress
     progressExplain = u'''Rename Maya - Scene'''
     maxValue = 2
-    progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
     #
     usedObjects = []
     progressBar.updateProgress(u'''Rename Material' Node''')
@@ -247,9 +248,9 @@ def astUnitSceneRenameCmd_(
         # Rename AOV >>> 02
         maShdr.setRenameAovNodes(aovLis, assetName, assetVariant)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     #
-    lxTip.viewMessage(
+    qtTip.viewMessage(
         u'Rename Maya Scene',
         u'Complete'
     )
@@ -263,7 +264,7 @@ def astUnitSceneRefreshCmd_(
         renderer
 ):
     #
-    lxLog.viewStartProcess(logWin, 'Refresh Asset')
+    qtLog.viewStartProcess(logWin, 'Refresh Asset')
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     maUtils.setAttrStringDatumForce(astUnitModelProductGroup, appVariant.basicVariantAttrLabel, assetVariant)
@@ -313,16 +314,16 @@ def astUnitSceneRefreshCmd_(
         datAsset.getAovCompIndexesForce(assetSubIndex, cfxAovs)
         maUuid.setAttrUniqueIds(cfxAovs)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Clean Scene
 def astUnitSceneClearCmd(logWin):
-    lxLog.viewStartProcess(logWin, 'Clean Maya Scene')
+    qtLog.viewStartProcess(logWin, 'Clean Maya Scene')
     # View Progress
     progressExplain = '''Clean Maya Scene'''
     maxValue = 8
-    progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
     # Remove Reference >>> 01
     progressBar.updateProgress('''Clean Reference File(s)''')
     assetOp.setCleanReferenceFile()
@@ -348,9 +349,9 @@ def astUnitSceneClearCmd(logWin):
     progressBar.updateProgress('''Clean Unused Shader(s)''')
     assetOp.setUnusedShaderClear()
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     #
-    lxTip.viewMessage(
+    qtTip.viewMessage(
         u'Clean Maya Scene',
         u'Complete'
     )
@@ -366,11 +367,11 @@ def astUnitMeshRepairCmd_(
 ):
     meshObjects = datAsset.getAstMeshObjects(assetName, 0)
     # Main
-    lxLog.viewStartProcess(logWin, 'Repair Mesh')
+    qtLog.viewStartProcess(logWin, 'Repair Mesh')
     # View Progress
     progressExplain = '''Repair Mesh'''
     maxValue = 4 + [0, 3][repairTrans] + [0, 1][repairHistory] + [0, 1][repairUnlockNormal] + [0, 1][repairSoftNormal] + [0, 1][repairUv]
-    progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
     # Low Quality Display >>> 01
     progressBar.updateProgress('''Set Mesh's Low Quality Display''')
     [maUtils.setObjectDisplayMode(i) for i in meshObjects]
@@ -407,7 +408,7 @@ def astUnitMeshRepairCmd_(
     # Repair Mesh's Shape >>> 09
     progressBar.updateProgress('''Repair Mesh's Shape''')
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -418,11 +419,11 @@ def astUnitShaderRepairCmd_(
 ):
     meshObjects = datAsset.getAstMeshObjects(assetName, 0)
     # Main
-    lxLog.viewStartProcess(logWin, 'Repair Shader')
+    qtLog.viewStartProcess(logWin, 'Repair Shader')
     # View Progress
     progressExplain = '''Repair Shader'''
     maxValue = [0, 1][repairMatl] + [0, 2][repairTexture] + [0, 2][repairAov]
-    progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
     if repairMatl is True:
         # Relink Model's Material >>> 01
         progressBar.updateProgress('''Repair Material Object - Set''')
@@ -458,7 +459,7 @@ def astUnitUploadModelSourceSub(
         assetClass, assetName, assetVariant, assetStage
     )[1]
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Source )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Source )')
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
     maFile.saveMayaFile(linkFile)
@@ -473,7 +474,7 @@ def astUnitUploadModelSourceSub(
     updateFile = lxConfigure._toLxProductRecordFile(linkFile)
     maFile.writeOsJson(updateData, updateFile, 4)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Open Model Source
@@ -493,12 +494,12 @@ def astUnitOpenModelSource(
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
-    lxLog.viewStartProcess(logWin, u'Open Asset Model ( Source )')
+    qtLog.viewStartProcess(logWin, u'Open Asset Model ( Source )')
     #
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localModelFile, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Model Preview File
@@ -515,7 +516,7 @@ def astUnitModelPreviewUploadCmd(
     # Model Preview File
     dbAssetPreviewFile = dbGet.getDbAstPreviewFile(assetIndex)
     # Main
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Preview )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Preview )')
     #
     if not useDefaultMaterial:
         maUtils.setDisplayMode(6)
@@ -543,7 +544,7 @@ def astUnitModelPreviewUploadCmd(
         )[1]
         maFile.setCopyFile(dbAssetPreviewFile, serverModelPreviewFile)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Model Mesh
@@ -562,11 +563,11 @@ def astUnitUploadModelGeometrySub(logWin, assetIndex, modelIndex, assetName, tim
     for k, v in meshesInformation.items():
         messageInScene[k] = v
     # Mesh >>>> 01
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Geometry )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Geometry )')
     #
     maDbAstCmds.dbAstGeometryUploadMainCmd(assetIndex, assetName, astModelGroup, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Model Mesh Constant Data >>>> 02
     dbAstUploadModelMeshConstant(assetIndex, assetName, timeTag)
     # Sub Model Mesh Constant Data >>>> 03
@@ -575,7 +576,7 @@ def astUnitUploadModelGeometrySub(logWin, assetIndex, modelIndex, assetName, tim
 
 #
 def dbAstUploadIndex(logWin, assetIndex, projectName, assetClass, assetName, assetVariant, percentage, timeTag):
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset ( Index )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset ( Index )')
     # Name >>> 01
     dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag)
     # Filter >>> 02
@@ -586,7 +587,7 @@ def dbAstUploadIndex(logWin, assetIndex, projectName, assetClass, assetName, ass
     if percentage:
         dbAstUploadAssembly(assetIndex, percentage, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -649,7 +650,7 @@ def astUnitModelMaterialUploadSubCmd(
     #
     dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Texture )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Texture )')
     #
     if modelTextureNodes:
         serverModelTextureDirectory = dbAstTextureDirectory + '/' + modelIndex
@@ -679,15 +680,15 @@ def astUnitModelMaterialUploadSubCmd(
             timeTag
         )
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Material File >>>> 02
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Material ) ')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Material ) ')
     #
     maDbAstCmds.dbAstMaterialUploadMainCmd(shaderObjects, modelIndex, timeTag)
     if withAov is True:
         maDbAstCmds.dbAstAovUploadCmd(renderer, modelIndex, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Model Product File
@@ -700,7 +701,7 @@ def astUnitUploadModelProductSub(
         timeTag,
         withProduct=False
 ):
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Product )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Product )')
     #
     maFile.new()
     # Mesh
@@ -799,7 +800,7 @@ def astUnitUploadModelProductSub(
         #
         lxBasic.writeOsJson(textureData, serverModelTextureDataFile)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Scenery Asset File
@@ -829,7 +830,7 @@ def astUnitUploadAssemblyProductSub(
     )[1]
     # Main
     maFile.new()
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Product )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Product )')
     assetUnitRoot = assetPr.astUnitRootGroupName(assetName)
     if not maUtils.isAppExist(assetUnitRoot):
         maUtils.setAppPathCreate(assetUnitRoot)
@@ -899,7 +900,7 @@ def astUnitUploadAssemblyProductSub(
     #
     maFile.saveMayaFile(serverAssemblyProductFile)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -933,7 +934,7 @@ def astUnitUploadAsbProxyCacheSub(
             # Set Fur Cache
             maFur.setOutYetisCache(serverAstUnitAsbCfxCacheDirectory, furNodes, 1, 1, 3)
         # Proxy
-        lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy Cache )')
+        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy Cache )')
         #
         maScnAsb.setOutAstProxy(serverAstUnitAsbProxyCacheFile, assetUnitRoot, renderer)
         # Proxy LOD
@@ -950,7 +951,7 @@ def astUnitUploadAsbProxyCacheSub(
                 maMshReduce.setMeshesReduce(modelShaderObjects, percentage)
                 maScnAsb.setOutAstProxy(serverAstUnitAsbProxyCacheLodFile, assetUnitRoot, renderer)
         #
-        lxLog.viewCompleteUploadFile(logWin)
+        qtLog.viewCompleteUploadFile(logWin)
 
 
 #
@@ -975,7 +976,7 @@ def astUnitUploadAsbGpuCacheSub(
         serverAstUnitAsbGpuCacheFile = assetPr.astUnitAssemblyGpuCacheFile(
             projectName, assetName
         )[1]
-        lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( GPU Cache )')
+        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( GPU Cache )')
         #
         r, g, b = color
         maUtils.setDefaultShaderColor(r, g, b)
@@ -1010,7 +1011,7 @@ def astUnitUploadAsbGpuCacheSub(
                     0, 0
                 )
         #
-        lxLog.viewCompleteUploadFile(logWin)
+        qtLog.viewCompleteUploadFile(logWin)
 
 
 #
@@ -1034,7 +1035,7 @@ def astUploadSceneryUnitBoxCacheSub(
         serverAstUnitAsbBoxCacheFile = assetPr.astUnitAssemblyBoxCacheFile(
             projectName, assetName
         )[1]
-        lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Box Cache )')
+        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Box Cache )')
         #
         r, g, b = color
         maUtils.setDefaultShaderColor(r, g, b)
@@ -1043,7 +1044,7 @@ def astUploadSceneryUnitBoxCacheSub(
         maMshBox.setMeshesBox(astUnitModelProductGroup, boxGroup)
         maFile.gpuExport(boxGroup, serverAstUnitAsbBoxCacheFile, 0, 0)
         #
-        lxLog.viewCompleteUploadFile(logWin)
+        qtLog.viewCompleteUploadFile(logWin)
 
 
 #
@@ -1070,7 +1071,7 @@ def astUnitUploadAssemblyProxySub(
         projectName, assetName, assetVariant
     )[1]
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy )')
     #
     astUnitAssemblyProxyUploadCmd(
         assetName,
@@ -1105,7 +1106,7 @@ def astUnitUploadAssemblyProxySub(
                 renderer
             )
     #
-    lxLog.viewCompleteUploadFile(logWin)
+    qtLog.viewCompleteUploadFile(logWin)
 
 
 #
@@ -1161,7 +1162,7 @@ def astUnitUploadAssemblyDefinitionSub(
         projectName, assetName, assetVariant
     )[1]
     # Set AD
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Definition )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Definition )')
     #
     if not os.path.isfile(serverAstUnitAsbDefinitionFile):
         astAssemblyObject = assetPr.astAssemblyBasicObjectNameSet(assetName)
@@ -1176,7 +1177,7 @@ def astUnitUploadAssemblyDefinitionSub(
         #
         maFile.saveMayaFile(serverAstUnitAsbDefinitionFile)
     #
-    lxLog.viewCompleteUploadFile(logWin)
+    qtLog.viewCompleteUploadFile(logWin)
 
 
 #
@@ -1251,7 +1252,7 @@ def astUnitUploadAssemblyMain(
 
 
 # Upload Rig
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def astUnitUploadRigMain(
         logWin,
         assetIndex,
@@ -1279,7 +1280,7 @@ def astUnitUploadRigMain(
     logWin.setMaxProgressValue(maxProgress)
     logWin.setLogFile(logTarget)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -1334,7 +1335,7 @@ def astUnitUploadRigMain(
         timeTag
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -1364,7 +1365,7 @@ def astUnitUploadRigProduct(
         timeTag,
         withProduct=False
 ):
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset Rig ( Product )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Rig ( Product )')
     #
     serverRigProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
@@ -1423,10 +1424,10 @@ def astUnitUploadRigProduct(
         #
         maFile.writeOsJson(meshData, serverMeshConstantFile, 4)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def astUnitCfxUploadMainCmd(
         logWin,
         assetIndex,
@@ -1455,7 +1456,7 @@ def astUnitCfxUploadMainCmd(
     logWin.setMaxProgressValue(maxProgress)
     logWin.setLogFile(logTarget)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -1542,7 +1543,7 @@ def astUnitCfxUploadMainCmd(
         timeTag
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -1616,7 +1617,7 @@ def astUnitUploadCfxFurSub(
     # Collection Map
     dbCfxMapDirectory = databasePr.dbAstMapDirectory()
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur Map )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur Map )')
     if furObjects:
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
         if appVariant.isPushCfxMapToDatabase is False:
@@ -1630,9 +1631,9 @@ def astUnitUploadCfxFurSub(
         # Repath Map
         maTxtr.setRepathMaps(serverMapFolder, furObjects)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Progress >>> 02
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur )')
     #
     maUtils.setAttrStringDatumForce(cfxAssetRoot, appVariant.basicVariantAttrLabel, assetVariant)
     # Production
@@ -1648,7 +1649,7 @@ def astUnitUploadCfxFurSub(
         timeTag
     )
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -1663,11 +1664,11 @@ def astUnitUploadCfxFurForSolver_(
         assetIndex,
         [assetPr.getAssetLink(assetStage), assetVariant]
     )
-    lxLog.viewStartSubProcess(logWin, u'Upload / Update Asset CFX ( Fur Cache )')
+    qtLog.viewStartSubProcess(logWin, u'Upload / Update Asset CFX ( Fur Cache )')
     # NurbsHair
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     #
     maDbAstCmds.dbAstUploadNurbsHairMain(nurbsHairObjects, assetSubIndex, timeTag)
 
@@ -1684,7 +1685,7 @@ def astUnitCfxMaterialUploadSubCmd(
     # Collection Texture >>>> 01
     dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Texture )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Texture )')
     #
     yetiObject = datAsset.getYetiObjects(assetName)
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
@@ -1724,15 +1725,15 @@ def astUnitCfxMaterialUploadSubCmd(
             timeTag
         )
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
     # Material File >>>> 02
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Material )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Material )')
     #
     maDbAstCmds.dbAstMaterialUploadMainCmd(shaderFurNodes, assetSubIndex, timeTag)
     if withAov is True:
         maDbAstCmds.dbAstAovUploadCmd(renderer, assetSubIndex, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 # Upload CFX Product
@@ -1747,7 +1748,7 @@ def astUnitUploadCfxProduct(
 ):
     # New Scene
     maFile.new()
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Product )')
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Product )')
     # Fur
     maAstLoadCmds.astUnitCfxFurLoadCmd(
         logWin,
@@ -1827,10 +1828,10 @@ def astUnitUploadCfxProduct(
         maFile.saveMayaFile(serverCfxProductFile)
         maFile.backupFile(serverCfxProductFile, backupCfxProductFile, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def astUnitUploadMain(
         logWin,
         assetIndex, projectName, assetClass, assetName, assetVariant, assetStage,
@@ -1843,7 +1844,7 @@ def astUnitUploadMain(
     maxProgress = 4
     logWin.setMaxProgressValue(maxProgress)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -1904,7 +1905,7 @@ def astUnitUploadMain(
         timeTag
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -1946,7 +1947,7 @@ def astUnitUploadSourceSub(
         lxConfigure.LynxiRootIndex_Backup,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    lxLog.viewStartProcess(logWin, u'Upload / Update Asset {} ( Source )'.format(assetPr.getAssetLink(assetStage)))
+    qtLog.viewStartProcess(logWin, u'Upload / Update Asset {} ( Source )'.format(assetPr.getAssetLink(assetStage)))
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
     #
@@ -1962,7 +1963,7 @@ def astUnitUploadSourceSub(
     updateFile = lxConfigure._toLxProductRecordFile(linkFile)
     lxBasic.writeOsJson(updateData, updateFile, 4)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -1981,12 +1982,12 @@ def astUnitOpenSource(
         lxConfigure.LynxiRootIndex_Local,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    lxLog.viewStartProcess(logWin, u'Open Asset %s ( Source )' % assetStage.capitalize())
+    qtLog.viewStartProcess(logWin, u'Open Asset %s ( Source )' % assetStage.capitalize())
     #
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localSourceFile, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -2125,7 +2126,7 @@ def astUnitUploadProductSub(
                 projectName, assetClass, assetName, assetVariant, assetStage
             )[1]
             #
-            lxLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Product )' % assetStage.capitalize())
+            qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Product )' % assetStage.capitalize())
             #
             tempFile = lxBasic.getOsTemporaryFile(serverProductFile, timeTag)
             #
@@ -2161,7 +2162,7 @@ def astUnitUploadProductSub(
             maFile.saveMayaFile(serverProductFile)
             maFile.backupFile(serverProductFile, backupProductFile, timeTag)
             #
-            lxLog.viewCompleteProcess(logWin)
+            qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -2179,7 +2180,7 @@ def astUnitUploadTextureSub(
     if linkBranch is not None:
         if maUtils.isAppExist(linkBranch):
             shaderObjects = maUtils.getChildrenByRoot(linkBranch)
-            lxLog.viewStartProcess(logWin, u'Load Asset %s ( Texture )' % lxBasic._toStringPrettify(assetStage))
+            qtLog.viewStartProcess(logWin, u'Load Asset %s ( Texture )' % lxBasic._toStringPrettify(assetStage))
             #
             if shaderObjects:
                 textureNodes = maShdr.getTextureNodeLisByObject(shaderObjects)
@@ -2201,17 +2202,17 @@ def astUnitUploadTextureSub(
                         isWithTx
                     )
                 else:
-                    lxLog.viewWarning(
+                    qtLog.viewWarning(
                         logWin,
                         u'Texture - Node is Non - Exists'
                     )
             else:
-                lxLog.viewWarning(
+                qtLog.viewWarning(
                     logWin,
                     u'Shader - Object is Non - Exists'
                 )
             #
-            lxLog.viewCompleteProcess(logWin)
+            qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -2250,12 +2251,12 @@ def astUnitUploadExtraSub(
             projectName, assetClass, assetName, assetVariant, assetStage
         )[1]
         #
-        lxLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Extra ) ' % assetStage.capitalize())
+        qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Extra ) ' % assetStage.capitalize())
         #
         lxBasic.writeOsJsonDic(extraData, serverExtraFile, 4)
         lxBasic.backupOsFile(serverExtraFile, backupExtraFile, timeTag)
         #
-        lxLog.viewCompleteProcess(logWin)
+        qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -2283,11 +2284,11 @@ def astUnitUploadPreviewSub(
                 projectName, assetClass, assetName, assetVariant, assetStage
             )[1]
             # Main
-            lxLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Preview ) ' % assetStage.capitalize())
+            qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Preview ) ' % assetStage.capitalize())
             #
             maFile.makeSnapshot(
                 linkBranch, serverPreviewFile
             )
             lxBasic.backupOsFile(serverPreviewFile, backupPreviewFile, timeTag)
             #
-            lxLog.viewCompleteProcess(logWin)
+            qtLog.viewCompleteProcess(logWin)

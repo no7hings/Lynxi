@@ -5,8 +5,8 @@ from LxCore.config import sceneryCfg
 #
 from LxCore.preset import appVariant
 # do not delete and rename
-serverBasicPath = lxConfigure.LynxiRoot().serverDirectory()
-localBasicPath = lxConfigure.LynxiRoot().localDirectory()
+serverBasicPath = lxConfigure.Root()._serverDirectory()
+localBasicPath = lxConfigure.Root()._localDirectory()
 #
 none = ''
 

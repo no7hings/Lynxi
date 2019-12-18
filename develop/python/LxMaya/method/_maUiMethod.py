@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 from maya import cmds
 #
-from LxCore.method import _uiMethod
+from LxUi.qt import qtMethod
 #
 from LxMaya.method.basic import _maMethodBasic
 
@@ -81,7 +81,10 @@ class MaUiControlMethod(_maMethodBasic.MaUiMethodBasic):
 
 
 #
-class MaQtViewMethod(_maMethodBasic.MaNodeMethodBasic, _uiMethod.QtViewMethod):
+class MaQtViewMethod(
+    _maMethodBasic.MaNodeMethodBasic,
+    qtMethod.QtViewMethod
+):
     @classmethod
     def setTreeViewListNamespace(cls, treeView, pathString, branchViewMethod):
         pathsep = cls.Ma_Separator_Namespace

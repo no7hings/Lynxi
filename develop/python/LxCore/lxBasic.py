@@ -1280,6 +1280,68 @@ def getDbTempFile(dbFile):
     return tempFile
 
 
+class _AbcFile(object):
+    def _initAbcFile(self, fileString):
+        self._fileString = fileString
+
+    def exist(self):
+        return os.path.isfile(self.fileString())
+
+    def fileString(self):
+        return self._fileString
+
+    def read(self, *args):
+        pass
+
+    def write(self, *args):
+        pass
+
+
+class File(_AbcFile):
+    def __init__(self, fileString):
+        self._initAbcFile(fileString)
+
+    def read(self, osFile, readLines=False):
+        if self.exist():
+            with open(self.fileString(), 'r') as f:
+                if readLines is False:
+                    data = f.read()
+                else:
+                    data = f.readlines()
+                f.close()
+                return data
+
+    def write(self, raw):
+        if raw is not None:
+            setOsFilePathCreate(self.fileString())
+            with open(self.fileString(), 'wb') as f:
+                if isinstance(raw, str) or isinstance(raw, unicode):
+                    f.write(raw)
+                elif isinstance(raw, tuple) or isinstance(raw, list):
+                    f.writelines(raw)
+                f.close()
+
+
+class JsonFile(_AbcFile):
+    def __init__(self, fileString):
+        self._initAbcFile(fileString)
+
+    def read(self, encoding=None):
+        if self.exist():
+            with open(self.fileString()) as j:
+                data = json.load(j, encoding=encoding)
+                return data
+
+    def write(self, raw, ensure_ascii=True, indent=4):
+        if raw is not None:
+            tempFile = getOsTemporaryFile(self.fileString())
+            #
+            with open(tempFile, 'w') as j:
+                json.dump(raw, j, ensure_ascii=ensure_ascii, indent=indent)
+            #
+            setOsFileCopy(tempFile, self.fileString())
+
+
 #
 def readOsJson(osFile, encoding=None):
     if os.path.isfile(osFile):
@@ -2068,17 +2130,17 @@ class _EnvironString(str):
     def _add(self, value):
         if self._value:
             lis = [i.lstrip().rstrip() for i in self._value.split(os.pathsep)]
-            lowerLis = [i.lstrip().rstrip() for i in self._value.lower().split(os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(os.pathsep)]
             if value.lower() not in lowerLis:
                 lis.append(value)
                 self._value = os.pathsep.join(lis)
         else:
             self._value = value
 
-    def _remove(self, value):
+    def _sub(self, value):
         if self._value:
             lis = [i.lstrip().rstrip() for i in self._value.split(os.pathsep)]
-            lowerLis = [i.lstrip().rstrip() for i in self._value.lower().split(os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(os.pathsep)]
             if value.lower() in lowerLis:
                 i = lowerLis.index(value.lower())
                 lis.remove(lis[i])
@@ -2122,9 +2184,9 @@ class _EnvironString(str):
 
     def __isub__(self, value):
         if isinstance(value, list) or isinstance(value, tuple):
-            [self._remove(i) for i in list(value)]
+            [self._sub(i) for i in list(value)]
         else:
-            self._remove(value)
+            self._sub(value)
 
         return self._update()
 
@@ -2132,7 +2194,7 @@ class _EnvironString(str):
         self._add(value)
 
     def remove(self, value):
-        self._remove(value)
+        self._sub(value)
 
     def __str__(self):
         return self._value.replace(os.pathsep, os.pathsep + '\r\n')
@@ -2140,6 +2202,8 @@ class _EnvironString(str):
 
 class Environ(object):
     def __getattr__(self, key):
+        key = key.upper()
+
         value = os.environ.get(key, '')
         if not key in self.__dict__:
             str_ = _EnvironString(value)
@@ -2150,8 +2214,20 @@ class Environ(object):
             return str_
 
     def __setattr__(self, key, value):
+        key = key.upper()
+
         str_ = _EnvironString(value)
         str_.key = key
         str_.parent = self
 
         self.__dict__[key] = str_
+
+    @staticmethod
+    def exist(key, value):
+        value_ = os.environ.get(key)
+        if value_ is not None:
+            lowerLis = [i.lstrip().rstrip().lower() for i in value_.split(os.pathsep)]
+            return value.lower() in lowerLis
+        return False
+
+

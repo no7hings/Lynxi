@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxProgress
+from LxUi.qt import qtProgress
 #
 from LxMaya.command import maUtils
 #
@@ -553,7 +553,7 @@ def setConnectionsReconnect(connections):
     if connections:
         explain = '''Connect Attribute(s)'''
         maxValue = len(connections)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for sourceAttr, targetAttr in connections:
             progressBar.updateProgress()
             # Filter Exists

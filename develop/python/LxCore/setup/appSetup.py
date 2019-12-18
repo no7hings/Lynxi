@@ -22,7 +22,7 @@ def setBasicPythonPackageSetup():
 
 #
 def setLynxiSetup(showProgress=False, isCloseMaya=False):
-    lxConfigure.Lynxi_Module_Python().setLocalRefresh()
+    lxConfigure.Lynxi_Scheme_Python().setLocalRefresh()
     if lxBasic.isMayaApp():
         isEnable = False
         #

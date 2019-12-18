@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxCore import lxConfigure, lxBasic, lxProgress, lxTip
+from LxCore import lxConfigure, lxBasic
 #
 from LxCore.preset import basicPr, pipePr
 #
 from LxUi import uiConfigure
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
 
 
 #
@@ -15,7 +15,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self):
         super(IfPresetWindow, self).__init__()
         #
@@ -242,7 +242,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(guidePresetKey),
                 u'成功'
             )
@@ -379,7 +379,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(mainPresetKey),
                 u'成功'
             )
@@ -505,7 +505,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
                 lxBasic.writeOsJson(setDic, setFile)
             #
             refreshMethod()
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(subPresetKey),
                 u'成功'
             )
@@ -622,7 +622,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for i in buildData:
             keyword, iconKeyword, tooltip = i
             progressBar.updateProgress(keyword)

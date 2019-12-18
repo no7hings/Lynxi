@@ -1,11 +1,12 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset.prod import scenePr
 #
 from LxUi.command import uiHtml
 #
-from LxUi.qt import qtWidgets_, qtChart_, qtWidgets
+from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtProgress
+
 #
 none = ''
 
@@ -106,7 +107,7 @@ def setListScRenderImageCustomize(
     if customizes:
         explain = '''List Scene Render ( Customizes )'''
         maxValue = len(customizes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         [setBranch(i) for i in customizes]
     #
     return methods
@@ -163,7 +164,7 @@ def setListRenderImages(
                 return lxBasic.isOsExist(imageFolder)
             #
             def openImage():
-                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.ExeSubRoot().serverDirectory())
+                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(imageFile)
                     if subOsFiles:

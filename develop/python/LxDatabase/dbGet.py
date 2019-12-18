@@ -1,5 +1,6 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import assetCfg
 #
@@ -786,7 +787,7 @@ def getDbAssetIndexDic(projectFilter):
         if osFileNames:
             explain = '''Read Asset Database'''
             maxValue = len(osFileNames)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for subData in osFileNames:
                 progressBar.updateProgress()
                 assetIndex = subData
@@ -857,7 +858,7 @@ def getDbModels(dbIndexes):
     if dbIndexes:
         explain = '''Read Model'''
         maxValue = len(dbIndexes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for assetIndex in dbIndexes:
             progressBar.updateProgress()
             #
@@ -873,7 +874,7 @@ def getDbCfxs(dbIndexes):
     if dbIndexes:
         explain = '''Read CFX'''
         maxValue = len(dbIndexes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for assetIndex in dbIndexes:
             progressBar.updateProgress()
             #
@@ -889,7 +890,7 @@ def getDbRigs(dbIndexes):
     if dbIndexes:
         explain = '''Read Rig'''
         maxValue = len(dbIndexes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for assetIndex in dbIndexes:
             progressBar.updateProgress()
             #
@@ -918,7 +919,7 @@ def getDbCfxNamesByClassify(projectName, filterClassify=none):
     if dbIndexes:
         explain = '''Read CFX's Data'''
         maxValue = len(dbIndexes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for assetIndex in dbIndexes:
             progressBar.updateProgress()
             #

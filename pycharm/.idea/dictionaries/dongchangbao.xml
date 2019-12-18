@@ -7,15 +7,21 @@
       <w>appversion</w>
       <w>asbs</w>
       <w>basenames</w>
+      <w>binname</w>
+      <w>binversion</w>
       <w>brower</w>
+      <w>chardet</w>
       <w>checkable</w>
       <w>checkview</w>
       <w>colorable</w>
       <w>colorchart</w>
+      <w>compilepath</w>
       <w>coords</w>
       <w>ctom</w>
       <w>ctomcmds</w>
       <w>deregister</w>
+      <w>developroot</w>
+      <w>dingtalkchatbot</w>
       <w>dirname</w>
       <w>dongchangbao</w>
       <w>dragable</w>
@@ -24,6 +30,7 @@
       <w>enterbox</w>
       <w>exts</w>
       <w>filebasename</w>
+      <w>foldername</w>
       <w>graphitem</w>
       <w>graphview</w>
       <w>gridview</w>
@@ -38,15 +45,22 @@
       <w>lgroups</w>
       <w>loadname</w>
       <w>loadnames</w>
+      <w>localroot</w>
+      <w>lxcommand</w>
+      <w>lxcore</w>
       <w>lxdatabase</w>
       <w>lxdeadline</w>
+      <w>lxgraph</w>
       <w>lxinterface</w>
+      <w>lxmaterial</w>
       <w>lxmaya</w>
       <w>lxui</w>
+      <w>lxwindows</w>
       <w>lynxi</w>
       <w>lynxinode</w>
       <w>lyxni</w>
       <w>mapchart</w>
+      <w>materialx</w>
       <w>matl</w>
       <w>maximizeable</w>
       <w>mayaversion</w>
@@ -56,6 +70,7 @@
       <w>moduleversion</w>
       <w>mtime</w>
       <w>mtimestamp</w>
+      <w>mtoa</w>
       <w>mtos</w>
       <w>mult</w>
       <w>myproject</w>
@@ -75,16 +90,19 @@
       <w>piechart</w>
       <w>pixmap</w>
       <w>playblast</w>
+      <w>plugapp</w>
       <w>plugname</w>
       <w>plugpath</w>
       <w>plugversion</w>
       <w>presetview</w>
       <w>pressable</w>
       <w>procname</w>
+      <w>productroot</w>
       <w>projectname</w>
       <w>pyqt</w>
       <w>pythonmodule</w>
       <w>pythonpackage</w>
+      <w>pythonpath</w>
       <w>pythonversion</w>
       <w>radarchart</w>
       <w>raws</w>
@@ -93,17 +111,30 @@
       <w>rehighlight</w>
       <w>renderable</w>
       <w>repath</w>
+      <w>resourceapp</w>
+      <w>resourcebin</w>
+      <w>resourcecategory</w>
+      <w>resourceersion</w>
+      <w>resourcename</w>
+      <w>resourcepath</w>
+      <w>resourceversion</w>
       <w>rgba</w>
       <w>rltn</w>
+      <w>rootpath</w>
       <w>sceneries</w>
       <w>sectorchart</w>
       <w>sequencechart</w>
+      <w>serverroot</w>
+      <w>serverrootpath</w>
       <w>shaders</w>
+      <w>solidangle</w>
       <w>sourcepath</w>
       <w>sqlite</w>
       <w>sqrt</w>
       <w>storable</w>
       <w>strs</w>
+      <w>subname</w>
+      <w>subpath</w>
       <w>tearable</w>
       <w>topo</w>
       <w>trackable</w>
@@ -121,7 +152,12 @@
       <w>unuse</w>
       <w>uuids</w>
       <w>vedio</w>
+      <w>versionactive</w>
+      <w>versionrecord</w>
       <w>viewframe</w>
+      <w>workarea</w>
+      <w>workspacepath</w>
+      <w>xbmlangpath</w>
       <w>xmax</w>
       <w>xmin</w>
       <w>yaml</w>

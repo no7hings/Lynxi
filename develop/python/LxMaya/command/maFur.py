@@ -5,7 +5,8 @@ import maya.mel as mel
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
 #
@@ -187,7 +188,7 @@ def setOutYetisCache(directory, furNodes, startFrame, endFrame, sample=3, isUpda
         # View Progress
         progressExplain = '''Set Fur ( Yeti ) Cache'''
         maxValue = len(furNodes)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for yetiNode in furNodes:
             # In Progress
             progressBar.updateProgress()
@@ -476,7 +477,7 @@ def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolve
     if connectionDic:
         progressExplain = '''Connect Solver Guide'''
         maxValue = len(connectionDic)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.updateProgress()
             setBranch(k, v)
@@ -497,7 +498,7 @@ def setScAstCfxConnectToSolver(connectionDic, scAstCfxNamespace, scAstSolverName
     if connectionDic:
         progressExplain = '''Connect Nurbs Hair Guide'''
         maxValue = len(connectionDic)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.updateProgress()
             setBranch(k, v)
@@ -538,7 +539,7 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
         if nurbsCurveObjects:
             progressExplain = '''Connect Solver Cache'''
             maxValue = len(nurbsCurveObjects)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for i in nurbsCurveObjects:
                 progressBar.updateProgress()
                 #
@@ -1038,7 +1039,7 @@ def getNhrObjectsInfoDic(nurbsHairObjects):
         # View Progress
         progressExplain = u'''Read Nurbs Hair Information'''
         maxValue = len(nurbsHairObjects)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for nurbsHairObject in nurbsHairObjects:
             progressBar.updateProgress()
             uniqueId = maUuid.getNodeUniqueId(nurbsHairObject)

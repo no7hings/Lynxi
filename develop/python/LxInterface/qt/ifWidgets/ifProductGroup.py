@@ -1,5 +1,6 @@
 # coding:utf-8
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
+from LxUi.qt import qtProgress
 #
 from LxCore.preset import personnelPr
 #
@@ -88,7 +89,7 @@ class IfAssetProductGroup(
             if self.mainWindow():
                 explain = '''Build Asset Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.updateProgress()
                     #
@@ -172,7 +173,7 @@ class IfSceneryProductGroup(
             if self.mainWindow():
                 explain = '''Build Scenery Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.updateProgress()
                     #
@@ -254,7 +255,7 @@ class IfSceneProductGroup(
             if self.mainWindow():
                 explain = '''Build Scene Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.updateProgress()
                     #

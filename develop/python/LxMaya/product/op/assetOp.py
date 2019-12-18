@@ -5,7 +5,8 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 #
-from LxCore import lxBasic, lxConfigure, lxProgress, lxLog
+from LxCore import lxConfigure
+from LxUi.qt import qtLog, qtProgress
 #
 from LxCore.preset.prod import assetPr
 #
@@ -31,20 +32,20 @@ def cleanNode(inData, nodeType):
 
 # Assign Default Shader
 def setDefaultShader(logWin, objectLis):
-    lxLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
+    qtLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
     cmds.sets(objectLis, forceElement='initialShadingGroup')
-    lxLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
+    qtLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
 
 
 # Assign Default Shaders
 def setObjectDefaultShaderCmd(logWin, objectLis):
     explain = u'''Assign Initial - Shader'''
-    lxLog.viewStartSubProcess(logWin, explain)
+    qtLog.viewStartSubProcess(logWin, explain)
     for objectString in objectLis:
         cmds.sets(objectString, forceElement='initialShadingGroup')
         cmds.sets(maUtils.getNodeShape(objectString), forceElement='initialShadingGroup')
-        lxLog.viewResult(logWin, maUtils._toNodeName(objectString), 'initialShadingGroup')
-    lxLog.viewCompleteSubProcess(logWin)
+        qtLog.viewResult(logWin, maUtils._toNodeName(objectString), 'initialShadingGroup')
+    qtLog.viewCompleteSubProcess(logWin)
 
 
 #
@@ -94,7 +95,7 @@ def setMeshVertexNormalUnlockCmd(objectLis):
     explain = '''Unlock Mesh's Vertex Normal'''
     if objectLis:
         maxValue = len(objectLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objectString in objectLis:
             progressBar.updateProgress()
             maGeom.setMeshVertexNormalUnlock(objectString)
@@ -105,7 +106,7 @@ def setMeshesSmoothNormal(objectLis):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
     if objectLis:
         maxValue = len(objectLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objectString in objectLis:
             progressBar.updateProgress()
             maGeom.setMeshEdgeSmooth(objectString, True)
@@ -183,9 +184,9 @@ def linkComponentMainObjectGroupStep01(logWin, objectString, inData):
             componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
-                lxLog.viewResult(logWin, componentObject, shadingEngine)
+                qtLog.viewResult(logWin, componentObject, shadingEngine)
             else:
-                lxLog.viewError(logWin, shadingEngine, u'Non - Exist')
+                qtLog.viewError(logWin, shadingEngine, u'Non - Exist')
     linkComponentSubObjectGroup(objectString, dic)
 
 
@@ -197,17 +198,17 @@ def linkComponentMainObjectGroupStep02(logWin, objectString, inData):
         for componentObjectData, shadingEngine in inData[0].items():
             if cmds.objExists(shadingEngine):
                 cmds.sets(objectString, forceElement=shadingEngine)
-                lxLog.viewResult(logWin, objectString, shadingEngine)
+                qtLog.viewResult(logWin, objectString, shadingEngine)
             else:
-                lxLog.viewError(logWin, shadingEngine, u'Non - Exists')
+                qtLog.viewError(logWin, shadingEngine, u'Non - Exists')
         # Link Component Object Group
         for componentObjectData, shadingEngine in data.items():
             componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
-                lxLog.viewResult(logWin, componentObject, shadingEngine)
+                qtLog.viewResult(logWin, componentObject, shadingEngine)
             else:
-                lxLog.viewError(logWin, shadingEngine, u'Non - Exists')
+                qtLog.viewError(logWin, shadingEngine, u'Non - Exists')
     linkComponentSubObjectGroup(objectString, dic)
 
 
@@ -260,7 +261,7 @@ def setRelinkArnoldAovs(maxDepth=50):
 # repair AOVs
 def setRepairArnoldAovs(logWin, maxDepth=50):
     explain = u'''Repair AOVs'''
-    lxLog.viewStartSubProcess(logWin, explain)
+    qtLog.viewStartSubProcess(logWin, explain)
     #
     getMtoa()
     if maUtils.isArnoldEnable():
@@ -274,11 +275,11 @@ def setRepairArnoldAovs(logWin, maxDepth=50):
                             if not cmds.listConnections(i + '.message', destination=1, source=0):
                                 try:
                                     cmds.connectAttr(i + '.message', aovList)
-                                    lxLog.viewResult(logWin, i, aovList)
+                                    qtLog.viewResult(logWin, i, aovList)
                                 except:
                                     cmds.listConnections(i + '.message', destination=1, source=0)
     #
-    lxLog.viewCompleteSubProcess(logWin)
+    qtLog.viewCompleteSubProcess(logWin)
 
 
 #
@@ -347,7 +348,7 @@ def setCreateAstExtraConnectionSub(connectionDic):
         # View Progress
         progressExplain = u'''Create Connection'''
         maxValue = len(connectionDic)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for objectPath, connectionArray in connectionDic.items():
             if objectPath.startswith('|'):
                 objectPath = objectPath[1:]

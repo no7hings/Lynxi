@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxTip
+from LxUi.qt import qtTip
 #
 from LxMaya.command import maUtils
 reload(maUtils)
@@ -12,4 +12,4 @@ if selObj:
         if maUtils.isAppExist(objectName + '.' + attrName):
             maUtils.setAttrStringDatum(i, attrName, objectName)
 #
-lxTip.viewMessage('Refresh Light AOV Attribute', 'Complete')
+qtTip.viewMessage('Refresh Light AOV Attribute', 'Complete')

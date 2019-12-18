@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxTip
+from LxUi.qt import qtTip
 #
 from LxMaya.command import maUtils, maFur
 #
@@ -9,4 +9,4 @@ if selObj:
     for i in selObj:
         maFur.setRenameYetiGraph(i)
 #
-lxTip.viewMessage('Rename Yeti - Graph ( Selected )', 'Complete')
+qtTip.viewMessage('Rename Yeti - Graph ( Selected )', 'Complete')

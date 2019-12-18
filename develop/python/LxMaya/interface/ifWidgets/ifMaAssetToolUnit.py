@@ -1,7 +1,7 @@
 # coding=utf-8
 import collections, threading
 #
-from LxCore import lxBasic, lxConfigure, lxTip, lxLog
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -9,7 +9,7 @@ from LxCore.preset import appVariant, databasePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtTip
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -424,7 +424,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             self.withUnlockNormalButton.setChecked(False)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'修复模型', u'成功'
             )
     #
@@ -446,7 +446,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             self.withTextureButton.setChecked(False)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'修复材质', u'成功'
             )
     #
@@ -2213,7 +2213,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
             root = assetPr.astUnitLightLinkGroupName(assetName)
             maRender.setConnectLightsToScale(root)
             #
-            lxTip.viewMessage('Connect Light to Scale', 'Complete')
+            qtTip.viewMessage('Connect Light to Scale', 'Complete')
         #
         inData = self.dicLight
         #
@@ -2322,11 +2322,11 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     )
                     [maShdr.setObjectDefaultShadingEngine(i) for i in shaderGeomObjects]
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'Import Shader', u'Complete'
                     )
                 else:
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'Shader', u'Non-Exists'
                     )
     @staticmethod
@@ -2369,11 +2369,11 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 mode
             )
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'Load Mesh Index', u'Complete'
             )
         else:
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'Mesh', u'Non-Exists'
             )
     #
@@ -3113,7 +3113,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 checkResult = True
         if not geometryObjects:
             self._astMainCheckButton.setPressable(False)
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3144,7 +3144,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         elif not checkData:
             self._astMainCheckButton.setPressable(False)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3173,7 +3173,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3202,7 +3202,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3248,7 +3248,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     checkResult = True
                     _astSubCheckButton.setPressable(False)
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'Texture ( Node ) is',
                         u'Non - Exists'
                     )
@@ -3278,7 +3278,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             overrideColor=overrideColor
         )
         #
-        lxTip.viewMessage(
+        qtTip.viewMessage(
             u'Make Snapshot ( Viewport )', u'Complete'
         )
     #
@@ -3308,7 +3308,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
         )
         #
-        lxTip.viewMessage(
+        qtTip.viewMessage(
             u'Make Snapshot ( Render )', u'Complete'
         )
     # Result
@@ -3413,7 +3413,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     #
                     self.setVarBtnState()
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'Set Variant', u'Complete'
                     )
     #
@@ -3558,7 +3558,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 模型 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = lxLog.viewLogWin_(description)
+                logWin = qtLog.viewLogWin_(description)
                 #
                 self.connectObject().hide()
                 #
@@ -3597,7 +3597,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 绑定 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = lxLog.viewLogWin_(description)
+                logWin = qtLog.viewLogWin_(description)
                 #
                 self.connectObject().hide()
                 #
@@ -3632,7 +3632,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 毛发塑形 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = lxLog.viewLogWin_(description)
+                logWin = qtLog.viewLogWin_(description)
                 #
                 self.connectObject().hide()
                 #
@@ -3666,7 +3666,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 毛发绑定 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = lxLog.viewLogWin_(description)
+                logWin = qtLog.viewLogWin_(description)
                 #
                 self.connectObject().hide()
                 #
@@ -3698,7 +3698,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 _ 灯光 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = lxLog.viewLogWin_(description)
+                logWin = qtLog.viewLogWin_(description)
                 #
                 self.connectObject().hide()
                 #

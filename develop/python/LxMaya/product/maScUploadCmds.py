@@ -1,7 +1,8 @@
 # coding=utf-8
 import os
 #
-from LxCore import lxBasic, lxConfigure, lxProgress, lxLog, lxTip
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtLog, qtProgress, qtTip
 #
 from LxCore.config import appCfg
 #
@@ -30,7 +31,7 @@ isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
 none = ''
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def scUnitAnimationUploadMainCmd(
         logWin,
         projectName,
@@ -46,7 +47,7 @@ def scUnitAnimationUploadMainCmd(
     # Set Log Window
     logWin.setNameText(description)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     maUtils.setDisplayMode(5)
     #
     methodDatumLis = [
@@ -139,14 +140,14 @@ def scUnitAnimationUploadMainCmd(
     maUtils.setVisiblePanelsDelete()
     for i in methodDatumLis:
         explain, enable, method, args = i
-        lxLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneStage)))
+        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneStage)))
         if enable is not False:
             method(*args)
-            lxLog.viewCompleteProcess(logWin)
+            qtLog.viewCompleteProcess(logWin)
         else:
-            lxLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
+            qtLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -167,7 +168,7 @@ def scUnitAnimationUploadMainCmd(
         )
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def scUnitLightUploadMainCmd(
         logWin,
         projectName,
@@ -182,7 +183,7 @@ def scUnitLightUploadMainCmd(
     # Set Log Window
     logWin.setNameText(description)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
     # Source
@@ -249,7 +250,7 @@ def scUnitLightUploadMainCmd(
         timeTag
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
@@ -270,7 +271,7 @@ def scUnitLightUploadMainCmd(
         )
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def scUnitAssetsUploadMainCmd_(
         logWin,
         projectName,
@@ -284,7 +285,7 @@ def scUnitAssetsUploadMainCmd_(
 ):
     logWin.setNameText(description)
     # Start
-    lxLog.viewStartUploadMessage(logWin)
+    qtLog.viewStartUploadMessage(logWin)
     maUtils.setDisplayMode(5)
     #
     scUnitAssetCachesUploadCmd(
@@ -298,7 +299,7 @@ def scUnitAssetsUploadMainCmd_(
         withAsset,
     )
     # Complete
-    lxLog.viewCompleteUploadMessage(logWin)
+    qtLog.viewCompleteUploadMessage(logWin)
     # Close Log Window
     logWin.setCountdownClose(5)
     # Send Mail
@@ -373,7 +374,7 @@ def scUnitAstAlembicCacheUploadCmd(
         #
         lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
-    lxLog.viewResult(logWin, multLineCacheFile)
+    qtLog.viewResult(logWin, multLineCacheFile)
 
 
 #
@@ -405,7 +406,7 @@ def uploadScAlembicCache(
     #
     lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
-    lxLog.viewResult(logWin, multLineCacheFile)
+    qtLog.viewResult(logWin, multLineCacheFile)
 
 
 #
@@ -453,7 +454,7 @@ def scUnitSourceUploadCmd(
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
-    lxLog.viewResult(logWin, linkFile)
+    qtLog.viewResult(logWin, linkFile)
     #
     maFile.updateMayaFile(linkFile)
     # Update File >>> 02
@@ -485,7 +486,7 @@ def scUnitSourceOpenCmd(
     )[1]
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localFile, timeTag)
-    lxLog.viewResult(logWin, localFile)
+    qtLog.viewResult(logWin, localFile)
 
 
 #
@@ -506,7 +507,7 @@ def scUnitProductUploadCmd(
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     maFile.updateMayaFile(serverProductFile)
-    lxLog.viewResult(logWin, serverProductFile)
+    qtLog.viewResult(logWin, serverProductFile)
     # Back File
     lxBasic.backupOsFile(
         serverProductFile, backupProductFile,
@@ -577,7 +578,7 @@ def scUnitIndexUploadCmd(
             timeTag
         )
         #
-        lxLog.viewResult(logWin, serverIndexFile)
+        qtLog.viewResult(logWin, serverIndexFile)
 
 
 # Upload Animation Camera
@@ -642,10 +643,10 @@ def scUnitCamerasUploadCmd(
             zAdjust=zAdjust
         )
         maFile.fileExport(subCameraLocator, subServerProductFile)
-        lxLog.viewResult(logWin, subServerProductFile)
+        qtLog.viewResult(logWin, subServerProductFile)
         #
         maFile.fbxExport(subCameraLocator, subServerCameraFbxFile)
-        lxLog.viewResult(logWin, subServerProductFile)
+        qtLog.viewResult(logWin, subServerProductFile)
         #
         scUnitAstAlembicCacheUploadCmd(
             logWin,
@@ -666,7 +667,7 @@ def scUnitCamerasUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Camera(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                 for seq, cameraObject in enumerate(sceneCameraLis):
                     if cameraObject in usedCameraLis:
                         # Sub Progress
@@ -675,7 +676,7 @@ def scUnitCamerasUploadCmd(
                         subLabel = lxBasic.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, zAdjust)
             else:
-                lxLog.viewWarning(
+                qtLog.viewWarning(
                     logWin,
                     u'Camera is Non - Exists'
                 )
@@ -750,7 +751,7 @@ def scUnitPreviewsUploadCmd(
                 timeTag
             )
         #
-        lxLog.viewResult(logWin, subSeverPreviewFile)
+        qtLog.viewResult(logWin, subSeverPreviewFile)
     #
     def setMain():
         cameraData, uploadConfig = getData(withPreview)
@@ -761,7 +762,7 @@ def scUnitPreviewsUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Preview(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                 #
                 maUtils.setDefaultShaderColor(.5, .5, .5)
                 for seq, cameraObject in enumerate(sceneCameraLis):
@@ -772,7 +773,7 @@ def scUnitPreviewsUploadCmd(
                         subLabel = lxBasic.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode)
             else:
-                lxLog.viewWarning(
+                qtLog.viewWarning(
                     logWin,
                     u'Camera is Non - Exists'
                 )
@@ -901,7 +902,7 @@ def scUnitAssetCachesUploadCmd(
                         timeTag
                     )
                 else:
-                    lxLog.viewError(
+                    qtLog.viewError(
                         logWin,
                         u'Asset Model ( Mesh Root ) is Non - Exists',
                         scenePr.scAstName(assetName, number, assetVariant)
@@ -933,7 +934,7 @@ def scUnitAssetCachesUploadCmd(
                         alembicAttrs=alembicAttrs
                     )
                 else:
-                    lxLog.viewError(
+                    qtLog.viewError(
                         logWin,
                         u'Asset Rig ( Extra Root ) is Non - Exists',
                         scenePr.scAstName(assetName, number, assetVariant)
@@ -960,7 +961,7 @@ def scUnitAssetCachesUploadCmd(
                         description, notes
                     )
                 else:
-                    lxLog.viewError(
+                    qtLog.viewError(
                         logWin,
                         u'Asset Rig ( Solver Root ) is Non - Exists',
                         scenePr.scAstName(assetName, number, assetVariant)
@@ -978,14 +979,14 @@ def scUnitAssetCachesUploadCmd(
         # View Progress
         progressExplain = '''Upload Asset Cache(s)'''
         maxValue = len(assetData)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for seq, i in enumerate(assetData):
             # Progress
             progressBar.updateProgress()
             #
             setBranch(i)
     else:
-        lxLog.viewWarning(
+        qtLog.viewWarning(
             logWin,
             u'Asset is Non - Exists'
         )
@@ -1023,7 +1024,7 @@ def scUnitSceneriesUploadCmd(
                     timeTag
                 )
             else:
-                lxLog.viewWarning(
+                qtLog.viewWarning(
                     logWin,
                     u'Scenery is Non - Exists'
                 )
@@ -1060,7 +1061,7 @@ def scUnitSceneryComposeUploadCmd_(
         )
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def uploadScAstCfxFurCache(
         furCacheDataArray,
         useExistsCache=True
@@ -1071,7 +1072,7 @@ def uploadScAstCfxFurCache(
         # View Progress
         progressExplain = '''Uploading Asset ( CFX ) Cache'''
         maxValue = len(furCacheDataArray)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         yetiObjects = []
         yetiCaches = []
         yetiStartFrame = None
@@ -1173,7 +1174,7 @@ def scUnitRenderUploadCmd(
         sceneClass, sceneName, sceneVariant, sceneStage, customize
     )[1]
     #
-    lxLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) File'.format(
+    qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) File'.format(
         lxBasic._toStringPrettify(sceneStage)))
     #
     maFile.saveMayaFile(serverRenderFile)
@@ -1183,12 +1184,12 @@ def scUnitRenderUploadCmd(
         timeTag
     )
     #
-    lxLog.viewResult(logWin, serverRenderFile)
+    qtLog.viewResult(logWin, serverRenderFile)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
-@lxTip.viewExceptionMethod
+@qtTip.viewExceptionMethod
 def scUnitRenderIndexUploadCmd(
         logWin,
         projectName,
@@ -1257,13 +1258,13 @@ def scUnitRenderIndexUploadCmd(
         composeFileLis,
         imageFileLis
     )
-    lxLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) Index'.format(
+    qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) Index'.format(
         lxBasic._toStringPrettify(sceneStage)))
     #
     lxBasic.writeOsJson(renderData, serverRenderIndexFile, 4)
     lxBasic.backupOsFile(serverRenderIndexFile, backupRenderIndexFile, timeTag)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -1347,7 +1348,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
     #
     ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent = deadlineVars
     # Reduce Size
-    lxLog.viewStartProcess(logWin, u'Submit Deadline Job(s) ( {} ) '.format(lxBasic._toStringPrettify(sceneStage)))
+    qtLog.viewStartProcess(logWin, u'Submit Deadline Job(s) ( {} ) '.format(lxBasic._toStringPrettify(sceneStage)))
     if renderLayerLis:
         batchName = scenePr.scDeadlineBatchName(
             projectName,
@@ -1357,7 +1358,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
         # View Progress
         progressExplain = u'''Submit Deadline Job(s)'''
         maxValue = len(renderLayerLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for seq, currentRenderLayer in enumerate(renderLayerLis):
             progressBar.updateProgress(currentRenderLayer)
             # Switch Render Layer First
@@ -1394,13 +1395,13 @@ def scUnitRenderDeadlineSubmitMainCmd(
             serverSubDeadlineInfoFile = lxBasic.getOsSubFile(serverDeadlineInfoFile, subLabel)
             serverSubDeadlineJobFile = lxBasic.getOsSubFile(serverDeadlineJobFile, subLabel)
             #
-            lxLog.viewStartSubProcess(logWin, u'Submit Deadline Job for Layer : {}'.format(currentRenderLayer))
+            qtLog.viewStartSubProcess(logWin, u'Submit Deadline Job for Layer : {}'.format(currentRenderLayer))
             #
             scUnitDeadlineJobSubmitCmd(logWin, subInfoData, subJobData, serverSubDeadlineInfoFile, serverSubDeadlineJobFile, timeTag)
             #
-            lxLog.viewCompleteSubProcess(logWin)
+            qtLog.viewCompleteSubProcess(logWin)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -1415,13 +1416,13 @@ def scUnitDeadlineJobSubmitCmd(
     multLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, timeTag, useMode=1)
     lxBasic.writeOsData(infoData, multLineInfoFile)
     lxBasic.backupOsFile(multLineInfoFile, mainLineInfoFile)
-    lxLog.viewResult(logWin, multLineInfoFile)
+    qtLog.viewResult(logWin, multLineInfoFile)
     # Job
     mainLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, lxConfigure.LynxiMainTimeTag, useMode=1)
     multLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, timeTag, useMode=1)
     lxBasic.writeOsData(jobData, multLineJobFile)
     lxBasic.backupOsFile(multLineJobFile, mainLineJobFile)
-    lxLog.viewResult(logWin, multLineJobFile)
+    qtLog.viewResult(logWin, multLineJobFile)
     #
     if multLineInfoFile and multLineJobFile:
         # Test Boolean
@@ -1431,11 +1432,11 @@ def scUnitDeadlineJobSubmitCmd(
             if result:
                 for i in result:
                     if not i.startswith('\r\n'):
-                        lxLog.viewResult(logWin, i)
+                        qtLog.viewResult(logWin, i)
             #
             resultFile = lxConfigure._toLxProductResultFile(multLineJobFile)
             #
             lxBasic.writeOsData(result, resultFile)
     else:
-        lxLog.viewError(logWin, 'Write Deadline Info and Job Error')
+        qtLog.viewError(logWin, 'Write Deadline Info and Job Error')
 

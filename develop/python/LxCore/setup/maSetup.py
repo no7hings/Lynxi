@@ -9,7 +9,7 @@ from LxCore.operation import envOp
 #
 from LxCore.setup import appPush
 #
-serverBasicPath = lxConfigure.LynxiRoot().serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverDirectory()
 #
 none = ''
 
@@ -103,7 +103,7 @@ def setMayaSetup(projectName, showProgress, isCloseMaya):
         setMaScriptSetup(projectName)
         setMaTdPackageSetup(projectName)
         # Step >>>> 02
-        appPush.MayaPlug(projectName).push()
+        # appPush.MayaPlug(projectName).push()
         # Step >>>> 03
         import maya.utils as utils
         commandLis = [

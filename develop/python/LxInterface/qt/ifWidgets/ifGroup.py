@@ -1,5 +1,6 @@
 # coding:utf-8
-from LxCore import lxConfigure, lxProgress
+from LxCore import lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.preset import personnelPr
 #
@@ -42,7 +43,7 @@ class IfProjectGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build Project Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.updateProgress()
                 i()
@@ -88,7 +89,7 @@ class IfPersonnelGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build Personnel Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.updateProgress()
                 i()
@@ -124,7 +125,7 @@ class IfToolkitGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build ToolKit Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.updateProgress()
                 i()

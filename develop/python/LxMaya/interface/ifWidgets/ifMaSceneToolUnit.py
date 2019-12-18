@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxTip, lxLog, lxProgress
+from LxCore import lxBasic, lxConfigure
 #
 #
 from LxCore.config import appCfg
@@ -9,7 +9,7 @@ from LxCore.preset import appVariant
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress, qtTip
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -388,7 +388,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     maScLoadCmds.scUnitAssetLoadSubCmd(
                         logWin,
@@ -420,7 +420,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         subLabel
                     ) = _vars
                     #
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     maScLoadCmds.scUnitCameraCacheLoadSubCmd(
                         logWin,
@@ -448,7 +448,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     maScLoadCmds.scUnitAstModelCacheConnectCmd(
                         logWin,
@@ -479,7 +479,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     maScLoadCmds.scUnitAstExtraCacheConnectCmd(
                         logWin,
@@ -511,7 +511,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         furObject
                     ) = _vars
                     #
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     maScLoadCmds.scUnitAstCfxFurCacheConnectSubCmd(
                         logWin,
@@ -798,7 +798,7 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     def setCollectionFile(self):
         collectionDataLis = self.getCollectionDataLis()
         if collectionDataLis:
-            logWin = lxLog.viewLogWin_(u'路径修改')
+            logWin = qtLog.viewLogWin_(u'路径修改')
             #
             maDir.setDirectory(
                 logWin,
@@ -1027,7 +1027,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                             assetData.append(i[1:])
                 #
                 if assetData:
-                    logWin = lxLog.viewLogWin_()
+                    logWin = qtLog.viewLogWin_()
                     #
                     timeTag = lxBasic.getOsActiveTimeTag()
                     description = u'镜头 - 资产（模型缓存）上传/更新'
@@ -1046,7 +1046,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         withAsset
                     )
                     #
-                    lxTip.viewMessage('Scene Asset Cache Upload', 'Complete')
+                    qtTip.viewMessage('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
                 IfToolWindow = qtWidgets.UiToolWindow(self)
@@ -1094,7 +1094,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 progressExplain = '''Load Asset Unit(s)'''
                 maxValue = len(inData)
-                progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                 for k, v in inData.items():
                     progressBar.updateProgress()
                     setBranch(k, v, assetNumberKeys)

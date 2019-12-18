@@ -5,7 +5,7 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg
 #
-basicPresetPath = lxConfigure.LynxiRoot().productDirectory()
+basicPresetPath = lxConfigure.Root()._productDirectory()
 #
 IsPresetVariantKey = True
 #
@@ -257,7 +257,7 @@ def defaultPipelineDeploymentSetConfig():
         None,
         u'流程Python预设',
         [
-            ['pipePythonSharePackage', '<serverBasicPath>/<pipeBasicPackageFolder>/python/share/<pythonVersion>'],
+            ['pipePythonSharePackage', '<serverBasicPath>/<pipeBasicPackageFolder>/python/share/<languageVersion>'],
             ['pipeMayaPythonPackage', '<serverBasicPath>/<pipeBasicPackageFolder>/python/maya/<mayaVersion>']
         ]
     ]
@@ -2609,11 +2609,8 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
             # noinspection PyCallingNonCallable
             return data()
     else:
-        if key == (
-        lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey):
-            return lxConfigure.Maya(
-                getMainPresetSetValue(lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, mainSchemeKey, lxConfigure.LynxiMayaVersionKey)
-            ).plugDatumDic()
+        if key == (lxConfigure.Lynxi_Key_Preset_Project, lxConfigure.LynxiMayaPresetKey, lxConfigure.Lynxi_Key_Plug_PresetKey):
+            return {}
 
 
 #

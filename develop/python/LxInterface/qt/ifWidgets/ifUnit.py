@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure, lxTip, lxProgress
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appConfig
 #
@@ -10,7 +10,7 @@ from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 from LxCore.operation import envOp
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -18,7 +18,7 @@ from LxInterface.qt.ifModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxConfigure.LynxiRoot().serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverDirectory()
 #
 none = ''
 
@@ -234,7 +234,7 @@ class IfScIndexManagerUnit(
             if indexRecordDic:
                 progressExplain = '''List Record'''
                 maxValue = len(indexRecordDic)
-                progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                 for k, v in indexRecordDic.items():
                     progressBar.updateProgress()
                     setBranch(k, v)
@@ -526,7 +526,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -549,7 +549,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -673,14 +673,14 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     #
                     lxBasic.writeOsJsonDic(cacheIndex, indexFile, 4)
                     #
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         'Changer Active Cache is', 'Complete'
                     )
                     #
                     if self._connectObject:
                         self._connectObject.uiQuit()
                 else:
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         'Cache File is', 'Non - Exists'
                     )
     #
@@ -701,7 +701,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 lxBasic.writeOsJsonDic(cacheIndex, indexFile)
                 #
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     'Changer Active Cache is', 'Complete'
                 )
                 #
@@ -1302,7 +1302,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         # Update Method
                         lxUpdate.setUpdate(force=1)
                         #
-                        lxTip.viewMessage(
+                        qtTip.viewMessage(
                             u'Project is Switch to ',
                             u'{}'.format(targetProjectName)
                         )
@@ -1504,7 +1504,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                 # Update Method
                 lxUpdate.setUpdate(force=1)
                 #
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     u'Project is Switch to ',
                     u'{}'.format(targetProjectName)
                 )
@@ -1686,7 +1686,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
                 w = ifProductWindow.IfToolFloatWindow()
                 w.windowShow()
             #
-            lxTip.viewMessage(u'提示：', u'设置用户信息成功')
+            qtTip.viewMessage(u'提示：', u'设置用户信息成功')
     #
     def setupUnit(self):
         widget = qtCore.QWidget_()
@@ -1905,7 +1905,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
     def setupToolUiBox(self, data, treeView, tag, tagItem, toolGroupBox, itemData, keyword):
         def setBranch(seq, k, subToolBox):
             def openCommandCmd():
-                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.ExeSubRoot().serverDirectory())
+                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(commandFile)
                     if subOsFiles:

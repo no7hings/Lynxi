@@ -1,12 +1,12 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxProgress, lxLog
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import pipePr, appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress
 #
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit, ifMaSceneToolUnit, ifMaAnimToolUnit
@@ -30,7 +30,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scene Production'
-_version = lxConfigure.Lynxi_Module_Python().localVersion()
+_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
 
 
 #
@@ -205,7 +205,7 @@ class IfSceneProductToolWindow(qtWidgets.UiToolWindow):
         # View Progress
         explain = '''Build Scene Tool Unit(s)'''
         maxValue = len(methods)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for i in methods:
             progressBar.updateProgress()
             i()
@@ -277,7 +277,7 @@ class IfSceneProductToolWindow(qtWidgets.UiToolWindow):
         # View Progress
         explain = '''Build Scene Viewer Unit(s)'''
         maxValue = len(methods)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for i in methods:
             progressBar.updateProgress()
             i()
@@ -472,7 +472,7 @@ class IfSceneProductToolWindow(qtWidgets.UiToolWindow):
         self.rightBottomToolBar = qtWidgets_.xToolBar()
         rightToolLayout.addWidget(self.rightBottomToolBar)
         #
-        self.logWindow = lxLog.logWin_()
+        self.logWindow = qtLog.logWin_()
         #
         self.setScTopToolBar(self.topToolBar)
 

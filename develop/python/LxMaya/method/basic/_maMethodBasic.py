@@ -13,6 +13,8 @@ from itertools import product
 #
 from LxCore.method.basic import _methodBasic
 #
+from LxUi import uiConfigure
+#
 from LxUi.qt import qtCore
 #
 from LxMaya.method.config import _maConfig
@@ -519,7 +521,10 @@ class M2MethodBasic(_methodBasic.LxAppMethodBasic):
 
 
 #
-class MaUiMethodBasic(_methodBasic.LxUiMethodBasic, _maConfig.MaUiConfig):
+class MaUiMethodBasic(
+    uiConfigure.Basic,
+    _maConfig.MaUiConfig
+):
     @staticmethod
     def _toQtObject(ptr, base=qtCore.QWidget):
         # noinspection PyUnresolvedReferences

@@ -3,7 +3,7 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress, lxLog, lxTip
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg, sceneCfg, appConfig
 #
@@ -11,7 +11,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress, qtTip
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -229,7 +229,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Rig Unit(s)'''
             maxValue = len(uiData)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.updateProgress()
                 setBranch(s, k, v)
@@ -323,7 +323,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         super(IfScLayoutToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.logWindow = lxLog.logWin_()
+        self.logWindow = qtLog.logWin_()
         #
         self.setupUnit()
         #
@@ -626,7 +626,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if maUtils.isAppExist(sceneCamera):
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     u'''Camera : %s''' % sceneCamera, u'''is Exists'''
                 )
             if not maUtils.isAppExist(sceneCamera):
@@ -679,7 +679,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             if maUtils.isAppExist(usedCamera):
                 maUtils.setDisplayMode(5)
                 maUtils.setCameraView(usedCamera)
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     u'''Set Camera View''', u'''Complete'''
                 )
     @staticmethod
@@ -718,7 +718,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                logWin = lxLog.viewLogWin_()
+                logWin = qtLog.viewLogWin_()
                 #
                 timeTag = lxBasic.getOsActiveTimeTag()
                 #
@@ -731,7 +731,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     timeTag,
                     withCamera
                 )
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     u'Animation Camera Upload', u'Complete'
                 )
     #
@@ -794,7 +794,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     if lxBasic.isOsExist(previewFolder):
                         lxBasic.setOsFolderOpen(previewFolder)
                 #
-                lxTip.viewMessage(
+                qtTip.viewMessage(
                     u'Animation Preview Upload', u'Complete'
                 )
     #
@@ -840,11 +840,11 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         'Camera Import', 'Complete'
                     )
                 else:
-                    lxTip.viewMessage(
+                    qtTip.viewMessage(
                         'Camera', 'is Exists'
                     )
 
@@ -1095,7 +1095,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         super(IfScAnimUploadToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.logWindow = lxLog.logWin_()
+        self.logWindow = qtLog.logWin_()
         #
         self.setupUnit()
         #
@@ -1455,7 +1455,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         # Scenery
         isWithScenery = getSceneryUploadDatum()
         # Log Window
-        logWin = lxLog.viewLogWin_()
+        logWin = qtLog.viewLogWin_()
         self._connectObject.hide()
         #
         maScUploadCmds.scUnitAnimationUploadMainCmd(
@@ -1492,7 +1492,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneClass, sceneName, sceneVariant, sceneStage,
             timeTag,
         )
-        lxTip.viewMessage(
+        qtTip.viewMessage(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
@@ -1775,7 +1775,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             lxBasic.setOsFolderOpen(renderPath)
         #
         def setUpdateRenderIndex():
-            logWin = lxLog.viewLogWin_()
+            logWin = qtLog.viewLogWin_()
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
@@ -1794,7 +1794,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 timeTag
             )
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -1829,7 +1829,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             if sceneIndex:
-                logWin = lxLog.viewLogWin_()
+                logWin = qtLog.viewLogWin_()
                 #
                 isWithRender = self.withRenderLabel.isChecked()
                 isWithDeadline = self.withDeadlineLabel.isChecked()
@@ -2101,7 +2101,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             setLoadAction()
             #
-            lxTip.viewMessage('Save Mel Command', 'Complete !!!')
+            qtTip.viewMessage('Save Mel Command', 'Complete !!!')
         #
         def loadCmd():
             osFile = self._melCommandFile
@@ -2185,7 +2185,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             #
-            logWin = lxLog.viewLogWin_(u'Deadline Submit')
+            logWin = qtLog.viewLogWin_(u'Deadline Submit')
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
@@ -2221,7 +2221,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             logWin.setCountdownClose(5)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -3048,7 +3048,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         explain = '''Read Assets's Constant - Data'''
         maxValue = len(inData)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         #
         (
             assetArray, assetNumCortArray, assetDirCortArray, assNsHirCortArray, assNsNmCortArray, assetHirClrArray,
@@ -4206,7 +4206,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                         errorLis = []
                         explain = '''Set Cache Check'''
                         maxValue = len(osFiles)
-                        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                        progressBar = qtProgress.viewSubProgress(explain, maxValue)
                         #
                         for osFile in osFiles:
                             isContinue = self._connectObject.isContinue()
@@ -4265,7 +4265,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             if treeItems:
                 explain = '''Set Nurbs Hair Check'''
                 maxValue = len(treeItems)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for i in treeItems:
                     progressBar.updateProgress()
                     #
@@ -4520,7 +4520,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             # View Progress
             explain = '''Load Asset ( CFX ) Cache'''
             maxValue = len(objectlis)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for furObject in objectlis:
                 progressBar.updateProgress()
                 #

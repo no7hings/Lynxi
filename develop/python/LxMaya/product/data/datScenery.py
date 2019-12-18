@@ -1,11 +1,11 @@
 # coding=utf-8
-import os, collections
+import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxUi.qt import qtProgress
 #
-from LxCore.config import appCfg, sceneryCfg
+from LxCore.config import appCfg
 #
 from LxCore.preset import appVariant
 #
@@ -92,7 +92,7 @@ def getScnAssemblyComposeDatumLis(projectName, sceneryName):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for arPath in stringLis:
                 progressBar.updateProgress()
                 #

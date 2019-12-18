@@ -1,25 +1,26 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxLog, lxTip, lxProgress
+from LxCore import lxBasic, lxConfigure
+
+from LxUi.qt import qtLog, qtProgress, qtTip
 #
-from LxCore.preset import appVariant
 #
-from LxCore.preset.prod import assetPr, sceneryPr
+from LxCore.preset.prod import sceneryPr
 #
-from LxMaya.command import maUtils, maAttr, maFile, maHier, maAsb, maGeom
+from LxMaya.command import maUtils, maFile, maHier, maAsb
 #
 from LxMaya.product.op import sceneryOp
 #
 none = ''
 
 
-@lxTip.viewExceptionMethod
-@lxTip.viewTimeMethod
+@qtTip.viewExceptionMethod
+@qtTip.viewTimeMethod
 def scnUnitCreateMainCmd(
         logWin,
         sceneryIndex,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage):
-    lxLog.viewStartProcess(logWin, 'Create Assembly - Hierarchy')
+    qtLog.viewStartProcess(logWin, 'Create Assembly - Hierarchy')
     #
     if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
         maHier.setCreateScnAssemblyHierarchy(sceneryClass, sceneryName, sceneryVariant)
@@ -30,11 +31,11 @@ def scnUnitCreateMainCmd(
     #
     maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
     #
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
-@lxTip.viewExceptionMethod
-@lxTip.viewTimeMethod
+@qtTip.viewExceptionMethod
+@qtTip.viewTimeMethod
 def scnUnitLoadMainCmd(
         logWin,
         projectName,
@@ -42,7 +43,7 @@ def scnUnitLoadMainCmd(
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
 ):
     #
-    lxLog.viewStartProcess(logWin, 'Load Scenery - Unit')
+    qtLog.viewStartProcess(logWin, 'Load Scenery - Unit')
     if sceneryPr.isScnSceneryLink(sceneryStage):
         serverProductFile = sceneryPr.scnUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -67,7 +68,7 @@ def scnUnitLoadMainCmd(
             localFile = lxBasic.getOsFileJoinTimeTag(localSourceFile, timeTag)
             #
             maFile.saveToMayaFile(localFile)
-            lxLog.viewResult(logWin, localFile)
+            qtLog.viewResult(logWin, localFile)
     elif sceneryPr.isScnLayoutLink(sceneryStage) or sceneryPr.isScnAnimationLink(sceneryStage) or sceneryPr.isScnSimulationLink(sceneryStage):
         pass
     elif sceneryPr.isScnLightLink(sceneryStage):
@@ -75,7 +76,7 @@ def scnUnitLoadMainCmd(
     #
     maHier.setCreateScnRootHierarchy(sceneryClass, sceneryName, sceneryVariant)
     maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
-    lxLog.viewCompleteProcess(logWin)
+    qtLog.viewCompleteProcess(logWin)
 
 
 #
@@ -96,7 +97,7 @@ def scnUnitMaAssemblyLoadCmd(
     if datumLis:
         progressExplain = u'''Build Scenery Compose Unit(s)'''
         maxValue = len(datumLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in datumLis:
             progressBar.updateProgress()
             scnUnitMaAssemblyLoadSubCmd(
@@ -140,7 +141,7 @@ def scnUnitMaAssemblyLoadSubCmd(
             maUtils.setNodeWorldMatrix(arRelativePath, worldMatrix)
             maUtils.setNodeVisible(arRelativePath, isVisible)
             #
-            lxLog.viewResult(logWin, arRelativePath)
+            qtLog.viewResult(logWin, arRelativePath)
 
 
 #

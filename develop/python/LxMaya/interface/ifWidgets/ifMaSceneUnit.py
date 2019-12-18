@@ -1,7 +1,6 @@
 # coding=utf-8
-from LxCore import lxProgress, lxTip
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -42,11 +41,11 @@ class IfScLightLinkUpdateUnit(
         super(IfScLightLinkUpdateUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self._initVar()
+        self._overrideVar()
         #
         self.setupUnit()
     #
-    def _initVar(self):
+    def _overrideVar(self):
         self._dbUnitType = 'maya.lightLink'
         #
         self._localLightLinkDic = {}
@@ -223,7 +222,7 @@ class IfScLightLinkUpdateUnit(
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(datumDic)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 for k, v in datumDic.items():
                     progressBar.updateProgress()
                     #
@@ -294,7 +293,7 @@ class IfScLightLinkUpdateUnit(
             #
             self._updateNameLabel()
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Upload / Update Light Link(s)',
                 'Complete'
             )
@@ -314,7 +313,7 @@ class IfScLightLinkUpdateUnit(
             #
             self._updateNameLabel()
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Upload / Update Render Option(s)',
                 'Complete'
             )
@@ -395,11 +394,11 @@ class IfScLightLinkLoadUnit(
         super(IfScLightLinkLoadUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self._initVar()
+        self._overrideVar()
         #
         self.setupUnit()
     #
-    def _initVar(self):
+    def _overrideVar(self):
         self._dbUnitType = 'maya.lightLink'
         #
         self._serverLightLinkDic = {}
@@ -639,7 +638,7 @@ class IfScLightLinkLoadUnit(
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(dataDic)
-                progressBar = lxProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtProgress.viewSubProgress(explain, maxValue)
                 #
                 defaultSetLis = self.getLightDefaultSetLis()
                 for k, v in dataDic.items():
@@ -698,7 +697,7 @@ class IfScLightLinkLoadUnit(
         defaultSetDatum = self._defaultSetDatumLis
         if defaultSetDatum:
             self.setLightDefaultSet(defaultSetDatum)
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Load Light Default Set(s)',
                 'Complete'
             )
@@ -707,7 +706,7 @@ class IfScLightLinkLoadUnit(
         if lightLinkDatum:
             self.setLightLink(lightLinkDatum)
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 'Load Light Link(s)',
                 'Complete'
             )

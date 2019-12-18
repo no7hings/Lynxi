@@ -1,7 +1,7 @@
 # coding=utf-8
 import threading
 #
-from LxCore import lxBasic, lxConfigure, lxProgress, lxTip, lxLog
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -9,8 +9,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress, qtTip
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -217,7 +216,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Assembly Unit(s)'''
             maxValue = len(uiData)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.updateProgress()
                 setBranch(s, k, v)
@@ -292,7 +291,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
         super(IfScnLinkToolUnit, self).__init__(*args, **kwargs)
         self._connectObject = None
         #
-        self.logWindow = lxLog.logWin_()
+        self.logWindow = qtLog.logWin_()
         #
         self.setupUnit()
     #
@@ -483,7 +482,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self.filterTypes = ['assemblyReference']
         #
-        self.logWindow = lxLog.logWin_()
+        self.logWindow = qtLog.logWin_()
         #
         self.setupUnit()
     #
@@ -886,7 +885,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView
             )
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'Make Snapshot ( View Port )', u'Complete'
             )
     #
@@ -921,7 +920,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #
-            lxTip.viewMessage(
+            qtTip.viewMessage(
                 u'Make Snapshot ( Render )', u'Complete'
             )
     #
@@ -939,7 +938,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._connectObject.hide()
         #
         if sceneryName:
-            logWin = lxLog.viewLogWin_(description)
+            logWin = qtLog.viewLogWin_(description)
             #
             maScnUploadCmds.scnUnitAssemblyUploadCmd(
                 logWin,
@@ -972,7 +971,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneryClass, sceneryName, sceneryVariant, sceneryStage,
             timeTag
         )
-        lxTip.viewMessage(
+        qtTip.viewMessage(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #

@@ -1,7 +1,7 @@
 # coding:utf-8
-from LxUi.qt import qtCore
+from LxUi import uiConfigure
 #
-from LxCore.method.basic import _methodBasic
+from LxUi.qt import qtCore
 #
 from LxUi.qt.qtBasic import qtWidgetBasic
 #
@@ -10,7 +10,7 @@ from LxMaya.method.basic import _maMethodBasic
 
 #
 class IfMaNodeTreeItem(qtWidgetBasic._QtTreeviewItemBasic):
-    _UiMethod = _methodBasic.LxUiMethodBasic
+    _UiMethod = uiConfigure.Basic
     _MaNodeMethod = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)

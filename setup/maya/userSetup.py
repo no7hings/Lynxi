@@ -11,7 +11,7 @@ import maya.utils as utils
 
 
 class Setup(object):
-    ModulePath = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
+    ModuleDirectory = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
     ToolkitPath = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
 
     ProductModulePathDic = {
@@ -103,14 +103,14 @@ class Setup(object):
         if isLxDevelop is True:
             moduleDirectory = self.getLxDevelopPath()
         else:
-            moduleDirectory = self.ModulePath
+            moduleDirectory = self.ModuleDirectory
 
         if os.path.isdir(moduleDirectory):
-            self.setEnviron('LYNXI_MODULE_PATH', self.ModulePath)
+            self.setEnviron('LYNXI_MODULE_PATH', self.ModuleDirectory)
             self.setEnviron('LYNXI_TOOLKIT_PATH', self.ToolkitPath)
             # Step 02
             if isLxDevelop:
-                modulePath = moduleDirectory + '/module/python'
+                modulePath = moduleDirectory + '/develop/python'
             else:
                 modulePath = moduleDirectory + '/product/python/compile'
             # Step 03

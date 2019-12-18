@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxTip
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import pipePr, personnelPr
 #
@@ -7,7 +7,7 @@ from LxCore.preset.prod import projectPr
 #
 from LxUi import uiConfigure
 #
-from LxUi.qt import qtWidgets, qtCore
+from LxUi.qt import qtWidgets, qtCore, qtTip
 #
 from LxInterface.qt.ifWidgets import ifProductGroup
 #
@@ -17,7 +17,7 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class IfProjectWindow(qtWidgets.UiDialogWindow):
     _Title = 'Project'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self):
         super(IfProjectWindow, self).__init__()
         #
@@ -63,7 +63,7 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfPersonnelWindow, self).__init__(parent)
         #
@@ -186,7 +186,7 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
                 w = IfToolFloatWindow()
                 w.windowShow()
             #
-            lxTip.viewMessage(u'提示：', u'设置用户信息成功')
+            qtTip.viewMessage(u'提示：', u'设置用户信息成功')
             self.uiQuit()
     @qtCore.uiShowMethod_
     def windowShow(self):
@@ -221,7 +221,7 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
 #
 class IfToolFloatWindow(qtWidgets.UiFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfToolFloatWindow, self).__init__(parent)
         #
@@ -300,7 +300,7 @@ class IfToolkitWindow(qtWidgets.UiToolWindow):
     #
     projectName = projectPr.getMayaProjectName()
     _Title = 'Tool Kit'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfToolkitWindow, self).__init__(parent)
         #
@@ -328,7 +328,7 @@ class IfToolkitWindow(qtWidgets.UiToolWindow):
 #
 class IfProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfProductManagerWindow, self).__init__(parent)
         #
@@ -351,7 +351,7 @@ class IfProductManagerWindow(qtWidgets.QtWindow):
 #
 class IfAssetManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfAssetManagerWindow, self).__init__(parent)
         #
@@ -383,7 +383,7 @@ class IfAssetManagerWindow(qtWidgets.UiToolWindow):
 #
 class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneryManagerWindow, self).__init__(parent)
         #
@@ -415,7 +415,7 @@ class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
 #
 class IfSceneManagerWindow(qtWidgets.UiToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxConfigure.Lynxi_Module_Python().localVersion()
+    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneManagerWindow, self).__init__(parent)
         #

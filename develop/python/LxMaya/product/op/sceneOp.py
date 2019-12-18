@@ -2,7 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import sceneCfg
 #
@@ -292,7 +293,7 @@ def setScSceneryAsbTransformation(data):
         for subData in data:
             explain = '''Load Assembly Transformation(s)'''
             maxValue = len(subData)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for i in subData:
                 progressBar.updateProgress()
                 objectPath, transAttrData = i
@@ -319,7 +320,7 @@ def setCreateScAstSolverAttribute(data, namespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Attribute'''
         maxValue = len(data)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objectPath, (shapeNodeData, shapeCustomAttrData) in data.items():
             progressBar.updateProgress()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, namespace)
@@ -333,7 +334,7 @@ def setCreateScAstSolverConnection(data, sourceNamespace, targetNamespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Connection'''
         maxValue = len(data)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objectPath, connectionArray in data.items():
             progressBar.updateProgress()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, targetNamespace)

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg, assetCfg
 #
@@ -8,7 +8,7 @@ from LxCore.preset import pipePr
 from LxCore.preset.prod import projectPr, assetPr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress
 #
 from LxMaya.interface.ifCommands import maAstTreeViewCmds
 #
@@ -24,7 +24,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Asset Production'
-_version = lxConfigure.Lynxi_Module_Python().localVersion()
+_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
 
 
 #
@@ -533,7 +533,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for i in uiDatumLis:
             progressBar.updateProgress()
             #

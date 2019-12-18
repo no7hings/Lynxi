@@ -2,13 +2,15 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
 #
 from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import sceneryPr
 #
 from LxMaya.command import maUtils, maGeom
+#
+from LxUi.qt import qtProgress
 # Type Config
 typeSet = appVariant.astBasicClassifications
 typeLabel = appVariant.assetClassifyAbbDic

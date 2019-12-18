@@ -2,7 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -769,7 +770,7 @@ def getScAstModelMeshConstantData(
             # View Progress
             explain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionInfoDic)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for meshKey in unionInfoDic:
                 progressBar.updateProgress()
                 #
@@ -826,7 +827,7 @@ def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for assemblyPath in stringLis:
                 progressBar.updateProgress()
                 datum = getScnAssemblyComposeDatumSub(assemblyPath, rootPath)

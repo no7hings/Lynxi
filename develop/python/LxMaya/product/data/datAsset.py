@@ -5,7 +5,8 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import pymel.core as core
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
 #
@@ -52,7 +53,7 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.updateProgress('Vertex')
@@ -378,7 +379,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in objectLis:
             progressBar.updateProgress()
             getBranch(i)
@@ -594,7 +595,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.updateProgress()
             getBranch(i)
@@ -620,7 +621,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.updateProgress()
             getBranch(i)
@@ -705,7 +706,7 @@ def getTextureStatisticsDic(objectLis):
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(textureNodeLis)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for textureNode in textureNodeLis:
             # In Progress
             progressBar.updateProgress()
@@ -807,7 +808,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.updateProgress()
                 #
@@ -848,7 +849,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.updateProgress()
                 #
@@ -938,7 +939,7 @@ def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, ass
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(unionUniqueInfoData)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for uniqueId in unionUniqueInfoData:
             progressBar.updateProgress()
             #

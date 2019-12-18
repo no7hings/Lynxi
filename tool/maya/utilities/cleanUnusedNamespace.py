@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxCore import lxTip
+from LxUi.qt import qtTip
 #
 from LxMaya.command import maUtils
 #
 maUtils.setUnusedNamespacesClean()
 #
-lxTip.viewMessage('Clean Unused - Namespace', 'Complete')
+qtTip.viewMessage('Clean Unused - Namespace', 'Complete')

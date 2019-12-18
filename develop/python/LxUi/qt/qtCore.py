@@ -13,8 +13,6 @@ from PyQt5.QtWidgets import *
 #
 from LxCore import lxBasic, lxConfigure
 #
-from LxCore.method.basic import _methodBasic
-#
 from LxUi import uiConfigure
 #
 cgitb.enable(format='text')
@@ -111,7 +109,7 @@ none = ''
 
 
 def iconRoot():
-    return lxConfigure.IconSubRoot().serverDirectory()
+    return lxConfigure.IconSubRoot()._serverDirectory()
 
 
 #
@@ -378,7 +376,10 @@ class QPainterPath_(QtGui.QPainterPath):
 
 
 #
-class QPainter_(QtGui.QPainter, _methodBasic.LxUiMethodBasic):
+class QPainter_(
+    QtGui.QPainter,
+    uiConfigure.Basic
+):
     def __init__(self, *args, **kwargs):
         # noinspection PyArgumentList
         super(QtGui.QPainter, self).__init__(*args, **kwargs)
@@ -1689,7 +1690,7 @@ class QScrollArea_(QScrollArea):
 # Tool Tip Box
 class QtTooltipWidget_(
     QWidget,
-    _methodBasic.LxUiMethodBasic
+    uiConfigure.Basic
 ):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QtTooltipWidget_, self)
@@ -1984,8 +1985,9 @@ def nativeEve(ui, message):
 #
 def quitUi():
     if not getAppWindow():
-        app = getApp()
-        # app.quit()
+        pass
+        # app = getApp()
+        # # app.quit()
 
 
 #

@@ -5,7 +5,8 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 #
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
 #
@@ -676,7 +677,7 @@ def gpuSeqExport(objectString, startFrame, endFrame, osFile, withMaterial=0):
     # View Progress
     explain = '''Export GPU Sequence'''
     maxValue = endFrame - startFrame + 1
-    progressBar = lxProgress.viewSubProgress(explain, maxValue)
+    progressBar = qtProgress.viewSubProgress(explain, maxValue)
     for seq in sequenceRange:
         # In Progress
         progressBar.updateProgress()
@@ -796,7 +797,7 @@ def assExport(assFile, camera, startFrame, endFrame):
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
-    progressBar = lxProgress.viewSubProgress(explain, maxValue)
+    progressBar = qtProgress.viewSubProgress(explain, maxValue)
     # Move to Server
     for seq, tempSubAssFile in enumerate(tempSubAssFiles):
         # In Progress

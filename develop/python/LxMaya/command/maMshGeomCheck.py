@@ -2,7 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxProgress
+from LxCore import lxBasic
+from LxUi.qt import qtProgress
 #
 from LxMaya.command import maUtils
 #
@@ -151,7 +152,7 @@ def astMeshGeomDefCheck(meshObjects):
         # View Progress
         progressExplain = u'''Mesh Geometry Check'''
         maxValue = len(config)
-        progressBar = lxProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for k, v in config.items():
             enable = v[0]
             subExplain = v[1]

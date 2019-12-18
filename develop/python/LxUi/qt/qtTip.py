@@ -1,12 +1,6 @@
 # coding=utf-8
 from LxCore import lxBasic, lxConfigure
 #
-from LxUi import uiConfigure
-#
-from LxUi.command import uiHtml
-#
-_htmlColors = uiConfigure.Lynxi_Ui_Color_Html_Lis
-#
 none = ''
 
 
@@ -14,6 +8,8 @@ none = ''
 def viewMessage(message, keyword=none):
     if lxBasic.isMayaApp():
         fontSize = 10
+        from LxUi.command import uiHtml
+
         from LxUi.qt import qtCore
         #
         from LxUi.qt import qtWidgets
@@ -81,6 +77,7 @@ def viewTimeMethod(fn):
 
 #
 def viewExceptionMethod(fn):
+    from LxUi.command import uiHtml
     def subMethod(*args, **kw):
         # noinspection PyBroadException
         try:
@@ -103,6 +100,8 @@ def viewExceptionMethod(fn):
 
 #
 def viewConnections(connections, explain, namespaceFilter):
+    from LxUi.command import uiHtml
+
     from LxUi.qt import qtWidgets
     #
     tipWin = qtWidgets.UiTipWindow()

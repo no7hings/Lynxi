@@ -2,12 +2,11 @@
 from LxCore import lxBasic
 #
 from LxUi.qt import qtCore
-from LxUi.command import uiHtml
 
+from LxUi.command import uiHtml
 #
 none = ''
-
-
+#
 startLabel = ''
 endLabel = ''
 midLabel = ''
@@ -44,7 +43,7 @@ def viewLogWin_(title=None):
 
 #
 def logWin_(title=None):
-    from LxUi import qtCore
+    from LxUi.qt import qtCore
     existsWin = qtCore.lxGetLogWin()
     if existsWin:
         return existsWin

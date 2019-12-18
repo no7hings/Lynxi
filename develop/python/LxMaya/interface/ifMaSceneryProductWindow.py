@@ -2,14 +2,14 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import pipePr, appVariant
 #
 from LxCore.preset.prod import projectPr, sceneryPr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit
 #
@@ -23,7 +23,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxConfigure.Lynxi_Module_Python().localVersion()
+_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
 
 
 #
@@ -83,7 +83,7 @@ class IfSceneryProductToolWindow(qtWidgets.UiToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for i in uiDatumLis:
             progressBar.updateProgress()
             #

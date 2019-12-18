@@ -7,11 +7,11 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 from PIL import Image
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr
 #
@@ -371,7 +371,7 @@ def getTextureDirectoryDic(namespaceFilter=none):
         # View Progress
         explain = '''Read Texture's Data'''
         maxValue = len(textureNodes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for textureNode in textureNodes:
             # In Progress
             progressBar.updateProgress()
@@ -465,7 +465,7 @@ def setTextureAttrToTx(textureDatumDic=none):
         # View Progress
         explain = u'''Repath Texture to Tx ( Arnold )'''
         maxValue = len(textureDatumDic)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for k, v in textureDatumDic.items():
             # In Progress
             progressBar.updateProgress()
@@ -624,7 +624,7 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
         # View Progress
         explain = u'''Backup Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
             copyThreadLis = []
@@ -671,7 +671,7 @@ def setTexturesCollection(targetPath, inData=none, withTx=True, backupExists=Fal
         # View Progress
         explain = u'''Collection Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         #
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -706,7 +706,7 @@ def setCollectionMaps(targetPath, inData=none, backupExists=False):
     if collectionDatumLis:
         explain = u'''Collection Character FX's Map'''
         maxValue = len(collectionDatumLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         #
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -738,7 +738,7 @@ def setTexturesRepath(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Texture(s)'''
         maxValue = len(textureData)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for k, v in textureData.items():
             # In Progress
             progressBar.updateProgress()
@@ -765,7 +765,7 @@ def setRepathMaps(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Map'''
         maxValue = len(mapData)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for k, v in mapData.items():
             # In Progress
             progressBar.updateProgress()

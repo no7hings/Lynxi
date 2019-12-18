@@ -2,7 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure, lxProgress
+from LxCore import lxBasic, lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
 #
@@ -149,7 +150,7 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objSeq, objectString in enumerate(objectLis):
             progressBar.updateProgress()
             objectType = maUtils.getShapeType(objectString)
@@ -196,7 +197,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
         # View Progress
         explain = u'''Rename Material - Node'''
         maxValue = len(renameDataArray)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.updateProgress(nodeName)
             print node, nodeName
@@ -209,7 +210,7 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for aovSeq, aov in enumerate(aovNodes):
             progressBar.updateProgress()
             nodes = getMaterialNodes(aov)
@@ -252,7 +253,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
         # View Progress
         explain = u'''Rename AOV Node'''
         maxValue = len(renameDataArray)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.updateProgress(nodeName)
             maUtils.setNodeRename(node, nodeName)
@@ -621,7 +622,7 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         # View Progress
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for objectString, linkDatumLis in data.items():
             # In Progress
             progressBar.updateProgress()
@@ -653,7 +654,7 @@ def setMaterialsObjectSetsConnect(datumDic):
         # View Progress
         explain = u'''Connect Material's Object Set(s)'''
         maxValue = len(datumDic)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for compIndex, linkDatumLis in datumDic.items():
             progressBar.updateProgress()
             #
@@ -934,7 +935,7 @@ def setObjectsAttrsCreate(datumDic):
         # View Progress
         explain = u'''Set Material's Object Attribute(s)'''
         maxValue = len(datumDic)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for uniqueId, attrData in datumDic.items():
             progressBar.updateProgress()
             #

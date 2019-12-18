@@ -1,11 +1,8 @@
 # coding=utf-8
-from LxCore import lxProgress
 #
-from LxUi.qt import qtWidgets
+from LxUi.qt import qtWidgets, qtMethod, qtProgress
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
-#
-from LxCore.method import _uiMethod
 #
 from LxMaya.method import _maMethod
 #
@@ -25,7 +22,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitScriptJobWindowName = 'astModelMeshGeomCheckWindow'
     #
     _MaCheckMethod = _maMethod.MaCheckMethod
-    _QtViewMethod = _uiMethod.QtViewMethod
+    _QtViewMethod = qtMethod.QtViewMethod
     def __init__(self, *args, **kwargs):
         super(IfAstModelCheckViewerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -149,7 +146,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self._MaCheckMethod.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
-        progressBar = lxProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
             progressBar.updateProgress(k)
             setInspectionBranch(s, k, v)

@@ -1,5 +1,6 @@
 # coding=utf-8
-from LxCore import lxConfigure, lxProgress
+from LxCore import lxConfigure
+from LxUi.qt import qtProgress
 #
 from LxCore.preset import personnelPr
 #
@@ -39,7 +40,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         ['.png']
     ]
     #
-    developPath = lxConfigure.LynxiRoot().developDirectory()
+    developPath = lxConfigure.Root()._developDirectory()
 
     backupPath = developPath + '/.bck'
     versionPath = backupPath + '/.version'
@@ -79,7 +80,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         if self.mainWindow:
             explain = '''Build Develop Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = lxProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtProgress.viewSubProgress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.updateProgress()
                 i()

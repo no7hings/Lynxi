@@ -1,19 +1,19 @@
 # coding=utf-8
 from LxCore import lxBasic, lxConfigure
 #
-from LxCore.method import _dbMethod, _uiMethod
+from LxCore.method import _dbMethod
 #
-from LxUi.qt import qtWidgets, qtCore
+from LxUi.qt import qtWidgets, qtCore, qtMethod
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
-serverBasicPath = lxConfigure.LynxiRoot().serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverDirectory()
 
 
 #
 class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
     _dbMethod = _dbMethod.DbOsUnitMethod
-    _uiMethod = _uiMethod.QtViewMethod
+    _uiMethod = qtMethod.QtViewMethod
     #
     dbClass = 'develop'
     dbUnitType = _dbMethod.LxDb_Type_Unit_Python
@@ -106,7 +106,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         def setBranch(value):
             def setBranchActions():
                 def openDatumFileCmd():
-                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.ExeSubRoot().serverDirectory())
+                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
                     if lxBasic.isOsExistsFile(osCmdExe):
                         tempOsFile = '{}/{}/{}/{}'.format(self._dbMethod.LynxiOsPath_LocalTemporary, dbDatumType, dbDatumId, osRelativeFile)
                         if not self._dbMethod.isOsExistsFile(tempOsFile):
