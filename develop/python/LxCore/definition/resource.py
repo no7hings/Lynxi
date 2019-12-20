@@ -1,31 +1,41 @@
 # coding:utf-8
 from LxCore import lxBasic, lxConfigure
 
-from LxCore.definition import abstract, path, bin, raw
+from LxCore.definition import method, abstract, system, file, raw
 
-env = lxBasic.Environ()
+env = method.Environ()
 
 
-class Resource(lxConfigure.Basic):
+class Rsc_Operate(lxConfigure.Basic):
     def __init__(self, config, version):
-        self.Cls_Config_Dic = {
-            self.Category_Windows_Python_Module: Cfg_WinPythonModule,
-            self.Category_Windows_App_Python_Module: Cfg_WinAppPythonModule,
-            self.Category_Windows_Python_Package: Cfg_WindowsPythonPackage,
-            self.Category_Windows_App_Python_Package: Cfg_WinAppPythonPackage,
-            self.Category_Windows_App_Plug: Cfg_WinAppPlug
+        self.Cls_Resource_Dic = {
+            self.Category_Plt_Language: Rsc_PltLanguage,
+            self.Category_Plt_Application: Rsc_PltApplication,
+
+            self.Category_Plt_Lan_Package: Rsc_PltLanPackage,
+            self.Category_Plt_App_Lan_Package: Rsc_PltAppLanPackage,
+
+            self.Category_Plt_App_Package: Rsc_PltAppPackage,
+
+            self.Category_Plt_Lan_Module: Rsc_PltLanModule,
+            self.Category_Plt_App_Lan_Module: Rsc_PltAppLanModule,
+
+            self.Category_Plt_App_Module: Rsc_PltAppModule,
+
+            self.Category_Plt_Lan_Scheme: Rsc_PltLanScheme,
+            self.Category_Plt_App_Lan_Scheme: Rsc_PltAppLanScheme
         }
 
         self._initResource(config, version)
 
     def _initResource(self, config, version):
-        self._config = config
+        self._configObj = config
         self._version = version
 
         self._overrideEnvironRaw()
 
     def _overrideEnvironRaw(self):
-        raw_ = self._config.environ().raw()
+        raw_ = self.environ.raw()
         if raw_:
             for k, v in raw_.items():
                 value = v[self.Key_Value]
@@ -41,59 +51,74 @@ class Resource(lxConfigure.Basic):
             self.serverTimestampDatum(), self.localTimestampDatum()
         )
 
-    def _toRaw(self):
-        raw_ = self._config.raw()
-        raw_[self.Key_Version] = self.version()
-        return raw_
+    @property
+    def path(self):
+        return self._configObj.file.directory
 
+    @property
     def config(self):
-        return self._config
+        return self._configObj
 
+    @property
     def category(self):
-        return self._config.category()
+        return self._configObj.category
 
+    @property
     def name(self):
-        return self._config.name()
+        return self._configObj.name
 
+    @property
     def version(self):
         return self._version
 
-    def _activeDirectory(self):
-        return u'{}/{}'.format(self._config._activeDirectory(), self.version())
+    @property
+    def environ(self):
+        return self._configObj.environ
+
+    @property
+    def dependent(self):
+        return self._configObj.dependent
+
+    @property
+    def sourcepath(self):
+        return self.activeSourceDirectory()
+
+    def _activePath(self):
+        return u'{}/{}'.format(self.path._activePath(), self.version)
 
     def activeSourceDirectory(self):
-        return u'{}/{}'.format(self._activeDirectory(), self.Folder_Source)
+        return u'{}/{}'.format(self._activePath(), self.Folder_Source)
 
-    def _serverDirectory(self):
-        return u'{}/{}'.format(self._config._serverDirectory(), self.version())
+    def _serverPath(self):
+        return u'{}/{}'.format(self.path._serverPath(), self.version)
 
     def serverSourceDirectory(self):
-        return u'{}/{}'.format(self._serverDirectory(), self.Folder_Source)
+        return u'{}/{}'.format(self._serverPath(), self.Folder_Source)
 
-    def _localDirectory(self):
-        return u'{}/{}'.format(self._config._localDirectory(), self.version())
+    def _localPath(self):
+        return u'{}/{}'.format(self.path._localPath(), self.version)
 
     def localSourceDirectory(self):
-        return u'{}/{}'.format(self._localDirectory(), self.Folder_Source)
+        return u'{}/{}'.format(self._localPath(), self.Folder_Source)
 
-    def _developDirectory(self):
-        return u'{}/{}'.format(self._config._developDirectory(), self.version())
+    def _developPath(self):
+        return u'{}/{}'.format(self.path._developPath(), self.version())
 
     def _developSourceDirectory(self):
-        return u'{}/{}'.format(self._developDirectory(), self.Folder_Source)
+        return u'{}/{}'.format(self._developPath(), self.Folder_Source)
 
-    def _productDirectory(self):
-        return u'{}/{}'.format(self._config._productDirectory(), self.version())
+    def _productPath(self):
+        return u'{}/{}'.format(self.path._productPath(), self.version)
 
     def _productSourceDirectory(self):
-        return u'{}/{}'.format(self._productDirectory(), self.Folder_Source)
+        return u'{}/{}'.format(self._productPath(), self.Folder_Source)
 
     def createDevelopDirectory(self):
-        lxBasic.createOsPath(self._developDirectory())
+        lxBasic.createOsPath(self._developPath())
 
     def serverTimestampFile(self):
         return u'{}/timestamp.json'.format(
-            self._serverDirectory()
+            self._serverPath()
         )
 
     def createServerTimestamp(self):
@@ -108,7 +133,7 @@ class Resource(lxConfigure.Basic):
 
     def localTimestampFile(self):
         return u'{}/timestamp.json'.format(
-            self._localDirectory()
+            self._localPath()
         )
 
     def createLocalTimestamp(self):
@@ -131,17 +156,17 @@ class Resource(lxConfigure.Basic):
                 lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
 
                 traceMessage = u'Localization Resource "{}" : "{}" > "{}"'.format(
-                    self._config.name(), sourceFile, targetFile
+                    self._configObj.name, sourceFile, targetFile
                 )
                 lxConfigure.Message().traceResult(traceMessage)
 
                 lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
         else:
-            traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self._config.name())
+            traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self._configObj.name())
             lxConfigure.Message().traceResult(traceMessage)
 
     def addEnvirons(self):
-        raw_ = self._config.environ().raw()
+        raw_ = self.environ.raw()
         if raw_:
             for k, v in raw_.items():
                 operate = v[self.Key_Operate]
@@ -159,7 +184,7 @@ class Resource(lxConfigure.Basic):
 
     def environCommands(self):
         lis = []
-        raw_ = self._config.environ().raw()
+        raw_ = self.environ.raw()
         if raw_:
             for k, v in raw_.items():
                 value = v[self.Key_Value]
@@ -179,11 +204,11 @@ class Resource(lxConfigure.Basic):
         return lis
 
     def hasDependents(self):
-        return self._config.dependent().hasRaw()
+        return self._configObj.dependent.hasRaw()
 
     def dependentResources(self):
         def recursionFn(resource_):
-            raw_ = resource_.config().dependent().raw()
+            raw_ = resource_.dependent.raw()
             if raw_:
                 for k, v in raw_.items():
                     category = k
@@ -192,26 +217,26 @@ class Resource(lxConfigure.Basic):
 
                         argument = iv[self.Key_Argument]
 
-                        configMethod = self.Cls_Config_Dic[category]
+                        configMethod = self.Cls_Resource_Dic[category]
                         if isinstance(argument, tuple) or isinstance(argument, list):
                             config = configMethod(name, *argument)
                         else:
                             config = configMethod(name, argument)
                         version = iv[self.Key_Version]
                         if version == self.Version_Active:
-                            version = config.version().active()
+                            version = config.version.active
 
-                        resource = config.resourceAt(version)
+                        resource = config.operateAt(version)
                         addFn(resource)
                         recursionFn(resource)
 
         def addFn(resource_):
-            name = resource_.name()
+            name = resource_.name
             if not name in nameLis:
                 nameLis.append(name)
                 lis.append(resource_)
 
-        nameLis = [self.name()]
+        nameLis = [self.name]
 
         lis = [self]
 
@@ -219,160 +244,201 @@ class Resource(lxConfigure.Basic):
 
         return lis
 
+    def _dependent(self):
+        resource_ = self
+        raw_ = resource_.dependent.raw()
+        print raw_
+
     def dependentEnviron(self):
         environ = raw.Raw_Environ()
 
         dependentLis = self.dependentResources()
         if dependentLis:
             for i in dependentLis:
-                environ += i.config().environ()
+                environ += i.environ
 
         return environ
 
     def _formatDict(self):
         return {
-            self.Attr_Path:  self._activeDirectory(),
-            self.Attr_Path_Source: self.activeSourceDirectory()
+            self.Attr_Key_Self: self,
+            self.Attr_Key_Path:  self._activePath(),
+            self.Attr_Key_Path_Source: self.activeSourceDirectory()
         }
 
     def setup(self):
         pass
 
     def raw(self):
-        return {
-            self.Key_Category: self._config.category(),
-            self.Key_Name: self._config.name(),
-            self.Key_Version: self.version(),
-            self.Key_Argument: self._config.argument()
-        }
+        return lxBasic.orderedDict(
+            [
+                (self.Key_Category, self._configObj.category),
+                (self.Key_Name, self._configObj.name),
+                (self.Key_Version, self.version),
+                (self.Key_Argument, self._configObj.argument)
+            ]
+        )
 
     def __str__(self):
         return self._toStringMethod(self.raw())
 
 
-class Cfg_WinApplication(abstract._AbcResourceConfig):
-    PATH_CLS = path.ApplicationDirectory
+class Rsc_PltLanguage(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_Platform
+    FILE_CLS = file.Fle_BinConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Plf_Windows
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_Language
 
-    Category = lxConfigure.Basic.Category_Windows_Bin
-
-    def __init__(self, binName, platformVersion):
-        self._initAbcWindowsBinConfig(
-            binName, platformVersion
-        )
-
-
-class Cfg_WinPythonModule(abstract._AbcResourceConfig):
-    PATH_CLS = path.ModuleDirectory
-
-    BIN_CLS = bin.Win_Python
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
-
-    Category = lxConfigure.Basic.Category_Windows_Python_Module
-
-    def __init__(self, resourceName, languageVersion):
-        self._initAbcWindowsPythonResourceConfig(
+    def __init__(self, resourceName, platformName, platformVersion):
+        self._initAbcResource(
             resourceName,
-            languageVersion,
+            platformName, platformVersion,
         )
 
 
-class Cfg_WindowsPythonPackage(abstract._AbcResourceConfig):
-    PATH_CLS = path.PackagePath
+class Rsc_PltApplication(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_Platform
+    FILE_CLS = file.Fle_BinConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Python
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_Application
 
-    Category = lxConfigure.Basic.Category_Windows_Python_Package
-
-    def __init__(self, resourceName, languageVersion):
-        self._initAbcWindowsPythonResourceConfig(
+    def __init__(self, resourceName, platformName, platformVersion):
+        self._initAbcResource(
             resourceName,
-            languageVersion
+            platformName, platformVersion,
         )
 
 
-class Cfg_WinAppPythonModule(abstract._AbcResourceConfig):
-    PATH_CLS = path.ModuleDirectory
+class Rsc_PltLanPackage(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltLanguage
+    FILE_CLS = file.Fle_PackageConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Application
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_Lan_Package
 
-    Category = lxConfigure.Basic.Category_Windows_App_Python_Module
-
-    def __init__(self, resourceName, appName, appVersion):
-        self._initAbcWindowsAppPythonResourceConfig(
+    def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
+        self._initAbcResource(
             resourceName,
-            appName, appVersion,
-
+            platformName, platformVersion,
+            languageName, languageVersion
         )
 
 
-class Cfg_WinAppPythonPackage(abstract._AbcResourceConfig):
-    PATH_CLS = path.PackagePath
+class Rsc_PltAppLanPackage(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltAppLanguage
+    FILE_CLS = file.Fle_PackageConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Application
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_App_Lan_Package
 
-    Category = lxConfigure.Basic.Category_Windows_App_Python_Package
-
-    def __init__(self, resourceName, appName, appVersion):
-        self._initAbcWindowsAppPythonResourceConfig(
+    def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
+        self._initAbcResource(
             resourceName,
-            appName, appVersion,
+            platformName, platformVersion,
+            applicationName, applicationVersion,
+            languageName, languageVersion
         )
 
 
-class Cfg_WinAppPlug(abstract._AbcResourceConfig):
-    PATH_CLS = path.AppPlugPath
+class Rsc_PltAppPackage(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltApplication
+    FILE_CLS = file.Fle_PackageConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Application
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_App_Package
 
-    Category = lxConfigure.Basic.Category_Windows_App_Plug
-
-    def __init__(self, resourceName, appName, appVersion):
-        self._initAbcWindowsAppResourceConfig(
+    def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
+        self._initAbcResource(
             resourceName,
-            appName, appVersion,
+            platformName, platformVersion,
+            applicationName, applicationVersion
         )
 
 
-class Cfg_WinPythonScheme(abstract._AbcResourceConfig):
-    PATH_CLS = path.SchemePath
+class Rsc_PltLanModule(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltLanguage
+    FILE_CLS = file.Fle_CfgModule
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Python
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_Lan_Module
 
-    Category = lxConfigure.Basic.Category_Windows_Python_Scheme
-
-    def __init__(self, schemeName, languageVersion):
-        self._initAbcWindowsPythonResourceConfig(
-            schemeName,
-            languageVersion
+    def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
+        self._initAbcResource(
+            resourceName,
+            platformName, platformVersion,
+            languageName, languageVersion
         )
 
 
-class Cfg_WinAppPythonScheme(abstract._AbcResourceConfig):
-    PATH_CLS = path.SchemePath
+class Rsc_PltAppModule(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltApplication
+    FILE_CLS = file.Fle_CfgModule
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
 
-    BIN_CLS = bin.Win_Application
-    RAW_CLS = raw.Raw_ResourceConfig
-    RESOURCE_CLS = Resource
+    object_category = lxConfigure.Basic.Category_Plt_App_Module
 
-    Category = lxConfigure.Basic.Category_Windows_App_Python_Scheme
+    def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
+        self._initAbcResource(
+            resourceName,
+            platformName, platformVersion,
+            applicationName, applicationVersion
+        )
 
-    def __init__(self, schemeName, appName, appVersion):
-        self._initAbcWindowsAppPythonResourceConfig(
-            schemeName,
-            appName, appVersion
+
+class Rsc_PltLanScheme(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltLanguage
+    FILE_CLS = file.Fle_SchemeConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
+
+    object_category = lxConfigure.Basic.Category_Plt_Lan_Scheme
+
+    def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
+        self._initAbcResource(
+            resourceName,
+            platformName, platformVersion,
+            languageName, languageVersion
+        )
+
+
+class Rsc_PltAppLanModule(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltAppLanguage
+    FILE_CLS = file.Fle_CfgModule
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
+
+    object_category = lxConfigure.Basic.Category_Plt_App_Lan_Module
+
+    def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
+        self._initAbcResource(
+            resourceName,
+            platformName, platformVersion,
+            applicationName, applicationVersion,
+            languageName, languageVersion
+        )
+
+
+class Rsc_PltAppLanScheme(abstract.Abc_Resource):
+    SYSTEM_CLS = system.Sys_PltAppLanguage
+    FILE_CLS = file.Fle_SchemeConfigure
+    CONFIGURE_CLS = raw.Raw_Configure
+    OPERATE_CLS = Rsc_Operate
+
+    object_category = lxConfigure.Basic.Category_Plt_App_Lan_Scheme
+
+    def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
+        self._initAbcResource(
+            resourceName,
+            platformName, platformVersion,
+            applicationName, applicationVersion,
+            languageName, languageVersion
         )

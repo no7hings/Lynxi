@@ -331,12 +331,7 @@ class helpDocument(object):
 
 
 if __name__ == '__main__':
-    helpDocument('e:/mytest/test_0.txt', 'e:/mytest/test_0.md')
     helpDocument(
-        'E:/myworkspace/td/lynxi/doc/maya/python/OpenMaya2',
-         'E:/myworkspace/td/lynxi/doc/maya/python/OpenMaya2.md'
-    )
-    helpDocument(
-        'E:/myworkspace/td/lynxi/doc/materialx/python/materialx',
-        'E:/myworkspace/td/lynxi/doc/materialx/python/materialx.md'
+        'E:/myworkspace/td/lynxi/doc/maya/python/OpenMaya',
+         'E:/myworkspace/td/lynxi/doc/maya/python/OpenMaya.md'
     )

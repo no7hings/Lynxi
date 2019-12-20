@@ -4,7 +4,9 @@
     <content url="file://$MODULE_DIR$/../develop/python">
       <sourceFolder url="file://$MODULE_DIR$/../develop/python" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../doc" />
+    <content url="file://$MODULE_DIR$/../doc">
+      <excludeFolder url="file://$MODULE_DIR$/../doc" />
+    </content>
     <content url="file://$MODULE_DIR$/../plug/maya/share" />
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup" />

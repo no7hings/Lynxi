@@ -53,7 +53,7 @@ def getTemporaryOsFile(osFile):
     osFileBasename = lxBasic.getOsFileBasename(osFile)
     tempFile = lxBasic._toOsFile(_tempDirectory, osFileBasename)
     #
-    lxBasic.setOsFilePathCreate(tempFile)
+    lxBasic.setOsFileDirectoryCreate(tempFile)
     return tempFile
 
 

@@ -1,52 +1,61 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
-from LxCore.definition import abstract, resource
+from LxCore.definition import resource
 
 
 class ResourcePreset(lxConfigure.Basic):
     def __init__(self):
         self.Def_Cls_Config_Dic = {
-            self.Category_Windows_Bin: resource.Cfg_WinApplication,
-            self.Category_Windows_Python_Module: resource.Cfg_WinPythonModule,
-            self.Category_Windows_App_Python_Module: resource.Cfg_WinAppPythonModule,
-            self.Category_Windows_Python_Package: resource.Cfg_WindowsPythonPackage,
-            self.Category_Windows_App_Python_Package: resource.Cfg_WinAppPythonPackage,
-            self.Category_Windows_App_Plug: resource.Cfg_WinAppPlug
+            self.Category_Plt_Language: resource.Rsc_PltLanguage,
+            self.Category_Plt_Application: resource.Rsc_PltApplication,
+
+            self.Category_Plt_Lan_Package: resource.Rsc_PltLanPackage,
+            self.Category_Plt_App_Lan_Package: resource.Rsc_PltAppLanPackage,
+
+            self.Category_Plt_App_Package: resource.Rsc_PltAppPackage,
+
+            self.Category_Plt_Lan_Module: resource.Rsc_PltLanModule,
+            self.Category_Plt_App_Lan_Module: resource.Rsc_PltAppLanModule,
+
+            self.Category_Plt_App_Module: resource.Rsc_PltAppModule,
+
+            self.Category_Plt_Lan_Scheme: resource.Rsc_PltLanScheme,
+            self.Category_Plt_App_Lan_Scheme: resource.Rsc_PltAppLanScheme
         }
+
         self.Def_Preset_Dic = {
             # Windows Bin
-            self.Category_Windows_Bin: {
-                'python_0': ('python', 'share')
+            self.Category_Plt_Language: {
+                'python_0': ('python', 'windows', 'share')
             },
             # Windows Python Package
-            self.Category_Windows_Python_Package: {
-                'yaml_0': ('yaml', '2.7.x'),
-                'chardet_0': ('chardet', '2.7.x'),
-                'dingtalkchatbot_0': ('dingtalkchatbot', '2.7.x'),
-                'pyqt5_0': ('PyQt5', '2.7.x'),
-                'materialx_0': ('MaterialX', '2.7.x')
+            self.Category_Plt_Lan_Package: {
+                # Python Package
+                'yaml_0': ('yaml', 'windows', 'share', 'python', '2.7.x'),
+                'chardet_0': ('chardet', 'windows', 'share', 'python', '2.7.x'),
+                'dingtalkchatbot_0': ('dingtalkchatbot', 'windows', 'share', 'python', '2.7.x'),
+                'pyqt5_0': ('PyQt5', 'windows', 'share', 'python', '2.7.x'),
+                'materialx_0': ('MaterialX', 'windows', 'share', 'python', '2.7.x'),
+            },
+            self.Category_Plt_App_Package: {
+                'lynxinode_0': ('lynxinode', 'windows', 'share', 'maya', 'share'),
+                'arnold_2019': ('mtoa', 'windows', 'share', 'maya', '2019')
             },
             # Windows Python Module
-            self.Category_Windows_Python_Module: {
-                'lxcommand_0': ('LxCommand', '2.7.x'),
-                'lxcore_0': ('LxCore', '2.7.x'),
-                'lxui_0': ('LxUi', '2.7.x'),
-                'lxinterface_0': ('LxInterface', '2.7.x'),
-                'lxdatabase_0': ('LxDatabase', '2.7.x'),
-                'lxgraph_0': ('LxGraph', '2.7.x'),
-                'lxmaterial_0': ('LxMaterial', '2.7.x'),
-                'lxdeadline_0': ('LxDeadline', '2.7.x'),
-                'lxwindows_0': ('LxWindows', '2.7.x')
+            self.Category_Plt_Lan_Module: {
+                'lxcommand_0': ('LxCommand', 'windows', 'share', 'python', '2.7.x'),
+                'lxcore_0': ('LxCore', 'windows', 'share', 'python', '2.7.x'),
+                'lxui_0': ('LxUi', 'windows', 'share', 'python', '2.7.x'),
+                'lxinterface_0': ('LxInterface', 'windows', 'share', 'python', '2.7.x'),
+                'lxdatabase_0': ('LxDatabase', 'windows', 'share', 'python', '2.7.x'),
+                'lxgraph_0': ('LxGraph', 'windows', 'share', 'python', '2.7.x'),
+                'lxmaterial_0': ('LxMaterial', 'windows', 'share', 'python', '2.7.x'),
+                'lxdeadline_0': ('LxDeadline', 'windows', 'share', 'python', '2.7.x')
             },
-            self.Category_Windows_App_Python_Module: {
-                'lxmaya_0': ('LxMaya', 'maya', 'share')
+            self.Category_Plt_App_Lan_Module: {
+                'lxmaya_0': ('LxMaya', 'windows', 'share', 'maya', 'share', 'python', '2.7.x')
             },
-            # Windows App Plug
-            self.Category_Windows_App_Plug: {
-                'lynxinode_0': ('lynxinode', 'maya', 'share'),
-                'arnold_2019': ('mtoa', 'maya', '2019')
-            }
         }
         self.Def_Version_Dic = {
             'python_0': (['2.7.13'], '2.7.13'),
@@ -60,7 +69,7 @@ class ResourcePreset(lxConfigure.Basic):
         self.Def_Environ_Dic = {
             'arnold_2019': {
                     'MAYA_RENDER_DESC_PATH': {
-                        self.Key_Value: u'{sourcepath}',
+                        self.Key_Value: u'{self.sourcepath}',
                         self.Key_Operate: u'='
                     },
                     'solidangle_LICENSE': {
@@ -68,143 +77,220 @@ class ResourcePreset(lxConfigure.Basic):
                         self.Key_Operate: u'='
                     },
                     'PATH': {
-                        self.Key_Value: u'{sourcepath}/bin',
+                        self.Key_Value: u'{self.sourcepath}/bin',
                         self.Key_Operate: u'+'
                     },
                     'ARNOLD_PLUGIN_PATH': {
-                        self.Key_Value: u'{sourcepath}/shaders',
+                        self.Key_Value: u'{self.sourcepath}/shaders',
                         self.Key_Operate: u'+'
                     },
                     'MTOA_EXTENSIONS_PATH': {
-                        self.Key_Value: u'{sourcepath}/extensions',
+                        self.Key_Value: u'{self.sourcepath}/extensions',
                         self.Key_Operate: u'+'
                     },
                     'MAYA_SCRIPT_PATH': {
-                        self.Key_Value: u'{sourcepath}/scripts/mtoa/mel',
+                        self.Key_Value: u'{self.sourcepath}/scripts/mtoa/mel',
                         self.Key_Operate: u'+'
                     },
                     'MAYA_CUSTOM_TEMPLATE_PATH': {
-                        self.Key_Value: u'{sourcepath}/scripts/mtoa/ui/templates',
+                        self.Key_Value: u'{self.sourcepath}/scripts/mtoa/ui/templates',
                         self.Key_Operate: u'+'
                     }
+                },
+            'python_0': {
+                self.Key_Environ_Python_Bin_Path: {
+                    self.Key_Value: u'{self.sourcepath}/python.exe',
+                    self.Key_Operate: u'='
                 }
+            }
         }
         self.Def_Dependent_Dic = {
             'lxcore_0': {
-                self.Category_Windows_Python_Package: {
-                    'yaml': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'chardet': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'dingtalkchatbot': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'yaml': {
+                    self.Key_Category: self.Category_Plt_Lan_Package,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'chardet': {
+                    self.Key_Category: self.Category_Plt_Lan_Package,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'dingtalkchatbot': {
+                    self.Key_Category: self.Category_Plt_Lan_Package,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
             'lxui_0': {
-                self.Category_Windows_Python_Package: {
-                    'PyQt5': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'PyQt5': {
+                    self.Key_Category: self.Category_Plt_Lan_Package,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 },
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
             'lxdatabase_0': {
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
             'lxgraph_0': {
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
             'lxinterface_0': {
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxUi': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'LxUi': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
-            'lxwindows_0': {
-                self.Category_Windows_Bin: {
-                    'python': {
-                        self.Key_Argument: 'share'
-                    }
+            'lxmaterial_0': {
+                'MaterialX': {
+                    self.Key_Category: self.Category_Plt_Lan_Package,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 },
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxUi': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxInterface': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             },
             'lxmaya_0': {
-                self.Category_Windows_Python_Module: {
-                    'LxCore': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxUi': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxInterface': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxDatabase': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    },
-                    'LxDeadline': {
-                        self.Key_Argument: u'2.7.x',
-                        self.Key_Version: u'active'
-                    }
+                'LxCore': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'LxUi': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'LxInterface': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'LxDatabase': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
+                },
+                'LxDeadline': {
+                    self.Key_Category: self.Category_Plt_Lan_Module,
+                    self.Key_Version: u'active',
+                    self.Key_Argument: [
+                        '{system.platform.name}',
+                        '{system.platform.version}',
+                        '{system.name}',
+                        '{system.version}'
+                    ]
                 }
             }
         }
 
-    def defConfigs(self):
+    def resources(self):
         lis = []
 
         for k, v in self.Def_Preset_Dic.items():
             for ik, iv in v.items():
                 cls = self.Def_Cls_Config_Dic[k]
 
-                config = cls(*iv)
+                resource_ = cls(*iv)
                 if ik in self.Def_Version_Dic:
-                    config.version().create(
+                    resource_.version.create(
                         {
                             self.Key_Record: self.Def_Version_Dic[ik][0],
                             self.Key_Active: self.Def_Version_Dic[ik][1]
@@ -212,27 +298,26 @@ class ResourcePreset(lxConfigure.Basic):
                     )
 
                 if ik in self.Def_Environ_Dic:
-                    config.environ().create(
+                    resource_.environ.create(
                         self.Def_Environ_Dic[ik]
                     )
 
                 if ik in self.Def_Dependent_Dic:
-                    config.dependent().create(
+                    resource_.dependent.create(
                         self.Def_Dependent_Dic[ik]
                     )
 
-                lis.append(config)
-                # print config
+                lis.append(resource_)
+                print resource_
 
         return lis
 
     def createDefConfigCaches(self):
-        if self.defConfigs():
-            for i in self.defConfigs():
-                i.createCache()
+        if self.resources():
+            for i in self.resources():
+                i.createServerCache()
 
     def createDefDevelopDirectories(self):
-        if self.defConfigs():
-            for i in self.defConfigs():
+        if self.resources():
+            for i in self.resources():
                 i.createDevelopDirectories()
-

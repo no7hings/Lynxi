@@ -1,6 +1,5 @@
 # coding:utf-8
 from LxCore import lxBasic
-env = lxBasic.Environ()
 
 LynxiPipelineTds = [
     'dongchangbao',
@@ -86,7 +85,7 @@ LynxiProjectClassificationKey = 'projectClassification'
 LynxiFilmProjectValue = 'Film'
 LynxiCgProjectValue = 'CG'
 LynxiGameProjectValue = 'Game'
-LynxiAppNameKey = 'appName'
+LynxiAppNameKey = 'applicationName'
 LynxiAppNamesKey = 'appNames'
 LynxiAppVersionKey = 'appVersion'
 LynxiAppVersionsKey = 'appVersions'
@@ -325,30 +324,42 @@ def _toLxProductResultFile(osFile):
 
 
 class Basic(object):
-    Category_Windows_Bin = 'windows_bin'
-    Category_Windows_Python_Scheme = 'windows_python_scheme'
-    Category_Windows_App_Python_Scheme = 'windows_app_python_scheme'
-    Category_Windows_Python_Module = 'windows_python_module'
-    Category_Windows_App_Python_Module = 'windows_app_python_module'
-    Category_Windows_Python_Package = 'windows_python_package'
-    Category_Windows_App_Python_Package = 'windows_app_python_package'
-    Category_Windows_App_Plug = 'windows_app_plug'
+    Category_Platform = 'platform'
+    Category_Plt_Language = 'plt_language'
+    Category_Plt_Application = 'plt_application'
+    Category_Plt_App_Language = 'plt_app_language'
+
+    Category_Plt_Lan_Package = 'plt_lan_package'
+    Category_Plt_App_Lan_Package = 'plt_app_lan_package'
+
+    Category_Plt_App_Package = 'plt_app_package'
+
+    Category_Plt_Lan_Module = 'plt_lan_module'
+    Category_Plt_App_Lan_Module = 'plt_app_lan_module'
+
+    Category_Plt_App_Module = 'plt_app_module'
+
+    Category_Plt_Lan_Scheme = 'plt_lan_scheme'
+    Category_Plt_App_Lan_Scheme = 'plt_app_lan_scheme'
 
     Root_Develop_Default = 'e:/myworkspace/td/lynxi'
-
+    Root_Product_Default = 'e:/myworkspace/td/lynxi'
     Path_Local_Default = 'c:/.lynxi'
 
-    Key_Environ_Python_Version = 'LYNXI_PYTHON_VERSION'
+    Keyword_Share = 'share'
+
+    Key_Environ_Version = 'LYNXI_VERSION'
 
     Key_Environ_Enable_Develop = 'LYNXI_DEVELOP'
 
     Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
+    Key_Environ_Path_Product = 'LYNXI_PRODUCT_PATH'
+    Key_Environ_Path_Local = 'LYNXI_LOCAL_PATH'
+
     Key_Environ_Path_Preset = 'LYNXI_PRESET_PATH'
-
-    Key_Environ_Path_User = 'LYNXI_USER_PATH'
-
-    Key_Environ_Path_Module = 'LYNXI_MODULE_PATH'
     Key_Environ_Path_Toolkit = 'LYNXI_TOOLKIT_PATH'
+
+    Key_Environ_Python_Bin_Path = 'LYNXI_BIN_PYTHON_PATH'
 
     Folder_Log = '.log'
     Folder_Tool = 'tool'
@@ -384,6 +395,7 @@ class Basic(object):
     Key_Category = 'category'
     Key_Name = 'name'
 
+    Key_System = 'system'
     Key_Version = 'version'
     Key_Record = 'record'
     Key_Active = 'active'
@@ -400,6 +412,8 @@ class Basic(object):
     Key_Argument = 'argument'
 
     Key_Config = 'config'
+
+    Key_Program = 'program'
 
     Key_Dependent = 'dependent'
     Key_Dependent_Module = 'dependent_module'
@@ -485,11 +499,12 @@ class Basic(object):
     Attr_Key_Root = 'root'
     Attr_Key_Path = 'path'
 
-    Attr_Key_Active = 'active'
-    Attr_Key_Server = 'server'
-    Attr_Key_Local = 'local'
-    Attr_Key_Develop = 'develop'
-    Attr_Key_Product = 'product'
+    Path_Key_Active = 'active'
+    Path_Key_Server = 'server'
+    Path_Key_Local = 'local'
+    Path_Key_Develop = 'develop'
+    Path_Key_Product = 'product'
+    Path_Key_Workspace = 'workspace'
 
     Attr_Path_Root = 'root'
     Attr_Path_Server_Root = 'serverroot'
@@ -498,7 +513,7 @@ class Basic(object):
     Attr_Path_Product_Root = 'productroot'
 
     Attr_Path = 'path'
-    Attr_Path_Source = 'sourcepath'
+    Attr_Key_Path_Source = 'sourcepath'
 
     Key_Path_SubPath = 'subpath'
     Key_Path_SubName = 'subname'
@@ -713,138 +728,138 @@ class Message(object):
         )
 
 
-class _AbcRoot(Basic):
-    def _initAbcRoot(self):
+class Abc_PthRoot(Basic):
+    def _initAbcPthRoot(self):
         pass
 
     @property
     def active(self):
-        return self._activeDirectory()
+        return self._activePath()
 
-    def _activeDirectory(self):
+    def _activePath(self):
         pass
 
     @property
     def server(self):
-        return self._serverDirectory()
+        return self._serverPath()
 
     @classmethod
-    def _serverDirectory(cls):
+    def _serverPath(cls):
         pass
 
     @property
     def local(self):
-        return self._localDirectory()
+        return self._localPath()
 
     @classmethod
-    def _localDirectory(cls):
+    def _localPath(cls):
         pass
 
     @property
     def develop(self):
-        return self._developDirectory()
+        return self._developPath()
 
     @classmethod
-    def _developDirectory(cls):
+    def _developPath(cls):
         pass
 
     @property
     def product(self):
-        return self._productDirectory()
+        return self._productPath()
 
     @classmethod
-    def _productDirectory(cls):
+    def _productPath(cls):
         pass
 
     def _strDatum(self):
         return lxBasic.orderedDict(
             [
-                (self.Attr_Key_Active, self.server),
-                (self.Attr_Key_Server, self.server),
-                (self.Attr_Key_Local, self.local),
-                (self.Attr_Key_Develop, self.develop),
-                (self.Attr_Key_Product, self.product)
+                (self.Path_Key_Active, self.server),
+                (self.Path_Key_Server, self.server),
+                (self.Path_Key_Local, self.local),
+                (self.Path_Key_Develop, self.develop),
+                (self.Path_Key_Product, self.product)
             ]
         )
 
 
-class Root(_AbcRoot):
+class Root(Abc_PthRoot):
     def __init__(self):
-        self._initAbcRoot()
+        self._initAbcPthRoot()
 
-    def _activeDirectory(self):
-        return self._serverDirectory()
+    def _activePath(self):
+        return self._serverPath()
 
     @classmethod
-    def _serverDirectory(cls):
+    def _serverPath(cls):
         if cls.isDevelop():
-            return cls._developDirectory()
-        return cls._productDirectory()
+            return cls._developPath()
+        return cls._productPath()
 
     @classmethod
-    def _localDirectory(cls):
+    def _localPath(cls):
         return cls.Path_Local_Default
 
     @classmethod
-    def _developDirectory(cls):
+    def _developPath(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Develop)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
     @classmethod
-    def _productDirectory(cls):
-        data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Module)
+    def _productPath(cls):
+        data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Product)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
 
-class ToolkitRoot(_AbcRoot):
+class ToolkitRoot(Abc_PthRoot):
     def __init__(self):
-        self._initAbcRoot()
+        self._initAbcPthRoot()
 
-    def _activeDirectory(self):
-        return self._serverDirectory()
+    def _activePath(self):
+        return self._serverPath()
 
     @classmethod
-    def _serverDirectory(cls):
+    def _serverPath(cls):
         if cls.isDevelop():
-            return cls._developDirectory()
-        return cls._productDirectory()
+            return cls._developPath()
+        return cls._productPath()
 
     @classmethod
-    def _localDirectory(cls):
+    def _localPath(cls):
         return cls.Path_Local_Default
 
     @classmethod
-    def _developDirectory(cls):
+    def _developPath(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Develop)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
     @classmethod
-    def _productDirectory(cls):
+    def _productPath(cls):
         data = lxBasic.getOsEnvironValue(cls.Key_Environ_Path_Toolkit)
         if data is not None:
             return data.replace('\\', '/')
         return cls.Root_Develop_Default
 
 
-class _AbcPath(Basic):
-    ROOT_CLS = None
+class Abc_PthDirectory(Basic):
+    DIRECTORY_CLS = None
 
-    def _initAbcPath(self, *args):
-        self._formatStringDic = {
-            self.Attr_Key_Active: u'{self.root.active}/{self.subpath}',
-            self.Attr_Key_Server: u'{self.root.server}/{self.subpath}',
-            self.Attr_Key_Local: u'{self.root.local}/{self.subpath}',
-            self.Attr_Key_Develop: u'{self.root.develop}/{self.subpath}',
-            self.Attr_Key_Product: u'{self.root.product}/{self.subpath}'
+    def _initAbcPthDirectory(self, *args):
+        self.pathFormatString = {
+            self.Path_Key_Active: u'{self.root.active}/{self.subpath}',
+            self.Path_Key_Server: u'{self.root.server}/{self.subpath}',
+            self.Path_Key_Local: u'{self.root.local}/{self.subpath}',
+            self.Path_Key_Develop: u'{self.root.develop}/{self.subpath}',
+            self.Path_Key_Product: u'{self.root.product}/{self.subpath}'
         }
 
-        self._root = self.ROOT_CLS()
+        self._root = self.DIRECTORY_CLS()
 
         self._subPathString = self._toSubPathMethod(*args)
         self._subNameString = self._toSubNameMethod(*args)
@@ -863,12 +878,12 @@ class _AbcPath(Basic):
     def subpath(self):
         return self.subPath()
 
-    def subName(self):
+    def pathName(self):
         return self._subNameString
 
     @property
     def subname(self):
-        return self.subName()
+        return self.pathName()
 
     def baseName(self):
         return self._baseName
@@ -877,40 +892,40 @@ class _AbcPath(Basic):
     def basename(self):
         return self.baseName()
 
-    def _activeDirectory(self):
-        return self._formatStringDic[self.Attr_Key_Active].format(**self._formatDict())
+    def _activePath(self):
+        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict())
 
     @property
     def active(self):
-        return self._activeDirectory()
+        return self._activePath()
 
-    def _serverDirectory(self):
-        return self._formatStringDic[self.Attr_Key_Server].format(**self._formatDict())
+    def _serverPath(self):
+        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict())
 
     @property
     def server(self):
-        return self._serverDirectory()
+        return self._serverPath()
 
-    def _localDirectory(self):
-        return self._formatStringDic[self.Attr_Key_Local].format(**self._formatDict())
+    def _localPath(self):
+        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
     @property
     def local(self):
-        return self._localDirectory()
+        return self._localPath()
 
-    def _developDirectory(self):
-        return self._formatStringDic[self.Attr_Key_Develop].format(**self._formatDict())
+    def _developPath(self):
+        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
     @property
     def develop(self):
-        return self._developDirectory()
+        return self._developPath()
 
-    def _productDirectory(self):
-        return self._formatStringDic[self.Attr_Key_Product].format(**self._formatDict())
+    def _productPath(self):
+        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     @property
     def product(self):
-        return self._productDirectory()
+        return self._productPath()
 
     def _formatDict(self):
         return {
@@ -920,82 +935,82 @@ class _AbcPath(Basic):
     def _strDatum(self):
         return lxBasic.orderedDict(
             [
-                (self.Attr_Key_Active, self.server),
-                (self.Attr_Key_Server, self.server),
-                (self.Attr_Key_Local, self.local),
-                (self.Attr_Key_Develop, self.develop),
-                (self.Attr_Key_Product, self.product)
+                (self.Path_Key_Active, self.server),
+                (self.Path_Key_Server, self.server),
+                (self.Path_Key_Local, self.local),
+                (self.Path_Key_Develop, self.develop),
+                (self.Path_Key_Product, self.product)
             ]
         )
 
 
-class BinSubRoot(_AbcPath):
-    ROOT_CLS = Root
+class BinSubRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_Bin)
+        self._initAbcPthDirectory(self.Folder_Bin)
 
 
-class PythonModuleBranch(_AbcPath):
-    ROOT_CLS = Root
+class PythonModuleBranch(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
 
     def __init__(self, *args):
-        self._initAbcPath(self.Folder_Python, *args)
+        self._initAbcPthDirectory(self.Folder_Python, *args)
 
     def _overrideFormatString(self):
-        self._formatStringDic = {
-            self.Attr_Key_Active: u'{self.root.active}/resource/module',
-            self.Attr_Key_Server: u'{self.root.server}/resource/module',
-            self.Attr_Key_Local: u'{self.root.local}/resource/module',
-            self.Attr_Key_Develop: u'{self.root.develop}/resource/module',
-            self.Attr_Key_Product: u'{self.root.product}/resource/module'
+        self.pathFormatString = {
+            self.Path_Key_Active: u'{self.root.active}/resource/module',
+            self.Path_Key_Server: u'{self.root.server}/resource/module',
+            self.Path_Key_Local: u'{self.root.local}/resource/module',
+            self.Path_Key_Develop: u'{self.root.develop}/resource/module',
+            self.Path_Key_Product: u'{self.root.product}/resource/module'
         }
 
 
-class WorkspaceModuleRoot(_AbcPath):
-    ROOT_CLS = Root
+class WorkspaceModuleRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_Workspace)
+        self._initAbcPthDirectory(self.Folder_Workspace)
 
         self._overrideFormatString()
 
     def _overrideFormatString(self):
-        self._formatStringDic = {
-            self.Attr_Key_Active: u'{self.root.active}/workspace/module',
-            self.Attr_Key_Server: u'{self.root.server}/workspace/module',
-            self.Attr_Key_Local: u'{self.root.local}/workspace/module',
-            self.Attr_Key_Develop: u'{self.root.develop}/workspace/module',
-            self.Attr_Key_Product: u'{self.root.product}/workspace/module'
+        self.pathFormatString = {
+            self.Path_Key_Active: u'{self.root.active}/workspace/module',
+            self.Path_Key_Server: u'{self.root.server}/workspace/module',
+            self.Path_Key_Local: u'{self.root.local}/workspace/module',
+            self.Path_Key_Develop: u'{self.root.develop}/workspace/module',
+            self.Path_Key_Product: u'{self.root.product}/workspace/module'
         }
 
 
-class WorkspaceModulePath(_AbcPath):
-    ROOT_CLS = WorkspaceModuleRoot
+class WorkspaceModulePath(Abc_PthDirectory):
+    DIRECTORY_CLS = WorkspaceModuleRoot
 
     def __init__(self, *args):
-        self._initAbcPath(*args)
+        self._initAbcPthDirectory(*args)
 
 
-class IconSubRoot(_AbcPath):
-    ROOT_CLS = Root
-
-    def __init__(self):
-        self._initAbcPath(self.Folder_Icon)
-
-
-class UserSubRoot(_AbcPath):
-    ROOT_CLS = Root
+class IconSubRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_User)
+        self._initAbcPthDirectory(self.Folder_Icon)
 
 
-class UserBranch(_AbcPath):
-    ROOT_CLS = UserSubRoot
+class UserSubRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
+
+    def __init__(self):
+        self._initAbcPthDirectory(self.Folder_User)
+
+
+class UserBranch(Abc_PthDirectory):
+    DIRECTORY_CLS = UserSubRoot
 
     def __init__(self, *args):
-        self._initAbcPath(*args)
+        self._initAbcPthDirectory(*args)
 
 
 class UserPreset(Basic):
@@ -1008,51 +1023,51 @@ class UserPreset(Basic):
     def __init__(self):
         self._root = UserBranch(lxBasic.getOsUser())
 
-    def _activeDirectory(self):
-        return self._root._localDirectory()
+    def _activePath(self):
+        return self._root._localPath()
 
     def uiDirectory(self):
-        return u'{}/{}'.format(self._activeDirectory(), self.Folder_Ui)
+        return u'{}/{}'.format(self._activePath(), self.Folder_Ui)
 
     def renderDirectory(self):
-        return u'{}/{}'.format(self._activeDirectory(), self.Folder_Render)
+        return u'{}/{}'.format(self._activePath(), self.Folder_Render)
 
     def projectConfigFile(self):
-        return u'{}/{}{}'.format(self._activeDirectory(), self.Folder_Project, self.Ext_Json)
+        return u'{}/{}{}'.format(self._activePath(), self.Folder_Project, self.Ext_Json)
 
-    def appProjectFile(self, appName, appVersion):
-        return u'{}/{}/{}.{}{}'.format(self._activeDirectory(), self.Folder_Project, appName, appVersion, self.Ext_Json)
+    def appProjectFile(self, applicationName, appVersion):
+        return u'{}/{}/{}.{}{}'.format(self._activePath(), self.Folder_Project, applicationName, appVersion, self.Ext_Json)
 
     def uiFilterHistoryFile(self):
         return u'{}/{}.history{}'.format(self.uiDirectory(), self.Folder_Filter, self.Ext_Json)
 
 
-class LogSubRoot(_AbcPath):
-    ROOT_CLS = Root
+class LogSubRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = Root
 
     def __init__(self):
-        self._initAbcPath(self.Folder_Log)
+        self._initAbcPthDirectory(self.Folder_Log)
 
 
-class _AbcFile(Basic):
-    PATH_CLS = None
-    PATH_WORKSPACE_CLS = None
+class Abc_File(Basic):
+    DIRECTORY_CLS = None
+    DIRECTORY_WORKSPACE_CLS = None
 
-    FILE_CLS = None
+    METHOD_CLS = None
 
     def _initAbcFile(self, pathArgs, fileBasename, ext):
-        self._formatStringDic = {
-            self.Attr_Key_Active: u'{self.path.active}/{self.basename}',
-            self.Attr_Key_Server: u'{self.path.server}/{self.basename}',
-            self.Attr_Key_Local: u'{self.path.local}/{self.basename}',
-            self.Attr_Key_Develop: u'{self.path.develop}/{self.basename}',
-            self.Attr_Key_Product: u'{self.path.product}/{self.basename}'
+        self.pathFormatString = {
+            self.Path_Key_Active: u'{self.path.active}/{self.basename}',
+            self.Path_Key_Server: u'{self.path.server}/{self.basename}',
+            self.Path_Key_Local: u'{self.path.local}/{self.basename}',
+            self.Path_Key_Develop: u'{self.path.develop}/{self.basename}',
+            self.Path_Key_Product: u'{self.path.product}/{self.basename}'
         }
 
         self._raw = {}
 
-        self._path = self.PATH_CLS(*pathArgs)
-        self._workspacePath = self.PATH_WORKSPACE_CLS(*pathArgs)
+        self._path = self.DIRECTORY_CLS(*pathArgs)
+        self._workspacePath = self.DIRECTORY_WORKSPACE_CLS(*pathArgs)
 
         self._baseName = u'{}{}'.format(fileBasename, ext)
 
@@ -1068,29 +1083,23 @@ class _AbcFile(Basic):
     def workspacepath(self):
         return self._workspacePath
 
-    def _activeDirectory(self):
-        return self._path._activeDirectory()
+    def _activePath(self):
+        return self._path._activePath()
 
-    def _serverDirectory(self):
-        return self._path._serverDirectory()
+    def _serverPath(self):
+        return self._path._serverPath()
 
-    def _localDirectory(self):
-        return self._path._localDirectory()
+    def _localPath(self):
+        return self._path._localPath()
 
-    def _developDirectory(self):
-        return self._path._developDirectory()
+    def _developPath(self):
+        return self._path._developPath()
 
-    def _productDirectory(self):
-        return self._path._productDirectory()
+    def _productPath(self):
+        return self._path._productPath()
 
-    def _workspaceDirectory(self):
-        return self._workspacePath._developDirectory()
-
-    def subPath(self):
-        return self._path.subPath()
-
-    def subName(self):
-        return self._path.subName()
+    def _workspacePath(self):
+        return self._workspacePath._developPath()
 
     def baseName(self):
         return self._baseName
@@ -1100,7 +1109,7 @@ class _AbcFile(Basic):
         return self.baseName()
 
     def file(self):
-        return self._formatStringDic[self.Attr_Key_Active].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict())
 
     def hasFile(self):
         return lxBasic.isOsExist(self.file())
@@ -1110,29 +1119,29 @@ class _AbcFile(Basic):
 
     def cacheRaw(self):
         if self.hasFile():
-            return self.FILE_CLS(self.file()).read()
+            return self.METHOD_CLS(self.file()).read()
         return {}
 
     def severFile(self):
-        return self._formatStringDic[self.Attr_Key_Server].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict())
 
     def hasServerFile(self):
         return lxBasic.isOsExist(self.severFile())
 
     def localFile(self):
-        return self._formatStringDic[self.Attr_Key_Local].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
     def hasLocalFile(self):
         return lxBasic.isOsExist(self.localFile())
 
     def developFile(self):
-        return self._formatStringDic[self.Attr_Key_Develop].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
     def hasDevelopFile(self):
         return lxBasic.isOsExist(self.developFile())
 
     def productFile(self):
-        return self._formatStringDic[self.Attr_Key_Product].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     def hasProductFile(self):
         return lxBasic.isOsExist(self.productFile())
@@ -1143,29 +1152,9 @@ class _AbcFile(Basic):
         }
 
 
-class _AbcConfigFile(_AbcFile):
-    FILE_CLS = lxBasic.JsonFile
-
-    def _initAbcConfigFile(self, *args):
-        self._initAbcFile(args, 'config', '.json')
-
-        self._overrideFormatString()
-
-    def _overrideFormatString(self):
-        formatDict = {
-            self.Attr_Key_Active: u'{self.root.active}/{self.subname}',
-            self.Attr_Key_Server: u'{self.root.server}/{self.subname}',
-            self.Attr_Key_Local: u'{self.root.local}/{self.subname}',
-            self.Attr_Key_Develop: u'{self.root.develop}/{self.subname}',
-            self.Attr_Key_Product: u'{self.root.product}/{self.subname}'
-        }
-        self.path._formatStringDic = formatDict
-        self.workspacepath._formatStringDic = formatDict
-
-
-class _AbcSchemeFile(_AbcFile):
-    FILE_CLS = lxBasic.JsonFile
-    PATH_WORKSPACE_CLS = WorkspaceModulePath
+class _AbcSchemeFile(Abc_File):
+    METHOD_CLS = lxBasic.JsonFile
+    DIRECTORY_WORKSPACE_CLS = WorkspaceModulePath
 
     def _initAbcSchemeFile(self, schemeName):
         self._initAbcFile((), '{}.scheme'.format(schemeName), '.json')
@@ -1177,17 +1166,17 @@ class Log(Basic):
 
     def exceptionFile(self):
         return u'{}/{}.exception.log'.format(
-            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverPath(), lxBasic.getOsActiveDateTag()
         )
 
     def errorFile(self):
         return u'{}/{}.error.log'.format(
-            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverPath(), lxBasic.getOsActiveDateTag()
         )
 
     def developFile(self):
         return u'{}/{}.develop.log'.format(
-            self._subRoot._serverDirectory(), lxBasic.getOsActiveDateTag()
+            self._subRoot._serverPath(), lxBasic.getOsActiveDateTag()
         )
 
     def addException(self, text):
@@ -1210,21 +1199,21 @@ class Log(Basic):
 
     @staticmethod
     def add(text, osLogFile):
-        lxBasic.setOsFilePathCreate(osLogFile)
+        lxBasic.setOsFileDirectoryCreate(osLogFile)
         with open(osLogFile, 'a') as log:
             log.writelines(u'{} @ {}\n'.format(lxBasic.getOsActiveViewTime(), lxBasic.getOsUser()))
             log.writelines(u'{}\n'.format(text))
             log.close()
 
 
-class ToolkitSubRoot(_AbcPath):
-    ROOT_CLS = ToolkitRoot
+class ToolkitSubRoot(Abc_PthDirectory):
+    DIRECTORY_CLS = ToolkitRoot
     def __init__(self):
-        self._initAbcPath(self.Folder_Tool)
+        self._initAbcPthDirectory(self.Folder_Tool)
 
 
 class Lynxi_Scheme_Python(_AbcSchemeFile):
-    PATH_CLS = PythonModuleBranch
+    DIRECTORY_CLS = PythonModuleBranch
 
     Python_Module_Core = 'LxCore'
     Python_Module_Command = 'LxCommand'
@@ -1249,9 +1238,11 @@ class Lynxi_Scheme_Python(_AbcSchemeFile):
         'LxCore.lxBasic',
         'LxCore.lxConfigure',
         'LxCore.definition.abstract',
+        'LxCore.definition.method',
         'LxCore.definition.path',
+        'LxCore.definition.file',
         'LxCore.definition.raw',
-        'LxCore.definition.bin',
+        'LxCore.definition.system',
         'LxCore.definition.resource',
         'LxCore.definition.preset',
         # Ui
@@ -1439,21 +1430,17 @@ class Lynxi_Scheme_Python(_AbcSchemeFile):
         return self.Version_Default
 
     def localVersion(self):
-        data = lxBasic.getOsEnvironValue(self.Key_Environ_Python_Version)
+        data = lxBasic.getOsEnvironValue(self.Key_Environ_Version)
         if data is not None:
             return data
         return self.Version_Default
 
     def setLocalRefresh(self):
         serverVersion = self.serverVersion()
-        lxBasic.setOsEnvironValue(self.Key_Environ_Python_Version, serverVersion)
+        lxBasic.setOsEnvironValue(self.Key_Environ_Version, serverVersion)
         Message().traceResult(
             u'Set Version : {}'.format(serverVersion)
         )
-
-
-class Lynxi_Icon(_AbcConfigFile):
-    pass
 
 
 class Ui(Basic):

@@ -5,7 +5,7 @@ from LxCore.preset import basicPr, pipePr, appPr
 #
 from LxCore.preset.prod import projectPr
 # do not delete
-serverBasicPath = lxConfigure.Root()._serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
 
 
 #

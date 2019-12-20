@@ -24,7 +24,6 @@ def removeMayaWindow(window):
 
 #
 def setPreviewCamera(camera, object):
-    #
     cmds.setAttr(camera + '.translateX', 28)
     cmds.setAttr(camera + '.translateY', 21)
     cmds.setAttr(camera + '.translateZ', 28)
@@ -61,7 +60,8 @@ def makePreview(
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight,
         showOrnaments=1, displayResolution=0, displaySafeTitle=0,
-        displayMode=6):
+        displayMode=6
+):
     width, height = widthHeight
     #
     widthReduce = width
@@ -78,7 +78,7 @@ def makePreview(
     #
     widthHeightReduce = (widthReduce, heightReduce)
     #
-    maFile.setCreateDirectory(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     fileName = os.path.basename(osFile)
     #
     isMov = os.path.splitext(fileName)[-1] == '.mov'
@@ -202,7 +202,7 @@ def makeSnapshot(
         osFile, camera,
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight):
-    maFile.setCreateDirectory(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     filePath = os.path.dirname(osFile)
     fileName = os.path.basename(osFile)
     #
@@ -243,7 +243,8 @@ def makeSnapshot(
         manipulators=0,
         grid=0,
         hud=1,
-        sel=0)
+        sel=0
+    )
     # Set Maye View
     cmds.modelEditor(
         animationPanel,
@@ -256,7 +257,8 @@ def makeSnapshot(
         nCloths=1,
         nParticles=1,
         pluginObjects=['gpuCacheDisplayFilter', 1],
-        displayAppearance='flatShaded')
+        displayAppearance='flatShaded'
+    )
     # Image Preview
     midFrame = int((endFrame - startFrame) / 2 + startFrame)
     frameRange = [startFrame, midFrame, endFrame]
@@ -275,7 +277,8 @@ def makeSnapshot(
             framePadding=4,
             percent=percent,
             compression='jpg',
-            quality=quality)
+            quality=quality
+        )
         previewFile = prvName + frameDic[frame] + '.jpg'
         if os.path.exists(previewFile):
             os.remove(previewFile)

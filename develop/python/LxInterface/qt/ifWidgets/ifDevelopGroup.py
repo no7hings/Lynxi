@@ -40,7 +40,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         ['.png']
     ]
     #
-    developPath = lxConfigure.Root()._developDirectory()
+    developPath = lxConfigure.Root()._developPath()
 
     backupPath = developPath + '/.bck'
     versionPath = backupPath + '/.version'

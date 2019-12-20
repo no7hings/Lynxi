@@ -9,7 +9,7 @@ from LxCore.operation import envOp
 #
 from LxCore.setup import appPush
 #
-serverBasicPath = lxConfigure.Root()._serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
 #
 none = ''
 

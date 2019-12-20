@@ -18,7 +18,7 @@ from LxInterface.qt.ifModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxConfigure.Root()._serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
 #
 none = ''
 
@@ -1905,7 +1905,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
     def setupToolUiBox(self, data, treeView, tag, tagItem, toolGroupBox, itemData, keyword):
         def setBranch(seq, k, subToolBox):
             def openCommandCmd():
-                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
+                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverPath())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(commandFile)
                     if subOsFiles:

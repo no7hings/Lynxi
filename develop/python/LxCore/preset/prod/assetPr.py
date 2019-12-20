@@ -7,8 +7,8 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr
 # do not delete and rename
-serverBasicPath = lxConfigure.Root()._serverDirectory()
-localBasicPath = lxConfigure.Root()._localDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
+localBasicPath = lxConfigure.Root()._localPath()
 #
 none = ''
 

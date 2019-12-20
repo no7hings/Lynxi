@@ -3,8 +3,8 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import basicPr
 #
-serverBasicPath = lxConfigure.Root()._serverDirectory()
-productRoot = lxConfigure.Root()._productDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
+productRoot = lxConfigure.Root()._productPath()
 #
 _mayaVersion = lxBasic.getMayaAppVersion()
 #

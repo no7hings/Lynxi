@@ -153,7 +153,7 @@ class LxMethodBasic(appConfig.LxConfigBasic):
         timestamp = cls.getOsFileMtimestamp(osFile)
         return datetime.datetime.fromtimestamp(timestamp).strftime('%Y_%m%d_%H%M_%S%f')
     @classmethod
-    def setOsFilePathCreate(cls, osFile):
+    def setOsFileDirectoryCreate(cls, osFile):
         osPath = os.path.dirname(osFile)
         if not cls.isOsExist(osPath):
             os.makedirs(osPath)
@@ -242,7 +242,7 @@ class LxMethodBasic(appConfig.LxConfigBasic):
         cls.lxWriteLog(string, osLogFile)
     @classmethod
     def lxWriteLog(cls, string, osLogFile):
-        cls.setOsFilePathCreate(osLogFile)
+        cls.setOsFileDirectoryCreate(osLogFile)
         with open(osLogFile, 'a') as log:
             log.writelines(u'{} @ {}'.format(cls.getOsActiveViewTime(), cls.getOsUser()) + u'\r\n')
             log.writelines(string + u'\r\n')
@@ -313,10 +313,10 @@ class LxMethodBasic(appConfig.LxConfigBasic):
         return lis
     @classmethod
     def _lxIconRoot(cls):
-        return lxConfigure.IconSubRoot()._serverDirectory()
+        return lxConfigure.IconSubRoot()._serverPath()
     @classmethod
     def _lxDevelopRoot(cls):
-        return lxConfigure.Root()._developDirectory()
+        return lxConfigure.Root()._developPath()
 
 
 #
@@ -462,7 +462,7 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
         osFileBasename = cls.getOsFileBasename(osFile)
         string = cls._toOsFile(tempDirectory, osFileBasename)
         #
-        cls.setOsFilePathCreate(string)
+        cls.setOsFileDirectoryCreate(string)
         return string
     @classmethod
     def getOsTempFolder(cls, osFile):
@@ -470,7 +470,7 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
         osFileBasename = cls.getOsFileBasename(osFile)
         string = cls._toOsFile(tempDirectory, osFileBasename)
         #
-        cls.setOsFilePathCreate(string)
+        cls.setOsFileDirectoryCreate(string)
         return string
     @staticmethod
     def toOsFileSplitByExt(osFile):
@@ -508,7 +508,7 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
     @classmethod
     def setOsFileCopy(cls, sourceOsFile, targetOsFile, force=True):
         if os.path.isfile(sourceOsFile):
-            cls.setOsFilePathCreate(targetOsFile)
+            cls.setOsFileDirectoryCreate(targetOsFile)
             # Check Same File
             if not os.path.normpath(sourceOsFile) == os.path.normpath(targetOsFile):
                 if force is True:
@@ -606,12 +606,12 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
     def setOsFileMove(cls, sourceOsFile, targetOsFile):
         if cls.isOsExistsFile(sourceOsFile):
             if not cls.isOsSameFile(sourceOsFile, targetOsFile):
-                cls.setOsFilePathCreate(targetOsFile)
+                cls.setOsFileDirectoryCreate(targetOsFile)
                 #
                 shutil.move(sourceOsFile, targetOsFile)
     @classmethod
     def writeOsData(cls, data, osFile):
-        cls.setOsFilePathCreate(osFile)
+        cls.setOsFileDirectoryCreate(osFile)
         with open(osFile, 'wb') as f:
             if isinstance(data, str) or isinstance(data, unicode):
                 f.write(data)
@@ -684,7 +684,7 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
                 return data
     @classmethod
     def writeOsJson(cls, data, osJsonFile, indent=4):
-        cls.setOsFilePathCreate(osJsonFile)
+        cls.setOsFileDirectoryCreate(osJsonFile)
         #
         with open(osJsonFile, 'w') as f:
             json.dump(data, f, indent=indent)

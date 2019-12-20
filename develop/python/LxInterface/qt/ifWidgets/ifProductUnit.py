@@ -17,7 +17,7 @@ from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxConfigure.Root()._serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
 #
 none = ''
 
@@ -1672,7 +1672,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         def setActionData():
             def openVedioCmd(osFiles):
                 fileCmd = '" "'.join(osFiles)
-                osCmdExe = '{}/KMPlayer.4.0.8.1/KMPlayer.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
+                osCmdExe = '{}/KMPlayer.4.0.8.1/KMPlayer.exe'.format(lxConfigure.BinSubRoot()._serverPath())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     osCmd = '''"{}" "{}"'''.format(osCmdExe, fileCmd)
                     lxBasic.setOsCommandRun_(osCmd.replace('/', '\\'))

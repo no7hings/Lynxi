@@ -5,8 +5,8 @@ from LxCore.preset import basicPr
 #
 guidePresetKey = lxConfigure.Lynxi_Key_Preset_Project
 # do not delete and rename
-serverBasicPath = lxConfigure.Root()._serverDirectory()
-localBasicPath = lxConfigure.Root()._localDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
+localBasicPath = lxConfigure.Root()._localPath()
 #
 none = ''
 
@@ -446,7 +446,7 @@ def setLocalAppProjectPreset(projectName):
 # Set Project Config
 def setLocalProjectPreset(projectName):
     osFile = lxConfigure.UserPreset().projectConfigFile()
-    lxBasic.setOsFilePathCreate(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     data = dict(project=projectName)
     lxBasic.writeOsJson(data, osFile)
 
@@ -455,7 +455,7 @@ def setLocalProjectPreset(projectName):
 def setLocalMayaProjectPreset(projectName, mayaVersion):
     if lxBasic.isMayaApp():
         osFile = lxConfigure.UserPreset().appProjectFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
-        lxBasic.setOsFilePathCreate(osFile)
+        lxBasic.setOsFileDirectoryCreate(osFile)
         data = dict(project=projectName)
         lxBasic.writeOsJson(data, osFile)
 

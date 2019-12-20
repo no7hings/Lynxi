@@ -1,103 +1,116 @@
+[TOC]
 # Definition
 
-## Resource
+## Core
 
-### Module
+### Abstract
 
 ```mermaid
 graph LR
 
-basic("Basic") -->|"inherit"| path
-    path -->|"inherit"| root
-    path -->|"inherit"| directory
+builtin_object("__builtin__.object") -->|"<p><span style='color:#f00;'>inherit</span></p>"| basic("Basic")
 
-basic -->|"inherit"| bin("Bin")
-    bin -->|"inherit"| language("Language")
-    bin -->|"inherit"| platform("Platform")
-    bin -->|"inherit"| application("Application")
-        platform --- application
-        language --- application
-        
-basic --- config("Config")
-    config --- resource_config("ResourceConfig")
-        resource_config -->|"inherit"| application_config("Cfg_WinApplication")
-        resource_config -->|"inherit"| module_app_plug("Cfg_WinAppPlug")
-        
-        resource_config -->|"inherit"| package_config("Cfg_WinPythonPackage")
-        resource_config -->|"inherit"| package_app_config("Cfg_WinAppPythonPackage")
-        
-        resource_config -->|"inherit"| module_config("Cfg_WinPythonModule")
-        resource_config -->|"inherit"| module_app_config("Cfg_WinAppPythonModule")
-        
-        resource_config -->|"inherit"| scheme_config("Cfg_WinPythonScheme")
-        resource_config -->|"inherit"| scheme_app_config("Cfg_WinAppPythonScheme")
+    basic -->|"<p><span style='color:#f00;'>inherit</span></p>"| path("Abc_Path")
+        path -->|"<p><span style='color:#f00;'>inherit</span></p>"| root("Abc_Root")
+        path -->|"<p><span style='color:#f00;'>inherit</span></p>"| dirctory("Abc_Directory")
+
+    
+    basic -->|"<p><span style='text-align:left;color:#f00;'>inherit</span></p>"| object("Abc_Object")
+        object -->|"<p><span style='color:#f00;'>inherit</span></p>"| system("Abc_System")
+            system -->|"<p><span style='color:#f00;'>inherit</span></p>"| sys_platform("Abc_SysPlatform")
+            system -->|"<p><span style='color:#f00;'>inherit</span></p>"| sys_bin("Abc_SysBin")
+    
+        object -->|"<p><span style='color:#f00;'>inherit</span></p>"| resource("Abc_Resource")
+   
+    basic -->|"<p><span style='color:#f00;'>inherit</span></p>"| file("Abc_File")
+
+    basic -->|"<p><span style='color:#f00;'>inherit</span></p>"| raw("Abc_Raw")
+        raw -->|"<p><span style='color:#f00;'>inherit</span></p>"| raw_configure("Abc_RawConfigure")
+    
+    basic -->|"<p><span style='color:#f00;'>inherit</span></p>"| operate("Abc_Operate")
 ```
 
-### Raw
+### Relation
+
+```mermaid
+graph LR
+
+raw_version("Raw_Version") -->|"<p><span style='color:#f00;'>VERSION_CLS</span></p>"| raw_cofigure("Raw_Configure")
+raw_environ("Raw_Environ") -->|"<p><span style='color:#f00;'>ENVIRON_CLS</span></p>"| raw_cofigure
+raw_dependent("Raw_Dependent") -->|"<p><span style='color:#f00;'>DEPENDENT_CLS</span></p>"| raw_cofigure
+
+pth_root("Pth_Root") -->|"<p><span style='color:#f00;'>ROOT_CLS</span></p>"| pth_directory("Pth_Directory")
+pth_directory -->|"<p><span style='color:#f00;'>DIRECTORY_CLS</span></p>"| file("File")
+file -->|"<p><span style='color:#f00;'>FILE_CLS</span></p>"| resource("Resource")
+raw_cofigure -->|"<p><span style='color:#f00;'>CONFIGURE_CLS</span></p>"| resource
+
+sys_platform("Sys_Pltform") -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| sys_plt_language("Sys_PltLanguage")
+sys_platform -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| sys_plt_application("Sys_PltApplication")
+
+sys_plt_application -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| sys_plt_app_language("Sys_PltAppLanguage")
+
+branch_1(("or"))
+
+sys_platform --- branch_1
+sys_plt_language --- branch_1
+sys_plt_application --- branch_1
+sys_plt_app_language --- branch_1
+
+branch_1 -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| resource
+
+classDef red_0 fill:#f99,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef orange_0 fill:#fc9,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef yellow_0 fill:#ff9,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef green_0 fill:#9fc,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef blue_0 fill:#9cf,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef violet_0 fill:#ccf,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef pink_0 fill:#f9c,stroke:#000,stroke-width:1px,fill-opacity:1
+classDef white_0 fill:#fff,stroke:#000,stroke-width:1px,fill-opacity:1
+
+class resource red_0
+
+class sys_platform orange_0; class sys_plt_language orange_0; class sys_plt_application orange_0; class sys_plt_app_language orange_0
+
+class raw_version green_0; class raw_environ green_0; class raw_dependent green_0; class raw_cofigure green_0
+
+class file blue_0
+
+class pth_root violet_0; class pth_directory violet_0
+```
+
+### Configure
 
 - graph
 
 ```mermaid
 graph RL
 
-resource(("resource"))
-    resource_enable("enable = bool")  --- resource
-    resource_category("category = str") --- resource
-    resource_name("name = str") --- resource
+configure("configure = dict")
+    resource_enable("enable = bool")  --- configure
+    resource_category("category = str") --- configure
+    resource_name("name = str") --- configure
 
-application("application") === resource
-    application_name("name = str") --- application
-    application_version("version = str") --- application
-    
-    application_platform("platform") === application
-        platform_name("name = str") --- application_platform
-        platform_version("version = str") --- application_platform
-    
-    application_language("language") === application
-        language_name("name = str") --- application_language
-        language_version("version = str") --- application_language
+system("system = dict") === configure
+    sys_category("category = str") --- system
+    sys_name("name = str") --- system
+    sys_version("version = str") --- system
+    sys_platform("platfrom = dict") --- system
 
-version("version") === resource
+version("version = dict") === configure
     version_record("record = list") --- version
         record_version("str") --- version_record
     version_active("active = str") --- version
 
-environ("environ") === resource
+environ("environ = dict") === configure
     environ_key("str(environ_key)") === environ
         environ_value("value = str/list") --- environ_key
         environ_operate("operate = str") --- environ_key
 
-dependent("dependent") === resource
+dependent("dependent = dict") === configure
     dependent_category("str(resource_category)") === dependent
         dependent_name("str(resource_name)") === dependent_category
             dependent_version("version = str") --- dependent_name
             dependent_argument("argument = str/list") --- dependent_name
-            
-
-
-classDef pink_0 fill:#f9c,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef pink_1 fill:#f59,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef red_0 fill:#f99,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef red_1 fill:#f55,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef orange_0 fill:#fc9,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef orange_1 fill:#f95,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef violet_0 fill:#ccf,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef violet_1 fill:#99f,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef yellow_0 fill:#ff9,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef yellow_1 fill:#ff5,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef blue_0 fill:#9cf,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef blue_1 fill:#59f,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef green_0 fill:#9fc,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef green_1 fill:#5f9,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef white_0 fill:#fff,stroke:#000,stroke-width:1px,fill-opacity:1
-
-class resource orange_0
-class application orange_0
-class version orange_0
-class environ orange_0
-class dependent orange_0
-class application_platform orange_0
-class application_language orange_0
 ```
 
 - json
@@ -105,45 +118,19 @@ class application_language orange_0
 ```json
 {
     "enable": true, 
-    "category": "windows_python_module", 
-    "name": "LxWindows", 
-    "application": {
+    "category": "plt_app_lan_module", 
+    "name": "LxMaya", 
+    "system": {
+        "category": "plt_app_language", 
         "name": "python", 
         "version": "2.7.x", 
+        "platform": {
+            "name": "windows", 
+            "version": "share"
+        }, 
         "application": {
-            "version": "share", 
-            "name": "windows"
-        }, 
-        "language": {
-            "version": "2.7.x", 
-            "name": "python"
-        }
-    }, 
-    "environ": {
-        "PATH": {
-            "operate": "+", 
-            "value": "{sourcepath}"
-        }
-    }, 
-    "dependent": {
-        "windows_bin": {
-            "python": {
-                "argument": "share"
-            }
-        }, 
-        "windows_python_module": {
-            "LxInterface": {
-                "version": "active", 
-                "argument": "2.7.x"
-            }, 
-            "LxUi": {
-                "version": "active", 
-                "argument": "2.7.x"
-            }, 
-            "LxCore": {
-                "version": "active", 
-                "argument": "2.7.x"
-            }
+            "name": "maya", 
+            "version": "share"
         }
     }, 
     "version": {
@@ -151,6 +138,61 @@ class application_language orange_0
         "record": [
             "0.0.0"
         ]
+    }, 
+    "environ": {
+        "PATH": {
+            "operate": "+", 
+            "value": "{path.sourcepath}"
+        }
+    }, 
+    "dependent": {
+        "plt_lan_module": {
+            "LxDatabase": {
+                "version": "active", 
+                "argument": [
+                    "{system.platform.name}", 
+                    "{system.platform.version}", 
+                    "{system.name}", 
+                    "{system.version}"
+                ]
+            }, 
+            "LxDeadline": {
+                "version": "active", 
+                "argument": [
+                    "{system.platform.name}", 
+                    "{system.platform.version}", 
+                    "{system.name}", 
+                    "{system.version}"
+                ]
+            }, 
+            "LxInterface": {
+                "version": "active", 
+                "argument": [
+                    "{system.platform.name}", 
+                    "{system.platform.version}", 
+                    "{system.name}", 
+                    "{system.version}"
+                ]
+            }, 
+            "LxUi": {
+                "version": "active", 
+                "argument": [
+                    "{system.platform.name}", 
+                    "{system.platform.version}", 
+                    "{system.name}", 
+                    "{system.version}"
+                ]
+            }, 
+            "LxCore": {
+                "version": "active", 
+                "argument": [
+                    "{system.platform.name}", 
+                    "{system.platform.version}", 
+                    "{system.name}", 
+                    "{system.version}"
+                ]
+            }
+        }
     }
 }
 ```

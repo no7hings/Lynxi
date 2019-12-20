@@ -35,7 +35,7 @@ Lynxi_Ui_Window_Size_Dialog = 1920 * .5, 1080 * .5
 class Basic(object):
     @classmethod
     def _lxIconRoot(cls):
-        return lxConfigure.IconSubRoot()._serverDirectory()
+        return lxConfigure.IconSubRoot()._serverPath()
     @staticmethod
     def _toUiDatum(data):
         string = None

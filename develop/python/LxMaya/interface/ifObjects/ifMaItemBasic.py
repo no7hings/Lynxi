@@ -23,7 +23,7 @@ class IfMaNodeTreeItem(qtWidgetBasic._QtTreeviewItemBasic):
     def appPath(self):
         return self._appPath
     @property
-    def appName(self):
+    def applicationName(self):
         return self._appName
     #
     def load(self, string):

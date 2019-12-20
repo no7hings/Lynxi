@@ -26,7 +26,7 @@ none = ''
 
 #
 def setOutAstProxy(osFile, objectString, renderer):
-    maFile.setCreateDirectory(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     # Export
     cmds.select(objectString)
     maProxy.setOutProxy(osFile, renderer, 0)

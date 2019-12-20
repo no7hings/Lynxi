@@ -5,7 +5,7 @@ from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg
 #
-basicPresetPath = lxConfigure.Root()._productDirectory()
+basicPresetPath = lxConfigure.Root()._productPath()
 #
 IsPresetVariantKey = True
 #
@@ -3224,7 +3224,7 @@ def getPlugNames():
 
 
 #
-def getPlugVariantLis(appName, appVersions, plugName):
+def getPlugVariantLis(applicationName, appVersions, plugName):
     lis = []
     guidePresetKey = lxConfigure.LynxiVariantPresetKey
     mainPresetKey = lxConfigure.Lynxi_Key_Plug_PresetKey
@@ -3237,7 +3237,7 @@ def getPlugVariantLis(appName, appVersions, plugName):
                 key = v[lxConfigure.LynxiVariantKey]
                 value = v[lxConfigure.LynxiVariantValue]
                 if key == lxConfigure.LynxiAppNameKey:
-                    value = appName
+                    value = applicationName
                 if key == lxConfigure.LynxiAppVersionKey:
                     value = appVersions
                 if key == lxConfigure.Key_Plug_Name:

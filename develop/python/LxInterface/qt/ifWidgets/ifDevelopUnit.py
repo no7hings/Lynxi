@@ -7,7 +7,7 @@ from LxUi.qt import qtWidgets, qtCore, qtMethod
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
-serverBasicPath = lxConfigure.Root()._serverDirectory()
+serverBasicPath = lxConfigure.Root()._serverPath()
 
 
 #
@@ -106,7 +106,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         def setBranch(value):
             def setBranchActions():
                 def openDatumFileCmd():
-                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
+                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverPath())
                     if lxBasic.isOsExistsFile(osCmdExe):
                         tempOsFile = '{}/{}/{}/{}'.format(self._dbMethod.LynxiOsPath_LocalTemporary, dbDatumType, dbDatumId, osRelativeFile)
                         if not self._dbMethod.isOsExistsFile(tempOsFile):

@@ -115,6 +115,7 @@ def getTimeInfo():
 def setCameraView(cameraShape=none, displayResolution=0, displaySafeTitle=0):
     if not cameraShape:
         cameraShape = getActiveCameraShape()
+
     cmds.camera(
         cameraShape,
         edit=1,
@@ -125,7 +126,8 @@ def setCameraView(cameraShape=none, displayResolution=0, displaySafeTitle=0):
         displaySafeTitle=displaySafeTitle,
         displayFieldChart=0,
         filmFit=1,
-        overscan=1)
+        overscan=1
+    )
     cmds.setAttr(cameraShape + '.displayGateMaskOpacity', 1)
     cmds.setAttr(cameraShape + '.displayGateMaskColor', 0, 0, 0, type='double3')
 
@@ -180,7 +182,8 @@ def hudConfig(fontSize='large'):
         label='Fps ( Focal ) : ',
         labelWidth=96,
         command=lambda: getFpsInfo(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     dic['Frame Info'] = dict(
         section=2, block=0,
         blockAlignment='center',
@@ -190,7 +193,8 @@ def hudConfig(fontSize='large'):
         label='Frame : ',
         labelWidth=96,
         command=lambda: getFrameInfo(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     dic['Time Info'] = dict(
         section=4, block=0,
         blockAlignment='center',
@@ -200,7 +204,8 @@ def hudConfig(fontSize='large'):
         label='Time : ',
         labelWidth=48,
         command=lambda: getTimeInfo(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     #
     dic['Artist Info'] = dict(
         section=5, block=0,
@@ -211,7 +216,8 @@ def hudConfig(fontSize='large'):
         label='Artist : ',
         labelWidth=48,
         command=lambda: getArtistInfo(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     dic['Scene Info'] = dict(
         section=7, block=0,
         blockAlignment='center',
@@ -221,7 +227,8 @@ def hudConfig(fontSize='large'):
         label='Name : ',
         labelWidth=48,
         command=lambda: getSceneInfo(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     dic['Date Info'] = dict(
         section=9, block=0,
         blockAlignment='center',
@@ -231,7 +238,8 @@ def hudConfig(fontSize='large'):
         label='Date : ',
         labelWidth=48,
         command=lambda: lxBasic.getCnViewDate(),
-        attachToRefresh=1)
+        attachToRefresh=1
+    )
     return dic
 
 
@@ -250,7 +258,8 @@ def setCameraHud(fontSize='large'):
             label=v['label'],
             labelWidth=v['labelWidth'],
             command=v['command'],
-            attachToRefresh=v['attachToRefresh'])
+            attachToRefresh=v['attachToRefresh']
+        )
     #
     setHudColor()
 

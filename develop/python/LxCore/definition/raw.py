@@ -1,46 +1,10 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic
 
 from LxCore.definition import abstract
 
 
-class Raw_Object(abstract._AbcRaw):
-    def __init__(self, raw=None):
-        self._initRawObject(raw)
-
-    def _initRawObject(self, raw):
-        self._initAbcRaw()
-        if raw is not None:
-            self.create(raw)
-        else:
-            self.create(
-                {
-                    self.Key_Enable: True,
-                    self.Key_Category: 'unspecific',
-                    self.Key_Name: 'unspecific'
-                }
-            )
-
-    def setEnable(self, boolean):
-        self._raw[self.Key_Enable] = boolean
-
-    def enable(self):
-        return self._getValue(self.Key_Enable)
-
-    def setName(self, string):
-        self._raw[self.Key_Name] = string
-
-    def name(self):
-        return self._getValue(self.Key_Name)
-
-    def setCategory(self, string):
-        self._raw[self.Key_Category] = string
-
-    def category(self):
-        return self._getValue(self.Key_Category)
-
-
-class Raw_Version(abstract._AbcRaw):
+class Raw_Version(abstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initRawVersion(raw)
 
@@ -50,23 +14,38 @@ class Raw_Version(abstract._AbcRaw):
         if raw is not None:
             self.create(raw)
         else:
-            self.create({})
+            self.create(
+                lxBasic.orderedDict(
+                    [
+                        (self.Key_Record, []),
+                        (self.Key_Active, None)
+                    ]
+                )
+            )
 
     def addRecord(self, string):
-        if not string in self.record():
-            self.record().append(string)
+        if not string in self.record:
+            self.record.append(string)
 
+    @property
     def record(self):
-        return self._getValue(self.Key_Record)
+        return self.get(self.Key_Record)
 
     def setActive(self, string):
         self._raw[self.Key_Active] = string
 
+    @property
     def active(self):
-        return self._getValue(self.Key_Active)
+        return self.get(self.Key_Active)
+
+    def __iadd__(self, other):
+        if isinstance(other, str) or isinstance(other, unicode):
+            self.record.append(other)
+
+        return self
 
 
-class Raw_Environ(abstract._AbcRaw):
+class Raw_Environ(abstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initRawEnviron(raw)
 
@@ -77,15 +56,6 @@ class Raw_Environ(abstract._AbcRaw):
             self.create(raw)
         else:
             self.create({})
-
-    def __iadd__(self, other):
-        if isinstance(other, self.__class__):
-            for k, v in other._raw.items():
-                value = v[self.Key_Value]
-                operate = v[self.Key_Operate]
-                self._add(k, value, operate)
-
-        return self
 
     def _add(self, key, value, operate):
         if key in self._raw:
@@ -101,8 +71,17 @@ class Raw_Environ(abstract._AbcRaw):
                 self.Key_Operate: operate
             }
 
+    def __iadd__(self, other):
+        if isinstance(other, self.__class__):
+            for k, v in other.raw().items():
+                value = v[self.Key_Value]
+                operate = v[self.Key_Operate]
+                self._add(k, value, operate)
 
-class Raw_Dependent(abstract._AbcRaw):
+        return self
+
+
+class Raw_Dependent(abstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initRawDependent(raw)
 
@@ -115,82 +94,53 @@ class Raw_Dependent(abstract._AbcRaw):
             self.create({})
 
 
-class Raw_ResourceConfig(lxConfigure.Basic):
-    RAW_OBJECT_CLS = Raw_Object
-    RAW_ENVIRON_CLS = Raw_Environ
-    RAW_DEPENDENT_CLS = Raw_Dependent
-    RAW_VERSION_CLS = Raw_Version
+class Raw_Configure(abstract.Abc_RawConfigure):
+    VERSION_CLS = Raw_Version
+    ENVIRON_CLS = Raw_Environ
+    DEPENDENT_CLS = Raw_Dependent
 
-    def __init__(self, category, name, appObj):
+    def __init__(self, enable, category, name, appObj):
+        self._initRawConfig(enable, category, name, appObj)
 
-        self._initRawResourceConfig(category, name, appObj)
-
-    def _initRawResourceConfig(self, category, name, appObj):
-        self._platform = appObj
-
-        self._objectRaw = self.RAW_OBJECT_CLS(
-            {
-                self.Key_Enable: True,
-                self.Key_Category: category,
-                self.Key_Name: name
-            }
-        )
-        self._versionRaw = self.RAW_VERSION_CLS(
+    def _initRawConfig(self, enable, category, name, appObj):
+        self._initAbcRawConfigure(enable, category, name)
+        # Application
+        self._systemObj = appObj
+        self.addRaw(self.Key_System, self._systemObj)
+        # Version
+        self._versionObj = self.VERSION_CLS(
             {
                 self.Key_Record: [self.Version_Default],
                 self.Key_Active: self.Version_Default
             }
         )
-        self._environRaw = self.RAW_ENVIRON_CLS(
+        self.addRaw(self.Key_Version, self._versionObj)
+        # Environ
+        self._environObj = self.ENVIRON_CLS(
             {
                 'PATH': {
-                    self.Key_Value: '{sourcepath}',
+                    self.Key_Value: '{self.sourcepath}',
                     self.Key_Operate: '+'
                 }
             }
         )
+        self.addRaw(self.Key_Environ, self._environObj)
+        # Dependent
+        self._dependentObj = self.DEPENDENT_CLS()
+        self.addRaw(self.Key_Dependent, self._dependentObj)
 
-        self._dependentRaw = self.RAW_DEPENDENT_CLS()
+    @property
+    def system(self):
+        return self._systemObj
 
-    def setEnable(self, boolean):
-        self._objectRaw.setEnable(boolean)
-
-    def enable(self):
-        return self._objectRaw.enable()
-
-    def setCategory(self, string):
-        self._objectRaw.setCategory(string)
-
-    def category(self):
-        return self._objectRaw.category()
-
-    def setName(self, string):
-        self._objectRaw.setName(string)
-
-    def name(self):
-        return self._objectRaw.name()
-
-    def platform(self):
-        return self._platform
-
+    @property
     def version(self):
-        return self._versionRaw
+        return self._versionObj
 
+    @property
     def environ(self):
-        return self._environRaw
+        return self._environObj
 
+    @property
     def dependent(self):
-        return self._dependentRaw
-
-    def raw(self):
-        return lxBasic.orderedDict(
-            (
-                (self.Key_Enable, self.enable()),
-                (self.Key_Category, self.category()),
-                (self.Key_Name, self.name()),
-                (self.Key_Application, self.platform().raw()),
-                (self.Key_Environ, self.environ().raw()),
-                (self.Key_Dependent, self.dependent().raw()),
-                (self.Key_Version, self.version().raw())
-            )
-        )
+        return self._dependentObj

@@ -63,7 +63,7 @@ class LxConfigBasic(object):
     #
     Key_Environ_Value = 'LYNXI_PATH'
     Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
-    Key_Environ_Path_Module = 'LYNXI_MODULE_PATH'
+    Key_Environ_Path_Product = 'LYNXI_PRODUCT_PATH'
     #
     Lynxi_Key_Info_Namespace = 'namespace'
     #

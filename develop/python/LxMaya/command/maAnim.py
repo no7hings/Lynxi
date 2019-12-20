@@ -5,6 +5,8 @@ import maya.cmds as cmds
 #
 from random import choice
 #
+from LxCore import lxBasic
+#
 from LxMaya.command import maUtils, maFile, maAttr, maProxy
 #
 inBoxLabel = '_inBox'
@@ -21,7 +23,7 @@ none = ''
 
 #
 def setOutActProxy(osFile, frame, renderer):
-    maFile.setCreateDirectory(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     # Set Frame
     cmds.currentTime(frame)
     maProxy.setOutProxy(osFile, renderer, 1)

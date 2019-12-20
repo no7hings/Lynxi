@@ -109,7 +109,7 @@ def getYetiGuideHairSystems(yetiObject):
 
 #
 def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
-    maFile.setCreateDirectory(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     # Turn off Use Cache
     maUtils.setAttrDatumForce_(yetiNode, 'fileMode', False)
     #
@@ -128,7 +128,7 @@ def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUp
 #
 def setYetiObjectsWriteCache(yetiObjects, yetiCaches, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
     dic = {}
-    [maFile.setCreateDirectory(i) for i in yetiCaches]
+    [lxBasic.setOsFileDirectoryCreate(i) for i in yetiCaches]
     [cmds.setAttr(i + '.' + 'fileMode', 0) for i in yetiObjects]
     yetiShapePathLis = [maUtils.getNodeShape(i) for i in yetiObjects]
     cmds.select(yetiShapePathLis)

@@ -45,14 +45,14 @@ def setRemoveDirectory(directory):
 #
 def setCopyFile(sourceFile, targetFile):
     if os.path.isfile(sourceFile):
-        lxBasic.setOsFilePathCreate(targetFile)
+        lxBasic.setOsFileDirectoryCreate(targetFile)
         shutil.copy2(sourceFile, targetFile)
 
 
 #
 def setMoveFile(sourceFile, targetFile):
     if os.path.isfile(sourceFile):
-        lxBasic.setOsFilePathCreate(targetFile)
+        lxBasic.setOsFileDirectoryCreate(targetFile)
         shutil.move(sourceFile, targetFile)
 
 
@@ -70,7 +70,7 @@ def getFileSize(osFile):
 def getTemporaryOsFile(osFile):
     fileName = os.path.basename(osFile)
     temporaryFile = os.path.join(temporaryDirectory, fileName).replace('\\', '/')
-    lxBasic.setOsFilePathCreate(temporaryFile)
+    lxBasic.setOsFileDirectoryCreate(temporaryFile)
     return temporaryFile
 
 
@@ -134,7 +134,7 @@ def saveMayaFile(osFile):
     temporaryFile = getTemporaryOsFile(osFile)
     cmds.file(rename=temporaryFile)
     cmds.file(save=1, type=getMayaFileType(osFile))
-    lxBasic.setOsFilePathCreate(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     setMoveFile(temporaryFile, osFile)
 
 
@@ -142,7 +142,7 @@ def saveMayaFile(osFile):
 def saveToMayaFile(osFile):
     cmds.file(rename=osFile)
     cmds.file(save=1, type=getMayaFileType(osFile))
-    lxBasic.setOsFilePathCreate(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
 
 
 # Open Maya File as Back
@@ -150,7 +150,7 @@ def openMayaFileAsBack(osFile, backFile, timeTag=none):
     if not timeTag:
         timeTag = lxBasic.getOsActiveTimeTag()
     if os.path.isfile(osFile):
-        lxBasic.setOsFilePathCreate(backFile)
+        lxBasic.setOsFileDirectoryCreate(backFile)
         fileJoinUpdate = lxBasic.getOsFileJoinTimeTag(backFile, timeTag)
         # Main
         shutil.copyfile(osFile, fileJoinUpdate)
@@ -163,7 +163,7 @@ def openMayaFileToLocal(osFile, localFile, timeTag=none):
         timeTag = lxBasic.getOsActiveTimeTag()
     #
     if os.path.isfile(osFile):
-        lxBasic.setOsFilePathCreate(localFile)
+        lxBasic.setOsFileDirectoryCreate(localFile)
         localFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(localFile, timeTag)
         # Main
         shutil.copyfile(osFile, localFileJoinUpdateTag)
@@ -174,7 +174,7 @@ def openMayaFileToLocal(osFile, localFile, timeTag=none):
 def openFileToTemp(osFile):
     temporaryFile = getTemporaryOsFile(osFile)
     if os.path.isfile(osFile):
-        lxBasic.setOsFilePathCreate(temporaryFile)
+        lxBasic.setOsFileDirectoryCreate(temporaryFile)
         # Main
         shutil.copyfile(osFile, temporaryFile)
         fileOpen(temporaryFile)
@@ -204,7 +204,7 @@ def saveTempFile():
     origFile = cmds.file(query=1, sceneName=1)
     if not origFile:
         origFile = 'D:/Projects/temp.mb'
-        lxBasic.setOsFilePathCreate(origFile)
+        lxBasic.setOsFileDirectoryCreate(origFile)
         saveMayaFile(origFile)
     temporaryFile = '_temp'.join(os.path.splitext(origFile))
     cmds.file(rename=temporaryFile)
@@ -217,7 +217,7 @@ def saveMayaFileToLocal(osFile, timeTag=none):
     if not timeTag:
         timeTag = lxBasic.getOsActiveTimeTag()
     #
-    lxBasic.setOsFilePathCreate(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     fileJoinUpdate = lxBasic.getOsFileJoinTimeTag(osFile, timeTag)
     #
     maUtils.setCleanUnknownNodes()
@@ -524,7 +524,7 @@ def loadMayaFile(osFile, localFile, timeTag=none):
 # Write Json
 def writeOsJson(data, osFile, indent=0):
     if data:
-        lxBasic.setOsFilePathCreate(osFile)
+        lxBasic.setOsFileDirectoryCreate(osFile)
         with open(osFile, 'w') as f:
             if indent:
                 json.dump(data, f, ensure_ascii=True, indent=indent)
@@ -543,7 +543,7 @@ def readOsJson(osFile):
 #
 def writeOsData(data, osFile):
     if data:
-        lxBasic.setOsFilePathCreate(osFile)
+        lxBasic.setOsFileDirectoryCreate(osFile)
         with open(osFile, 'wb') as f:
             f.write(data)
             f.close()
@@ -713,7 +713,7 @@ def abcConnect(cache, objectString):
 #
 def animExport(osFile, objectString=none, mode=0):
     cmds.loadPlugin('animImportExport', quiet=1)
-    lxBasic.setOsFilePathCreate(osFile)
+    lxBasic.setOsFileDirectoryCreate(osFile)
     if objectString:
         cmds.select(objectString)
     options = \
@@ -793,7 +793,7 @@ def assExport(assFile, camera, startFrame, endFrame):
     exportArnoldAss(temporaryFile, camera, startFrame, endFrame)
     # Get Temp ASS File
     tempSubAssFiles = [(os.path.splitext(temporaryFile)[0] + str(i).zfill(4) + os.path.splitext(temporaryFile)[1]).replace('\\', '/') for i in range(startFrame, endFrame + 1)]
-    lxBasic.setOsFilePathCreate(assFile)
+    lxBasic.setOsFileDirectoryCreate(assFile)
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)

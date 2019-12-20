@@ -478,8 +478,7 @@ def getOsSeqFileSizes(osFile, startFrame, endFrame):
 def isOsExist(osPath):
     if osPath:
         return os.path.exists(osPath)
-    else:
-        return False
+    return False
 
 
 #
@@ -629,7 +628,7 @@ def getOsUniqueFile(osFile):
 
 
 #
-def setOsFilePathCreate(osFile):
+def setOsFileDirectoryCreate(osFile):
     osPath = os.path.dirname(osFile)
     if not isOsExist(osPath):
         os.makedirs(osPath)
@@ -655,7 +654,7 @@ def hideOsFolder(osPath):
 #
 def setOsFileCopy(sourceOsFile, targetOsFile, force=True):
     if os.path.isfile(sourceOsFile):
-        setOsFilePathCreate(targetOsFile)
+        setOsFileDirectoryCreate(targetOsFile)
         # Check Same File
         if not os.path.normpath(sourceOsFile) == os.path.normpath(targetOsFile):
             if force is True:
@@ -670,7 +669,7 @@ def setOsFileCopy(sourceOsFile, targetOsFile, force=True):
 #
 def setOsFileMove(sourceOsFile, targetOsFile):
     if os.path.isfile(sourceOsFile):
-        setOsFilePathCreate(targetOsFile)
+        setOsFileDirectoryCreate(targetOsFile)
         shutil.move(sourceOsFile, targetOsFile)
 
 
@@ -1241,7 +1240,7 @@ def getOsTempFolder(osFile):
     osFileBasename = getOsFileBasename(osFile)
     tempFile = _toOsFile(tempDirectory, osFileBasename)
     #
-    setOsFilePathCreate(tempFile)
+    setOsFileDirectoryCreate(tempFile)
     return tempFile
 
 
@@ -1253,7 +1252,7 @@ def getOsTemporaryFile(osFile, timeTag=None):
     osFileBasename = getOsFileBasename(osFile)
     tempFile = _toOsFile(tempDirectory, osFileBasename)
     #
-    setOsFilePathCreate(tempFile)
+    setOsFileDirectoryCreate(tempFile)
     return tempFile
 
 
@@ -1276,11 +1275,11 @@ def getDbTempFile(dbFile):
     osFileBasename = getDbBasename(dbFile)
     tempFile = _toOsFile(tempDirectory, osFileBasename)
     #
-    setOsFilePathCreate(tempFile)
+    setOsFileDirectoryCreate(tempFile)
     return tempFile
 
 
-class _AbcFile(object):
+class Abc_File(object):
     def _initAbcFile(self, fileString):
         self._fileString = fileString
 
@@ -1297,7 +1296,7 @@ class _AbcFile(object):
         pass
 
 
-class File(_AbcFile):
+class File(Abc_File):
     def __init__(self, fileString):
         self._initAbcFile(fileString)
 
@@ -1313,7 +1312,7 @@ class File(_AbcFile):
 
     def write(self, raw):
         if raw is not None:
-            setOsFilePathCreate(self.fileString())
+            setOsFileDirectoryCreate(self.fileString())
             with open(self.fileString(), 'wb') as f:
                 if isinstance(raw, str) or isinstance(raw, unicode):
                     f.write(raw)
@@ -1322,7 +1321,7 @@ class File(_AbcFile):
                 f.close()
 
 
-class JsonFile(_AbcFile):
+class JsonFile(Abc_File):
     def __init__(self, fileString):
         self._initAbcFile(fileString)
 
@@ -1430,7 +1429,7 @@ def writeJsonTarGzip(datas, osFile):
             for i in datas:
                 subOsFileBasename, data = i
                 subOsFile = _toOsFile(utilsTemporaryFolder, subOsFileBasename)
-                setOsFilePathCreate(subOsFile)
+                setOsFileDirectoryCreate(subOsFile)
                 packDatas.append((subOsFile, subOsFileBasename))
                 j = open(subOsFile, 'w')
                 json.dump(data, j, ensure_ascii=True)
@@ -1482,7 +1481,7 @@ def readDataGzip(osFile):
 #
 def writeOsData(data, osFile):
     if data is not None:
-        setOsFilePathCreate(osFile)
+        setOsFileDirectoryCreate(osFile)
         with open(osFile, 'wb') as f:
             if isinstance(data, str) or isinstance(data, unicode):
                 f.write(data)
@@ -1493,7 +1492,7 @@ def writeOsData(data, osFile):
 
 #
 def writeDataGzip(data, osFile):
-    setOsFilePathCreate(osFile)
+    setOsFileDirectoryCreate(osFile)
     #
     osFileBasename = getOsFileBasename(osFile)
     #
@@ -1504,7 +1503,7 @@ def writeDataGzip(data, osFile):
 
 #
 def copyOsFileToGzip(sourceOsFile, targetOsFile):
-    setOsFilePathCreate(targetOsFile)
+    setOsFileDirectoryCreate(targetOsFile)
     osFileBasename = getOsFileBasename(targetOsFile)
     #
     with open(sourceOsFile, 'rb') as f:
@@ -2118,116 +2117,5 @@ def _memberStrMethod(method):
         method(*args, **kwargs)
         return '\n'.join(['{} = {}'.format(k, v) for k, v in dic.items()])
     return subMethod
-
-
-class _EnvironString(str):
-    def __init__(self, value):
-        self._value = value
-
-        self._key = ''
-        self._parent = None
-
-    def _add(self, value):
-        if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(os.pathsep)]
-            if value.lower() not in lowerLis:
-                lis.append(value)
-                self._value = os.pathsep.join(lis)
-        else:
-            self._value = value
-
-    def _sub(self, value):
-        if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(os.pathsep)]
-            if value.lower() in lowerLis:
-                i = lowerLis.index(value.lower())
-                lis.remove(lis[i])
-                self._value = os.pathsep.join(lis)
-
-    def _update(self):
-        os.environ[self._key] = self._value
-
-        str_ = _EnvironString(self._value)
-        str_.key = self._key
-        str_.parent = self._parent
-
-        self.parent.__dict__[self._key] = str_
-        return str_
-
-    @property
-    def parent(self):
-        return self._parent
-
-    @parent.setter
-    def parent(self, parent):
-        self._parent = parent
-
-    @property
-    def key(self):
-        return self._key
-
-    @key.setter
-    def key(self, key):
-        self._key = key
-
-        os.environ[self._key] = self._value
-
-    def __iadd__(self, value):
-        if isinstance(value, list) or isinstance(value, tuple):
-            [self._add(i) for i in list(value)]
-        else:
-            self._add(value)
-
-        return self._update()
-
-    def __isub__(self, value):
-        if isinstance(value, list) or isinstance(value, tuple):
-            [self._sub(i) for i in list(value)]
-        else:
-            self._sub(value)
-
-        return self._update()
-
-    def append(self, value):
-        self._add(value)
-
-    def remove(self, value):
-        self._sub(value)
-
-    def __str__(self):
-        return self._value.replace(os.pathsep, os.pathsep + '\r\n')
-
-
-class Environ(object):
-    def __getattr__(self, key):
-        key = key.upper()
-
-        value = os.environ.get(key, '')
-        if not key in self.__dict__:
-            str_ = _EnvironString(value)
-            str_.key = key
-            str_.parent = self
-
-            self.__dict__[key] = str_
-            return str_
-
-    def __setattr__(self, key, value):
-        key = key.upper()
-
-        str_ = _EnvironString(value)
-        str_.key = key
-        str_.parent = self
-
-        self.__dict__[key] = str_
-
-    @staticmethod
-    def exist(key, value):
-        value_ = os.environ.get(key)
-        if value_ is not None:
-            lowerLis = [i.lstrip().rstrip().lower() for i in value_.split(os.pathsep)]
-            return value.lower() in lowerLis
-        return False
 
 

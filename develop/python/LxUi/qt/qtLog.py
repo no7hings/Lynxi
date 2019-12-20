@@ -362,7 +362,7 @@ def viewWarning(win, warring, warringSuper=none):
 #
 def setLog(html, osFile):
     if html:
-        lxBasic.setOsFilePathCreate(osFile)
+        lxBasic.setOsFileDirectoryCreate(osFile)
         logOsFile = lxBasic.getLogFile(osFile)
         with open(logOsFile, 'wb') as f:
             f.writelines(html + '\r\n')

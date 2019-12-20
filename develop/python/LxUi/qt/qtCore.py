@@ -109,7 +109,7 @@ none = ''
 
 
 def iconRoot():
-    return lxConfigure.IconSubRoot()._serverDirectory()
+    return lxConfigure.IconSubRoot()._serverPath()
 
 
 #

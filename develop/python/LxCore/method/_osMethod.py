@@ -63,7 +63,7 @@ class OsMultFileMethod(_methodBasic.LxOsFileMethodBasic):
 class OsYamlFileMethod(_methodBasic.LxOsFileMethodBasic):
     @classmethod
     def writeOsYaml(cls, data, osYamlFile):
-        cls.setOsFilePathCreate(osYamlFile)
+        cls.setOsFileDirectoryCreate(osYamlFile)
         #
         with open(osYamlFile, 'w') as f:
             yaml.dump(data, f, default_flow_style=False)

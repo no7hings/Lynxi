@@ -1473,7 +1473,8 @@ def setMayaView(modelPanel, mCamera):
         manipulators=1,
         grid=0,
         hud=1,
-        sel=1)
+        sel=1
+    )
     cmds.modelEditor(
         modelPanel,
         edit=1,
@@ -1485,7 +1486,8 @@ def setMayaView(modelPanel, mCamera):
         nCloths=1,
         nParticles=1,
         pluginObjects=['gpuCacheDisplayFilter', 1],
-        displayAppearance='smoothShaded')
+        displayAppearance='smoothShaded'
+    )
     cameraShape = getNodeShape(mCamera)
     cmds.camera(
         cameraShape,
@@ -1497,7 +1499,8 @@ def setMayaView(modelPanel, mCamera):
         displayResolution=1,
         displayGateMask=1,
         filmFit=1,
-        overscan=1)
+        overscan=1
+    )
     cmds.setAttr(cameraShape + '.displayGateMaskOpacity', 1)
     cmds.setAttr(cameraShape + '.displayGateMaskColor', 0, 0, 0, type='double3')
     #
@@ -1507,11 +1510,11 @@ def setMayaView(modelPanel, mCamera):
 
 
 # Set Camera View
-def setCameraView(mCamera):
+def setCameraView(objectString):
     defaultPanel = 'modelPanel4'
     if cmds.panel(defaultPanel, exists=1):
-        cmds.lookThru(mCamera, defaultPanel)
-        setMayaView(defaultPanel, mCamera)
+        cmds.lookThru(objectString, defaultPanel)
+        setMayaView(defaultPanel, objectString)
 
 
 #

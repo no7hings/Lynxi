@@ -164,7 +164,7 @@ def setListRenderImages(
                 return lxBasic.isOsExist(imageFolder)
             #
             def openImage():
-                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.BinSubRoot()._serverDirectory())
+                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.BinSubRoot()._serverPath())
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(imageFile)
                     if subOsFiles:
