@@ -1,7 +1,19 @@
 [TOC]
 # Definition
 
-## Core
+### Structure
+
+```mermaid
+graph LR
+
+develop("Develop Path")
+product("Product Path")
+
+server("Server Path")
+local("Local Path")
+```
+
+## Resource
 
 ### Abstract
 
@@ -17,8 +29,6 @@ builtin_object("__builtin__.object") -->|"<p><span style='color:#f00;'>inherit</
     
     basic -->|"<p><span style='text-align:left;color:#f00;'>inherit</span></p>"| object("Abc_Object")
         object -->|"<p><span style='color:#f00;'>inherit</span></p>"| system("Abc_System")
-            system -->|"<p><span style='color:#f00;'>inherit</span></p>"| sys_platform("Abc_SysPlatform")
-            system -->|"<p><span style='color:#f00;'>inherit</span></p>"| sys_bin("Abc_SysBin")
     
         object -->|"<p><span style='color:#f00;'>inherit</span></p>"| resource("Abc_Resource")
    
@@ -42,7 +52,7 @@ raw_dependent("Raw_Dependent") -->|"<p><span style='color:#f00;'>DEPENDENT_CLS</
 pth_root("Pth_Root") -->|"<p><span style='color:#f00;'>ROOT_CLS</span></p>"| pth_directory("Pth_Directory")
 pth_directory -->|"<p><span style='color:#f00;'>DIRECTORY_CLS</span></p>"| file("File")
 file -->|"<p><span style='color:#f00;'>FILE_CLS</span></p>"| resource("Resource")
-raw_cofigure -->|"<p><span style='color:#f00;'>CONFIGURE_CLS</span></p>"| resource
+raw_cofigure -->|"<p><span style='color:#f00;'>RAW_CLS</span></p>"| resource
 
 sys_platform("Sys_Pltform") -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| sys_plt_language("Sys_PltLanguage")
 sys_platform -->|"<p><span style='color:#f00;'>SYSTEM_CLS</span></p>"| sys_plt_application("Sys_PltApplication")
@@ -111,6 +121,7 @@ dependent("dependent = dict") === configure
         dependent_name("str(resource_name)") === dependent_category
             dependent_version("version = str") --- dependent_name
             dependent_argument("argument = str/list") --- dependent_name
+
 ```
 
 - json

@@ -175,7 +175,7 @@ class Abc_PthDirectory(Abc_Path):
         return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     def _workspacePath(self):
-        pass
+        return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict())
 
 
 class Abc_File(lxConfigure.Basic):
@@ -217,11 +217,11 @@ class Abc_File(lxConfigure.Basic):
     def createActiveFile(self, raw):
         self._writeMethod(self.activeFile(), raw)
 
-    def hasActiveFile(self):
+    def isActiveExist(self):
         return lxBasic.isOsExist(self.activeFile())
 
     def activeFileRaw(self):
-        if self.hasActiveFile():
+        if self.isActiveExist():
             return self._readMethod(self.activeFile())
         return {}
 
@@ -231,30 +231,30 @@ class Abc_File(lxConfigure.Basic):
     def createServerFile(self, raw):
         self._writeMethod(self.serverFile(), raw)
 
-    def hasServerFile(self):
+    def isServerExist(self):
         return lxBasic.isOsExist(self.serverFile())
 
     def serverFileRaw(self):
-        if self.hasServerFile():
+        if self.isServerExist():
             return self._readMethod(self.serverFile())
         return {}
 
     def localFile(self):
         return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
-    def hasLocalFile(self):
+    def isLocalExist(self):
         return lxBasic.isOsExist(self.localFile())
 
     def developFile(self):
         return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
-    def hasDevelopFile(self):
+    def isDevelopExist(self):
         return lxBasic.isOsExist(self.developFile())
 
     def productFile(self):
         return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
-    def hasProductFile(self):
+    def isProductExist(self):
         return lxBasic.isOsExist(self.productFile())
 
     def _formatDict(self):
@@ -278,15 +278,35 @@ class Abc_File(lxConfigure.Basic):
 
 
 class Abc_System(Abc_Object):
+    SYSTEM_CLS = None
+
     key_environ_bin_path = None
     key_bin_default = None
 
     object_category = None
     raw_key = None
-    def _initAbcBin(self, name, version):
-        self._initAbcObject(self.object_category, name)
 
-        self._version = version
+    def _initAbcSystem(self, *args):
+        systemName, systemVersion = args[-2:]
+        self._initAbcObject(
+            self.object_category, systemName
+        )
+        self._version = systemVersion
+
+        if self.SYSTEM_CLS is not None:
+            self._systemObj = self.SYSTEM_CLS(*args[:-2])
+
+    def create(self, *args):
+        """
+        = self._initAbcSystem(*args)
+        :param args:
+            Platform: *(platformName, platformVersion);
+            Platform-Language: *(platformName, platformVersion, languageName, languageVersion);
+            Platform-Application: *(platformName, platformVersion, applicationName, applicationVersion);
+            Platform-Application-Language: *(platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion).
+        :return: None
+        """
+        self._initAbcSystem(*args)
 
     def setVersion(self, string):
         self._version = string
@@ -295,14 +315,9 @@ class Abc_System(Abc_Object):
     def version(self):
         return self._version
 
-    def raw(self):
-        return lxBasic.orderedDict(
-            [
-                (self.Key_Category, self.category),
-                (self.Key_Name, self.name),
-                (self.Key_Version, self.version)
-            ]
-        )
+    @property
+    def system(self):
+        return self._systemObj
 
     @property
     def systemraw(self):
@@ -313,42 +328,6 @@ class Abc_System(Abc_Object):
             ]
         )
 
-    def __str__(self):
-        return self._toStringMethod(self.raw())
-
-
-class Abc_SysPlatform(Abc_System):
-    def _initAbcSysPlatform(self, platformName, platformVersion):
-        self._initAbcBin(platformName, platformVersion)
-
-
-class Abc_SysBin(Abc_System):
-    SYSTEM_CLS = None
-
-    def _initAbcSysPltLanguage(self, platformName, platformVersion, languageName, languageVersion):
-        self._initAbcBin(languageName, languageVersion)
-
-        self._systemObj = self.SYSTEM_CLS(
-            platformName, platformVersion,
-        )
-
-    def _initAbcSysPltApplication(self, platformName, platformVersion, applicationName, applicationVersion):
-        self._initAbcBin(applicationName, applicationVersion)
-
-        self._systemObj = self.SYSTEM_CLS(platformName, platformVersion)
-
-    def _initAbcSysPltAppLanguage(self, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
-        self._initAbcBin(languageName, languageVersion)
-
-        self._systemObj = self.SYSTEM_CLS(
-            platformName, platformVersion,
-            applicationName, applicationVersion
-        )
-
-    @property
-    def system(self):
-        return self._systemObj
-
     def raw(self):
         return lxBasic.orderedDict(
             [
@@ -358,10 +337,16 @@ class Abc_SysBin(Abc_System):
             ]
         )
 
+    def __str__(self):
+        return self._toStringMethod(self.raw())
+
 
 class Abc_Raw(lxConfigure.Basic):
-    def _initAbcRaw(self):
-        self._raw = lxBasic.orderedDict()
+    def _initAbcRaw(self, raw, defRaw):
+        if raw is not None:
+            self._raw = raw
+        else:
+            self._raw = defRaw
 
     def create(self, raw):
         self._raw = raw
@@ -413,12 +398,12 @@ class Abc_RawConfigure(Abc_Raw):
 class Abc_Resource(Abc_Object):
     SYSTEM_CLS = None
     FILE_CLS = None
-    CONFIGURE_CLS = None
+    RAW_CLS = None
     OPERATE_CLS = None
 
     object_category = None
 
-    def _initRaw(self):
+    def _loadCache(self):
         serverRaw = self.file.serverFileRaw()
         if serverRaw:
             self.version.create(serverRaw[self.Key_Version])
@@ -428,15 +413,22 @@ class Abc_Resource(Abc_Object):
         self._raw = self._configObj.raw()
 
     def _initAbcResource(self, *args):
+        """
+        :param args:
+        :return:
+        """
+        # Object
         resourceName = args[0]
-        self._initAbcObject(self.object_category, resourceName)
+        self._initAbcObject(
+            self.object_category, resourceName
+        )
         # Bin
         self._argument = args[1:]
         self._systemObj = self.SYSTEM_CLS(*self._argument)
 
         self._enable = True
         # Config
-        self._configObj = self.CONFIGURE_CLS(
+        self._configObj = self.RAW_CLS(
             True, self.object_category, resourceName,
             self._systemObj
         )
@@ -445,12 +437,24 @@ class Abc_Resource(Abc_Object):
         args_.append(resourceName.lower())
         fileArgs = [i for i in args_ if not i == self.Keyword_Share]
         self._fileObj = self.FILE_CLS(*fileArgs)
-
+        # Raw
         self._version = self._configObj.version
         self._environ = self._configObj.environ
         self._dependent = self._configObj.dependent
-        # Raw
-        self._initRaw()
+        # init
+        self._loadCache()
+
+    @property
+    def isPackage(self):
+        return self.category in self.Category_Package_Lis
+
+    @property
+    def isModule(self):
+        return self.category in self.Category_Module_Lis
+
+    @property
+    def isScheme(self):
+        return self.category in self.Category_Plt_Lan_Scheme
 
     @property
     def file(self):
@@ -512,3 +516,7 @@ class Abc_Resource(Abc_Object):
 
     def __str__(self):
         return self._toStringMethod(self.raw().raw())
+
+
+class Abc_Operate(lxConfigure.Basic):
+    pass

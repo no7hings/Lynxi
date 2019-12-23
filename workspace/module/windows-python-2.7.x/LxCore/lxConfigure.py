@@ -342,12 +342,26 @@ class Basic(object):
     Category_Plt_Lan_Scheme = 'plt_lan_scheme'
     Category_Plt_App_Lan_Scheme = 'plt_app_lan_scheme'
 
+    Category_Scheme_Lis = [
+        Category_Plt_Lan_Scheme, Category_Plt_App_Lan_Scheme
+    ]
+    Category_Package_Lis = [
+        Category_Plt_Lan_Package, Category_Plt_App_Lan_Package, Category_Plt_App_Package
+    ]
+    Category_Bin_Lis = [
+        Category_Plt_Language, Category_Plt_Application, Category_Plt_App_Language
+    ]
+    Category_Module_Lis = [
+        Category_Plt_Lan_Module, Category_Plt_App_Lan_Module, Category_Plt_App_Module
+    ]
+
     Root_Develop_Default = 'e:/myworkspace/td/lynxi'
     Root_Product_Default = 'e:/myworkspace/td/lynxi'
     Path_Local_Default = 'c:/.lynxi'
 
     Keyword_Share = 'share'
 
+    Key_Environ_Scheme = 'LYNXI_SCHEME'
     Key_Environ_Version = 'LYNXI_VERSION'
 
     Key_Environ_Enable_Develop = 'LYNXI_DEVELOP'
@@ -399,6 +413,7 @@ class Basic(object):
     Key_Version = 'version'
     Key_Record = 'record'
     Key_Active = 'active'
+    Key_Develop = 'develop'
 
     Key_Application = 'application'
     Key_Bin = 'bin'
@@ -484,13 +499,6 @@ class Basic(object):
     Key_Value = 'value'
     Key_Operate = 'operate'
     Key_Environ = 'environ'
-    Key_Environ_Key = 'environ_key'
-    Key_Environ_Value = 'environ_value'
-    Key_Environ_Operate = 'environ_operation'
-
-    Key_Path_Source = 'path_source'
-    Key_Path_Compile = 'path_compile'
-    Key_Path_Workspace = 'path_workspace'
 
     Operation_Add = '+='
     Operation_Replace = '='
@@ -498,6 +506,7 @@ class Basic(object):
     Attr_Key_Self = 'self'
     Attr_Key_Root = 'root'
     Attr_Key_Path = 'path'
+    Attr_Key_System = 'system'
 
     Path_Key_Active = 'active'
     Path_Key_Server = 'server'
@@ -506,18 +515,7 @@ class Basic(object):
     Path_Key_Product = 'product'
     Path_Key_Workspace = 'workspace'
 
-    Attr_Path_Root = 'root'
-    Attr_Path_Server_Root = 'serverroot'
-    Attr_Path_Local_Root = 'localroot'
-    Attr_Path_Develop_Root = 'developroot'
-    Attr_Path_Product_Root = 'productroot'
-
-    Attr_Path = 'path'
     Attr_Key_Path_Source = 'sourcepath'
-
-    Key_Path_SubPath = 'subpath'
-    Key_Path_SubName = 'subname'
-    Key_Path_Base_Name = 'basename'
 
     _String_Indent = '    '
 

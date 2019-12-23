@@ -6,22 +6,15 @@ from LxCore.definition import abstract
 
 class Raw_Version(abstract.Abc_Raw):
     def __init__(self, raw=None):
-        self._initRawVersion(raw)
-
-    def _initRawVersion(self, raw):
-        self._initAbcRaw()
-
-        if raw is not None:
-            self.create(raw)
-        else:
-            self.create(
-                lxBasic.orderedDict(
-                    [
-                        (self.Key_Record, []),
-                        (self.Key_Active, None)
-                    ]
-                )
+        self._initAbcRaw(
+            raw,
+            lxBasic.orderedDict(
+                [
+                    (self.Key_Record, []),
+                    (self.Key_Active, None)
+                ]
             )
+        )
 
     def addRecord(self, string):
         if not string in self.record:
@@ -29,7 +22,7 @@ class Raw_Version(abstract.Abc_Raw):
 
     @property
     def record(self):
-        return self.get(self.Key_Record)
+        return self.get(self.Key_Record) or []
 
     def setActive(self, string):
         self._raw[self.Key_Active] = string
@@ -38,24 +31,25 @@ class Raw_Version(abstract.Abc_Raw):
     def active(self):
         return self.get(self.Key_Active)
 
+    def _add(self, versionString):
+        if versionString not in self.record:
+            self.record.append(versionString)
+
     def __iadd__(self, other):
-        if isinstance(other, str) or isinstance(other, unicode):
-            self.record.append(other)
+        if isinstance(other, self.__class__):
+            pass
+        elif isinstance(other, str) or isinstance(other, unicode):
+            self._add(other)
 
         return self
 
 
 class Raw_Environ(abstract.Abc_Raw):
     def __init__(self, raw=None):
-        self._initRawEnviron(raw)
-
-    def _initRawEnviron(self, raw):
-        self._initAbcRaw()
-
-        if raw is not None:
-            self.create(raw)
-        else:
-            self.create({})
+        self._initAbcRaw(
+            raw,
+            {}
+        )
 
     def _add(self, key, value, operate):
         if key in self._raw:
@@ -83,15 +77,21 @@ class Raw_Environ(abstract.Abc_Raw):
 
 class Raw_Dependent(abstract.Abc_Raw):
     def __init__(self, raw=None):
-        self._initRawDependent(raw)
+        self._initAbcRaw(
+            raw,
+            {}
+        )
 
-    def _initRawDependent(self, raw):
-        self._initAbcRaw()
+    def _add(self, key, value):
+        if not key in self._raw:
+            self._raw[key] = value
 
-        if raw is not None:
-            self.create(raw)
-        else:
-            self.create({})
+    def __iadd__(self, other):
+        if isinstance(other, self.__class__):
+            for k, v in other.raw().items():
+                self._add(k, v)
+
+        return self
 
 
 class Raw_Configure(abstract.Abc_RawConfigure):

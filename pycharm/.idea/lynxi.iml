@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../develop/python">
-      <sourceFolder url="file://$MODULE_DIR$/../develop/python" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$/../doc">
       <excludeFolder url="file://$MODULE_DIR$/../doc" />
     </content>
     <content url="file://$MODULE_DIR$/../plug/maya/share" />
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup" />
-    <content url="file://$MODULE_DIR$/../test" />
+    <content url="file://$MODULE_DIR$/../test">
+      <excludeFolder url="file://$MODULE_DIR$/../test" />
+    </content>
     <content url="file://$MODULE_DIR$/../tool/maya" />
+    <content url="file://$MODULE_DIR$/../workspace/module/windows-maya-python-2.7.x">
+      <sourceFolder url="file://$MODULE_DIR$/../workspace/module/windows-maya-python-2.7.x" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../workspace/module/windows-python-2.7.x">
+      <sourceFolder url="file://$MODULE_DIR$/../workspace/module/windows-python-2.7.x" isTestSource="false" />
+    </content>
     <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

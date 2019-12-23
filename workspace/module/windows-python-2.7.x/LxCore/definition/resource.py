@@ -68,6 +68,14 @@ class Rsc_Operate(lxConfigure.Basic):
         return self._configObj.name
 
     @property
+    def system(self):
+        return self._configObj.system
+
+    @property
+    def file(self):
+        return self._configObj.file
+
+    @property
     def version(self):
         return self._version
 
@@ -81,6 +89,10 @@ class Rsc_Operate(lxConfigure.Basic):
 
     @property
     def sourcepath(self):
+        if self.isDevelop():
+            if self._configObj.isModule:
+                return self._workspacePath()
+            return self.activeSourceDirectory()
         return self.activeSourceDirectory()
 
     def _activePath(self):
@@ -112,6 +124,9 @@ class Rsc_Operate(lxConfigure.Basic):
 
     def _productSourceDirectory(self):
         return u'{}/{}'.format(self._productPath(), self.Folder_Source)
+
+    def _workspacePath(self):
+        return self.path._workspacePath()
 
     def createDevelopDirectory(self):
         lxBasic.createOsPath(self._developPath())
@@ -156,13 +171,13 @@ class Rsc_Operate(lxConfigure.Basic):
                 lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
 
                 traceMessage = u'Localization Resource "{}" : "{}" > "{}"'.format(
-                    self._configObj.name, sourceFile, targetFile
+                    self.name, sourceFile, targetFile
                 )
                 lxConfigure.Message().traceResult(traceMessage)
 
                 lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
         else:
-            traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self._configObj.name())
+            traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self.name)
             lxConfigure.Message().traceResult(traceMessage)
 
     def addEnvirons(self):
@@ -206,35 +221,38 @@ class Rsc_Operate(lxConfigure.Basic):
     def hasDependents(self):
         return self._configObj.dependent.hasRaw()
 
-    def dependentResources(self):
-        def recursionFn(resource_):
-            raw_ = resource_.dependent.raw()
+    def dependents(self):
+        def recursionFn(operate_):
+            raw_ = operate_.dependent.raw()
             if raw_:
                 for k, v in raw_.items():
-                    category = k
-                    for ik, iv in v.items():
-                        name = ik
+                    name = k
 
-                        argument = iv[self.Key_Argument]
+                    category = v[self.Key_Category]
+                    argument = []
+                    argument_ = v[self.Key_Argument]
+                    for i in argument_:
+                        i = i.format(**self._formatDict())
+                        argument.append(i)
 
-                        configMethod = self.Cls_Resource_Dic[category]
-                        if isinstance(argument, tuple) or isinstance(argument, list):
-                            config = configMethod(name, *argument)
-                        else:
-                            config = configMethod(name, argument)
-                        version = iv[self.Key_Version]
+                    cls = self.Cls_Resource_Dic[category]
+
+                    resource_ = cls(name, *argument)
+
+                    if resource_.file.isServerExist():
+                        version = v[self.Key_Version]
                         if version == self.Version_Active:
-                            version = config.version.active
+                            version = resource_.version.active
 
-                        resource = config.operateAt(version)
-                        addFn(resource)
-                        recursionFn(resource)
+                        operate__ = resource_.operateAt(version)
+                        addFn(operate__)
+                        recursionFn(operate__)
 
-        def addFn(resource_):
-            name = resource_.name
+        def addFn(operate_):
+            name = operate_.name
             if not name in nameLis:
                 nameLis.append(name)
-                lis.append(resource_)
+                lis.append(operate_)
 
         nameLis = [self.name]
 
@@ -244,15 +262,10 @@ class Rsc_Operate(lxConfigure.Basic):
 
         return lis
 
-    def _dependent(self):
-        resource_ = self
-        raw_ = resource_.dependent.raw()
-        print raw_
-
-    def dependentEnviron(self):
+    def dependentEnvirons(self):
         environ = raw.Raw_Environ()
 
-        dependentLis = self.dependentResources()
+        dependentLis = self.dependents()
         if dependentLis:
             for i in dependentLis:
                 environ += i.environ
@@ -263,6 +276,7 @@ class Rsc_Operate(lxConfigure.Basic):
         return {
             self.Attr_Key_Self: self,
             self.Attr_Key_Path:  self._activePath(),
+            self.Attr_Key_System: self.system,
             self.Attr_Key_Path_Source: self.activeSourceDirectory()
         }
 
@@ -286,7 +300,7 @@ class Rsc_Operate(lxConfigure.Basic):
 class Rsc_PltLanguage(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_Platform
     FILE_CLS = file.Fle_BinConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_Language
@@ -301,7 +315,7 @@ class Rsc_PltLanguage(abstract.Abc_Resource):
 class Rsc_PltApplication(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_Platform
     FILE_CLS = file.Fle_BinConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_Application
@@ -316,7 +330,7 @@ class Rsc_PltApplication(abstract.Abc_Resource):
 class Rsc_PltLanPackage(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltLanguage
     FILE_CLS = file.Fle_PackageConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_Lan_Package
@@ -332,7 +346,7 @@ class Rsc_PltLanPackage(abstract.Abc_Resource):
 class Rsc_PltAppLanPackage(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltAppLanguage
     FILE_CLS = file.Fle_PackageConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_App_Lan_Package
@@ -349,7 +363,7 @@ class Rsc_PltAppLanPackage(abstract.Abc_Resource):
 class Rsc_PltAppPackage(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltApplication
     FILE_CLS = file.Fle_PackageConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_App_Package
@@ -364,8 +378,8 @@ class Rsc_PltAppPackage(abstract.Abc_Resource):
 
 class Rsc_PltLanModule(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltLanguage
-    FILE_CLS = file.Fle_CfgModule
-    CONFIGURE_CLS = raw.Raw_Configure
+    FILE_CLS = file.Fle_CfgModuleConfigure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_Lan_Module
@@ -380,8 +394,8 @@ class Rsc_PltLanModule(abstract.Abc_Resource):
 
 class Rsc_PltAppModule(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltApplication
-    FILE_CLS = file.Fle_CfgModule
-    CONFIGURE_CLS = raw.Raw_Configure
+    FILE_CLS = file.Fle_CfgModuleConfigure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_App_Module
@@ -397,7 +411,7 @@ class Rsc_PltAppModule(abstract.Abc_Resource):
 class Rsc_PltLanScheme(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltLanguage
     FILE_CLS = file.Fle_SchemeConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_Lan_Scheme
@@ -412,8 +426,8 @@ class Rsc_PltLanScheme(abstract.Abc_Resource):
 
 class Rsc_PltAppLanModule(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltAppLanguage
-    FILE_CLS = file.Fle_CfgModule
-    CONFIGURE_CLS = raw.Raw_Configure
+    FILE_CLS = file.Fle_CfgModuleConfigure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_App_Lan_Module
@@ -430,7 +444,7 @@ class Rsc_PltAppLanModule(abstract.Abc_Resource):
 class Rsc_PltAppLanScheme(abstract.Abc_Resource):
     SYSTEM_CLS = system.Sys_PltAppLanguage
     FILE_CLS = file.Fle_SchemeConfigure
-    CONFIGURE_CLS = raw.Raw_Configure
+    RAW_CLS = raw.Raw_Configure
     OPERATE_CLS = Rsc_Operate
 
     object_category = lxConfigure.Basic.Category_Plt_App_Lan_Scheme
