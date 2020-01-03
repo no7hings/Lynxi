@@ -1,11 +1,11 @@
 # coding:utf-8
-from LxCore import lxConfigure
+from LxCore import lxCore_, lxScheme
 #
 from LxCore.preset import basicPr, pipePr, appPr
 #
 from LxCore.preset.prod import projectPr
 # do not delete
-serverBasicPath = lxConfigure.Root()._serverPath()
+serverBasicPath = lxScheme.Root().basic.server
 
 
 #
@@ -19,7 +19,7 @@ def setBuildLocalPresetVariants(data):
 
 # Pipeline
 pipelinePresetData = basicPr.setBuildBasicPresetVariants(pipePr.getPipelinePresetVariantDic(
-    lxConfigure.LynxiDefaultPipelineValue))
+    lxCore_.LynxiDefaultPipelineValue))
 setBuildLocalPresetVariants(pipelinePresetData)
 # Project
 projectPresetData = basicPr.setBuildBasicPresetVariants(projectPr.getProjectPresetVariantDic(projectPr.getAppProjectName()))

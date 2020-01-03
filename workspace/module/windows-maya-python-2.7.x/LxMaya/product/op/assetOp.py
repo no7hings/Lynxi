@@ -4,42 +4,45 @@ import collections
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
-#
-from LxCore import lxConfigure
+
+from LxBasic import bscCore
+
+from LxCore import lxCore_
+
 from LxUi.qt import qtLog, qtProgress
-#
+
 from LxCore.preset.prod import assetPr
-#
+
 from LxMaya.command import maUtils, maGeom, maAttr
-#
+
 from LxMaya.product.data import datAsset
-#
+
 none = ''
 
 
-# Clean Node By Name
+# Clean Nde_Node By Name
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
-    lxConfigure.Message().trace(explain)
+    bscCore.Py_Message().trace(explain)
     nodes = [i for i in inData if maUtils.isAppExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
             if maUtils.isAppExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
-                lxConfigure.Message().traceResult(node)
+                bscCore.Py_Message().traceResult(node)
 
 
-# Assign Default Shader
+# Assign Default Nde_ShaderRef
 def setDefaultShader(logWin, objectLis):
-    qtLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
+    qtLog.viewStartSubProcess(logWin, u'Assign Default - Nde_ShaderRef')
     cmds.sets(objectLis, forceElement='initialShadingGroup')
-    qtLog.viewStartSubProcess(logWin, u'Assign Default - Shader')
+    qtLog.viewStartSubProcess(logWin, u'Assign Default - Nde_ShaderRef')
 
 
 # Assign Default Shaders
 def setObjectDefaultShaderCmd(logWin, objectLis):
-    explain = u'''Assign Initial - Shader'''
+    explain = u'''Assign Initial - Nde_ShaderRef'''
     qtLog.viewStartSubProcess(logWin, explain)
     for objectString in objectLis:
         cmds.sets(objectString, forceElement='initialShadingGroup')
@@ -54,19 +57,19 @@ def setObjectTransparentRefresh(objectLis):
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
-                    objectPath, lxConfigure.LynxiAttrName_Object_RenderVisible, attrDatum
-                )
+            objectPath, lxCore_.LynxiAttrName_Object_RenderVisible, attrDatum
+        )
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'aiOpaque')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, lxConfigure.LynxiAttrName_Object_Transparent, not attrDatum
+            objectPath, lxCore_.LynxiAttrName_Object_Transparent, not attrDatum
         )
 
 
 # Clean Object's Unused Shape
 def setObjectUnusedShapeClear(objectLis):
     explain = u'''Clean Unused - Shape'''
-    lxConfigure.Message().trace(explain)
+    bscCore.Py_Message().trace(explain)
     errorObjects = []
     # Get Error Objects
     for objectString in objectLis:
@@ -82,10 +85,10 @@ def setObjectUnusedShapeClear(objectLis):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    lxConfigure.Message().traceResult(maUtils._toNodeName(shape))
+                    bscCore.Py_Message().traceResult(maUtils._toNodeName(shape))
 
 
-# Clean Unused Shader
+# Clean Unused Nde_ShaderRef
 def setUnusedShaderClear():
     mel.eval('MLdeleteUnused;')
 
@@ -112,9 +115,9 @@ def setMeshesSmoothNormal(objectLis):
             maGeom.setMeshEdgeSmooth(objectString, True)
 
 
-# Clean Unknown Node
+# Clean Unknown Nde_Node
 def setUnknownNodeClear():
-    cleanNode(cmds.ls(type='unknown'), u'Unknown - Node')
+    cleanNode(cmds.ls(type='unknown'), u'Unknown - Nde_Node')
 
 
 #
@@ -131,48 +134,48 @@ def cleanUnusedAov(logWin):
 #
 def setDisplayLayerClear():
     explain = u'''Clean Display - Layer'''
-    lxConfigure.Message().trace(explain)
+    bscCore.Py_Message().trace(explain)
     displayLayers = [i for i in cmds.ls(type='displayLayer') if i != 'defaultLayer' and cmds.getAttr(i + '.displayOrder') != 0 and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if displayLayers:
         cmds.lockNode(displayLayers, lock=0)
         cmds.delete(displayLayers)
-        [lxConfigure.Message().traceResult(i) for i in displayLayers]
+        [bscCore.Py_Message().traceResult(i) for i in displayLayers]
 
 
 #
 def setCleanRenderLayer():
     explain = u'''Clean Render - Layer'''
-    lxConfigure.Message().trace(explain)
+    bscCore.Py_Message().trace(explain)
     renderLayers = [i for i in cmds.ls(type='renderLayer') if i != 'defaultRenderLayer' and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if renderLayers:
         cmds.lockNode(renderLayers, lock=0)
         cmds.delete(renderLayers)
-        [lxConfigure.Message().traceResult(i) for i in renderLayers]
+        [bscCore.Py_Message().traceResult(i) for i in renderLayers]
 
 
 #
 def setCleanReferenceFile():
     explain = u'''Clean Reference - File(s)'''
-    lxConfigure.Message().trace(explain)
+    bscCore.Py_Message().trace(explain)
     referenceNodeLis = cmds.ls(type='reference')
     if referenceNodeLis:
         for referenceNode in referenceNodeLis:
             try:
                 cmds.file(cmds.referenceQuery(referenceNode, filename=1), removeReference=1)
-                lxConfigure.Message().traceResult(referenceNode)
+                bscCore.Py_Message().traceResult(referenceNode)
             except:
                 pass
 
 
 #
 def setCleanReferenceNode():
-    explain = u'''Clean Reference - Node(s)'''
-    lxConfigure.Message().trace(explain)
+    explain = u'''Clean Reference - Nde_Node(s)'''
+    bscCore.Py_Message().trace(explain)
     referenceNodeLis = [i for i in cmds.ls(type="reference") if cmds.lockNode(i, q=1)]
     if referenceNodeLis:
         cmds.lockNode(referenceNodeLis, lock=0)
         cmds.delete(referenceNodeLis)
-        [lxConfigure.Message().traceResult(i) for i in referenceNodeLis]
+        [bscCore.Py_Message().traceResult(i) for i in referenceNodeLis]
 
 
 # Link Component Main Object Group Step01
@@ -322,14 +325,14 @@ def setSolverFurGroup(assetName, namespace=none, hide=0):
 #
 def setCreateAstExtraData(extraData):
     if extraData:
-        if lxConfigure.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
+        if lxCore_.LynxiAttributeDataKey in extraData:
+            attributeData = extraData[lxCore_.LynxiAttributeDataKey]
             setCreateAstAttributeData(attributeData)
-        if lxConfigure.LynxiConnectionDataKey in extraData:
-            connectionDic = extraData[lxConfigure.LynxiConnectionDataKey]
+        if lxCore_.LynxiConnectionDataKey in extraData:
+            connectionDic = extraData[lxCore_.LynxiConnectionDataKey]
             setCreateAstExtraConnectionSub(connectionDic)
-        if lxConfigure.LynxiNhrConnectionDataKey in extraData:
-            nhrConnectionDic = extraData[lxConfigure.LynxiNhrConnectionDataKey]
+        if lxCore_.LynxiNhrConnectionDataKey in extraData:
+            nhrConnectionDic = extraData[lxCore_.LynxiNhrConnectionDataKey]
             setCreateAstExtraConnectionSub(nhrConnectionDic)
 
 

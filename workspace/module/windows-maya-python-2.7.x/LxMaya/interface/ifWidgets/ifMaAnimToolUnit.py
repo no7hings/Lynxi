@@ -3,7 +3,7 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg, sceneCfg, appConfig
 #
@@ -147,9 +147,9 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
                 #
                 def rigFolderOpenCmd():
                     osFile = assetPr.astUnitProductFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
                     )[1]
                     if lxBasic.isOsExist(osFile):
                         lxBasic.setOsFileFolderOpen(osFile)
@@ -193,9 +193,9 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             #
             productFile = assetPr.astUnitProductFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
             )[1]
             mtimestamp = lxBasic.getOsFileMtimestamp(productFile)
             exists = mtimestamp is not None
@@ -221,7 +221,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
         #
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
-            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Rig
+            assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Rig
         )
         #
         gridView.cleanItems()
@@ -240,7 +240,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
         self._initTagFilterAction(gridView)
     @staticmethod
     def setOpenAnimationManager():
-        IfToolWindow = qtWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.QtToolWindow()
         toolBox = IfScAnimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -318,7 +318,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         'mayaFile': [0, 4, 0, 1, 1, 'Maya Ascii'], 'fbxFile': [0, 4, 1, 1, 1, 'FBX'],
         'importCamera': [0, 5, 0, 1, 4, 'Import Camera']
     }
-    ProductConfig = appConfig.LxProductConfig
+    ProductConfig = appConfig.Cfg_Product
     def __init__(self, *args, **kwargs):
         super(IfScLayoutToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -604,15 +604,15 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             if self._useMayaFileButton.isChecked():
                 serverCameraFile = scenePr.scUnitCameraProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
                 )[1]
             #
             boolean = lxBasic.isOsExist(serverCameraFile)
@@ -787,7 +787,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 if isOpenFolder:
                     localPreviewFile = scenePr.scenePreviewFile(
-                        lxConfigure.LynxiRootIndex_Local,
+                        lxCore_.LynxiRootIndex_Local,
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
                     previewFolder = lxBasic.getOsFileDirname(localPreviewFile)
@@ -826,15 +826,15 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             if self._useMayaFileButton.isChecked():
                 serverCameraFile = scenePr.scUnitCameraProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
                 )[1]
             if lxBasic.isOsExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
@@ -965,7 +965,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         selectedData.append(i)
     @staticmethod
     def setRigLoadedShow():
-        IfToolWindow = qtWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.QtToolWindow()
         toolBox = IfScRigLoadedUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -979,7 +979,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         IfToolWindow.uiShow()
     @staticmethod
     def setOpenAnimationManager():
-        IfToolWindow = qtWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.QtToolWindow()
         toolBox = IfScAnimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -993,7 +993,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
         IfToolWindow.uiShow()
     @staticmethod
     def setOpenSimulationManager():
-        IfToolWindow = qtWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.QtToolWindow()
         toolBox = IfSimManagerUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -1052,7 +1052,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxCore_.LynxiProduct_Asset_Link_Model
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -1109,7 +1109,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneStage = self._connectObject.sceneStage
             #
             self._scAnimUploadButton.setNameText(
-                u'Upload {} ！！！'.format(lxBasic._toStringPrettify(scenePr.getSceneLink(sceneStage)))
+                u'Upload {} ！！！'.format(lxBasic.str_camelcase2prettify(scenePr.getSceneLink(sceneStage)))
             )
             #
             self._initScRangeConfig()
@@ -2146,7 +2146,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 maRender.setRenderPreMelCommand(data)
         #
         self._melCommandFile = '{}/{}/maya.mel/deadline.mel'.format(
-            lxConfigure.UserPreset().renderDirectory(), self.projectName
+            lxCore_.UserPreset().renderDirectory(), self.projectName
         )
         #
         inData = self.dicMelCommand
@@ -2243,7 +2243,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             customize = self._scCustomizeLabel.datum()
             #
             renderFile = scenePr.scUnitRenderFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
@@ -3320,16 +3320,16 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             if keyword == 'Low - Quality':
                 showLabel = astLayoutRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
                 )[1]
             else:
                 showLabel = astAnimationRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
                 )[1]
             #
             if os.path.isfile(rigAssetFile):
@@ -3551,27 +3551,27 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     writeFurCacheTips1 = [
         u"提示：",
-        u"1：引导 Yeti Node 的 Hair System 需要先指定缓存；",
+        u"1：引导 Yeti Nde_Node 的 Hair System 需要先指定缓存；",
         u"2：点击 Upload Fur Cache 上传（继续）所有节点的缓存...",
     ]
     #
     writeFurCacheTips2 = [
         u"提示：",
-        u"1：引导 Yeti Node 的 Hair System 需要先指定缓存；",
+        u"1：引导 Yeti Nde_Node 的 Hair System 需要先指定缓存；",
         u"2：点击 Upload Fur Cache 上传（覆盖）所有节点的缓存...",
     ]
     #
     writeFurCacheTips3 = [
         u"提示：",
-        u"1：引导 Yeti Node 的 Hair System 需要先指定缓存；",
-        u"2：选择 毛发节点（Fur Node） ；",
+        u"1：引导 Yeti Nde_Node 的 Hair System 需要先指定缓存；",
+        u"2：选择 毛发节点（Fur Nde_Node） ；",
         u"3：点击 Upload Fur Cache 上传（继续）选择节点的缓存...",
     ]
     #
     writeFurCacheTips4 = [
         u"提示：",
-        u"1：引导 Yeti Node 的 Hair System 需要先指定缓存；",
-        u"2：选择 毛发节点（Fur Node） ；",
+        u"1：引导 Yeti Nde_Node 的 Hair System 需要先指定缓存；",
+        u"2：选择 毛发节点（Fur Nde_Node） ；",
         u"3：点击 Upload Fur Cache 上传（覆盖）选择节点的缓存...",
     ]
     #
@@ -3582,7 +3582,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     readFurCacheTips2 = [
         u"提示：",
-        u"1：选择 毛发节点（Fur Node） ；",
+        u"1：选择 毛发节点（Fur Nde_Node） ；",
         u"2：点击 Load Fur Cache 加载选择节点的缓存...",
     ]
     w = 80
@@ -4200,7 +4200,6 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     try:
                         # noinspection PyUnresolvedReferences
                         import nurbsHairCacheFileInfo
-                        reload(nurbsHairCacheFileInfo)
                         #
                         sizeLis = []
                         errorLis = []
@@ -4453,7 +4452,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     #
                     if furObjectType == appCfg.MaNodeType_Plug_Yeti:
                         furCacheFile = scenePr.scAstCfxYetiCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4463,7 +4462,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     #
                     elif furObjectType == appCfg.MaHairSystemType:
                         furCacheFile = scenePr.scAstCfxGeomCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4473,7 +4472,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     #
                     elif furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
                         furCacheFile = scenePr.scAstCfxNurbsHairCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4488,7 +4487,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     )
                     #
                     nodeIndexFile = scenePr.scAstCfxFurCacheIndexFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number, assetVariant,

@@ -37,20 +37,21 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     w = 80
     # Utilities Tool
-    dicConfig = {
-        'useShape': [0, 0, 0, 1, 2, 'Use Shape'],
-        'nodeType': [0, 1, 0, 1, 2, '0000'],
-        # 1
-        'getAttr': [0, 1, 2, 1, 1, 'List Attribute(s)', 'svg_basic@svg#list'], 'getNode': [0, 1, 3, 1, 1, 'List Node(s)', 'svg_basic@svg#list'],
-        'availableSearch': [0, 3, 0, 1, 2, None], 'addAttr': [0, 3, 2, 1, 2, 'Add Attribute(s)', 'svg_basic@svg#add'],
-        'treeView': [0, 4, 0, 1, 4, None],
+    dic_config = {
+        0: 'Config',
+        'useShape': [0, 1, 0, 1, 2, 'Use Shape'],
+        'nodeType': [0, 2, 0, 1, 2, '0000'], 'getAttr': [0, 2, 2, 1, 1, 'List Attribute(s)', 'svg_basic@svg#list'], 'getNode': [0, 2, 3, 1, 1, 'List Nde_Node(s)', 'svg_basic@svg#list'],
+        3: 'Available',
+        'availableSearch': [0, 4, 0, 1, 2, None], 'addAttr': [0, 4, 2, 1, 2, 'Add Attribute(s)', 'svg_basic@svg#add'],
+        'treeView': [0, 5, 0, 1, 4, None],
     }
     #
-    dicAction = {
+    dic_action = {
         'activeSearch': [0, 0, 0, 1, 2, None], 'removeAttr': [1, 0, 2, 1, 2, 'Remove Attribute(s)', 'svg_basic@svg#remove'],
         'treeView': [0, 1, 0, 1, 4, None],
         'setAttr': [0, 2, 0, 1, 4, 'Set Attribute(s)', 'svg_basic@svg#modify']
     }
+
     def __init__(self, *args, **kwargs):
         super(IfAttributeManagerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -94,7 +95,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self.setupActionToolUiBox(toolBox)
     #
     def setupConfigToolUiBox(self, toolBox):
-        toolBox.setUiData(self.dicConfig)
+        toolBox.setUiData(self.dic_config)
         #
         self._useShapeButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('useShape', self._useShapeButton)
@@ -126,7 +127,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addSeparators()
     #
     def setupActionToolUiBox(self, toolBox):
-        toolBox.setUiData(self.dicAction)
+        toolBox.setUiData(self.dic_action)
         #
         self.activeSearchBar = qtWidgets.QtFilterEnterlabel()
         toolBox.addButton('activeSearch', self.activeSearchBar)
@@ -169,7 +170,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maxWidth = self.widthSet / 2 - 40
         #
         treeBox.setColumns(
-            ['Node', 'Lock State'],
+            ['Nde_Node', 'Lock State'],
             [3, 1],
             maxWidth
         )
@@ -186,7 +187,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self.activeAttrTreeItemDic = {}
         #
         self._availableAttrTreeView.setColumns(
-            ['Available Attribute', 'Data Type'],
+            ['Name', 'Type'],
             [3, 1],
             self.widthSet / 2 - 80
         )
@@ -194,7 +195,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self._availableAttrTreeView.setFilterConnect(self.availableSearchBar)
         #
         self._activeAttrTreeView.setColumns(
-            ['Active Attribute', 'Data'],
+            ['Name', 'Value'],
             [3, 1],
             self.widthSet / 2 - 80
         )
@@ -511,7 +512,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfNamespaceManagerUnit(
     ifWidgetBasic.IfToolUnitBasic,
-    _maUiMethod.MaQtViewMethod
+    _maUiMethod.Mtd_MaQtView
 ):
     projectName = projectPr.getMayaProjectName()
     UnitTitle = 'Namespace Manager'
@@ -525,13 +526,13 @@ class IfNamespaceManagerUnit(
     dicNs = {
         'namespacePath': [w, 0, 0, 1, 4, 'Namespace Path'],
         # 1
-        'repairReferenceNodeError': [0, 2, 0, 1, 4, 'Reference Node'],
+        'repairReferenceNodeError': [0, 2, 0, 1, 4, 'Reference Nde_Node'],
         'repairNamespaceError': [0, 3, 0, 1, 4, 'Namespace'],
         'cleanupNamespace': [0, 4, 0, 1, 4, 'Cleanup Namespace']
     }
     # View
     dicNd = {
-        'nodePath': [w, 0, 0, 1, 4, 'Node Path']
+        'nodePath': [w, 0, 0, 1, 4, 'Nde_Node Path']
     }
     def __init__(self, *args, **kwargs):
         super(IfNamespaceManagerUnit, self).__init__(*args, **kwargs)
@@ -613,7 +614,7 @@ class IfNamespaceManagerUnit(
         self._referenceNodeRepairButton = qtWidgets.QtPressbutton()
         self._referenceNodeRepairButton.setPercentEnable(True)
         toolBox.setButton(inData, 'repairReferenceNodeError', self._referenceNodeRepairButton)
-        self._referenceNodeRepairButton.setTooltip('''Repair Reference Node Error''')
+        self._referenceNodeRepairButton.setTooltip('''Repair Reference Nde_Node Error''')
         self._referenceNodeRepairButton.clicked.connect(self.setReferenceNodeRepairCmd)
         #
         self._namespaceRepairButton = qtWidgets.QtPressbutton()
@@ -938,21 +939,21 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         'withReference': [0, 3, 0, 1, 2, u'Reference(s)'], 'withAssembly': [0, 3, 2, 1, 2, u'Assembly(s)'],
         'withProxyCache': [0, 4, 0, 1, 2, u'Proxy Cache(s)'], 'withVolumeCache': [0, 4, 2, 1, 2, u'Volume Cache(s)'],
         'withGpu': [0, 5, 0, 1, 2, u'GPU Cache(s)'], 'withAbc': [0, 5, 2, 1, 2, u'Alembic Cache(s)'],
-        'withGeometryCache': [0, 6, 0, 1, 2, u'Geometry Cache(s)'],
+        'withGeometryCache': [0, 6, 0, 1, 2, u'Nde_Geometry Cache(s)'],
         'withAstCfxFurCache': [0, 7, 0, 1, 2, u'Fur Cache(s)'], 'withMap': [0, 7, 2, 1, 2, u'Fur Map(s)'],
         'placeholder': [0, 8, 0, 1, 4, u'Placeholder']
     }
     #
-    dicConfig = lxBasic.orderedDict()
-    dicConfig['collection'] = [0, 0, 0, 1, 1, u'Collection']
-    dicConfig['ignoreExists'] = [0, 1, 0, 1, 1, u'Ignore Exists']
-    dicConfig['ignoreMtimeChanged'] = [0, 1, 1, 1, 1, u'Ignore Time Changed']
-    dicConfig['withTx'] = [0, 1, 2, 1, 1, u'With Tx ( Arnold Texture )']
-    dicConfig['autoCache'] = [0, 1, 3, 1, 1, u'Auto Cache ( yeti )']
+    dic_config = lxBasic.orderedDict()
+    dic_config['collection'] = [0, 0, 0, 1, 1, u'Collection']
+    dic_config['ignoreExists'] = [0, 1, 0, 1, 1, u'Ignore Exists']
+    dic_config['ignoreMtimeChanged'] = [0, 1, 1, 1, 1, u'Ignore Time Changed']
+    dic_config['withTx'] = [0, 1, 2, 1, 1, u'With Tx ( Arnold Texture )']
+    dic_config['autoCache'] = [0, 1, 3, 1, 1, u'Auto Cache ( yeti )']
     # 2
-    dicConfig['isRepath'] = [0, 3, 0, 1, 1, u'Repath']
-    dicConfig['isExistsOnly'] = [0, 4, 0, 1, 1, u'Exists Only']
-    dicConfig['placeholder'] = [0, 5, 0, 1, 4, u'Placeholder']
+    dic_config['isRepath'] = [0, 3, 0, 1, 1, u'Repath']
+    dic_config['isExistsOnly'] = [0, 4, 0, 1, 1, u'Exists Only']
+    dic_config['placeholder'] = [0, 5, 0, 1, 4, u'Placeholder']
     #
     dicTool = lxBasic.orderedDict()
     dicTool['ignoreStructure'] = [w, 0, 0, 1, 4, 'Ignore Structure']
@@ -1128,7 +1129,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             subRefreshCmd()
         #
-        inData = self.dicConfig
+        inData = self.dic_config
         #
         setupCollectionBranch()
         # Repath
@@ -1388,7 +1389,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                             subFileItem.setText(0, subFileName)
                             #
                             subFileItem.setItemIcon_(1, iconKeyword1, subCheckStateLabel)
-                            subFileItem.setText(1, lxBasic._toStringPrettify(fileType))
+                            subFileItem.setText(1, lxBasic.str_camelcase2prettify(fileType))
                             #
                             subFileItem.setToolTip(1, subCheckToolTip)
                             #
@@ -1411,7 +1412,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 fileItem.setItemIcon_(0, iconKeyword0, stateLabel)
                 fileItem.setText(0, text0)
                 #
-                text1 = '{} ( {} * {} )'.format(lxBasic._toStringPrettify(fileType), nodeCount, textureCount)
+                text1 = '{} ( {} * {} )'.format(lxBasic.str_camelcase2prettify(fileType), nodeCount, textureCount)
                 fileItem.setItemIcon_(1, iconKeyword1, checkState)
                 fileItem.setText(1, text1)
                 #
@@ -1559,9 +1560,9 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
     dicFilter['withCurve'] = [0, 2, 2, 1, 2, 'Curve']
     dicFilter['placeholder'] = [0, 3, 0, 1, 4, 'Placeholder']
     #
-    dicConfig = lxBasic.orderedDict()
-    dicConfig['withShape'] = [0, 0, 0, 1, 2, 'Shape']
-    dicConfig['floatRound'] = [0, 0, 2, 1, 2, 'Round']
+    dic_config = lxBasic.orderedDict()
+    dic_config['withShape'] = [0, 0, 0, 1, 2, 'Shape']
+    dic_config['floatRound'] = [0, 0, 2, 1, 2, 'Round']
     #
     dicTool = {
         'sourceRoot': [w, 0, 0, 1, 4, 'Source Root ( Name / UUID )'],
@@ -1690,7 +1691,7 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.setSeparators(inData)
     #
     def setupConfigBox(self):
-        inData = self.dicConfig
+        inData = self.dic_config
         toolBox = self.configBox
         #
         self.withShapeButton = qtWidgets.QtCheckbutton()
@@ -1950,7 +1951,7 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
         1: 'Unknown(s)',
         'withUnknownPlug': [0, 2, 0, 1, 2, 'Unknown Plug(s)'],
         'listUnknownPlug': [0, 2, 4, 1, 1, 'List', 'svg_basic@svg#list'], 'cleanUnknownPlug': [0, 2, 5, 1, 1, 'Clean', 'svg_basic@svg#cleanup'],
-        'withUnknownNode': [0, 3, 0, 1, 2, 'Unknown Node(s)'],
+        'withUnknownNode': [0, 3, 0, 1, 2, 'Unknown Nde_Node(s)'],
         'listUnknownNode': [0, 3, 4, 1, 1, 'List', 'svg_basic@svg#list'], 'cleanUnknownNode': [0, 3, 5, 1, 1, 'Clean', 'svg_basic@svg#cleanup'],
         4: 'Layer(s)',
         'withDisplayLayer': [0, 5, 0, 1, 2, 'Display Layer(s)'], 'withDisplayLayerConfig': [0, 5, 2, 1, 2, ''],
@@ -1960,9 +1961,9 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
     }
     a = {
         'withReferenceFile': [0, 2, 0, 1, 2, 'Reference - File'],
-        'withReferenceNode': [0, 2, 2, 1, 2, 'Reference - Node'],
+        'withReferenceNode': [0, 2, 2, 1, 2, 'Reference - Nde_Node'],
         'withUnusedNamespace': [0, 7, 0, 1, 2, 'Namespace ( Unused )'],
-        'withUnusedShader': [0, 7, 2, 1, 2, 'Shader ( Unused )'],
+        'withUnusedShader': [0, 7, 2, 1, 2, 'Nde_ShaderRef ( Unused )'],
         'withUnusedSet': [0, 8, 0, 1, 2, 'Set ( Unused )'], 'withUnusedDeform': [0, 8, 2, 1, 2, 'Deform ( Unused )'],
     }
     def __init__(self, *args, **kwargs):
@@ -2052,7 +2053,7 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._cleanUnknownPlugButton = qtWidgets.QtPressbutton()
         toolBox.addButton('cleanUnknownPlug', self._cleanUnknownPlugButton)
         self._cleanUnknownPlugButton.clicked.connect(self._cleanUnknownPlugCmd)
-        # Unknown Node(s)
+        # Unknown Nde_Node(s)
         self._withUnknownNodeButton = qtWidgets.QtCheckbutton()
         toolBox.addButton('withUnknownNode', self._withUnknownNodeButton)
         self._withUnknownNodeButton.setChecked(True)

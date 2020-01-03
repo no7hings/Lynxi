@@ -89,7 +89,7 @@ def setArnoldProxyCreate(objectString, box, gpu, proxy):
     cmds.setAttr(inProxyNode + '.visibleInRefractions', 1)
     cmds.setAttr(inProxyNode + '.dso', proxy, type='string')
     cmds.connectAttr(proxyObject + '.override', inProxyNode + '.overrideShaders', force=1)
-    # Mask Shader
+    # Mask Nde_ShaderRef
     maskShader = proxyObject + maskLabel
     cmds.shadingNode('aiUtility', name=maskShader, asShader=1)
     cmds.setAttr(maskShader + '.shade_mode', 2)

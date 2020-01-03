@@ -10,14 +10,14 @@ def initHideShowCmd():
     hotkeyMethod.addCommand(
         key='l',
         name='lynxiHide',
-        annotation='Hide Node for Lynxi',
+        annotation='Hide Nde_Node for Lynxi',
         pythonCommand='''from LxMaya.command import maScript;maScript.hideShowCmd(operation='hide', extend=False)''',
         ctrlModifier=True
     )
     hotkeyMethod.addCommand(
         key='l',
         name='lynxiShow',
-        annotation='Show Node for Lynxi',
+        annotation='Show Nde_Node for Lynxi',
         pythonCommand='''from LxMaya.command import maScript;maScript.hideShowCmd(operation='show', extend=False)''',
         shiftModifier=True
     )

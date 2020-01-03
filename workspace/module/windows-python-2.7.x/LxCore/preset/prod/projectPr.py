@@ -1,12 +1,12 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.preset import basicPr
 #
-guidePresetKey = lxConfigure.Lynxi_Key_Preset_Project
+guidePresetKey = lxCore_.Lynxi_Key_Preset_Project
 # do not delete and rename
-serverBasicPath = lxConfigure.Root()._serverPath()
-localBasicPath = lxConfigure.Root()._localPath()
+serverBasicPath = lxScheme.Root().basic.server
+localBasicPath = lxScheme.Root().basic.local
 #
 none = ''
 
@@ -20,8 +20,8 @@ def getProjectPresetVariantDic(projectName=none):
 
 #
 def getProjectMayaShelfPresetDic(projectName):
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.LynxiShelfPresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
+    subPresetKey = lxCore_.LynxiShelfPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -36,7 +36,7 @@ def getProjectMayaShelfDataDic(projectName=none):
     dic = lxBasic.orderedDict()
     data = getProjectMayaShelfPresetDic(projectName)
     if data:
-        isTd = lxConfigure.isLxPipelineTd()
+        isTd = lxCore_.isLxPipelineTd()
         if isTd:
             isAdmin = True
         else:
@@ -57,8 +57,8 @@ def getProjectMayaToolPresetDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.LynxiKitPresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
+    subPresetKey = lxCore_.LynxiKitPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -104,7 +104,11 @@ def getProjectMayaToolSubDataDic(toolPath):
                     toolTip = [unicode(i, "gbk").replace('\r\n', none) for i in tipData]
                 #
                 if osFile.endswith('.py'):
-                    commandReduce = 'python({0});'.format(lxBasic.getJsonDumps(command))
+                    if lxBasic.isMayaApp():
+                        commandReduce = 'python({0});'.format(lxBasic.getJsonDumps(command))
+                    else:
+                        commandReduce = lxBasic.getJsonDumps(command)
+
                     dic[commandName] = osFile, commandReduce, toolTip
                 #
                 if osFile.endswith('.mel'):
@@ -114,8 +118,8 @@ def getProjectMayaToolSubDataDic(toolPath):
 
 #
 def getProjectMayaScriptPresetDic(projectName):
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.LynxiScriptPresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
+    subPresetKey = lxCore_.LynxiScriptPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -124,8 +128,8 @@ def getProjectMayaScriptPresetDic(projectName):
 
 #
 def getProjectMayaTdPresetDic(projectName):
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.LynxiTdPresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
+    subPresetKey = lxCore_.LynxiTdPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -160,7 +164,7 @@ def getProjectMayaTdPackagePathLis(projectName):
     if dataDic:
         for k, v in dataDic.items():
             if v:
-                mayaPackageStr = v[lxConfigure.LynxiMayaPackageKey]
+                mayaPackageStr = v[lxCore_.LynxiMayaPackageKey]
                 #
                 var = ''
                 scriptText = lxBasic._toVariantConvert('var', mayaPackageStr)
@@ -176,8 +180,8 @@ def getMaCustomPlugPresetDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
-    subPresetKey = lxConfigure.Lynxi_Key_Plug_PresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
+    subPresetKey = lxCore_.Lynxi_Key_Plug_PresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
@@ -199,18 +203,18 @@ def getProjectMayaRenderer(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiBasicPresetKey
+    mainPresetKey = lxCore_.LynxiBasicPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
-    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaRendererKey)
+    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiMayaRendererKey)
 
 
 #
 def isMayaUsedArnoldRenderer():
     boolean = False
     renderer = getProjectMayaRenderer()
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         boolean = True
     return boolean
 
@@ -220,11 +224,11 @@ def getProjectMayaTimeUnit(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiBasicPresetKey
+    mainPresetKey = lxCore_.LynxiBasicPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
-    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaTimeUnitKey)
+    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiMayaTimeUnitKey)
 
 
 #
@@ -232,11 +236,11 @@ def getProjectEpisodes(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiBasicPresetKey
+    mainPresetKey = lxCore_.LynxiBasicPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
-    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiEpisodePresetKey)
+    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiEpisodePresetKey)
 
 
 #
@@ -244,14 +248,14 @@ def getProjectMayaVersion(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    if projectName.startswith(lxConfigure.Lynxi_Keyword_Project_Default):
+    if projectName.startswith(lxCore_.Lynxi_Keyword_Project_Default):
         return projectName.split('_')[-1]
     else:
-        mainPresetKey = lxConfigure.LynxiMayaPresetKey
+        mainPresetKey = lxCore_.LynxiMayaPresetKey
         guideSchemeKey = projectName
         #
         mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
-        return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaVersionKey)
+        return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiMayaVersionKey)
 
 
 #
@@ -259,11 +263,11 @@ def getProjectMayaCommonPlugLoadNames(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    mainPresetKey = lxConfigure.LynxiMayaPresetKey
+    mainPresetKey = lxCore_.LynxiMayaPresetKey
     guideSchemeKey = projectName
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
-    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaCommonPlugsKey)
+    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiMayaCommonPlugsKey)
 
 
 #
@@ -275,9 +279,9 @@ def getProjectMayaCustomPlugLoadNames(projectName=none):
     data = getMaCustomPlugPresetDic(projectName)
     if data:
         for k, v in data.items():
-            autoLoad = v[lxConfigure.Lynxi_Key_Plug_Load_Enable_Auto]
+            autoLoad = v[lxCore_.Lynxi_Key_Plug_Load_Enable_Auto]
             if autoLoad is True:
-                loadNames = v[lxConfigure.Lynxi_Key_Plug_Load_Names]
+                loadNames = v[lxCore_.Lynxi_Key_Plug_Load_Names]
                 if loadNames:
                     lis.extend(loadNames)
     return lis
@@ -365,8 +369,8 @@ def getMayaProjectNameDic():
 # Get Project's Name
 def getProjectName():
     # String <Project Name>
-    string = lxConfigure.LynxiDefaultProjectValue
-    osFile = lxConfigure.UserPreset().projectConfigFile()
+    string = lxCore_.LynxiDefaultProjectValue
+    osFile = lxCore_.UserPreset().projectConfigFile()
     if not lxBasic.isOsExistsFile(osFile):
         setLocalProjectPreset(string)
     else:
@@ -390,14 +394,14 @@ def getAppProjectName():
 def getMayaProjectName():
     if lxBasic.isMayaApp():
         mayaVersion = lxBasic.getMayaAppVersion()
-        string = '{}_{}'.format(lxConfigure.Lynxi_Keyword_Project_Default, mayaVersion)
+        string = '{}_{}'.format(lxCore_.Lynxi_Keyword_Project_Default, mayaVersion)
         #
         environValue = getMayaProjectEnviron()
         if environValue is not None:
             string = environValue
         else:
             currentMayaVersion = lxBasic.getMayaAppVersion()
-            osFile = lxConfigure.UserPreset().appProjectFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
+            osFile = lxCore_.UserPreset().appProjectFile(lxCore_.Lynxi_App_Maya, mayaVersion)
             if not lxBasic.isOsExistsFile(osFile):
                 setLocalMayaProjectPreset(string, currentMayaVersion)
             #
@@ -405,7 +409,7 @@ def getMayaProjectName():
             if data:
                 string = data[guidePresetKey]
     else:
-        string = lxConfigure.LynxiDefaultProjectValue
+        string = lxCore_.LynxiDefaultProjectValue
     #
     setMayaProjectEnviron(string)
     return string
@@ -413,14 +417,14 @@ def getMayaProjectName():
 
 #
 def getMayaProjectEnviron():
-    environKey = lxConfigure.Lynxi_Key_Environ_Project
+    environKey = lxCore_.Lynxi_Key_Environ_Project
     return lxBasic.getOsEnvironValue(environKey)
 
 
 #
 def setMayaProjectEnviron(projectName):
     if lxBasic.isMayaApp():
-        environKey = lxConfigure.Lynxi_Key_Environ_Project
+        environKey = lxCore_.Lynxi_Key_Environ_Project
         lxBasic.setOsEnvironValue(environKey, projectName)
 
 
@@ -428,9 +432,9 @@ def setMayaProjectEnviron(projectName):
 def getProjectProxyExt(projectName=none):
     usedRenderer = getProjectMayaRenderer(projectName)
     osExt = '.prx'
-    if usedRenderer == lxConfigure.LynxiArnoldRendererValue:
+    if usedRenderer == lxCore_.LynxiArnoldRendererValue:
         osExt = '.ass'
-    if usedRenderer == lxConfigure.LynxiRedshiftRendererValue:
+    if usedRenderer == lxCore_.LynxiRedshiftRendererValue:
         osExt = '.rs'
     return osExt
 
@@ -445,7 +449,7 @@ def setLocalAppProjectPreset(projectName):
 
 # Set Project Config
 def setLocalProjectPreset(projectName):
-    osFile = lxConfigure.UserPreset().projectConfigFile()
+    osFile = lxCore_.UserPreset().projectConfigFile()
     lxBasic.setOsFileDirectoryCreate(osFile)
     data = dict(project=projectName)
     lxBasic.writeOsJson(data, osFile)
@@ -454,7 +458,7 @@ def setLocalProjectPreset(projectName):
 # Set Project Config
 def setLocalMayaProjectPreset(projectName, mayaVersion):
     if lxBasic.isMayaApp():
-        osFile = lxConfigure.UserPreset().appProjectFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
+        osFile = lxCore_.UserPreset().appProjectFile(lxCore_.Lynxi_App_Maya, mayaVersion)
         lxBasic.setOsFileDirectoryCreate(osFile)
         data = dict(project=projectName)
         lxBasic.writeOsJson(data, osFile)
@@ -483,13 +487,13 @@ def getProjectServerRootLis(projectName=none):
         projectName = getMayaProjectName()
     #
     guideSchemeKey = projectName
-    mainPresetKey = lxConfigure.LynxiStoragePresetKey
-    subPresetKey = lxConfigure.LynxiRootPresetKey
+    mainPresetKey = lxCore_.LynxiStoragePresetKey
+    subPresetKey = lxCore_.LynxiRootPresetKey
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
     dic = basicPr.getSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSchemeKey)
     #
-    key = lxConfigure.LynxiServerRootKey
+    key = lxCore_.LynxiServerRootKey
     if dic:
         if key in dic:
             data = dic[key]
@@ -509,13 +513,13 @@ def getProjectLocalRootLis(projectName=none):
         projectName = getMayaProjectName()
     #
     guideSchemeKey = projectName
-    mainPresetKey = lxConfigure.LynxiStoragePresetKey
-    subPresetKey = lxConfigure.LynxiRootPresetKey
+    mainPresetKey = lxCore_.LynxiStoragePresetKey
+    subPresetKey = lxCore_.LynxiRootPresetKey
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
     dic = basicPr.getSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSchemeKey)
     #
-    key = lxConfigure.LynxiLocalRootKey
+    key = lxCore_.LynxiLocalRootKey
     if dic:
         if key in dic:
             data = dic[key]
@@ -536,8 +540,8 @@ def getProjectRootDic(projectName=none):
         projectName = getMayaProjectName()
     #
     guideSchemeKey = projectName
-    mainPresetKey = lxConfigure.LynxiStoragePresetKey
-    subPresetKey = lxConfigure.LynxiRootPresetKey
+    mainPresetKey = lxCore_.LynxiStoragePresetKey
+    subPresetKey = lxCore_.LynxiRootPresetKey
     #
     mainSchemeKey = basicPr.getGuidePresetSetValue(guidePresetKey, mainPresetKey, guideSchemeKey)
     dic = basicPr.getSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSchemeKey)

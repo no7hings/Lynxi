@@ -1,29 +1,29 @@
 # coding:utf-8
-from LxCore import lxConfigure
+from LxCore import lxScheme
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
 from LxUi.command import uiHtml
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
 
 #
-class QtWindow(qtWidgetBasic._QtWindowBasic):
+class QtWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         #
         self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -35,12 +35,12 @@ class QtWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiToolWindow(qtWidgetBasic._QtWindowBasic):
+class QtToolWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -54,12 +54,12 @@ class UiToolWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiSubWindow(qtWidgetBasic._QtWindowBasic):
+class QtSubWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -77,12 +77,12 @@ class UiSubWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiDialogWindow(qtWidgetBasic._QtWindowBasic):
+class QtDialogWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -94,12 +94,12 @@ class UiDialogWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiTipWindow(qtWidgetBasic._QtWindowBasic):
+class QtTipWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         self._initTipWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -113,7 +113,7 @@ class UiTipWindow(qtWidgetBasic._QtWindowBasic):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtWidgetBasic.QtTextBrower()
+        self._textBrower = qtWidgetAbstract.QtTextBrower()
         self._textBrower.setFontSize(10)
         self.addWidget(self._textBrower)
     #
@@ -147,12 +147,12 @@ class UiTipWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiLogWindow(qtWidgetBasic._QtWindowBasic):
+class QtLogWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         self._initLogWindow()
         #
         self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -164,7 +164,7 @@ class UiLogWindow(qtWidgetBasic._QtWindowBasic):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtWidgetBasic.QtTextBrower()
+        self._textBrower = qtWidgetAbstract.QtTextBrower()
         self._textBrower.setFontSize(10)
         #
         self.addWidget(self._textBrower)
@@ -199,12 +199,12 @@ class UiLogWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class UiFloatWindow(qtWidgetBasic._QtWindowBasic):
+class QtFloatWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -220,12 +220,12 @@ class UiFloatWindow(qtWidgetBasic._QtWindowBasic):
 
 
 #
-class QtMessageWindow(qtWidgetBasic._QtWindowBasic):
+class QtMessageWindow(qtWidgetAbstract.Abc_QtWindow):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initWindowBasic()
+        self._initAbcQtWindow()
         self._initProgressWindow()
         #
         self.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -248,7 +248,7 @@ class QtMessageWindow(qtWidgetBasic._QtWindowBasic):
         #
         self.uiHeightCount = 0
         #
-        self._textBrower = qtWidgetBasic.QtTextBrower()
+        self._textBrower = qtWidgetAbstract.QtTextBrower()
         self._textBrower.setFontSize(10)
         self.addWidget(self._textBrower)
         self._textBrower.setEnterEnable(False)
@@ -260,7 +260,7 @@ class QtMessageWindow(qtWidgetBasic._QtWindowBasic):
         self.quitTime = 3000
     #
     def setUiHeightCount(self, value):
-        self.uiHeightCount = lxConfigure.Ui().setMessageCount(value)
+        self.uiHeightCount = lxScheme.Ui().setMessageCount(value)
     #
     def uiShow(self, *args):
         width, height = self.windowModel().defaultSize()

@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtModelBasic
+from LxUi.qt.qtAbstracts import qtModelAbstract
 
 
 #
-class QtRadarchartModel(qtModelBasic.QtChartModelBasic):
+class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
     def __init__(self, widget):
         self._initChartBasic()
         self._initRadarChart()
@@ -184,7 +184,7 @@ class QtRadarchartModel(qtModelBasic.QtChartModelBasic):
 
 
 #
-class QtSectorchartModel(qtModelBasic.QtChartModelBasic):
+class QtSectorchartModel(qtModelAbstract.Abc_QtChartModel):
     # noinspection PyUnusedLocal
     def __init__(self, widget):
         self._initChartBasic()

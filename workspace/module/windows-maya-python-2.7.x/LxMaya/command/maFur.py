@@ -285,13 +285,13 @@ def setCreateYetiGraph(yetiObject, graphData):
     yetiNode = maUtils.getNodeShape(yetiObject, fullPath=1)
     if graphData:
         graphRootNode, nodeDataArray = graphData
-        # Create Node
+        # Create Nde_Node
         for graphNode, graphNodeType, paramDataArray in nodeDataArray:
             node = cmds.pgYetiGraph(yetiNode, type=graphNodeType, create=1)
-            # Node Name
+            # Nde_Node Name
             if not graphNode == node:
                 cmds.pgYetiGraph(yetiNode, node=node, rename=graphNode)
-            # Node Param
+            # Nde_Node Param
             if paramDataArray:
                 # Set Param Value
                 for nodeParam, paramValue, paramType, isParamConstant in paramDataArray:
@@ -306,7 +306,7 @@ def setCreateYetiGraph(yetiObject, graphData):
                             cmds.pgYetiGraph(yetiNode, node=graphNode, param=nodeParam, setParamValueString=paramValue)
                         if isParamConstant:
                             cmds.pgYetiGraph(yetiNode, node=graphNode, param=nodeParam, setParamValueExpr=paramValue)
-        # Set Root Node
+        # Set Root Nde_Node
         setYetiRootNode(yetiNode, graphRootNode)
 
 
@@ -1164,7 +1164,7 @@ def getNhrObjectGraphGeometryObjects(nurbsHairObject):
 
 # Sub Method
 def getNhrObjectGraphNodeSub(nurbsHairObject):
-    # Graph Node
+    # Graph Nde_Node
     objectDatas = []
     nodeDataLis = []
     graphObjects, graphNodes = getNurbsHairGraphNodes(nurbsHairObject)

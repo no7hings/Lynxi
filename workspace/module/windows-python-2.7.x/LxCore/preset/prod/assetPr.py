@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.config import assetCfg
 #
@@ -7,8 +7,8 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr
 # do not delete and rename
-serverBasicPath = lxConfigure.Root()._serverPath()
-localBasicPath = lxConfigure.Root()._localPath()
+serverBasicPath = lxScheme.Root().basic.server
+localBasicPath = lxScheme.Root().basic.local
 #
 none = ''
 
@@ -165,7 +165,7 @@ def astUnitLightLinkGroupName(assetName, namespace=none):
     return string
 
 
-# Product Geometry Group Name
+# Product Nde_Geometry Group Name
 def astUnitModelProductGroupName(assetName, namespace=none):
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, appVariant.basicGeometryGroupLabel)
     return string
@@ -854,14 +854,14 @@ def astUnitAssemblyReferenceName(assetName):
 
 #
 def assetSchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbAssetRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSchemeExt, appVariant.dbAssetBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbAssetRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSchemeExt, appVariant.dbAssetBasicKey)
     return lxBasic.getOsUniqueFile(string)
 
 
 #
 def assetSetFileConfig(assetIndex):
     string = '{0}/{1}/{2}/{3}'.format(
-        appVariant.dbAssetRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSetExt, assetIndex
+        appVariant.dbAssetRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSetExt, assetIndex
     )
     return string
 
@@ -884,13 +884,13 @@ def defaultAssetSetConfig(projectName, number=0):
         [('classify', u'类型 ( Classify )'), assetCfg.astBasicClassDatumDic()],
         [('priority', u'优先级 ( Priority )'), assetCfg.basicAssetPriorityLis()],
         #
-        [(lxConfigure.LynxiProduct_Asset_Link_Model, u'模型制作 Model'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Rig, u'绑定制作 ( Rig )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Cfx, u'角色特效制作 ( Character FX )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Solver, u'角色模拟制作 ( Solver )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Light, u'资产灯光 ( Light )'), False],
+        [(lxCore_.LynxiProduct_Asset_Link_Model, u'模型制作 Model'), False],
+        [(lxCore_.LynxiProduct_Asset_Link_Rig, u'绑定制作 ( Rig )'), False],
+        [(lxCore_.LynxiProduct_Asset_Link_Cfx, u'角色特效制作 ( Character FX )'), False],
+        [(lxCore_.LynxiProduct_Asset_Link_Solver, u'角色模拟制作 ( Solver )'), False],
+        [(lxCore_.LynxiProduct_Asset_Link_Light, u'资产灯光 ( Light )'), False],
         #
-        [(lxConfigure.LynxiProduct_Asset_Link_Assembly, u'资产组装 ( Assembly )'), False]
+        [(lxCore_.LynxiProduct_Asset_Link_Assembly, u'资产组装 ( Assembly )'), False]
     ]
     return lis
 
@@ -928,7 +928,7 @@ def getUiAssetSetDataLis(projectName, assetIndex, number=0, overrideNumber=False
                 setKey, uiData = i
                 setUiKey = none
                 if isinstance(setKey, str) or isinstance(setKey, unicode):
-                    setUiKey = lxBasic._toStringPrettify(setKey)
+                    setUiKey = lxBasic.str_camelcase2prettify(setKey)
                 if isinstance(setKey, tuple):
                     setKey, setUiKey = setKey
                 #
@@ -986,7 +986,7 @@ def getAssetViewName(assetIndex):
         return dic
     #
     def getMain(customDic):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = lxCore_.LynxiValue_Unspecified
         if assetIndex in customDic:
             string = customDic[assetIndex]
         return string
@@ -1227,12 +1227,12 @@ def getUiAssetSetDataDic(projectFilter):
                 assetName = data['name']
                 assetVariants = data['variant']
                 assetPriority = data['priority']
-                modelEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Model)
-                rigEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Rig)
-                cfxEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Cfx)
-                scSolverEnable = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Solver)
-                scLightEnable = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Light)
-                assemblyEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
+                modelEnabled = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Model)
+                rigEnabled = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Rig)
+                cfxEnabled = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Cfx)
+                scSolverEnable = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Solver)
+                scLightEnable = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Light)
+                assemblyEnabled = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Asset_Link_Assembly)
                 for assetVariant in assetVariants:
                     dic[(assetIndex, assetVariant)] = description, assetClass, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
     #
@@ -1266,9 +1266,9 @@ def getAstUnitAssemblyDic(projectFilter):
                 if assemblyEnabled is True:
                     for assetVariant in assetVariants:
                         serverAstUnitAsbDefinitionFile = astUnitAssemblyDefinitionFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectFilter,
-                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                            assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
                         )[1]
                         if lxBasic.isOsExistsFile(serverAstUnitAsbDefinitionFile):
                             dic[assetIndex] = description, assetClass, assetName, assetVariant
@@ -1303,7 +1303,7 @@ def isPropClass(assetClass):
 #
 def isAstModelLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiAstModelStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Model:
+    if assetStage in lxCore_.LynxiAstModelStages or assetStage == lxCore_.LynxiProduct_Asset_Link_Model:
         boolean = True
     return boolean
 
@@ -1311,7 +1311,7 @@ def isAstModelLink(assetStage):
 #
 def isAstRigLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiAstRigStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Rig:
+    if assetStage in lxCore_.LynxiAstRigStages or assetStage == lxCore_.LynxiProduct_Asset_Link_Rig:
         boolean = True
     return boolean
 
@@ -1319,7 +1319,7 @@ def isAstRigLink(assetStage):
 #
 def isAstCfxLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiAstCfxStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Cfx:
+    if assetStage in lxCore_.LynxiAstCfxStages or assetStage == lxCore_.LynxiProduct_Asset_Link_Cfx:
         boolean = True
     return boolean
 
@@ -1327,7 +1327,7 @@ def isAstCfxLink(assetStage):
 #
 def isAstSolverLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiAstRigSolStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Solver:
+    if assetStage in lxCore_.LynxiAstRigSolStages or assetStage == lxCore_.LynxiProduct_Asset_Link_Solver:
         boolean = True
     return boolean
 
@@ -1335,7 +1335,7 @@ def isAstSolverLink(assetStage):
 #
 def isAstLightLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiScLightStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Light:
+    if assetStage in lxCore_.LynxiScLightStages or assetStage == lxCore_.LynxiProduct_Asset_Link_Light:
         boolean = True
     return boolean
 
@@ -1343,7 +1343,7 @@ def isAstLightLink(assetStage):
 #
 def isAstAssemblyLink(assetStage):
     boolean = False
-    if assetStage in lxConfigure.LynxiAstAssemblyStages:
+    if assetStage in lxCore_.LynxiAstAssemblyStages:
         boolean = True
     return boolean
 
@@ -1367,17 +1367,17 @@ def isAssetLink(assetStage):
 
 #
 def getAssetLink(assetStage):
-    link = lxConfigure.LynxiProduct_Asset_Link_Model
+    link = lxCore_.LynxiProduct_Asset_Link_Model
     if isAstModelLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Model
+        link = lxCore_.LynxiProduct_Asset_Link_Model
     elif isAstRigLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Rig
+        link = lxCore_.LynxiProduct_Asset_Link_Rig
     elif isAstCfxLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Cfx
+        link = lxCore_.LynxiProduct_Asset_Link_Cfx
     elif isAstSolverLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Solver
+        link = lxCore_.LynxiProduct_Asset_Link_Solver
     elif isAstLightLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Light
+        link = lxCore_.LynxiProduct_Asset_Link_Light
     return link
 
 
@@ -1740,9 +1740,9 @@ def astUnitProductFile(
 #
 def astUnitAssemblyIndexDatum(assetIndex, assetClass, assetName):
     return {
-        lxConfigure.LynxiInfoKey_Index: assetIndex,
-        lxConfigure.LynxiInfoKey_Class: assetClass,
-        lxConfigure.LynxiInfoKey_Name: assetName
+        lxCore_.LynxiInfoKey_Index: assetIndex,
+        lxCore_.LynxiInfoKey_Class: assetClass,
+        lxCore_.LynxiInfoKey_Name: assetName
     }
 
 
@@ -1751,7 +1751,7 @@ def astUnitAssemblyIndexFile(
         projectName,
         assetName
 ):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     fileLabel = ''
     extLabel = appVariant.astAssemblyIndexExt
     #
@@ -1763,7 +1763,7 @@ def astUnitAssemblyIndexFile(
 
 #
 def astUnitAssemblyProductFile(projectName, assetName, assetVariant):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     #
     fileLabel = lxBasic.getComposeLabel(appVariant.basicAssemblyLinkLabel, appVariant.basicProductSubLabel)
     extLabel = appVariant.mayaAsciiExt
@@ -1794,7 +1794,7 @@ def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetClass, assetNa
 
 #
 def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     #
     if lod == 0:
         fileLabel = appVariant.asbProxyFileLabel
@@ -1812,7 +1812,7 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
 
 #
 def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     #
     if lod == 0:
         fileLabel = appVariant.asbProxyFileLabel
@@ -1830,7 +1830,7 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
 
 #
 def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     if lod == 0:
         fileLabel = appVariant.asbGpuFileLabel
     else:
@@ -1847,7 +1847,7 @@ def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
 
 #
 def astUnitAssemblyBoxCacheFile(projectName, assetName):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(lxCore_.LynxiRootIndex_Server, projectName)
     fileLabel = appVariant.asbBoxFileLabel
     #
     extLabel = appVariant.gpuCacheExt
@@ -2022,7 +2022,7 @@ def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, 
     string = appVariant.infoNonExistsLabel
     #
     serverProductFile = astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -2037,7 +2037,7 @@ def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, 
 #
 def getAstUnitProductActiveTimeTag(projectName, assetClass, assetName, assetVariant, assetStage):
     serverProductFile = astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -2048,7 +2048,7 @@ def getAstUnitProductActiveTimeTag(projectName, assetClass, assetName, assetVari
 def getAssetUnitExtraData(projectName, assetClass, assetName, assetVariant, assetStage):
     dic = lxBasic.orderedDict()
     extraFile = astUnitExtraFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -2066,7 +2066,7 @@ def getAstTdUploadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
+                mayaPackageStr = data[lxCore_.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
@@ -2074,7 +2074,7 @@ def getAstTdUploadCommand(projectName, link):
                 #
                 if var:
                     if lxBasic.isOsExist(var):
-                        osFile = var + '/' + lxConfigure.LynxiAssetUploadCommandKey + '.py'
+                        osFile = var + '/' + lxCore_.LynxiAssetUploadCommandKey + '.py'
                         if lxBasic.isOsExist(osFile):
                             command = lxBasic.readOsFile(osFile)
                             pythonCommand = 'python(' + lxBasic.getJsonDumps(command) + ');'
@@ -2089,7 +2089,7 @@ def getAstTdLoadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
+                mayaPackageStr = data[lxCore_.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
@@ -2097,7 +2097,7 @@ def getAstTdLoadCommand(projectName, link):
                 #
                 if var:
                     if lxBasic.isOsExist(var):
-                        osFile = var + '/' + lxConfigure.LynxiAssetLoadCommandKey + '.py'
+                        osFile = var + '/' + lxCore_.LynxiAssetLoadCommandKey + '.py'
                         if lxBasic.isOsExist(osFile):
                             command = lxBasic.readOsFile(osFile)
                             pythonCommand = 'python(' + lxBasic.getJsonDumps(command) + ');'

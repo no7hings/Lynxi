@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 CameraSep = ';'
 #
@@ -16,7 +16,7 @@ none = ''
 #
 def scBasicClass():
     lis = [
-        lxConfigure.LynxiValue_Unspecified,
+        lxCore_.LynxiValue_Unspecified,
         LynxiProduct_Scene_Class_Scene,
         LynxiProduct_Scene_Class_Act
     ]
@@ -26,11 +26,11 @@ def scBasicClass():
 @lxBasic.getDicMethod
 def scBasicViewLinkDic(*args):
     dic = lxBasic.orderedDict()
-    dic[lxConfigure.LynxiProduct_Scene_Link_layout] = 'Layout', u'预览'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Animation] = 'Animation', u'动画'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'解算'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Solver] = 'Solver', u'模拟'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Light] = 'Light', u'灯光'
+    dic[lxCore_.LynxiProduct_Scene_Link_layout] = 'Layout', u'预览'
+    dic[lxCore_.LynxiProduct_Scene_Link_Animation] = 'Animation', u'动画'
+    dic[lxCore_.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'解算'
+    dic[lxCore_.LynxiProduct_Scene_Link_Solver] = 'Solver', u'模拟'
+    dic[lxCore_.LynxiProduct_Scene_Link_Light] = 'Light', u'灯光'
     return dic
 
 
@@ -45,7 +45,7 @@ def scBasicViewClassDic(*args):
 #
 def basicScenePriorityLis():
     lis = [
-        lxConfigure.LynxiValue_Unspecified,
+        lxCore_.LynxiValue_Unspecified,
         'major',
         'minor',
         'util'
@@ -56,10 +56,10 @@ def basicScenePriorityLis():
 #
 def basicSceneLinkLis():
     lis = [
-        lxConfigure.LynxiProduct_Scene_Link_layout,
-        lxConfigure.LynxiProduct_Scene_Link_Animation,
-        lxConfigure.LynxiProduct_Scene_Link_Solver,
-        lxConfigure.LynxiProduct_Scene_Link_Simulation,
-        lxConfigure.LynxiProduct_Scene_Link_Light,
+        lxCore_.LynxiProduct_Scene_Link_layout,
+        lxCore_.LynxiProduct_Scene_Link_Animation,
+        lxCore_.LynxiProduct_Scene_Link_Solver,
+        lxCore_.LynxiProduct_Scene_Link_Simulation,
+        lxCore_.LynxiProduct_Scene_Link_Light,
     ]
     return lis

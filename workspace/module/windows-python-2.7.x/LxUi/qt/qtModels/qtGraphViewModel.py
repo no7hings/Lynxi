@@ -269,7 +269,7 @@ class QtGraphviewModel(object):
             node._itemModel.width_(), node._itemModel.height_() + 20
         )
         self._nodeRectDic[index] = rect
-    # Geometry
+    # Nde_Geometry
     def _updateViewportGeometry(self):
         xPos, yPos = self._mTranslate
         #

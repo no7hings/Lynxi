@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxConfigure
+from LxCore import lxCore_
 #
 from LxMaya.command import maFile
 #
@@ -13,9 +13,9 @@ none = ''
 def setOutProxy(osFile, renderer, exportMode=0):
     temporaryFile = maFile.getTemporaryOsFile(osFile)
     # Export
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         setOutArnoldProxy(temporaryFile, exportMode)
-    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
+    elif renderer == lxCore_.LynxiRedshiftRendererValue:
         setOutRedshiftProxy(temporaryFile, exportMode)
     #
     maFile.setMoveFile(temporaryFile, osFile)

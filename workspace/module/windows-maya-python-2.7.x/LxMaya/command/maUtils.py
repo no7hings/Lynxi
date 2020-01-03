@@ -341,7 +341,7 @@ def setAttrBooleanDatum(objectString, attrName, boolean):
 def setAttrBooleanDatumForce(objectString, attrName, boolean):
     attr = objectString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic._toStringPrettify(attrName), attributeType='bool')
+        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic.str_camelcase2prettify(attrName), attributeType='bool')
     #
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, boolean, lock=1)
@@ -405,7 +405,7 @@ def setAttrStringDatum(objectString, attrName, data):
 def setAttrStringDatumForce(objectString, attrName, data):
     attr = objectString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic._toStringPrettify(attrName), dataType='string')
+        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic.str_camelcase2prettify(attrName), dataType='string')
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, data, type='string', lock=1)
 
@@ -1059,7 +1059,7 @@ def setObjectClearInputVisibleConnection(objectString):
     cmds.setAttr(attr, 1)
 
 
-# Get Input Node ( Method )
+# Get Input Nde_Node ( Method )
 def getInputNodes(objectString, filterType=none):
     return cmds.listConnections(objectString, destination=0, source=1, type=filterType) or []
 
@@ -1149,7 +1149,7 @@ def getInputShapeLis(objectString, filterType=none):
     return lis
 
 
-# List [ <Output Connection Node> ]
+# List [ <Output Connection Nde_Node> ]
 def getOutputObjectLis(objectString, filterType=none):
     return cmds.listConnections(objectString, destination=1, source=0, type=filterType) or []
 
@@ -1214,7 +1214,7 @@ def getInputObjectsByAttrName(objectString, filterAttrNames=None):
 
 #
 def getOutputNodeLisFilter(objectString, attrNames=none):
-    # List [ <Output Node> ]
+    # List [ <Output Nde_Node> ]
     nodes = []
     if isAppExist(objectString):
         guessData = cmds.listConnections(objectString, destination=1, source=0, connections=1)
@@ -1530,7 +1530,7 @@ def setViewportShaderDisplayMode(panel):
     )
 
 
-# Display Shader
+# Display Nde_ShaderRef
 def setViewportTextureDisplayMode(panel):
     cmds.modelEditor(
         panel,
@@ -1543,7 +1543,7 @@ def setViewportTextureDisplayMode(panel):
     )
 
 
-# Display Shader
+# Display Nde_ShaderRef
 def setViewportLightDisplayMode(panel):
     cmds.modelEditor(
         panel,
@@ -1556,7 +1556,7 @@ def setViewportLightDisplayMode(panel):
     )
 
 
-# Set Display Mode [ Mode 5: Shader(Non-Texture), Mode 6: Shader ]
+# Set Display Mode [ Mode 5: Nde_ShaderRef(Non-Texture), Mode 6: Nde_ShaderRef ]
 def setDisplayMode(displayMode):
     modelPanels = cmds.getPanel(typ='modelPanel')
     for currentPanel in modelPanels:
@@ -1652,7 +1652,7 @@ def setCreateEventScriptJob(windowName, scriptJobEvn, method):
 def setCreateNodeDeleteScriptJob(windowName, node, method):
     if method:
         if not cmds.window(windowName, exists=1):
-            cmds.window(windowName, title=lxBasic._toStringPrettify(windowName), sizeable=1, resizeToFitChildren=1)
+            cmds.window(windowName, title=lxBasic.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
         #
         if isinstance(method, list):
             for subMethod in method:
@@ -1665,7 +1665,7 @@ def setCreateNodeDeleteScriptJob(windowName, node, method):
 def setCreateAttrChangedScriptJob(windowName, attr, method):
     if method:
         if not cmds.window(windowName, exists=1):
-            cmds.window(windowName, title=lxBasic._toStringPrettify(windowName), sizeable=1, resizeToFitChildren=1)
+            cmds.window(windowName, title=lxBasic.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
         #
         if isinstance(method, list):
             for subMethod in method:
@@ -2179,7 +2179,7 @@ def getKeyableAttr(objectString):
 
 #
 def getAnimCurve(objectString, attrName):
-    # List [ <Input Connection Node> ]
+    # List [ <Input Connection Nde_Node> ]
     attr = objectString + '.' + attrName
     inputNodes = cmds.listConnections(attr, destination=0, source=1)
     if inputNodes:
@@ -2542,7 +2542,7 @@ def setCleanHistory(nodes):
     cmds.delete(nodes, constructionHistory=1)
 
 
-# Assign Default Shader
+# Assign Default Nde_ShaderRef
 def setObjectDefaultShaderCmd(objectLis):
     # [cmds.sets(objectString, forceElement='initialShadingGroup') for objectString in objectLis]
     [setDefaultShader(objectString) for objectString in objectLis]
@@ -2553,7 +2553,7 @@ def getObjectLinkShader():
     pass
 
 
-# Assign Default Shader
+# Assign Default Nde_ShaderRef
 def setDefaultShader(objectString):
     # cmds.sets(objectString, forceElement='initialShadingGroup')
     cmds.sets(getNodeShape(objectString, 1), forceElement='initialShadingGroup')
@@ -2670,7 +2670,7 @@ def getContainerNodes(container):
     return cmds.container(container, query=1, nodeList=1)
 
 
-# Set Node in Container
+# Set Nde_Node in Container
 def setInContainer(container, nodes):
     if not isAppExist(container):
         cmds.container(type='dagContainer', name=container)
@@ -2974,7 +2974,7 @@ def setCleanNode(node):
         cmds.delete(node)
 
 
-# Clean Node By Name
+# Clean Nde_Node By Name
 def setCleanNodesForce(nodes):
     [setCleanNodeForce(node) for node in nodes]
 

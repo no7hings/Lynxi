@@ -13,7 +13,7 @@ from LxMaya.command import maUtils, maUuid, maGeom, maShdr, maFur
 Ma_Separator_Node = '|'
 
 
-# Geometry
+# Nde_Geometry
 def dbAstGeometryUploadMainCmd(assetIndex, assetName, groupString, timeTag):
     objectStrings = maGeom.getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -30,7 +30,7 @@ def dbAstGeometryUploadMainCmd_(assetIndex, objectStrings, groupString, assetNam
             #
             (True, u'''Transform''', dbAstUploadGeometryObjectsTransformSub, (assetIndex, objectStrings, groupString, assetName, timeTag)),
             #
-            (True, u'''Geometry''', dbAstUploadGeometryObjectsGeometrySub, (assetIndex, objectStrings, timeTag)),
+            (True, u'''Nde_Geometry''', dbAstUploadGeometryObjectsGeometrySub, (assetIndex, objectStrings, timeTag)),
             (True, u'''Map''', dbAstUploadGeometryObjectsMapSub, (assetIndex, objectStrings, timeTag)),
             #
             (True, u'''Vertex - Normal''', dbAstUploadGeometryObjectsVertexNormalSub, (assetIndex, objectStrings, timeTag)),
@@ -125,8 +125,8 @@ def dbAstUploadNurbsHairMain(nurbsHairObjects, assetSubIndex, timeTag):
         subProgressDataLis = [
             (True, u'''Index''', dbAstUploadNurbsHairObjectsIndexSub, (nurbsHairObjects, assetSubIndex, timeTag)),
             #
-            (True, u'''Graph ( Node )''', dbAstUploadNurbsHairObjectsGraphNodeSub, (nurbsHairObjects, assetSubIndex, timeTag)),
-            (True, u'''Graph ( Geometry )''', dbAstUploadNurbsHairObjectsGraphGeometrySub, (nurbsHairObjects, assetSubIndex, timeTag)),
+            (True, u'''Graph ( Nde_Node )''', dbAstUploadNurbsHairObjectsGraphNodeSub, (nurbsHairObjects, assetSubIndex, timeTag)),
+            (True, u'''Graph ( Nde_Geometry )''', dbAstUploadNurbsHairObjectsGraphGeometrySub, (nurbsHairObjects, assetSubIndex, timeTag)),
             (True, u'''Graph ( Relation )''', dbAstUploadNurbsHairObjectsGraphRelationSub, (nurbsHairObjects, assetSubIndex, timeTag))
         ]
         #
@@ -169,7 +169,7 @@ def dbAstMaterialUploadMainCmd(compMatlObjects, assetSubIndex, timeTag):
         #
         subProgressDataLis = [
             (True, u'''Index''', dbAstUploadMaterialIndexSub, (compMaterials, assetSubIndex, timeTag)),
-            (True, u'''Node''', dbAstUploadMaterialCompNodeSub, (compMaterials, assetSubIndex, timeTag)),
+            (True, u'''Nde_Node''', dbAstUploadMaterialCompNodeSub, (compMaterials, assetSubIndex, timeTag)),
             (True, u'''Relation''', dbAstUploadMaterialCompRelationSub, (compMaterials, assetSubIndex, timeTag)),
             (True, u'''Object - Attribute''', dbAstUploadMaterialObjAttrSub, (compMatlObjects, assetSubIndex, timeTag)),
             (True, u'''Object - Set''', dbAstUploadMaterialObjSetSub, (compMatlObjects, assetSubIndex, timeTag)),
@@ -219,7 +219,7 @@ def dbAstAovUploadCmd(renderer, assetSubIndex, timeTag):
     progressExplain = u'''Uploading Database Asset AOV'''
     subProgressDataLis = [
         (True, u'''Index''', dbAstUploadAovIndexSub, (aovNodeLis, assetSubIndex, timeTag)),
-        (True, u'''Node''', dbAstUploadAovCompNodeSub, (aovNodeLis, assetSubIndex, timeTag)),
+        (True, u'''Nde_Node''', dbAstUploadAovCompNodeSub, (aovNodeLis, assetSubIndex, timeTag)),
         (True, u'''Relation''', dbAstUploadAovCompRelationSub, (aovNodeLis, assetSubIndex, timeTag)),
     ]
     #
@@ -289,7 +289,7 @@ def dbAstCopyRigProductTo(assetIndex, targetFile):
         lxBasic.setOsFileCopy(asciiFile, targetFile)
 
 
-# Geometry Load
+# Nde_Geometry Load
 def dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=True):
     objectIndexes = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
     if objectIndexes:
@@ -299,7 +299,7 @@ def dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=True):
 #
 def dbAstLoadGeometryObjectsSub(assetIndex, assetName, objectIndexes, lockTransform=True):
     if objectIndexes:
-        progressExplain = u'''Load Database Geometry Object(s)'''
+        progressExplain = u'''Load Database Nde_Geometry Object(s)'''
         #
         subProgressDataLis = [
             (True, u'''Transform''', dbAstLoadGeometryTransformSub, (assetIndex, objectIndexes, assetName, lockTransform)),
@@ -355,7 +355,7 @@ def dbAstLoadFurIndexSub(assetIndex, assetVariant):
 
 #
 def dbAstLoadFurCompIndex(assetSubIndex, objectIndexes):
-    # Mesh Geometry
+    # Mesh Nde_Geometry
     directory = databasePr.dbAstFurPathUnitDirectory()
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maFur.setCreateFurObjectsUniqueId(dataDic)
@@ -370,8 +370,8 @@ def dbAstLoadNurbsHairMain(assetSubIndex):
         progressExplain = u'''Load Database Asset Nurbs Hair'''
         #
         subProgressDataLis = [
-            (True, u'''Graph ( Node )''', dbAstLoadNhrObjectsGraphNodeSub, (assetSubIndex, objectIndexes)),
-            (True, u'''Graph ( Geometry )''', dbAstLoadNhrObjectsGraphGeometrySub, (assetSubIndex, objectIndexes)),
+            (True, u'''Graph ( Nde_Node )''', dbAstLoadNhrObjectsGraphNodeSub, (assetSubIndex, objectIndexes)),
+            (True, u'''Graph ( Nde_Geometry )''', dbAstLoadNhrObjectsGraphGeometrySub, (assetSubIndex, objectIndexes)),
             (True, u'''Graph ( Relation )''', dbAstLoadNhrObjectsGraphRelationSub, (assetSubIndex, objectIndexes))
         ]
         #
@@ -407,7 +407,7 @@ def dbAstMaterialLoadMainCmd(assetSubIndex, compObjectIndexes, compMaterialIndex
     progressExplain = u'''Load Database Asset Material'''
     #
     subProgressDataLis = [
-        (True, u'''Node''', dbAstMaterialCompNodesLoadCmd, (assetSubIndex, compMaterialIndexes)),
+        (True, u'''Nde_Node''', dbAstMaterialCompNodesLoadCmd, (assetSubIndex, compMaterialIndexes)),
         (True, u'''Relation''', dbAstMaterialCompRelationsLoadCmd, (assetSubIndex, compMaterialIndexes)),
         (True, u'''Object - Attribute''', dbAstMaterialCompObjectAttrsLoadCmd, (assetSubIndex, compObjectIndexes)),
         (True, u'''Object - Set''', dbAstMaterialCompObjectSetsLoadCmd, (assetSubIndex, compObjectIndexes)),
@@ -450,7 +450,7 @@ def dbAstLoadAov(renderer, assetSubIndex, dbAovCompIndexes):
     progressExplain = u'''Load Database Asset AOV'''
     #
     subProgressDataLis = [
-        (True, u'''Node''', dbAstLoadAovCompNodes, (assetSubIndex, dbAovCompIndexes)),
+        (True, u'''Nde_Node''', dbAstLoadAovCompNodes, (assetSubIndex, dbAovCompIndexes)),
         (True, u'''Relation''', dbAstLoadAovCompRelations, (assetSubIndex, dbAovCompIndexes))
     ]
     #
@@ -480,7 +480,7 @@ def dbAstLoadFurIntegration(assetIndex, assetVariant):
 
 #
 def dbAstLoadGeometryObjectsIndex(assetIndex, assetName, objectIndexes, mode=0):
-    # Mesh Geometry
+    # Mesh Nde_Geometry
     directory = databasePr.dbAstGeometryTransformUnitDirectory()
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, directory)
     if dataDic:
@@ -564,7 +564,7 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
     #
     if objectIndexes:
         # View Progress
-        progressExplain = u'''Load Database Geometry Object(s) Path'''
+        progressExplain = u'''Load Database Nde_Geometry Object(s) Path'''
         maxValue = len(objectIndexes)
         progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in objectIndexes:
@@ -581,7 +581,7 @@ def dbAstRemoveGeometryObjects(objectIndexes):
     #
     if objectIndexes:
         # View Progress
-        progressExplain = u'''Remove Database Geometry Object(s)'''
+        progressExplain = u'''Remove Database Nde_Geometry Object(s)'''
         maxValue = len(objectIndexes)
         progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for i in objectIndexes:

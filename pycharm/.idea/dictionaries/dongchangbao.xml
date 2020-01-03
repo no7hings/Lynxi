@@ -6,7 +6,9 @@
       <w>appname</w>
       <w>appversion</w>
       <w>asbs</w>
+      <w>attributepath</w>
       <w>basenames</w>
+      <w>bindinput</w>
       <w>binname</w>
       <w>binversion</w>
       <w>brower</w>
@@ -19,10 +21,15 @@
       <w>coords</w>
       <w>ctom</w>
       <w>ctomcmds</w>
+      <w>dagpath</w>
+      <w>datetag</w>
+      <w>datumset</w>
+      <w>defs</w>
       <w>deregister</w>
       <w>developroot</w>
       <w>dingtalkchatbot</w>
       <w>dirname</w>
+      <w>displacementshader</w>
       <w>dongchangbao</w>
       <w>dragable</w>
       <w>enablebutton</w>
@@ -31,6 +38,10 @@
       <w>exts</w>
       <w>filebasename</w>
       <w>foldername</w>
+      <w>fullpath</w>
+      <w>geometryinput</w>
+      <w>geomname</w>
+      <w>geomnamearray</w>
       <w>graphitem</w>
       <w>graphview</w>
       <w>gridview</w>
@@ -41,17 +52,20 @@
       <w>iconfont</w>
       <w>iconkeyword</w>
       <w>importname</w>
+      <w>isdevelop</w>
       <w>keyable</w>
       <w>lgroups</w>
       <w>loadname</w>
       <w>loadnames</w>
       <w>localroot</w>
+      <w>lxbasic</w>
       <w>lxcommand</w>
       <w>lxcore</w>
       <w>lxdatabase</w>
       <w>lxdeadline</w>
       <w>lxgraph</w>
       <w>lxinterface</w>
+      <w>lxmainterface</w>
       <w>lxmaterial</w>
       <w>lxmaya</w>
       <w>lxui</w>
@@ -76,6 +90,9 @@
       <w>myproject</w>
       <w>myworkspace</w>
       <w>namespacesep</w>
+      <w>nodeinput</w>
+      <w>nodename</w>
+      <w>nodepath</w>
       <w>nonrep</w>
       <w>nurbs</w>
       <w>objs</w>
@@ -85,6 +102,7 @@
       <w>packagepath</w>
       <w>packagesource</w>
       <w>packageversion</w>
+      <w>pathnames</w>
       <w>pathsep</w>
       <w>percentable</w>
       <w>piechart</w>
@@ -94,6 +112,7 @@
       <w>plugname</w>
       <w>plugpath</w>
       <w>plugversion</w>
+      <w>portset</w>
       <w>presetview</w>
       <w>pressable</w>
       <w>procname</w>
@@ -126,17 +145,23 @@
       <w>sequencechart</w>
       <w>serverroot</w>
       <w>serverrootpath</w>
+      <w>shaderinput</w>
+      <w>shaderref</w>
       <w>shaders</w>
+      <w>shaderset</w>
       <w>solidangle</w>
       <w>sourcepath</w>
       <w>sqlite</w>
       <w>sqrt</w>
       <w>storable</w>
+      <w>stringarray</w>
       <w>strs</w>
       <w>subname</w>
       <w>subpath</w>
+      <w>surfaceshader</w>
       <w>systemraw</w>
       <w>tearable</w>
+      <w>timetag</w>
       <w>topo</w>
       <w>trackable</w>
       <w>trackaction</w>
@@ -156,6 +181,7 @@
       <w>versionactive</w>
       <w>versionrecord</w>
       <w>viewframe</w>
+      <w>volumeshader</w>
       <w>workarea</w>
       <w>workspacepath</w>
       <w>xbmlangpath</w>

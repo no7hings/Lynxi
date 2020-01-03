@@ -13,7 +13,7 @@ from itertools import product
 #
 from LxCore.method.basic import _methodBasic
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
@@ -21,7 +21,7 @@ from LxMaya.method.config import _maConfig
 
 
 #
-class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
+class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     _maConfig = _maConfig.MaConfig
     #
     MaProgressBar = None
@@ -241,7 +241,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
     def setAttrStringDatumForce_(cls, nodeString, attrName, data, lockAttr=True):
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls._toStringPrettify(attrName), dataType='string')
+            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), dataType='string')
         #
         cmds.setAttr(attr, lock=0)
         cmds.setAttr(attr, data, type='string', lock=lockAttr)
@@ -258,7 +258,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
         colorLabelLis = ['R', 'G', 'B']
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls._toStringPrettify(attrName), attributeType='float3', usedAsColor=1)
+            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), attributeType='float3', usedAsColor=1)
             for i in colorLabelLis:
                 cmds.addAttr(nodeString, longName=attrName + i, attributeType='float', parent=attrName)
         #
@@ -268,7 +268,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
     def setAttrBooleanDatumForce_(cls, nodeString, attrName, boolean):
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls._toStringPrettify(attrName), attributeType='bool')
+            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), attributeType='bool')
         #
         if cls.isAttrLock(attr) is True:
             cmds.setAttr(attr, lock=0)
@@ -455,7 +455,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
     def _toMeshFaceComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls._toIntArrayReduce(ids)
+            reduceArray = cls.lis_frame2range(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.f[{}]'.format(objectString, i))
@@ -467,7 +467,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
     def _toMeshEdgeComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls._toIntArrayReduce(ids)
+            reduceArray = cls.lis_frame2range(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.e[{}]'.format(objectString, i))
@@ -479,7 +479,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
     def _toMeshVertexComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls._toIntArrayReduce(ids)
+            reduceArray = cls.lis_frame2range(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.vtx[{}]'.format(objectString, i))
@@ -490,7 +490,7 @@ class MaMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaConfig):
 
 
 #
-class M2MethodBasic(_methodBasic.LxAppMethodBasic):
+class Mtd_M2Basic(Mtd_AppMaya, _maConfig.Cfg_M2):
     @staticmethod
     def toM2NodePath(nodeString):
         return Om2.MGlobal.getSelectionListByName(nodeString).getDagPath(0)
@@ -521,8 +521,8 @@ class M2MethodBasic(_methodBasic.LxAppMethodBasic):
 
 
 #
-class MaUiMethodBasic(
-    uiConfigure.Basic,
+class Mtd_MaUiBasic(
+    uiCore.Basic,
     _maConfig.MaUiConfig
 ):
     @staticmethod
@@ -552,7 +552,7 @@ class MaUiMethodBasic(
 
 
 #
-class MaPresetMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaUnitConfig):
+class MaPresetMethodBasic(Mtd_AppMaya, _maConfig.MaUnitConfig):
     @staticmethod
     def _getUnitCommand(kwargs):
         return cmds.currentUnit(query=1, **kwargs)
@@ -600,12 +600,12 @@ class MaPresetMethodBasic(_methodBasic.LxAppMethodBasic, _maConfig.MaUnitConfig)
 
 
 #
-class MaScriptJobMethodBasic(_methodBasic.LxAppMethodBasic):
+class MaScriptJobMethodBasic(Mtd_AppMaya):
     @classmethod
     def setCreateEventScriptJob(cls, windowName, scriptJobEvn, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls._toStringPrettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, event=[scriptJobEvn, i]) for i in method]
@@ -616,7 +616,7 @@ class MaScriptJobMethodBasic(_methodBasic.LxAppMethodBasic):
     def setCreateNodeDeleteScriptJob(cls, windowName, node, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls._toStringPrettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, nodeDeleted=[node, i]) for i in method]
@@ -626,7 +626,7 @@ class MaScriptJobMethodBasic(_methodBasic.LxAppMethodBasic):
     def setCreateAttrChangedScriptJob(cls, windowName, attr, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls._toStringPrettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, attributeChange=[attr, i]) for i in method]
@@ -635,7 +635,7 @@ class MaScriptJobMethodBasic(_methodBasic.LxAppMethodBasic):
 
 
 #
-class MaSetMethodBasic(MaMethodBasic, _maConfig.MaConfig):
+class MaSetMethodBasic(Mtd_AppMaya, _maConfig.MaConfig):
     @classmethod
     def toCompSetPathLis(cls, setPath):
         lis = []
@@ -700,7 +700,7 @@ class MaSetMethodBasic(MaMethodBasic, _maConfig.MaConfig):
 
 
 #
-class MaNodeAttributeMethodBasic(MaMethodBasic, _maConfig.MaNodeAttributeConfig):
+class MaNodeAttributeMethodBasic(Mtd_AppMaya, _maConfig.MaNodeAttributeConfig):
     @staticmethod
     def _toAttrQueryName(attrName):
         guessName = attrName.split('.')[-1]
@@ -748,7 +748,7 @@ class MaNodeAttributeMethodBasic(MaMethodBasic, _maConfig.MaNodeAttributeConfig)
 
 
 #
-class MaConnectionMethodBasic(MaMethodBasic):
+class MaConnectionMethodBasic(Mtd_AppMaya):
     @staticmethod
     def getOutputNodeLisByAttr(attr):
         return cmds.listConnections(attr, destination=1, source=0) or []
@@ -1237,7 +1237,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     @classmethod
     def isGroup(cls, nodeString):
         boolean = False
-        # Node Type is "Transform" and has Non "Shape(s)"
+        # Nde_Node Type is "Transform" and has Non "Shape(s)"
         if cmds.nodeType(nodeString) == cls.MaNodeType_Transform:
             shapePathLis = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if shapePathLis is None:
@@ -1246,7 +1246,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     @classmethod
     def isTransform(cls, nodeString):
         boolean = False
-        # Node Type is "Transform" and has "Shape(s)"
+        # Nde_Node Type is "Transform" and has "Shape(s)"
         if cmds.nodeType(nodeString) == cls.MaNodeType_Transform:
             shapePathLis = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if shapePathLis is not None:
@@ -1484,6 +1484,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if cls.getNodeType(parentNode) == cls.MaNodeType_AssemblyReference:
                 node = parentNode
         return node
+
+    # noinspection PyUnusedLocal
     @classmethod
     def lxHideShow(cls, operation, extend=False):
         if operation == 'hide':
@@ -1503,9 +1505,9 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                     cls.setNodeAttr(node, cls.MaAttrName_Visible, boolean)
             #
             if operation is 'hide':
-                cls.viewMessage('Selected Node(s) is', 'Hide !!!')
+                cls.viewMessage('Selected Nde_Node(s) is', 'Hide !!!')
             else:
-                cls.viewMessage('Selected Node(s) is', 'Show !!!')
+                cls.viewMessage('Selected Nde_Node(s) is', 'Show !!!')
     @classmethod
     def isObjectInstanced(cls, objectString):
         boolean = False
@@ -1524,12 +1526,12 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
 
 
 #
-class M2NodeMethodBasic(M2MethodBasic):
+class M2NodeMethodBasic(Mtd_M2Basic):
     pass
 
 
 #
-class M2GeometryNodeMethodBasic(MaNodeMethodBasic, M2MethodBasic):
+class M2GeometryNodeMethodBasic(MaNodeMethodBasic, Mtd_M2Basic):
     @classmethod
     def getMeshNormalLockVertexLis(cls, objectString):
         lis = []
@@ -1595,7 +1597,7 @@ class M2GeometryNodeMethodBasic(MaNodeMethodBasic, M2MethodBasic):
 
 
 #
-class M2CameraMethodBasic(M2MethodBasic):
+class M2CameraMethodBasic(Mtd_M2Basic):
     @classmethod
     def toM2Camera(cls, objectString):
         return Om2.MFnCamera(cls.toM2NodePath(objectString))
@@ -1678,7 +1680,7 @@ class MaNodeGraphMethodBasic(MaNodeMethodBasic, _maConfig.MaNodeGraphConfig):
 
 
 #
-class MaPlugMethodBasic(_methodBasic.LxAppMethodBasic):
+class Mtd_MaPlug(Mtd_AppMaya, _maConfig.MaPlugConfig):
     @staticmethod
     def getPlugLis():
         return cmds.pluginInfo(query=1, listPlugins=1)
@@ -1691,7 +1693,7 @@ class MaPlugMethodBasic(_methodBasic.LxAppMethodBasic):
 
 
 #
-class MaHotkeyMethodBasic(MaMethodBasic):
+class MaHotkeyMethodBasic(Mtd_AppMaya):
     @classmethod
     def setHotkeySet(cls, hotkeySetName):
         if not cmds.hotkeySet(hotkeySetName, query=True, exists=True):

@@ -1,22 +1,26 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
-#
+from LxCore import lxBasic, lxScheme
+
+from LxCore.method.basic import _methodBasic
+
 from LxCore.method import _dbMethod
-#
+
 from LxUi.qt import qtWidgets, qtCore, qtMethod
-#
+
 from LxInterface.qt.ifBasic import ifWidgetBasic
-#
-serverBasicPath = lxConfigure.Root()._serverPath()
+
+serverBasicPath = lxScheme.Root().basic.server
 
 
 #
 class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
-    _dbMethod = _dbMethod.DbOsUnitMethod
+    plf_file_method = _methodBasic.Mtd_PlfFile
+    dtb_unit_method = _dbMethod.Mtd_DbUnit
+    database_method = _methodBasic.Mtd_Database
     _uiMethod = qtMethod.QtViewMethod
     #
     dbClass = 'develop'
-    dbUnitType = _dbMethod.LxDb_Type_Unit_Python
+    dbUnitType = dtb_unit_method.LxDb_Type_Unit_Python
     dbUnitBranch = 'main'
     def __init__(self, parent=qtCore.getAppWindow()):
         super(ifDevelopOverviewUnit, self).__init__(parent)
@@ -76,7 +80,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
     def setLeftRefresh(self):
         treeView = self._leftTreeView
         #
-        datumDic = self._dbMethod.dbGetOsUnitIncludeFileDic(
+        datumDic = self.dtb_unit_method.dbGetOsUnitIncludeFileDic(
             self.dbClass,
             self.dbUnitType, self.dbUnitBranch
         )
@@ -106,14 +110,13 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         def setBranch(value):
             def setBranchActions():
                 def openDatumFileCmd():
-                    osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverPath())
-                    if lxBasic.isOsExistsFile(osCmdExe):
-                        tempOsFile = '{}/{}/{}/{}'.format(self._dbMethod.LynxiOsPath_LocalTemporary, dbDatumType, dbDatumId, osRelativeFile)
-                        if not self._dbMethod.isOsExistsFile(tempOsFile):
-                            self._dbMethod.setOsFileCopy(dbDatumFile, tempOsFile)
-                        #
-                        osCmd = '''"{}" "{}"'''.format(osCmdExe, tempOsFile)
-                        lxBasic.setOsCommandRun_(osCmd)
+                    osCmdExe = 'sublime_text.exe'
+                    tempOsFile = '{}/{}/{}/{}'.format(self.dtb_unit_method.LynxiOsPath_LocalTemporary, dbDatumType, dbDatumId, osRelativeFile)
+                    if not self.plf_file_method.isOsExistsFile(tempOsFile):
+                        self.plf_file_method.setOsFileCopy(dbDatumFile, tempOsFile)
+                    #
+                    osCmd = '''"{}" "{}"'''.format(osCmdExe, tempOsFile)
+                    lxBasic.setOsCommandRun_(osCmd)
                 #
                 actionDatumLis = [
                     ('Basic', ),
@@ -126,18 +129,18 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
             treeView.addItem(treeItem)
             treeItem.setNameText(osRelativeFile)
             treeItem.setIcon('svg_basic@svg#{}'.format(dbDatumType))
-            ext = self._dbMethod.getOsFileExt(osRelativeFile)
+            ext = self.plf_file_method.getOsFileExt(osRelativeFile)
             #
-            osSourceFile = self._dbMethod._toOsFile(sourcePath, osRelativeFile)
-            if self._dbMethod.isOsExistsFile(osSourceFile):
-                sourceDatumId = self._dbMethod.getOsFileHashString(osSourceFile)
+            osSourceFile = self.plf_file_method._toOsFile(sourcePath, osRelativeFile)
+            if self.plf_file_method.isOsExistsFile(osSourceFile):
+                sourceDatumId = self.plf_file_method.getOsFileHashString(osSourceFile)
                 if not sourceDatumId == dbDatumId:
                     treeItem.setFilterColor((255, 255, 64, 255))
                     self._changedCount += 1
             else:
                 treeItem._setQtPressStatus(qtCore.OffStatus)
             #
-            dbDatumFile = self._dbMethod._lxDbOsUnitDatumFile(
+            dbDatumFile = self.database_method._lxDbOsUnitDatumFile(
                     self.dbClass,
                     dbDatumType, dbDatumId, ext
                 )
@@ -173,7 +176,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
                 dbUnitSource = currentItem.dbUnitSource
                 dbDatumIndex = currentItem.dbDatumIndex
                 dbDatumType, dbDatumId = eval(dbDatumIndex)
-                dbUnitIncludeFileLis = self._dbMethod._lxDbLoadJsonDatumFileSub(
+                dbUnitIncludeFileLis = self.database_method._lxDbLoadJsonDatumFileSub(
                     self.dbClass,
                     dbDatumType, dbDatumId
                 )
@@ -186,7 +189,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         if currentItem:
             if hasattr(currentItem, 'dbDatumFile'):
                 dbDatumFile = currentItem.dbDatumFile
-                datum = self._dbMethod.readOsData(dbDatumFile)
+                datum = self.plf_file_method.readOsData(dbDatumFile)
                 self._datumEnterBox.setDatum(datum)
     #
     def _updateBackupButtonState(self):
@@ -196,10 +199,10 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         pythonPathLis = ['e:/myworkspace/td/lynxi/source/python', 'e:/myworkspace/td/lynxi/tool/maya']
         for pythonPath in pythonPathLis:
             dbClass = 'develop'
-            dbUnitType = self._dbMethod.LxDb_Type_Unit_Python
+            dbUnitType = self.dtb_unit_method.LxDb_Type_Unit_Python
             dbUnitBranch = 'main'
             note = self._noteEnterBox.datum()
-            self._dbMethod.dbUpdateOsUnit(
+            self.dtb_unit_method.dbUpdateOsUnit(
                 pythonPath, '.py', dbClass, dbUnitType, dbUnitBranch, note
             )
             self.setLeftRefresh()

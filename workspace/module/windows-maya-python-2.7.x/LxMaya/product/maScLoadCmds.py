@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 
 #
 from LxUi.qt import qtLog, qtProgress, qtTip
@@ -56,12 +56,12 @@ def scUnitSceneCreateMainCmd(
     # Animation
     elif scenePr.isScAnimationLink(sceneStage):
         serverProductFile = scenePr.sceneUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+            lxCore_.LynxiRootIndex_Server,
+            projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
         )[1]
         localSourceFile = scenePr.sceneUnitSourceFile(
-            lxConfigure.LynxiRootIndex_Local,
-            projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiScAnimationStages[0]
+            lxCore_.LynxiRootIndex_Local,
+            projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiScAnimationStages[0]
         )[1]
         maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     # Simulation
@@ -189,7 +189,7 @@ def scUnitSceneCreateMainCmd(
     # Set Workspace
     if scenePr.isScLightLink(sceneStage):
         workspaceRoot = scenePr.scUnitRenderFolder(
-            lxConfigure.LynxiRootIndex_Local,
+            lxCore_.LynxiRootIndex_Local,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage, appVariant.scDefaultCustomizeLabel
         )
@@ -255,11 +255,11 @@ def scUnitSceneLoadMainCmd(
     maUtils.setDisplayMode(5)
     #
     serverProductFile = scenePr.sceneUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     localSourceFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     qtLog.viewStartProcess(logWin, u'Load Scene Source ( {} )'.format(sceneStage.capitalize()))
@@ -300,14 +300,14 @@ def scUnitSourceSaveCmd(
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
     localSourceFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     #
     maUtils.setVisiblePanelsDelete()
     maUtils.setCleanUnknownNodes()
     #
-    qtLog.viewStartProcess(logWin, 'Save Scene {} - Source'.format(lxBasic._toStringPrettify(sceneStage)))
+    qtLog.viewStartProcess(logWin, 'Save Scene {} - Source'.format(lxBasic.str_camelcase2prettify(sceneStage)))
     #
     maFile.saveMayaFileToLocal(localSourceFile)
     #
@@ -773,7 +773,7 @@ def scUnitAstModelProductLoadCmd(
         if isinstance(withAstModel, bool):
             if withAstModel is True:
                 fileString = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName, assetClass, assetName, assetVariant, assetStage
                 )[1]
         elif isinstance(withAstModel, str) or isinstance(withAstModel, unicode):
@@ -785,7 +785,7 @@ def scUnitAstModelProductLoadCmd(
     #
     maPreference.setAnimationTimeUnit(projectName)
     #
-    assetStage = lxConfigure.LynxiProduct_Asset_Link_Model
+    assetStage = lxCore_.LynxiProduct_Asset_Link_Model
     #
     astModelProductFile = getProductFile()
     if astModelProductFile is not None:
@@ -902,7 +902,7 @@ def scUnitAstModelCacheConnectCmd(
         if maUtils.isAppExist(scAstModelGroup):
             scAstModelCacheGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstModelCacheNamespace)
             if not maUtils.isAppExist(scAstModelCacheGroup):
-                # Clear Cache Node
+                # Clear Cache Nde_Node
                 connectMethod = maCacheConnect.LxAstModelCacheConnectMethod(assetName, scAstModelCacheNamespace, scAstModelNamespace)
                 #
                 connectMethod.setSourceClear()
@@ -1033,10 +1033,10 @@ def scUnitAstCfxProductLoadCmd(
 ):
     maPreference.setAnimationTimeUnit(projectName)
     #
-    assetStage = lxConfigure.LynxiProduct_Asset_Link_Cfx
+    assetStage = lxCore_.LynxiProduct_Asset_Link_Cfx
     #
     astCfxProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
     if lxBasic.isOsExistsFile(astCfxProductFile):
@@ -1112,9 +1112,9 @@ def scUnitAstSolverProductLoadCmd(
         withAstSolverCache=False
 ):
     astSolverProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
     )[1]
     if lxBasic.isOsExistsFile(astSolverProductFile):
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
@@ -1137,17 +1137,17 @@ def scUnitAstSolverProductLoadCmd(
             )
             #
             astSolverExtraFile = assetPr.astUnitExtraFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+                assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
             )[1]
             if lxBasic.isOsExist(astSolverExtraFile):
                 extraDic = lxBasic.readOsJson(astSolverExtraFile)
                 if extraDic:
-                    connectionDic = extraDic.get(lxConfigure.LynxiConnectionDataKey)
+                    connectionDic = extraDic.get(lxCore_.LynxiConnectionDataKey)
                     if connectionDic:
                         maFur.setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolverNamespace)
-                    nhrConnectionDic = extraDic.get(lxConfigure.LynxiNhrConnectionDataKey)
+                    nhrConnectionDic = extraDic.get(lxCore_.LynxiNhrConnectionDataKey)
                     if nhrConnectionDic:
                         maFur.setScAstCfxConnectToSolver(nhrConnectionDic, scAstCfxNamespace, scAstSolverNamespace)
             #
@@ -1354,12 +1354,12 @@ def scUnitSceneryExtraLoadLoadCmd(
     if extraData:
         qtLog.viewStartProcess(logWin, 'Load Scene Scenery ( Extra )')
         #
-        if lxConfigure.LynxiAssemblyReferenceDataKey in extraData:
-            data = extraData[lxConfigure.LynxiAssemblyReferenceDataKey]
+        if lxCore_.LynxiAssemblyReferenceDataKey in extraData:
+            data = extraData[lxCore_.LynxiAssemblyReferenceDataKey]
             sceneOp.setCreateScSceneryAssembly(data, scSceneryLinkPath)
         #
-        if lxConfigure.LynxiTransformationDataKey in extraData:
-            data = extraData[lxConfigure.LynxiTransformationDataKey]
+        if lxCore_.LynxiTransformationDataKey in extraData:
+            data = extraData[lxCore_.LynxiTransformationDataKey]
             sceneOp.setScSceneryAsbTransformation(data)
         #
         if scenePr.isScLightLink(sceneStage):

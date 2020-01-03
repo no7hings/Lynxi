@@ -12,7 +12,8 @@ from LxMaya.method.config import _maConfig
 
 
 #
-class MaAnimationMethod(_maMethodBasic.MaMethodBasic):
+class Mtd_MaAnimation(_methodBasic.Mtd_Basic):
+    app_method = _maMethodBasic.Mtd_AppMaya
     @staticmethod
     def setCurrentFrame(frame):
         cmds.currentTime(frame)
@@ -35,7 +36,7 @@ class MaAnimationMethod(_maMethodBasic.MaMethodBasic):
 
 
 #
-class MaAssemblyMethod(_maMethodBasic.MaMethodBasic):
+class MaAssemblyMethod(_maMethodBasic.Mtd_AppMaya):
     _nodeMethod = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def getAssemblyReferenceLis(cls):
@@ -65,7 +66,7 @@ class MaAssemblyMethod(_maMethodBasic.MaMethodBasic):
 
 
 #
-class MaWindowMethod(_maMethodBasic.MaMethodBasic):
+class MaWindowMethod(_maMethodBasic.Mtd_AppMaya):
     MaDefShader = 'lambert1'
     MaDefWindowMaximum = 2048
     MaDefBackgroundRgb = .25, .25, .25
@@ -89,7 +90,7 @@ class MaWindowMethod(_maMethodBasic.MaMethodBasic):
         width, height = cls._toSizeRemap(width, height, maximum=cls.MaDefWindowMaximum)
         cmds.window(
             nameText,
-            title=cls._toStringPrettify(nameText)
+            title=cls.str_camelcase2prettify(nameText)
         )
         #
         cmds.showWindow(nameText)
@@ -113,7 +114,7 @@ class MaWindowMethod(_maMethodBasic.MaMethodBasic):
 
 
 #
-class MaViewportMethod(_maMethodBasic.MaMethodBasic):
+class Mtd_MaViewport(_maMethodBasic.Mtd_AppMaya):
     MaDefViewportViewOptionKwargs = dict(
         displayAppearance='smoothShaded',
         displayLights='default',
@@ -139,7 +140,7 @@ class MaViewportMethod(_maMethodBasic.MaMethodBasic):
     @classmethod
     def setCreateViewPanel(cls, viewport, layout, camera, menuBarVisible=False):
         return cmds.modelPanel(
-            label=cls._toStringPrettify(viewport),
+            label=cls.str_camelcase2prettify(viewport),
             parent=layout,
             camera=camera,
             menuBarVisible=menuBarVisible,
@@ -463,7 +464,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic, _maConfig.MaProduc
         return cls.orderedDict(
             [
                 ('meshInstanceCheck', (True, 'Mesh has Instance', u'存在关联复制的"Mesh"', cls.filterObjectInstanceLis, None)),
-                ('meshHistoryCheck', (True, 'Mesh has History Node(s)', u'存在历史记录的"Mesh"', cls.filterObjectHistoryNodeDic, None)),
+                ('meshHistoryCheck', (True, 'Mesh has History Nde_Node(s)', u'存在历史记录的"Mesh"', cls.filterObjectHistoryNodeDic, None)),
                 #
                 ('meshOverlapNameCheck', (True, 'Mesh has Overlap Name', u'存在重名的"Mesh"', cls.filterObjectNameOverlapDic, None)),
                 #
@@ -1159,7 +1160,10 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
 
 
 #
-class MaFileMethod(_maMethodBasic.MaMethodBasic, _osMethod.OsFileMethod):
+class MaFileMethod(_maConfig.MaConfig):
+    app_method = _maMethodBasic.Mtd_AppMaya
+    plf_file_method = _osMethod.OsFileMethod
+
     MayaAsciiType = 'mayaAscii'
     MayaBinaryType = 'mayaBinary'
     AlembicType = 'Alembic'
@@ -1203,7 +1207,7 @@ class MaFileMethod(_maMethodBasic.MaMethodBasic, _osMethod.OsFileMethod):
         :param fileString: str or unicode
         :return: str or unicode
         """
-        ext = cls.getOsFileExt(fileString)
+        ext = cls.plf_file_method.getOsFileExt(fileString)
         return cls.FileTypeDic.get(ext, cls.MayaAsciiType)
     @classmethod
     def fileExportCommand(cls, fileString, optionKwargs=None):
@@ -1243,7 +1247,7 @@ class MaTextureNodeMethod(_maMethodBasic.MaNodeMethodBasic):
 
 
 #
-class MaTextureFileMethod(_maMethodBasic.MaMethodBasic, _methodBasic.LxOsFileMethodBasic):
+class MaTextureFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
     MaTexture_NodeTypeLis = [
         'file',
         'aiImage',
@@ -1286,7 +1290,7 @@ class MaTextureFileMethod(_maMethodBasic.MaMethodBasic, _methodBasic.LxOsFileMet
 
 
 #
-class MaPreviewFileMethod(_maMethodBasic.MaMethodBasic, _methodBasic.LxOsFileMethodBasic):
+class MaPreviewFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
     MaPlayblastFormatLis = [
         'qt',
         'avi',
@@ -1323,5 +1327,3 @@ class MaPreviewFileMethod(_maMethodBasic.MaMethodBasic, _methodBasic.LxOsFileMet
 #
 class MaCameraMethod(object):
     pass
-
-

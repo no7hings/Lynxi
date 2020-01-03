@@ -1,4 +1,6 @@
 # coding:utf-8
+from LxMaterial import mtlCore
+
 import collections
 
 import MaterialX as Mx
@@ -9,9 +11,12 @@ class loadVariant(object):
     def __init__(self, fileString):
         self._nodeDefDic = collections.OrderedDict()
         self._defFile = fileString
-        self._getNodeDef()
+        self._getNodeDefs()
 
-    def _getNodeDef(self):
+    def _getTypeDefs(self):
+        pass
+
+    def _getNodeDefs(self):
         doc = Mx.createDocument()
         # noinspection PyArgumentList
         Mx.readFromXmlFile(doc, self._defFile)
@@ -21,21 +26,21 @@ class loadVariant(object):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic['type'] = nodeType
+            nodeDic[mtlCore.Basic.Key_Type_String] = nodeType
             nodeAttrDic = collections.OrderedDict()
             for j in i.getInputs():
                 attrName = j.getName()
-                valueType = j.getType()
+                valueTypeString = j.getType()
                 valueString = j.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic['type'] = valueType
-                attrDic['valueString'] = valueString
+                attrDic[mtlCore.Basic.Key_Type_String] = valueTypeString
+                attrDic[mtlCore.Basic.Key_Value_String] = valueString
                 nodeAttrDic[attrName] = attrDic
 
             nodeDic['attribute'] = nodeAttrDic
             self._nodeDefDic[nodeCategory] = nodeDic
 
-    def nodeDefDic(self):
+    def nodeDefs(self):
         return self._nodeDefDic
 
 

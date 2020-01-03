@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxBasic import bscCore
+
+from LxCore import lxBasic, lxScheme
 #
 from LxCore.preset import pipePr
 #
@@ -7,9 +9,7 @@ from LxCore.preset.prod import projectPr
 #
 from LxCore.operation import envOp
 #
-from LxCore.setup import appPush
-#
-serverBasicPath = lxConfigure.Root()._serverPath()
+serverBasicPath = lxScheme.Root().basic.server
 #
 none = ''
 
@@ -17,7 +17,7 @@ none = ''
 #
 def setMaPythonPackageSetup(mayaVersion):
     traceMessage = '''Setup Maya Python Package(s)'''
-    lxConfigure.Message().trace(traceMessage)
+    bscCore.Py_Message().trace(traceMessage)
     #
     osPathLis = pipePr.env_app_maya_python_package_lis(serverBasicPath, mayaVersion)
     for osPath in osPathLis:
@@ -29,7 +29,7 @@ def setMaScriptSetup(projectName):
     if lxBasic.isMayaApp():
         from LxMaya.command import maUtils
         traceMessage = '''Setup Maya Script(s)'''
-        lxConfigure.Message().trace(traceMessage)
+        bscCore.Py_Message().trace(traceMessage)
         #
         data = projectPr.getProjectMayaScriptDatumDic(projectName)
         if data:
@@ -37,8 +37,8 @@ def setMaScriptSetup(projectName):
                 for i in v:
                     osFileLis = lxBasic.getOsFilesByPath(i)
                     if osFileLis:
-                        traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(lxBasic._toStringPrettify(k), i)
-                        lxConfigure.Message().traceResult(traceMessage)
+                        traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(lxBasic.str_camelcase2prettify(k), i)
+                        bscCore.Py_Message().traceResult(traceMessage)
                         for osFile in osFileLis:
                             command = lxBasic.readOsFile(osFile)
                             if osFile.endswith('.py'):
@@ -50,13 +50,13 @@ def setMaScriptSetup(projectName):
                                 maUtils.runMelCommand(melCommand)
                             #
                             traceMessage = '''Add Maya Script : {}'''.format(osFile)
-                            lxConfigure.Message().traceResult(traceMessage)
+                            bscCore.Py_Message().traceResult(traceMessage)
 
 
 #
 def setMaTdPackageSetup(projectName):
     traceMessage = '''Setup Maya TD Package(s)'''
-    lxConfigure.Message().trace(traceMessage)
+    bscCore.Py_Message().trace(traceMessage)
     #
     osPathLis = projectPr.getProjectMayaTdPackagePathLis(projectName)
     for osPath in osPathLis:
@@ -74,7 +74,7 @@ def setMaHotkeySetup():
     from LxMaya.maSetup import maScriptSetup
     #
     traceMessage = '''Setup Maya Hotkey(s)'''
-    lxConfigure.Message().trace(traceMessage)
+    bscCore.Py_Message().trace(traceMessage)
     #
     maScriptSetup.initHideShowCmd()
 
@@ -91,14 +91,10 @@ def setMayaPreference():
 
 
 # noinspection PyUnresolvedReferences
-def setMayaSetup(projectName, showProgress, isCloseMaya):
+def setMayaProjectToolSetup(projectName, showProgress, isCloseMaya):
     if lxBasic.isMayaApp():
         traceMessage = '''Setup Maya Project : {}'''.format(projectName)
-        lxConfigure.Message().trace(traceMessage)
-        #
-        projectMayaVersion = projectPr.getProjectMayaVersion(projectName)
-        # Step >>>> 01
-        setMaPythonPackageSetup(projectMayaVersion)
+        bscCore.Py_Message().trace(traceMessage)
         #
         setMaScriptSetup(projectName)
         setMaTdPackageSetup(projectName)
@@ -110,5 +106,15 @@ def setMayaSetup(projectName, showProgress, isCloseMaya):
             'from LxCore.setup import maSetup;maSetup.setMaMenuSetup()',
             'from LxCore.setup import maSetup;maSetup.setMayaPreference()',
             'from LxCore.setup import maSetup;maSetup.setMaHotkeySetup()'
+        ]
+        [utils.executeDeferred(i) for i in commandLis]
+
+
+def setMayaToolSetup():
+    if lxBasic.isMayaApp():
+        # noinspection PyUnresolvedReferences
+        import maya.utils as utils
+        commandLis = [
+            'from LxCore.setup import maSetup;maSetup.setMaMenuSetup()'
         ]
         [utils.executeDeferred(i) for i in commandLis]

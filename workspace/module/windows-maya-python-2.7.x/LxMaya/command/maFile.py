@@ -480,7 +480,7 @@ def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, hei
     cmds.select(clear=1)
     # Y Axis Adjust
     yAxis = cmds.getAttr('persp.translateY')
-    # Default Shader Adjust
+    # Default Nde_ShaderRef Adjust
     if overrideColor is not None:
         r, g, b = overrideColor
         cmds.setAttr('lambert1.color', r, g, b)

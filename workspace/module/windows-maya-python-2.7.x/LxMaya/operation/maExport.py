@@ -1,11 +1,16 @@
 # coding:utf-8
 from LxCore.method import _osMethod
-#
+
+from LxMaya.method.basic import _maMethodBasic
+
 from LxMaya.method import _maMethod
 
 
 #
-class MaFileExport(_maMethod.MaFileMethod):
+class MaFileExport(object):
+    app_method = _maMethodBasic.Mtd_AppMaya
+    plf_file_method = _osMethod.OsFileMethod
+    app_file_method = _maMethod.MaFileMethod
     def __init__(self, fileString, objectString=None, optionKwargs=None):
         """
         :param fileString: str or list
@@ -16,21 +21,21 @@ class MaFileExport(_maMethod.MaFileMethod):
         self._objectString = objectString
         self._optionKwargs = optionKwargs
         #
-        self._commandOptionKwargs = self.MaDefFileExportKwargs.copy()
+        self._commandOptionKwargs = self.app_file_method.MaDefFileExportKwargs.copy()
     #
     def _updateObjectOptionKwargs(self):
-        objectLis = self._toNodeLis(self._objectString)
+        objectLis = self.app_method._toNodeLis(self._objectString)
         if objectLis:
-            self._commandOptionKwargs.pop(self.MaFileExportAllOption)
-            self._commandOptionKwargs[self.MaFileExportSelectedOption] = True
+            self._commandOptionKwargs.pop(self.app_file_method.MaFileExportAllOption)
+            self._commandOptionKwargs[self.app_file_method.MaFileExportSelectedOption] = True
             #
-            self.setNodeSelect(objectLis, noExpand=True)
+            self.app_method.setNodeSelect(objectLis, noExpand=True)
     #
     def _updateOverrideOptionKwargs(self):
         if isinstance(self._optionKwargs, dict):
-            if self._commandOptionKwargs.get(self.MaFileExportSelectedOption, None) is True:
+            if self._commandOptionKwargs.get(self.app_file_method.MaFileExportSelectedOption, None) is True:
                 for k, v in self._optionKwargs.items():
-                    if k in self.MaFileExportSelectedOptions:
+                    if k in self.app_file_method.MaFileExportSelectedOptions:
                         self._commandOptionKwargs[k] = v
             else:
                 for k, v in self._optionKwargs.items():
@@ -40,13 +45,16 @@ class MaFileExport(_maMethod.MaFileMethod):
         self._updateObjectOptionKwargs()
         self._updateOverrideOptionKwargs()
         # Export
-        temporaryOsFile = self.getOsTemporaryFile(self._fileString)
-        self.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
-        self.setOsFileCopy(temporaryOsFile, self._fileString)
+        temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
+        self.app_file_method.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
+        self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
 
 
 #
-class MaMaterialExport(_maMethod.MaShaderNodeGraphMethod, _maMethod.MaFileMethod):
+class MaMaterialExport(object):
+    app_nod_graph_method = _maMethod.MaShaderNodeGraphMethod
+    plf_file_method = _osMethod.OsFileMethod
+    app_file_method = _maMethod.MaFileMethod
     def __init__(self, fileString, groupString=None, nodeTypeString=None, optionKwargs=None):
         """
         :param fileString: str or list
@@ -63,45 +71,41 @@ class MaMaterialExport(_maMethod.MaShaderNodeGraphMethod, _maMethod.MaFileMethod
         self._shadingEngineLis = []
     #
     def _updateShaderObjectLis(self):
-        self._shaderObjectLis = self.getObjectLisByGroup(self._groupString, self._typeString)
+        self._shaderObjectLis = self.app_nod_graph_method.getObjectLisByGroup(self._groupString, self._typeString)
     #
     def _updateShadingEngineLis(self):
         if self._shaderObjectLis:
-            self._shadingEngineLis = self.getShadingEngineLisByObject(self._shaderObjectLis)
+            self._shadingEngineLis = self.app_nod_graph_method.getShadingEngineLisByObject(self._shaderObjectLis)
         else:
-            self._shadingEngineLis = self.getShadingEngineLis()
+            self._shadingEngineLis = self.app_nod_graph_method.getShadingEngineLis()
     #
     def run(self):
         self._updateShaderObjectLis()
         self._updateShadingEngineLis()
         #
         if self._shadingEngineLis:
-            self.setNodeSelect(self._shadingEngineLis, noExpand=True)
+            self.app_nod_graph_method.setNodeSelect(self._shadingEngineLis, noExpand=True)
             exportArgDic = {
                 'force': True,
                 'options': 'v=0',
                 'defaultExtensions': True,
                 'preserveReferences': False,
-                'type': self.getFileType(self._fileString),
-                self.MaFileExportSelectedOption: True,
-                self.MaFileShaderOption: True
+                'type': self.app_file_method.getFileType(self._fileString),
+                self.app_file_method.MaFileExportSelectedOption: True,
+                self.app_file_method.MaFileShaderOption: True
             }
             # Export
-            temporaryOsFile = self.getOsTemporaryFile(self._fileString)
-            self.fileExportCommand(temporaryOsFile, exportArgDic)
-            self.setOsFileCopy(temporaryOsFile, self._fileString)
+            temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
+            self.app_file_method.fileExportCommand(temporaryOsFile, exportArgDic)
+            self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
             #
-            self.setSelectClear()
-
-
-#
-class MaMaterialTextureExport(_maMethod.MaTextureFileMethod):
-    def __init__(self, folderString, groupString=None, nodeTypeString=None):
-        pass
+            self.app_nod_graph_method.setSelectClear()
 
 
 #
 class MaMaterialObjSetExport(_maMethod.MaShaderNodeGraphMethod, _osMethod.OsYamlFileMethod):
+    app_nod_graph_method = _maMethod.MaShaderNodeGraphMethod
+    plf_file_method = _osMethod.OsFileMethod
     def __init__(self, fileString, groupString=None, nodeTypeString=None, optionKwargs=None):
         """
         :param fileString: str or list
@@ -152,9 +156,13 @@ class MaMaterialObjSetExport(_maMethod.MaShaderNodeGraphMethod, _osMethod.OsYaml
 
 
 #
-class MaPreviewExport(_maMethod.MaWindowMethod, _maMethod.MaViewportMethod, _maMethod.MaCameraNodeMethod, _maMethod.MaAnimationMethod, _maMethod.MaRenderNodeMethod, _maMethod.MaPreviewFileMethod):
+class MaPreviewExport(_maMethod.MaWindowMethod, _maMethod.MaCameraNodeMethod, _maMethod.MaRenderNodeMethod, _maMethod.MaPreviewFileMethod):
+    app_animation_method = _maMethod.Mtd_MaAnimation
+    app_viewport_method = _maMethod.Mtd_MaViewport
+
     PreviewWindowName = 'previewWindow'
     PreviewViewportName = 'previewViewport'
+
     def __init__(self, fileString, cameraString=None, groupString=None, size=None, frame=None, displayMode=5):
         """
         :param fileString: str
@@ -213,27 +221,27 @@ class MaPreviewExport(_maMethod.MaWindowMethod, _maMethod.MaViewportMethod, _maM
             self._camera = self._cameraString
         #
         windowLayout = self.setCreateWindow(self.PreviewWindowName, self._width, self._height)
-        self._viewport = self.setCreateViewPanel(self.PreviewViewportName, windowLayout, self._camera)
+        self._viewport = self.app_viewport_method.setCreateViewPanel(self.PreviewViewportName, windowLayout, self._camera)
         # Viewport
-        self.setViewportView(self._viewport)
-        self.setViewportObjectDisplay(self._viewport)
+        self.app_viewport_method.setViewportView(self._viewport)
+        self.app_viewport_method.setViewportObjectDisplay(self._viewport)
         # Display Mode
         if self._displayMode == 4:
             self.setDefaultShaderColor(*self.MaDefShaderRgb)
-            self.setViewportDefaultDisplayMode(self._viewport)
+            self.app_viewport_method.setViewportDefaultDisplayMode(self._viewport)
         elif self._displayMode == 5:
-            self.setViewportShaderDisplayMode(self._viewport)
+            self.app_viewport_method.setViewportShaderDisplayMode(self._viewport)
         elif self._displayMode == 6:
-            self.setViewportTextureDisplayMode(self._viewport)
+            self.app_viewport_method.setViewportTextureDisplayMode(self._viewport)
         elif self._displayMode == 7:
-            self.setViewportLightDisplayMode(self._viewport)
+            self.app_viewport_method.setViewportLightDisplayMode(self._viewport)
         # Camera
         if self._isCameraDefaultPosEnable is True:
             self.setCameraDefPos(self._camera)
         # Root
         if self._groupString is not None:
             self.setNodeSelect(self._groupString)
-            self.setViewportSelectObjectIsolate(self._viewport)
+            self.app_viewport_method.setViewportSelectObjectIsolate(self._viewport)
             self.setCameraViewFit(self._camera)
             #
             self.setSelectClear()
@@ -266,13 +274,13 @@ class MaPreviewExport(_maMethod.MaWindowMethod, _maMethod.MaViewportMethod, _maM
                     self.setOsFileMove(imageFile, self._fileString)
     #
     def _closeWindow(self):
-        self.setViewportSelectObjectIsolate(self._viewport, False)
+        self.app_viewport_method.setViewportSelectObjectIsolate(self._viewport, False)
         #
         self.setWindowDelete(self.PreviewWindowName)
         self.setWindowDelete(self.PreviewViewportName)
     #
     def getOutputImageFileLis(self):
-        startFrame, endFrame = self.toFrameRange(self._frame)
+        startFrame, endFrame = self.app_animation_method.toFrameRange(self._frame)
         #
         lis = []
         #
@@ -287,7 +295,7 @@ class MaPreviewExport(_maMethod.MaWindowMethod, _maMethod.MaViewportMethod, _maM
         return lis
     #
     def run(self):
-        self._startFrame, self._endFrame = self.toFrameRange(self._frame)
+        self._startFrame, self._endFrame = self.app_animation_method.toFrameRange(self._frame)
         self._width, self._height = self._toSizeRange(self._size)
         #
         self._updateFileFormat()

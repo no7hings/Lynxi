@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import sceneCfg
@@ -307,11 +307,11 @@ def setScSceneryAsbTransformation(data):
 #
 def setCreateScAstSolverExtra(extraData, sourceNamespace, targetNamespace):
     if extraData:
-        if lxConfigure.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
+        if lxCore_.LynxiAttributeDataKey in extraData:
+            attributeData = extraData[lxCore_.LynxiAttributeDataKey]
             setCreateScAstSolverAttribute(attributeData, targetNamespace)
-        if lxConfigure.LynxiConnectionDataKey in extraData:
-            connectionData = extraData[lxConfigure.LynxiConnectionDataKey]
+        if lxCore_.LynxiConnectionDataKey in extraData:
+            connectionData = extraData[lxCore_.LynxiConnectionDataKey]
             setCreateScAstSolverConnection(connectionData, sourceNamespace, targetNamespace)
 
 

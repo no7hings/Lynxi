@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxScheme
 #
 from LxCore.preset import pipePr, appVariant
 #
@@ -30,11 +30,11 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scene Production'
-_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+_version = lxScheme.Python().version
 
 
 #
-class IfSceneProductToolWindow(qtWidgets.UiToolWindow):
+class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneProductToolWindow, self).__init__(parent)
@@ -361,7 +361,7 @@ class IfSceneProductToolWindow(qtWidgets.UiToolWindow):
             else:
                 self._initScAnimTool()
             #
-            title = 'Scene ( {} ) Upload'.format(lxBasic._toStringPrettify(scenePr.getSceneLink(sceneStage)))
+            title = 'Scene ( {} ) Upload'.format(lxBasic.str_camelcase2prettify(scenePr.getSceneLink(sceneStage)))
             self.setTitle(title)
         else:
             self.setPlaceholderEnable(True)

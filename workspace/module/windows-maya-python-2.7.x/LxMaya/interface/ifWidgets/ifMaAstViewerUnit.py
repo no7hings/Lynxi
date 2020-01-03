@@ -21,8 +21,8 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     UnitScriptJobWindowName = 'astModelMeshGeomCheckWindow'
     #
-    _MaCheckMethod = _maMethod.MaCheckMethod
-    _QtViewMethod = qtMethod.QtViewMethod
+    app_check_method = _maMethod.MaCheckMethod
+    ui_qt_method = qtMethod.QtViewMethod
     def __init__(self, *args, **kwargs):
         super(IfAstModelCheckViewerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -64,15 +64,15 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             treeView.setActionData(actionDatumLis)
         #
-        groupLis = self._MaCheckMethod.filterSelectedGroupLis()
-        transformLis = self._MaCheckMethod.filterSelectedTransformLis()
-        geometryObjectLis = self._MaCheckMethod.filterSelectedNodeTransformLis(nodeTypeString=['mesh'])
+        groupLis = self.app_check_method.filterSelectedGroupLis()
+        transformLis = self.app_check_method.filterSelectedTransformLis()
+        geometryObjectLis = self.app_check_method.filterSelectedNodeTransformLis(nodeTypeString=['mesh'])
         treeView = self._treeView
         #
         methodDatumLis = [
-            (self.setTreeViewListInspection, ('Check Group(s)', treeView, self._MaCheckMethod.maAstModelGroupCheckConfigDic(), groupLis)),
-            (self.setTreeViewListInspection, ('Check Transform(s)', treeView, self._MaCheckMethod.maAstModelTransformCheckConfigDic(), transformLis)),
-            (self.setTreeViewListInspection, ('Check Mesh(s)', treeView, self._MaCheckMethod.maAstModelGeometryCheckConfigDic(), geometryObjectLis))
+            (self.setTreeViewListInspection, ('Check Group(s)', treeView, self.app_check_method.maAstModelGroupCheckConfigDic(), groupLis)),
+            (self.setTreeViewListInspection, ('Check Transform(s)', treeView, self.app_check_method.maAstModelTransformCheckConfigDic(), transformLis)),
+            (self.setTreeViewListInspection, ('Check Mesh(s)', treeView, self.app_check_method.maAstModelGeometryCheckConfigDic(), geometryObjectLis))
         ]
         #
         treeView.cleanItems()
@@ -144,14 +144,14 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
                 inspectionItem.setIcon('svg_basic@svg#checklist')
                 inspectionItem.setSubIcon(subIconKeyword)
         #
-        self._MaCheckMethod.setUndoChunkOpen()
+        self.app_check_method.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
         progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
             progressBar.updateProgress(k)
             setInspectionBranch(s, k, v)
         #
-        self._MaCheckMethod.setUndoChunkClose()
+        self.app_check_method.setUndoChunkClose()
     #
     def setAppObjectSelect(self):
         treeView = self._treeView
@@ -162,9 +162,9 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
                 if hasattr(i, 'appPath'):
                     lis.append(i.appPath)
             #
-            self._MaCheckMethod.setNodeSelect(self._MaCheckMethod._toNodeLis(lis), noExpand=True)
+            self.app_check_method.setNodeSelect(self.app_check_method._toNodeLis(lis), noExpand=True)
         else:
-            self._MaCheckMethod.setSelectClear()
+            self.app_check_method.setSelectClear()
     #
     def setupUnit(self):
         self.topToolBar().show()

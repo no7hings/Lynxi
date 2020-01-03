@@ -1,14 +1,16 @@
 # coding:utf-8
 # noinspection PyUnresolvedReferences
 from maya import cmds
-#
+
+from LxCore.method.basic import _methodBasic
+
 from LxUi.qt import qtMethod
-#
+
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class MaUiMenuMethod(_maMethodBasic.MaUiMethodBasic):
+class Mtd_MaUiMenu(_maMethodBasic.Mtd_MaUiBasic):
     @staticmethod
     def isMenuExists(menuName):
         pass
@@ -21,7 +23,7 @@ class MaUiMenuMethod(_maMethodBasic.MaUiMethodBasic):
 
 
 #
-class MaUiControlMethod(_maMethodBasic.MaUiMethodBasic):
+class Mtd_MaUiControl(_maMethodBasic.Mtd_MaUiBasic):
     @staticmethod
     def isControlExists(controlName):
         return cmds.workspaceControl(controlName, exists=True)
@@ -70,7 +72,7 @@ class MaUiControlMethod(_maMethodBasic.MaUiMethodBasic):
         else:
             cmds.workspaceControl(
                 controlName,
-                label=cls._toStringPrettify(controlName),
+                label=cls.str_camelcase2prettify(controlName),
                 dockToMainWindow=['right', False],
                 initialWidth=width, initialHeight=height,
                 widthProperty='free', heightProperty='free'
@@ -81,25 +83,26 @@ class MaUiControlMethod(_maMethodBasic.MaUiMethodBasic):
 
 
 #
-class MaQtViewMethod(
-    _maMethodBasic.MaNodeMethodBasic,
+class Mtd_MaQtView(
     qtMethod.QtViewMethod
 ):
+    dat_path_method = _methodBasic.Mtd_Path
+    app_node_method = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def setTreeViewListNamespace(cls, treeView, pathString, branchViewMethod):
-        pathsep = cls.Ma_Separator_Namespace
+        pathsep = cls.app_node_method.Ma_Separator_Namespace
         #
-        treeViewPathLis = cls._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
+        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)
     @classmethod
     def setTreeViewListNode(cls, treeView, pathString, branchViewMethod):
-        pathsep = cls.Ma_Separator_Node
+        pathsep = cls.app_node_method.Ma_Separator_Node
         #
-        treeViewPathLis = cls._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
+        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)

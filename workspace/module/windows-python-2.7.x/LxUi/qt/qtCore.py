@@ -11,13 +11,13 @@ from PyQt5 import QtGui, QtCore, QtSvg
 #
 from PyQt5.QtWidgets import *
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 cgitb.enable(format='text')
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 #
 _color = QtGui.QColor
 _brush = QtGui.QBrush
@@ -109,7 +109,7 @@ none = ''
 
 
 def iconRoot():
-    return lxConfigure.IconSubRoot()._serverPath()
+    return lxScheme.Root().icon.server
 
 
 #
@@ -378,7 +378,7 @@ class QPainterPath_(QtGui.QPainterPath):
 #
 class QPainter_(
     QtGui.QPainter,
-    uiConfigure.Basic
+    uiCore.Basic
 ):
     def __init__(self, *args, **kwargs):
         # noinspection PyArgumentList
@@ -1190,7 +1190,8 @@ class TestWidget(QWidget):
             self.setMaximumSize(24, 96)
     #
     def paintEvent(self, event):
-        painter = QPainter_(self)
+        painter = QPainter_()
+        # painter.begin(self)  # fix
         #
         w, h = 96, 24
         xPos, yPos = 0, 0
@@ -1221,6 +1222,8 @@ class TestWidget(QWidget):
             textOption,
             string
         )
+
+        # painter.end()
 
 
 #
@@ -1465,7 +1468,9 @@ class UiMainWidget(QWidget):
     #
     def paintEvent(self, event):
         if self._drawFrame is True:
-            painter = QPainter_(self)
+            painter = QPainter_()
+            # painter.begin(self)  # fix
+
             xPos = 0
             yPos = 0
             offset = 1
@@ -1500,6 +1505,8 @@ class UiMainWidget(QWidget):
             painter.setDrawFocusFrame(
                 focusFramePointLis
             )
+
+            # painter.end()
 
 
 #
@@ -1690,7 +1697,7 @@ class QScrollArea_(QScrollArea):
 # Tool Tip Box
 class QtTooltipWidget_(
     QWidget,
-    uiConfigure.Basic
+    uiCore.Basic
 ):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QtTooltipWidget_, self)
@@ -1722,6 +1729,8 @@ class QtTooltipWidget_(
     #
     def paintEvent(self, event):
         painter = QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setFont(self.font())
         #
         painter.setBorderRgba(self._uiBorderRgba)
@@ -1733,6 +1742,8 @@ class QtTooltipWidget_(
                 self._datum,
                 self._uiMargin, self._uiShadowRadius, self._uiSide, self._region
             )
+
+        # painter.end()
     #
     def tooltipShow(self):
         parent = self.parent()
@@ -1847,8 +1858,8 @@ class QCommonStyle_(QCommonStyle):
 
 #
 def getTooltipDelayTime():
-    if lxConfigure.Ui().isTooltipAutoShow() is False:
-        return lxConfigure.LynxiUi_Value_TooltipDelayTime
+    if lxScheme.Ui().isTooltipAutoShow() is False:
+        return lxCore_.LynxiUi_Value_TooltipDelayTime
     else:
         return 250
 
@@ -1856,7 +1867,7 @@ def getTooltipDelayTime():
 #
 def closeTooltipAutoShow():
     if UiTipTimer.isActive():
-        lxConfigure.Ui().setTooltipAutoShow(False)
+        lxScheme.Ui().setTooltipAutoShow(False)
         UiTipTimer.stop()
 
 
@@ -1871,7 +1882,7 @@ def uiTooltipStartMethod(method):
                 self._tooltipWidget.setTooltip(uiTip)
                 self._tooltipWidget.tooltipShow()
                 #
-                lxConfigure.Ui().setTooltipAutoShow(True)
+                lxScheme.Ui().setTooltipAutoShow(True)
             #
             self._tooltipTimer.stop()
         # Class
@@ -2118,7 +2129,7 @@ def lxGetLogWin():
         cs = w.children()
         if cs:
             for i in cs:
-                if 'UiLogWindow' in str(i):
+                if 'QtLogWindow' in str(i):
                     return i
 
 
@@ -2181,7 +2192,6 @@ def setExistsUiDelete(*args):
 def uiSetupShowMethod(method):
     def subMethod(*args, **kwargs):
         from LxCore import lxUpdate
-        reload(lxUpdate)
         lxUpdate.setUpdate()
         #
         from LxCore.setup import plugSetup
@@ -2197,7 +2207,6 @@ def uiSetupShowMethod(method):
 def uiShowMethod_(method):
     def subMethod(*args, **kwargs):
         from LxCore import lxUpdate
-        reload(lxUpdate)
         lxUpdate.setUpdate()
         #
         setExistsUiDelete(*args)
@@ -2210,7 +2219,6 @@ def uiShowMethod_(method):
 def uiSetupShowMethod_(method):
     def subMethod(*args, **kwargs):
         from LxCore import lxUpdate
-        reload(lxUpdate)
         lxUpdate.setUpdate()
         #
         from LxCore.setup import plugSetup

@@ -1,9 +1,18 @@
 # coding:utf-8
+from LxCore.method.basic import _methodBasic
+
+from LxMaya.method.basic import _maMethodBasic
+
 from LxMaya import method
 
 
 #
-class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod):
+class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
+    plf_file_method = _methodBasic.Mtd_PlfFile
+    app_method = _maMethodBasic.Mtd_AppMaya
+    app_animation_method = method.Mtd_MaAnimation
+    app_fle_cache_method = method.Mtd_MaAbcCache
+
     def __init__(self, fileString, groupString=None, frame=None, step=None, attributeString=None, optionDic=None, dataFormat=None):
         self._fileString = fileString
         self._groupString = groupString
@@ -14,7 +23,7 @@ class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod
         self._dataFormat = dataFormat
     @classmethod
     def _toFileArgString(cls, fileString):
-        return '{0} {1}'.format(cls.FileKey, fileString.replace('\\', '/'))
+        return '{0} {1}'.format(cls.app_fle_cache_method.FileKey, fileString.replace('\\', '/'))
     @classmethod
     def _toOptionArgString(cls, optionDic):
         lis = [k for k, v in optionDic.items() if v is True]
@@ -27,12 +36,12 @@ class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod
     @classmethod
     def _toDataFormatArgString(cls, dataFormat):
         if isinstance(dataFormat, str) or isinstance(dataFormat, unicode):
-            if dataFormat in cls.DataFormats:
-                argString = '{0} {1}'.format(cls.DataFormatKey, dataFormat)
+            if dataFormat in cls.app_fle_cache_method.DataFormats:
+                argString = '{0} {1}'.format(cls.app_fle_cache_method.DataFormatKey, dataFormat)
             else:
-                argString = '{0} {1}'.format(cls.DataFormatKey, cls.OgawaDataFormat)
+                argString = '{0} {1}'.format(cls.app_fle_cache_method.DataFormatKey, cls.app_fle_cache_method.OgawaDataFormat)
         else:
-            argString = '{0} {1}'.format(cls.DataFormatKey, cls.OgawaDataFormat)
+            argString = '{0} {1}'.format(cls.app_fle_cache_method.DataFormatKey, cls.app_fle_cache_method.OgawaDataFormat)
         return argString
     @classmethod
     def _toFrameArgString(cls, frame):
@@ -41,32 +50,32 @@ class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod
         elif isinstance(frame, int):
             startFrame = endFrame = frame
         else:
-            startFrame = endFrame = cls.getCurrentFrame()
+            startFrame = endFrame = cls.app_animation_method.getCurrentFrame()
         #
-        argString = '{0} {1} {2}'.format(cls.FrameRangeKey, startFrame, endFrame)
+        argString = '{0} {1} {2}'.format(cls.app_fle_cache_method.FrameRangeKey, startFrame, endFrame)
         return argString
     @classmethod
     def _toStepArgString(cls, step):
         if isinstance(step, float) or isinstance(step, int):
-            argString = '{0} {1}'.format(cls.StepKey, step)
+            argString = '{0} {1}'.format(cls.app_fle_cache_method.StepKey, step)
         else:
             argString = None
         return argString
     @classmethod
     def _toRootArgString(cls, groupString):
-        lis = cls._toNodeLis(groupString)
+        lis = cls.app_method._toNodeLis(groupString)
         #
         if lis:
-            argString = ' '.join(['{0} {1}'.format(cls.RootKey, i) for i in lis])
+            argString = ' '.join(['{0} {1}'.format(cls.app_fle_cache_method.RootKey, i) for i in lis])
         else:
             argString = None
         return argString
     @classmethod
     def _toAttributeArgString(cls, attrName):
-        lis = cls._toStringList(attrName)
+        lis = cls.app_method._toStringList(attrName)
         #
         if lis:
-            argString = ' '.join(['{0} {1}'.format(cls.AttributeKey, i) for i in lis])
+            argString = ' '.join(['{0} {1}'.format(cls.app_fle_cache_method.AttributeKey, i) for i in lis])
         else:
             argString = None
         return argString
@@ -77,7 +86,7 @@ class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod
             return ' '.join(usefulArgLis)
     #
     def export(self):
-        temporaryOsFile = self.getOsTemporaryFile(self._fileString)
+        temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
         argLis = [
             self._toFrameArgString(self._frame),
             self._toStepArgString(self._step),
@@ -92,23 +101,25 @@ class MaAlembicCacheExport(method.MaAnimationMethod, method.MaAlembicCacheMethod
         #
         if exportArgString:
             # Export
-            self.abcCacheExportCommand(exportArgString)
+            self.app_fle_cache_method.abcCacheExportCommand(exportArgString)
             #
-            self.setOsFileCopy(temporaryOsFile, self._fileString)
+            self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
 
 
 #
-class MaGpuCacheExport(method.MaAnimationMethod, method.MaGpuCacheMethod):
+class MaGpuCacheExport(_methodBasic.Mtd_Basic):
+    app_animation_method = method.Mtd_MaAnimation
+    app_fle_cache_method = method.MaGpuCacheMethod
     def __init__(self, fileString, groupString=None, frame=None, optionKwargs=None):
         self._fileString = fileString
         self._groupString = groupString
         self._frame = frame
         self._optionKwargs = optionKwargs
         #
-        self._commandOptionKwargs = self.MaDefGpuCacheExportKwargs.copy()
+        self._commandOptionKwargs = self.app_fle_cache_method.MaDefGpuCacheExportKwargs.copy()
     #
     def _updateFrameOptionKwargs(self):
-        startFrame, endFrame = self.toFrameRange(self._frame)
+        startFrame, endFrame = self.app_animation_method.toFrameRange(self._frame)
         #
         self._commandOptionKwargs['startTime'] = startFrame
         self._commandOptionKwargs['endTime'] = endFrame
@@ -122,7 +133,7 @@ class MaGpuCacheExport(method.MaAnimationMethod, method.MaGpuCacheMethod):
         self._updateFrameOptionKwargs()
         self._updateOverrideKwargs()
         #
-        self.gpuCacheExportCommand(
+        self.app_fle_cache_method.gpuCacheExportCommand(
             self._fileString,
             self._groupString,
             self._commandOptionKwargs
@@ -130,7 +141,9 @@ class MaGpuCacheExport(method.MaAnimationMethod, method.MaGpuCacheMethod):
 
 
 #
-class MaProxyCacheExport(method.MaAnimationMethod, method.MaProxyCacheMethod):
+class MaProxyCacheExport(_methodBasic.Mtd_Basic):
+    app_animation_method = method.Mtd_MaAnimation
+    app_fle_cache_method = method.MaProxyCacheMethod
     def __init__(self, fileString, groupString=None, frame=None, step=None, optionKwargs=None):
         self._fileString = fileString
         self._groupString = groupString
@@ -138,11 +151,11 @@ class MaProxyCacheExport(method.MaAnimationMethod, method.MaProxyCacheMethod):
         self._step = step
         self._optionKwargs = optionKwargs
         #
-        self._commandOptionKwargs = self.MaDefArnoldProxyExportKwargs.copy()
+        self._commandOptionKwargs = self.app_fle_cache_method.MaDefArnoldProxyExportKwargs.copy()
     #
     def _updateFrameOptionKwargs(self):
         if self._frame is not None:
-            startFrame, endFrame = self.toFrameRange(self._frame)
+            startFrame, endFrame = self.app_animation_method.toFrameRange(self._frame)
             #
             optionsString = self._commandOptionKwargs['options']
             #
@@ -168,7 +181,7 @@ class MaProxyCacheExport(method.MaAnimationMethod, method.MaProxyCacheMethod):
         self._updateFrameOptionKwargs()
         self._updateStepOptionKwargs()
         #
-        self.arnoldProxyExportCommand(
+        self.app_fle_cache_method.arnoldProxyExportCommand(
             self._fileString,
             self._groupString,
             self._commandOptionKwargs
@@ -176,28 +189,31 @@ class MaProxyCacheExport(method.MaAnimationMethod, method.MaProxyCacheMethod):
 
 
 #
-class MaYetiGraphExport(method.MaYetiGraphObjectMethod, method.MaFileMethod):
+class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
+    plf_file_method = _methodBasic.Mtd_PlfFile
+    app_file_method = method.MaFileMethod
+
     def __init__(self, fileString, groupString=None, setString=None):
         self._fileString = fileString
         self._groupString = groupString
         self._setString = setString
         #
-        self._commandOptionKwargs = self.MaDefFileExportKwargs.copy()
+        self._commandOptionKwargs = self.app_file_method.MaDefFileExportKwargs.copy()
     #
     def _updateObjectOptionKwargs(self):
         objectLis = self._toNodeLis([self._groupString, self._setString])
         if objectLis:
-            self._commandOptionKwargs.pop(self.MaFileExportAllOption)
-            self._commandOptionKwargs[self.MaFileExportSelectedOption] = True
+            self._commandOptionKwargs.pop(self.app_file_method.MaFileExportAllOption)
+            self._commandOptionKwargs[self.app_file_method.MaFileExportSelectedOption] = True
             #
             self.setNodeSelect(objectLis, noExpand=True)
     #
     def run(self):
         self._updateObjectOptionKwargs()
         # Export
-        temporaryOsFile = self.getOsTemporaryFile(self._fileString)
-        self.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
-        self.setOsFileCopy(temporaryOsFile, self._fileString)
+        temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
+        self.app_file_method.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
+        self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
 
 
 #

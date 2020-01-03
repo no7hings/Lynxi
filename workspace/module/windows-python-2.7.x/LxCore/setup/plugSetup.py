@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset import plugPr
 #
@@ -13,7 +13,7 @@ def setMayaPlugSetup():
     if lxBasic.isMayaApp():
         from LxUi.qt import qtTip  # import in Method
 
-        isMayaPlugLoaded = lxConfigure.getLxVariantValue(IsMayaPlugLoadKey)
+        isMayaPlugLoaded = lxCore_.getLxVariantValue(IsMayaPlugLoadKey)
         # Value is True, False or None
         if isMayaPlugLoaded is not True:
             from LxMaya.command import maUtils, maRender
@@ -40,4 +40,4 @@ def setMayaPlugSetup():
             currentRenderer = projectPr.getProjectMayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)
         #
-        lxConfigure.setLxVariantValue(IsMayaPlugLoadKey, True)
+        lxCore_.setLxVariantValue(IsMayaPlugLoadKey, True)

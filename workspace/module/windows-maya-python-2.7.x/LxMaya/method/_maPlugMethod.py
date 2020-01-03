@@ -6,13 +6,13 @@ from LxCore.method import _osMethod
 #
 from LxMaya.method.config import _maConfig
 #
-from LxMaya.method import _maMethod
-#
 from LxMaya.method.basic import _maMethodBasic
+#
+from LxMaya.method import _maMethod
 
 
 #
-class MaAlembicCacheMethod(_maMethodBasic.MaPlugMethodBasic, _maMethod.MaFileMethod, _maConfig.MaPlugConfig):
+class Mtd_MaAbcCache(_maMethodBasic.Mtd_MaPlug):
     FileKey = '-file'
     FrameRangeKey = '-frameRange'
     StepKey = '-step'
@@ -54,6 +54,9 @@ class MaAlembicCacheMethod(_maMethodBasic.MaPlugMethodBasic, _maMethod.MaFileMet
         OgawaDataFormat,
         HDF5DataFormat
     ]
+
+    file_method = _maMethod.MaFileMethod
+
     @classmethod
     def getAbcCacheNodeLis(cls):
         pass
@@ -71,11 +74,11 @@ class MaAlembicCacheMethod(_maMethodBasic.MaPlugMethodBasic, _maMethod.MaFileMet
         cls.loadAppPlug(cls.MaPlugName_AlembicExport)
         #
         if cls.isOsExistsFile(fileString):
-            cls.setFileImport(fileString, namespace)
+            cls.file_method.setFileImport(fileString, namespace)
 
 
 #
-class MaGpuCacheMethod(_maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod, _maConfig.MaPlugConfig):
+class MaGpuCacheMethod(_maMethodBasic.Mtd_MaPlug):
     MaDefGpuCacheExportKwargs = dict(
         startTime=0,
         endTime=0,
@@ -84,6 +87,8 @@ class MaGpuCacheMethod(_maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod,
         optimize=True,
         writeMaterials=True,
     )
+
+    file_method = _osMethod.OsFileMethod
     @classmethod
     def gpuCacheExportCommand(cls, fileString, groupString=None, optionKwargs=None):
         cls.loadAppPlug(cls.MaPlugName_GpuCache)
@@ -91,7 +96,7 @@ class MaGpuCacheMethod(_maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod,
         if optionKwargs is None:
             optionKwargs = cls.MaDefGpuCacheExportKwargs.copy()
         #
-        directory, fileName = cls.getOsFileDirname(fileString), cls.getOsFileName(fileString)
+        directory, fileName = cls.file_method.getOsFileDirname(fileString), cls.file_method.getOsFileName(fileString)
         #
         if groupString is None:
             optionKwargs['allDagObjects'] = True
@@ -112,7 +117,7 @@ class MaGpuCacheMethod(_maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod,
         cls.loadAppPlug(cls.MaPlugName_GpuCache)
         #
         if cls.isOsExist(fileString):
-            transformName = cls.getOsFileName(fileString)
+            transformName = cls.file_method.getOsFileName(fileString)
             if namespace is not None:
                 pass
             shapeName = transformName + 'Shape'
@@ -123,7 +128,8 @@ class MaGpuCacheMethod(_maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod,
 
 
 #
-class MaProxyCacheMethod(_maMethodBasic.MaMethodBasic, _maMethodBasic.MaPlugMethodBasic, _osMethod.OsFileMethod, _maConfig.MaPlugConfig):
+class MaProxyCacheMethod(_maMethodBasic.Mtd_MaPlug):
+    app_method = _maMethodBasic.Mtd_AppMaya
     MaDefArnoldProxyExportKwargs = dict(
         type='ASS Export',
         options='-mask 255;-lightLinks 1;-shadowLinks 1;',
@@ -133,6 +139,9 @@ class MaProxyCacheMethod(_maMethodBasic.MaMethodBasic, _maMethodBasic.MaPlugMeth
         preserveReferences=False,
         exportAll=True
     )
+
+    file_method = _osMethod.OsFileMethod
+
     @classmethod
     def arnoldProxyExportCommand(cls, fileString, groupString=None, optionKwargs=None):
         cls.loadAppPlug(cls.MaPlugName_Arnold)
@@ -155,7 +164,8 @@ class MaProxyCacheMethod(_maMethodBasic.MaMethodBasic, _maMethodBasic.MaPlugMeth
 
 
 #
-class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.MaPlugMethodBasic, _osMethod.OsMultFileMethod, _maConfig.MaPlugConfig, _maConfig.MaYetiPlugConfig):
+class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.Mtd_MaPlug, _maConfig.MaPlugConfig, _maConfig.MaYetiPlugConfig):
+    file_method = _osMethod.OsMultFileMethod
     @staticmethod
     def getYetiTextureNodeLis(yetiShape):
         return cmds.pgYetiGraph(yetiShape, listNodes=1, type='texture')
@@ -232,7 +242,8 @@ class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.MaPlugM
 
 
 #
-class MaYetiGraphObjectMethod(MaYetiObjectMethod, _maMethodBasic.MaSetMethodBasic):
+class MaYetiGraphObjectMethod(MaYetiObjectMethod):
+    set_method = _maMethodBasic.MaSetMethodBasic
     @classmethod
     def getYetiShapeLisByImportShape(cls, importType, importParam):
         if importType == cls.MaYetiImportType_Geometry:
@@ -271,7 +282,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod, _maMethodBasic.MaSetMethodBasi
     def setYetiHairGraphRename(cls, importType, importGuideUniqueId, nameSet):
         if importType == cls.MaYetiImportType_Guide:
             importGuide = cls.getNodeByUniqueId(importGuideUniqueId)
-            hairOutputCurveObjectLis = cls.getNodeLisBySet(importGuide)
+            hairOutputCurveObjectLis = cls.set_method.getNodeLisBySet(importGuide)
             if hairOutputCurveObjectLis:
                 for subSeq, hairOutputCurveObject in enumerate(hairOutputCurveObjectLis):
                     newHairOutputCurveObjectName = cls._toLynxiHairOutputCurveObjectName(nameSet, subSeq)
@@ -284,7 +295,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod, _maMethodBasic.MaSetMethodBasi
             yetiObjectName = cls._toNodeName(yetiObjectPath)
             importGuide = cls.getNodeByUniqueId(importGuideUniqueId)
             #
-            hairOutputCurveObjectLis = cls.getNodeLisBySet(importGuide)
+            hairOutputCurveObjectLis = cls.set_method.getNodeLisBySet(importGuide)
             #
             if hairOutputCurveObjectLis:
                 subGuideGroupName = cls.lxGroupName(yetiObjectName)
@@ -408,7 +419,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod, _maMethodBasic.MaSetMethodBasi
                             #
                             importGuideName = cls.lxSetName(importType)
                             subImportGuideName = cls.lxSetName(yetiObjectName)
-                            cls.setSetPathCreate(cls.Ma_Separator_Set.join([yetiFurSetName, importGuideName, subImportGuideName, importGuide]))
+                            cls.set_method.setSetPathCreate(cls.Ma_Separator_Set.join([yetiFurSetName, importGuideName, subImportGuideName, importGuide]))
                             #
                             cls.setYetiHairGraphCollection(yetiObjectUniqueId, importType, importGuideUniqueId, rootGroupPath)
             #
@@ -473,7 +484,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
             if mapNodeLis:
                 for yetiTextureNode in mapNodeLis:
                     osImageFile = cls.getYetiTextureParam(yetiShape, yetiTextureNode)
-                    subMapFileLis = cls.getOsUdimFileSubFileLis(osImageFile)
+                    subMapFileLis = cls.file_method.getOsUdimFileSubFileLis(osImageFile)
                     if subMapFileLis:
                         for subMapFile in subMapFileLis:
                             if not subMapFile in lis:
@@ -518,7 +529,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         def setBranch(sourceOsFile, targetOsFile):
             cls.updateProgress()
             #
-            cls.setOsFileCopy(sourceOsFile, targetOsFile)
+            cls.file_method.setOsFileCopy(sourceOsFile, targetOsFile)
             cls.traceMessage(u'//Result : Copy {} > {}//'.format(sourceOsFile, targetOsFile))
         #
         osFileLis = cls.getYetiTextureLisByYetiObjectForCollection(yetiObject)
@@ -526,7 +537,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         if backupExists is True:
             pass
         #
-        osFileCollectionDatumLis = cls.getOsFileCollectionDatumLis(osFileLis, targetOsPath, ignoreMtimeChanged, ignoreExists)
+        osFileCollectionDatumLis = cls.file_method.getOsFileCollectionDatumLis(osFileLis, targetOsPath, ignoreMtimeChanged, ignoreExists)
         if osFileCollectionDatumLis:
             cls.viewProgress(u'Collection Yeti Texture', maxValue=len(osFileCollectionDatumLis))
             [setBranch(i, j) for i, j in osFileCollectionDatumLis]
@@ -539,17 +550,17 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
             def getBranch(yetiShape, yetiTextureNode, osImageFile):
                 cls.updateProgress()
                 #
-                targetOsImageFile = cls.getOsTargetFile(osImageFile, targetOsPath)
+                targetOsImageFile = cls.file_method.getOsTargetFile(osImageFile, targetOsPath)
                 #
                 enable = False
                 if ignoreExists is True:
                     enable = True
                 else:
-                    if cls.isOsExistsMultiFile(targetOsImageFile):
+                    if cls.file_method.isOsExistsMultiFile(targetOsImageFile):
                         enable = True
                 #
                 if enable is True:
-                    if not cls.isOsSameFile(osImageFile, targetOsImageFile):
+                    if not cls.file_method.isOsSameFile(osImageFile, targetOsImageFile):
                         lis.append((yetiShape, yetiTextureNode, targetOsImageFile))
             #
             lis = []

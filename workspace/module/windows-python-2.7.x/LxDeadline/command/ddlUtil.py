@@ -1,7 +1,9 @@
 # coding=utf-8
 from subprocess import Popen, PIPE
 #
-from LxCore import lxBasic, lxConfigure
+from LxBasic import bscCore
+#
+from LxCore import lxBasic
 #
 none = ''
 
@@ -54,7 +56,7 @@ def getDdlSubmitInfo(*keys):
                     if isinstance(resultData, dict):
                         lis.append(resultData[key])
                     else:
-                        lxConfigure.Message().traceError(resultData)
+                        bscCore.Py_Message().traceError(resultData)
     #
     return lis
 
@@ -98,26 +100,26 @@ def getPlugEvn(projectName):
 
 #
 def getDdlFrameArg(frameLis):
-    return 'Frames={}'.format(','.join([str(i) for i in frameLis]))
+    return u'Frames={}'.format(','.join([str(i) for i in frameLis]))
 
 
 #
 def getDdlCameraArgs(cameraLis):
-    return [('Camera{}={}'.format(seq, i)) for seq, i in enumerate(cameraLis)]
+    return [(u'Camera{}={}'.format(seq, i)) for seq, i in enumerate(cameraLis)]
 
 
 #
 def getDdlComposeFileArgLis(composeFileLis):
-    return ['AWSAssetFile{}={}'.format(seq, i) for seq, i in enumerate(composeFileLis)]
+    return [u'AWSAssetFile{}={}'.format(seq, i) for seq, i in enumerate(composeFileLis)]
 
 
 #
 def getDdlImageFileArgLis(imageFileLis):
-    return ['OutputFilename{}={}'.format(seq, i) for seq, i in enumerate(imageFileLis)]
+    return [u'OutputFilename{}={}'.format(seq, i) for seq, i in enumerate(imageFileLis)]
 
 
 #
-def getDdlInfoData(
+def getDdlInfoRaw(
         batchName, jobName, batchType,
         frames,
         pool,
@@ -127,36 +129,36 @@ def getDdlInfoData(
         composeFiles,
         imageFiles
 ):
-    args = [
-        'BatchName={}'.format(batchName),
-        'Name={}'.format(jobName),
-        'Plugin={}'.format(batchType),
-        'Comment=',
-        'Pool={}'.format(pool),
-        'SecondaryPool=none',
-        'Priority={}'.format(jobPriority),
-        'OnJobComplete=Nothing',
-        'TaskTimeoutMinutes={}'.format(taskTimeout),
-        'MinRenderTimeMinutes=0',
-        'EnableAutoTimeout=0',
-        'ConcurrentTasks=1',
-        'Department=',
-        'Group=none',
-        'MachineLimit={}'.format(machineLimit),
-        'LimitGroups=',
-        'JobDependencies=',
-        'IsFrameDependent=0',
-        'ChunkSize=1',
-        'Whitelist=',
+    lis = [
+        u'BatchName={}'.format(batchName),
+        u'Name={}'.format(jobName),
+        u'Plugin={}'.format(batchType),
+        u'Comment=',
+        u'Pool={}'.format(pool),
+        u'SecondaryPool=none',
+        u'Priority={}'.format(jobPriority),
+        u'OnJobComplete=Nothing',
+        u'TaskTimeoutMinutes={}'.format(taskTimeout),
+        u'MinRenderTimeMinutes=0',
+        u'EnableAutoTimeout=0',
+        u'ConcurrentTasks=1',
+        u'Department=',
+        u'Group=none',
+        u'MachineLimit={}'.format(machineLimit),
+        u'LimitGroups=',
+        u'JobDependencies=',
+        u'IsFrameDependent=0',
+        u'ChunkSize=1',
+        u'Whitelist=',
         getDdlFrameArg(frames)
     ]
-    args.extend(getDdlComposeFileArgLis(composeFiles))
-    args.extend(getDdlImageFileArgLis(imageFiles))
-    return '\r\n'.join(args)
+    lis.extend(getDdlComposeFileArgLis(composeFiles))
+    lis.extend(getDdlImageFileArgLis(imageFiles))
+    return '\r\n'.join(lis)
 
 
 #
-def getDdlJobData(
+def getDdlJobRaw(
         isAnimationEnable,
         isRenderLayerEnable, isRenderSetupEnable,
         renderer,
@@ -169,37 +171,35 @@ def getDdlJobData(
         arnoldVerbose,
         melCommand
 ):
-    args = [
-        'Animation={}'.format([0, 1][isAnimationEnable]),
-        'Renderer={}'.format(renderer),
-        'UsingRenderLayers={}'.format([0, 1][isRenderLayerEnable]),
-        'UseLegacyRenderLayers={}'.format([1, 0][isRenderSetupEnable]),
-        'RenderLayer={}'.format(currentRenderLayer),
-        'RenderHalfFrames=0',
-        'FrameNumberOffset=0',
-        'LocalRendering=0',
-        'StrictErrorChecking=1',
-        'MaxProcessors=0',
-        'ArnoldVerbose={}'.format(arnoldVerbose),
-        'Version={}'.format(mayaVersion),
-        'Build={}'.format(['32bit', '64bit'][is64]),
-        'ProjectPath={}'.format(scenePath),
-        'StartupScript=',
-        'ImageWidth={}'.format(width),
-        'ImageHeight={}'.format(height),
-        'OutputFilePath={}'.format(imagePath),
-        'OutputFilePrefix={}'.format(imagePrefix),
-        'SceneFile={}'.format(sceneFile),
-        'IgnoreError211=0',
-        'UseLocalAssetCaching=0',
-        'Camera={}'.format(currentCamera),
-        'CountRenderableCameras={}'.format(len(renderableCameras)),
-        'CommandLineOptions={}'.format(melCommand)
+    lis = [
+        u'Animation={}'.format([0, 1][isAnimationEnable]),
+        u'Renderer={}'.format(renderer),
+        u'UsingRenderLayers={}'.format([0, 1][isRenderLayerEnable]),
+        u'UseLegacyRenderLayers={}'.format([1, 0][isRenderSetupEnable]),
+        u'RenderLayer={}'.format(currentRenderLayer),
+        u'RenderHalfFrames=0',
+        u'FrameNumberOffset=0',
+        u'LocalRendering=0',
+        u'StrictErrorChecking=1',
+        u'MaxProcessors=0',
+        u'ArnoldVerbose={}'.format(arnoldVerbose),
+        u'Version={}'.format(mayaVersion),
+        u'Build={}'.format(['32bit', '64bit'][is64]),
+        u'ProjectPath={}'.format(scenePath),
+        u'StartupScript=',
+        u'ImageWidth={}'.format(width),
+        u'ImageHeight={}'.format(height),
+        u'OutputFilePath={}'.format(imagePath),
+        u'OutputFilePrefix={}'.format(imagePrefix),
+        u'SceneFile={}'.format(sceneFile),
+        u'IgnoreError211=0',
+        u'UseLocalAssetCaching=0',
+        u'Camera={}'.format(currentCamera),
+        u'CountRenderableCameras={}'.format(len(renderableCameras)),
+        u'CommandLineOptions={}'.format(melCommand)
     ]
-    #
-    args.extend(getDdlCameraArgs(cameras))
-    #
-    return '\r\n'.join(args)
+    lis.extend(getDdlCameraArgs(cameras))
+    return '\r\n'.join(lis)
 
 
 # Get Deadline's Data
@@ -220,7 +220,7 @@ def getDdlMayaBatchData(
         arnoldVerbose,
         melCommand
 ):
-    infoData = getDdlInfoData(
+    infoData = getDdlInfoRaw(
         batchName=batchName,
         jobName=jobName,
         batchType=batchType,
@@ -232,7 +232,7 @@ def getDdlMayaBatchData(
         composeFiles=composeFiles,
         imageFiles=imageFiles
     )
-    jobData = getDdlJobData(
+    jobData = getDdlJobRaw(
         isAnimationEnable=isAnimationEnable,
         isRenderLayerEnable=isRenderLayerEnable,
         isRenderSetupEnable=isRenderSetupEnable,

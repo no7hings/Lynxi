@@ -5,16 +5,17 @@ from LxCore.config import appConfig
 
 from LxCore.method.basic import _methodBasic
 
-from LxUi import uiConfigure
+from LxUi import uiCore
 
 from LxUi.qt import qtWidgets, qtCore
 
 
 class QtViewMethod(
-    uiConfigure.Basic,
-    _methodBasic.LxPathMethodBasic,
+    uiCore.Basic,
     appConfig.LxUiConfig
 ):
+    plf_file_method = _methodBasic.Mtd_PlfFile
+    dat_path_method = _methodBasic.Mtd_Path
     @classmethod
     def setTreeView(cls, treeBox, treeViewBuildDic, branchViewMethod=None, expandedDic=None):
         def setBranch(parentData):
@@ -55,6 +56,7 @@ class QtViewMethod(
         rootData = treeViewBuildDic.keys()[0]
         if rootData:
             setBranch(rootData)
+
     @classmethod
     def setTreeViewListOsFile(cls, treeView, pathString):
         def branchViewMethod(*args):
@@ -62,8 +64,8 @@ class QtViewMethod(
             osPath = treeItem.path[1:]
             osName = treeItem.name
             #
-            if cls.isOsExist(osPath):
-                if cls.isOsPath(osPath):
+            if cls.plf_file_method.isOsExist(osPath):
+                if cls.plf_file_method.isOsPath(osPath):
                     if ':' in osName:
                         iconKeyword = 'svg_basic@svg#server_root'
                     else:
@@ -79,18 +81,15 @@ class QtViewMethod(
         #
         pathsep = cls.OsFileSep
         #
-        treeViewPathLis = cls._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
+        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)
 
     @classmethod
     def setTreeViewListInspection(cls, treeView, checkConfigDic, methodDic, checkObjectLis):
-        def setBranch(seq, key, value):
-            def setErrorObject():
-                pass
-            #
+        def setBranch(key, value):
             enable, enExplain, chExplain = value
             treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
@@ -108,7 +107,6 @@ class QtViewMethod(
                 iconKeyword = 'check#checkOff'
             #
             treeItem.setIcon(iconKeyword)
-            # treeItem.setIcon(cls._lxMayaSvgIconKeyword('mesh'), iconWidth=20, iconHeight=20)
         #
         def setAction():
             actionDatumLis = [
@@ -122,6 +120,6 @@ class QtViewMethod(
         treeView.setColorEnable(True)
         #
         for s, (k, v) in enumerate(checkConfigDic.items()):
-            setBranch(s, k, v)
+            setBranch(k, v)
         #
         setAction()

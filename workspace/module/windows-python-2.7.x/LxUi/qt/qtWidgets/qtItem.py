@@ -2,11 +2,11 @@
 #
 from LxCore import lxBasic
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtModelBasic, qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtModelAbstract, qtWidgetAbstract
 #
 from LxUi.qt.qtModels import qtItemModel
 
@@ -14,7 +14,7 @@ from LxUi.qt.qtModels import qtItemModel
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 
 
 #
@@ -103,6 +103,8 @@ class QtMessageWidget(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         borderWidth = 2
         borderRadius = 10
         #
@@ -261,6 +263,8 @@ class QtMessageWidget(qtCore.QWidget):
                 if isSelected:
                     painter.setPenWidth(2)
                 painter.drawEllipse(rect)
+
+        # painter.end()
     #
     def setDatumLis(self, messages, width=200, height=200):
         self._messages = self.getDrawDatum(messages, width, height)
@@ -300,7 +304,7 @@ class QtMessageWidget(qtCore.QWidget):
                         xPos_, yPos, explainWidth, frameHeight
                     )
                     textOption = QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter
-                    lis.append((self.DrawText, (textRect, textOption, lxBasic._toStringPrettify(explain) + ' : '), False))
+                    lis.append((self.DrawText, (textRect, textOption, lxBasic.str_camelcase2prettify(explain) + ' : '), False))
                     xPos_ += explainWidth
                     # Text
                     textRect = QtCore.QRect(
@@ -517,7 +521,7 @@ class QtMessageWidget(qtCore.QWidget):
                                     strExplains.append(j)
                                 elif isinstance(j, tuple) or isinstance(j, list):
                                     startFrame, endFrame = j
-                                    leftExplain = lxBasic.frameToTime(endFrame - startFrame)
+                                    leftExplain = lxBasic.int_frame2time(endFrame - startFrame)
                                     leftTextOption = QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
                                     self._leftTextDrawData = leftTextOption, leftExplain, False
                                     #
@@ -637,7 +641,7 @@ class QtMessageWidget(qtCore.QWidget):
 
 
 #
-class QtFilterCheckbutton(qtWidgetBasic._QtItemBasic):
+class QtFilterCheckbutton(qtWidgetAbstract.Abc_QtItem):
     itemSize = 20, 20
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
@@ -662,6 +666,7 @@ class QtFilterCheckbutton(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -713,11 +718,13 @@ class QtFilterCheckbutton(qtWidgetBasic._QtItemBasic):
                 self.itemModel()._uiSubNameRect,
                 textOption, self.itemModel()._uiSubNameText
             )
+
+        # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _toolActionDropAction(self):
         pass
     #
@@ -773,7 +780,7 @@ class QtFilterCheckbutton(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtCheckbutton(qtWidgetBasic._QtItemBasic):
+class QtCheckbutton(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -794,6 +801,7 @@ class QtCheckbutton(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Check
         if self.itemModel().isCheckEnable() is True:
             painter.setDrawImage(
@@ -820,6 +828,8 @@ class QtCheckbutton(qtWidgetBasic._QtItemBasic):
                 textOption,
                 self.itemModel().drawNameText()
             )
+
+        # painter.end()
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=20, frameHeight=20):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -836,7 +846,7 @@ class QtCheckbutton(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtRadioCheckbutton(qtWidgetBasic._QtItemBasic):
+class QtRadioCheckbutton(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -863,6 +873,7 @@ class QtRadioCheckbutton(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Check
         if self.itemModel().isCheckEnable() is True:
             painter.setDrawImage(
@@ -889,6 +900,8 @@ class QtRadioCheckbutton(qtWidgetBasic._QtItemBasic):
                 textOption,
                 self.itemModel().drawNameText()
             )
+
+        # painter.end()
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=20, frameHeight=20):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -905,7 +918,7 @@ class QtRadioCheckbutton(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtEnablebutton(qtWidgetBasic._QtItemBasic):
+class QtEnablebutton(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -919,6 +932,7 @@ class QtEnablebutton(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Icon
         if self.itemModel().icon() is not None:
             painter.setDrawImage(
@@ -931,6 +945,8 @@ class QtEnablebutton(qtWidgetBasic._QtItemBasic):
                 self.itemModel().checkRect(),
                 self.itemModel()._uiCheckIcon
             )
+
+        # painter.end()
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=24, frameHeight=24):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -946,7 +962,7 @@ class QtEnablebutton(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtValueEnterlabel(qtWidgetBasic._QtValueEnterlabelBasic):
+class QtValueEnterlabel(qtWidgetAbstract.Abc_QtValueEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -957,7 +973,7 @@ class QtValueEnterlabel(qtWidgetBasic._QtValueEnterlabelBasic):
 
 
 #
-class QtFilterEnterlabel(qtWidgetBasic._QtFilterEnterlabelBasic):
+class QtFilterEnterlabel(qtWidgetAbstract.Abc_QtFilterEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -973,7 +989,7 @@ class QtFilterEnterlabel(qtWidgetBasic._QtFilterEnterlabelBasic):
 
 
 #
-class QtEnterlabel(qtWidgetBasic._QtEnterlabelBasic):
+class QtEnterlabel(qtWidgetAbstract.Abc_QtEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -985,7 +1001,7 @@ class QtEnterlabel(qtWidgetBasic._QtEnterlabelBasic):
 
 
 #
-class QtEnterbox(qtWidgetBasic._QtEnterlabelBasic):
+class QtEnterbox(qtWidgetAbstract.Abc_QtEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1003,7 +1019,7 @@ class QtEnterbox(qtWidgetBasic._QtEnterlabelBasic):
 
 
 #
-class QtIconbutton(qtWidgetBasic._QtIconbuttonBasic):
+class QtIconbutton(qtWidgetAbstract.Abc_QtIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1019,7 +1035,7 @@ class QtIconbutton(qtWidgetBasic._QtIconbuttonBasic):
 
 
 #
-class QtMenuIconbutton(qtWidgetBasic._QtMenuIconbuttonBasic):
+class QtMenuIconbutton(qtWidgetAbstract.Abc_QtMenuIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1037,7 +1053,7 @@ class QtMenuIconbutton(qtWidgetBasic._QtMenuIconbuttonBasic):
 
 
 #
-class QtPressbutton(qtWidgetBasic._QtItemBasic):
+class QtPressbutton(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1107,6 +1123,7 @@ class QtPressbutton(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         painter.setRenderHint(painter.Antialiasing)
         borderWidth = 1
         borderRadius = 4
@@ -1178,11 +1195,13 @@ class QtPressbutton(qtWidgetBasic._QtItemBasic):
                     textOption,
                     self.itemModel().percentText()
                 )
+
+        # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _toolActionDropAction(self):
         pass
     #
@@ -1224,11 +1243,11 @@ class QtPressbutton(qtWidgetBasic._QtItemBasic):
         self.itemModel().setPercentRest()
     #
     def setupUi(self):
-        self._itemModel = qtModelBasic.QtPressbuttonModel(self)
+        self._itemModel = qtModelAbstract.QtPressbuttonModel(self)
 
 
 #
-class QtTreeviewItem(qtWidgetBasic._QtTreeviewItemBasic):
+class QtTreeviewItem(qtWidgetAbstract.Abc_QtTreeviewItem):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1239,7 +1258,7 @@ class QtTreeviewItem(qtWidgetBasic._QtTreeviewItemBasic):
 
 
 #
-class QtGridviewItem(qtWidgetBasic._QtItemBasic):
+class QtGridviewItem(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1287,6 +1306,7 @@ class QtGridviewItem(qtWidgetBasic._QtItemBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # noinspection PyArgumentEqualDefault
         painter.setFont(qtCore.xFont(size=8, weight=50, italic=False, family=_families[0]))
         # Shadow
@@ -1359,11 +1379,13 @@ class QtGridviewItem(qtWidgetBasic._QtItemBasic):
         if self.itemModel()._uiImage is not None:
             image = QtGui.QPixmap(self.itemModel()._uiImage)
             painter.drawPixmap(self.itemModel()._imageRect, image)
+
+        # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -1411,7 +1433,7 @@ class QtGridviewItem(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtPresetviewItem(qtWidgetBasic._QtItemBasic):
+class QtPresetviewItem(qtWidgetAbstract.Abc_QtItem):
     indexChanged = qtCore.uiSignal()
     setChanged = qtCore.uiSignal()
     def __init__(self, *args, **kwargs):
@@ -1460,6 +1482,7 @@ class QtPresetviewItem(qtWidgetBasic._QtItemBasic):
     def paintEvent(self, event):
         if self.itemModel().itemLevel() == 0:
             painter = qtCore.QPainter_(self)
+            # painter.begin(self)  # fix
             # Background
             painter.setBackgroundRgba(self._uiBackgroundRgba)
             painter.setBorderRgba(self._uiBorderRgba)
@@ -1509,11 +1532,13 @@ class QtPresetviewItem(qtWidgetBasic._QtItemBasic):
                         textOption,
                         string
                     )
+
+            # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -1567,7 +1592,7 @@ class QtPresetviewItem(qtWidgetBasic._QtItemBasic):
             index, enable, description = indexLis
             self.setPresetIndex(index), self.setEnable(enable), self.setDescription(description)
             if useNiceName:
-                self.setNameText(self._toStringPrettify(index))
+                self.setNameText(self.str_camelcase2prettify(index))
     #
     def presetIndexDatum(self):
         key = self.name()
@@ -1652,7 +1677,7 @@ class QtPresetviewItem(qtWidgetBasic._QtItemBasic):
 
 
 #
-class QtRecordviewItemItem(qtWidgetBasic._QtItemBasic):
+class QtRecordviewItemItem(qtWidgetAbstract.Abc_QtItem):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1663,6 +1688,7 @@ class QtRecordviewItemItem(qtWidgetBasic._QtItemBasic):
 
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -1721,13 +1747,15 @@ class QtRecordviewItemItem(qtWidgetBasic._QtItemBasic):
                     textOption,
                     string
                 )
+
+        # painter.end()
     #
     def setupUi(self):
         self._itemModel = qtItemModel.QtRecordviewItemItemModel(self)
 
 
 #
-class QtTextBrower(qtWidgetBasic._QtTextBrowerBasic):
+class QtTextBrower(qtWidgetAbstract.Abc_QtTextBrower):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)

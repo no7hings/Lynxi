@@ -2,7 +2,6 @@
 from LxUi.qt import qtTip
 #
 from LxMaya.command import maUtils
-reload(maUtils)
 #
 selObj = maUtils.getSelectedObjects()
 attrName = 'ai_aov'

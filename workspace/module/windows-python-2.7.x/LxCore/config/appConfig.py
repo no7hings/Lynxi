@@ -22,7 +22,7 @@ def orderedDict(*args):
 
 
 #
-class LxConfigBasic(object):
+class Cfg_Basic(object):
     Folder_Basic = '.lynxi'
     LynxiOsFolder_Database = '.database'
     LynxiOsFolder_History = '.lxHistory'
@@ -63,7 +63,7 @@ class LxConfigBasic(object):
     #
     Key_Environ_Value = 'LYNXI_PATH'
     Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
-    Key_Environ_Path_Product = 'LYNXI_PRODUCT_PATH'
+    Key_Environ_Path_Product = 'LYNXI_PATH'
     #
     Lynxi_Key_Info_Namespace = 'namespace'
     #
@@ -90,7 +90,7 @@ class LxConfigBasic(object):
     def _toStringCapitalize(string):
         return string[0].upper() + string[1:] if string else string
     @classmethod
-    def _toStringPrettify(cls, string):
+    def str_camelcase2prettify(cls, string):
         return ' '.join([cls._toStringCapitalize(x) for x in re.findall('[a-zA-Z][a-z]*[0-9]*', string)])
     @classmethod
     def _stringToUniqueId(cls, string):
@@ -262,7 +262,7 @@ class LxConfigBasic(object):
     @classmethod
     def traceMessage(cls, text):
         if cls.LynxiEnable_Trance is True:
-            print u'# Lynxi {}'.format(cls.getOsActiveViewTime())
+            print u'# Lynxi <{}>'.format(cls.getOsActiveViewTime())
             print u'    {}'.format(text)
     @classmethod
     def traceResult(cls, text):
@@ -282,7 +282,7 @@ class LxConfigBasic(object):
 
 
 #
-class LxUiConfig(LxConfigBasic):
+class LxUiConfig(Cfg_Basic):
     LynxiUiName_ProjectMenu = 'lynxiProject'
     LynxiUiName_ToolMenu = 'lynxiTool'
     #
@@ -319,12 +319,12 @@ class LxUiConfig(LxConfigBasic):
     @classmethod
     def traceMessage(cls, text):
         if cls.LynxiEnable_Trance is True:
-            print u'# Lynxi {}'.format(cls.getOsActiveViewTime())
+            print u'# Lynxi <{}>'.format(cls.getOsActiveViewTime())
             print u'    {}'.format(text)
 
 
 #
-class LxDbConfig(LxConfigBasic):
+class LxDbConfig(Cfg_Basic):
     DbAssetRoot = appVariant.dbAssetRoot
     DbRoot_Basic = 'e:/myproject'
     #
@@ -401,12 +401,12 @@ class LxDbConfig(LxConfigBasic):
 
 
 #
-class LxDbUserConfig(LxConfigBasic):
+class LxDbUserConfig(Cfg_Basic):
     pass
 
 
 #
-class LxProductConfig(LxConfigBasic):
+class Cfg_Product(Cfg_Basic):
     # Module
     LynxiProduct_Module_Asset = 'asset'
     LynxiProduct_Module_Prefix_Asset = 'ast'
@@ -767,7 +767,7 @@ class LxProductConfig(LxConfigBasic):
 
 
 #
-class LxDbProductUnitConfig(LxDbConfig, LxProductConfig):
+class LxDbProductUnitConfig(LxDbConfig, Cfg_Product):
     @classmethod
     def dbProductUnitIndexFile(cls, productModule):
         return '{0}/{1}/{2}/{3}'.format(
@@ -783,17 +783,17 @@ class LxDbProductUnitConfig(LxDbConfig, LxProductConfig):
 
 
 #
-class LxProductPresetConfig(LxProductConfig):
+class LxProductPresetConfig(Cfg_Product):
     pass
 
 
 #
-class LxUnitConfig(LxConfigBasic):
+class LxUnitConfig(Cfg_Basic):
     pass
 
 
 #
-class LxAttributeConfig(LxConfigBasic):
+class LxAttributeConfig(Cfg_Basic):
     LynxiAttrName_NodeId = 'lxNodeId'
     LynxiAttrName_NodeName = 'lxNodeName'
     #
@@ -808,7 +808,7 @@ class LxAttributeConfig(LxConfigBasic):
 
 
 #
-class LxNodeConfig(LxConfigBasic):
+class LxNodeConfig(Cfg_Basic):
     LynxiKeyword_Rename = 'rename'
     #
     LynxiNamePrefix_Asset = 'ast'
@@ -901,5 +901,5 @@ class LxNodeConfig(LxConfigBasic):
 
 
 #
-class LxNodeGraphConfig(LxConfigBasic):
+class LxNodeGraphConfig(Cfg_Basic):
     pass

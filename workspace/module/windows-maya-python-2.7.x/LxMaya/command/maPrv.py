@@ -221,7 +221,7 @@ def makeSnapshot(
     # View Texture
     if useDefaultMaterial == 0:
         maUtils.setViewportTextureDisplayMode(animationPanel)
-    # Default Shader
+    # Default Nde_ShaderRef
     cmds.setAttr('lambert1.color', .5, .5, .5)
     # Background
     cmds.displayRGBColor('background', .25, .25, .25)
@@ -286,7 +286,7 @@ def makeSnapshot(
     # Display Mode
     if useDefaultMaterial == 0:
         maUtils.setViewportShaderDisplayMode(animationPanel)
-    # Default Shader
+    # Default Nde_ShaderRef
     cmds.setAttr('lambert1.color', .5, .5, .5)
     # Remove Widow
     removeMayaWindow(prvWindow)

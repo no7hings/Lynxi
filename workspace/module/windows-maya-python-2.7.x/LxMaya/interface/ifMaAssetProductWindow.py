@@ -1,12 +1,11 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxScheme
 #
 from LxCore.config import appCfg, assetCfg
 #
 from LxCore.preset import pipePr
 #
 from LxCore.preset.prod import projectPr, assetPr
-#
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress
 #
@@ -24,11 +23,11 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Asset Production'
-_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+_version = lxScheme.Python().version
 
 
 #
-class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
+class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfAssetProductToolWindow, self).__init__(parent)
@@ -92,7 +91,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
     # Hierarchy
     def setAstHierarchyBox(self, treeBox, explain):
         treeBox.setColumns_(
-            ['Group : Node', 'Node Type', 'Explain'],
+            ['Group : Nde_Node', 'Nde_Node Type', 'Explain'],
             self.widthSet * 2
         )
         self.rightToolboxGroup.setTitle('%s' % explain)
@@ -118,7 +117,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
             linkGroup = assetPr.astUnitLightLinkGroupName(assetName)
             #
         treeBox = self.treeBox
-        explain = '{} Hierarchy'.format(lxBasic._toStringPrettify(assetPr.getAssetLink(assetStage)))
+        explain = '{} Hierarchy'.format(lxBasic.str_camelcase2prettify(assetPr.getAssetLink(assetStage)))
         #
         self.setAstHierarchyBox(treeBox, explain)
         #
@@ -149,7 +148,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         assetVariant = self.assetVariant
         #
         treeBox = self.treeBox
-        explain = 'Geometry ( Contrast )'
+        explain = 'Nde_Geometry ( Contrast )'
         #
         self.setAstMeshConstantBox(treeBox, explain)
         # Use Model Group
@@ -170,7 +169,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         )
     #
     def setAstMeshTopoConstantBox(self, treeBox, explain):
-        treeBox.setColumns_(['Group : Node', 'Unique ID'], self.widthSet * 2)
+        treeBox.setColumns_(['Group : Nde_Node', 'Unique ID'], self.widthSet * 2)
         self.rightToolboxGroup.setTitle('%s' % explain)
     #
     def setAstMeshTopoConstantView(self):
@@ -242,7 +241,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         self.treeBox.clear()
         if inCheck:
             treeBox.setColumns_(
-                ['Inspection Item : Geometry', 'Explain'],
+                ['Inspection Item : Nde_Geometry', 'Explain'],
                 self.widthSet*2
             )
             self.setCheckInfoLabel(inCheck, outGeo, 'Model')
@@ -265,7 +264,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         inData = datAsset.getObjectNonZeroTransAttrDic(checkObjectLis)
         errorData = self.astMeshTransErrorData
         treeBox.setColumns_(
-            ['Geometry : Transformation', 'Channel - X', 'Channel - Y', 'Channel - Z'],
+            ['Nde_Geometry : Transformation', 'Channel - X', 'Channel - Y', 'Channel - Z'],
             self.widthSet*2
         )
         self.setCheckInfoLabel(checkObjectLis, outGeo, 'Transformation')
@@ -286,10 +285,10 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         errorData = self.astMeshGeomErrorData
         #
         treeBox.setColumns_(
-            ['Geometry : Component', 'Explain'],
+            ['Nde_Geometry : Component', 'Explain'],
             self.widthSet*2
         )
-        self.setCheckInfoLabel(checkObjectLis, outGeo, 'Geometry')
+        self.setCheckInfoLabel(checkObjectLis, outGeo, 'Nde_Geometry')
         inData = maMshGeomCheck.getAstMeshGeomCheckDataDic(checkObjectLis)
         #
         maAstTreeViewCmds.setAstMeshGeomCheckView(self, treeBox, inData, checkObjectLis, errorData)
@@ -309,7 +308,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
         errorData = self.astMeshHistoryErrorData
         #
         treeBox.setColumns_(
-            ['Geometry : Node', 'Node Type', 'Explain'],
+            ['Nde_Geometry : Nde_Node', 'Nde_Node Type', 'Explain'],
             self.widthSet * 2
         )
         self.setCheckInfoLabel(checkObjectLis, outGeo, 'History')
@@ -387,7 +386,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
     #
     def setAstTextureCheckBox(self, treeBox, explain):
         treeBox.setColumns_(
-            ['Folder > File > Node', 'Node Type', 'Local Time', 'Local Time ( tx )'],
+            ['Folder > File > Nde_Node', 'Nde_Node Type', 'Local Time', 'Local Time ( tx )'],
             self.widthSet * 2
         )
         self.rightToolboxGroup.setTitle(explain)
@@ -479,7 +478,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
     #
     def setShaderCheckBox(self, treeBox, explain):
         treeBox.setColumns_(
-            ['Shading Group : Node', 'Node Type', 'Explain'],
+            ['Shading Group : Nde_Node', 'Nde_Node Type', 'Explain'],
             self.widthSet * 2
         )
         self.rightToolboxGroup.setTitle(explain)
@@ -706,7 +705,7 @@ class IfAssetProductToolWindow(qtWidgets.UiToolWindow):
                 elif assetPr.isAstLightLink(assetStage):
                     self._initAstLightToolBar()
                 #
-                title = 'Asset {} Production'.format(lxBasic._toStringPrettify(self.assetLink))
+                title = 'Asset {} Production'.format(lxBasic.str_camelcase2prettify(self.assetLink))
                 self.setNameText(title)
             else:
                 self.setPlaceholderEnable(True)

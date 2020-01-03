@@ -3,11 +3,10 @@
 from LxUi.qt import qtWidgets, qtCore
 #
 from LxMaya.interface.ifWidgets import ifMaUtilToolUnit
-reload(ifMaUtilToolUnit)
 
 
 #
-class IfToolWindow(qtWidgets.UiToolWindow):
+class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
         self.tool = ifMaUtilToolUnit.IfNamespaceManagerUnit()

@@ -3,7 +3,7 @@ from LxCore import lxBasic
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtModelBasic
+from LxUi.qt.qtAbstracts import qtModelAbstract
 
 #
 QtGui = qtCore.QtGui
@@ -15,7 +15,7 @@ _rect = QtCore.QRect
 
 
 #
-class QtLayoutViewModel(qtModelBasic._QtViewModelBasic):
+class QtLayoutViewModel(qtModelAbstract.Abc_QtViewModel):
     Fixed = 0
     Minimum = 1
     Maximum = 4
@@ -95,13 +95,13 @@ class QtLayoutViewModel(qtModelBasic._QtViewModelBasic):
 
 
 #
-class QtScrollAreaModel(qtModelBasic._QtScrollAreaModelBasic):
+class QtScrollAreaModel(qtModelAbstract.Abc_QtScrollAreaModel):
     def __init__(self, widget):
         self._initScrollAreaBasic(widget)
 
 
 #
-class QtPresetviewModel(qtModelBasic._QtViewModelBasic):
+class QtPresetviewModel(qtModelAbstract.Abc_QtViewModel):
     def __init__(self, widget):
         self._initViewModelBasic(widget)
         #
@@ -123,7 +123,7 @@ class QtPresetviewModel(qtModelBasic._QtViewModelBasic):
 
 
 #
-class QtTreeviewModel(qtModelBasic._QtViewModelBasic):
+class QtTreeviewModel(qtModelAbstract.Abc_QtViewModel):
     def __init__(self, widget):
         self._initViewModelBasic(widget)
         #
@@ -142,7 +142,7 @@ class QtTreeviewModel(qtModelBasic._QtViewModelBasic):
 
 
 #
-class QtCheckviewModel(qtModelBasic._QtViewModelBasic):
+class QtCheckviewModel(qtModelAbstract.Abc_QtViewModel):
     def __init__(self, widget):
         self._initViewModelBasic(widget)
         #
@@ -163,7 +163,7 @@ class QtCheckviewModel(qtModelBasic._QtViewModelBasic):
 
 
 #
-class QtGridviewModel(qtModelBasic._QtViewModelBasic):
+class QtGridviewModel(qtModelAbstract.Abc_QtViewModel):
     def __init__(self, widget):
         self._initViewModelBasic(widget)
         #

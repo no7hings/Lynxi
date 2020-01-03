@@ -5,7 +5,7 @@ import maya.cmds as cmds
 #
 from random import choice
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset import appVariant
 #
@@ -29,7 +29,7 @@ none = ''
 
 
 #
-class IfAssemblyManagerWindow(qtWidgets.UiToolWindow):
+class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
     UnitScriptJobWindowName = 'assemblyManagerScriptJobWindow'
     # Scene Box
     dicSwitch = {
@@ -64,7 +64,7 @@ class IfAssemblyManagerWindow(qtWidgets.UiToolWindow):
         'primaryVisibilityOn': [1, 2, 0, 1, 3, 'Primary Visibility On'], 'primaryVisibilityOff': [1, 2, 3, 1, 3, 'Primary Visibility Off'],
         'castsShadowsOn': [1, 3, 0, 1, 3, 'Casts Shadows On'], 'castsShadowsOff': [1, 3, 3, 1, 3, 'Casts Shadows Off'],
         'receiveShadowsOn': [1, 4, 0, 1, 3, 'Receive Shadows On'], 'receiveShadowsOff': [1, 4, 3, 1, 3, 'Receive Shadows Off'],
-        'overrideOn': [1, 6, 0, 1, 3, 'Shader Override On'], 'overrideOff': [1, 6, 3, 1, 3, 'Shader Override Off'],
+        'overrideOn': [1, 6, 0, 1, 3, 'Nde_ShaderRef Override On'], 'overrideOff': [1, 6, 3, 1, 3, 'Nde_ShaderRef Override Off'],
         'useRed': [1, 7, 0, 1, 2, 'Red'], 'useGreen': [1, 7, 2, 1, 2, 'Green'], 'useBlue': [1, 7, 4, 1, 2, 'Blue'],
         #
         'lowQualityDisplayOn': [1, 9, 0, 1, 3, 'Low Quality Display On'],
@@ -721,16 +721,16 @@ class IfAssemblyManagerWindow(qtWidgets.UiToolWindow):
     def getAssetVariantLis(projectName, assetClass, assetName):
         lis = []
         osPath = assetPr.astUnitAssemblyFolder(
-            lxConfigure.LynxiRootIndex_Server, projectName, assetClass, assetName
+            lxCore_.LynxiRootIndex_Server, projectName, assetClass, assetName
         )
         if lxBasic.isOsExist(osPath):
             textLis = lxBasic.getOsFileBasenameLisByPath(osPath)
             if textLis:
                 for i in textLis:
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                        assetClass, assetName, i, lxCore_.LynxiProduct_Asset_Link_Assembly
                     )[1]
                     #
                     if lxBasic.isOsExist(adFile):
@@ -1275,8 +1275,8 @@ class IfAssemblyManagerWindow(qtWidgets.UiToolWindow):
                 #
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
                 osFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
-                    projectName, None, assetName, assetVariant, lxConfigure.LynxiProduct_Scene_Link_Light
+                    lxCore_.LynxiRootIndex_Server,
+                    projectName, None, assetName, assetVariant, lxCore_.LynxiProduct_Scene_Link_Light
                 )[1]
                 #
                 if os.path.isfile(osFile):

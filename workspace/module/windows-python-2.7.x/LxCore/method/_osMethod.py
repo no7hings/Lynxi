@@ -5,12 +5,12 @@ from LxCore.method.basic import _methodBasic
 
 
 #
-class OsFileMethod(_methodBasic.LxOsFileMethodBasic):
+class OsFileMethod(_methodBasic.Mtd_PlfFile):
     pass
 
 
 #
-class OsMultFileMethod(_methodBasic.LxOsFileMethodBasic):
+class OsMultFileMethod(_methodBasic.Mtd_PlfFile):
     OsMultiFileKeywordLis = [
         '<udim>',
         '%04d',
@@ -60,7 +60,7 @@ class OsMultFileMethod(_methodBasic.LxOsFileMethodBasic):
 
 
 #
-class OsYamlFileMethod(_methodBasic.LxOsFileMethodBasic):
+class OsYamlFileMethod(_methodBasic.Mtd_PlfFile):
     @classmethod
     def writeOsYaml(cls, data, osYamlFile):
         cls.setOsFileDirectoryCreate(osYamlFile)

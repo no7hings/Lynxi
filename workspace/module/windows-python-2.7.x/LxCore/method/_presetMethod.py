@@ -52,7 +52,7 @@ class LxPresetMethod(
                     #
                     uiKey = None
                     if isinstance(key, str) or isinstance(key, unicode):
-                        uiKey = cls._toStringPrettify(key)
+                        uiKey = cls.str_camelcase2prettify(key)
                     if isinstance(key, tuple):
                         key, uiKey = key
                     #

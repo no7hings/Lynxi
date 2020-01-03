@@ -3,11 +3,11 @@ from LxCore import lxBasic
 #
 from LxCore.config import appCfg
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
-_htmlColors = uiConfigure.Lynxi_Ui_Color_Html_Lis
+_htmlColors = uiCore.Lynxi_Ui_Color_Html_Lis
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 
 
 #

@@ -9,7 +9,7 @@ def hideShowCmd(operation, extend):
         'show': u'''dict(title=u"显示操作", message=u"确认要显示吗？", button=["Yes", "No"], defaultButton="No", cancelButton="No", dismissString="No")'''
     }
     if operation in operationDic:
-        uiMethod = _maMethodBasic.MaUiMethodBasic
+        uiMethod = _maMethodBasic.Mtd_MaUiBasic
         nodeMethod = _maMethodBasic.MaNodeMethodBasic
         hasSel = nodeMethod.getSelectedNodeLis() != []
         if hasSel is True:

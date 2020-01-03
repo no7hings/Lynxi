@@ -3,12 +3,12 @@ from LxCore.config import appConfig
 
 
 #
-class MaConfig(appConfig.LxConfigBasic):
+class MaConfig(appConfig.Cfg_Basic):
     Ma_Separator_Node = '|'
     Ma_Separator_Set = '>'
     Ma_Separator_Namespace = ':'
     Ma_Separator_Attribute = '.'
-    # Node Type
+    # Nde_Node Type
     MaNodeType_Transform = 'transform'
     MaNodeType_ShadingEngine = 'shadingEngine'
     MaNodeType_Mesh = 'mesh'
@@ -30,18 +30,22 @@ class MaConfig(appConfig.LxConfigBasic):
     MaDefaultMatrix = [1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0]
 
 
-#
-class MaProductConfig(appConfig.LxProductConfig):
+class Cfg_M2(appConfig.Cfg_Basic):
     pass
 
 
 #
-class MaAssemblyConfig(appConfig.LxConfigBasic):
+class MaProductConfig(appConfig.Cfg_Product):
     pass
 
 
 #
-class MaPlugConfig(appConfig.LxConfigBasic):
+class MaAssemblyConfig(appConfig.Cfg_Basic):
+    pass
+
+
+#
+class MaPlugConfig(appConfig.Cfg_Basic):
     MaPlugName_AlembicExport = 'AbcExport'
     MaPlugName_GpuCache = 'gpuCache'
     MaPlugName_Arnold = 'mtoa'
@@ -98,7 +102,7 @@ class MaUnitConfig(appConfig.LxUnitConfig):
 
 
 #
-class MaRenderConfig(appConfig.LxConfigBasic):
+class MaRenderConfig(appConfig.Cfg_Basic):
     # Renderer
     MaRenderer_Arnold = 'arnold'
     MaRenderer_Software = 'mayaSoftware'
@@ -202,7 +206,7 @@ class MaNodeConfig(appConfig.LxNodeConfig):
 
 
 #
-class MaLightNodeConfig(appConfig.LxConfigBasic):
+class MaLightNodeConfig(appConfig.Cfg_Basic):
     MaNodeTypeLis_LightDefaultSet_Except = [
         'aiLightDecay'
     ]
@@ -246,7 +250,7 @@ class MaNodeGraphConfig(appConfig.LxNodeGraphConfig):
 
 
 #
-class MaYetiPlugConfig(appConfig.LxConfigBasic):
+class MaYetiPlugConfig(appConfig.Cfg_Basic):
     MaYetiImportType_Geometry = 'yetiGeometry'
     MaYetiImportType_Groom = 'yetiGroom'
     MaYetiImportType_Guide = 'yetiGuide'
@@ -261,5 +265,5 @@ class MaYetiPlugConfig(appConfig.LxConfigBasic):
 
 
 #
-class MaArnoldPlugConfig(appConfig.LxConfigBasic):
+class MaArnoldPlugConfig(appConfig.Cfg_Basic):
     pass

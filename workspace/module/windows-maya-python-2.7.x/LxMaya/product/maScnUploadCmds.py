@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtLog, qtTip
 #
 from LxCore.preset import appVariant
@@ -17,8 +17,8 @@ from LxMaya.product import maAstUploadCmds, maScnLoadCmds
 from LxMaya.product.data import datScenery
 #
 #
-isSendMail = lxConfigure.LynxiIsSendMail
-isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
+isSendMail = lxCore_.LynxiIsSendMail
+isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 #
 none = ''
 
@@ -108,7 +108,7 @@ def scnUnitAssemblyUploadCmd(
     qtLog.viewStartUploadMessage(logWin)
     for i in methodDatumLis:
         explain, enable, method, args = i
-        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneryStage)))
+        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic.str_camelcase2prettify(sceneryStage)))
         if enable is not False:
             method(*args)
             qtLog.viewCompleteProcess(logWin)
@@ -146,7 +146,7 @@ def scnUnitAssemblySourceUploadCmd(
         description, notes
 ):
     backSourceFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        lxCore_.LynxiRootIndex_Backup, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backSourceFile, timeTag)
@@ -157,12 +157,12 @@ def scnUnitAssemblySourceUploadCmd(
     #
     dbBasic.writeDbSceneryUnitHistory(sceneryUnitIndex, linkFile)
     # Update Data >>> 02
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = lxCore_.lxProductRecordDatumDic(
         linkFile,
         sceneryStage,
         description, notes
     )
-    updateFile = lxConfigure._toLxProductRecordFile(linkFile)
+    updateFile = lxCore_._toLxProductRecordFile(linkFile)
     lxBasic.writeOsJson(updateData, updateFile)
 
 
@@ -175,12 +175,12 @@ def scnUnitAssemblyComposeUploadCmd(
         timeTag
 ):
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -202,12 +202,12 @@ def scnUnitAssemblyProductUploadCmd(
         timeTag
 ):
     serverFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -237,11 +237,11 @@ def scnUnitAssemblyPreviewUploadCmd(
         useDefaultMaterial=0
 ):
     serverFile = sceneryPr.scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
@@ -267,16 +267,16 @@ def scnUnitAssemblyDefinitionUploadCmd(
         timeTag
 ):
     serverFile = sceneryPr.scnUnitDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitDefinitionFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     serverProductFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     sceneryAdName = sceneryPr.scnAssemblyAdName(
@@ -302,12 +302,12 @@ def scnUnitAssemblySourceOpenCmd(
         timeTag
 ):
     localFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]

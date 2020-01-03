@@ -59,7 +59,7 @@ def getTemporaryOsFile(osFile):
 
 #
 def getDatabaseMainIndex(queryString):
-    basicUniqueId = lxBasic.getBasicUniqueId()
+    basicUniqueId = lxBasic._basicUniqueId()
     codeString = none
     if isinstance(queryString, str) or isinstance(queryString, unicode):
         codeString = str(queryString)

@@ -1,10 +1,10 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.preset import basicPr
 #
-serverBasicPath = lxConfigure.Root()._serverPath()
-productRoot = lxConfigure.Root()._productPath()
+serverBasicPath = lxScheme.Root().basic.server
+productRoot = lxScheme.Root().basic.product
 #
 _mayaVersion = lxBasic.getMayaAppVersion()
 #
@@ -15,13 +15,13 @@ none = ''
 
 #
 def getPipelinePresetVariantDic(pipelineScheme):
-    return basicPr.getGuidePresetVariantDic(lxConfigure.LynxiPipelinePresetKey, pipelineScheme)
+    return basicPr.getGuidePresetVariantDic(lxCore_.LynxiPipelinePresetKey, pipelineScheme)
 
 
 #
 def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     dic = lxBasic.orderedDict()
-    dic['config'] = basicPath + '/{0}'.format(lxConfigure.LynxiPresetKey)
+    dic['config'] = basicPath + '/{0}'.format(lxCore_.LynxiPresetKey)
     dic['environ'] = basicPath + '/preset/environ'
     dic['project'] = basicPath + '/preset/project'
     dic['team'] = basicPath + '/preset/team'
@@ -30,7 +30,7 @@ def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     dic['naming'] = basicPath + '/preset/naming'
     dic['software'] = basicPath + '/preset/software'
     
-    dic[lxConfigure.LynxiPresetKey] = basicPath + '/{0}/{1}'.format(lxConfigure.LynxiPresetKey, lxConfigure.LynxiKitPresetKey)
+    dic[lxCore_.LynxiPresetKey] = basicPath + '/{0}/{1}'.format(lxCore_.LynxiPresetKey, lxCore_.LynxiKitPresetKey)
     #
     dic['tool'] = basicPath + '/tool/maya'
     #
@@ -167,7 +167,7 @@ def objectShapePreset():
 
 #
 def mayaHelpDirectory(keyword):
-    osPath = '{0}/{1}/{2}/{3}'.format(serverBasicPath, 'doc', lxConfigure.Lynxi_App_Maya, keyword)
+    osPath = '{0}/{1}/{2}/{3}'.format(serverBasicPath, 'doc', lxCore_.Lynxi_App_Maya, keyword)
     return osPath
 
 

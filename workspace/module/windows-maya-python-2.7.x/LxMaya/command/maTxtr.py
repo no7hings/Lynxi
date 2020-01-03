@@ -7,7 +7,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 from PIL import Image
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
@@ -574,7 +574,7 @@ def getTextureIsCollection(sourceTextureFile, targetTexture):
 #
 def getTxTextureIsCollection(renderer):
     boolean = False
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         boolean = True
     #
     return boolean

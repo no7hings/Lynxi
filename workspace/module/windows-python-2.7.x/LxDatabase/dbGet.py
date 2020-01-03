@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import assetCfg
@@ -102,9 +102,9 @@ def getDbAssetIndex(projectName, assetName):
 def getDbAssetLinkIndex(assetIndex, assetVariant, assetStage, version=None):
     assetLinkIndex = assetIndex
     if assetPr.isAstModelLink(assetStage) or assetPr.isAstCfxLink(assetStage) or assetPr.isAstSolverLink(assetStage):
-        assetLinkIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Model, assetVariant])
+        assetLinkIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Model, assetVariant])
     elif assetPr.isAstRigLink(assetStage):
-        assetLinkIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Rig, version])
+        assetLinkIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Rig, version])
     #
     return assetLinkIndex
 
@@ -113,7 +113,7 @@ def getDbAssetLinkIndex(assetIndex, assetVariant, assetStage, version=None):
 def getDbAstModelIndex(assetIndex, assetVariant):
     string = none
     if assetIndex:
-        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Model, assetVariant])
+        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Model, assetVariant])
         if data:
             string = data
     return string
@@ -123,7 +123,7 @@ def getDbAstModelIndex(assetIndex, assetVariant):
 def getDbAstRigIndex(assetIndex, version='anim'):
     string = none
     if assetIndex:
-        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Rig, version])
+        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Rig, version])
         if data:
             string = data
     return string
@@ -133,7 +133,7 @@ def getDbAstRigIndex(assetIndex, version='anim'):
 def getDbCfxIndex(assetIndex, assetVariant):
     string = none
     if assetIndex:
-        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Cfx, assetVariant])
+        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Cfx, assetVariant])
         if data:
             string = data
     return string
@@ -143,7 +143,7 @@ def getDbCfxIndex(assetIndex, assetVariant):
 def getDbAstSolverIndex(assetIndex, assetVariant):
     string = none
     if assetIndex:
-        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Solver, assetVariant])
+        data = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Solver, assetVariant])
         if data:
             string = data
     return string
@@ -242,7 +242,7 @@ def dbAstRenderPreviewFile(assetIndex, assetVariant):
     string = none
     if assetIndex:
         directory = databasePr.dbAstPreviewDirectory()
-        assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Model, assetVariant])
+        assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxCore_.LynxiProduct_Asset_Link_Model, assetVariant])
         osFile = directory + '/' + assetSubIndex + appVariant.pngExt
         if lxBasic.isOsExist(osFile):
             string = osFile
@@ -386,14 +386,14 @@ def getDbModelUpdater(assetIndex, assetVariant):
 
 #
 def getDbModelStage(assetIndex, assetVariant):
-    string = lxConfigure.LynxiAstModelStages[0]
+    string = lxCore_.LynxiAstModelStages[0]
     isExistsDbMesh = isDbAstExistsGeometry(assetIndex)
     if isExistsDbMesh:
-        string = lxConfigure.LynxiAstModelStages[0]
+        string = lxCore_.LynxiAstModelStages[0]
         dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
         isExistsDbMaterial = isDbAstMaterialExists(dbModelIndex)
         if isExistsDbMaterial:
-            string = lxConfigure.LynxiAstModelStages[1]
+            string = lxCore_.LynxiAstModelStages[1]
     return string
 
 
@@ -581,9 +581,9 @@ def getNonExistsDbAovComp(dbSubIndex, objectIndexes):
 #
 def getAstUnitDbAssemblyUpdate(projectName, assetClass, assetName, assetVariant):
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
     )[1]
     return getFileUpdate(serverAstUnitAsbDefinitionFile)
 
@@ -636,14 +636,14 @@ def getDbCfxUpdater(assetIndex, assetVariant):
 
 #
 def getDbCfxStage(assetIndex, assetVariant):
-    string = lxConfigure.LynxiAstCfxStages[0]
+    string = lxCore_.LynxiAstCfxStages[0]
     dbCfxIndex = getDbCfxIndex(assetIndex, assetVariant)
     isExistsDbFur = getExistsDbFur(assetIndex, assetVariant)
     if isExistsDbFur:
-        string = lxConfigure.LynxiAstCfxStages[0]
+        string = lxCore_.LynxiAstCfxStages[0]
         isExistsDbFurMaterial = isDbAstMaterialExists(dbCfxIndex)
         if isExistsDbFurMaterial:
-            string = lxConfigure.LynxiAstCfxStages[1]
+            string = lxCore_.LynxiAstCfxStages[1]
     return string
 
 
@@ -718,13 +718,13 @@ def getDbSceneryUnitUpdater(assetIndex, assetVariant):
 
 #
 def getDbRigStage(assetIndex, assetVariant):
-    string = lxConfigure.LynxiAstRigStages[0]
+    string = lxCore_.LynxiAstRigStages[0]
     isExistsDbLayoutRig = getExistsDbRigAstIntFile(assetIndex, version='lay')
     if isExistsDbLayoutRig:
-        string = lxConfigure.LynxiAstRigStages[0]
+        string = lxCore_.LynxiAstRigStages[0]
         isExistsDbAnimRig = getExistsDbRigAstIntFile(assetIndex, version='anim')
         if isExistsDbAnimRig:
-            string = lxConfigure.LynxiAstRigStages[1]
+            string = lxCore_.LynxiAstRigStages[1]
     return string
 
 
@@ -996,11 +996,11 @@ def getDbAssetMeshCheck(assetIndex, assetVariant, assetLink):
     #
     sourceData = getDbMeshConstantData(assetIndex)
     assetSubIndex = assetIndex
-    if assetLink == lxConfigure.LynxiProduct_Asset_Link_Model:
+    if assetLink == lxCore_.LynxiProduct_Asset_Link_Model:
         assetSubIndex = getDbAstModelIndex(assetIndex, assetVariant)
-    elif assetLink == lxConfigure.LynxiProduct_Asset_Link_Cfx:
+    elif assetLink == lxCore_.LynxiProduct_Asset_Link_Cfx:
         assetSubIndex = getDbCfxIndex(assetIndex, assetVariant)
-    elif assetLink == lxConfigure.LynxiProduct_Asset_Link_Rig:
+    elif assetLink == lxCore_.LynxiProduct_Asset_Link_Rig:
         assetSubIndex = getDbAstRigIndex(assetIndex)
     #
     targetData = getDbMeshConstantData(assetSubIndex)

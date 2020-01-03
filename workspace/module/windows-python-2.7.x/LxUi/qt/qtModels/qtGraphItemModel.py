@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxUi.qt import qtDefinition, qtCore
 #
-from LxUi.qt.qtBasic import qtModelBasic, qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtModelAbstract, qtWidgetAbstract
 
 #
 
@@ -20,7 +20,7 @@ _path = QtGui.QPainterPath
 
 
 #
-class xGraphNodeItemModel(qtModelBasic._QtItemModelBasic):
+class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
     def __init__(self, widget):
         self._initItemModelBasic(widget)
         #
@@ -492,7 +492,7 @@ class xGraphNodeItemModel(qtModelBasic._QtItemModelBasic):
 
 
 #
-class xGraphGroupItemModel(qtModelBasic._QtItemModelBasic):
+class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
     def __init__(self, widget):
         self._initItemModelBasic(widget)
         #
@@ -827,7 +827,7 @@ class xGraphGroupItemModel(qtModelBasic._QtItemModelBasic):
 
 
 #
-class xGraphConnectionItemModel(qtModelBasic._QtItemModelBasic):
+class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
     def __init__(self, widget):
         self._initItemModelBasic(widget)
         #
@@ -1044,7 +1044,7 @@ class xGraphConnectionItemModel(qtModelBasic._QtItemModelBasic):
 
 
 #
-class xGraphExplainItemModel(qtModelBasic._QtItemModelBasic):
+class xGraphExplainItemModel(qtModelAbstract.Abc_QtItemModel):
     def __init__(self, widget, (pointClass, rectClass)):
         self._initItemModelBasic(widget)
         #
@@ -1308,13 +1308,13 @@ class xGraphAttributePortItemModel(
         self._updateQtPressStyle()
     #
     def setInputAttributes(self, attributes):
-        inputItem = qtWidgetBasic.QtAttributeItem()
+        inputItem = qtWidgetAbstract.QtAttributeItem()
         inputItemModel = inputItem.itemModel()
         inputItemModel.setName('input')
         self.addItem(inputItem)
         if attributes:
             for i in attributes:
-                attributeItem = qtWidgetBasic.QtAttributeItem()
+                attributeItem = qtWidgetAbstract.QtAttributeItem()
                 attributeItem.setName(i)
                 inputItem.addChild(attributeItem)
         #

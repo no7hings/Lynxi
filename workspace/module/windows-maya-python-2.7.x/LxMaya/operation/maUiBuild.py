@@ -5,12 +5,12 @@ from LxMaya.method import _maUiMethod
 
 
 #
-class MaUiMenuBuild(_maUiMethod.MaUiMenuMethod):
+class MaUiMenuBuild(_maUiMethod.Mtd_MaUiMenu):
     pass
 
 
 #
-class MaToolKitBuild(_maUiMethod.MaUiControlMethod):
+class MaToolKitBuild(_maUiMethod.Mtd_MaUiControl):
     def __init__(self):
         self._controlName = self.LynxiUiName_ToolKitPanel
     #

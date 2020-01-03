@@ -41,7 +41,7 @@ def setPipelinePath(osPath):
 
 # Set Pipeline Environ
 def setProductPath(osPath):
-    key = 'LYNXI_PRODUCT_PATH'
+    key = 'LYNXI_PATH'
     envData = os.environ.get(key)
     if envData:
         traceMessage = 'Exists - Environ [ %s ] : %s' % (key, osPath)

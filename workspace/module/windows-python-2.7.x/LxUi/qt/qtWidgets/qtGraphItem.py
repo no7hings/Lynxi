@@ -1,9 +1,9 @@
 # coding:utf-8
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 from LxUi.qt.qtModels import qtGraphItemModel
 #
@@ -19,7 +19,7 @@ _rectF = QtCore.QRectF
 _color = QtGui.QColor
 _path = QtGui.QPainterPath
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
@@ -76,6 +76,8 @@ class xGraphNodeItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHints(QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform)
         # Shadow
         painter.setBorderRgba((0, 0, 0, 64))
@@ -120,7 +122,9 @@ class xGraphNodeItem(qtCore.QWidget):
                 QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter,
                 qtCore.prettify(self._itemModel._type)
             )
-    @qtWidgetBasic.uiActionEventFilterMethod
+
+        # painter.end()
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
     #
@@ -210,6 +214,8 @@ class xGraphGroupItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHint(painter.Antialiasing)
         #
         if self._itemModel._isPressCurrent is False:
@@ -248,6 +254,8 @@ class xGraphGroupItem(qtCore.QWidget):
                 QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter,
                 qtCore.prettify(self._itemModel._type)
             )
+
+        # painter.end()
     #
     def setColor(self, r, g, b):
         self._uiBorderRgba = r, g, b, 255
@@ -306,6 +314,8 @@ class xGraphExplainItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setFont(self.font())
         #
         if self._itemModel._isExpandEnable is True:
@@ -331,6 +341,8 @@ class xGraphExplainItem(qtCore.QWidget):
                 QtCore.Qt.AlignRight | QtCore.Qt.AlignTop,
                 self._itemModel._uiIndexText
             )
+
+        # painter.end()
     #
     def setNameText(self, string, color=None):
         self._itemModel.setNameText(string)
@@ -386,6 +398,8 @@ class xGraphConnectionItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHints(QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform)
         #
         pen, brush = qtCore.getGradientColor(
@@ -397,6 +411,8 @@ class xGraphConnectionItem(qtCore.QWidget):
         painter.setPen(pen)
         painter.setBrush(brush)
         painter.drawPath(self._itemModel._curvePath)
+
+        # painter.end()
     #
     def setIndex(self, value):
         self._itemModel.setIndex(value)
@@ -410,7 +426,7 @@ class xGraphConnectionItem(qtCore.QWidget):
 
 
 #
-class xGraphAttributePortItem(qtWidgetBasic._QtViewBasic):
+class xGraphAttributePortItem(qtWidgetAbstract.Abc_QtView):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(xGraphAttributePortItem, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -421,6 +437,7 @@ class xGraphAttributePortItem(qtWidgetBasic._QtViewBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         painter.setRenderHint(painter.Antialiasing)
         # Shadow
         painter.setBorderRgba((0, 0, 0, 64))
@@ -547,6 +564,8 @@ class xGraphAttributePortItem(qtWidgetBasic._QtViewBasic):
                                     painter.drawLine(_vLine)
                         #
                         y += h
+
+        # painter.end()
     #
     def itemModel(self):
         return self._itemModel

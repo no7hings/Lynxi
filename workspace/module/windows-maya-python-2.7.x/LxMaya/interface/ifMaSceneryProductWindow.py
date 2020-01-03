@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxScheme
 #
 from LxCore.preset import pipePr, appVariant
 #
@@ -23,11 +23,11 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+_version = lxScheme.Python().version
 
 
 #
-class IfSceneryProductToolWindow(qtWidgets.UiToolWindow):
+class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneryProductToolWindow, self).__init__(parent)

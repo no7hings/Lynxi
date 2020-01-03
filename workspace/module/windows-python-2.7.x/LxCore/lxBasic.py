@@ -41,6 +41,8 @@ import subprocess
 #
 import locale
 #
+from LxBasic import bscObjects
+#
 Months = [
     (u'一月', 'January'),
     (u'二月', 'February'),
@@ -166,25 +168,17 @@ def getDicMethod(fn):
 
 
 #
-def _toStringCapitalize(string):
-    return string[0].upper() + string[1:] if string else string
+def str_camelcase2prettify(string):
+    return bscObjects.Str_Camelcase(string).toPrettify()
 
 
 #
-def _toStringPrettify(string):
-    return ' '.join([_toStringCapitalize(x) for x in re.findall(r'[a-zA-Z][a-z]*[0-9]*', string)])
+def int_frame2time(frame):
+    return bscObjects.Int_Frame(frame).toTimeString()
 
 
-#
-def frameToTime(frame, mode=0):
-    data = int(frame) / 24
-    h = data / 3600
-    m = data / 60 - 60 * h
-    s = data - 3600 * h - 60 * m
-    if mode == 0:
-        if s < 1:
-            s = 1
-    return '%s:%s:%s' % (str(h).zfill(2), str(m).zfill(2), str(s).zfill(2))
+def lis_frame2range(array):
+    return bscObjects.Lis_Frame(array).toRange()
 
 
 # Get List's Reduce
@@ -218,49 +212,13 @@ def _toStringList(data):
 
 
 #
-def getFrameRange(numbers):
-    lis = []
-    if numbers:
-        lenSet = 4
-        splitSep = '|'
-        subSplitSep = ','
-        maxFrame = max(numbers)
-        minFrame = min(numbers)
-        numRange = range(minFrame, maxFrame + 1)
-        frameDic = collections.OrderedDict()
-        for numRange, i in enumerate(numRange):
-            if i in numbers:
-                frameDic[numRange] = i
-            elif i not in numbers:
-                frameDic[numRange] = none
-        reduceLis = []
-        for k, v in frameDic.items():
-            if v:
-                reduceLis.append(str(v).zfill(lenSet) + subSplitSep)
-            elif not v:
-                reduceLis.append(splitSep)
-        #
-        reduceString = none.join(reduceLis)
-        for i in reduceString.split(splitSep):
-            if i:
-                if len(i) == lenSet + 1:
-                    isFrame = int(i[:-1])
-                    lis.append(isFrame)
-                elif not len(i) == lenSet + 1:
-                    seqData = [int(j) for j in i[:-1].split(subSplitSep)]
-                    isRange = min(seqData), max(seqData)
-                    lis.append(isRange)
-    return lis
-
-
-#
-def getBasicUniqueId():
+def _basicUniqueId():
     return '4908BDB4-911F-3DCE-904E-96E4792E75F1'
 
 
 #
 def getUniqueId(string=none):
-    basicUuid = getBasicUniqueId()
+    basicUuid = _basicUniqueId()
     if string:
         return str(uuid.uuid3(uuid.UUID(basicUuid), str(string))).upper()
     elif not string:
@@ -269,19 +227,19 @@ def getUniqueId(string=none):
 
 #
 def getUserUniqueId(user):
-    basicUuid = getBasicUniqueId()
+    basicUuid = _basicUniqueId()
     return str(uuid.uuid5(uuid.UUID(basicUuid), str(user))).upper()
 
 
 #
 def getDbUniqueId(directory):
-    basicUuid = getBasicUniqueId()
+    basicUuid = _basicUniqueId()
     return str(uuid.uuid5(uuid.UUID(basicUuid), str(directory))).upper()
 
 
 #
 def getSubUniqueId(strings):
-    basicUuid = getBasicUniqueId()
+    basicUuid = _basicUniqueId()
     #
     codeString = strings
     if isinstance(strings, str) or isinstance(strings, unicode):
@@ -622,7 +580,7 @@ def getOsFilesFilter(filePath, filterExts, useRelative=False):
 def getOsUniqueFile(osFile):
     osPath = getOsFileDirname(osFile)
     osFileBasename = getOsFileBasename(osFile)
-    basicUuid = getBasicUniqueId()
+    basicUuid = _basicUniqueId()
     uniqueId = str(uuid.uuid3(uuid.UUID(basicUuid), str(osFileBasename))).upper()
     return _toOsFile(osPath, uniqueId)
 
@@ -891,11 +849,6 @@ def getOsEnvironPathLis(osEnvironKey):
                     if i not in lis:
                         lis.append(i)
     return lis
-
-
-#
-def osPathsep():
-    return os.pathsep
 
 
 #
@@ -1279,68 +1232,6 @@ def getDbTempFile(dbFile):
     return tempFile
 
 
-class Abc_File(object):
-    def _initAbcFile(self, fileString):
-        self._fileString = fileString
-
-    def exist(self):
-        return os.path.isfile(self.fileString())
-
-    def fileString(self):
-        return self._fileString
-
-    def read(self, *args):
-        pass
-
-    def write(self, *args):
-        pass
-
-
-class File(Abc_File):
-    def __init__(self, fileString):
-        self._initAbcFile(fileString)
-
-    def read(self, osFile, readLines=False):
-        if self.exist():
-            with open(self.fileString(), 'r') as f:
-                if readLines is False:
-                    data = f.read()
-                else:
-                    data = f.readlines()
-                f.close()
-                return data
-
-    def write(self, raw):
-        if raw is not None:
-            setOsFileDirectoryCreate(self.fileString())
-            with open(self.fileString(), 'wb') as f:
-                if isinstance(raw, str) or isinstance(raw, unicode):
-                    f.write(raw)
-                elif isinstance(raw, tuple) or isinstance(raw, list):
-                    f.writelines(raw)
-                f.close()
-
-
-class JsonFile(Abc_File):
-    def __init__(self, fileString):
-        self._initAbcFile(fileString)
-
-    def read(self, encoding=None):
-        if self.exist():
-            with open(self.fileString()) as j:
-                data = json.load(j, encoding=encoding)
-                return data
-
-    def write(self, raw, ensure_ascii=True, indent=4):
-        if raw is not None:
-            tempFile = getOsTemporaryFile(self.fileString())
-            #
-            with open(tempFile, 'w') as j:
-                json.dump(raw, j, ensure_ascii=ensure_ascii, indent=indent)
-            #
-            setOsFileCopy(tempFile, self.fileString())
-
-
 #
 def readOsJson(osFile, encoding=None):
     if os.path.isfile(osFile):
@@ -1519,11 +1410,11 @@ def getUiStringPath(strings, pathsep, isUseNiceName=False):
     string = none
     if isinstance(strings, str) or isinstance(strings, unicode):
         if isUseNiceName is True:
-            strings = _toStringPrettify(strings)
+            strings = str_camelcase2prettify(strings)
         string = strings
     elif isinstance(strings, list) or isinstance(strings, tuple):
         if isUseNiceName is True:
-            strings = [_toStringPrettify(i) for i in strings]
+            strings = [str_camelcase2prettify(i) for i in strings]
         string = pathsep.join(strings)
     return string
 

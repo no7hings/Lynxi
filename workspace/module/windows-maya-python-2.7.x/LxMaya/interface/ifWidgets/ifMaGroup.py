@@ -7,10 +7,8 @@ from LxMaya.interface.ifWidgets import ifMaSceneUnit, ifMaSceneToolUnit
 
 
 #
-class IfScLightRigGroup(
-    ifWidgetBasic.IfGroupBasic_,
-    _maProductMethod.MaProductUnitMethod
-):
+class IfScLightRigGroup(ifWidgetBasic.IfGroupBasic_):
+    app_prd_unt_method = _maProductMethod.MaProductUnitMethod
     def __init__(self, mainWindow=None):
         super(IfScLightRigGroup, self).__init__(mainWindow)
         self._initBasicGroup()
@@ -42,10 +40,9 @@ class IfScLightRigGroup(
 
 
 #
-class IfScComposeGroup(
-    ifWidgetBasic.IfGroupBasic_,
-    _maProductMethod.MaProductUnitMethod
-):
+class IfScComposeGroup(ifWidgetBasic.IfGroupBasic_):
+    app_prd_unt_method = _maProductMethod.MaProductUnitMethod
+
     def __init__(self, mainWindow=None):
         super(IfScComposeGroup, self).__init__(mainWindow)
         self._initBasicGroup()

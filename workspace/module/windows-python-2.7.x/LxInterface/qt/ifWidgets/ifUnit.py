@@ -1,5 +1,7 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxBasic import bscObjects
+
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.config import appConfig
 #
@@ -9,7 +11,6 @@ from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
 from LxCore.operation import envOp
 #
-#
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -18,7 +19,7 @@ from LxInterface.qt.ifModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxConfigure.Root()._serverPath()
+serverBasicPath = lxScheme.Root().basic.server
 #
 none = ''
 
@@ -88,7 +89,7 @@ class IfAstModelRadarUnit(qtCore.QWidget):
 #
 class IfScIndexManagerUnit(
     ifWidgetBasic.IfUnitBasic_,
-    appConfig.LxProductConfig
+    appConfig.Cfg_Product
 ):
     W = 120
     ConfigUiDic = {
@@ -176,7 +177,7 @@ class IfScIndexManagerUnit(
             timeTag = key
             osJsonFile = value
             #
-            user = lxBasic.readOsJsonDic(osJsonFile, lxConfigure.Lynxi_Key_Info_Artist)
+            user = lxBasic.readOsJsonDic(osJsonFile, lxCore_.Lynxi_Key_Info_Artist)
             personnel = personnelPr.getPersonnelUserCnName(user)
             #
             treeItem = qtWidgets.QtTreeviewItem()
@@ -188,14 +189,14 @@ class IfScIndexManagerUnit(
             #
             setAction()
             #
-            treeItem.startFrame = lxBasic.readOsJsonDic(osJsonFile, lxConfigure.Lynxi_Key_Info_StartFrame)
-            treeItem.endFrame = lxBasic.readOsJsonDic(osJsonFile, lxConfigure.Lynxi_Key_Info_EndFrame)
+            treeItem.startFrame = lxBasic.readOsJsonDic(osJsonFile, lxCore_.Lynxi_Key_Info_StartFrame)
+            treeItem.endFrame = lxBasic.readOsJsonDic(osJsonFile, lxCore_.Lynxi_Key_Info_EndFrame)
             #
-            curIndexLis = lxBasic.readOsJsonDic(osJsonFile, lxConfigure.LynxiProduct_Module_Asset)
+            curIndexLis = lxBasic.readOsJsonDic(osJsonFile, lxCore_.LynxiProduct_Module_Asset)
             if curIndexLis == activeIndexLis:
                 treeItem.setFilterColor((63, 127, 255, 255))
             treeItem.assetIndexLis = curIndexLis
-            treeItem.sceneryIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxConfigure.LynxiProduct_Module_Scenery)
+            treeItem.sceneryIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxCore_.LynxiProduct_Module_Scenery)
         #
         if self._args is not None:
             (
@@ -207,12 +208,12 @@ class IfScIndexManagerUnit(
             treeView = self._recordTreeView
             #
             serverSceneIndexFile = scenePr.scUnitIndexFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName, sceneClass, sceneName, sceneVariant
             )[1]
             #
             backupSceneIndexFile = scenePr.scUnitIndexFile(
-                lxConfigure.LynxiRootIndex_Backup,
+                lxCore_.LynxiRootIndex_Backup,
                 projectName, sceneClass, sceneName, sceneVariant
             )[1]
             #
@@ -223,12 +224,12 @@ class IfScIndexManagerUnit(
             #
             activeItem.isActive = True
             #
-            activeItem.startFrame = lxBasic.readOsJsonDic(serverSceneIndexFile, lxConfigure.Lynxi_Key_Info_StartFrame)
-            activeItem.endFrame = lxBasic.readOsJsonDic(serverSceneIndexFile, lxConfigure.Lynxi_Key_Info_EndFrame)
+            activeItem.startFrame = lxBasic.readOsJsonDic(serverSceneIndexFile, lxCore_.Lynxi_Key_Info_StartFrame)
+            activeItem.endFrame = lxBasic.readOsJsonDic(serverSceneIndexFile, lxCore_.Lynxi_Key_Info_EndFrame)
             #
-            activeIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxConfigure.LynxiProduct_Module_Asset)
+            activeIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxCore_.LynxiProduct_Module_Asset)
             activeItem.assetIndexLis = activeIndexLis
-            activeItem.sceneryIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxConfigure.LynxiProduct_Module_Scenery)
+            activeItem.sceneryIndexLis = lxBasic.readOsJsonDic(serverSceneIndexFile, lxCore_.LynxiProduct_Module_Scenery)
             #
             indexRecordDic = lxBasic.getOsFileRecordDic(backupSceneIndexFile)
             if indexRecordDic:
@@ -469,12 +470,12 @@ class IfScIndexManagerUnit(
                 else:
                     treeItem.setFilterColor((71, 71, 71, 255))
             # Rig
-            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Rig)
+            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Rig)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setAssetUnitSubBranch(s, k, v)
             # Assembly
-            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Assembly)
+            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Assembly)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setAssemblyUnitSubBranch(s, k, v)
@@ -486,7 +487,7 @@ class IfScIndexManagerUnit(
                 sceneryName, sceneryViewName = value
                 sceneryVariant = appVariant.astDefaultVariant
             #
-            setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=lxConfigure.LynxiProduct_Scenery_Link_Scenery)
+            setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=lxCore_.LynxiProduct_Scenery_Link_Scenery)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setSceneryUnitBranch(s, k, v)
@@ -512,14 +513,14 @@ class IfScIndexManagerUnit(
     def confirmCmd(self):
         if self._assetDatumLis:
             if lxBasic.isOsExistsFile(self._serverFile):
-                serverAssetDatum = lxBasic.readOsJsonDic(self._serverFile, lxConfigure.LynxiProduct_Module_Asset)
+                serverAssetDatum = lxBasic.readOsJsonDic(self._serverFile, lxCore_.LynxiProduct_Module_Asset)
                 if not self._assetDatumLis == serverAssetDatum:
                     lxBasic.writeOsJsonDic(
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+                            lxCore_.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
+                            lxCore_.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
                             #
-                            lxConfigure.LynxiProduct_Module_Asset: self._assetDatumLis
+                            lxCore_.LynxiProduct_Module_Asset: self._assetDatumLis
                         },
                         self._serverFile
                     )
@@ -534,15 +535,15 @@ class IfScIndexManagerUnit(
         startFrame, endFrame = self._startFrameLabel.datum(), self._endFrameLabel.datum()
         if startFrame is not None and endFrame is not None:
             if lxBasic.isOsExistsFile(self._serverFile):
-                serverStartFrame, serverEndFrame = lxBasic.readOsJsonDic(self._serverFile, lxConfigure.Lynxi_Key_Info_StartFrame), lxBasic.readOsJsonDic(self._serverFile, lxConfigure.Lynxi_Key_Info_EndFrame)
+                serverStartFrame, serverEndFrame = lxBasic.readOsJsonDic(self._serverFile, lxCore_.Lynxi_Key_Info_StartFrame), lxBasic.readOsJsonDic(self._serverFile, lxCore_.Lynxi_Key_Info_EndFrame)
                 if not startFrame == serverStartFrame or not endFrame == serverEndFrame:
                     lxBasic.writeOsJsonDic(
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+                            lxCore_.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
+                            lxCore_.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
                             #
-                            lxConfigure.Lynxi_Key_Info_StartFrame: startFrame,
-                            lxConfigure.Lynxi_Key_Info_EndFrame: endFrame
+                            lxCore_.Lynxi_Key_Info_StartFrame: startFrame,
+                            lxCore_.Lynxi_Key_Info_EndFrame: endFrame
                         },
                         self._serverFile
                     )
@@ -625,7 +626,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
     #
     def setupLeftToolUiBox(self, layout):
         def setModelCacheGeometryEvaluateCmd():
-            if self._cacheType == lxConfigure.LynxiScAstModelCacheType:
+            if self._cacheType == lxCore_.LynxiScAstModelCacheType:
                 selectedItems = treeBox.selectedItems()
                 if selectedItems:
                     treeItem = selectedItems[0]
@@ -668,7 +669,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 if lxBasic.isOsExistsFile(cacheFile):
                     # Index
                     cacheIndex = {
-                        lxConfigure.LynxiCacheInfoKey: cacheFile
+                        lxCore_.LynxiCacheInfoKey: cacheFile
                     }
                     #
                     lxBasic.writeOsJsonDic(cacheIndex, indexFile, 4)
@@ -696,7 +697,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
             #
             def setCacheActiveCmd():
                 cacheIndex = {
-                    lxConfigure.LynxiCacheInfoKey: cacheFile
+                    lxCore_.LynxiCacheInfoKey: cacheFile
                 }
                 #
                 lxBasic.writeOsJsonDic(cacheIndex, indexFile)
@@ -734,7 +735,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
             )
             #
             indexFile = scenePr.scCameraCacheIndexFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
                 sceneName, sceneVariant
             )[1]
@@ -774,20 +775,20 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     )
                     #
                     cacheFileItem_.setItemIcon_(1, 'link#{}'.format(cacheSceneStage))
-                    cacheFileItem_.setText(1, lxBasic._toStringPrettify(cacheSceneStage))
+                    cacheFileItem_.setText(1, bscObjects.Str_Camelcase(cacheSceneStage).toPrettify())
                     if isActive:
                         cacheFileItem_.setSelected(True)
                         cacheFileItem_.setText(2, 'Active')
                     #
                     infoFile = lxBasic.getInfoFile(cacheFile)
                     if lxBasic.isOsExist(infoFile):
-                        osUser = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
+                        osUser = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_Artist)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                             cacheFileItem_.setText(3, personnelPr.getPersonnelUserCnName(osUser))
                         #
-                        startFrame_ = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_StartFrame)
-                        endFrame_ = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_EndFrame)
+                        startFrame_ = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_StartFrame)
+                        endFrame_ = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_EndFrame)
                         #
                         if startFrame_ is not None and endFrame_ is not None:
                             cacheFileItem_.setText(4, '{} - {}'.format(startFrame_, endFrame_))
@@ -817,7 +818,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 )
                 #
                 cacheFileItem_.setItemIcon_(1, 'link#{}'.format(cacheSceneStage))
-                cacheFileItem_.setText(1, lxBasic._toStringPrettify(cacheSceneStage))
+                cacheFileItem_.setText(1, bscObjects.Str_Camelcase(cacheSceneStage).toPrettify())
                 sourceData, targetData = dbGet.getScModelCacheMeshEvaluateData(assetIndex, cacheFile_)
                 #
                 cacheFileItem_.sourceData = sourceData
@@ -828,13 +829,13 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 infoFile = lxBasic.getInfoFile(cacheFile_)
                 if lxBasic.isOsExist(infoFile):
-                    osUser = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
+                    osUser = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_Artist)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                         cacheFileItem_.setText(3, personnelPr.getPersonnelUserCnName(osUser))
                     #
-                    startFrame_ = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_StartFrame)
-                    endFrame_ = lxBasic.readOsJsonDic(infoFile, lxConfigure.Lynxi_Key_Info_EndFrame)
+                    startFrame_ = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_StartFrame)
+                    endFrame_ = lxBasic.readOsJsonDic(infoFile, lxCore_.Lynxi_Key_Info_EndFrame)
                     #
                     if startFrame_ is not None and endFrame_ is not None:
                         cacheFileItem_.setText(4, '{} - {}'.format(startFrame_, endFrame_))
@@ -863,7 +864,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
             self.meshEvaluateBox.setBackground(preview)
             #
             indexFile = scenePr.scAstCacheIndexFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
                 sceneName, sceneVariant, assetName, number
             )[1]
@@ -894,15 +895,15 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
             #
             treeBox.clear()
             if cacheType is not None and args is not None:
-                if cacheType == lxConfigure.LynxiScCameraCacheType:
+                if cacheType == lxCore_.LynxiScCameraCacheType:
                     setScCameraCacheBranch(args)
-                elif cacheType == lxConfigure.LynxiScAstModelCacheType:
+                elif cacheType == lxCore_.LynxiScAstModelCacheType:
                     setScAstModelCacheBranch(args)
                 #
-                elif cacheType == lxConfigure.LynxiScAstCfxFurCacheType:
+                elif cacheType == lxCore_.LynxiScAstCfxFurCacheType:
                     pass
                 #
-                elif cacheType == lxConfigure.LynxiScAstExtraCacheType:
+                elif cacheType == lxCore_.LynxiScAstExtraCacheType:
                     pass
         #
         treeBox = self.treeViewBox
@@ -963,7 +964,7 @@ class IfProductUnitRegisterUnit(ifWidgetBasic.IfUnitBasic_):
             self, self._presetView, self._productModule
         )
         #
-        self._toolGroup.setTitle('{} Unit(s)'.format(self._toStringPrettify(self._productModule)))
+        self._toolGroup.setTitle('{} Unit(s)'.format(self.str_camelcase2prettify(self._productModule)))
         self._presetViewModel.setMainAction(self._toolGroup)
     #
     def refreshMethod(self):
@@ -1008,19 +1009,19 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
     w = 80
     dicMain = {
         0: 'Date',
-        lxConfigure.Lynxi_Key_Info_Update: [w, 1, 0, 1, 4, ('Update', u'日期')],
+        lxCore_.Lynxi_Key_Info_Update: [w, 1, 0, 1, 4, ('Update', u'日期')],
         2: 'Information(s)',
-        lxConfigure.Lynxi_Key_Info_Artist: [w, 3, 0, 1, 4, ('Artist', u'人员')],
-        lxConfigure.Lynxi_Key_Info_HostName: [w, 4, 0, 1, 4, ('PC', u'计算机')],
-        lxConfigure.Lynxi_Key_Info_Host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
-        lxConfigure.Lynxi_Key_Info_Stage: [w, 6, 0, 1, 4, ('Stage', u'阶段')],
-        lxConfigure.Lynxi_Key_Info_Note: [w, 7, 0, 1, 4, ('Note', u'备注')],
+        lxCore_.Lynxi_Key_Info_Artist: [w, 3, 0, 1, 4, ('Artist', u'人员')],
+        lxCore_.Lynxi_Key_Info_HostName: [w, 4, 0, 1, 4, ('PC', u'计算机')],
+        lxCore_.Lynxi_Key_Info_Host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
+        lxCore_.Lynxi_Key_Info_Stage: [w, 6, 0, 1, 4, ('Stage', u'阶段')],
+        lxCore_.Lynxi_Key_Info_Note: [w, 7, 0, 1, 4, ('Note', u'备注')],
         8: 'Action(s)',
         'sourceFile': [0, 9, 0, 1, 2, None], 'loadSource': [0, 9, 2, 1, 2, 'Load Source File', 'svg_basic@svg#fileOpen'],
         'productFile': [0, 10, 0, 1, 2, None], 'loadProduct': [0, 10, 2, 1, 2, 'Load Product File', 'svg_basic@svg#fileOpen']
     }
     #
-    keywords = [lxConfigure.Lynxi_Key_Info_Artist, lxConfigure.Lynxi_Key_Info_HostName, lxConfigure.Lynxi_Key_Info_Host, lxConfigure.Lynxi_Key_Info_Note]
+    keywords = [lxCore_.Lynxi_Key_Info_Artist, lxCore_.Lynxi_Key_Info_HostName, lxCore_.Lynxi_Key_Info_Host, lxCore_.Lynxi_Key_Info_Note]
     #
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit, self).__init__(*args, **kwargs)
@@ -1041,7 +1042,7 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
         inData = self.dicMain
         #
         self._timeChooseLabel = qtWidgets.QtEnterlabel()
-        toolBox.setInfo(inData, lxConfigure.Lynxi_Key_Info_Update, self._timeChooseLabel)
+        toolBox.setInfo(inData, lxCore_.Lynxi_Key_Info_Update, self._timeChooseLabel)
         self._timeChooseLabel.setChooseEnable(True)
         self._timeChooseLabel.setIconKeyword('svg_basic@svg#history')
         #
@@ -1051,10 +1052,10 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
         self._uiInfoItemDic = {}
         for k, v in inData.items():
             if k in self.keywords:
-                if k == lxConfigure.Lynxi_Key_Info_Note:
+                if k == lxCore_.Lynxi_Key_Info_Note:
                     infoLabel = qtWidgets.QtEnterbox()
-                    self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Note] = infoLabel
-                    self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Notes] = infoLabel
+                    self._uiInfoItemDic[lxCore_.Lynxi_Key_Info_Note] = infoLabel
+                    self._uiInfoItemDic[lxCore_.Lynxi_Key_Info_Notes] = infoLabel
                 else:
                     infoLabel = qtWidgets.QtEnterlabel()
                     self._uiInfoItemDic[k] = infoLabel
@@ -1097,7 +1098,7 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
                     infoLabel = v
                     if k in infoDatumDic:
                         info = infoDatumDic[k]
-                        if k == lxConfigure.Lynxi_Key_Info_Artist:
+                        if k == lxCore_.Lynxi_Key_Info_Artist:
                             cnName = personnelPr.getPersonnelUserCnName(info)
                             if cnName:
                                 viewInfo = u'{} ( {} )'.format(cnName, info)
@@ -1297,7 +1298,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                             showProgress=True, isCloseMaya=isCloseMaya
                         )
                         # Switch Panel
-                        w = ifProductWindow.IfToolFloatWindow()
+                        w = ifProductWindow.If_QtToolFloatWindow()
                         w.windowShow()
                         # Update Method
                         lxUpdate.setUpdate(force=1)
@@ -1499,7 +1500,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                     showProgress=True, isCloseMaya=isCloseMaya
                 )
                 # Switch Panel
-                w = ifProductWindow.IfToolFloatWindow()
+                w = ifProductWindow.If_QtToolFloatWindow()
                 w.windowShow()
                 # Update Method
                 lxUpdate.setUpdate(force=1)
@@ -1672,7 +1673,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
             self._tipLabel.setRule(self.errorTips3)
         #
         team = self._teamLabel.datum()
-        if team == lxConfigure.LynxiValue_Unspecified:
+        if team == lxCore_.LynxiValue_Unspecified:
             isChecked = False
             self._tipLabel.setRule(self.errorTips4)
         #
@@ -1683,7 +1684,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
             if lxBasic.isMayaApp():
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
-                w = ifProductWindow.IfToolFloatWindow()
+                w = ifProductWindow.If_QtToolFloatWindow()
                 w.windowShow()
             #
             qtTip.viewMessage(u'提示：', u'设置用户信息成功')
@@ -1748,11 +1749,11 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                 for userName in userLis:
                     userDataDic = personnelPr.getPersonnelUserDataDic(userName)
                     if userDataDic:
-                        chName = userDataDic[lxConfigure.LynxiUserCnNameKey]
-                        enName = userDataDic[lxConfigure.LynxiUserEnNameKey]
-                        mail = userDataDic[lxConfigure.LynxiUserMailKey]
-                        team = userDataDic[lxConfigure.LynxiTeamPresetKey]
-                        post = userDataDic[lxConfigure.LynxiPostPresetKey]
+                        chName = userDataDic[lxCore_.LynxiUserCnNameKey]
+                        enName = userDataDic[lxCore_.LynxiUserEnNameKey]
+                        mail = userDataDic[lxCore_.LynxiUserMailKey]
+                        team = userDataDic[lxCore_.LynxiTeamPresetKey]
+                        post = userDataDic[lxCore_.LynxiPostPresetKey]
                         #
                         treeItem = qtWidgets.QtTreeviewItem()
                         treeItem.setName(u'{} ( {} )'.format(chName, userName))
@@ -1835,50 +1836,52 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
         #
         self._initTagFilterVar()
         #
-        buildData = projectPr.getProjectMayaToolDataDic()
-        for seq, (k, v) in enumerate(buildData.items()):
-            mainToolSearchDic = {}
-            subToolSearchDic = {}
-            #
-            showExplain = v['nameText']
-            pipeToolPath = v[lxConfigure.LynxiServerPathKey]
-            mainToolDatumLis = projectPr.getProjectMayaToolSubDataDic(pipeToolPath)
-            utilsToolPath = v[lxConfigure.LynxiUtilitiesPathKey]
-            subToolDatumLis = projectPr.getProjectMayaToolSubDataDic(utilsToolPath)
-            #
-            projectCount, utilitiesCount = len(mainToolDatumLis), len(subToolDatumLis)
-            #
-            toolGroupBox = qtWidgets.QtToolboxGroup()
-            self._centralScrollBox.addWidget(toolGroupBox)
-            toolGroupBox.setNameText(showExplain)
-            toolGroupBox.setIndexText('( {} + {} )'.format(projectCount, utilitiesCount))
-            self._toolGroupDic[k] = toolGroupBox
-            #
-            tagItem = qtWidgets.QtTreeviewItem()
-            treeView.addItem(tagItem)
-            tagItem.setName(k)
-            tagItem.setNameText(showExplain)
-            tagItem.setIcon('svg_basic@svg#branch_main')
-            #
-            tagItem.visibleToggled.connect(toolGroupBox.setVisible)
-            #
-            tag = showExplain
-            if not tag in self._tagLis:
-                self._tagLis.append(tag)
-            if not tag in self._tagFilterEnableDic:
-                self._tagFilterEnableDic[tag] = True
-            #
-            if not currentProjectName.startswith(lxConfigure.Lynxi_Keyword_Project_Default):
-                self.setupToolUiBox(mainToolDatumLis, treeView, tag, tagItem, toolGroupBox, mainToolSearchDic, keyword='Project')
-            self._toolFilterDic[k] = mainToolSearchDic
-            #
-            self.setupToolUiBox(subToolDatumLis, treeView, tag, tagItem, toolGroupBox, subToolSearchDic, keyword='Utilities')
-            self._toolFilterDic[k] = subToolSearchDic
-            #
-            self.setToolGroupAction(toolGroupBox, pipeToolPath, utilsToolPath)
-            #
-            itemIndex = treeView.itemIndex(tagItem)
-            self._tagFilterIndexDic.setdefault(tag, []).append(itemIndex)
+        if lxBasic.isMayaApp():
+            buildData = projectPr.getProjectMayaToolDataDic()
+            for seq, (k, v) in enumerate(buildData.items()):
+                mainToolSearchDic = {}
+                subToolSearchDic = {}
+                #
+                showExplain = v['nameText']
+                pipeToolPath = v[lxCore_.LynxiServerPathKey]
+                mainToolDatumLis = projectPr.getProjectMayaToolSubDataDic(pipeToolPath)
+                utilsToolPath = v[lxCore_.LynxiUtilitiesPathKey]
+                subToolDatumLis = projectPr.getProjectMayaToolSubDataDic(utilsToolPath)
+                #
+                projectCount, utilitiesCount = len(mainToolDatumLis), len(subToolDatumLis)
+                #
+                toolGroupBox = qtWidgets.QtToolboxGroup()
+                self._centralScrollBox.addWidget(toolGroupBox)
+                toolGroupBox.setNameText(showExplain)
+                toolGroupBox.setIndexText('( {} + {} )'.format(projectCount, utilitiesCount))
+                self._toolGroupDic[k] = toolGroupBox
+                #
+                tagItem = qtWidgets.QtTreeviewItem()
+                treeView.addItem(tagItem)
+                tagItem.setName(k)
+                tagItem.setNameText(showExplain)
+                tagItem.setIcon('svg_basic@svg#branch_main')
+                #
+                tagItem.visibleToggled.connect(toolGroupBox.setVisible)
+                #
+                tag = showExplain
+                if not tag in self._tagLis:
+                    self._tagLis.append(tag)
+                if not tag in self._tagFilterEnableDic:
+                    self._tagFilterEnableDic[tag] = True
+                #
+                if not currentProjectName.startswith(lxCore_.Lynxi_Keyword_Project_Default):
+                    self.setupToolUiBox(mainToolDatumLis, treeView, tag, tagItem, toolGroupBox, mainToolSearchDic, keyword='Project')
+
+                self._toolFilterDic[k] = mainToolSearchDic
+                #
+                self.setupToolUiBox(subToolDatumLis, treeView, tag, tagItem, toolGroupBox, subToolSearchDic, keyword='Utilities')
+                self._toolFilterDic[k] = subToolSearchDic
+                #
+                self.setToolGroupAction(toolGroupBox, pipeToolPath, utilsToolPath)
+                #
+                itemIndex = treeView.itemIndex(tagItem)
+                self._tagFilterIndexDic.setdefault(tag, []).append(itemIndex)
         #
         self._initTagFilterAction(self._treeView)
     @staticmethod
@@ -1905,18 +1908,17 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
     def setupToolUiBox(self, data, treeView, tag, tagItem, toolGroupBox, itemData, keyword):
         def setBranch(seq, k, subToolBox):
             def openCommandCmd():
-                osCmdExe = '{}/Sublime Text 3/sublime_text.exe'.format(lxConfigure.BinSubRoot()._serverPath())
-                if lxBasic.isOsExistsFile(osCmdExe):
-                    subOsFiles = lxBasic.getOsSeqFiles(commandFile)
-                    if subOsFiles:
-                        subOsFile = subOsFiles[0]
-                        osCmd = '''"{}" "{}'''.format(osCmdExe, subOsFile)
-                        lxBasic.setOsCommandRun_(osCmd)
+                osCmdExe = 'sublime_text.exe'
+                subOsFiles = lxBasic.getOsSeqFiles(commandFile)
+                if subOsFiles:
+                    subOsFile = subOsFiles[0]
+                    osCmd = '''"{}" "{}"'''.format(osCmdExe, subOsFile)
+                    lxBasic.setOsCommandRun_(osCmd)
             #
             toolName = k
             commandFile, command, toolTip = data[k]
             #
-            viewExplain = self._toStringPrettify(toolName)
+            viewExplain = self.str_camelcase2prettify(toolName)
             #
             toolItem = qtWidgets.QtTreeviewItem()
             tagItem.addChild(toolItem)

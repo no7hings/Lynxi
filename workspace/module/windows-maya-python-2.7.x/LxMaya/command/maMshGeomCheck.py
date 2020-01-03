@@ -16,21 +16,21 @@ none = ''
 def astMeshGeomCstCheck(meshObjects, customized):
     checkLis = []
     dataLis = []
-    keyWord = 'Triangles Geometry'
+    keyWord = 'Triangles Nde_Geometry'
     if keyWord in customized:
         cmds.select(meshObjects)
         cmds.polySelectConstraint(mode=3, type=8, size=1)
         cmds.polySelectConstraint(mode=0, type=8, size=0)
         data = cmds.ls(selection=True)
         dataLis.append(data)
-    keyWord = 'Quads Geometry'
+    keyWord = 'Quads Nde_Geometry'
     if keyWord in customized:
         cmds.select(meshObjects)
         cmds.polySelectConstraint(mode=3, type=8, size=2)
         cmds.polySelectConstraint(mode=0, type=8, size=0)
         data = cmds.ls(selection=True)
         dataLis.append(data)
-    keyWord = 'Hard Geometry Edges'
+    keyWord = 'Hard Nde_Geometry Edges'
     if keyWord in customized:
         checkLis.append(keyWord)
         cmds.select(meshObjects)
@@ -38,7 +38,7 @@ def astMeshGeomCstCheck(meshObjects, customized):
         cmds.polySelectConstraint(mode=0, type=0x8000, smoothness=0)
         data = cmds.ls(selection=True)
         dataLis.append(data)
-    keyWord = 'Soft Geometry Edges'
+    keyWord = 'Soft Nde_Geometry Edges'
     if keyWord in customized:
         checkLis.append(keyWord)
         cmds.select(meshObjects)
@@ -150,7 +150,7 @@ def astMeshGeomDefCheck(meshObjects):
     config = assetCfg.astMeshGeomCheckConfig()
     if meshObjects:
         # View Progress
-        progressExplain = u'''Mesh Geometry Check'''
+        progressExplain = u'''Mesh Nde_Geometry Check'''
         maxValue = len(config)
         progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for k, v in config.items():

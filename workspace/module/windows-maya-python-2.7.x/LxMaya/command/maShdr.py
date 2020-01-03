@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
@@ -68,7 +68,7 @@ def getObjectsShadingEngineLis(objectLis):
 
 #
 def getObjectMaterials(objectString):
-    # List [ <Material Info Node> ]
+    # List [ <Material Info Nde_Node> ]
     materials = []
     shadingEngineLis = getShadingEngineLisByObject(objectString)
     if shadingEngineLis:
@@ -83,7 +83,7 @@ def getObjectMaterials(objectString):
 
 #
 def getObjectsMaterials(objectLis):
-    # List [ <Shading Engine Node> ]
+    # List [ <Shading Engine Nde_Node> ]
     materials = []
     if objectLis:
         for objectString in objectLis:
@@ -94,7 +94,7 @@ def getObjectsMaterials(objectLis):
     return materials
 
 
-# Get Shader Nodes
+# Get Nde_ShaderRef Nodes
 def getConnectionNodes(material):
     # Sub Method
     def getBranch(node):
@@ -105,7 +105,7 @@ def getConnectionNodes(material):
                     if not node in nodes:
                         nodes.append(node)
                         getBranch(node)
-    # List [ < File Node > ]
+    # List [ < File Nde_Node > ]
     nodes = [material]
     # Loop
     getBranch(material)
@@ -195,7 +195,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
     #
     if renameDataArray:
         # View Progress
-        explain = u'''Rename Material - Node'''
+        explain = u'''Rename Material - Nde_Node'''
         maxValue = len(renameDataArray)
         progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for node, nodeName in renameDataArray:
@@ -251,7 +251,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
     #
     if renameDataArray:
         # View Progress
-        explain = u'''Rename AOV Node'''
+        explain = u'''Rename AOV Nde_Node'''
         maxValue = len(renameDataArray)
         progressBar = qtProgress.viewSubProgress(explain, maxValue)
         for node, nodeName in renameDataArray:
@@ -259,13 +259,13 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
             maUtils.setNodeRename(node, nodeName)
 
 
-# Node Data
+# Nde_Node Data
 def getMaterialNodeData(material):
     nodesDataArray = []
     nodes = getMaterialNodes(material)
     if nodes:
         for node in nodes:
-            # Filter Unused Node Type
+            # Filter Unused Nde_Node Type
             nodeType = maUtils.getNodeType(node)
             definedAttrData = maAttr.getNodeDefAttrDatumLis(node)
             customAttrData = maAttr.getNodeUserDefAttrData(node)
@@ -279,7 +279,7 @@ def getMaterialComponentData(material):
     nodes = getMaterialNodes(material)
     if nodes:
         for node in nodes:
-            # Filter Unused Node Type
+            # Filter Unused Nde_Node Type
             nodeType = maUtils.getNodeType(node)
             composeDataArray.append(nodeType)
     return composeDataArray
@@ -291,7 +291,7 @@ def getMaterialAttributeData(material):
     nodes = getMaterialNodes(material)
     if nodes:
         for node in nodes:
-            # Filter Unused Node Type
+            # Filter Unused Nde_Node Type
             nodeType = maUtils.getNodeType(node)
             definedAttrData = maAttr.getNodeDefAttrDatumLis(node)
             customAttrData = maAttr.getNodeUserDefAttrData(node)
@@ -318,7 +318,7 @@ def getNodeAttrDataReduce(attrDatas):
     return attrDataArray
 
 
-# Node Data
+# Nde_Node Data
 def getMaterialsNodeData(materials):
     dic = lxBasic.orderedDict()
     if materials:
@@ -352,7 +352,7 @@ def getMaterialRelationData(material):
     return connectionArray
 
 
-# Node Data
+# Nde_Node Data
 def getMaterialsRelationData(materials):
     dic = lxBasic.orderedDict()
     if materials:
@@ -459,7 +459,7 @@ def setCreateNode(node, nodeType, definedAttrData):
     # Filter Exists
     if not cmds.objExists(node):
         isShader = nodeType in shaderNodeTypeDic.keys()
-        # Filter is Shader Node
+        # Filter is Nde_ShaderRef Nde_Node
         if not isShader:
             cmds.createNode(nodeType, name=node)
         #
@@ -471,7 +471,7 @@ def setCreateNode(node, nodeType, definedAttrData):
                 cmds.shadingNode(nodeType, name=node, asShader=1)
             elif majorType == 'utility':
                 cmds.shadingNode(nodeType, name=node, asUtility=1)
-    # Set Node Attribute
+    # Set Nde_Node Attribute
     maAttr.setNodeDefAttrByData(node, definedAttrData, lockAttribute=False)
 
 
@@ -507,7 +507,7 @@ def getMaterialEvaluateData(objectLis):
                 for shadingEngine in shadingEngineLis:
                     if not shadingEngine in totalMaterials:
                         totalMaterials.append(shadingEngine)
-                    # Node
+                    # Nde_Node
                     nodes = getMaterialNodes(shadingEngine)
                     if nodes:
                         for node in nodes:
@@ -791,9 +791,9 @@ def setCreateLightLink(shadingEngine):
 #
 def getAovNodeLis(renderer):
     aovNodes = []
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         aovNodes = getArnoldAovNodeLis()
-    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
+    elif renderer == lxCore_.LynxiRedshiftRendererValue:
         aovNodes = getRedshiftAovNodes()
     return aovNodes
 

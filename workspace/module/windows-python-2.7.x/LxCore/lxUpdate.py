@@ -1,24 +1,23 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
-reload(lxBasic)
-reload(lxConfigure)
+from LxCore import lxCore_, lxScheme
 #
 none = ''
 
 
 #
 def setUpdate(force=0):
-    module = lxConfigure.Lynxi_Scheme_Python()
-    ui = lxConfigure.Ui()
+    schemeLoader = lxScheme.Python()
 
-    localVersion = module.localVersion()
-    serverVersion = module.localVersion()
+    ui = lxScheme.Ui()
+
+    localVersion = schemeLoader.version
+    serverVersion = schemeLoader.activeVersion
 
     ui.restMessageCount()
 
     isUpdate = False
 
-    isDevelop = lxConfigure.Basic().isDevelop()
+    isDevelop = lxCore_.Basic().isDevelop()
 
     if isDevelop is True:
         isUpdate = True
@@ -27,18 +26,11 @@ def setUpdate(force=0):
             isUpdate = True
 
     if force is True or isUpdate is True:
-        from LxUi.qt import qtTip  # import in Method
-
         if isDevelop is False:
             ui.closeAll()
 
-        module.reloadBasic()
-        module.reloadAll()
+        # module.reloadBasic()
+        schemeLoader.loadActiveModules()
 
-        module.setLocalRefresh()
-
-        qtTip.viewMessage(
-            u'Lynxi Tool(s) Update to',
-            u'{}'.format(serverVersion)
-        )
+        schemeLoader.version = serverVersion
 

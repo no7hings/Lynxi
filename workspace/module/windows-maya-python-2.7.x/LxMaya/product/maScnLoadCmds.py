@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 
 from LxUi.qt import qtLog, qtProgress, qtTip
 #
@@ -46,11 +46,11 @@ def scnUnitLoadMainCmd(
     qtLog.viewStartProcess(logWin, 'Load Scenery - Unit')
     if sceneryPr.isScnSceneryLink(sceneryStage):
         serverProductFile = sceneryPr.scnUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
         )[1]
         localSourceFile = sceneryPr.scnUnitSourceFile(
-            lxConfigure.LynxiRootIndex_Local,
+            lxCore_.LynxiRootIndex_Local,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
         )[1]
         if lxBasic.isOsExistsFile(serverProductFile):
@@ -89,7 +89,7 @@ def scnUnitMaAssemblyLoadCmd(
         withAssembly=False
 ):
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -153,7 +153,7 @@ def scnUnitComposeLoadCmd_(
         parentPath=None
 ):
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -204,7 +204,7 @@ def scnUnitAssemblyLoadCmd(
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
 ):
     composeFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -230,8 +230,8 @@ def scnUnitAssemblyLoadByReferenceCmd(
 ):
     scnAssemblyReference = sceneryPr.scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant) + '_0'
     serverSceneryAdFile = sceneryPr.scnUnitDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
+        lxCore_.LynxiRootIndex_Server,
+        projectName, sceneryClass, sceneryName, sceneryVariant, lxCore_.LynxiProduct_Scenery_Link_Scenery
     )[1]
     if lxBasic.isOsExistsFile(serverSceneryAdFile):
         maAsb.setAssemblyReferenceCreate(scnAssemblyReference, serverSceneryAdFile)

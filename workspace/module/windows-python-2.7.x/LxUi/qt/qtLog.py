@@ -30,7 +30,7 @@ def viewLogWin_(title=None):
     else:
         from LxUi.qt import qtWidgets
         #
-        win = qtWidgets.UiLogWindow()
+        win = qtWidgets.QtLogWindow()
         #
         if title:
             win.setNameText(title)
@@ -50,7 +50,7 @@ def logWin_(title=None):
     else:
         from LxUi.qt import qtWidgets
         #
-        win = qtWidgets.UiLogWindow()
+        win = qtWidgets.QtLogWindow()
         #
         if title:
             win.setNameText(title)

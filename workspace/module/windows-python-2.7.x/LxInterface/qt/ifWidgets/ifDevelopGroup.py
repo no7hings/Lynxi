@@ -1,6 +1,7 @@
 # coding=utf-8
-from LxCore import lxConfigure
-from LxUi.qt import qtProgress
+from LxBasic import bscCore
+
+from LxCore import lxScheme
 #
 from LxCore.preset import personnelPr
 #
@@ -40,7 +41,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         ['.png']
     ]
     #
-    developPath = lxConfigure.Root()._developPath()
+    developPath = lxScheme.Root().basic.develop
 
     backupPath = developPath + '/.bck'
     versionPath = backupPath + '/.version'
@@ -49,7 +50,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
     historyPath = backupPath + '/' + '.history'
     infoPath = backupPath + '/' + '.info'
     #
-    _dbMethod = _dbMethod.DbOsUnitMethod
+    _dbMethod = _dbMethod.Mtd_DbUnit
     #
     userLevel = personnelPr.getPersonnelUserLevel()
     def __init__(self, mainWindow=None):
@@ -78,9 +79,9 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
             setupOverviewUnit
         ]
         if self.mainWindow:
-            explain = '''Build Develop Unit(s)'''
+            explain = u'''Build Develop Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = bscCore.If_Progress(explain, maxValue)
             for i in buildMethodLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 i()

@@ -1,25 +1,25 @@
 # coding=utf-8
-from LxCore import lxConfigure, lxBasic
+from LxCore import lxCore_, lxBasic, lxScheme
 #
 from LxCore.preset import basicPr, pipePr
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
 
 
 #
-class IfPresetWindow(qtWidgets.UiToolWindow):
+class IfPresetWindow(qtWidgets.QtToolWindow):
     leftBoxWidth = 320
     widthSet = 55
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self):
         super(IfPresetWindow, self).__init__()
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -98,7 +98,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         def setBranch(presetKeys):
             def setTreeItem():
                 if explainKey:
-                    treeItem.setText(0, lxBasic._toStringPrettify(explainKey))
+                    treeItem.setText(0, lxBasic.str_camelcase2prettify(explainKey))
                     iconKeyword = ['svg_basic@svg#project', 'svg_basic@svg#branch_main', 'svg_basic@svg#tag'][len(presetKeys) - 1]
                     treeItem.setItemIcon_(0, iconKeyword)
                 #
@@ -243,7 +243,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
             qtTip.viewMessage(
-                u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(guidePresetKey),
+                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(guidePresetKey),
                 u'成功'
             )
         #
@@ -284,7 +284,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
-        entryLabel.setNameText('%s Name / Scheme' % lxBasic._toStringPrettify(guidePresetKey))
+        entryLabel.setNameText('%s Name / Scheme' % lxBasic.str_camelcase2prettify(guidePresetKey))
         entryLabel.setNameTextWidth(0)
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
@@ -380,7 +380,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
             qtTip.viewMessage(
-                u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(mainPresetKey),
+                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(mainPresetKey),
                 u'成功'
             )
         #
@@ -425,7 +425,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
-        entryLabel.setNameText('%s Name / Scheme' % lxBasic._toStringPrettify(mainPresetKey))
+        entryLabel.setNameText('%s Name / Scheme' % lxBasic.str_camelcase2prettify(mainPresetKey))
         entryLabel.setNameTextWidth(0)
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
@@ -506,7 +506,7 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
             #
             refreshMethod()
             qtTip.viewMessage(
-                u'保存 [ %s ] 预设' % lxBasic._toStringPrettify(subPresetKey),
+                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(subPresetKey),
                 u'成功'
             )
         #
@@ -598,8 +598,8 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         if len(presetKeys) == 3:
             schemeChooseBox = self.chooseBoxDic[presetKeys[:2]]
             scheme = schemeChooseBox.datum()
-        explains = [lxBasic._toStringPrettify(i) for i in presetKeys]
-        title = lxBasic.getUiStringPath(explains, lxConfigure.LynxiUiPathsep)
+        explains = [lxBasic.str_camelcase2prettify(i) for i in presetKeys]
+        title = lxBasic.getUiStringPath(explains, lxCore_.LynxiUiPathsep)
         toolGroupBox.setTitle(title + ['', ' ( {} )'.format(scheme)][scheme is not None])
     @qtCore.uiShowMethod_
     def windowShow(self):
@@ -613,12 +613,12 @@ class IfPresetWindow(qtWidgets.UiToolWindow):
         tabView = qtWidgets.QtVShelfTabGroup()
         self.addWidget(tabView)
         buildData = [
-            (lxConfigure.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
-            (lxConfigure.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
-            (lxConfigure.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
-            (lxConfigure.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
-            (lxConfigure.LynxiSoftwarePresetKey, 'svg_basic@svg#software', u'软件预设'),
-            (lxConfigure.LynxiVariantPresetKey, 'svg_basic@svg#variant', u'基础预设')
+            (lxCore_.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
+            (lxCore_.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
+            (lxCore_.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
+            (lxCore_.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
+            (lxCore_.LynxiSoftwarePresetKey, 'svg_basic@svg#software', u'软件预设'),
+            (lxCore_.LynxiVariantPresetKey, 'svg_basic@svg#variant', u'基础预设')
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)

@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtModelBasic
+from LxUi.qt.qtAbstracts import qtModelAbstract
 
 
 #
-class QtToolboxGroupModel(qtModelBasic._QtGroupModelBasic):
+class QtToolboxGroupModel(qtModelAbstract.Abc_QtGroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -126,7 +126,7 @@ class QtToolboxGroupModel(qtModelBasic._QtGroupModelBasic):
 
 
 #
-class QtToolboxModel(qtModelBasic._QtGroupModelBasic):
+class QtToolboxModel(qtModelAbstract.Abc_QtGroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -184,13 +184,13 @@ class QtToolboxModel(qtModelBasic._QtGroupModelBasic):
 
 
 #
-class QtButtonTabBarModel(qtModelBasic._QtTabBarModelBasic):
+class QtButtonTabBarModel(qtModelAbstract.Abc_QtTabBarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
 
 
 # Tab Bar
-class QtShelfTabBarModel(qtModelBasic._QtTabBarModelBasic):
+class QtShelfTabBarModel(qtModelAbstract.Abc_QtTabBarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
         #
@@ -325,13 +325,13 @@ class QtShelfTabBarModel(qtModelBasic._QtTabBarModelBasic):
 
 
 # Tab View
-class QtButtonTabGroupModel(qtModelBasic._QtTabGroupModelBasic):
+class QtButtonTabGroupModel(qtModelAbstract.Abc_QtTabGroupModel):
     def __init__(self, widget):
         self._initTabViewModelBasic(widget)
 
 
 #
-class QtShelfTabGroupModel(qtModelBasic._QtTabGroupModelBasic):
+class QtShelfTabGroupModel(qtModelAbstract.Abc_QtTabGroupModel):
     def __init__(self, widget):
         self._initTabViewModelBasic(widget)
     #

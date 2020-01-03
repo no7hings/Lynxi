@@ -3,9 +3,8 @@
 if __name__ == '__main__':
     from LxCore import lxBasic
     from LxMaterial.materialx import _util
-    reload(_util)
 
-    data = _util.loadVariant('C:/_pipe/plug/maya/2019/arnold/3.3.0.1/deploy/materialx/arnold/nodedefs.mtlx').nodeDefDic()
+    data = _util.loadVariant(r'C:\Users\dongchangbao\htoa\htoa-4.3.0_r48c4031_houdini-17.5.360\htoa-4.3.0_r48c4031_houdini-17.5.360\scripts\materialx\arnold\nodedefs.mtlx').nodeDefs()
 
-    lxBasic.writeOsJson(data, 'E:/mytest/attrDef.json')
+    lxBasic.writeOsJson(data, 'E:/mytest/nodedefs.json')
 

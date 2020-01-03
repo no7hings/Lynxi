@@ -1,16 +1,16 @@
 # coding:utf-8
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 from LxUi.qt.qtModels import qtViewModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
@@ -131,7 +131,7 @@ class QtScrollArea(qtCore.QWidget):
     def setupUi(self):
         self._viewport = qtCore.QWidget(self)
         #
-        self._vScrollBar, self._hScrollBar = qtWidgetBasic.QtScrollBar(self), qtWidgetBasic.QtScrollBar(self)
+        self._vScrollBar, self._hScrollBar = qtWidgetAbstract.QtScrollBar(self), qtWidgetAbstract.QtScrollBar(self)
         #
         self._layout = qtCore.QVBoxLayout_(self._viewport)
         self._layout.setContentsMargins(0, 0, 0, 0)
@@ -142,7 +142,7 @@ class QtScrollArea(qtCore.QWidget):
 
 
 #
-class QtCheckview(qtWidgetBasic._QtViewBasic):
+class QtCheckview(qtWidgetAbstract.Abc_QtView):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -159,7 +159,7 @@ class QtCheckview(qtWidgetBasic._QtViewBasic):
 
 
 #
-class QtTreeview(qtWidgetBasic._QtViewBasic):
+class QtTreeview(qtWidgetAbstract.Abc_QtView):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -188,6 +188,7 @@ class QtTreeview(qtWidgetBasic._QtViewBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Placeholder
         if self.viewModel().isPlaceholderEnable():
             painter.setDrawImage(
@@ -320,10 +321,12 @@ class QtTreeview(qtWidgetBasic._QtViewBasic):
                                         painter.drawLine(_vLine)
                             #
                             y += h
-    @qtWidgetBasic.uiActionEventFilterMethod
+
+        # painter.end()
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -337,8 +340,8 @@ class QtTreeview(qtWidgetBasic._QtViewBasic):
         self._vScrollBar.setActionData(self.actionData)
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetBasic.QtScrollBar(self)
-        self._vScrollBar = qtWidgetBasic.QtScrollBar(self)
+        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtTreeviewModel(self)
         #
@@ -357,7 +360,7 @@ class QtTreeview(qtWidgetBasic._QtViewBasic):
 
 
 #
-class QtGridview(qtWidgetBasic._QtViewBasic):
+class QtGridview(qtWidgetAbstract.Abc_QtView):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -433,6 +436,7 @@ class QtGridview(qtWidgetBasic._QtViewBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Placeholder
         if self.viewModel().isPlaceholderEnable():
             painter.setDrawImage(
@@ -446,10 +450,12 @@ class QtGridview(qtWidgetBasic._QtViewBasic):
                     self.viewModel()._uiFrameRect,
                     self._uiBackgroundRgba, self._uiBorderRgba
                 )
-    @qtWidgetBasic.uiActionEventFilterMethod
+
+        # painter.end()
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -544,8 +550,8 @@ class QtGridview(qtWidgetBasic._QtViewBasic):
         self.update()
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetBasic.QtScrollBar(self)
-        self._vScrollBar = qtWidgetBasic.QtScrollBar(self)
+        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtGridviewModel(self)
         #
@@ -577,7 +583,7 @@ class QtGridview(qtWidgetBasic._QtViewBasic):
 
 
 # Preset
-class QtPresetview(qtWidgetBasic._QtViewBasic):
+class QtPresetview(qtWidgetAbstract.Abc_QtView):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -598,10 +604,10 @@ class QtPresetview(qtWidgetBasic._QtViewBasic):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -615,8 +621,8 @@ class QtPresetview(qtWidgetBasic._QtViewBasic):
         self._vScrollBar.setActionData(self.actionData)
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetBasic.QtScrollBar(self)
-        self._vScrollBar = qtWidgetBasic.QtScrollBar(self)
+        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtPresetviewModel(self)
         #

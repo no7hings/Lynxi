@@ -3,11 +3,11 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtModels import qtChartModel
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 
 
 #
-class QtRadarchart(qtWidgetBasic._QtChartBasic):
+class QtRadarchart(qtWidgetAbstract.Abc_QtChart):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -30,7 +30,8 @@ class QtRadarchart(qtWidgetBasic._QtChartBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        #
+        # painter.begin(self)  # fix
+
         if self.chartModel().image() is not None:
             if self.chartModel().imageClipPath() is not None:
                 painter.setClipPath(self.chartModel().imageClipPath())
@@ -85,6 +86,8 @@ class QtRadarchart(qtWidgetBasic._QtChartBasic):
                 #
                 painter.drawText(textPoint0, showText0)
                 painter.drawText(textPoint1, showText1)
+
+        # painter.end()
     #
     def chartModel(self):
         return self._chartModel
@@ -94,7 +97,7 @@ class QtRadarchart(qtWidgetBasic._QtChartBasic):
 
 
 #
-class QtSectorchart(qtWidgetBasic._QtChartBasic):
+class QtSectorchart(qtWidgetAbstract.Abc_QtChart):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -109,6 +112,7 @@ class QtSectorchart(qtWidgetBasic._QtChartBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         if self.chartModel().image() is not None:
             painter.setDrawImage(
@@ -142,6 +146,8 @@ class QtSectorchart(qtWidgetBasic._QtChartBasic):
                 painter.drawEllipse(textEllipse)
                 #
                 painter.drawText(textPoint, showPercent)
+
+        # painter.end()
     #
     def setupUi(self):
         self._chartModel = qtChartModel.QtSectorchartModel(self)

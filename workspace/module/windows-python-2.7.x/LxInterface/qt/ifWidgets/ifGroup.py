@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxConfigure
+from LxCore import lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.preset import personnelPr
@@ -34,7 +34,7 @@ class IfProjectGroup(ifWidgetBasic.IfGroupBasic_):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxCore_.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [
@@ -79,7 +79,7 @@ class IfPersonnelGroup(ifWidgetBasic.IfGroupBasic_):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxCore_.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [
@@ -116,7 +116,7 @@ class IfToolkitGroup(ifWidgetBasic.IfGroupBasic_):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxCore_.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [

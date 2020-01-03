@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtLog, qtTip
 #
 from LxCore.preset import appVariant
@@ -130,7 +130,7 @@ def saveModelSource(
 ):
     # Local
     localModelFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -155,7 +155,7 @@ def astUnitModelGeometryLoadCmd(
 ):
     isDbExists = dbGet.isDbAstExistsGeometry(assetIndex)
     if isDbExists:
-        qtLog.viewStartProcess(logWin, 'Load Asset Model Geometry')
+        qtLog.viewStartProcess(logWin, 'Load Asset Model Nde_Geometry')
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform)
         #
@@ -197,14 +197,14 @@ def astUnitModelMaterialLoadCmd(
             # Use Server Path
             if useServerTexture:
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
                 isBackExists = False
             else:
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxConfigure.LynxiRootIndex_Local,
+                    lxCore_.LynxiRootIndex_Local,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -258,14 +258,14 @@ def astUnitLoadModelTexture(
     # Use Server Path
     if useServerTexture:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
         isBackExists = False
     else:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Local,
+            lxCore_.LynxiRootIndex_Local,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -376,7 +376,7 @@ def astUnitLoadRigMain(
     dbRigFile = dbGet.getDbAstRigAstProductFile(assetIndex)
     #
     localSourceFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -416,7 +416,7 @@ def astUnitLoadRigMain(
 def saveRigSource(logWin, projectName, assetClass, assetName, assetVariant, assetStage):
     # LocalFile
     localFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -556,7 +556,7 @@ def astUnitCfxFurLoadCmd(
 ):
     # Data
     cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName)
-    # Load Fur Node
+    # Load Fur Nde_Node
     existDbFur = dbGet.getExistsDbFur(assetIndex, assetVariant)
     if existDbFur:
         qtLog.viewStartProcess(logWin, 'Load Asset CFX ( Fur )')
@@ -568,13 +568,13 @@ def astUnitCfxFurLoadCmd(
         if collectionMap is True:
             # Load Fur Map
             mapDirectory = assetPr.astUnitMapFolder(
-                lxConfigure.LynxiRootIndex_Local,
+                lxCore_.LynxiRootIndex_Local,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage
             )
             if useServerMap:
                 mapDirectory = assetPr.astUnitMapFolder(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -618,13 +618,13 @@ def astUnitLoadCfxMaterialSub(
         if collectionTexture:
             if useServerTexture:
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
             else:
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxConfigure.LynxiRootIndex_Local,
+                    lxCore_.LynxiRootIndex_Local,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -858,13 +858,13 @@ def astUnitLoadProductSub(
     serverProductFile = None
     if assetPr.isAstSolverLink(assetStage) or assetPr.isAstLightLink(assetStage):
         serverProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, assetClass, assetName, assetVariant, assetStage
         )[1]
     #
     if serverProductFile is not None:
         if lxBasic.isOsExistsFile(serverProductFile):
-            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Product' % lxBasic._toStringPrettify(assetStage))
+            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Product' % lxBasic.str_camelcase2prettify(assetStage))
             #
             maFile.setFileImport(serverProductFile)
             #
@@ -888,7 +888,7 @@ def astUnitLoadTexture_(
 ):
     if textureNodes:
         localTextureFolder = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Local,
+            lxCore_.LynxiRootIndex_Local,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -921,7 +921,7 @@ def astUnitLoadTextureSub(
     if linkGroupName is not None:
         if maUtils.isAppExist(linkGroupName):
             shaderObjectLis = maUtils.getChildrenByRoot(linkGroupName)
-            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Texture' % lxBasic._toStringPrettify(assetStage))
+            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Texture' % lxBasic.str_camelcase2prettify(assetStage))
             #
             if shaderObjectLis:
                 textureNodes = maShdr.getTextureNodeLisByObject(shaderObjectLis)
@@ -935,9 +935,9 @@ def astUnitLoadTextureSub(
                         isWithTx
                     )
                 else:
-                    qtLog.viewWarning(logWin, u'Texture - Node is Non - Exists')
+                    qtLog.viewWarning(logWin, u'Texture - Nde_Node is Non - Exists')
             else:
-                qtLog.viewWarning(logWin, u'Shader - Object is Non - Exists')
+                qtLog.viewWarning(logWin, u'Nde_ShaderRef - Object is Non - Exists')
             #
             qtLog.viewCompleteProcess(logWin)
 
@@ -964,7 +964,7 @@ def astUnitLoadExtraSub(
         projectName,
         assetClass, assetName, assetVariant, assetStage):
     serverExtraFile = assetPr.astUnitExtraFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
     extraData = lxBasic.readOsJson(serverExtraFile)
@@ -984,7 +984,7 @@ def astUnitSaveSource(
         projectName,
         assetClass, assetName, assetVariant, assetStage):
     localSourceFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
@@ -1009,9 +1009,9 @@ def astUnitLoadAssemblyForScenery(
     #
     arName = assetPr.astUnitAssemblyReferenceName(assetName)
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
     )[1]
     if lxBasic.isOsExistsFile(serverAstUnitAsbDefinitionFile):
         assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
@@ -1035,9 +1035,9 @@ def astUnitRigLoadForAnimationCmd(
         assetClass, assetName, assetVariant
 ):
     serverRigProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
     )[1]
     if not lxBasic.isOsExistsFile(serverRigProductFile):
         maDbAstCmds.dbAstCopyRigProductTo(assetIndex, serverRigProductFile)
@@ -1058,8 +1058,8 @@ def astAssetLoadRigSolForAnimation(
         projectName,
         assetClass, assetName, assetVariant):
     serverSolverProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
-        projectName, assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        lxCore_.LynxiRootIndex_Server,
+        projectName, assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
     )[1]
     timeTag = lxBasic.getOsActiveTimeTag()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag

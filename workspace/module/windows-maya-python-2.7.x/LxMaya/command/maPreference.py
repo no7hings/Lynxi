@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxConfigure
+from LxCore import lxCore_
 #
 from LxCore.config import appCfg
 #
@@ -24,7 +24,7 @@ def getMayaTimeUnit(timeUnit):
 #
 def setAnimationTimeUnit(projectName=none):
     timeUnit = projectPr.getProjectMayaTimeUnit(projectName=projectName)
-    if not timeUnit == lxConfigure.LynxiValue_Unspecified:
+    if not timeUnit == lxCore_.LynxiValue_Unspecified:
         defineUnit = getMayaTimeUnit(timeUnit)
         currentUnit = maUtils.getTimeUnit()
         if defineUnit != currentUnit:

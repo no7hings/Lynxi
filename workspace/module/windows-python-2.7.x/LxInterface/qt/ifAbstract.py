@@ -3,9 +3,6 @@ from LxCore.config import appConfig
 #
 from LxUi.qt import qtCore
 
-#
-none = ''
-
 
 #
 class IfShelfAbs(object):

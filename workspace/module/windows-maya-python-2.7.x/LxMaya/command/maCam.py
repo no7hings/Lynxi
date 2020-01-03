@@ -1,7 +1,7 @@
 # coding=utf-8
 import math
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
@@ -54,7 +54,7 @@ def getActiveCameraShape():
 
 # Project Information
 def getProjectInfo():
-    projectInfo = lxConfigure.LynxiValue_Unspecified
+    projectInfo = lxCore_.LynxiValue_Unspecified
     projectName = currentProjectName
     #
     infos = datScene.getSceneInfo()

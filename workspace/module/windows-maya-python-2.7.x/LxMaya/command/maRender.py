@@ -4,7 +4,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress, qtTip
 #
 from LxCore.config import appCfg
@@ -77,10 +77,10 @@ MaArnoldLightAovLis = [
 ]
 #
 MaRendererDic = {
-    lxConfigure.LynxiArnoldRendererValue: 'arnold',
-    lxConfigure.LynxiRedshiftRendererValue: 'redshift',
-    lxConfigure.LynxiMayaSoftwareRendererValue: 'mayaSoftware',
-    lxConfigure.LynxiMayaHardwareRendererValue: 'mayaHardware'
+    lxCore_.LynxiArnoldRendererValue: 'arnold',
+    lxCore_.LynxiRedshiftRendererValue: 'redshift',
+    lxCore_.LynxiMayaSoftwareRendererValue: 'mayaSoftware',
+    lxCore_.LynxiMayaHardwareRendererValue: 'mayaHardware'
 }
 #
 MaDefaultWorkspaceRuleDic = {
@@ -696,16 +696,16 @@ def setLoadArnoldRenderer():
 
 #
 def setLoadRenderer(renderer):
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         setLoadArnoldRenderer()
 
 
 # Set Renderer
 def setCurrentRenderer(renderer):
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         cmds.setAttr(MaNodeAttrRenderOptionDic['renderer'], 'arnold', type='string')
         setLoadArnoldRenderer()
-    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
+    elif renderer == lxCore_.LynxiRedshiftRendererValue:
         cmds.setAttr(MaNodeAttrRenderOptionDic['renderer'], 'redshift', type='string')
 
 
@@ -798,7 +798,7 @@ def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultVi
         cmds.viewFit(cameraShape, fitFactor=0, animate=1)
         cmds.select(clear=1)
     #
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == lxCore_.LynxiArnoldRendererValue:
         if useDefaultLight is True:
             setCreateArnoldLight()
         #

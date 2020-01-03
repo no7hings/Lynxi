@@ -5,7 +5,7 @@ import math
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 from LxUi.qt.qtModels import qtGraphViewModel
 #
@@ -91,6 +91,8 @@ class xNodeViewport(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHint(painter.Antialiasing)
         # Background
         if self._drawBackgroundEnable is True:
@@ -103,6 +105,8 @@ class xNodeViewport(qtCore.QWidget):
             painter.setBorderRgba(self._uiBorderRgba)
             rect = _rect(xPos, yPos, width, height)
             painter.drawRect(rect)
+
+        # painter.end()
     #
     def initUi(self):
         self._uiBorderRgba = 255, 0, 63, 255
@@ -203,6 +207,8 @@ class QtGraphview(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHint(painter.Antialiasing)
         #
         xPos, yPos = 0, 0
@@ -248,6 +254,8 @@ class QtGraphview(qtCore.QWidget):
                 self._selectBackgroundRgba,
                 self._selectBorderRgba
             )
+
+        # painter.end()
     #
     def addNodes_(self):
         xScale, yScale = self._viewModel._mScale
@@ -351,7 +359,7 @@ class QtGraphview(qtCore.QWidget):
             (
                 qtGraphItem.xGraphNodeItem, qtGraphItem.xGraphConnectionItem, qtGraphItem.xGraphGroupItem,
                 qtGraphItem.xGraphExplainItem, qtGraphItem.xGraphAttributePortItem,
-                qtWidgetBasic._QtActionDropView,
+                qtWidgetAbstract._QtActionDropView,
                 _point, _pointF,
                 _rect, _rectF,
                 _path

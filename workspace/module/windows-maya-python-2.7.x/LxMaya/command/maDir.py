@@ -623,9 +623,9 @@ def setDirectory(
     )
     qtLog.viewCompleteProcess(logWin)
     # Repath Reference First ( Debug )
-    qtLog.viewStartProcess(logWin, u'''Repath Reference Node''')
+    qtLog.viewStartProcess(logWin, u'''Repath Reference Nde_Node''')
     if referenceRepathDataArray:
-        progressExplain = u'''Repath Reference Node'''
+        progressExplain = u'''Repath Reference Nde_Node'''
         maxValue = len(referenceRepathDataArray)
         progress = qtProgress.viewSubProgress(progressExplain, maxValue)
         for node, osFile in referenceRepathDataArray:
@@ -635,7 +635,7 @@ def setDirectory(
     else:
         qtLog.viewFailProcess(logWin, u'Non - Data ( Reference )')
     # Repath Assembly
-    qtLog.viewStartProcess(logWin, u'''Repath Assembly - Reference Node''')
+    qtLog.viewStartProcess(logWin, u'''Repath Assembly - Reference Nde_Node''')
     if arRepathDataArray:
         sceneryArRepathDataArray = []
         arUnitRepathDataArray = []
@@ -647,7 +647,7 @@ def setDirectory(
                 arUnitRepathDataArray.append((node, osFile))
         # Scenery
         if sceneryArRepathDataArray:
-            progressExplain = u'''Repath Assembly - Reference ( Scenery ) Node'''
+            progressExplain = u'''Repath Assembly - Reference ( Scenery ) Nde_Node'''
             maxValue = len(sceneryArRepathDataArray)
             progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile in sceneryArRepathDataArray:
@@ -655,7 +655,7 @@ def setDirectory(
                 setAssemblyReferenceRepath(node, osFile)
         # Assembly Unit
         if arUnitRepathDataArray:
-            progressExplain = u'''Repath Assembly - Reference ( Unit ) Node'''
+            progressExplain = u'''Repath Assembly - Reference ( Unit ) Nde_Node'''
             maxValue = len(arUnitRepathDataArray)
             progress = qtProgress.viewSubProgress(progressExplain, maxValue)
             for node, osFile in arUnitRepathDataArray:
@@ -710,9 +710,9 @@ def setDirectory(
         else:
             qtLog.viewFailProcess(logWin, u'Non - Data ( Fur Cache )')
     # Step 06 Other Nodes
-    qtLog.viewStartProcess(logWin, u'''Repath Other Node ( Texture, DSO...)''')
+    qtLog.viewStartProcess(logWin, u'''Repath Other Nde_Node ( Texture, DSO...)''')
     if otherRepathDataArray:
-        progressExplain = u'''Repath Other Node ( Texture, DSO...)'''
+        progressExplain = u'''Repath Other Nde_Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
         progress = qtProgress.viewSubProgress(progressExplain, maxValue)
         for node, osFile, fileType in otherRepathDataArray:
@@ -720,7 +720,7 @@ def setDirectory(
             setRepathGeneral(node, osFile, fileType)
         qtLog.viewCompleteProcess(logWin)
     else:
-        qtLog.viewFailProcess(logWin, u'Non - Data ( Other Node )')
+        qtLog.viewFailProcess(logWin, u'Non - Data ( Other Nde_Node )')
     #
     qtLog.viewCompleteProcessMessage(logWin)
     #
@@ -761,7 +761,7 @@ def getCollectionDataLis(
                             collectionDataArray.append((subSourceFile, subTargetFile, fileType))
                 # Get Repath Data
                 if isRepath:
-                    progressExplain = '''Get Repath Data %s''' % lxBasic._toStringPrettify(fileType)
+                    progressExplain = '''Get Repath Data %s''' % lxBasic.str_camelcase2prettify(fileType)
                     maxValue = len(nodes)
                     subProgressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
                     for seq, node in enumerate(nodes):
@@ -844,7 +844,7 @@ def setCollectionFile(
             maxValue = len(data)
             progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
             for sourceFile, targetFile, fileType in data:
-                progressBar.updateProgress(lxBasic._toStringPrettify(fileType))
+                progressBar.updateProgress(lxBasic.str_camelcase2prettify(fileType))
                 setCollectionBranch(sourceFile, targetFile, fileType)
     #
     setMain(collectionData)

@@ -1,20 +1,20 @@
 # coding:utf-8
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 from LxUi.qt.qtModels import qtGroupModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 
 
 #
-class QtToolboxGroup(qtWidgetBasic._QtGroupBasic):
+class QtToolboxGroup(qtWidgetAbstract.Abc_QtGroup):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -43,6 +43,7 @@ class QtToolboxGroup(qtWidgetBasic._QtGroupBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -75,19 +76,21 @@ class QtToolboxGroup(qtWidgetBasic._QtGroupBasic):
             textOption = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
             painter.setBorderRgba(self._uiIndexRgba)
             painter.drawText(rect, textOption, self.groupModel().indexText())
+
+        # painter.end()
     #
     def setupUi(self):
-        self._menuButton = qtWidgetBasic.QtMenuIconbutton('svg_basic@svg#tabMenu_h', self)
+        self._menuButton = qtWidgetAbstract.QtMenuIconbutton('svg_basic@svg#tabMenu_h', self)
         self._menuButton.setTooltip(
             u'''点击显示更多操作'''
         )
         #
-        self._separateButton = qtWidgetBasic.QtIconbutton('svg_basic@svg#separateWindow', self)
+        self._separateButton = qtWidgetAbstract.QtIconbutton('svg_basic@svg#separateWindow', self)
         self._separateButton.setTooltip(
             u'''点击分离 / 附着工具组面板'''
         )
         #
-        self._separateWindow = qtWidgetBasic._QtSeparateWindow(self)
+        self._separateWindow = qtWidgetAbstract._QtSeparateWindow(self)
         self._separateWindow.hide()
         #
         self._groupModel = qtGroupModel.QtToolboxGroupModel(self)
@@ -97,7 +100,7 @@ class QtToolboxGroup(qtWidgetBasic._QtGroupBasic):
 
 
 #
-class QtToolbox(qtWidgetBasic._QtGroupBasic):
+class QtToolbox(qtWidgetAbstract.Abc_QtGroup):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -115,6 +118,7 @@ class QtToolbox(qtWidgetBasic._QtGroupBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Image
         if self.groupModel().isExpanded():
             if self.groupModel().image() is not None:
@@ -155,6 +159,8 @@ class QtToolbox(qtWidgetBasic._QtGroupBasic):
                 painter.drawRect(self.groupModel().viewportRect())
                 #
                 self._paintSeparators(painter)
+
+        # painter.end()
     #
     def _paintSeparators(self, painter):
         widgetLis = self._separatorLis
@@ -177,7 +183,7 @@ class QtToolbox(qtWidgetBasic._QtGroupBasic):
                     sw = painter.fontMetrics().width(explain) + side * 2
                     sy = y + yo
                     #
-                    rect = QtCore.QRect(x_, sy, sw, h)
+                    rect = QtCore.QRect(x_, sy - 2, sw, h + 4)
                     #
                     textOption = QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter
                     painter.drawText(rect, textOption, explain)
@@ -286,12 +292,12 @@ class QtToolbox(qtWidgetBasic._QtGroupBasic):
         self._separatorLis.append(widget)
     #
     def setupUi(self):
-        self._menuButton = qtWidgetBasic.QtMenuIconbutton('svg_basic@svg#tabMenu_h', self)
+        self._menuButton = qtWidgetAbstract.QtMenuIconbutton('svg_basic@svg#tabMenu_h', self)
         self._menuButton.setTooltip(
             u'''点击显示更多操作'''
         )
         #
-        self._separateButton = qtWidgetBasic.QtIconbutton('svg_basic@svg#unpinWindow', self)
+        self._separateButton = qtWidgetAbstract.QtIconbutton('svg_basic@svg#unpinWindow', self)
         self._separateButton.setPressable(False)
         self._separateButton.setTooltip(
             u'''点击分离 / 附着工具组面板'''
@@ -301,7 +307,7 @@ class QtToolbox(qtWidgetBasic._QtGroupBasic):
 
 
 #
-class _QtButtonTabBar(qtWidgetBasic._QtTabBarBasic):
+class _QtButtonTabBar(qtWidgetAbstract.Abc_QtTabBar):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -315,7 +321,7 @@ class _QtButtonTabBar(qtWidgetBasic._QtTabBarBasic):
 
 
 #
-class QtButtonTabGroup(qtWidgetBasic._QtTabGroupBasic):
+class QtButtonTabGroup(qtWidgetAbstract.Abc_QtTabGroup):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -332,13 +338,13 @@ class QtButtonTabGroup(qtWidgetBasic._QtTabGroupBasic):
         self._tabBar.currentChanged.connect(self._currentChangedEmit)
         #
         self._viewModel = qtGroupModel.QtButtonTabGroupModel(self)
-        self._viewModel.setItemClass(qtWidgetBasic.QtButtonTab)
+        self._viewModel.setItemClass(qtWidgetAbstract.QtButtonTab)
         #
         self._tabBar.valueChanged.connect(self.viewModel()._updateScrollButtonState)
 
 
 # Button Tab Bar
-class _QtShelfTabBar(qtWidgetBasic._QtTabBarBasic):
+class _QtShelfTabBar(qtWidgetAbstract.Abc_QtTabBar):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -349,6 +355,7 @@ class _QtShelfTabBar(qtWidgetBasic._QtTabBarBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         if self.viewModel()._uiTabBarPath:
             painter.setBackgroundRgba(self._uiBackgroundRgba)
@@ -369,13 +376,15 @@ class _QtShelfTabBar(qtWidgetBasic._QtTabBarBasic):
                     painter.setBorderRgba((0, 0, 0, 0))
                     #
                     painter.drawPath(i)
+
+        # painter.end()
     #
     def setupUi(self):
         self._viewModel = qtGroupModel.QtShelfTabBarModel(self)
 
 
 # Tab Shelf
-class QtVShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
+class QtVShelfTabGroup(qtWidgetAbstract.Abc_QtTabGroup):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -389,22 +398,25 @@ class QtVShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         #
         painter.drawRect(self.viewModel().scrollRect())
+
+        # painter.end()
     #
     def setupUi(self):
         self._tabBar = _QtShelfTabBar(self)
         self._tabBar.currentChanged.connect(self._currentChangedEmit)
         #
-        self._addButton = qtWidgetBasic.QtMenuIconbutton('svg_basic@svg#addTab', self)
+        self._addButton = qtWidgetAbstract.QtMenuIconbutton('svg_basic@svg#addTab', self)
         #
-        self._subScrollButton, self._addScrollButton = qtWidgetBasic.QtIconbutton('svg_basic@svg#vScrollSub', self), qtWidgetBasic.QtIconbutton('svg_basic@svg#vScrollAdd', self)
+        self._subScrollButton, self._addScrollButton = qtWidgetAbstract.QtIconbutton('svg_basic@svg#vScrollSub', self), qtWidgetAbstract.QtIconbutton('svg_basic@svg#vScrollAdd', self)
         #
         self._viewModel = qtGroupModel.QtShelfTabGroupModel(self)
-        self._viewModel.setItemClass(qtWidgetBasic.QtShelfTab)
+        self._viewModel.setItemClass(qtWidgetAbstract.QtShelfTab)
         #
         self._tabBar.valueChanged.connect(self.viewModel()._updateScrollButtonState)
         self._subScrollButton.clicked.connect(self._tabBar.viewModel()._hScrollSubAction)
@@ -416,7 +428,7 @@ class QtVShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
 
 
 # Tab Group
-class QtHShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
+class QtHShelfTabGroup(qtWidgetAbstract.Abc_QtTabGroup):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -428,15 +440,18 @@ class QtHShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
         self.viewModel().setTabPosition(qtCore.North)
         self.viewModel().setTabSize(192, 24)
         #
-        self._chooseTab = qtWidgetBasic.QtChooseTab(self)
+        self._chooseTab = qtWidgetAbstract.QtChooseTab(self)
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         #
         painter.drawRect(self.viewModel().scrollRect())
+
+        # painter.end()
     #
     def chooseTab(self):
         return self._chooseTab
@@ -445,12 +460,12 @@ class QtHShelfTabGroup(qtWidgetBasic._QtTabGroupBasic):
         self._tabBar = _QtShelfTabBar(self)
         self._tabBar.currentChanged.connect(self._currentChangedEmit)
         #
-        self._addButton = qtWidgetBasic.QtMenuIconbutton('svg_basic@svg#addTab', self)
+        self._addButton = qtWidgetAbstract.QtMenuIconbutton('svg_basic@svg#addTab', self)
         #
-        self._subScrollButton, self._addScrollButton = qtWidgetBasic.QtIconbutton('svg_basic@svg#vScrollSub', self), qtWidgetBasic.QtIconbutton('svg_basic@svg#vScrollAdd', self)
+        self._subScrollButton, self._addScrollButton = qtWidgetAbstract.QtIconbutton('svg_basic@svg#vScrollSub', self), qtWidgetAbstract.QtIconbutton('svg_basic@svg#vScrollAdd', self)
         #
         self._viewModel = qtGroupModel.QtShelfTabGroupModel(self)
-        self._viewModel.setItemClass(qtWidgetBasic.QtShelfTab)
+        self._viewModel.setItemClass(qtWidgetAbstract.QtShelfTab)
         #
         self._tabBar.valueChanged.connect(self.viewModel()._updateScrollButtonState)
         self._subScrollButton.clicked.connect(self._tabBar.viewModel()._hScrollSubAction)

@@ -4,7 +4,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.api.OpenMaya as OpenMaya
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
@@ -1101,7 +1101,7 @@ def getGeometryObjectsInfo(groupString):
     return (
         # Path
         pathInfo,
-        # Geometry
+        # Nde_Geometry
         geomTopoInfo, geomShapeInfo,
         # Map
         mapTopoInfo, mapShapeInfo
@@ -1120,7 +1120,7 @@ def getMeshObjectsInfo(groupString):
     return (
         # Path
         pathInfo,
-        # Geometry
+        # Nde_Geometry
         geomTopoInfo, geomShapeInfo,
         # Map
         mapTopoInfo, mapShapeInfo
@@ -1134,7 +1134,7 @@ def getGeometryObjectsInfoDic(groupString):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         # View Progress
-        progressExplain = u'''Read Geometry Information'''
+        progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
         progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for objectString in objectStrings:
@@ -1164,7 +1164,7 @@ def getGeometryObjectsInfoDic_(objectStrings, groupString):
         dic[uniqueId] = (
             # Path
             pathInfo,
-            # Geometry
+            # Nde_Geometry
             geomTopoInfo, geomShapeInfo,
             # Map
             mapTopoInfo, mapShapeInfo
@@ -1191,7 +1191,7 @@ def getMeshObjectsInfoDic(groupString):
             dic[uniqueId] = (
                 # Path
                 getObjectPathInfo(objectString, groupString),
-                # Geometry
+                # Nde_Geometry
                 getMeshObjectGeomTopoInfo(objectString),
                 getMeshObjectGeomShapeInfo(objectString),
                 # Map
@@ -1219,7 +1219,7 @@ def getNurbsCurveObjectsInfoData(groupString):
             dic[uniqueId] = (
                 # Path
                 getObjectPathInfo(objectString, groupString),
-                # Geometry
+                # Nde_Geometry
             ) + tuple(getNurbsCurveObjectGeomInfo(objectString))
     return dic
 
@@ -1231,7 +1231,7 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         # View Progress
-        progressExplain = u'''Read Geometry Information'''
+        progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
         progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
         for objectString in objectStrings:
@@ -1245,7 +1245,7 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
                 dic[key] = (
                     # Path
                     pathInfo,
-                    # Geometry
+                    # Nde_Geometry
                     geomTopoInfo, geomShapeInfo,
                     # Map
                     mapTopoInfo, mapShapeInfo
@@ -1435,7 +1435,7 @@ def setCreateGeometryObjectsShape(dataDics):
             shapeData = geomShapeDic[uniqueId]
             objectPath = maUuid.getObject(uniqueId)
             if objectPath:
-                shapeName = maUtils.getAttrDatum(objectPath, lxConfigure.LynxiObjectShapeNameAttrName)
+                shapeName = maUtils.getAttrDatum(objectPath, lxCore_.LynxiObjectShapeNameAttrName)
                 setCreateGeometryObjectShape(objectPath, (topologyData, shapeData), shapeName)
 
 

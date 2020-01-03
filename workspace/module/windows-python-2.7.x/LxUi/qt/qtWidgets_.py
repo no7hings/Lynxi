@@ -9,9 +9,9 @@ from PyQt5.QtWidgets import *
 
 from LxCore import lxBasic
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
-from LxUi.qt.qtBasic import qtWidgetBasic
+from LxUi.qt.qtAbstracts import qtWidgetAbstract
 #
 from LxUi.qt import qtWidgets, qtCore
 
@@ -30,7 +30,7 @@ _polygon = QtGui.QPolygon
 _polygonF = QtGui.QPolygonF
 _path = QtGui.QPainterPath
 #
-_families = uiConfigure.Lynxi_Ui_Family_Lis
+_families = uiCore.Lynxi_Ui_Family_Lis
 #
 SolidBorder = 'solid'
 InsetBorder = 'inset'
@@ -48,7 +48,7 @@ def uiChooseViewDropMethod(fn):
         self = args[0]
         chooseNames = self._messages
         if chooseNames:
-            dropBox = qtWidgetBasic._QtChooseDropView(self)
+            dropBox = qtWidgetAbstract._QtChooseDropView(self)
             dropBox.setCurrentIndex(self.currentIndex)
             dropBox.installEventFilter(self)
             dropBox._viewModel.addItems(chooseNames, self._uiIconKeyword)
@@ -65,7 +65,7 @@ def uiChooseBoxEventFilterMethod(fn):
         widget_ = args[1]
         event = args[2]
         # Filter by Widget is Press
-        if type(widget_) == qtWidgetBasic._QtChooseDropView:
+        if type(widget_) == qtWidgetAbstract._QtChooseDropView:
             if event.type() == QtCore.QEvent.MouseButtonPress:
                 widget_.close()
                 #
@@ -185,6 +185,8 @@ class xExplainLabel(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setBorderRgba(self._uiBorderRgba)
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         #
@@ -211,6 +213,8 @@ class xExplainLabel(QWidget):
             )
             painter.setFont(qtCore.xFont(size=8, weight=50, family=_families[0]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, self._superExplain)
+
+        # painter.end()
     #
     def _setQtPressStatus(self, status):
         if status is qtCore.NormalStatus:
@@ -283,6 +287,8 @@ class xIconLabel(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setBorderRgba(self._uiBorderRgba)
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         #
@@ -331,10 +337,12 @@ class xIconLabel(QWidget):
             )
         #
         xPos += frameWidth + spacing
-    @qtWidgetBasic.uiActionEventFilterMethod
+
+        # painter.end()
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def setMenu(self):
         pass
     #
@@ -756,7 +764,7 @@ class QTextEdit_(QTextEdit):
                 self._parent._setQtPressStyle(qtCore.OffState)
             if not self.isReadOnly():
                 self._parent._setQtPressStyle(qtCore.NormalState)
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -782,7 +790,7 @@ class QTextEdit_(QTextEdit):
                 ]
             #
             if actions:
-                self.contextMenu = qtWidgetBasic._QtActionDropView(self)
+                self.contextMenu = qtWidgetAbstract._QtActionDropView(self)
                 self.contextMenu.setFocusProxy(self)
                 self.contextMenu.installEventFilter(self)
                 self.contextMenu.setActionData(actions)
@@ -843,6 +851,7 @@ class xBoxFrame(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         offset = 2
         #
@@ -857,6 +866,8 @@ class xBoxFrame(QWidget):
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         painter.drawRect(backgroundRect)
+
+        # painter.end()
     #
     def initUi(self):
         self._uiBackgroundRgba = 56, 56, 56, 255
@@ -890,6 +901,7 @@ class xTipFrame(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         borderRgba = 127
         backgroundRgba = 64
@@ -927,6 +939,8 @@ class xTipFrame(QWidget):
             (xPos, height + yPos - gap - uiShadowRadius),
         )
         painter.setDrawFocusFrame(focusFramePointLis)
+
+        # painter.end()
 
 
 #
@@ -975,7 +989,7 @@ class xLineEdit(QLineEdit):
     def focusOutEvent(self, event):
         self.clsSuper.focusOutEvent(event)
         self._updateUiStyle()
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -1001,7 +1015,7 @@ class xLineEdit(QLineEdit):
             ]
         #
         if actions:
-            self.contextMenu = qtWidgetBasic._QtActionDropView(self)
+            self.contextMenu = qtWidgetAbstract._QtActionDropView(self)
             self.contextMenu.setFocusProxy(self)
             self.contextMenu.installEventFilter(self)
             self.contextMenu.setActionData(actions)
@@ -2120,7 +2134,7 @@ class QTreeWidget_(QTreeWidget):
     #
     def setHeaderView(self, data, widthSet, mode=1):
         count = len(data)
-        explains = [lxBasic._toStringPrettify(i[0]) for i in data]
+        explains = [lxBasic.str_camelcase2prettify(i[0]) for i in data]
         widths = [i[1] for i in data]
         maxDivision = sum(widths)
         unitWidth = widthSet / maxDivision
@@ -2181,10 +2195,10 @@ class QTreeWidget_(QTreeWidget):
         # self.horizontalScrollBar().hide()
         #
         self.focusOut.emit()
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def setMenu(self):
         pass
     #
@@ -2456,6 +2470,7 @@ class xCheckItemWidget(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         painter.setFont(qtCore.xFont(size=8, weight=75, family=_families[2]))
         painter.setBorderRgba(self._uiBackgroundRgba)
@@ -2521,10 +2536,12 @@ class xCheckItemWidget(QWidget):
             isItalic = not self._isChecked
             painter.setFont(qtCore.xFont(size=8, weight=75, italic=isItalic, family=_families[2]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, showMessage)
-    @qtWidgetBasic.uiActionEventFilterMethod
+
+        # painter.end()
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #
@@ -2753,7 +2770,7 @@ class xPresetItemWidget(QWidget):
         if key:
             self.setDatum(key)
             if isUseNiceName:
-                self.setNameText(lxBasic._toStringPrettify(key))
+                self.setNameText(lxBasic.str_camelcase2prettify(key))
         if value:
             enabled, description = value
             self.setChecked(enabled)
@@ -3005,6 +3022,7 @@ class QtExpandWidget(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         h = self._buttonHeight
         #
@@ -3055,6 +3073,8 @@ class QtExpandWidget(QWidget):
             )
         #
         painter.setDrawImage(rect, self._expandBoxIcon)
+
+        # painter.end()
     #
     def eventFilter(self, widget, event):
         # Filter by Widget is Press
@@ -3187,10 +3207,10 @@ class xTreeLabelBar(QWidget):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtWidgetBasic.uiActionEventFilterMethod
+    @qtWidgetAbstract.uiActionEventFilterMethod
     def eventFilter(self, *args):
         return False
-    @qtWidgetBasic.uiActionViewDropMethod
+    @qtWidgetAbstract.uiActionViewDropMethod
     def _menuDropAction(self):
         pass
     #

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset.prod import scenePr
 #
@@ -35,7 +35,7 @@ def setListScRenderImageCustomize(
                 lxBasic.setOsFolderOpen(renderFolder)
             #
             renderFolder = scenePr.scUnitRenderFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage,
                 customize
@@ -69,11 +69,11 @@ def setListScRenderImageCustomize(
                 parentUi.setExpanded(True)
             #
             serverRenderFile = scenePr.scUnitRenderFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
             localRenderFile = scenePr.scUnitRenderFile(
-                lxConfigure.LynxiRootIndex_Local,
+                lxCore_.LynxiRootIndex_Local,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
@@ -164,7 +164,7 @@ def setListRenderImages(
                 return lxBasic.isOsExist(imageFolder)
             #
             def openImage():
-                osCmdExe = '{}/Pdplayer 64/pdplayer64.exe'.format(lxConfigure.BinSubRoot()._serverPath())
+                osCmdExe = 'pdplayer64.exe'
                 if lxBasic.isOsExistsFile(osCmdExe):
                     subOsFiles = lxBasic.getOsSeqFiles(imageFile)
                     if subOsFiles:
@@ -173,7 +173,7 @@ def setListRenderImages(
                         lxBasic.setOsCommandRun_(osCmd)
             #
             def showSizeHistogramWindow():
-                win = qtWidgets.UiDialogWindow()
+                win = qtWidgets.QtDialogWindow()
                 win.setNameText('Image Size Histogram')
                 chart = qtChart_.QtHistogramchart_()
                 win.addWidget(chart)
@@ -197,7 +197,7 @@ def setListRenderImages(
         def updateCompletion():
             numbers = lxBasic.getOsSeqFileNumbers(imageFile)
             #
-            numRangeArray = lxBasic.getFrameRange(numbers)
+            numRangeArray = lxBasic.lis_frame2range(numbers)
             #
             lineChart.setDrawData(numRangeArray, startFrame, endFrame)
         #

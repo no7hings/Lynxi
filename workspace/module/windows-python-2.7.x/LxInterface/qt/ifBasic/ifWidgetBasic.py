@@ -513,7 +513,7 @@ class IfProductUnitOverviewUnitBasic(
     qtCore.UiMainWidget,
     ifAbstract.IfUnitAbs
 ):
-    LxProductConfig = appConfig.LxProductConfig
+    Cfg_Product = appConfig.Cfg_Product
     SideWidth = 320
     def _initOverviewUnitBasic(self):
         self._initUnitAbs()
@@ -562,7 +562,7 @@ class IfProductUnitOverviewUnitBasic(
         pass
     #
     def _setupLinkFilter(self, productModule, layout):
-        uiSetDic = self.LxProductConfig._lxProductLinkUiSetDic(productModule)
+        uiSetDic = self.Cfg_Product._lxProductLinkUiSetDic(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Link Filter')
         toolGroupBox.setExpanded(True)
@@ -587,7 +587,7 @@ class IfProductUnitOverviewUnitBasic(
             self._filterItemDic[keyword] = filterItem
     #
     def _setupClassFilter(self, productModule, layout):
-        uiSetDic = self.LxProductConfig._lxProductClassUiSetDic(productModule)
+        uiSetDic = self.Cfg_Product._lxProductClassUiSetDic(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Class Filter')
         toolGroupBox.setExpanded(True)
@@ -611,7 +611,7 @@ class IfProductUnitOverviewUnitBasic(
             #
             filterRow += 1
             #
-            subFilterConfigDic = self.LxProductConfig._lxProductPriorityUiSetDic(productModule)
+            subFilterConfigDic = self.Cfg_Product._lxProductPriorityUiSetDic(productModule)
             for subSeq, (subKeyword, subExplainLis) in enumerate(subFilterConfigDic.items()):
                 subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
@@ -632,7 +632,7 @@ class IfProductUnitOverviewUnitBasic(
                 filterRow += 1
     #
     def _setupStageFilter(self, productModule, layout):
-        linkLis = self.LxProductConfig._lxProductLinkLis(productModule)
+        linkLis = self.Cfg_Product._lxProductLinkLis(productModule)
         #
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
@@ -651,7 +651,7 @@ class IfProductUnitOverviewUnitBasic(
         #
         checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
-        uiSetDic = self.LxProductConfig._lxProductStageUiSetDic(productModule)
+        uiSetDic = self.Cfg_Product._lxProductStageUiSetDic(productModule)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #

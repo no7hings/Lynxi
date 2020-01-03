@@ -1,24 +1,22 @@
 # coding=utf-8
-from LxCore import lxConfigure, lxUpdate
+from LxCore import lxCore_
 #
 from LxCore.preset.prod import projectPr
 #
 from LxUi.qt import qtWidgets
 #
 from LxMaya.interface.ifWidgets import ifMaSceneToolUnit
-#
-lxUpdate.setUpdate()
 
 
 #
-class IfToolWindow(qtWidgets.UiToolWindow):
+class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
         self.tool = ifMaSceneToolUnit.IfScMayaComposeToolUnit()
         self.addWidget(self.tool)
         #
         self.projectName = projectPr.getMayaProjectName()
-        self.sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+        self.sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
         #
         self.tool.setConnectObject(self)
         self.setQuitConnect(self.tool.delScriptJob)

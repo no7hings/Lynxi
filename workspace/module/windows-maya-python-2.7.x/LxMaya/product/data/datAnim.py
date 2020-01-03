@@ -3,7 +3,7 @@ import os, collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxConfigure
+from LxCore import lxCore_
 #
 from LxCore.preset import appVariant
 #
@@ -111,9 +111,9 @@ def getAssetDirectoryReduceData(projectName):
             if state == 'Loaded':
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
                 )[1]
                 dic[referenceNode] = currentFile, correctFile
     return dic
@@ -242,9 +242,9 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 # Directory and namespace
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
                 )[1]
                 #
                 if currentFile.lower() == correctFile.lower():
@@ -266,7 +266,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                     nonRefObjects = maUtils.getNonRefChildObjectsByRoot(astUnitModelProductGroup, 'mesh', 1)
                     if not nonRefObjects:
                         assetHirClrArray.append(referenceNode)
-                    # Geometry Check
+                    # Nde_Geometry Check
                     localData = datAsset.getMeshObjectsConstantDic(assetName, namespace)
                     serverData = {}
                     hierCheck, geomCheck, geomShapeCheck, mapCheck, mapShapeCheck = getAnimationSceneMeshConstant(localData, serverData)

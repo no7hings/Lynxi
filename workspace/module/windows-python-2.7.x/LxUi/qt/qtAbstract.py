@@ -2103,7 +2103,6 @@ class QtViewModelAbs(qtDefinition.QtViewModelDef):
     #
     def _updateSelPressStartVisibleIndex(self, visibleIndex):
         if self._shiftFlag is False and self._checkFlag is False:
-            self.traceResult('Set Press Start Index : {}'.format(visibleIndex))
             self._selRangePressStartVisibleIndex = visibleIndex
     # For Override
     def _updateByFilterAction(self):

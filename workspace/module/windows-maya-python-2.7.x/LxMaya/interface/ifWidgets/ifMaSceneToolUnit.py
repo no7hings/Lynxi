@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 #
 from LxCore.config import appCfg
@@ -786,7 +786,7 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
         sceneStage = self._connectObject.sceneStage
         #
         sceneDirectory = scenePr.sceneExtraFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage
         )
         projectServerRootPathLis = projectPr.getProjectServerRootLis(projectName)
@@ -1049,7 +1049,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     qtTip.viewMessage('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
-                IfToolWindow = qtWidgets.UiToolWindow(self)
+                IfToolWindow = qtWidgets.QtToolWindow(self)
                 toolBox = ifMaAnimToolUnit.IfScRigLoadedUnit()
                 #
                 IfToolWindow.addWidget(toolBox)

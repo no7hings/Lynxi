@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset import appVariant
 
@@ -70,7 +70,7 @@ def dbAstRigSolProductDirectory():
     return directory
 
 
-# Geometry
+# Nde_Geometry
 def dbAstGeometrySubDirectory():
     directory = dbAssetBasicDirectory() + '/%s' % appVariant.dbGeometrySubKey
     return directory
@@ -201,7 +201,7 @@ def dbAstAssemblyIndexDirectory():
     return directory
 
 
-# Asset Geometry Index
+# Asset Nde_Geometry Index
 def dbAstGeometryIndexDirectory():
     directory = dbAstIndexSubDirectory() + '/%s' % appVariant.dbGeometryUnitKey
     return directory
@@ -255,7 +255,7 @@ def dbAstGeometryConstantDirectory():
     return directory
 
 
-# Geometry
+# Nde_Geometry
 def dbAstGeometryTransformUnitDirectory():
     directory = dbAstGeometrySubDirectory() + '/%s' % appVariant.dbTransformUnitKey
     return directory
@@ -333,7 +333,7 @@ def dbAstObjectGraphRelationUnitDirectory():
     return directory
 
 
-# Material Node
+# Material Nde_Node
 def dbAstMaterialNodeUnitDirectory():
     directory = dbAstMaterialSubDirectory() + '/%s' % appVariant.dbNodeUnitKey
     return directory

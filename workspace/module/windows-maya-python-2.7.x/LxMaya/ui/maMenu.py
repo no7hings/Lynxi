@@ -22,8 +22,9 @@ def getMaMenuBar():
     if mayaWindow:
         children = mayaWindow.children()
         for child in children:
-            if type(child) == QtWidgets.QMenuBar:
-                return child
+            if child:
+                if type(child) == QtWidgets.QMenuBar:
+                    return child
 
 
 #
@@ -57,14 +58,18 @@ def setMayaMenu():
     def toolShelfCmd():
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
-        w = ifProductWindow.IfToolFloatWindow()
+        w = ifProductWindow.If_QtToolFloatWindow()
         w.windowShow()
     #
     def toolKitCmd():
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
-        w = ifProductWindow.IfToolkitWindow()
+        w = ifProductWindow.If_QtToolkitWindow()
         w.windowShow()
+
+    def updateCmd():
+        from LxCore import lxScheme
+        lxScheme.Python().loadActiveModules()
     #
     def setMain():
         mayaMenuBar = getMaMenuBar()
@@ -77,6 +82,7 @@ def setMayaMenu():
             lynxiMenu = mayaMenuBar.addMenu(Lynxi_Key_Maya_Menu)
             lynxiMenu.setTearOffEnabled(True)
             #
+            lynxiMenu.setObjectName('Lynxi')
             lynxiMenu.setTitle(Lynxi_Key_Maya_Menu)
             for i in menuDatumLis:
                 if i:
@@ -116,6 +122,7 @@ def setMayaMenu():
         (),
         ('Tool Kit', 'svg_basic@svg#toolkit', toolKitCmd),
         (),
+        ('Update', 'svg_basic@svg#update', updateCmd),
         ('Help', 'svg_basic@svg#help', None)
     ]
     #

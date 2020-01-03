@@ -1,7 +1,7 @@
 # coding=utf-8
 import collections, threading
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
 #
@@ -41,10 +41,10 @@ none = ''
 #
 class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxCore_.LynxiProduct_Asset_Link_Model
     ]
     UnitClassLimit = [
-        lxConfigure.LynxiCharacterClassKey
+        lxCore_.LynxiCharacterClassKey
     ]
     UnitTitle = 'Model ( Character ) Tool Unit'
     UnitIcon = 'window#charToolPanel'
@@ -59,7 +59,7 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def refreshMethod(self):
         if self.connectObject():
             if assetPr.isAstModelLink(self.connectObject().assetStage):
-                if self.connectObject().assetClass == lxConfigure.LynxiCharacterClassKey:
+                if self.connectObject().assetClass == lxCore_.LynxiCharacterClassKey:
                     self._initObjectPathDic()
                     #
                     self._updateBtnStateCmd()
@@ -233,7 +233,7 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxCore_.LynxiProduct_Asset_Link_Model
     ]
     UnitTitle = 'Model Tool Unit'
     UnitIcon = 'window#modelToolPanel'
@@ -249,7 +249,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
         # 4
         withMaterial=[1, 5, 0, 1, 2, 'Material'], withTexture=[1, 5, 2, 1, 2, 'Texture'],
         withAov=[1, 6, 0, 1, 2, 'AOV'],
-        repairShader=[1, 7, 0, 1, 4, 'Repair Shader', 'svg_basic@svg#shader']
+        repairShader=[1, 7, 0, 1, 4, 'Repair Nde_ShaderRef', 'svg_basic@svg#shader']
     )
     #
     ToolLayoutDic_AstModelUtils = {
@@ -322,7 +322,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.setButton(inData, 'withMaterial', self.withMaterialButton)
         self.withMaterialButton.setChecked(True)
         self.withMaterialButton.setTooltip(
-            u'''1. Repair Material's Object - Set\r\n2. Repair Material's Color - Space ( Texture Node )'''
+            u'''1. Repair Material's Object - Set\r\n2. Repair Material's Color - Space ( Texture Nde_Node )'''
         )
         #
         self.withTextureButton = qtWidgets.QtCheckbutton()
@@ -465,7 +465,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstRigToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Rig
+        lxCore_.LynxiProduct_Asset_Link_Rig
     ]
     UnitTitle = 'Rig Tool Unit'
     UnitIcon = 'window#rigToolPanel'
@@ -499,8 +499,8 @@ class IfAstRigToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
-        lxConfigure.LynxiProduct_Asset_Link_Solver
+        lxCore_.LynxiProduct_Asset_Link_Cfx,
+        lxCore_.LynxiProduct_Asset_Link_Solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#cfxToolPanel'
@@ -510,20 +510,20 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     widthSet = 400
     # Tips
-    addNodeTips = u'''提示：选择一个"Yeti / Pfx Hair / Nurbs Hair Node"...'''
-    addNodeSubTips1 = u'''提示：点击"Add Node"添加...'''
-    addNodeSubTips2 = u'''提示：输入"Node Name "...'''
-    nodeNameTips1 = u'''错误：输入"Node Name"已经存...'''
-    nodeNameTips2 = u'''错误：输入的"Node Name"超过12个字符...'''
+    addNodeTips = u'''提示：选择一个"Yeti / Pfx Hair / Nurbs Hair Nde_Node"...'''
+    addNodeSubTips1 = u'''提示：点击"Add Nde_Node"添加...'''
+    addNodeSubTips2 = u'''提示：输入"Nde_Node Name "...'''
+    nodeNameTips1 = u'''错误：输入"Nde_Node Name"已经存...'''
+    nodeNameTips2 = u'''错误：输入的"Nde_Node Name"超过12个字符...'''
     createGrowSourceTips = u'''提示：选择一个"Mesh"...'''
     createGrowSourceSubTips1 = u'''提示：点击"Create Source"创建...'''
     createGrowSourceSubTips2 = u'''错误：选择的"Mesh"已经存"Grow Source"...'''
     # CFX Graph Tool
     ToolLayoutDic_AstCfxGraph = dict(
         deleteHistory=[0, 0, 0, 1, 2, 'Delete History ( Local Curve )'], updateHierarchy=[0, 0, 2, 1, 2, 'Update Hierarchy'],
-        childNode=[0, 1, 0, 1, 3, u'Node ( Yeti / Pfx Hair / Nurbs Hair )...'], addNode=[0, 1, 3, 1, 1, 'Add Node', 'svg_basic@svg#addTab'],
+        childNode=[0, 1, 0, 1, 3, u'Nde_Node ( Yeti / Pfx Hair / Nurbs Hair )...'], addNode=[0, 1, 3, 1, 1, 'Add Nde_Node', 'svg_basic@svg#addTab'],
         # 2
-        nodeName=[0, 3, 0, 1, 4, 'Node Name'],
+        nodeName=[0, 3, 0, 1, 4, 'Nde_Node Name'],
         tips=[0, 4, 0, 1, 4, none],
         # 5
         placeholder=[0, 6, 0, 1, 4, 'Placeholder']
@@ -599,7 +599,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._addNodeButton = qtWidgets.QtPressbutton()
         toolBox.setButton(inData, 'addNode', self._addNodeButton)
         self._addNodeButton.setPressable(False)
-        self._addNodeButton.setTooltip('Add Node ( Yeti / pfxHair ) to Group')
+        self._addNodeButton.setTooltip('Add Nde_Node ( Yeti / pfxHair ) to Group')
         self._addNodeButton.clicked.connect(self.setAddAstCfxFur)
         #
         self._furNodeKeywordEntryLabel = qtWidgets.QtEnterlabel()
@@ -625,7 +625,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self._astCfxFurObjectsTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._astCfxFurObjectsTreeViewBox, 6, 0, 1, 4)
-        self._astCfxFurObjectsTreeViewBox.setColumns(['Node', 'Node Type'], [4, 1], self.widthSet - 60)
+        self._astCfxFurObjectsTreeViewBox.setColumns(['Nde_Node', 'Nde_Node Type'], [4, 1], self.widthSet - 60)
         self._astCfxFurObjectsTreeViewBox.itemSelectionChanged.connect(setSelObject)
         self._astCfxFurObjectsTreeViewBox.itemSelectionChanged.connect(self.setAddNodeBtnState)
         self._astCfxFurObjectsTreeViewBox.itemSelectionChanged.connect(self.setAstFurNodeName)
@@ -660,7 +660,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._astModelGeometryObjectTreeViewBox = qtWidgets_.QTreeWidget_()
         toolBox.addWidget(self._astModelGeometryObjectTreeViewBox, 3, 0, 1, 4)
         self._astModelGeometryObjectTreeViewBox.setSingleSelection()
-        self._astModelGeometryObjectTreeViewBox.setColumns(['Node', 'Node Type'], [4, 1], self.widthSet - 60)
+        self._astModelGeometryObjectTreeViewBox.setColumns(['Nde_Node', 'Nde_Node Type'], [4, 1], self.widthSet - 60)
         self._astModelGeometryObjectTreeViewBox.itemSelectionChanged.connect(setSelObject)
         self._astModelGeometryObjectTreeViewBox.itemSelectionChanged.connect(self.setGrowSourceName)
         self._astModelGeometryObjectTreeViewBox.setFilterConnect(self._astModelGeometryFilterLabel)
@@ -1017,7 +1017,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
             yetiObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiNodeGroupLabel)
             #
             groomData = maUtils.getYetiGroomDic(yetiObject)
-            # Use All Yeti Node's Data for Rebuild
+            # Use All Yeti Nde_Node's Data for Rebuild
             connectionData = maUtils.getYetiImportConnectionDic()
             #
             if groomData:
@@ -1031,7 +1031,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     maUtils.setObjectParent(groomObjectName, groomObjectGroup)
                     #
                     groomConnectionData = connectionData[groomObject]
-                    # Repath Yeti Node Link
+                    # Repath Yeti Nde_Node Link
                     for i in groomConnectionData:
                         yetiNode, node = i
                         maUtils.setYetiNodeAttr(yetiNode, node, 'geometry', groomObjectShapeName)
@@ -1231,7 +1231,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     growObjects, pfxHairObjectName, appVariant.astPfxHairGroupLabel, appVariant.astPfxHairGrowGroupLabel, appVariant.astPfxHairGrowGroupLabel,
                     renameShape=True, subGroup=False, hide=True
                 )
-            # Shader
+            # Nde_ShaderRef
             if shaders:
                 for seq, shader in enumerate(shaders):
                     shaderName = pfxHairObjectName.replace(appVariant.astPfxHairGroupLabel, appVariant.astPfxHairShaderNodeLabel) + '_' + str(seq)
@@ -1619,7 +1619,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Solver
+        lxCore_.LynxiProduct_Asset_Link_Solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#solverToolPanel'
@@ -1628,7 +1628,7 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitScriptJobWindowName = 'astSolverToolScriptJobWindow'
     #
     widthSet = 400
-    # Node
+    # Nde_Node
     dicSolverNodeTool = collections.OrderedDict()
     dicSolverNodeTool['placeholder'] = [1, 0, 0, 1, 4, 'Placeholder']
     # 1
@@ -1694,7 +1694,7 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self.astSolverFurNodeTreeViewBox = qtWidgets_.QTreeWidget_()
         self.astSolverFurNodeTreeViewBox.setUiStyle('B')
         layout.addWidget(self.astSolverFurNodeTreeViewBox)
-        self.astSolverFurNodeTreeViewBox.setColumns(['Node', 'Node Type'], [4, 4], self.widthSet * 2)
+        self.astSolverFurNodeTreeViewBox.setColumns(['Nde_Node', 'Nde_Node Type'], [4, 4], self.widthSet * 2)
         #
         self.astSolverFurNodeTreeViewBox.itemSelectionChanged.connect(setSelObject)
         self.astSolverFurNodeTreeViewBox.itemSelectionChanged.connect(self.setButtonState)
@@ -1726,7 +1726,7 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self.astSolverFurGuideTreeViewBox = qtWidgets_.QTreeWidget_()
         self.astSolverFurGuideTreeViewBox.setUiStyle('B')
         layout.addWidget(self.astSolverFurGuideTreeViewBox)
-        self.astSolverFurGuideTreeViewBox.setColumns(['Node', 'Node Type'], [4, 4], self.widthSet * 2)
+        self.astSolverFurGuideTreeViewBox.setColumns(['Nde_Node', 'Nde_Node Type'], [4, 4], self.widthSet * 2)
         #
         self.astSolverFurGuideTreeViewBox.itemSelectionChanged.connect(setSelObject)
         #
@@ -1874,17 +1874,17 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxCore_.LynxiProduct_Asset_Link_Model,
+        lxCore_.LynxiProduct_Asset_Link_Rig,
+        lxCore_.LynxiProduct_Asset_Link_Cfx,
+        lxCore_.LynxiProduct_Asset_Link_Solver,
+        lxCore_.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'General Tool Unit'
     UnitIcon = 'window#utilsToolPanel'
     UnitTooltip = u'''通用工具模块'''
     #
-    _groupCreateTip = u'''提示：请输入"Node Name"...'''
+    _groupCreateTip = u'''提示：请输入"Nde_Node Name"...'''
     #
     UnitScriptJobWindowName = 'astGeneralToolScriptJobWindow'
     #
@@ -1892,8 +1892,8 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
     # CFX Utilities Tool
     dicAstUtils = {
         'withMaterial': [1, 0, 0, 1, 2, 'Material Model '], 'withAov': [1, 0, 2, 1, 2, 'Aov Model'],
-        'variant': [0, 1, 0, 1, 2, 'Variant(s)'], 'importShader': [1, 1, 2, 1, 2, 'Import Shader', 'svg_basic@svg#python'],
-        'usePath': [1, 3, 0, 1, 2, 'Use Path'], 'useName': [1, 3, 1, 1, 2, 'Use Name'], 'useGeom': [1, 3, 2, 1, 2, 'Use Geometry'],
+        'variant': [0, 1, 0, 1, 2, 'Variant(s)'], 'importShader': [1, 1, 2, 1, 2, 'Import Nde_ShaderRef', 'svg_basic@svg#python'],
+        'usePath': [1, 3, 0, 1, 2, 'Use Path'], 'useName': [1, 3, 1, 1, 2, 'Use Name'], 'useGeom': [1, 3, 2, 1, 2, 'Use Nde_Geometry'],
         'loadMeshIndex': [1, 4, 0, 1, 4, 'Load Mesh Unique ID', 'svg_basic@svg#load'],
         # 5
         'astUnitClearScene': [1, 6, 0, 1, 2, 'Clean Maya - Scene', 'svg_basic@svg#python'], 'astUnitRenameScene': [1, 6, 2, 1, 2, 'Rename Maya - Scene', 'svg_basic@svg#python'],
@@ -1932,7 +1932,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
             self.setupAstUtilsGraphToolUiBox(self._astUtilsGraphToolUiBox)
             #
             if assetPr.isAstModelLink(self.connectObject().assetStage):
-                self._addObjectButton.setNameText('Add Geometry')
+                self._addObjectButton.setNameText('Add Nde_Geometry')
                 self.filterTypes = [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve]
                 #
                 if assetPr.isPropClass(self.connectObject().assetClass):
@@ -2137,7 +2137,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         index = 0
         for seq, i in enumerate(buttonConfig):
             button = qtWidgets.QtPressbutton()
-            explain = lxBasic._toStringPrettify(i)
+            explain = lxBasic.str_camelcase2prettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
             x = seq % 2
@@ -2197,7 +2197,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         index = 0
         for seq, i in enumerate(buttonConfig):
             button = qtWidgets.QtPressbutton()
-            explain = lxBasic._toStringPrettify(i)
+            explain = lxBasic.str_camelcase2prettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
             x = seq % 2
@@ -2323,11 +2323,11 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     [maShdr.setObjectDefaultShadingEngine(i) for i in shaderGeomObjects]
                     #
                     qtTip.viewMessage(
-                        u'Import Shader', u'Complete'
+                        u'Import Nde_ShaderRef', u'Complete'
                     )
                 else:
                     qtTip.viewMessage(
-                        u'Shader', u'Non-Exists'
+                        u'Nde_ShaderRef', u'Non-Exists'
                     )
     @staticmethod
     def setCleanScene():
@@ -2419,11 +2419,11 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxCore_.LynxiProduct_Asset_Link_Model,
+        lxCore_.LynxiProduct_Asset_Link_Rig,
+        lxCore_.LynxiProduct_Asset_Link_Cfx,
+        lxCore_.LynxiProduct_Asset_Link_Solver,
+        lxCore_.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'Information Tool Unit'
     UnitIcon = 'window#infoToolPanel'
@@ -2434,7 +2434,7 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
     geometryRadarChartConfig = ['worldArea', 'shell', 'vertex', 'edge', 'face', 'triangle']
     meshConstantConfig = ['geometry', 'geometryShape', 'map', 'mapShape']
     materialEvaluateConfig = ['material', 'node', 'connection', 'textureNode', 'texture']
-    materialConstantConfig = ['Node', 'Relation']
+    materialConstantConfig = ['Nde_Node', 'Relation']
     def __init__(self, *args, **kwargs):
         super(IfAstModelInfoToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -2641,15 +2641,15 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self.mainLayout().addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         self._tabWidget.currentChanged.connect(self.setTabSwitch)
-        # Geometry
+        # Nde_Geometry
         widget = qtCore.QWidget_()
-        self._tabWidget.addTab(widget, 'Geometry', 'svg_basic@svg#tab')
+        self._tabWidget.addTab(widget, 'Nde_Geometry', 'svg_basic@svg#tab')
         layout = qtCore.QVBoxLayout_(widget)
         layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupGeometryQtTab(layout)
-        # Shader
+        # Nde_ShaderRef
         widget = qtCore.QWidget_()
-        self._tabWidget.addTab(widget, 'Shader', 'svg_basic@svg#tab')
+        self._tabWidget.addTab(widget, 'Nde_ShaderRef', 'svg_basic@svg#tab')
         layout = qtCore.QVBoxLayout_(widget)
         layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupShaderQtTab(layout)
@@ -2658,11 +2658,11 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
 #
 class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxCore_.LynxiProduct_Asset_Link_Model,
+        lxCore_.LynxiProduct_Asset_Link_Rig,
+        lxCore_.LynxiProduct_Asset_Link_Cfx,
+        lxCore_.LynxiProduct_Asset_Link_Solver,
+        lxCore_.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -2697,7 +2697,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     astCfxUploadTips = [
         u"提示：",
-        u"1：点击 Node [ 0000 / 0000 ] 进行毛发检查；",
+        u"1：点击 Nde_Node [ 0000 / 0000 ] 进行毛发检查；",
         u"2：点击 Texture [ 0000 / 0000 ] 进行贴图检查；",
         u"3：修改 错误项目 ；",
         u"4：点击 Upload ！！！ 上传...",
@@ -2712,7 +2712,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     astLightUploadTips = [
         u"提示：",
-        u"1：点击 Node [ 0000 / 0000 ] 进行灯光检查；",
+        u"1：点击 Nde_Node [ 0000 / 0000 ] 进行灯光检查；",
         u"2：点击 Texture [ 0000 / 0000 ] 进行贴图检查；",
         u"3：修改 错误项目 ；",
         u"4：点击 Upload ！！！ 上传...",
@@ -2758,7 +2758,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     }
     #
     dicAstModelExtend = {
-        'updateSolverGeometry': [0, 0, 0, 1, 4, 'Update Solver Geometry', 'svg_basic@svg#upload']
+        'updateSolverGeometry': [0, 0, 0, 1, 4, 'Update Solver Nde_Geometry', 'svg_basic@svg#upload']
     }
     # Variant
     dicAstVariantModify = {
@@ -3068,7 +3068,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         serverProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )[1]
@@ -3089,7 +3089,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         #
         tipsLabel = self._tipTextBrower
-        keyword = 'Geometry'
+        keyword = 'Nde_Geometry'
         #
         geometryObjects = datAsset.getAstMeshObjects(assetName, 1)
         #
@@ -3124,7 +3124,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     # Cfx
     def setAstCfxCheck(self):
         tipsLabel = self._tipTextBrower
-        keyword = 'Node'
+        keyword = 'Nde_Node'
         #
         self.connectObject().setAstCfxCheckCmd()
         checkData = self.connectObject().astCfxFurData
@@ -3152,7 +3152,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setAstRigSolCheck(self):
         tipsLabel = self._tipTextBrower
-        keyword = 'Node'
+        keyword = 'Nde_Node'
         #
         self.connectObject().setAstSolverCheckCmd()
         #
@@ -3181,7 +3181,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setAstLightCheck(self):
         tipsLabel = self._tipTextBrower
-        keyword = 'Node'
+        keyword = 'Nde_Node'
         #
         self.connectObject().setViewAstLightCheckResult()
         #
@@ -3249,7 +3249,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     _astSubCheckButton.setPressable(False)
                     #
                     qtTip.viewMessage(
-                        u'Texture ( Node ) is',
+                        u'Texture ( Nde_Node ) is',
                         u'Non - Exists'
                     )
                 #
@@ -3494,7 +3494,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._astMainCheckButton.setPressable(self._isAstMainCheckEnable), self._astSubCheckButton.setPressable(self._isAstMainCheckEnable)
         self._astMainCheckButton.setPercentRest(), self._astSubCheckButton.setPercentRest()
         self._astUploadButton.setNameText(u'Upload {} ！！！'.format(
-            lxBasic._toStringPrettify(assetPr.getAssetLink(assetStage))))
+            lxBasic.str_camelcase2prettify(assetPr.getAssetLink(assetStage))))
     #
     def _updateAstUploadState(self):
         self._initAstCheck()

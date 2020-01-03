@@ -1,7 +1,7 @@
 # coding:utf-8
 import types
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
 #
@@ -336,7 +336,7 @@ class IfScCameraCacheItem(_IfScCameraItemBasic):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxConfigure.LynxiScAstModelCacheType,
+                lxCore_.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -357,7 +357,7 @@ class IfScCameraCacheItem(_IfScCameraItemBasic):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic._toStringPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -913,7 +913,7 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
             )
         #
         def connectionWindowShowCmd():
-            tipWin = qtWidgets.UiTipWindow()
+            tipWin = qtWidgets.QtTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)
@@ -944,7 +944,7 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
+            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
         )
 
 
@@ -1043,7 +1043,7 @@ class IfScAstModelCacheItem(IfScAstBranchItemBasic):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxConfigure.LynxiScAstModelCacheType,
+                lxCore_.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1064,7 +1064,7 @@ class IfScAstModelCacheItem(IfScAstBranchItemBasic):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic._toStringPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1182,7 +1182,7 @@ class IfScAstExtraCacheItem(IfScAstBranchItemBasic):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxConfigure.LynxiScAstExtraCacheType,
+                lxCore_.LynxiScAstExtraCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1203,7 +1203,7 @@ class IfScAstExtraCacheItem(IfScAstBranchItemBasic):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic._toStringPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1316,7 +1316,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
             )
         #
         def connectionWindowShowCmd():
-            tipWin = qtWidgets.UiTipWindow()
+            tipWin = qtWidgets.QtTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)
@@ -1344,7 +1344,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Cfx
         )
 
 
@@ -1445,7 +1445,7 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxConfigure.LynxiScAstExtraCacheType,
+                lxCore_.LynxiScAstExtraCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1467,7 +1467,7 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic._toStringPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1575,7 +1575,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
                 self._connectMethod()
         #
         def connectionWindowShowCmd():
-            tipWin = qtWidgets.UiTipWindow()
+            tipWin = qtWidgets.QtTipWindow()
             tipWin.setNameText(u'{} Connection'.format(self._itemText0))
             #
             connections = maAttr.getConnectionFilterByNamespace(self._namespace)
@@ -1602,7 +1602,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
         )
 
 
@@ -1701,7 +1701,7 @@ class IfScAstSolverCacheItem(IfScAstBranchItemBasic):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxConfigure.LynxiScAstModelCacheType,
+                lxCore_.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1722,7 +1722,7 @@ class IfScAstSolverCacheItem(IfScAstBranchItemBasic):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic._toStringPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)

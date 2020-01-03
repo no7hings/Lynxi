@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtLog, qtProgress, qtTip
 #
 from LxCore.config import appCfg
@@ -25,8 +25,8 @@ astDefaultVersion = appVariant.astDefaultVersion
 #
 animAlembicStep = appVariant.animAlembicStep
 #
-isSendMail = lxConfigure.LynxiIsSendMail
-isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
+isSendMail = lxCore_.LynxiIsSendMail
+isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 #
 none = ''
 
@@ -140,7 +140,7 @@ def scUnitAnimationUploadMainCmd(
     maUtils.setVisiblePanelsDelete()
     for i in methodDatumLis:
         explain, enable, method, args = i
-        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic._toStringPrettify(sceneStage)))
+        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic.str_camelcase2prettify(sceneStage)))
         if enable is not False:
             method(*args)
             qtLog.viewCompleteProcess(logWin)
@@ -362,10 +362,10 @@ def scUnitAstAlembicCacheUploadCmd(
     # Index
     if indexKey is not None:
         cacheIndex = {
-            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+            lxCore_.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
+            lxCore_.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
             #
-            lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
+            lxCore_.Lynxi_Key_Info_Stage: sceneStage,
             #
             indexKey: multLineCacheFile
         }
@@ -450,7 +450,7 @@ def scUnitSourceUploadCmd(
 ):
     # Source File >>> 01
     backupSourceFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
@@ -458,7 +458,7 @@ def scUnitSourceUploadCmd(
     #
     maFile.updateMayaFile(linkFile)
     # Update File >>> 02
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = lxCore_.lxProductRecordDatumDic(
         linkFile,
         sceneStage,
         description, notes
@@ -477,11 +477,11 @@ def scUnitSourceOpenCmd(
 ):
     # Open Source
     backupFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     localFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        lxCore_.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupFile, timeTag)
@@ -499,11 +499,11 @@ def scUnitProductUploadCmd(
 ):
     # Main Method
     serverProductFile = scenePr.sceneUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     backupProductFile = scenePr.sceneUnitProductFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     maFile.updateMayaFile(serverProductFile)
@@ -539,11 +539,11 @@ def scUnitIndexUploadCmd(
         withCamera, withAsset, withScenery = withIndex
         # Main Method
         serverIndexFile = scenePr.scUnitIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant
         )[1]
         backupIndexFile = scenePr.scUnitIndexFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            lxCore_.LynxiRootIndex_Backup,
             projectName, sceneClass, sceneName, sceneVariant
         )[1]
         #
@@ -607,28 +607,28 @@ def scUnitCamerasUploadCmd(
         subCameraLocator = cameraLocator + subLabel
         # Camera Product File
         serverProductFile = scenePr.scUnitCameraProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
         subServerProductFile = lxBasic.getOsSubFile(serverProductFile, subLabel)
         # FBX
         serverCameraFbxFile = scenePr.scUnitCameraFbxFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
         subServerCameraFbxFile = lxBasic.getOsSubFile(serverCameraFbxFile, subLabel)
         # Alembic Cache
         serverCameraAlembicCacheFile = scenePr.scUnitCameraAlembicCacheFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage
         )[1]
         subServerCameraAlembicCacheFile = lxBasic.getOsSubFile(serverCameraAlembicCacheFile, subLabel)
         # Cache Index
         cameraCacheIndexFile = scenePr.scCameraCacheIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant
         )[1]
@@ -651,7 +651,7 @@ def scUnitCamerasUploadCmd(
         scUnitAstAlembicCacheUploadCmd(
             logWin,
             subCameraLocator,
-            lxConfigure.LynxiCacheInfoKey,
+            lxCore_.LynxiCacheInfoKey,
             subCameraCacheIndexFile, subServerCameraAlembicCacheFile,
             sceneStage,
             startFrame, endFrame,
@@ -712,22 +712,22 @@ def scUnitPreviewsUploadCmd(
             previewCamera = outputCamera
         # Preview File
         servePreviewFile = scenePr.scenePreviewFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         backupPreviewFile = scenePr.scenePreviewFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            lxCore_.LynxiRootIndex_Backup,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         if useMode == 1:
             localPreviewFile = scenePr.scenePreviewFile(
-                lxConfigure.LynxiRootIndex_Local,
+                lxCore_.LynxiRootIndex_Local,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
             )[1]
             servePreviewFile = lxBasic.getOsFileJoinTimeTag(localPreviewFile)
         # Index File
         serverPreviewIndexFile = scenePr.scenePreviewIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
         subSeverPreviewFile = lxBasic.getOsSubFile(servePreviewFile, subLabel)
@@ -789,11 +789,11 @@ def scUnitSoundUploadCmd(
         sceneClass, sceneName, sceneVariant, sceneStage,
 ):
     serverFile = scenePr.sceneSoundFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     backupFile = scenePr.sceneSoundFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     #
@@ -842,7 +842,7 @@ def scUnitAssetCachesUploadCmd(
             astModelLinkRoot = scenePr.scAstModelGroupName(sceneName, sceneVariant, assetName, number, namespace)
         #
         astCacheIndexFile = scenePr.scAstCacheIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, assetName, number
         )[1]
@@ -853,20 +853,20 @@ def scUnitAssetCachesUploadCmd(
                     # Use for Solver
                     if isModelCacheUseForSolver is True:
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectName,
-                            sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Solver,
+                            sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Solver,
                             assetName, number
                         )[1]
                         scAstModelCacheIndexKey = None
                     else:
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            lxCore_.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant, sceneStage,
                             assetName, number
                         )[1]
-                        scAstModelCacheIndexKey = lxConfigure.LynxiCacheInfoKey
+                        scAstModelCacheIndexKey = lxCore_.LynxiCacheInfoKey
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
                         logWin,
@@ -888,7 +888,7 @@ def scUnitAssetCachesUploadCmd(
                     )
                     #
                     scAstModelPoseCache = scenePr.scAstModelPoseAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number
@@ -912,7 +912,7 @@ def scUnitAssetCachesUploadCmd(
             if isWithRigExtraCache is True and isModelCacheUseForSolver is False:
                 if maUtils.isAppExist(astExtraSubRoot):
                     astRigExtraCacheFile = scenePr.scAstRigExtraAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number
@@ -925,7 +925,7 @@ def scUnitAssetCachesUploadCmd(
                     scUnitAstAlembicCacheUploadCmd(
                         logWin,
                         astExtraSubRoot,
-                        lxConfigure.LynxiExtraCacheInfoKey,
+                        lxCore_.LynxiExtraCacheInfoKey,
                         astCacheIndexFile, astRigExtraCacheFile,
                         sceneStage,
                         startFrame, endFrame,
@@ -944,16 +944,16 @@ def scUnitAssetCachesUploadCmd(
             if isWithSolverCache is True:
                 if maUtils.isAppExist(astSolverSubRoot):
                     assetSolverCacheFile = scenePr.scAstSolverAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
-                        sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Solver,
+                        sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Solver,
                         assetName, number
                     )[1]
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
                         logWin,
                         astSolverSubRoot,
-                        lxConfigure.LynxiSolverCacheInfoKey,
+                        lxCore_.LynxiSolverCacheInfoKey,
                         astCacheIndexFile, assetSolverCacheFile,
                         sceneStage,
                         startFrame, endFrame,
@@ -1008,11 +1008,11 @@ def scUnitSceneriesUploadCmd(
             sceneryExtraData = datScene.getScSceneryExtraData(sceneName, sceneVariant, sceneStage)
             if sceneryExtraData:
                 sceneryExtraFile = scenePr.scUnitSceneryExtraFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage
                 )[1]
                 backupExtraFile = scenePr.scUnitSceneryExtraFile(
-                    lxConfigure.LynxiRootIndex_Backup,
+                    lxCore_.LynxiRootIndex_Backup,
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage
                 )[1]
                 lxBasic.writeOsJsonDic(
@@ -1041,12 +1041,12 @@ def scUnitSceneryComposeUploadCmd_(
     data = datScene.getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage)
     if data:
         serverFile = scenePr.scUnitAssemblyComposeFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
         backupFile = scenePr.scUnitAssemblyComposeFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            lxCore_.LynxiRootIndex_Backup,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
@@ -1164,18 +1164,18 @@ def scUnitRenderUploadCmd(
         timeTag,
 ):
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage, customize
     )[1]
     backupRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage, customize
     )[1]
     #
     qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) File'.format(
-        lxBasic._toStringPrettify(sceneStage)))
+        lxBasic.str_camelcase2prettify(sceneStage)))
     #
     maFile.saveMayaFile(serverRenderFile)
     # Back File
@@ -1201,27 +1201,27 @@ def scUnitRenderIndexUploadCmd(
         timeTag,
 ):
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderIndexFile = scenePr.sceUnitRenderIndexFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     backupRenderIndexFile = scenePr.sceUnitRenderIndexFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        lxCore_.LynxiRootIndex_Backup,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
@@ -1259,7 +1259,7 @@ def scUnitRenderIndexUploadCmd(
         imageFileLis
     )
     qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) Index'.format(
-        lxBasic._toStringPrettify(sceneStage)))
+        lxBasic.str_camelcase2prettify(sceneStage)))
     #
     lxBasic.writeOsJson(renderData, serverRenderIndexFile, 4)
     lxBasic.backupOsFile(serverRenderIndexFile, backupRenderIndexFile, timeTag)
@@ -1284,34 +1284,34 @@ def scUnitRenderDeadlineSubmitMainCmd(
 ):
     # Render File
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Info
     serverDeadlineInfoFile = scenePr.scDeadlineInfoFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Job
     serverDeadlineJobFile = scenePr.scDeadlineJobFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )
     serverRenderImagePath = scenePr.scUnitRenderImageFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
@@ -1348,7 +1348,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
     #
     ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent = deadlineVars
     # Reduce Size
-    qtLog.viewStartProcess(logWin, u'Submit Deadline Job(s) ( {} ) '.format(lxBasic._toStringPrettify(sceneStage)))
+    qtLog.viewStartProcess(logWin, u'Submit Deadline Job(s) ( {} ) '.format(lxBasic.str_camelcase2prettify(sceneStage)))
     if renderLayerLis:
         batchName = scenePr.scDeadlineBatchName(
             projectName,
@@ -1412,13 +1412,13 @@ def scUnitDeadlineJobSubmitCmd(
         timeTag
 ):
     # Info
-    mainLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    mainLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, lxCore_.LynxiMainTimeTag, useMode=1)
     multLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, timeTag, useMode=1)
     lxBasic.writeOsData(infoData, multLineInfoFile)
     lxBasic.backupOsFile(multLineInfoFile, mainLineInfoFile)
     qtLog.viewResult(logWin, multLineInfoFile)
     # Job
-    mainLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    mainLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, lxCore_.LynxiMainTimeTag, useMode=1)
     multLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, timeTag, useMode=1)
     lxBasic.writeOsData(jobData, multLineJobFile)
     lxBasic.backupOsFile(multLineJobFile, mainLineJobFile)
@@ -1434,7 +1434,7 @@ def scUnitDeadlineJobSubmitCmd(
                     if not i.startswith('\r\n'):
                         qtLog.viewResult(logWin, i)
             #
-            resultFile = lxConfigure._toLxProductResultFile(multLineJobFile)
+            resultFile = lxCore_._toLxProductResultFile(multLineJobFile)
             #
             lxBasic.writeOsData(result, resultFile)
     else:

@@ -5,7 +5,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import pymel.core as core
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 from LxUi.qt import qtProgress
 #
 from LxCore.config import appCfg
@@ -131,9 +131,9 @@ def getAssetInfo():
     return lis
 
 
-# Get Geometry ( Data )
+# Get Nde_Geometry ( Data )
 def getAstMeshObjects(assetName, key=0, namespace=none):
-    # List [ <Geometry(Transfer)> ]
+    # List [ <Nde_Geometry(Transfer)> ]
     meshObjects = []
     astModelGroup = assetPr.astUnitModelLinkGroupName(assetName, namespace)
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
@@ -159,7 +159,7 @@ def getAstGeometryObjects(assetName, namespace=none):
 
 # Get Instance In Check Objects( Data )
 def getInstanceObjectLis(objectLis):
-    # List [ <Instance Geometry> ]
+    # List [ <Instance Nde_Geometry> ]
     lis = [i for i in objectLis if core.nodetypes.Shape(maUtils.getNodeShape(i, 1)).isInstanced()]
     return lis
 
@@ -172,7 +172,7 @@ def getMeshesIsNormalLock(meshObjects):
 
 # Get Error Shape Name
 def getObjectsShapeIsErrorNaming(objectLis, shapeSet=appVariant.shapeSet[0]):
-    # List [  <Shape Naming Error Geometry> ]
+    # List [  <Shape Naming Error Nde_Geometry> ]
     lis = [i for i in objectLis if not maUtils.getNodeShape(i, 1).endswith(shapeSet)]
     return lis
 
@@ -261,7 +261,7 @@ def filterObjectHistoryNodeDic(objectLis):
     return dic
 
 
-# List [ <Output Connection Node> ]
+# List [ <Output Connection Nde_Node> ]
 def getOutputNode(node, assetClass=none):
     outputNodes = cmds.listConnections(node, destination=1, source=0, type=assetClass)
     return outputNodes
@@ -327,6 +327,7 @@ def getShadingGroupsByObjects(objectLis):
         shadingGroups = getOutputNode(shape, 'shadingEngine')
         if shadingGroups:
             [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in MaDefShadingEngineLis]
+
     lisR = lxBasic.getReduceList(lis)
     lisR.sort()
     return lisR
@@ -335,8 +336,8 @@ def getShadingGroupsByObjects(objectLis):
 #
 def getAstUnitModelExtraData(assetName, namespace=none):
     extraData = {
-        lxConfigure.LynxiAttributeDataKey: getAstUnitModelBridgeAttrData(assetName, namespace),
-        lxConfigure.LynxiConnectionDataKey: getAstUnitModelReferenceConnectionData(assetName, namespace)
+        lxCore_.LynxiAttributeDataKey: getAstUnitModelBridgeAttrData(assetName, namespace),
+        lxCore_.LynxiConnectionDataKey: getAstUnitModelReferenceConnectionData(assetName, namespace)
     }
     return extraData
 
@@ -367,7 +368,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
                     dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
         #
         objectShapeName = maUtils._toNodeName(objectShape)
-        maUtils.setAttrStringDatumForce_(objectString, lxConfigure.LynxiObjectShapeNameAttrName, objectShapeName)
+        maUtils.setAttrStringDatumForce_(objectString, lxCore_.LynxiObjectShapeNameAttrName, objectShapeName)
     #
     dic = {}
     #
@@ -391,7 +392,7 @@ def getAstUnitRigExtraData(assetName):
     astUnitRigBridgeGroup = assetPr.astUnitRigBridgeGroupName(assetName)
     alembicAttrData = getAstAlembicAttrData(astUnitRigBridgeGroup)
     extraData = {
-        lxConfigure.LynxiAlembicAttrDataKey: alembicAttrData
+        lxCore_.LynxiAlembicAttrDataKey: alembicAttrData
     }
     return extraData
 
@@ -430,14 +431,14 @@ def getAstFurShaderObjects(assetName, namespace=none):
     return lis
 
 
-# Get Yeti Node
+# Get Yeti Nde_Node
 def getYetiObjects(assetName, namespace=none):
     maGroup = assetPr.yetiNodeGroupName(assetName, namespace)
     yetiObjects = maUtils.getChildObjectsByRoot(maGroup, 'pgYetiMaya', fullPath=True)
     return yetiObjects
 
 
-# Get Yeti Node
+# Get Yeti Nde_Node
 def getYetiShapeLis(assetName, namespace=none):
     maGroup = assetPr.yetiNodeGroupName(assetName, namespace)
     yetiNodes = maUtils.getChildShapesByRoot(maGroup, 'pgYetiMaya', 1)
@@ -485,7 +486,7 @@ def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
     return dic
 
 
-# Get Yeti Node Data
+# Get Yeti Nde_Node Data
 def getYetiNodeData(assetClass, assetName):
     dic = lxBasic.orderedDict()
     yetiObjects = getYetiObjects(assetName)
@@ -566,8 +567,8 @@ def getAstSolverGuideCheckData(assetName, namespace=none):
 #
 def getAstUnitRigSolExtraData(assetName, namespace=none):
     dic = {
-        lxConfigure.LynxiConnectionDataKey: getAstUnitSolverConnectionData(assetName, namespace),
-        lxConfigure.LynxiNhrConnectionDataKey: getAstUnitSolverNhrConnectionData(assetName, namespace)
+        lxCore_.LynxiConnectionDataKey: getAstUnitSolverConnectionData(assetName, namespace),
+        lxCore_.LynxiNhrConnectionDataKey: getAstUnitSolverNhrConnectionData(assetName, namespace)
     }
     return dic
 
@@ -688,7 +689,7 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
                 textureMtimestampDic[textureFileBasename] = timestamp
             else:
                 textureMtimestampDic[textureFileBasename] = None
-        # Texture Node
+        # Texture Nde_Node
         textureNodeDic.setdefault(textureFileBasename, []).append(textureNode)
 
 
@@ -716,38 +717,6 @@ def getTextureStatisticsDic(objectLis):
     for k, v in texturePathDic.items():
         for i in lxBasic.getReduceList(v):
             dic.setdefault(k, []).append((i, textureMtimestampDic[i], textureNodeDic[i]))
-    return dic
-
-
-# Get Material link ( Method )
-def getRelinkMatDic(objectLis, _connectObject=none):
-    # Dict { <Object with Keyword>:
-    #        Dict { <Object Group Type>:
-    #               <Material> } }
-    dic = lxBasic.orderedDict()
-    shadingEngines = getShadingGroupsByObjects(objectLis)
-    maxValue = len(shadingEngines)
-    for seq, shadingGroup in enumerate(shadingEngines):
-        if _connectObject:
-            _connectObject.setProgressValue(seq + 1, maxValue)
-        objectDatas = cmds.sets(shadingGroup, query=1)
-        linkObjectDatas = [i for i in cmds.ls(objectDatas, leaf=1, noIntermediate=1, long=1)]
-        for data in linkObjectDatas:
-            # Object Group Material Link
-            if cmds.ls(data, showType=1)[1] == 'mesh':
-                objectGroups = data.split('|')[-2]
-                objectString = objectGroups
-                dic.setdefault(objectString, []).append({'objectGroups': shadingGroup})
-            # Component Object Group Material Link
-            if cmds.ls(data, showType=1)[1] == 'float3':
-                compObjectGroups = data.split('|')[-1]
-                objectString = compObjectGroups.split('.')[0]
-                dic.setdefault(objectString, []).append({'compObjectGroups.%s' % compObjectGroups.split('.')[-1]: shadingGroup})
-            # Object Group Material Link (Yeti Node)
-            if cmds.ls(data, showType=1)[1] == 'pgYetiMaya':
-                objectGroups = data.split('|')[-2]
-                objectString = objectGroups
-                dic.setdefault(objectString, []).append({'objectGroups': shadingGroup})
     return dic
 
 

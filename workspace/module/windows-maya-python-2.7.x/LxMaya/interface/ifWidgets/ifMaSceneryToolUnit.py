@@ -1,7 +1,7 @@
 # coding=utf-8
 import threading
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
 #
@@ -119,7 +119,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
                 #
                 def assemblyFolderOpenCmd():
                     osPath = assetPr.astUnitAssemblyFolder(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName, assetClass, assetName
                     )
                     if lxBasic.isOsExist(osPath):
@@ -190,9 +190,9 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             gridItem.assetVariant = assetVariant
             #
             definitionFile = assetPr.astUnitAssemblyDefinitionFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
             )[1]
             #
             if not lxBasic.isOsExistsFile(definitionFile):
@@ -208,7 +208,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
             assetClassFilters=None,
-            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Assembly
+            assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Assembly
         )
         #
         gridView.cleanItems()
@@ -321,7 +321,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
         setupUtilsToolUiBox(self._utilsToolUiBox)
     @staticmethod
     def setAssemblyLoadedShow():
-        IfToolWindow = qtWidgets.UiToolWindow()
+        IfToolWindow = qtWidgets.QtToolWindow()
         toolBox = IfScnAssemblyLoadedUnit()
         #
         IfToolWindow.addWidget(toolBox)
@@ -657,7 +657,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addSeparators()
     @staticmethod
     def _assemblyLoadWindowShowCmd():
-        win = qtWidgets.UiToolWindow()
+        win = qtWidgets.QtToolWindow()
         #
         unit = IfScnAssemblyLoadedUnit()
         #
@@ -874,7 +874,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         if root:
             viewportPreview = sceneryPr.scnUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
             )[1]
             #
@@ -908,7 +908,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         if root:
             renderPreview = sceneryPr.scnUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                lxCore_.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
                 appVariant.pngExt
             )[1]

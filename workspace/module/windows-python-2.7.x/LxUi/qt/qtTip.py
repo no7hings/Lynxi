@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxBasic import bscCore
+
+from LxCore import lxBasic, lxCore_
 #
 none = ''
 
@@ -31,7 +33,7 @@ def viewMessage(message, keyword=none):
 def viewTip(title, message):
     from LxUi.qt import qtWidgets
     #
-    tipWin = qtWidgets.UiTipWindow()
+    tipWin = qtWidgets.QtTipWindow()
     #
     tipWin.setNameText(title)
     tipWin.addHtml(message)
@@ -50,7 +52,7 @@ def viewTips(title, messages):
     #
     from LxUi.qt import qtWidgets
     #
-    tipWin = qtWidgets.UiTipWindow(parent=qtCore.getAppWindow())
+    tipWin = qtWidgets.QtTipWindow(parent=qtCore.getAppWindow())
     #
     tipWin.setNameText(title)
     if isinstance(messages, tuple) or isinstance(messages, list):
@@ -64,13 +66,13 @@ def viewTimeMethod(fn):
     def subMethod(*args, **kwargs):
         startTime = lxBasic.getOsActiveTimestamp()
         traceMessage = 'Start [ %s ] in %s' % (fn.__name__, (lxBasic.getOsActiveViewTime()))
-        lxConfigure.Message().traceResult(traceMessage)
+        bscCore.Py_Message().traceResult(traceMessage)
         #
         _connectObject = fn(*args, **kwargs)
         #
         endTime = lxBasic.getOsActiveTimestamp()
         traceMessage = 'Call [ %s ] in %fs' % (fn.__name__, (endTime - startTime))
-        lxConfigure.Message().traceResult(traceMessage)
+        bscCore.Py_Message().traceResult(traceMessage)
         return _connectObject
     return subMethod
 
@@ -94,7 +96,7 @@ def viewExceptionMethod(fn):
             tipWin.addHtml(uiHtml.getHtmls(messages[0], 4))
             [tipWin.addHtml(uiHtml.getHtmls(i, 1)) for i in messages[1:-1]]
             tipWin.addHtml(uiHtml.getHtmls(u'@ %s' % lxBasic.getOsUser(), 2))
-            return lxConfigure.Log().addException(text)
+            return bscCore.Py_Log().addException(text)
     return subMethod
 
 
@@ -104,7 +106,7 @@ def viewConnections(connections, explain, namespaceFilter):
 
     from LxUi.qt import qtWidgets
     #
-    tipWin = qtWidgets.UiTipWindow()
+    tipWin = qtWidgets.QtTipWindow()
     tipWin.setTitle(
         '{} Connection(s)'.format(explain)
     )

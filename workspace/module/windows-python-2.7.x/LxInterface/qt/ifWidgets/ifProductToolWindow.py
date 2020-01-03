@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxCore.preset.prod import projectPr, scenePr
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtCore, qtProgress
 #
@@ -15,10 +15,10 @@ none = ''
 
 
 #
-class IfCacheManagerWindow(qtWidgets.UiToolWindow):
+class IfCacheManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfCacheManagerWindow, self).__init__(parent)
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Dialog)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Dialog)
         #
         self.setupWindow()
     #
@@ -44,11 +44,11 @@ class IfCacheManagerWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfScIndexManagerWindow(qtWidgets.UiDialogWindow):
+class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScIndexManagerWindow, self).__init__(parent)
         self.setDefaultSize(960, 480)
-        self.setIndexText(lxConfigure.Lynxi_Scheme_Python().localVersion())
+        self.setIndexText(lxScheme.Python().version)
         #
         self.setupWindow()
     #
@@ -59,14 +59,12 @@ class IfScIndexManagerWindow(qtWidgets.UiDialogWindow):
         self._unit.setArgs(keyword, args)
     #
     def refreshMethod(self):
-        reload(ifUnit)
         self._unit.refreshMethod()
     @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        reload(ifUnit)
         self._unit = ifUnit.IfScIndexManagerUnit()
         self.addWidget(self._unit)
         #
@@ -74,13 +72,13 @@ class IfScIndexManagerWindow(qtWidgets.UiDialogWindow):
 
 
 #
-class IfScRenderManagerWindow(qtWidgets.UiToolWindow):
+class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
     SideWidth = 320
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScRenderManagerWindow, self).__init__(parent)
         #
         self.setNameText('Scene Render ( Image ) Manager')
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -170,13 +168,13 @@ class IfScRenderManagerWindow(qtWidgets.UiToolWindow):
                 sceneStage = self.sceneStage
                 #
                 backupSourceFile = scenePr.sceneUnitSourceFile(
-                    lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    lxCore_.LynxiRootIndex_Backup,
+                    projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Light,
                 )[1]
                 #
                 backupProductFile = scenePr.scUnitRenderFile(
-                    lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    lxCore_.LynxiRootIndex_Backup,
+                    projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Light,
                     customize
                 )[1]
                 #
@@ -260,13 +258,13 @@ class IfScRenderManagerWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfRenderImageComposeWindow(qtWidgets.UiToolWindow):
+class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfRenderImageComposeWindow, self).__init__(parent)
         #
         self.setNameText('Scene Render ( Image ) Manager')
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -318,7 +316,7 @@ class IfRenderImageComposeWindow(qtWidgets.UiToolWindow):
                 scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
             ) = value
             #
-            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+            sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
             #
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName,
@@ -443,7 +441,7 @@ class IfRenderImageComposeWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
+class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
     w = 80
     dicTool = lxBasic.orderedDict()
     dicTool['sourceDirectory'] = [w, 0, 0, 1, 4, 'Source']
@@ -454,7 +452,7 @@ class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
         #
         self.setNameText('Scene Render ( Compose ) Manager')
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -476,7 +474,7 @@ class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
                         lxBasic.setOsFolderOpen(renderFolder)
                     #
                     renderFolder = scenePr.scUnitRenderFolder(
-                        lxConfigure.LynxiRootIndex_Server,
+                        lxCore_.LynxiRootIndex_Server,
                         projectName,
                         sceneClass, sceneName, sceneVariant, sceneStage,
                         customize
@@ -490,7 +488,7 @@ class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
                     itemWidget.setActionData(actions)
                 #
                 serverRenderFile = scenePr.scUnitRenderFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    lxCore_.LynxiRootIndex_Server,
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
                 )[1]
                 #
@@ -518,7 +516,7 @@ class IfRenderFileComposeWindow(qtWidgets.UiToolWindow):
             #
             description, sceneClass, sceneName = value[:3]
             #
-            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+            sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
             #
             sceneItem = qtWidgets_.QTreeWidgetItem_()
             projectItem.addChild(sceneItem)

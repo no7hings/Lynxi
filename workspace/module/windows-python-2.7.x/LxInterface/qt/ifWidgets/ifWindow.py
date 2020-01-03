@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxCore import lxConfigure
+from LxCore import lxScheme
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtWidgets
 #
@@ -11,13 +11,13 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class IfDevelopWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self):
         super(IfDevelopWindow, self).__init__()
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         #
         self.setupWindow()
     #

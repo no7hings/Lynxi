@@ -1,12 +1,12 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.config import sceneryCfg
 #
 from LxCore.preset import appVariant
 # do not delete and rename
-serverBasicPath = lxConfigure.Root()._serverPath()
-localBasicPath = lxConfigure.Root()._localPath()
+serverBasicPath = lxScheme.Root().basic.server
+localBasicPath = lxScheme.Root().basic.local
 #
 none = ''
 
@@ -221,13 +221,13 @@ def isAssemblyStage(sceneryStage):
 
 #
 def scenerySchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSchemeExt, appVariant.dbSceneryBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSchemeExt, appVariant.dbSceneryBasicKey)
     return lxBasic.getOsUniqueFile(string)
 
 
 #
 def scenerySetFileConfig(sceneryIndex):
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSetExt, sceneryIndex)
+    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSetExt, sceneryIndex)
     return string
 
 
@@ -248,11 +248,11 @@ def defaultScenerySetConfig(projectName, number=0):
         [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
         [('variant', u'变体 ( Variant(s) )'), (appVariant.scnDefaultVariant, )],
         [('priority', u'优先级 ( Priority )'), sceneryCfg.basicSceneryPriorities()],
-        [(lxConfigure.LynxiProduct_Scenery_Link_Scenery, u'场景布景 ( Scenery )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_layout, u'场景预览 ( Layout )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_Animation, u'场景动画 ( Animation )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_Simulation, u'场景解算 ( Simulation )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_Light, u'场景灯光 ( Light )'), False]
+        [(lxCore_.LynxiProduct_Scenery_Link_Scenery, u'场景布景 ( Scenery )'), False],
+        [(lxCore_.LynxiProduct_Scene_Link_layout, u'场景预览 ( Layout )'), False],
+        [(lxCore_.LynxiProduct_Scene_Link_Animation, u'场景动画 ( Animation )'), False],
+        [(lxCore_.LynxiProduct_Scene_Link_Simulation, u'场景解算 ( Simulation )'), False],
+        [(lxCore_.LynxiProduct_Scene_Link_Light, u'场景灯光 ( Light )'), False]
     ]
     return lis
 
@@ -290,7 +290,7 @@ def getUiScenerySetDataLis(projectName, sceneryIndex, number=0):
                 setKey, uiData = i
                 setUiKey = none
                 if isinstance(setKey, str) or isinstance(setKey, unicode):
-                    setUiKey = lxBasic._toStringPrettify(setKey)
+                    setUiKey = lxBasic.str_camelcase2prettify(setKey)
                 if isinstance(setKey, tuple):
                     setKey, setUiKey = setKey
                 defValue = uiData
@@ -328,7 +328,7 @@ def getSceneryViewName(sceneryIndex):
         return dic
     #
     def getMain(customDic):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = lxCore_.LynxiValue_Unspecified
         if sceneryIndex in customDic:
             string = customDic[sceneryIndex]
         return string
@@ -533,11 +533,11 @@ def getUiScenerySetDataDic(projectFilter):
                 sceneryVariants = data['variant']
                 sceneryPriority = data['priority']
                 #
-                sceneryEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Scenery_Link_Scenery)
-                scLayoutEnable = data[lxConfigure.LynxiProduct_Scene_Link_layout]
-                scAnimationEnable = data[lxConfigure.LynxiProduct_Scene_Link_Animation]
-                scSimulationEnable = data[lxConfigure.LynxiProduct_Scene_Link_Simulation]
-                scLightEnable = data[lxConfigure.LynxiProduct_Scene_Link_Light]
+                sceneryEnabled = lxBasic.getKeyEnabled(data, lxCore_.LynxiProduct_Scenery_Link_Scenery)
+                scLayoutEnable = data[lxCore_.LynxiProduct_Scene_Link_layout]
+                scAnimationEnable = data[lxCore_.LynxiProduct_Scene_Link_Animation]
+                scSimulationEnable = data[lxCore_.LynxiProduct_Scene_Link_Simulation]
+                scLightEnable = data[lxCore_.LynxiProduct_Scene_Link_Light]
                 for sceneryVariant in sceneryVariants:
                     dic[(sceneryIndex, sceneryVariant)] = description, sceneryClass, sceneryName, sceneryPriority, sceneryEnabled, scLayoutEnable, scAnimationEnable, scSimulationEnable, scLightEnable
     #
@@ -555,7 +555,7 @@ def getUiScenerySetDataDic(projectFilter):
 #
 def isScnSceneryLink(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScnSceneryStages or sceneryStage == lxConfigure.LynxiProduct_Scenery_Link_Scenery:
+    if sceneryStage in lxCore_.LynxiScnSceneryStages or sceneryStage == lxCore_.LynxiProduct_Scenery_Link_Scenery:
         boolean = True
     return boolean
 
@@ -563,7 +563,7 @@ def isScnSceneryLink(sceneryStage):
 #
 def isScnLayoutLink(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScLayoutStages or sceneryStage == lxConfigure.LynxiProduct_Scene_Link_layout:
+    if sceneryStage in lxCore_.LynxiScLayoutStages or sceneryStage == lxCore_.LynxiProduct_Scene_Link_layout:
         boolean = True
     return boolean
 
@@ -571,7 +571,7 @@ def isScnLayoutLink(sceneryStage):
 #
 def isScnAnimationLink(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScAnimationStages or sceneryStage == lxConfigure.LynxiProduct_Scene_Link_Animation:
+    if sceneryStage in lxCore_.LynxiScAnimationStages or sceneryStage == lxCore_.LynxiProduct_Scene_Link_Animation:
         boolean = True
     return boolean
 
@@ -579,7 +579,7 @@ def isScnAnimationLink(sceneryStage):
 #
 def isScnSimulationLink(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScSimulationStages or sceneryStage == lxConfigure.LynxiProduct_Scene_Link_Simulation:
+    if sceneryStage in lxCore_.LynxiScSimulationStages or sceneryStage == lxCore_.LynxiProduct_Scene_Link_Simulation:
         boolean = True
     return boolean
 
@@ -587,24 +587,24 @@ def isScnSimulationLink(sceneryStage):
 #
 def isScnLightLink(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScLightStages or sceneryStage == lxConfigure.LynxiProduct_Scene_Link_Light:
+    if sceneryStage in lxCore_.LynxiScLightStages or sceneryStage == lxCore_.LynxiProduct_Scene_Link_Light:
         boolean = True
     return boolean
 
 
 #
 def getSceneryLink(sceneryStage):
-    link = lxConfigure.LynxiProduct_Scenery_Link_Scenery
+    link = lxCore_.LynxiProduct_Scenery_Link_Scenery
     if isScnSceneryLink(sceneryStage):
-        link = lxConfigure.LynxiProduct_Scenery_Link_Scenery
+        link = lxCore_.LynxiProduct_Scenery_Link_Scenery
     elif isScnLayoutLink(sceneryStage):
-        link = lxConfigure.LynxiProduct_Scene_Link_layout
+        link = lxCore_.LynxiProduct_Scene_Link_layout
     elif isScnAnimationLink(sceneryStage):
-        link = lxConfigure.LynxiProduct_Scene_Link_Animation
+        link = lxCore_.LynxiProduct_Scene_Link_Animation
     elif isScnSimulationLink(sceneryStage):
-        link = lxConfigure.LynxiProduct_Scene_Link_Simulation
+        link = lxCore_.LynxiProduct_Scene_Link_Simulation
     elif isScnLightLink(sceneryStage):
-        link = lxConfigure.LynxiProduct_Scene_Link_Light
+        link = lxCore_.LynxiProduct_Scene_Link_Light
     return link
 
 
@@ -816,7 +816,7 @@ def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryClass, sceneryN
 def getScnAssemblyComposeDatumDic(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
     dic = {}
     serverFile = scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -844,7 +844,7 @@ def getSceneryUnitProductUpdate(projectName, sceneryClass, sceneryName, sceneryV
     string = appVariant.infoNonExistsLabel
     #
     serverProductFile = scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        lxCore_.LynxiRootIndex_Server, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     if lxBasic.isOsExistsFile(serverProductFile):
@@ -857,7 +857,7 @@ def getSceneryUnitProductUpdate(projectName, sceneryClass, sceneryName, sceneryV
 #
 def getScnUnitPreviewFile(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
     renderPreviewFile = scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Server,
+        lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         extLabel=appVariant.pngExt
     )[1]
@@ -865,7 +865,7 @@ def getScnUnitPreviewFile(projectName, sceneryClass, sceneryName, sceneryVariant
         return renderPreviewFile
     else:
         viewportPreviewFile = scnUnitPreviewFile(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
             extLabel=appVariant.jpgExt
         )[1]

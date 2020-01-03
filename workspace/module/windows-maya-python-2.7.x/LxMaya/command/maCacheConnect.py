@@ -133,7 +133,7 @@ class LxAstModelCacheConnectMethod(object):
                 #
                 shapePath = maUtils.getNodeShape(objectPath)
                 shapeName = maUtils._toNodeName(shapePath, useMode=1)
-                # Clean Shader
+                # Clean Nde_ShaderRef
                 if shapeName != newSourceShapeName:
                     maUtils.setNodeRename(shapePath, newSourceShapeName)
     #

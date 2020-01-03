@@ -163,6 +163,8 @@ class QtPiechart_(qtCore.QWidget_):
         yOffset = self._yOffset
         #
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setRenderHint(painter.Antialiasing)
         if self._pieDrawData:
             for i in self._pieDrawData:
@@ -204,6 +206,8 @@ class QtPiechart_(qtCore.QWidget_):
                 painter.setPen(self._pen)
                 painter.setFont(_font(size=10, weight=50, family=qtCore._families[1]))
                 painter.drawText(rect, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter, self._percent)
+
+        # painter.end()
     #
     def pressAction(self, event):
         isPressEnabled = False
@@ -338,6 +342,8 @@ class QtMapchart_(qtCore.QWidget_):
             yPosition = self.yPosition
             #
             painter = QtGui.QPainter(self)
+            # painter.begin(self)  # fix
+
             painter.setRenderHint(painter.Antialiasing)
             #
             self.drawGrid(painter, width, xPosition, yPosition)
@@ -359,6 +365,8 @@ class QtMapchart_(qtCore.QWidget_):
                     painter.setBrush(_brush(_color(0, 127, 127, 64)))
                     for i in drawData:
                         painter.drawPolygon(i, QtCore.Qt.WindingFill)
+
+            # painter.end()
         # self.draw = False
     # #
     # def wheelEvent(self, event):
@@ -432,6 +440,7 @@ class QtSequencechart_(qtCore.QWidget_):
         side = 2
         #
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         #
         painter.setFont(_font(size=8, weight=75))
         #
@@ -492,6 +501,8 @@ class QtSequencechart_(qtCore.QWidget_):
                         painter.setBackgroundRgba(0, 0, 0, 0)
                         subPoint = _point(xSubPos, ySubPos + 12)
                         painter.drawText(subPoint, '{}-{}'.format(subStartNum, subEndNum))
+
+        # painter.end()
     #
     def setUiSize(self):
         self.setMaximumSize(166667, 20)
@@ -608,6 +619,8 @@ class QtHistogramchart_(qtCore.QWidget):
         yGridMult = self._yGridMult
         #
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
+
         painter.setDrawGrid(
             width, height, (1, -1),
             gridSize, (xTrackOffset, yTrackOffset), (xGridOffset, yGridOffset),
@@ -685,6 +698,8 @@ class QtHistogramchart_(qtCore.QWidget):
             self._markColor,
             self._useMode
         )
+
+        # painter.end()
     #
     def setSelectedIndexRefresh(self, event):
         xPos = event.pos().x() - self._xTrackOffset - self._xGridOffset
@@ -951,6 +966,7 @@ class QtColorchart_(qtCore.QWidget):
         points = []
         #
         painter = qtCore.QPainter_(self)
+        # painter.begin(self)  # fix
         painter.setRenderHint(painter.Antialiasing)
         #
         width = self.width()
@@ -1011,6 +1027,8 @@ class QtColorchart_(qtCore.QWidget):
                 QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop,
                 '#{}'.format(self._htmlColor)
             )
+
+        # painter.end()
     #
     def zoomAction(self, delta):
         radix = 3

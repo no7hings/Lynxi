@@ -1,7 +1,7 @@
 # encoding=utf-8
 import os, collections
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg, assetCfg
 #
@@ -241,7 +241,7 @@ def setAstGeometryConstantSub(
                         ('Reverse ( Mesh )', 'svg_basic@svg#undo', True, loadGeometryObject),
                         (),
                         ('Reverse ( Mesh ) Path', 'svg_basic@svg#undo', True, loadGeometryObjectPath),
-                        ('Reverse ( Mesh ) Geometry', 'svg_basic@svg#undo', False, reverseMeshGeo),
+                        ('Reverse ( Mesh ) Nde_Geometry', 'svg_basic@svg#undo', False, reverseMeshGeo),
                         ('Reverse ( Mesh ) Geom - Shape', 'svg_basic@svg#undo', False, reverseMeshGeoShape),
                         (),
                         ('Reverse ( Mesh ) Map', 'svg_basic@svg#undo', False, reverseMeshMap),
@@ -381,19 +381,19 @@ def setAstGeometryConstantMain(
         actionData = []
         if className == 'intersection' and classState == none:
             actionData = [
-                ('Load Geometry', 'menu#loadMenu', True, loadIntersectionGeometryObjects),
+                ('Load Nde_Geometry', 'menu#loadMenu', True, loadIntersectionGeometryObjects),
                 (),
-                ('Load Geometry ( Path )', 'menu#loadMenu', True, loadIntersectionGeometryObjectsPath)
+                ('Load Nde_Geometry ( Path )', 'menu#loadMenu', True, loadIntersectionGeometryObjectsPath)
             ]
         elif className == 'addition' and classState == none:
             actionData = [
-                ('Remove Extra Geometry', 'menu#deleteMenu', True, removeExtraGeometryObjects),
+                ('Remove Extra Nde_Geometry', 'menu#deleteMenu', True, removeExtraGeometryObjects),
                 (),
-                ('Upload Extra Geometry', 'uploadObject', False, uploadExtraGeometryObjects)
+                ('Upload Extra Nde_Geometry', 'uploadObject', False, uploadExtraGeometryObjects)
             ]
         elif className == 'deletion' and classState == none:
             actionData = [
-                ('Add Deletion Geometry', 'menu#addMenu', True, addDeletionGeometryObjects)
+                ('Add Deletion Nde_Geometry', 'menu#addMenu', True, addDeletionGeometryObjects)
             ]
         #
         itemWidget.setActionData(actionData)
@@ -427,7 +427,7 @@ def setAstGeometryConstantMain(
             classItemWidget = classItem.setItemIconWidget(
                 0,
                 'treeBox#{}'.format(className),
-                lxBasic._toStringPrettify(className),
+                lxBasic.str_camelcase2prettify(className),
                 classState
             )
             setClassItemBranch(classItemWidget, className, classState)
@@ -623,7 +623,7 @@ def setAstMeshTransCheckView(main, treeBox, inData, checkData, errorData):
             isTransError = False
             for ik, iv in v.items():
                 xValue, yValue, zValue = iv
-                transItem = qtWidgets_.QTreeWidgetItem_([lxBasic._toStringPrettify(ik), str(xValue), str(yValue), str(zValue)])
+                transItem = qtWidgets_.QTreeWidgetItem_([lxBasic.str_camelcase2prettify(ik), str(xValue), str(yValue), str(zValue)])
                 transItem.setItemMayaIcon(0, 'dagNode')
                 meshItem.addChild(transItem)
                 if ik in ['translate', 'rotate', 'pivot']:
@@ -764,7 +764,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
             if not rootNode:
                 isChecked = False
                 yetiItem.setItemMayaIcon(0, appCfg.MaNodeType_Plug_Yeti, 'error')
-                yetiItem.setText(2, 'Root Node is Non - Exists')
+                yetiItem.setText(2, 'Root Nde_Node is Non - Exists')
             # Groom
             groomObjects = maUtils.getYetiGroomDic(yetiObject)
             if groomObjects:
@@ -1036,10 +1036,10 @@ def setAstCfxFurMayaCheckTreeView(main, assetClass, assetName, treeBox, checkDat
         if growObjects:
             growGroup = assetPr.astBasicGroupNameSet(assetName, appVariant.astPfxHairGrowGroupLabel)
             setCheckLeaf(growObjects, pfxHairItem, 'Grow', 'poly', growGroup, subErrorArray)
-        # Shader
+        # Nde_ShaderRef
         if shaders:
             for shader in shaders:
-                shaderItem = qtWidgets_.QTreeWidgetItem_([shader, 'Shader'])
+                shaderItem = qtWidgets_.QTreeWidgetItem_([shader, 'Nde_ShaderRef'])
                 pfxHairItem.addChild(shaderItem)
                 shaderItem.setItemMayaIcon(0, 'lambert')
         # Texture
@@ -1420,7 +1420,7 @@ def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, ass
     treeBox.addItem(inspectionItem)
     if inData:
         serverTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            lxCore_.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -1603,7 +1603,7 @@ def setAstTextureCheckSubMethod(
             count = len(datumLis)
             #
             branchItem = qtWidgets_.QTreeWidgetItem_()
-            branchItem.setText(0, 'Node ( {} )'.format(count))
+            branchItem.setText(0, 'Nde_Node ( {} )'.format(count))
             branchItem.setItemIcon_(0, 'svg_basic@svg#branch_sub')
             parentItem_.addChild(branchItem)
             for textureNode in datumLis:

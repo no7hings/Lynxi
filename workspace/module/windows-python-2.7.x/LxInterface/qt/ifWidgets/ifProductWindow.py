@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.preset import pipePr, personnelPr
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi import uiConfigure
+from LxUi import uiCore
 #
 from LxUi.qt import qtWidgets, qtCore, qtTip
 #
@@ -15,13 +15,13 @@ from LxInterface.qt.ifWidgets import ifShelf
 
 
 #
-class IfProjectWindow(qtWidgets.UiDialogWindow):
+class If_QtProjectWindow(qtWidgets.QtDialogWindow):
     _Title = 'Project'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self):
-        super(IfProjectWindow, self).__init__()
+        super(If_QtProjectWindow, self).__init__()
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -38,7 +38,7 @@ class IfProjectWindow(qtWidgets.UiDialogWindow):
 
 
 # Artist Panel
-class IfPersonnelWindow(qtWidgets.UiDialogWindow):
+class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
     user = personnelPr.getUser()
     #
     tips = [
@@ -63,9 +63,9 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfPersonnelWindow, self).__init__(parent)
+        super(If_QtPersonnelWindow, self).__init__(parent)
         #
         self.setDefaultSize(960, 480)
         self.setNameText(self._Title)
@@ -134,8 +134,8 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
         # Team Data
         teamData = personnelPr.getPersonnelTeamLis()
         self._teamLabel.setDatumLis(teamData)
-        self._teamLabel.setChoose(lxConfigure.LynxiValue_Unspecified)
-        self._postLabel.setDatum(lxConfigure.LynxiValue_Unspecified)
+        self._teamLabel.setChoose(lxCore_.LynxiValue_Unspecified)
+        self._postLabel.setDatum(lxCore_.LynxiValue_Unspecified)
     #
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
@@ -174,7 +174,7 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
             isChecked = False
             self._tipLabel.setRule(self.subTips03)
         team = self._teamLabel.datum()
-        if team == lxConfigure.LynxiValue_Unspecified:
+        if team == lxCore_.LynxiValue_Unspecified:
             isChecked = False
             self._tipLabel.setRule(self.subTips04)
         post = self._postLabel.datum()
@@ -183,7 +183,7 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
         if isChecked:
             personnelPr.setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post)
             if lxBasic.isMayaApp():
-                w = IfToolFloatWindow()
+                w = If_QtToolFloatWindow()
                 w.windowShow()
             #
             qtTip.viewMessage(u'提示：', u'设置用户信息成功')
@@ -219,11 +219,11 @@ class IfPersonnelWindow(qtWidgets.UiDialogWindow):
 
 
 #
-class IfToolFloatWindow(qtWidgets.UiFloatWindow):
+class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfToolFloatWindow, self).__init__(parent)
+        super(If_QtToolFloatWindow, self).__init__(parent)
         #
         self.setDefaultSize(160, 320)
         self.setMargins(0, 0, 0, 0)
@@ -236,8 +236,8 @@ class IfToolFloatWindow(qtWidgets.UiFloatWindow):
     def setupMenu(self):
         actionDatumLis = (
             ('Basic', ),
-            ('Project Option', 'svg_basic@svg#project', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.IfProjectWindow();w.windowShow()"),
-            ('Personnel Option', 'svg_basic@svg#personnel', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.IfPersonnelWindow();w.windowShow()")
+            ('Project Option', 'svg_basic@svg#project', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtProjectWindow();w.windowShow()"),
+            ('Personnel Option', 'svg_basic@svg#personnel', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtPersonnelWindow();w.windowShow()")
         )
         #
         self.setActionData(actionDatumLis)
@@ -295,14 +295,14 @@ class IfToolFloatWindow(qtWidgets.UiFloatWindow):
 
 
 #
-class IfToolkitWindow(qtWidgets.UiToolWindow):
+class If_QtToolkitWindow(qtWidgets.QtToolWindow):
     leftBoxWidth = 160
     #
     projectName = projectPr.getMayaProjectName()
     _Title = 'Tool Kit'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfToolkitWindow, self).__init__(parent)
+        super(If_QtToolkitWindow, self).__init__(parent)
         #
         self.setDefaultSize(600, 800)
         self.setMargins(0, 0, 0, 0)
@@ -326,13 +326,13 @@ class IfToolkitWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfProductManagerWindow(qtWidgets.QtWindow):
+class If_QtProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfProductManagerWindow, self).__init__(parent)
+        super(If_QtProductManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -349,13 +349,13 @@ class IfProductManagerWindow(qtWidgets.QtWindow):
 
 
 #
-class IfAssetManagerWindow(qtWidgets.UiToolWindow):
+class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfAssetManagerWindow, self).__init__(parent)
+        super(If_QtAssetManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -367,7 +367,7 @@ class IfAssetManagerWindow(qtWidgets.UiToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Asset)
+        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Asset)
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
@@ -381,13 +381,13 @@ class IfAssetManagerWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
+class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfSceneryManagerWindow, self).__init__(parent)
+        super(If_QtSceneryManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -399,7 +399,7 @@ class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scenery)
+        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Scenery)
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
@@ -413,13 +413,13 @@ class IfSceneryManagerWindow(qtWidgets.UiToolWindow):
 
 
 #
-class IfSceneManagerWindow(qtWidgets.UiToolWindow):
+class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxConfigure.Lynxi_Scheme_Python().localVersion()
+    _Version = lxScheme.Python().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(IfSceneManagerWindow, self).__init__(parent)
+        super(If_QtSceneManagerWindow, self).__init__(parent)
         #
-        self.setDefaultSize(*uiConfigure.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -431,7 +431,7 @@ class IfSceneManagerWindow(qtWidgets.UiToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scene)
+        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Scene)
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):

@@ -27,9 +27,7 @@ import hashlib
 #
 import glob
 #
-import math
-#
-from LxCore import lxConfigure
+from LxCore import lxCore_, lxScheme
 #
 from LxCore.config import appConfig
 
@@ -40,7 +38,7 @@ def orderedDict(*args):
 
 
 #
-class LxMethodBasic(appConfig.LxConfigBasic):
+class Mtd_Basic(appConfig.Cfg_Basic):
     @staticmethod
     def _toSizeRemap(width, height, maximum):
         widthReduce, heightReduce = width, height
@@ -268,7 +266,7 @@ class LxMethodBasic(appConfig.LxConfigBasic):
             hashValue = md5Obj.hexdigest()
             return str(hashValue).upper()
     @staticmethod
-    def _toIntArrayReduce(array):
+    def lis_frame2range(array):
         lis = []
         #
         maximum, minimum = max(array), min(array)
@@ -313,14 +311,14 @@ class LxMethodBasic(appConfig.LxConfigBasic):
         return lis
     @classmethod
     def _lxIconRoot(cls):
-        return lxConfigure.IconSubRoot()._serverPath()
+        return lxScheme.Root().icon.server
     @classmethod
     def _lxDevelopRoot(cls):
-        return lxConfigure.Root()._developPath()
+        return lxScheme.Root().basic.develop
 
 
 #
-class LxPathMethodBasic(LxMethodBasic):
+class Mtd_Path(Mtd_Basic):
     @classmethod
     def _toTreeViewPathLis(cls, pathString, pathsep):
         def addItem(item):
@@ -392,12 +390,12 @@ class LxPathMethodBasic(LxMethodBasic):
 
 
 #
-class LxThreadMethodBasic(LxMethodBasic):
+class Mtd_Thread(Mtd_Basic):
     pass
 
 
 #
-class LxAppMethodBasic(LxMethodBasic):
+class Mtd_Application(Mtd_Basic):
     @staticmethod
     def getAppName():
         return os.path.basename(sys.argv[0])
@@ -411,7 +409,7 @@ class LxAppMethodBasic(LxMethodBasic):
 
 
 #
-class LxOsMethodBasic(LxMethodBasic):
+class Mtd_Platform(Mtd_Basic):
     @classmethod
     def getOsFileInfoDic(cls, osSourceFile, description=None, note=None):
         return orderedDict(
@@ -431,7 +429,8 @@ class LxOsMethodBasic(LxMethodBasic):
 
 
 #
-class LxOsFileMethodBasic(LxOsMethodBasic):
+class Mtd_PlfFile(Mtd_Basic):
+    os_method = Mtd_Platform
     @staticmethod
     def getOsFileHashString(osFile):
         string = None
@@ -591,7 +590,7 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
     def setOsFileBackupSub(cls, sourceOsFile, targetOsFile):
         cls.setOsFileCopy(sourceOsFile, targetOsFile)
         #
-        info = cls.getOsFileInfoDic(sourceOsFile)
+        info = cls.os_method.getOsFileInfoDic(sourceOsFile)
         infoFile = cls._toLxOsInfoFile(targetOsFile)
         cls.writeOsJson(info, infoFile)
     @staticmethod
@@ -760,16 +759,17 @@ class LxOsFileMethodBasic(LxOsMethodBasic):
 
 
 #
-class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
+class Mtd_Database(Mtd_Basic, appConfig.LxDbConfig):
+    plf_file_method = Mtd_PlfFile
     @classmethod
     def _lxDbInfoDic(cls, description=None, note=None):
         return orderedDict(
             [
-                (cls.Lynxi_Key_Info_Update, cls.getOsActiveTimestamp()),
-                (cls.Lynxi_Key_Info_Artist, cls.getOsUser()),
+                (cls.Lynxi_Key_Info_Update, cls.plf_file_method.getOsActiveTimestamp()),
+                (cls.Lynxi_Key_Info_Artist, cls.plf_file_method.getOsUser()),
                 #
-                (cls.Lynxi_Key_Info_Host, cls.getOsHost()),
-                (cls.Lynxi_Key_Info_HostName, cls.getOsHostName()),
+                (cls.Lynxi_Key_Info_Host, cls.plf_file_method.getOsHost()),
+                (cls.Lynxi_Key_Info_HostName, cls.plf_file_method.getOsHostName()),
                 #
                 (cls.Lynxi_Key_Info_Description, description),
                 (cls.Lynxi_Key_Info_Note, note)
@@ -858,11 +858,11 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
     # Unit Include Version File
     @classmethod
     def _lxDbUnitIncludeVersionFile(cls, dbUnitIncludeFile):
-        base, ext = cls.toOsFileSplitByExt(dbUnitIncludeFile)
+        base, ext = cls.plf_file_method.toOsFileSplitByExt(dbUnitIncludeFile)
         return base + cls.LxDb_Ext_Version
     @classmethod
     def _lxDbUnitIncludeInfoFile(cls, dbUnitIncludeFile):
-        base, ext = cls.toOsFileSplitByExt(dbUnitIncludeFile)
+        base, ext = cls.plf_file_method.toOsFileSplitByExt(dbUnitIncludeFile)
         return base + cls.LxDb_Ext_Unit_Include_Info
     # Json Datum File
     @classmethod
@@ -875,7 +875,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
         )
     @classmethod
     def lxDbDatumInfoFile(cls, datumFile):
-        base, ext = cls.toOsFileSplitByExt(datumFile)
+        base, ext = cls.plf_file_method.toOsFileSplitByExt(datumFile)
         return base + cls.LxDb_Ext_Info
     @classmethod
     def _lxDbOsUnitDatumFile(cls, dbClass, dbDatumType, dbDatumId, ext):
@@ -905,11 +905,11 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
     @classmethod
     def _lxDbUpdateUnitIndexSub(cls, dbClass, dbUnitType, dbUnitId):
         dbUnitIndexFile = cls.lxDbUnitIndexFile(dbClass, dbUnitType)
-        if cls.isOsExistsFile(dbUnitIndexFile):
-            dbUnitIdLis = cls.readOsJson(dbUnitIndexFile)
+        if cls.plf_file_method.isOsExistsFile(dbUnitIndexFile):
+            dbUnitIdLis = cls.plf_file_method.readOsJson(dbUnitIndexFile)
             if not dbUnitId in dbUnitIdLis:
                 dbUnitIdLis += [dbUnitId]
-                cls.writeOsJson(dbUnitIdLis, dbUnitIndexFile)
+                cls.plf_file_method.writeOsJson(dbUnitIdLis, dbUnitIndexFile)
                 cls.traceResult(
                     'Update Unit(s) Index File ( {} )'.format(dbUnitIndexFile)
                 )
@@ -917,7 +917,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
                     'Add Unit ( {} > {} > {} )'.format(dbClass, dbUnitType, dbUnitId)
                 )
         else:
-            cls.writeOsJson([dbUnitId], dbUnitIndexFile)
+            cls.plf_file_method.writeOsJson([dbUnitId], dbUnitIndexFile)
             cls.traceResult(
                 'Add Unit(s) Index File ( {} )'.format(dbUnitIndexFile)
             )
@@ -932,11 +932,11 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbClass,
             dbUnitType, dbUnitId
         )
-        data = cls.readOsJson(dbUnitBranchFile)
+        data = cls.plf_file_method.readOsJson(dbUnitBranchFile)
         if data:
             if not dbUnitBranch in data:
                 data.append(dbUnitBranch)
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     data, dbUnitBranchFile
                 )
                 cls.traceResult(
@@ -946,7 +946,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
                     'Add Unit ( {} > {} > {} ) Branch ( {} )'.format(dbClass, dbUnitType, dbUnitId, dbUnitBranch)
                 )
         else:
-            cls.writeOsJson(
+            cls.plf_file_method.writeOsJson(
                 [dbUnitBranch], dbUnitBranchFile
             )
             cls.traceResult(
@@ -960,16 +960,12 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbUnitType, dbUnitId
         )
         #
-        cls.writeOsJson(
+        cls.plf_file_method.writeOsJson(
             dbDefinitionDatum, dbUnitDefinitionFile
         )
     # Include File
     @classmethod
     def _lxDbUpdateUnitIncludeSub(cls, dbClass, dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId, dbDatumType, dbDatumId, note=None):
-        dbUnitIncludeFile = cls._lxDbUnitIncludeFile(
-            dbClass,
-            dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId
-        )
         dbUnitIncludeIndex = cls._lxDbUnitIncludeIndex(dbDatumType, dbDatumId)
         # Include
         cls._lxDbUpdateUnitIncludeFileSub(
@@ -980,20 +976,21 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbClass, dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId, dbUnitIncludeIndex, note
         )
     # Unit Include ( Update )
+    # noinspection PyUnusedLocal
     @classmethod
     def _lxDbUpdateUnitIncludeFileSub(cls, dbClass, dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId, dbUnitIncludeIndex, note=None):
         dbUnitIncludeFile = cls._lxDbUnitIncludeFile(
             dbClass,
             dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId
         )
-        jsonDatum = cls.readOsJson(dbUnitIncludeFile)
+        jsonDatum = cls.plf_file_method.readOsJson(dbUnitIncludeFile)
         if jsonDatum:
             if not jsonDatum == dbUnitIncludeIndex:
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     dbUnitIncludeIndex, dbUnitIncludeFile
                 )
         else:
-            cls.writeOsJson(
+            cls.plf_file_method.writeOsJson(
                 dbUnitIncludeIndex, dbUnitIncludeFile
             )
     # Unit Include Version ( Update )
@@ -1008,33 +1005,33 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
         #
         dbUnitIncludeVersionFile = cls._lxDbUnitIncludeVersionFile(dbUnitIncludeFile)
         dbUnitIncludeInfoFile = cls._lxDbUnitIncludeInfoFile(dbUnitIncludeFile)
-        if cls.isOsExistsFile(dbUnitIncludeVersionFile):
-            dbUnitIncludeVersionLis = cls.readOsJson(dbUnitIncludeVersionFile)
-            dbUnitIncludeInfoLis = cls.readOsJson(dbUnitIncludeInfoFile)
+        if cls.plf_file_method.isOsExistsFile(dbUnitIncludeVersionFile):
+            dbUnitIncludeVersionLis = cls.plf_file_method.readOsJson(dbUnitIncludeVersionFile)
+            dbUnitIncludeInfoLis = cls.plf_file_method.readOsJson(dbUnitIncludeInfoFile)
             if not dbUnitIncludeIndex in dbUnitIncludeVersionLis:
                 dbUnitIncludeVersionLis.append(dbUnitIncludeIndex)
                 dbUnitIncludeInfoLis.append(dbIncludeInfo)
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     dbUnitIncludeVersionLis,
                     dbUnitIncludeVersionFile
                 )
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     dbUnitIncludeInfoLis,
                     dbUnitIncludeInfoFile
                 )
         else:
-            cls.writeOsJson(
+            cls.plf_file_method.writeOsJson(
                 [dbUnitIncludeIndex],
                 dbUnitIncludeVersionFile
             )
-            cls.writeOsJson(
+            cls.plf_file_method.writeOsJson(
                 [dbIncludeInfo],
                 dbUnitIncludeInfoFile
             )
     # Unit Include Datum ( Update )
     @classmethod
     def _lxDbUpdateUnitIncludeDatumSub(cls, dbClass, dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitIncludeDatum, dbUnitId, dbDatumType, note):
-        dbDatumId = cls.getDataHashString(dbUnitIncludeDatum)
+        dbDatumId = cls.plf_file_method.getDataHashString(dbUnitIncludeDatum)
         # Branch
         if dbUnitBranch is None:
             dbUnitBranch = cls.LxDb_Include_Branch_Main
@@ -1055,19 +1052,19 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
     @classmethod
     def _lxDbUpdateJsonFileDatumSub(cls, dbClass, dbDatumType, dbDatumId, datum, description, note):
         dbDatumFile = cls.lxDbJsonDatumFile(dbClass, dbDatumType, dbDatumId)
-        if not cls.isOsExistsFile(dbDatumFile):
+        if not cls.plf_file_method.isOsExistsFile(dbDatumFile):
             # Datum
             if dbDatumType == cls.LxDb_Type_Datum_Json:
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     datum, dbDatumFile
                 )
             else:
-                cls.writeOsData(
+                cls.plf_file_method.writeOsData(
                     datum, dbDatumFile
                 )
             # Info
             dbDatumInfoFile = cls.lxDbDatumInfoFile(dbDatumFile)
-            cls.writeOsJson(
+            cls.plf_file_method.writeOsJson(
                 cls._lxDbInfoDic(description, note),
                 dbDatumInfoFile
             )
@@ -1078,39 +1075,39 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
     # Os Datum File
     @classmethod
     def _lxDbUpdateOsFileDatumSub(cls, osFile, dbClass, dbDatumType, dbDatumUnitId, dbDatumId, description, note):
-        ext = cls.getOsFileExt(osFile)
+        ext = cls.plf_file_method.getOsFileExt(osFile)
         #
         dbOsUnitDatumFile = cls._lxDbOsUnitDatumFile(dbClass, dbDatumType, dbDatumId, ext)
-        if not cls.isOsExistsFile(dbOsUnitDatumFile):
+        if not cls.plf_file_method.isOsExistsFile(dbOsUnitDatumFile):
             # Datum File
-            cls.setOsFileCopy(osFile, dbOsUnitDatumFile)
+            cls.plf_file_method.setOsFileCopy(osFile, dbOsUnitDatumFile)
             # Version and Info File
             dbOsDatumUnitVersionFile = cls._lxDbOsDatumUnitVersionFile(dbClass, dbDatumType, dbDatumUnitId)
             dbOsDatumUnitInfoFile = cls._lxDbOsDatumUnitInfoFile(dbClass, dbDatumType, dbDatumUnitId)
             #
             dbOsUnitIndex = cls._lxDbOsUnitDatumIndex(dbDatumType, dbDatumId)
             dbOsUnitInfo = cls._lxDbInfoDic(description, note)
-            if cls.isOsExistsFile(dbOsDatumUnitVersionFile):
-                dbOsUnitVersionLis = cls.readOsJson(dbOsDatumUnitVersionFile)
-                dbOsUnitInfoLis = cls.readOsJson(dbOsDatumUnitInfoFile)
+            if cls.plf_file_method.isOsExistsFile(dbOsDatumUnitVersionFile):
+                dbOsUnitVersionLis = cls.plf_file_method.readOsJson(dbOsDatumUnitVersionFile)
+                dbOsUnitInfoLis = cls.plf_file_method.readOsJson(dbOsDatumUnitInfoFile)
                 #
                 dbOsUnitVersionLis.append(dbOsUnitIndex)
                 dbOsUnitInfoLis.append(dbOsUnitInfo)
                 #
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     dbOsUnitVersionLis,
                     dbOsDatumUnitVersionFile
                 )
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     dbOsUnitInfoLis,
                     dbOsDatumUnitInfoFile
                 )
             else:
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     [dbOsUnitIndex],
                     dbOsDatumUnitVersionFile
                 )
-                cls.writeOsJson(
+                cls.plf_file_method.writeOsJson(
                     [dbOsUnitInfo],
                     dbOsDatumUnitInfoFile
                 )
@@ -1151,8 +1148,8 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbClass,
             dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId
         )
-        if cls.isOsExistsFile(dbUnitIncludeFile):
-            dbUnitIncludeIndex = cls.readOsJson(dbUnitIncludeFile)
+        if cls.plf_file_method.isOsExistsFile(dbUnitIncludeFile):
+            dbUnitIncludeIndex = cls.plf_file_method.readOsJson(dbUnitIncludeFile)
             #
             dbDatumType, dbDatumId = eval(dbUnitIncludeIndex)
             return cls._lxDbLoadJsonDatumFileSub(
@@ -1162,16 +1159,16 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
     @classmethod
     def _lxDbLoadJsonDatumFileSub(cls, dbClass, dbDatumType, dbDatumId):
         dbDatumFile = cls.lxDbJsonDatumFile(dbClass, dbDatumType, dbDatumId)
-        if cls.isOsExistsFile(dbDatumFile):
+        if cls.plf_file_method.isOsExistsFile(dbDatumFile):
             if dbDatumType == cls.LxDb_Type_Datum_Json:
-                return cls.readOsJson(dbDatumFile)
+                return cls.plf_file_method.readOsJson(dbDatumFile)
             else:
-                return cls.readOsData(dbDatumFile)
+                return cls.plf_file_method.readOsData(dbDatumFile)
     # Unit Index ( Get )
     @classmethod
     def _lxDbGetUnitIdLis(cls, dbClass, dbUnitType):
         dbUnitIndexFile = cls.lxDbUnitIndexFile(dbClass, dbUnitType)
-        return cls.readOsJson(dbUnitIndexFile) or []
+        return cls.plf_file_method.readOsJson(dbUnitIndexFile) or []
     @classmethod
     def _lxDbGetUnitDefinition(cls, dbClass, dbUnitType, dbUnitId):
         dbUnitDefinitionFile = cls._lxDbUnitDefinitionFile(
@@ -1179,7 +1176,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbUnitType, dbUnitId
         )
         #
-        return cls.readOsJson(dbUnitDefinitionFile) or {}
+        return cls.plf_file_method.readOsJson(dbUnitDefinitionFile) or {}
     # Unit Branch ( Get )
     @classmethod
     def _lxDbGetUnitBranchLis(cls, dbClass, dbUnitType, dbUnitId):
@@ -1187,8 +1184,8 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbClass,
             dbUnitType, dbUnitId
         )
-        if cls.isOsExistsFile(dbUnitBranchFile):
-            return cls.readOsJson(dbUnitBranchFile)
+        if cls.plf_file_method.isOsExistsFile(dbUnitBranchFile):
+            return cls.plf_file_method.readOsJson(dbUnitBranchFile)
         else:
             return []
     # Unit Include Set ( Get )
@@ -1232,10 +1229,10 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
             dbClass,
             dbUnitType, dbUnitIncludeType, dbUnitBranch, dbUnitId
         )
-        if cls.isOsExistsFile(dbUnitIncludeFile):
-            currentData = cls.readOsJson(dbUnitIncludeFile)
+        if cls.plf_file_method.isOsExistsFile(dbUnitIncludeFile):
+            currentData = cls.plf_file_method.readOsJson(dbUnitIncludeFile)
             dbUnitIncludeVersionFile = cls._lxDbUnitIncludeVersionFile(dbUnitIncludeFile)
-            data = cls.readOsJson(dbUnitIncludeVersionFile)
+            data = cls.plf_file_method.readOsJson(dbUnitIncludeVersionFile)
             if data:
                 currentIndex = data.index(currentData)
                 lis = data
@@ -1265,7 +1262,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
                     dbClass,
                     dbUnitType, dbUnitId
                 )
-                data = cls.readOsJson(dbUnitDefinitionFile)
+                data = cls.plf_file_method.readOsJson(dbUnitDefinitionFile)
                 dic[dbUnitId] = data
         return dic
     @classmethod
@@ -1278,7 +1275,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
                     dbClass,
                     dbUnitType, dbUnitId
                 )
-                data = cls.readOsJson(dbUnitDefinitionFile)
+                data = cls.plf_file_method.readOsJson(dbUnitDefinitionFile)
                 if data:
                     name = data.get(cls.LxDb_Key_Name, 'N/a')
                     lis.append(name)
@@ -1349,7 +1346,7 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
         )
     @classmethod
     def lxAddDatabaseLog(cls, string):
-        cls.setLogAdd(string, cls.LynxiLogType_Database)
+        cls.plf_file_method.setLogAdd(string, cls.LynxiLogType_Database)
     @classmethod
     def traceResult(cls, string):
         cls.traceMessage(
@@ -1359,14 +1356,14 @@ class LxDbMethodBasic(LxOsFileMethodBasic, appConfig.LxDbConfig):
 
 
 #
-class LxProductMethodBasic(appConfig.LxProductConfig):
+class LxProductMethodBasic(Mtd_Basic, appConfig.Cfg_Product):
     pass
 
 
 #
-class LxUpdateMethod(LxMethodBasic):
+class LxUpdateMethod(Mtd_Basic):
     @classmethod
-    def _getPythonModuleLisMethod(cls, modulePath, moduleLimitStrings=None):
+    def _getPythonModuleFullPathNameLisMethod(cls, modulePath, moduleLimitStrings=None):
         def getBranch(directory, keywordFilterString=None):
             osFileBasenameLis = cls.getOsFileBasenameLisByPath(directory)
             if osFileBasenameLis:
@@ -1409,7 +1406,7 @@ class LxUpdateMethod(LxMethodBasic):
         return lis
     @classmethod
     def setPythonModuleUpdate(cls, modulePath, moduleLimitStrings=None):
-        moduleLis = cls._getPythonModuleLisMethod(modulePath, moduleLimitStrings)
+        moduleLis = cls._getPythonModuleFullPathNameLisMethod(modulePath, moduleLimitStrings)
         if moduleLis:
             for module in moduleLis:
                 stringLis = module.split('.')
@@ -1422,7 +1419,7 @@ class LxUpdateMethod(LxMethodBasic):
 
 
 #
-class LxDebugMethod(LxMethodBasic):
+class LxDebugMethod(Mtd_Basic):
     @classmethod
     def viewTimeMethod(cls, func):
         def subFunc(*args, **kwargs):
