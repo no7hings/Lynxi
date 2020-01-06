@@ -5,7 +5,7 @@ from LxCore.preset import basicPr, pipePr
 #
 from LxUi import uiCore
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 
 
 #
@@ -15,7 +15,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self):
         super(IfPresetWindow, self).__init__()
         #
@@ -242,7 +242,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(guidePresetKey),
                 u'成功'
             )
@@ -379,7 +379,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(mainPresetKey),
                 u'成功'
             )
@@ -505,7 +505,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                 lxBasic.writeOsJson(setDic, setFile)
             #
             refreshMethod()
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(subPresetKey),
                 u'成功'
             )
@@ -610,7 +610,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        tabView = qtWidgets.QtVShelfTabGroup()
+        tabView = qtWidgets.QtVShelfTabgroup()
         self.addWidget(tabView)
         buildData = [
             (lxCore_.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
@@ -622,7 +622,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for i in buildData:
             keyword, iconKeyword, tooltip = i
             progressBar.updateProgress(keyword)

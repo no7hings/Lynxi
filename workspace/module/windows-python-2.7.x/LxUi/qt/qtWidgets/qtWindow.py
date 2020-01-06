@@ -1,29 +1,27 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxScheme
-#
+
 from LxUi import uiCore
-#
+
 from LxUi.qt import qtCore
-#
-from LxUi.command import uiHtml
-#
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
-#
-_families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
 
 #
-class QtWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         #
         self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -35,12 +33,12 @@ class QtWindow(qtWidgetAbstract.Abc_QtWindow):
 
 
 #
-class QtToolWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtToolWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -54,12 +52,12 @@ class QtToolWindow(qtWidgetAbstract.Abc_QtWindow):
 
 
 #
-class QtSubWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtSubWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -77,12 +75,12 @@ class QtSubWindow(qtWidgetAbstract.Abc_QtWindow):
 
 
 #
-class QtDialogWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtDialogWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -94,12 +92,12 @@ class QtDialogWindow(qtWidgetAbstract.Abc_QtWindow):
 
 
 #
-class QtTipWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtTipWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         self._initTipWindow()
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -113,46 +111,47 @@ class QtTipWindow(qtWidgetAbstract.Abc_QtWindow):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtWidgetAbstract.QtTextBrower()
+        self._textBrower = qtAbcWidget._QtTextbrower()
         self._textBrower.setFontSize(10)
         self.addWidget(self._textBrower)
-    #
+
     def _initTipWindow(self):
         self._logFile = None
-    #
+
     def addHtml(self, datum, isHtml=True):
         if isHtml is False:
             # noinspection PyArgumentEqualDefault
-            datum = uiHtml.getHtml(datum, inuse=5)
+            datum = self.html_method.toHtml(datum, inuse=5)
         #
         if isinstance(datum, str) or isinstance(datum, unicode):
             self._textBrower.textEdit().append(datum)
         elif isinstance(datum, tuple) or isinstance(datum, list):
             self._textBrower.textEdit().append(datum)
-    #
+
     def html(self):
         return self._textBrower.textEdit().toHtml()
-    #
+
     def addMessage(self, html):
         self.addHtml(html)
-    #
+
     def datum(self):
         return self.html()
-    #
+
     def setLogFile(self, osFile):
         self._logFile = osFile
-    #
+
     def logFile(self):
         return self._logFile
 
 
 #
-class QtLogWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
+    html_method = bscMethods.Mtd_Html
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         self._initLogWindow()
         #
         self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -164,49 +163,49 @@ class QtLogWindow(qtWidgetAbstract.Abc_QtWindow):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtWidgetAbstract.QtTextBrower()
+        self._textBrower = qtAbcWidget._QtTextbrower()
         self._textBrower.setFontSize(10)
         #
         self.addWidget(self._textBrower)
-    #
+
     def _initLogWindow(self):
         self._logFile = None
-    #
+
     def addHtml(self, datum, isHtml=True):
         if isHtml is False:
             # noinspection PyArgumentEqualDefault
-            datum = uiHtml.getHtml(datum, inuse=5)
+            datum = self.html_method.toHtml(datum, inuse=5)
         #
         if isinstance(datum, str) or isinstance(datum, unicode):
             self._textBrower.textEdit().append(datum)
         elif isinstance(datum, tuple) or isinstance(datum, list):
             self._textBrower.textEdit().append(datum)
-    #
+
     def html(self):
         return self._textBrower.textEdit().toHtml()
-    #
+
     def addMessage(self, html):
         self.addHtml(html)
-    #
+
     def datum(self):
         return self.html()
-    #
+
     def setLogFile(self, osFile):
         self._logFile = osFile
-    #
+
     def logFile(self):
         return self._logFile
 
 
 #
-class QtFloatWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtFloatWindow(qtAbcWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
         #
@@ -214,18 +213,21 @@ class QtFloatWindow(qtWidgetAbstract.Abc_QtWindow):
         #
         self.viewModel().setDirection(qtCore.Vertical)
         #
+        self.setIcon('svg_basic@svg#window')
         self.setDialogEnable(False)
-        self.setStatusEnable(False)
-        self.setMaximizeEnable(False), self.setMinimizeEnable(False)
+        self.setStatusEnable(True)
+        self.setMaximizeEnable(True), self.setMinimizeEnable(True)
 
 
 #
-class QtMessageWindow(qtWidgetAbstract.Abc_QtWindow):
+class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
+    html_method = bscMethods.Mtd_Html
+
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindow()
         self._initProgressWindow()
         #
         self.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -246,95 +248,76 @@ class QtMessageWindow(qtWidgetAbstract.Abc_QtWindow):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self.uiHeightCount = 0
-        #
-        self._textBrower = qtWidgetAbstract.QtTextBrower()
+        self._textBrower = qtAbcWidget._QtTextbrower()
         self._textBrower.setFontSize(10)
+
         self.addWidget(self._textBrower)
         self._textBrower.setEnterEnable(False)
-    #
+
     def _initProgressWindow(self):
         self.normalWidth = 320
         self.normalHeight = 96
         #
         self.quitTime = 3000
-    #
-    def setUiHeightCount(self, value):
-        self.uiHeightCount = lxScheme.Ui().setMessageCount(value)
-    #
+
+    @staticmethod
+    def _setMessageCount(value):
+        lxScheme.Interface().setMessageCount(value)
+
     def uiShow(self, *args):
+        self._messageShow()
+
+    @staticmethod
+    def _messageCount():
+        return lxScheme.Interface().messageCount()
+
+    def _messageShow(self):
         width, height = self.windowModel().defaultSize()
-        offset = 0
-        #
-        deskRect = qtCore.getDesktopPrimaryRect()
-        maxWidth = deskRect.width()
-        maxHeight = deskRect.height()
+
         if qtCore.getAppWindow():
             parent = qtCore.getAppWindow()
-            maxWidth = parent.width()
-            maxHeight = parent.height()
-        #
+            parentWidth, parentHeight = parent.width(), parent.height()
+            parentXPos, parentYPos = 0, 0
+        else:
+            deskRect = qtCore.getDesktopPrimaryRect()
+            parentWidth, parentHeight = deskRect.width(), deskRect.height()
+            parentXPos, parentYPos = deskRect.x(), deskRect.y()
+
         maxVCount = 960
-        count = self.uiHeightCount
-        vCount = count % maxVCount
+        count = self._messageCount()
+
         hCount = int(count / maxVCount)
-        #
-        xPos = maxWidth - width + offset - width * hCount
-        yPos = maxHeight - height + offset - vCount + height
-        #
-        self.setGeometry(QtCore.QRect(xPos, yPos, width, height))
-        #
-        self.show()
-    #
-    def uiShow_(self):
-        width = self.normalWidth
-        height = self.normalHeight
-        offset = 0
-        #
-        deskRect = qtCore.getDesktopPrimaryRect()
-        maxWidth, maxHeight = deskRect.width(), deskRect.height()
-        if qtCore.getAppWindow():
-            parent = qtCore.getAppWindow()
-            maxWidth, maxHeight = parent.width(), parent.height()
-        #
-        maxVCount = 960
-        count = int(self.uiHeightCount)
-        #
-        hCount = int(count / maxVCount)
-        vCount = count % maxVCount
-        #
-        xPos = maxWidth - width + offset - width * hCount
-        yPos = maxHeight - height + offset - vCount + self.normalHeight
-        #
+        vCount = count % maxVCount - height
+
+        xPos = (parentWidth - width + parentXPos) - width * hCount
+        yPos = (parentHeight - height + parentYPos) - vCount
+
         self.setGeometry(
             xPos, yPos,
             width, height
         )
-        #
+
         self.show()
-        #
-        self.quitMethod()
-    #
-    def quitMethod(self):
+
+    def _quitLater(self):
         self.inTimer = QtCore.QTimer()
         self.inTimer.start(self.quitTime)
         #
         self.inTimer.timeout.connect(self.uiQuit)
-    #
+
     def uiQuit(self):
         width, height = self.windowModel().defaultSize()
-        self.setUiHeightCount(-height)
+        self._setMessageCount(-height)
         #
         self.windowModel().uiQuit()
-    #
-    def startProgress(self, explain, maxValue):
+
+    def startProgress(self, maxValue):
         width, height = self.windowModel().defaultSize()
-        #
-        self.windowModel().setNameText(explain)
-        self.setUiHeightCount(+height)
-        #
+
         self.windowModel().setMaxProgressValue(maxValue)
-    #
+
+        self._setMessageCount(+height)
+
     def updateProgress(self, subExplain=None):
         self.windowModel().updateProgress()
         #
@@ -349,12 +332,22 @@ class QtMessageWindow(qtWidgetAbstract.Abc_QtWindow):
         #
         if self.windowModel().progressValue() == self.windowModel().maxProgressValue():
             self.uiQuit()
-    #
+
     def setDatum(self, string):
         width, height = self.windowModel().defaultSize()
-        #
+
         self._textBrower.setDatum(string)
+
+        self._setMessageCount(+height)
+
+        self._quitLater()
+
+    def addHtml(self, datum, isHtml=True):
+        if isHtml is False:
+            # noinspection PyArgumentEqualDefault
+            datum = self.html_method.toHtml(datum, inuse=5)
         #
-        self.setUiHeightCount(+height)
-        #
-        self.uiShow_()
+        if isinstance(datum, str) or isinstance(datum, unicode):
+            self._textBrower.textEdit().append(datum)
+        elif isinstance(datum, tuple) or isinstance(datum, list):
+            self._textBrower.textEdit().append(datum)

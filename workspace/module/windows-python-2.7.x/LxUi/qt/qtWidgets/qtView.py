@@ -3,7 +3,7 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 from LxUi.qt.qtModels import qtViewModel
 #
@@ -13,6 +13,15 @@ QtCore = qtCore.QtCore
 _families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
+
+
+# Scroll Bar
+class QtScrollBar(qtAbcWidget.QtAbcObj_Scrollbar):
+    def __init__(self, *args, **kwargs):
+        self.clsSuper = super(qtCore.QWidget, self)
+        self.clsSuper.__init__(*args, **kwargs)
+        #
+        self._initAbcScrollbarWidget()
 
 
 #
@@ -131,23 +140,23 @@ class QtScrollArea(qtCore.QWidget):
     def setupUi(self):
         self._viewport = qtCore.QWidget(self)
         #
-        self._vScrollBar, self._hScrollBar = qtWidgetAbstract.QtScrollBar(self), qtWidgetAbstract.QtScrollBar(self)
+        self._vScrollBar, self._hScrollBar = QtScrollBar(self), QtScrollBar(self)
         #
         self._layout = qtCore.QVBoxLayout_(self._viewport)
         self._layout.setContentsMargins(0, 0, 0, 0)
         self._layout.setSpacing(0)
         self._layout.setAlignment(QtCore.Qt.AlignTop)
         #
-        self._viewModel = qtViewModel.QtScrollAreaModel(self)
+        self._viewModel = qtViewModel.QtScrollareaModel(self)
 
 
 #
-class QtCheckview(qtWidgetAbstract.Abc_QtView):
+class QtCheckview(qtAbcWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initViewBasic()
+        self._initAbcViewWidget()
         #
         self.setupUi()
     #
@@ -159,12 +168,12 @@ class QtCheckview(qtWidgetAbstract.Abc_QtView):
 
 
 #
-class QtTreeview(qtWidgetAbstract.Abc_QtView):
+class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initViewBasic()
+        self._initAbcViewWidget()
         self._overrideUi()
         #
         self.setupUi()
@@ -323,10 +332,10 @@ class QtTreeview(qtWidgetAbstract.Abc_QtView):
                             y += h
 
         # painter.end()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -340,8 +349,8 @@ class QtTreeview(qtWidgetAbstract.Abc_QtView):
         self._vScrollBar.setActionData(self.actionData)
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
-        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._hScrollBar = QtScrollBar(self)
+        self._vScrollBar = QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtTreeviewModel(self)
         #
@@ -360,12 +369,12 @@ class QtTreeview(qtWidgetAbstract.Abc_QtView):
 
 
 #
-class QtGridview(qtWidgetAbstract.Abc_QtView):
+class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initViewBasic()
+        self._initAbcViewWidget()
         #
         self.setupUi()
     #
@@ -452,16 +461,16 @@ class QtGridview(qtWidgetAbstract.Abc_QtView):
                 )
 
         # painter.end()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
     def setItemSize(self, width, height):
         self.viewModel().setItemSize(width, height)
-        self.viewModel().setItemBasicSize(width, height)
+        self.viewModel().setAbcObjItemWidgetSize(width, height)
     #
     def setItemListModeSize(self, width, height):
         self.viewModel().setItemListModeSize(width, height)
@@ -550,8 +559,8 @@ class QtGridview(qtWidgetAbstract.Abc_QtView):
         self.update()
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
-        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._hScrollBar = QtScrollBar(self)
+        self._vScrollBar = QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtGridviewModel(self)
         #
@@ -583,12 +592,12 @@ class QtGridview(qtWidgetAbstract.Abc_QtView):
 
 
 # Preset
-class QtPresetview(qtWidgetAbstract.Abc_QtView):
+class QtPresetview(qtAbcWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initViewBasic()
+        self._initAbcViewWidget()
         #
         self.setupUi()
     #
@@ -604,10 +613,10 @@ class QtPresetview(qtWidgetAbstract.Abc_QtView):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -621,8 +630,8 @@ class QtPresetview(qtWidgetAbstract.Abc_QtView):
         self._vScrollBar.setActionData(self.actionData)
     #
     def setupUi(self):
-        self._hScrollBar = qtWidgetAbstract.QtScrollBar(self)
-        self._vScrollBar = qtWidgetAbstract.QtScrollBar(self)
+        self._hScrollBar = QtScrollBar(self)
+        self._vScrollBar = QtScrollBar(self)
         #
         self._viewModel = qtViewModel.QtPresetviewModel(self)
         #

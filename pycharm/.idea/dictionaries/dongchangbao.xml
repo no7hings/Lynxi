@@ -1,20 +1,27 @@
 <component name="ProjectDictionaryState">
   <dictionary name="dongchangbao">
     <words>
+      <w>actionitem</w>
+      <w>actionview</w>
       <w>anim</w>
       <w>aov</w>
       <w>appname</w>
       <w>appversion</w>
       <w>asbs</w>
+      <w>attributeitem</w>
       <w>attributepath</w>
       <w>basenames</w>
       <w>bindinput</w>
       <w>binname</w>
       <w>binversion</w>
       <w>brower</w>
+      <w>buttontab</w>
       <w>chardet</w>
       <w>checkable</w>
       <w>checkview</w>
+      <w>chooseitem</w>
+      <w>choosetab</w>
+      <w>chooseview</w>
       <w>colorable</w>
       <w>colorchart</w>
       <w>compilepath</w>
@@ -32,17 +39,21 @@
       <w>displacementshader</w>
       <w>dongchangbao</w>
       <w>dragable</w>
+      <w>dropview</w>
       <w>enablebutton</w>
       <w>enterable</w>
       <w>enterbox</w>
+      <w>enteritem</w>
       <w>exts</w>
       <w>filebasename</w>
       <w>foldername</w>
       <w>fullpath</w>
       <w>geometryinput</w>
+      <w>geometryset</w>
       <w>geomname</w>
       <w>geomnamearray</w>
       <w>graphitem</w>
+      <w>graphset</w>
       <w>graphview</w>
       <w>gridview</w>
       <w>hier</w>
@@ -74,6 +85,7 @@
       <w>lynxinode</w>
       <w>lyxni</w>
       <w>mapchart</w>
+      <w>materialassign</w>
       <w>materialx</w>
       <w>matl</w>
       <w>maximizeable</w>
@@ -107,6 +119,7 @@
       <w>percentable</w>
       <w>piechart</w>
       <w>pixmap</w>
+      <w>pkgutil</w>
       <w>playblast</w>
       <w>plugapp</w>
       <w>plugname</w>
@@ -118,6 +131,7 @@
       <w>procname</w>
       <w>productroot</w>
       <w>projectname</w>
+      <w>propertyset</w>
       <w>pyqt</w>
       <w>pythonmodule</w>
       <w>pythonpackage</w>
@@ -128,6 +142,7 @@
       <w>recordview</w>
       <w>rects</w>
       <w>rehighlight</w>
+      <w>reloader</w>
       <w>renderable</w>
       <w>repath</w>
       <w>resourceapp</w>
@@ -141,6 +156,7 @@
       <w>rltn</w>
       <w>rootpath</w>
       <w>sceneries</w>
+      <w>scrollarea</w>
       <w>sectorchart</w>
       <w>sequencechart</w>
       <w>serverroot</w>
@@ -149,6 +165,7 @@
       <w>shaderref</w>
       <w>shaders</w>
       <w>shaderset</w>
+      <w>shelftab</w>
       <w>solidangle</w>
       <w>sourcepath</w>
       <w>sqlite</w>
@@ -160,11 +177,17 @@
       <w>subpath</w>
       <w>surfaceshader</w>
       <w>systemraw</w>
+      <w>tabbar</w>
+      <w>tabgroup</w>
+      <w>tabitem</w>
+      <w>tabview</w>
       <w>tearable</w>
+      <w>textbrower</w>
       <w>timetag</w>
       <w>topo</w>
       <w>trackable</w>
       <w>trackaction</w>
+      <w>treeitem</w>
       <w>treeview</w>
       <w>udim</w>
       <w>unclicked</w>

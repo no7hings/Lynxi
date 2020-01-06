@@ -8,17 +8,17 @@ none = ''
 
 
 # Item
-class QtItemModelAbs(qtDefinition.QtItemModelDef):
-    def _initItemModelAbs(self):
+class QtAbc_ItemModel(qtDefinition.QtDef_ItemModel):
+    def _initAbcItemModel(self):
         self._initItemModelDef()
         #
-        self._initItemModelAbsAttr()
-        self._initItemModelAbsAction()
-        self._initItemModelAbsRect()
-        self._initItemModelAbsUi()
-        self._initItemModelAbsVar()
+        self._initAbcItemModelAttr()
+        self._initAbcItemModelAction()
+        self._initAbcItemModelRect()
+        self._initAbcItemModelUi()
+        self._initAbcItemModelVar()
     #
-    def _initItemModelAbsAttr(self):
+    def _initAbcItemModelAttr(self):
         self._itemMode = qtCore.ListMode
         #
         self._proxyItem = None
@@ -49,10 +49,10 @@ class QtItemModelAbs(qtDefinition.QtItemModelDef):
         self._isPercentEnable = False
         self._isPercentable = False
     #
-    def _initItemModelAbsAction(self):
+    def _initAbcItemModelAction(self):
         pass
     #
-    def _initItemModelAbsRect(self):
+    def _initAbcItemModelRect(self):
         self._uiPercentFrameRect = QtCore.QRect(-20, -20, 1, 1)
         self._uiPercentValueRect = QtCore.QRect(-20, -20, 1, 1)
         self._uiPercentTextRect = QtCore.QRect(-20, -20, 1, 1)
@@ -62,7 +62,7 @@ class QtItemModelAbs(qtDefinition.QtItemModelDef):
         #
         self._pressRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initItemModelAbsUi(self):
+    def _initAbcItemModelUi(self):
         self._uiSubNameText = None
         #
         self._uiPercentText = 'N/a'
@@ -97,7 +97,7 @@ class QtItemModelAbs(qtDefinition.QtItemModelDef):
         #
         self._uiIndexTextWidth, self._uiNameTextWidth, self._uiSubNameWidth = 32.0, 32.0, 32.0
     #
-    def _initItemModelAbsVar(self):
+    def _initAbcItemModelVar(self):
         # Keyword
         self._isKeywordFilterable = False
         self._isKeywordFilterVisible = True
@@ -866,238 +866,18 @@ class QtItemModelAbs(qtDefinition.QtItemModelDef):
         self.viewModel()._addSubItemModelIndexSortAt(itemIndex, childItemIndex)
 
 
-# Value Enter Item
-class QtValueEnterItemModelAbs(qtDefinition.QtItemModelDef):
-    def _initValueEnterItemModelAbs(self):
+# Enter Item
+class QtAbc_EnteritemModel(qtDefinition.QtDef_ItemModel):
+    def _initAbcEnteritemModel(self):
         self._initItemModelDef()
         #
-        self._initValueEnterItemModelAbsAttr()
-        self._initValueEnterItemModelAbsAction()
-        self._initValueEnterItemModelAbsRect()
-        self._initValueEnterItemModelAbsUi()
-        self._initValueEnterItemModelAbsVar()
+        self._initAbcEnteritemModelAttr()
+        self._initAbcEnteritemModelAction()
+        self._initAbcEnteritemModelRect()
+        self._initAbcEnteritemModelUi()
+        self._initAbcEnteritemModelVar()
     #
-    def _initValueEnterItemModelAbsAttr(self):
-        self._valueLis = []
-        self._defaultValueLis = []
-        #
-        self._valueCount = 1
-        #
-        self._enterIndex = -1
-        #
-        self._isEnterEnable = True
-        self._isEnterable = True
-        self._isEnteredLis = []
-        #
-        self._valueType = None
-        #
-        self._enterWidgetClass = None
-        #
-        self._uiEnterStatusLis = []
-        #
-        self._enterWidgetLis = []
-        #
-        self._maxValue, self._miniValue = None, None
-    #
-    def _initValueEnterItemModelAbsAction(self):
-        pass
-    #
-    def _initValueEnterItemModelAbsRect(self):
-        self._uiEnterRectLis = [QtCore.QRect()]
-    #
-    def _initValueEnterItemModelAbsUi(self):
-        self._uiValueTextLis = []
-    #
-    def _initValueEnterItemModelAbsVar(self):
-        pass
-    #
-    def _getEnterIndex(self, widget):
-        return self._enterWidgetLis.index(widget)
-    #
-    def _updateEnterWidgetState(self):
-        if self.isEnterable():
-            for seq, i in enumerate(self.enterWidgets()):
-                self.setEntered(seq, i.hasFocus())
-            #
-            if self._defaultValueLis:
-                for index, defaultValue in enumerate(self._defaultValueLis):
-                    widget = self._enterWidgetLis[index]
-                    value = widget.value()
-                    if value != defaultValue:
-                        self._uiEnterStatusLis[index] = qtCore.WarningStatus
-                    else:
-                        self._uiEnterStatusLis[index] = qtCore.NormalStatus
-        #
-        self._updateUiEnterState()
-    #
-    def _updateEnterWidgets(self):
-        if self._enterWidgetLis:
-            [i.deleteLater() for i in self._enterWidgetLis]
-        #
-        self._uiEnterRectLis = []
-        self._enterWidgetLis = []
-        for index in xrange(self.valueCount()):
-            self._uiEnterRectLis.append(QtCore.QRect())
-            #
-            widget = self._enterWidgetClass(self.widget())
-            self._enterWidgetLis.append(widget)
-            widget.setEnterable(self.isEnterable())
-            #
-            value = self._valueLis[index]
-            if isinstance(value, int):
-                self._valueType = int
-                widget.setIntValidator()
-            elif isinstance(value, float):
-                self._valueType = float
-                widget.setFloatValidator()
-            widget.setText(str(value))
-            widget.setFont(self.widget().font())
-            #
-            widget.focusChanged.connect(self._updateEnterWidgetState)
-            widget.entryChanged.connect(self._updateEnterWidgetState)
-        #
-        self.widget()._uiEnterBackgroundRgbaLis = [(47, 47, 47, 255)]*self.valueCount()
-        self.widget()._uiEnterBorderRgbaLis = [(95, 95, 95, 255)]*self.valueCount()
-        #
-        self._uiEnterStatusLis = [qtCore.NormalStatus] * self.valueCount()
-    #
-    def _updateUiEnterState(self):
-        for index in range(self.valueCount()):
-            if self.isEnterable():
-                if self.isEntered(index):
-                    self.setUiEnterState(index, qtCore.EnterState)
-                else:
-                    self.setUiEnterState(index, qtCore.UnenterState)
-            else:
-                self.setUiEnterState(index, qtCore.NormalState)
-        #
-        self._updateWidgetState()
-    #
-    def _updateUiEnterStatus(self):
-        for index in range(self.valueCount()):
-            status = self._uiEnterStatusLis[index]
-            if status is qtCore.NormalStatus:
-                self.widget()._uiEnterBackgroundRgbaLis[index] = [(47, 47, 47, 255), (39, 39, 39, 255)][self.isEntered(index)]
-            elif status is qtCore.WarningStatus:
-                self.widget()._uiEnterBackgroundRgbaLis[index] = [(127, 127, 64, 255), (96, 96, 48, 255)][self.isEntered(index)]
-            elif status is qtCore.ErrorStatus:
-                self.widget()._uiEnterBackgroundRgbaLis[index] = [(127, 64, 64, 255), (96, 48, 48, 255)][self.isEntered(index)]
-            elif status is qtCore.OnStatus:
-                self.widget()._uiEnterBackgroundRgbaLis[index] = [(64, 127, 64, 255), (48, 96, 48, 255)][self.isEntered(index)]
-    #
-    def setEnterWidgetClass(self, cls):
-        self._enterWidgetClass = cls
-    #
-    def setValue(self, value):
-        if isinstance(value, int) or isinstance(value, float):
-            self._valueLis = [value]
-        elif isinstance(value, tuple) or isinstance(value, list):
-            self._valueLis = list(value)
-            #
-            self._valueCount = len(self._valueLis)
-            #
-            self._updateEnterWidgets()
-            #
-            self._isEnteredLis = [False]*self._valueCount
-    #
-    def value(self):
-        for index in xrange(self.valueCount()):
-            text = self._enterWidgetLis[index].text()
-            if self._valueType == int:
-                if text:
-                    self._valueLis[index] = int(text)
-                else:
-                    self._valueLis[index] = 0
-            elif self._valueType == float:
-                if text:
-                    self._valueLis[index] = float(text)
-                else:
-                    self._valueLis[index] = 0.0
-        #
-        if self._valueLis:
-            if len(self._valueLis) == 1:
-                return self._valueLis[0]
-            else:
-                return tuple(self._valueLis)
-    #
-    def setValueRange(self, minimum, maximum):
-        self._miniValue, self._maxValue = minimum, maximum
-        #
-        if self._enterWidgetLis:
-            [i.setValueRange(self._miniValue, self._maxValue) for i in self._enterWidgetLis]
-    #
-    def setDefaultValue(self, value):
-        if isinstance(value, int) or isinstance(value, float):
-            self._defaultValueLis = [value]
-        elif isinstance(value, tuple) or isinstance(value, list):
-            self._defaultValueLis = list(value)
-        #
-        if not self._valueLis:
-            self.setValue(self._defaultValueLis)
-    #
-    def valueCount(self):
-        return self._valueCount
-    #
-    def enterRects(self):
-        return self._uiEnterRectLis
-    #
-    def enterWidgets(self):
-        return self._enterWidgetLis
-    #
-    def setUiEnterStatus(self, index, status):
-        self._uiEnterStatusLis[index] = status
-        #
-        self._updateUiEnterState()
-    #
-    def setEnterEnable(self, boolean):
-        self._isEnterEnable = boolean
-    #
-    def isEnterEnable(self):
-        return self._isEnterEnable
-    #
-    def setEnterable(self, boolean):
-        self._isEnterable = boolean
-    #
-    def isEnterable(self):
-        if self.isEnterEnable():
-            return self._isEnterable
-        else:
-            return False
-    #
-    def setEntered(self, index, boolean):
-        self._isEnteredLis[index] = boolean
-    #
-    def isEntered(self, index=0):
-        if self.isEnterable():
-            return self._isEnteredLis[index]
-        else:
-            return False
-    #
-    def setUiEnterState(self, index, state):
-        if state is qtCore.NormalState:
-            self.widget()._uiEnterBackgroundRgbaLis[index] = 0, 0, 0, 0
-            self.widget()._uiEnterBorderRgbaLis[index] = 0, 0, 0, 0
-        else:
-            if state is qtCore.EnterState:
-                self.widget()._uiEnterBorderRgbaLis[index] = 63, 127, 255, 255
-            elif state is qtCore.UnenterState:
-                self.widget()._uiEnterBorderRgbaLis[index] = 95, 95, 95, 255
-            #
-            self._updateUiEnterStatus()
-
-
-# Datum Enter Item
-class QtEnterItemModelAbs(qtDefinition.QtItemModelDef):
-    def _initDatumEnterItemModelAbs(self):
-        self._initItemModelDef()
-        #
-        self._initDatumEnterItemModelAbsAttr()
-        self._initDatumEnterItemModelAbsAction()
-        self._initDatumEnterItemModelAbsRect()
-        self._initDatumEnterItemModelAbsUi()
-        self._initDatumEnterItemModelAbsVar()
-    #
-    def _initDatumEnterItemModelAbsAttr(self):
+    def _initAbcEnteritemModelAttr(self):
         self._datum = None
         self._datumType = None
         self._defaultDatum = None
@@ -1119,18 +899,18 @@ class QtEnterItemModelAbs(qtDefinition.QtItemModelDef):
         #
         self._uiEnterStatus = qtCore.NormalStatus
     #
-    def _initDatumEnterItemModelAbsAction(self):
+    def _initAbcEnteritemModelAction(self):
         pass
     #
-    def _initDatumEnterItemModelAbsRect(self):
+    def _initAbcEnteritemModelRect(self):
         self._uiEnterRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initDatumEnterItemModelAbsUi(self):
+    def _initAbcEnteritemModelUi(self):
         self._uiDatumText = None
         self._uiDatumTextLis = []
         self._uiDatumTextDic = {}
     #
-    def _initDatumEnterItemModelAbsVar(self):
+    def _initAbcEnteritemModelVar(self):
         pass
     #
     def _updateUiEnterState(self):
@@ -1384,18 +1164,238 @@ class QtEnterItemModelAbs(qtDefinition.QtItemModelDef):
         self._chooseAction()
 
 
-# View
-class QtViewModelAbs(qtDefinition.QtViewModelDef):
-    def _initViewModelAbs(self):
-        self._initViewModelDef()
+# Value Enter Item
+class QtAbc_ValueEnteritemModel(qtDefinition.QtDef_ItemModel):
+    def _initAbcValueEnteritemModel(self):
+        self._initItemModelDef()
         #
-        self._initViewModelAbsAttr()
-        self._initViewModelAbsAction()
-        self._initViewModelAbsRect()
-        self._initViewModelAbsUi()
-        self._initViewModelAbsVar()
+        self._initAbcValueEnteritemModelAttr()
+        self._initAbcValueEnteritemModelAction()
+        self._initAbcValueEnteritemModelRect()
+        self._initAbcValueEnteritemModelUi()
+        self._initAbcValueEnteritemModelVar()
     #
-    def _initViewModelAbsAttr(self):
+    def _initAbcValueEnteritemModelAttr(self):
+        self._valueLis = []
+        self._defaultValueLis = []
+        #
+        self._valueCount = 1
+        #
+        self._enterIndex = -1
+        #
+        self._isEnterEnable = True
+        self._isEnterable = True
+        self._isEnteredLis = []
+        #
+        self._valueType = None
+        #
+        self._enterWidgetClass = None
+        #
+        self._uiEnterStatusLis = []
+        #
+        self._enterWidgetLis = []
+        #
+        self._maxValue, self._miniValue = None, None
+    #
+    def _initAbcValueEnteritemModelAction(self):
+        pass
+    #
+    def _initAbcValueEnteritemModelRect(self):
+        self._uiEnterRectLis = [QtCore.QRect()]
+    #
+    def _initAbcValueEnteritemModelUi(self):
+        self._uiValueTextLis = []
+    #
+    def _initAbcValueEnteritemModelVar(self):
+        pass
+    #
+    def _getEnterIndex(self, widget):
+        return self._enterWidgetLis.index(widget)
+    #
+    def _updateEnterWidgetState(self):
+        if self.isEnterable():
+            for seq, i in enumerate(self.enterWidgets()):
+                self.setEntered(seq, i.hasFocus())
+            #
+            if self._defaultValueLis:
+                for index, defaultValue in enumerate(self._defaultValueLis):
+                    widget = self._enterWidgetLis[index]
+                    value = widget.value()
+                    if value != defaultValue:
+                        self._uiEnterStatusLis[index] = qtCore.WarningStatus
+                    else:
+                        self._uiEnterStatusLis[index] = qtCore.NormalStatus
+        #
+        self._updateUiEnterState()
+    #
+    def _updateEnterWidgets(self):
+        if self._enterWidgetLis:
+            [i.deleteLater() for i in self._enterWidgetLis]
+        #
+        self._uiEnterRectLis = []
+        self._enterWidgetLis = []
+        for index in xrange(self.valueCount()):
+            self._uiEnterRectLis.append(QtCore.QRect())
+            #
+            widget = self._enterWidgetClass(self.widget())
+            self._enterWidgetLis.append(widget)
+            widget.setEnterable(self.isEnterable())
+            #
+            value = self._valueLis[index]
+            if isinstance(value, int):
+                self._valueType = int
+                widget.setIntValidator()
+            elif isinstance(value, float):
+                self._valueType = float
+                widget.setFloatValidator()
+            widget.setText(str(value))
+            widget.setFont(self.widget().font())
+            #
+            widget.focusChanged.connect(self._updateEnterWidgetState)
+            widget.entryChanged.connect(self._updateEnterWidgetState)
+        #
+        self.widget()._uiEnterBackgroundRgbaLis = [(47, 47, 47, 255)]*self.valueCount()
+        self.widget()._uiEnterBorderRgbaLis = [(95, 95, 95, 255)]*self.valueCount()
+        #
+        self._uiEnterStatusLis = [qtCore.NormalStatus] * self.valueCount()
+    #
+    def _updateUiEnterState(self):
+        for index in range(self.valueCount()):
+            if self.isEnterable():
+                if self.isEntered(index):
+                    self.setUiEnterState(index, qtCore.EnterState)
+                else:
+                    self.setUiEnterState(index, qtCore.UnenterState)
+            else:
+                self.setUiEnterState(index, qtCore.NormalState)
+        #
+        self._updateWidgetState()
+    #
+    def _updateUiEnterStatus(self):
+        for index in range(self.valueCount()):
+            status = self._uiEnterStatusLis[index]
+            if status is qtCore.NormalStatus:
+                self.widget()._uiEnterBackgroundRgbaLis[index] = [(47, 47, 47, 255), (39, 39, 39, 255)][self.isEntered(index)]
+            elif status is qtCore.WarningStatus:
+                self.widget()._uiEnterBackgroundRgbaLis[index] = [(127, 127, 64, 255), (96, 96, 48, 255)][self.isEntered(index)]
+            elif status is qtCore.ErrorStatus:
+                self.widget()._uiEnterBackgroundRgbaLis[index] = [(127, 64, 64, 255), (96, 48, 48, 255)][self.isEntered(index)]
+            elif status is qtCore.OnStatus:
+                self.widget()._uiEnterBackgroundRgbaLis[index] = [(64, 127, 64, 255), (48, 96, 48, 255)][self.isEntered(index)]
+    #
+    def setEnterWidgetClass(self, cls):
+        self._enterWidgetClass = cls
+    #
+    def setValue(self, value):
+        if isinstance(value, int) or isinstance(value, float):
+            self._valueLis = [value]
+        elif isinstance(value, tuple) or isinstance(value, list):
+            self._valueLis = list(value)
+            #
+            self._valueCount = len(self._valueLis)
+            #
+            self._updateEnterWidgets()
+            #
+            self._isEnteredLis = [False]*self._valueCount
+    #
+    def value(self):
+        for index in xrange(self.valueCount()):
+            text = self._enterWidgetLis[index].text()
+            if self._valueType == int:
+                if text:
+                    self._valueLis[index] = int(text)
+                else:
+                    self._valueLis[index] = 0
+            elif self._valueType == float:
+                if text:
+                    self._valueLis[index] = float(text)
+                else:
+                    self._valueLis[index] = 0.0
+        #
+        if self._valueLis:
+            if len(self._valueLis) == 1:
+                return self._valueLis[0]
+            else:
+                return tuple(self._valueLis)
+    #
+    def setValueRange(self, minimum, maximum):
+        self._miniValue, self._maxValue = minimum, maximum
+        #
+        if self._enterWidgetLis:
+            [i.setValueRange(self._miniValue, self._maxValue) for i in self._enterWidgetLis]
+    #
+    def setDefaultValue(self, value):
+        if isinstance(value, int) or isinstance(value, float):
+            self._defaultValueLis = [value]
+        elif isinstance(value, tuple) or isinstance(value, list):
+            self._defaultValueLis = list(value)
+        #
+        if not self._valueLis:
+            self.setValue(self._defaultValueLis)
+    #
+    def valueCount(self):
+        return self._valueCount
+    #
+    def enterRects(self):
+        return self._uiEnterRectLis
+    #
+    def enterWidgets(self):
+        return self._enterWidgetLis
+    #
+    def setUiEnterStatus(self, index, status):
+        self._uiEnterStatusLis[index] = status
+        #
+        self._updateUiEnterState()
+    #
+    def setEnterEnable(self, boolean):
+        self._isEnterEnable = boolean
+    #
+    def isEnterEnable(self):
+        return self._isEnterEnable
+    #
+    def setEnterable(self, boolean):
+        self._isEnterable = boolean
+    #
+    def isEnterable(self):
+        if self.isEnterEnable():
+            return self._isEnterable
+        else:
+            return False
+    #
+    def setEntered(self, index, boolean):
+        self._isEnteredLis[index] = boolean
+    #
+    def isEntered(self, index=0):
+        if self.isEnterable():
+            return self._isEnteredLis[index]
+        else:
+            return False
+    #
+    def setUiEnterState(self, index, state):
+        if state is qtCore.NormalState:
+            self.widget()._uiEnterBackgroundRgbaLis[index] = 0, 0, 0, 0
+            self.widget()._uiEnterBorderRgbaLis[index] = 0, 0, 0, 0
+        else:
+            if state is qtCore.EnterState:
+                self.widget()._uiEnterBorderRgbaLis[index] = 63, 127, 255, 255
+            elif state is qtCore.UnenterState:
+                self.widget()._uiEnterBorderRgbaLis[index] = 95, 95, 95, 255
+            #
+            self._updateUiEnterStatus()
+
+
+# View
+class QtAbc_ViewModel(qtDefinition.QtDef_ViewModel):
+    def _initAbcViewModel(self):
+        self._initDefViewModel()
+        #
+        self._initAbcViewModelAttr()
+        self._initAbcViewModelAction()
+        self._initAbcViewModelRect()
+        self._initAbcViewModelUi()
+        self._initAbcViewModelVar()
+    #
+    def _initAbcViewModelAttr(self):
         self._itemMode = qtCore.ListMode
         #
         self._isPressEnable = True
@@ -1413,7 +1413,7 @@ class QtViewModelAbs(qtDefinition.QtViewModelDef):
         #
         self._isFocusFrameEnable = True
     #
-    def _initViewModelAbsAction(self):
+    def _initAbcViewModelAction(self):
         self._ctrlFlag, self._shiftFlag, self._altFlag = False, False, False
         #
         self._extendPressFlag = False
@@ -1425,16 +1425,16 @@ class QtViewModelAbs(qtDefinition.QtViewModelDef):
         self._curPressChangeFlag, self._curCheckChangeFlag = False, False
         self._curHoverChangeFlag, self._selectChangeFlag = False, False
     #
-    def _initViewModelAbsRect(self):
+    def _initAbcViewModelRect(self):
         self._dragPressRect = QtCore.QRect(-20, -20, 1, 1)
         self._dragCheckRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initViewModelAbsUi(self):
+    def _initAbcViewModelUi(self):
         self._uiWidth, self._uiHeight = 20, 20
         #
         self._uiExpandFrameWidth, self._uiExpandFrameHeight = 20.0, 20.0
     #
-    def _initViewModelAbsVar(self):
+    def _initAbcViewModelVar(self):
         self._itemModelLis = []
         #
         self._visibleItemModelIndexLis = []
@@ -2355,7 +2355,7 @@ class QtViewModelAbs(qtDefinition.QtViewModelDef):
         self._widget = widget
         self._widget.setMouseTracking(True)
     #
-    def setItemBasicSize(self, w, h):
+    def setAbcObjItemWidgetSize(self, w, h):
         self._uiBasicItemWidth, self._uiBasicItemHeight = max(int(w), 1), max(int(h), 1)
     #
     def itemBasicSize(self):
@@ -2499,21 +2499,21 @@ class QtViewModelAbs(qtDefinition.QtViewModelDef):
 
 
 # Group
-class QtGroupModelAbs(qtDefinition.QtGroupModelDef):
-    def _initGroupModelAbs(self):
+class QtAbc_GroupModel(qtDefinition.QtDef_GroupModel):
+    def _initAbcGroupModel(self):
         self._initGroupModelDef()
     #
-    def _initGroupModelAbsAttr(self):
+    def _initAbcGroupModelAttr(self):
         pass
 
 
 # Scroll Bar
-class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
-    def _initScrollBarModelAbs(self):
-        self._initScrollBarDef()
+class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
+    def _initAbcScrollbarModel(self):
+        self._initDefScrollbarWidget()
     #
-    def _initScrollBarModelAbsVar(self):
-        self._initScrollBarDefVar()
+    def _initAbcScrollbarModelVar(self):
+        self._initDefScrollbarWidgetVar()
     #
     def _initScrollBarConnect(self):
         self._subScrollButton.clicked.connect(self._subPageAction)
@@ -2540,7 +2540,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
             return 0
     #
     def _updatePercent(self):
-        self._percent = self._uiMethod.mapRangeValue(
+        self._percent = self.ui_method.mapRangeValue(
             (self._minimum, self._maximum),
             (self._minPercent, self._maxPercent),
             self._value
@@ -2552,7 +2552,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
     def _updateValueByPercent(self):
         self._updateMaximumValue()
         #
-        value = self._uiMethod.mapRangeValue(
+        value = self.ui_method.mapRangeValue(
             (self._minPercent, self._maxPercent),
             (self._minimum, self._maximum),
             self._percent
@@ -2718,7 +2718,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
     #
     def _addAction(self):
         if self.value() < self.maximum():
-            value = self._uiMethod.mapStepValue(
+            value = self.ui_method.mapStepValue(
                 self._value,
                 +1,
                 40,
@@ -2730,7 +2730,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
     #
     def _subAction(self):
         if self.minimum() < self.value():
-            value = self._uiMethod.mapStepValue(
+            value = self.ui_method.mapStepValue(
                 self._value,
                 -1,
                 40,
@@ -2742,7 +2742,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
     #
     def _addRowAction(self):
         if self._curVisibleRow < self._maxItemRow:
-            value = self._uiMethod.mapStepValue(
+            value = self.ui_method.mapStepValue(
                 self._value,
                 +1,
                 self._rowValue,
@@ -2754,7 +2754,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
     #
     def _subRowAction(self):
         if self._minItemRow < self._curVisibleRow:
-            value = self._uiMethod.mapStepValue(
+            value = self.ui_method.mapStepValue(
                 self._value,
                 -1,
                 self._rowValue,
@@ -2765,7 +2765,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
             self._autoScrollStopAction()
     #
     def _subPageAction(self):
-        value = self._uiMethod.mapStepValue(
+        value = self.ui_method.mapStepValue(
             self._value,
             -1,
             self._pageValue,
@@ -2774,7 +2774,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
         self.setValue(value)
     #
     def _addPageAction(self):
-        value = self._uiMethod.mapStepValue(
+        value = self.ui_method.mapStepValue(
             self._value,
             +1,
             self._pageValue,
@@ -2938,7 +2938,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
         if self._isScrollable:
             step = self._basicValue
             #
-            value = self._uiMethod.mapStepValue(
+            value = self.ui_method.mapStepValue(
                 self._value, - delta, step,
                 self._maximum, self._minimum
             )
@@ -3023,7 +3023,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
             #
             self._dragPercent = qtCore.toPercent(self._maxSliderHeight, self._absHeight)
         else:
-            self._initScrollBarModelAbsVar()
+            self._initAbcScrollbarModelVar()
         #
         self._updatePageSize()
         #
@@ -3040,7 +3040,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
         self._initScrollBarConnect()
     #
     def setValueByPercent(self, percent):
-        value = self._uiMethod.mapRangeValue(
+        value = self.ui_method.mapRangeValue(
             (self._minPercent, self._maxPercent),
             (self._minimum, self._maximum),
             percent
@@ -3051,7 +3051,7 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
         self._updateTempValue()
     #
     def valuePercent(self):
-        return self._uiMethod.mapRangeValue(
+        return self.ui_method.mapRangeValue(
             (self._minimum, self._maximum),
             (self._minPercent, self._maxPercent),
             self._value
@@ -3059,26 +3059,26 @@ class QtScrollBarModelAbs(qtDefinition.QtScrollBarDef):
 
 
 # Scroll Area
-class QtScrollAreaModelAbs(qtDefinition.QtScrollAreaDef):
-    def _initScrollViewModelAbs(self):
-        self._initScrollAreaDef()
+class QtAbc_ScrollareaModel(qtDefinition.QtDef_ScrollareaWidget):
+    def _initAbcScrollareaModel(self):
+        self._initDefScrollarea()
         #
-        self._initScrollViewModelAbsAttr()
-        self._initScrollViewModelAbsAction()
-        self._initScrollViewModelAbsUi()
-        self._initScrollViewModelAbsVar()
+        self._initAbcScrollareaModelAttr()
+        self._initAbcScrollareaModelAction()
+        self._initAbcScrollareaModelUi()
+        self._initAbcScrollareaModelVar()
     #
-    def _initScrollViewModelAbsAttr(self):
+    def _initAbcScrollareaModelAttr(self):
         pass
     #
-    def _initScrollViewModelAbsAction(self):
+    def _initAbcScrollareaModelAction(self):
         self._trackActionModel = qtAction.QtTrackactionModel(self)
         self._trackActionModel.setMinimumPos(0, 0)
     #
-    def _initScrollViewModelAbsUi(self):
+    def _initAbcScrollareaModelUi(self):
         pass
     #
-    def _initScrollViewModelAbsVar(self):
+    def _initAbcScrollareaModelVar(self):
         pass
     #
     def _trackStartAction(self, event):
@@ -3109,17 +3109,17 @@ class QtScrollAreaModelAbs(qtDefinition.QtScrollAreaDef):
 
 
 # Action Drop View
-class QtActionDropViewModelAbs(qtDefinition.QtWidgetDef):
-    def _initActionDropViewModelAbs(self):
-        self._initWidgetDef()
+class QtAbc_ActionDropviewModel(qtDefinition.QtDef_Widget):
+    def _initAbcActionDropAbcViewModel(self):
+        self._initDefWidget()
         #
-        self._initActionDropViewModelAbsAttr()
-        self._initActionDropViewModelAbsAction()
-        self._initActionDropViewModelAbsRect()
-        self._initActionDropViewModelAbsUi()
-        self._initActionDropViewModelAbsVar()
+        self._initAbcActionDropAbcViewModelAttr()
+        self._initAbcActionDropAbcViewModelAction()
+        self._initAbcActionDropAbcViewModelRect()
+        self._initAbcActionDropAbcViewModelUi()
+        self._initAbcActionDropAbcViewModelVar()
     #
-    def _initActionDropViewModelAbsAttr(self):
+    def _initAbcActionDropAbcViewModelAttr(self):
         self._widget = None
         #
         self._itemClass = None
@@ -3130,13 +3130,13 @@ class QtActionDropViewModelAbs(qtDefinition.QtWidgetDef):
         #
         self._isTearable = False
     #
-    def _initActionDropViewModelAbsAction(self):
+    def _initAbcActionDropAbcViewModelAction(self):
         self._curPressChangeFlag = False
         #
         self._pressFlag, self._dragFlag = False, False
         self._actionFlag = False
     #
-    def _initActionDropViewModelAbsUi(self):
+    def _initAbcActionDropAbcViewModelUi(self):
         self._uiMaxWidth, self._uiMinWidth = 480, 160
         #
         self._uiFrameWidth, self._uiFrameHeight = 20, 20
@@ -3144,11 +3144,11 @@ class QtActionDropViewModelAbs(qtDefinition.QtWidgetDef):
         #
         self._uiSide, self._gap, self._uiMargin, self._uiShadowRadius = 4, 16, 8, 4
     #
-    def _initActionDropViewModelAbsRect(self):
+    def _initAbcActionDropAbcViewModelRect(self):
         self._uiBasicRect, self._titleRect, self._uiCentralRect = QtCore.QRect(), QtCore.QRect(), QtCore.QRect()
         self._titleLine = QtCore.QLine()
     #
-    def _initActionDropViewModelAbsVar(self):
+    def _initAbcActionDropAbcViewModelVar(self):
         self._region = 0
         #
         self._subItemDic = {}
@@ -3577,7 +3577,7 @@ class QtActionDropViewModelAbs(qtDefinition.QtWidgetDef):
         #
         width_, height_ = width + margin*2 + side*2 + shadowRadius + 1, height + margin*2 + side*2 + shadowRadius + 1 + self.__titleHeight()
         #
-        xP, yP, region = self._uiMethod.getRegionPos(
+        xP, yP, region = self.ui_method.getRegionPos(
             xPos, yPos,
             maxWidth, maxHeight,
             width_, height_,
@@ -3752,24 +3752,24 @@ class QtActionDropViewModelAbs(qtDefinition.QtWidgetDef):
 
 
 # Choose Drop View
-class QtChooseDropViewModelAbs(qtDefinition.QtWidgetDef):
-    def _initChooseDropViewModelAbs(self):
-        self._initWidgetDef()
+class QtAbc_ChooseDropviewModel(qtDefinition.QtDef_Widget):
+    def _initAbcChooseDropviewModel(self):
+        self._initDefWidget()
         #
-        self._initChooseDropViewModelAbsAttr()
-        self._initChooseDropViewModelAbsUi()
-        self._initChooseDropViewModelAbsRect()
-        self._initChooseDropViewModelAbsAction()
-        self._initChooseDropViewModelAbsVar()
+        self._initAbcChooseDropviewModelAttr()
+        self._initAbcChooseDropviewModelUi()
+        self._initAbcChooseDropviewModelRect()
+        self._initAbcChooseDropviewModelAction()
+        self._initAbcChooseDropviewModelVar()
     #
-    def _initChooseDropViewModelAbsAttr(self):
+    def _initAbcChooseDropviewModelAttr(self):
         self._itemClass = None
         #
         self._filterViewWidget, self._separateButton = None, None
         #
         self._isTearable = True
     #
-    def _initChooseDropViewModelAbsUi(self):
+    def _initAbcChooseDropviewModelUi(self):
         self._uiMainWidth, self._uiMainHeight = 240, 20
         #
         self._uiItemHeight = 20
@@ -3792,10 +3792,10 @@ class QtChooseDropViewModelAbs(qtDefinition.QtWidgetDef):
         #
         self._uiSpacing = 2
     #
-    def _initChooseDropViewModelAbsRect(self):
+    def _initAbcChooseDropviewModelRect(self):
         self._uiBasicRect, self._titleRect, self._uiCentralRect = QtCore.QRect(), QtCore.QRect(), QtCore.QRect()
     #
-    def _initChooseDropViewModelAbsAction(self):
+    def _initAbcChooseDropviewModelAction(self):
         self._curPressChangeFlag = False
     #
     def __connectUi(self, widget):
@@ -3803,7 +3803,7 @@ class QtChooseDropViewModelAbs(qtDefinition.QtWidgetDef):
         self.setViewport(widget)
         self.setButton(widget)
     #
-    def _initChooseDropViewModelAbsVar(self):
+    def _initAbcChooseDropviewModelVar(self):
         self._region = 0
         #
         self._names = []
@@ -3907,7 +3907,7 @@ class QtChooseDropViewModelAbs(qtDefinition.QtWidgetDef):
         width_ = width + margin*2 + side*2 + shadowRadius + 1
         height_ = height + margin*2 + side*2 + shadowRadius + 1
         #
-        xP, yP, region = self._uiMethod.getRegionPos(
+        xP, yP, region = self.ui_method.getRegionPos(
             xPos, yPos,
             maxWidth, maxHeight,
             width_, height_,
@@ -3981,12 +3981,12 @@ class QtChooseDropViewModelAbs(qtDefinition.QtWidgetDef):
 
 
 #
-class QtTabItemModelAbs(qtDefinition.QtItemModelDef):
-    def _initTabItemModelAbs(self):
+class QtAbc_TabitemModel(qtDefinition.QtDef_ItemModel):
+    def _initAbcTabitemModel(self):
         self._initItemModelDef()
-        self._initTabItemModelAbsAttr()
+        self._initAbcTabitemModelAttr()
     #
-    def _initTabItemModelAbsAttr(self):
+    def _initAbcTabitemModelAttr(self):
         self._tabBar = None
         self._tabWidget = None
         #
@@ -4030,13 +4030,13 @@ class QtTabItemModelAbs(qtDefinition.QtItemModelDef):
 
 
 # Tab Bar
-class QtTabBarModelAbs(
-    qtDefinition.QtViewModelDef,
-    qtDefinition.QtTabBarDef,
+class QtAbc_TabbarModel(
+    qtDefinition.QtDef_ViewModel,
+    qtDefinition.QtDef_TabbarWidget,
 ):
-    def _initTabBarModelAbs(self):
-        self._initViewModelDef()
-        self._initTabBarDef()
+    def _initAbcTabbarModel(self):
+        self._initDefViewModel()
+        self._initDefTabbarWidget()
     #
     def _updateLayoutAttr(self):
         if self.tabPosition() == qtCore.South or self.tabPosition() == qtCore.North:
@@ -4088,35 +4088,35 @@ class QtTabBarModelAbs(
 
 
 # Tab View
-class QtTabViewModelAbs(qtDefinition.QtTabViewDef):
-    def _initTabViewModelAbs(self):
-        self._initTabViewDef()
+class QtAbc_TabviewModel(qtDefinition.QtDef_TabviewWidget):
+    def _initAbcTabviewModel(self):
+        self._initDefTabviewWidget()
 
 
 # Window
-class QtWindowModelAbs(qtDefinition.QtWindowModelDef):
-    def _initWindowModelAbs(self):
-        self._initWindowModelDef()
+class QtAbc_WindowModel(qtDefinition.QtDef_WindowModel):
+    def _initAbcWindowModel(self):
+        self._initDefWindowModel()
         #
-        self._initWindowModelAbsAttr()
-        self._initWindowModelAbsAction()
-        self._initWindowModelAbsRect()
-        self._initWindowModelAbsUi()
-        self._initWindowModelAbsVar()
+        self._initAbcWindowModelAttr()
+        self._initAbcWindowModelAction()
+        self._initAbcWindowModelRect()
+        self._initAbcWindowModelUi()
+        self._initAbcWindowModelVar()
     #
-    def _initWindowModelAbsAttr(self):
+    def _initAbcWindowModelAttr(self):
         pass
     #
-    def _initWindowModelAbsAction(self):
+    def _initAbcWindowModelAction(self):
         pass
     #
-    def _initWindowModelAbsRect(self):
+    def _initAbcWindowModelRect(self):
         pass
     #
-    def _initWindowModelAbsUi(self):
+    def _initAbcWindowModelUi(self):
         pass
     #
-    def _initWindowModelAbsVar(self):
+    def _initAbcWindowModelVar(self):
         pass
     #
     def _updateWindowActiveState(self):
@@ -4169,23 +4169,23 @@ class QtWindowModelAbs(qtDefinition.QtWindowModelDef):
             width, height = size
         else:
             width, height = self.defaultSize()
-        #
+
         parent = self.widget().parent()
         if parent:
-            maxWidth, maxHeight = parent.width(), parent.height()
-            xOf, yOf = qtCore.toGlobalPos(parent)
+            parentWidth, parentHeight = parent.width(), parent.height()
+            xOf, yOf = parent.pos().x(), parent.pos().y()
         else:
             deskRect = qtCore.getDesktopPrimaryRect()
-            maxWidth, maxHeight = deskRect.width(), deskRect.height()
+            parentWidth, parentHeight = deskRect.width(), deskRect.height()
             xOf, yOf = 0, 0
-        #
+
         if pos is not None:
             xPos, yPos = pos[0] + xOf, pos[1] + yOf
         else:
-            xPos, yPos = (maxWidth - width)/2 + xOf, (maxHeight - height)/2 + yOf
-        #
+            xPos, yPos = (parentWidth - width)/2 + xOf, (parentHeight - height)/2 + yOf
+
         self.widget().setGeometry(
-            xPos, yPos, width, height
+            max(xPos, 0), max(yPos, 0), width, height
         )
         self.widget().show()
     #
@@ -4225,15 +4225,15 @@ class QtWindowModelAbs(qtDefinition.QtWindowModelDef):
 
 
 #
-class QtChartModelAbs(qtDefinition.QtPressDef):
-    def _initChartModelAbs(self):
-        self._initPressDef()
+class QtAbc_ChartModel(qtDefinition.QtDef_PressWidget):
+    def _initAbcChartModel(self):
+        self._initDefPressWidget()
         #
-        self._initChartModelAbsAttr()
-        self._initChartModelAbsRect()
-        self._initChartModelAbsUi()
+        self._initAbcChartModelAttr()
+        self._initAbcChartModelRect()
+        self._initAbcChartModelUi()
     #
-    def _initChartModelAbsAttr(self):
+    def _initAbcChartModelAttr(self):
         self._chartDatum = None
         self._drawDatum = None
         #
@@ -4242,11 +4242,11 @@ class QtChartModelAbs(qtDefinition.QtPressDef):
         self._hAlign = qtCore.AlignHCenter
         self._vAlign = qtCore.AlignVCenter
     #
-    def _initChartModelAbsRect(self):
+    def _initAbcChartModelRect(self):
         self._uiImageRect = QtCore.QRect(-20, -20, 1, 1)
         self._uiImageClipPath = None
     #
-    def _initChartModelAbsUi(self):
+    def _initAbcChartModelUi(self):
         self._uiSide = 32
         #
         self._uiImage = None

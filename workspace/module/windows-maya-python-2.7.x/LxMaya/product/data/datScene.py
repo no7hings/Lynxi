@@ -3,7 +3,7 @@
 import maya.cmds as cmds
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -770,7 +770,7 @@ def getScAstModelMeshConstantData(
             # View Progress
             explain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionInfoDic)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for meshKey in unionInfoDic:
                 progressBar.updateProgress()
                 #
@@ -827,7 +827,7 @@ def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for assemblyPath in stringLis:
                 progressBar.updateProgress()
                 datum = getScnAssemblyComposeDatumSub(assemblyPath, rootPath)

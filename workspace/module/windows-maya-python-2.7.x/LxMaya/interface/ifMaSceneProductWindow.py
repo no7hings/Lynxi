@@ -6,7 +6,7 @@ from LxCore.preset import pipePr, appVariant
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
 #
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit, ifMaSceneToolUnit, ifMaAnimToolUnit
@@ -30,7 +30,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scene Production'
-_version = lxScheme.Python().version
+_version = lxScheme.Resource().version
 
 
 #
@@ -205,7 +205,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Tool Unit(s)'''
         maxValue = len(methods)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for i in methods:
             progressBar.updateProgress()
             i()
@@ -277,7 +277,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Viewer Unit(s)'''
         maxValue = len(methods)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for i in methods:
             progressBar.updateProgress()
             i()
@@ -472,7 +472,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         self.rightBottomToolBar = qtWidgets_.xToolBar()
         rightToolLayout.addWidget(self.rightBottomToolBar)
         #
-        self.logWindow = qtLog.logWin_()
+        self.logWindow = qtLog.getLogWindow_()
         #
         self.setScTopToolBar(self.topToolBar)
 

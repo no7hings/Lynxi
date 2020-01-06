@@ -7,7 +7,7 @@ from LxCore.preset import pipePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
 from LxMaya.interface.ifCommands import maAstTreeViewCmds
 #
@@ -23,7 +23,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Asset Production'
-_version = lxScheme.Python().version
+_version = lxScheme.Resource().version
 
 
 #
@@ -532,7 +532,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for i in uiDatumLis:
             progressBar.updateProgress()
             #

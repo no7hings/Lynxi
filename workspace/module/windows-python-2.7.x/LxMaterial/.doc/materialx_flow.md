@@ -255,6 +255,14 @@ end
 
 ```
 
+```
+<materialassign name=" maname " material=" materialname "
+[geom=" geomexpr1[,geomexpr2...] "] [collection=" collectionname "]
+[exclusive=true|false]>
+...optional variantassign elements...
+</materialassign>
+```
+
 #### propertyassign
 
 ```mermaid
@@ -578,7 +586,7 @@ end
     node.namestring -.- nodegraph.name
 ```
 
-```xml
+```
 <nodegraph name=" graphname ">
 ...node element(s)...
 ...output element(s)...
@@ -633,7 +641,7 @@ end
     data2.value.string -.- node.version
 ```
 
-```xml
+```
 < nodecategory name=" nodename " type=" outputdatatype " [version=" version "]>
 	<input name=" paramname " type=" type " [nodename=" nodename "] [value=" value "]/>
 	<parameter name=" paramname " type=" type " value=" value "/>

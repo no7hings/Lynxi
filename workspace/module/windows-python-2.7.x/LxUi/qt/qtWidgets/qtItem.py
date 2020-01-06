@@ -6,7 +6,7 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract, qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcModel, qtAbcWidget
 #
 from LxUi.qt.qtModels import qtItemModel
 
@@ -474,7 +474,7 @@ class QtMessageWidget(qtCore.QWidget):
                 elif messageType is self.ImageExplainType2:
                     self._imageSwitchData = []
                     xOffset = xPos + side
-                    rectSize = self._rectSize
+                    rectSize = self.cls_rectSize
                     count = len(uiData)
                     self._imageRect = QtCore.QRect(
                         xPos, yPos, imageWidth, imageHeight
@@ -616,7 +616,7 @@ class QtMessageWidget(qtCore.QWidget):
         self._uiColorWidth, self._uiColorHeight = 12, 12
         #
         self._explainWidth = 96
-        self._rectSize = 16
+        self.cls_rectSize = 16
         #
         self._imageSwitchArea = None
         self._imageOpenArea = None
@@ -641,13 +641,15 @@ class QtMessageWidget(qtCore.QWidget):
 
 
 #
-class QtFilterCheckbutton(qtWidgetAbstract.Abc_QtItem):
+class QtFilterCheckbutton(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtItemModel.QtFilterCheckviewItemModel
+
     itemSize = 20, 20
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
         #
@@ -721,10 +723,10 @@ class QtFilterCheckbutton(qtWidgetAbstract.Abc_QtItem):
 
         # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _toolActionDropAction(self):
         pass
     #
@@ -774,18 +776,17 @@ class QtFilterCheckbutton(qtWidgetAbstract.Abc_QtItem):
     def setUiSize(self):
         # self.setMaximumSize(*self.itemSize)
         self.setMinimumSize(*self.itemSize)
-    #
-    def setupUi(self):
-        self._itemModel = qtItemModel.QtFilterCheckviewItemModel(self)
 
 
 #
-class QtCheckbutton(qtWidgetAbstract.Abc_QtItem):
+class QtCheckbutton(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtItemModel.QtCheckbuttonItemModel
+
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self._overrideUi()
         #
@@ -840,18 +841,17 @@ class QtCheckbutton(qtWidgetAbstract.Abc_QtItem):
         w, h = self.itemModel().frameSize()
         self.setMaximumSize(166667, h)
         self.setMinimumSize(0, h)
-    #
-    def setupUi(self):
-        self._itemModel = qtItemModel.QtCheckbuttonItemModel(self)
 
 
 #
-class QtRadioCheckbutton(qtWidgetAbstract.Abc_QtItem):
+class QtRadioCheckbutton(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtItemModel.QtCheckbuttonItemModel
+
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self._overrideAttr()
         self._overrideUi()
@@ -912,18 +912,17 @@ class QtRadioCheckbutton(qtWidgetAbstract.Abc_QtItem):
         w, h = self.itemModel().frameSize()
         self.setMaximumSize(166667, h)
         self.setMinimumSize(0, h)
-    #
-    def setupUi(self):
-        self._itemModel = qtItemModel.QtCheckbuttonItemModel(self)
 
 
 #
-class QtEnablebutton(qtWidgetAbstract.Abc_QtItem):
+class QtEnablebutton(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtItemModel.QtEnablebuttonItemModel
+
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
         #
@@ -956,109 +955,71 @@ class QtEnablebutton(qtWidgetAbstract.Abc_QtItem):
     def setUiSize(self):
         self.setMaximumSize(*self.itemModel().frameSize())
         self.setMinimumSize(*self.itemModel().frameSize())
-    #
-    def setupUi(self):
-        self._itemModel = qtItemModel.QtEnablebuttonItemModel(self)
 
 
 #
-class QtValueEnterlabel(qtWidgetAbstract.Abc_QtValueEnterlabel):
+class QtValueEnterlabel(qtAbcWidget.QtAbcObj_ValueEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
-        #
-        self.setupUi()
+        self._initAbcObjValueEnterlabel()
 
 
 #
-class QtFilterEnterlabel(qtWidgetAbstract.Abc_QtFilterEnterlabel):
+class QtFilterEnterlabel(qtAbcWidget.QtAbcObj_FilterEnterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
-        #
-        self.setupUi()
-        #
-        self.setUiSize()
-        #
-        self.readHistory()
-        self._loadHistoryAction()
+        self._initAbcObjFilterEnterlabel()
 
 
 #
-class QtEnterlabel(qtWidgetAbstract.Abc_QtEnterlabel):
+class QtEnterlabel(qtAbcWidget.QtAbcObj_Enterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initEnterItemBasic()
-        #
-        self.setupUi()
-        self.setUiSize()
+        self._initAbcObjEnterlabel()
 
 
 #
-class QtEnterbox(qtWidgetAbstract.Abc_QtEnterlabel):
+class QtEnterbox(qtAbcWidget.QtAbcObj_Enterlabel):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initEnterItemBasic()
-        #
-        self.setSizePolicy(
-            qtCore.QSizePolicy.Expanding,
-            qtCore.QSizePolicy.Expanding
-        )
-        #
-        self._wordWarp = True
-        #
-        self.setupUi()
+        self._initAbcObjEnterbox()
 
 
 #
-class QtIconbutton(qtWidgetAbstract.Abc_QtIconbutton):
+class QtIconbutton(qtAbcWidget.QtAbcObj_QtIconbutton):
+    def __init__(self, iconKeyword=None, *args, **kwargs):
+        self.clsSuper = super(qtCore.QWidget, self)
+        self.clsSuper.__init__(*args, **kwargs)
+
+        self._initAbcObjIconbutton(iconKeyword)
+
+
+#
+class QtMenuIconbutton(qtAbcWidget.QtAbcObj_ActionIconbutton):
+    def __init__(self, iconKeyword=None, *args, **kwargs):
+        self.clsSuper = super(qtCore.QWidget, self)
+        self.clsSuper.__init__(*args, **kwargs)
+
+        self._initAbcObjActionIconbutton(iconKeyword)
+
+
+#
+class QtPressbutton(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtAbcModel._QtPressbuttonModel
+
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
-        #
-        self.setupUi()
-        #
-        if iconKeyword is not None:
-            self.setIcon(iconKeyword)
-        #
-        self.setUiSize()
-
-
-#
-class QtMenuIconbutton(qtWidgetAbstract.Abc_QtMenuIconbutton):
-    def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        # self.setSizePolicy(qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Preferred)
-        #
-        self._initItemBasic()
-        #
-        self.setupUi()
-        #
-        if iconKeyword is not None:
-            self.setIcon(iconKeyword)
-        #
-        self.setUiSize()
-
-
-#
-class QtPressbutton(qtWidgetAbstract.Abc_QtItem):
-    def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
         #
@@ -1198,10 +1159,10 @@ class QtPressbutton(qtWidgetAbstract.Abc_QtItem):
 
         # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _toolActionDropAction(self):
         pass
     #
@@ -1241,29 +1202,24 @@ class QtPressbutton(qtWidgetAbstract.Abc_QtItem):
     #
     def setPercentRest(self):
         self.itemModel().setPercentRest()
-    #
-    def setupUi(self):
-        self._itemModel = qtModelAbstract.QtPressbuttonModel(self)
 
 
 #
-class QtTreeviewItem(qtWidgetAbstract.Abc_QtTreeviewItem):
+class QtTreeviewItem(qtAbcWidget.QtAbcObj_Treeitem):
+    def __init__(self, *args, **kwargs):
+        self.clsSuper = super(qtCore.QWidget, self)
+        self.clsSuper.__init__(*args, **kwargs)
+
+        self._initAbcObjTreeitem()
+
+
+#
+class QtGridviewItem(qtAbcWidget.QtAbcObj_Item):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
-        #
-        self.setupUi()
-
-
-#
-class QtGridviewItem(qtWidgetAbstract.Abc_QtItem):
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
         self.__overrideUi()
@@ -1382,10 +1338,10 @@ class QtGridviewItem(qtWidgetAbstract.Abc_QtItem):
 
         # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -1433,14 +1389,14 @@ class QtGridviewItem(qtWidgetAbstract.Abc_QtItem):
 
 
 #
-class QtPresetviewItem(qtWidgetAbstract.Abc_QtItem):
+class QtPresetviewItem(qtAbcWidget.QtAbcObj_Item):
     indexChanged = qtCore.uiSignal()
     setChanged = qtCore.uiSignal()
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
         #
@@ -1535,10 +1491,10 @@ class QtPresetviewItem(qtWidgetAbstract.Abc_QtItem):
 
             # painter.end()
     # noinspection PyUnusedLocal
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -1677,12 +1633,13 @@ class QtPresetviewItem(qtWidgetAbstract.Abc_QtItem):
 
 
 #
-class QtRecordviewItemItem(qtWidgetAbstract.Abc_QtItem):
+class QtRecordviewItemItem(qtAbcWidget.QtAbcObj_Item):
+    MODEL_ITEM_CLS = qtItemModel.QtRecordviewItemItemModel
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initItemBasic()
+        self._initAbcObjItemWidget()
         #
         self.setupUi()
 
@@ -1749,25 +1706,12 @@ class QtRecordviewItemItem(qtWidgetAbstract.Abc_QtItem):
                 )
 
         # painter.end()
-    #
-    def setupUi(self):
-        self._itemModel = qtItemModel.QtRecordviewItemItemModel(self)
 
 
 #
-class QtTextBrower(qtWidgetAbstract.Abc_QtTextBrower):
+class QtTextbrower(qtAbcWidget.QtAbcObj_Textbrower):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._initItemUi()
-        #
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        self.setSizePolicy(
-            qtCore.QSizePolicy.Expanding,
-            qtCore.QSizePolicy.Expanding
-        )
-        #
-        self.setupUi()
-        #
-        self.setUiSize()
+
+        self._initAbcObjTextbrower()

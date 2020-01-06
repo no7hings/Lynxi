@@ -2,7 +2,7 @@
 from LxBasic import bscAbstract
 
 
-class Fle_Data(bscAbstract.Abc_File):
+class File(bscAbstract.Abc_File):
     def __init__(self, fileString):
         self.__init__(fileString)
 
@@ -29,7 +29,7 @@ class Fle_Data(bscAbstract.Abc_File):
                 f.close()
 
 
-class Fle_Json(bscAbstract.Abc_File):
+class JsonFile(bscAbstract.Abc_File):
     def __init__(self, fileString):
         self._initAbcFile(fileString)
 

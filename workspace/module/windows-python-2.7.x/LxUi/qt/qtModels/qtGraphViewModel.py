@@ -7,9 +7,9 @@ from LxUi.qt import qtCore
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_line = QtCore.QLine
-_rect = QtCore.QRect
+cls_point = QtCore.QPoint
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
 
 
 #
@@ -35,8 +35,8 @@ class QtGraphviewModel(object):
             self._nodeClass, self._connectionClass, self._groupClass,
             self._explainClass, self._attributeClass,
             self._actionClass,
-            self._pointClass, self._pointFClass,
-            self._rectClass, self._rectFClass,
+            self.cls_pointClass, self.cls_pointFClass,
+            self.cls_rectClass, self.cls_rectFClass,
             self._pathClass
         ) = args
     #
@@ -80,9 +80,9 @@ class QtGraphviewModel(object):
         self._curGroupIndex = -1
         self._curGroupItemModel = None
         #
-        self._rectSelectStartPoint = _point()
-        self._rectSelectEndPoint = _point()
-        self._selectRect = _rect()
+        self.cls_rectSelectStartPoint = cls_point()
+        self.cls_rectSelectEndPoint = cls_point()
+        self._selectRect = cls_rect()
         #
         self._mTranslate = 0, 0
         self._mScale = .5, .5
@@ -92,21 +92,21 @@ class QtGraphviewModel(object):
         self._selectedConnectionIndexLis = []
         #
         self._matComposite = qtCore.setMatrix3x3Identity(qtCore.matrix3x3())
-        self._mTrackPoint = _point()
-        self._mViewportPoint = _point()
+        self._mTrackPoint = cls_point()
+        self._mViewportPoint = cls_point()
         #
-        self._points = [
-            _point(),
-            _point(self._mBasicViewportWidth*self._mScale[0], self._mBasicViewportHeight*self._mScale[1])
+        self.cls_points = [
+            cls_point(),
+            cls_point(self._mBasicViewportWidth*self._mScale[0], self._mBasicViewportHeight*self._mScale[1])
         ]
         #
-        self._mRect = _rect()
+        self._mRect = cls_rect()
         self._updateMRect()
     #
     def __initBasicAction(self):
         self._zoomFlag = True
         self._trackFlag = False
-        self._rectSelectionFlag = False
+        self.cls_rectSelectionFlag = False
         #
         self._extendSelectFlag = False
         self._selectMode = qtCore.ExtendSelectMode
@@ -139,12 +139,12 @@ class QtGraphviewModel(object):
     def __transformMatrix(self):
         m = self._matComposite
         #
-        count = len(self._points)
+        count = len(self.cls_points)
         for seq in range(count):
-            x = m[0][0]*self._points[seq].x() + m[0][1]*self._points[seq].y() + m[0][2]
-            y = m[1][0]*self._points[seq].x() + m[1][1]*self._points[seq].y() + m[1][2]
+            x = m[0][0]*self.cls_points[seq].x() + m[0][1]*self.cls_points[seq].y() + m[0][2]
+            y = m[1][0]*self.cls_points[seq].x() + m[1][1]*self.cls_points[seq].y() + m[1][2]
             #
-            self._points[seq] = _point(x, y)
+            self.cls_points[seq] = cls_point(x, y)
         #
         self._matComposite = qtCore.setMatrix3x3Identity(m)
     #
@@ -264,7 +264,7 @@ class QtGraphviewModel(object):
         node = itemModel._widget
         index = itemModel._index
         #
-        rect = _rect(
+        rect = cls_rect(
             node._itemModel.x(), node._itemModel.y() - 20,
             node._itemModel.width_(), node._itemModel.height_() + 20
         )
@@ -309,8 +309,8 @@ class QtGraphviewModel(object):
         self._widget.update()
     #
     def _updateSelectRect(self):
-        xPos, yPos = self._rectSelectStartPoint.x(), self._rectSelectStartPoint.y()
-        width, height = self._rectSelectEndPoint.x() - xPos, self._rectSelectEndPoint.y() - yPos
+        xPos, yPos = self.cls_rectSelectStartPoint.x(), self.cls_rectSelectStartPoint.y()
+        width, height = self.cls_rectSelectEndPoint.x() - xPos, self.cls_rectSelectEndPoint.y() - yPos
         #
         self._selectRect.setRect(
             xPos, yPos,
@@ -321,7 +321,7 @@ class QtGraphviewModel(object):
         self._uiGridSize = int(self._uiBasicGridSize*self._mScale[0]), int(self._uiBasicGridSize*self._mScale[1])
     #
     def _updateMRect(self):
-        self._mRect.setCoords(self._points[0].x(), self._points[0].y(), self._points[1].x(), self._points[1].y())
+        self._mRect.setCoords(self.cls_points[0].x(), self.cls_points[0].y(), self.cls_points[1].x(), self.cls_points[1].y())
     #
     def _updateVar(self):
         self._updateMRect()
@@ -378,29 +378,29 @@ class QtGraphviewModel(object):
         # Flag
         self._trackFlag = False
     #
-    def _rectSelectStartAction(self, event):
+    def cls_rectSelectStartAction(self, event):
         point = event.pos()
         #
-        self._rectSelectionFlag = True
+        self.cls_rectSelectionFlag = True
         #
-        self._rectSelectStartPoint = self._rectSelectEndPoint = point
+        self.cls_rectSelectStartPoint = self.cls_rectSelectEndPoint = point
         self._updateSelectRect()
         #
         self._widget.update()
     #
-    def _rectSelectExecuteAction(self, event):
+    def cls_rectSelectExecuteAction(self, event):
         point = event.pos()
-        if self._rectSelectionFlag is True:
-            self._rectSelectEndPoint = point
+        if self.cls_rectSelectionFlag is True:
+            self.cls_rectSelectEndPoint = point
             self._updateSelectRect()
             #
             self._widget.update()
     #
-    def _rectSelectStopAction(self):
-        if self._rectSelectionFlag is True:
+    def cls_rectSelectStopAction(self):
+        if self.cls_rectSelectionFlag is True:
             self._updateRectSelectBy(self._selectRect)
             #
-            self._rectSelectionFlag = False
+            self.cls_rectSelectionFlag = False
             #
             self._widget.update()
     #

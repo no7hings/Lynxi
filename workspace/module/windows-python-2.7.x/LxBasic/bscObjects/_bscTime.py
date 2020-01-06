@@ -7,6 +7,6 @@ class Time(bscAbstract.Abc_Time):
         self._initAbcTime(timestamp)
 
 
-class Tme_Active(bscAbstract.Abc_Time):
+class ActiveTime(bscAbstract.Abc_Time):
     def __init__(self):
         self._initAbcTime(self._activeTimeStamp())

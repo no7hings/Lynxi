@@ -3,107 +3,27 @@ from LxCore import lxBasic
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract
+from LxUi.qt.qtObjects import qtAbcModel
 
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_line = QtCore.QLine
-_rect = QtCore.QRect
+cls_point = QtCore.QPoint
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
 
 
 #
-class QtLayoutViewModel(qtModelAbstract.Abc_QtViewModel):
-    Fixed = 0
-    Minimum = 1
-    Maximum = 4
-    Preferred = 5
-    Expanding = 7
-    MinimumExpanding = 3
-    Ignored = 13
+class QtScrollareaModel(qtAbcModel.QtAbcObj_ScrollareaModel):
     def __init__(self, widget):
-        self._initViewModelBasic(widget)
-        #
-        self.__initAttr()
-        self.__connectUi(widget)
-        #
-        self.__initVar()
-    #
-    def __connectUi(self, widget):
-        self.setWidget(widget)
-    #
-    def __initAttr(self):
-        self._widget = None
-    #
-    def __initVar(self):
-        self._dir = qtCore.Vertical
-        #
-        self._itemSizeHintDic = {}
-        self._itemSizePolicyDic = {}
-        #
-        self._itemMaxSizeDic = {}
-        self._itemMiniSizeDic = {}
-        # Index
-        self._itemIndexCount = 0
-        self._minItemIndex = 0
-        self._maxItemIndex = 0
-        # Column
-        self._itemColumnCount = 1
-        self._minItemColumn = 0
-        self._maxItemColumn = 1
-        # Row
-        self._itemRowCount = 1
-        self._maxItemRow = 1
-        self._minItemRow = 0
-        #
-        self._uiXPos, self._uiYPos = 0, 0
-        self._uiWidth, self._uiHeight = 0, 0
-    @staticmethod
-    def _getSizePolicy(widget):
-        return widget.sizePolicy().horizontalPolicy(), widget.sizePolicy().verticalPolicy()
-    #
-    def _updateSizePolicy(self, index, policy):
-        self._itemSizePolicyDic[index] = policy
-    #
-    def _updateSizeAt(self, index, size):
-        self._itemModelSizeDic[index] = size
-    #
-    def _updateMaxSizeAt(self, index, size):
-        self._itemMaxSizeDic[index] = size
-    #
-    def _updateMinSizeAt(self, index, size):
-        self._itemMiniSizeDic[index] = size
-    #
-    def _updateWidgetGeometry(self):
-        pass
-    #
-    def setDirection(self, value):
-        self._dir = value
-    #
-    def minimumSize(self):
-        lis = self._itemMiniSizeDic.values()
-        #
-        if lis:
-            return max(lis)
-        else:
-            return 0
-    #
-    def maximumSize(self):
-        pass
+        self._initAbcObjScrollarea(widget)
 
 
 #
-class QtScrollAreaModel(qtModelAbstract.Abc_QtScrollAreaModel):
+class QtPresetviewModel(qtAbcModel.QtAbcObj_ViewModel):
     def __init__(self, widget):
-        self._initScrollAreaBasic(widget)
-
-
-#
-class QtPresetviewModel(qtModelAbstract.Abc_QtViewModel):
-    def __init__(self, widget):
-        self._initViewModelBasic(widget)
+        self._initAbcObjViewModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -123,9 +43,9 @@ class QtPresetviewModel(qtModelAbstract.Abc_QtViewModel):
 
 
 #
-class QtTreeviewModel(qtModelAbstract.Abc_QtViewModel):
+class QtTreeviewModel(qtAbcModel.QtAbcObj_ViewModel):
     def __init__(self, widget):
-        self._initViewModelBasic(widget)
+        self._initAbcObjViewModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -142,9 +62,9 @@ class QtTreeviewModel(qtModelAbstract.Abc_QtViewModel):
 
 
 #
-class QtCheckviewModel(qtModelAbstract.Abc_QtViewModel):
+class QtCheckviewModel(qtAbcModel.QtAbcObj_ViewModel):
     def __init__(self, widget):
-        self._initViewModelBasic(widget)
+        self._initAbcObjViewModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -163,9 +83,9 @@ class QtCheckviewModel(qtModelAbstract.Abc_QtViewModel):
 
 
 #
-class QtGridviewModel(qtModelAbstract.Abc_QtViewModel):
+class QtGridviewModel(qtAbcModel.QtAbcObj_ViewModel):
     def __init__(self, widget):
-        self._initViewModelBasic(widget)
+        self._initAbcObjViewModel(widget)
         #
         self.__overrideAttr()
     #
@@ -297,7 +217,7 @@ class QtGridviewModel(qtModelAbstract.Abc_QtViewModel):
         if itemModels:
             [i.setCheckEnable(not self._isSingleSelection) for i in itemModels if i is not None]
     # Width & Height Minimum 1
-    def setItemBasicSize(self, width, height):
+    def setAbcObjItemWidgetSize(self, width, height):
         self._itemDetailSize = max(int(width), 1), max(int(height), 1)
     # Width & Height Minimum 1
     def setItemListModeSize(self, width, height):

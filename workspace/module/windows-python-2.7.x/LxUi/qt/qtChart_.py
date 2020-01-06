@@ -6,25 +6,25 @@ from LxCore import lxBasic
 from LxUi.qt import qtCore
 
 #
-_angle = math.radians
-_sin = math.sin
-_cos = math.cos
-_tan = math.tan
+fnc_angle = math.radians
+fnc_sin = math.sin
+fnc_cos = math.cos
+fnc_tan = math.tan
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_pen = QtGui.QPen
-_color = QtGui.QColor
-_brush = QtGui.QBrush
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
-_polygon = QtGui.QPolygon
-_polygonF = QtGui.QPolygonF
-_path = QtGui.QPainterPath
+cls_pen = QtGui.QPen
+cls_color = QtGui.QColor
+cls_brush = QtGui.QBrush
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
+cls_polygon = QtGui.QPolygon
+cls_polygonF = QtGui.QPolygonF
+cls_painter_path = QtGui.QPainterPath
 _font = qtCore.xFont
 
 
@@ -39,10 +39,10 @@ def getPieDrawData(data, width, height, side):
         _a = 360 * p
         a = 360 - _a
         s = ma + _a/2
-        _xo = _sin(_angle(s)) * (side/4)
-        _yo = _cos(_angle(s)) * (side/4)
+        _xo = fnc_sin(fnc_angle(s)) * (side/4)
+        _yo = fnc_cos(fnc_angle(s)) * (side/4)
         #
-        piePath = _path()
+        piePath = cls_painter_path()
         _s = 4
         cx = w1 / 2 + _s/2 + x1
         cy = w1 / 2 + _s/2 + y1
@@ -75,7 +75,7 @@ def getPieDrawData(data, width, height, side):
             x1 = x
             y1 = y
             w1 = w
-            rimPath = _path()
+            rimPath = cls_painter_path()
             rimPath.addEllipse(x1, y1, w1, w1)
             #
             w2 = w1 / 2
@@ -107,9 +107,9 @@ def getUvDrawData(uvData, width, xPosition, yPosition):
                 for seq in range(nSide):
                     x = us[seq] * width + xPosition
                     y = (1 - vs[seq]) * width + yPosition
-                    point = _point(x, y)
+                    point = cls_point(x, y)
                     points.append(point)
-            lis.append(_polygon(points))
+            lis.append(cls_polygon(points))
     return lis
 
 
@@ -118,8 +118,8 @@ def getRegularPolygonPoints(xPos, yPos, sideCount, radius, side=0):
     lis = []
     for seq in range(sideCount):
         a = 360 / sideCount * seq
-        x = _sin(_angle(a)) * (radius - side) + xPos
-        y = _cos(_angle(a)) * (radius - side) + yPos
+        x = fnc_sin(fnc_angle(a)) * (radius - side) + xPos
+        y = fnc_cos(fnc_angle(a)) * (radius - side) + yPos
         lis.append((x, y))
     if lis:
         lis.append(lis[0])
@@ -185,7 +185,7 @@ class QtPiechart_(qtCore.QWidget_):
                     side, side,
                     width, self._explainHeight
                 )
-                painter.setPen(self._pen)
+                painter.setPen(self.cls_pen)
                 painter.setFont(_font(size=10, weight=50, family=qtCore._families[1]))
                 painter.drawText(rect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, self._subExplain)
             else:
@@ -194,7 +194,7 @@ class QtPiechart_(qtCore.QWidget_):
                         side, side,
                         width, self._explainHeight
                     )
-                    painter.setPen(self._pen)
+                    painter.setPen(self.cls_pen)
                     painter.setFont(_font(size=10, weight=50, family=qtCore._families[1]))
                     painter.drawText(rect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, self._uiNameText)
             # Percent
@@ -203,7 +203,7 @@ class QtPiechart_(qtCore.QWidget_):
                     (width - self._explainWidth) / 2, (width - self._explainHeight) / 2,
                     self._explainWidth, self._explainHeight
                 )
-                painter.setPen(self._pen)
+                painter.setPen(self.cls_pen)
                 painter.setFont(_font(size=10, weight=50, family=qtCore._families[1]))
                 painter.drawText(rect, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter, self._percent)
 
@@ -281,7 +281,7 @@ class QtPiechart_(qtCore.QWidget_):
         self._explainWidth = 240
         self._explainHeight = 20
         #
-        self._pressPoint = _point(0, 0)
+        self._pressPoint = cls_point(0, 0)
         #
         self._pieDrawData = []
         self._selPathData = []
@@ -289,7 +289,7 @@ class QtPiechart_(qtCore.QWidget_):
         self._uiNameText = None
         self._subExplain = None
         self._percent = None
-        self._pen = _pen(_color(223, 223, 223, 255))
+        self.cls_pen = cls_pen(cls_color(223, 223, 223, 255))
 
 
 #
@@ -306,28 +306,28 @@ class QtMapchart_(qtCore.QWidget_):
         self.uvData = []
         self.draw = False
         #
-        self.pen = _pen(_color(191, 191, 191, 255))
-        self.brush = _brush(_color(0, 127, 127, 64))
+        self.pen = cls_pen(cls_color(191, 191, 191, 255))
+        self.brush = cls_brush(cls_color(0, 127, 127, 64))
         self.setUiStyle()
         self.setUiSize(400, 400)
     #
     def drawGrid(self, painter, width, xPosition, yPosition):
         # Grid
-        grid = _rect(xPosition, yPosition, width, width)
-        pen = _pen(_color(127, 127, 127, 255))
+        grid = cls_rect(xPosition, yPosition, width, width)
+        pen = cls_pen(cls_color(127, 127, 127, 255))
         painter.setPen(pen)
         painter.drawRect(grid)
     #
     def drawAxis(self, painter, width, xPosition, yPosition):
         # X Axis
-        xLine = _line(xPosition, width + yPosition, width / 2 + xPosition, width + yPosition)
-        pen = _pen(_color(255, 0, 63, 255))
+        xLine = cls_line(xPosition, width + yPosition, width / 2 + xPosition, width + yPosition)
+        pen = cls_pen(cls_color(255, 0, 63, 255))
         pen.setWidth(3)
         painter.setPen(pen)
         painter.drawLine(xLine)
         # Y Axis
-        yLine = _line(xPosition, width / 2 + yPosition, xPosition, width + yPosition)
-        pen = _pen(_color(63, 255, 127, 255))
+        yLine = cls_line(xPosition, width / 2 + yPosition, xPosition, width + yPosition)
+        pen = cls_pen(cls_color(63, 255, 127, 255))
         pen.setWidth(3)
         painter.setPen(pen)
         painter.drawLine(yLine)
@@ -351,18 +351,18 @@ class QtMapchart_(qtCore.QWidget_):
             self.drawAxis(painter, width, xPosition, yPosition)
             #
             quadrantText = '1001'
-            quadrantPoint = _point(xPosition, width + 20 + yPosition)
-            pen = _pen(_color(223, 223, 223, 255))
+            quadrantPoint = cls_point(xPosition, width + 20 + yPosition)
+            pen = cls_pen(cls_color(223, 223, 223, 255))
             painter.setPen(pen)
             painter.setFont(_font(size=8, weight=75))
             painter.drawText(quadrantPoint, quadrantText)
             if self.uvData:
                 drawData = self.uvData
                 if drawData:
-                    pen = _pen(_color(191, 191, 191, 255))
+                    pen = cls_pen(cls_color(191, 191, 191, 255))
                     pen.setWidth(1)
                     painter.setPen(pen)
-                    painter.setBrush(_brush(_color(0, 127, 127, 64)))
+                    painter.setBrush(cls_brush(cls_color(0, 127, 127, 64)))
                     for i in drawData:
                         painter.drawPolygon(i, QtCore.Qt.WindingFill)
 
@@ -455,7 +455,7 @@ class QtSequencechart_(qtCore.QWidget_):
             painter.setBorderRgba(71, 71, 71, 255)
             painter.setBackgroundRgba(39, 39, 39, 255)
             #
-            rect = _rect(xPos + side, yPos + side, width - side * 2, height - side * 2)
+            rect = cls_rect(xPos + side, yPos + side, width - side * 2, height - side * 2)
             painter.drawRect(rect)
             #
             if self._rangeArray is not None:
@@ -475,12 +475,12 @@ class QtSequencechart_(qtCore.QWidget_):
                         painter.setBorderRgba(r, g, b, 255)
                         painter.setBackgroundRgba(r, g, b, 255)
                         #
-                        subRect = _rect(xSubPos, ySubPos, subWidth, subHeight)
+                        subRect = cls_rect(xSubPos, ySubPos, subWidth, subHeight)
                         painter.drawRect(subRect)
                         #
                         painter.setBorderRgba(0, 0, 0, 255)
                         painter.setBackgroundRgba(0, 0, 0, 0)
-                        subPoint = _point(xSubPos, ySubPos + 12)
+                        subPoint = cls_point(xSubPos, ySubPos + 12)
                         painter.drawText(subPoint, str(numRange))
                     elif isinstance(numRange, tuple) or isinstance(numRange, list):
                         subStartNum, subEndNum = numRange
@@ -494,12 +494,12 @@ class QtSequencechart_(qtCore.QWidget_):
                         painter.setBorderRgba(r, g, b, 255)
                         painter.setBackgroundRgba(r, g, b, 255)
                         #
-                        subRect = _rect(xSubPos, ySubPos, subWidth, subHeight)
+                        subRect = cls_rect(xSubPos, ySubPos, subWidth, subHeight)
                         painter.drawRect(subRect)
                         #
                         painter.setBorderRgba(0, 0, 0, 255)
                         painter.setBackgroundRgba(0, 0, 0, 0)
-                        subPoint = _point(xSubPos, ySubPos + 12)
+                        subPoint = cls_point(xSubPos, ySubPos + 12)
                         painter.drawText(subPoint, '{}-{}'.format(subStartNum, subEndNum))
 
         # painter.end()
@@ -653,7 +653,7 @@ class QtHistogramchart_(qtCore.QWidget):
                     columnPoxY = (height - limitHeight * valuePercent * yGridMult - yGridOffset + yTrackOffset)
                     #
                     if xGridOffset <= columnPosX <= width:
-                        drawRect = _rect(
+                        drawRect = cls_rect(
                             columnPosX, columnPoxY,
                             columnWidth - 2, (limitHeight * valuePercent) * yGridMult
                         )
@@ -666,7 +666,7 @@ class QtHistogramchart_(qtCore.QWidget):
                             painter.setBackgroundRgba(0, 0, 0, 0)
                             painter.setBorderRgba(223, 223, 223, 255)
                             #
-                            selRect = _rect(
+                            selRect = cls_rect(
                                 columnPosX, 0,
                                 columnWidth - 2, height - yGridOffset
                             )
@@ -674,7 +674,7 @@ class QtHistogramchart_(qtCore.QWidget):
                             painter.drawRect(selRect)
                 #
                 if currentValueX is not None and currentValueY is not None:
-                    textRect = _rect(
+                    textRect = cls_rect(
                         xGridOffset + 8, 0 + 8,
                         width, height
                     )
@@ -747,7 +747,7 @@ class QtHistogramchart_(qtCore.QWidget):
         #
         self._limitEnabled = True
         self._trackFlag = False
-        self._trackStartPoint = _point(0, 0)
+        self._trackStartPoint = cls_point(0, 0)
         self._xTempTrackOffset = 0
         self._xTrackOffset = 0
         #
@@ -817,7 +817,7 @@ class QtColorchart_(qtCore.QWidget):
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
             if self._pressFlag is True:
-                self._colorPoint = event.pos()
+                self.cls_colorPoint = event.pos()
                 #
                 self.update()
             #
@@ -841,7 +841,7 @@ class QtColorchart_(qtCore.QWidget):
             # Move
             self._moveFlag = True
             #
-            self._colorPoint = event.pos()
+            self.cls_colorPoint = event.pos()
             #
             self.update()
         elif event.buttons() == QtCore.Qt.RightButton:
@@ -878,7 +878,7 @@ class QtColorchart_(qtCore.QWidget):
                 p = x, y
                 if not p in points:
                     points.append(p)
-                    colorPoint = _point(x, y)
+                    colorPoint = cls_point(x, y)
                     if mainColorPath.contains(colorPoint):
                         subPoints = getRegularPolygonPoints(x, y, sideCount, subRadius, side=0)
                         colorPath = qtCore.QPainterPath_()
@@ -895,7 +895,7 @@ class QtColorchart_(qtCore.QWidget):
                         d2 = 360.0 / sideCount / 2
                         of = -d2
                         a2 = a1 + of - math.floor(a1 / d1) * d1
-                        l = [math.sin(_angle(d1)) / math.cos(_angle(a2)) * r1, r1][a1 % 180 == 0]
+                        l = [math.sin(fnc_angle(d1)) / math.cos(fnc_angle(a2)) * r1, r1][a1 % 180 == 0]
                         #
                         s = length / (l - subRadius)
                         s = float(max(min(s, 1.0), 0.0))
@@ -918,12 +918,12 @@ class QtColorchart_(qtCore.QWidget):
                         painter.setPenWidth(2)
                         painter.drawPath(colorPath)
                         #
-                        self._colorPathDic[(r, g, b)] = colorPath, colorPoint
+                        self.cls_colorPathDic[(r, g, b)] = colorPath, colorPoint
             #
             xPos = width / 2
             yPos = height / 2
             #
-            pressPoint = self._colorPoint
+            pressPoint = self.cls_colorPoint
             #
             count = self._count
             #
@@ -946,7 +946,7 @@ class QtColorchart_(qtCore.QWidget):
             #
             for xSeq in range(xCount):
                 for ySeq in range(yCount):
-                    xOffset = _sin(_angle(60)) * subRadius
+                    xOffset = fnc_sin(fnc_angle(60)) * subRadius
                     #
                     xSubR = xOffset * xSeq * 2 - xOffset * (ySeq % 2)
                     ySubR = ySeq * subRadius * 1.5
@@ -962,7 +962,7 @@ class QtColorchart_(qtCore.QWidget):
                     setDrawBranch(xSubPos, _ySubPos)
                     setDrawBranch(_xSubPos, _ySubPos)
         #
-        self._colorPathDic = {}
+        self.cls_colorPathDic = {}
         points = []
         #
         painter = qtCore.QPainter_(self)
@@ -975,7 +975,7 @@ class QtColorchart_(qtCore.QWidget):
         setDrawColor()
         #
         if self._rbgColor is not None:
-            textRect = _rect(
+            textRect = cls_rect(
                 8, 8,
                 width, height
             )
@@ -989,18 +989,18 @@ class QtColorchart_(qtCore.QWidget):
                 'R : {0}\r\nG : {1}\r\nB : {2}'.format(*self._rbgColor)
             )
             #
-            if self._rbgColor in self._colorPathDic:
-                selPath, selPoint = self._colorPathDic[self._rbgColor]
+            if self._rbgColor in self.cls_colorPathDic:
+                selPath, selPoint = self.cls_colorPathDic[self._rbgColor]
                 painter.setBackgroundRgba(0, 0, 0, 0)
                 painter.setBorderRgba(223, 223, 223, 255)
                 #
                 painter.setPenWidth(4)
                 painter.drawPath(selPath)
                 #
-                self._colorPoint = selPoint
+                self.cls_colorPoint = selPoint
         if self._rbgColor is not None:
             sh, ss, sv = self._hsvColor
-            textRect = _rect(
+            textRect = cls_rect(
                 8, 80,
                 width, height
             )
@@ -1014,7 +1014,7 @@ class QtColorchart_(qtCore.QWidget):
                 'H : {0}\r\nS : {1}\r\nV : {2}'.format(round(sh % 360, 2), round(ss, 2), round(sv, 2))
             )
         if self._htmlColor is not None:
-            textRect = _rect(
+            textRect = cls_rect(
                 8, 152,
                 width, height
             )
@@ -1061,7 +1061,7 @@ class QtColorchart_(qtCore.QWidget):
         pass
     #
     def getDragPos(self, xPos, yPos, width, height):
-        point = self._colorPoint
+        point = self.cls_colorPoint
         pos0 = self._tempCenterCoord
         #
         width0, height0 = self._tempSize
@@ -1073,7 +1073,7 @@ class QtColorchart_(qtCore.QWidget):
         #
         x -= (pos0[0] - xPos)
         y -= (pos0[1] - yPos)
-        return _point(x, y)
+        return cls_point(x, y)
     #
     def getCircleAngle(self, point):
         width = self.width()
@@ -1095,19 +1095,19 @@ class QtColorchart_(qtCore.QWidget):
         self._hsvColor = None
         self._htmlColor = None
         #
-        self._colorPath = None
+        self.cls_colorPath = None
         #
-        self._colorPathDic = {}
+        self.cls_colorPathDic = {}
         #
         self._zoomFlag = True
         #
         self._pressFlag = True
         self._moveFlag = False
         #
-        self._trackStartPoint = _point(0, 0)
+        self._trackStartPoint = cls_point(0, 0)
         #
-        self._colorPoint = _point(0, 0)
-        self._tempColorPoint = _point(0, 0)
+        self.cls_colorPoint = cls_point(0, 0)
+        self._tempColorPoint = cls_point(0, 0)
         self._tempCenterCoord = 0, 0
         self._tempSize = 240, 240
         #

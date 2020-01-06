@@ -311,7 +311,7 @@ class Mtd_Basic(appConfig.Cfg_Basic):
         return lis
     @classmethod
     def _lxIconRoot(cls):
-        return lxScheme.Root().icon.server
+        return lxScheme.Directory().icon.server
     @classmethod
     def _lxDevelopRoot(cls):
         return lxScheme.Root().basic.develop
@@ -1421,7 +1421,7 @@ class LxUpdateMethod(Mtd_Basic):
 #
 class LxDebugMethod(Mtd_Basic):
     @classmethod
-    def viewTimeMethod(cls, func):
+    def catchCostTime(cls, func):
         def subFunc(*args, **kwargs):
             startTime = cls.getOsActiveTimestamp()
             traceMessage = 'Start [ %s ] in %s' % (func.__name__, (cls.getOsActiveViewTime()))
@@ -1435,7 +1435,7 @@ class LxDebugMethod(Mtd_Basic):
             return subFn
         return subFunc
     @classmethod
-    def viewExceptionMethod(cls, func):
+    def catchException(cls, func):
         def subFunc(*args, **kw):
             # noinspection PyBroadException
             try:

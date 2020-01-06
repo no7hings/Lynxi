@@ -11,7 +11,7 @@ from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
 from LxCore.operation import envOp
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -235,7 +235,7 @@ class IfScIndexManagerUnit(
             if indexRecordDic:
                 progressExplain = '''List Record'''
                 maxValue = len(indexRecordDic)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for k, v in indexRecordDic.items():
                     progressBar.updateProgress()
                     setBranch(k, v)
@@ -527,7 +527,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -550,7 +550,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -674,14 +674,14 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     #
                     lxBasic.writeOsJsonDic(cacheIndex, indexFile, 4)
                     #
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         'Changer Active Cache is', 'Complete'
                     )
                     #
                     if self._connectObject:
                         self._connectObject.uiQuit()
                 else:
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         'Cache File is', 'Non - Exists'
                     )
     #
@@ -702,7 +702,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 lxBasic.writeOsJsonDic(cacheIndex, indexFile)
                 #
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     'Changer Active Cache is', 'Complete'
                 )
                 #
@@ -1303,7 +1303,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         # Update Method
                         lxUpdate.setUpdate(force=1)
                         #
-                        qtTip.viewMessage(
+                        qtCommands.setMessageWindowShow(
                             u'Project is Switch to ',
                             u'{}'.format(targetProjectName)
                         )
@@ -1505,7 +1505,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                 # Update Method
                 lxUpdate.setUpdate(force=1)
                 #
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     u'Project is Switch to ',
                     u'{}'.format(targetProjectName)
                 )
@@ -1619,7 +1619,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self._ipLabel = qtWidgets.QtEnterlabel()
         toolBox.setInfo(inData, 'ip', self._ipLabel)
         #
-        self._tipLabel = qtWidgets.QtTextBrower()
+        self._tipLabel = qtWidgets.QtTextbrower()
         self._tipLabel.setEnterEnable(False)
         toolBox.setInfo(inData, 'tip', self._tipLabel)
     #
@@ -1687,7 +1687,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
                 w = ifProductWindow.If_QtToolFloatWindow()
                 w.windowShow()
             #
-            qtTip.viewMessage(u'提示：', u'设置用户信息成功')
+            qtCommands.setMessageWindowShow(u'提示：', u'设置用户信息成功')
     #
     def setupUnit(self):
         widget = qtCore.QWidget_()

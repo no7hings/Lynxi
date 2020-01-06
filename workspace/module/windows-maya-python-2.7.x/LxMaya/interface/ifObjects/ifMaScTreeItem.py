@@ -1,16 +1,15 @@
 # coding:utf-8
 import types
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
-from LxUi.command import uiHtml
-#
 from LxUi.qt import qtWidgets_, qtWidgets
-#
 #
 from LxDatabase import dbGet
 #
@@ -24,7 +23,7 @@ from LxMaya.database import maDbAstCmds
 
 
 #
-class IfScObjectAbs(object):
+class IfCfg_ScProductItem(object):
     _tip0 = u'{0} 未载入：\n1，在右击菜单点击“Reload / Load {0} ( Active )”加载。'
     _tip1 = u'{0} 不存在于镜头场景：\n1，如果资源是“Cache”，可能“Cache”无动画数据，可忽略，或者联系制片。'
     _tip2 = u'{0} 有更新：\n1，在右击菜单点击“Reload / Load {0} ( Active )”更新。'
@@ -33,8 +32,11 @@ class IfScObjectAbs(object):
 
 
 #
-class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
-    def _initItemBasic(
+class IfAbc_ScCameraProductItem(
+    qtWidgets_.QTreeWidgetItem_, 
+    IfCfg_ScProductItem
+):
+    def _initScCameraProductItem(
         self,
         parentItem,
         projectName,
@@ -66,7 +68,7 @@ class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
         self._itemIconState3 = None
         self._itemText3 = None
         #
-        self._path = None
+        self.cls_painter_path = None
         self._namespace = None
         #
         self._vars = None
@@ -89,10 +91,10 @@ class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
                 self.setupItem()
     @property
     def path(self):
-        return self._path
+        return self.cls_painter_path
     @path.setter
     def path(self, string):
-        self._path = string
+        self.cls_painter_path = string
     @property
     def namespace(self):
         return self._namespace
@@ -143,7 +145,7 @@ class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
     #
     def _updateLocalFrameRange(self):
         if self._objectType == appCfg.MaNodeType_Alembic:
-            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self._path)
+            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.cls_painter_path)
     #
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
@@ -200,11 +202,11 @@ class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             if self._branchInfo is not False:
                 nodePath, namespace, timeTag = self._branchInfo
                 #
-                self._path = nodePath
+                self.cls_painter_path = nodePath
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils.getShapeType(self._path)
+                self._objectType = maUtils.getShapeType(self.cls_painter_path)
                 #
                 self._updateLocalFrameRange()
                 #
@@ -250,7 +252,7 @@ class _IfScCameraItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
 
 
 #
-class IfScCameraCacheItem(_IfScCameraItemBasic):
+class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
     def __init__(
             self,
             parentItem,
@@ -265,7 +267,7 @@ class IfScCameraCacheItem(_IfScCameraItemBasic):
         self.clsSuper = super(IfScCameraCacheItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScCameraProductItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -380,7 +382,10 @@ class IfScCameraCacheItem(_IfScCameraItemBasic):
 
 
 # Asset
-class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
+class IfScAssetProductItem(
+    qtWidgets_.QTreeWidgetItem_, 
+    IfCfg_ScProductItem
+):
     def __init__(
         self,
         parentItem,
@@ -392,10 +397,10 @@ class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
         assetClass, assetName, number, assetVariant,
         connectMethod
     ):
-        self.clsSuper = super(IfScAssetUnitItem, self)
+        self.clsSuper = super(IfScAssetProductItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAssetProductItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -405,7 +410,7 @@ class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             assetClass, assetName, number, assetVariant,
             connectMethod
         )
-    def _initItemBasic(
+    def _initScAssetProductItem(
             self,
             parentItem,
             projectName,
@@ -448,10 +453,10 @@ class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             self.setupItem()
     @property
     def path(self):
-        return self._path
+        return self.cls_painter_path
     @path.setter
     def path(self, string):
-        self._path = string
+        self.cls_painter_path = string
     @property
     def namespace(self):
         return self._namespace
@@ -519,9 +524,9 @@ class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             self._assetName, self._number
         )
         if maUtils.isAppExist(scAssetGroup):
-            self._path = scAssetGroup
+            self.cls_painter_path = scAssetGroup
             #
-            self._itemLocalTimeTag = maUtils.getAttrDatum(self._path, 'tag')
+            self._itemLocalTimeTag = maUtils.getAttrDatum(self.cls_painter_path, 'tag')
             #
             self._itemIconState0 = None
             self._itemTooltip = None
@@ -559,8 +564,11 @@ class IfScAssetUnitItem(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
 
 
 #
-class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
-    def _initItemBasic(
+class IfAbc_ScAstBranchItem(
+    qtWidgets_.QTreeWidgetItem_, 
+    IfCfg_ScProductItem
+):
+    def _initScAstBranchItem(
         self,
         parentItem,
         projectName,
@@ -596,7 +604,7 @@ class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
         self._itemIconState3 = None
         self._itemText3 = None
         #
-        self._path = None
+        self.cls_painter_path = None
         self._namespace = None
         #
         self._vars = None
@@ -617,10 +625,10 @@ class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             self.setupItem()
     @property
     def path(self):
-        return self._path
+        return self.cls_painter_path
     @path.setter
     def path(self, string):
-        self._path = string
+        self.cls_painter_path = string
     @property
     def namespace(self):
         return self._namespace
@@ -681,11 +689,11 @@ class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
     #
     def _updateLocalFrameRange(self):
         if self._objectType == appCfg.MaNodeType_Alembic:
-            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self._path)
+            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.cls_painter_path)
         elif self._objectType == appCfg.MaNodeType_Plug_Yeti:
-            self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self._path)
+            self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self.cls_painter_path)
         elif self._objectType == appCfg.MaNodeType_Plug_NurbsHair:
-            self._localStartFrame, self._localEndFrame = maFur.getNhrCacheFrameRange(self._path)
+            self._localStartFrame, self._localEndFrame = maFur.getNhrCacheFrameRange(self.cls_painter_path)
     #
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
@@ -753,11 +761,11 @@ class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
             if self._branchInfo is not False:
                 nodePath, namespace, timeTag = self._branchInfo
                 #
-                self._path = nodePath
+                self.cls_painter_path = nodePath
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils.getShapeType(self._path)
+                self._objectType = maUtils.getShapeType(self.cls_painter_path)
                 #
                 self._updateLocalFrameRange()
                 #
@@ -803,7 +811,7 @@ class IfScAstBranchItemBasic(qtWidgets_.QTreeWidgetItem_, IfScObjectAbs):
 
 
 #
-class IfScAstModelProductItem(IfScAstBranchItemBasic):
+class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -820,7 +828,7 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstModelProductItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -920,7 +928,8 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = uiHtml.getHtmlConnection(sourceAttr, targetAttr, self._namespace)
+                    
+                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -949,7 +958,7 @@ class IfScAstModelProductItem(IfScAstBranchItemBasic):
 
 
 #
-class IfScAstModelCacheItem(IfScAstBranchItemBasic):
+class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -966,7 +975,7 @@ class IfScAstModelCacheItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstModelCacheItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -1088,7 +1097,7 @@ class IfScAstModelCacheItem(IfScAstBranchItemBasic):
 
 
 # Extra Cache
-class IfScAstExtraCacheItem(IfScAstBranchItemBasic):
+class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -1105,7 +1114,7 @@ class IfScAstExtraCacheItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstExtraCacheItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -1227,7 +1236,7 @@ class IfScAstExtraCacheItem(IfScAstBranchItemBasic):
 
 
 # CFX Product
-class IfScAstCfxProductItem(IfScAstBranchItemBasic):
+class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -1244,7 +1253,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstCfxProductItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -1323,7 +1332,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = uiHtml.getHtmlConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1349,7 +1358,7 @@ class IfScAstCfxProductItem(IfScAstBranchItemBasic):
 
 
 # CFX Cache
-class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
+class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -1366,7 +1375,7 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstCfxFurCacheItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -1394,7 +1403,7 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
                     self._startFrame, self._endFrame,
                     self._assetIndex,
                     self._assetClass, self._assetName, self._number, self._assetVariant,
-                    self._path,
+                    self.cls_painter_path,
                     withAstCfxFurCache=cacheFile
                 )
                 #
@@ -1430,7 +1439,7 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
                 self._startFrame, self._endFrame,
                 self._assetIndex,
                 self._assetClass, self._assetName, self._number, self._assetVariant,
-                self._path,
+                self.cls_painter_path,
                 withAstCfxFurCache=True
             )
             #
@@ -1497,12 +1506,12 @@ class IfScAstCfxFurCacheItem(IfScAstBranchItemBasic):
             self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
             self._startFrame, self._endFrame,
             self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant,
-            self._path
+            self.cls_painter_path
         )
 
 
 #
-class IfScAstSolverProductItem(IfScAstBranchItemBasic):
+class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -1519,7 +1528,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstSolverProductItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,
@@ -1582,7 +1591,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = uiHtml.getHtmlConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1607,7 +1616,7 @@ class IfScAstSolverProductItem(IfScAstBranchItemBasic):
 
 
 #
-class IfScAstSolverCacheItem(IfScAstBranchItemBasic):
+class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
     def __init__(
         self,
         parentItem,
@@ -1624,7 +1633,7 @@ class IfScAstSolverCacheItem(IfScAstBranchItemBasic):
         self.clsSuper = super(IfScAstSolverCacheItem, self)
         self.clsSuper.__init__()
         #
-        self._initItemBasic(
+        self._initScAstBranchItem(
             parentItem,
             projectName,
             sceneIndex,

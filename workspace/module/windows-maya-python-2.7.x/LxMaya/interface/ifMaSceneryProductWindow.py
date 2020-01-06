@@ -9,7 +9,7 @@ from LxCore.preset import pipePr, appVariant
 from LxCore.preset.prod import projectPr, sceneryPr
 #
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit
 #
@@ -23,7 +23,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxScheme.Python().version
+_version = lxScheme.Resource().version
 
 
 #
@@ -83,7 +83,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for i in uiDatumLis:
             progressBar.updateProgress()
             #

@@ -3,7 +3,7 @@
 import maya.cmds as cmds
 #
 from LxCore import lxCore_
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.preset import appVariant
 #
@@ -27,7 +27,7 @@ def setAssembliesActiveSwitch(keyword='GPU'):
                 # View Progress
                 explain = '''Switch Assembly(s) "{}" to "{}"'''.format(k, keyword)
                 maxValue = len(v)
-                progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                 for i in v:
                     progressBar.updateProgress()
                     assemblyReferenceString = i

@@ -690,7 +690,7 @@ def sceneryDefinitionFileLabel(sceneryStage):
     if isScnSceneryLink(sceneryStage):
         string = appVariant.scnSceneryDefinitionLabel
     if isScnLayoutLink(sceneryStage):
-        string = appVariant.scnLayoutDefinitionLabel
+        string = appVariant.scnDefLayoutinitionLabel
     elif isScnAnimationLink(sceneryStage):
         string = appVariant.scnAnimationDefinitionLabel
     elif isScnSimulationLink(sceneryStage):

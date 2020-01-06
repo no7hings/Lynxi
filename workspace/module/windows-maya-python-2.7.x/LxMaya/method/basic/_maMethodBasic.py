@@ -405,7 +405,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def traceWaning(cls, string):
         cmds.warning(string)
     @staticmethod
-    def viewMessage(message, keyword, position='topCenter', fade=1, dragKill=0, alpha=.5):
+    def setMessageWindowShow(message, keyword, position='topCenter', fade=1, dragKill=0, alpha=.5):
         # topLeft topCenter topRight
         # midLeft midCenter midCenterTop midCenterBot midRight
         # botLeft botCenter botRight
@@ -1505,9 +1505,9 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                     cls.setNodeAttr(node, cls.MaAttrName_Visible, boolean)
             #
             if operation is 'hide':
-                cls.viewMessage('Selected Nde_Node(s) is', 'Hide !!!')
+                cls.setMessageWindowShow('Selected Nde_Node(s) is', 'Hide !!!')
             else:
-                cls.viewMessage('Selected Nde_Node(s) is', 'Show !!!')
+                cls.setMessageWindowShow('Selected Nde_Node(s) is', 'Show !!!')
     @classmethod
     def isObjectInstanced(cls, objectString):
         boolean = False

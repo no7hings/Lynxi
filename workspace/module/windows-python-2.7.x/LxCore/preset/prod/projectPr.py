@@ -370,7 +370,8 @@ def getMayaProjectNameDic():
 def getProjectName():
     # String <Project Name>
     string = lxCore_.LynxiDefaultProjectValue
-    osFile = lxCore_.UserPreset().projectConfigFile()
+
+    osFile = lxScheme.UserPreset().projectConfigFile
     if not lxBasic.isOsExistsFile(osFile):
         setLocalProjectPreset(string)
     else:
@@ -401,7 +402,7 @@ def getMayaProjectName():
             string = environValue
         else:
             currentMayaVersion = lxBasic.getMayaAppVersion()
-            osFile = lxCore_.UserPreset().appProjectFile(lxCore_.Lynxi_App_Maya, mayaVersion)
+            osFile = lxScheme.UserPreset().applicationProjectConfigFile(lxCore_.Lynxi_App_Maya, mayaVersion)
             if not lxBasic.isOsExistsFile(osFile):
                 setLocalMayaProjectPreset(string, currentMayaVersion)
             #
@@ -417,14 +418,14 @@ def getMayaProjectName():
 
 #
 def getMayaProjectEnviron():
-    environKey = lxCore_.Lynxi_Key_Environ_Project
+    environKey = lxCore_.Lynxi_Environ_Key_Project
     return lxBasic.getOsEnvironValue(environKey)
 
 
 #
 def setMayaProjectEnviron(projectName):
     if lxBasic.isMayaApp():
-        environKey = lxCore_.Lynxi_Key_Environ_Project
+        environKey = lxCore_.Lynxi_Environ_Key_Project
         lxBasic.setOsEnvironValue(environKey, projectName)
 
 
@@ -449,7 +450,7 @@ def setLocalAppProjectPreset(projectName):
 
 # Set Project Config
 def setLocalProjectPreset(projectName):
-    osFile = lxCore_.UserPreset().projectConfigFile()
+    osFile = lxScheme.UserPreset().projectConfigFile
     lxBasic.setOsFileDirectoryCreate(osFile)
     data = dict(project=projectName)
     lxBasic.writeOsJson(data, osFile)
@@ -458,7 +459,7 @@ def setLocalProjectPreset(projectName):
 # Set Project Config
 def setLocalMayaProjectPreset(projectName, mayaVersion):
     if lxBasic.isMayaApp():
-        osFile = lxCore_.UserPreset().appProjectFile(lxCore_.Lynxi_App_Maya, mayaVersion)
+        osFile = lxScheme.UserPreset().applicationProjectConfigFile(lxCore_.Lynxi_App_Maya, mayaVersion)
         lxBasic.setOsFileDirectoryCreate(osFile)
         data = dict(project=projectName)
         lxBasic.writeOsJson(data, osFile)

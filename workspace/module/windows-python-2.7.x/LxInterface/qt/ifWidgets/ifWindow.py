@@ -11,7 +11,7 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class IfDevelopWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self):
         super(IfDevelopWindow, self).__init__()
         self.setNameText(self._Title)

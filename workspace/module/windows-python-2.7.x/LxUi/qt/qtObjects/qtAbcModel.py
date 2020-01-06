@@ -10,18 +10,16 @@ from LxUi.qt import qtAbstract, qtAction, qtCore
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
-#
-none = ''
 
 
-# Basic Item
-class Abc_QtItemModel(
-    qtAbstract.QtItemModelAbs,
-    qtAbstract.QtEnterItemModelAbs
+# Item Model
+class QtAbcObj_ItemModel(
+    qtAbstract.QtAbc_ItemModel,
+    qtAbstract.QtAbc_EnteritemModel
 ):
-    def _initItemModelBasic(self, widget):
-        self._initItemModelAbs()
-        self._initDatumEnterItemModelAbs()
+    def _initAbcObjItemModel(self, widget):
+        self._initAbcItemModel()
+        self._initAbcEnteritemModel()
         #
         self.setWidget(widget)
     #
@@ -275,22 +273,898 @@ class Abc_QtItemModel(
             self.setChecked(True)
 
 
-# Basic View
-class Abc_QtViewModel(
-    qtAbstract.QtViewModelAbs,
-    qtAbstract.QtScrollAreaModelAbs
-):
-    def _initViewModelBasic(self, widget):
-        self._initViewModelAbs()
-        self._initScrollViewModelAbs()
+class _QtItemModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+
+
+class _QtTreeviewItemModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+
+
+class _QtEnterlabelModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
         #
-        self._initViewModelBasicAction()
+        self.__overrideAttr()
+        self.__overrideUi()
+    #
+    def __overrideAttr(self):
+        self._isCheckEnable = False
+        #
+        self._xLeftPos = 0
+    #
+    def __overrideUi(self):
+        self._uiCheckIconKeyword = 'svg_basic@svg#boxUnchecked'
+        self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword)
+    #
+    def _updateRectGeometry(self):
+        xPos, yPos = 0, 0
+        width, height = self.size()
+        #
+        side = self._uiSide
+        frameWidth, frameHeight = self.frameSize()
+        #
+        xOffset, yOffset = 0, 0
+        #
+        xPos += side
+        #
+        explainWidth = self._uiNameTextWidth
+        if self.nameText() is not None:
+            self._uiNameTextRect.setRect(
+                xPos, yPos,
+                explainWidth, frameHeight
+            )
+            xPos += explainWidth
+        #
+        self._xLeftPos = xPos
+        self._uiBasicRect.setRect(
+            xPos, yPos,
+            width - xPos, frameHeight
+        )
+        #
+        if self.isEnterEnable():
+            xPos += frameWidth
+        #
+        if self.isChooseEnable():
+            xPos += frameWidth
+            self.indexTextRect().setRect(
+                side, yPos,
+                explainWidth, frameHeight
+            )
+        #
+        if self.isCheckEnable():
+            self._uiCheckRect.setRect(
+                xPos + (self._uiFrameWidth - self._uiIconWidth) / 2 + xOffset, yPos + (self._uiFrameHeight - self._uiIconHeight) / 2 + yOffset,
+                self._uiIconWidth - xOffset, self._uiIconHeight - yOffset
+            )
+            xPos += frameWidth
+        #
+        textHeight = self._textHeight()
+        #
+        self._uiDatumRect.setRect(
+            xPos + 2, yPos + (frameHeight - textHeight)/2,
+            width - xPos - side, height
+        )
+    #
+    def _updateChildrenGeometry(self):
+        xPos, yPos = 0, 0
+        width, height = self.width(), self.height()
+        #
+        width -= 1
+        height -= 1
+        #
+        side = self._uiSide
+        #
+        frameWidth, frameHeight = self._uiFrameWidth, self._uiFrameHeight
+        #
+        xPos += side
+        #
+        if self.nameText() is not None:
+            xPos += self._uiNameTextWidth
+        #
+        if self.isChooseEnable():
+            self._chooseButton.setGeometry(
+                xPos, yPos,
+                frameWidth, frameHeight
+            )
+            self._chooseButton.show()
+            xPos += frameWidth
+        else:
+            self._chooseButton.hide()
+        #
+        if self.isEnterEnable():
+            self._entryButton.setGeometry(
+                xPos, yPos,
+                frameWidth, frameHeight
+            )
+            #
+            self._entryButton.show()
+            #
+            if self.isEnterable():
+                self._enterWidget.setGeometry(
+                    xPos + frameWidth, yPos,
+                    width - xPos - side, frameHeight
+                )
+                #
+                self._enterWidget.show()
+            else:
+                self._enterWidget.hide()
+            #
+            xPos += frameWidth
+        else:
+            self._entryButton.hide()
+            self._enterWidget.hide()
+        #
+        if self.isCheckEnable():
+            xPos += frameWidth
+        #
+        self._copyButton.setGeometry(
+            width - frameWidth*2, yPos,
+            frameWidth, frameHeight
+        )
+        self._clearButton.setGeometry(
+            width - frameWidth, yPos,
+            frameWidth, frameHeight
+        )
+    #
+    def _updateButtonVisible(self):
+        if self.isEnterable():
+            boolean = [False, True][len(self._enterWidget.text()) > 0]
+        else:
+            boolean = False
+        #
+        self._clearButton.setVisible(boolean)
+        self._copyButton.setVisible(boolean)
+    #
+    def _entryableSwitchAction(self):
+        self._isEnterable = not self._isEnterable
+        #
+        self._enterWidget.setEnterable(self._isEnterable)
+        self._updateEnterWidget()
+        #
+        self._updateChildrenGeometry()
+        self._updateButtonVisible()
+        #
+        self._updateWidgetState()
+    #
+    def _updateEnterWidget(self):
+        if self.isEnterable() is True:
+            self._enterWidget.setText(self._uiDatumText)
+    #
+    def _updateUiEnterState(self):
+        self.setEntered(self._enterWidget.hasFocus())
+        #
+        if self.isEnterable():
+            if self.isEntered():
+                self.setUiEnterState(qtCore.EnterState)
+            else:
+                self.setUiEnterState(qtCore.UnenterState)
+        else:
+            self.setUiEnterState(qtCore.NormalState)
+        #
+        self._updateWidgetState()
+    #
+    def _updateWidgetStyle(self):
+        pass
+    #
+    def _entryAction(self):
+        if self.isEnterable() is True:
+            text = unicode(self._enterWidget.text())
+            if not text == self._uiDatumText:
+                self.setDatum(self._covertDatum(text))
+                #
+                self.widget().entryChanged.emit(), self.widget().datumChanged.emit()
+        #
+        self._updateQtPressStatusByDatum()
+    #
+    def _chooseAction(self):
+        index = self._datumLis.index(self._datum)
+        if len(self._datumLis) == 1:
+            self._curDatumIndex = 0
+            self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
+        elif len(self._datumLis) > 1:
+            if not index == self._curDatumIndex:
+                self._curDatumIndex = index
+                #
+                self._updateEnterWidget()
+                #
+                self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
+            #
+            elif self._enterWidget.text() != self._uiDatumText:
+                self._updateEnterWidget()
+        #
+        self._updateQtPressStatusByDatum()
+    # For Override
+    def _checkClickAction(self):
+        if not self._datum == self._isChecked:
+            self.setDatum(self._isChecked)
+            #
+            self.widget().checkChanged.emit(), self.widget().datumChanged.emit()
+        #
+        self._updateQtPressStatusByDatum()
+    #
+    def _updateQtPressStatusByDatum(self):
+        if self._defaultDatum is not None:
+            if self._datum != self._defaultDatum:
+                self._setQtPressStatus(qtCore.WarningStatus)
+                self.setUiEnterStatus(qtCore.WarningStatus)
+            else:
+                self._setQtPressStatus(qtCore.NormalStatus)
+                self.setUiEnterStatus(qtCore.NormalStatus)
+        else:
+            self._setQtPressStatus(qtCore.NormalStatus)
+            self.setUiEnterStatus(qtCore.NormalStatus)
+        #
+        self._updateQtPressStatus()
+    #
+    def update(self):
+        self._updateRectGeometry()
+        #
+        self._updateChildrenGeometry()
+        self._updateButtonVisible()
+        #
+        self._updateWidgetState()
+    #
+    def setNameText(self, string):
+        if string is not None:
+            self._uiNameText = unicode(string)
+        #
+        if self.nameText() is not None:
+            self._enterWidget.setPlaceholderText(u'Enter {} ...'.format(self.nameText()))
+    #
+    def setDatum(self, datum):
+        self._datum = datum
+        self._datumType = type(datum)
+        self.setDatumText(datum)
+        #
+        self._updateEnterWidget()
+        self._updateButtonVisible()
+        #
+        self._updateQtPressStatusByDatum()
+    #
+    def setWidget(self, widget):
+        self._widget = widget
+        #
+        self._pressedTimer = QtCore.QTimer(self._widget)
+        self._pressedTimer.timeout.connect(self._pressedAction)
+        #
+        self._entryButton = self._widget._entryButton
+        self._chooseButton = self._widget._chooseButton
+        #
+        self._copyButton = self._widget._copyButton
+        self._clearButton = self.widget()._clearButton
+        #
+        self._enterWidget = self._widget._enterWidget
+    #
+    def setEnterEnable(self, boolean):
+        self._isEnterEnable = boolean
+        #
+        self._datumType = unicode
+    #
+    def isEnterEnable(self):
+        return self._isEnterEnable
+    #
+    def setEnterable(self, boolean):
+        self._isEnterable = boolean
+        self._enterWidget.setReadOnly(not self.isEnterable())
+    #
+    def setCheckEnable(self, boolean):
+        self._isCheckEnable = boolean
+        self.setDatum(self._isChecked)
+    #
+    def setEnterClear(self):
+        self._enterWidget.clear()
+        #
+        self._datum = None
+        self._uiDatumText = None
+        #
+        self.update()
+    #
+    def setChooseClear(self):
+        self.setDatumLis(None)
+        self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
+        self._updateWidgetState()
+    #
+    def setUiEnterState(self, state):
+        if state is qtCore.NormalState:
+            self.widget()._uiEnterBackgroundRgba = 0, 0, 0, 0
+            self.widget()._uiEnterBorderRgba = 0, 0, 0, 0
+        else:
+            if state is qtCore.EnterState:
+                self.widget()._uiEnterBorderRgba = 63, 127, 255, 255
+            elif state is qtCore.UnenterState:
+                self.widget()._uiEnterBorderRgba = 95, 95, 95, 255
+            #
+            self._updateUiEnterStatus()
+    #
+    def _setQtCheckStyle(self, state):
+        if state is qtCore.UncheckableState:
+            self._uiCheckIconKeyword = ['svg_basic@svg#boxUncheckable', 'svg_basic@svg#radioUncheckable'][self.isAutoExclusive()]
+            self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword)
+        else:
+            if state is qtCore.CheckedState:
+                self._uiCheckIconKeyword = ['svg_basic@svg#boxChecked', 'svg_basic@svg#radioChecked'][self.isAutoExclusive()]
+            elif state is qtCore.UncheckedState:
+                self._uiCheckIconKeyword = ['svg_basic@svg#boxUnchecked', 'svg_basic@svg#radioUnchecked'][self.isAutoExclusive()]
+            #
+            self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword + ['', 'on'][self.isCheckHovered()])
+
+
+# Icon Button Model
+class _QtIconbuttonModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+        #
+        self.__overrideAttr()
+    #
+    def __overrideAttr(self):
+        pass
+    #
+    def _updateRectGeometry(self):
+        xPos, yPos = 0, 0
+        width, height = self.width(), self.height()
+        width -= 1
+        height -= 1
+        #
+        self._uiBasicRect.setRect(
+            xPos, yPos,
+            width, height
+        )
+        # Icon
+        if self.icon() is not None:
+            self.iconRect().setRect(
+                xPos + (self._uiFrameWidth - self._uiIconWidth)/2 + [0, 1][self._pressFlag], yPos + (self._uiFrameHeight - self._uiIconHeight)/2 + [0, 1][self._pressFlag],
+                self._uiIconWidth, self._uiIconHeight
+            )
+            if self.extendIcon() is not None:
+                self.extendIconRect().setRect(
+                    xPos + (self._uiExtendFrameWidth - self._uiExtendIconWidth)/2, yPos + (self._uiExtendFrameHeight - self._uiExtendIconHeight)/2,
+                    self._uiExtendIconWidth, self._uiExtendIconHeight
+                )
+            xPos += self._uiFrameWidth + self._uiSpacing
+        # Name
+        if self.nameText() is not None:
+            self._uiNameTextRect.setRect(
+                xPos, yPos,
+                width - xPos, self._uiFrameHeight
+            )
+    #
+    def _updateQtPressStyle(self):
+        if self.isPressEnable():
+            if self.isPressable():
+                self._setQtPressStyle(qtCore.NormalState)
+                #
+                self._updateQtPressStatus()
+            else:
+                self._setQtPressStyle(qtCore.UnpressableState)
+        #
+        self._updateWidgetState()
+    #
+    def _setQtPressStyle(self, state):
+        if state is qtCore.UnpressableState:
+            if self._uiIconKeyword is not None:
+                self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + 'off')
+            #
+            self.widget().update()
+            #
+            self.widget()._uiNameRgba = 95, 95, 95, 255
+            #
+            self.widget()._uiFontItalic = True
+        else:
+            if state is qtCore.NormalState:
+                if self._uiIconKeyword is not None:
+                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + ['', 'on'][self.isPressHovered()])
+                #
+                if self._uiExtendIconKeyword is not None:
+                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword + ['', 'on'][self.isExtendPressHovered()])
+                #
+                self.widget()._uiFontItalic = False
+
+
+# Press Button Model
+class _QtPressbuttonModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+        #
+        self.__overrideAttr()
+    #
+    def __overrideAttr(self):
+        self._uiSide = 4
+        self._uiFrameWidth, self._uiFrameHeight = 24, 24
+    #
+    def _updateRectGeometry(self):
+        xPos, yPos = 0, 0
+        width, height = self.width(), self.height()
+        #
+        side = self._uiSide
+        #
+        frameWidth, frameHeight = self.frameSize()
+        iconWidth, iconHeight = self.iconSize()
+        #
+        xOffset, yOffset = [0, 1][self._pressFlag], [0, 1][self._pressFlag]
+        #
+        self.basicRect().setRect(
+            xPos + xOffset, yPos + yOffset,
+            width - xOffset, height - yOffset
+        )
+        #
+        if self.isPercentEnable():
+            self.percentFrameRect().setRect(
+                xPos + 1 + xOffset, yPos + 1 + yOffset,
+                width - 2 - xOffset, height - 2 - yOffset
+            )
+            #
+            if self._valueMaximum > 0:
+                rectWidth = max(int(width*self._valuePercent), 10)
+            else:
+                rectWidth = width
+            #
+            self._uiPercentValueRect.setRect(
+                xPos + (width - rectWidth) + 3 + xOffset, yPos + 3 + yOffset,
+                rectWidth - 6 - xOffset, height - 6 - yOffset
+            )
+        # Icon
+        if self.icon() is not None:
+            self.iconRect().setRect(
+                xPos + (frameWidth - iconWidth)/2 + xOffset, yPos + (frameHeight - iconHeight)/2 + yOffset,
+                iconWidth, iconHeight
+            )
+            if self.extendIcon() is not None:
+                self.extendIconRect().setRect(
+                    xPos + (self._uiExtendFrameWidth - self._uiExtendIconWidth)/2, yPos + (self._uiExtendFrameHeight - self._uiExtendIconHeight)/2,
+                    self._uiExtendIconWidth, self._uiExtendIconHeight
+                )
+            xPos += frameWidth + self._uiSpacing
+        else:
+            xPos += side
+        # Name
+        if self.nameText() is not None:
+            if self.isPercentEnable():
+                percentTextWidth = self._textWidth(self.percentText())
+                self.percentTextRect().setRect(
+                    width - percentTextWidth - side - 3 + xOffset, yPos + yOffset,
+                    percentTextWidth, height
+                )
+            else:
+                percentTextWidth = 0
+            #
+            self.nameTextRect().setRect(
+                xPos + xOffset, yPos + yOffset,
+                width - xPos - percentTextWidth - side, height
+            )
+    #
+    def _updateQtPressStatus(self):
+        if self.isPercentEnable():
+            self._setUiPercentStatus(self._valuePercent)
+        else:
+            status = self._uiPressStatus
+            #
+            if status is qtCore.OffStatus:
+                self.widget()._uiBackgroundRgba = 55, 55, 55, 255
+            else:
+                if status is qtCore.NormalStatus:
+                    self.widget()._uiBackgroundRgba = [(79, 79, 79, 255), (119, 119, 119, 255)][self.isPressHovered()]
+                else:
+                    if status is qtCore.ErrorStatus:
+                        r, g, b = 255, 0, 64
+                    elif status is qtCore.WarningStatus:
+                        r, g, b = 255, 255, 64
+                    elif status is qtCore.OnStatus:
+                        r, g, b = 64, 255, 127
+                    else:
+                        r, g, b = 159, 159, 159
+                    #
+                    self.widget()._uiBackgroundRgba = [(r*.5, g*.5, b*.5, 255), (r*.75, g*.75, b*.75, 255)][self.isPressHovered()]
+    #
+    def _setUiPercentStatus(self, percent):
+        if self.isPercentable():
+            if self._valueMaximum > 0:
+                if percent == 1:
+                    r, g, b = 64, 255, 127
+                else:
+                    r, g, b = self.hsvToRgb(45 * percent, 1, 1)
+                #
+                self.widget()._uiPercentValueRgba = [(r * .5, g * .5, b * .5, 255), (r * .75, g * .75, b * .75, 255)][self.isPressHovered()]
+        else:
+            self.widget()._uiPercentValueRgba = 79, 79, 79, 255
+    #
+    def _updateQtPressStyle(self):
+        if self.isPressEnable():
+            if self.isPressable():
+                if self._pressFlag is True:
+                    self._setQtPressStyle(qtCore.PressedState)
+                else:
+                    self._setQtPressStyle(qtCore.NormalState)
+                    self._updateQtPressStatus()
+            else:
+                self._setQtPressStyle(qtCore.UnpressableState)
+        #
+        self._updateWidgetState()
+    #
+    def _updateWidgetStyle(self):
+        pass
+    #
+    def _setQtPressStyle(self, state):
+        if state is qtCore.UnpressableState:
+            self.widget()._uiBackgroundRgba = 55, 55, 55, 255
+            self.widget()._uiBorderRgba = 63, 63, 63, 255
+            #
+            self.widget()._uiNameRgba = 95, 95, 95, 255
+            #
+            self.widget()._uiBorderStyle = 'inset'
+            #
+            self.widget()._uiFontItalic = True
+        else:
+            if state is qtCore.NormalState:
+                self.widget()._uiBackgroundRgba = [(79, 79, 79, 255), (119, 119, 119, 255)][self.isPressHovered()]
+                self.widget()._uiBorderRgba = [(127, 127, 127, 255), (159, 159, 159, 255)][self.isPressHovered()]
+                self.widget()._uiNameRgba = [(191, 191, 191, 255), (255, 255, 255, 255)][self.isPressHovered()]
+                #
+                self.widget()._uiBorderStyle = 'outset'
+            elif state is qtCore.PressedState:
+                self.widget()._uiBackgroundRgba = 47, 47, 47, 255
+                #
+                self.widget()._uiBorderRgba = 63, 127, 255, 255
+                self.widget()._uiNameRgba = 255, 255, 255, 255
+                #
+                self.widget()._uiBorderStyle = 'inset'
+            #
+            self.widget()._uiFontItalic = False
+    # noinspection PyUnresolvedReferences
+    def acceptPressCommand(self):
+        if self._pressCommand is not None:
+            if lxBasic.isMayaApp():
+                import maya.mel as mel
+                mel.eval(self._pressCommand)
+            else:
+                exec eval(self._pressCommand)
+        #
+        self.setPressHovered(False)
+
+
+# Attribute Item Model
+class _QtAttributeitemModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+        #
+        self.__overrideAttr()
+    #
+    def __overrideAttr(self):
+        self._isPressEnable = False
+        self._isExpandEnable = True
+        self._isColorEnable = True
+
+
+# Action Item Model
+class _QtActionitemModel(QtAbcObj_ItemModel):
+    def __init__(self, widget):
+        self._initAbcObjItemModel(widget)
+        #
+        self.__overrideAttr()
+        self.__overrideUi()
+        self.__connectUi(widget)
+    #
+    def __overrideAttr(self):
+        self._isSeparator = False
+        self._isExtendEnable = False
+        #
+        self._checkFn = None
+        #
+        self._uiExtendIconKeyword = None
+        self._uiExtendIcon = None
+        #
+        self._uiFrameWidth, self._uiFrameHeight = 20, 20
+        self._uiIconWidth, self._uiIconHeight = 16, 16
+        #
+        self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0, 2, 2, 4
+        #
+        self._uiItemWidth, self._uiItemHeight = 200, 20
+        self._uiItemSize = 200, 20
+        #
+        self._pressAction = None
+        self._itemActionData = []
+    #
+    def __overrideUi(self):
+        self._uiBasicRect = QtCore.QRect()
+        self._basicLine = QtCore.QLine()
+        self._uiIconRect, self._uiNameTextRect, self._uiSubNameRect, self._uiExtendRect = QtCore.QRect(), QtCore.QRect(), QtCore.QRect(), QtCore.QRect()
+        self._uiSubIconRect = QtCore.QRect()
+    #
+    def __connectUi(self, widget):
+        self._widget = widget
+        self._extendButton = widget._extendButton
+    #
+    def setViewModel(self, model):
+        self._viewModel = model
+        self.widget().setParent(model._widget)
+        #
+        self._graphModelWidget = self._viewModel._widget
+    #
+    def _updateRectGeometry(self):
+        self._updateUiStyle()
+        #
+        xPos, yPos = 0, 0
+        #
+        side, spacing, shadowRadius = self._uiSide, self._uiSpacing, self._uiShadowRadius
+        #
+        width, height = self._uiItemWidth, self._uiItemHeight
+        #
+        frameWidth, frameHeight = self.frameSize()
+        iconWidth, iconHeight = self.iconSize()
+        #
+        if self._isSeparator is True:
+            xP1, yP1 = xPos, yPos + self._uiItemHeight/2
+            xP2, yP2 = width - 1, yPos + self._uiItemHeight/2
+            if self._uiNameText is not None:
+                textWidth = self.widget().fontMetrics().width(self._uiNameText)
+                #
+                self._uiNameTextRect.setRect(
+                    xPos + self._uiSide, yPos,
+                    width, self._uiItemHeight
+                )
+                xP1 += side + textWidth + spacing
+            #
+            self._basicLine.setLine(
+                xP1, yP1,
+                xP2, yP2
+             )
+        else:
+            self._uiBasicRect.setRect(
+                xPos, yPos,
+                width - 1, height - 1
+            )
+            xPos += side
+            #
+            _w, _h = (frameWidth - iconWidth)/2, (frameHeight - iconHeight)/2
+            if self._uiIcon is not None or self._uiCheckIcon is not None:
+                if self._uiSubIcon is not None:
+                    self._uiIconRect.setRect(
+                        xPos, yPos,
+                        iconWidth, iconHeight
+                    )
+                    self._uiSubIconRect.setRect(
+                        xPos + (frameWidth - iconWidth*.75), yPos + (frameHeight - iconHeight*.75),
+                        iconWidth*.75, iconHeight*.75
+                    )
+                else:
+                    self._uiIconRect.setRect(
+                        xPos + _w, yPos + _h,
+                        iconWidth, iconHeight
+                    )
+                xPos += self._uiFrameWidth + self._uiSpacing
+            if self._uiNameText is not None:
+                self._uiNameTextRect.setRect(
+                    xPos, yPos,
+                    width, self._uiItemHeight
+                )
+            if self._uiSubNameText is not None:
+                self._uiSubNameRect.setRect(
+                    0, yPos,
+                    width - [0, self._uiFrameWidth][self._isExtendEnable] - side - shadowRadius, self._uiItemHeight
+                )
+            if self._uiExtendIcon is not None:
+                self._uiExtendRect.setRect(
+                    width - self._uiFrameWidth + (self._uiFrameWidth - self._uiIconWidth)/2 - side, yPos + (self._uiFrameWidth - self._uiIconHeight)/2,
+                    self._uiIconWidth, self._uiIconHeight
+                )
+    #
+    def _updateChildrenGeometry(self):
+        xPos, yPos = self._uiItemWidth - self._uiFrameWidth, 0
+        self._extendButton.setGeometry(
+            xPos, yPos,
+            self._uiFrameWidth, self._uiFrameHeight
+        )
+    #
+    def _updateGeometry(self):
+        self._updateRectGeometry()
+        self._updateChildrenGeometry()
+    #
+    def _clickAction(self, event):
+        if self.isPressable() or self.isExtendEnable():
+            self.widget().clicked.emit()
+        #
+        event.ignore()
+    #
+    def _updateUiStyle(self):
+        if (self.isPressable() or self.isExtendEnable()) and not self.isSeparator():
+            self._setQtPressStyle([qtCore.UnpressedState, qtCore.PressedState][self.isPressCurrent()])
+        else:
+            self._setQtPressStyle(qtCore.UnpressableState)
+        #
+        if self._isCheckEnable is True:
+            if self._isCheckable is True:
+                self._setQtCheckStyle([qtCore.UncheckedState, qtCore.CheckedState][self.isChecked()])
+            else:
+                self._setQtCheckStyle(qtCore.UncheckableState)
+    #
+    def _setQtPressStyle(self, state):
+        if state is qtCore.UnpressableState:
+            if self._uiIconKeyword is not None:
+                self._uiIcon = qtCore._toLxOsIconFile('svg_basic@svg#unused')
+            if self._uiSubIconKeyword is not None:
+                self._uiSubIcon = None
+            if self._uiExtendIconKeyword is not None:
+                self._uiExtendIcon = None
+            #
+            self.widget()._uiBackgroundRgba = 0, 0, 0, 0
+            self.widget()._uiBorderRgba = 0, 0, 0, 0
+            #
+            self.widget()._uiNameRgba = 95, 95, 95, 255
+            #
+            self.widget()._uiFontItalic = True
+        else:
+            if state is qtCore.UnpressedState:
+                if self._uiIconKeyword is not None:
+                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword)
+                if self._uiExtendIconKeyword is not None:
+                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword)
+                #
+                self.widget()._uiBackgroundRgba = 0, 0, 0, 0
+                self.widget()._uiBorderRgba = 0, 0, 0, 0
+                #
+                self.widget()._uiNameRgba = 191, 191, 191, 255
+                #
+                self.widget()._uiFontItalic = False
+            elif state is qtCore.PressedState:
+                if self._uiIconKeyword is not None:
+                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + 'on')
+                if self._uiExtendIconKeyword is not None:
+                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword + 'on')
+                #
+                self.widget()._uiBackgroundRgba = 71, 71, 71, 255
+                self.widget()._uiBorderRgba = 71, 71, 71, 255
+                #
+                self.widget()._uiNameRgba = 63, 255, 255, 255
+                #
+                self.widget()._uiFontItalic = False
+            #
+            if self._uiSubIconKeyword is not None:
+                self._uiSubIcon = qtCore._toLxOsIconFile(self._uiSubIconKeyword)
+        #
+        self._updateWidgetState()
+    #
+    def update(self):
+        self._updateGeometry()
+        #
+        self._updateWidgetState()
+    #
+    def setSeparators(self, boolean=True):
+        self._isSeparator = boolean
+    #
+    def isSeparator(self):
+        return self._isSeparator
+    #
+    def setExtendEnable(self, boolean):
+        self._isExtendEnable = boolean
+    #
+    def isExtendEnable(self):
+        return self._isExtendEnable
+    #
+    def setActionData(self, data):
+        if len(data) >= 3:
+            self.setPressable(True)
+            #
+            name, iconKeyword, enable = data[:3]
+            #
+            if isinstance(name, str) or isinstance(name, unicode):
+                pass
+            elif isinstance(name, tuple) or isinstance(name, list):
+                pass
+            if '#' in name:
+                name, subName = name.split('#')
+                self._uiSubNameText = subName
+            #
+            self._uiNameText = name
+            self._isCheckEnable = iconKeyword == 'checkBox'
+            #
+            if self.isCheckEnable():
+                if isinstance(enable, types.FunctionType) or isinstance(enable, types.MethodType):
+                    self._checkFn = enable
+                    self._isChecked = enable()
+                elif isinstance(enable, bool):
+                    self._isChecked = enable
+                #
+                if self._isChecked is None:
+                    self.setPressable(False)
+                    self.setCheckable(False)
+                else:
+                    self.setPressable(True)
+                    self.setCheckable(True)
+            else:
+                if isinstance(iconKeyword, tuple) or isinstance(iconKeyword, list):
+                    iconKeyword, subIconKeyword = iconKeyword
+                else:
+                    subIconKeyword = None
+                #
+                if iconKeyword:
+                    self._uiIconKeyword = iconKeyword
+                #
+                if subIconKeyword:
+                    self._uiSubIconKeyword = subIconKeyword
+                #
+                if isinstance(enable, types.FunctionType) or isinstance(enable, types.MethodType):
+                    self._isPressable = enable()
+                elif isinstance(enable, bool):
+                    self._isPressable = enable
+                elif isinstance(enable, tuple) or isinstance(enable, list):
+                    self._isExtendEnable = True
+                    self._uiExtendIconKeyword = 'svg_basic@svg#tabMenu_h'
+                    self._itemActionData = enable
+            #
+            if len(data) >= 4:
+                action = data[3]
+                if isinstance(action, types.FunctionType) or isinstance(action, types.MethodType):
+                    self.setPressAction(action)
+                elif isinstance(action, str) or isinstance(action, unicode):
+                    self.setPressCommand(action)
+            if len(data) >= 5:
+                subAction = data[4]
+                if subAction:
+                    if isinstance(subAction, types.FunctionType) or isinstance(subAction, types.MethodType):
+                        self._extendButton.show()
+                        self._extendButton.clicked.connect(subAction)
+        #
+        else:
+            self.setPressable(False)
+            self.setSeparators()
+            #
+            if len(data) >= 1:
+                self._uiNameText = data[0]
+        #
+        self._updateUiStyle()
+    #
+    def setItemSize(self, width, height):
+        self._uiItemWidth, self._uiItemHeight = width, height
+        #
+        self.update()
+    #
+    def itemActionData(self):
+        return self._itemActionData
+    #
+    def setChecked(self, boolean, ignoreAction=False):
+        if not boolean == self._isChecked:
+            if self._checkFn is not None:
+                isChecked = self._checkFn()
+                if isChecked is not None:
+                    if isChecked != boolean:
+                        self.acceptPressAction()
+            #
+            self._isChecked = boolean
+            #
+            self._updateQtCheckStyle()
+    #
+    def isChecked(self):
+        if self._checkFn is not None:
+            isChecked = self._checkFn()
+            self._isChecked = isChecked
+        #
+        return self._isChecked
+    #
+    def setPressCurrent(self, boolean, ignoreAction=False):
+        if not boolean == self._isPressCurrent:
+            self._isPressCurrent = boolean
+            #
+            self._updateUiStyle()
+
+
+# View Model
+class QtAbcObj_ViewModel(
+    qtAbstract.QtAbc_ViewModel,
+    qtAbstract.QtAbc_ScrollareaModel
+):
+    def _initAbcObjViewModel(self, widget):
+        self._initAbcViewModel()
+        self._initAbcScrollareaModel()
+        #
+        self._initAbcObjViewModelAction()
         #
         self.setWidget(widget)
         self.setViewport(widget)
         self.setScrollBar(widget)
     #
-    def _initViewModelBasicAction(self):
+    def _initAbcObjViewModelAction(self):
         self._trackActionModel = qtAction.QtTrackactionModel(self)
         self._trackActionModel.setMinimumPos(0, 0)
     #
@@ -347,7 +1221,7 @@ class Abc_QtViewModel(
         width, height = self.width(), self.height()
         # Placeholder
         if self.isPlaceholderEnable():
-            x, y, w, h = self._uiMethod._toGeometryRemap(self.placeholderSize(), self.size())
+            x, y, w, h = self.ui_method._toGeometryRemap(self.placeholderSize(), self.size())
             self.placeholderRect().setRect(
                 x, y, w, h
             )
@@ -1225,7 +2099,7 @@ class Abc_QtViewModel(
             self._clearPressed()
             self._clearSelected()
             #
-            self._initViewModelAbsVar()
+            self._initAbcViewModelVar()
             #
             self.update()
     #
@@ -1246,28 +2120,33 @@ class Abc_QtViewModel(
         self.setExtendExpanded(False)
 
 
-#
-class Abc_QtScrollAreaModel(qtAbstract.QtScrollAreaModelAbs):
-    def _initScrollAreaBasic(self, widget):
-        self._initScrollViewModelAbs()
+class _QtViewModel(QtAbcObj_ViewModel):
+    def __init__(self, widget):
+        self._initAbcObjViewModel(widget)
+
+
+# Scroll Model
+class QtAbcObj_ScrollareaModel(qtAbstract.QtAbc_ScrollareaModel):
+    def _initAbcObjScrollarea(self, widget):
+        self._initAbcScrollareaModel()
         #
-        self._initScrollAreaBasicAttr()
-        self._initScrollAreaBasicAction()
-        self._initScrollAreaBasicVar()
+        self._initAbcObjScrollareaAttr()
+        self._initAbcObjScrollareaAction()
+        self._initAbcObjScrollareaVar()
         #
         self.setWidget(widget)
         self.setViewport(widget)
         self.setScrollBar(widget)
     #
-    def _initScrollAreaBasicVar(self):
+    def _initAbcObjScrollareaVar(self):
         self._pressFlag, self._dragFlag, self._trackFlag = False, False, False
         #
         self._miniWidth, self._miniHeight = 60, 60
     #
-    def _initScrollAreaBasicAttr(self):
+    def _initAbcObjScrollareaAttr(self):
         pass
     #
-    def _initScrollAreaBasicAction(self):
+    def _initAbcObjScrollareaAction(self):
         pass
     #
     def _updateViewportGeometry(self):
@@ -1339,28 +2218,10 @@ class Abc_QtScrollAreaModel(qtAbstract.QtScrollAreaModelAbs):
         return self._vScrollBar._viewModel.isMinimum()
 
 
-#
-class _QtItemModel(Abc_QtItemModel):
+# Value Enter Label Model
+class _QtValueEnterlabelModel(qtAbstract.QtAbc_ValueEnteritemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
-
-
-#
-class _QtViewModel(Abc_QtViewModel):
-    def __init__(self, widget):
-        self._initViewModelBasic(widget)
-
-
-#
-class QtTreeviewItemModel(Abc_QtItemModel):
-    def __init__(self, widget):
-        self._initItemModelBasic(widget)
-
-
-#
-class QtValueEnterItemModel(qtAbstract.QtValueEnterItemModelAbs):
-    def __init__(self, widget):
-        self._initValueEnterItemModelAbs()
+        self._initAbcValueEnteritemModel()
         self.setWidget(widget)
     #
     def _updateRectGeometry(self):
@@ -1422,10 +2283,10 @@ class QtValueEnterItemModel(qtAbstract.QtValueEnterItemModelAbs):
         self._updateChildrenGeometry()
 
 
-# Filter Item
-class QtFilterEnterItemModel(qtAbstract.QtEnterItemModelAbs):
+# Filter Enter Label Model
+class _QtFilterEnterlabelModel(qtAbstract.QtAbc_EnteritemModel):
     def __init__(self, widget):
-        self._initDatumEnterItemModelAbs()
+        self._initAbcEnteritemModel()
         #
         self.__overrideAttr()
         #
@@ -1528,320 +2389,54 @@ class QtFilterEnterItemModel(qtAbstract.QtEnterItemModelAbs):
         self._enterWidget = self._widget._enterWidget
 
 
-#
-class QtEnterItemModel(Abc_QtItemModel):
+# Choose Tab Item
+class _QtChoosetabModel(qtAbstract.QtAbc_EnteritemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcEnteritemModel()
         #
-        self.__overrideAttr()
-        self.__overrideUi()
-    #
-    def __overrideAttr(self):
-        self._isCheckEnable = False
-        #
-        self._xLeftPos = 0
-    #
-    def __overrideUi(self):
-        self._uiCheckIconKeyword = 'svg_basic@svg#boxUnchecked'
-        self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword)
+        self.setWidget(widget)
     #
     def _updateRectGeometry(self):
         xPos, yPos = 0, 0
-        width, height = self.size()
+        width, height = self.width(), self.height()
         #
-        side = self._uiSide
-        frameWidth, frameHeight = self.frameSize()
+        frameWidth, frameHeight = 20, 20
         #
-        xOffset, yOffset = 0, 0
-        #
-        xPos += side
-        #
-        explainWidth = self._uiNameTextWidth
-        if self.nameText() is not None:
-            self._uiNameTextRect.setRect(
-                xPos, yPos,
-                explainWidth, frameHeight
-            )
-            xPos += explainWidth
-        #
-        self._xLeftPos = xPos
-        self._uiBasicRect.setRect(
+        self.datumRect().setRect(
             xPos, yPos,
-            width - xPos, frameHeight
-        )
-        #
-        if self.isEnterEnable():
-            xPos += frameWidth
-        #
-        if self.isChooseEnable():
-            xPos += frameWidth
-            self.indexTextRect().setRect(
-                side, yPos,
-                explainWidth, frameHeight
-            )
-        #
-        if self.isCheckEnable():
-            self._uiCheckRect.setRect(
-                xPos + (self._uiFrameWidth - self._uiIconWidth) / 2 + xOffset, yPos + (self._uiFrameHeight - self._uiIconHeight) / 2 + yOffset,
-                self._uiIconWidth - xOffset, self._uiIconHeight - yOffset
-            )
-            xPos += frameWidth
-        #
-        textHeight = self._textHeight()
-        #
-        self._uiDatumRect.setRect(
-            xPos + 2, yPos + (frameHeight - textHeight)/2,
-            width - xPos - side, height
+            width - frameWidth, height
         )
     #
     def _updateChildrenGeometry(self):
         xPos, yPos = 0, 0
         width, height = self.width(), self.height()
         #
-        width -= 1
-        height -= 1
+        frameWidth, frameHeight = 20, 20
         #
-        side = self._uiSide
-        #
-        frameWidth, frameHeight = self._uiFrameWidth, self._uiFrameHeight
-        #
-        xPos += side
-        #
-        if self.nameText() is not None:
-            xPos += self._uiNameTextWidth
-        #
-        if self.isChooseEnable():
-            self._chooseButton.setGeometry(
-                xPos, yPos,
-                frameWidth, frameHeight
-            )
-            self._chooseButton.show()
-            xPos += frameWidth
-        else:
-            self._chooseButton.hide()
-        #
-        if self.isEnterEnable():
-            self._entryButton.setGeometry(
-                xPos, yPos,
-                frameWidth, frameHeight
-            )
-            #
-            self._entryButton.show()
-            #
-            if self.isEnterable():
-                self._enterWidget.setGeometry(
-                    xPos + frameWidth, yPos,
-                    width - xPos - side, frameHeight
-                )
-                #
-                self._enterWidget.show()
-            else:
-                self._enterWidget.hide()
-            #
-            xPos += frameWidth
-        else:
-            self._entryButton.hide()
-            self._enterWidget.hide()
-        #
-        if self.isCheckEnable():
-            xPos += frameWidth
-        #
-        self._copyButton.setGeometry(
-            width - frameWidth*2, yPos,
+        self.widget()._chooseButton.setGeometry(
+            width - frameWidth + (height - frameHeight)/2, yPos + (height - frameWidth)/2,
             frameWidth, frameHeight
         )
-        self._clearButton.setGeometry(
-            width - frameWidth, yPos,
-            frameWidth, frameHeight
-        )
-    #
-    def _updateButtonVisible(self):
-        if self.isEnterable():
-            boolean = [False, True][len(self._enterWidget.text()) > 0]
-        else:
-            boolean = False
-        #
-        self._clearButton.setVisible(boolean)
-        self._copyButton.setVisible(boolean)
-    #
-    def _entryableSwitchAction(self):
-        self._isEnterable = not self._isEnterable
-        #
-        self._enterWidget.setEnterable(self._isEnterable)
-        self._updateEnterWidget()
-        #
-        self._updateChildrenGeometry()
-        self._updateButtonVisible()
-        #
-        self._updateWidgetState()
-    #
-    def _updateEnterWidget(self):
-        if self.isEnterable() is True:
-            self._enterWidget.setText(self._uiDatumText)
-    #
-    def _updateUiEnterState(self):
-        self.setEntered(self._enterWidget.hasFocus())
-        #
-        if self.isEnterable():
-            if self.isEntered():
-                self.setUiEnterState(qtCore.EnterState)
-            else:
-                self.setUiEnterState(qtCore.UnenterState)
-        else:
-            self.setUiEnterState(qtCore.NormalState)
-        #
-        self._updateWidgetState()
-    #
-    def _updateWidgetStyle(self):
-        pass
-    #
-    def _entryAction(self):
-        if self.isEnterable() is True:
-            text = unicode(self._enterWidget.text())
-            if not text == self._uiDatumText:
-                self.setDatum(self._covertDatum(text))
-                #
-                self.widget().entryChanged.emit(), self.widget().datumChanged.emit()
-        #
-        self._updateQtPressStatusByDatum()
     #
     def _chooseAction(self):
         index = self._datumLis.index(self._datum)
-        if len(self._datumLis) == 1:
-            self._curDatumIndex = 0
-            self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
-        elif len(self._datumLis) > 1:
-            if not index == self._curDatumIndex:
-                self._curDatumIndex = index
-                #
-                self._updateEnterWidget()
-                #
-                self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
+        if not index == self._curDatumIndex:
+            self._curDatumIndex = index
             #
-            elif self._enterWidget.text() != self._uiDatumText:
-                self._updateEnterWidget()
-        #
-        self._updateQtPressStatusByDatum()
-    # For Override
-    def _checkClickAction(self):
-        if not self._datum == self._isChecked:
-            self.setDatum(self._isChecked)
-            #
-            self.widget().checkChanged.emit(), self.widget().datumChanged.emit()
-        #
-        self._updateQtPressStatusByDatum()
-    #
-    def _updateQtPressStatusByDatum(self):
-        if self._defaultDatum is not None:
-            if self._datum != self._defaultDatum:
-                self._setQtPressStatus(qtCore.WarningStatus)
-                self.setUiEnterStatus(qtCore.WarningStatus)
-            else:
-                self._setQtPressStatus(qtCore.NormalStatus)
-                self.setUiEnterStatus(qtCore.NormalStatus)
-        else:
-            self._setQtPressStatus(qtCore.NormalStatus)
-            self.setUiEnterStatus(qtCore.NormalStatus)
-        #
-        self._updateQtPressStatus()
+            self.widget().chooseChanged.emit()
     #
     def update(self):
         self._updateRectGeometry()
-        #
         self._updateChildrenGeometry()
-        self._updateButtonVisible()
-        #
-        self._updateWidgetState()
-    #
-    def setNameText(self, string):
-        if string is not None:
-            self._uiNameText = unicode(string)
-        #
-        if self.nameText() is not None:
-            self._enterWidget.setPlaceholderText(u'Enter {} ...'.format(self.nameText()))
-    #
-    def setDatum(self, datum):
-        self._datum = datum
-        self._datumType = type(datum)
-        self.setDatumText(datum)
-        #
-        self._updateEnterWidget()
-        self._updateButtonVisible()
-        #
-        self._updateQtPressStatusByDatum()
     #
     def setWidget(self, widget):
         self._widget = widget
-        #
-        self._pressedTimer = QtCore.QTimer(self._widget)
-        self._pressedTimer.timeout.connect(self._pressedAction)
-        #
-        self._entryButton = self._widget._entryButton
-        self._chooseButton = self._widget._chooseButton
-        #
-        self._copyButton = self._widget._copyButton
-        self._clearButton = self.widget()._clearButton
-        #
-        self._enterWidget = self._widget._enterWidget
-    #
-    def setEnterEnable(self, boolean):
-        self._isEnterEnable = boolean
-        #
-        self._datumType = unicode
-    #
-    def isEnterEnable(self):
-        return self._isEnterEnable
-    #
-    def setEnterable(self, boolean):
-        self._isEnterable = boolean
-        self._enterWidget.setReadOnly(not self.isEnterable())
-    #
-    def setCheckEnable(self, boolean):
-        self._isCheckEnable = boolean
-        self.setDatum(self._isChecked)
-    #
-    def setEnterClear(self):
-        self._enterWidget.clear()
-        #
-        self._datum = None
-        self._uiDatumText = None
-        #
-        self.update()
-    #
-    def setChooseClear(self):
-        self.setDatumLis(None)
-        self.widget().chooseChanged.emit(), self.widget().datumChanged.emit()
-        self._updateWidgetState()
-    #
-    def setUiEnterState(self, state):
-        if state is qtCore.NormalState:
-            self.widget()._uiEnterBackgroundRgba = 0, 0, 0, 0
-            self.widget()._uiEnterBorderRgba = 0, 0, 0, 0
-        else:
-            if state is qtCore.EnterState:
-                self.widget()._uiEnterBorderRgba = 63, 127, 255, 255
-            elif state is qtCore.UnenterState:
-                self.widget()._uiEnterBorderRgba = 95, 95, 95, 255
-            #
-            self._updateUiEnterStatus()
-    #
-    def _setQtCheckStyle(self, state):
-        if state is qtCore.UncheckableState:
-            self._uiCheckIconKeyword = ['svg_basic@svg#boxUncheckable', 'svg_basic@svg#radioUncheckable'][self.isAutoExclusive()]
-            self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword)
-        else:
-            if state is qtCore.CheckedState:
-                self._uiCheckIconKeyword = ['svg_basic@svg#boxChecked', 'svg_basic@svg#radioChecked'][self.isAutoExclusive()]
-            elif state is qtCore.UncheckedState:
-                self._uiCheckIconKeyword = ['svg_basic@svg#boxUnchecked', 'svg_basic@svg#radioUnchecked'][self.isAutoExclusive()]
-            #
-            self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword + ['', 'on'][self.isCheckHovered()])
 
 
-# Text Brower
-class QtTextBrowerItemModel(qtAbstract.QtEnterItemModelAbs):
+# Text Brower Model
+class _QtTextbrowerModel(qtAbstract.QtAbc_EnteritemModel):
     def __init__(self, widget):
-        self._initDatumEnterItemModelAbs()
+        self._initAbcEnteritemModel()
         #
         self.__overrideAttr()
         self.__overrideRect()
@@ -1944,7 +2539,7 @@ class QtTextBrowerItemModel(qtAbstract.QtEnterItemModelAbs):
         return self._isCodingEnable
     #
     def setEnterClear(self):
-        self._enterWidget.setPlainText(none)
+        self._enterWidget.setPlainText('')
     #
     def setWidget(self, widget):
         self._widget = widget
@@ -1964,18 +2559,18 @@ class QtTextBrowerItemModel(qtAbstract.QtEnterItemModelAbs):
             self._updateUiEnterStatus()
 
 
-# Scroll Bar
-class QtScrollBarModel(qtAbstract.QtScrollBarModelAbs):
+# Scroll Bar Model
+class _QtScrollbarModel(qtAbstract.QtAbc_ScrollbarModel):
     def __init__(self, widget):
-        self._initScrollBarModelAbs()
+        self._initAbcScrollbarModel()
         #
         self.setWidget(widget)
 
 
-#
-class Abc_QtTabModel(qtAbstract.QtTabItemModelAbs):
+# Tab Model
+class QtAbcObj_TabModel(qtAbstract.QtAbc_TabitemModel):
     def _initTabModelBasic(self, widget):
-        self._initTabItemModelAbs()
+        self._initAbcTabitemModel()
         #
         self.setWidget(widget)
     #
@@ -2106,13 +2701,13 @@ class Abc_QtTabModel(qtAbstract.QtTabItemModelAbs):
 
 
 #
-class QtTabModel(Abc_QtTabModel):
+class _QtTabModel(QtAbcObj_TabModel):
     def __init__(self, widget):
         self._initTabModelBasic(widget)
 
 
 #
-class QtButtonTabModel(Abc_QtTabModel):
+class _QtButtontabModel(QtAbcObj_TabModel):
     def __init__(self, widget):
         self._initTabModelBasic(widget)
     #
@@ -2153,8 +2748,8 @@ class QtButtonTabModel(Abc_QtTabModel):
             self.widget()._uiFontItalic = False
 
 
-# Tab Item
-class QtShelfTabModel(Abc_QtTabModel):
+#
+class _QtShelftabModel(QtAbcObj_TabModel):
     def __init__(self, widget):
         self._initTabModelBasic(widget)
     #
@@ -2271,54 +2866,10 @@ class QtShelfTabModel(Abc_QtTabModel):
             self.widget()._uiFontItalic = False
 
 
-# Choose Tab Item
-class QtChooseTabModel(qtAbstract.QtEnterItemModelAbs):
-    def __init__(self, widget):
-        self._initDatumEnterItemModelAbs()
-        #
-        self.setWidget(widget)
-    #
-    def _updateRectGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        #
-        frameWidth, frameHeight = 20, 20
-        #
-        self.datumRect().setRect(
-            xPos, yPos,
-            width - frameWidth, height
-        )
-    #
-    def _updateChildrenGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        #
-        frameWidth, frameHeight = 20, 20
-        #
-        self.widget()._chooseButton.setGeometry(
-            width - frameWidth + (height - frameHeight)/2, yPos + (height - frameWidth)/2,
-            frameWidth, frameHeight
-        )
-    #
-    def _chooseAction(self):
-        index = self._datumLis.index(self._datum)
-        if not index == self._curDatumIndex:
-            self._curDatumIndex = index
-            #
-            self.widget().chooseChanged.emit()
-    #
-    def update(self):
-        self._updateRectGeometry()
-        self._updateChildrenGeometry()
-    #
-    def setWidget(self, widget):
-        self._widget = widget
-
-
-#
-class Abc_QtTabBarModel(qtAbstract.QtTabBarModelAbs):
+# Tab Bar Model
+class QtAbcObj_TabbarModel(qtAbstract.QtAbc_TabbarModel):
     def _initTabBarModelBasic(self, widget):
-        self._initTabBarModelAbs()
+        self._initAbcTabbarModel()
         #
         self.setWidget(widget)
         self.setViewport(widget)
@@ -2416,16 +2967,16 @@ class Abc_QtTabBarModel(qtAbstract.QtTabBarModelAbs):
         return self.isHMinimum(), self.isVMinimum()
 
 
-# Tab Bar
-class QtTabBarModel(Abc_QtTabBarModel):
+#
+class QtTabBarModel(QtAbcObj_TabbarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
 
 
-#
-class Abc_QtTabGroupModel(qtAbstract.QtTabViewModelAbs):
-    def _initTabViewModelBasic(self, widget):
-        self._initTabViewModelAbs()
+# Tab Group Model
+class QtAbcObj_TabgroupModel(qtAbstract.QtAbc_TabviewModel):
+    def _initAbcObjTabgroupModel(self, widget):
+        self._initAbcTabviewModel()
         #
         self.setWidget(widget)
         self.setViewport(widget)
@@ -2549,18 +3100,18 @@ class Abc_QtTabGroupModel(qtAbstract.QtTabViewModelAbs):
         self._tabBar = self.widget()._tabBar
 
 
-# Tab View
-class QtTabGroupModel(Abc_QtTabGroupModel):
+#
+class _TabgroupModel(QtAbcObj_TabgroupModel):
     def __init__(self, widget):
-        self._initTabViewModelBasic(widget)
+        self._initAbcObjTabgroupModel(widget)
 
 
-# Window
-class QtWindowModel(qtAbstract.QtWindowModelAbs):
+# Window Model
+class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
     def __init__(self, widget):
-        self._initWindowModelAbs()
+        self._initAbcWindowModel()
         #
-        self._initAbcQtWindow()
+        self._initAbcObjWindowModel()
         #
         self._overrideAttr()
         #
@@ -2573,27 +3124,27 @@ class QtWindowModel(qtAbstract.QtWindowModelAbs):
         self._isExpandable = True
         self._isExpanded = True
     #
-    def _initAbcQtWindow(self):
-        self._initAbcQtWindowAttr()
-        self._initAbcQtWindowUi()
-        self._initAbcQtWindowRect()
-        self._initAbcQtWindowAction()
-        self._initAbcQtWindowVar()
+    def _initAbcObjWindowModel(self):
+        self._initAbcObjWindowModelAttr()
+        self._initAbcObjWindowModelUi()
+        self._initAbcObjWindowModelRect()
+        self._initAbcObjWindowModelAction()
+        self._initAbcObjWindowModelVar()
     #
-    def _initAbcQtWindowAttr(self):
+    def _initAbcObjWindowModelAttr(self):
         self._xMenuPos, self._yMenuPos = 0, 0
         self._xTranslate, self._yTranslate = 0, 0
     #
-    def _initAbcQtWindowUi(self):
+    def _initAbcObjWindowModelUi(self):
         pass
     #
-    def _initAbcQtWindowRect(self):
+    def _initAbcObjWindowModelRect(self):
         pass
     #
-    def _initAbcQtWindowAction(self):
+    def _initAbcObjWindowModelAction(self):
         self._progressTimer.timeout.connect(self.setProgressZero)
     #
-    def _initAbcQtWindowVar(self):
+    def _initAbcObjWindowModelVar(self):
         pass
     #
     def _updateWidgetSize(self):
@@ -2694,7 +3245,7 @@ class QtWindowModel(qtAbstract.QtWindowModelAbs):
             )
         # Placeholder
         if self.isPlaceholderEnable():
-            x, y, w, h = self._uiMethod._toGeometryRemap(self.placeholderSize(), self.size())
+            x, y, w, h = self.ui_method._toGeometryRemap(self.placeholderSize(), self.size())
             self.placeholderRect().setRect(
                 x, y, w, h
             )
@@ -2924,8 +3475,12 @@ class QtWindowModel(qtAbstract.QtWindowModelAbs):
             )
             #
             if self.isDialogEnable():
+                statusWidth, statusHeight = width - shadowRadius, self._uiStatusHeight
+                if self._direction == qtCore.Vertical:
+                    statusWidth -= self._uiMenuHeight
+
                 dialogButtonWidth = 96
-                xPos = width - dialogButtonWidth - self._uiSide - shadowRadius
+                xPos = statusWidth - dialogButtonWidth - self._uiSide
                 #
                 self._cancelButton.show()
                 self._cancelButton.setGeometry(
@@ -2963,6 +3518,8 @@ class QtWindowModel(qtAbstract.QtWindowModelAbs):
             buttonWidth, buttonHeight = buttonWidth, buttonHeight
             #
             statusWidth, statusHeight = width - shadowRadius, self._uiStatusHeight
+            if self._direction == qtCore.Vertical:
+                statusWidth -= self._uiMenuHeight
             #
             self.statusRect().setRect(
                 xPos, yPos,
@@ -3191,322 +3748,10 @@ class QtWindowModel(qtAbstract.QtWindowModelAbs):
         return self._uiSpacing
 
 
-# Action Item
-class QtActionItemModel(Abc_QtItemModel):
-    def __init__(self, widget):
-        self._initItemModelBasic(widget)
-        #
-        self.__overrideAttr()
-        self.__overrideUi()
-        self.__connectUi(widget)
-    #
-    def __overrideAttr(self):
-        self._isSeparator = False
-        self._isExtendEnable = False
-        #
-        self._checkFn = None
-        #
-        self._uiExtendIconKeyword = None
-        self._uiExtendIcon = None
-        #
-        self._uiFrameWidth, self._uiFrameHeight = 20, 20
-        self._uiIconWidth, self._uiIconHeight = 16, 16
-        #
-        self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0, 2, 2, 4
-        #
-        self._uiItemWidth, self._uiItemHeight = 200, 20
-        self._uiItemSize = 200, 20
-        #
-        self._pressAction = None
-        self._itemActionData = []
-    #
-    def __overrideUi(self):
-        self._uiBasicRect = QtCore.QRect()
-        self._basicLine = QtCore.QLine()
-        self._uiIconRect, self._uiNameTextRect, self._uiSubNameRect, self._uiExtendRect = QtCore.QRect(), QtCore.QRect(), QtCore.QRect(), QtCore.QRect()
-        self._uiSubIconRect = QtCore.QRect()
-    #
-    def __connectUi(self, widget):
-        self._widget = widget
-        self._extendButton = widget._extendButton
-    #
-    def setViewModel(self, model):
-        self._viewModel = model
-        self.widget().setParent(model._widget)
-        #
-        self._graphModelWidget = self._viewModel._widget
-    #
-    def _updateRectGeometry(self):
-        self._updateUiStyle()
-        #
-        xPos, yPos = 0, 0
-        #
-        side, spacing, shadowRadius = self._uiSide, self._uiSpacing, self._uiShadowRadius
-        #
-        width, height = self._uiItemWidth, self._uiItemHeight
-        #
-        frameWidth, frameHeight = self.frameSize()
-        iconWidth, iconHeight = self.iconSize()
-        #
-        if self._isSeparator is True:
-            xP1, yP1 = xPos, yPos + self._uiItemHeight/2
-            xP2, yP2 = width - 1, yPos + self._uiItemHeight/2
-            if self._uiNameText is not None:
-                textWidth = self.widget().fontMetrics().width(self._uiNameText)
-                #
-                self._uiNameTextRect.setRect(
-                    xPos + self._uiSide, yPos,
-                    width, self._uiItemHeight
-                )
-                xP1 += side + textWidth + spacing
-            #
-            self._basicLine.setLine(
-                xP1, yP1,
-                xP2, yP2
-             )
-        else:
-            self._uiBasicRect.setRect(
-                xPos, yPos,
-                width - 1, height - 1
-            )
-            xPos += side
-            #
-            _w, _h = (frameWidth - iconWidth)/2, (frameHeight - iconHeight)/2
-            if self._uiIcon is not None or self._uiCheckIcon is not None:
-                if self._uiSubIcon is not None:
-                    self._uiIconRect.setRect(
-                        xPos, yPos,
-                        iconWidth, iconHeight
-                    )
-                    self._uiSubIconRect.setRect(
-                        xPos + (frameWidth - iconWidth*.75), yPos + (frameHeight - iconHeight*.75),
-                        iconWidth*.75, iconHeight*.75
-                    )
-                else:
-                    self._uiIconRect.setRect(
-                        xPos + _w, yPos + _h,
-                        iconWidth, iconHeight
-                    )
-                xPos += self._uiFrameWidth + self._uiSpacing
-            if self._uiNameText is not None:
-                self._uiNameTextRect.setRect(
-                    xPos, yPos,
-                    width, self._uiItemHeight
-                )
-            if self._uiSubNameText is not None:
-                self._uiSubNameRect.setRect(
-                    0, yPos,
-                    width - [0, self._uiFrameWidth][self._isExtendEnable] - side - shadowRadius, self._uiItemHeight
-                )
-            if self._uiExtendIcon is not None:
-                self._uiExtendRect.setRect(
-                    width - self._uiFrameWidth + (self._uiFrameWidth - self._uiIconWidth)/2 - side, yPos + (self._uiFrameWidth - self._uiIconHeight)/2,
-                    self._uiIconWidth, self._uiIconHeight
-                )
-    #
-    def _updateChildrenGeometry(self):
-        xPos, yPos = self._uiItemWidth - self._uiFrameWidth, 0
-        self._extendButton.setGeometry(
-            xPos, yPos,
-            self._uiFrameWidth, self._uiFrameHeight
-        )
-    #
-    def _updateGeometry(self):
-        self._updateRectGeometry()
-        self._updateChildrenGeometry()
-    #
-    def _clickAction(self, event):
-        if self.isPressable() or self.isExtendEnable():
-            self.widget().clicked.emit()
-        #
-        event.ignore()
-    #
-    def _updateUiStyle(self):
-        if (self.isPressable() or self.isExtendEnable()) and not self.isSeparator():
-            self._setQtPressStyle([qtCore.UnpressedState, qtCore.PressedState][self.isPressCurrent()])
-        else:
-            self._setQtPressStyle(qtCore.UnpressableState)
-        #
-        if self._isCheckEnable is True:
-            if self._isCheckable is True:
-                self._setQtCheckStyle([qtCore.UncheckedState, qtCore.CheckedState][self.isChecked()])
-            else:
-                self._setQtCheckStyle(qtCore.UncheckableState)
-    #
-    def _setQtPressStyle(self, state):
-        if state is qtCore.UnpressableState:
-            if self._uiIconKeyword is not None:
-                self._uiIcon = qtCore._toLxOsIconFile('svg_basic@svg#unused')
-            if self._uiSubIconKeyword is not None:
-                self._uiSubIcon = None
-            if self._uiExtendIconKeyword is not None:
-                self._uiExtendIcon = None
-            #
-            self.widget()._uiBackgroundRgba = 0, 0, 0, 0
-            self.widget()._uiBorderRgba = 0, 0, 0, 0
-            #
-            self.widget()._uiNameRgba = 95, 95, 95, 255
-            #
-            self.widget()._uiFontItalic = True
-        else:
-            if state is qtCore.UnpressedState:
-                if self._uiIconKeyword is not None:
-                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword)
-                if self._uiExtendIconKeyword is not None:
-                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword)
-                #
-                self.widget()._uiBackgroundRgba = 0, 0, 0, 0
-                self.widget()._uiBorderRgba = 0, 0, 0, 0
-                #
-                self.widget()._uiNameRgba = 191, 191, 191, 255
-                #
-                self.widget()._uiFontItalic = False
-            elif state is qtCore.PressedState:
-                if self._uiIconKeyword is not None:
-                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + 'on')
-                if self._uiExtendIconKeyword is not None:
-                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword + 'on')
-                #
-                self.widget()._uiBackgroundRgba = 71, 71, 71, 255
-                self.widget()._uiBorderRgba = 71, 71, 71, 255
-                #
-                self.widget()._uiNameRgba = 63, 255, 255, 255
-                #
-                self.widget()._uiFontItalic = False
-            #
-            if self._uiSubIconKeyword is not None:
-                self._uiSubIcon = qtCore._toLxOsIconFile(self._uiSubIconKeyword)
-        #
-        self._updateWidgetState()
-    #
-    def update(self):
-        self._updateGeometry()
-        #
-        self._updateWidgetState()
-    #
-    def setSeparators(self, boolean=True):
-        self._isSeparator = boolean
-    #
-    def isSeparator(self):
-        return self._isSeparator
-    #
-    def setExtendEnable(self, boolean):
-        self._isExtendEnable = boolean
-    #
-    def isExtendEnable(self):
-        return self._isExtendEnable
-    #
-    def setActionData(self, data):
-        if len(data) >= 3:
-            self.setPressable(True)
-            #
-            name, iconKeyword, enable = data[:3]
-            #
-            if isinstance(name, str) or isinstance(name, unicode):
-                pass
-            elif isinstance(name, tuple) or isinstance(name, list):
-                pass
-            if '#' in name:
-                name, subName = name.split('#')
-                self._uiSubNameText = subName
-            #
-            self._uiNameText = name
-            self._isCheckEnable = iconKeyword == 'checkBox'
-            #
-            if self.isCheckEnable():
-                if isinstance(enable, types.FunctionType) or isinstance(enable, types.MethodType):
-                    self._checkFn = enable
-                    self._isChecked = enable()
-                elif isinstance(enable, bool):
-                    self._isChecked = enable
-                #
-                if self._isChecked is None:
-                    self.setPressable(False)
-                    self.setCheckable(False)
-                else:
-                    self.setPressable(True)
-                    self.setCheckable(True)
-            else:
-                if isinstance(iconKeyword, tuple) or isinstance(iconKeyword, list):
-                    iconKeyword, subIconKeyword = iconKeyword
-                else:
-                    subIconKeyword = None
-                #
-                if iconKeyword:
-                    self._uiIconKeyword = iconKeyword
-                #
-                if subIconKeyword:
-                    self._uiSubIconKeyword = subIconKeyword
-                #
-                if isinstance(enable, types.FunctionType) or isinstance(enable, types.MethodType):
-                    self._isPressable = enable()
-                elif isinstance(enable, bool):
-                    self._isPressable = enable
-                elif isinstance(enable, tuple) or isinstance(enable, list):
-                    self._isExtendEnable = True
-                    self._uiExtendIconKeyword = 'svg_basic@svg#tabMenu_h'
-                    self._itemActionData = enable
-            #
-            if len(data) >= 4:
-                action = data[3]
-                if isinstance(action, types.FunctionType) or isinstance(action, types.MethodType):
-                    self.setPressAction(action)
-                elif isinstance(action, str) or isinstance(action, unicode):
-                    self.setPressCommand(action)
-            if len(data) >= 5:
-                subAction = data[4]
-                if subAction:
-                    if isinstance(subAction, types.FunctionType) or isinstance(subAction, types.MethodType):
-                        self._extendButton.show()
-                        self._extendButton.clicked.connect(subAction)
-        #
-        else:
-            self.setPressable(False)
-            self.setSeparators()
-            #
-            if len(data) >= 1:
-                self._uiNameText = data[0]
-        #
-        self._updateUiStyle()
-    #
-    def setItemSize(self, width, height):
-        self._uiItemWidth, self._uiItemHeight = width, height
-        #
-        self.update()
-    #
-    def itemActionData(self):
-        return self._itemActionData
-    #
-    def setChecked(self, boolean, ignoreAction=False):
-        if not boolean == self._isChecked:
-            if self._checkFn is not None:
-                isChecked = self._checkFn()
-                if isChecked is not None:
-                    if isChecked != boolean:
-                        self.acceptPressAction()
-            #
-            self._isChecked = boolean
-            #
-            self._updateQtCheckStyle()
-    #
-    def isChecked(self):
-        if self._checkFn is not None:
-            isChecked = self._checkFn()
-            self._isChecked = isChecked
-        #
-        return self._isChecked
-    #
-    def setPressCurrent(self, boolean, ignoreAction=False):
-        if not boolean == self._isPressCurrent:
-            self._isPressCurrent = boolean
-            #
-            self._updateUiStyle()
-
-
 # Action Drop View
-class QtActionDropViewModel(qtAbstract.QtActionDropViewModelAbs):
+class _QtActionDropviewModel(qtAbstract.QtAbc_ActionDropviewModel):
     def __init__(self, widget, itemClass):
-        self._initActionDropViewModelAbs()
+        self._initAbcActionDropAbcViewModel()
         #
         self.setWidget(widget)
         self.setScrollBar(widget)
@@ -3516,9 +3761,9 @@ class QtActionDropViewModel(qtAbstract.QtActionDropViewModelAbs):
 
 
 # Choose View
-class QtChooseViewModel(Abc_QtViewModel):
+class _QtChooseviewModel(QtAbcObj_ViewModel):
     def __init__(self, widget):
-        self._initViewModelBasic(widget)
+        self._initAbcObjViewModel(widget)
         #
         self.__overrideViewAttr()
     #
@@ -3526,10 +3771,10 @@ class QtChooseViewModel(Abc_QtViewModel):
         self._isHScrollEnable, self._isVScrollEnable = False, True
 
 
-# Choose Drop View
-class QtChooseDropViewModel(qtAbstract.QtChooseDropViewModelAbs):
+# Choose Drop View Model
+class _QtChooseDropviewModel(qtAbstract.QtAbc_ChooseDropviewModel):
     def __init__(self, widget, itemClass):
-        self._initChooseDropViewModelAbs()
+        self._initAbcChooseDropviewModel()
         #
         self.setWidget(widget)
         self.setViewport(widget)
@@ -3537,271 +3782,26 @@ class QtChooseDropViewModel(qtAbstract.QtChooseDropViewModelAbs):
         self._itemClass = itemClass
 
 
-# Icon Button
-class QtIconbuttonModel(Abc_QtItemModel):
-    def __init__(self, widget):
-        self._initItemModelBasic(widget)
-        #
-        self.__overrideAttr()
+# Chart Model
+class QtAbcObj_ChartModel(qtAbstract.QtAbc_ChartModel):
+    fnc_angle = math.radians
+    fnc_sin = math.sin
+    fnc_cos = math.cos
+    fnc_tan = math.tan
     #
-    def __overrideAttr(self):
-        pass
-    #
-    def _updateRectGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        width -= 1
-        height -= 1
-        #
-        self._uiBasicRect.setRect(
-            xPos, yPos,
-            width, height
-        )
-        # Icon
-        if self.icon() is not None:
-            self.iconRect().setRect(
-                xPos + (self._uiFrameWidth - self._uiIconWidth)/2 + [0, 1][self._pressFlag], yPos + (self._uiFrameHeight - self._uiIconHeight)/2 + [0, 1][self._pressFlag],
-                self._uiIconWidth, self._uiIconHeight
-            )
-            if self.extendIcon() is not None:
-                self.extendIconRect().setRect(
-                    xPos + (self._uiExtendFrameWidth - self._uiExtendIconWidth)/2, yPos + (self._uiExtendFrameHeight - self._uiExtendIconHeight)/2,
-                    self._uiExtendIconWidth, self._uiExtendIconHeight
-                )
-            xPos += self._uiFrameWidth + self._uiSpacing
-        # Name
-        if self.nameText() is not None:
-            self._uiNameTextRect.setRect(
-                xPos, yPos,
-                width - xPos, self._uiFrameHeight
-            )
-    #
-    def _updateQtPressStyle(self):
-        if self.isPressEnable():
-            if self.isPressable():
-                self._setQtPressStyle(qtCore.NormalState)
-                #
-                self._updateQtPressStatus()
-            else:
-                self._setQtPressStyle(qtCore.UnpressableState)
-        #
-        self._updateWidgetState()
-    #
-    def _setQtPressStyle(self, state):
-        if state is qtCore.UnpressableState:
-            if self._uiIconKeyword is not None:
-                self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + 'off')
-            #
-            self.widget().update()
-            #
-            self.widget()._uiNameRgba = 95, 95, 95, 255
-            #
-            self.widget()._uiFontItalic = True
-        else:
-            if state is qtCore.NormalState:
-                if self._uiIconKeyword is not None:
-                    self._uiIcon = qtCore._toLxOsIconFile(self._uiIconKeyword + ['', 'on'][self.isPressHovered()])
-                #
-                if self._uiExtendIconKeyword is not None:
-                    self._uiExtendIcon = qtCore._toLxOsIconFile(self._uiExtendIconKeyword + ['', 'on'][self.isExtendPressHovered()])
-                #
-                self.widget()._uiFontItalic = False
-
-
-# Press Button
-class QtPressbuttonModel(Abc_QtItemModel):
-    def __init__(self, widget):
-        self._initItemModelBasic(widget)
-        #
-        self.__overrideAttr()
-    #
-    def __overrideAttr(self):
-        self._uiSide = 4
-        self._uiFrameWidth, self._uiFrameHeight = 24, 24
-    #
-    def _updateRectGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        #
-        side = self._uiSide
-        #
-        frameWidth, frameHeight = self.frameSize()
-        iconWidth, iconHeight = self.iconSize()
-        #
-        xOffset, yOffset = [0, 1][self._pressFlag], [0, 1][self._pressFlag]
-        #
-        self.basicRect().setRect(
-            xPos + xOffset, yPos + yOffset,
-            width - xOffset, height - yOffset
-        )
-        #
-        if self.isPercentEnable():
-            self.percentFrameRect().setRect(
-                xPos + 1 + xOffset, yPos + 1 + yOffset,
-                width - 2 - xOffset, height - 2 - yOffset
-            )
-            #
-            if self._valueMaximum > 0:
-                rectWidth = max(int(width*self._valuePercent), 10)
-            else:
-                rectWidth = width
-            #
-            self._uiPercentValueRect.setRect(
-                xPos + (width - rectWidth) + 3 + xOffset, yPos + 3 + yOffset,
-                rectWidth - 6 - xOffset, height - 6 - yOffset
-            )
-        # Icon
-        if self.icon() is not None:
-            self.iconRect().setRect(
-                xPos + (frameWidth - iconWidth)/2 + xOffset, yPos + (frameHeight - iconHeight)/2 + yOffset,
-                iconWidth, iconHeight
-            )
-            if self.extendIcon() is not None:
-                self.extendIconRect().setRect(
-                    xPos + (self._uiExtendFrameWidth - self._uiExtendIconWidth)/2, yPos + (self._uiExtendFrameHeight - self._uiExtendIconHeight)/2,
-                    self._uiExtendIconWidth, self._uiExtendIconHeight
-                )
-            xPos += frameWidth + self._uiSpacing
-        else:
-            xPos += side
-        # Name
-        if self.nameText() is not None:
-            if self.isPercentEnable():
-                percentTextWidth = self._textWidth(self.percentText())
-                self.percentTextRect().setRect(
-                    width - percentTextWidth - side - 3 + xOffset, yPos + yOffset,
-                    percentTextWidth, height
-                )
-            else:
-                percentTextWidth = 0
-            #
-            self.nameTextRect().setRect(
-                xPos + xOffset, yPos + yOffset,
-                width - xPos - percentTextWidth - side, height
-            )
-    #
-    def _updateQtPressStatus(self):
-        if self.isPercentEnable():
-            self._setUiPercentStatus(self._valuePercent)
-        else:
-            status = self._uiPressStatus
-            #
-            if status is qtCore.OffStatus:
-                self.widget()._uiBackgroundRgba = 55, 55, 55, 255
-            else:
-                if status is qtCore.NormalStatus:
-                    self.widget()._uiBackgroundRgba = [(79, 79, 79, 255), (119, 119, 119, 255)][self.isPressHovered()]
-                else:
-                    if status is qtCore.ErrorStatus:
-                        r, g, b = 255, 0, 64
-                    elif status is qtCore.WarningStatus:
-                        r, g, b = 255, 255, 64
-                    elif status is qtCore.OnStatus:
-                        r, g, b = 64, 255, 127
-                    else:
-                        r, g, b = 159, 159, 159
-                    #
-                    self.widget()._uiBackgroundRgba = [(r*.5, g*.5, b*.5, 255), (r*.75, g*.75, b*.75, 255)][self.isPressHovered()]
-    #
-    def _setUiPercentStatus(self, percent):
-        if self.isPercentable():
-            if self._valueMaximum > 0:
-                if percent == 1:
-                    r, g, b = 64, 255, 127
-                else:
-                    r, g, b = self.hsvToRgb(45 * percent, 1, 1)
-                #
-                self.widget()._uiPercentValueRgba = [(r * .5, g * .5, b * .5, 255), (r * .75, g * .75, b * .75, 255)][self.isPressHovered()]
-        else:
-            self.widget()._uiPercentValueRgba = 79, 79, 79, 255
-    #
-    def _updateQtPressStyle(self):
-        if self.isPressEnable():
-            if self.isPressable():
-                if self._pressFlag is True:
-                    self._setQtPressStyle(qtCore.PressedState)
-                else:
-                    self._setQtPressStyle(qtCore.NormalState)
-                    self._updateQtPressStatus()
-            else:
-                self._setQtPressStyle(qtCore.UnpressableState)
-        #
-        self._updateWidgetState()
-    #
-    def _updateWidgetStyle(self):
-        pass
-    #
-    def _setQtPressStyle(self, state):
-        if state is qtCore.UnpressableState:
-            self.widget()._uiBackgroundRgba = 55, 55, 55, 255
-            self.widget()._uiBorderRgba = 63, 63, 63, 255
-            #
-            self.widget()._uiNameRgba = 95, 95, 95, 255
-            #
-            self.widget()._uiBorderStyle = 'inset'
-            #
-            self.widget()._uiFontItalic = True
-        else:
-            if state is qtCore.NormalState:
-                self.widget()._uiBackgroundRgba = [(79, 79, 79, 255), (119, 119, 119, 255)][self.isPressHovered()]
-                self.widget()._uiBorderRgba = [(127, 127, 127, 255), (159, 159, 159, 255)][self.isPressHovered()]
-                self.widget()._uiNameRgba = [(191, 191, 191, 255), (255, 255, 255, 255)][self.isPressHovered()]
-                #
-                self.widget()._uiBorderStyle = 'outset'
-            elif state is qtCore.PressedState:
-                self.widget()._uiBackgroundRgba = 47, 47, 47, 255
-                #
-                self.widget()._uiBorderRgba = 63, 127, 255, 255
-                self.widget()._uiNameRgba = 255, 255, 255, 255
-                #
-                self.widget()._uiBorderStyle = 'inset'
-            #
-            self.widget()._uiFontItalic = False
-    # noinspection PyUnresolvedReferences
-    def acceptPressCommand(self):
-        if self._pressCommand is not None:
-            if lxBasic.isMayaApp():
-                import maya.mel as mel
-                mel.eval(self._pressCommand)
-            else:
-                exec eval(self._pressCommand)
-        #
-        self.setPressHovered(False)
-
-
-# Attribute Item
-class QtAttributeItemModel(Abc_QtItemModel):
-    def __init__(self, widget):
-        self._initItemModelBasic(widget)
-        #
-        self.__overrideAttr()
-    #
-    def __overrideAttr(self):
-        self._isPressEnable = False
-        self._isExpandEnable = True
-        self._isColorEnable = True
-
-
-#
-class Abc_QtChartModel(qtAbstract.QtChartModelAbs):
-    _angle = math.radians
-    _sin = math.sin
-    _cos = math.cos
-    _tan = math.tan
-    #
-    _pen = QtGui.QPen
-    _color = QtGui.QColor
-    _brush = QtGui.QBrush
-    _point = QtCore.QPoint
-    _pointF = QtCore.QPointF
-    _line = QtCore.QLine
-    _rect = QtCore.QRect
-    _rectF = QtCore.QRectF
-    _polygon = QtGui.QPolygon
-    _polygonF = QtGui.QPolygonF
-    _path = QtGui.QPainterPath
-    def _initChartBasic(self):
-        self._initChartModelAbs()
+    cls_pen = QtGui.QPen
+    cls_color = QtGui.QColor
+    cls_brush = QtGui.QBrush
+    cls_point = QtCore.QPoint
+    cls_pointF = QtCore.QPointF
+    cls_line = QtCore.QLine
+    cls_rect = QtCore.QRect
+    cls_rectF = QtCore.QRectF
+    cls_polygon = QtGui.QPolygon
+    cls_polygonF = QtGui.QPolygonF
+    cls_painter_path = QtGui.QPainterPath
+    def _initAbcObjChart(self):
+        self._initAbcChartModel()
     #
     def _updateRectGeometry(self):
         xPos, yPos = 0, 0
@@ -3832,10 +3832,10 @@ class Abc_QtChartModel(qtAbstract.QtChartModelAbs):
         self._updateDrawDatum()
 
 
-#
-class Abc_QtGroupModel(qtAbstract.QtGroupModelAbs):
+# Group Model
+class QtAbcObj_GroupModel(qtAbstract.QtAbc_GroupModel):
     def _initGroupModelBasic(self, widget):
-        self._initGroupModelAbs()
+        self._initAbcGroupModel()
         #
         self.setWidget(widget)
         self.setViewport(widget)
@@ -4059,8 +4059,7 @@ class Abc_QtGroupModel(qtAbstract.QtGroupModelAbs):
         self._updateQtPressStyle()
 
 
-#
-class QtGroupModel(Abc_QtGroupModel):
+class _QtGroupModel(QtAbcObj_GroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
 

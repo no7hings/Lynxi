@@ -1,8 +1,12 @@
 # coding:utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscMethods
+
+from LxScheme import shmConfigure
+
+from LxCore import lxBasic
 
 
-class Abc_Object(lxCore_.Basic):
+class Abc_Object(shmConfigure.Basic):
     def _initAbcObject(self, category, name):
         self._category = category
         self._name = name
@@ -33,7 +37,7 @@ class Abc_Object(lxCore_.Basic):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abc_Path(lxCore_.Basic):
+class Abc_Path(shmConfigure.Basic):
     def _initAbcPath(self):
         pass
 
@@ -186,7 +190,7 @@ class Abc_PthDirectory(Abc_Path):
         return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict())
 
 
-class Abc_File(lxCore_.Basic):
+class Abc_File(shmConfigure.Basic):
     DIRECTORY_CLS = None
     METHOD_CLS = None
 
@@ -362,7 +366,7 @@ class Abc_System(Abc_Object):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abc_Raw(lxCore_.Basic):
+class Abc_Raw(shmConfigure.Basic):
     def _initAbcRaw(self, raw, defRaw):
         if raw is not None:
             self._raw = raw
@@ -431,7 +435,7 @@ class Abc_Resource(Abc_Object):
             self.environ.create(serverRaw[self.Key_Environ])
             self.dependent.create(serverRaw[self.Key_Dependent])
 
-        self._raw = self._configObj.raw()
+        self._raw = self._rawObj.raw()
 
     def _initAbcResource(self, *args):
         """
@@ -449,7 +453,7 @@ class Abc_Resource(Abc_Object):
 
         self._enable = True
         # Config
-        self._configObj = self.RAW_CLS(
+        self._rawObj = self.RAW_CLS(
             True, self.object_category, resourceName,
             self._systemObj
         )
@@ -459,9 +463,9 @@ class Abc_Resource(Abc_Object):
         fileArgs = [i for i in args_ if not i == self.Keyword_Share]
         self._fileObj = self.FILE_CLS(*fileArgs)
         # Raw
-        self._version = self._configObj.version
-        self._environ = self._configObj.environ
-        self._dependent = self._configObj.dependent
+        self._version = self._rawObj.version
+        self._environ = self._rawObj.environ
+        self._dependent = self._rawObj.dependent
         # init
         self._loadCache()
 
@@ -506,7 +510,7 @@ class Abc_Resource(Abc_Object):
 
     @property
     def config(self):
-        return self._configObj
+        return self._rawObj
 
     @version.setter
     def version(self, version):
@@ -529,7 +533,7 @@ class Abc_Resource(Abc_Object):
         self._dependent = dependent
 
     def raw(self):
-        return self._configObj
+        return self._rawObj
 
     def operateAt(self, version):
         if version in self.version.record:
@@ -558,7 +562,50 @@ class Abc_Resource(Abc_Object):
         return self._toJsonStringMethod(self.config.raw())
 
 
-class Abc_Operate(lxCore_.Basic):
+class Abc_Preset(shmConfigure.Basic):
+    SYSTEM_CLS = None
+    FILE_CLS = None
+    RAW_CLS = None
+    OPERATE_CLS = None
+
+    object_category = None
+
+    def _initAbcPreset(self, *args):
+        """
+        :param args:
+        :return:
+        """
+        # Object
+        presetName = args[0]
+        # Bin
+        self._argument = args[1:]
+
+        self._enable = True
+        # Raw
+        self._rawObj = self.RAW_CLS(
+            True, self.object_category, presetName,
+        )
+        # File
+        self._fileObj = self.FILE_CLS(presetName)
+        # init
+        self._loadCache()
+
+    @property
+    def file(self):
+        return self._fileObj
+
+    @property
+    def raw(self):
+        return self._rawObj
+
+    def _loadCache(self):
+        pass
+
+    def __str__(self):
+        return self._toJsonStringMethod(self.raw.raw())
+
+
+class Abc_Operate(shmConfigure.Basic):
     def _initOperate(self):
         self._cls_dic = {}
         self._argument_dic = {}
@@ -737,12 +784,13 @@ class Abc_Operate(lxCore_.Basic):
                 traceMessage = u'Localization Resource "{}" : "{}" > "{}"'.format(
                     self.name, sourceFile, targetFile
                 )
-                lxCore_.Message().traceResult(traceMessage)
+                bscMethods.PythonMessage()
+                bscMethods.PythonMessage().traceResult(traceMessage)
 
                 lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
         else:
             traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self.name)
-            lxCore_.Message().traceResult(traceMessage)
+            bscMethods.PythonMessage().traceResult(traceMessage)
 
     def environCommands(self):
         lis = []

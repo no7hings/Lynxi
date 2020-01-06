@@ -53,7 +53,7 @@ def sendProductMessageByDingTalk(
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    viewTimeMethod = lxBasic.translateRecordViewTime(timeTag, useMode=1)
+    catchCostTime = lxBasic.translateRecordViewTime(timeTag, useMode=1)
     #
     viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
     #
@@ -68,7 +68,7 @@ def sendProductMessageByDingTalk(
         viewLink,
         viewUnit, moduleName,
         userCnName, userName,
-        viewTimeMethod,
+        catchCostTime,
         description,
         note
     )

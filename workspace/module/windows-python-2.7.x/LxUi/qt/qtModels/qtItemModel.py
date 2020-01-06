@@ -1,21 +1,21 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract
+from LxUi.qt.qtObjects import qtAbcModel
 
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_line = QtCore.QLine
-_rect = QtCore.QRect
+cls_point = QtCore.QPoint
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
 
 
 #
-class QtFilterCheckviewItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtFilterCheckviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__overrideItemUi()
@@ -166,9 +166,9 @@ class QtFilterCheckviewItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtCheckbuttonItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtCheckbuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -267,9 +267,9 @@ class QtCheckbuttonItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtEnablebuttonItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtEnablebuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -327,9 +327,9 @@ class QtEnablebuttonItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtTreeviewItemModel(qtModelAbstract.Abc_QtItemModel):
+class _QtTreeviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
     #
@@ -338,9 +338,9 @@ class QtTreeviewItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtGridviewItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtGridviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__initUi()
@@ -370,10 +370,10 @@ class QtGridviewItemModel(qtModelAbstract.Abc_QtItemModel):
         self._uiColorWidth, self._uiColorHeight = 12, 12
     #
     def __initUi(self):
-        self._uiBasicRect, self._shadowRect = _rect(), _rect()
-        self._titleRect, self._uiCentralRect, self._imageRect = _rect(), _rect(), _rect()
-        self._uiExpandRect, self._uiCheckRect, self._uiColorRect = _rect(), _rect(), _rect()
-        self._uiIndexTextRect, self._uiNameTextRect, self._uiIconRect = _rect(), _rect(), _rect()
+        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
+        self._titleRect, self._uiCentralRect, self._imageRect = cls_rect(), cls_rect(), cls_rect()
+        self._uiExpandRect, self._uiCheckRect, self._uiColorRect = cls_rect(), cls_rect(), cls_rect()
+        self._uiIndexTextRect, self._uiNameTextRect, self._uiIconRect = cls_rect(), cls_rect(), cls_rect()
     #
     def __initVar(self):
         pass
@@ -483,9 +483,9 @@ class QtGridviewItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtPresetviewItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtPresetviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItem()
     #
@@ -658,9 +658,9 @@ class QtPresetviewItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class QtRecordviewItemItemModel(qtModelAbstract.Abc_QtItemModel):
+class QtRecordviewItemItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItem()
     #

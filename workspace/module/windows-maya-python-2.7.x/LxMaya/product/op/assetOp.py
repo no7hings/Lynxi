@@ -5,11 +5,11 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscCore
+from LxBasic import bscMethods
 
 from LxCore import lxCore_
 
-from LxUi.qt import qtLog, qtProgress
+from LxUi.qt import qtLog, qtCommands
 
 from LxCore.preset.prod import assetPr
 
@@ -23,14 +23,14 @@ none = ''
 # Clean Nde_Node By Name
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     nodes = [i for i in inData if maUtils.isAppExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
             if maUtils.isAppExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
-                bscCore.Py_Message().traceResult(node)
+                bscMethods.PythonMessage().traceResult(node)
 
 
 # Assign Default Nde_ShaderRef
@@ -69,7 +69,7 @@ def setObjectTransparentRefresh(objectLis):
 # Clean Object's Unused Shape
 def setObjectUnusedShapeClear(objectLis):
     explain = u'''Clean Unused - Shape'''
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     errorObjects = []
     # Get Error Objects
     for objectString in objectLis:
@@ -85,7 +85,7 @@ def setObjectUnusedShapeClear(objectLis):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    bscCore.Py_Message().traceResult(maUtils._toNodeName(shape))
+                    bscMethods.PythonMessage().traceResult(maUtils._toNodeName(shape))
 
 
 # Clean Unused Nde_ShaderRef
@@ -98,7 +98,7 @@ def setMeshVertexNormalUnlockCmd(objectLis):
     explain = '''Unlock Mesh's Vertex Normal'''
     if objectLis:
         maxValue = len(objectLis)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for objectString in objectLis:
             progressBar.updateProgress()
             maGeom.setMeshVertexNormalUnlock(objectString)
@@ -109,7 +109,7 @@ def setMeshesSmoothNormal(objectLis):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
     if objectLis:
         maxValue = len(objectLis)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for objectString in objectLis:
             progressBar.updateProgress()
             maGeom.setMeshEdgeSmooth(objectString, True)
@@ -134,35 +134,35 @@ def cleanUnusedAov(logWin):
 #
 def setDisplayLayerClear():
     explain = u'''Clean Display - Layer'''
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     displayLayers = [i for i in cmds.ls(type='displayLayer') if i != 'defaultLayer' and cmds.getAttr(i + '.displayOrder') != 0 and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if displayLayers:
         cmds.lockNode(displayLayers, lock=0)
         cmds.delete(displayLayers)
-        [bscCore.Py_Message().traceResult(i) for i in displayLayers]
+        [bscMethods.PythonMessage().traceResult(i) for i in displayLayers]
 
 
 #
 def setCleanRenderLayer():
     explain = u'''Clean Render - Layer'''
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     renderLayers = [i for i in cmds.ls(type='renderLayer') if i != 'defaultRenderLayer' and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if renderLayers:
         cmds.lockNode(renderLayers, lock=0)
         cmds.delete(renderLayers)
-        [bscCore.Py_Message().traceResult(i) for i in renderLayers]
+        [bscMethods.PythonMessage().traceResult(i) for i in renderLayers]
 
 
 #
 def setCleanReferenceFile():
     explain = u'''Clean Reference - File(s)'''
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     referenceNodeLis = cmds.ls(type='reference')
     if referenceNodeLis:
         for referenceNode in referenceNodeLis:
             try:
                 cmds.file(cmds.referenceQuery(referenceNode, filename=1), removeReference=1)
-                bscCore.Py_Message().traceResult(referenceNode)
+                bscMethods.PythonMessage().traceResult(referenceNode)
             except:
                 pass
 
@@ -170,12 +170,12 @@ def setCleanReferenceFile():
 #
 def setCleanReferenceNode():
     explain = u'''Clean Reference - Nde_Node(s)'''
-    bscCore.Py_Message().trace(explain)
+    bscMethods.PythonMessage().trace(explain)
     referenceNodeLis = [i for i in cmds.ls(type="reference") if cmds.lockNode(i, q=1)]
     if referenceNodeLis:
         cmds.lockNode(referenceNodeLis, lock=0)
         cmds.delete(referenceNodeLis)
-        [bscCore.Py_Message().traceResult(i) for i in referenceNodeLis]
+        [bscMethods.PythonMessage().traceResult(i) for i in referenceNodeLis]
 
 
 # Link Component Main Object Group Step01
@@ -351,7 +351,7 @@ def setCreateAstExtraConnectionSub(connectionDic):
         # View Progress
         progressExplain = u'''Create Connection'''
         maxValue = len(connectionDic)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for objectPath, connectionArray in connectionDic.items():
             if objectPath.startswith('|'):
                 objectPath = objectPath[1:]

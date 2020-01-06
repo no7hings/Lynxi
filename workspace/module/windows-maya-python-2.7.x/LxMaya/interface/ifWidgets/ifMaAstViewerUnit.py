@@ -1,12 +1,12 @@
 # coding=utf-8
 #
-from LxUi.qt import qtWidgets, qtMethod, qtProgress
+from LxUi.qt import qtWidgets, qtMethod, qtCommands
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
 from LxMaya.method import _maMethod
 #
-from LxMaya.interface.ifObjects import ifMaItemBasic
+from LxMaya.interface.ifObjects import ifMaAbcObjItemWidget
 #
 none = ''
 
@@ -86,12 +86,12 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
             def setErrorSubBranch(errorData):
                 def setObjectBranch(objectPath, compLis):
                     def setCompBranch(compPath):
-                        compItem = ifMaItemBasic.IfMaNodeTreeItem()
+                        compItem = ifMaAbcObjItemWidget.IfMaNodeTreeItem()
                         objectItem.addChild(compItem)
                         #
                         compItem.load(compPath)
                     #
-                    objectItem = ifMaItemBasic.IfMaNodeTreeItem()
+                    objectItem = ifMaAbcObjItemWidget.IfMaNodeTreeItem()
                     objectItem.loadNode(objectPath)
                     inspectionItem.addChild(objectItem)
                     #
@@ -146,7 +146,7 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self.app_check_method.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
             progressBar.updateProgress(k)
             setInspectionBranch(s, k, v)

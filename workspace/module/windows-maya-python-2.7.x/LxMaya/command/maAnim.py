@@ -344,7 +344,7 @@ def setRandColor(colorRand, meshObjects=none):
         shadingEngineArray.append(shadingEngineName)
         colorRange = [i / 100.0 for i in range(0, 100)]
         setShadingEngine(shaderName, shadingEngineName, choice(colorRange), choice(colorRange), choice(colorRange))
-    bodyShaderName = 'skin_color'
+    bodyShaderName = 'skincls_color'
     bodyShadingEngine = bodyShaderName + 'SG'
     setShadingEngine(bodyShaderName, bodyShadingEngine, 1, .65, .65)
     if meshObjects:

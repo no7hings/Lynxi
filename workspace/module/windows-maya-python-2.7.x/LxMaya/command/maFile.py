@@ -6,7 +6,7 @@ import maya.cmds as cmds
 import maya.mel as mel
 #
 from LxCore import lxBasic
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -677,7 +677,7 @@ def gpuSeqExport(objectString, startFrame, endFrame, osFile, withMaterial=0):
     # View Progress
     explain = '''Export GPU Sequence'''
     maxValue = endFrame - startFrame + 1
-    progressBar = qtProgress.viewSubProgress(explain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
     for seq in sequenceRange:
         # In Progress
         progressBar.updateProgress()
@@ -797,7 +797,7 @@ def assExport(assFile, camera, startFrame, endFrame):
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
-    progressBar = qtProgress.viewSubProgress(explain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
     # Move to Server
     for seq, tempSubAssFile in enumerate(tempSubAssFiles):
         # In Progress

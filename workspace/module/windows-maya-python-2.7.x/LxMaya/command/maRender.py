@@ -5,7 +5,7 @@ import maya.cmds as cmds
 import maya.mel as mel
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtProgress, qtTip
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -675,7 +675,7 @@ def setRenderTime(startFrame=None, endFrame=None):
     cmds.setAttr(MaNodeAttrRenderOptionDic['startFrame'], startFrame)
     cmds.setAttr(MaNodeAttrRenderOptionDic['endFrame'], endFrame)
     #
-    qtTip.viewMessage(
+    qtCommands.setMessageWindowShow(
         u'''Render Time has''', u'''Change to : %s - %s''' % (startFrame, endFrame)
     )
 
@@ -849,7 +849,7 @@ def setConnectLightsToScale(root):
                 aiLightDecays = []
                 explain = '''Connect Light to Scale'''
                 maxValue = len(lightObjectPaths)
-                progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                 for i in lightObjectPaths:
                     progressBar.updateProgress()
                     attr = i + '.intensity'

@@ -61,9 +61,9 @@ class Cfg_Basic(object):
     #
     LynxiUniqueId_Basic = '4908BDB4-911F-3DCE-904E-96E4792E75F1'
     #
-    Key_Environ_Value = 'LYNXI_PATH'
-    Key_Environ_Path_Develop = 'LYNXI_DEVELOP_PATH'
-    Key_Environ_Path_Product = 'LYNXI_PATH'
+    Environ_Key_Value = 'LYNXI_PATH_PRODUCT'
+    Environ_Key_Path_Develop = 'LYNXI_PATH_DEVELOP'
+    Environ_Key_Path_Product = 'LYNXI_PATH_PRODUCT'
     #
     Lynxi_Key_Info_Namespace = 'namespace'
     #

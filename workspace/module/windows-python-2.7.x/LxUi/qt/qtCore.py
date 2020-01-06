@@ -11,6 +11,8 @@ from PyQt5 import QtGui, QtCore, QtSvg
 #
 from PyQt5.QtWidgets import *
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxUi import uiCore
@@ -19,16 +21,16 @@ cgitb.enable(format='text')
 #
 _families = uiCore.Lynxi_Ui_Family_Lis
 #
-_color = QtGui.QColor
-_brush = QtGui.QBrush
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
-_polygon = QtGui.QPolygon
-_polygonF = QtGui.QPolygonF
-_path = QtGui.QPainterPath
+cls_color = QtGui.QColor
+cls_brush = QtGui.QBrush
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
+cls_polygon = QtGui.QPolygon
+cls_polygonF = QtGui.QPolygonF
+cls_painter_path = QtGui.QPainterPath
 #
 ExtendSelectMode = 0
 AddSelectMode = 1
@@ -109,7 +111,7 @@ none = ''
 
 
 def iconRoot():
-    return lxScheme.Root().icon.server
+    return lxScheme.Directory().icon.server
 
 
 #
@@ -336,17 +338,17 @@ def _toLxMayaOsSvgIconFile(mayaNodeType):
 #
 def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
     if isHove:
-        startColor = endColor = _color(63, 255, 255, 255)
+        startColor = endColor = cls_color(63, 255, 255, 255)
     else:
         if isSelected is True:
-            startColor = endColor = _color(255, 127, 0, 255)
+            startColor = endColor = cls_color(255, 127, 0, 255)
         else:
             if drawDir == 1:
-                startColor = _color(63, 255, 127, 255)
-                endColor = _color(255, 0, 63, 255)
+                startColor = cls_color(63, 255, 127, 255)
+                endColor = cls_color(255, 0, 63, 255)
             else:
-                startColor = _color(255, 0, 63, 255)
-                endColor = _color(63, 255, 127, 255)
+                startColor = cls_color(255, 0, 63, 255)
+                endColor = cls_color(63, 255, 127, 255)
     #
     gradient = QtGui.QLinearGradient(startPos, endPos)
     gradient.setColorAt(0, startColor)
@@ -358,9 +360,9 @@ def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
 
 
 #
-def toGlobalPos(self):
-    op = self.pos()
-    p = self.mapToGlobal(op)
+def toGlobalPos(widget):
+    op = widget.pos()
+    p = widget.mapToGlobal(op)
     return p.x(), p.y()
 
 
@@ -387,8 +389,8 @@ class QPainter_(
         self._borderColor = QtGui.QColor(127, 127, 127, 255)
         self._backgroundColor = QtGui.QColor(63, 63, 63, 255)
         #
-        self._pen = QtGui.QPen(self._borderColor)
-        self._brush = QtGui.QBrush(self._backgroundColor)
+        self.cls_pen = QtGui.QPen(self._borderColor)
+        self.cls_brush = QtGui.QBrush(self._backgroundColor)
     #
     def setBackgroundRgba(self, *args):
         if isinstance(args[0], int) or isinstance(args[0], float):
@@ -403,13 +405,13 @@ class QPainter_(
         r, g, b, a = min(255, rgba[0]), min(255, rgba[1]), min(255, rgba[2]), min(255, rgba[3])
         self._backgroundColor = QtGui.QColor(r, g, b, a)
         #
-        self._brush = QtGui.QBrush(self._backgroundColor)
-        self.setBrush(self._brush)
+        self.cls_brush = QtGui.QBrush(self._backgroundColor)
+        self.setBrush(self.cls_brush)
     #
     def setBrushStyle(self, brushStyle):
-        self._brush = QtGui.QBrush(self._backgroundColor)
-        self._brush.setStyle(brushStyle)
-        self.setBrush(self._brush)
+        self.cls_brush = QtGui.QBrush(self._backgroundColor)
+        self.cls_brush.setStyle(brushStyle)
+        self.setBrush(self.cls_brush)
     #
     def setBorderRgba(self, *args):
         if isinstance(args[0], int) or isinstance(args[0], float):
@@ -424,20 +426,20 @@ class QPainter_(
         r, g, b, a = min(255, rgba[0]), min(255, rgba[1]), min(255, rgba[2]), min(255, rgba[3])
         self._borderColor = QtGui.QColor(r, g, b, a)
         #
-        self._pen = QtGui.QPen(self._borderColor)
-        self._pen.setCapStyle(QtCore.Qt.RoundCap)
-        self._pen.setWidth(1)
-        self.setPen(self._pen)
+        self.cls_pen = QtGui.QPen(self._borderColor)
+        self.cls_pen.setCapStyle(QtCore.Qt.RoundCap)
+        self.cls_pen.setWidth(1)
+        self.setPen(self.cls_pen)
     #
     def setPenStyle(self, penStyle):
-        self._pen = QtGui.QPen(self._borderColor)
-        self._pen.setStyle(penStyle)
-        self.setPen(self._pen)
+        self.cls_pen = QtGui.QPen(self._borderColor)
+        self.cls_pen.setStyle(penStyle)
+        self.setPen(self.cls_pen)
     #
     def setPenWidth(self, value):
-        self._pen = QtGui.QPen(self._borderColor)
-        self._pen.setWidth(value)
-        self.setPen(self._pen)
+        self.cls_pen = QtGui.QPen(self._borderColor)
+        self.cls_pen.setWidth(value)
+        self.setPen(self.cls_pen)
     #
     def setDrawFrame(self, points):
         points = [QtCore.QPoint(x, y) for x, y in points]
@@ -496,14 +498,14 @@ class QPainter_(
             borderColor1 = 0, 0, 0, 0
         #
         borderGradient = QtGui.QLinearGradient(startPos, endPos)
-        borderGradient.setColorAt(0, _color(*borderColor0)), borderGradient.setColorAt(1, _color(*borderColor1))
+        borderGradient.setColorAt(0, cls_color(*borderColor0)), borderGradient.setColorAt(1, cls_color(*borderColor1))
         brush = QtGui.QBrush(borderGradient)
         #
         pen = QtGui.QPen(brush, 1)
         self.setPen(pen)
         backGroundGradient = QtGui.QLinearGradient(startPos, endPos)
-        backGroundGradient.setColorAt(0, _color(*backgroundColor0))
-        backGroundGradient.setColorAt(1, _color(*backgroundColor1))
+        backGroundGradient.setColorAt(0, cls_color(*backgroundColor0))
+        backGroundGradient.setColorAt(1, cls_color(*backgroundColor1))
         brush = QtGui.QBrush(backGroundGradient)
         self.setBrush(brush)
         self.drawRect(titleRect)
@@ -521,7 +523,7 @@ class QPainter_(
         if isExpandable:
             x, y = rect.x(), rect.y()
             width, height = rect.width(), rect.height()
-            frameRect = _rect(
+            frameRect = cls_rect(
                 x + (width - w)/2 - 1, y + (height - h)/2 - 1,
                 w, h
             )
@@ -533,33 +535,33 @@ class QPainter_(
         #
         if isSelected:
             if isPressHovered:
-                backgroundColor1 = _color(0, 127, 127, 255)
-                borderColor1 = _color(63, 255, 255, 255)
+                backgroundColor1 = cls_color(0, 127, 127, 255)
+                borderColor1 = cls_color(63, 255, 255, 255)
             else:
-                backgroundColor1 = _color(0, 127, 127, 255)
-                borderColor1 = _color(0, 191, 191, 255)
+                backgroundColor1 = cls_color(0, 127, 127, 255)
+                borderColor1 = cls_color(0, 191, 191, 255)
         else:
             if isPressHovered:
-                backgroundColor1 = _color(71, 71, 71, 255)
-                borderColor1 = _color(127, 127, 127, 255)
+                backgroundColor1 = cls_color(71, 71, 71, 255)
+                borderColor1 = cls_color(127, 127, 127, 255)
             else:
-                backgroundColor1 = _color(63, 63, 63, 255)
-                borderColor1 = _color(95, 95, 95, 255)
+                backgroundColor1 = cls_color(63, 63, 63, 255)
+                borderColor1 = cls_color(95, 95, 95, 255)
         #
         if isChecked:
             if isPressHovered:
-                backgroundColor0 = _color(255, 127, 64, 255)
-                borderColor0 = _color(255, 191, 0, 255)
+                backgroundColor0 = cls_color(255, 127, 64, 255)
+                borderColor0 = cls_color(255, 191, 0, 255)
             else:
-                backgroundColor0 = _color(255, 127, 64, 255)
-                borderColor0 = _color(255, 127, 0, 255)
+                backgroundColor0 = cls_color(255, 127, 64, 255)
+                borderColor0 = cls_color(255, 127, 0, 255)
         else:
             if isPressHovered:
-                backgroundColor0 = _color(71, 71, 71, 255)
-                borderColor0 = _color(127, 127, 127, 255)
+                backgroundColor0 = cls_color(71, 71, 71, 255)
+                borderColor0 = cls_color(127, 127, 127, 255)
             else:
-                backgroundColor0 = _color(63, 63, 63, 255)
-                borderColor0 = _color(95, 95, 95, 255)
+                backgroundColor0 = cls_color(63, 63, 63, 255)
+                borderColor0 = cls_color(95, 95, 95, 255)
         #
         if isBackGroundChanged is True:
             backGroundGradient = QtGui.QLinearGradient(startPos, endPos)
@@ -675,8 +677,8 @@ class QPainter_(
         self.setBackgroundRgba(backgroundRgba)
         self.setBorderRgba(borderRgba)
         #
-        self._pen.setWidth(2)
-        self.setPen(self._pen)
+        self.cls_pen.setWidth(2)
+        self.setPen(self.cls_pen)
         self.setRenderHint(QtGui.QPainter.Antialiasing)
         self.drawEllipse(ellipseRect)
         self.setDrawPath(points)
@@ -734,11 +736,11 @@ class QPainter_(
             for seq, points in enumerate(lines):
                 value = seq - axisSeq + 1
                 if value % 100 == 1:
-                    pen = self._pen
+                    pen = self.cls_pen
                     pen.setWidth(2)
                     self.setPen(pen)
                 else:
-                    pen = self._pen
+                    pen = self.cls_pen
                     pen.setWidth(1)
                     self.setPen(pen)
                 self.drawLine(*points)
@@ -801,7 +803,7 @@ class QPainter_(
                 else:
                     xPos, yPos = gridSize*(i - xSeq) + xGridOffset + xTrackOffset, textHeight
                 #
-                lis.append(_pointF(xPos, yPos))
+                lis.append(cls_pointF(xPos, yPos))
             #
             return lis
         #
@@ -813,7 +815,7 @@ class QPainter_(
                 else:
                     xPos, yPos = 0, gridSize*(i - ySeq) + yGridOffset + yTrackOffset
                 #
-                lis.append(_pointF(xPos, yPos))
+                lis.append(cls_pointF(xPos, yPos))
             #
             return lis
         #
@@ -892,13 +894,13 @@ class QPainter_(
         _wP = width - margin*2 - _s - side*2
         _hP = height - margin*2 - _s - side*2
         #
-        path1 = _path()
-        path1.addRoundedRect(_rectF(_xP, _yP, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
-        path1_ = _path()
-        path1_.addRoundedRect(_rectF(_xP + _s, _yP + _s, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
+        path1 = cls_painter_path()
+        path1.addRoundedRect(cls_rectF(_xP, _yP, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
+        path1_ = cls_painter_path()
+        path1_.addRoundedRect(cls_rectF(_xP + _s, _yP + _s, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
         #
-        path2 = _path()
-        path2_ = _path()
+        path2 = cls_painter_path()
+        path2_ = cls_painter_path()
         #
         x1, x2, x3 = _xP + _wP - _w / 4, _xP + _wP + _w / 4, _xP + _wP - _w / 4
         _x1, _x2, _x3 = xPos + side*2 + _w / 2, xPos + side*2, xPos + side*2 + _w / 2
@@ -906,17 +908,17 @@ class QPainter_(
         y1, y2, y3 = _yP, _yP + _w / 2, _yP + _w
         _y1, _y2, _y3 = _yP + _hP - _w, _yP + _hP - _w / 2, _yP + _hP
         if region == 0:
-            path2.addPolygon(_polygonF([_pointF(_x1, y1), _pointF(_x2, y2 + 1), _pointF(_x3, y3)]))
-            path2_.addPolygon(_polygonF([_pointF(_x1 + _s, y1 + _s), _pointF(_x2 + _s, y2 + _s + 1), _pointF(_x3 + _s, y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(_x1, y1), cls_pointF(_x2, y2 + 1), cls_pointF(_x3, y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, y1 + _s), cls_pointF(_x2 + _s, y2 + _s + 1), cls_pointF(_x3 + _s, y3 + _s)]))
         elif region == 1:
-            path2.addPolygon(_polygonF([_pointF(x1, y1), _pointF(x2, y2), _pointF(x3, y3)]))
-            path2_.addPolygon(_polygonF([_pointF(x1 + _s, y1 + _s), _pointF(x2 + _s, y2 + _s), _pointF(x3 + _s, y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(x1, y1), cls_pointF(x2, y2), cls_pointF(x3, y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, y1 + _s), cls_pointF(x2 + _s, y2 + _s), cls_pointF(x3 + _s, y3 + _s)]))
         elif region == 2:
-            path2.addPolygon(_polygonF([_pointF(_x1, _y1), _pointF(_x2, _y2), _pointF(_x3, _y3)]))
-            path2_.addPolygon(_polygonF([_pointF(_x1 + _s, _y1 + _s), _pointF(_x2 + _s, _y2 + _s), _pointF(_x3 + _s, _y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(_x1, _y1), cls_pointF(_x2, _y2), cls_pointF(_x3, _y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, _y1 + _s), cls_pointF(_x2 + _s, _y2 + _s), cls_pointF(_x3 + _s, _y3 + _s)]))
         else:
-            path2.addPolygon(_polygonF([_pointF(x1, _y1), _pointF(x2, _y2 - 1), _pointF(x3, _y3)]))
-            path2_.addPolygon(_polygonF([_pointF(x1 + _s, _y1 + _s), _pointF(x2 + _s, _y2 + _s - 1), _pointF(x3 + _s, _y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(x1, _y1), cls_pointF(x2, _y2 - 1), cls_pointF(x3, _y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, _y1 + _s), cls_pointF(x2 + _s, _y2 + _s - 1), cls_pointF(x3 + _s, _y3 + _s)]))
         #
         self.setBorderRgba(0, 0, 0, 64)
         self.setBackgroundRgba(0, 0, 0, 64)
@@ -951,13 +953,13 @@ class QPainter_(
         _wP = width - margin*2 - _s - side*2
         _hP = height - margin*2 - _s - side*2
         # Frame
-        path1 = _path()
-        path2 = _path()
-        path1.addRect(_rectF(_xP, _yP, _wP, _hP))
+        path1 = cls_painter_path()
+        path2 = cls_painter_path()
+        path1.addRect(cls_rectF(_xP, _yP, _wP, _hP))
         # Shadow
-        path1_ = _path()
-        path2_ = _path()
-        path1_.addRect(_rectF(_xP + _s - 1, _yP + _s - 1, _wP, _hP))
+        path1_ = cls_painter_path()
+        path2_ = cls_painter_path()
+        path1_.addRect(cls_rectF(_xP + _s - 1, _yP + _s - 1, _wP, _hP))
         #
         x1, x2, x3 = _xP + margin, _xP + margin*2, _xP + margin*3
         _x1, _x2, _x3 = _xP + _wP - margin*3, _xP + _wP - margin*2, _xP + _wP - margin
@@ -965,17 +967,17 @@ class QPainter_(
         y1, y2, y3 = _yP + 1, _yP - margin + 1, _yP + 1
         _y1, _y2, _y3 = _yP + _hP - 1, _yP + _hP + margin - 1, _yP + _hP - 1
         if region == 0:
-            path2.addPolygon(_polygonF([_pointF(x1, y1), _pointF(x2, y2), _pointF(x3, y3)]))
-            path2_.addPolygon(_polygonF([_pointF(x1 + _s, y1 + _s), _pointF(x2 + _s, y2 + _s), _pointF(x3 + _s, y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(x1, y1), cls_pointF(x2, y2), cls_pointF(x3, y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, y1 + _s), cls_pointF(x2 + _s, y2 + _s), cls_pointF(x3 + _s, y3 + _s)]))
         elif region == 1:
-            path2.addPolygon(_polygonF([_pointF(_x1, y1), _pointF(_x2, y2), _pointF(_x3, y3)]))
-            path2_.addPolygon(_polygonF([_pointF(_x1 + _s, y1 + _s), _pointF(_x2 + _s, y2 + _s), _pointF(_x3 + _s, y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(_x1, y1), cls_pointF(_x2, y2), cls_pointF(_x3, y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, y1 + _s), cls_pointF(_x2 + _s, y2 + _s), cls_pointF(_x3 + _s, y3 + _s)]))
         elif region == 2:
-            path2.addPolygon(_polygonF([_pointF(x1, _y1), _pointF(x2, _y2), _pointF(x3, _y3)]))
-            path2_.addPolygon(_polygonF([_pointF(x1 + _s, _y1 + _s), _pointF(x2 + _s, _y2 + _s), _pointF(x3 + _s, _y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(x1, _y1), cls_pointF(x2, _y2), cls_pointF(x3, _y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, _y1 + _s), cls_pointF(x2 + _s, _y2 + _s), cls_pointF(x3 + _s, _y3 + _s)]))
         else:
-            path2.addPolygon(_polygonF([_pointF(_x1, _y1), _pointF(_x2, _y2), _pointF(_x3, _y3)]))
-            path2_.addPolygon(_polygonF([_pointF(_x1 + _s, _y1 + _s), _pointF(_x2 + _s, _y2 + _s), _pointF(_x3 + _s, _y3 + _s)]))
+            path2.addPolygon(cls_polygonF([cls_pointF(_x1, _y1), cls_pointF(_x2, _y2), cls_pointF(_x3, _y3)]))
+            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, _y1 + _s), cls_pointF(_x2 + _s, _y2 + _s), cls_pointF(_x3 + _s, _y3 + _s)]))
         #
         self.setBorderRgba(0, 0, 0, 64)
         self.setBackgroundRgba(0, 0, 0, 64)
@@ -995,11 +997,11 @@ class QPainter_(
             points = [QtCore.QPoint(x + xOffset, y + yOffset) for x, y in shape]
             self.drawPolygon(QtGui.QPolygon(points))
         elif isinstance(shape, QtCore.QRect):
-            rect = _rect(shape.left() + xOffset, shape.top() + yOffset, shape.width() - 1, shape.height() - 1)
+            rect = cls_rect(shape.left() + xOffset, shape.top() + yOffset, shape.width() - 1, shape.height() - 1)
             self.drawRect(rect)
     #
     def setDrawKeyPressMark(self, width, height, key, borderRgba):
-        rect = _rect(width - 120 - 4, 0, 120, height - 4)
+        rect = cls_rect(width - 120 - 4, 0, 120, height - 4)
         #
         self.setBorderRgba(borderRgba)
         self.setFont(xFont(size=10, weight=75, family=_families[1]))
@@ -1858,7 +1860,7 @@ class QCommonStyle_(QCommonStyle):
 
 #
 def getTooltipDelayTime():
-    if lxScheme.Ui().isTooltipAutoShow() is False:
+    if lxScheme.Interface().isTooltipAutoShow() is False:
         return lxCore_.LynxiUi_Value_TooltipDelayTime
     else:
         return 250
@@ -1867,7 +1869,7 @@ def getTooltipDelayTime():
 #
 def closeTooltipAutoShow():
     if UiTipTimer.isActive():
-        lxScheme.Ui().setTooltipAutoShow(False)
+        lxScheme.Interface().setTooltipAutoShow(False)
         UiTipTimer.stop()
 
 
@@ -1882,7 +1884,7 @@ def uiTooltipStartMethod(method):
                 self._tooltipWidget.setTooltip(uiTip)
                 self._tooltipWidget.tooltipShow()
                 #
-                lxScheme.Ui().setTooltipAutoShow(True)
+                lxScheme.Interface().setTooltipAutoShow(True)
             #
             self._tooltipTimer.stop()
         # Class
@@ -1938,7 +1940,8 @@ def uiTooltipClearMethod(method):
 #
 def getAppWindow():
     # Maya Window
-    if lxBasic.isMayaApp():
+    application = bscMethods.PythonApplication()
+    if application.isMaya:
         # noinspection PyUnresolvedReferences
         import sip
         # noinspection PyUnresolvedReferences
@@ -1947,6 +1950,12 @@ def getAppWindow():
         window = OpenMayaUI.MQtUtil.mainWindow()
         if window:
             return sip.wrapinstance(long(window), QtCore.QObject)
+    else:
+        # noinspection PyArgumentList
+        windows = QApplication.allWidgets()
+        for i in windows:
+            if i.__class__.__name__ == 'If_QtToolFloatWindow':
+                return i
 
 
 #
@@ -2123,7 +2132,7 @@ def deleteMayaUi(keyword):
 
 
 #
-def lxGetLogWin():
+def getLogWindow():
     w = getAppWindow()
     if w is not None:
         cs = w.children()

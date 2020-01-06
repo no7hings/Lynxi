@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract, mtlCore
+from LxMaterial import mtlAbstract, mtlConfigure
 
 from LxMaterial.mtlObjects import _mtlRaw
 
@@ -98,7 +98,7 @@ class Dat_Integer(_Dat_Method):
 class Dat_IntegerN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_Integer
 
-    datum_string_separator = mtlCore.Separator_Raw_String
+    datum_string_separator = mtlConfigure.Separator_Raw_String
 
     def __init__(self, *args):
         """
@@ -112,7 +112,7 @@ class Dat_IntegerN(mtlAbstract.Abc_Datumset):
 class Dat_IntegerNN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_IntegerN
 
-    datum_string_separator = mtlCore.Separator_Raw_String_Array
+    datum_string_separator = mtlConfigure.Separator_Raw_String_Array
 
     def __init__(self, *args):
         """
@@ -140,7 +140,7 @@ class Dat_Float(_Dat_Method):
 class Dat_FloatN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_Float
 
-    datum_string_separator = mtlCore.Separator_Raw_String
+    datum_string_separator = mtlConfigure.Separator_Raw_String
 
     def __init__(self, *args):
         """
@@ -154,7 +154,7 @@ class Dat_FloatN(mtlAbstract.Abc_Datumset):
 class Dat_FloatNN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_FloatN
 
-    datum_string_separator = mtlCore.Separator_Raw_String_Array
+    datum_string_separator = mtlConfigure.Separator_Raw_String_Array
 
     def __init__(self, *args):
         """
@@ -182,7 +182,7 @@ class Dat_String(mtlAbstract.Abc_Datum):
 class Dat_StringN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_String
 
-    datum_string_separator = mtlCore.Separator_Raw_String
+    datum_string_separator = mtlConfigure.Separator_Raw_String
 
     def __init__(self, *args):
         """
@@ -224,7 +224,7 @@ class Dat_NodeName(mtlAbstract.Abc_Datum):
 class Dat_NodeNameN(mtlAbstract.Abc_Datumset):
     SET_CHILD_CLS = Dat_NodeName
 
-    datum_string_separator = mtlCore.Separator_Raw_String
+    datum_string_separator = mtlConfigure.Separator_Raw_String
 
     def __init__(self, *args):
         """

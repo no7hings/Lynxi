@@ -1,11 +1,11 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset.prod import scenePr
 #
-from LxUi.command import uiHtml
-#
-from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtProgress
+from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtCommands
 
 #
 none = ''
@@ -107,7 +107,7 @@ def setListScRenderImageCustomize(
     if customizes:
         explain = '''List Scene Render ( Customizes )'''
         maxValue = len(customizes)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         [setBranch(i) for i in customizes]
     #
     return methods
@@ -210,7 +210,7 @@ def setListRenderImages(
         iconKeyword = 'svg_basic@svg#image'
         #
         explain = imageFile.split('/images')[-1][1:]
-        htmlExplain = uiHtml.getHtmlRenderImage(imagePrefix, explain)
+        htmlExplain = bscMethods.Mtd_Html.toHtmlMayaRenderImage(imagePrefix, explain)
         itemWidget = treeItem.setItemIconWidget(0, iconKeyword, htmlExplain)
         # Action
         setActionData()

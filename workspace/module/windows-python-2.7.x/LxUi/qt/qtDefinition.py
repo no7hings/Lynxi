@@ -1,6 +1,4 @@
 # coding:utf-8
-from LxCore.method.basic import _methodBasic
-#
 from LxUi import uiCore
 #
 from LxUi.qt import qtCore
@@ -10,16 +8,17 @@ QtCore = qtCore.QtCore
 
 
 # Widget
-class QtWidgetDef(uiCore.Basic):
-    _uiMethod = uiCore.Basic
-    def _initWidgetDef(self):
-        self._initWidgetDefAttr()
-        self._initWidgetDefAction()
-        self._initWidgetDefRect()
-        self._initWidgetDefUi()
-        self._initWidgetDefVar()
+class QtDef_Widget(uiCore.Basic):
+    ui_method = uiCore.Basic
+
+    def _initDefWidget(self):
+        self._initDefWidgetAttr()
+        self._initDefWidgetAction()
+        self._initDefWidgetRect()
+        self._initDefWidgetUi()
+        self._initDefWidgetVar()
     #
-    def _initWidgetDefAttr(self):
+    def _initDefWidgetAttr(self):
         self._widget, self._viewport = [None] * 2
         #
         self._widgetLayout, self._viewportLayout = [None] * 2
@@ -28,17 +27,17 @@ class QtWidgetDef(uiCore.Basic):
         #
         self._graphModelWidget = None
     #
-    def _initWidgetDefAction(self):
+    def _initDefWidgetAction(self):
         self._pressHoverPos = 0, 0
         self._pressClickPos = 0, 0
     #
-    def _initWidgetDefRect(self):
+    def _initDefWidgetRect(self):
         self._uiBasicRect, self._uiViewportRect, self._uiFrameRect = (
             QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1)
         )
         self._uiBasicPath = None
     #
-    def _initWidgetDefUi(self):
+    def _initDefWidgetUi(self):
         self._uiXPos, self._uiYPos = 0, 0
         self._uiWidth, self._uiHeight = 0, 0
         #
@@ -51,7 +50,7 @@ class QtWidgetDef(uiCore.Basic):
         self._uiLayoutMargins = 0, 0, 0, 0
         self._uiLayoutSpacing = 0
     #
-    def _initWidgetDefVar(self):
+    def _initDefWidgetVar(self):
         self._isMultiFilterVisible = True
         #
         self._multiFilterDic = {}
@@ -246,17 +245,17 @@ class QtWidgetDef(uiCore.Basic):
 
 
 # Expand
-class QtExpandDef(QtWidgetDef):
-    _uiMethod = uiCore.Basic
-    def _initExpandDef(self):
-        self._initWidgetDef()
+class QtDef_ExpandWidget(QtDef_Widget):
+    ui_method = uiCore.Basic
+    def _initDefExpandWidget(self):
+        self._initDefWidget()
         #
-        self._initExpandDefAttr()
-        self._initExpandDefAction()
+        self._initDefExpandWidgetAttr()
+        self._initDefExpandWidgetAction()
         self._initExpandAbsRect()
         self._initExpandAbsUi()
     #
-    def _initExpandDefAttr(self):
+    def _initDefExpandWidgetAttr(self):
         self._isExpandButton = False
         #
         self._isExpandEnable = False
@@ -267,7 +266,7 @@ class QtExpandDef(QtWidgetDef):
         #
         self._expandTimer = QtCore.QTimer()
     #
-    def _initExpandDefAction(self):
+    def _initDefExpandWidgetAction(self):
         self._expandFlag = False
     #
     def _initExpandAbsRect(self):
@@ -313,7 +312,7 @@ class QtExpandDef(QtWidgetDef):
     #
     def _setQtExpandStyle(self, state):
         if state is qtCore.UnexpandableState:
-            self._uiExpandIcon = self._uiMethod._toLxOsIconFile('svg_basic@svg#expandCloseOff')
+            self._uiExpandIcon = self.ui_method._toLxOsIconFile('svg_basic@svg#expandCloseOff')
         else:
             if state is qtCore.ExpandedState:
                 self._uiExpandIconKeyword = 'svg_basic@svg#expandOpen'
@@ -409,15 +408,15 @@ class QtExpandDef(QtWidgetDef):
 
 
 # Color
-class QtColorDef(QtWidgetDef):
-    def _initColorDef(self):
-        self._initWidgetDef()
+class QtDef_ColorWidget(QtDef_Widget):
+    def _initDefColorWidget(self):
+        self._initDefWidget()
         #
-        self._initColorDefAttr()
+        self._initDefColorWidgetAttr()
         self._initColorAbsRect()
         self._initColorAbsUi()
     #
-    def _initColorDefAttr(self):
+    def _initDefColorWidgetAttr(self):
         self._isColorEnable = False
         self._isColorable = False
         #
@@ -474,17 +473,17 @@ class QtColorDef(QtWidgetDef):
 
 
 # Press
-class QtPressDef(QtWidgetDef):
-    def _initPressDef(self):
-        self._initWidgetDef()
+class QtDef_PressWidget(QtDef_Widget):
+    def _initDefPressWidget(self):
+        self._initDefWidget()
         #
-        self._initPressDefAttr()
-        self._initPressDefAction()
-        self._initPressDefRect()
-        self._initPressDefUi()
-        self._initPressDefVar()
+        self._initDefPressWidgetAttr()
+        self._initDefPressWidgetAction()
+        self._initDefPressWidgetRect()
+        self._initDefPressWidgetUi()
+        self._initDefPressWidgetVar()
     #
-    def _initPressDefAttr(self):
+    def _initDefPressWidgetAttr(self):
         self._index, self._type, self._name = [None] * 3
         #
         self._isPressButton = False
@@ -499,7 +498,7 @@ class QtPressDef(QtWidgetDef):
         #
         self._isPressMenuEnable = False
     #
-    def _initPressDefAction(self):
+    def _initDefPressWidgetAction(self):
         self._clickedFlag, self._pressFlag, self._dragFlag, self._trackFlag = [False]*4
         #
         self._extendPressFlag = False
@@ -508,11 +507,11 @@ class QtPressDef(QtWidgetDef):
         #
         self._separateSelectFlag, self._extraSelectFlag = False, False
     #
-    def _initPressDefRect(self):
+    def _initDefPressWidgetRect(self):
         self._uiIndexTextRect, self._uiTypeTextRect, self._uiNameTextRect = QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1)
         self._uiIconRect, self._uiSubIconRect, self._uiMenuIconRect = QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initPressDefUi(self):
+    def _initDefPressWidgetUi(self):
         self._uiIndexText, self._uiTypeText, self._uiNameText = [None] * 3
         #
         self._uiFrameWidth, self._uiFrameHeight = 20.0, 20.0
@@ -533,7 +532,7 @@ class QtPressDef(QtWidgetDef):
         #
         self._uiMargins = 0, 0, 0, 0
     #
-    def _initPressDefVar(self):
+    def _initDefPressWidgetVar(self):
         self._filterKeyword = None
     #
     def _updateIconRect(self, xPos, yPos):
@@ -811,17 +810,17 @@ class QtPressDef(QtWidgetDef):
 
 
 # Check
-class QtCheckDef(QtWidgetDef):
-    def _initCheckDef(self):
-        self._initWidgetDef()
+class QtDef_CheckWidget(QtDef_Widget):
+    def _initDefCheckWidget(self):
+        self._initDefWidget()
         #
-        self._initCheckDefAttr()
-        self._initCheckDefAction()
-        self._initCheckDefRect()
-        self._initCheckDefUi()
-        self._initCheckDefVar()
+        self._initDefCheckWidgetAttr()
+        self._initDefCheckWidgetAction()
+        self._initDefCheckWidgetRect()
+        self._initDefCheckWidgetUi()
+        self._initDefCheckWidgetVar()
     #
-    def _initCheckDefAttr(self):
+    def _initDefCheckWidgetAttr(self):
         self._isCheckButton = False
         #
         self._isCheckEnable = False
@@ -843,20 +842,20 @@ class QtCheckDef(QtWidgetDef):
         self._viewFilterItemModelIndexLis = []
         self._viewFilterItemModelIndexCount = 0
     #
-    def _initCheckDefAction(self):
+    def _initDefCheckWidgetAction(self):
         self._checkFlag = False
     #
-    def _initCheckDefRect(self):
+    def _initDefCheckWidgetRect(self):
         self._uiCheckRect, self._uiCheckPressRect = QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initCheckDefUi(self):
+    def _initDefCheckWidgetUi(self):
         self._uiCheckIconKeyword = 'svg_basic@svg#boxUnchecked'
         self._uiCheckIcon = self._toLxOsIconFile(self._uiCheckIconKeyword)
         #
         self._uiCheckFrameWidth, self._uiCheckFrameHeight = 16, 16
         self._uiCheckIconWidth, self._uiCheckIconHeight = 16, 16
     #
-    def _initCheckDefVar(self):
+    def _initDefCheckWidgetVar(self):
         pass
     # For Override
     def _checkClickAction(self):
@@ -1091,26 +1090,26 @@ class QtCheckDef(QtWidgetDef):
 
 
 #
-class QtGraphitemDef(QtWidgetDef):
-    def _initGraphUnitDef(self):
-        self._initWidgetDef()
+class QtDef_GraphitemWidget(QtDef_Widget):
+    def _initDefGraphitemWidget(self):
+        self._initDefWidget()
         #
-        self._initGraphUnitDefAttr()
-        self._initGraphUnitDefAction()
-        self._initGraphUnitDefRect()
-        self._initGraphUnitDefUi()
+        self._initDefGraphitemWidgetAttr()
+        self._initDefGraphitemWidgetAction()
+        self._initDefGraphitemWidgetRect()
+        self._initDefGraphitemWidgetUi()
     #
-    def _initGraphUnitDefAttr(self):
+    def _initDefGraphitemWidgetAttr(self):
         self._isDragEnable = False
         self._isDragable = True
     #
-    def _initGraphUnitDefAction(self):
+    def _initDefGraphitemWidgetAction(self):
         pass
     #
-    def _initGraphUnitDefRect(self):
+    def _initDefGraphitemWidgetRect(self):
         pass
     #
-    def _initGraphUnitDefUi(self):
+    def _initDefGraphitemWidgetUi(self):
         pass
     #
     def setDragEnable(self, boolean):
@@ -1130,23 +1129,23 @@ class QtGraphitemDef(QtWidgetDef):
 
 
 #
-class QtGroupDef(QtWidgetDef):
-    def _initGroupDef(self):
-        self._initWidgetDef()
+class QtDef_GroupWidget(QtDef_Widget):
+    def _initDefGroupWidget(self):
+        self._initDefWidget()
         #
-        self._initGroupDefAttr()
-        self._initGroupDefRect()
-        self._initGroupDefUi()
-        self._initGroupDefVar()
+        self._initDefGroupWidgetAttr()
+        self._initDefGroupWidgetRect()
+        self._initDefGroupWidgetUi()
+        self._initDefGroupWidgetVar()
     #
-    def _initGroupDefAttr(self):
+    def _initDefGroupWidgetAttr(self):
         self._isEventOverrideEnable = False
         self._isSeparated = False
     #
-    def _initGroupDefRect(self):
+    def _initDefGroupWidgetRect(self):
         self._uiImageRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initGroupDefUi(self):
+    def _initDefGroupWidgetUi(self):
         self._uiGroupWidth, self._uiGroupHeight = 20, 20
         #
         self._uiImage = None
@@ -1157,7 +1156,7 @@ class QtGroupDef(QtWidgetDef):
         #
         self._uiGroupSpacing = 2
     #
-    def _initGroupDefVar(self):
+    def _initDefGroupWidgetVar(self):
         self._childVisibleDic = {}
         self._childSizeDic = {}
     #
@@ -1199,17 +1198,17 @@ class QtGroupDef(QtWidgetDef):
 
 
 #
-class QtViewDef(QtWidgetDef):
-    def _initViewDef(self):
-        self._initWidgetDef()
+class QtDef_ViewWidget(QtDef_Widget):
+    def _initDefViewWidget(self):
+        self._initDefWidget()
         #
-        self._initViewDefAttr()
-        self._initViewDefAction()
-        self._initViewDefRect()
-        self._initViewDefUi()
-        self._initViewDefVar()
+        self._initDefViewWidgetAttr()
+        self._initDefViewWidgetAction()
+        self._initDefViewWidgetRect()
+        self._initDefViewWidgetUi()
+        self._initDefViewWidgetVar()
     #
-    def _initViewDefAttr(self):
+    def _initDefViewWidgetAttr(self):
         self._viewport, self._viewframe = [None] * 2
         #
         self._isHScrollEnable, self._isVScrollEnable = False, False
@@ -1219,15 +1218,15 @@ class QtViewDef(QtWidgetDef):
         #
         self._isPlaceholderEnable = False
     #
-    def _initViewDefAction(self):
+    def _initDefViewWidgetAction(self):
         pass
     #
-    def _initViewDefRect(self):
+    def _initDefViewWidgetRect(self):
         self._uiScrollRect = QtCore.QRect(-20, -20, 1, 1)
         #
         self._uiPlaceholderRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initViewDefUi(self):
+    def _initDefViewWidgetUi(self):
         self._uiScale = 1.0
         #
         self._uiBasicGridWidth, self._uiBasicGridHeight = 20.0, 20.0
@@ -1245,7 +1244,7 @@ class QtViewDef(QtWidgetDef):
         self._uiPlaceholderWidth, self._uiPlaceholderHeight = 240, 240
         self._uiPlaceholderImage = qtCore._toLxOsIconFile('svg_basic@svg#empty')
     #
-    def _initViewDefVar(self):
+    def _initDefViewWidgetVar(self):
         # Scroll
         self._hScrollValue, self._vScrollValue = 0, 0
         self._hScrollTempValue, self._vScrollTemValue = 0, 0
@@ -1324,29 +1323,29 @@ class QtViewDef(QtWidgetDef):
 
 
 #
-class QtTabBarDef(QtWidgetDef):
-    def _initTabBarDef(self):
-        self._initTabBarDefAttr()
-        self._initTabBarDefRect()
-        self._initTabBarDefUi()
-        self._initTabBarDefVar()
+class QtDef_TabbarWidget(QtDef_Widget):
+    def _initDefTabbarWidget(self):
+        self._initDefTabbarWidgetAttr()
+        self._initDefTabbarWidgetRect()
+        self._initDefTabbarWidgetUi()
+        self._initDefTabbarWidgetVar()
     #
-    def _initTabBarDefAttr(self):
+    def _initDefTabbarWidgetAttr(self):
         self._tabDir = qtCore.Vertical
         self._tabPos = qtCore.West
         #
         self._isItemAutoResizeEnable = False
         self._isItemAutoResizeable = False
     #
-    def _initTabBarDefRect(self):
+    def _initDefTabbarWidgetRect(self):
         self._uiTabBarPath = None
         #
         self._uiTabPathLis = []
     #
-    def _initTabBarDefUi(self):
+    def _initDefTabbarWidgetUi(self):
         self._uiItemWidth, self._uiItemHeight = 32, 64
     #
-    def _initTabBarDefVar(self):
+    def _initDefTabbarWidgetVar(self):
         self._itemIndexCount = 0
         self._minItemIndex, self._maxItemIndex = 0, 0
         #
@@ -1383,17 +1382,17 @@ class QtTabBarDef(QtWidgetDef):
 
 
 #
-class QtTabViewDef(QtWidgetDef):
-    def _initTabViewDef(self):
-        self._initWidgetDef()
+class QtDef_TabviewWidget(QtDef_Widget):
+    def _initDefTabviewWidget(self):
+        self._initDefWidget()
         #
-        self._initTabViewDefAttr()
-        self._initTabViewAction()
-        self._initTabViewRect()
-        self._initTabViewUi()
-        self._initTabViewVar()
+        self._initDefTabviewWidgetAttr()
+        self._initDefTabviewWidgetAction()
+        self._initDefTabviewWidgetRect()
+        self._initDefTabviewWidgetUi()
+        self._initDefTabviewWidgetVar()
     #
-    def _initTabViewDefAttr(self):
+    def _initDefTabviewWidgetAttr(self):
         self._tabBar = None
         #
         self._addButton = None
@@ -1407,18 +1406,18 @@ class QtTabViewDef(QtWidgetDef):
         self._tabWidgetLis = []
         self._tabWidgetDic = {}
     #
-    def _initTabViewAction(self):
+    def _initDefTabviewWidgetAction(self):
         pass
     #
-    def _initTabViewRect(self):
+    def _initDefTabviewWidgetRect(self):
         self._uiScrollRect = QtCore.QRect(-20, -20, 1, 1)
     #
-    def _initTabViewUi(self):
+    def _initDefTabviewWidgetUi(self):
         self._uiTabBarWidth, self._uiTabBarHeight = 32, 32
         #
         self._uiButtonWidth, self._uiButtonHeight = 20, 20
     #
-    def _initTabViewVar(self):
+    def _initDefTabviewWidgetVar(self):
         pass
     #
     def scrollRect(self):
@@ -1511,17 +1510,17 @@ class QtTabViewDef(QtWidgetDef):
 
 
 #
-class QtWindowDef(QtWidgetDef):
-    def _initWindowDef(self):
-        self._initWidgetDef()
+class QtDef_WindowWidget(QtDef_Widget):
+    def _initDefWindowWidget(self):
+        self._initDefWidget()
         #
-        self._initWindowDefAttr()
-        self._initWindowDefAction()
-        self._initWindowDefRect()
-        self._initWindowDefUi()
-        self._initWindowDefVar()
+        self._initDefWindowWidgetAttr()
+        self._initDefWindowWidgetAction()
+        self._initDefWindowWidgetRect()
+        self._initDefWindowWidgetUi()
+        self._initDefWindowWidgetVar()
     #
-    def _initWindowDefAttr(self):
+    def _initDefWindowWidgetAttr(self):
         self._widget = None
         self._viewport = None
         self._progressBar = None
@@ -1571,10 +1570,10 @@ class QtWindowDef(QtWidgetDef):
         #
         self._isMessageWindow = False
     #
-    def _initWindowDefAction(self):
+    def _initDefWindowWidgetAction(self):
         self._progressThread = qtCore.QThread_()
     #
-    def _initWindowDefRect(self):
+    def _initDefWindowWidgetRect(self):
         self._uiMenuRect, self._uiCentralRect, self._uiStatusRect = (
             QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1), QtCore.QRect(-20, -20, 1, 1)
         )
@@ -1590,7 +1589,7 @@ class QtWindowDef(QtWidgetDef):
         #
         self._uiFocusPath = None
     #
-    def _initWindowDefUi(self):
+    def _initDefWindowWidgetUi(self):
         self._uiStatusText = None
         #
         self._uiStatusTextWidth = 480
@@ -1617,7 +1616,7 @@ class QtWindowDef(QtWidgetDef):
         self._uiPlaceholderWidth, self._uiPlaceholderHeight = 240, 240
         self._uiPlaceholderImage = qtCore._toLxOsIconFile('svg_basic@svg#empty')
     #
-    def _initWindowDefVar(self):
+    def _initDefWindowWidgetVar(self):
         self._dragStartPoint = QtCore.QPoint()
         #
         self._uiMaxProgressValue = 1
@@ -1798,52 +1797,17 @@ class QtWindowDef(QtWidgetDef):
 
 
 #
-class QtLayoutDef(object):
-    def _initLayoutDef(self):
-        self._initLayoutDefAttr()
-        self._initLayoutDefVar()
-    #
-    def _initLayoutDefAttr(self):
-        self._minSize = 0
-    #
-    def _initLayoutDefVar(self):
-        self._itemLis = []
-        self._visibleItemLis = []
+class QtDef_ScrollbarWidget(QtDef_Widget):
+    def _initDefScrollbarWidget(self):
+        self._initDefWidget()
         #
-        self._itemSizePolicyLis = []
-        self._itemMiniSizeLis = []
+        self._initDefScrollbarWidgetAttr()
+        self._initDefScrollbarWidgetAction()
+        self._initDefScrollbarWidgetRect()
+        self._initDefScrollbarWidgetUi()
+        self._initDefScrollbarWidgetVar()
     #
-    def setSizePolicyAt(self, index, sizePolicy):
-        self._itemSizePolicyLis[index] = sizePolicy
-    #
-    def sizePolicyAt(self, index):
-        return self._itemSizePolicyLis[index]
-    #
-    def minimumSize(self):
-        return self._minSize
-    #
-    def addItem(self, widget):
-        self._itemLis.append(widget)
-        self._itemSizePolicyLis.append(
-            (widget.sizePolicy().horizontalPolicy(), widget.sizePolicy().verticalPolicy())
-        )
-        self._itemMiniSizeLis.append(
-            widget.minimumSize()
-        )
-
-
-#
-class QtScrollBarDef(QtWidgetDef):
-    def _initScrollBarDef(self):
-        self._initWidgetDef()
-        #
-        self._initScrollBarDefAttr()
-        self._initScrollBarDefAction()
-        self._initScrollBarDefRect()
-        self._initScrollBarDefUi()
-        self._initScrollBarDefVar()
-    #
-    def _initScrollBarDefAttr(self):
+    def _initDefScrollbarWidgetAttr(self):
         self._addScrollButton = None
         self._subScrollButton = None
         #
@@ -1870,7 +1834,7 @@ class QtScrollBarDef(QtWidgetDef):
         self._addScrollTimer = QtCore.QTimer(self._widget)
         self._subScrollTimer = QtCore.QTimer(self._widget)
     #
-    def _initScrollBarDefAction(self):
+    def _initDefScrollbarWidgetAction(self):
         self._pressFlag, self._dragFlag, self._clickFlag = False, False, False
         #
         self._addScrollFlag, self._subScrollFlag = False, False
@@ -1879,13 +1843,13 @@ class QtScrollBarDef(QtWidgetDef):
         #
         self._altFlag, self._shiftFlag, self._ctrlFlag = False, False, False
     #
-    def _initScrollBarDefRect(self):
+    def _initDefScrollbarWidgetRect(self):
         self._uiBasicRect, self._uiSliderRect, self._clickRect = QtCore.QRect(), QtCore.QRect(), QtCore.QRect()
     #
-    def _initScrollBarDefUi(self):
+    def _initDefScrollbarWidgetUi(self):
         self._uiScrollBarWidth = 20
     #
-    def _initScrollBarDefVar(self):
+    def _initDefScrollbarWidgetVar(self):
         self._absHeight = 0
         #
         self._itemColumnCount = 1
@@ -2087,16 +2051,16 @@ class QtScrollBarDef(QtWidgetDef):
 
 
 #
-class QtScrollAreaDef(QtWidgetDef):
-    def _initScrollAreaDef(self):
-        self._initWidgetDef()
+class QtDef_ScrollareaWidget(QtDef_Widget):
+    def _initDefScrollarea(self):
+        self._initDefWidget()
         #
-        self._initScrollAreaDefAttr()
-        self._initScrollAreaDefAction()
-        self._initScrollAreaDefUi()
-        self._initScrollAreaDefVar()
+        self._initDefScrollareaAttr()
+        self._initDefScrollareaAction()
+        self._initDefScrollareaUi()
+        self._initDefScrollareaVar()
     #
-    def _initScrollAreaDefAttr(self):
+    def _initDefScrollareaAttr(self):
         self._viewport, self._viewframe, self._layout = None, None, None
         #
         self._hScrollBar, self._vScrollBar = None, None
@@ -2111,15 +2075,15 @@ class QtScrollAreaDef(QtWidgetDef):
         #
         self._isHScrollable, self._isVScrollable = False, False
     #
-    def _initScrollAreaDefAction(self):
+    def _initDefScrollareaAction(self):
         self._hAutoScrollFlag, self._vAutoScrollFlag = False, False
         self._hAutoScrollRegion, self._vAutoScrollRegion = -1, -1
     #
-    def _initScrollAreaDefUi(self):
+    def _initDefScrollareaUi(self):
         self._uiHScrollWidth, self._uiHScrollHeight = 20, 20
         self._uiVScrollWidth, self._uiVScrollHeight = 20, 20
     #
-    def _initScrollAreaDefVar(self):
+    def _initDefScrollareaVar(self):
         self._xValue, self._yValue = 0, 0
     # for Override
     def _scrollValueChangeAction(self):
@@ -2248,46 +2212,81 @@ class QtScrollAreaDef(QtWidgetDef):
 
 
 #
-class QtSplitterDef(QtWidgetDef):
-    def _initSplitterDef(self):
-        self._initWidgetDef()
+class QtDef_SplitterWidget(QtDef_Widget):
+    def _initDefSplitter(self):
+        self._initDefWidget()
         #
-        self._initSplitterDefAttr()
-        self._initSplitterDefAction()
-        self._initSplitterDefRect()
-        self._initSplitterDefUi()
-        self._initSplitterDefVar()
+        self._initDefSplitterAttr()
+        self._initDefSplitterAction()
+        self._initDefSplitterRect()
+        self._initDefSplitterUi()
+        self._initDefSplitterVar()
     #
-    def _initSplitterDefAttr(self):
+    def _initDefSplitterAttr(self):
         pass
     #
-    def _initSplitterDefAction(self):
+    def _initDefSplitterAction(self):
         pass
     #
-    def _initSplitterDefRect(self):
+    def _initDefSplitterRect(self):
         pass
     #
-    def _initSplitterDefUi(self):
+    def _initDefSplitterUi(self):
         pass
     #
-    def _initSplitterDefVar(self):
+    def _initDefSplitterVar(self):
         pass
 
 
 #
-class QtItemModelDef(
-    QtPressDef,
-    QtCheckDef,
-    QtExpandDef,
-    QtColorDef,
-    QtGraphitemDef,
+class QtDef_Layout(object):
+    def _initDefLayout(self):
+        self._initDefLayoutAttr()
+        self._initDefLayoutVar()
+    #
+    def _initDefLayoutAttr(self):
+        self._minSize = 0
+    #
+    def _initDefLayoutVar(self):
+        self._itemLis = []
+        self._visibleItemLis = []
+        #
+        self._itemSizePolicyLis = []
+        self._itemMiniSizeLis = []
+    #
+    def setSizePolicyAt(self, index, sizePolicy):
+        self._itemSizePolicyLis[index] = sizePolicy
+    #
+    def sizePolicyAt(self, index):
+        return self._itemSizePolicyLis[index]
+    #
+    def minimumSize(self):
+        return self._minSize
+    #
+    def addItem(self, widget):
+        self._itemLis.append(widget)
+        self._itemSizePolicyLis.append(
+            (widget.sizePolicy().horizontalPolicy(), widget.sizePolicy().verticalPolicy())
+        )
+        self._itemMiniSizeLis.append(
+            widget.minimumSize()
+        )
+
+
+#
+class QtDef_ItemModel(
+    QtDef_PressWidget,
+    QtDef_CheckWidget,
+    QtDef_ExpandWidget,
+    QtDef_ColorWidget,
+    QtDef_GraphitemWidget,
 ):
     def _initItemModelDef(self):
-        self._initPressDef()
-        self._initCheckDef()
-        self._initExpandDef()
-        self._initColorDef()
-        self._initGraphUnitDef()
+        self._initDefPressWidget()
+        self._initDefCheckWidget()
+        self._initDefExpandWidget()
+        self._initDefColorWidget()
+        self._initDefGraphitemWidget()
         #
         self._initItemModelDefAttr()
         self._initItemModelDefAction()
@@ -2528,18 +2527,18 @@ class QtItemModelDef(
 
 
 #
-class QtGroupModelDef(
-    QtGroupDef,
-    QtPressDef,
-    QtExpandDef,
-    QtColorDef
+class QtDef_GroupModel(
+    QtDef_GroupWidget,
+    QtDef_PressWidget,
+    QtDef_ExpandWidget,
+    QtDef_ColorWidget
 ):
     def _initGroupModelDef(self):
-        self._initGroupDef()
+        self._initDefGroupWidget()
         #
-        self._initPressDef()
-        self._initExpandDef()
-        self._initColorDef()
+        self._initDefPressWidget()
+        self._initDefExpandWidget()
+        self._initDefColorWidget()
         #
         self._initGroupModelDefVar()
     #
@@ -2648,16 +2647,16 @@ class QtGroupModelDef(
 
 
 #
-class QtViewModelDef(
-    QtViewDef,
-    QtScrollAreaDef,
-    QtPressDef
+class QtDef_ViewModel(
+    QtDef_ViewWidget,
+    QtDef_ScrollareaWidget,
+    QtDef_PressWidget
 ):
-    def _initViewModelDef(self):
-        self._initViewDef()
-        self._initScrollAreaDef()
+    def _initDefViewModel(self):
+        self._initDefViewWidget()
+        self._initDefScrollarea()
         #
-        self._initPressDef()
+        self._initDefPressWidget()
     #
     def _getEventPos(self, event):
         point = event.pos()
@@ -3178,20 +3177,20 @@ class QtViewModelDef(
 
 
 #
-class QtWindowModelDef(
-    QtWindowDef,
-    QtPressDef,
-    QtExpandDef,
+class QtDef_WindowModel(
+    QtDef_WindowWidget,
+    QtDef_PressWidget,
+    QtDef_ExpandWidget,
 ):
-    def _initWindowModelDef(self):
-        self._initWindowDef()
-        self._initPressDef()
-        self._initExpandDef()
+    def _initDefWindowModel(self):
+        self._initDefWindowWidget()
+        self._initDefPressWidget()
+        self._initDefExpandWidget()
 
 
 #
-class QtSplitterModelDef(
-    QtSplitterDef
+class QtDef_SplitterModel(
+    QtDef_SplitterWidget
 ):
-    def _initSplitterModelDef(self):
-        self._initSplitterDef()
+    def _initDefSplitterModel(self):
+        self._initDefSplitter()

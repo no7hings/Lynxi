@@ -7,7 +7,7 @@ from LxCore.config import appCfg
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -1285,7 +1285,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             childItemLis.extend(treeItem.childItems())
             progressExplain = u'''Read File(s)'''
             maxValue = len(childItemLis)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for treeItem in childItemLis:
                 progressBar.updateProgress()
                 checkBox = treeItem.checkBox
@@ -1453,7 +1453,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 isWithTx = self.withTxButton.isChecked()
                 isAutoCache = self.autoFurCacheButton.isChecked()
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 self._connectObject.hide()
                 #
                 maDir.setDirectory(

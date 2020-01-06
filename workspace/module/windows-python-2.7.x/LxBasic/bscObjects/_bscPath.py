@@ -32,7 +32,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         def mainFnc_():
             for i in cls.os_method.listdir(rootString):
                 fullpathName = cls._toFileString(rootString, i)
-                if cls.path_method.isfile(fullpathName):
+                if cls.os_path_method.isfile(fullpathName):
                     collectionFnc_(fullpathName)
                 else:
                     if isFile is False:
@@ -45,7 +45,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         else:
             filterExtStringLis = None
 
-        if cls.path_method.exists(rootString):
+        if cls.os_path_method.exists(rootString):
             mainFnc_()
 
         return lis
@@ -72,7 +72,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
             for root, _, fileRelativeNames in cls.os_method.walk(rootString, topdown=0):
                 for i in fileRelativeNames:
                     fullpathName = cls._toFileString(root, i)
-                    if cls.path_method.isfile(fullpathName):
+                    if cls.os_path_method.isfile(fullpathName):
                         collectionFnc_(fullpathName)
                     else:
                         if isFile is False:
@@ -85,7 +85,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         else:
             filterExtStringLis = None
 
-        if cls.path_method.exists(rootString):
+        if cls.os_path_method.exists(rootString):
             mainFnc_()
 
         return lis
@@ -195,3 +195,12 @@ class Pth_Directory(bscAbstract.Abc_Path):
 
     def __str__(self):
         return self._directoryString
+
+
+class Pth_Maya(bscAbstract.Abc_DccPath):
+    separator_namespace = ':'
+    separator_node = '|'
+    separator_attribute = '.'
+
+    def __init__(self, pathString):
+        self._initAbcDccPath(pathString)

@@ -1,14 +1,16 @@
 # coding=utf-8
-from LxCore import lxCore_, lxScheme
+from LxBasic import bscCore, bscModifier
+
+from LxCore import lxScheme
 #
 none = ''
 
 
-#
+@bscModifier.catchCostTime
 def setUpdate(force=0):
-    schemeLoader = lxScheme.Python()
+    schemeLoader = lxScheme.Resource()
 
-    ui = lxScheme.Ui()
+    ui = lxScheme.Interface()
 
     localVersion = schemeLoader.version
     serverVersion = schemeLoader.activeVersion
@@ -17,7 +19,7 @@ def setUpdate(force=0):
 
     isUpdate = False
 
-    isDevelop = lxCore_.Basic().isDevelop()
+    isDevelop = bscCore.Basic()._isDevelop()
 
     if isDevelop is True:
         isUpdate = True
@@ -29,7 +31,6 @@ def setUpdate(force=0):
         if isDevelop is False:
             ui.closeAll()
 
-        # module.reloadBasic()
         schemeLoader.loadActiveModules()
 
         schemeLoader.version = serverVersion

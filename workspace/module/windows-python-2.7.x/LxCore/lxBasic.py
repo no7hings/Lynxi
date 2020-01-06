@@ -652,7 +652,7 @@ def setOsFolderCopy(sourceOsPath, targetOsPath, progressModule=None):
         if progressModule:
             explain = '''Copy Os File'''
             maxValue = len(osFiles)
-            progressBar = progressModule.viewSubProgress(explain, maxValue)
+            progressBar = progressModule.setProgressWindowShow(explain, maxValue)
         for sourceOsFile in osFiles:
             if progressBar:
                 progressBar.updateProgress()
@@ -668,7 +668,7 @@ def moveOsFolder(sourceOsPath, targetOsPath, progressModule=none):
         if progressModule:
             explain = '''Copy Os File'''
             maxValue = len(osFiles)
-            progressBar = progressModule.viewSubProgress(explain, maxValue)
+            progressBar = progressModule.setProgressWindowShow(explain, maxValue)
         for sourceOsFile in osFiles:
             if progressBar:
                 progressBar.updateProgress()

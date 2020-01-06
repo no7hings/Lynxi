@@ -69,7 +69,7 @@ def setMayaMenu():
 
     def updateCmd():
         from LxCore import lxScheme
-        lxScheme.Python().loadActiveModules()
+        lxScheme.Resource().loadActiveModules()
     #
     def setMain():
         mayaMenuBar = getMaMenuBar()

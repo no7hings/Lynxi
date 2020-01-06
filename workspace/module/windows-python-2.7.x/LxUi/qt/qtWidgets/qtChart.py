@@ -3,16 +3,18 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtModels import qtChartModel
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 
 
 #
-class QtRadarchart(qtWidgetAbstract.Abc_QtChart):
+class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
+    MODEL_CHART_CLS = qtChartModel.QtRadarchartModel
+
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initChartBasic()
+        self._initAbcObjChart()
         self._initRadarChart()
         #
         self.setupUi()
@@ -91,18 +93,17 @@ class QtRadarchart(qtWidgetAbstract.Abc_QtChart):
     #
     def chartModel(self):
         return self._chartModel
-    #
-    def setupUi(self):
-        self._chartModel = qtChartModel.QtRadarchartModel(self)
 
 
 #
-class QtSectorchart(qtWidgetAbstract.Abc_QtChart):
+class QtSectorchart(qtAbcWidget.QtAbcObj_Chart):
+    MODEL_CHART_CLS = qtChartModel.QtSectorchartModel
+
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initChartBasic()
+        self._initAbcObjChart()
         #
         self.setupUi()
         #
@@ -148,6 +149,3 @@ class QtSectorchart(qtWidgetAbstract.Abc_QtChart):
                 painter.drawText(textPoint, showPercent)
 
         # painter.end()
-    #
-    def setupUi(self):
-        self._chartModel = qtChartModel.QtSectorchartModel(self)

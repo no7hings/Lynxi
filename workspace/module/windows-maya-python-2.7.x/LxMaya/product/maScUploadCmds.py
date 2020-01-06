@@ -1,8 +1,11 @@
 # coding=utf-8
 import os
-#
+
+from LxBasic import bscModifier
+
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtLog, qtProgress, qtTip
+
+from LxUi.qt import qtLog, qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -31,7 +34,7 @@ isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 none = ''
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def scUnitAnimationUploadMainCmd(
         logWin,
         projectName,
@@ -168,7 +171,7 @@ def scUnitAnimationUploadMainCmd(
         )
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def scUnitLightUploadMainCmd(
         logWin,
         projectName,
@@ -271,7 +274,7 @@ def scUnitLightUploadMainCmd(
         )
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def scUnitAssetsUploadMainCmd_(
         logWin,
         projectName,
@@ -667,7 +670,7 @@ def scUnitCamerasUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Camera(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for seq, cameraObject in enumerate(sceneCameraLis):
                     if cameraObject in usedCameraLis:
                         # Sub Progress
@@ -762,7 +765,7 @@ def scUnitPreviewsUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Preview(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 #
                 maUtils.setDefaultShaderColor(.5, .5, .5)
                 for seq, cameraObject in enumerate(sceneCameraLis):
@@ -979,7 +982,7 @@ def scUnitAssetCachesUploadCmd(
         # View Progress
         progressExplain = '''Upload Asset Cache(s)'''
         maxValue = len(assetData)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for seq, i in enumerate(assetData):
             # Progress
             progressBar.updateProgress()
@@ -1061,7 +1064,7 @@ def scUnitSceneryComposeUploadCmd_(
         )
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def uploadScAstCfxFurCache(
         furCacheDataArray,
         useExistsCache=True
@@ -1072,7 +1075,7 @@ def uploadScAstCfxFurCache(
         # View Progress
         progressExplain = '''Uploading Asset ( CFX ) Cache'''
         maxValue = len(furCacheDataArray)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         yetiObjects = []
         yetiCaches = []
         yetiStartFrame = None
@@ -1189,7 +1192,7 @@ def scUnitRenderUploadCmd(
     qtLog.viewCompleteProcess(logWin)
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def scUnitRenderIndexUploadCmd(
         logWin,
         projectName,
@@ -1358,7 +1361,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
         # View Progress
         progressExplain = u'''Submit Deadline Job(s)'''
         maxValue = len(renderLayerLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for seq, currentRenderLayer in enumerate(renderLayerLis):
             progressBar.updateProgress(currentRenderLayer)
             # Switch Render Layer First

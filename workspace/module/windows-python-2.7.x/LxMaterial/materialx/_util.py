@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaterial import mtlCore
+from LxMaterial import mtlConfigure
 
 import collections
 
@@ -26,15 +26,15 @@ class loadVariant(object):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic[mtlCore.Basic.Key_Type_String] = nodeType
+            nodeDic[mtlConfigure.Basic.Key_Type_String] = nodeType
             nodeAttrDic = collections.OrderedDict()
             for j in i.getInputs():
                 attrName = j.getName()
                 valueTypeString = j.getType()
                 valueString = j.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[mtlCore.Basic.Key_Type_String] = valueTypeString
-                attrDic[mtlCore.Basic.Key_Value_String] = valueString
+                attrDic[mtlConfigure.Basic.Key_Type_String] = valueTypeString
+                attrDic[mtlConfigure.Basic.Key_Value_String] = valueString
                 nodeAttrDic[attrName] = attrDic
 
             nodeDic['attribute'] = nodeAttrDic

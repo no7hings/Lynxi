@@ -1,6 +1,9 @@
 # coding=utf-8
+from LxBasic import bscModifier
+
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtLog, qtTip
+
+from LxUi.qt import qtLog
 #
 from LxCore.preset import appVariant
 #
@@ -16,15 +19,14 @@ from LxMaya.product import maAstUploadCmds, maScnLoadCmds
 #
 from LxMaya.product.data import datScenery
 #
-#
 isSendMail = lxCore_.LynxiIsSendMail
 isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 #
 none = ''
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def scnUnitAssemblyUploadCmd(
         logWin,
         projectName,

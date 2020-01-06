@@ -3982,7 +3982,7 @@ def getMeshShapeDeformDatumLis(groupString):
 
 
 # View Maya Message
-def viewMessage(message, keyword, position='topCenter', fade=1, dragKill=0, alpha=.5):
+def setMessageWindowShow(message, keyword, position='topCenter', fade=1, dragKill=0, alpha=.5):
     # topLeft topCenter topRight
     # midLeft midCenter midCenterTop midCenterBot midRight
     # botLeft botCenter botRight

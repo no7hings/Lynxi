@@ -6,7 +6,7 @@ import hashlib
 import struct
 #
 from LxCore import lxBasic
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -207,7 +207,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
         # View Progress
         explain = '''Contrasting Data - Base'''
         maxValue = len(dic)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for compIndex, data in dic.items():
             progressBar.updateProgress()
             dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
@@ -234,7 +234,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
             # View Progress
             explain = '''Write Datum(s)'''
             maxValue = len(lis)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for dbCompIndex, data, hashValue, dbFile, dbBackupFile in lis:
                 progressBar.updateProgress()
                 dbData = getData(data, hashValue, dbVersion)
@@ -274,7 +274,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
             # View Progress
             explain = '''Read Datum(s)'''
             maxValue = len(compIndexes)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for subCompIndexes in splitCompIndexes:
                 readThreadLis = []
                 for compIndex in subCompIndexes:

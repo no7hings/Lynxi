@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract
+from LxUi.qt.qtObjects import qtAbcModel
 
 
 #
-class QtToolboxGroupModel(qtModelAbstract.Abc_QtGroupModel):
+class QtToolboxGroupModel(qtAbcModel.QtAbcObj_GroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -103,7 +103,7 @@ class QtToolboxGroupModel(qtModelAbstract.Abc_QtGroupModel):
     #
     def _setQtExpandStyle(self, state):
         if state is qtCore.UnexpandableState:
-            self._uiExpandIcon = self._uiMethod._toLxOsIconFile('svg_basic@svg#toolGroupCloseOff')
+            self._uiExpandIcon = self.ui_method._toLxOsIconFile('svg_basic@svg#toolGroupCloseOff')
         else:
             r1, g1, b1, a1 = 143, 143, 143, 255
             r2, g2, b2, a2 = 223, 223, 223, 255
@@ -126,7 +126,7 @@ class QtToolboxGroupModel(qtModelAbstract.Abc_QtGroupModel):
 
 
 #
-class QtToolboxModel(qtModelAbstract.Abc_QtGroupModel):
+class QtToolboxModel(qtAbcModel.QtAbcObj_GroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -158,7 +158,7 @@ class QtToolboxModel(qtModelAbstract.Abc_QtGroupModel):
     #
     def _setQtExpandStyle(self, state):
         if state is qtCore.UnexpandableState:
-            self._uiExpandIcon = self._uiMethod._toLxOsIconFile('svg_basic@svg#expandCloseOff')
+            self._uiExpandIcon = self.ui_method._toLxOsIconFile('svg_basic@svg#expandCloseOff')
         else:
             r, g, b, a = self.widget()._uiColorBackgroundRgba
             r1, g1, b1, a1 = 143, 143, 143, 255
@@ -184,13 +184,13 @@ class QtToolboxModel(qtModelAbstract.Abc_QtGroupModel):
 
 
 #
-class QtButtonTabBarModel(qtModelAbstract.Abc_QtTabBarModel):
+class QtButtonTabBarModel(qtAbcModel.QtAbcObj_TabbarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
 
 
 # Tab Bar
-class QtShelfTabBarModel(qtModelAbstract.Abc_QtTabBarModel):
+class QtShelfTabBarModel(qtAbcModel.QtAbcObj_TabbarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
         #
@@ -325,15 +325,15 @@ class QtShelfTabBarModel(qtModelAbstract.Abc_QtTabBarModel):
 
 
 # Tab View
-class QtButtonTabGroupModel(qtModelAbstract.Abc_QtTabGroupModel):
+class QtButtonTabGroupModel(qtAbcModel.QtAbcObj_TabgroupModel):
     def __init__(self, widget):
-        self._initTabViewModelBasic(widget)
+        self._initAbcObjTabgroupModel(widget)
 
 
 #
-class QtShelfTabGroupModel(qtModelAbstract.Abc_QtTabGroupModel):
+class QtShelfTabGroupModel(qtAbcModel.QtAbcObj_TabgroupModel):
     def __init__(self, widget):
-        self._initTabViewModelBasic(widget)
+        self._initAbcObjTabgroupModel(widget)
     #
     def _updateViewportGeometry(self):
         xPos, yPos = 0, 0

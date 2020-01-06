@@ -3,7 +3,7 @@
 import maya.cmds as cmds
 #
 from LxCore import lxBasic
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxMaya.command import maUtils
 #
@@ -152,7 +152,7 @@ def astMeshGeomDefCheck(meshObjects):
         # View Progress
         progressExplain = u'''Mesh Nde_Geometry Check'''
         maxValue = len(config)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for k, v in config.items():
             enable = v[0]
             subExplain = v[1]

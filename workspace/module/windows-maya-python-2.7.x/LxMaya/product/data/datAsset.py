@@ -6,7 +6,7 @@ import maya.cmds as cmds
 import pymel.core as core
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -17,30 +17,6 @@ from LxCore.preset.prod import assetPr
 from LxDatabase import dbGet, dbBasic
 #
 from LxMaya.command import maUtils, maGeom, maAttr, maFur, maShdr, maTxtr, maUuid
-# Type Config
-typeSet = appVariant.astBasicClassifications
-typeLabel = appVariant.assetClassifyAbbDic
-typeDic = appVariant.assetClassifyFullDic
-# Group Config
-basicGroupLabel = appVariant.basicGroupLabel
-basicModelLinkGroupLabel = appVariant.basicModelLinkGroupLabel
-basicSolverGeometrySubGroupLabel = appVariant.basicSolverGeometrySubGroupLabel
-basicCfxLinkGroupLabel = appVariant.basicCfxLinkGroupLabel
-basicRigLinkGroupLabel = appVariant.basicRigLinkGroupLabel
-# Folder Label
-basicAssetFolder = appVariant.basicAssetFolder
-basicSceneryFolder = appVariant.basicSceneryFolder
-# File Label
-astModelProductFileLabel = appVariant.astModelProductFileLabel
-sceneryLabel = appVariant.sceneryLabel
-# Utilities Label
-astDefaultVariant = appVariant.astDefaultVariant
-updateLabel = appVariant.updateLabel
-artistLabel = appVariant.artistLabel
-hostNameLabel = appVariant.hostNameLabel
-hostLabel = appVariant.hostLabel
-descriptionLabel = appVariant.descriptionLabel
-noteLabel = appVariant.noteLabel
 #
 none = ''
 
@@ -53,7 +29,7 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.updateProgress('Vertex')
@@ -109,7 +85,7 @@ def getAssetIndex(assetName):
 #
 def getAssetInfo():
     lis = []
-    keyword = appVariant.basicUnitRootGroupLabel + basicGroupLabel
+    keyword = appVariant.basicUnitRootGroupLabel + appVariant.basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
@@ -380,7 +356,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in objectLis:
             progressBar.updateProgress()
             getBranch(i)
@@ -596,7 +572,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.updateProgress()
             getBranch(i)
@@ -622,7 +598,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.updateProgress()
             getBranch(i)
@@ -707,7 +683,7 @@ def getTextureStatisticsDic(objectLis):
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(textureNodeLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for textureNode in textureNodeLis:
             # In Progress
             progressBar.updateProgress()
@@ -777,7 +753,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.updateProgress()
                 #
@@ -818,7 +794,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.updateProgress()
                 #
@@ -908,7 +884,7 @@ def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, ass
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(unionUniqueInfoData)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for uniqueId in unionUniqueInfoData:
             progressBar.updateProgress()
             #

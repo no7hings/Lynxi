@@ -13,7 +13,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
 #
 from LxDatabase import dbGet
 #
@@ -246,7 +246,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 assetStage = dbGet.getDbModelStage(assetIndex, assetVariant)
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maAstLoadCmds.astUnitModelLoadMainCmd(
                     logWin,
@@ -260,7 +260,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             def astModelCreateCmd():
                 from LxMaya.product import maAstLoadCmds
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maAstLoadCmds.astUnitModelCreateMainCmd(
                     logWin,
@@ -274,7 +274,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 isForce = self._isForce
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 assetStage = dbGet.getDbRigStage(assetIndex, assetVariant)
                 #
@@ -289,7 +289,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             def createForRig():
                 from LxMaya.product import maAstLoadCmds
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maAstLoadCmds.astUnitRigCreateMainCmd(
                     logWin,
@@ -308,7 +308,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 isUseServerTexture = False
                 isUseServerMap = False
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 assetStage = dbGet.getDbCfxStage(assetIndex, assetVariant)
                 #
@@ -326,7 +326,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             def createForCfx():
                 from LxMaya.product import maAstLoadCmds
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maAstLoadCmds.astUnitCreateCfxMain(
                     logWin,
@@ -341,7 +341,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 isForce = self._isForce
                 isCollectionTexture = self._localizationTexture
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 assetStage = lxCore_.LynxiAstRigSolStages[0]
                 #
@@ -359,7 +359,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 isForce = self._isForce
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 assetStage = lxCore_.LynxiAstRigSolStages[0]
                 #
@@ -377,7 +377,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 isForce = self._isForce
                 isCollectionTexture = self._localizationTexture
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 assetStage = lxCore_.LynxiScLightStages[1]
                 #
@@ -395,7 +395,7 @@ class IfAssetOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 isForce = self._isForce
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maAstLoadCmds.astUnitCreateLightMain(
                     logWin,
@@ -835,7 +835,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             def scnAssemblyCreateCmd():
                 from LxMaya.product import maScnLoadCmds
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScnLoadCmds.scnUnitCreateMainCmd(
                     logWin,
@@ -849,7 +849,7 @@ class IfSceneryOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             def scnAssemblyLoadCmd():
                 from LxMaya.product import maScnLoadCmds
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScnLoadCmds.scnUnitLoadMainCmd(
                     logWin,
@@ -1131,7 +1131,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
         downToolboxGroup.setTitle('Compose(s)')
         layout.addWidget(downToolboxGroup)
         #
-        tabWidget = qtWidgets.QtButtonTabGroup()
+        tabWidget = qtWidgets.QtButtonTabgroup()
         downToolboxGroup.addWidget(tabWidget)
         tabWidget.setTabPosition(qtCore.South)
         #
@@ -1361,7 +1361,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScLayoutStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 if self._isForce:
                     maFile.new()
@@ -1378,7 +1378,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScLayoutStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneLoadMainCmd(
                     logWin,
@@ -1394,7 +1394,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScAnimationStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneCreateMainCmd(
                     logWin,
@@ -1408,7 +1408,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScAnimationStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneLoadMainCmd(
                     logWin,
@@ -1424,7 +1424,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScSimulationStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneCreateMainCmd(
                     logWin,
@@ -1439,7 +1439,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScSimulationStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneLoadMainCmd(
                     logWin,
@@ -1455,7 +1455,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScSolverStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneCreateMainCmd(
                     logWin,
@@ -1473,7 +1473,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScSolverStages[0]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneLoadMainCmd(
                     logWin,
@@ -1489,7 +1489,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 #
                 sceneStage = lxCore_.LynxiScLightStages[1]
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 maScLoadCmds.scUnitSceneCreateMainCmd(
                     logWin,
@@ -2157,7 +2157,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     #
                     progressExplain = u'''Load Scene Asset(s)'''
                     maxValue = len(assetDatumLis)
-                    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                     #
                     for i in assetDatumLis:
                         progressBar.updateProgress()
@@ -2194,7 +2194,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 assetDatumLis = getCheckedScAstDataLis()
                 #
                 if assetDatumLis:
-                    logWin = qtLog.viewLogWin_()
+                    logWin = qtLog.setLogWindowShow()
                     #
                     startFrame, endFrame = scenePr.getScUnitFrameRange(
                         projectName, sceneClass, sceneName, sceneVariant
@@ -2202,7 +2202,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     #
                     progressExplain = u'''Load Scene Asset(s)'''
                     maxValue = len(assetDatumLis)
-                    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                     #
                     for i in assetDatumLis:
                         progressBar.updateProgress()
@@ -2244,7 +2244,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 assetDatumLis = getCheckedScAstDataLis()
                 #
                 if assetDatumLis:
-                    logWin = qtLog.viewLogWin_()
+                    logWin = qtLog.setLogWindowShow()
                     #
                     startFrame, endFrame = scenePr.getScUnitFrameRange(
                         projectName, sceneClass, sceneName, sceneVariant
@@ -2252,7 +2252,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     #
                     progressExplain = u'''Load Scene Asset(s)'''
                     maxValue = len(assetDatumLis)
-                    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                     #
                     for i in assetDatumLis:
                         progressBar.updateProgress()
@@ -2453,9 +2453,9 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     # View Progress
                     explain = '''Batch File by Command'''
                     maxValue = len(checkedGridItems)
-                    progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                     #
-                    logWin = qtLog.viewLogWin_()
+                    logWin = qtLog.setLogWindowShow()
                     qtLog.viewBatchMessage(logWin, 'Start Batch')
                     [setBranch(logWin, progressBar, i, enableLinks, pythonCommandString) for i in checkedGridItems]
                     qtLog.viewBatchMessage(logWin, 'Complete Batch')
@@ -2464,7 +2464,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                 from LxMaya.command import maFile
                 setMain()
         #
-        commandEditBox = qtWidgets.QtTextBrower()
+        commandEditBox = qtWidgets.QtTextbrower()
         layout.addWidget(commandEditBox, 0, 0, 1, 1)
         self.highlighter = qtCore.xPythonHighlighter(commandEditBox.textEdit().document())
         #
@@ -2565,7 +2565,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
                     # View Progress
                     explain = '''Read Mesh Information'''
                     maxValue = len(checkedGridItems)
-                    progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                     #
                     [setMainBranch(i) for i in checkedGridItems]
             #
@@ -2592,7 +2592,7 @@ class IfSceneOverviewUnit(ifWidgetBasic.IfProductUnitOverviewUnitBasic):
             #
             setMain()
         #
-        noteBox = qtWidgets.QtTextBrower()
+        noteBox = qtWidgets.QtTextbrower()
         layout.addWidget(noteBox, 0, 0, 1, 1)
         #
         pressButton = qtWidgets.QtPressbutton()

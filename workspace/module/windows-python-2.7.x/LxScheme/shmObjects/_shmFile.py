@@ -8,7 +8,7 @@ from LxScheme.shmObjects import _shmPath
 
 class Fle_RscBin(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -28,7 +28,7 @@ class Fle_RscBin(shmAbstract.Abc_File):
 
 class Fle_RscPackage(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -48,7 +48,7 @@ class Fle_RscPackage(shmAbstract.Abc_File):
 
 class Fle_RscPlug(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -68,7 +68,7 @@ class Fle_RscPlug(shmAbstract.Abc_File):
 
 class Fle_RscModule(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -88,7 +88,7 @@ class Fle_RscModule(shmAbstract.Abc_File):
 
 class Fle_RscScheme(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -106,9 +106,9 @@ class Fle_RscScheme(shmAbstract.Abc_File):
         }
 
 
-class Fle_Log(shmAbstract.Abc_File):
+class Fle_RscTool(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -117,18 +117,18 @@ class Fle_Log(shmAbstract.Abc_File):
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
 
         self.directory.pathFormatString = {
-            self.Path_Key_Active: u'{self.root.active}/log/' + baseName,
-            self.Path_Key_Server: u'{self.root.server}/log/' + baseName,
-            self.Path_Key_Local: u'{self.root.local}/log/' + baseName,
-            self.Path_Key_Develop: u'{self.root.develop}/log/' + baseName,
-            self.Path_Key_Product: u'{self.root.product}/log/' + baseName,
-            self.Path_Key_Workspace: u'{self.root.workspace}/log/' + workspaceBaseName,
+            self.Path_Key_Active: u'{self.root.active}/resource/tool/' + baseName,
+            self.Path_Key_Server: u'{self.root.server}/resource/tool/' + baseName,
+            self.Path_Key_Local: u'{self.root.local}/resource/tool/' + baseName,
+            self.Path_Key_Develop: u'{self.root.develop}/resource/tool/' + baseName,
+            self.Path_Key_Product: u'{self.root.product}/resource/tool/' + baseName,
+            self.Path_Key_Workspace: u'{self.root.workspace}/workspace/tool/' + workspaceBaseName,
         }
 
 
-class Fle_Preset(shmAbstract.Abc_File):
+class Fle_PrsUser(shmAbstract.Abc_File):
     DIRECTORY_CLS = _shmPath.Pth_Directory
-    METHOD_CLS = bscObjects.Fle_Json
+    METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')

@@ -3,22 +3,20 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class IfMaNodeTreeItem(qtWidgetAbstract.Abc_QtTreeviewItem):
+class IfMaNodeTreeItem(qtAbcWidget.QtAbcObj_Treeitem):
     ui_qt_method = uiCore.Basic
     app_node_method = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._initItemBasic()
-        #
-        self.setupUi()
+
+        self._initAbcObjTreeitem()
     @property
     def appPath(self):
         return self._appPath

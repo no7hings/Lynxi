@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtProgress, qtTip
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -220,7 +220,7 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(datumDic)
-                progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                 for k, v in datumDic.items():
                     progressBar.updateProgress()
                     #
@@ -291,7 +291,7 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Upload / Update Light Link(s)',
                 'Complete'
             )
@@ -311,7 +311,7 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Upload / Update Render Option(s)',
                 'Complete'
             )
@@ -634,7 +634,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(dataDic)
-                progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                 #
                 defaultSetLis = self.app_node_method.getLightDefaultSetLis()
                 for k, v in dataDic.items():
@@ -693,7 +693,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         defaultSetDatum = self._defaultSetDatumLis
         if defaultSetDatum:
             self.setLightDefaultSet(defaultSetDatum)
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Load Light Default Set(s)',
                 'Complete'
             )
@@ -702,7 +702,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         if lightLinkDatum:
             self.setLightLink(lightLinkDatum)
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Load Light Link(s)',
                 'Complete'
             )

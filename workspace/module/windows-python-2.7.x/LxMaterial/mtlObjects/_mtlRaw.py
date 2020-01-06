@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract, mtlCore
+from LxMaterial import mtlAbstract, mtlConfigure
 
 
 class Raw_Closure(mtlAbstract.Abc_Raw):
@@ -49,7 +49,7 @@ class Raw_NamespacePath(mtlAbstract.Abc_Path):
 class FilePath(mtlAbstract.Abc_Path):
     RAW_CLS = Raw_Name
 
-    separator_path = mtlCore.Separator_String_File
+    separator_path = mtlConfigure.Separator_String_File
 
     def __init__(self, *args):
         self._initAbcPath()
@@ -58,7 +58,7 @@ class FilePath(mtlAbstract.Abc_Path):
 class Raw_Nodepath(mtlAbstract.Abc_Path):
     RAW_CLS = Raw_Name
 
-    separator_path = mtlCore.Separator_String_Node
+    separator_path = mtlConfigure.Separator_String_Node
 
     def __init__(self, *args):
         self._initAbcPath(*args)
@@ -70,7 +70,7 @@ class Raw_Nodepath(mtlAbstract.Abc_Path):
 class GeometryPath(mtlAbstract.Abc_Path):
     RAW_CLS = Raw_Name
 
-    separator_path = mtlCore.Separator_String_Node
+    separator_path = mtlConfigure.Separator_String_Node
 
     def __init__(self, *args):
         self._initAbcPath(*args)
@@ -79,7 +79,7 @@ class GeometryPath(mtlAbstract.Abc_Path):
 class Raw_Attributepath(mtlAbstract.Abc_Path):
     RAW_CLS = Raw_Name
 
-    separator_path = mtlCore.Separator_String_Attribute
+    separator_path = mtlConfigure.Separator_String_Attribute
 
     def __init__(self, *args):
         self._initAbcPath(*args)

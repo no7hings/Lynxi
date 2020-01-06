@@ -12,3 +12,5 @@ from ._bscPath import *
 from ._bscFile import *
 
 from ._bscFunction import *
+
+from ._bscTime import *

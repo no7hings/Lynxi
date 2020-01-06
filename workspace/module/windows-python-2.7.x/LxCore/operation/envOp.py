@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore
+from LxBasic import bscMethods
 
 from LxCore import lxBasic
 
@@ -12,17 +12,17 @@ def setOsEnviron(osEnvironKey, path):
             if not path in envData:
                 lxBasic.setAddOsEnvironData(osEnvironKey, path)
                 traceMessage = 'Add Path "{}" : {}'.format(osEnvironKey, path)
-                bscCore.Py_Message().traceResult(traceMessage)
+                bscMethods.PythonMessage().traceResult(traceMessage)
             else:
                 traceMessage = 'Exists Path "{}" : {}'.format(osEnvironKey, path)
-                bscCore.Py_Message().traceResult(traceMessage)
+                bscMethods.PythonMessage().traceResult(traceMessage)
         else:
             traceMessage = 'Non - Exists Path "{}" : {}'.format(osEnvironKey, path)
-            bscCore.Py_Message().traceWarning(traceMessage)
+            bscMethods.PythonMessage().traceWarning(traceMessage)
     else:
         lxBasic.setOsEnvironValue(osEnvironKey, path)
         traceMessage = 'Set Path "{}" : {}'.format(osEnvironKey, path)
-        bscCore.Py_Message().traceResult(traceMessage)
+        bscMethods.PythonMessage().traceResult(traceMessage)
 
 
 # Set System Path
@@ -32,13 +32,13 @@ def setSysPath(path):
         if not path in sysData:
             lxBasic.setSystemPathInsert(path)
             traceMessage = 'Add Path : {}'.format(path)
-            bscCore.Py_Message().traceResult(traceMessage)
+            bscMethods.PythonMessage().traceResult(traceMessage)
         else:
             traceMessage = 'Exists Path : {}'.format(path)
-            bscCore.Py_Message().traceResult(traceMessage)
+            bscMethods.PythonMessage().traceResult(traceMessage)
     else:
         traceMessage = 'Non - Exists Path : {}'.format(path)
-        bscCore.Py_Message().traceWarning(traceMessage)
+        bscMethods.PythonMessage().traceWarning(traceMessage)
 
 
 #
@@ -46,11 +46,11 @@ def setPipeEnviron(osEnvironKey, path):
     envData = lxBasic.getOsEnvironValue(osEnvironKey)
     if envData:
         traceMessage = 'Exists Path "{}" : {}'.format(osEnvironKey, path)
-        bscCore.Py_Message().traceResult(traceMessage)
+        bscMethods.PythonMessage().traceResult(traceMessage)
     else:
         lxBasic.setOsEnvironValue(osEnvironKey, path)
         traceMessage = 'Set Path "{}" : {}'.format(osEnvironKey, path)
-        bscCore.Py_Message().traceResult(traceMessage)
+        bscMethods.PythonMessage().traceResult(traceMessage)
 
 
 #

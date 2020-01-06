@@ -2,8 +2,8 @@
 scheme_name = 'maya_default'
 scheme_version = 'active'
 
-scheme_basic_path = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
-scheme_toolkit_path = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
+scheme_basic_path = r'l:\tdAsset\lynxi'
+scheme_toolkit_path = r'l:\tdAsset\lynxi'
 
 
 class Setup(object):
@@ -19,10 +19,10 @@ class Setup(object):
         # Environ
         method = lynxisetup.Method
         method.setEnviron(
-            'LYNXI_PATH', scheme_basic_path
+            lynxisetup.Basic.environ_key_path_product, scheme_basic_path
         )
         method.setEnviron(
-            'LYNXI_TOOLKIT_PATH', scheme_toolkit_path
+            lynxisetup.Basic.environ_key_path_toolkit, scheme_toolkit_path
         )
         # Scheme
         scheme = lynxisetup.WindowsMayaPython27Scheme(scheme_name, scheme_version)

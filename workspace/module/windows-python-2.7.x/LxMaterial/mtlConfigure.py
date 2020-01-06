@@ -1,4 +1,6 @@
 # coding:utf-8
+import collections
+
 Separator_String_File = '/'
 Separator_String_Node = '/'
 Separator_String_Attribute = '.'
@@ -47,6 +49,7 @@ class Basic(object):
     Key_Value_String = 'valueString'
     Key_Attribute = 'attribute'
     Key_Children = 'children'
+    Key_Element = 'element'
 
     Key_Name = 'name'
     Key_FullpathName = 'fullpathName'
@@ -54,10 +57,14 @@ class Basic(object):
     Atr_Xml_Name = 'name'
     Atr_Xml_Node = 'node'
     Atr_Xml_Type = 'type'
+    Atr_Xml_Material = 'material'
+    Atr_Xml_Geom = 'geom'
 
     Atr_Xml_Value = 'value'
 
     Atr_Xml_Shader_Output_Type = 'context'
+
+    cls_order_dic = collections.OrderedDict
 
     def _xmlStrRaw(self):
         return {
@@ -87,13 +94,14 @@ class Basic(object):
         def addRawFnc_(raw_, lString, rString):
             lString += defIndentString
             label = raw_[cls.Key_Label]
-            children = raw_.get(cls.Key_Children)
+
             addCategoryFnc_(
                 raw_[cls.Key_Label], lString=lString, rString=' '
             )
             addAttributeFnc_(
                 raw_[cls.Key_Attribute], lString='', rString=' '
             )
+            children = raw_.get(cls.Key_Children)
             if children:
                 lis.append(u'>\r\n')
                 addChildrenFnc_(
@@ -103,11 +111,16 @@ class Basic(object):
             else:
                 lis.append(u'/>\r\n')
 
+            elements = raw_.get(cls.Key_Element)
+            if elements:
+                [addRawFnc_(i._xmlStrRaw(), lString='', rString='') for i in elements]
+
         defIndentString = ' ' * indent
 
         lis = [
             u'<?xml version="1.0"?>\r\n',
-            u'<materialx version="1.36">\r\n'
+            u'<materialx version="1.36">\r\n',
+            u'{}<xi:include href="materialx/arnold/nodedefs.mtlx" />\r\n'.format(defIndentString)
         ]
         addRawFnc_(raw, lString='', rString='')
         lis.append(
@@ -222,6 +235,9 @@ class Basic(object):
 
 
 Def_Node_Dic = {
+    "geometry": {
+        "typeString": "geometry",
+    },
     "ray_switch_rgba": {
         "typeString": "color4",
         "attribute": {
@@ -371,7 +387,7 @@ Def_Node_Dic = {
                 "typeString": "boolean",
                 "valueString": "false"
             },
-            "missing_texture_color": {
+            "missing_texturecls_color": {
                 "typeString": "color4",
                 "valueString": "0, 0, 0, 0"
             }
@@ -539,11 +555,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "fill_color": {
+            "fillcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
-            "line_color": {
+            "linecls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -676,11 +692,11 @@ Def_Node_Dic = {
     "toon": {
         "typeString": "color3",
         "attribute": {
-            "mask_color": {
+            "maskcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
-            "edge_color": {
+            "edgecls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -696,7 +712,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "silhouette_color": {
+            "silhouettecls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -752,7 +768,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.8"
             },
-            "base_color": {
+            "basecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -764,7 +780,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "specular_color": {
+            "specularcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -788,7 +804,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": ""
             },
-            "highlight_color": {
+            "highlightcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -804,7 +820,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": ""
             },
-            "rim_light_color": {
+            "rim_lightcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -820,7 +836,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "transmission_color": {
+            "transmissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -840,7 +856,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "sheen_color": {
+            "sheencls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -852,7 +868,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -897,7 +913,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.7"
             },
-            "Kd_color": {
+            "Kdcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -918,7 +934,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.7"
             },
-            "Kd_color": {
+            "Kdcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -930,7 +946,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Ks_color": {
+            "Kscls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -954,11 +970,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Kr_color": {
+            "Krcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
-            "reflection_exit_color": {
+            "reflection_exitcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -970,7 +986,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Kt_color": {
+            "Ktcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -982,7 +998,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "refraction_exit_color": {
+            "refraction_exitcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -1030,7 +1046,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1070,7 +1086,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Ksss_color": {
+            "Kssscls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1099,7 +1115,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.8"
             },
-            "base_color": {
+            "basecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1111,7 +1127,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "specular_color": {
+            "specularcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1139,7 +1155,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "transmission_color": {
+            "transmissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1171,7 +1187,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "subsurface_color": {
+            "subsurfacecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1195,7 +1211,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "sheen_color": {
+            "sheencls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1219,7 +1235,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "coat_color": {
+            "coatcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1243,7 +1259,7 @@ Def_Node_Dic = {
                 "typeString": "vector3",
                 "valueString": "0, 0, 0"
             },
-            "coat_affect_color": {
+            "coat_affectcls_color": {
                 "typeString": "float",
                 "valueString": "0"
             },
@@ -1263,7 +1279,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1380,7 +1396,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "spec_color": {
+            "speccls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1396,7 +1412,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "spec2_color": {
+            "spec2cls_color": {
                 "typeString": "color3",
                 "valueString": "1, 0.4, 0.1"
             },
@@ -1412,7 +1428,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "transmission_color": {
+            "transmissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 0.4, 0.1"
             },
@@ -1433,7 +1449,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "base_color": {
+            "basecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1485,7 +1501,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "diffuse_color": {
+            "diffusecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1493,7 +1509,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1590,7 +1606,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.8"
             },
-            "base_color": {
+            "basecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 0, 0"
             },
@@ -1602,7 +1618,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "specular_color": {
+            "specularcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1626,11 +1642,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1.52"
             },
-            "transmission_color": {
+            "transmissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
-            "flake_color": {
+            "flakecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1682,7 +1698,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "coat_color": {
+            "coatcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -1782,15 +1798,15 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": "angular"
             },
-            "X_angle": {
+            "Xfnc_angle": {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Y_angle": {
+            "Yfnc_angle": {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "Z_angle": {
+            "Zfnc_angle": {
                 "typeString": "float",
                 "valueString": "0"
             },
@@ -1925,7 +1941,7 @@ Def_Node_Dic = {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
-            "ground_point": {
+            "groundcls_point": {
                 "typeString": "vector3",
                 "valueString": "0, 0, 0"
             },
@@ -1950,11 +1966,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "scatter_color": {
+            "scattercls_color": {
                 "typeString": "color3",
                 "valueString": "0.5, 0.5, 0.5"
             },
-            "scatter_color_channel": {
+            "scattercls_color_channel": {
                 "typeString": "string",
                 "valueString": ""
             },
@@ -1982,7 +1998,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -2200,11 +2216,11 @@ Def_Node_Dic = {
     "camera_projection": {
         "typeString": "color4",
         "attribute": {
-            "projection_color": {
+            "projectioncls_color": {
                 "typeString": "color4",
                 "valueString": "1, 1, 1, 1"
             },
-            "offscreen_color": {
+            "offscreencls_color": {
                 "typeString": "color4",
                 "valueString": "0, 0, 0, 0"
             },
@@ -2310,11 +2326,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "min_color": {
+            "mincls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
-            "max_color": {
+            "maxcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             }
@@ -3833,7 +3849,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0"
             },
-            "input_color": {
+            "inputcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -3947,7 +3963,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": "scene_background"
             },
-            "shadow_color": {
+            "shadowcls_color": {
                 "typeString": "color3",
                 "valueString": "0, 0, 0"
             },
@@ -3955,11 +3971,11 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "background_color": {
+            "backgroundcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
-            "diffuse_color": {
+            "diffusecls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -3983,7 +3999,7 @@ Def_Node_Dic = {
                 "typeString": "boolean",
                 "valueString": "false"
             },
-            "specular_color": {
+            "specularcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4082,7 +4098,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "shallow_scatter_color": {
+            "shallow_scattercls_color": {
                 "typeString": "color3",
                 "valueString": "1, 0.909, 0.769"
             },
@@ -4094,7 +4110,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.15"
             },
-            "mid_scatter_color": {
+            "mid_scattercls_color": {
                 "typeString": "color3",
                 "valueString": "0.949, 0.714, 0.56"
             },
@@ -4106,7 +4122,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.25"
             },
-            "deep_scatter_color": {
+            "deep_scattercls_color": {
                 "typeString": "color3",
                 "valueString": "0.7, 0.1, 0.1"
             },
@@ -4118,7 +4134,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "0.6"
             },
-            "specular_color": {
+            "specularcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4134,7 +4150,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1.44"
             },
-            "sheen_color": {
+            "sheencls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4166,7 +4182,7 @@ Def_Node_Dic = {
                 "typeString": "float",
                 "valueString": "1"
             },
-            "opacity_color": {
+            "opacitycls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4677,7 +4693,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": "periodic"
             },
-            "wrap_frame_color": {
+            "wrap_framecls_color": {
                 "typeString": "color4",
                 "valueString": "0, 0, 0, 1"
             },
@@ -4730,7 +4746,7 @@ Def_Node_Dic = {
     "uv_projection": {
         "typeString": "color4",
         "attribute": {
-            "projection_color": {
+            "projectioncls_color": {
                 "typeString": "color4",
                 "valueString": "1, 1, 1, 1"
             },
@@ -4750,11 +4766,11 @@ Def_Node_Dic = {
                 "typeString": "vector3",
                 "valueString": "0, 0, 0"
             },
-            "u_angle": {
+            "ufnc_angle": {
                 "typeString": "float",
                 "valueString": "180"
             },
-            "v_angle": {
+            "vfnc_angle": {
                 "typeString": "float",
                 "valueString": "90"
             },
@@ -4762,7 +4778,7 @@ Def_Node_Dic = {
                 "typeString": "boolean",
                 "valueString": "false"
             },
-            "default_color": {
+            "defaultcls_color": {
                 "typeString": "color4",
                 "valueString": "0, 0, 0, 0"
             },
@@ -4845,7 +4861,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": ""
             },
-            "scattering_color": {
+            "scatteringcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4869,7 +4885,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": ""
             },
-            "attenuation_color": {
+            "attenuationcls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },
@@ -4893,7 +4909,7 @@ Def_Node_Dic = {
                 "typeString": "string",
                 "valueString": ""
             },
-            "emission_color": {
+            "emissioncls_color": {
                 "typeString": "color3",
                 "valueString": "1, 1, 1"
             },

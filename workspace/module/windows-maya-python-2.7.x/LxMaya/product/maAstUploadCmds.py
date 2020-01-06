@@ -1,8 +1,11 @@
 # coding=utf-8
 import os
 #
+from LxBasic import bscMethods, bscModifier
+#
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtLog, qtProgress, qtTip
+
+from LxUi.qt import qtLog, qtCommands
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -21,17 +24,6 @@ from LxMaya.product.op import assetOp
 from LxMaya.product import maAstLoadCmds
 #
 from LxMaya.database import maDbAstCmds
-# Type Config
-typeSet = appVariant.astBasicClassifications
-typeLabel = appVariant.assetClassifyAbbDic
-typeDic = appVariant.assetClassifyFullDic
-# Shape Config
-shapeSet = appVariant.shapeSet
-shapeLabel = appVariant.shapeLabel
-shapeDic = appVariant.shapeDic
-# Utilities Label
-astDefaultVersion = appVariant.astDefaultVersion
-astDefaultVariant = appVariant.astDefaultVariant
 #
 isSendMail = lxCore_.LynxiIsSendMail
 isSendDingTalk = lxCore_.LynxiIsSendDingTalk
@@ -40,7 +32,7 @@ none = ''
 
 
 # Upload Model / Texture / Nde_ShaderRef( Key Method )
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def astUnitModelUploadMainCmd(
         logWin,
         projectName,
@@ -220,7 +212,7 @@ def astUnitSceneRenameCmd_(
     # View Progress
     progressExplain = u'''Rename Maya - Scene'''
     maxValue = 2
-    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
     #
     usedObjects = []
     progressBar.updateProgress(u'''Rename Material' Nde_Node''')
@@ -250,7 +242,7 @@ def astUnitSceneRenameCmd_(
     #
     qtLog.viewCompleteProcess(logWin)
     #
-    qtTip.viewMessage(
+    bscMethods.If_Message(
         u'Rename Maya Scene',
         u'Complete'
     )
@@ -323,7 +315,7 @@ def astUnitSceneClearCmd(logWin):
     # View Progress
     progressExplain = '''Clean Maya Scene'''
     maxValue = 8
-    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
     # Remove Reference >>> 01
     progressBar.updateProgress('''Clean Reference File(s)''')
     assetOp.setCleanReferenceFile()
@@ -351,7 +343,7 @@ def astUnitSceneClearCmd(logWin):
     #
     qtLog.viewCompleteProcess(logWin)
     #
-    qtTip.viewMessage(
+    bscMethods.If_Message(
         u'Clean Maya Scene',
         u'Complete'
     )
@@ -371,7 +363,7 @@ def astUnitMeshRepairCmd_(
     # View Progress
     progressExplain = '''Repair Mesh'''
     maxValue = 4 + [0, 3][repairTrans] + [0, 1][repairHistory] + [0, 1][repairUnlockNormal] + [0, 1][repairSoftNormal] + [0, 1][repairUv]
-    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
     # Low Quality Display >>> 01
     progressBar.updateProgress('''Set Mesh's Low Quality Display''')
     [maUtils.setObjectDisplayMode(i) for i in meshObjects]
@@ -423,7 +415,7 @@ def astUnitShaderRepairCmd_(
     # View Progress
     progressExplain = '''Repair Nde_ShaderRef'''
     maxValue = [0, 1][repairMatl] + [0, 2][repairTexture] + [0, 2][repairAov]
-    progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
     if repairMatl is True:
         # Relink Model's Material >>> 01
         progressBar.updateProgress('''Repair Material Object - Set''')
@@ -779,7 +771,7 @@ def astUnitUploadModelProductSub(
             projectName,
             assetClass, assetName
         )[1]
-        if assetVariant == astDefaultVariant:
+        if assetVariant == appVariant.astDefaultVariant:
             lxBasic.writeOsJson(meshData, serverBasicMeshFile)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
@@ -963,7 +955,7 @@ def astUnitUploadAsbGpuCacheSub(
         withLod=(50, 50), color=(.5, .5, .5)
 ):
     # Check is Default Variant
-    if assetVariant == astDefaultVariant:
+    if assetVariant == appVariant.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(
@@ -1023,7 +1015,7 @@ def astUploadSceneryUnitBoxCacheSub(
         color=(.5, .5, .5)
 ):
     # Check is Default Variant
-    if assetVariant == astDefaultVariant:
+    if assetVariant == appVariant.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=False)
@@ -1252,7 +1244,7 @@ def astUnitUploadAssemblyMain(
 
 
 # Upload Rig
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def astUnitUploadRigMain(
         logWin,
         assetIndex,
@@ -1427,7 +1419,7 @@ def astUnitUploadRigProduct(
     qtLog.viewCompleteProcess(logWin)
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def astUnitCfxUploadMainCmd(
         logWin,
         assetIndex,
@@ -1831,7 +1823,7 @@ def astUnitUploadCfxProduct(
     qtLog.viewCompleteProcess(logWin)
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def astUnitUploadMain(
         logWin,
         assetIndex, projectName, assetClass, assetName, assetVariant, assetStage,

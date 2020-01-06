@@ -1,12 +1,14 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscCore, bscMethods
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic
+
+from LxScheme import shmConfigure
 
 from LxScheme.shmObjects import _shmPath, _shmResource
 
 
-class Python(lxCore_.Basic):
+class Resource(shmConfigure.Basic):
     def __init__(self):
         self._resource_cls_dic = {
             self.Category_Plf_Language: _shmResource.Rsc_PltLanScheme,
@@ -17,20 +19,23 @@ class Python(lxCore_.Basic):
     @property
     def name(self):
         return lxBasic.getOsEnvironValue(
-            self.Key_Environ_Scheme_Name
+            self.Environ_Key_Scheme_Name
         )
 
     @property
     def version(self):
         return lxBasic.getOsEnvironValue(
-            self.Key_Environ_Scheme_Version
+            self.Environ_Key_Scheme_Version
         )
 
     @version.setter
     def version(self, versionString):
         lxBasic.setOsEnvironValue(
-            self.Key_Environ_Scheme_Version,
+            self.Environ_Key_Scheme_Version,
             versionString
+        )
+        bscMethods.PythonMessage().traceResult(
+            u'Set Scheme: {} ( {} )'.format(self.name, self.activeVersion)
         )
 
     @property
@@ -39,7 +44,7 @@ class Python(lxCore_.Basic):
 
     def _getResource(self):
         data = lxBasic.getOsEnvironValue(
-            self.Key_Environ_Scheme_System
+            self.Environ_Key_Scheme_System
         )
         if data:
             systemRaw = eval(data)
@@ -59,36 +64,40 @@ class Python(lxCore_.Basic):
         )
         modules = activeOperate.dependentModules()
 
-        pythonReload = bscCore.Py_Reload(modules)
+        pythonReload = bscMethods.PythonReloader(modules)
         pythonReload.run()
 
-        bscCore.If_Message(
+        bscMethods.If_Message(
             u'Load Scheme: ',
             u'{} ( {} )'.format(self.name, self.activeVersion)
         )
 
 
-class Ui(object):
-    Lynxi_Key_Environ_Message_Count = 'LYNXI_MESSAGE_COUNT'
-    Lynxi_Key_Environ_Enable_Tooltip_Auto = 'LYNXI_TOOLTIP_AUTO_SHOW'
+class Interface(object):
+    Environ_Key_Message_Count = 'LYNXI_VALUE_MESSAGE_COUNT'
+    Environ_Key_Enable_Tooltip_Auto = 'LYNXI_ENABLE_TOOLTIP_AUTO_SHOW'
     def __init__(self):
         pass
 
     @classmethod
     def restMessageCount(cls):
-        lxBasic.setOsEnvironValue(cls.Lynxi_Key_Environ_Message_Count, '0')
+        lxBasic.setOsEnvironValue(cls.Environ_Key_Message_Count, '0')
 
     @classmethod
-    def setMessageCount(cls, value):
-        data = lxBasic.getOsEnvironValue(cls.Lynxi_Key_Environ_Message_Count)
+    def setMessageCount(cls, delta):
+        value = cls.messageCount()
         #
+        value += delta
+        #
+        lxBasic.setOsEnvironValue(cls.Environ_Key_Message_Count, str(value))
+        return value
+
+    @classmethod
+    def messageCount(cls):
+        data = lxBasic.getOsEnvironValue(cls.Environ_Key_Message_Count)
         if data:
-            value_ = str(int(data) + value)
-        else:
-            value_ = str(0)
-        #
-        lxBasic.setOsEnvironValue(cls.Lynxi_Key_Environ_Message_Count, value_)
-        return int(value_)
+            return int(data)
+        return 0
 
     @staticmethod
     def closeAll():
@@ -106,12 +115,12 @@ class Ui(object):
     @classmethod
     def setTooltipAutoShow(cls, boolean):
         envValue = str(boolean).upper()
-        lxBasic.setOsEnvironValue(cls.Lynxi_Key_Environ_Enable_Tooltip_Auto, envValue)
+        lxBasic.setOsEnvironValue(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
 
     @classmethod
     def isTooltipAutoShow(cls):
         boolean = False
-        envData = lxBasic.getOsEnvironValue(cls.Lynxi_Key_Environ_Enable_Tooltip_Auto)
+        envData = lxBasic.getOsEnvironValue(cls.Environ_Key_Enable_Tooltip_Auto)
         if envData:
             if envData == str(True).upper():
                 boolean = True
@@ -127,6 +136,10 @@ class Root(object):
         return _shmPath.Pth_Root()
 
     @property
+    def preset(self):
+        return _shmPath.Pth_PresetRoot()
+
+    @property
     def toolkit(self):
         return _shmPath.Pth_ToolkitRoot()
 
@@ -135,9 +148,35 @@ class Root(object):
         return _shmPath.Pth_IconRoot()
 
 
-class File(object):
+class Directory(object):
+    def __init__(self):
+        pass
+
+    @property
+    def toolkit(self):
+        return None
+
+    @property
+    def icon(self):
+        return _shmPath.Pth_IconDirectory()
+
+
+class UserPreset(object):
     def __init__(self):
         self._userName = bscCore.Basic()._getUserName()
+        self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
-    def projectFile(self):
-        pass
+    @property
+    def renderCommandDirectory(self):
+        return u'{}/command/render'.format(self._localPathString)
+
+    @property
+    def projectConfigFile(self):
+        return u'{}/project/config.json'.format(self._localPathString)
+
+    def applicationProjectConfigFile(self, applicationName, applicationVersion):
+        return u'{}/project/{}-{}.config.json'.format(self._localPathString, applicationName, applicationVersion)
+
+    @property
+    def uiFilterConfigFile(self):
+        return u'{}/ui/filter.config.json'.format(self._localPathString)

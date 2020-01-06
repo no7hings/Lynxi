@@ -1,7 +1,7 @@
 # coding=utf-8
 from subprocess import Popen, PIPE
 #
-from LxBasic import bscCore
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic
 #
@@ -56,7 +56,7 @@ def getDdlSubmitInfo(*keys):
                     if isinstance(resultData, dict):
                         lis.append(resultData[key])
                     else:
-                        bscCore.Py_Message().traceError(resultData)
+                        bscMethods.PythonMessage().traceError(resultData)
     #
     return lis
 

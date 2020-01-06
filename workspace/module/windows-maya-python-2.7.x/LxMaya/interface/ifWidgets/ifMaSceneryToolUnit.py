@@ -9,7 +9,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress, qtTip
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
 #
@@ -216,7 +216,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Assembly Unit(s)'''
             maxValue = len(uiData)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.updateProgress()
                 setBranch(s, k, v)
@@ -291,7 +291,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
         super(IfScnLinkToolUnit, self).__init__(*args, **kwargs)
         self._connectObject = None
         #
-        self.logWindow = qtLog.logWin_()
+        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
     #
@@ -344,7 +344,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         #
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         mainLayout.addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         #
@@ -434,7 +434,7 @@ class IfScnAssemblyInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         self.mainLayout().addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         # Assembly
@@ -482,7 +482,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self.filterTypes = ['assemblyReference']
         #
-        self.logWindow = qtLog.logWin_()
+        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
     #
@@ -678,7 +678,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def setCleanScene(self):
         maAstUploadCmds.astUnitSceneClearCmd(self.logWindow)
-        maUtils.viewMessage(u'Clean Maya Scene', u'Complete', position='topCenter', fade=1, dragKill=0)
+        maUtils.setMessageWindowShow(u'Clean Maya Scene', u'Complete', position='topCenter', fade=1, dragKill=0)
     #
     def getParentGroupName(self):
         data = self.parentGroupLabel.datum()
@@ -795,12 +795,12 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupScnTipToolUiBox(self, toolBox):
         toolBox.setUiData(self.dicScnTip)
         #
-        self._scnTipLabel = qtWidgets.QtTextBrower()
+        self._scnTipLabel = qtWidgets.QtTextbrower()
         toolBox.addInfo('tip', self._scnTipLabel)
         self._scnTipLabel.setEnterEnable(False)
         self._scnTipLabel.setRule(self.uploadTips)
         #
-        self._scnNoteTextBrower = qtWidgets.QtTextBrower()
+        self._scnNoteTextBrower = qtWidgets.QtTextbrower()
         toolBox.addButton('note', self._scnNoteTextBrower)
         self._scnNoteTextBrower.setTooltip(
             u'''输入 备注信息'''
@@ -885,7 +885,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView
             )
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 u'Make Snapshot ( View Port )', u'Complete'
             )
     #
@@ -920,7 +920,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 u'Make Snapshot ( Render )', u'Complete'
             )
     #
@@ -938,7 +938,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._connectObject.hide()
         #
         if sceneryName:
-            logWin = qtLog.viewLogWin_(description)
+            logWin = qtLog.setLogWindowShow(description)
             #
             maScnUploadCmds.scnUnitAssemblyUploadCmd(
                 logWin,
@@ -971,7 +971,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneryClass, sceneryName, sceneryVariant, sceneryStage,
             timeTag
         )
-        qtTip.viewMessage(
+        qtCommands.setMessageWindowShow(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
@@ -979,7 +979,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         self.mainLayout().addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         # Upload

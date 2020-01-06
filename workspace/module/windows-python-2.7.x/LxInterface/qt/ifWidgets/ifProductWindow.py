@@ -7,7 +7,7 @@ from LxCore.preset.prod import projectPr
 #
 from LxUi import uiCore
 #
-from LxUi.qt import qtWidgets, qtCore, qtTip
+from LxUi.qt import qtWidgets, qtCore, qtCommands
 #
 from LxInterface.qt.ifWidgets import ifProductGroup
 #
@@ -17,7 +17,7 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class If_QtProjectWindow(qtWidgets.QtDialogWindow):
     _Title = 'Project'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self):
         super(If_QtProjectWindow, self).__init__()
         #
@@ -63,7 +63,7 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtPersonnelWindow, self).__init__(parent)
         #
@@ -125,7 +125,7 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         layout.addWidget(self._ipLabel, 7, 0, 1, 1)
     #
     def setupRightToolUiBox(self, layout):
-        self._tipLabel = qtWidgets.QtTextBrower()
+        self._tipLabel = qtWidgets.QtTextbrower()
         self._tipLabel.setEnterEnable(False)
         layout.addWidget(self._tipLabel)
     #
@@ -186,14 +186,14 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
                 w = If_QtToolFloatWindow()
                 w.windowShow()
             #
-            qtTip.viewMessage(u'提示：', u'设置用户信息成功')
+            qtCommands.setMessageWindowShow(u'提示：', u'设置用户信息成功')
             self.uiQuit()
     @qtCore.uiShowMethod_
     def windowShow(self):
         self.uiShow()
     #
     def setupWindow(self):
-        group = qtWidgets.QtVShelfTabGroup()
+        group = qtWidgets.QtVShelfTabgroup()
         self.addWidget(group)
         #
         widget = qtCore.QWidget_()
@@ -221,11 +221,11 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
 #
 class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtToolFloatWindow, self).__init__(parent)
         #
-        self.setDefaultSize(160, 320)
+        self.setDefaultSize(480, 640)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -245,7 +245,7 @@ class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
     def setupShelf(self):
         presetDic = projectPr.getProjectMayaShelfDataDic()
         if presetDic:
-            shelf = qtWidgets.QtVShelfTabGroup()
+            shelf = qtWidgets.QtVShelfTabgroup()
             self.addWidget(shelf)
             #
             shelfDic = {}
@@ -300,7 +300,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
     #
     projectName = projectPr.getMayaProjectName()
     _Title = 'Tool Kit'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtToolkitWindow, self).__init__(parent)
         #
@@ -328,7 +328,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
 #
 class If_QtProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtProductManagerWindow, self).__init__(parent)
         #
@@ -351,7 +351,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
 #
 class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtAssetManagerWindow, self).__init__(parent)
         #
@@ -371,7 +371,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = qtWidgets.QtVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabgroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfAssetProductGroup(self)
@@ -383,7 +383,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneryManagerWindow, self).__init__(parent)
         #
@@ -403,7 +403,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = qtWidgets.QtVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabgroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfSceneryProductGroup(self)
@@ -415,7 +415,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxScheme.Python().version
+    _Version = lxScheme.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneManagerWindow, self).__init__(parent)
         #
@@ -435,7 +435,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
         lxBasic.setOsFolderOpen(helpDirectory)
     #
     def setupWindow(self):
-        shelf = qtWidgets.QtVShelfTabGroup()
+        shelf = qtWidgets.QtVShelfTabgroup()
         self.addWidget(shelf)
         #
         widget = ifProductGroup.IfSceneProductGroup(self)

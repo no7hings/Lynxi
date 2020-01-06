@@ -17,7 +17,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
     plf_file_method = _methodBasic.Mtd_PlfFile
     dtb_unit_method = _dbMethod.Mtd_DbUnit
     database_method = _methodBasic.Mtd_Database
-    _uiMethod = qtMethod.QtViewMethod
+    ui_method = qtMethod.QtViewMethod
     #
     dbClass = 'develop'
     dbUnitType = dtb_unit_method.LxDb_Type_Unit_Python
@@ -43,7 +43,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         layout.addWidget(toolGroup)
         toolGroup.setTitle('Note(s)')
         toolGroup.setExpanded(True)
-        self._noteEnterBox = qtWidgets.QtTextBrower()
+        self._noteEnterBox = qtWidgets.QtTextbrower()
         toolGroup.addWidget(self._noteEnterBox)
         self._noteEnterBox.setNameText('Note(s)')
         #
@@ -70,7 +70,7 @@ class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
         layout.addWidget(self._centralBottomTooGroup)
         self._centralBottomTooGroup.setTitle('Datum')
         #
-        self._datumEnterBox = qtWidgets.QtTextBrower()
+        self._datumEnterBox = qtWidgets.QtTextbrower()
         self._centralBottomTooGroup.addWidget(self._datumEnterBox)
         self.highlighter = qtCore.xPythonHighlighter(self._datumEnterBox.textEdit().document())
     #

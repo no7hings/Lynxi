@@ -1,5 +1,6 @@
 # coding:utf-8
 from LxCore import lxBasic
+
 from LxScheme import shmAbstract
 
 
@@ -41,6 +42,34 @@ class Raw_Version(shmAbstract.Abc_Raw):
             self._add(other)
 
         return self
+
+
+class Raw_Custom(shmAbstract.Abc_Raw):
+    def __init__(self, raw=None):
+        self._initAbcRaw(
+            raw,
+            lxBasic.orderedDict(
+                [
+                    (self.Key_Record, []),
+                    (self.Key_Active, None)
+                ]
+            )
+        )
+
+    def addRecord(self, string):
+        if string not in self.record:
+            self.record.append(string)
+
+    @property
+    def record(self):
+        return self.get(self.Key_Record) or []
+
+    def setActive(self, string):
+        self._raw[self.Key_Active] = string
+
+    @property
+    def active(self):
+        return self.get(self.Key_Active)
 
 
 class Raw_Environ(shmAbstract.Abc_Raw):
@@ -120,6 +149,17 @@ class Raw_Dependent(shmAbstract.Abc_Raw):
         return self
 
 
+class Raw_Variant(shmAbstract.Abc_Raw):
+    def __init__(self, raw=None):
+        self._initAbcRaw(
+            raw,
+            {}
+        )
+
+    def set(self, key, value):
+        self._raw[key] = value
+
+
 class Raw_Resource(shmAbstract.Abc_RawResource):
     RAW_VERSION_CLS = Raw_Version
     RAW_ENVIRON_CLS = Raw_Environ
@@ -170,3 +210,14 @@ class Raw_Resource(shmAbstract.Abc_RawResource):
     @property
     def dependent(self):
         return self._dependentObj
+
+
+class Raw_Preset(shmAbstract.Abc_RawResource):
+    RAW_CUSTOM_CLS = Raw_Custom
+    RAW_VARIANT_CLS = Raw_Variant
+
+    def __init__(self, enable, category, name):
+        self._initRawConfig(enable, category, name)
+
+    def _initRawConfig(self, enable, category, name):
+        pass

@@ -13,7 +13,7 @@ none = ''
 
 #
 class IfShelfBasic_(
-    qtWidgets.QtVShelfTabGroup,
+    qtWidgets.QtVShelfTabgroup,
     ifAbstract.IfShelfAbs
 ):
     ShelfWidth = 800
@@ -54,13 +54,13 @@ class IfShelfBasic_(
 
 #
 class IfGroupBasic_(
-    qtWidgets.QtHShelfTabGroup,
-    ifAbstract.IfGroupModelAbs
+    qtWidgets.QtHShelfTabgroup,
+    ifAbstract.IfAbcGroupModel
 ):
     GroupWidth = 800
     SideWidth = 320
     def _initBasicGroup(self):
-        self._initGroupModelAbs()
+        self._initAbcGroupModel()
         #
         self._initBasicGroupAttr()
         # Tool Box

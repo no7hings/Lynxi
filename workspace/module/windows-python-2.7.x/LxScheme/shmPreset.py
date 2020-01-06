@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxCore import lxCore_
+from LxScheme import shmConfigure
 
 from LxScheme.shmObjects import _shmResource
 
 
-class ResourcePreset(lxCore_.Basic):
+class ResourcePreset(shmConfigure.Basic):
     def __init__(self):
         self.def_cls_resource_dic = {
             self.Category_Plf_Language: _shmResource.Rsc_PltLanguage,
@@ -72,7 +72,7 @@ class ResourcePreset(lxCore_.Basic):
             ]
         }
 
-        self.Def_Resource_Dic = {
+        self.def_resource_dic = {
             # Bin
             'windows-python': {
                 self.Key_Category: self.Category_Plf_Language,
@@ -290,7 +290,7 @@ class ResourcePreset(lxCore_.Basic):
                 ]
             }
         }
-        self.Def_Version_Dic = {
+        self.def_version_dic = {
             # Bin
             'windows-python': {
                 self.Key_Record: ['2.7.13'],
@@ -355,7 +355,7 @@ class ResourcePreset(lxCore_.Basic):
                 self.Key_Active: '3.3.0.1'
             }
         }
-        self.Def_Environ_Dic = {
+        self.def_environ_dic = {
             # Bin
             'windows-python': {
                 'PATH': {
@@ -442,7 +442,7 @@ class ResourcePreset(lxCore_.Basic):
                 }
             }
         }
-        self.Def_Dependent_Dic = {
+        self.def_dependent_dic = {
             # Package
             'python27_dingtalkchatbot':
             {
@@ -694,21 +694,21 @@ class ResourcePreset(lxCore_.Basic):
     def resources(self):
         lis = []
 
-        for k, v in self.Def_Resource_Dic.items():
+        for k, v in self.def_resource_dic.items():
             category = v[self.Key_Category]
             name = v[self.Key_Name]
             argument = v[self.Key_System]
             cls = self.def_cls_resource_dic[category]
 
             resource_ = cls(name, *argument)
-            if k in self.Def_Version_Dic:
-                resource_.version.create(self.Def_Version_Dic[k])
+            if k in self.def_version_dic:
+                resource_.version.create(self.def_version_dic[k])
 
-            if k in self.Def_Environ_Dic:
-                resource_.environ.create(self.Def_Environ_Dic[k])
+            if k in self.def_environ_dic:
+                resource_.environ.create(self.def_environ_dic[k])
 
-            if k in self.Def_Dependent_Dic:
-                resource_.dependent.create(self.Def_Dependent_Dic[k])
+            if k in self.def_dependent_dic:
+                resource_.dependent.create(self.def_dependent_dic[k])
 
             lis.append(resource_)
             print resource_

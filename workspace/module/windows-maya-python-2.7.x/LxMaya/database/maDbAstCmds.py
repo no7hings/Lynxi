@@ -1,6 +1,6 @@
 # coding:utf-8
 from LxCore import lxBasic
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -37,7 +37,7 @@ def dbAstGeometryUploadMainCmd_(assetIndex, objectStrings, groupString, assetNam
             (True, u'''Edge - Smooth''', dbAstUploadGeometryObjectsEdgeSmoothSub, (assetIndex, objectStrings, timeTag))
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -100,7 +100,7 @@ def dbAstUploadFurMain(compFurObjects, assetSubIndex, timeTag):
             (True, u'''Path''', dbAstUploadFurPathSub, (compFurObjects, assetSubIndex, timeTag))
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -130,7 +130,7 @@ def dbAstUploadNurbsHairMain(nurbsHairObjects, assetSubIndex, timeTag):
             (True, u'''Graph ( Relation )''', dbAstUploadNurbsHairObjectsGraphRelationSub, (nurbsHairObjects, assetSubIndex, timeTag))
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -175,7 +175,7 @@ def dbAstMaterialUploadMainCmd(compMatlObjects, assetSubIndex, timeTag):
             (True, u'''Object - Set''', dbAstUploadMaterialObjSetSub, (compMatlObjects, assetSubIndex, timeTag)),
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -223,7 +223,7 @@ def dbAstAovUploadCmd(renderer, assetSubIndex, timeTag):
         (True, u'''Relation''', dbAstUploadAovCompRelationSub, (aovNodeLis, assetSubIndex, timeTag)),
     ]
     #
-    qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+    qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -310,7 +310,7 @@ def dbAstLoadGeometryObjectsSub(assetIndex, assetName, objectIndexes, lockTransf
             (True, u'''Edge - Smooth''', dbAstLoadGeometryEdgeSmoothSub, (assetIndex, objectIndexes))
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
         #
         maGeom.setGeometryObjectsDefaultShadingEngine(objectIndexes)
 
@@ -375,7 +375,7 @@ def dbAstLoadNurbsHairMain(assetSubIndex):
             (True, u'''Graph ( Relation )''', dbAstLoadNhrObjectsGraphRelationSub, (assetSubIndex, objectIndexes))
         ]
         #
-        qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+        qtCommands.setProgressRun(progressExplain, subProgressDataLis)
         #
         maShdr.setObjectsDefaultShadingEngine(objectIndexes)
         maFur.setNurbsHairObjectsShowMode(objectIndexes, showMode=3)
@@ -413,7 +413,7 @@ def dbAstMaterialLoadMainCmd(assetSubIndex, compObjectIndexes, compMaterialIndex
         (True, u'''Object - Set''', dbAstMaterialCompObjectSetsLoadCmd, (assetSubIndex, compObjectIndexes)),
     ]
     #
-    qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+    qtCommands.setProgressRun(progressExplain, subProgressDataLis)
     maShdr.setObjectsDefaultShadingEngine(compObjectIndexes)
 
 
@@ -454,7 +454,7 @@ def dbAstLoadAov(renderer, assetSubIndex, dbAovCompIndexes):
         (True, u'''Relation''', dbAstLoadAovCompRelations, (assetSubIndex, dbAovCompIndexes))
     ]
     #
-    qtProgress.runSubProgress(progressExplain, subProgressDataLis)
+    qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
@@ -566,7 +566,7 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
         # View Progress
         progressExplain = u'''Load Database Nde_Geometry Object(s) Path'''
         maxValue = len(objectIndexes)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.updateProgress()
             setBranch(i)
@@ -583,7 +583,7 @@ def dbAstRemoveGeometryObjects(objectIndexes):
         # View Progress
         progressExplain = u'''Remove Database Nde_Geometry Object(s)'''
         maxValue = len(objectIndexes)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.updateProgress()
             setBranch(i)

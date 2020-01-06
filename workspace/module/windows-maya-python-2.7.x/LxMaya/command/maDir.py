@@ -2,8 +2,11 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
+from LxBasic import bscModifier
+#
 from LxCore import lxBasic
-from LxUi.qt import qtLog, qtProgress, qtTip
+
+from LxUi.qt import qtLog, qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -584,7 +587,7 @@ def getDirDataByNamespaceFilter(
     return getDirData(*args)
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def setDirectory(
         logWin,
         collectionDataLis,
@@ -627,7 +630,7 @@ def setDirectory(
     if referenceRepathDataArray:
         progressExplain = u'''Repath Reference Nde_Node'''
         maxValue = len(referenceRepathDataArray)
-        progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for node, osFile in referenceRepathDataArray:
             progress.updateProgress()
             setReferenceRepath(node, osFile)
@@ -649,7 +652,7 @@ def setDirectory(
         if sceneryArRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Scenery ) Nde_Node'''
             maxValue = len(sceneryArRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, osFile in sceneryArRepathDataArray:
                 progress.updateProgress()
                 setAssemblyReferenceRepath(node, osFile)
@@ -657,7 +660,7 @@ def setDirectory(
         if arUnitRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Unit ) Nde_Node'''
             maxValue = len(arUnitRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, osFile in arUnitRepathDataArray:
                 progress.updateProgress()
                 setAssemblyReferenceRepath(node, osFile)
@@ -671,7 +674,7 @@ def setDirectory(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
                 progress.updateProgress()
                 setRepathFurMap(node, osFile)
@@ -683,7 +686,7 @@ def setDirectory(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.updateProgress()
                 setFurCacheRepath(node, sourceFile, targetFile, force=False)
@@ -693,7 +696,7 @@ def setDirectory(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
                 progress.updateProgress()
                 setRepathFurMap(node, osFile, force=True)
@@ -703,7 +706,7 @@ def setDirectory(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.updateProgress()
                 setFurCacheRepath(node, sourceFile, targetFile, force=True)
@@ -714,7 +717,7 @@ def setDirectory(
     if otherRepathDataArray:
         progressExplain = u'''Repath Other Nde_Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
-        progress = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progress = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for node, osFile, fileType in otherRepathDataArray:
             progress.updateProgress()
             setRepathGeneral(node, osFile, fileType)
@@ -745,7 +748,7 @@ def getCollectionDataLis(
         #
         progressExplain = u'''Directory Statistical'''
         maxValue = len(collectionDataLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for fileType, nodes, osFileArray in collectionDataLis:
             progressBar.updateProgress(fileType)
             if osFileArray:
@@ -763,7 +766,7 @@ def getCollectionDataLis(
                 if isRepath:
                     progressExplain = '''Get Repath Data %s''' % lxBasic.str_camelcase2prettify(fileType)
                     maxValue = len(nodes)
-                    subProgressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                    subProgressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                     for seq, node in enumerate(nodes):
                         subProgressBar.updateProgress()
                         qtLog.viewStartSubProcess(logWin, 'Statistical Directory: ', node)
@@ -842,7 +845,7 @@ def setCollectionFile(
         if data:
             progressExplain = u'''Collection File(s)'''
             maxValue = len(data)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for sourceFile, targetFile, fileType in data:
                 progressBar.updateProgress(lxBasic.str_camelcase2prettify(fileType))
                 setCollectionBranch(sourceFile, targetFile, fileType)

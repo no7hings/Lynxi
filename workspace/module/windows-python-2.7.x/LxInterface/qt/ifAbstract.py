@@ -14,11 +14,11 @@ class IfShelfAbs(object):
 
 
 #
-class IfGroupModelAbs(object):
-    def _initGroupModelAbs(self):
-        self._initGroupModelAbsAttr()
+class IfAbcGroupModel(object):
+    def _initAbcGroupModel(self):
+        self._initAbcGroupModelAttr()
     #
-    def _initGroupModelAbsAttr(self):
+    def _initAbcGroupModelAttr(self):
         pass
 
 

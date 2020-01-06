@@ -50,7 +50,7 @@ class curveToMeshCmd(object):
         self._sample = sample
         self._smoothDepth = smoothDepth
         #
-        self._angleOffset = angleOffset
+        self.fnc_angleOffset = angleOffset
         # Clamp in 0.1
         self._minPercent = max(min(minPercent, minPercent - .1, 1.0 - .1), 0.0)
         self._maxPercent = max(maxPercent, min(minPercent + .1, 1.0), .1)
@@ -116,7 +116,7 @@ class curveToMeshCmd(object):
             xNormal = tangent.__rxor__(axis)
             yNormal = xNormal.__rxor__(tangent)
         else:
-            quaternion = self._tangents[index - 1].rotateTo(tangent)
+            quaternion = self.fnc_tangents[index - 1].rotateTo(tangent)
             #
             xNormal = self._xNormals[index - 1]
             xNormal = xNormal.rotateBy(quaternion)
@@ -126,8 +126,8 @@ class curveToMeshCmd(object):
         #
         self._vPercents[index] = percent
         #
-        self._points[index] = point
-        self._tangents[index] = tangent
+        self.cls_points[index] = point
+        self.fnc_tangents[index] = tangent
         #
         self._xNormals[index] = xNormal.normalize()
         self._yNormals[index] = yNormal.normalize()
@@ -137,8 +137,8 @@ class curveToMeshCmd(object):
         #
         self._vPercents = [None]*maxCount
         #
-        self._points = [None]*maxCount
-        self._tangents = [None]*maxCount
+        self.cls_points = [None]*maxCount
+        self.fnc_tangents = [None]*maxCount
         #
         self._xNormals = [None]*maxCount
         self._yNormals = [None]*maxCount
@@ -155,13 +155,13 @@ class curveToMeshCmd(object):
     #
     def _updateAngle(self):
         # Angels
-        self._angles = []
-        self._angleDic = {}
-        if self._tangents:
-            for seq, t in enumerate(self._tangents):
+        self.fnc_angles = []
+        self.fnc_angleDic = {}
+        if self.fnc_tangents:
+            for seq, t in enumerate(self.fnc_tangents):
                 curPercent = self._vPercents[seq]
                 #
-                angleOffset = self._angleOffset.getValueAtPosition(curPercent)
+                angleOffset = self.fnc_angleOffset.getValueAtPosition(curPercent)
                 angleMult = 1 + (angleOffset - .5) * 10.0
                 #
                 preSeq = seq - 1
@@ -172,8 +172,8 @@ class curveToMeshCmd(object):
                 if nexSeq >= self._searchCount:
                     nexSeq = self._searchCount
                 #
-                preTangent = self._tangents[preSeq]
-                nexTangent = self._tangents[nexSeq]
+                preTangent = self.fnc_tangents[preSeq]
+                nexTangent = self.fnc_tangents[nexSeq]
                 #
                 preAngle = t.angle(preTangent)
                 nexAngle = t.angle(nexTangent)
@@ -182,16 +182,16 @@ class curveToMeshCmd(object):
                 # Must Round to .000x
                 angle = round(angle, 3)
                 #
-                self._angles.append(angle)
-                self._angleDic.setdefault(angle, []).append(seq)
+                self.fnc_angles.append(angle)
+                self.fnc_angleDic.setdefault(angle, []).append(seq)
     #
     def _updateAngleSortLis(self):
         self._seqSortLis = []
-        if self._angleDic:
-            angles = self._angleDic.keys()
+        if self.fnc_angleDic:
+            angles = self.fnc_angleDic.keys()
             angles.sort()
             for a in angles:
-                seqs = self._angleDic[a]
+                seqs = self.fnc_angleDic[a]
                 self._seqSortLis.extend(seqs)
     #
     def _updateReduceData(self):
@@ -201,7 +201,7 @@ class curveToMeshCmd(object):
             self._updateAngle()
             self._updateAngleSortLis()
             #
-            if self._angles:
+            if self.fnc_angles:
                 for n in range(rangeCount):
                     seq = n + 1
                     #
@@ -217,7 +217,7 @@ class curveToMeshCmd(object):
                         nexSeq = self._searchCount
                     nexPercent = self._vPercents[nexSeq]
                     # Current Angle
-                    curAngle = self._angles[seq]
+                    curAngle = self.fnc_angles[seq]
                     #
                     preAngles = []
                     nexAngles = []
@@ -226,17 +226,17 @@ class curveToMeshCmd(object):
                         # Previous
                         preAngleSeq = seq - subSeq
                         if preAngleSeq <= minSeq:
-                            da = (self._angles[minSeq + 1] - self._angles[minSeq])*subSeq
-                            preAngles.append(self._angles[minSeq] + da)
+                            da = (self.fnc_angles[minSeq + 1] - self.fnc_angles[minSeq])*subSeq
+                            preAngles.append(self.fnc_angles[minSeq] + da)
                         else:
-                            preAngles.append(self._angles[preAngleSeq])
+                            preAngles.append(self.fnc_angles[preAngleSeq])
                         # Next
                         nexAngleSeq = seq + subSeq
                         if nexAngleSeq >= maxSeq:
-                            da = (self._angles[maxSeq] - self._angles[maxSeq - 1])*subSeq
-                            preAngles.append(self._angles[maxSeq] + da)
+                            da = (self.fnc_angles[maxSeq] - self.fnc_angles[maxSeq - 1])*subSeq
+                            preAngles.append(self.fnc_angles[maxSeq] + da)
                         else:
-                            nexAngles.append(self._angles[nexAngleSeq])
+                            nexAngles.append(self.fnc_angles[nexAngleSeq])
                     #
                     preAngle = sum(preAngles) / span
                     nexAngle = sum(nexAngles) / span
@@ -317,8 +317,8 @@ class curveToMeshCmd(object):
                     else:
                         rSeq = self._filterSeqs[seq]
                     #
-                    point = self._points[rSeq]
-                    tangent = self._tangents[rSeq]
+                    point = self.cls_points[rSeq]
+                    tangent = self.fnc_tangents[rSeq]
                     sideVector = self._xNormals[rSeq]
                     midVector = self._yNormals[rSeq]
                     #
@@ -366,7 +366,7 @@ class curveToMeshCmd(object):
                     #
                     p_.x, p_.y, p_.z = point.x + v_.x, point.y + v_.y, point.z + v_.z
                     #
-                    self._pointArray.append(p_)
+                    self.cls_pointArray.append(p_)
                     #
                     if u == 0:
                         self._uArray.append(1.0)
@@ -383,7 +383,7 @@ class curveToMeshCmd(object):
                     self._vArray.append(1 - vPercent)
         #
         self._nSideArray, self._vertexIdArray = [], []
-        self._pointArray = []
+        self.cls_pointArray = []
         self._uArray, self._vArray = [], []
         #
         vCount = self._vDivision
@@ -404,7 +404,7 @@ class curveToMeshCmd(object):
         mMesh = OpenMaya.MFnMesh()
         #
         mMesh.create(
-            self._pointArray,
+            self.cls_pointArray,
             self._nSideArray,
             self._vertexIdArray,
             parent=self._mMeshCreate
@@ -449,13 +449,13 @@ class meshToSurfaceCmd(object):
         # noinspection PyArgumentList
         return OpenMaya.MPoint(x, y, z)
     #
-    def _pointAt(self, column, row):
+    def cls_pointAt(self, column, row):
         vertexId = self._rowVertexIdDic[row][column]
-        return self._pointArray[vertexId]
+        return self.cls_pointArray[vertexId]
     #
     def _midPointAt(self, column0, column1, row0, row1):
-        point1 = self._pointAt(column0, row0)
-        point2 = self._pointAt(column1, row1)
+        point1 = self.cls_pointAt(column0, row0)
+        point2 = self.cls_pointAt(column1, row1)
         return self._getMidPoint(point1, point2)
     #
     def _updateBasicData(self):
@@ -573,7 +573,7 @@ class meshToSurfaceCmd(object):
         self._numPolygons = self._mMesh.numPolygons
         self._faceIds = range(self._numPolygons)
         #
-        self._pointArray = self._mMesh.getPoints(space=4)
+        self.cls_pointArray = self._mMesh.getPoints(space=4)
         #
         self._vertexFaceIdDic, self._faceVertexIdDic = {}, {}
         #
@@ -595,18 +595,18 @@ class meshToSurfaceCmd(object):
         def step1():
             def getBranchAtColumn(vertexIds, column):
                 vertexId = vertexIds[column]
-                point = self._pointArray[vertexId]
+                point = self.cls_pointArray[vertexId]
                 if column == 0:
                     nexColumn = column + 1
                     nexVertexId = vertexIds[nexColumn]
-                    nexPoint = self._pointArray[nexVertexId]
+                    nexPoint = self.cls_pointArray[nexVertexId]
                     nexMidPoint = self._getMidPoint(point, nexPoint)
                     self._cvPointArray.append(point)
                     self._cvPointArray.append(nexMidPoint)
                 elif column == self._maxVertexColumn:
                     preColumn = column - 1
                     preVertexId = vertexIds[preColumn]
-                    prePoint = self._pointArray[preVertexId]
+                    prePoint = self.cls_pointArray[preVertexId]
                     preMidPoint = self._getMidPoint(prePoint, point)
                     self._cvPointArray.append(preMidPoint)
                     self._cvPointArray.append(point)
@@ -623,8 +623,8 @@ class meshToSurfaceCmd(object):
                 for column in columns:
                     vertexId1 = vertexIds1[column]
                     vertexId2 = vertexIds2[column]
-                    point1 = self._pointArray[vertexId1]
-                    point2 = self._pointArray[vertexId2]
+                    point1 = self.cls_pointArray[vertexId1]
+                    point2 = self.cls_pointArray[vertexId2]
                     #
                     midPoint = self._getMidPoint(point1, point2)
                     if column == 0:

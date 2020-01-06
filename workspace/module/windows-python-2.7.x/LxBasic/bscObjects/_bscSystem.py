@@ -2,15 +2,24 @@
 from LxBasic import bscAbstract
 
 
-class Mtd_Pc(bscAbstract.Abc_System):
-    @classmethod
-    def userName(cls):
-        return cls._getUserName()
+class PC(bscAbstract.Abc_System):
+    @property
+    def userName(self):
+        return self._getUserName()
 
-    @classmethod
-    def hostName(cls):
-        return cls._getHostName()
+    @property
+    def hostName(self):
+        return self._getHostName()
 
-    @classmethod
-    def host(cls):
-        return cls._getHost()
+    @property
+    def host(self):
+        return self._getHost()
+
+
+class Sys_Environ(bscAbstract.Abc_System):
+    def __init__(self, keyString):
+        self._keyString = keyString
+
+    @property
+    def value(self):
+        return self._getEnvironValue(self._keyString)

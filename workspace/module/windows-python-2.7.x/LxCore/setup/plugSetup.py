@@ -11,7 +11,7 @@ IsMayaPlugLoadKey = 'IsMayaPlugLoaded'
 #
 def setMayaPlugSetup():
     if lxBasic.isMayaApp():
-        from LxUi.qt import qtTip  # import in Method
+        from LxUi.qt import qtCommands  # import in Method
 
         isMayaPlugLoaded = lxCore_.getLxVariantValue(IsMayaPlugLoadKey)
         # Value is True, False or None
@@ -35,7 +35,7 @@ def setMayaPlugSetup():
                     progressBar.updateProgress(plug)
                     maUtils.setPlugLoad(plug)
                 #
-                qtTip.viewMessage(u'Plug(s) Load', u'Complete')
+                qtCommands.setMessageWindowShow(u'Plug(s) Load', u'Complete')
             #
             currentRenderer = projectPr.getProjectMayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)

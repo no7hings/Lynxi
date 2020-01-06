@@ -1,25 +1,11 @@
 # coding=utf-8
-from LxBasic import bscCore
+from LxBasic import bscCore, bscMethods
 
-from LxCore import lxBasic, lxCore_
-#
-from LxCore.preset import pipePr
+from LxCore import lxBasic
 #
 from LxCore.preset.prod import projectPr
 #
-from LxCore.operation import envOp
-#
 from LxCore.setup import maSetup
-
-
-#
-def setBasicPythonPackageSetup():
-    traceMessage = '''Setup Windows Python Package(s)'''
-    bscCore.Py_Message().trace(traceMessage)
-    #
-    osPaths = pipePr.env_basic_python_package_lis()
-    for osPath in osPaths:
-        envOp.setSysPath(osPath)
 
 
 def setLynxiToolSetup():
@@ -33,7 +19,7 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
         #
         mayaVersion = lxBasic.getMayaAppVersion()
         projectName = projectPr.getMayaProjectName()
-        if lxCore_.Basic().isDevelop():
+        if bscCore.Basic()._isDevelop():
             isEnable = True
         else:
             mayaProjectNameLis = projectPr.getMayaProjectNames(mayaVersion)
@@ -41,9 +27,9 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
                 isEnable = True
             else:
                 errorMessage = 'Invalid Maya Project Name : {}'.format(projectName)
-                bscCore.Py_Message().traceError(errorMessage)
+                bscMethods.PythonMessage().traceError(errorMessage)
                 #
-                bscCore.Py_Log().addError(errorMessage)
+                bscMethods.PythonLog().addError(errorMessage)
         #
         if isEnable is True:
             maSetup.setMayaProjectToolSetup(

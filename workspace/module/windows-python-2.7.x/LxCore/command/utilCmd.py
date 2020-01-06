@@ -15,7 +15,7 @@ class helpDocument(object):
         self._sourceFile = sourceFileString
         self._targetFile = targetFileString
 
-        self._lineLis = []
+        self.cls_lineLis = []
 
         self._nameLineLis = []
         self._fileLineLis = []
@@ -32,7 +32,7 @@ class helpDocument(object):
         self._sourceLineLis = lxBasic.readOsData(self._sourceFile, readLines=True)
         if self._sourceLineLis:
             self._collMember()
-            lxBasic.writeOsData(self._lineLis, self._targetFile)
+            lxBasic.writeOsData(self.cls_lineLis, self._targetFile)
 
     @staticmethod
     def _comTrans(raw):
@@ -160,40 +160,40 @@ class helpDocument(object):
                 if isData is True:
                     self._dataLis.append(i)
 
-        self._lineLis.append('# Information\r\n')
+        self.cls_lineLis.append('# Information\r\n')
 
         if self._nameLineLis:
-            self._lineLis.append('- **Name:**\r\n')
+            self.cls_lineLis.append('- **Name:**\r\n')
             for i in self._nameLineLis[1:]:
-                self._lineLis.append(self._comTrans(i))
+                self.cls_lineLis.append(self._comTrans(i))
 
         if self._fileLineLis:
-            self._lineLis.append('- **File:**\r\n')
+            self.cls_lineLis.append('- **File:**\r\n')
             for i in self._fileLineLis[1:]:
-                self._lineLis.append(self._comTrans(i))
+                self.cls_lineLis.append(self._comTrans(i))
 
         if self._descriptionLineLis:
-            self._lineLis.append('- **Description:**\r\n')
+            self.cls_lineLis.append('- **Description:**\r\n')
             for i in self._descriptionLineLis[1:]:
-                self._lineLis.append(self._comTrans(i))
+                self.cls_lineLis.append(self._comTrans(i))
 
         if self._classLineLis:
             self._collClass()
 
         if self._functionLineLis:
-            self._lineLis.append('# Function\r\n')
+            self.cls_lineLis.append('# Function\r\n')
             self._collFunction(self._functionLineLis[1:])
 
         if self._dataLis:
-            self._lineLis.append('# Data\r\n')
+            self.cls_lineLis.append('# Data\r\n')
             for i in self._dataLis[1:]:
-                self._lineLis.append(self._listTrans(i))
+                self.cls_lineLis.append(self._listTrans(i))
 
     def _collClass(self):
         isClassToc, isSubClass = True, False
 
         subClassIndex = 0
-        self._lineLis.append('# Classes\r\n')
+        self.cls_lineLis.append('# Classes\r\n')
         for i in self._classLineLis[1:]:
             if i.lstrip().startswith('class'):
                 isClassToc, isSubClass = False, True
@@ -206,11 +206,11 @@ class helpDocument(object):
 
         if self._classTocLineLis:
             for i in self._classTocLineLis:
-                self._lineLis.append(self._tocTrans(i))
+                self.cls_lineLis.append(self._tocTrans(i))
 
         if self._subClassLineDic:
             for k, v in self._subClassLineDic.items():
-                self._lineLis.append(self._clsTrans(v[0]))
+                self.cls_lineLis.append(self._clsTrans(v[0]))
                 self._collClassBranch(v)
 
     def _collClassBranch(self, lines):
@@ -257,18 +257,18 @@ class helpDocument(object):
                     functionDic.setdefault(subIndex, []).append(i)
 
         if docstringLis:
-            self._lineLis.append(self._title3Trans('Method description:'))
+            self.cls_lineLis.append(self._title3Trans('Method description:'))
             for i in docstringLis:
-                self._lineLis.append(self._comTrans(i))
+                self.cls_lineLis.append(self._comTrans(i))
 
         if resolutionLis:
-            self._lineLis.append(self._title3Trans('Method resolution order:'))
+            self.cls_lineLis.append(self._title3Trans('Method resolution order:'))
             orderIndex = 0
             for i in resolutionLis[1:]:
                 orderIndex += 1
-                self._lineLis.append(self._orderListTrans(orderIndex, i))
+                self.cls_lineLis.append(self._orderListTrans(orderIndex, i))
             orderIndex += 1
-            self._lineLis.append(self._orderListTrans(orderIndex, '__builtin__.object'))
+            self.cls_lineLis.append(self._orderListTrans(orderIndex, '__builtin__.object'))
 
         if functionDic:
             for k, v in functionDic.items():
@@ -278,7 +278,7 @@ class helpDocument(object):
                 ):
                     v.insert(0, None)
 
-                self._lineLis.append(self._title3Trans(v[1]))
+                self.cls_lineLis.append(self._title3Trans(v[1]))
                 self._collClassMethod(v[2:])
 
     def _collClassMethod(self, lines):
@@ -286,48 +286,48 @@ class helpDocument(object):
             if not i.lstrip().startswith('|      '):
                 if ' = ' in i:
                     if i.rstrip().endswith(')'):
-                        self._lineLis.append(self._classMethodTrans_(i))
+                        self.cls_lineLis.append(self._classMethodTrans_(i))
                     else:
-                        self._lineLis.append(self._listTrans(i))
+                        self.cls_lineLis.append(self._listTrans(i))
                 elif i.rstrip().endswith(')'):
-                    self._lineLis.append(self._classMethodTrans(i))
+                    self.cls_lineLis.append(self._classMethodTrans(i))
                 elif i.lstrip()[1:].lstrip().startswith('__') and i.rstrip().endswith('__'):
-                    self._lineLis.append(self._classMethodTrans(i))
+                    self.cls_lineLis.append(self._classMethodTrans(i))
                 else:
-                    self._lineLis.append(self._comTrans(i))
+                    self.cls_lineLis.append(self._comTrans(i))
             else:
                 if ':param' in i:
-                    self._lineLis.append(self._paramTrans(i))
+                    self.cls_lineLis.append(self._paramTrans(i))
                 elif ':return' in i:
-                    self._lineLis.append(self._returnTrans(i))
+                    self.cls_lineLis.append(self._returnTrans(i))
                 elif ' -> ' in i:
-                    self._lineLis.append(self._returnTrans_(i))
+                    self.cls_lineLis.append(self._returnTrans_(i))
                 else:
-                    self._lineLis.append(self._comTrans(i))
+                    self.cls_lineLis.append(self._comTrans(i))
 
     def _collFunction(self, lines):
         for i in lines:
             if not i.startswith('        '):
                 if ' = ' in i:
                     if i.rstrip().endswith(')'):
-                        self._lineLis.append(self._classMethodTrans_(i))
+                        self.cls_lineLis.append(self._classMethodTrans_(i))
                     else:
-                        self._lineLis.append(self._listTrans(i))
+                        self.cls_lineLis.append(self._listTrans(i))
                 elif i.rstrip().endswith(')'):
-                    self._lineLis.append(self._classMethodTrans(i))
+                    self.cls_lineLis.append(self._classMethodTrans(i))
                 elif i.lstrip()[1:].startswith('__') and i.rstrip().endswith('__'):
-                    self._lineLis.append(self._classMethodTrans(i))
+                    self.cls_lineLis.append(self._classMethodTrans(i))
                 else:
-                    self._lineLis.append(self._comTrans(i))
+                    self.cls_lineLis.append(self._comTrans(i))
             else:
                 if ':param' in i:
-                    self._lineLis.append(self._paramTrans(i))
+                    self.cls_lineLis.append(self._paramTrans(i))
                 elif ':return' in i:
-                    self._lineLis.append(self._returnTrans(i))
+                    self.cls_lineLis.append(self._returnTrans(i))
                 elif ' -> ' in i:
-                    self._lineLis.append(self._returnTrans_(i))
+                    self.cls_lineLis.append(self._returnTrans_(i))
                 else:
-                    self._lineLis.append(self._comTrans(i))
+                    self.cls_lineLis.append(self._comTrans(i))
 
 
 if __name__ == '__main__':

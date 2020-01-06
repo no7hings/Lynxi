@@ -10,8 +10,20 @@ import json
 import time
 
 
-def _isDevelop():
-    return [False, True][os.environ.get('LYNXI_DEVELOP', 'FALSE').lower() == 'true']
+class Basic(object):
+    environ_key_path_develop = 'LYNXI_PATH_DEVELOP'
+    path_default_develop = 'e:/myworkspace/td/lynxi'
+
+    environ_key_path_product = 'LYNXI_PATH_PRODUCT'
+    path_default_product = 'e:/myworkspace/td/lynxi'
+
+    environ_key_path_toolkit = 'LYNXI_PATH_TOOLKIT'
+
+    environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
+    enable_default_develop = 'FALSE'
+    @classmethod
+    def _isDevelop(cls):
+        return [False, True][os.environ.get(cls.environ_key_enable_develop, cls.enable_default_develop).lower() == 'true']
 
 
 class Method(object):
@@ -117,21 +129,21 @@ class Root(object):
 
     @property
     def server(self):
-        if _isDevelop():
+        if Basic()._isDevelop():
             return self.develop
         return self.product
 
     @property
     def local(self):
-        return os.environ.get('LYNXI_LOCAL_PATH', self.def_local_path).replace('\\', '/')
+        return os.environ.get('LYNXI_PATH_LOCAL', self.def_local_path).replace('\\', '/')
 
     @property
     def product(self):
-        return os.environ.get('LYNXI_PATH', self.def_path).replace('\\', '/')
+        return os.environ.get('LYNXI_PATH_PRODUCT', self.def_path).replace('\\', '/')
 
     @property
     def develop(self):
-        return os.environ.get('LYNXI_DEVELOP_PATH', self.def_develop_path).replace('\\', '/')
+        return os.environ.get('LYNXI_PATH_DEVELOP', self.def_develop_path).replace('\\', '/')
 
 
 class Abc_Scheme(object):
@@ -183,7 +195,7 @@ class Abc_Scheme(object):
     def _covertValue(cls, value):
         value = value.format(**cls._formatDic())
         if '|' in value:
-            if _isDevelop():
+            if Basic()._isDevelop():
                 return value.split('|')[0]
             return value.split('|')[1]
         return value

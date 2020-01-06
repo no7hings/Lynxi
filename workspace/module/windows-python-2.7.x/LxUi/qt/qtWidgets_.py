@@ -11,24 +11,24 @@ from LxCore import lxBasic
 #
 from LxUi import uiCore
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 from LxUi.qt import qtWidgets, qtCore
 
 #
 cgitb.enable(format='text')
 #
-_pen = QtGui.QPen
-_color = QtGui.QColor
-_brush = QtGui.QBrush
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
-_polygon = QtGui.QPolygon
-_polygonF = QtGui.QPolygonF
-_path = QtGui.QPainterPath
+cls_pen = QtGui.QPen
+cls_color = QtGui.QColor
+cls_brush = QtGui.QBrush
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
+cls_polygon = QtGui.QPolygon
+cls_polygonF = QtGui.QPolygonF
+cls_painter_path = QtGui.QPainterPath
 #
 _families = uiCore.Lynxi_Ui_Family_Lis
 #
@@ -42,13 +42,13 @@ none = ''
 
 
 # noinspection PyProtectedMember
-def uiChooseViewDropMethod(fn):
+def chooseviewDropModifier(fn):
     def subFn(*args):
         # Class
         self = args[0]
         chooseNames = self._messages
         if chooseNames:
-            dropBox = qtWidgetAbstract._QtChooseDropView(self)
+            dropBox = qtAbcWidget._QtChooseDropView(self)
             dropBox.setCurrentIndex(self.currentIndex)
             dropBox.installEventFilter(self)
             dropBox._viewModel.addItems(chooseNames, self._uiIconKeyword)
@@ -59,13 +59,13 @@ def uiChooseViewDropMethod(fn):
 
 
 #
-def uiChooseBoxEventFilterMethod(fn):
+def chooseviewEventFilterModifier(fn):
     def subFn(*args):
         self = args[0]
         widget_ = args[1]
         event = args[2]
         # Filter by Widget is Press
-        if type(widget_) == qtWidgetAbstract._QtChooseDropView:
+        if type(widget_) == qtAbcWidget._QtChooseDropView:
             if event.type() == QtCore.QEvent.MouseButtonPress:
                 widget_.close()
                 #
@@ -339,10 +339,10 @@ class xIconLabel(QWidget):
         xPos += frameWidth + spacing
 
         # painter.end()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def setMenu(self):
         pass
     #
@@ -764,7 +764,7 @@ class QTextEdit_(QTextEdit):
                 self._parent._setQtPressStyle(qtCore.OffState)
             if not self.isReadOnly():
                 self._parent._setQtPressStyle(qtCore.NormalState)
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -790,7 +790,7 @@ class QTextEdit_(QTextEdit):
                 ]
             #
             if actions:
-                self.contextMenu = qtWidgetAbstract._QtActionDropView(self)
+                self.contextMenu = qtAbcWidget._QtActionDropview(self)
                 self.contextMenu.setFocusProxy(self)
                 self.contextMenu.installEventFilter(self)
                 self.contextMenu.setActionData(actions)
@@ -989,7 +989,7 @@ class xLineEdit(QLineEdit):
     def focusOutEvent(self, event):
         self.clsSuper.focusOutEvent(event)
         self._updateUiStyle()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -1015,7 +1015,7 @@ class xLineEdit(QLineEdit):
             ]
         #
         if actions:
-            self.contextMenu = qtWidgetAbstract._QtActionDropView(self)
+            self.contextMenu = qtAbcWidget._QtActionDropview(self)
             self.contextMenu.setFocusProxy(self)
             self.contextMenu.installEventFilter(self)
             self.contextMenu.setActionData(actions)
@@ -1413,10 +1413,10 @@ class xEntryLabel(QFrame):
         reg = QtCore.QRegExp('[0-9][0-9][0-9][A-Z]')
         validator = QtGui.QRegExpValidator(reg, self.entryLabel)
         self.entryLabel.setValidator(validator)
-    @uiChooseBoxEventFilterMethod
+    @chooseviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @uiChooseViewDropMethod
+    @chooseviewDropModifier
     def setDropBox(self):
         pass
     #
@@ -2195,10 +2195,10 @@ class QTreeWidget_(QTreeWidget):
         # self.horizontalScrollBar().hide()
         #
         self.focusOut.emit()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def setMenu(self):
         pass
     #
@@ -2538,10 +2538,10 @@ class xCheckItemWidget(QWidget):
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, showMessage)
 
         # painter.end()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -3207,10 +3207,10 @@ class xTreeLabelBar(QWidget):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtWidgetAbstract.uiActionViewDropMethod
+    @qtAbcWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #

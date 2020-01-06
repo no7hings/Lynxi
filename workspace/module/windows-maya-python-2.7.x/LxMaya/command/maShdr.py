@@ -3,7 +3,7 @@
 import maya.cmds as cmds
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -150,7 +150,7 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for objSeq, objectString in enumerate(objectLis):
             progressBar.updateProgress()
             objectType = maUtils.getShapeType(objectString)
@@ -197,7 +197,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
         # View Progress
         explain = u'''Rename Material - Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.updateProgress(nodeName)
             print node, nodeName
@@ -210,7 +210,7 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for aovSeq, aov in enumerate(aovNodes):
             progressBar.updateProgress()
             nodes = getMaterialNodes(aov)
@@ -253,7 +253,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
         # View Progress
         explain = u'''Rename AOV Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.updateProgress(nodeName)
             maUtils.setNodeRename(node, nodeName)
@@ -622,7 +622,7 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         # View Progress
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for objectString, linkDatumLis in data.items():
             # In Progress
             progressBar.updateProgress()
@@ -654,7 +654,7 @@ def setMaterialsObjectSetsConnect(datumDic):
         # View Progress
         explain = u'''Connect Material's Object Set(s)'''
         maxValue = len(datumDic)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for compIndex, linkDatumLis in datumDic.items():
             progressBar.updateProgress()
             #
@@ -935,7 +935,7 @@ def setObjectsAttrsCreate(datumDic):
         # View Progress
         explain = u'''Set Material's Object Attribute(s)'''
         maxValue = len(datumDic)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         for uniqueId, attrData in datumDic.items():
             progressBar.updateProgress()
             #
@@ -988,7 +988,7 @@ def setArnoldShaderCovert(objectString, texturePath):
                     if not cmds.isConnected(sourceAttr0, targetAttr1):
                         cmds.connectAttr(sourceAttr0, targetAttr1)
                     #
-                    colorShaderNodeName = shadingEngine + '_colorShader'
+                    colorShaderNodeName = shadingEngine + 'cls_colorShader'
                     if not cmds.objExists(colorShaderNodeName):
                         cmds.shadingNode('blinn', n=colorShaderNodeName, asShader=True)
                     #
@@ -999,7 +999,7 @@ def setArnoldShaderCovert(objectString, texturePath):
                         inputAttr = maUtils._toNodeAttr([nodeName, 'baseColor'])
                         stringLis = maUtils.getInputAttrByAttr(inputAttr)
                         if stringLis:
-                            textureNodeName = shadingEngine + '_color'
+                            textureNodeName = shadingEngine + 'cls_color'
                             #
                             texture = texturePath + '/' + textureNodeName + '.jpg'
                             attr = stringLis[0]

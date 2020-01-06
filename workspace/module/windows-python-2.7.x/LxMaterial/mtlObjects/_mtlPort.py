@@ -1,12 +1,12 @@
 # coding:utf-8
 from LxMaterial import mtlAbstract
 
-from LxMaterial.mtlObjects import _mtlRaw, _mtlObjectSet
+from LxMaterial.mtlObjects import _mtlRaw, _mtlSet
 
 
 class Prt_Shaderinput(mtlAbstract.Abc_Port):
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
-    SET_CHILD_CLS = _mtlObjectSet.Set_Attribute
+    SET_CHILD_CLS = _mtlSet.Set_Attribute
 
     xml_prefix_label = 'bindinput'
 

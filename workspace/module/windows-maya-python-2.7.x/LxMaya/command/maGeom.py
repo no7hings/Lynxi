@@ -5,7 +5,7 @@ import maya.cmds as cmds
 import maya.api.OpenMaya as OpenMaya
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtProgress
+from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -1136,7 +1136,7 @@ def getGeometryObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.updateProgress()
             #
@@ -1182,7 +1182,7 @@ def getMeshObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Mesh Information'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.updateProgress()
             #
@@ -1210,7 +1210,7 @@ def getNurbsCurveObjectsInfoData(groupString):
         # View Progress
         progressExplain = u'''Read Nurbs Curve Information'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         #
         for objectString in objectStrings:
             progressBar.updateProgress()
@@ -1233,7 +1233,7 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.updateProgress()
             if searchRoot in objectString:
@@ -1633,7 +1633,7 @@ def getMeshesTopoConstantData(groupString, withShape=0, maxRound=8):
         # View Progress
         progressExplain = u'''Read Mesh Topology'''
         maxValue = len(meshObjStrs)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for meshObjectString in meshObjStrs:
             progressBar.updateProgress()
             info = getMeshObjectGeomTopoInfo(meshObjectString)
@@ -1702,7 +1702,7 @@ def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, 
     # View Progress
     explain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = qtProgress.viewSubProgress(explain, maxValue)
+    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.updateProgress('Vertex')

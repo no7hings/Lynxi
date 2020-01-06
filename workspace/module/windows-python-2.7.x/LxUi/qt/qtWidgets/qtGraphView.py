@@ -5,7 +5,7 @@ import math
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 from LxUi.qt.qtModels import qtGraphViewModel
 #
@@ -14,18 +14,18 @@ from LxUi.qt.qtWidgets import qtGraphItem
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
 #
-_color = QtGui.QColor
-_path = QtGui.QPainterPath
+cls_color = QtGui.QColor
+cls_painter_path = QtGui.QPainterPath
 #
-_angle = math.radians
-_sin = math.sin
-_cos = math.cos
+fnc_angle = math.radians
+fnc_sin = math.sin
+fnc_cos = math.cos
 _sqrt = math.sqrt
 _pow = math.pow
 #
@@ -37,7 +37,7 @@ SubSelectMode = 2
 #
 def setDrawConnectionFrame(painter, xPos, yPos, width, height, backgroundRgba, borderRgba):
     painter.setBackgroundRgba(backgroundRgba)
-    color = _color(borderRgba[0], borderRgba[1], borderRgba[2], borderRgba[3])
+    color = cls_color(borderRgba[0], borderRgba[1], borderRgba[2], borderRgba[3])
     pen = QtGui.QPen(color)
     painter.setPen(pen)
     uiShadowRadius = 0
@@ -61,7 +61,7 @@ def setDrawConnectionFrame(painter, xPos, yPos, width, height, backgroundRgba, b
 
 #
 def setDrawPositionMark(painter, width, height, string, borderRgba):
-    rect = _rect(4, 0, width, height - 4)
+    rect = cls_rect(4, 0, width, height - 4)
     #
     painter.setBorderRgba(borderRgba)
     painter.setFont(qtCore.xFont(size=10, weight=75, family=qtCore._families[1]))
@@ -70,7 +70,7 @@ def setDrawPositionMark(painter, width, height, string, borderRgba):
 
 #
 def setDrawKeyPressMark(painter, width, height, key, borderRgba):
-    rect = _rect(width - 120 - 4, 0, 120, height - 4)
+    rect = cls_rect(width - 120 - 4, 0, 120, height - 4)
     #
     painter.setBorderRgba(borderRgba)
     painter.setFont(qtCore.xFont(size=10, weight=75, family=qtCore._families[1]))
@@ -103,7 +103,7 @@ class xNodeViewport(qtCore.QWidget):
             #
             painter.setBackgroundRgba(self._uiBackgroundRgba)
             painter.setBorderRgba(self._uiBorderRgba)
-            rect = _rect(xPos, yPos, width, height)
+            rect = cls_rect(xPos, yPos, width, height)
             painter.drawRect(rect)
 
         # painter.end()
@@ -114,7 +114,7 @@ class xNodeViewport(qtCore.QWidget):
         #
         self._drawBackgroundEnable = False
         #
-        self._selectRect = _rectF()
+        self._selectRect = cls_rectF()
 
 
 #
@@ -168,7 +168,7 @@ class QtGraphview(qtCore.QWidget):
             # Select Clear
             self._viewModel._selectClearAction()
             # Rect Select
-            self._viewModel._rectSelectStartAction(event)
+            self._viewModel.cls_rectSelectStartAction(event)
         elif event.button() == QtCore.Qt.RightButton:
             event.ignore()
         elif event.button() == QtCore.Qt.MidButton:
@@ -179,7 +179,7 @@ class QtGraphview(qtCore.QWidget):
     #
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
-            self._viewModel._rectSelectStopAction()
+            self._viewModel.cls_rectSelectStopAction()
         elif event.button() == QtCore.Qt.RightButton:
             event.ignore()
         elif event.button() == QtCore.Qt.MidButton:
@@ -193,7 +193,7 @@ class QtGraphview(qtCore.QWidget):
         else:
             if event.buttons() == QtCore.Qt.LeftButton:
                 # Rect Select
-                self._viewModel._rectSelectExecuteAction(event)
+                self._viewModel.cls_rectSelectExecuteAction(event)
             elif event.buttons() == QtCore.Qt.RightButton:
                 event.ignore()
             elif event.buttons() == QtCore.Qt.MidButton:
@@ -219,7 +219,7 @@ class QtGraphview(qtCore.QWidget):
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         if self._drawBackgroundEnable is True:
-            rect = _rect(xPos, yPos, width, height)
+            rect = cls_rect(xPos, yPos, width, height)
             painter.drawRect(rect)
         if self._drawGridEnable is True:
             painter.setDrawGrid(
@@ -248,7 +248,7 @@ class QtGraphview(qtCore.QWidget):
                 ['Shift', 'Ctrl + Shift', 'Ctrl'][self._viewModel.selectMode()],
                 self._zoomBorderRgba
             )
-        if self._viewModel._rectSelectionFlag is True:
+        if self._viewModel.cls_rectSelectionFlag is True:
             painter.setDrawDottedFrame(
                 self._viewModel._selectRect,
                 self._selectBackgroundRgba,
@@ -359,10 +359,10 @@ class QtGraphview(qtCore.QWidget):
             (
                 qtGraphItem.xGraphNodeItem, qtGraphItem.xGraphConnectionItem, qtGraphItem.xGraphGroupItem,
                 qtGraphItem.xGraphExplainItem, qtGraphItem.xGraphAttributePortItem,
-                qtWidgetAbstract._QtActionDropView,
-                _point, _pointF,
-                _rect, _rectF,
-                _path
+                qtAbcWidget._QtActionDropview,
+                cls_point, cls_pointF,
+                cls_rect, cls_rectF,
+                cls_painter_path
             )
         )
 

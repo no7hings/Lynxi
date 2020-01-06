@@ -5,7 +5,7 @@ from LxMaya.command import maUtils
 #
 nodes = maUtils.getNodeLisByType('renderSetupLayer')
 logLis = []
-logWin = qtLog.viewLogWin_()
+logWin = qtLog.setLogWindowShow()
 if nodes:
     for node in nodes:
         if not maUtils.isNodeLocked(node):

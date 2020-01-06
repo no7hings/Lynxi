@@ -1,6 +1,9 @@
 # coding=utf-8
+from LxBasic import bscModifier
+
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtLog, qtTip
+
+from LxUi.qt import qtLog
 #
 from LxCore.preset import appVariant
 #
@@ -19,8 +22,8 @@ from LxMaya.database import maDbAstCmds
 none = ''
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitModelCreateMainCmd(
         logWin,
         projectName,
@@ -65,8 +68,8 @@ def astUnitModelCreateMainCmd(
     logWin.setCountdownClose(5)
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitModelLoadMainCmd(
         logWin,
         projectName,
@@ -296,8 +299,8 @@ def astUnitLoadModelTexture(
 
 
 # Crate Rig File
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitRigCreateMainCmd(
         logWin,
         projectName,
@@ -357,8 +360,8 @@ def astUnitRigCreateMainCmd(
 
 
 # Animation Rig Load
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitLoadRigMain(
         logWin,
         assetIndex,
@@ -431,8 +434,8 @@ def saveRigSource(logWin, projectName, assetClass, assetName, assetVariant, asse
 
 
 # Create CFX File
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitCreateCfxMain(
         logWin,
         assetIndex,
@@ -478,8 +481,8 @@ def astUnitCreateCfxMain(
 
 
 # Load CFX File
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitCfxLoadMainCmd(
         logWin,
         projectName,
@@ -662,8 +665,8 @@ def astUnitLoadCfxMaterialSub(
         qtLog.viewFailProcess(logWin, u'Asset CFX ( AOV ) is Non - Exists')
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitCreateRigSolMain(
         logWin,
         assetIndex,
@@ -702,8 +705,8 @@ def astUnitCreateRigSolMain(
     qtLog.viewCompleteLoadMessage(logWin)
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitCreateLightMain(
         logWin,
         assetIndex,
@@ -752,8 +755,8 @@ def astUnitCreateLightMain(
     qtLog.viewCompleteLoadMessage(logWin)
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def astUnitLoadMain(
         logWin,
         assetIndex,

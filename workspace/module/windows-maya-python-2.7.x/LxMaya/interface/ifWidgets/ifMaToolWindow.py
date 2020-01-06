@@ -153,7 +153,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         self._refreshButton.clicked.connect(self.setListAr)
     #
     def setupLeftUiBox(self, toolBoxLayout):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         toolBoxLayout.addWidget(self._tabWidget)
         #
         scrollBox = qtCore.QScrollArea_()
@@ -1188,6 +1188,11 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         osFile = assetPr.astUnitAssemblyProductFile(
                             projectName, assetName, assetVariant
                         )[1]
+                        # osFile = assetPr.astUnitProductFile(
+                        #     lxCore_.LynxiRootIndex_Server,
+                        #     projectName,
+                        #     assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
+                        # )[1]
                     elif keyword == 'Box':
                         osFile = assetPr.astUnitAssemblyBoxCacheFile(
                             projectName, assetName

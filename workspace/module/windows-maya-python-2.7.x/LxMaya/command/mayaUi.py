@@ -14,7 +14,7 @@ _uiBackgroundRgba = (.267, .267, .267)
 shelfWidth = 480
 statusWidth = 480
 #
-_iconRoot = lxScheme.Root().icon.server
+_iconRoot = lxScheme.Directory().icon.server
 #
 none = ''
 

@@ -29,7 +29,7 @@ def setAnimationTimeUnit(projectName=none):
         currentUnit = maUtils.getTimeUnit()
         if defineUnit != currentUnit:
             maUtils.setTimeUnit(defineUnit)
-            maUtils.viewMessage(
+            maUtils.setMessageWindowShow(
                 u'Time - Unit has Switch to',
                 u'%s' % timeUnit
             )

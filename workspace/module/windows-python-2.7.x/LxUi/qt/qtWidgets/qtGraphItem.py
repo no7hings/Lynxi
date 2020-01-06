@@ -3,21 +3,21 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcWidget
 #
 from LxUi.qt.qtModels import qtGraphItemModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
 #
-_color = QtGui.QColor
-_path = QtGui.QPainterPath
+cls_color = QtGui.QColor
+cls_painter_path = QtGui.QPainterPath
 #
 _families = uiCore.Lynxi_Ui_Family_Lis
 #
@@ -124,7 +124,7 @@ class xGraphNodeItem(qtCore.QWidget):
             )
 
         # painter.end()
-    @qtWidgetAbstract.uiActionEventFilterMethod
+    @qtAbcWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     #
@@ -363,7 +363,7 @@ class xGraphExplainItem(qtCore.QWidget):
         self.setFont(qtCore.xFont(size=10, weight=50, family=qtCore._families[0]))
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphExplainItemModel(self, (_point, _rect))
+        self._itemModel = qtGraphItemModel.xGraphExplainItemModel(self, (cls_point, cls_rect))
 
 
 #
@@ -426,12 +426,12 @@ class xGraphConnectionItem(qtCore.QWidget):
 
 
 #
-class xGraphAttributePortItem(qtWidgetAbstract.Abc_QtView):
+class xGraphAttributePortItem(qtAbcWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(xGraphAttributePortItem, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
-        self._initViewBasic()
+        self._initAbcViewWidget()
         #
         self.setupUi()
     #

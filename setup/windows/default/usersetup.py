@@ -2,8 +2,8 @@
 scheme_name = 'default'
 scheme_version = 'active'
 
-scheme_path = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
-scheme_toolkit_path = 'l:/packages/pg/prerelease/lynxitool/0.0.1/lynxitool'
+scheme_path = r'l:\packages\pg\prerelease\lynxitool\0.0.1\lynxitool'
+scheme_toolkit_path = r'l:\packages\pg\prerelease\lynxitool\0.0.1\lynxitool'
 
 
 class Setup(object):
@@ -16,7 +16,7 @@ class Setup(object):
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
         app = QtWidgets.QApplication(sys.argv)
-        w = ifProductWindow.If_QtToolkitWindow()
+        w = ifProductWindow.If_QtToolFloatWindow()
         w.windowShow()
         sys.exit(app.exec_())
 
@@ -35,11 +35,12 @@ class Setup(object):
         # Environ
         method = lynxisetup.Method
         #
+
         method.setEnviron(
-            'LYNXI_PATH', scheme_path
+            lynxisetup.Basic.environ_key_path_product, scheme_path
         )
         method.setEnviron(
-            'LYNXI_TOOLKIT_PATH', scheme_toolkit_path
+            lynxisetup.Basic.environ_key_path_toolkit, scheme_toolkit_path
         )
         # Scheme
         scheme = lynxisetup.WindowsPython27Scheme(scheme_name, scheme_version)

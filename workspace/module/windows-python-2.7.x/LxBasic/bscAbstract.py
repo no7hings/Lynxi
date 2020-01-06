@@ -15,14 +15,21 @@ class Abc_Time(bscCore.Basic):
     def _initAbcTime(self, timestamp):
         self._timestamp = timestamp
 
+    @property
     def timestamp(self):
         return self._timestamp
 
+    @property
     def timetag(self):
         return self._toTimetag(self._timestamp)
 
+    @property
     def datetag(self):
         return self._toDatetag(self._timestamp)
+
+    @property
+    def prettify(self):
+        return self._toPrettify(self._timestamp)
 
 
 class Abc_Path(bscCore.Basic):
@@ -30,16 +37,16 @@ class Abc_Path(bscCore.Basic):
     def _toTemporaryFileMethod(cls, fileString):
         datetag = Abc_Time()._getActiveDatetag()
         temporaryDirectory = 'D:/.lynxi.temporary/' + datetag
-        temporaryFileString = cls._toFileString(temporaryDirectory, cls.path_method.basename(fileString))
+        temporaryFileString = cls._toFileString(temporaryDirectory, cls.os_path_method.basename(fileString))
         cls._setCreateDirectory(temporaryDirectory)
         return temporaryFileString
 
     @classmethod
     def _copyFileMethod(cls, sourceFileString, targetFileString, force=True):
-        if cls.path_method.exists(sourceFileString):
+        if cls.os_path_method.exists(sourceFileString):
             cls._setCreateFileDirectory(targetFileString)
             # Check Same File
-            if not cls.path_method.normpath(sourceFileString) == cls.path_method.normpath(targetFileString):
+            if not cls.os_path_method.normpath(sourceFileString) == cls.os_path_method.normpath(targetFileString):
                 if force is True:
                     cls.copy_method.copy2(sourceFileString, targetFileString)
                 elif force is False:
@@ -54,7 +61,7 @@ class Abc_Path(bscCore.Basic):
 
     @classmethod
     def _toFileString(cls, osPath, osFileBasename):
-        return cls.path_method.join(osPath, osFileBasename).replace('\\', '/')
+        return cls.os_path_method.join(osPath, osFileBasename).replace('\\', '/')
 
 
 class Abc_File(Abc_Path):
@@ -94,3 +101,50 @@ class Abc_File(Abc_Path):
 
     def __str__(self):
         return self._fileString
+
+
+class Abc_DccPath(bscCore.Basic):
+    separator_namespace = None
+    separator_node = None
+    separator_attribute = None
+
+    def _initAbcDccPath(self, pathString):
+        self._pathString = pathString
+
+    @classmethod
+    def _getNamespace(cls, pathString, nodeSep, namespaceSep):
+        if namespaceSep in pathString:
+            return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
+        return pathString
+
+    @classmethod
+    def _getName(cls, pathString, nodeSep, namespaceSep):
+        return pathString.split(nodeSep)[-1].split(namespaceSep)[-1]
+
+    @classmethod
+    def _getAttributeName(cls, attrString, attributeSep):
+        return attributeSep.join(attrString.split(attributeSep)[1:])
+
+    @property
+    def namespaceSep(self):
+        return self.separator_namespace
+
+    @property
+    def nodeSep(self):
+        return self.separator_node
+
+    @property
+    def attributeSep(self):
+        return self.separator_attribute
+
+    @property
+    def namespace(self):
+        return self._getNamespace(self._pathString, self.separator_node, self.separator_namespace)
+
+    @property
+    def name(self):
+        return self._getName(self._pathString, self.separator_node, self.separator_namespace)
+
+    @property
+    def attributeName(self):
+        return self._getAttributeName(self._pathString, self.separator_attribute)

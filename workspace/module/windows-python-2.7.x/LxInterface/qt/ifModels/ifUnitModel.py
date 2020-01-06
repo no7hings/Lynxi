@@ -3,7 +3,7 @@
 #
 from LxCore.method import _presetMethod
 #
-from LxUi.qt import qtWidgets, qtCore, qtProgress
+from LxUi.qt import qtWidgets, qtCore, qtCommands
 
 
 #
@@ -106,7 +106,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.updateProgress()
                     dbUnitId = unitItem.presetIndex()
@@ -125,7 +125,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.updateProgress()
                     dbUnitId = unitItem.presetIndex()
@@ -389,7 +389,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.updateProgress()
                     dbUnitId = unitItem.presetIndex()
@@ -408,7 +408,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.updateProgress()
                     dbUnitId = unitItem.presetIndex()

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxUi.qt import qtDefinition, qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract, qtWidgetAbstract
+from LxUi.qt.qtObjects import qtAbcModel, qtAbcWidget
 
 #
 
@@ -9,20 +9,20 @@ from LxUi.qt.qtAbstracts import qtModelAbstract, qtWidgetAbstract
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_point = QtCore.QPoint
-_pointF = QtCore.QPointF
-_line = QtCore.QLine
-_rect = QtCore.QRect
-_rectF = QtCore.QRectF
-_polygon = QtGui.QPolygon
-_polygonF = QtGui.QPolygonF
-_path = QtGui.QPainterPath
+cls_point = QtCore.QPoint
+cls_pointF = QtCore.QPointF
+cls_line = QtCore.QLine
+cls_rect = QtCore.QRect
+cls_rectF = QtCore.QRectF
+cls_polygon = QtGui.QPolygon
+cls_polygonF = QtGui.QPolygonF
+cls_painter_path = QtGui.QPainterPath
 
 
 #
-class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
+class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__connectUi(widget)
@@ -41,12 +41,12 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
         self._explainLabel = self._explainClass()
         self._attributePort = self._attributeClass()
         #
-        self._uiBasicRect, self._shadowRect = _rect(), _rect()
-        self._uiIconRect, self._uiTypeTextRect = _rect(), _rect()
-        self._inputConnectionRect, self._outputConnectionRect = _rect(), _rect()
-        self._inputConnectionShadowRect, self._outputConnectionShadowRect = _rect(), _rect()
+        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
+        self._uiIconRect, self._uiTypeTextRect = cls_rect(), cls_rect()
+        self._inputConnectionRect, self._outputConnectionRect = cls_rect(), cls_rect()
+        self._inputConnectionShadowRect, self._outputConnectionShadowRect = cls_rect(), cls_rect()
         #
-        self._outputPoint, self._inputPoint = _point(), _point()
+        self._outputPoint, self._inputPoint = cls_point(), cls_point()
         #
         self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0.0, 2.0, 2.0, 4.0
         #
@@ -72,9 +72,9 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
         #
         self._inputConnectionDropFlag, self._outputConnectionDropFlag = False, False
         #
-        self._dragStartPoint = _point()
+        self._dragStartPoint = cls_point()
         #
-        self._globalPoint = _point()
+        self._globalPoint = cls_point()
         #
         self._uiIconKeyword = None
         self._uiIcon = None
@@ -88,7 +88,7 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
         self._inputAttributeLis, self._outputAttributeLis = [], []
         self._isInputEnable, self._isOutputEnable = False, False
         #
-        self._selectRect = _rectF()
+        self._selectRect = cls_rectF()
     #
     def __connectUi(self, widget):
         self.setWidget(widget)
@@ -97,14 +97,14 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
         (
             self._explainClass, self._attributeClass,
             self._actionClass,
-            self._pointClass, self._pointFClass,
-            self._rectClass, self._rectFClass,
+            self.cls_pointClass, self.cls_pointFClass,
+            self.cls_rectClass, self.cls_rectFClass,
             self._pathClass
         ) = (
             self._viewModel._explainClass, self._viewModel._attributeClass,
             self._viewModel._actionClass,
-            self._viewModel._pointClass, self._viewModel._pointFClass,
-            self._viewModel._rectClass, self._viewModel._rectFClass,
+            self._viewModel.cls_pointClass, self._viewModel.cls_pointFClass,
+            self._viewModel.cls_rectClass, self._viewModel.cls_rectFClass,
             self._viewModel._pathClass
         )
     #
@@ -212,7 +212,7 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
     #
     def _dragMoveBy(self, point, offsetPoint=None):
         if not offsetPoint:
-            offsetPoint = _point()
+            offsetPoint = cls_point()
         #
         point = point - offsetPoint
         x, y = point.x(), point.y()
@@ -492,9 +492,9 @@ class xGraphNodeItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
+class xGraphGroupItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__connectUi(widget)
@@ -505,12 +505,12 @@ class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
     def __initUi(self):
         self._explainLabel = self._explainClass()
         #
-        self._uiBasicRect, self._rimRect = _rect(), _rect()
-        self._uiIconRect, self._uiTypeTextRect = _rect(), _rect()
+        self._uiBasicRect, self._rimRect = cls_rect(), cls_rect()
+        self._uiIconRect, self._uiTypeTextRect = cls_rect(), cls_rect()
         #
-        self._inputConnectionRect, self._outputConnectionRect = _rect(), _rect()
+        self._inputConnectionRect, self._outputConnectionRect = cls_rect(), cls_rect()
         #
-        self._inputPoint, self._outputPoint = _point(), _point()
+        self._inputPoint, self._outputPoint = cls_point(), cls_point()
         #
         self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0.0, 8.0, 2.0, 4.0
         #
@@ -545,7 +545,7 @@ class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
         self._nodeIndexLis = []
         self._nodeModelItemLis = []
         #
-        self._dragStartPoint = _point()
+        self._dragStartPoint = cls_point()
         #
         self._pos = 0, 0
         self._size = 0, 0
@@ -565,14 +565,14 @@ class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
         (
             self._explainClass,
             self._actionClass,
-            self._pointClass, self._pointFClass,
-            self._rectClass, self._rectFClass,
+            self.cls_pointClass, self.cls_pointFClass,
+            self.cls_rectClass, self.cls_rectFClass,
             self._pathClass
         ) = (
             self._viewModel._explainClass,
             self._viewModel._actionClass,
-            self._viewModel._pointClass, self._viewModel._pointFClass,
-            self._viewModel._rectClass, self._viewModel._rectFClass,
+            self._viewModel.cls_pointClass, self._viewModel.cls_pointFClass,
+            self._viewModel.cls_rectClass, self._viewModel.cls_rectFClass,
             self._viewModel._pathClass
         )
     #
@@ -827,9 +827,9 @@ class xGraphGroupItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
+class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__connectUi(widget)
@@ -846,11 +846,11 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
         self._isPressHovered = False
     #
     def __initUi(self):
-        self._inputPoint, self._outputPoint = _pointF(), _pointF()
+        self._inputPoint, self._outputPoint = cls_pointF(), cls_pointF()
         #
-        self._startPoint, self._endPoint = _pointF(), _pointF()
+        self._startPoint, self._endPoint = cls_pointF(), cls_pointF()
         #
-        self._curvePath = _path()
+        self._curvePath = cls_painter_path()
         #
         self._pressFlag = False
         self._dragFlag = False
@@ -869,14 +869,14 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
         (
             self._explainClass,
             self._actionClass,
-            self._pointClass, self._pointFClass,
-            self._rectClass, self._rectFClass,
+            self.cls_pointClass, self.cls_pointFClass,
+            self.cls_rectClass, self.cls_rectFClass,
             self._pathClass
         ) = (
             self._viewModel._explainClass,
             self._viewModel._actionClass,
-            self._viewModel._pointClass, self._viewModel._pointFClass,
-            self._viewModel._rectClass, self._viewModel._rectFClass,
+            self._viewModel.cls_pointClass, self._viewModel.cls_pointFClass,
+            self._viewModel.cls_rectClass, self._viewModel.cls_rectFClass,
             self._viewModel._pathClass
         )
     #
@@ -907,7 +907,7 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
     #
     def _updateRectGeometry(self):
         def addCubic(p1, p2, index):
-            c1, c2 = self._pointFClass((p1.x() + p2.x())/index, p1.y()), self._pointFClass((p1.x() + p2.x())/index, p2.y())
+            c1, c2 = self.cls_pointFClass((p1.x() + p2.x())/index, p1.y()), self.cls_pointFClass((p1.x() + p2.x())/index, p2.y())
             path.cubicTo(c1, c2, p2)
             path.lineTo(p2)
             path.cubicTo(c2, c1, p1)
@@ -922,7 +922,7 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
             self._startPoint.setX(xPos + 1), self._startPoint.setY(yPos + height - 2)
             self._endPoint.setX(xPos + width - 2), self._endPoint.setY(yPos + 1)
         #
-        path = _path(self._startPoint)
+        path = cls_painter_path(self._startPoint)
         #
         self._curvePath = path
         #
@@ -1011,7 +1011,7 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
         x, y = self.x(), self.y()
         w, h = self.width(), self.height()
         #
-        rectF = _rectF()
+        rectF = cls_rectF()
         rectF.setRect(
             x, y,
             w, h
@@ -1044,9 +1044,9 @@ class xGraphConnectionItemModel(qtModelAbstract.Abc_QtItemModel):
 
 
 #
-class xGraphExplainItemModel(qtModelAbstract.Abc_QtItemModel):
+class xGraphExplainItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __init__(self, widget, (pointClass, rectClass)):
-        self._initItemModelBasic(widget)
+        self._initAbcObjItemModel(widget)
         #
         self.__overrideItemAttr()
         self.__connectUi(widget)
@@ -1061,9 +1061,9 @@ class xGraphExplainItemModel(qtModelAbstract.Abc_QtItemModel):
         self._isExpanded = False
     #
     def __initUi(self):
-        self._uiExpandRect = _rect()
-        self._uiIndexTextRect = _rect()
-        self._uiNameTextRect = _rect()
+        self._uiExpandRect = cls_rect()
+        self._uiIndexTextRect = cls_rect()
+        self._uiNameTextRect = cls_rect()
         #
         self._uiSpacing = 4
         #
@@ -1079,7 +1079,7 @@ class xGraphExplainItemModel(qtModelAbstract.Abc_QtItemModel):
         self._widget = widget
     #
     def __setClass(self, *args):
-        self._pointClass, self._rectClass = args
+        self.cls_pointClass, self.cls_rectClass = args
     #
     def _updateWidgetGeometry(self):
         if self._proxyItem is not None:
@@ -1173,8 +1173,8 @@ class xGraphExplainItemModel(qtModelAbstract.Abc_QtItemModel):
 
 #
 class xGraphAttributePortItemModel(
-    qtDefinition.QtItemModelDef,
-    qtDefinition.QtViewModelDef
+    qtDefinition.QtDef_ItemModel,
+    qtDefinition.QtDef_ViewModel
 ):
     def __init__(self, widget):
         super(xGraphAttributePortItemModel, self).__init__(widget)
@@ -1196,7 +1196,7 @@ class xGraphAttributePortItemModel(
         self._isColorEnable = True
     #
     def __initUi(self):
-        self._uiBasicRect, self._shadowRect = _rect(), _rect()
+        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
         #
         self._uiBasicWidthRound, self._uiBasicHeightRound = 10.0, 10.0
         #
@@ -1212,14 +1212,14 @@ class xGraphAttributePortItemModel(
         (
             self._explainClass,
             self._actionClass,
-            self._pointClass, self._pointFClass,
-            self._rectClass, self._rectFClass,
+            self.cls_pointClass, self.cls_pointFClass,
+            self.cls_rectClass, self.cls_rectFClass,
             self._pathClass
         ) = (
             self._viewModel._explainClass,
             self._viewModel._actionClass,
-            self._viewModel._pointClass, self._viewModel._pointFClass,
-            self._viewModel._rectClass, self._viewModel._rectFClass,
+            self._viewModel.cls_pointClass, self._viewModel.cls_pointFClass,
+            self._viewModel.cls_rectClass, self._viewModel.cls_rectFClass,
             self._viewModel._pathClass
         )
     #
@@ -1308,13 +1308,13 @@ class xGraphAttributePortItemModel(
         self._updateQtPressStyle()
     #
     def setInputAttributes(self, attributes):
-        inputItem = qtWidgetAbstract.QtAttributeItem()
+        inputItem = qtAbcWidget._QtAttributeitem()
         inputItemModel = inputItem.itemModel()
         inputItemModel.setName('input')
         self.addItem(inputItem)
         if attributes:
             for i in attributes:
-                attributeItem = qtWidgetAbstract.QtAttributeItem()
+                attributeItem = qtAbcWidget._QtAttributeitem()
                 attributeItem.setName(i)
                 inputItem.addChild(attributeItem)
         #

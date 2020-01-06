@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore
+from LxBasic import bscMethods
 
 from LxCore import lxScheme
 #
@@ -18,7 +18,6 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         ('Python Module', ('.pyc', 'module', 'module.pyc')),
         ('Python Tool', ('.py', 'tool', 'tool')),
         ('Icon', ('.png', 'icon', 'icon'))
-
     ]
     publishComposeKeyConfig = [
         'Python Module',
@@ -81,7 +80,7 @@ class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
         if self.mainWindow:
             explain = u'''Build Develop Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscCore.If_Progress(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()

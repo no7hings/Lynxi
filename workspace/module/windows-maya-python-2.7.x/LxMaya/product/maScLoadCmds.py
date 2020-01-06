@@ -1,32 +1,33 @@
 # coding=utf-8
 import os
-#
+
+from LxBasic import bscMethods, bscModifier
+
 from LxCore import lxBasic, lxCore_
 
-#
-from LxUi.qt import qtLog, qtProgress, qtTip
-#
+from LxUi.qt import qtLog, qtCommands
+
 from LxCore.config import appCfg, sceneCfg
-#
+
 from LxCore.preset import appVariant
-#
+
 from LxCore.preset.prod import assetPr, scenePr
-#
+
 from LxCore.method._osMethod import OsMultFileMethod
-#
+
 from LxMaya.command import maUtils, maFile, maHier, maPreference, maFur, maCacheConnect, maRender
-#
+
 from LxMaya.product.data import datScene
-#
+
 from LxMaya.product.op import sceneOp, sceneryOp
-#
+
 astDefaultVersion = appVariant.astDefaultVersion
-#
+
 none = ''
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def scUnitSceneCreateMainCmd(
         logWin,
         projectName,
@@ -238,7 +239,7 @@ def scUnitFrameLoadCmd(
     maRender.setAnimationFrameMode()
 
 
-@qtTip.viewExceptionMethod
+@bscModifier.catchException
 def scUnitSceneLoadMainCmd(
         logWin,
         projectName,
@@ -328,7 +329,7 @@ def scUnitCameraCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Camera Cache'''
             maxValue = len(v)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for seq, i in enumerate(v):
                 progressBar.updateProgress()
                 #
@@ -401,7 +402,7 @@ def scUnitCameraCacheLoadSubCmd(
             maUtils.setDisplayMode(5)
             maUtils.setCameraView(scCamera)
             maUtils.setObjectLockTransform(scCamera, boolean=True)
-            qtTip.viewMessage(
+            bscMethods.If_Message(
                 u'''Set Camera View''', u'''Complete'''
             )
     else:
@@ -426,7 +427,7 @@ def scUnitAstModelCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset Model Cache'''
             maxValue = len(v)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for i in v:
                 progressBar.updateProgress()
                 #
@@ -540,7 +541,7 @@ def scUnitAstModelPoseCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset Model ( Pose Cache )'''
             maxValue = len(v)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for i in v:
                 progressBar.updateProgress()
                 #
@@ -631,7 +632,7 @@ def scUnitAssetsLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset(s)'''
             maxValue = len(v)
-            progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
             for i in v:
                 progressBar.updateProgress()
                 #
@@ -1240,7 +1241,7 @@ def scUnitAstCfxFurCachesConnectCmd(
     if furObjectLis:
         progressExplain = u'Load Scene Asset Character FX ( Fur Cache )'
         maxValue = len(furObjectLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for furObject in furObjectLis:
             progressBar.updateProgress()
             #

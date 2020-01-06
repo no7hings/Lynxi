@@ -3,7 +3,7 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.config import appCfg, sceneCfg, appConfig
 #
@@ -11,7 +11,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtProgress, qtTip
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
 #
 #
 from LxInterface.qt.ifBasic import ifWidgetBasic
@@ -229,7 +229,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Rig Unit(s)'''
             maxValue = len(uiData)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.updateProgress()
                 setBranch(s, k, v)
@@ -323,7 +323,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         super(IfScLayoutToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.logWindow = qtLog.logWin_()
+        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
         #
@@ -626,7 +626,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if maUtils.isAppExist(sceneCamera):
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     u'''Camera : %s''' % sceneCamera, u'''is Exists'''
                 )
             if not maUtils.isAppExist(sceneCamera):
@@ -679,18 +679,18 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             if maUtils.isAppExist(usedCamera):
                 maUtils.setDisplayMode(5)
                 maUtils.setCameraView(usedCamera)
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     u'''Set Camera View''', u'''Complete'''
                 )
     @staticmethod
     def setOpenHud():
         maCam.setCameraCloseHud()
         maCam.setCameraHud('large')
-        maUtils.viewMessage(u'Camera HUD is', u'Open', position='midCenterTop', fade=1, dragKill=0)
+        maUtils.setMessageWindowShow(u'Camera HUD is', u'Open', position='midCenterTop', fade=1, dragKill=0)
     @staticmethod
     def setCloseHud():
         maCam.setCameraCloseHud()
-        maUtils.viewMessage(u'Camera HUD is', u'Closed', position='midCenterTop', fade=1, dragKill=0)
+        maUtils.setMessageWindowShow(u'Camera HUD is', u'Closed', position='midCenterTop', fade=1, dragKill=0)
     #
     def setUpdateCamera(self):
         if self._connectObject:
@@ -718,7 +718,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 timeTag = lxBasic.getOsActiveTimeTag()
                 #
@@ -731,7 +731,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     timeTag,
                     withCamera
                 )
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     u'Animation Camera Upload', u'Complete'
                 )
     #
@@ -794,7 +794,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     if lxBasic.isOsExist(previewFolder):
                         lxBasic.setOsFolderOpen(previewFolder)
                 #
-                qtTip.viewMessage(
+                qtCommands.setMessageWindowShow(
                     u'Animation Preview Upload', u'Complete'
                 )
     #
@@ -840,11 +840,11 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         'Camera Import', 'Complete'
                     )
                 else:
-                    qtTip.viewMessage(
+                    qtCommands.setMessageWindowShow(
                         'Camera', 'is Exists'
                     )
 
@@ -890,7 +890,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
         pass
     #
     def setupUnit(self):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         self.mainLayout().addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         #
@@ -1095,7 +1095,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         super(IfScAnimUploadToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.logWindow = qtLog.logWin_()
+        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
         #
@@ -1142,12 +1142,12 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupTipToolUiBox(self, toolBox):
         inData = self.dicScTip
         #
-        self._scTipUiLabel = qtWidgets.QtTextBrower()
+        self._scTipUiLabel = qtWidgets.QtTextbrower()
         toolBox.setInfo(inData, 'tips', self._scTipUiLabel)
         self._scTipUiLabel.setEnterEnable(False)
         self._scTipUiLabel.setRule(self.uploadTips)
         #
-        self._scNoteUiLabel = qtWidgets.QtTextBrower()
+        self._scNoteUiLabel = qtWidgets.QtTextbrower()
         toolBox.setButton(inData, 'notes', self._scNoteUiLabel)
     #
     def setupRangeToolUiBox(self, toolBox):
@@ -1455,7 +1455,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         # Scenery
         isWithScenery = getSceneryUploadDatum()
         # Log Window
-        logWin = qtLog.viewLogWin_()
+        logWin = qtLog.setLogWindowShow()
         self._connectObject.hide()
         #
         maScUploadCmds.scUnitAnimationUploadMainCmd(
@@ -1492,12 +1492,12 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneClass, sceneName, sceneVariant, sceneStage,
             timeTag,
         )
-        qtTip.viewMessage(
+        qtCommands.setMessageWindowShow(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
     def setupUnit(self):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         self.mainLayout().addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         #
@@ -1629,12 +1629,12 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def setupTipToolUiBox(self, toolBox):
         inData = self.dicScTip
         #
-        self._scTipUiLabel = qtWidgets.QtTextBrower()
+        self._scTipUiLabel = qtWidgets.QtTextbrower()
         toolBox.setInfo(inData, 'tips', self._scTipUiLabel)
         self._scTipUiLabel.setEnterEnable(False)
         self._scTipUiLabel.setRule(self.uploadTips)
         #
-        self._scNoteUiLabel = qtWidgets.QtTextBrower()
+        self._scNoteUiLabel = qtWidgets.QtTextbrower()
         toolBox.setButton(inData, 'notes', self._scNoteUiLabel)
     #
     def setupRenderOptionToolUiBox(self, toolBox):
@@ -1775,7 +1775,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             lxBasic.setOsFolderOpen(renderPath)
         #
         def setUpdateRenderIndex():
-            logWin = qtLog.viewLogWin_()
+            logWin = qtLog.setLogWindowShow()
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
@@ -1794,7 +1794,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 timeTag
             )
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -1829,7 +1829,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             if sceneIndex:
-                logWin = qtLog.viewLogWin_()
+                logWin = qtLog.setLogWindowShow()
                 #
                 isWithRender = self.withRenderLabel.isChecked()
                 isWithDeadline = self.withDeadlineLabel.isChecked()
@@ -2101,7 +2101,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             setLoadAction()
             #
-            qtTip.viewMessage('Save Mel Command', 'Complete !!!')
+            qtCommands.setMessageWindowShow('Save Mel Command', 'Complete !!!')
         #
         def loadCmd():
             osFile = self._melCommandFile
@@ -2146,7 +2146,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 maRender.setRenderPreMelCommand(data)
         #
         self._melCommandFile = '{}/{}/maya.mel/deadline.mel'.format(
-            lxCore_.UserPreset().renderDirectory(), self.projectName
+            lxScheme.UserPreset().renderCommandDirectory, self.projectName
         )
         #
         inData = self.dicMelCommand
@@ -2156,7 +2156,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._addToMayaButton.setChecked(False)
         self._addToMayaButton.clicked.connect(setRenderPreMelCommand)
         #
-        self._commandEditBox = qtWidgets.QtTextBrower()
+        self._commandEditBox = qtWidgets.QtTextbrower()
         toolBox.addWidget(self._commandEditBox, 1, 0, 1, 4)
         self._commandEditBox.textEdit().entryChanged.connect(setRenderPreMelCommand)
         #
@@ -2185,7 +2185,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             #
-            logWin = qtLog.viewLogWin_(u'Deadline Submit')
+            logWin = qtLog.setLogWindowShow(u'Deadline Submit')
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
@@ -2221,7 +2221,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             logWin.setCountdownClose(5)
             #
-            qtTip.viewMessage(
+            qtCommands.setMessageWindowShow(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -2363,7 +2363,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(2)
         #
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         layout.addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         #
@@ -2533,7 +2533,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         layout.addWidget(self._tabWidget)
         self._tabWidget.setTabPosition(qtCore.South)
         #
@@ -2693,7 +2693,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self.rootLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('root', self.rootLabel)
         #
-        self.animExportTipsLabel = qtWidgets.QtTextBrower()
+        self.animExportTipsLabel = qtWidgets.QtTextbrower()
         toolBox.addInfo('tips', self.animExportTipsLabel)
         self.animExportTipsLabel.setEnterEnable(False)
         self.animExportTipsLabel.setRule(self.animExportTips)
@@ -3048,7 +3048,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         explain = '''Read Assets's Constant - Data'''
         maxValue = len(inData)
-        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
         #
         (
             assetArray, assetNumCortArray, assetDirCortArray, assNsHirCortArray, assNsNmCortArray, assetHirClrArray,
@@ -3143,7 +3143,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 assetItem.assetVariant = newVariant
                 newShowName = appVariant.assetTreeViewName(assetName, number, newVariant)
                 assetItem.setText(0, newShowName)
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Set Asset Variant', u'is Complete',
                     position='midCenterTop', fade=1, dragKill=0)
     #
@@ -3161,7 +3161,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 maUtils.setAttrStringDatumForce_(referenceNode, appVariant.basicNumberAttrLabel, str(newNumber).zfill(4))
                 newShowName = appVariant.assetTreeViewName(assetName, str(newNumber).zfill(4), assetVariant)
                 assetItem.setText(0, newShowName)
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Set Asset Number', u'is Complete',
                     position='midCenterTop', fade=1, dragKill=0)
     #
@@ -3208,12 +3208,12 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                             maUtils.setAttrStringDatumForce_(referenceNode, attrName, str(guessNumber).zfill(4))
             #
             if isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Number Error is', u'Reduce',
                     position='midCenterTop', fade=1, dragKill=0)
                 self.setViewConstant()
             if not isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Number Error is', u'Non-Exists',
                     position='midCenterTop', fade=1, dragKill=0)
     #
@@ -3233,12 +3233,12 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     maUtils.setLoadReferenceFile(referenceNode, correctFile)
             #
             if isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Directory Error is', u'Reduce',
                     position='midCenterTop', fade=1, dragKill=0)
                 self.setViewConstant()
             if not isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Directory Error is', u'Non-Exists',
                     position='midCenterTop', fade=1, dragKill=0)
     # Namespace Naming
@@ -3261,18 +3261,18 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                         isRefresh = True
                         maUtils.setReferenceNamespace(referenceNode, correctNamespace)
                 if ':' in currentNamespace:
-                    maUtils.viewMessage(
+                    maUtils.setMessageWindowShow(
                         u'Click [ Reduce Namespace Hierarchy ] to', u'Reduce Namespace Hierarchy',
                         position='midCenterTop', fade=1, dragKill=0)
             #
             if isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Namespace Naming Error is', u'Reduce',
                     position='midCenterTop', fade=1, dragKill=0)
                 self.setViewConstant()
             #
             if not isRefresh:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'Asset ( Rig ) Namespace Naming Error is', u'Non-Exists',
                     position='midCenterTop', fade=1, dragKill=0)
     #
@@ -3343,7 +3343,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     position='botLeft', fade=1, dragKill=0
                 )
             else:
-                maUtils.viewMessage(
+                maUtils.setMessageWindowShow(
                     u'%s Rig is' % keyword, u'Non - Exists',
                     position='botLeft', fade=1, dragKill=0)
         #
@@ -3375,7 +3375,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             assetItem.state = keyword
             assetItem.setText(1, keyword)
             #
-            maUtils.viewMessage(
+            maUtils.setMessageWindowShow(
                 u'Switch %s to GPU' % assetName, u'Complete',
                 position='botLeft', fade=1, dragKill=0)
         #
@@ -3409,7 +3409,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             maAnimTreeViewCmds.setAnimationAssetMeshCheck(assetItem, localMeshData, serverMeshData, 2)
             #
-            maUtils.viewMessage(
+            maUtils.setMessageWindowShow(
                 u'%s Switch to Rig' % assetName, u'Complete',
                 position='botLeft', fade=1, dragKill=0)
         #
@@ -3439,7 +3439,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             data = maKeyframe.getKeyDatas(root)
             maFile.writeOsJson(data, osFile, 4)
             #
-            maUtils.viewMessage(
+            maUtils.setMessageWindowShow(
                 u'Animation ( Keys ) Export', u'Complete',
                 position='topCenter', fade=1, dragKill=0)
     #
@@ -3450,7 +3450,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             data = maFile.readOsJson(osFile)
             maKeyframe.setKeys(root, data)
             #
-            maUtils.viewMessage(
+            maUtils.setMessageWindowShow(
                 u'Animation ( Keys ) Import', u'Complete',
                 position='topCenter', fade=1, dragKill=0
             )
@@ -3639,7 +3639,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         maUtils.setWindowDelete(self.UnitScriptJobWindowName)
     #
     def setupLeftWidget(self, layout):
-        self._tabWidget = qtWidgets.QtButtonTabGroup()
+        self._tabWidget = qtWidgets.QtButtonTabgroup()
         self._tabWidget.setTabPosition(qtCore.South)
         layout.addWidget(self._tabWidget)
         self.setupLeftTabWidget(self._tabWidget)
@@ -3710,7 +3710,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self._writeScAstCfxFurCacheButton.setTooltip('''Upload Asset Character FX Fur Cache(s) to Server''')
         self._writeScAstCfxFurCacheButton.clicked.connect(self.setUploadScAstCfxFurCache)
         #
-        self.writeFurCacheTipLabel = qtWidgets.QtTextBrower()
+        self.writeFurCacheTipLabel = qtWidgets.QtTextbrower()
         toolBox.setInfo(inData, 'tip', self.writeFurCacheTipLabel)
         self.writeFurCacheTipLabel.setEnterEnable(False)
         self.writeFurCacheTipLabel.setRule(self.furCacheTips)
@@ -3744,7 +3744,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         self._readScAstCfxFurCacheButton.setTooltip('''Load Asset Character FX Fur Cache(s) from Server''')
         self._readScAstCfxFurCacheButton.clicked.connect(self.setLoadScAstCfxFurCache)
         #
-        self.readFurCacheTipLabel = qtWidgets.QtTextBrower()
+        self.readFurCacheTipLabel = qtWidgets.QtTextbrower()
         toolBox.setInfo(inData, 'tip', self.readFurCacheTipLabel)
         self.readFurCacheTipLabel.setEnterEnable(False)
         self.readFurCacheTipLabel.setRule(self.furCacheTips)
@@ -4205,7 +4205,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                         errorLis = []
                         explain = '''Set Cache Check'''
                         maxValue = len(osFiles)
-                        progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                         #
                         for osFile in osFiles:
                             isContinue = self._connectObject.isContinue()
@@ -4264,7 +4264,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             if treeItems:
                 explain = '''Set Nurbs Hair Check'''
                 maxValue = len(treeItems)
-                progressBar = qtProgress.viewSubProgress(explain, maxValue)
+                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
                 for i in treeItems:
                     progressBar.updateProgress()
                     #
@@ -4519,7 +4519,7 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             # View Progress
             explain = '''Load Asset ( CFX ) Cache'''
             maxValue = len(objectlis)
-            progressBar = qtProgress.viewSubProgress(explain, maxValue)
+            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
             for furObject in objectlis:
                 progressBar.updateProgress()
                 #

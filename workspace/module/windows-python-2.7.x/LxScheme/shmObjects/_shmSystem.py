@@ -1,12 +1,12 @@
 # coding:utf-8
-from LxScheme import shmAbstract
+from LxScheme import shmConfigure, shmAbstract
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic
 
 
 class Sys_Platform(shmAbstract.Abc_System):
-    object_category = lxCore_.Basic.Category_Platform
-    raw_key = lxCore_.Basic.Key_Platform
+    object_category = shmConfigure.Basic.Category_Platform
+    raw_key = shmConfigure.Basic.Key_Platform
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -30,7 +30,7 @@ class Sys_Platform(shmAbstract.Abc_System):
 class Sys_PltLanguage(shmAbstract.Abc_System):
     SYSTEM_CLS = Sys_Platform
 
-    object_category = lxCore_.Basic.Category_Plf_Language
+    object_category = shmConfigure.Basic.Category_Plf_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -71,8 +71,8 @@ class Sys_PltLanguage(shmAbstract.Abc_System):
 class Sys_PltApplication(shmAbstract.Abc_System):
     SYSTEM_CLS = Sys_Platform
 
-    object_category = lxCore_.Basic.Category_Plf_Application
-    raw_key = lxCore_.Basic.Key_Application
+    object_category = shmConfigure.Basic.Category_Plf_Application
+    raw_key = shmConfigure.Basic.Key_Application
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -113,7 +113,7 @@ class Sys_PltApplication(shmAbstract.Abc_System):
 class Sys_PltAppLanguage(shmAbstract.Abc_System):
     SYSTEM_CLS = Sys_PltApplication
 
-    object_category = lxCore_.Basic.Category_Plf_App_Language
+    object_category = shmConfigure.Basic.Category_Plf_App_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):

@@ -1,13 +1,13 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtAbstracts import qtModelAbstract
+from LxUi.qt.qtObjects import qtAbcModel
 
 
 #
-class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
+class QtRadarchartModel(qtAbcModel.QtAbcObj_ChartModel):
     def __init__(self, widget):
-        self._initChartBasic()
+        self._initAbcObjChart()
         self._initRadarChart()
         #
         self.setWidget(widget)
@@ -62,8 +62,8 @@ class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
         pointLis = []
         for seq in range(count):
             angle = 360 * float(seq) / float(count) + 180
-            x, y = cx + cls._sin(cls._angle(angle)) * radius / 2, cy + cls._cos(cls._angle(angle)) * radius / 2
-            pointLis.append(cls._point(x, y))
+            x, y = cx + cls.fnc_sin(cls.fnc_angle(angle)) * radius / 2, cy + cls.fnc_cos(cls.fnc_angle(angle)) * radius / 2
+            pointLis.append(cls.cls_point(x, y))
         #
         return pointLis + pointLis[0:1]
     @classmethod
@@ -74,12 +74,12 @@ class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
         polygonLis = []
         for i in range(6):
             r = radius*float(i + 1)/float(6)
-            polygon = cls._polygon(
+            polygon = cls.cls_polygon(
                 cls._toRadarSubBasicPointLis(cx, cy, r, count)
             )
             polygonLis.append(polygon)
-        clipPath = cls._path()
-        clipPath.addPolygon(cls._polygonF(cls._toRadarSubBasicPointLis(cx, cy, radius, count)))
+        clipPath = cls.cls_painter_path()
+        clipPath.addPolygon(cls.cls_polygonF(cls._toRadarSubBasicPointLis(cx, cy, radius, count)))
         polygonLis.reverse()
         return polygonLis, clipPath
     @classmethod
@@ -105,10 +105,10 @@ class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
         r, g, b, a = rgbaLis0[0]
         backgroundGradient.setColorAt(1, qtCore.QtGui.QColor(r, g, b, 127))
         #
-        brush = cls._brush(backgroundGradient)
+        brush = cls.cls_brush(backgroundGradient)
         #
-        serverPolygon = cls._polygon(serverPointLis)
-        localPolygon = cls._polygon(localPointLis)
+        serverPolygon = cls.cls_polygon(serverPointLis)
+        localPolygon = cls.cls_polygon(localPointLis)
         return brush, serverPolygon, localPolygon
     @classmethod
     def _toRadarSubChartDrawDatumAt(cls, widget, itemIndex, itemIndexCount, maxValue, subDatum, xOffset, yOffset, radius, spacing):
@@ -147,27 +147,27 @@ class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
         x, y = xOffset, yOffset
         r = radius
         cx, cy = x + r/2, y + r/2
-        basicPath = cls._path()
+        basicPath = cls.cls_painter_path()
         basicPath.moveTo(cx, cy)
         startAngle = 360*(float(itemIndex)/float(itemIndexCount)) + 180
         endAngle = 360*(float(itemIndex + 1)/float(itemIndexCount)) + 180
         basicPath.arcTo(x, y, r, r, startAngle + ia, endAngle + ia)
         #
-        xText0, yText0 = cx + cls._sin(cls._angle(startAngle))*radius/2, cy + cls._cos(cls._angle(startAngle))*radius/2
+        xText0, yText0 = cx + cls.fnc_sin(cls.fnc_angle(startAngle))*radius/2, cy + cls.fnc_cos(cls.fnc_angle(startAngle))*radius/2
         #
-        xMap0, yMap0 = cx + cls._sin(cls._angle(startAngle))*radius/2*localDrawPercent, cy + cls._cos(cls._angle(startAngle))*radius/2*localDrawPercent
-        xMap1, yMap1 = cx + cls._sin(cls._angle(startAngle))*radius/2*serverDrawPercent, cy + cls._cos(cls._angle(startAngle))*radius/2*serverDrawPercent
+        xMap0, yMap0 = cx + cls.fnc_sin(cls.fnc_angle(startAngle))*radius/2*localDrawPercent, cy + cls.fnc_cos(cls.fnc_angle(startAngle))*radius/2*localDrawPercent
+        xMap1, yMap1 = cx + cls.fnc_sin(cls.fnc_angle(startAngle))*radius/2*serverDrawPercent, cy + cls.fnc_cos(cls.fnc_angle(startAngle))*radius/2*serverDrawPercent
         #
         textWidth0 = widget.fontMetrics().width(explain)
         textWidth1 = widget.fontMetrics().width(showText1)
         textHeight = widget.fontMetrics().height()
         #
-        textPoint0 = cls._point(xText0 - textWidth0/2, yText0 - textHeight/2)
-        textPoint1 = cls._point(xText0 - textWidth1/2, yText0 + textHeight/2)
-        mapEllipse = cls._rect(xMap0 - eR, yMap0 - eR, eR*2, eR*2)
+        textPoint0 = cls.cls_point(xText0 - textWidth0/2, yText0 - textHeight/2)
+        textPoint1 = cls.cls_point(xText0 - textWidth1/2, yText0 + textHeight/2)
+        mapEllipse = cls.cls_rect(xMap0 - eR, yMap0 - eR, eR*2, eR*2)
         #
-        localMapPoint = cls._point(xMap0, yMap0)
-        serverMapPoint = cls._point(xMap1, yMap1)
+        localMapPoint = cls.cls_point(xMap0, yMap0)
+        serverMapPoint = cls.cls_point(xMap1, yMap1)
         return backgroundRgba, borderRgba, basicPath, textPoint0, textPoint1, showText0, showText1, serverMapPoint, localMapPoint, mapEllipse
     @classmethod
     def _toRadarChartDrawDatum(cls, widget, datum, xOffset, yOffset, radius, spacing):
@@ -184,10 +184,10 @@ class QtRadarchartModel(qtModelAbstract.Abc_QtChartModel):
 
 
 #
-class QtSectorchartModel(qtModelAbstract.Abc_QtChartModel):
+class QtSectorchartModel(qtAbcModel.QtAbcObj_ChartModel):
     # noinspection PyUnusedLocal
     def __init__(self, widget):
-        self._initChartBasic()
+        self._initAbcObjChart()
         self._initSectorChart()
         #
         self.setWidget(widget)
@@ -262,7 +262,7 @@ class QtSectorchartModel(qtModelAbstract.Abc_QtChartModel):
         rOut = radius - itemIndex*tapeWidth
         rIn = rOut - tapeWidth + spacing
         #
-        rimPath = cls._path()
+        rimPath = cls.cls_painter_path()
         rimPath.addEllipse(
             xOut, yOut, rOut, rOut
         )
@@ -272,12 +272,12 @@ class QtSectorchartModel(qtModelAbstract.Abc_QtChartModel):
         #
         cx, cy = xOut + rOut/2, yOut + rOut/2
         #
-        subBasicPath = cls._path()
+        subBasicPath = cls.cls_painter_path()
         subBasicPath.moveTo(cx, cy)
         basicSubAngle = -360*.25
         subBasicPath.arcTo(xOut - 1, yOut - 1, rOut + 2, rOut + 2, ia, basicSubAngle)
         #
-        subPercentPath = cls._path()
+        subPercentPath = cls.cls_painter_path()
         subPercentPath.moveTo(cx, cy)
         percentSubAngle = -360*(1 - drawPercent)
         subPercentPath.arcTo(xOut - 1, yOut - 1, rOut + 2, rOut + 2, ia, percentSubAngle)
@@ -289,11 +289,11 @@ class QtSectorchartModel(qtModelAbstract.Abc_QtChartModel):
         x2, y2 = x1 + tapeWidth/4, y1
         x3, y3 = x2 + tapeWidth/4, y2 + tapeWidth/4
         x4, y4 = x3 + tapeWidth/4, y3
-        textPolyline = cls._polygon(
-            [cls._point(x1, y1), cls._point(x2, y2), cls._point(x3, y3), cls._point(x4 - eR, y4)]
+        textPolyline = cls.cls_polygon(
+            [cls.cls_point(x1, y1), cls.cls_point(x2, y2), cls.cls_point(x3, y3), cls.cls_point(x4 - eR, y4)]
         )
-        textPoint = cls._point(x4 + eR + 4, y4 + 4)
-        mapEllipse = cls._rect(x4 - eR, y4 - eR, eR*2, eR*2)
+        textPoint = cls.cls_point(x4 + eR + 4, y4 + 4)
+        mapEllipse = cls.cls_rect(x4 - eR, y4 - eR, eR*2, eR*2)
         return backgroundRgba, borderRgba, basicPath, percentPath, textPoint, textPolyline, mapEllipse, showText
     @classmethod
     def _toSectorDrawDatum(cls, datum, xOffset, yOffset, radius, tapeWidth, spacing):

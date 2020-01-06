@@ -1,20 +1,21 @@
 # coding=utf-8
+from LxBasic import bscModifier
+
 from LxCore import lxBasic, lxCore_
 
-from LxUi.qt import qtLog, qtProgress, qtTip
-#
-#
+from LxUi.qt import qtLog, qtCommands
+
 from LxCore.preset.prod import sceneryPr
-#
+
 from LxMaya.command import maUtils, maFile, maHier, maAsb
-#
+
 from LxMaya.product.op import sceneryOp
-#
+
 none = ''
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def scnUnitCreateMainCmd(
         logWin,
         sceneryIndex,
@@ -34,8 +35,8 @@ def scnUnitCreateMainCmd(
     qtLog.viewCompleteProcess(logWin)
 
 
-@qtTip.viewExceptionMethod
-@qtTip.viewTimeMethod
+@bscModifier.catchException
+@bscModifier.catchCostTime
 def scnUnitLoadMainCmd(
         logWin,
         projectName,
@@ -97,7 +98,7 @@ def scnUnitMaAssemblyLoadCmd(
     if datumLis:
         progressExplain = u'''Build Scenery Compose Unit(s)'''
         maxValue = len(datumLis)
-        progressBar = qtProgress.viewSubProgress(progressExplain, maxValue)
+        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
         for i in datumLis:
             progressBar.updateProgress()
             scnUnitMaAssemblyLoadSubCmd(
