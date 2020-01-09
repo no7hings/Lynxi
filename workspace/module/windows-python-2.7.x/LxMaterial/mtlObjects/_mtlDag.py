@@ -40,22 +40,26 @@ VALUE_CLS_DIC = {
 }
 
 
-class Dag_SurfaceShader(mtlAbstract.Abc_Shader):
+class Dag_SurfaceShader(mtlAbstract.Abc_DagShader):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
     RAW_TYPE_CLS = _mtlRaw.Raw_Type
-
-    RAW_CATEGORY_CLS = _mtlRaw.Raw_Category
+    RAW_CATEGORY_CLS = _mtlRaw.Raw_ShaderCategory
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
-    SET_CHILD_CLS = _mtlSet.Set_Dag
-    SET_PORT_CLS = _mtlSet.Set_Attribute
 
-    PORT_CLS = _mtlPort.Prt_Shaderinput
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Port
+    SET_CHILD_CLS = _mtlSet.Set_Dag
+
+    PORT_INPUT_CLS = _mtlPort.Prt_Shaderinput
+    PORT_OUTPUT_ClS = _mtlPort.Prt_Shaderoutput
 
     DEF_CLS = _mtlDefinition.Def_Node
 
     value_cls_dic = VALUE_CLS_DIC
 
-    xml_prefix_label = 'shaderref'
-    shader_output_type_string = 'surfaceshader'
+    xml_key_element = 'shaderref'
+
+    port_output_name_string = 'surfaceshader'
 
     def __init__(self, *args):
         """
@@ -64,22 +68,26 @@ class Dag_SurfaceShader(mtlAbstract.Abc_Shader):
         self._initAbcShader(*args)
 
 
-class Dag_DisplacementShader(mtlAbstract.Abc_Shader):
+class Dag_DisplacementShader(mtlAbstract.Abc_DagShader):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
     RAW_TYPE_CLS = _mtlRaw.Raw_Type
-
-    RAW_CATEGORY_CLS = _mtlRaw.Raw_Category
+    RAW_CATEGORY_CLS = _mtlRaw.Raw_ShaderCategory
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
-    SET_CHILD_CLS = _mtlSet.Set_Dag
-    SET_PORT_CLS = _mtlSet.Set_Attribute
 
-    PORT_CLS = _mtlPort.Prt_Shaderinput
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Port
+    SET_CHILD_CLS = _mtlSet.Set_Dag
+
+    PORT_INPUT_CLS = _mtlPort.Prt_Shaderinput
+    PORT_OUTPUT_ClS = _mtlPort.Prt_Shaderoutput
 
     DEF_CLS = _mtlDefinition.Def_Node
 
     value_cls_dic = VALUE_CLS_DIC
 
-    xml_prefix_label = 'shaderref'
-    shader_output_type_string = 'displacementshader'
+    xml_key_element = 'shaderref'
+
+    port_output_name_string = 'displacementshader'
 
     def __init__(self, *args):
         """
@@ -88,22 +96,26 @@ class Dag_DisplacementShader(mtlAbstract.Abc_Shader):
         self._initAbcShader(*args)
 
 
-class Dag_VolumeShader(mtlAbstract.Abc_Shader):
+class Dag_VolumeShader(mtlAbstract.Abc_DagShader):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
     RAW_TYPE_CLS = _mtlRaw.Raw_Type
-
-    RAW_CATEGORY_CLS = _mtlRaw.Raw_Category
+    RAW_CATEGORY_CLS = _mtlRaw.Raw_ShaderCategory
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
-    SET_CHILD_CLS = _mtlSet.Set_Dag
-    SET_PORT_CLS = _mtlSet.Set_Attribute
 
-    PORT_CLS = _mtlPort.Prt_Shaderinput
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Port
+    SET_CHILD_CLS = _mtlSet.Set_Dag
+
+    PORT_INPUT_CLS = _mtlPort.Prt_Shaderinput
+    PORT_OUTPUT_ClS = _mtlPort.Prt_Shaderoutput
 
     DEF_CLS = _mtlDefinition.Def_Node
 
     value_cls_dic = VALUE_CLS_DIC
 
-    xml_prefix_label = 'shaderref'
-    shader_output_type_string = 'volumeshader'
+    xml_key_element = 'shaderref'
+
+    port_output_name_string = 'volumeshader'
 
     def __init__(self, *args):
         """
@@ -115,10 +127,10 @@ class Dag_VolumeShader(mtlAbstract.Abc_Shader):
 class Dag_Node(mtlAbstract.Abc_Dag):
     RAW_TYPE_CLS = _mtlRaw.Raw_Type
 
-    RAW_CATEGORY_CLS = _mtlRaw.Raw_Category
+    RAW_CATEGORY_CLS = _mtlRaw.Raw_NodeCategory
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
     SET_CHILD_CLS = _mtlSet.Set_Dag
-    SET_PORT_CLS = _mtlSet.Set_Attribute
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Port
 
     DEF_CLS = _mtlDefinition.Def_Node
 
@@ -126,17 +138,17 @@ class Dag_Node(mtlAbstract.Abc_Dag):
         self._initAbcDag(*args)
 
 
-class Dag_Geometry(mtlAbstract.Abc_Geometry):
+class Dag_Geometry(mtlAbstract.Abc_DagGeometry):
     RAW_TYPE_CLS = _mtlRaw.Raw_Type
 
-    RAW_CATEGORY_CLS = _mtlRaw.Raw_Category
+    RAW_CATEGORY_CLS = _mtlRaw.Raw_NodeCategory
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
     SET_CHILD_CLS = _mtlSet.Set_Dag
-    SET_PORT_CLS = _mtlSet.Set_Attribute
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Port
 
     DEF_CLS = _mtlDefinition.Def_Node
 
-    xml_prefix_label = 'geom'
+    xml_key_element = 'geom'
 
     def __init__(self, *args):
         self._initAbcDag('geometry', *args)

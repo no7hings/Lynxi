@@ -2,6 +2,8 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
+from LxBasic import bscMethods
+#
 from LxCore.config import appCfg
 #
 from LxCore.preset.prod import assetPr
@@ -119,11 +121,10 @@ class LxAstModelCacheConnectMethod(object):
     def _setSourceShapesRename(self):
         stringLis = self._cacheObjectLis
         if stringLis:
-            progressBar = maUtils.MaProgressBar()
             maxValue = len(stringLis)
-            progressBar.viewProgress('Rename Cache Shape(s)', maxValue)
+            progressBar = bscMethods.If_Progress('Rename Cache Shape(s)', maxValue)
             for objectPath in stringLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 objectName = maUtils._toNodeName(objectPath, useMode=1)
                 #
@@ -140,11 +141,10 @@ class LxAstModelCacheConnectMethod(object):
     def _setAlembicTransformConnect(self):
         nodeLis = self._cacheGroupLis + self._cacheObjectLis
         if nodeLis:
-            progressBar = maUtils.MaProgressBar()
             maxValue = len(nodeLis)
-            progressBar.viewProgress('Connect Transform(s)', maxValue)
+            progressBar = bscMethods.If_Progress('Connect Transform(s)', maxValue)
             for sourcePath in nodeLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 targetPath = self._toTargetLocalPath(sourcePath, self._cacheNamespace, self._assetNamespace)
                 if maUtils.isAppExist(targetPath):
@@ -153,12 +153,11 @@ class LxAstModelCacheConnectMethod(object):
     def _setAlembicShapeConnect(self):
         objectLis = self._cacheObjectLis
         if objectLis:
-            progressBar = maUtils.MaProgressBar()
             maxValue = len(objectLis)
-            progressBar.viewProgress('Connect Shape(s)', maxValue)
+            progressBar = bscMethods.If_Progress('Connect Shape(s)', maxValue)
             #
             for sourcePath in objectLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 targetPath = self._toTargetLocalPath(sourcePath, self._cacheNamespace, self._assetNamespace)
                 if maUtils.isAppExist(targetPath):

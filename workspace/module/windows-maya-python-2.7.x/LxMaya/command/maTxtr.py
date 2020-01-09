@@ -6,9 +6,10 @@ import re
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 from PIL import Image
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -371,10 +372,10 @@ def getTextureDirectoryDic(namespaceFilter=none):
         # View Progress
         explain = '''Read Texture's Data'''
         maxValue = len(textureNodes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for textureNode in textureNodes:
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             textureFile = getTextureNodeAttrData(textureNode)
             getTextureDirectory(textureNode, textureFile, folderDic, textureNodeDic, stateDic)
     #
@@ -465,10 +466,10 @@ def setTextureAttrToTx(textureDatumDic=none):
         # View Progress
         explain = u'''Repath Texture to Tx ( Arnold )'''
         maxValue = len(textureDatumDic)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for k, v in textureDatumDic.items():
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             #
             textureNode = k
             textureString = v[0]
@@ -624,7 +625,7 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
         # View Progress
         explain = u'''Backup Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
             copyThreadLis = []
@@ -636,7 +637,7 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
             #
             if copyThreadLis:
                 for i in copyThreadLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     i.join()
     return dic
 
@@ -671,7 +672,7 @@ def setTexturesCollection(targetPath, inData=none, withTx=True, backupExists=Fal
         # View Progress
         explain = u'''Collection Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         #
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -683,7 +684,7 @@ def setTexturesCollection(targetPath, inData=none, withTx=True, backupExists=Fal
                 t.start()
             if copyThreadLis:
                 for i in copyThreadLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     i.join()
 
 
@@ -706,7 +707,7 @@ def setCollectionMaps(targetPath, inData=none, backupExists=False):
     if collectionDatumLis:
         explain = u'''Collection Character FX's Map'''
         maxValue = len(collectionDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         #
         splitCollectionDatumLis = lxBasic._toListSplit(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -717,7 +718,7 @@ def setCollectionMaps(targetPath, inData=none, backupExists=False):
                 t.start()
             if copyThreadLis:
                 for i in copyThreadLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     i.join()
 
 
@@ -738,10 +739,10 @@ def setTexturesRepath(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Texture(s)'''
         maxValue = len(textureData)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for k, v in textureData.items():
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             #
             textureNode = k
             sourceTextureFile = v[0]
@@ -765,10 +766,10 @@ def setRepathMaps(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Map'''
         maxValue = len(mapData)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for k, v in mapData.items():
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             #
             sourceMap = v[0]
             isYetiNode = ' - ' in k

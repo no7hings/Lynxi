@@ -2545,7 +2545,7 @@ def setCleanHistory(nodes):
 # Assign Default Nde_ShaderRef
 def setObjectDefaultShaderCmd(objectLis):
     # [cmds.sets(objectString, forceElement='initialShadingGroup') for objectString in objectLis]
-    [setDefaultShader(objectString) for objectString in objectLis]
+    [setNodeDefaultShader(objectString) for objectString in objectLis]
 
 
 #
@@ -2554,7 +2554,7 @@ def getObjectLinkShader():
 
 
 # Assign Default Nde_ShaderRef
-def setDefaultShader(objectString):
+def setNodeDefaultShader(objectString):
     # cmds.sets(objectString, forceElement='initialShadingGroup')
     cmds.sets(getNodeShape(objectString, 1), forceElement='initialShadingGroup')
 
@@ -3969,7 +3969,7 @@ def getMeshShapeDeformDatumLis(groupString):
         maxValue = len(shapeLis)
         progressBar.viewProgress('Read Datum(s)', maxValue)
         for targetShapePath in shapeLis:
-            progressBar.updateProgress()
+            progressBar.update()
             if targetShapePath.endswith(appCfg.MaKeyword_ShapeDeformed):
                 transformPath = _toTransformByNodePath(targetShapePath)
                 namespace = _toNamespaceByNodePath(transformPath)

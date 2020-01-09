@@ -11,7 +11,7 @@ from LxMaya.method.basic import _maMethodBasic
 #
 class IfMaNodeTreeItem(qtAbcWidget.QtAbcObj_Treeitem):
     ui_qt_method = uiCore.Basic
-    app_node_method = _maMethodBasic.MaNodeMethodBasic
+    mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -25,38 +25,38 @@ class IfMaNodeTreeItem(qtAbcWidget.QtAbcObj_Treeitem):
         return self._appName
     #
     def load(self, string):
-        if self.app_node_method.Ma_Separator_Attribute in string:
+        if self.mtd_app_node.Ma_Separator_Attribute in string:
             self.loadComp(string)
         else:
             self.loadNode(string)
     #
     def loadNode(self, nodeString):
         self._appPath = nodeString
-        self._appName = self.app_node_method._toNodeName(nodeString)
-        self._appNamespace = self.app_node_method._toNamespaceByNodePath(nodeString)
-        self._appNodeType = self.app_node_method.getNodeType(nodeString)
-        if self._appNodeType == self.app_node_method.MaNodeType_Transform:
-            shapePath = self.app_node_method.getNodeShape(self._appPath)
+        self._appName = self.mtd_app_node._toNodeName(nodeString)
+        self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(nodeString)
+        self._appNodeType = self.mtd_app_node.getNodeType(nodeString)
+        if self._appNodeType == self.mtd_app_node.MaNodeType_Transform:
+            shapePath = self.mtd_app_node.getNodeShape(self._appPath)
             if shapePath:
-                self._appNodeType = self.app_node_method.getNodeType(shapePath)
+                self._appNodeType = self.mtd_app_node.getNodeType(shapePath)
         #
         self.setNameText(self._appName)
         self.setNamespace(self._appNamespace)
         self.setIcon(self.ui_qt_method._lxMayaSvgIconKeyword(self._appNodeType))
     #
     def loadComp(self, pathString):
-        if self.app_node_method.isMeshFaceComp(pathString):
+        if self.mtd_app_node.isMeshFaceComp(pathString):
             compIconKeyword = 'svg_basic@svg#face'
-        elif self.app_node_method.isMeshEdgeComp(pathString):
+        elif self.mtd_app_node.isMeshEdgeComp(pathString):
             compIconKeyword = 'svg_basic@svg#edge'
-        elif self.app_node_method.isMeshVertexComp(pathString):
+        elif self.mtd_app_node.isMeshVertexComp(pathString):
             compIconKeyword = 'svg_basic@svg#vertex'
         else:
             compIconKeyword = 'svg_basic@svg#attribute'
         #
         self._appPath = pathString
-        self._appName = self.app_node_method._toAttrName(pathString)
-        self._appNamespace = self.app_node_method._toNamespaceByNodePath(self.app_node_method._toNodeNameByAttr(pathString))
+        self._appName = self.mtd_app_node._toAttrName(pathString)
+        self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(self.mtd_app_node._toNodeNameByAttr(pathString))
         #
         self.setNameText(self._appName)
         self.setNamespace(self._appNamespace)

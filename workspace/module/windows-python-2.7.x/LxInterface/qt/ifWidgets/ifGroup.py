@@ -1,11 +1,11 @@
 # coding:utf-8
-from LxCore import lxCore_
+from LxBasic import bscMethods
 
-from LxUi.qt import qtCommands
+from LxCore import lxCore_
 #
 from LxCore.preset import personnelPr
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
@@ -13,17 +13,17 @@ none = ''
 
 
 #
-class IfProjectGroup(ifWidgetBasic.IfGroupBasic_):
+class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
     def __init__(self, mainWindow=None):
-        super(IfProjectGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        super(QtIf_ProjectGroup, self).__init__(mainWindow)
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
     #
     def setupGroup(self):
         def setupOverviewUnit():
-            unit = ifUnit.IfProjectOverviewUnit()
+            unit = ifUnit.QtIf_ProjectOverviewUnit()
             unit.setConnectObject(self)
             #
             self.addTab(
@@ -44,18 +44,18 @@ class IfProjectGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build Project Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for i in buildMethodLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 i()
 
 
 #
-class IfPersonnelGroup(ifWidgetBasic.IfGroupBasic_):
+class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
     userLevel = personnelPr.getPersonnelUserLevel()
     def __init__(self, mainWindow=None):
         super(IfPersonnelGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -90,17 +90,17 @@ class IfPersonnelGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build Personnel Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for i in buildMethodLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 i()
 
 
 #
-class IfToolkitGroup(ifWidgetBasic.IfGroupBasic_):
+class IfToolkitGroup(_qtIfAbcWidget.QtIfAbc_Group):
     def __init__(self, mainWindow=None):
         super(IfToolkitGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -126,7 +126,7 @@ class IfToolkitGroup(ifWidgetBasic.IfGroupBasic_):
         if self._mainWindow:
             explain = '''Build ToolKit Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for i in buildMethodLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 i()

@@ -9,8 +9,6 @@ from LxBasic import bscMethods
 
 from LxCore import lxCore_
 
-from LxUi.qt import qtLog, qtCommands
-
 from LxCore.preset.prod import assetPr
 
 from LxMaya.command import maUtils, maGeom, maAttr
@@ -33,27 +31,29 @@ def cleanNode(inData, nodeType):
                 bscMethods.PythonMessage().traceResult(node)
 
 
-# Assign Default Nde_ShaderRef
-def setDefaultShader(logWin, objectLis):
-    qtLog.viewStartSubProcess(logWin, u'Assign Default - Nde_ShaderRef')
-    cmds.sets(objectLis, forceElement='initialShadingGroup')
-    qtLog.viewStartSubProcess(logWin, u'Assign Default - Nde_ShaderRef')
+# Assign Default Shader
+def setRootDefaultShaderCmd(rootString):
+    logWin_ = bscMethods.If_Log()
+    logWin_.addStartProgress(u'Assign Default - Shader')
+    cmds.sets(rootString, forceElement='initialShadingGroup')
+    logWin_.addCompleteProgress()
 
 
 # Assign Default Shaders
-def setObjectDefaultShaderCmd(logWin, objectLis):
-    explain = u'''Assign Initial - Nde_ShaderRef'''
-    qtLog.viewStartSubProcess(logWin, explain)
-    for objectString in objectLis:
+def setObjectDefaultShaderCmd(objectStrings):
+    logWin_ = bscMethods.If_Log()
+
+    logWin_.addStartProgress(u'''Assign Initial - Shader''')
+    for objectString in objectStrings:
         cmds.sets(objectString, forceElement='initialShadingGroup')
         cmds.sets(maUtils.getNodeShape(objectString), forceElement='initialShadingGroup')
-        qtLog.viewResult(logWin, maUtils._toNodeName(objectString), 'initialShadingGroup')
-    qtLog.viewCompleteSubProcess(logWin)
+        logWin_.addResult(maUtils._toNodeName(objectString), 'initialShadingGroup')
+    logWin_.addCompleteProgress()
 
 
 #
-def setObjectTransparentRefresh(objectLis):
-    for objectPath in objectLis:
+def setObjectTransparentRefresh(objectStrings):
+    for objectPath in objectStrings:
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
@@ -67,12 +67,12 @@ def setObjectTransparentRefresh(objectLis):
 
 
 # Clean Object's Unused Shape
-def setObjectUnusedShapeClear(objectLis):
+def setObjectUnusedShapeClear(objectStrings):
     explain = u'''Clean Unused - Shape'''
     bscMethods.PythonMessage().trace(explain)
     errorObjects = []
     # Get Error Objects
-    for objectString in objectLis:
+    for objectString in objectStrings:
         shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=0, fullPath=1)
         if len(shapes) > 1:
             errorObjects.append(objectString)
@@ -88,30 +88,30 @@ def setObjectUnusedShapeClear(objectLis):
                     bscMethods.PythonMessage().traceResult(maUtils._toNodeName(shape))
 
 
-# Clean Unused Nde_ShaderRef
+# Clean Unused Shader
 def setUnusedShaderClear():
     mel.eval('MLdeleteUnused;')
 
 
 # Unlock and Soft Normal
-def setMeshVertexNormalUnlockCmd(objectLis):
+def setMeshVertexNormalUnlockCmd(objectStrings):
     explain = '''Unlock Mesh's Vertex Normal'''
-    if objectLis:
-        maxValue = len(objectLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
-        for objectString in objectLis:
-            progressBar.updateProgress()
+    if objectStrings:
+        maxValue = len(objectStrings)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
+        for objectString in objectStrings:
+            progressBar.update()
             maGeom.setMeshVertexNormalUnlock(objectString)
 
 
 # Unlock and Soft Normal
-def setMeshesSmoothNormal(objectLis):
+def setMeshesSmoothNormal(objectStrings):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
-    if objectLis:
-        maxValue = len(objectLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
-        for objectString in objectLis:
-            progressBar.updateProgress()
+    if objectStrings:
+        maxValue = len(objectStrings)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
+        for objectString in objectStrings:
+            progressBar.update()
             maGeom.setMeshEdgeSmooth(objectString, True)
 
 
@@ -121,7 +121,7 @@ def setUnknownNodeClear():
 
 
 #
-def cleanUnusedAov(logWin):
+def cleanUnusedAov():
     UnusedAov = []
     aovs = cmds.ls(type='aiAOV')
     if aovs and cmds.objExists('defaultArnoldRenderOptions'):
@@ -179,7 +179,9 @@ def setCleanReferenceNode():
 
 
 # Link Component Main Object Group Step01
-def linkComponentMainObjectGroupStep01(logWin, objectString, inData):
+def linkComponentMainObjectGroupStep01(objectString, inData):
+    logWin_ = bscMethods.If_Log()
+    
     dic = collections.OrderedDict()
     for data in inData:
         for componentObjectData, shadingEngine in data.items():
@@ -187,40 +189,42 @@ def linkComponentMainObjectGroupStep01(logWin, objectString, inData):
             componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
-                qtLog.viewResult(logWin, componentObject, shadingEngine)
+                logWin_.addResult(componentObject, shadingEngine)
             else:
-                qtLog.viewError(logWin, shadingEngine, u'Non - Exist')
+                logWin_.addError(shadingEngine, u'Non - Exist')
     linkComponentSubObjectGroup(objectString, dic)
 
 
 # Link Component Main Object Group Step 02
-def linkComponentMainObjectGroupStep02(logWin, objectString, inData):
+def linkComponentMainObjectGroupStep02(objectString, inData):
+    logWin_ = bscMethods.If_Log()
+    
     dic = collections.OrderedDict()
     for data in inData:
         # Link Object Group
         for componentObjectData, shadingEngine in inData[0].items():
             if cmds.objExists(shadingEngine):
                 cmds.sets(objectString, forceElement=shadingEngine)
-                qtLog.viewResult(logWin, objectString, shadingEngine)
+                logWin_.addResult(objectString, shadingEngine)
             else:
-                qtLog.viewError(logWin, shadingEngine, u'Non - Exists')
+                logWin_.addError(shadingEngine, u'Non - Exists')
         # Link Component Object Group
         for componentObjectData, shadingEngine in data.items():
             componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
-                qtLog.viewResult(logWin, componentObject, shadingEngine)
+                logWin_.addResult(componentObject, shadingEngine)
             else:
-                qtLog.viewError(logWin, shadingEngine, u'Non - Exists')
+                logWin_.addError(shadingEngine, u'Non - Exists')
     linkComponentSubObjectGroup(objectString, dic)
 
 
 # Link Loop
 def linkComponentSubObjectGroup(objectString, data):
     if data:
-        for shadingEngine, objectLis in data.items():
-            cmds.sets(objectLis, forceElement=shadingEngine)
-        for shadingEngine, objectLis in data.items():
+        for shadingEngine, objectStrings in data.items():
+            cmds.sets(objectStrings, forceElement=shadingEngine)
+        for shadingEngine, objectStrings in data.items():
             linkData = cmds.sets(shadingEngine, query=1)
             linkObjects = []
             if linkData:
@@ -230,9 +234,9 @@ def linkComponentSubObjectGroup(objectString, data):
                     if i.startswith(objectString + '.')]
             elif not linkData:
                 return True
-            elif linkObjects == objectLis:
+            elif linkObjects == objectStrings:
                 return True
-            elif linkObjects != objectLis:
+            elif linkObjects != objectStrings:
                 linkComponentSubObjectGroup(objectString, data)
 
 
@@ -241,63 +245,6 @@ def getMtoa():
     # noinspection PyUnresolvedReferences
     from mtoa.ui.globals.common import updateArnoldRendererCommonGlobalsTab
     updateArnoldRendererCommonGlobalsTab()
-
-
-# Relink AOVs
-def setRelinkArnoldAovs(maxDepth=50):
-    if maUtils.isArnoldEnable():
-        getMtoa()
-        aovLists = ['%s.aovList[%s]' % ('defaultArnoldRenderOptions', i) for i in range(0, maxDepth)]
-        for aovList in aovLists:
-            if cmds.objExists(aovList):
-                if not cmds.listConnections(aovList, source=1, connections=1):
-                    aovs = maUtils.getNodeLisByType('aiAOV')
-                    if aovs:
-                        for i in aovs:
-                            if not cmds.listConnections(i + '.message', destination=1, source=0):
-                                try:
-                                    cmds.connectAttr(i + '.message', aovList)
-                                except:
-                                    cmds.listConnections(i + '.message', destination=1, source=0)
-
-
-# repair AOVs
-def setRepairArnoldAovs(logWin, maxDepth=50):
-    explain = u'''Repair AOVs'''
-    qtLog.viewStartSubProcess(logWin, explain)
-    #
-    getMtoa()
-    if maUtils.isArnoldEnable():
-        aovLists = ['%s.aovList[%s]' % ('defaultArnoldRenderOptions', i) for i in range(0, maxDepth)]
-        for aovList in aovLists:
-            if cmds.objExists(aovList):
-                if not cmds.listConnections(aovList, source=1, connections=1):
-                    aovs = maUtils.getNodeLisByType('aiAOV')
-                    if aovs:
-                        for i in aovs:
-                            if not cmds.listConnections(i + '.message', destination=1, source=0):
-                                try:
-                                    cmds.connectAttr(i + '.message', aovList)
-                                    qtLog.viewResult(logWin, i, aovList)
-                                except:
-                                    cmds.listConnections(i + '.message', destination=1, source=0)
-    #
-    qtLog.viewCompleteSubProcess(logWin)
-
-
-#
-def setRebuildAov(aovData):
-    getMtoa()
-    importAttrConfig = [('defaultArnoldFilter.message', '.outputs[0].filter'), ('defaultArnoldDriver.message', '.outputs[0].driver')]
-    for aovNode, aovName in aovData.items():
-        if not maUtils.isAppExist(aovNode):
-            maUtils.setCreateNode('aiAOV', aovNode)
-            for sourceAttr, targetAttrName in importAttrConfig:
-                targetAttr = aovNode + targetAttrName
-                maUtils.setAttrConnect(sourceAttr, targetAttr)
-                maUtils.setAttrStringDatumForce(aovNode, 'name', aovName)
-    #
-    setRelinkArnoldAovs()
 
 
 #
@@ -351,12 +298,12 @@ def setCreateAstExtraConnectionSub(connectionDic):
         # View Progress
         progressExplain = u'''Create Connection'''
         maxValue = len(connectionDic)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for objectPath, connectionArray in connectionDic.items():
             if objectPath.startswith('|'):
                 objectPath = objectPath[1:]
             #
-            progressBar.updateProgress()
+            progressBar.update()
             if maUtils.isAppExist(objectPath):
                 for sourceAttr, targetAttr in connectionArray:
                     if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):

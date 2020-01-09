@@ -86,6 +86,7 @@ class Raw_Environ(shmAbstract.Abc_Raw):
             if isinstance(value_, list):
                 if value.lower() not in value_lower:
                     value_.append(value)
+                    value_.sort()
             else:
                 if not value.lower() == value_.lower():
                     self._raw[key][self.Key_Value] = [value_, value]

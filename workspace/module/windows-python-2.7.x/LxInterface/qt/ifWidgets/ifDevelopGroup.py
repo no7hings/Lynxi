@@ -7,13 +7,13 @@ from LxCore.preset import personnelPr
 #
 from LxCore.method import _dbMethod
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifDevelopUnit
 
 
 #
-class IfDevelopGroup(ifWidgetBasic.IfGroupBasic_):
+class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
     publishConfig = [
         ('Python Module', ('.pyc', 'module', 'module.pyc')),
         ('Python Tool', ('.py', 'tool', 'tool')),

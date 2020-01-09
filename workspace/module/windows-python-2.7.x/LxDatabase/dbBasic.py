@@ -4,9 +4,10 @@ import uuid
 import hashlib
 #
 import struct
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic
-from LxUi.qt import qtCommands
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -207,9 +208,9 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
         # View Progress
         explain = '''Contrasting Data - Base'''
         maxValue = len(dic)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for compIndex, data in dic.items():
-            progressBar.updateProgress()
+            progressBar.update()
             dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
             if data is not None:
                 hashValue = getHashValue(data)
@@ -234,9 +235,9 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
             # View Progress
             explain = '''Write Datum(s)'''
             maxValue = len(lis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for dbCompIndex, data, hashValue, dbFile, dbBackupFile in lis:
-                progressBar.updateProgress()
+                progressBar.update()
                 dbData = getData(data, hashValue, dbVersion)
                 lxBasic.writeJsonGzip(dbData, dbFile)
                 lxBasic.setOsFileCopy(dbFile, dbBackupFile)
@@ -274,7 +275,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
             # View Progress
             explain = '''Read Datum(s)'''
             maxValue = len(compIndexes)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for subCompIndexes in splitCompIndexes:
                 readThreadLis = []
                 for compIndex in subCompIndexes:
@@ -285,7 +286,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
                 #
                 if readThreadLis:
                     for index, thread in readThreadLis:
-                        progressBar.updateProgress()
+                        progressBar.update()
                         thread.join()
                         data = thread.getData()
                         if data:

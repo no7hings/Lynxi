@@ -1,9 +1,10 @@
 # coding=utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import sceneCfg
 #
@@ -293,9 +294,9 @@ def setScSceneryAsbTransformation(data):
         for subData in data:
             explain = '''Load Assembly Transformation(s)'''
             maxValue = len(subData)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for i in subData:
-                progressBar.updateProgress()
+                progressBar.update()
                 objectPath, transAttrData = i
                 #
                 if objectPath.startswith('|'):
@@ -320,9 +321,9 @@ def setCreateScAstSolverAttribute(data, namespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Attribute'''
         maxValue = len(data)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for objectPath, (shapeNodeData, shapeCustomAttrData) in data.items():
-            progressBar.updateProgress()
+            progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, namespace)
             if maUtils.isAppExist(objectPath):
                 maAttr.setNodeDefAttrByData(objectPath, shapeNodeData, lockAttribute=False)
@@ -334,9 +335,9 @@ def setCreateScAstSolverConnection(data, sourceNamespace, targetNamespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Connection'''
         maxValue = len(data)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for objectPath, connectionArray in data.items():
-            progressBar.updateProgress()
+            progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, targetNamespace)
             if maUtils.isAppExist(objectPath):
                 for sourceAttr, targetAttr in connectionArray:

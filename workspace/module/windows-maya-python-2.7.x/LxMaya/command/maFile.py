@@ -4,9 +4,10 @@ import os, time, shutil, json, platform, locale
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -328,6 +329,8 @@ def setFileImport(osFile, namespace=':'):
 
 #
 def setAlembicCacheImport(osFile, namespace=':'):
+    cmds.loadPlugin('AbcImport', quiet=1)
+
     cmds.file(
         osFile,
         i=1,
@@ -677,19 +680,13 @@ def gpuSeqExport(objectString, startFrame, endFrame, osFile, withMaterial=0):
     # View Progress
     explain = '''Export GPU Sequence'''
     maxValue = endFrame - startFrame + 1
-    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+    progressBar = bscMethods.If_Progress(explain, maxValue)
     for seq in sequenceRange:
         # In Progress
-        progressBar.updateProgress()
+        progressBar.update()
         currentFrame = frameRange[seq]
         subGpu = ('_' + str(seq + 1).zfill(4)).join(os.path.splitext(osFile))
         gpuExport(objectString, subGpu, currentFrame, currentFrame, withMaterial)
-
-
-#
-def setAlembicImport(cache):
-    cmds.loadPlugin('AbcImport', quiet=1)
-    cmds.AbcImport(cache)
 
 
 #
@@ -797,11 +794,11 @@ def assExport(assFile, camera, startFrame, endFrame):
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
-    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+    progressBar = bscMethods.If_Progress(explain, maxValue)
     # Move to Server
     for seq, tempSubAssFile in enumerate(tempSubAssFiles):
         # In Progress
-        progressBar.updateProgress()
+        progressBar.update()
         if os.path.isfile(tempSubAssFile):
             subAssFile = os.path.dirname(assFile) + '/' + os.path.basename(tempSubAssFile)
             setMoveFile(tempSubAssFile, subAssFile)

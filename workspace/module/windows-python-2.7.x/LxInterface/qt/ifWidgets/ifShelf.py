@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifDevelopGroup, ifProductGroup
 #
@@ -10,10 +10,10 @@ none = ''
 
 
 #
-class IfProjectShelf(ifWidgetBasic.IfShelfBasic_):
+class QtIf_ProjectShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
-        super(IfProjectShelf, self).__init__()
-        self._initShelfBasic()
+        super(QtIf_ProjectShelf, self).__init__()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #
@@ -21,17 +21,17 @@ class IfProjectShelf(ifWidgetBasic.IfShelfBasic_):
     #
     def setupShelf(self):
         if self._mainWindow is not None:
-            group = ifGroup.IfProjectGroup(self._mainWindow)
+            group = ifGroup.QtIf_ProjectGroup(self._mainWindow)
             self.addTab(
                 group, 'Project Group', 'svg_basic@svg#project', u'Project Group （项目组件）'
             )
 
 
 #
-class IfPersonnelShelf(ifWidgetBasic.IfShelfBasic_):
+class IfPersonnelShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
         super(IfPersonnelShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #
@@ -46,10 +46,10 @@ class IfPersonnelShelf(ifWidgetBasic.IfShelfBasic_):
 
 
 #
-class IfProductShelf(ifWidgetBasic.IfShelfBasic_):
+class IfProductShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
         super(IfProductShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #
@@ -81,10 +81,10 @@ class IfProductShelf(ifWidgetBasic.IfShelfBasic_):
 
 
 #
-class IfToolKitShelf(ifWidgetBasic.IfShelfBasic_):
+class IfToolKitShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
         super(IfToolKitShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #
@@ -99,10 +99,10 @@ class IfToolKitShelf(ifWidgetBasic.IfShelfBasic_):
 
 
 #
-class IfDevelopShelf(ifWidgetBasic.IfShelfBasic_):
+class IfDevelopShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
         super(IfDevelopShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #

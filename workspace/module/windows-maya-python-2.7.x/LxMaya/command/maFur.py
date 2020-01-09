@@ -4,9 +4,10 @@ import glob
 import maya.mel as mel
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -188,10 +189,10 @@ def setOutYetisCache(directory, furNodes, startFrame, endFrame, sample=3, isUpda
         # View Progress
         progressExplain = '''Set Fur ( Yeti ) Cache'''
         maxValue = len(furNodes)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for yetiNode in furNodes:
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             if maUtils.isAppExist(yetiNode):
                 subFolder = none
                 if ':' in yetiNode:
@@ -477,9 +478,9 @@ def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolve
     if connectionDic:
         progressExplain = '''Connect Solver Guide'''
         maxValue = len(connectionDic)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for k, v in connectionDic.items():
-            progressBar.updateProgress()
+            progressBar.update()
             setBranch(k, v)
 
 
@@ -498,9 +499,9 @@ def setScAstCfxConnectToSolver(connectionDic, scAstCfxNamespace, scAstSolverName
     if connectionDic:
         progressExplain = '''Connect Nurbs Hair Guide'''
         maxValue = len(connectionDic)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for k, v in connectionDic.items():
-            progressBar.updateProgress()
+            progressBar.update()
             setBranch(k, v)
 
 
@@ -539,9 +540,9 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
         if nurbsCurveObjects:
             progressExplain = '''Connect Solver Cache'''
             maxValue = len(nurbsCurveObjects)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for i in nurbsCurveObjects:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 setBranch(i)
     #
@@ -1039,9 +1040,9 @@ def getNhrObjectsInfoDic(nurbsHairObjects):
         # View Progress
         progressExplain = u'''Read Nurbs Hair Information'''
         maxValue = len(nurbsHairObjects)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for nurbsHairObject in nurbsHairObjects:
-            progressBar.updateProgress()
+            progressBar.update()
             uniqueId = maUuid.getNodeUniqueId(nurbsHairObject)
             #
             dic[uniqueId] = (

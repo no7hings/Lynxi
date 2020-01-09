@@ -6,15 +6,17 @@ from LxMaterial import mtlAbstract
 from LxMaterial.mtlObjects import _mtlRaw, _mtlSet, _mtlElement
 
 
-class Asn_Shaderset(mtlAbstract.Abc_MaterialAssign):
-    RAW_NAME_CLS = _mtlRaw.Raw_Name
-    SET_GEOMETRY_CLS = _mtlSet.Set_Dag
+class Asn_Shaderset(mtlAbstract.Abc_AsnShaderset):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
 
-    MATERIAL_CLS = _mtlElement.Elt_Material
+    RAW_NAME_CLS = _mtlRaw.Raw_Name
+    SET_GEOMETRY_CLS = _mtlSet.Set_Geometry
+
+    SHADERSET_CLS = _mtlElement.Elm_Shaderset
 
     separator_geometry = mtlConfigure.Separator_Raw_Basic
 
-    xml_prefix_label = 'materialassign'
+    xml_key_element = 'materialassign'
 
     def __init__(self, *args):
         """
@@ -23,11 +25,13 @@ class Asn_Shaderset(mtlAbstract.Abc_MaterialAssign):
         self._initAbcMaterialAssign(*args)
 
 
-class Asn_Portset(mtlAbstract.Abc_PortsetAssign):
-    RAW_NAME_CLS = _mtlRaw.Raw_Name
-    SET_GEOMETRY_CLS = _mtlSet.Set_Dag
+class Asn_Portset(mtlAbstract.Abc_AsnPortset):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
 
-    xml_prefix_label = 'propertyset'
+    RAW_NAME_CLS = _mtlRaw.Raw_Name
+    SET_GEOMETRY_CLS = _mtlSet.Set_Geometry
+
+    xml_key_element = 'propertyset'
 
     def __init__(self, *args):
         """

@@ -1,4 +1,6 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxCore.preset import pipePr, personnelPr
@@ -7,7 +9,7 @@ from LxCore.preset.prod import projectPr
 #
 from LxUi import uiCore
 #
-from LxUi.qt import qtWidgets, qtCore, qtCommands
+from LxUi.qt import qtModifiers, qtWidgets, qtCore
 #
 from LxInterface.qt.ifWidgets import ifProductGroup
 #
@@ -15,11 +17,11 @@ from LxInterface.qt.ifWidgets import ifShelf
 
 
 #
-class If_QtProjectWindow(qtWidgets.QtDialogWindow):
+class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
     _Title = 'Project'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self):
-        super(If_QtProjectWindow, self).__init__()
+        super(QtIf_ProjectWindow, self).__init__()
         #
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
@@ -28,19 +30,19 @@ class If_QtProjectWindow(qtWidgets.QtDialogWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
-    #
+
     def setupWindow(self):
-        shelf = ifShelf.IfProjectShelf(self)
+        shelf = ifShelf.QtIf_ProjectShelf(self)
         self.addWidget(shelf)
 
 
 # Artist Panel
-class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
+class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
     user = personnelPr.getUser()
-    #
+
     tips = [
         u"提示：",
         u"1：输入 中文名（ CH - Name ） ；",
@@ -49,7 +51,7 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         u"4：选择 工作组（ Team ） ；",
         u"4：点击 Confirm 确认设置...",
     ]
-    #
+
     subTips01 = [
         u"提示：请输入 中文名（ CH - Name ）...",
     ]
@@ -63,20 +65,20 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(If_QtPersonnelWindow, self).__init__(parent)
-        #
+        super(QtIf_PersonnelWindow, self).__init__(parent)
+
         self.setDefaultSize(960, 480)
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         self.setMargins(0, 0, 0, 0)
-        #
+
         self.setupWindow()
         self.getPersonnelUserInfo()
-        #
+
         self.confirmClicked.connect(self.setArtist)
-    #
+
     def setupLeftToolUiBox(self, layout):
         w = 100
         # User Name
@@ -84,51 +86,51 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         self._userNameLabel.setNameText('User')
         self._userNameLabel.setNameTextWidth(w)
         layout.addWidget(self._userNameLabel, 0, 0, 1, 1)
-        #
+
         self._chNameLabel = qtWidgets.QtEnterlabel()
         self._chNameLabel.setNameText('CH - Name')
         self._chNameLabel.setNameTextWidth(w)
         self._chNameLabel.setEnterEnable(True)
         layout.addWidget(self._chNameLabel, 1, 0, 1, 1)
-        #
+
         self._enNameLabel = qtWidgets.QtEnterlabel()
         self._enNameLabel.setNameText('EN - Name')
         self._enNameLabel.setNameTextWidth(w)
         self._enNameLabel.setEnterEnable(True)
         layout.addWidget(self._enNameLabel, 2, 0, 1, 1)
-        #
+
         self._mailLabel = qtWidgets.QtEnterlabel()
         self._mailLabel.setNameText('E - Mail')
         self._mailLabel.setNameTextWidth(w)
         self._mailLabel.setEnterEnable(True)
         layout.addWidget(self._mailLabel, 3, 0, 1, 1)
-        #
+
         self._teamLabel = qtWidgets.QtEnterlabel()
         self._teamLabel.setNameText('Team')
         self._teamLabel.setNameTextWidth(w)
         self._teamLabel.setChooseEnable(True)
         layout.addWidget(self._teamLabel, 4, 0, 1, 1)
-        #
+
         self._postLabel = qtWidgets.QtEnterlabel()
         self._postLabel.setNameText('Post')
         self._postLabel.setNameTextWidth(w)
         layout.addWidget(self._postLabel, 5, 0, 1, 1)
-        #
+
         self._pcLabel = qtWidgets.QtEnterlabel()
         self._pcLabel.setNameText('PC')
         self._pcLabel.setNameTextWidth(w)
         layout.addWidget(self._pcLabel, 6, 0, 1, 1)
-        #
+
         self._ipLabel = qtWidgets.QtEnterlabel()
         self._ipLabel.setNameText('IP')
         self._ipLabel.setNameTextWidth(w)
         layout.addWidget(self._ipLabel, 7, 0, 1, 1)
-    #
+
     def setupRightToolUiBox(self, layout):
         self._tipLabel = qtWidgets.QtTextbrower()
         self._tipLabel.setEnterEnable(False)
         layout.addWidget(self._tipLabel)
-    #
+
     def setArtistBoxShow(self):
         self._userNameLabel.setDatum(self.user)
         # Team Data
@@ -136,7 +138,7 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         self._teamLabel.setDatumLis(teamData)
         self._teamLabel.setChoose(lxCore_.LynxiValue_Unspecified)
         self._postLabel.setDatum(lxCore_.LynxiValue_Unspecified)
-    #
+
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
         teams = personnelPr.getPersonnelTeamLis()
@@ -157,7 +159,7 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         self._ipLabel.setDatum(personnelPr.getHost())
         # Tip Data
         self._tipLabel.setRule(self.tips)
-    #
+
     def setArtist(self):
         isChecked = True
         user = self._userNameLabel.datum()
@@ -183,15 +185,15 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
         if isChecked:
             personnelPr.setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post)
             if lxBasic.isMayaApp():
-                w = If_QtToolFloatWindow()
+                w = QtIf_ToolFloatWindow()
                 w.windowShow()
             #
-            qtCommands.setMessageWindowShow(u'提示：', u'设置用户信息成功')
+            bscMethods.If_Message(u'提示：', u'设置用户信息成功')
             self.uiQuit()
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
-    #
+
     def setupWindow(self):
         group = qtWidgets.QtVShelfTabgroup()
         self.addWidget(group)
@@ -219,29 +221,29 @@ class If_QtPersonnelWindow(qtWidgets.QtDialogWindow):
 
 
 #
-class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
+class QtIf_ToolFloatWindow(qtWidgets.QtFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(If_QtToolFloatWindow, self).__init__(parent)
-        #
+        super(QtIf_ToolFloatWindow, self).__init__(parent)
+
         self.setDefaultSize(480, 640)
         self.setMargins(0, 0, 0, 0)
-        #
+
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
-        #
+
         self.setupWindow()
-    #
+
     def setupMenu(self):
         actionDatumLis = (
             ('Basic', ),
-            ('Project Option', 'svg_basic@svg#project', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtProjectWindow();w.windowShow()"),
-            ('Personnel Option', 'svg_basic@svg#personnel', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtPersonnelWindow();w.windowShow()")
+            ('Project Option', 'svg_basic@svg#project', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ProjectWindow();w.windowShow()"),
+            ('Personnel Option', 'svg_basic@svg#personnel', True, "from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_PersonnelWindow();w.windowShow()")
         )
-        #
+
         self.setActionData(actionDatumLis)
-    #
+
     def setupShelf(self):
         presetDic = projectPr.getProjectMayaShelfDataDic()
         if presetDic:
@@ -261,7 +263,7 @@ class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
                     #
                     gridView = qtWidgets.QtGridview()
                     layout.addWidget(gridView)
-                    gridView.setItemSize(48, 48)
+                    gridView.setItemSize(56, 56)
                     shelfDic[k] = gridView
             #
             for k, v in presetDic.items():
@@ -280,15 +282,15 @@ class If_QtToolFloatWindow(qtWidgets.QtFloatWindow):
                     iconButton = qtWidgets.QtIconbutton()
                     gridView.addItem(iconButton)
                     iconButton.setName(toolName)
-                    iconButton.setIcon(toolIcon, 32, 32, 48, 48)
+                    iconButton.setIcon(toolIcon, 40, 40, 56, 56)
                     iconButton.setExtendIcon(helpIcon, 16, 16, 24, 24)
                     iconButton.setPressCommand(toolCommand)
                     iconButton.setExtendPressCommand(helpCommand)
                     iconButton.setTooltip(toolTip)
-    @qtCore.uiShowMethod_
+
     def windowShow(self):
         self.uiShow()
-    #
+
     def setupWindow(self):
         self.setupMenu()
         self.setupShelf()
@@ -300,7 +302,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
     #
     projectName = projectPr.getMayaProjectName()
     _Title = 'Tool Kit'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtToolkitWindow, self).__init__(parent)
         #
@@ -312,7 +314,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiSetupShowMethod_
+    @qtModifiers.showAppInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -328,7 +330,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
 #
 class If_QtProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtProductManagerWindow, self).__init__(parent)
         #
@@ -339,7 +341,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiSetupShowMethod_
+    @qtModifiers.showAppInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -351,7 +353,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
 #
 class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtAssetManagerWindow, self).__init__(parent)
         #
@@ -362,7 +364,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiSetupShowMethod_
+    @qtModifiers.showAppInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -383,7 +385,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneryManagerWindow, self).__init__(parent)
         #
@@ -394,7 +396,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiSetupShowMethod_
+    @qtModifiers.showAppInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -415,7 +417,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneManagerWindow, self).__init__(parent)
         #
@@ -426,7 +428,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtCore.uiSetupShowMethod_
+    @qtModifiers.showAppInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod

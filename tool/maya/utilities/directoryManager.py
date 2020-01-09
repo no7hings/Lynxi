@@ -1,11 +1,9 @@
 # coding=utf-8
-#
-from LxUi.qt import qtWidgets, qtCore
-#
+from LxUi.qt import qtModifiers, qtWidgets
+
 from LxMaya.interface.ifWidgets import ifMaUtilToolUnit
 
 
-#
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
@@ -20,11 +18,11 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.tool.refreshMethod()
         self.setDefaultSize(self.tool.panelWidth, 800)
         self.setNameText(self.tool.UnitTitle)
-    @qtCore.uiShowMethod_
+
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
 
 
-#
 w = IfToolWindow()
 w.windowShow()

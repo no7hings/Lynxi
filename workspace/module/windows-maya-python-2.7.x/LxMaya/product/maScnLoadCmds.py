@@ -1,9 +1,7 @@
 # coding=utf-8
-from LxBasic import bscModifier
+from LxBasic import bscMethods, bscModifiers
 
 from LxCore import lxBasic, lxCore_
-
-from LxUi.qt import qtLog, qtCommands
 
 from LxCore.preset.prod import sceneryPr
 
@@ -14,37 +12,44 @@ from LxMaya.product.op import sceneryOp
 none = ''
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def scnUnitCreateMainCmd(
-        logWin,
         sceneryIndex,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage):
-    qtLog.viewStartProcess(logWin, 'Create Assembly - Hierarchy')
+        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+):
+    logWin_ = bscMethods.If_Log(title=u'Scenery Create')
+    logWin_.showUi()
+    
+    logWin_.addStartTask(u'Scenery Hierarchy Create')
     #
     if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
         maHier.setCreateScnAssemblyHierarchy(sceneryClass, sceneryName, sceneryVariant)
+
     elif sceneryPr.isScnAnimationLink(sceneryStage):
         pass
+
     elif sceneryPr.isScnLightLink(sceneryStage):
         pass
     #
     maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteTask()
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def scnUnitLoadMainCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
 ):
-    #
-    qtLog.viewStartProcess(logWin, 'Load Scenery - Unit')
+    logWin_ = bscMethods.If_Log(title=u'Scenery Load')
+    logWin_.showUi()
+
+    logWin_.addStartTask(u'Scenery Load')
+
     if sceneryPr.isScnSceneryLink(sceneryStage):
         serverProductFile = sceneryPr.scnUnitProductFile(
             lxCore_.LynxiRootIndex_Server,
@@ -58,7 +63,6 @@ def scnUnitLoadMainCmd(
             maFile.openMayaFileAsBack(serverProductFile, localSourceFile)
         else:
             scnUnitMaAssemblyLoadCmd(
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -69,26 +73,31 @@ def scnUnitLoadMainCmd(
             localFile = lxBasic.getOsFileJoinTimeTag(localSourceFile, timeTag)
             #
             maFile.saveToMayaFile(localFile)
-            qtLog.viewResult(logWin, localFile)
+
+            logWin_.addResult(localFile)
+
     elif sceneryPr.isScnLayoutLink(sceneryStage) or sceneryPr.isScnAnimationLink(sceneryStage) or sceneryPr.isScnSimulationLink(sceneryStage):
         pass
+
     elif sceneryPr.isScnLightLink(sceneryStage):
         pass
-    #
+
     maHier.setCreateScnRootHierarchy(sceneryClass, sceneryName, sceneryVariant)
     maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
-    qtLog.viewCompleteProcess(logWin)
+
+    logWin_.addCompleteTask()
 
 
 #
 def scnUnitMaAssemblyLoadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         parentPath=None,
         withAssembly=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -98,11 +107,10 @@ def scnUnitMaAssemblyLoadCmd(
     if datumLis:
         progressExplain = u'''Build Scenery Compose Unit(s)'''
         maxValue = len(datumLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for i in datumLis:
-            progressBar.updateProgress()
+            progressBar.update()
             scnUnitMaAssemblyLoadSubCmd(
-                logWin,
                 projectName, sceneryName,
                 i,
                 parentPath=parentPath,
@@ -112,13 +120,14 @@ def scnUnitMaAssemblyLoadCmd(
 
 #
 def scnUnitMaAssemblyLoadSubCmd(
-        logWin,
         projectName,
         sceneryName,
         composeDatum,
         parentPath=None,
         withAssembly=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     (
         (assetName, assetVariant),
         (arRelativePath, arNamespace, lodLevel, worldMatrix, worldBoundingBox, isVisible),
@@ -142,17 +151,18 @@ def scnUnitMaAssemblyLoadSubCmd(
             maUtils.setNodeWorldMatrix(arRelativePath, worldMatrix)
             maUtils.setNodeVisible(arRelativePath, isVisible)
             #
-            qtLog.viewResult(logWin, arRelativePath)
+            logWin_.addResult(arRelativePath)
 
 
 #
 def scnUnitComposeLoadCmd_(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         parentPath=None
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -161,11 +171,11 @@ def scnUnitComposeLoadCmd_(
     datumLis = lxBasic.readOsJson(serverFile)
     if datumLis:
         progressExplain = u'''Build Assembly Compose Unit(s)'''
-        progressBar = maUtils.MaProgressBar()
+
         maxValue = len(datumLis)
-        progressBar.viewProgress(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for i in datumLis:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             (
                 (assetName, assetVariant),
@@ -199,11 +209,12 @@ def scnUnitComposeLoadCmd_(
 
 #
 def scnUnitAssemblyLoadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
 ):
+    logWin_ = bscMethods.If_Log()
+    
     composeFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -212,7 +223,6 @@ def scnUnitAssemblyLoadCmd(
     locator = sceneryOp.setScnUnitLocatorCreate(sceneryName, sceneryVariant, composeFile)
     #
     scnUnitComposeLoadCmd_(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -229,6 +239,8 @@ def scnUnitAssemblyLoadByReferenceCmd(
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         active='GPU'
 ):
+    logWin_ = bscMethods.If_Log()
+    
     scnAssemblyReference = sceneryPr.scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant) + '_0'
     serverSceneryAdFile = sceneryPr.scnUnitDefinitionFile(
         lxCore_.LynxiRootIndex_Server,

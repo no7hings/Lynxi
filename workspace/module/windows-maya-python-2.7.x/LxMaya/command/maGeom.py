@@ -3,9 +3,10 @@
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.api.OpenMaya as OpenMaya
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -1136,9 +1137,9 @@ def getGeometryObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             uniqueId = maUuid.getNodeUniqueId(objectString)
             #
@@ -1182,9 +1183,9 @@ def getMeshObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Mesh Information'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             uniqueId = maUuid.getNodeUniqueId(objectString)
             #
@@ -1210,10 +1211,10 @@ def getNurbsCurveObjectsInfoData(groupString):
         # View Progress
         progressExplain = u'''Read Nurbs Curve Information'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         #
         for objectString in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             uniqueId = maUuid.getNodeUniqueId(objectString)
             #
             dic[uniqueId] = (
@@ -1233,9 +1234,9 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             if searchRoot in objectString:
                 key = maUtils._toNodeName(objectString)
                 #
@@ -1633,9 +1634,9 @@ def getMeshesTopoConstantData(groupString, withShape=0, maxRound=8):
         # View Progress
         progressExplain = u'''Read Mesh Topology'''
         maxValue = len(meshObjStrs)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for meshObjectString in meshObjStrs:
-            progressBar.updateProgress()
+            progressBar.update()
             info = getMeshObjectGeomTopoInfo(meshObjectString)
             if withShape:
                 geomShapeInfo = getMeshObjectGeomShapeInfo(meshObjectString, maxRound)
@@ -1702,42 +1703,42 @@ def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, 
     # View Progress
     explain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+    progressBar = bscMethods.If_Progress(explain, maxValue)
     # >>>> 01
     if vertex:
-        progressBar.updateProgress('Vertex')
+        progressBar.update('Vertex')
         dic['vertex'] = cmds.polyEvaluate(objectStrings, vertex=1)
     # >>>> 02
     if edge:
-        progressBar.updateProgress('Edge')
+        progressBar.update('Edge')
         dic['edge'] = cmds.polyEvaluate(objectStrings, edge=1)
     # >>>> 03
     if face:
-        progressBar.updateProgress('Face')
+        progressBar.update('Face')
         dic['face'] = cmds.polyEvaluate(objectStrings, face=1)
     # >>>> 04
     if triangle:
-        progressBar.updateProgress('Triangle')
+        progressBar.update('Triangle')
         dic['triangle'] = cmds.polyEvaluate(objectStrings, triangle=1)
     # >>>> 05
     if uvcoord:
-        progressBar.updateProgress('UV')
+        progressBar.update('UV')
         dic['uvcoord'] = cmds.polyEvaluate(objectStrings, uvcoord=1)
     # >>>> 06
     if area:
-        progressBar.updateProgress('Area')
+        progressBar.update('Area')
         dic['area'] = cmds.polyEvaluate(objectStrings, area=1)
     # >>>> 07
     if worldArea:
-        progressBar.updateProgress('World Area')
+        progressBar.update('World Area')
         dic['worldArea'] = cmds.polyEvaluate(objectStrings, worldArea=1)
     # >>>> 08
     if shell:
-        progressBar.updateProgress('Shell')
+        progressBar.update('Shell')
         dic['shell'] = cmds.polyEvaluate(objectStrings, shell=1)
     # >>>> 09
     if boundingBox:
-        progressBar.updateProgress('Bounding Box')
+        progressBar.update('Bounding Box')
         dic['boundingBox'] = cmds.polyEvaluate(objectStrings, boundingBox=1)
     return dic
 

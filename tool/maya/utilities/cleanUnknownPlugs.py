@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxUi.qt import qtCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils
 #
 maUtils.setCleanUnknownPlugs()
 #
-qtCommands.setMessageWindowShow('Clean Unknown - Plug', 'Complete')
+bscMethods.If_Message('Clean Unknown - Plug', 'Complete')

@@ -1,22 +1,89 @@
 # coding:utf-8
-from LxMaterial import mtlConfigure
+from LxMaterial import mtlConfigure, mtlCore
 
 
-class Abc_Xml(object):
-    def _initAbcXml(self):
+class Def_XmlObject(mtlCore.Basic):
+    PROXY_XML_CLS = None
+
+    xml_name_label_suffix = None
+
+    xml_separator_attribute = ' '
+
+    xml_key_element = None
+    xml_key_attribute = None
+
+    def _initAbcXml(self, attributes=None, children=None, elements=None):
+        self._xmlObj = self.PROXY_XML_CLS(
+            self.xml_key_element,
+            attributes, children, elements
+        )
+
+    def _xmlAttributeDic(self):
         pass
 
-    def categoryString(self):
-        pass
+    @classmethod
+    def _toXmlString(cls, elementObject, indent=4):
+        def addPrefixFnc_(prefix_, lString, rString):
+            lis.append(u'{}<{}{}'.format(lString, prefix_, rString))
 
-    def attribute(self):
-        pass
+        def addAttributeFnc_(elementMethod, lString, rString):
+            if elementMethod is not None:
+                for k, v in elementMethod()._xmlAttributeDic().items():
+                    lis.append(u'{}{}="{}"{}'.format(lString, k, v, rString))
 
-    def children(self):
-        pass
+        def addElementFnc_(elementObject_, lString, rString):
+            xmlObject = elementObject_._xmlObj
+
+            lString += defIndentString
+
+            prefix = xmlObject.prefix()
+            addPrefixFnc_(prefix, lString=lString, rString='')
+
+            attributes = xmlObject.attributes()
+            if attributes:
+                [addAttributeFnc_(i, lString=cls.xml_separator_attribute, rString='') for i in attributes]
+
+            children = xmlObject.children()
+            if children:
+                if isinstance(children, cls.module_types.MethodType):
+                    children = children()
+
+                lis.append(u'>\r\n')
+                [addElementFnc_(i, lString, rString) for i in children]
+                lis.append(u'{}</{}>\r\n'.format(lString, prefix))
+            else:
+                lis.append(u'{}/>\r\n'.format(cls.xml_separator_attribute))
+
+            elements = xmlObject.elements()
+            if elements:
+                if isinstance(elements, cls.module_types.MethodType):
+                    elements = elements()
+
+                [addElementFnc_(i, lString='', rString='') for i in elements]
+
+        defIndentString = ' ' * indent
+        if hasattr(elementObject, '_xmlObj'):
+            lis = [
+                u'<?xml version="1.0"?>\r\n',
+                u'<materialx version="1.36">\r\n',
+                u'{}<xi:include href="materialx/arnold/nodedefs.mtlx" />\r\n'.format(defIndentString)
+            ]
+
+            addElementFnc_(elementObject, lString='', rString='')
+
+            lis.append(
+                u'</materialx>'
+            )
+            return ''.join(lis)
+        return ''
+
+    def __str__(self):
+        return self._toXmlString(self)
 
 
-class Abc_Raw(object):
+class Abc_Raw(mtlCore.Basic):
+    xml_key_attribute = None
+
     def _initAbcRaw(self, *args):
         if args:
             self._raw = args[0]
@@ -28,6 +95,20 @@ class Abc_Raw(object):
     def _initAbcRawDatum(self):
         self._raw = None
         self._rawType = None
+
+    @staticmethod
+    def _toListSplit(lis, splitCount):
+        lis_ = []
+        count = len(lis)
+        cutCount = int(count / splitCount)
+        for i in range(cutCount + 1):
+            subLis = lis[i * splitCount:min((i + 1) * splitCount, count)]
+            if subLis:
+                if len(subLis) == 1:
+                    lis_.append(subLis[0])
+                else:
+                    lis_.append(subLis)
+        return lis_
 
     def createByRaw(self, *args):
         pass
@@ -71,19 +152,21 @@ class Abc_Raw(object):
         """
         self._raw = raw
 
-    @staticmethod
-    def _createByStringMethod(*args):
-        pass
-
-    @staticmethod
-    def _toJsonStringMethod(*args):
-        pass
-
     def toString(self):
         """
         :return: str
         """
         pass
+
+    def _xmlAttributeDic(self):
+        """
+        :return: dict
+        """
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.toString())
+            ]
+        )
 
     def __eq__(self, other):
         """
@@ -91,6 +174,29 @@ class Abc_Raw(object):
         :return: bool
         """
         return self.raw() == other.raw()
+
+
+class Abc_RawXml(object):
+    def _initAbcRawXml(self, *args):
+        prefixString, attributes, children, elements = args
+
+        self._prefixString = prefixString
+
+        self._attributeObjLis = attributes
+        self._childObjLis = children
+        self._elementObjLis = elements
+
+    def prefix(self):
+        return self._prefixString
+
+    def attributes(self):
+        return self._attributeObjLis
+
+    def children(self):
+        return self._childObjLis
+
+    def elements(self):
+        return self._elementObjLis
 
 
 class Abc_Path(Abc_Raw):
@@ -114,10 +220,6 @@ class Abc_Path(Abc_Raw):
             return pathString.split(pathsep)[1:]
         else:
             return pathString.split(pathsep)
-
-    @staticmethod
-    def _toJsonStringMethod(rawObjects, pathsep):
-        return pathsep + pathsep.join([i.raw() for i in rawObjects])
 
     def createByRaw(self, *args):
         pass
@@ -143,7 +245,7 @@ class Abc_Path(Abc_Raw):
         return self.raw()
 
 
-class Abc_Dagpath(mtlConfigure.Basic):
+class Abc_Dagpath(Def_XmlObject):
     RAW_PATH_NODE_CLS = None
     RAW_PATH_ATTRIBUTE_CLS = None
 
@@ -232,21 +334,19 @@ class Abc_Dagpath(mtlConfigure.Basic):
             return '.'.join([self.nodeFullpathName(), self.attributeFullpathName()])
         return self.nodeFullpathName()
 
-    def _strJsonRaw(self):
-        return {
-            self.Key_Name: self.name(),
-            self.Key_FullpathName: self.fullpathName()
-        }
-
-    def __str__(self):
-        return self._toJsonStringMethod(self._strJsonRaw())
-
-
-class Abc_Nodepath(object):
-    pass
+    def _xmlAttributeDic(self):
+        """
+        :return: dict
+        """
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.name())
+            ]
+        )
 
 
-class Abc_ObjectSet(object):
+class Abc_ObjectSet(Def_XmlObject):
+    separator_object = ','
     # noinspection PyUnusedLocal
     def _initAbcObjectSet(self, *args):
         self._objectLis = []
@@ -317,43 +417,56 @@ class Abc_ObjectSet(object):
         """
         return key in self._objectDic
 
+    def toString(self):
+        return self.separator_object.join([i.toString() for i in self.objects()])
+
     def __len__(self):
         """
         :return: int
         """
         return self.objectsCount()
 
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.toString())
+            ]
+        )
 
-class Abc_Type(Abc_Raw):
-    def _initAbcType(self, *args):
+
+class Abc_RawString(Def_XmlObject, Abc_Raw):
+    def _initAbcRawString(self, *args):
         self._initAbcRaw(*args)
 
     def toString(self):
         return unicode(self._raw)
 
+    def _xmlAttributeDic(self):
+        """
+        :return: dict
+        """
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.toString())
+            ]
+        )
 
-class Abc_Name(Abc_Raw):
-    def _initAbcName(self, *args):
-        self._initAbcRaw(*args)
 
-    def toString(self):
-        return unicode(self._raw)
-
-
-class Abc_Datum(Abc_Raw):
+class Abc_RawDatum(Abc_Raw):
     RAW_CLS = None
 
     raw_type = None
+
     raw_def = None
 
-    def _initAbcDatum(self, *args):
-        self._initAbcRawDatum()
+    def _initAbcRawDatum(self, *args):
+        self._initAbcRaw()
 
         if isinstance(args[0], Abc_Value):
             self._valueObj = args[0]
             self._valueTypeStringPattern = self._valueObj.value_type_string_pattern
             self._valueSizePattern = self._valueObj.value_size_pattern
-        elif isinstance(args[0], Abc_Datumset):
+        elif isinstance(args[0], Abc_RawDatumset):
             self._datumNObj = args[0]
             self._valueTypeStringPattern = self._datumNObj._valueTypeStringPattern[1:]
             self._valueSizePattern = self._datumNObj._valueSizePattern[1:]
@@ -399,41 +512,29 @@ class Abc_Datum(Abc_Raw):
             return '{}({})'.format(self.typeString(), self.toString())
         return self.toString()
 
-    def __str__(self):
-        """
-        :return: str
-        """
-        return self._toPrintString()
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.toString())
+            ]
+        )
 
 
-class Abc_Datumset(Abc_Raw):
+class Abc_RawDatumset(Abc_Raw):
     SET_CHILD_CLS = None
 
     datum_string_separator = None
+
     raw_def = None
 
-    @staticmethod
-    def _toListSplit(lis, splitCount):
-        lis_ = []
-        count = len(lis)
-        cutCount = int(count / splitCount)
-        for i in range(cutCount + 1):
-            subLis = lis[i * splitCount:min((i + 1) * splitCount, count)]
-            if subLis:
-                if len(subLis) == 1:
-                    lis_.append(subLis[0])
-                else:
-                    lis_.append(subLis)
-        return lis_
-
-    def _initAbcDatumSet(self, *args):
+    def _initAbcRawDatumset(self, *args):
         self._initAbcRawDatum()
 
         if isinstance(args[0], Abc_Value):
             self._valueObj = args[0]
             self._valueTypeStringPattern = self._valueObj.value_type_string_pattern
             self._valueSizePattern = self._valueObj.value_size_pattern
-        elif isinstance(args[0], Abc_Datumset):
+        elif isinstance(args[0], Abc_RawDatumset):
             self._datumNObj = args[0]
             self._valueTypeStringPattern = self._datumNObj._valueTypeStringPattern[1:]
             self._valueSizePattern = self._datumNObj._valueSizePattern[1:]
@@ -515,11 +616,12 @@ class Abc_Datumset(Abc_Raw):
             return '{}({})'.format(self.typeString(), self.datum_string_separator.join([i._toPrintString() for i in self.children()]))
         return self.datum_string_separator.join([i._toPrintString() for i in self.children()])
 
-    def __str__(self):
-        """
-        :return: str
-        """
-        return self._toPrintString()
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.toString())
+            ]
+        )
 
     def __len__(self):
         """
@@ -528,9 +630,9 @@ class Abc_Datumset(Abc_Raw):
         return self.childrenCount()
 
 
-class Abc_Value(object):
+class Abc_Value(Def_XmlObject):
     RAW_TYPE_CLS = None
-    DATUM_CLS = None
+    RAW_DATUM_CLS = None
 
     value_type_string_pattern = None
     sub_value_type_string = None
@@ -539,46 +641,57 @@ class Abc_Value(object):
 
     def _initAbcValue(self, *args):
         self._typeObj = self.RAW_TYPE_CLS(self.value_type_string_pattern[0])
-        self._datumObj = self.DATUM_CLS(self, *args)
+        self._rawDatumObj = self.RAW_DATUM_CLS(self, *args)
 
-    def __typeObject(self):
+    def _typeObject(self):
         return self._typeObj
 
     def type(self):
         """
-        :return: str
+        :return: object of Type
         """
-        return self.__typeObject()
+        return self._typeObject()
 
     def typeString(self):
-        return self.__typeObject().toString()
+        """
+        :return: str
+        """
+        return self._typeObject().toString()
 
-    def __datumObject(self):
-        return self._datumObj
+    def _rawDatumObject(self):
+        return self._rawDatumObj
 
     def datum(self):
         """
-        :return: object of Data
+        :return: object of Datum
         """
-        return self.__datumObject()
+        return self._rawDatumObject()
 
     def raw(self):
         """
         :return: raw of typed
         """
-        return self.__datumObject().raw()
+        return self._rawDatumObject().raw()
 
     def hasRaw(self):
         """
         :return: bool
         """
-        return self.__datumObject().hasRaw()
+        return self._rawDatumObject().hasRaw()
 
     def toString(self):
         """
         :return: str
         """
-        return self.__datumObject().toString()
+        return self._rawDatumObject().toString()
+
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self._typeObject().xml_key_attribute, self._typeObject().toString()),
+                (self._rawDatumObject().xml_key_attribute, self._rawDatumObject().toString())
+            ]
+        )
 
     def __eq__(self, other):
         """
@@ -591,137 +704,137 @@ class Abc_Value(object):
         """
         :return: str
         """
-        return self.__datumObject()._toPrintString()
+        return self._rawDatumObject()._toPrintString()
 
 
-class Abc_Port(mtlConfigure.Basic):
+class Abc_Port(Def_XmlObject):
     RAW_DAGPATH_CLS = None
     SET_CHILD_CLS = None
-
-    xml_prefix_label = None
 
     def _initAbcPort(self, nodeFullpathName, attributeFullpathName):
         self._dagpathObj = self.RAW_DAGPATH_CLS(nodeFullpathName, attributeFullpathName)
         self._childSetObj = self.SET_CHILD_CLS()
 
-        self._value = None
+        self._valueObj = None
         self._defValue = None
 
         self._input = None
         self._parent = None
 
+        self._initAbcXml(attributes=[self._dagpathObject, self._valueObject])
+
     def createByRaw(self, *args):
         pass
 
-    def __dagpathObject(self):
+    def _dagpathObject(self):
         return self._dagpathObj
 
     def dagpath(self):
-        return self.__dagpathObject()
+        return self._dagpathObject()
 
     def fullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().fullpathName()
+        return self._dagpathObject().fullpathName()
 
     def nodeName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeName()
+        return self._dagpathObject().nodeName()
 
     def nodeFullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeFullpathName()
+        return self._dagpathObject().nodeFullpathName()
 
     def setAttributeName(self, nameString):
-        self.__dagpathObject().setAttributeName(nameString)
+        self._dagpathObject().setAttributeName(nameString)
 
     def attributeName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().attributeName()
+        return self._dagpathObject().attributeName()
 
     def attributeFullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().attributeFullpathName()
+        return self._dagpathObject().attributeFullpathName()
 
-    def __valueObject(self):
-        return self._value
+    def _valueObject(self):
+        return self._valueObj
 
     def setValue(self, valueObject):
         """
         :param valueObject: object of Value
         :return: None
         """
-        self._value = valueObject
+        self._valueObj = valueObject
 
     def value(self):
-        return self.__valueObject()
+        return self._valueObject()
 
     def hasValue(self):
         """
         :return: bool
         """
-        return self.__valueObject() is not None
+        return self._valueObject() is not None
 
     def valueType(self):
-        return self.__valueObject()
+        return self._valueObject()
 
     def valueTypeString(self):
-        return self.__valueObject().typeString()
+        return self._valueObject().typeString()
 
     def valueString(self):
-        return self.__valueObject().toString()
+        return self._valueObject().toString()
 
-    def __defValueObject(self):
+    def _defValueObject(self):
         return self._defValue
 
     def setDefValue(self, valueObject):
         self._defValue = valueObject
 
     def defValue(self):
-        return self.__defValueObject()
+        return self._defValueObject()
 
     def hasDefValue(self):
         """
         :return: bool
         """
-        return self.__defValueObject() is not None
+        return self._defValueObject() is not None
 
-    def __childSetObject(self):
+    def _childSetObject(self):
         return self._childSetObj
 
     def children(self):
         """
         :return: list(object of Attribute, ...)
         """
-        return self.__childSetObject().objects()
+        return self._childSetObject().objects()
 
     def hasChildren(self):
         """
         :return: bool
         """
-        return self.__childSetObject().hasObjects()
+        return self._childSetObject().hasObjects()
 
     def childrenCount(self):
         """
         :return: int
         """
-        return self.__childSetObject().objectsCount()
+        return self._childSetObject().objectsCount()
 
     def childAt(self, index):
         """
         :param index: int
         :return: object of Attribute
         """
-        return self.__childSetObject().objectAt(index)
+        return self._childSetObject().objectAt(index)
 
     def childNameAt(self, index):
         """
@@ -744,67 +857,37 @@ class Abc_Port(mtlConfigure.Basic):
         """
         return self.childAt(index).valueString()
 
-    def addChild(self, attributeObject):
+    def addChild(self, portObject):
         """
-        :param attributeObject: object of Attribute
+        :param portObject: object of Attribute
         :return: None
         """
-        attributeObject._setParent(self)
-        self.__childSetObject().addObject(attributeObject.fullpathName(), attributeObject)
+        portObject._setParent(self)
+        self._childSetObject().addObject(portObject.fullpathName(), portObject)
 
     def _inputObject(self):
         return self._input
 
-    def setInput(self, attributeObject):
+    def setInputPort(self, portObject):
         """
-        :param attributeObject: object of Attribute
+        :param portObject: object of Attribute
         :return: None
         """
-        self._input = attributeObject
+        self._input = portObject
 
-    def input(self):
+    def importPort(self):
         """
         :return: object of Attribute
         """
         return self._inputObject()
 
-    def hasInput(self):
+    def hasInputPort(self):
         """
         :return: bool
         """
         return self._inputObject() is not None
 
-    def inputFullpathName(self):
-        """
-        :return: str
-        """
-        return self.input().fullpathName()
-
-    def inputNodeName(self):
-        """
-        :return: str
-        """
-        return self.input().nodeName()
-
-    def inputFullNodeName(self):
-        """
-        :return: str
-        """
-        return self.input().nodeFullpathName()
-
-    def inputAttributeName(self):
-        """
-        :return: str
-        """
-        return self.input().attributeName()
-
-    def inputAttributeFullpathName(self):
-        """
-        :return: str
-        """
-        return self.input().attributeFullpathName()
-
-    def __parentObject(self):
+    def _parentObject(self):
         return self._parent
 
     def _setParent(self, parentObject):
@@ -814,43 +897,50 @@ class Abc_Port(mtlConfigure.Basic):
         """
         :return: object of Attribute
         """
-        return self.__parentObject()
+        return self._parentObject()
 
     def hasParent(self):
         """
         :return: bool
         """
-        return self.__parentObject() is not None
+        return self._parentObject() is not None
 
     def parentFullpathName(self):
         """
         :return: str
         """
-        return self.__parentObject().fullpathName()
+        return self._parentObject().fullpathName()
 
     def parentAttributeName(self):
         """
         :return: str
         """
-        return self.__parentObject().attributeName()
+        return self._parentObject().attributeName()
 
     def parentFullAttributeName(self):
         """
         :return: str
         """
-        return self.__parentObject().attributeFullpathName()
+        return self._parentObject().attributeFullpathName()
+
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self._dagpathObject().fullpathName())
+            ]
+        )
 
 
-class Abc_Dag(mtlConfigure.Basic):
+class Abc_Dag(Def_XmlObject):
     RAW_TYPE_CLS = None
     RAW_CATEGORY_CLS = None
     RAW_DAGPATH_CLS = None
-    SET_CHILD_CLS = None
-    SET_PORT_CLS = None
-    PORT_CLS = None
-    DEF_CLS = None
 
-    xml_prefix_label = None
+    SET_PORT_INPUT_CLS = None
+    SET_CHILD_CLS = None
+
+    PORT_INPUT_CLS = None
+    DEF_CLS = None
 
     value_cls_dic = {}
 
@@ -859,19 +949,26 @@ class Abc_Dag(mtlConfigure.Basic):
         self._dagpathObj = self.RAW_DAGPATH_CLS(fullpathName)
 
         self._defObj = self.DEF_CLS(categoryString)
-        self._typeObj = self.RAW_TYPE_CLS(self._defObj.typeString())
+        self._typeObj = self.RAW_TYPE_CLS(categoryString)
+
+        self._inputPortSetObj = self.SET_PORT_INPUT_CLS()
 
         self._childSetObj = self.SET_CHILD_CLS()
-        self._attributeSet = self.SET_PORT_CLS()
 
-        attributeRaw = self._defObj.attribute()
-        for k, v in attributeRaw.items():
-            attribute = self.PORT_CLS(self.fullpathName(), k)
-            valueTypeString = v[self.Key_Type_String]
-            valueString = v[self.Key_Value_String]
+        portRaw = self._defObj.portRaw()
+        for i in portRaw:
+            attributeName = i[self.Key_Name]
+            valueTypeString = i[self.Key_Type_String]
+            valueString = i[self.Key_Value_String]
 
-            attribute.setValue(self.value_cls_dic[valueTypeString](valueString))
-            self.addAttribute(attribute)
+            portObject = self.PORT_INPUT_CLS(self.fullpathName(), attributeName)
+            valueCls = self.value_cls_dic[valueTypeString]
+
+            portObject.setValue(
+                valueCls(valueString)
+            )
+
+            self.addInputPort(portObject)
 
     def loadDef(self, *args):
         pass
@@ -879,19 +976,19 @@ class Abc_Dag(mtlConfigure.Basic):
     def createByRaw(self, *args):
         pass
 
-    def __typeObject(self):
+    def _typeObject(self):
         return self._typeObj
 
     def type(self):
         """
         :return: str
         """
-        return self.__typeObject()
+        return self._typeObject()
 
     def typeString(self):
-        return self.__typeObject().raw()
+        return self._typeObject().raw()
 
-    def __categoryObject(self):
+    def _categoryObject(self):
         return self._categoryObj
     
     def setCategory(self, categoryString):
@@ -899,250 +996,323 @@ class Abc_Dag(mtlConfigure.Basic):
         :param categoryString: str
         :return: None
         """
-        self.__categoryObject().setRaw(categoryString)
+        self._categoryObject().setRaw(categoryString)
 
     def categoryString(self):
         """
         :return: str
         """
-        return self.__categoryObject().raw()
+        return self._categoryObject().raw()
 
-    def __dagpathObject(self):
+    def _dagpathObject(self):
         return self._dagpathObj
 
     def dagpath(self):
         """
         :return: object of Raw_Dagpath
         """
-        return self.__dagpathObject()
+        return self._dagpathObject()
     
     def setFullpathName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__dagpathObject().setRaw(nameString)
+        self._dagpathObject().setRaw(nameString)
 
     def fullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().fullpathName()
+        return self._dagpathObject().fullpathName()
 
     def setNodeName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__dagpathObject().setNodeName(nameString)
+        self._dagpathObject().setNodeName(nameString)
 
     def nodeName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeName()
+        return self._dagpathObject().nodeName()
 
     def nodeFullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeFullpathName()
+        return self._dagpathObject().nodeFullpathName()
 
-    def __childSetObject(self):
+    def _childSetObject(self):
         return self._childSetObj
 
     def children(self):
         """
         :return: list(object of Dag_Node, ...)
         """
-        return self.__childSetObject().objects()
+        return self._childSetObject().objects()
 
     def hasChildren(self):
         """
         :return: bool
         """
-        return self.__childSetObject().hasObjects()
+        return self._childSetObject().hasObjects()
 
     def childrenCount(self):
         """
         :return: int
         """
-        return self.__childSetObject().objectsCount()
+        return self._childSetObject().objectsCount()
 
     def childAt(self, index):
         """
         :param index: int
         :return: object of Dag_Node
         """
-        return self.__childSetObject().objectAt(index)
+        return self._childSetObject().objectAt(index)
 
     def addChild(self, nodeObject):
         """
         :param nodeObject: object of Dag_Node
         :return: None
         """
-        self.__childSetObject().addObject(nodeObject.fullpathName(), nodeObject)
+        self._childSetObject().addObject(nodeObject.fullpathName(), nodeObject)
 
-    def __portSetObject(self):
-        return self._attributeSet
+    def __inputPortSetObject(self):
+        return self._inputPortSetObj
 
-    def attributes(self):
+    def inputPorts(self):
         """
         :return: list(object or attribute, ...)
         """
-        return self.__portSetObject().objects()
+        return self.__inputPortSetObject().objects()
 
-    def hasAttributes(self):
+    def hasInputPorts(self):
         """
         :return: bool
         """
-        return self.__portSetObject().hasObjects()
+        return self.__inputPortSetObject().hasObjects()
 
-    def attributesCount(self):
+    def addInputPort(self, portObject):
         """
-        :return: int
-        """
-        return self.__portSetObject().objectsCount()
-
-    def attributeAt(self, index):
-        """
-        :param index: int
-        :return: object of Attribute
-        """
-        return self.__portSetObject().objectAt(index)
-
-    def addAttribute(self, attributeObject):
-        """
-        :param attributeObject: object of Attribute
+        :param portObject: object of Attribute
         :return: None
         """
-        self.__portSetObject().addObject(
-            attributeObject.attributeFullpathName(),
-            attributeObject
+        self.__inputPortSetObject().addObject(
+            portObject.attributeFullpathName(),
+            portObject
         )
 
+    def toString(self):
+        return self.fullpathName()
 
-class Abc_Shader(Abc_Dag):
-    shader_output_type_string = None
-    xml_prefix_label = None
+
+class Abc_DagShader(Abc_Dag):
+    PORT_OUTPUT_ClS = None
+
+    port_output_name_string = None
 
     def _initAbcShader(self, *args):
         self._initAbcDag(*args)
 
-    def _xmlStrRaw(self):
-        return {
-            self.Key_Label: self.xml_prefix_label,
-            self.Key_Attribute: {
-                self.Atr_Xml_Name: self.fullpathName(),
-                self.Atr_Xml_Node: self.categoryString(),
-                self.Atr_Xml_Shader_Output_Type: self.shader_output_type_string
-            },
-            self.Key_Children: self.attributes()
-        }
+        self._outputPortObj = self.PORT_OUTPUT_ClS(
+            self.fullpathName(),
+            self.port_output_name_string
+        )
+
+        self._initAbcXml(
+            attributes=[self._dagpathObject, self._categoryObject, self._outputPortObject],
+            children=self.inputPorts
+        )
+
+    def _outputPortObject(self):
+        return self._outputPortObj
+
+    def outputPort(self):
+        return self._outputPortObject()
 
 
-class Abc_Geometry(Abc_Dag):
+class Abc_DagGeometry(Abc_Dag):
     def _initAbcGeometry(self, *args):
         self._initAbcDag(*args)
 
 
-class Abc_Element(mtlConfigure.Basic):
-    xml_name_prefix_label = None
-    xml_name_suffix_label = None
-
-
-class Abc_Material(Abc_Element):
+class Abc_Shaderset(Def_XmlObject):
     RAW_DAGPATH_CLS = None
     SET_SHADER_CLS = None
 
-    def _initAbcMaterial(self, fullpathName):
+    def _initAbcShaderset(self, fullpathName):
         self._dagpathObj = self.RAW_DAGPATH_CLS(fullpathName)
 
         self._shaderSetObj = self.SET_SHADER_CLS()
 
-    def __shaderSetObject(self):
-        return self._shaderSetObj
+        self._initAbcXml(
+            attributes=[self._dagpathObject],
+            children=self.shaders
+        )
 
-    def __dagpathObject(self):
+    def _dagpathObject(self):
         return self._dagpathObj
+
+    def _shaderSetObject(self):
+        return self._shaderSetObj
 
     def dagpath(self):
         """
         :return: object of Raw_Dagpath
         """
-        return self.__dagpathObject()
+        return self._dagpathObject()
 
     def setFullpathName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__dagpathObject().setRaw(nameString)
+        self._dagpathObject().setRaw(nameString)
 
     def fullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().fullpathName()
+        return self._dagpathObject().fullpathName()
 
     def setNodeName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__dagpathObject().setNodeName(nameString)
+        self._dagpathObject().setNodeName(nameString)
 
     def nodeName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeName()
+        return self._dagpathObject().nodeName()
 
     def nodeFullpathName(self):
         """
         :return: str
         """
-        return self.__dagpathObject().nodeFullpathName()
+        return self._dagpathObject().nodeFullpathName()
 
     def addShader(self, shaderObject):
-        self.__shaderSetObject().addObject(
+        self._shaderSetObject().addObject(
             shaderObject.fullpathName(),
             shaderObject
         )
 
     def shaders(self):
-        return self.__shaderSetObject().objects()
+        return self._shaderSetObject().objects()
+
+    def _xmlAttributeDic(self):
+        return self.cls_order_dic(
+            [
+                (self.xml_key_attribute, self.fullpathName())
+            ]
+        )
 
 
-class Abc_Graph(mtlConfigure.Basic):
+class Abc_Portset(Def_XmlObject):
+    RAW_DAGPATH_CLS = None
+    SET_PORT_INPUT_CLS = None
+
+    def _initAbcPortset(self, *args):
+        self._dagpathObj = self.RAW_DAGPATH_CLS(*args)
+
+        self._inputPortSetObj = self.SET_PORT_INPUT_CLS()
+
+    def _dagpathObject(self):
+        return self._dagpathObj
+
+    def __inputPortSetObject(self):
+        return self._inputPortSetObj
+
+    def dagpath(self):
+        """
+        :return: object of Raw_Dagpath
+        """
+        return self._dagpathObject()
+
+    def setFullpathName(self, nameString):
+        """
+        :param nameString: str
+        :return: None
+        """
+        self._dagpathObject().setRaw(nameString)
+
+    def fullpathName(self):
+        """
+        :return: str
+        """
+        return self._dagpathObject().fullpathName()
+
+    def setNodeName(self, nameString):
+        """
+        :param nameString: str
+        :return: None
+        """
+        self._dagpathObject().setNodeName(nameString)
+
+    def nodeName(self):
+        """
+        :return: str
+        """
+        return self._dagpathObject().nodeName()
+
+    def addInputPort(self, portObject):
+        """
+        :param portObject: object of Attribute
+        :return: None
+        """
+        self.__inputPortSetObject().addObject(portObject.fullpathName(), portObject)
+
+    def inputPorts(self):
+        """
+        :return: list(object or port, ...)
+        """
+        return self.__inputPortSetObject().objects()
+
+    def hasInputPorts(self):
+        """
+        :return: bool
+        """
+        return self.__inputPortSetObject().hasObjects()
+
+
+class Abc_Graph(mtlCore.Basic):
     RAW_NAME_CLS = None
     SET_NODE_CLS = None
     SET_OUTPUT_CLS = None
 
     def _initAbcGraph(self):
-        self._name = self.RAW_NAME_CLS()
+        self._nameObj = self.RAW_NAME_CLS()
 
         self._nodeSet = self.SET_NODE_CLS()
         self._outputSet = self.SET_OUTPUT_CLS()
 
-    def __nameObject(self):
-        return self._name
+    def _nameObject(self):
+        return self._nameObj
+
+    def __nodeSetObject(self):
+        return self._nodeSet
+
+    def __outputSetObject(self):
+        return self._outputSet
 
     def name(self):
         """
         :return: str
         """
-        return self.__nameObject().raw()
+        return self._nameObject().raw()
 
     def setName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__nameObject().setRaw(nameString)
-
-    def __nodeSetObject(self):
-        return self._nodeSet
+        self._nameObject().setRaw(nameString)
 
     def addNode(self, nodeObject):
         """
@@ -1168,9 +1338,6 @@ class Abc_Graph(mtlConfigure.Basic):
         :return: bool
         """
         return self.__nodeSetObject().hasObjects()
-
-    def __outputSetObject(self):
-        return self._outputSet
 
     def addOutput(self, outputObject):
         """
@@ -1198,80 +1365,33 @@ class Abc_Graph(mtlConfigure.Basic):
         return self.__outputSetObject().hasObjects()
 
 
-class Abc_Portset(mtlConfigure.Basic):
-    RAW_NAME_CLS = None
-    SET_PORT_CLS = None
-
-    def _initAbcAttributeSet(self):
-        self._name = self.RAW_NAME_CLS()
-        self._portSetObj = self.SET_PORT_CLS()
-
-    def __nameObject(self):
-        return self._name
-
-    def name(self):
-        """
-        :return: str
-        """
-        return self.__nameObject().raw()
-
-    def setName(self, nameString):
-        """
-        :param nameString: str
-        :return: None
-        """
-        self.__nameObject().setRaw(nameString)
-
-    def __portSetObject(self):
-        return self._portSetObj
-
-    def addAttribute(self, attributeObject):
-        """
-        :param attributeObject: object of Attribute
-        :return: None
-        """
-        self.__portSetObject().addObject(attributeObject.fullpathName(), attributeObject)
-
-    def attributes(self):
-        """
-        :return: list(object or attribute, ...)
-        """
-        return self.__portSetObject().objects()
-
-    def hasAttributes(self):
-        """
-        :return: bool
-        """
-        return self.__portSetObject().hasObjects()
-
-
-class Abc_Collection(mtlConfigure.Basic):
+class Abc_Collection(mtlCore.Basic):
     RAW_NAME_CLS = None
     SET_GEOMETRY_CLS = None
     COLLECTION_SET_CLS = None
 
     def _initAbcCollection(self):
-        self._name = self.RAW_NAME_CLS()
+        self._nameObj = self.RAW_NAME_CLS()
         self._geometrySet = self.SET_GEOMETRY_CLS()
         self._collectionSet = self.COLLECTION_SET_CLS()
 
-    def __nameObject(self):
-        return self._name
+    def _nameObject(self):
+        return self._nameObj
 
     def name(self):
         """
         :return: str
         """
-        return self.__nameObject().raw()
+        return self._nameObject().raw()
 
     def setName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__nameObject().setRaw(nameString)
+        self._nameObject().setRaw(nameString)
 
-    def __geometrySetObject(self):
+    def _geometrySetObject(self):
         return self._geometrySet
 
     def addGeometry(self, geometryObject):
@@ -1279,19 +1399,19 @@ class Abc_Collection(mtlConfigure.Basic):
         :param geometryObject: object of Dag_Geometry
         :return:
         """
-        self.__geometrySetObject().addObject(geometryObject.fullpathName(), geometryObject)
+        self._geometrySetObject().addObject(geometryObject.fullpathName(), geometryObject)
 
     def geometries(self):
         """
         :return: list(object or geometry, ...)
         """
-        return self.__geometrySetObject().objects()
+        return self._geometrySetObject().objects()
 
     def hasGeometries(self):
         """
         :return: bool
         """
-        return self.__geometrySetObject().hasObjects()
+        return self._geometrySetObject().hasObjects()
 
     def geometryFullpathNames(self):
         """
@@ -1340,38 +1460,35 @@ class Abc_Collection(mtlConfigure.Basic):
         return [i.name() for i in self.collections()]
 
 
-# Assign
-class Abc_Assign(mtlConfigure.Basic):
+class Abc_Assign(Def_XmlObject):
     RAW_NAME_CLS = None
     SET_GEOMETRY_CLS = None
 
     separator_geometry = None
 
-    xml_prefix_label = None
-
     def _initAbcAssign(self, *args):
-        self._name = self.RAW_NAME_CLS(*args)
+        self._nameObj = self.RAW_NAME_CLS(*args)
 
         self._geometrySet = self.SET_GEOMETRY_CLS()
         self._collectionObj = None
 
-    def __nameObject(self):
-        return self._name
+    def _nameObject(self):
+        return self._nameObj
 
     def name(self):
         """
         :return: str
         """
-        return self.__nameObject().raw()
+        return self._nameObject().raw()
 
     def setName(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self.__nameObject().setRaw(nameString)
+        self._nameObject().setRaw(nameString)
 
-    def __geometrySetObject(self):
+    def _geometrySetObject(self):
         return self._geometrySet
 
     def addGeometry(self, geometryObject):
@@ -1379,19 +1496,19 @@ class Abc_Assign(mtlConfigure.Basic):
         :param geometryObject: object of Dag_Geometry
         :return: None
         """
-        self.__geometrySetObject().addObject(geometryObject.fullpathName(), geometryObject)
+        self._geometrySetObject().addObject(geometryObject.fullpathName(), geometryObject)
 
     def geometries(self):
         """
         :return: list(object or geometry, ...)
         """
-        return self.__geometrySetObject().objects()
+        return self._geometrySetObject().objects()
 
     def hasGeometries(self):
         """
         :return: bool
         """
-        return self.__geometrySetObject().hasObjects()
+        return self._geometrySetObject().hasObjects()
 
     def geometryFullpathNames(self):
         """
@@ -1437,52 +1554,45 @@ class Abc_Assign(mtlConfigure.Basic):
         return self._collectionObj.name()
 
 
-class Abc_MaterialAssign(Abc_Assign):
-    MATERIAL_CLS = None
+class Abc_AsnShaderset(Abc_Assign):
+    SHADERSET_CLS = None
 
     def _initAbcMaterialAssign(self, *args):
         self._initAbcAssign(*args)
 
         self._shadersetObj = None
 
-    def __shaderSetObject(self):
+        self._initAbcXml(
+            attributes=[self._nameObject, self._shadersetObject, self._geometrySetObject]
+        )
+
+    def _shadersetObject(self):
         return self._shadersetObj
 
-    def addMaterial(self, shadersetObject):
+    def addShaderset(self, shadersetObject):
         self._shadersetObj = shadersetObject
 
-    def material(self):
+    def shaderset(self):
         """
         :return: object of ShaderSet
         """
-        return self.__shaderSetObject()
+        return self._shadersetObject()
 
-    def materialName(self):
+    def shadersetName(self):
         """
         :return: str
         """
-        return self.material().fullpathName()
+        return self.shaderset().fullpathName()
 
-    def _xmlStrRaw(self):
+    def _xmlAttributeDic(self):
         return self.cls_order_dic(
             [
-                # Label
-                (self.Key_Label, self.xml_prefix_label),
-                # Attribute
-                (
-                    self.Key_Attribute, self.cls_order_dic(
-                        [
-                            (self.Atr_Xml_Name, self.name()),
-                            (self.Atr_Xml_Material, self.materialName()),
-                            (self.Atr_Xml_Geom, self.geometryString()),
-                        ]
-                    )
-                )
+                (self._shadersetObject().xml_key_attribute, self._shadersetObject().name())
             ]
         )
 
 
-class Abc_PortsetAssign(Abc_Assign):
+class Abc_AsnPortset(Abc_Assign):
     PORTSET_CLS = None
 
     def _initAbcPortsetAssign(self, *args):
@@ -1495,7 +1605,7 @@ class Abc_PortsetAssign(Abc_Assign):
 
     def attributeSet(self):
         """
-        :return: object of Set_Attribute
+        :return: object of Set_Port
         """
         return self.__portsetObject()
 
@@ -1513,20 +1623,26 @@ class Abc_PortsetAssign(Abc_Assign):
         return self.__portsetObject().name()
 
 
-# Look
-class Abc_Look(mtlConfigure.Basic):
+class Abc_Look(Def_XmlObject):
     RAW_NAME_CLS = None
     SET_ASSIGN_CLS = None
-
-    xml_prefix_label = None
 
     def _initAbcLook(self, *args):
         self._nameObj = self.RAW_NAME_CLS(*args)
 
         self._assignSetObj = self.SET_ASSIGN_CLS()
 
+        self._initAbcXml(
+            attributes=[self._nameObject],
+            children=self.assigns,
+            elements=self.shadersets
+        )
+
+    def _nameObject(self):
+        return self._nameObj
+
     def name(self):
-        return self._nameObj.raw()
+        return self._nameObj.toString()
 
     def __assignSetObject(self):
         return self._assignSetObj
@@ -1540,29 +1656,23 @@ class Abc_Look(mtlConfigure.Basic):
     def assigns(self):
         return self.__assignSetObject().objects()
 
-    def _xmlStrRaw(self):
-        return self.cls_order_dic(
-            [
-                (self.Key_Label, self.xml_prefix_label),
-                (
-                    self.Key_Attribute, self.cls_order_dic(
-                        [
-                            (self.Atr_Xml_Name, self.name())
-                        ],
-                    )
-                ),
-                (self.Key_Children, self.assigns()),
-
-                (self.Key_Element, [i.material() for i in self.assigns()])
-            ]
-        )
+    def shadersets(self):
+        return [i.shaderset() for i in self.assigns()]
 
 
-class Abc_Asset(mtlConfigure.Basic):
+class Abc_Include(mtlCore.Basic):
     pass
 
 
-class Abc_Def(mtlConfigure.Basic):
+class Abc_Asset(mtlCore.Basic):
+    SET_LOOK_CLS = None
+    RAW_FILE_CLS = None
+
+    def _initAbcAsset(self, *args):
+        pass
+
+
+class Abc_Def(mtlCore.Basic):
     def _initAbcDef(self):
         self._nodeDefsDic = mtlConfigure.Def_Node_Dic
 
@@ -1591,5 +1701,5 @@ class Abc_DagDef(Abc_Def):
     def typeString(self):
         return self._nodeDefDic.get(self.Key_Type_String)
 
-    def attribute(self):
-        return self._nodeDefDic.get(self.Key_Attribute, {})
+    def portRaw(self):
+        return self._nodeDefDic.get(self.Key_Port, [])

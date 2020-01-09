@@ -11,22 +11,22 @@ from LxMaya.method.basic import _maMethodBasic
 #
 class MaProductUnitMethod(_productMethod.LxProductUnitMethod, appConfig.Cfg_Product):
     prd_method = _methodBasic.LxProductMethodBasic
-    app_node_method = _maMethodBasic.MaNodeMethodBasic
+    mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def getProductUnitDatumLis(cls, productModule):
         lis = []
         if productModule in cls.prd_method.LynxiProduct_ModuleLis:
-            searchKey = cls.app_node_method.lxNodeGroupName('*', cls.prd_method.LynxiUnit_Label_Root)
-            nodeLis = cls.app_node_method.getNodeLisBySearchKey(searchKey, cls.app_node_method.MaNodeType_Transform)
+            searchKey = cls.mtd_app_node.lxNodeGroupName('*', cls.prd_method.LynxiUnit_Label_Root)
+            nodeLis = cls.mtd_app_node.getNodeLisBySearchKey(searchKey, cls.mtd_app_node.MaNodeType_Transform)
             if nodeLis:
                 for nodePath in nodeLis:
-                    if cls.app_node_method.isAppExist(nodePath):
+                    if cls.mtd_app_node.isAppExist(nodePath):
 
-                        nodeName = cls.app_node_method._toNodeName(nodePath)
+                        nodeName = cls.mtd_app_node._toNodeName(nodePath)
                         if nodeName.startswith(cls.prd_method.LynxiProduct_Module_PrefixDic[productModule]):
                             unitDatum = []
                             for attrName in cls.prd_method.LynxiProduct_Unit_AttrNameLis:
-                                attrDatum = cls.app_node_method.getNodeAttrValue(nodePath, attrName)
+                                attrDatum = cls.mtd_app_node.getNodeAttrValue(nodePath, attrName)
                                 unitDatum.append(attrDatum)
                             #
                             unitIndex, unitClass, unitName, unitVariant, unitStage = unitDatum
@@ -37,7 +37,7 @@ class MaProductUnitMethod(_productMethod.LxProductUnitMethod, appConfig.Cfg_Prod
         return lis
     @classmethod
     def getProductUnitDatumDic(cls):
-        dic = cls.app_node_method.orderedDict()
+        dic = cls.mtd_app_node.orderedDict()
         for productModule in cls.prd_method.LynxiProduct_ModuleLis:
             dic[productModule] = cls.getProductUnitDatumLis(productModule)
         return dic

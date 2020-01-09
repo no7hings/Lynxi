@@ -17,10 +17,19 @@ class Basic(object):
     environ_key_path_product = 'LYNXI_PATH_PRODUCT'
     path_default_product = 'e:/myworkspace/td/lynxi'
 
+    environ_key_path_local = 'LYNXI_PATH_LOCAL'
+    path_default_local = 'c:/.lynxi'
+
     environ_key_path_toolkit = 'LYNXI_PATH_TOOLKIT'
+
+    environ_key_name_scheme = 'LYNXI_NAME_SCHEME'
+    environ_key_version_scheme = 'LYNXI_VERSION_SCHEME'
+    environ_key_file_scheme = 'LYNXI_FILE_SCHEME'
+    environ_key_config_file_scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
     environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
     enable_default_develop = 'FALSE'
+
     @classmethod
     def _isDevelop(cls):
         return [False, True][os.environ.get(cls.environ_key_enable_develop, cls.enable_default_develop).lower() == 'true']
@@ -79,23 +88,27 @@ class Method(object):
     def addEnviron(cls, key, value):
         if key in os.environ:
             lowerLis = [i.lower() for i in os.environ[key].split(os.pathsep)]
+            if value.lower() not in lowerLis:
+                os.environ[key] += os.pathsep + value
+                cls.traceResult(
+                    'Add Environ "{}": "{}"'.format(key, value)
+                )
         else:
-            lowerLis = []
-
-        if value.lower() not in lowerLis:
-            os.environ[key] += os.pathsep + value
+            os.environ[key] = value
             cls.traceResult(
-                'Add Environ "{}": "{}"'.format(key, value)
+                'Set Environ "{}": "{}"'.format(key, value)
             )
 
     @classmethod
     def setEnviron(cls, key, value):
         if key in os.environ:
             lowerValue = os.environ[key].lower()
+            if value.lower() != lowerValue:
+                os.environ[key] = value
+                cls.traceResult(
+                    'Override Environ "{}": "{}"'.format(key, value)
+                )
         else:
-            lowerValue = ''
-
-        if value.lower() != lowerValue:
             os.environ[key] = value
             cls.traceResult(
                 'Set Environ "{}": "{}"'.format(key, value)
@@ -118,10 +131,12 @@ class Method(object):
                 return data
 
 
-class Root(object):
+class Root(Basic):
     def_path = 'e:/myworkspace/td/lynxi'
     def_local_path = 'c:/.lynxi'
     def_develop_path = 'e:/myworkspace/td/lynxi'
+
+    basic_method = Method
 
     @property
     def active(self):
@@ -134,19 +149,28 @@ class Root(object):
         return self.product
 
     @property
-    def local(self):
-        return os.environ.get('LYNXI_PATH_LOCAL', self.def_local_path).replace('\\', '/')
+    def develop(self):
+        return os.environ.get(
+            self.environ_key_path_develop,
+            self.path_default_develop
+        ).replace('\\', '/')
 
     @property
     def product(self):
-        return os.environ.get('LYNXI_PATH_PRODUCT', self.def_path).replace('\\', '/')
+        return os.environ.get(
+            self.environ_key_path_product,
+            self.path_default_product
+        ).replace('\\', '/')
 
     @property
-    def develop(self):
-        return os.environ.get('LYNXI_PATH_DEVELOP', self.def_develop_path).replace('\\', '/')
+    def local(self):
+        return os.environ.get(
+            self.environ_key_path_local,
+            self.path_default_local
+        ).replace('\\', '/')
 
 
-class Abc_Scheme(object):
+class Abc_Scheme(Basic):
     scheme_subpath_string = None
 
     def _initAbcScheme(self, schemeName, schemeVersion):
@@ -166,22 +190,25 @@ class Abc_Scheme(object):
         self._systemRaw = self._getSystemRaw()
 
         method.setEnviron(
-            'LYNXI_SCHEME_NAME', schemeName
+            self.environ_key_name_scheme, self.name
         )
         method.setEnviron(
-            'LYNXI_SCHEME_VERSION', self._schemeVersion
+            self.environ_key_version_scheme, self.version
         )
         method.setEnviron(
-            'LYNXI_SCHEME_SYSTEM', self._systemRaw
+            self.environ_key_config_file_scheme, self.configFile
+        )
+        method.setEnviron(
+            self.environ_key_file_scheme, self.setupFile
         )
 
     def _getCurrentVersion(self):
-        data = Method.readOsJsonFile(self.configJsonFile)
+        data = Method.readOsJsonFile(self.configFile)
         if data:
             return str(data['version']['active'])
 
     def _getSystemRaw(self):
-        data = Method.readOsJsonFile(self.configJsonFile)
+        data = Method.readOsJsonFile(self.configFile)
         if data:
             return str(data['system'])
 
@@ -229,14 +256,15 @@ class Abc_Scheme(object):
         return self._schemeVersion
 
     @property
-    def configJsonFile(self):
+    def configFile(self):
         return u'{}/config.json'.format(self.schemePathString)
 
-    def setupJsonFile(self):
+    @property
+    def setupFile(self):
         return u'{}/{}/source/setup.json'.format(self.schemePathString, self._schemeVersion)
 
     def environSetup(self):
-        fileString = self.setupJsonFile()
+        fileString = self.setupFile
         if os.path.exists(fileString):
             with open(fileString) as j:
                 datumDic = json.load(j) or {}
@@ -264,6 +292,13 @@ class WindowsPython27Scheme(Abc_Scheme):
 
 class WindowsMayaPython27Scheme(Abc_Scheme):
     scheme_subpath_string = 'resource/scheme/windows-maya-python-2.7.x'
+
+    def __init__(self, schemeName, schemeVersion):
+        self._initAbcScheme(schemeName, schemeVersion)
+
+
+class WindowsMaya2019Python27Scheme(Abc_Scheme):
+    scheme_subpath_string = 'resource/scheme/windows-maya-2019-python-2.7.x'
 
     def __init__(self, schemeName, schemeVersion):
         self._initAbcScheme(schemeName, schemeVersion)

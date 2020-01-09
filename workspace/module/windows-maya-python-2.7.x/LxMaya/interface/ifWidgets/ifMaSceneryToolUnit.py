@@ -1,6 +1,8 @@
 # coding=utf-8
 import threading
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
@@ -9,9 +11,9 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxDatabase import dbGet
 #
@@ -25,7 +27,7 @@ none = ''
 
 
 # Assembly Loaded
-class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
+class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
     UnitTitle = 'Assembly Load Unit'
     UnitIcon = 'window#sceneryToolPanel'
     UnitTooltip = u'''组装加载工具'''
@@ -39,7 +41,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
     projectName = currentProjectName
     def __init__(self, *args, **kwargs):
         super(IfScnAssemblyLoadedUnit, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -79,7 +81,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
                         assetVariant = gridItem.assetVariant
                         #
                         # noinspection PyArgumentEqualDefault
-                        maAstLoadCmds.astUnitLoadAssemblyForScenery(
+                        maAstLoadCmds.astUnitAssemblyLoadForScenery(
                             assetIndex,
                             projectName,
                             assetClass, assetName, assetVariant,
@@ -110,7 +112,7 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             def setSubActions():
                 def assemblyLoadCmd():
                     # noinspection PyArgumentEqualDefault
-                    maAstLoadCmds.astUnitLoadAssemblyForScenery(
+                    maAstLoadCmds.astUnitAssemblyLoadForScenery(
                         assetIndex,
                         projectName,
                         assetClass, assetName, assetVariant,
@@ -216,9 +218,9 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Assembly Unit(s)'''
             maxValue = len(uiData)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
-                progressBar.updateProgress()
+                progressBar.update()
                 setBranch(s, k, v)
         #
         gridView.setRefresh()
@@ -253,14 +255,14 @@ class IfScnAssemblyLoadedUnit(ifWidgetBasic.IfUnitBasic):
 
 
 #
-class IfScnAssemblyManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScnAssemblyManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Assembly Manager'
     UnitIcon = 'window#sceneryToolPanel'
     UnitTooltip = u'''组装管理工具'''
 
 
 #
-class IfScnComposeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScnComposeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Scenery Compose Manager'
     UnitIcon = 'window#sceneryToolPanel'
     UnitTooltip = u'''场景管理工具'''
@@ -290,8 +292,6 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
     def __init__(self, *args, **kwargs):
         super(IfScnLinkToolUnit, self).__init__(*args, **kwargs)
         self._connectObject = None
-        #
-        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
     #
@@ -358,7 +358,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
 
 
 #
-class IfScnAssemblyInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScnAssemblyInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Information Tool Unit'
     UnitIcon = 'window#infoToolPanel'
     UnitTooltip = u'''信息工具模块'''
@@ -452,7 +452,7 @@ class IfScnAssemblyInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Utilities Tool Unit'
     UnitIcon = 'window#utilsToolPanel'
     UnitTooltip = u'''通用工具模块'''
@@ -481,8 +481,6 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._initToolUnitBasic()
         #
         self.filterTypes = ['assemblyReference']
-        #
-        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
     #
@@ -650,9 +648,9 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addButton('assemblyManager', self.assemblyManagerButton)
         self.assemblyManagerButton.clicked.connect(self._assemblyManagerWindowShowCmd)
         #
-        self.astUnitSceneClearCmd = qtWidgets.QtPressbutton()
-        toolBox.addButton('astUnitClearScene', self.astUnitSceneClearCmd)
-        self.astUnitSceneClearCmd.clicked.connect(self.setCleanScene)
+        self.sceneClearButton = qtWidgets.QtPressbutton()
+        toolBox.addButton('astUnitClearScene', self.sceneClearButton)
+        self.sceneClearButton.clicked.connect(self.setCleanScene)
         #
         toolBox.addSeparators()
     @staticmethod
@@ -675,10 +673,13 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
         from LxMaya.interface.ifWidgets import ifMaToolWindow
         w = ifMaToolWindow.IfAssemblyManagerWindow()
         w.windowShow()
-    #
-    def setCleanScene(self):
-        maAstUploadCmds.astUnitSceneClearCmd(self.logWindow)
-        maUtils.setMessageWindowShow(u'Clean Maya Scene', u'Complete', position='topCenter', fade=1, dragKill=0)
+    @staticmethod
+    def setCleanScene():
+        maAstUploadCmds.astUnitSceneClearCmd()
+        maUtils.setMessageWindowShow(
+            u'Clean Maya Scene', u'Complete',
+            position='topCenter', fade=1, dragKill=0
+        )
     #
     def getParentGroupName(self):
         data = self.parentGroupLabel.datum()
@@ -710,7 +711,7 @@ class IfScnUtilityToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
     UnitTooltip = u'''上传工具模块'''
@@ -885,7 +886,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView
             )
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'Make Snapshot ( View Port )', u'Complete'
             )
     #
@@ -920,7 +921,7 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'Make Snapshot ( Render )', u'Complete'
             )
     #
@@ -938,17 +939,12 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         self._connectObject.hide()
         #
         if sceneryName:
-            logWin = qtLog.setLogWindowShow(description)
-            #
             maScnUploadCmds.scnUnitAssemblyUploadCmd(
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
                 description, notes
             )
-            #
-            logWin.setCountdownClose(5)
             #
             closeTimer = threading.Timer(5, self._connectObject.uiQuit)
             closeTimer.start()
@@ -961,17 +957,15 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         sceneryVariant = self._connectObject.sceneryVariant
         sceneryStage = self._connectObject.sceneryStage
         #
-        logWin = None
         timeTag = lxBasic.getOsActiveTimeTag()
         #
         maScnUploadCmds.scnUnitAssemblyComposeUploadCmd(
-            logWin,
             projectName,
             sceneryIndex,
             sceneryClass, sceneryName, sceneryVariant, sceneryStage,
             timeTag
         )
-        qtCommands.setMessageWindowShow(
+        bscMethods.If_Message(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
@@ -994,8 +988,3 @@ class IfScnUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         layout = qtCore.QVBoxLayout_(widget)
         layout.setAlignment(qtCore.QtCore.Qt.AlignTop)
         self.setupExtendTab(layout)
-
-
-#
-class IfScnAssemblyManagerUnit(qtCore.QWidget_):
-    pass

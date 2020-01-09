@@ -1,7 +1,9 @@
 # coding=utf-8
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
+from LxBasic import bscMethods
+
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxCore.method import _dbMethod
 #
@@ -11,11 +13,11 @@ none = ''
 
 
 #
-class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
-    rnd_node_method = _maMethod.MaRenderNodeMethod
-    app_node_method = _maMethod.MaLightNodeMethod
-    app_prd_unit_method = _maProductMethod.MaProductUnitMethod
-    dtb_user_method = _dbMethod.Mtd_DbUser
+class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
+    mtd_app_rnd_node = _maMethod.MaRenderNodeMethod
+    mtd_app_node = _maMethod.MaLightNodeMethod
+    mtd_app_prd_unit = _maProductMethod.MaProductUnitMethod
+    mtd_dtb_user = _dbMethod.Mtd_DbUser
 
     UnitTitle = 'Light Rig Upload / Update'
     UnitIcon = 'window#geometryPanel'
@@ -110,7 +112,7 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         toolBox.addInfo('branchName', self._branchNameLabel)
         self._branchNameLabel.setChooseEnable(True)
         self._branchNameLabel.chooseChanged.connect(self._initInfo)
-        self._branchNameLabel.setDatumLis(self.dtb_user_method.dbUserLocalUnitBranchLis())
+        self._branchNameLabel.setDatumLis(self.mtd_dtb_user.dbUserLocalUnitBranchLis())
         #
         self._versionNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('versionName', self._versionNameLabel)
@@ -139,7 +141,7 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         self._updateServerDatum()
         self._updateLocalDatum()
         #
-        chartDatum = self.app_node_method.getLightLinkUpdateConstantDatumLis(
+        chartDatum = self.mtd_app_node.getLightLinkUpdateConstantDatumLis(
             self._localLightLinkDic, self._serverLightLinkDic
         )
         #
@@ -148,9 +150,9 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         self._updateVersionLabel()
     #
     def _updateNameLabel(self):
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         #
-        nameLis = self.dtb_user_method.dbGetUserJsonUnitNameLis(dbUnitType)
+        nameLis = self.mtd_dtb_user.dbGetUserJsonUnitNameLis(dbUnitType)
         if nameLis:
             nameString = self._lightLinkNameLabel.datum()
             #
@@ -165,10 +167,10 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         entryLabel = self._versionNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        versionUiDic, currentIndex = self.dtb_user_method.dbGetUserServerJsonUnitIncludeVersionUiDic(
+        versionUiDic, currentIndex = self.mtd_dtb_user.dbGetUserServerJsonUnitIncludeVersionUiDic(
             nameString, dbUnitType, dbUnitBranch
         )
         if versionUiDic:
@@ -180,11 +182,11 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             treeItem = qtWidgets.QtTreeviewItem()
             treeView.addItem(treeItem)
             #
-            nodeName = self.app_node_method._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
-            nodePath = self.app_node_method._toNodePathBySearchDatum(pathDatum, namespaceDatum)
+            nodeName = self.mtd_app_node._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
+            nodePath = self.mtd_app_node._toNodePathBySearchDatum(pathDatum, namespaceDatum)
             #
-            treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-            treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+            treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+            treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
             treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
             if self.isAppExist(nodePath):
                 treeItem.path = nodePath
@@ -198,10 +200,10 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             treeItem = qtWidgets.QtTreeviewItem()
             linkItem.addChild(treeItem)
             #
-            nodeName = self.app_node_method._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
-            nodePath = self.app_node_method._toNodePathBySearchDatum(pathDatum, namespaceDatum)
-            treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-            treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+            nodeName = self.mtd_app_node._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
+            nodePath = self.mtd_app_node._toNodePathBySearchDatum(pathDatum, namespaceDatum)
+            treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+            treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
             treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
             #
             subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
@@ -220,11 +222,11 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(datumDic)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for k, v in datumDic.items():
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
-                    useDefaultSet = v[self.app_node_method.MaNodeName_DefaultLightSet]
+                    useDefaultSet = v[self.mtd_app_node.MaNodeName_DefaultLightSet]
                     #
                     lightItem = setLightBranch(
                         k, useDefaultSet
@@ -242,10 +244,10 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         treeView = self._treeView
         #
         searchDatumLis = [
-            self.app_node_method.MaAttrNameLis_LightLink,
-            self.app_node_method.MaAttrNameLis_LightLink_Ignore,
-            self.app_node_method.MaAttrNameLis_ShadowLink,
-            self.app_node_method.MaAttrNameLis_ShadowLink_Ignore
+            self.mtd_app_node.MaAttrNameLis_LightLink,
+            self.mtd_app_node.MaAttrNameLis_LightLink_Ignore,
+            self.mtd_app_node.MaAttrNameLis_ShadowLink,
+            self.mtd_app_node.MaAttrNameLis_ShadowLink_Ignore
         ]
         #
         if self._isRefreshTreeViewEnable is True:
@@ -257,14 +259,14 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def _updateLocalDatum(self):
         isIgnoreUnused = self._ignoreUnusedButton.isChecked()
-        self._localLightLinkDic = self.app_node_method.getLightLinkDic(ignoreUnused=isIgnoreUnused)
-        self._localRenderOptionDic = self.rnd_node_method.getRenderOptionDic()
+        self._localLightLinkDic = self.mtd_app_node.getLightLinkDic(ignoreUnused=isIgnoreUnused)
+        self._localRenderOptionDic = self.mtd_app_rnd_node.getRenderOptionDic()
     #
     def _updateServerDatum(self):
         productUnit = None
-        productUnitDatumDic = self.app_prd_unit_method.getProductUnitDatumDic()
+        productUnitDatumDic = self.mtd_app_prd_unit.getProductUnitDatumDic()
         if productUnitDatumDic:
-            moduleUnitDatumLis = productUnitDatumDic[self.app_prd_unit_method.LynxiProduct_Module_Asset]
+            moduleUnitDatumLis = productUnitDatumDic[self.mtd_app_prd_unit.LynxiProduct_Module_Asset]
             if moduleUnitDatumLis:
                 productUnit = moduleUnitDatumLis[0]
         #
@@ -272,26 +274,26 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             pass
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
-        self._serverLightLinkDic = self.dtb_user_method.dbReadUserJsonUnit(
+        self._serverLightLinkDic = self.mtd_dtb_user.dbReadUserJsonUnit(
             nameString, dbUnitType, dbUnitBranch
         )
     #
     def _updateLightLinkCmd(self):
         nameString = self._lightLinkNameLabel.datum()
         jsonDatum = self._localLightLinkDic
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
         if nameString and jsonDatum:
-            self.dtb_user_method.dbWriteUserJsonUnit(
+            self.mtd_dtb_user.dbWriteUserJsonUnit(
                 nameString, dict(jsonDatum), dbUnitType, dbUnitBranch
             )
             #
             self._updateNameLabel()
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Upload / Update Light Link(s)',
                 'Complete'
             )
@@ -305,13 +307,13 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
         dbUnitBranch = self._branchNameLabel.datum()
         #
         if nameString and jsonDatum:
-            self.dtb_user_method.dbWriteUserJsonUnit(
+            self.mtd_dtb_user.dbWriteUserJsonUnit(
                 nameString, dict(jsonDatum), dbUnitType, dbUnitBranch
             )
             #
             self._updateNameLabel()
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Upload / Update Render Option(s)',
                 'Complete'
             )
@@ -325,9 +327,9 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
             for i in selectedItemLis:
                 if hasattr(i, 'path'):
                     lis.append(i.path)
-            self.setNodeSelect(self._toNodeLis(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toNodeLis(lis))
         else:
-            self.setSelectClear()
+            self.mtd_app_node.setSelectClear()
     #
     def setupUnit(self):
         def isRefreshTreeViewEnable():
@@ -365,10 +367,10 @@ class IfScLightLinkUpdateUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
-    app_node_method = _maMethod.MaLightNodeMethod
-    app_prd_unit_method = _maProductMethod.MaProductUnitMethod
-    dtb_user_method = _dbMethod.Mtd_DbUser
+class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
+    mtd_app_node = _maMethod.MaLightNodeMethod
+    mtd_app_prd_unit = _maProductMethod.MaProductUnitMethod
+    mtd_dtb_user = _dbMethod.Mtd_DbUser
 
     UnitTitle = 'Scene Light Link Load'
     UnitIcon = 'window#geometryPanel'
@@ -387,6 +389,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         5: 'Operation',
         'load': [0, 6, 0, 1, 4, 'Load Light Link(s)', 'svg_basic@svg#load']
     }
+
     def __init__(self, *args, **kwargs):
         super(IfScLightLinkLoadUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -490,9 +493,9 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def _updateNameLabel(self):
         entryLabel = self._lightLinkNameLabel
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         #
-        datumLis = self.dtb_user_method.dbGetUserJsonUnitNameLis(dbUnitType)
+        datumLis = self.mtd_dtb_user.dbGetUserJsonUnitNameLis(dbUnitType)
         if datumLis:
             entryLabel.setDatumLis(datumLis)
     #
@@ -500,9 +503,9 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         entryLabel = self._branchNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         #
-        branchLis = self.dtb_user_method.dbGetUserServerJsonUnitBranchLis(nameString, dbUnitType)
+        branchLis = self.mtd_dtb_user.dbGetUserServerJsonUnitBranchLis(nameString, dbUnitType)
         if branchLis:
             entryLabel.setDatumLis(branchLis)
     #
@@ -510,10 +513,10 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         entryLabel = self._versionNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        versionUiDic, currentIndex = self.dtb_user_method.dbGetUserServerJsonUnitIncludeVersionUiDic(
+        versionUiDic, currentIndex = self.mtd_dtb_user.dbGetUserServerJsonUnitIncludeVersionUiDic(
             nameString, dbUnitType, dbUnitBranch
         )
         if versionUiDic:
@@ -521,10 +524,10 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
     #
     def _updateServerDatum(self):
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.dtb_user_method.LxDb_Unit_Type_LightLink
+        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        self._serverLightLinkDic = self.dtb_user_method.dbReadUserJsonUnit(
+        self._serverLightLinkDic = self.mtd_dtb_user.dbReadUserJsonUnit(
             nameString, dbUnitType, dbUnitBranch
         )
     #
@@ -532,7 +535,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         self._updateServerDatum()
         #
         isIgnorePath, isIgnoreNamespace = self._ignorePathButton.isChecked(), self._ignoreNamespaceButton.isChecked()
-        chartDatum = self.app_node_method.getLightLinkLoadConstantDatumLis(
+        chartDatum = self.mtd_app_node.getLightLinkLoadConstantDatumLis(
             self._serverLightLinkDic,
             ignorePath=isIgnorePath, ignoreNamespace=isIgnoreNamespace
         )
@@ -546,8 +549,8 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
             lis = []
             nodeType, pathDatum, namespaceDatum = eval(searchDatum)
             #
-            nodeName = self.app_node_method._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
-            localNodeLis = self.app_node_method.getNodeLisBySearchDatum(
+            nodeName = self.mtd_app_node._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
+            localNodeLis = self.mtd_app_node.getNodeLisBySearchDatum(
                 nodeType, pathDatum, namespaceDatum,
                 ignorePath=isIgnorePath, ignoreNamespace=isIgnoreNamespace
             )
@@ -556,8 +559,8 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                     localDefaultSet = nodePath in defaultSetLis
                     treeItem = qtWidgets.QtTreeviewItem()
                     treeView.addItem(treeItem)
-                    treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-                    treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+                    treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+                    treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
                     treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
                     treeItem.path = nodePath
                     #
@@ -575,8 +578,8 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
             else:
                 treeItem = qtWidgets.QtTreeviewItem()
                 treeView.addItem(treeItem)
-                treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-                treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+                treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+                treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
                 treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
                 treeItem._setQtPressStatus(qtCore.OffStatus)
                 #
@@ -587,9 +590,9 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         def setObjectBranch(parentItem, searchDatum, mainAttrName, lightNodePath, localLightLinkObjectLis):
             nodeType, pathDatum, namespaceDatum = eval(searchDatum)
             #
-            nodeName = self.app_node_method._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
+            nodeName = self.mtd_app_node._toNodeNameBySearchDatum(pathDatum, namespaceDatum)
 
-            localNodeLis = self.app_node_method.getNodeLisBySearchDatum(
+            localNodeLis = self.mtd_app_node.getNodeLisBySearchDatum(
                 nodeType, pathDatum, namespaceDatum,
                 ignorePath=isIgnorePath, ignoreNamespace=isIgnoreNamespace
             )
@@ -597,8 +600,8 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                 for seq, nodePath in enumerate(localNodeLis):
                     treeItem = qtWidgets.QtTreeviewItem()
                     parentItem.addChild(treeItem)
-                    treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-                    treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+                    treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+                    treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
                     treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
                     subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
                     treeItem.setSubIcon(subIconKeyword)
@@ -618,8 +621,8 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
             else:
                 treeItem = qtWidgets.QtTreeviewItem()
                 parentItem.addChild(treeItem)
-                treeItem.setNamespaceText(self.app_node_method._toNamespaceByNodeName(nodeName))
-                treeItem.setNameText(self.app_node_method._toNameByNodeName(nodeName))
+                treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
+                treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
                 treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
                 subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
                 treeItem.setSubIcon(subIconKeyword)
@@ -634,13 +637,13 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(dataDic)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 #
-                defaultSetLis = self.app_node_method.getLightDefaultSetLis()
+                defaultSetLis = self.mtd_app_node.getLightDefaultSetLis()
                 for k, v in dataDic.items():
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
-                    serverDefaultSet = v[self.app_node_method.MaNodeName_DefaultLightSet]
+                    serverDefaultSet = v[self.mtd_app_node.MaNodeName_DefaultLightSet]
                     #
                     lightItemLis = setLightBranch(k, serverDefaultSet, defaultSetLis)
                     for lightItem in lightItemLis:
@@ -649,7 +652,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                             if mainAttrName in v:
                                 if hasattr(lightItem, 'path'):
                                     lightNodePath = lightItem.path
-                                    localLightLinkObjectLis = self.app_node_method.getLightLinkObjectLis(
+                                    localLightLinkObjectLis = self.mtd_app_node.getLightLinkObjectLis(
                                         lightNodePath, *i[1:]
                                     )
                                 else:
@@ -676,10 +679,10 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         isIgnorePath = self._ignorePathButton.isChecked()
         #
         searchDatumLis = [
-            self.app_node_method.MaAttrNameLis_LightLink,
-            self.app_node_method.MaAttrNameLis_LightLink_Ignore,
-            self.app_node_method.MaAttrNameLis_ShadowLink,
-            self.app_node_method.MaAttrNameLis_ShadowLink_Ignore
+            self.mtd_app_node.MaAttrNameLis_LightLink,
+            self.mtd_app_node.MaAttrNameLis_LightLink_Ignore,
+            self.mtd_app_node.MaAttrNameLis_ShadowLink,
+            self.mtd_app_node.MaAttrNameLis_ShadowLink_Ignore
         ]
         #
         if self._isRefreshTreeViewEnable is True:
@@ -693,7 +696,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         defaultSetDatum = self._defaultSetDatumLis
         if defaultSetDatum:
             self.setLightDefaultSet(defaultSetDatum)
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Load Light Default Set(s)',
                 'Complete'
             )
@@ -702,7 +705,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
         if lightLinkDatum:
             self.setLightLink(lightLinkDatum)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Load Light Link(s)',
                 'Complete'
             )
@@ -719,7 +722,7 @@ class IfScLightLinkLoadUnit(ifWidgetBasic.IfToolUnitBasic):
                 if hasattr(i, 'path'):
                     lis.append(i.path)
             #
-            self.setNodeSelect(self._toNodeLis(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toNodeLis(lis))
         else:
             self.setSelectClear()
     #

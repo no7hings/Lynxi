@@ -4,7 +4,7 @@ from LxCore.config import appConfig, basicCfg
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
-from LxInterface.qt import ifAbstract
+from LxInterface.qt import qtIfAbstract
 #
 from LxCore.method import _presetMethod
 #
@@ -12,28 +12,28 @@ none = ''
 
 
 #
-class IfShelfBasic_(
+class QtIfAbc_Shelf(
     qtWidgets.QtVShelfTabgroup,
-    ifAbstract.IfShelfAbs
+    qtIfAbstract.IfShelfAbs
 ):
     ShelfWidth = 800
     SideWidth = 320
-    def _initShelfBasic(self):
+    def _initIfAbcShelf(self):
         self._initShelfAbs()
         #
-        self._initShelfBasicAttr()
-        self._initShelfBasicUi()
+        self._initIfAbcShelfAttr()
+        self._initIfAbcShelfUi()
         # Tool Box
         self.initToolBox()
         self.setupUnitWidgets()
     #
-    def _initShelfBasicAttr(self):
+    def _initIfAbcShelfAttr(self):
         self._filterItemDic = {}
         self._filterIndexDic = {}
         #
         self._filterFrameDic = {}
     #
-    def _initShelfBasicUi(self):
+    def _initIfAbcShelfUi(self):
         self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(0, 0, 0, 0)
         self._mainLayout.setSpacing(0)
@@ -53,21 +53,21 @@ class IfShelfBasic_(
 
 
 #
-class IfGroupBasic_(
+class QtIfAbc_Group(
     qtWidgets.QtHShelfTabgroup,
-    ifAbstract.IfAbcGroupModel
+    qtIfAbstract.IfAbcGroupModel
 ):
     GroupWidth = 800
     SideWidth = 320
-    def _initBasicGroup(self):
+    def _initIfAbcGroup(self):
         self._initAbcGroupModel()
         #
-        self._initBasicGroupAttr()
+        self._initIfAbcGroupAttr()
         # Tool Box
         self.initToolBox()
         self.setupUnitWidgets()
     #
-    def _initBasicGroupAttr(self):
+    def _initIfAbcGroupAttr(self):
         self._mainWindow = None
         #
         self._tagLis = []
@@ -97,28 +97,28 @@ class IfGroupBasic_(
 
 
 #
-class IfUnitBasic(
+class QtIfAbc_Unit_(
     qtCore.UiMainWidget,
-    ifAbstract.IfUnitAbs,
+    qtIfAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
     SideWidth = 320
-    def _initUnitBasic(self):
+    def _initIfAbcUnit(self):
         self._initUnitAbs()
         #
-        self._initUnitBasicAttr()
-        self._initUnitBasicUi()
+        self._initIfAbcUnitAttr()
+        self._initIfAbcUnitUi()
         # Tool Box
         self.initToolBox()
         self.setupUnitWidgets()
     #
-    def _initUnitBasicAttr(self):
+    def _initIfAbcUnitAttr(self):
         self._filterItemDic = {}
         self._filterIndexDic = {}
         #
         self._filterFrameDic = {}
     #
-    def _initUnitBasicUi(self):
+    def _initIfAbcUnitUi(self):
         self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
@@ -256,28 +256,28 @@ class IfUnitBasic(
 
 
 #
-class IfUnitBasic_(
+class QtIfAbc_Unit(
     qtCore.UiMainWidget,
-    ifAbstract.IfUnitAbs,
+    qtIfAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
     SideWidth = 320
-    def _initUnitBasic(self):
+    def _initIfAbcUnit(self):
         self._initUnitAbs()
         #
-        self._initUnitBasicAttr()
-        self._initUnitBasicUi()
+        self._initIfAbcUnitAttr()
+        self._initIfAbcUnitUi()
         # Tool Box
         self.initToolBox()
         self.setupUnitWidgets()
     #
-    def _initUnitBasicAttr(self):
+    def _initIfAbcUnitAttr(self):
         self._filterItemDic = {}
         self._filterIndexDic = {}
         #
         self._filterFrameDic = {}
     #
-    def _initUnitBasicUi(self):
+    def _initIfAbcUnitUi(self):
         self._mainLayout = qtCore.QVBoxLayout_(self)
         self._mainLayout.setContentsMargins(2, 2, 2, 2)
         self._mainLayout.setSpacing(2)
@@ -414,7 +414,7 @@ class IfUnitBasic_(
 #
 class IfOverviewUnitBasic(
     qtCore.UiMainWidget,
-    ifAbstract.IfUnitAbs
+    qtIfAbstract.IfUnitAbs
 ):
     SideWidth = 320
     def _initOverviewUnitBasic(self):
@@ -511,7 +511,7 @@ class IfOverviewUnitBasic(
 #
 class IfProductUnitOverviewUnitBasic(
     qtCore.UiMainWidget,
-    ifAbstract.IfUnitAbs
+    qtIfAbstract.IfUnitAbs
 ):
     Cfg_Product = appConfig.Cfg_Product
     SideWidth = 320
@@ -820,7 +820,7 @@ class IfProductUnitOverviewUnitBasic(
 #
 class IfProductToolUnitBasic(
     qtCore.UiMainWidget,
-    ifAbstract.IfUnitAbs
+    qtIfAbstract.IfUnitAbs
 ):
     pass
 
@@ -828,7 +828,7 @@ class IfProductToolUnitBasic(
 #
 class IfToolUnitBasic(
     qtCore.UiMainWidget,
-    ifAbstract.IfToolUnitAbs
+    qtIfAbstract.IfToolUnitAbs
 ):
     SideWidth = 400
     UnitScriptJobWindowName = None

@@ -1,11 +1,9 @@
 # coding=utf-8
 import os
 #
-from LxBasic import bscMethods, bscModifier
+from LxBasic import bscMethods, bscModifiers
 #
 from LxCore import lxBasic, lxCore_
-
-from LxUi.qt import qtLog, qtCommands
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -31,10 +29,9 @@ isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 none = ''
 
 
-# Upload Model / Texture / Nde_ShaderRef( Key Method )
-@bscModifier.catchException
+# Upload Model / Texture / Shader( Key Method )
+@bscModifiers.fncCatchException
 def astUnitModelUploadMainCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -49,10 +46,8 @@ def astUnitModelUploadMainCmd(
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     # Updater
     timeTag = lxBasic.getOsActiveTimeTag()
-    # Set Log Window
-    logWin.setNameText(description)
     # Log Target File
-    logTarget = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = lxBasic.getOsFileJoinTimeTag(
         assetPr.astUnitLogFile(
             lxCore_.LynxiRootIndex_Backup,
             projectName,
@@ -60,22 +55,23 @@ def astUnitModelUploadMainCmd(
         )[1],
         timeTag
     )
-    logWin.setLogFile(logTarget)
+    # Set Log Window
+    logWin_ = bscMethods.If_Log(title=u'Model Upload', logTargetFile=logTargetFile)
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Model Upload')
     #
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
     # Rename Scene
     astUnitSceneRenameCmd_(
-        logWin,
         assetName, assetVariant, assetStage,
         renderer
     )
     # Refresh Asset
     astUnitSceneRefreshCmd_(
-        logWin,
-        assetIndex, assetName, assetVariant, assetStage,
+        assetIndex,
+        assetName, assetVariant, assetStage,
         renderer
     )
     maHier.astUnitRefreshRoot(
@@ -84,7 +80,6 @@ def astUnitModelUploadMainCmd(
     )
     # Upload Source File >>> 1
     astUnitUploadModelSourceSub(
-        logWin,
         modelIndex,
         projectName, assetClass, assetName, assetVariant, assetStage,
         timeTag,
@@ -92,10 +87,9 @@ def astUnitModelUploadMainCmd(
         notes
     )
     # Clean Scene
-    astUnitSceneClearCmd(logWin)
+    astUnitSceneClearCmd()
     # Repair Model
     astUnitMeshRepairCmd_(
-        logWin,
         assetName,
         repairTrans=repairTrans, repairHistory=repairHistory,
         repairUnlockNormal=repairUnlockNormal, repairSoftNormal=repairSoftNormal,
@@ -103,13 +97,11 @@ def astUnitModelUploadMainCmd(
     )
     # Repair Model
     astUnitShaderRepairCmd_(
-        logWin,
         assetName,
         repairMatl=repairMatl, repairTexture=repairTexture, repairAov=repairAov
     )
     # Upload Index >>> 2
     dbAstUploadIndex(
-        logWin,
         assetIndex,
         projectName, assetClass, assetName, assetVariant,
         withAssembly,
@@ -117,7 +109,6 @@ def astUnitModelUploadMainCmd(
     )
     # Extra >>> 3
     astUnitUploadExtraSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -125,7 +116,6 @@ def astUnitModelUploadMainCmd(
     )
     # Upload Material >>> 4 - 5
     astUnitModelMaterialUploadSubCmd(
-        logWin,
         assetIndex, modelIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -134,7 +124,6 @@ def astUnitModelUploadMainCmd(
     )
     # Upload Nde_Geometry >>> 9
     astUnitUploadModelGeometrySub(
-        logWin,
         assetIndex,
         modelIndex,
         assetName,
@@ -142,7 +131,6 @@ def astUnitModelUploadMainCmd(
     )
     # Upload Asset >>> 7 - 8
     astUnitUploadModelProductSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -152,7 +140,6 @@ def astUnitModelUploadMainCmd(
     )
     # Upload Preview >>> 9
     astUnitModelPreviewUploadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -165,7 +152,6 @@ def astUnitModelUploadMainCmd(
         withMesh = True
         # Upload Assembly
         astUnitUploadAssemblyMain(
-            logWin,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -175,17 +161,17 @@ def astUnitModelUploadMainCmd(
         )
     # Open Source
     astUnitOpenModelSource(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -204,18 +190,19 @@ def astUnitModelUploadMainCmd(
 
 #
 def astUnitSceneRenameCmd_(
-        logWin,
         assetName, assetVariant, assetStage,
         renderer
 ):
-    qtLog.viewStartProcess(logWin, u'Rename Maya - Scene')
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Rename Maya - Scene')
     # View Progress
     progressExplain = u'''Rename Maya - Scene'''
     maxValue = 2
-    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
     #
     usedObjects = []
-    progressBar.updateProgress(u'''Rename Material' Nde_Node''')
+    progressBar.update(u'''Rename Material' Nde_Node''')
     #
     if assetPr.isAstModelLink(assetStage):
         usedObjects = datAsset.getAstMeshObjects(assetName, 0)
@@ -235,28 +222,23 @@ def astUnitSceneRenameCmd_(
         maShdr.setObjectsMaterialNodesRename(usedObjects, assetName, assetVariant, assetStage)
     #
     aovLis = maShdr.getAovNodeLis(renderer)
-    progressBar.updateProgress(u'''Rename AOV's Nde_Node''')
+    progressBar.update(u'''Rename AOV's Nde_Node''')
     if aovLis:
         # Rename AOV >>> 02
         maShdr.setRenameAovNodes(aovLis, assetName, assetVariant)
     #
-    qtLog.viewCompleteProcess(logWin)
-    #
-    bscMethods.If_Message(
-        u'Rename Maya Scene',
-        u'Complete'
-    )
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitSceneRefreshCmd_(
-        logWin,
         assetIndex,
         assetName, assetVariant, assetStage,
         renderer
 ):
+    logWin_ = bscMethods.If_Log()
     #
-    qtLog.viewStartProcess(logWin, 'Refresh Asset')
+    logWin_.addStartProgress(u'Refresh Asset')
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     maUtils.setAttrStringDatumForce(astUnitModelProductGroup, appVariant.basicVariantAttrLabel, assetVariant)
@@ -306,144 +288,144 @@ def astUnitSceneRefreshCmd_(
         datAsset.getAovCompIndexesForce(assetSubIndex, cfxAovs)
         maUuid.setAttrUniqueIds(cfxAovs)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Clean Scene
-def astUnitSceneClearCmd(logWin):
-    qtLog.viewStartProcess(logWin, 'Clean Maya Scene')
+def astUnitSceneClearCmd():
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Scene Clean')
     # View Progress
-    progressExplain = '''Clean Maya Scene'''
+    progressExplain = u'''Scene Clean'''
     maxValue = 8
-    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
     # Remove Reference >>> 01
-    progressBar.updateProgress('''Clean Reference File(s)''')
+    progressBar.update(u'''Reference File(s) Clean''')
     assetOp.setCleanReferenceFile()
     # Remove Reference Nde_Node >>> 02
-    progressBar.updateProgress('''Clean Reference Nde_Node(s)''')
+    progressBar.update(u'''Reference Nde_Node(s) Clean''')
     assetOp.setCleanReferenceNode()
     # Clean Namespace >>> 03
-    progressBar.updateProgress('''Clean Namespace(s)''')
+    progressBar.update(u'''Namespace(s) Clean''')
     maUtils.setUnusedNamespacesClean()
     # Clean Unknown Nde_Node >>> 04
-    progressBar.updateProgress('''Clean Unknown Nde_Node(s)''')
+    progressBar.update(u'''Unknown Nde_Node(s) Clean''')
     assetOp.setUnknownNodeClear()
     # Clean Unknown Plug >>> 05
-    progressBar.updateProgress('''Clean Unknown Plug(s)''')
+    progressBar.update(u'''Unknown Plug(s) Clean''')
     maUtils.setCleanUnknownPlugs()
     # Clean Display Layer >>> 06
-    progressBar.updateProgress('''Clean Display Layer(s)''')
+    progressBar.update(u'''Display Layer(s) Clean''')
     assetOp.setDisplayLayerClear()
     # Clean Render Layer >>> 07
-    progressBar.updateProgress('''Clean Render Layer(s)''')
+    progressBar.update(u'''Render Layer(s) Clean''')
     assetOp.setCleanRenderLayer()
-    # Clean Unused Nde_ShaderRef >>> 08
-    progressBar.updateProgress('''Clean Unused Nde_ShaderRef(s)''')
+    # Clean Unused Shader >>> 08
+    progressBar.update(u'''Unused Shader(s) Clean''')
     assetOp.setUnusedShaderClear()
     #
-    qtLog.viewCompleteProcess(logWin)
-    #
-    bscMethods.If_Message(
-        u'Clean Maya Scene',
-        u'Complete'
-    )
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitMeshRepairCmd_(
-        logWin,
         assetName,
         repairTrans=True, repairHistory=True,
         repairUnlockNormal=True, repairSoftNormal=True,
         repairUv=True
 ):
+    logWin_ = bscMethods.If_Log()
+
+    logWin_.addStartProgress(u'Mesh Repair')
+    
     meshObjects = datAsset.getAstMeshObjects(assetName, 0)
-    # Main
-    qtLog.viewStartProcess(logWin, 'Repair Mesh')
     # View Progress
-    progressExplain = '''Repair Mesh'''
+    progressExplain = u'''Mesh Repair'''
     maxValue = 4 + [0, 3][repairTrans] + [0, 1][repairHistory] + [0, 1][repairUnlockNormal] + [0, 1][repairSoftNormal] + [0, 1][repairUv]
-    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
     # Low Quality Display >>> 01
-    progressBar.updateProgress('''Set Mesh's Low Quality Display''')
+    progressBar.update(u'''Set Mesh's Low Quality Display''')
     [maUtils.setObjectDisplayMode(i) for i in meshObjects]
     if repairTrans:
         # Clean Mesh's Transformations Key >>> 02
-        progressBar.updateProgress('''Clean Mesh's Transformations - Keyframe''')
+        progressBar.update(u'''Clean Mesh's Transformations - Keyframe''')
         maUtils.setObjectsCleanTransformKey(meshObjects)
         # Unlock Transformation >>> 03
-        progressBar.updateProgress('''Unlock Mesh's Transformation''')
+        progressBar.update(u'''Unlock Mesh's Transformation''')
         maUtils.setObjectsLockTransform(meshObjects, 0)
         # Set Transformation Freeze and Rest >>> 04
-        progressBar.updateProgress('''Freeze and Rest Mesh's Transformation ''')
+        progressBar.update(u'''Freeze and Rest Mesh's Transformation ''')
         maUtils.setObjectsTransformationDefault(meshObjects)
     if repairUnlockNormal:
-        progressBar.updateProgress('''Unlock Mesh's Normal''')
+        progressBar.update(u'''Unlock Mesh's Normal''')
         assetOp.setMeshVertexNormalUnlockCmd(meshObjects)
     if repairSoftNormal:
-        progressBar.updateProgress('''Soft ( Smooth ) Mesh's Edge''')
+        progressBar.update(u'''Soft ( Smooth ) Mesh's Edge''')
         assetOp.setMeshesSmoothNormal(meshObjects)
     if repairUv:
         # Clean Mesh's History >>> 06
-        progressBar.updateProgress('''Repair Mesh's Uv ( Map )''')
+        progressBar.update(u'''Repair Mesh's Uv ( Map )''')
         [maGeom.setRepairMeshMap(i) for i in meshObjects]
     if repairHistory:
         # Clean Mesh's History >>> 05
-        progressBar.updateProgress('''Clean Mesh's History''')
+        progressBar.update(u'''Clean Mesh's History''')
         maUtils.setCleanHistory(meshObjects)
     # Clean Mesh's Unused Shape >>> 07
-    progressBar.updateProgress('''Clean Mesh's Unused - Shape''')
+    progressBar.update(u'''Clean Mesh's Unused - Shape''')
     assetOp.setObjectUnusedShapeClear(meshObjects)
     # Clean Mesh's Handle >>> 08
-    progressBar.updateProgress('''Clean Mesh's Handle''')
+    progressBar.update(u'''Clean Mesh's Handle''')
     [maUtils.hideHandel(i) for i in meshObjects]
     # Repair Mesh's Shape >>> 09
-    progressBar.updateProgress('''Repair Mesh's Shape''')
+    progressBar.update(u'''Repair Mesh's Shape''')
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitShaderRepairCmd_(
-        logWin,
         assetName,
         repairMatl=True, repairTexture=True, repairAov=True
 ):
+    logWin_ = bscMethods.If_Log()
+
+    logWin_.addStartProgress(u'Shader Repair')
+    
     meshObjects = datAsset.getAstMeshObjects(assetName, 0)
-    # Main
-    qtLog.viewStartProcess(logWin, 'Repair Nde_ShaderRef')
     # View Progress
-    progressExplain = '''Repair Nde_ShaderRef'''
+    progressExplain = u'''Shader Repair'''
     maxValue = [0, 1][repairMatl] + [0, 2][repairTexture] + [0, 2][repairAov]
-    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
     if repairMatl is True:
         # Relink Model's Material >>> 01
-        progressBar.updateProgress('''Repair Material Object - Set''')
+        progressBar.update(u'''Material Object - Set Repair''')
         maShdr.setLinkObjectsMaterial(maShdr.getObjectsMaterialRelinkData(meshObjects))
         # Relink Model's Material >>> 02
-        progressBar.updateProgress('''Repair Texture's Color - Space''')
+        progressBar.update(u'''Texture's Color - Space Repair''')
         maShdr.setRefreshTextureColorSpace(maShdr.getTextureNodeLisByObject(meshObjects))
     if repairTexture is True:
         # Relink Model's Material >>> 03
-        progressBar.updateProgress('''Repair Texture's Tx ( Arnold )''')
+        progressBar.update(u'''Texture's Tx ( Arnold ) Repair''')
         maTxtr.setUpdateArnoldTx()
     if repairAov is True:
         # Relink Model's Material >>> 04
-        progressBar.updateProgress('''Repair AOV's Driver and Filter ( Arnold )''')
+        progressBar.update(u'''AOV's Driver and Filter ( Arnold ) Repair''')
         maShdr.setRepairArnoldAov()
         # Relink Model's Material >>> 05
-        progressBar.updateProgress('''Repair AOV's Option ( Arnold )''')
+        progressBar.update(u'''AOV's Option ( Arnold ) Repair''')
         maShdr.setRepairAovNodesLink()
 
 
 # Upload Model Source
 def astUnitUploadModelSourceSub(
-        logWin,
         modelIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag,
-        description, notes):
+        description, notes
+):
+    logWin_ = bscMethods.If_Log()
     # Source File >>> 01
     backModelFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup,
@@ -451,7 +433,7 @@ def astUnitUploadModelSourceSub(
         assetClass, assetName, assetVariant, assetStage
     )[1]
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Source )')
+    logWin_.addStartProgress(u'Source Upload')
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
     maFile.saveMayaFile(linkFile)
@@ -466,15 +448,16 @@ def astUnitUploadModelSourceSub(
     updateFile = lxCore_._toLxProductRecordFile(linkFile)
     maFile.writeOsJson(updateData, updateFile, 4)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Open Model Source
 def astUnitOpenModelSource(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
     # Open Source
     backModelFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup,
@@ -486,29 +469,29 @@ def astUnitOpenModelSource(
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
-    qtLog.viewStartProcess(logWin, u'Open Asset Model ( Source )')
+    logWin_.addStartProgress(u'Source ( Local ) Open')
     #
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localModelFile, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Model Preview File
 def astUnitModelPreviewUploadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         timeTag,
         withProduct=False, useDefaultMaterial=1
 ):
+    logWin_ = bscMethods.If_Log()
     # Group Data
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     # Model Preview File
     dbAssetPreviewFile = dbGet.getDbAstPreviewFile(assetIndex)
     # Main
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Preview )')
+    logWin_.addStartProgress(u'Preview Upload')
     #
     if not useDefaultMaterial:
         maUtils.setDisplayMode(6)
@@ -536,11 +519,15 @@ def astUnitModelPreviewUploadCmd(
         )[1]
         maFile.setCopyFile(dbAssetPreviewFile, serverModelPreviewFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Model Mesh
-def astUnitUploadModelGeometrySub(logWin, assetIndex, modelIndex, assetName, timeTag):
+def astUnitUploadModelGeometrySub(
+        assetIndex,
+        modelIndex, assetName, timeTag
+):
+    logWin_ = bscMethods.If_Log()
     # Data
     rootGroup = assetPr.astUnitRootGroupName(assetName)
     astModelGroup = assetPr.astUnitModelLinkGroupName(assetName)
@@ -555,11 +542,11 @@ def astUnitUploadModelGeometrySub(logWin, assetIndex, modelIndex, assetName, tim
     for k, v in meshesInformation.items():
         messageInScene[k] = v
     # Mesh >>>> 01
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Nde_Geometry )')
+    logWin_.addStartProgress(u'Geometry Upload')
     #
     maDbAstCmds.dbAstGeometryUploadMainCmd(assetIndex, assetName, astModelGroup, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     # Model Mesh Constant Data >>>> 02
     dbAstUploadModelMeshConstant(assetIndex, assetName, timeTag)
     # Sub Model Mesh Constant Data >>>> 03
@@ -567,8 +554,14 @@ def astUnitUploadModelGeometrySub(logWin, assetIndex, modelIndex, assetName, tim
 
 
 #
-def dbAstUploadIndex(logWin, assetIndex, projectName, assetClass, assetName, assetVariant, percentage, timeTag):
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset ( Index )')
+def dbAstUploadIndex(
+        assetIndex,
+        projectName, 
+        assetClass, assetName, assetVariant, 
+        percentage, timeTag
+):
+    logWin_ = bscMethods.If_Log()
+    logWin_.addStartProgress(u'Index Upload')
     # Name >>> 01
     dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag)
     # Filter >>> 02
@@ -579,7 +572,7 @@ def dbAstUploadIndex(logWin, assetIndex, projectName, assetClass, assetName, ass
     if percentage:
         dbAstUploadAssembly(assetIndex, percentage, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
@@ -628,13 +621,14 @@ def dbAstUploadModelMeshConstant(
 
 # Model Material
 def astUnitModelMaterialUploadSubCmd(
-        logWin,
         assetIndex, modelIndex,
-        projectName, assetClass, assetName, assetVariant, assetStage,
+        projectName, 
+        assetClass, assetName, assetVariant, assetStage,
         renderer,
         withAov,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
     # Collection Texture >>>> 01
     shaderObjects = datAsset.getAstMeshObjects(assetName, 1)
     # Debug ( Must Back of Rename Scene)
@@ -642,7 +636,7 @@ def astUnitModelMaterialUploadSubCmd(
     #
     dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Texture )')
+    logWin_.addStartProgress(u'Texture Upload')
     #
     if modelTextureNodes:
         serverModelTextureDirectory = dbAstTextureDirectory + '/' + modelIndex
@@ -665,27 +659,26 @@ def astUnitModelMaterialUploadSubCmd(
             inData=modelTextureNodes
         )
         #
-        astUnitBackupTexture_(
+        astUnitTextureBackupCmd_(
             assetIndex,
             projectName, assetClass, assetName, assetVariant, assetStage,
             modelTextureNodes, isWithTx,
             timeTag
         )
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     # Material File >>>> 02
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model ( Material ) ')
+    logWin_.addStartProgress(u'Material Upload')
     #
     maDbAstCmds.dbAstMaterialUploadMainCmd(shaderObjects, modelIndex, timeTag)
     if withAov is True:
         maDbAstCmds.dbAstAovUploadCmd(renderer, modelIndex, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Model Product File
 def astUnitUploadModelProductSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -693,12 +686,13 @@ def astUnitUploadModelProductSub(
         timeTag,
         withProduct=False
 ):
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Model( Product )')
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Product Upload')
     #
     maFile.new()
     # Mesh
     maAstLoadCmds.astUnitModelGeometryLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -706,15 +700,13 @@ def astUnitUploadModelProductSub(
     )
     # Material
     maAstLoadCmds.astUnitModelMaterialLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
     )
     #
-    maAstLoadCmds.astUnitLoadExtraSub(
-        logWin,
+    maAstLoadCmds.astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -792,18 +784,18 @@ def astUnitUploadModelProductSub(
         #
         lxBasic.writeOsJson(textureData, serverModelTextureDataFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Scenery Asset File
 def astUnitUploadAssemblyProductSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         renderer,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
     # Assembly Product File
     serverAssemblyProductFile = assetPr.astUnitAssemblyProductFile(
         projectName, assetName, assetVariant
@@ -822,7 +814,7 @@ def astUnitUploadAssemblyProductSub(
     )[1]
     # Main
     maFile.new()
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Product )')
+    logWin_.addStartProgress(u'Product Upload')
     assetUnitRoot = assetPr.astUnitRootGroupName(assetName)
     if not maUtils.isAppExist(assetUnitRoot):
         maUtils.setAppPathCreate(assetUnitRoot)
@@ -892,15 +884,16 @@ def astUnitUploadAssemblyProductSub(
     #
     maFile.saveMayaFile(serverAssemblyProductFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadAsbProxyCacheSub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
-        renderer, withLod=(50, 50)):
+        renderer, withLod=(50, 50)
+):
+    logWin_ = bscMethods.If_Log()
     # Open File
     serverAssemblyProductFile = assetPr.astUnitAssemblyProductFile(
         projectName, assetName, assetVariant
@@ -926,7 +919,7 @@ def astUnitUploadAsbProxyCacheSub(
             # Set Fur Cache
             maFur.setOutYetisCache(serverAstUnitAsbCfxCacheDirectory, furNodes, 1, 1, 3)
         # Proxy
-        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy Cache )')
+        logWin_.addStartProgress(u'Proxy Cache Upload')
         #
         maScnAsb.setOutAstProxy(serverAstUnitAsbProxyCacheFile, assetUnitRoot, renderer)
         # Proxy LOD
@@ -943,17 +936,17 @@ def astUnitUploadAsbProxyCacheSub(
                 maMshReduce.setMeshesReduce(modelShaderObjects, percentage)
                 maScnAsb.setOutAstProxy(serverAstUnitAsbProxyCacheLodFile, assetUnitRoot, renderer)
         #
-        qtLog.viewCompleteUploadFile(logWin)
+        logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadAsbGpuCacheSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant,
         withLod=(50, 50), color=(.5, .5, .5)
 ):
+    logWin_ = bscMethods.If_Log()
     # Check is Default Variant
     if assetVariant == appVariant.astDefaultVariant:
         maFile.new()
@@ -968,7 +961,7 @@ def astUnitUploadAsbGpuCacheSub(
         serverAstUnitAsbGpuCacheFile = assetPr.astUnitAssemblyGpuCacheFile(
             projectName, assetName
         )[1]
-        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( GPU Cache )')
+        logWin_.addStartProgress(u'GPU Cache Upload')
         #
         r, g, b = color
         maUtils.setDefaultShaderColor(r, g, b)
@@ -1003,17 +996,17 @@ def astUnitUploadAsbGpuCacheSub(
                     0, 0
                 )
         #
-        qtLog.viewCompleteUploadFile(logWin)
+        logWin_.addCompleteProgress()
 
 
 #
 def astUploadSceneryUnitBoxCacheSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant,
         color=(.5, .5, .5)
 ):
+    logWin_ = bscMethods.If_Log()
     # Check is Default Variant
     if assetVariant == appVariant.astDefaultVariant:
         maFile.new()
@@ -1027,7 +1020,7 @@ def astUploadSceneryUnitBoxCacheSub(
         serverAstUnitAsbBoxCacheFile = assetPr.astUnitAssemblyBoxCacheFile(
             projectName, assetName
         )[1]
-        qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Box Cache )')
+        logWin_.addStartProgress(u'Box Cache Upload')
         #
         r, g, b = color
         maUtils.setDefaultShaderColor(r, g, b)
@@ -1036,16 +1029,16 @@ def astUploadSceneryUnitBoxCacheSub(
         maMshBox.setMeshesBox(astUnitModelProductGroup, boxGroup)
         maFile.gpuExport(boxGroup, serverAstUnitAsbBoxCacheFile, 0, 0)
         #
-        qtLog.viewCompleteUploadFile(logWin)
+        logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadAssemblyProxySub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
         renderer, withLod=(50, 50)
 ):
+    logWin_ = bscMethods.If_Log()
     # Proxy
     serverAstUnitAsbProxyFile = assetPr.astUnitAssemblyProxyFile(
         projectName, assetName, assetVariant
@@ -1063,7 +1056,7 @@ def astUnitUploadAssemblyProxySub(
         projectName, assetName, assetVariant
     )[1]
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Proxy )')
+    logWin_.addStartProgress(u'Proxy Upload')
     #
     astUnitAssemblyProxyUploadCmd(
         assetName,
@@ -1098,7 +1091,7 @@ def astUnitUploadAssemblyProxySub(
                 renderer
             )
     #
-    qtLog.viewCompleteUploadFile(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
@@ -1124,11 +1117,11 @@ def astUnitAssemblyProxyUploadCmd(
 
 #
 def astUnitUploadAssemblyDefinitionSub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
         withLod=(50, 50)
 ):
+    logWin_ = bscMethods.If_Log()
     # Scenery AD File
     maFile.new()
     # AD >>> 01
@@ -1154,7 +1147,7 @@ def astUnitUploadAssemblyDefinitionSub(
         projectName, assetName, assetVariant
     )[1]
     # Set AD
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Assembly ( Definition )')
+    logWin_.addStartProgress(u'Definition Upload')
     #
     if not os.path.isfile(serverAstUnitAsbDefinitionFile):
         astAssemblyObject = assetPr.astAssemblyBasicObjectNameSet(assetName)
@@ -1169,12 +1162,11 @@ def astUnitUploadAssemblyDefinitionSub(
         #
         maFile.saveMayaFile(serverAstUnitAsbDefinitionFile)
     #
-    qtLog.viewCompleteUploadFile(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadAssemblyMain(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1190,7 +1182,6 @@ def astUnitUploadAssemblyMain(
         lxBasic.writeOsJson(astAssemblyIndexDatum, astAssemblyIndexFile)
     # Upload Sub Asset >>>> 01
     astUnitUploadAssemblyProductSub(
-        logWin,
         assetIndex,
         projectName, assetClass, assetName, assetVariant, assetStage,
         renderer,
@@ -1204,7 +1195,6 @@ def astUnitUploadAssemblyMain(
         )
         # GPU
         astUnitUploadAsbGpuCacheSub(
-            logWin,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant,
@@ -1212,7 +1202,6 @@ def astUnitUploadAssemblyMain(
         )
         # Box
         astUploadSceneryUnitBoxCacheSub(
-            logWin,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant,
@@ -1220,21 +1209,18 @@ def astUnitUploadAssemblyMain(
         )
     # Proxy Cache >>>> 03
     astUnitUploadAsbProxyCacheSub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
         renderer, withLod=withLod
     )
     # Proxy >>>> 04
     astUnitUploadAssemblyProxySub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
         renderer, withLod=withLod
     )
     # AD >>>> 05
     astUnitUploadAssemblyDefinitionSub(
-        logWin,
         projectName,
         assetClass, assetName, assetVariant,
         withLod=withLod
@@ -1244,9 +1230,8 @@ def astUnitUploadAssemblyMain(
 
 
 # Upload Rig
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def astUnitUploadRigMain(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1256,12 +1241,7 @@ def astUnitUploadRigMain(
     rigIndexKey = dbGet.getDbAstRigIndex(assetIndex)
     # Update Label
     timeTag = lxBasic.getOsActiveTimeTag()
-    # Set Log Window
-    logWin.setNameText(u'绑定上传')
-    #
-    maxProgress = 2
-    # Log Target File
-    logTarget = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = lxBasic.getOsFileJoinTimeTag(
         assetPr.astUnitLogFile(
             lxCore_.LynxiRootIndex_Backup,
             projectName,
@@ -1269,10 +1249,11 @@ def astUnitUploadRigMain(
         )[1],
         timeTag
     )
-    logWin.setMaxProgressValue(maxProgress)
-    logWin.setLogFile(logTarget)
+    # Set Log Window
+    logWin_ = bscMethods.If_Log(title=u'Rig Upload', logTargetFile=logTargetFile)
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Rig Upload')
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -1283,21 +1264,19 @@ def astUnitUploadRigMain(
     )
     # Save Source >>> 1
     astUnitUploadSourceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag,
         description, notes)
     # Clean Scene
-    astUnitSceneClearCmd(logWin)
+    astUnitSceneClearCmd()
     # TD Command
     tdCommand = assetPr.getAstTdUploadCommand(projectName, lxCore_.LynxiProduct_Asset_Link_Rig)
     if tdCommand:
         maUtils.runMelCommand(tdCommand)
     # Extra >>> 2
     astUnitUploadExtraSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1311,7 +1290,6 @@ def astUnitUploadRigMain(
     )
     # Product  >>> 4
     astUnitUploadRigProduct(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetStage, assetVariant,
@@ -1319,19 +1297,19 @@ def astUnitUploadRigMain(
         withProduct=withProduct
     )
     # Open Source
-    astUnitOpenSource(
-        logWin,
+    astUnitSourceOpenCmd_(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -1350,14 +1328,15 @@ def astUnitUploadRigMain(
 
 #
 def astUnitUploadRigProduct(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetStage, assetVariant,
         timeTag,
         withProduct=False
 ):
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset Rig ( Product )')
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Product Upload')
     #
     serverRigProductFile = assetPr.astUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
@@ -1416,12 +1395,11 @@ def astUnitUploadRigProduct(
         #
         maFile.writeOsJson(meshData, serverMeshConstantFile, 4)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def astUnitCfxUploadMainCmd(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1432,12 +1410,8 @@ def astUnitCfxUploadMainCmd(
     # Index
     assetSubIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
     timeTag = lxBasic.getOsActiveTimeTag()
-    # Set Log Window
-    logWin.setNameText(u'毛发上传')
-    #
-    maxProgress = 1 + 3 + 2
     # Log Target File
-    logTarget = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = lxBasic.getOsFileJoinTimeTag(
         assetPr.astUnitLogFile(
             lxCore_.LynxiRootIndex_Backup,
             projectName,
@@ -1445,22 +1419,21 @@ def astUnitCfxUploadMainCmd(
         )[1],
         timeTag
     )
-    logWin.setMaxProgressValue(maxProgress)
-    logWin.setLogFile(logTarget)
+    # Set Log Window
+    logWin_ = bscMethods.If_Log(title=u'Groom Upload', logTargetFile=logTargetFile)
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Groom Upload')
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
     # Rename Scene
     astUnitSceneRenameCmd_(
-        logWin,
         assetName, assetVariant, assetStage,
         renderer
     )
     # Refresh Asset
     astUnitSceneRefreshCmd_(
-        logWin,
         assetIndex,
         assetName, assetVariant, assetStage,
         renderer
@@ -1471,7 +1444,6 @@ def astUnitCfxUploadMainCmd(
     )
     # Source >>> 01
     astUnitUploadSourceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1479,7 +1451,7 @@ def astUnitCfxUploadMainCmd(
         description, notes
     )
     # Clean Scene >>> 02
-    astUnitSceneClearCmd(logWin)
+    astUnitSceneClearCmd()
     # CFX Mesh Constant Data
     dbAstUploadModelMeshConstant(
         assetSubIndex,
@@ -1488,7 +1460,6 @@ def astUnitCfxUploadMainCmd(
     )
     # Upload Material >>> 04 - 05
     astUnitCfxMaterialUploadSubCmd(
-        logWin,
         assetIndex, assetSubIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1498,7 +1469,6 @@ def astUnitCfxUploadMainCmd(
     )
     # Upload Nde_Node >>> 09 - 10 - 11
     astUnitUploadCfxFurSub(
-        logWin,
         assetIndex, assetSubIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1506,7 +1476,6 @@ def astUnitCfxUploadMainCmd(
     )
     # Upload Asset >>> 12
     astUnitUploadCfxProduct(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -1517,7 +1486,6 @@ def astUnitCfxUploadMainCmd(
     if withAssembly:
         # Upload Scenery
         astUnitUploadAssemblyMain(
-            logWin,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -1527,19 +1495,19 @@ def astUnitCfxUploadMainCmd(
             timeTag=timeTag
         )
     # Open Source
-    astUnitOpenSource(
-        logWin,
+    astUnitSourceOpenCmd_(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -1558,21 +1526,23 @@ def astUnitCfxUploadMainCmd(
 
 # Upload CFX Nde_Node
 def astUnitUploadCfxFurSub(
-        logWin,
         assetIndex, assetSubIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
+    
     rootGroup = assetPr.astUnitRootGroupName(assetName)
     cfxAssetRoot = assetPr.astUnitCfxLinkGroupName(assetName)
     cfxSet = assetPr.cfxSetName(assetName)
     yetiObjects = datAsset.getYetiObjects(assetName)
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
-    # Assign Default Nde_ShaderRef
-    assetOp.setDefaultShader(logWin, cfxAssetRoot)
+    # Assign Default Shader
+    assetOp.setRootDefaultShaderCmd(cfxAssetRoot)
     #
-    assetOp.setObjectDefaultShaderCmd(logWin, yetiObjects)
-    assetOp.setObjectDefaultShaderCmd(logWin, nurbsHairObjects)
+    assetOp.setObjectDefaultShaderCmd(yetiObjects)
+    assetOp.setObjectDefaultShaderCmd(nurbsHairObjects)
     # Set
     maFur.setYetisGuideSet(yetiObjects, cfxSet)
     # Parent to World
@@ -1609,7 +1579,7 @@ def astUnitUploadCfxFurSub(
     # Collection Map
     dbCfxMapDirectory = databasePr.dbAstMapDirectory()
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur Map )')
+    logWin_.addStartProgress(u'Map Upload')
     if furObjects:
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
         if appVariant.isPushCfxMapToDatabase is False:
@@ -1623,9 +1593,9 @@ def astUnitUploadCfxFurSub(
         # Repath Map
         maTxtr.setRepathMaps(serverMapFolder, furObjects)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     # Progress >>> 02
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Fur )')
+    logWin_.addStartProgress(u'Fur Upload')
     #
     maUtils.setAttrStringDatumForce(cfxAssetRoot, appVariant.basicVariantAttrLabel, assetVariant)
     # Production
@@ -1634,50 +1604,51 @@ def astUnitUploadCfxFurSub(
     maDbAstCmds.dbAstUploadFurMain(furObjects, assetSubIndex, timeTag)
     # Solver
     astUnitUploadCfxFurForSolver_(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadCfxFurForSolver_(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
     #
+    logWin_ = bscMethods.If_Log()
+    
     assetSubIndex = dbBasic.getDatabaseSubIndex(
         assetIndex,
         [assetPr.getAssetLink(assetStage), assetVariant]
     )
-    qtLog.viewStartSubProcess(logWin, u'Upload / Update Asset CFX ( Fur Cache )')
+    logWin_.addStartProgress(u'Cache Upload')
     # NurbsHair
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     #
     maDbAstCmds.dbAstUploadNurbsHairMain(nurbsHairObjects, assetSubIndex, timeTag)
 
 
 #
 def astUnitCfxMaterialUploadSubCmd(
-        logWin,
         assetIndex, assetSubIndex,
         projectName, assetClass, assetName, assetVariant, assetStage,
         renderer,
         withAov,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
     # Collection Texture >>>> 01
     dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Texture )')
+    logWin_.addStartProgress(u'Texture Upload')
     #
     yetiObject = datAsset.getYetiObjects(assetName)
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
@@ -1709,7 +1680,7 @@ def astUnitCfxMaterialUploadSubCmd(
             inData=textureNodeLis
         )
         #
-        astUnitBackupTexture_(
+        astUnitTextureBackupCmd_(
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -1717,20 +1688,19 @@ def astUnitCfxMaterialUploadSubCmd(
             timeTag
         )
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     # Material File >>>> 02
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Material )')
+    logWin_.addStartProgress(u'Material Upload')
     #
     maDbAstCmds.dbAstMaterialUploadMainCmd(shaderFurNodes, assetSubIndex, timeTag)
     if withAov is True:
         maDbAstCmds.dbAstAovUploadCmd(renderer, assetSubIndex, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Upload CFX Product
 def astUnitUploadCfxProduct(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -1738,12 +1708,13 @@ def astUnitUploadCfxProduct(
         renderer,
         withProduct=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Product Upload')
     # New Scene
     maFile.new()
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset CFX ( Product )')
     # Fur
     maAstLoadCmds.astUnitCfxFurLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -1751,7 +1722,6 @@ def astUnitUploadCfxProduct(
     )
     # Material
     maAstLoadCmds.astUnitLoadCfxMaterialSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1820,23 +1790,31 @@ def astUnitUploadCfxProduct(
         maFile.saveMayaFile(serverCfxProductFile)
         maFile.backupFile(serverCfxProductFile, backupCfxProductFile, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def astUnitUploadMain(
-        logWin,
-        assetIndex, projectName, assetClass, assetName, assetVariant, assetStage,
+        assetIndex,
+        projectName, 
+        assetClass, assetName, assetVariant, assetStage,
         withProduct=True, description=None, notes=None
 ):
+    assetStagePrettify = assetStage.capitalize()
     timeTag = lxBasic.getOsActiveTimeTag()
-    # Set Log Window
-    logWin.setNameText(description)
-    #
-    maxProgress = 4
-    logWin.setMaxProgressValue(maxProgress)
+
+    logTargetFile = lxBasic.getOsFileJoinTimeTag(
+        assetPr.astUnitLogFile(
+            lxCore_.LynxiRootIndex_Backup,
+            projectName,
+            assetClass, assetName, assetVariant, assetStage
+        )[1],
+        timeTag
+    )
+    logWin_ = bscMethods.If_Log(title=u'{} Upload'.format(assetStagePrettify), logTargetFile=logTargetFile)
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'{} Upload'.format(assetStagePrettify))
     # Switch Display Mode
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -1847,7 +1825,6 @@ def astUnitUploadMain(
     )
     # Source >>> 01
     astUnitUploadSourceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1855,10 +1832,9 @@ def astUnitUploadMain(
         description, notes
     )
     # Clean Scene
-    astUnitSceneClearCmd(logWin)
+    astUnitSceneClearCmd()
     # Extra >>> 02
     astUnitUploadExtraSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1866,7 +1842,6 @@ def astUnitUploadMain(
     )
     # Remove Reference
     astUnitRemoveReferenceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1874,7 +1849,6 @@ def astUnitUploadMain(
     )
     # Product >>> 03
     astUnitUploadProductSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -1882,26 +1856,25 @@ def astUnitUploadMain(
     )
     # Preview >>> 04
     astUnitUploadPreviewSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     # Open Source
-    astUnitOpenSource(
-        logWin,
+    astUnitSourceOpenCmd_(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage,
@@ -1920,12 +1893,13 @@ def astUnitUploadMain(
 
 #
 def astUnitUploadSourceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         timeTag,
-        description, notes):
+        description, notes
+):
+    logWin_ = bscMethods.If_Log()
     # Sub Index
     if assetPr.isAstRigLink(assetStage):
         assetSubIndex = dbGet.getDbAstRigIndex(assetIndex)
@@ -1939,7 +1913,7 @@ def astUnitUploadSourceSub(
         lxCore_.LynxiRootIndex_Backup,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    qtLog.viewStartProcess(logWin, u'Upload / Update Asset {} ( Source )'.format(assetPr.getAssetLink(assetStage)))
+    logWin_.addStartProgress(u'Source Upload')
     #
     linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
     #
@@ -1955,16 +1929,17 @@ def astUnitUploadSourceSub(
     updateFile = lxCore_._toLxProductRecordFile(linkFile)
     lxBasic.writeOsJson(updateData, updateFile, 4)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
-def astUnitOpenSource(
-        logWin,
+def astUnitSourceOpenCmd_(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
     # Open Source
     backupSourceFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup,
@@ -1974,22 +1949,23 @@ def astUnitOpenSource(
         lxCore_.LynxiRootIndex_Local,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    qtLog.viewStartProcess(logWin, u'Open Asset %s ( Source )' % assetStage.capitalize())
+    logWin_.addStartProgress(u'Source ( Local ) Open')
     #
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localSourceFile, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
-def astUnitBackupTexture_(
+def astUnitTextureBackupCmd_(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         textureNodes,
         isWithTx,
-        timeTag):
+        timeTag
+):
     backupTextureFolder = assetPr.astUnitTextureFolder(
         lxCore_.LynxiRootIndex_Backup,
         projectName,
@@ -2017,11 +1993,12 @@ def astUnitBackupTexture_(
 
 
 #
-def astUnitUploadTexture_(
+def astUnitTextureUploadCmd_(
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         textureNodes,
-        isWithTx):
+        isWithTx
+):
     if textureNodes:
         serverTextureFolder = assetPr.astUnitTextureFolder(
             lxCore_.LynxiRootIndex_Server,
@@ -2040,11 +2017,11 @@ def astUnitUploadTexture_(
 
 #
 def astUnitRemoveReferenceSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
     referBranchLis = []
     if assetPr.isAstSolverLink(assetStage):
         modelBranch = assetPr.astUnitModelLinkGroupName(assetName)
@@ -2095,11 +2072,13 @@ def astUnitRemoveReferenceSub(
 
 #
 def astUnitUploadProductSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
+    
     rootGroup = assetPr.astUnitRootGroupName(assetName)
     linkBranch = None
     if assetPr.isAstSolverLink(assetStage):
@@ -2118,7 +2097,7 @@ def astUnitUploadProductSub(
                 projectName, assetClass, assetName, assetVariant, assetStage
             )[1]
             #
-            qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Product )' % assetStage.capitalize())
+            logWin_.addStartProgress(u'Product Upload')
             #
             tempFile = lxBasic.getOsTemporaryFile(serverProductFile, timeTag)
             #
@@ -2136,15 +2115,13 @@ def astUnitUploadProductSub(
             )
             # Upload Texture
             astUnitUploadTextureSub(
-                logWin,
                 assetIndex,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage,
                 timeTag
             )
             # Upload Cache
-            maAstLoadCmds.astUnitLoadCacheSub(
-                logWin,
+            maAstLoadCmds.astUnitCacheLoadCmd(
                 assetIndex,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage,
@@ -2154,16 +2131,18 @@ def astUnitUploadProductSub(
             maFile.saveMayaFile(serverProductFile)
             maFile.backupFile(serverProductFile, backupProductFile, timeTag)
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadTextureSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
+    
     linkBranch = None
     isWithTx = False
     if assetPr.isAstLightLink(assetStage):
@@ -2172,13 +2151,13 @@ def astUnitUploadTextureSub(
     if linkBranch is not None:
         if maUtils.isAppExist(linkBranch):
             shaderObjects = maUtils.getChildrenByRoot(linkBranch)
-            qtLog.viewStartProcess(logWin, u'Load Asset %s ( Texture )' % lxBasic.str_camelcase2prettify(assetStage))
+            logWin_.addStartProgress(u'Texture Upload')
             #
             if shaderObjects:
                 textureNodes = maShdr.getTextureNodeLisByObject(shaderObjects)
                 if textureNodes:
                     # Backup
-                    astUnitBackupTexture_(
+                    astUnitTextureBackupCmd_(
                         assetIndex,
                         projectName,
                         assetClass, assetName, assetVariant, assetStage,
@@ -2187,43 +2166,39 @@ def astUnitUploadTextureSub(
                         timeTag
                     )
                     # Upload
-                    astUnitUploadTexture_(
+                    astUnitTextureUploadCmd_(
                         projectName,
                         assetClass, assetName, assetVariant, assetStage,
                         textureNodes,
                         isWithTx
                     )
                 else:
-                    qtLog.viewWarning(
-                        logWin,
-                        u'Texture - Nde_Node is Non - Exists'
-                    )
+                    logWin_.addWarning(u'Texture is Non - Exists')
             else:
-                qtLog.viewWarning(
-                    logWin,
-                    u'Nde_ShaderRef - Object is Non - Exists'
-                )
+                logWin_.addWarning(u'Shader is Non - Exists')
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadGeometrySub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
     pass
 
 
 #
 def astUnitUploadExtraSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
+    
     extraData = None
     # Rig
     if assetPr.isAstModelLink(assetStage):
@@ -2243,21 +2218,22 @@ def astUnitUploadExtraSub(
             projectName, assetClass, assetName, assetVariant, assetStage
         )[1]
         #
-        qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Extra ) ' % assetStage.capitalize())
+        logWin_.addStartProgress(u'Extra Upload')
         #
         lxBasic.writeOsJsonDic(extraData, serverExtraFile, 4)
         lxBasic.backupOsFile(serverExtraFile, backupExtraFile, timeTag)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
 
 
 #
 def astUnitUploadPreviewSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
     # GeometryGroup
     linkBranch = None
     if assetPr.isAstLightLink(assetStage):
@@ -2276,11 +2252,11 @@ def astUnitUploadPreviewSub(
                 projectName, assetClass, assetName, assetVariant, assetStage
             )[1]
             # Main
-            qtLog.viewStartProcess(logWin, u'Upload / Update Asset %s ( Preview ) ' % assetStage.capitalize())
+            logWin_.addStartProgress(u'Preview Upload')
             #
             maFile.makeSnapshot(
                 linkBranch, serverPreviewFile
             )
             lxBasic.backupOsFile(serverPreviewFile, backupPreviewFile, timeTag)
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()

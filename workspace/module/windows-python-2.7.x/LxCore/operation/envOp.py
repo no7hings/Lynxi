@@ -73,6 +73,6 @@ def getOsEnvironStatisticsData():
         for envKey in envKeys:
             getBranch(envKey)
     #
-    dic['PATH'] = lxBasic.getOsSystemPathLis()
+    dic['SYSTEM_PATH'] = lxBasic.getOsSystemPathLis()
     #
     return dic

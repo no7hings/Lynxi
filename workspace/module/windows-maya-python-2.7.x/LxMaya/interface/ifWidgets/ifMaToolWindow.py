@@ -11,8 +11,7 @@ from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+from LxUi.qt import qtModifiers, qtWidgets_, qtWidgets, qtCore
 #
 from LxMaya.command import maUtils, maFile, maAsb, maScnAsb
 #
@@ -1591,7 +1590,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         treeBox.clearSelection()
         #
         self.setSelObjForAction()
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -1630,8 +1629,3 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         #
         mainLayout.addWidget(rightWidget, 1, 1, 1, 1)
 
-
-@qtCore.uiSetupShowMethod
-def tableShow():
-    ui = IfAssemblyManagerWindow()
-    ui.uiShow()

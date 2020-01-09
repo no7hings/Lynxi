@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxScheme import shmConfigure
+from LxScheme import shmCore
 
 from LxScheme.shmObjects import _shmResource
 
 
-class ResourcePreset(shmConfigure.Basic):
+class ResourcePreset(shmCore.Basic):
     def __init__(self):
         self.def_cls_resource_dic = {
             self.Category_Plf_Language: _shmResource.Rsc_PltLanguage,
@@ -103,70 +103,70 @@ class ResourcePreset(shmConfigure.Basic):
                 ]
             },
             # Package
-            'python27_yaml': {
+            'py-2.7-yaml': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'yaml',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_chardet': {
+            'py-2.7-chardet': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'chardet',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_pyqt5': {
+            'py-27-pyqt5': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'PyQt5',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_materialx': {
+            'py-2.7-materialx': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'MaterialX',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_pil': {
+            'py-2.7-pil': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'PIL',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_dingtalkchatbot': {
+            'py-2.7-dingtalkchatbot': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'dingtalkchatbot',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_requests': {
+            'py-2.7-requests': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'requests',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_certifi': {
+            'py-2.7-certifi': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'certifi',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_idna': {
+            'py-2.7-idna': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'idna',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'python27_urllib3': {
+            'py-2.7-urllib3': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'urllib3',
                 self.Key_System: [
@@ -174,14 +174,14 @@ class ResourcePreset(shmConfigure.Basic):
                 ]
             },
             # Platform Application Plug
-            'maya_lynxinode': {
+            'maya-lynxinode': {
                 self.Key_Category: self.Category_Plf_App_Plug,
                 self.Key_Name: 'lynxinode',
                 self.Key_System: [
                     'windows', 'share', 'maya', 'share'
                 ]
             },
-            'maya_2019_arnold': {
+            'windows-ma-2019-arnold': {
                 self.Key_Category: self.Category_Plf_App_Plug,
                 self.Key_Name: 'mtoa',
                 self.Key_System: [
@@ -189,56 +189,56 @@ class ResourcePreset(shmConfigure.Basic):
                 ]
             },
             # Platform Language Module
-            'lx_basic_0': {
+            'lx-basic_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxBasic',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lx_scheme_0': {
+            'lx-scheme_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxScheme',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lxcore_0': {
+            'lx-core_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxCore',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lxui_0': {
+            'lx-ui_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxUi',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lxinterface_0': {
+            'lx-interface_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxInterface',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lxdatabase_0': {
+            'lx-database_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxDatabase',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lx_material_0': {
+            'lx-material_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxMaterial',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'lxdeadline_0': {
+            'lx-deadline_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxDeadline',
                 self.Key_System: [
@@ -246,28 +246,35 @@ class ResourcePreset(shmConfigure.Basic):
                 ]
             },
             # Platform Application Language Module
-            'lx_ma_core_0': {
+            'lx-maya-basic_0': {
+                self.Key_Category: self.Category_Plf_App_Lan_Module,
+                self.Key_Name: 'LxMaBasic',
+                self.Key_System: [
+                    'windows', 'share', 'maya', 'share', 'python', '2.7.x'
+                ]
+            },
+            'lx-ma_core_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Module,
                 self.Key_Name: 'LxMaCore',
                 self.Key_System: [
                     'windows', 'share', 'maya', 'share', 'python', '2.7.x'
                 ]
             },
-            'lx_ma_material_0': {
+            'lx-ma-material_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Module,
                 self.Key_Name: 'LxMaMaterial',
                 self.Key_System: [
                     'windows', 'share', 'maya', 'share', 'python', '2.7.x'
                 ]
             },
-            'lx_ma_interface_0': {
+            'lx-ma-interface_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Module,
                 self.Key_Name: 'LxMaInterface',
                 self.Key_System: [
                     'windows', 'share', 'maya', 'share', 'python', '2.7.x'
                 ]
             },
-            'lx_maya_0': {
+            'lx-maya_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Module,
                 self.Key_Name: 'LxMaya',
                 self.Key_System: [
@@ -275,18 +282,25 @@ class ResourcePreset(shmConfigure.Basic):
                 ]
             },
             # Platform Language Scheme
-            'windows_scheme_0': {
+            'windows-scheme_0': {
                 self.Key_Category: self.Category_Plf_Lan_Scheme,
                 self.Key_Name: 'default',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
-            'windows_maya_scheme_0': {
+            'windows-maya-scheme_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Scheme,
                 self.Key_Name: 'maya_default',
                 self.Key_System: [
                     'windows', 'share', 'maya', 'share', 'python', '2.7.x'
+                ]
+            },
+            'windows-maya-2019-scheme_0': {
+                self.Key_Category: self.Category_Plf_App_Lan_Scheme,
+                self.Key_Name: 'maya_2019_arnold',
+                self.Key_System: [
+                    'windows', 'share', 'maya', '2019', 'python', '2.7.x'
                 ]
             }
         }
@@ -309,48 +323,48 @@ class ResourcePreset(shmConfigure.Basic):
                 self.Key_Active: '1.0.0.1'
             },
             # Package
-            'python27_yaml': {
+            'py-2.7-yaml': {
                 self.Key_Record: ['3.13'],
                 self.Key_Active: '3.13'
             },
-            'python27_chardet': {
+            'py-2.7-chardet': {
                 self.Key_Record: ['3.0.4'],
                 self.Key_Active: '3.0.4'
             },
-            'python27_pyqt5': {
+            'py-27-pyqt5': {
                 self.Key_Record: ['5.3.2'],
                 self.Key_Active: '5.3.2'
             },
-            'python27_materialx': {
+            'py-2.7-materialx': {
                 self.Key_Record: ['1.36.5'],
                 self.Key_Active: '1.36.5'
             },
-            'python27_pil': {
+            'py-2.7-pil': {
                 self.Key_Record: ['1.1.7'],
                 self.Key_Active: '1.1.7'
             },
-            'python27_dingtalkchatbot': {
+            'py-2.7-dingtalkchatbot': {
                 self.Key_Record: ['1.3.0'],
                 self.Key_Active: '1.3.0'
             },
-            'python27_requests': {
+            'py-2.7-requests': {
                 self.Key_Record: ['2.22.0'],
                 self.Key_Active: '2.22.0'
             },
-            'python27_certifi': {
+            'py-2.7-certifi': {
                 self.Key_Record: ['2019.3.9'],
                 self.Key_Active: '2019.3.9'
             },
-            'python27_idna': {
+            'py-2.7-idna': {
                 self.Key_Record: ['2.8'],
                 self.Key_Active: '2.8'
             },
-            'python27_urllib3': {
+            'py-2.7-urllib3': {
                 self.Key_Record: ['1.25.2'],
                 self.Key_Active: '1.25.2'
             },
             # Plug
-            'maya_2019_arnold': {
+            'windows-ma-2019-arnold': {
                 self.Key_Record: ['3.3.0.1'],
                 self.Key_Active: '3.3.0.1'
             }
@@ -382,41 +396,71 @@ class ResourcePreset(shmConfigure.Basic):
                 }
             },
             # Plug
-            'maya_2019_arnold': {
+            'windows-ma-2019-arnold': {
+                self.Environ_Key_Loadname_Plug: {
+                    self.Key_Value: u'mtoa',
+                    self.Key_Operate: u'+'
+                },
                 'MAYA_RENDER_DESC_PATH': {
                     self.Key_Value: u'{self.sourcepath}',
-                    self.Key_Operate: u'='
-                },
-                'solidangle_LICENSE': {
-                    self.Key_Value: u'5053@192.168.16.240',
                     self.Key_Operate: u'='
                 },
                 'PATH': {
                     self.Key_Value: u'{self.sourcepath}/bin',
                     self.Key_Operate: u'+'
                 },
+                'SYSTEM_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/scripts',
+                    self.Key_Operate: u'+'
+                },
                 'MAYA_PLUG_IN_PATH': {
                     self.Key_Value: u'{self.sourcepath}/plug-ins',
                     self.Key_Operate: u'+'
                 },
-                'MAYA_SCRIPT_PATH': {
-                    self.Key_Value: u'{self.sourcepath}/scripts/mtoa/mel',
+                'MAYA_PLUG_IN_RESOURCE_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/resources',
                     self.Key_Operate: u'+'
                 },
-                'MAYA_CUSTOM_TEMPLATE_PATH': {
-                    self.Key_Value: u'{self.sourcepath}/scripts/mtoa/ui/templates',
+                'MAYA_PRESET_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/presets',
+                    self.Key_Operate: u'+'
+                },
+                'MAYA_SCRIPT_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/scripts',
+                    self.Key_Operate: u'+'
+                },
+                'XBMLANGPATH': {
+                    self.Key_Value: u'{self.sourcepath}/icons',
                     self.Key_Operate: u'+'
                 },
                 'ARNOLD_PLUGIN_PATH': {
-                    self.Key_Value: u'{self.sourcepath}/shaders',
+                    self.Key_Value: [
+                        u'{self.sourcepath}/shaders',
+                        u'{self.sourcepath}/procedurals'
+                    ],
+                    self.Key_Operate: u'+'
+                },
+                'MTOA_PATH': {
+                    self.Key_Value: u'{self.sourcepath}',
                     self.Key_Operate: u'+'
                 },
                 'MTOA_EXTENSIONS_PATH': {
                     self.Key_Value: u'{self.sourcepath}/extensions',
                     self.Key_Operate: u'+'
+                },
+                'solidangle_LICENSE': {
+                    self.Key_Value: u'5053@192.168.16.240',
+                    self.Key_Operate: u'='
                 }
             },
-            'maya_lynxinode': {
+            'maya-lynxinode': {
+                self.Environ_Key_Loadname_Plug: {
+                    self.Key_Value: [
+                        u'lxConvertNode',
+                        u'lxProductNode'
+                    ],
+                    self.Key_Operate: u'+'
+                },
                 'MAYA_PLUG_IN_PATH': {
                     self.Key_Value: u'{self.sourcepath}/plug-ins',
                     self.Key_Operate: u'+'
@@ -425,7 +469,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_Value: u'{self.sourcepath}/scripts',
                     self.Key_Operate: u'+'
                 },
-                'PYTHONPATH': {
+                'SYSTEM_PATH': {
                     self.Key_Value: u'{self.sourcepath}/scripts',
                     self.Key_Operate: u'+'
                 },
@@ -435,8 +479,20 @@ class ResourcePreset(shmConfigure.Basic):
                 }
             },
             # Scheme
-            'windows_maya_scheme_0': {
-                'PYTHONPATH': {
+            'windows-scheme_0': {
+                'SYSTEM_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/scripts',
+                    self.Key_Operate: u'+'
+                }
+            },
+            'windows-maya-scheme_0': {
+                'SYSTEM_PATH': {
+                    self.Key_Value: u'{self.sourcepath}/scripts',
+                    self.Key_Operate: u'+'
+                }
+            },
+            'windows-maya-2019-scheme_0': {
+                'SYSTEM_PATH': {
                     self.Key_Value: u'{self.sourcepath}/scripts',
                     self.Key_Operate: u'+'
                 }
@@ -444,7 +500,7 @@ class ResourcePreset(shmConfigure.Basic):
         }
         self.def_dependent_dic = {
             # Package
-            'python27_dingtalkchatbot':
+            'py-2.7-dingtalkchatbot':
             {
                 'requests': {
                     self.Key_Category: self.Category_Plf_Lan_Package,
@@ -468,7 +524,7 @@ class ResourcePreset(shmConfigure.Basic):
                 }
             },
             # Platform Language Module
-            'lx_basic_0': {
+            'lx-basic_0': {
                 'yaml': {
                     self.Key_Category: self.Category_Plf_Lan_Package,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -490,14 +546,14 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lx_scheme_0': {
+            'lx-scheme_0': {
                 'LxBasic': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lxcore_0': {
+            'lx-core_0': {
                 'LxBasic': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -509,7 +565,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lxui_0': {
+            'lx-ui_0': {
                 'PyQt5': {
                     self.Key_Category: self.Category_Plf_Lan_Package,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -521,7 +577,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lxdatabase_0': {
+            'lx-database_0': {
                 'LxCore': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -535,7 +591,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lxinterface_0': {
+            'lx-interface_0': {
                 'LxCore': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -557,7 +613,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lx_material_0': {
+            'lx-material_0': {
                 'MaterialX': {
                     self.Key_Category: self.Category_Plf_Lan_Package,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -570,8 +626,13 @@ class ResourcePreset(shmConfigure.Basic):
                 }
             },
             # Platform Application Language Module
-            'lx_ma_core_0': {
+            'lx-maya-basic_0': {
                 'LxCore': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxBasic': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
@@ -587,7 +648,29 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lx_ma_material_0': {
+            'lx-ma_core_0': {
+                'LxCore': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxBasic': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxDatabase': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxDeadline': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                }
+            },
+            'lx-ma-material_0': {
                 'LxMaterial':
                     {
                         self.Key_Category: self.Category_Plf_Lan_Module,
@@ -595,7 +678,7 @@ class ResourcePreset(shmConfigure.Basic):
                         self.Key_System: self.Keyword_System_Active
                     }
             },
-            'lx_ma_interface_0': {
+            'lx-ma-interface_0': {
                 'LxCore': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -606,7 +689,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
                 },
-                'LxMaCore': {
+                'LxMaBasic': {
                     self.Key_Category: self.Category_Plf_App_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
@@ -617,7 +700,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'lx_maya_0': {
+            'lx-maya_0': {
                 'LxCore': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -632,10 +715,15 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
+                },
+                'LxMaBasic': {
+                    self.Key_Category: self.Category_Plf_App_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
                 }
             },
             # Scheme
-            'windows_scheme_0': {
+            'windows-scheme_0': {
                 'python': {
                     self.Key_Category: self.Category_Plf_Language,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -662,7 +750,7 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'windows_maya_scheme_0': {
+            'windows-maya-scheme_0': {
                 'KMPlayer': {
                     self.Key_Category: self.Category_Plf_Application,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -684,6 +772,42 @@ class ResourcePreset(shmConfigure.Basic):
                     self.Key_System: self.Keyword_System_Active
                 },
                 'lynxinode': {
+                    self.Key_Category: self.Category_Plf_App_Plug,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                }
+            },
+            'windows-maya-2019-scheme_0': {
+                'KMPlayer': {
+                    self.Key_Category: self.Category_Plf_Application,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'pdplayer64': {
+                    self.Key_Category: self.Category_Plf_Application,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'sublime_text': {
+                    self.Key_Category: self.Category_Plf_Application,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxMaInterface': {
+                    self.Key_Category: self.Category_Plf_App_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: {
+                        '{system.application.version}': self.Keyword_Share
+                    }
+                },
+                'lynxinode': {
+                    self.Key_Category: self.Category_Plf_App_Plug,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: {
+                        '{system.application.version}': self.Keyword_Share
+                    }
+                },
+                'mtoa': {
                     self.Key_Category: self.Category_Plf_App_Plug,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active

@@ -283,10 +283,8 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
     def _updateItemAction(self):
         def setCacheLoadActionCmdBranch(stage, cacheFile):
             def scLoadCacheCmd():
-                logWin = None
                 #
                 maScLoadCmds.scUnitCameraCacheLoadSubCmd(
-                    logWin,
                     self._projectName,
                     self._sceneIndex,
                     self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -316,10 +314,7 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
                 )
         #
         def loadActiveCacheCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitCameraCacheLoadSubCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -489,10 +484,7 @@ class IfScAssetProductItem(
     #
     def _updateItemAction(self):
         def assetLoadActiveCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAssetLoadSubCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -845,10 +837,7 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
     #
     def _updateItemAction(self):
         def productLoadActiveCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstModelProductLoadCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -872,10 +861,8 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
                 self._connectMethod()
         #
         def cacheLoadActiveCmd():
-            logWin = None
             # Model Cache
             maScLoadCmds.scUnitAstModelCacheConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -993,10 +980,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
     def _updateItemAction(self):
         def setCacheLoadActionCmdBranch(stage, cacheFile):
             def scLoadCacheCmd():
-                logWin = None
-                #
                 maScLoadCmds.scUnitAstModelCacheConnectCmd(
-                    logWin,
                     self._projectName,
                     self._sceneIndex,
                     self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1028,10 +1012,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
                 )
         #
         def loadActiveCacheCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstModelCacheConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1132,10 +1113,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
     def _updateItemAction(self):
         def setCacheLoadActionCmdBranch(stage, cacheFile):
             def scLoadCacheCmd():
-                logWin = None
-                #
                 maScLoadCmds.scUnitAstExtraCacheConnectCmd(
-                    logWin,
                     self._projectName,
                     self._sceneIndex,
                     self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1167,10 +1145,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
                 )
         #
         def loadActiveCacheCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstExtraCacheConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1270,10 +1245,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     #
     def _updateItemAction(self):
         def productLoadActiveCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstCfxProductLoadCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1290,10 +1262,8 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
                 self._connectMethod()
         #
         def cacheLoadActiveCmd():
-            logWin = None
             # Cfx Fur Cache
             maScLoadCmds.scUnitAstCfxFurCachesConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1393,10 +1363,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
     def _updateItemAction(self):
         def setCacheLoadActionCmdBranch(stage, cacheFile):
             def scLoadCacheCmd():
-                logWin = None
-                #
                 maScLoadCmds.scUnitAstCfxFurCacheConnectSubCmd(
-                    logWin,
                     self._projectName,
                     self._sceneIndex,
                     self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1429,10 +1396,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                 )
         #
         def loadActiveCacheCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstCfxFurCacheConnectSubCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1545,10 +1509,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
     #
     def _updateItemAction(self):
         def productLoadActiveCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstSolverProductLoadCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1565,10 +1526,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
                 self._connectMethod()
         #
         def cacheLoadActiveCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstSolverCacheConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1651,10 +1609,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
     def _updateItemAction(self):
         def setCacheLoadActionCmdBranch(stage, cacheFile):
             def scLoadCacheCmd():
-                logWin = None
-                #
                 maScLoadCmds.scUnitAstSolverCacheConnectCmd(
-                    logWin,
                     self._projectName,
                     self._sceneIndex,
                     self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
@@ -1686,10 +1641,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
                 )
         #
         def loadActiveCacheCmd():
-            logWin = None
-            #
             maScLoadCmds.scUnitAstModelCacheConnectCmd(
-                logWin,
                 self._projectName,
                 self._sceneIndex,
                 self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,

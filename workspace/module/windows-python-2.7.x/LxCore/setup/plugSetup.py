@@ -1,18 +1,17 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_
-#
+
 from LxCore.preset import plugPr
-#
+
 from LxCore.preset.prod import projectPr
-#
+
 IsMayaPlugLoadKey = 'IsMayaPlugLoaded'
 
 
-#
 def setMayaPlugSetup():
     if lxBasic.isMayaApp():
-        from LxUi.qt import qtCommands  # import in Method
-
         isMayaPlugLoaded = lxCore_.getLxVariantValue(IsMayaPlugLoadKey)
         # Value is True, False or None
         if isMayaPlugLoaded is not True:
@@ -30,12 +29,12 @@ def setMayaPlugSetup():
                 # View Progress
                 progressExplain = '''Load Plug(s)'''
                 maxValue = len(unloadPlugLis)
-                progressBar = maUtils.MaProgressBar().viewProgress(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for plug in unloadPlugLis:
-                    progressBar.updateProgress(plug)
+                    progressBar.update(plug)
                     maUtils.setPlugLoad(plug)
                 #
-                qtCommands.setMessageWindowShow(u'Plug(s) Load', u'Complete')
+                bscMethods.If_Message(u'Plug(s) Load', u'Complete')
             #
             currentRenderer = projectPr.getProjectMayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)

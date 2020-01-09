@@ -58,7 +58,7 @@ def setMayaMenu():
     def toolShelfCmd():
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
-        w = ifProductWindow.If_QtToolFloatWindow()
+        w = ifProductWindow.QtIf_ToolFloatWindow()
         w.windowShow()
     #
     def toolKitCmd():
@@ -69,7 +69,7 @@ def setMayaMenu():
 
     def updateCmd():
         from LxCore import lxScheme
-        lxScheme.Resource().loadActiveModules()
+        lxScheme.Shm_Resource().loadActiveModules()
     #
     def setMain():
         mayaMenuBar = getMaMenuBar()

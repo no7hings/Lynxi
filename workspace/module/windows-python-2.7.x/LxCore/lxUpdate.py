@@ -1,16 +1,16 @@
 # coding=utf-8
-from LxBasic import bscCore, bscModifier
+from LxBasic import bscCore, bscModifiers
 
 from LxCore import lxScheme
 #
 none = ''
 
 
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchCostTime
 def setUpdate(force=0):
-    schemeLoader = lxScheme.Resource()
+    schemeLoader = lxScheme.Shm_Resource()
 
-    ui = lxScheme.Interface()
+    ui = lxScheme.Shm_Interface()
 
     localVersion = schemeLoader.version
     serverVersion = schemeLoader.activeVersion

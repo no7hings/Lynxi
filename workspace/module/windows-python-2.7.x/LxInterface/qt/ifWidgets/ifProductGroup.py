@@ -1,12 +1,13 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic
-from LxUi.qt import qtCommands
 #
 from LxCore.preset import personnelPr
 #
 from LxCore.preset.prod import projectPr
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
@@ -19,13 +20,13 @@ none = ''
 
 #
 class IfAssetProductGroup(
-    ifWidgetBasic.IfGroupBasic_,
+    _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
     userLevel = personnelPr.getPersonnelUserLevel()
     def __init__(self, mainWindow=None):
         super(IfAssetProductGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -89,9 +90,9 @@ class IfAssetProductGroup(
             if self.mainWindow():
                 explain = '''Build Asset Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
                     method, args, autoLoad = i
                     method(*args)
@@ -102,13 +103,13 @@ class IfAssetProductGroup(
 
 #
 class IfSceneryProductGroup(
-    ifWidgetBasic.IfGroupBasic_,
+    _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
     userLevel = personnelPr.getPersonnelUserLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneryProductGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -173,9 +174,9 @@ class IfSceneryProductGroup(
             if self.mainWindow():
                 explain = '''Build Scenery Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
                     method, args, autoLoad = i
                     method(*args)
@@ -186,13 +187,13 @@ class IfSceneryProductGroup(
 
 #
 class IfSceneProductGroup(
-    ifWidgetBasic.IfGroupBasic_,
+    _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
     userLevel = personnelPr.getPersonnelUserLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneProductGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -255,9 +256,9 @@ class IfSceneProductGroup(
             if self.mainWindow():
                 explain = '''Build Scene Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
                     method, args, autoLoad = i
                     method(*args)

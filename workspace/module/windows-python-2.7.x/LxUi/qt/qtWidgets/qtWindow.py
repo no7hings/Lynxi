@@ -121,7 +121,7 @@ class QtTipWindow(qtAbcWidget.QtAbcObj_Window):
     def addHtml(self, datum, isHtml=True):
         if isHtml is False:
             # noinspection PyArgumentEqualDefault
-            datum = self.html_method.toHtml(datum, inuse=5)
+            datum = self.method_html.toHtml(datum, fontColor=u'white')
         #
         if isinstance(datum, str) or isinstance(datum, unicode):
             self._textBrower.textEdit().append(datum)
@@ -146,7 +146,7 @@ class QtTipWindow(qtAbcWidget.QtAbcObj_Window):
 
 #
 class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
-    html_method = bscMethods.Mtd_Html
+    method_html = bscMethods.Mtd_Html
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
@@ -174,7 +174,7 @@ class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
     def addHtml(self, datum, isHtml=True):
         if isHtml is False:
             # noinspection PyArgumentEqualDefault
-            datum = self.html_method.toHtml(datum, inuse=5)
+            datum = self.method_html.toHtml(datum, fontColor=u'white')
         #
         if isinstance(datum, str) or isinstance(datum, unicode):
             self._textBrower.textEdit().append(datum)
@@ -221,7 +221,7 @@ class QtFloatWindow(qtAbcWidget.QtAbcObj_Window):
 
 #
 class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
-    html_method = bscMethods.Mtd_Html
+    method_html = bscMethods.Mtd_Html
 
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
@@ -230,7 +230,7 @@ class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
         self._initAbcObjWindow()
         self._initProgressWindow()
         #
-        self.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
@@ -262,14 +262,14 @@ class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
 
     @staticmethod
     def _setMessageCount(value):
-        lxScheme.Interface().setMessageCount(value)
+        lxScheme.Shm_Interface().setMessageCount(value)
 
     def uiShow(self, *args):
         self._messageShow()
 
     @staticmethod
     def _messageCount():
-        return lxScheme.Interface().messageCount()
+        return lxScheme.Shm_Interface().messageCount()
 
     def _messageShow(self):
         width, height = self.windowModel().defaultSize()
@@ -345,7 +345,7 @@ class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
     def addHtml(self, datum, isHtml=True):
         if isHtml is False:
             # noinspection PyArgumentEqualDefault
-            datum = self.html_method.toHtml(datum, inuse=5)
+            datum = self.method_html.toHtml(datum, fontColor=u'white')
         #
         if isinstance(datum, str) or isinstance(datum, unicode):
             self._textBrower.textEdit().append(datum)

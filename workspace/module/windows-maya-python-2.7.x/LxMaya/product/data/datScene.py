@@ -2,8 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -770,9 +771,9 @@ def getScAstModelMeshConstantData(
             # View Progress
             explain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionInfoDic)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for meshKey in unionInfoDic:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 totalArray.append(meshKey)
                 pathCheck, geomCheck, geomShapeCheck, mapCheck, mapShapeCheck = datAsset.getMeshConstant(
@@ -827,9 +828,9 @@ def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for assemblyPath in stringLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 datum = getScnAssemblyComposeDatumSub(assemblyPath, rootPath)
                 if datum:
                     lis.append(datum)

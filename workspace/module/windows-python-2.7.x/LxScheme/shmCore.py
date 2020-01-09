@@ -1,5 +1,7 @@
 # coding:utf-8
-from LxBasic import bscObjects
+import copy
+
+from LxBasic import bscObjects, bscMethods
 
 
 class Basic(object):
@@ -43,6 +45,9 @@ class Basic(object):
     Category_Module_Lis = [
         Category_Plf_Lan_Module, Category_Plf_App_Lan_Module, Category_Plf_App_Module
     ]
+    Category_Plug_Lis = [
+        Category_Plf_Lan_Plug, Category_Plf_App_Lan_Plug, Category_Plf_App_Plug
+    ]
 
     Root_Develop_Default = 'e:/myworkspace/td/lynxi'
     Root_Product_Default = 'e:/myworkspace/td/lynxi'
@@ -50,9 +55,10 @@ class Basic(object):
 
     Keyword_Share = 'share'
 
-    Environ_Key_Scheme_Name = 'LYNXI_SCHEME_NAME'
-    Environ_Key_Scheme_Version = 'LYNXI_SCHEME_VERSION'
-    Environ_Key_Scheme_System = 'LYNXI_SCHEME_SYSTEM'
+    Environ_Key_Name_Scheme = 'LYNXI_NAME_SCHEME'
+    Environ_Key_Version_Scheme = 'LYNXI_VERSION_SCHEME'
+    Environ_Key_File_Scheme = 'LYNXI_FILE_SCHEME'
+    Environ_Key_Config_File_Scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
     Environ_Key_Enable_Develop = 'LYNXI_ENABLE_DEVELOP'
     Environ_Key_Path_Product = 'LYNXI_PATH_PRODUCT'
@@ -64,6 +70,11 @@ class Basic(object):
     Environ_Key_Path_Toolkit = 'LYNXI_PATH_TOOLKIT'
 
     Environ_Key_Python_Bin_Path = 'LYNXI_BIN_PYTHON_PATH'
+
+    Environ_Key_Loadname_Plug = 'LYNXI_LOADNAME_PLUG'
+    Environ_Key_Loadname_Module = 'LYNXI_LOADNAME_MODULE'
+
+    Environ_Key_Enable_Usedef = 'LYNXI_ENABLE_USEDEF'
 
     Folder_Source = 'source'
 
@@ -106,6 +117,7 @@ class Basic(object):
     Key_Language_Version = 'language_version'
 
     Key_Module = 'module'
+    Key_Plug = 'plug'
 
     Key_Python_Package = 'python_package'
     Key_Python_Module = 'python_module'
@@ -136,12 +148,6 @@ class Basic(object):
 
     Python_Version_27 = '2.7.x'
 
-    Environ_Key_Path = 'PATH'
-    Environ_Key_Maya_Python_Path = 'PYTHONPATH'
-    Environ_Key_Maya_Icon_Path = 'XBMLANGPATH'
-    Environ_Key_Maya_Plug_Path = 'MAYA_PLUG_IN_PATH'
-    Environ_Key_Maya_Script_Path = 'MAYA_SCRIPT_PATH'
-
     Key_Path = 'path'
 
     Key_Environ = 'environ'
@@ -166,6 +172,10 @@ class Basic(object):
     Attr_Key_Path_Source = 'sourcepath'
 
     _String_Indent = '    '
+
+    module_copy = copy
+
+    method_environ = bscMethods.Mtd_Environ
 
     @staticmethod
     def _toSubPathMethod(*args):
@@ -210,13 +220,15 @@ class Basic(object):
 
     @classmethod
     def isDevelop(cls):
-        boolean = False
+        return [False, True][cls.method_environ.get(cls.Environ_Key_Enable_Develop, 'FALSE').lower() == 'true']
 
-        envData = bscObjects.Sys_Environ(cls.Environ_Key_Enable_Develop).value
-        if envData:
-            if envData.lower() == 'true':
-                boolean = True
-        return boolean
+    @classmethod
+    def isUsedef(cls):
+        return [False, True][cls.method_environ.get(cls.Environ_Key_Enable_Usedef, 'FALSE').lower() == 'true']
+
+    @classmethod
+    def setUsedef(cls, boolean):
+        cls.method_environ.set(cls.Environ_Key_Enable_Usedef, ['FALSE', 'TRUE'][boolean])
 
     # noinspection PyMethodMayBeStatic
     def _jsonStrRaw(self):

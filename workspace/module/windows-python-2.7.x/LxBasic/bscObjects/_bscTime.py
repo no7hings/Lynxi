@@ -9,4 +9,4 @@ class Time(bscAbstract.Abc_Time):
 
 class ActiveTime(bscAbstract.Abc_Time):
     def __init__(self):
-        self._initAbcTime(self._activeTimeStamp())
+        self._initAbcTime(self._getActiveTimeStamp())

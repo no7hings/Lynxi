@@ -1,37 +1,44 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscCore, bscObjects, bscMethods
 
-from LxCore import lxBasic
+from LxScheme import shmCore
 
-from LxScheme import shmConfigure
-
-from LxScheme.shmObjects import _shmPath, _shmResource
+from LxScheme.shmObjects import _shmPath
 
 
-class Resource(shmConfigure.Basic):
+class Shm_Resource(shmCore.Basic):
     def __init__(self):
-        self._resource_cls_dic = {
-            self.Category_Plf_Language: _shmResource.Rsc_PltLanScheme,
-            self.Category_Plf_App_Language: _shmResource.Rsc_PltAppLanScheme
-        }
-        self._resource = self._getResource()
+        self._initResource()
+
+    def _initResource(self):
+        configRaw = bscObjects.JsonFile(self.configFile).read()
+        if configRaw:
+            self._activeVersion = configRaw[self.Key_Version][self.Key_Active]
+        else:
+            self._activeVersion = '0.0.0'
+
+        setupRaw = bscObjects.JsonFile(self.setupFile).read()
+        if setupRaw:
+            self._moduleNames = setupRaw[self.Key_Module]
+        else:
+            self._moduleNames = []
 
     @property
     def name(self):
-        return lxBasic.getOsEnvironValue(
-            self.Environ_Key_Scheme_Name
+        return self.method_environ.get(
+            self.Environ_Key_Name_Scheme
         )
 
     @property
     def version(self):
-        return lxBasic.getOsEnvironValue(
-            self.Environ_Key_Scheme_Version
+        return self.method_environ.get(
+            self.Environ_Key_Version_Scheme
         )
 
     @version.setter
     def version(self, versionString):
-        lxBasic.setOsEnvironValue(
-            self.Environ_Key_Scheme_Version,
+        self.method_environ.get(
+            self.Environ_Key_Version_Scheme,
             versionString
         )
         bscMethods.PythonMessage().traceResult(
@@ -39,32 +46,27 @@ class Resource(shmConfigure.Basic):
         )
 
     @property
-    def resource(self):
-        return self._resource
-
-    def _getResource(self):
-        data = lxBasic.getOsEnvironValue(
-            self.Environ_Key_Scheme_System
+    def configFile(self):
+        return self.method_environ.get(
+            self.Environ_Key_Config_File_Scheme
         )
-        if data:
-            systemRaw = eval(data)
-            category = systemRaw[self.Key_Category]
-            resourceCls = self._resource_cls_dic[category]
 
-            return resourceCls(self.name, systemRaw)
+    @property
+    def setupFile(self):
+        return self.method_environ.get(
+            self.Environ_Key_File_Scheme
+        )
+
+    @property
+    def moduleNames(self):
+        return self._moduleNames
 
     @property
     def activeVersion(self):
-        if self.resource is not None:
-            return self.resource.version.active
+        return self._activeVersion
 
     def loadActiveModules(self):
-        activeOperate = self.resource.operateAt(
-            self.activeVersion
-        )
-        modules = activeOperate.dependentModules()
-
-        pythonReload = bscMethods.PythonReloader(modules)
+        pythonReload = bscMethods.PythonReloader(self.moduleNames)
         pythonReload.run()
 
         bscMethods.If_Message(
@@ -73,7 +75,7 @@ class Resource(shmConfigure.Basic):
         )
 
 
-class Interface(object):
+class Shm_Interface(shmCore.Basic):
     Environ_Key_Message_Count = 'LYNXI_VALUE_MESSAGE_COUNT'
     Environ_Key_Enable_Tooltip_Auto = 'LYNXI_ENABLE_TOOLTIP_AUTO_SHOW'
     def __init__(self):
@@ -81,7 +83,7 @@ class Interface(object):
 
     @classmethod
     def restMessageCount(cls):
-        lxBasic.setOsEnvironValue(cls.Environ_Key_Message_Count, '0')
+        cls.method_environ.set(cls.Environ_Key_Message_Count, '0')
 
     @classmethod
     def setMessageCount(cls, delta):
@@ -89,12 +91,12 @@ class Interface(object):
         #
         value += delta
         #
-        lxBasic.setOsEnvironValue(cls.Environ_Key_Message_Count, str(value))
+        cls.method_environ.set(cls.Environ_Key_Message_Count, str(value))
         return value
 
     @classmethod
     def messageCount(cls):
-        data = lxBasic.getOsEnvironValue(cls.Environ_Key_Message_Count)
+        data = cls.method_environ.get(cls.Environ_Key_Message_Count)
         if data:
             return int(data)
         return 0
@@ -115,12 +117,12 @@ class Interface(object):
     @classmethod
     def setTooltipAutoShow(cls, boolean):
         envValue = str(boolean).upper()
-        lxBasic.setOsEnvironValue(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
+        cls.method_environ.set(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
 
     @classmethod
     def isTooltipAutoShow(cls):
         boolean = False
-        envData = lxBasic.getOsEnvironValue(cls.Environ_Key_Enable_Tooltip_Auto)
+        envData = cls.method_environ.get(cls.Environ_Key_Enable_Tooltip_Auto)
         if envData:
             if envData == str(True).upper():
                 boolean = True

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxMaya.method import _maProductMethod
 #
@@ -7,11 +7,11 @@ from LxMaya.interface.ifWidgets import ifMaSceneUnit, ifMaSceneToolUnit
 
 
 #
-class IfScLightRigGroup(ifWidgetBasic.IfGroupBasic_):
+class IfScLightRigGroup(_qtIfAbcWidget.QtIfAbc_Group):
     app_prd_unt_method = _maProductMethod.MaProductUnitMethod
     def __init__(self, mainWindow=None):
         super(IfScLightRigGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()
@@ -40,12 +40,12 @@ class IfScLightRigGroup(ifWidgetBasic.IfGroupBasic_):
 
 
 #
-class IfScComposeGroup(ifWidgetBasic.IfGroupBasic_):
+class IfScComposeGroup(_qtIfAbcWidget.QtIfAbc_Group):
     app_prd_unt_method = _maProductMethod.MaProductUnitMethod
 
     def __init__(self, mainWindow=None):
         super(IfScComposeGroup, self).__init__(mainWindow)
-        self._initBasicGroup()
+        self._initIfAbcGroup()
         self._mainWindow = mainWindow
         #
         self.setupGroup()

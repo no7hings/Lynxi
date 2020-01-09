@@ -16,7 +16,7 @@ class Setup(object):
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
         app = QtWidgets.QApplication(sys.argv)
-        w = ifProductWindow.If_QtToolFloatWindow()
+        w = ifProductWindow.QtIf_ToolFloatWindow()
         w.windowShow()
         sys.exit(app.exec_())
 

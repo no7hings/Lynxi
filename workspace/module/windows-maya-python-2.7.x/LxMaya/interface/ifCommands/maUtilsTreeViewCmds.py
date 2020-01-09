@@ -1,12 +1,13 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic
 #
 from LxCore.config import appCfg
 #
 from LxCore.preset.prod import scenePr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCommands
-#
+from LxUi.qt import qtWidgets_, qtWidgets
 #
 from LxMaya.interface.ifObjects import ifMaScTreeItem
 #
@@ -141,7 +142,7 @@ def setListDirectory(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -262,7 +263,7 @@ def setListFile(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -478,9 +479,9 @@ def setListScMayaComposeCmdMain(
     if inData:
         explain = '''List Scene Compose'''
         maxValue = len(inData)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for k, v in inData.items():
-            progressBar.updateProgress()
+            progressBar.update()
             #
             setSceneBranch(k, v)
     #
@@ -541,9 +542,9 @@ def setListScCameraComposeCmdSub(
     if scCameraDatumLis:
         progressExplain = u'''List Scene Camera(s)'''
         maxValue = len(scCameraDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for scCameraData in scCameraDatumLis:
-            progressBar.updateProgress()
+            progressBar.update()
             setScCameraBranch(scCameraData)
 
 
@@ -689,7 +690,7 @@ def setListScAssetComposeCmdSub(
     if scAssetDatumLis:
         progressExplain = u'''List Scene Asset(s)'''
         maxValue = len(scAssetDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for scAssetDatum in scAssetDatumLis:
-            progressBar.updateProgress()
+            progressBar.update()
             setScAstBranch(scAssetDatum)

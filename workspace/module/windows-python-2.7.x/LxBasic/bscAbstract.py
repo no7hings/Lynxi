@@ -37,21 +37,21 @@ class Abc_Path(bscCore.Basic):
     def _toTemporaryFileMethod(cls, fileString):
         datetag = Abc_Time()._getActiveDatetag()
         temporaryDirectory = 'D:/.lynxi.temporary/' + datetag
-        temporaryFileString = cls._toFileString(temporaryDirectory, cls.os_path_method.basename(fileString))
+        temporaryFileString = cls._toFileString(temporaryDirectory, cls.method_os_path.basename(fileString))
         cls._setCreateDirectory(temporaryDirectory)
         return temporaryFileString
 
     @classmethod
     def _copyFileMethod(cls, sourceFileString, targetFileString, force=True):
-        if cls.os_path_method.exists(sourceFileString):
+        if cls.method_os_path.exists(sourceFileString):
             cls._setCreateFileDirectory(targetFileString)
             # Check Same File
-            if not cls.os_path_method.normpath(sourceFileString) == cls.os_path_method.normpath(targetFileString):
+            if not cls.method_os_path.normpath(sourceFileString) == cls.method_os_path.normpath(targetFileString):
                 if force is True:
-                    cls.copy_method.copy2(sourceFileString, targetFileString)
+                    cls.method_shutil.copy2(sourceFileString, targetFileString)
                 elif force is False:
                     try:
-                        cls.copy_method.copy2(sourceFileString, targetFileString)
+                        cls.method_shutil.copy2(sourceFileString, targetFileString)
                     except IOError:
                         print sourceFileString, targetFileString
 
@@ -61,7 +61,7 @@ class Abc_Path(bscCore.Basic):
 
     @classmethod
     def _toFileString(cls, osPath, osFileBasename):
-        return cls.os_path_method.join(osPath, osFileBasename).replace('\\', '/')
+        return cls.method_os_path.join(osPath, osFileBasename).replace('\\', '/')
 
 
 class Abc_File(Abc_Path):
@@ -76,19 +76,19 @@ class Abc_File(Abc_Path):
         return self._toTemporaryFileMethod(self._fileString)
 
     def isExist(self):
-        return self.os_method.path.isfile(self._fileString)
+        return self.module_os.path.isfile(self._fileString)
 
     def dirname(self):
-        return self.os_method.path.dirname(self._fileString)
+        return self.module_os.path.dirname(self._fileString)
 
     def basename(self):
-        return self.os_method.path.basename(self._fileString)
+        return self.module_os.path.basename(self._fileString)
 
     def name(self):
-        return self.os_method.path.splitext(self.basename())[0]
+        return self.module_os.path.splitext(self.basename())[0]
 
     def ext(self):
-        return self.os_method.path.splitext(self.basename())[1]
+        return self.module_os.path.splitext(self.basename())[1]
 
     def read(self, *args):
         pass

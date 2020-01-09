@@ -68,7 +68,7 @@ def setRepairReferenceNamespace(inData, progressBar=none):
     if inData:
         for seq, (namespacePath, referenceNode) in enumerate(inData.items()):
             if progressBar:
-                progressBar.updateProgress()
+                progressBar.update()
             #
             tempNamespace = '_'.join(namespacePath.split(':')) + '_reduce_' + str(seq)
             #

@@ -1,13 +1,11 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscMethods, bscModifier
+from LxBasic import bscMethods, bscModifiers
 
 from LxCore import lxBasic, lxCore_
 
-from LxUi.qt import qtLog, qtCommands
-
-from LxCore.config import appCfg, sceneCfg
+from LxCore.config import appCfg
 
 from LxCore.preset import appVariant
 
@@ -26,10 +24,9 @@ astDefaultVersion = appVariant.astDefaultVersion
 none = ''
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def scUnitSceneCreateMainCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -40,15 +37,12 @@ def scUnitSceneCreateMainCmd(
         withAstSolver=False, withAstSolverCache=False,
         withExtraCache=False
 ):
+    sceneStagePrettify = sceneStage.capitalize()
     #
-    sceneLink = scenePr.getSceneLink(sceneStage)
-    logWin.setNameText(u'镜头 - {} - 创建'.format(sceneCfg.scBasicViewLinkDic(sceneLink)[1]))
+    logWin_ = bscMethods.If_Log(u'{} Create'.format(sceneStagePrettify))
+    logWin_.showUi()
     #
-    maxProgress = 1
-    logWin.setMaxProgressValue(maxProgress)
     maUtils.setDisplayMode(5)
-    # Start
-    qtLog.viewStartProcessMessage(logWin, 'Scene ( {} ) - Create'.format(sceneStage.capitalize()))
     #
     maPreference.setAnimationTimeUnit(projectName)
     # Layout
@@ -70,14 +64,12 @@ def scUnitSceneCreateMainCmd(
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         # Asset Model Cache
         scUnitAstModelCachesLoadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage
         )
         # Asset Mode Pose Cache
         scUnitAstModelPoseCachesLoadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage
@@ -88,7 +80,6 @@ def scUnitSceneCreateMainCmd(
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         #
         scUnitAssetsLoadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -102,7 +93,6 @@ def scUnitSceneCreateMainCmd(
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         #
         scUnitAssetsLoadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -113,11 +103,9 @@ def scUnitSceneCreateMainCmd(
         )
     #
     maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
-    #
-    qtLog.viewCompleteProcess(logWin)
     # is Used Default Camera
     if withCamera:
-        qtLog.viewStartProcess(logWin, 'Create Scene Camera')
+        logWin_.addStartProgress(u'Camera Create')
         if scenePr.isScLayoutLink(sceneStage):
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if not maUtils.isAppExist(sceneCamera):
@@ -127,7 +115,6 @@ def scUnitSceneCreateMainCmd(
         # Simulation and Light
         elif scenePr.isScSolverLink(sceneStage) or scenePr.isScSimulationLink(sceneStage) or scenePr.isScLightLink(sceneStage):
             scUnitCameraCachesLoadCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage
@@ -139,18 +126,17 @@ def scUnitSceneCreateMainCmd(
                 )
                 maRender.setRenderCamera(scOutputCameras)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     # Load Scenery
     if withScenery:
         if scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage) or scenePr.isScLightLink(sceneStage):
             scUnitSceneryExtraLoadLoadCmd(
-                logWin,
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage
             )
     # Frame
     if withFrame:
-        qtLog.viewStartProcess(logWin, 'Create Scene Frame - Range')
+        logWin_.addStartProgress(u'Render Frame Create')
         #
         if scenePr.isScLayoutLink(sceneStage):
             startFrame, endFrame = withFrame
@@ -171,10 +157,10 @@ def scUnitSceneCreateMainCmd(
                 maRender.setRenderTime(startFrame, endFrame)
                 maRender.setAnimationFrameMode()
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     # Size
     if withSize:
-        qtLog.viewStartProcess(logWin, 'Create Scene Render - Size')
+        logWin_.addStartProgress(u'Render Size Create')
         #
         if scenePr.isScLayoutLink(sceneStage):
             width, height = withSize
@@ -186,7 +172,7 @@ def scUnitSceneCreateMainCmd(
             #
             maUtils.setRenderSize(width, height)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     # Set Workspace
     if scenePr.isScLightLink(sceneStage):
         workspaceRoot = scenePr.scUnitRenderFolder(
@@ -203,23 +189,20 @@ def scUnitSceneCreateMainCmd(
         maUtils.runMelCommand(tdCommand)
     # Save to Local
     scUnitSourceSaveCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage
     )
-    qtLog.viewCompleteProcessMessage(logWin)
-    #
-    logWin.setCountdownClose(5)
+    logWin_.addCompleteTask()
 
 
 #
 def scUnitFrameLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
+    logWin_ = bscMethods.If_Log()
     #
     startFrame, endFrame = scenePr.getScUnitFrameRange(
         projectName,
@@ -239,19 +222,20 @@ def scUnitFrameLoadCmd(
     maRender.setAnimationFrameMode()
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def scUnitSceneLoadMainCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         withFrame=False, withSize=False
 ):
-    logWin.setNameText(u'镜头领取')
-    maxProgress = 1
-    logWin.setMaxProgressValue(maxProgress)
+    sceneStagePrettify = sceneStage.capitalize()
+
+    logWin_ = bscMethods.If_Log(u'{} Load'.format(sceneStagePrettify))
+    logWin_.showUi()
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'{} Load'.format(sceneStagePrettify))
+    logWin_.showUi()
     #
     maUtils.setDisplayMode(5)
     #
@@ -263,7 +247,7 @@ def scUnitSceneLoadMainCmd(
         lxCore_.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
-    qtLog.viewStartProcess(logWin, u'Load Scene Source ( {} )'.format(sceneStage.capitalize()))
+    logWin_.addStartProgress(u'Source Load')
     #
     maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     #
@@ -272,34 +256,35 @@ def scUnitSceneLoadMainCmd(
     #
     maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     #
     if withFrame:
-        qtLog.viewStartProcess(logWin, 'Load Frame - Range')
+        logWin_.addStartProgress(u'Render Frame Load')
         #
         startFrame, endFrame = withFrame
         maUtils.setAnimationFrameRange(startFrame, endFrame)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     #
     if withSize:
-        qtLog.viewStartProcess(logWin, 'Load Render - Size')
+        logWin_.addStartProgress(u'Render Size Load')
         #
         width, height = withSize
         maUtils.setRenderSize(width, height)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 #
 def scUnitSourceSaveCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
+    logWin_ = bscMethods.If_Log()
+    
     localSourceFile = scenePr.sceneUnitSourceFile(
         lxCore_.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
@@ -308,20 +293,21 @@ def scUnitSourceSaveCmd(
     maUtils.setVisiblePanelsDelete()
     maUtils.setCleanUnknownNodes()
     #
-    qtLog.viewStartProcess(logWin, 'Save Scene {} - Source'.format(lxBasic.str_camelcase2prettify(sceneStage)))
+    logWin_.addStartProgress(u'Source ( Local ) Save')
     #
     maFile.saveMayaFileToLocal(localSourceFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Camera Cache
 def scUnitCameraCachesLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
+    logWin_ = bscMethods.If_Log()
+    
     datumDic = scenePr.getSceneCameraIndexDataDic(
         projectName, sceneClass, sceneName, sceneVariant
     )
@@ -329,16 +315,15 @@ def scUnitCameraCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Camera Cache'''
             maxValue = len(v)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for seq, i in enumerate(v):
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 timestamp, cacheStage, startFrame, endFrame, scCameraCache = i
                 #
                 if timestamp is not None:
                     subLabel = lxBasic.getSubLabel(seq)
                     scUnitCameraCacheLoadSubCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
@@ -348,7 +333,6 @@ def scUnitCameraCachesLoadCmd(
 
 #
 def scUnitCameraCacheLoadSubCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
@@ -370,6 +354,8 @@ def scUnitCameraCacheLoadSubCmd(
             if lxBasic.isOsExist(fileString):
                 return fileString
     #
+    logWin_ = bscMethods.If_Log()
+    
     scCameraCacheFile = getFile()
     #
     if scCameraCacheFile is not None:
@@ -383,16 +369,13 @@ def scUnitCameraCacheLoadSubCmd(
         if maUtils.isAppExist(scOutputCameraLocator):
             maUtils.setNodesClearByNamespace(scCameraNamespace)
             #
-            qtLog.viewResult(
-                logWin,
-                u'Remove Exists',
-            )
+            logWin_.addResult(u'Remove Exists', )
         #
-        qtLog.viewStartSubProcess(logWin, 'Load : ', scCameraCacheFile)
+        logWin_.addStartProgress('Camera Cache Load', scCameraCacheFile)
         #
         maFile.setAlembicCacheImport(scCameraCacheFile, scCameraNamespace)
         #
-        qtLog.viewCompleteSubProcess(logWin)
+        logWin_.addCompleteProgress()
         #
         if maUtils.isAppExist(linkCameraPath):
             maUtils.setObjectParent(scOutputCameraLocator, linkCameraPath)
@@ -402,23 +385,20 @@ def scUnitCameraCacheLoadSubCmd(
             maUtils.setDisplayMode(5)
             maUtils.setCameraView(scCamera)
             maUtils.setObjectLockTransform(scCamera, boolean=True)
-            bscMethods.If_Message(
-                u'''Set Camera View''', u'''Complete'''
-            )
+            bscMethods.If_Message(u'''Set Camera View''', u'''Complete''')
     else:
-        qtLog.viewWarning(
-            logWin, u'Scene Camera ( Cache ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Scene Camera ( Cache ) is Non - Exists')
 
 
 # Model Cache
 def scUnitAstModelCachesLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         withAstCfx=False, withAstCfxFurCache=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     datumDic = scenePr.getSceneAssetIndexDataDic(
         projectName,
         sceneClass, sceneName, sceneVariant
@@ -427,9 +407,9 @@ def scUnitAstModelCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset Model Cache'''
             maxValue = len(v)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for i in v:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 (
                     timestamp, cacheStage, startFrame, endFrame, cache,
@@ -438,7 +418,6 @@ def scUnitAstModelCachesLoadCmd(
                 #
                 if timestamp is not None:
                     scUnitAstModelCacheLoadSubCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -450,7 +429,6 @@ def scUnitAstModelCachesLoadCmd(
 
 #
 def scUnitAstModelCacheLoadSubCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -474,6 +452,8 @@ def scUnitAstModelCacheLoadSubCmd(
             if lxBasic.isOsExist(fileString):
                 return fileString
     #
+    logWin_ = bscMethods.If_Log()
+    
     scAstModelCacheFile = getFile()
     if scAstModelCacheFile is not None:
         # Create Scene Root
@@ -492,16 +472,13 @@ def scUnitAstModelCacheLoadSubCmd(
         if maUtils.isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
             #
-            qtLog.viewWarning(
-                logWin,
-                u'Remove Exists',
-            )
+            logWin_.addWarning(u'Remove Exists',)
         #
-        qtLog.viewStartProcess(logWin, u'Load Scene Asset Model Cache', assetName)
+        logWin_.addStartProgress(u'Model Cache Load', scAstModelCacheFile)
         #
-        maFile.setFileImport(scAstModelCacheFile)
+        maFile.setAlembicCacheImport(scAstModelCacheFile)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
         # Create Group
         maUtils.setAppPathCreate(scAstRootGroup)
         maUtils.setAppPathCreate(scAstUnitRootGroup)
@@ -522,18 +499,17 @@ def scUnitAstModelCacheLoadSubCmd(
         if maUtils.isAppExist(scAstSubPath):
             maUtils.setObjectParent(scAstRootGroup, scAstSubPath)
     else:
-        qtLog.viewWarning(
-            logWin, u'Scene Model ( Cache ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Scene Model ( Cache ) is Non - Exists')
 
 
 # Model Pose Cache(s)
 def scUnitAstModelPoseCachesLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
+    logWin_ = bscMethods.If_Log()
+    
     datumDic = scenePr.getSceneAssetIndexDataDic(
         projectName, sceneClass, sceneName, sceneVariant
     )
@@ -541,9 +517,9 @@ def scUnitAstModelPoseCachesLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset Model ( Pose Cache )'''
             maxValue = len(v)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for i in v:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 (
                     timestamp, cacheStage, startFrame, endFrame, _,
@@ -555,7 +531,6 @@ def scUnitAstModelPoseCachesLoadCmd(
                     sceneName, sceneVariant, assetName, number
                 )
                 scUnitAstModelPoseCacheLoadSubCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneName, sceneVariant, sceneStage,
@@ -567,7 +542,6 @@ def scUnitAstModelPoseCachesLoadCmd(
 
 # Model Pose Cache Sub
 def scUnitAstModelPoseCacheLoadSubCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneName, sceneVariant, sceneStage,
@@ -590,6 +564,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
         if fileString is not None:
             if lxBasic.isOsExist(fileString):
                 return fileString
+    logWin_ = bscMethods.If_Log()
     #
     scAstModelPoseCacheFile = getFile()
     if scAstModelPoseCacheFile is not None:
@@ -598,25 +573,19 @@ def scUnitAstModelPoseCacheLoadSubCmd(
         if maUtils.isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
             #
-            qtLog.viewWarning(
-                logWin,
-                u'Remove Exists',
-            )
+            logWin_.addWarning(u'Remove Exists')
         #
-        qtLog.viewStartProcess(logWin, u'Load Scene Asset Model ( Pose Cache )', assetName)
+        logWin_.addStartProgress(u'Model Pose Cache Load', scAstModelPoseCacheFile)
         #
-        maFile.setFileImport(scAstModelPoseCacheFile, scAstSimNamespace)
+        maFile.setAlembicCacheImport(scAstModelPoseCacheFile, scAstSimNamespace)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     else:
-        qtLog.viewWarning(
-            logWin, u'Scene Asset Model ( Pose Cache ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Scene Asset Model ( Pose Cache ) is Non - Exists')
 
 
 # Asset(s)
 def scUnitAssetsLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -625,6 +594,8 @@ def scUnitAssetsLoadCmd(
         withAstSolver=False, withAstSolverCache=False,
         withExtraCache=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     datumDic = scenePr.getSceneAssetIndexDataDic(
         projectName, sceneClass, sceneName, sceneVariant
     )
@@ -632,9 +603,9 @@ def scUnitAssetsLoadCmd(
         for k, v in datumDic.items():
             progressExplain = u'''Load Scene Asset(s)'''
             maxValue = len(v)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for i in v:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 (
                     timestamp, cacheStage,
@@ -644,7 +615,6 @@ def scUnitAssetsLoadCmd(
                 ) = i
                 #
                 scUnitAssetLoadSubCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
@@ -659,7 +629,6 @@ def scUnitAssetsLoadCmd(
 
 # Asset Sub
 def scUnitAssetLoadSubCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -673,6 +642,8 @@ def scUnitAssetLoadSubCmd(
         usePoolAsset=False,
         isOffset=False, isLoop=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     # Create Scene Root
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if not maUtils.isAppExist(scUnitRoot):
@@ -697,11 +668,10 @@ def scUnitAssetLoadSubCmd(
         #
         maUtils.setNodeOutlinerRgb(scAstRootPath, 0, 1, 1)
         #
-        qtLog.viewStartProcess(logWin, u'Load Scene Asset ', assetName)
+        logWin_.addStartProgress(u'Asset Load')
         # Model
         if withAstModel:
             scUnitAstModelProductLoadCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -714,7 +684,6 @@ def scUnitAssetLoadSubCmd(
         # CFX
         if withAstCfx is True:
             scUnitAstCfxProductLoadCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -727,7 +696,6 @@ def scUnitAssetLoadSubCmd(
         #
         if withAstSolver is True:
             scUnitAstSolverProductLoadCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -739,7 +707,6 @@ def scUnitAssetLoadSubCmd(
         # Extra
         if withExtraCache:
             scUnitAstExtraCacheConnectCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -749,17 +716,16 @@ def scUnitAssetLoadSubCmd(
                 withAstRigExtraCache=True
             )
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     else:
         assetShowName = appVariant.assetTreeViewName(assetName, number, assetVariant)
-        qtLog.viewWarning(logWin, assetShowName, u'Asset is Exists')
+        logWin_.addWarning(assetShowName, u'Asset is Exists')
     #
     maUtils.setObjectParent(scAstRootPath, scAstSubPath)
 
 
 #
 def scUnitAstModelProductLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -783,6 +749,7 @@ def scUnitAstModelProductLoadCmd(
         if fileString is not None:
             if lxBasic.isOsExist(fileString):
                 return fileString
+    logWin_ = bscMethods.If_Log()
     #
     maPreference.setAnimationTimeUnit(projectName)
     #
@@ -807,19 +774,16 @@ def scUnitAstModelProductLoadCmd(
             else:
                 maUtils.setNodesClearByNamespace(scAstModelNamespace)
             #
-            qtLog.viewResult(
-                logWin,
-                u'Clean Exists',
-            )
+            logWin_.addResult(u'Clean Exists',)
         # Load Product
-        qtLog.viewStartLoadFile(logWin, astModelProductFile)
+        logWin_.addStartProgress('Model Product Load', astModelProductFile)
         #
         if appVariant.rndrUseReference is True:
             maFile.setMaFileReference(astModelProductFile, scAstModelNamespace)
         else:
-            maFile.setFileImport(astModelProductFile, scAstModelNamespace)
+            maFile.setAlembicCacheImport(astModelProductFile, scAstModelNamespace)
         #
-        qtLog.viewCompleteLoadFile(logWin)
+        logWin_.addCompleteProgress()
         # Refresh Root
         maHier.scUnitRefreshRoot(
             assetIndex,
@@ -830,7 +794,6 @@ def scUnitAstModelProductLoadCmd(
         # Load Cache
         if withModelCache is not False:
             scUnitAstModelCacheConnectCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -852,22 +815,13 @@ def scUnitAstModelProductLoadCmd(
             maUtils.setObjectParent(scAstModelContainer, scAstRootGroup)
         #
         else:
-            qtLog.viewWarning(
-                logWin,
-                scenePr.scAstName(assetName, number, assetVariant),
-                u'Asset Model ( Root ) is Non - Exists'
-            )
+            logWin_.addWarning(u'Asset Model ( Root ) is Non - Exists')
     else:
-        qtLog.viewWarning(
-            logWin,
-            scenePr.scAstName(assetName, number, assetVariant),
-            u'Asset Model ( Product File ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Asset Model ( Product File ) is Non - Exists')
 
 
 #
 def scUnitAstModelCacheConnectCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -892,7 +846,8 @@ def scUnitAstModelCacheConnectCmd(
         if fileString is not None:
             if lxBasic.isOsExist(fileString):
                 return fileString
-    #
+    logWin_ = bscMethods.If_Log()
+    
     cacheFile = getFile()
     #
     if cacheFile is not None:
@@ -908,13 +863,13 @@ def scUnitAstModelCacheConnectCmd(
                 #
                 connectMethod.setSourceClear()
                 #
-                qtLog.viewStartLoadFile(logWin, cacheFile)
+                logWin_.addStartProgress('Model Cache Load', cacheFile)
                 #
                 maFile.setAlembicCacheImport(cacheFile, scAstModelCacheNamespace)
                 #
-                qtLog.viewCompleteLoadFile(logWin)
+                logWin_.addCompleteProgress()
                 #
-                qtLog.viewStartSubProcess(logWin, 'Connect Cache')
+                logWin_.addStartProgress('Cache Connect')
                 #
                 connectMethod.connect()
                 #
@@ -928,14 +883,14 @@ def scUnitAstModelCacheConnectCmd(
                         maUtils.setAttrDisconnect(sourceAttr, targetAttr)
                         maUtils.setAttrConnect(sourceAttr, targetAttr)
                         #
-                        qtLog.viewResult(logWin, sourceAttr, targetAttr)
+                        logWin_.addResult(sourceAttr, targetAttr)
                 #
                 errorObjectLis = connectMethod.errorObjectLis
                 if errorObjectLis:
                     for i in errorObjectLis:
-                        qtLog.viewError(logWin, i, u'Mesh is Error ( Topo Non - Match )')
+                        logWin_.addError(i, u'Mesh is Error ( Topo Non - Match )')
                 #
-                qtLog.viewCompleteSubProcess(logWin)
+                logWin_.addCompleteProgress()
                 # Offset Act Start Frame to Start Frame
                 currentStartFrame, currentEndFrame = maUtils.getFrameRange()
                 #
@@ -949,22 +904,13 @@ def scUnitAstModelCacheConnectCmd(
                 if isLoop:
                     maUtils.setAttrDatumForce_(alembicNode, 'cycleType', 1)
         else:
-            qtLog.viewWarning(
-                logWin,
-                scenePr.scAstName(assetName, number, assetVariant),
-                u'Asset Model ( Root ) is Non - Exists'
-            )
+            logWin_.addWarning(u'Asset Model ( Root ) is Non - Exists')
     else:
-        qtLog.viewWarning(
-            logWin,
-            scenePr.scAstName(assetName, number, assetVariant),
-            u'Asset Model ( Cache File ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Asset Model ( Cache File ) is Non - Exists')
 
 
 #
 def scUnitAstExtraCacheConnectCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -988,6 +934,7 @@ def scUnitAstExtraCacheConnectCmd(
         if fileString is not None:
             if lxBasic.isOsExist(fileString):
                 return fileString
+    logWin_ = bscMethods.If_Log()
     #
     scAstRigExtraCacheFile = getFile()
     if scAstRigExtraCacheFile is not None:
@@ -999,30 +946,22 @@ def scUnitAstExtraCacheConnectCmd(
         if maUtils.isAppExist(astRigBridgeGroup):
             maUtils.setNodesClearByNamespace(scAstExtraCacheNamespace)
             #
-            qtLog.viewResult(
-                logWin,
-                u'Clean Exists',
-            )
+            logWin_.addResult(u'Clean Exists', )
         #
-        qtLog.viewStartLoadFile(logWin, scAstRigExtraCacheFile)
+        logWin_.addStartProgress('Extra Cache Load', scAstRigExtraCacheFile)
         #
         maFile.setAlembicCacheImport(scAstRigExtraCacheFile, scAstExtraCacheNamespace)
         #
-        qtLog.viewCompleteLoadFile(logWin)
+        logWin_.addCompleteProgress()
         #
         if maUtils.isAppExist(scAstRootGroup):
             maUtils.setObjectParent(astRigBridgeGroup, scAstRootGroup)
     else:
-        qtLog.viewWarning(
-            logWin,
-            scenePr.scAstName(assetName, number, assetVariant),
-            u'Asset Extra Cache is Non - Exists'
-        )
+        logWin_.addWarning(scenePr.scAstName(assetName, number, assetVariant), u'Asset Extra Cache is Non - Exists')
 
 
 # Character FX
 def scUnitAstCfxProductLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1032,6 +971,8 @@ def scUnitAstCfxProductLoadCmd(
         withAstCfxFurCache=False,
         usePoolAsset=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     maPreference.setAnimationTimeUnit(projectName)
     #
     assetStage = lxCore_.LynxiProduct_Asset_Link_Cfx
@@ -1050,14 +991,14 @@ def scUnitAstCfxProductLoadCmd(
         astCfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, scAstCfxNamespace)
         scAstCfxContainer = assetPr.astCfxContainerName(assetName, scAstCfxNamespace)
         if not maUtils.isAppExist(astCfxGroup):
-            qtLog.viewStartLoadFile(logWin, astCfxProductFile)
+            logWin_.addStartProgress(u'Groom Product Load', astCfxProductFile)
             #
             if appVariant.rndrUseReference is True:
                 maFile.setMaFileReference(astCfxProductFile, scAstCfxNamespace)
             else:
-                maFile.setFileImport(astCfxProductFile, scAstCfxNamespace)
+                maFile.setAlembicCacheImport(astCfxProductFile, scAstCfxNamespace)
             #
-            qtLog.viewCompleteLoadFile(logWin)
+            logWin_.addCompleteProgress()
             # Refresh Root
             maHier.scUnitRefreshRoot(
                 assetIndex,
@@ -1079,7 +1020,6 @@ def scUnitAstCfxProductLoadCmd(
             #
             if withAstCfxFurCache:
                 scUnitAstCfxFurCachesConnectCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1094,16 +1034,11 @@ def scUnitAstCfxProductLoadCmd(
             maUtils.setObjectParent(scAstCfxContainer, scAstRootGroup)
         #
         else:
-            qtLog.viewWarning(
-                logWin,
-                scenePr.scAstName(assetName, number, assetVariant),
-                u'Asset CFX is Exists'
-            )
+            logWin_.addWarning(u'Asset CFX is Exists' )
 
 
 #
 def scUnitAstSolverProductLoadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1112,6 +1047,8 @@ def scUnitAstSolverProductLoadCmd(
         assetClass, assetName, number, assetVariant,
         withAstSolverCache=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     astSolverProductFile = assetPr.astUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -1126,11 +1063,11 @@ def scUnitAstSolverProductLoadCmd(
         #
         astSolverLinkGroup = assetPr.astUnitCfxLinkGroupName(assetName, scAstSolverNamespace)
         if not maUtils.isAppExist(astSolverLinkGroup):
-            qtLog.viewStartLoadFile(logWin, astSolverProductFile)
+            logWin_.addStartProgress(u'Solver Product Load', astSolverProductFile)
             #
             maFile.setMaFileReference(astSolverProductFile, scAstSolverNamespace)
             #
-            qtLog.viewCompleteLoadFile(logWin)
+            logWin_.addCompleteProgress()
             #
             maFur.setScAstSolverGrowSourceConnectToModel(
                 assetName,
@@ -1154,7 +1091,6 @@ def scUnitAstSolverProductLoadCmd(
             #
         if withAstSolverCache:
             scUnitAstSolverCacheConnectCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1171,7 +1107,6 @@ def scUnitAstSolverProductLoadCmd(
 
 #
 def scUnitAstSolverCacheConnectCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1195,6 +1130,7 @@ def scUnitAstSolverCacheConnectCmd(
         if fileString is not None:
             if lxBasic.isOsExist(fileString):
                 return fileString
+    logWin_ = bscMethods.If_Log()
     #
     scAstSolverCacheFile = getFile()
     #
@@ -1214,18 +1150,13 @@ def scUnitAstSolverCacheConnectCmd(
         if maUtils.isAppExist(astSolverLinkGroup) and maUtils.isAppExist(astSolverBridgeGroup):
             errorLis = maFur.setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scAstSolverCacheNamespace)
             if errorLis:
-                [qtLog.viewError(logWin, i) for i in errorLis]
+                [logWin_.addError(i) for i in errorLis]
     else:
-        qtLog.viewWarning(
-            logWin,
-            scenePr.scAstName(assetName, number, assetVariant),
-            u'Asset Solver ( Cache ) is Non - Exists'
-        )
+        logWin_.addWarning(u'Asset Solver ( Cache ) is Non - Exists')
 
 
 # CFX Fur Cache(s) Connect
 def scUnitAstCfxFurCachesConnectCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1234,6 +1165,8 @@ def scUnitAstCfxFurCachesConnectCmd(
         assetClass, assetName, number, assetVariant,
         withAstCfxFurCache
 ):
+    logWin_ = bscMethods.If_Log()
+    
     scAstCfxNamespace = scenePr.scAstCfxNamespace(sceneName, sceneVariant, assetName, number)
     #
     furObjectLis = datScene.getScAstCfxFurObjects(assetName, scAstCfxNamespace)
@@ -1241,12 +1174,11 @@ def scUnitAstCfxFurCachesConnectCmd(
     if furObjectLis:
         progressExplain = u'Load Scene Asset Character FX ( Fur Cache )'
         maxValue = len(furObjectLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for furObject in furObjectLis:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             scUnitAstCfxFurCacheConnectSubCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1260,7 +1192,6 @@ def scUnitAstCfxFurCachesConnectCmd(
 
 # CFX Fur Cache Sub
 def scUnitAstCfxFurCacheConnectSubCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1308,12 +1239,13 @@ def scUnitAstCfxFurCacheConnectSubCmd(
         if fileString is not None:
             if OsMultFileMethod.isOsExistsMultiFile(fileString):
                 return fileString
+    logWin_ = bscMethods.If_Log()
     #
     furObjectLabel = maFur.getFurObjectLabel(furObject, assetName)
     furObjectType = maUtils.getShapeType(furObject)
     furCacheFile = getFile()
     if furCacheFile:
-        qtLog.viewStartLoadFile(logWin, furCacheFile)
+        logWin_.addStartProgress(u'Fur Cache Load', furCacheFile)
         # Yeti
         if furObjectType == appCfg.MaNodeType_Plug_Yeti:
             maFur.setYetiConnectCache(
@@ -1334,15 +1266,15 @@ def scUnitAstCfxFurCacheConnectSubCmd(
                 furObject, furCacheFile
             )
         #
-        qtLog.viewCompleteLoadFile(logWin)
+        logWin_.addCompleteProgress()
 
 
 #
 def scUnitSceneryExtraLoadLoadCmd(
-        logWin,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage
 ):
+    logWin_ = bscMethods.If_Log()
     #
     extraData = scenePr.getScSceneryExtraData(
         projectName,
@@ -1353,7 +1285,7 @@ def scUnitSceneryExtraLoadLoadCmd(
         maUtils.setAppPathCreate(scSceneryLinkPath)
     #
     if extraData:
-        qtLog.viewStartProcess(logWin, 'Load Scene Scenery ( Extra )')
+        logWin_.addStartProgress(u'Scenery Extra Load')
         #
         if lxCore_.LynxiAssemblyReferenceDataKey in extraData:
             data = extraData[lxCore_.LynxiAssemblyReferenceDataKey]
@@ -1366,7 +1298,7 @@ def scUnitSceneryExtraLoadLoadCmd(
         if scenePr.isScLightLink(sceneStage):
             sceneryOp.setAssembliesActiveSwitch('Proxy')
         #
-        qtLog.viewCompleteSubProcess(logWin)
+        logWin_.addCompleteProgress()
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):

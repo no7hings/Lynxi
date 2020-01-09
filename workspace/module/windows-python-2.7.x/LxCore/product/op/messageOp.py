@@ -53,7 +53,7 @@ def sendProductMessageByDingTalk(
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    catchCostTime = lxBasic.translateRecordViewTime(timeTag, useMode=1)
+    fncCatchCostTime = lxBasic.translateRecordViewTime(timeTag, useMode=1)
     #
     viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
     #
@@ -68,7 +68,7 @@ def sendProductMessageByDingTalk(
         viewLink,
         viewUnit, moduleName,
         userCnName, userName,
-        catchCostTime,
+        fncCatchCostTime,
         description,
         note
     )
@@ -78,7 +78,7 @@ def sendProductMessageByDingTalk(
 
 #
 def sendProductMessageByMail(
-        logWin,
+        htmlLog,
         dbUnitId,
         projectName,
         moduleClass, moduleName, moduleVariant, moduleStage,
@@ -104,8 +104,7 @@ def sendProductMessageByMail(
     if not note:
         note = u'N/a'
     #
-    log = logWin.html()
-    if not log:
+    if htmlLog is None:
         u'N/a'u'无更新日志'
     #
     mainBody = u'''

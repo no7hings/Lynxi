@@ -1,9 +1,9 @@
 # coding:utf-8
-#
+from LxBasic import bscMethods
 #
 from LxCore.method import _presetMethod
 #
-from LxUi.qt import qtWidgets, qtCore, qtCommands
+from LxUi.qt import qtWidgets, qtCore
 
 
 #
@@ -106,9 +106,9 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitIndexDatum = unitItem.presetIndexDatum()
                     unitSetDatum = unitItem.presetSetDatum()
@@ -125,9 +125,9 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitItem.refreshPresetSet(
                         self.getDbProductUnitSetDatum(dbUnitId)
@@ -389,9 +389,9 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitIndexDatum = unitItem.presetIndexDatum()
                     unitSetDatum = unitItem.presetSetDatum()
@@ -408,9 +408,9 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitItem.refreshPresetSet(
                         self.getDbProductUnitSetDatum(dbUnitId)

@@ -1,9 +1,10 @@
 # coding=utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic
-from LxUi.qt import qtCommands
 #
 from LxMaya.command import maUtils
 #
@@ -152,11 +153,11 @@ def astMeshGeomDefCheck(meshObjects):
         # View Progress
         progressExplain = u'''Mesh Nde_Geometry Check'''
         maxValue = len(config)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for k, v in config.items():
             enable = v[0]
             subExplain = v[1]
-            progressBar.updateProgress(subExplain)
+            progressBar.update(subExplain)
             #
             subData = []
             if enable is True:

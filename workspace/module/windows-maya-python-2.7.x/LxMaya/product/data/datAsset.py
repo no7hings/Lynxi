@@ -4,9 +4,10 @@ import os
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import pymel.core as core
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -29,42 +30,42 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
     # >>>> 01
     if vertex:
-        progressBar.updateProgress('Vertex')
+        progressBar.update('Vertex')
         dic['vertex'] = cmds.polyEvaluate(objectLis, vertex=1)
     # >>>> 02
     if edge:
-        progressBar.updateProgress('Edge')
+        progressBar.update('Edge')
         dic['edge'] = cmds.polyEvaluate(objectLis, edge=1)
     # >>>> 03
     if face:
-        progressBar.updateProgress('Face')
+        progressBar.update('Face')
         dic['face'] = cmds.polyEvaluate(objectLis, face=1)
     # >>>> 04
     if triangle:
-        progressBar.updateProgress('Triangle')
+        progressBar.update('Triangle')
         dic['triangle'] = cmds.polyEvaluate(objectLis, triangle=1)
     # >>>> 05
     if uvcoord:
-        progressBar.updateProgress('UV')
+        progressBar.update('UV')
         dic['uvcoord'] = cmds.polyEvaluate(objectLis, uvcoord=1)
     # >>>> 06
     if area:
-        progressBar.updateProgress('Area')
+        progressBar.update('Area')
         dic['area'] = cmds.polyEvaluate(objectLis, area=1)
     # >>>> 07
     if worldArea:
-        progressBar.updateProgress('World Area')
+        progressBar.update('World Area')
         dic['worldArea'] = cmds.polyEvaluate(objectLis, worldArea=1)
     # >>>> 08
     if shell:
-        progressBar.updateProgress('Shell')
+        progressBar.update('Shell')
         dic['shell'] = cmds.polyEvaluate(objectLis, shell=1)
     # >>>> 09
     if boundingBox:
-        progressBar.updateProgress('Bounding Box')
+        progressBar.update('Bounding Box')
         dic['boundingBox'] = cmds.polyEvaluate(objectLis, boundingBox=1)
     return dic
 
@@ -356,9 +357,9 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for i in objectLis:
-            progressBar.updateProgress()
+            progressBar.update()
             getBranch(i)
     return dic
 
@@ -572,9 +573,9 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for i in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             getBranch(i)
     return dic
 
@@ -598,9 +599,9 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for i in objectStrings:
-            progressBar.updateProgress()
+            progressBar.update()
             getBranch(i)
     #
     return dic
@@ -683,10 +684,10 @@ def getTextureStatisticsDic(objectLis):
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(textureNodeLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for textureNode in textureNodeLis:
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             textureString = maTxtr.getTextureNodeAttrData(textureNode)
             getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDic, textureMtimestampDic)
     #
@@ -753,9 +754,9 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 totalArray.append(uniqueId)
                 pathCheck, geomCheck, geomShapeCheck, mapCheck, mapShapeCheck = getMeshConstant(uniqueId, localInfoDic, serverInfoDic)
@@ -794,9 +795,9 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 totalArray.append(uniqueId)
                 pathCheck, geomCheck, geomShapeCheck, mapCheck, mapShapeCheck = getMeshConstant(uniqueId, localInfoDic,
@@ -884,9 +885,9 @@ def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, ass
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(unionUniqueInfoData)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for uniqueId in unionUniqueInfoData:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             totalArray.append(uniqueId)
             composeCheck, attributeCheck, relationCheck, objectSetCheck = setMaterialConstant(uniqueId, localInfoDic, serverInfoDic, localMeshSetData, serverMeshSetData)

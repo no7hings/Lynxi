@@ -1,14 +1,14 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtModels import qtChartModel
+from LxUi.qt._qtModels import _qtChartModel
 #
 from LxUi.qt.qtObjects import qtAbcWidget
 
 
 #
 class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
-    MODEL_CHART_CLS = qtChartModel.QtRadarchartModel
+    MODEL_CHART_CLS = _qtChartModel.QtRadarchartModel
 
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
@@ -97,7 +97,7 @@ class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
 
 #
 class QtSectorchart(qtAbcWidget.QtAbcObj_Chart):
-    MODEL_CHART_CLS = qtChartModel.QtSectorchartModel
+    MODEL_CHART_CLS = _qtChartModel.QtSectorchartModel
 
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)

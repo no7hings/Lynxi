@@ -295,7 +295,7 @@ class lxInfoBasic(object):
     def setTime(self, timeStamp):
         self._time = timeStamp
     #
-    def catchCostTime(self):
+    def fncCatchCostTime(self):
         if self.time() is not None:
             return lxBasic.getCnViewTime(self.time())
     #

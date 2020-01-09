@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxUi.qt import qtCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils
 #
 maUtils.setUnusedNamespacesClean()
 #
-qtCommands.setMessageWindowShow('Clean Unused - Namespace', 'Complete')
+bscMethods.If_Message('Clean Unused - Namespace', 'Complete')

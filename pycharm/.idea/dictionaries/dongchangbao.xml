@@ -5,6 +5,7 @@
       <w>actionview</w>
       <w>anim</w>
       <w>aov</w>
+      <w>aovs</w>
       <w>appname</w>
       <w>appversion</w>
       <w>asbs</w>
@@ -45,10 +46,12 @@
       <w>enterbox</w>
       <w>enteritem</w>
       <w>exts</w>
+      <w>failobj</w>
       <w>filebasename</w>
       <w>foldername</w>
       <w>fullpath</w>
       <w>geometryinput</w>
+      <w>geometrypath</w>
       <w>geometryset</w>
       <w>geomname</w>
       <w>geomnamearray</w>
@@ -96,12 +99,14 @@
       <w>moduleversion</w>
       <w>mtime</w>
       <w>mtimestamp</w>
+      <w>mtlx</w>
       <w>mtoa</w>
       <w>mtos</w>
       <w>mult</w>
       <w>myproject</w>
       <w>myworkspace</w>
       <w>namespacesep</w>
+      <w>nodedefs</w>
       <w>nodeinput</w>
       <w>nodename</w>
       <w>nodepath</w>
@@ -139,6 +144,7 @@
       <w>pythonversion</w>
       <w>radarchart</w>
       <w>raws</w>
+      <w>rawset</w>
       <w>recordview</w>
       <w>rects</w>
       <w>rehighlight</w>
@@ -162,10 +168,13 @@
       <w>serverroot</w>
       <w>serverrootpath</w>
       <w>shaderinput</w>
+      <w>shaderoutput</w>
       <w>shaderref</w>
       <w>shaders</w>
       <w>shaderset</w>
+      <w>shadersets</w>
       <w>shelftab</w>
+      <w>shutil</w>
       <w>solidangle</w>
       <w>sourcepath</w>
       <w>sqlite</w>
@@ -199,6 +208,7 @@
       <w>unrenderable</w>
       <w>unselectable</w>
       <w>unuse</w>
+      <w>usedef</w>
       <w>uuids</w>
       <w>vedio</w>
       <w>versionactive</w>

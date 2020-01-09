@@ -1,6 +1,7 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import assetCfg
 #
@@ -787,9 +788,9 @@ def getDbAssetIndexDic(projectFilter):
         if osFileNames:
             explain = '''Read Asset Database'''
             maxValue = len(osFileNames)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for subData in osFileNames:
-                progressBar.updateProgress()
+                progressBar.update()
                 assetIndex = subData
                 dbAssetClassify = getDbAssetClass(assetIndex)
                 dbAssetTag = getDbAssetTag(assetIndex)
@@ -858,9 +859,9 @@ def getDbModels(dbIndexes):
     if dbIndexes:
         explain = '''Read Model'''
         maxValue = len(dbIndexes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for assetIndex in dbIndexes:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             if isDbAstExistsGeometry(assetIndex):
                 lis.append(assetIndex)
@@ -874,9 +875,9 @@ def getDbCfxs(dbIndexes):
     if dbIndexes:
         explain = '''Read CFX'''
         maxValue = len(dbIndexes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for assetIndex in dbIndexes:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             if getExistsDbFur(assetIndex, astDefaultVariant):
                 lis.append(assetIndex)
@@ -890,9 +891,9 @@ def getDbRigs(dbIndexes):
     if dbIndexes:
         explain = '''Read Rig'''
         maxValue = len(dbIndexes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for assetIndex in dbIndexes:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             if getExistsDbRigAstIntFile(assetIndex):
                 lis.append(assetIndex)
@@ -919,9 +920,9 @@ def getDbCfxNamesByClassify(projectName, filterClassify=none):
     if dbIndexes:
         explain = '''Read CFX's Data'''
         maxValue = len(dbIndexes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for assetIndex in dbIndexes:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             if getExistsDbFur(assetIndex, appVariant.astDefaultVariant):
                 assetName = getDbAssetName(assetIndex, projectName)

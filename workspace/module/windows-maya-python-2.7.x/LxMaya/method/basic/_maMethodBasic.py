@@ -1685,11 +1685,11 @@ class Mtd_MaPlug(Mtd_AppMaya, _maConfig.MaPlugConfig):
     def getPlugLis():
         return cmds.pluginInfo(query=1, listPlugins=1)
     @staticmethod
-    def isPlugLoaded(plugString):
-        return cmds.pluginInfo(plugString, query=1, loaded=1)
+    def isPlugLoaded(plugName):
+        return cmds.pluginInfo(plugName, query=1, loaded=1)
     @staticmethod
-    def loadAppPlug(plugString):
-        cmds.loadPlugin(plugString, quiet=1)
+    def loadAppPlug(plugName):
+        cmds.loadPlugin(plugName, quiet=1)
 
 
 #

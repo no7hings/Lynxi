@@ -229,7 +229,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
     if inData:
         for seq, (k, v) in enumerate(inData.items()):
             if progressBar:
-                progressBar.updateProgress()
+                progressBar.update()
             referenceNode = k
             assetClass, assetName, number, assetVariant, state = v
             if state == 'Loaded':

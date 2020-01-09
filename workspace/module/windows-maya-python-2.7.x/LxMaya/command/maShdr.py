@@ -1,9 +1,10 @@
 # coding=utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.config import appCfg
 #
@@ -150,9 +151,9 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for objSeq, objectString in enumerate(objectLis):
-            progressBar.updateProgress()
+            progressBar.update()
             objectType = maUtils.getShapeType(objectString)
             materials = getObjectMaterials(objectString)
             index = 0
@@ -197,9 +198,9 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
         # View Progress
         explain = u'''Rename Material - Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for node, nodeName in renameDataArray:
-            progressBar.updateProgress(nodeName)
+            progressBar.update(nodeName)
             print node, nodeName
             maUtils.setNodeRename(node, nodeName)
 
@@ -210,9 +211,9 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for aovSeq, aov in enumerate(aovNodes):
-            progressBar.updateProgress()
+            progressBar.update()
             nodes = getMaterialNodes(aov)
             if nodes:
                 for nodSeq, node in enumerate(nodes):
@@ -253,9 +254,9 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
         # View Progress
         explain = u'''Rename AOV Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for node, nodeName in renameDataArray:
-            progressBar.updateProgress(nodeName)
+            progressBar.update(nodeName)
             maUtils.setNodeRename(node, nodeName)
 
 
@@ -622,10 +623,10 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         # View Progress
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for objectString, linkDatumLis in data.items():
             # In Progress
-            progressBar.updateProgress()
+            progressBar.update()
             #
             usedObject = \
                 [objectString, maUtils.getObjectPathJoinNamespace(objectString, objectNamespace)][objectNamespace != none]
@@ -654,9 +655,9 @@ def setMaterialsObjectSetsConnect(datumDic):
         # View Progress
         explain = u'''Connect Material's Object Set(s)'''
         maxValue = len(datumDic)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for compIndex, linkDatumLis in datumDic.items():
-            progressBar.updateProgress()
+            progressBar.update()
             #
             setMaterialObjectSetConnect(compIndex, linkDatumLis)
 
@@ -935,9 +936,9 @@ def setObjectsAttrsCreate(datumDic):
         # View Progress
         explain = u'''Set Material's Object Attribute(s)'''
         maxValue = len(datumDic)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for uniqueId, attrData in datumDic.items():
-            progressBar.updateProgress()
+            progressBar.update()
             #
             objectString = maUuid.getObject(uniqueId)
             if objectString:

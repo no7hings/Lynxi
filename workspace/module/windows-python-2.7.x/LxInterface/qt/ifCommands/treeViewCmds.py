@@ -5,7 +5,7 @@ from LxCore import lxBasic, lxCore_
 #
 from LxCore.preset.prod import scenePr
 #
-from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtCommands
+from LxUi.qt import qtWidgets_, qtChart_, qtWidgets
 
 #
 none = ''
@@ -50,7 +50,7 @@ def setListScRenderImageCustomize(
             ]
             itemWidget.setActionData(actions)
         #
-        progressBar.updateProgress()
+        progressBar.update()
         #
         data = scenePr.getScRenderImageData(
             projectName,
@@ -107,7 +107,7 @@ def setListScRenderImageCustomize(
     if customizes:
         explain = '''List Scene Render ( Customizes )'''
         maxValue = len(customizes)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         [setBranch(i) for i in customizes]
     #
     return methods

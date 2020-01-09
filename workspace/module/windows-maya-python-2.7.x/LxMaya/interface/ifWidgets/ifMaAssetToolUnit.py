@@ -1,6 +1,8 @@
 # coding=utf-8
 import collections, threading
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic, lxCore_
 #
 from LxCore.config import appCfg
@@ -9,10 +11,10 @@ from LxCore.preset import appVariant, databasePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxDatabase import dbGet
 #
@@ -39,7 +41,7 @@ none = ''
 
 
 #
-class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Model
     ]
@@ -231,7 +233,7 @@ class IfAstModelCharToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Model
     ]
@@ -412,9 +414,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             isRepairWithSoftNormal = self.withSoftNormalButton.isChecked()
             isRepairWithUv = self.withUvButton.isChecked()
             #
-            logWin = None
             maAstUploadCmds.astUnitMeshRepairCmd_(
-                logWin,
                 assetName,
                 repairTrans=isRepairWithTrans, repairHistory=isRepairWithHistory,
                 repairUnlockNormal=isRepairWithUnlockNormal,
@@ -424,7 +424,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             self.withUnlockNormalButton.setChecked(False)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'修复模型', u'成功'
             )
     #
@@ -438,15 +438,14 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
             isRepairWithTexture = self.withTextureButton.isChecked()
             isRepairWithAov = self.withAovButton.isChecked()
             #
-            logWin = None
             maAstUploadCmds.astUnitShaderRepairCmd_(
-                logWin, assetName,
+                assetName,
                 repairMatl=isRepairWithMaterial, repairTexture=isRepairWithTexture, repairAov=isRepairWithAov
             )
             #
             self.withTextureButton.setChecked(False)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'修复材质', u'成功'
             )
     #
@@ -463,7 +462,7 @@ class IfAstModelToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstRigToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Rig
     ]
@@ -497,7 +496,7 @@ class IfAstRigToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Cfx,
         lxCore_.LynxiProduct_Asset_Link_Solver
@@ -1054,7 +1053,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         yetiNode, node = i
                         maUtils.setYetiNodeAttr(yetiNode, node, 'geometry', growObjectShapeName)
                     #
-                    maUtils.setDefaultShader(growObjectName)
+                    maUtils.setNodeDefaultShader(growObjectName)
                     maUtils.setHide(growObjectName)
                     #
                     referenceObjects = maUtils.getYetiRefObject(growObjectName)
@@ -1068,7 +1067,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
                             maUtils.setObjectShapeRename(referenceObjectName, referenceObjectShapeName)
                             maUtils.setObjectParent(referenceObjectName, referenceObjectGroup)
                             #
-                            maUtils.setDefaultShader(referenceObjectName)
+                            maUtils.setNodeDefaultShader(referenceObjectName)
                             maUtils.setHide(referenceObjectName)
             #
             guideSystemData = []
@@ -1617,7 +1616,7 @@ class IfAstCfxGroomToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Solver
     ]
@@ -1872,7 +1871,7 @@ class IfAstSolverToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Model,
         lxCore_.LynxiProduct_Asset_Link_Rig,
@@ -2213,7 +2212,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
             root = assetPr.astUnitLightLinkGroupName(assetName)
             maRender.setConnectLightsToScale(root)
             #
-            qtCommands.setMessageWindowShow('Connect Light to Scale', 'Complete')
+            bscMethods.If_Message('Connect Light to Scale', 'Complete')
         #
         inData = self.dicLight
         #
@@ -2304,7 +2303,6 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         isWithMaterial = self.importWithMaterialButton.isChecked()
         shaderGeomObjects = datAsset.getAstMeshObjects(assetName, 1)
         if shaderGeomObjects:
-            logWin = None
             maUtils.setDisplayMode(5)
             if isWithMaterial:
                 isExistsMaterial = dbGet.getDbExistsAstModelMaterial(assetIndex, assetVariant)
@@ -2314,7 +2312,6 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     assetOp.setUnusedShaderClear()
                     #
                     maAstLoadCmds.astUnitModelMaterialLoadCmd(
-                        logWin,
                         projectName,
                         assetIndex,
                         assetClass, assetName, assetVariant, assetStage,
@@ -2322,17 +2319,16 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     )
                     [maShdr.setObjectDefaultShadingEngine(i) for i in shaderGeomObjects]
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'Import Nde_ShaderRef', u'Complete'
                     )
                 else:
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'Nde_ShaderRef', u'Non-Exists'
                     )
     @staticmethod
     def setCleanScene():
-        logWin = None
-        maAstUploadCmds.astUnitSceneClearCmd(logWin)
+        maAstUploadCmds.astUnitSceneClearCmd()
     #
     def setRenameScene(self):
         projectName = self.connectObject().projectName
@@ -2342,10 +2338,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         renderer = projectPr.getProjectMayaRenderer(projectName)
         #
-        logWin = None
-        #
         maAstUploadCmds.astUnitSceneRenameCmd_(
-            logWin,
             assetName, assetVariant, assetStage,
             renderer
         )
@@ -2369,11 +2362,11 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 mode
             )
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'Load Mesh Index', u'Complete'
             )
         else:
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'Mesh', u'Non-Exists'
             )
     #
@@ -2417,7 +2410,7 @@ class IfAstGeneralToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Model,
         lxCore_.LynxiProduct_Asset_Link_Rig,
@@ -2656,7 +2649,7 @@ class IfAstModelInfoToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxCore_.LynxiProduct_Asset_Link_Model,
         lxCore_.LynxiProduct_Asset_Link_Rig,
@@ -3113,7 +3106,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 checkResult = True
         if not geometryObjects:
             self._astMainCheckButton.setPressable(False)
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3144,7 +3137,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         elif not checkData:
             self._astMainCheckButton.setPressable(False)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3173,7 +3166,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3202,7 +3195,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3248,7 +3241,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     checkResult = True
                     _astSubCheckButton.setPressable(False)
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'Texture ( Nde_Node ) is',
                         u'Non - Exists'
                     )
@@ -3278,7 +3271,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             overrideColor=overrideColor
         )
         #
-        qtCommands.setMessageWindowShow(
+        bscMethods.If_Message(
             u'Make Snapshot ( Viewport )', u'Complete'
         )
     #
@@ -3308,7 +3301,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
         )
         #
-        qtCommands.setMessageWindowShow(
+        bscMethods.If_Message(
             u'Make Snapshot ( Render )', u'Complete'
         )
     # Result
@@ -3413,7 +3406,7 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     #
                     self.setVarBtnState()
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'Set Variant', u'Complete'
                     )
     #
@@ -3558,12 +3551,9 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 模型 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = qtLog.setLogWindowShow(description)
-                #
                 self.connectObject().hide()
                 #
                 maAstUploadCmds.astUnitModelUploadMainCmd(
-                    logWin,
                     projectName,
                     assetIndex,
                     assetClass, assetName, assetVariant, assetStage,
@@ -3577,8 +3567,6 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     # Material
                     repairMatl=isRepairWithMaterial, repairTexture=isRepairWithTexture, repairAov=isRepairWithAov
                 )
-                #
-                logWin.setCountdownClose(5)
                 timerA = threading.Timer(5, self.connectObject().close)
                 timerA.start()
     # Rig
@@ -3597,12 +3585,9 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 绑定 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = qtLog.setLogWindowShow(description)
-                #
                 self.connectObject().hide()
                 #
                 maAstUploadCmds.astUnitUploadRigMain(
-                    logWin,
                     assetIndex,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage,
@@ -3610,7 +3595,6 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     description=description, notes=note
                 )
                 #
-                logWin.setCountdownClose(5)
                 timerA = threading.Timer(5, self.connectObject().close)
                 timerA.start()
     # CFX
@@ -3632,12 +3616,9 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 毛发塑形 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = qtLog.setLogWindowShow(description)
-                #
                 self.connectObject().hide()
                 #
                 maAstUploadCmds.astUnitCfxUploadMainCmd(
-                    logWin,
                     assetIndex,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage,
@@ -3646,7 +3627,6 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     description=description, notes=note
                 )
                 #
-                logWin.setCountdownClose(5)
                 timerA = threading.Timer(5, self.connectObject().close)
                 timerA.start()
     #
@@ -3666,12 +3646,9 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 - 毛发绑定 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = qtLog.setLogWindowShow(description)
-                #
                 self.connectObject().hide()
                 #
                 maAstUploadCmds.astUnitUploadMain(
-                    logWin,
                     assetIndex,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage,
@@ -3679,7 +3656,6 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     description=description, notes=note
                 )
                 #
-                logWin.setCountdownClose(5)
                 timerA = threading.Timer(5, self.connectObject().close)
                 timerA.start()
     #
@@ -3698,12 +3674,9 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 description = u'资产 _ 灯光 上传/更新'
                 note = self._noteTexBrower.datum()
                 #
-                logWin = qtLog.setLogWindowShow(description)
-                #
                 self.connectObject().hide()
                 #
                 maAstUploadCmds.astUnitUploadMain(
-                    logWin,
                     assetIndex,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage,
@@ -3711,7 +3684,6 @@ class IfAstUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     description=description, notes=note
                 )
                 #
-                logWin.setCountdownClose(5)
                 timerA = threading.Timer(5, self.connectObject().close)
                 timerA.start()
     #

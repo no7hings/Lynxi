@@ -1,18 +1,19 @@
 # coding=utf-8
+from LxBasic import bscMethods
 #
-from LxUi.qt import qtWidgets, qtMethod, qtCommands
+from LxUi.qt import qtWidgets, qtMethod
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxMaya.method import _maMethod
 #
-from LxMaya.interface.ifObjects import ifMaAbcObjItemWidget
+from LxMaya.interface.ifObjects import ifMaItemBasic
 #
 none = ''
 
 
 #
-class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     widthSet = 400
     UnitTitle = 'Model Check'
     UnitIcon = 'window#geometryPanel'
@@ -86,12 +87,12 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
             def setErrorSubBranch(errorData):
                 def setObjectBranch(objectPath, compLis):
                     def setCompBranch(compPath):
-                        compItem = ifMaAbcObjItemWidget.IfMaNodeTreeItem()
+                        compItem = ifMaItemBasic.IfMaNodeTreeItem()
                         objectItem.addChild(compItem)
                         #
                         compItem.load(compPath)
                     #
-                    objectItem = ifMaAbcObjItemWidget.IfMaNodeTreeItem()
+                    objectItem = ifMaItemBasic.IfMaNodeTreeItem()
                     objectItem.loadNode(objectPath)
                     inspectionItem.addChild(objectItem)
                     #
@@ -146,9 +147,9 @@ class IfAstModelCheckViewerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         self.app_check_method.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
-            progressBar.updateProgress(k)
+            progressBar.update(k)
             setInspectionBranch(s, k, v)
         #
         self.app_check_method.setUndoChunkClose()

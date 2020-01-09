@@ -7,7 +7,7 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtObjects import qtAbcWidget
 #
-from LxUi.qt.qtModels import qtGraphViewModel
+from LxUi.qt._qtModels import _qtGraphViewModel
 #
 from LxUi.qt.qtWidgets import qtGraphItem
 #
@@ -354,7 +354,7 @@ class QtGraphview(qtCore.QWidget):
         #
         self._viewport = xNodeViewport(self)
         #
-        self._viewModel = qtGraphViewModel.QtGraphviewModel(
+        self._viewModel = _qtGraphViewModel.QtGraphviewModel(
             self,
             (
                 qtGraphItem.xGraphNodeItem, qtGraphItem.xGraphConnectionItem, qtGraphItem.xGraphGroupItem,

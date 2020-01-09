@@ -2,34 +2,35 @@
 import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
-#
+
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_, lxScheme
-#
+
 from LxCore.config import appCfg, sceneCfg, appConfig
-#
+
 from LxCore.preset import appVariant
-#
+
 from LxCore.preset.prod import projectPr, assetPr, scenePr
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
-#
-#
-from LxInterface.qt.ifBasic import ifWidgetBasic
-#
+
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
+
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
+
 from LxDatabase import dbGet
-#
+
 from LxMaya.command import maUtils, maFile, maFur, maKeyframe, maCam, maRender, maPreference
-#
+
 from LxMaya.product import maAstLoadCmds
-#
+
 from LxMaya.product.data import datAsset, datScene, datAnim
-#
+
 from LxMaya.product.op import animOp, sceneOp
-#
+
 from LxMaya.product import maScUploadCmds
-#
+
 from LxMaya.interface.ifCommands import maAnimTreeViewCmds
-#
+
 from LxDeadline.command import ddlUtil
 
 # Project Data
@@ -43,7 +44,7 @@ none = ''
 
 
 #
-class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
+class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
     UnitTitle = 'Asset Rig Load'
     SideWidth = 320
     #
@@ -68,7 +69,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
     dicTool['animationManager'] = [0, 4, 0, 1, 6, 'Animation Manager']
     def __init__(self, *args, **kwargs):
         super(IfScRigLoadedUnit, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.classify = none
         #
@@ -229,9 +230,9 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
             # View Progress
             explain = '''Build Rig Unit(s)'''
             maxValue = len(uiData)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
-                progressBar.updateProgress()
+                progressBar.update()
                 setBranch(s, k, v)
         #
         gridView.setRefresh()
@@ -279,7 +280,7 @@ class IfScRigLoadedUnit(ifWidgetBasic.IfUnitBasic):
 
 
 #
-class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     widthSet = 400
     #
     projectName = currentProjectName
@@ -322,8 +323,6 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def __init__(self, *args, **kwargs):
         super(IfScLayoutToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
-        #
-        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
         #
@@ -626,7 +625,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if maUtils.isAppExist(sceneCamera):
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     u'''Camera : %s''' % sceneCamera, u'''is Exists'''
                 )
             if not maUtils.isAppExist(sceneCamera):
@@ -679,7 +678,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
             if maUtils.isAppExist(usedCamera):
                 maUtils.setDisplayMode(5)
                 maUtils.setCameraView(usedCamera)
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     u'''Set Camera View''', u'''Complete'''
                 )
     @staticmethod
@@ -718,12 +717,9 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                logWin = qtLog.setLogWindowShow()
-                #
                 timeTag = lxBasic.getOsActiveTimeTag()
                 #
                 maScUploadCmds.scUnitCamerasUploadCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
@@ -731,7 +727,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     timeTag,
                     withCamera
                 )
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     u'Animation Camera Upload', u'Complete'
                 )
     #
@@ -771,12 +767,9 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                logWin = None
-                #
                 withPreview = cameraData, previewConfig
                 #
                 maScUploadCmds.scUnitPreviewsUploadCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
@@ -794,7 +787,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     if lxBasic.isOsExist(previewFolder):
                         lxBasic.setOsFolderOpen(previewFolder)
                 #
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     u'Animation Preview Upload', u'Complete'
                 )
     #
@@ -840,11 +833,11 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         'Camera Import', 'Complete'
                     )
                 else:
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         'Camera', 'is Exists'
                     )
 
@@ -908,7 +901,7 @@ class IfScLayoutToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScAnimationLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
     dicUtilsTool = {
@@ -1014,7 +1007,7 @@ class IfScAnimationLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScUtilToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScUtilToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
     dicUtils = lxBasic.orderedDict()
@@ -1048,7 +1041,7 @@ class IfScUtilToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitConnectLinks = [
@@ -1094,8 +1087,6 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
     def __init__(self, *args, **kwargs):
         super(IfScAnimUploadToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
-        #
-        self.logWindow = qtLog.getLogWindow_()
         #
         self.setupUnit()
         #
@@ -1455,11 +1446,9 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         # Scenery
         isWithScenery = getSceneryUploadDatum()
         # Log Window
-        logWin = qtLog.setLogWindowShow()
         self._connectObject.hide()
         #
         maScUploadCmds.scUnitAnimationUploadMainCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1470,7 +1459,6 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             withPreview=isWithPreview, withCamera=isWithCamera, withAsset=isWithAsset, withScenery=isWithScenery
         )
         #
-        logWin.setCountdownClose(5)
         timer = threading.Timer(5, self._connectObject.close)
         timer.start()
     #
@@ -1482,17 +1470,15 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
-        logWin = None
         timeTag = lxBasic.getOsActiveTimeTag()
         #
         maScUploadCmds.scUnitSceneryComposeUploadCmd_(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
             timeTag,
         )
-        qtCommands.setMessageWindowShow(
+        bscMethods.If_Message(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
@@ -1515,7 +1501,7 @@ class IfScAnimUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitTitle = 'Scene Light Upload'
@@ -1775,8 +1761,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             lxBasic.setOsFolderOpen(renderPath)
         #
         def setUpdateRenderIndex():
-            logWin = qtLog.setLogWindowShow()
-            #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
             #
@@ -1784,7 +1768,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             width, height = maRender.getRenderSize()
             #
             maScUploadCmds.scUnitRenderIndexUploadCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1794,7 +1777,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 timeTag
             )
             #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -1829,8 +1812,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             if sceneIndex:
-                logWin = qtLog.setLogWindowShow()
-                #
                 isWithRender = self.withRenderLabel.isChecked()
                 isWithDeadline = self.withDeadlineLabel.isChecked()
                 #
@@ -1857,7 +1838,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 notes = self._scNoteUiLabel.datum()
                 #
                 maScUploadCmds.scUnitLightUploadMainCmd(
-                    logWin,
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1867,7 +1847,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     withRender=isWithRender,
                     withDeadline=isWithDeadline
                 )
-                logWin.setCountdownClose(5)
         #
         inData = self.dicScUpload
         #
@@ -2101,7 +2080,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             #
             setLoadAction()
             #
-            qtCommands.setMessageWindowShow('Save Mel Command', 'Complete !!!')
+            bscMethods.If_Message('Save Mel Command', 'Complete !!!')
         #
         def loadCmd():
             osFile = self._melCommandFile
@@ -2185,8 +2164,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             #
-            logWin = qtLog.setLogWindowShow(u'Deadline Submit')
-            #
             customize = datScene.getSceneCustomizeLabel(sceneName)
             timeTag = lxBasic.getOsActiveTimeTag()
             #
@@ -2207,7 +2184,6 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
             melCommandString = [self.getMelCommandString(), None][self._addToMayaButton.isChecked()]
             #
             maScUploadCmds.scUnitRenderDeadlineSubmitMainCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -2219,9 +2195,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 renderLayerOverride=overrideRenderLayerLis, frameOverride=overrideFrameLis, melCommand=melCommandString
              )
             #
-            logWin.setCountdownClose(5)
-            #
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -2426,7 +2400,7 @@ class IfScLightUploadToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitTitle = 'Scene Animation Manager'
@@ -3048,7 +3022,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
         #
         explain = '''Read Assets's Constant - Data'''
         maxValue = len(inData)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         #
         (
             assetArray, assetNumCortArray, assetDirCortArray, assNsHirCortArray, assNsNmCortArray, assetHirClrArray,
@@ -3530,7 +3504,7 @@ class IfScAnimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitTitle = 'Scene Simulation Manager'
@@ -4205,13 +4179,13 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                         errorLis = []
                         explain = '''Set Cache Check'''
                         maxValue = len(osFiles)
-                        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                        progressBar = bscMethods.If_Progress(explain, maxValue)
                         #
                         for osFile in osFiles:
                             isContinue = self._connectObject.isContinue()
                             if isContinue is False:
                                 print isContinue
-                            progressBar.updateProgress()
+                            progressBar.update()
                             #
                             result = nurbsHairCacheFileInfo.nurbsHairCacheFileInfo(osFile)
                             check, data = result()
@@ -4264,9 +4238,9 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             if treeItems:
                 explain = '''Set Nurbs Hair Check'''
                 maxValue = len(treeItems)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in treeItems:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     #
                     setBranch(i)
         #
@@ -4519,9 +4493,9 @@ class IfSimManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             # View Progress
             explain = '''Load Asset ( CFX ) Cache'''
             maxValue = len(objectlis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for furObject in objectlis:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 cfxFurItem = nodeItemDic[furObject]
                 sceneName = cfxFurItem.sceneName

@@ -4,22 +4,34 @@ from LxBasic import bscConfigure, bscCore, bscObjects
 
 class Mtd_Html(bscCore.Basic):
     color_html_lis = bscConfigure.Ui().htmlColors
+    color_html_dic = bscConfigure.Ui().htmlColorDict
+
     family_lis = bscConfigure.Ui().families
+
     @classmethod
-    def toHtml(cls, string, inuse=5, fontSize=10, lineHeight=12):
-        usedColor = cls.color_html_lis[inuse]
+    def _getHtmlColor(cls, *args):
+        arg = args[0]
+        if isinstance(arg, (float, int)):
+            return cls.color_html_lis[int(arg)]
+        elif isinstance(arg, (str, unicode)):
+            return cls.color_html_dic.get(arg, '#dfdfdf')
+        return '#dfdfdf'
+
+    @classmethod
+    def toHtml(cls, string, fontColor=u'white', fontSize=10, lineHeight=12):
+        htmlColor = cls._getHtmlColor(fontColor)
         #
         html = u'''
             <html>
                 <style type="text/css">p{{line-height:{4}px}}</style>
                 <span style="font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
             </html>
-        '''.format(string, fontSize, cls.family_lis[0], usedColor, lineHeight)
+        '''.format(string, fontSize, cls.family_lis[0], htmlColor, lineHeight)
         return html
     
     @classmethod
-    def getHtmls(cls, string, inuse=5, fontSize=10, lineHeight=12):
-        usedColor = cls.color_html_lis[inuse]
+    def getHtmls(cls, string, fontColor=u'white', fontSize=10, lineHeight=12):
+        htmlColor = cls._getHtmlColor(fontColor)
         #
         stringLis = string.split('\r\n')
         if len(stringLis) > 1:
@@ -32,42 +44,42 @@ class Mtd_Html(bscCore.Basic):
                 <style>p{{line-height:{4}px}}</style>
                 <span style="font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
             </html>
-        '''.format(s, fontSize, cls.family_lis[0], usedColor, lineHeight)
+        '''.format(s, fontSize, cls.family_lis[0], htmlColor, lineHeight)
         return html
     
     @classmethod
-    def toHtmlSpan(cls, string, inuse=5, fontSize=10):
-        usedColor = cls.color_html_lis[inuse]
+    def toHtmlSpan(cls, string, fontColor=u'white', fontSize=10):
+        htmlColor = cls._getHtmlColor(fontColor)
         #
         viewExplain = u'''
             <span style="font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
-        '''.format(string, fontSize, cls.family_lis[0], usedColor)
+        '''.format(string, fontSize, cls.family_lis[0], htmlColor)
         return viewExplain
     
     @classmethod
-    def toHtmlSpanTime(cls, inuse=7, fontSize=10):
-        usedColor = cls.color_html_lis[inuse]
+    def toHtmlSpanTime(cls, lString='', fontColor=u'gray', fontSize=10):
+        htmlColor = cls._getHtmlColor(fontColor)
         #
-        string = cls._getActiveViewTime()
+        string = cls._getActivePrettifyTime()
         htmlString = u'''
-            <span style="font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
-        '''.format(string, fontSize, cls.family_lis[0], usedColor)
+            <span style="font-family:'{3}';font-size:{2}pt;color:{4};">{1}&lt;{0}&gt;</span>
+        '''.format(string, lString, fontSize, cls.family_lis[0], htmlColor)
         return htmlString
     
     @classmethod
-    def toHtmlSpanSuper(cls, string, inuse=2, fontSize=10):
-        usedColor = cls.color_html_lis[inuse]
+    def toHtmlSpanSuper(cls, string, fontColor=u'orange', fontSize=10):
+        htmlColor = cls._getHtmlColor(fontColor)
         viewSuper = u'''
             <span style="vertical-align:super;font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
-        '''.format(string, fontSize, cls.family_lis[0], usedColor)
+        '''.format(string, fontSize, cls.family_lis[0], htmlColor)
         return viewSuper
     
     @classmethod
-    def toHtmlSpanSub(cls, string, inuse=2, fontSize=10):
-        usedColor = cls.color_html_lis[inuse]
+    def toHtmlSpanSub(cls, string, fontColor=u'orange', fontSize=10):
+        htmlColor = cls._getHtmlColor(fontColor)
         viewSuper = u'''
             <span style="vertical-align:sub;font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>
-        '''.format(string, fontSize, cls.family_lis[0], usedColor)
+        '''.format(string, fontSize, cls.family_lis[0], htmlColor)
         return viewSuper
     
     @classmethod
@@ -121,10 +133,10 @@ class Mtd_Html(bscCore.Basic):
             splitString = string.split('/')
             for seq, s in enumerate(splitString):
                 if s:
-                    usedColor = colorIndexDic[seq]
+                    htmlColor = colorIndexDic[seq]
                     #
                     html = u'''<span style="font-family:'{2}';font-size:{1}pt;color:{3};">{0}</span>'''.format(
-                        s, fontSize, cls.family_lis[0], usedColor
+                        s, fontSize, cls.family_lis[0], htmlColor
                     )
                     htmls.append(html)
         #

@@ -114,22 +114,18 @@ def iconRoot():
     return lxScheme.Directory().icon.server
 
 
-#
 def capitalize(s):
     return s[0].upper() + s[1:] if s else s
 
 
-#
 def prettify(s):
     return ' '.join([capitalize(x) for x in re.findall('[a-zA-Z][a-z]*[0-9]*', s)])
 
 
-#
 def matrix3x3():
     return [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
 
-#
 def matrix3x3Add(m1, m2):
     m = matrix3x3()
     for row in range(0, 3):
@@ -138,7 +134,6 @@ def matrix3x3Add(m1, m2):
     return m
 
 
-#
 def matrix3x3Multiply(m1, m2):
     m = matrix3x3()
     for row in range(0, 3):
@@ -147,7 +142,6 @@ def matrix3x3Multiply(m1, m2):
     return m
 
 
-#
 def setMatrix3x3Identity(m):
     for row in range(3):
         for col in range(0, 3):
@@ -155,7 +149,6 @@ def setMatrix3x3Identity(m):
     return m
 
 
-#
 def isRectContainPos(rect, pos):
     boolean = False
     if rect is not None:
@@ -168,7 +161,6 @@ def isRectContainPos(rect, pos):
     return boolean
 
 
-#
 def toPercent(value, maxValue):
     if maxValue > 0:
         return float(value) / float(maxValue)
@@ -185,7 +177,6 @@ def toShowPercent(maxValue, value, roundCount=3):
     return percent
 
 
-#
 def hsvToRgb(h, s, v, maximum=255):
     h = float(h % 360.0)
     s = float(max(min(s, 1.0), 0.0))
@@ -214,12 +205,10 @@ def hsvToRgb(h, s, v, maximum=255):
     return r, g, b
 
 
-#
 def getRgbByString_(string, maximum=255):
     return hsvToRgb(int(''.join([str(ord(i)).zfill(3) for i in string])), 1, 1, maximum)
 
 
-#
 def getRgbByString(string, maximum=255):
     a = int(''.join([str(ord(i)).zfill(3) for i in string]))
     b = a % 3
@@ -243,24 +232,20 @@ def getRgbByString(string, maximum=255):
     return r / 255.0*maximum, g / 255.0*maximum, b / 255.0*maximum
 
 
-#
 def getDesktop(*args):
     return QApplication.desktop(*args)
 
 
-#
 def getDesktopPrimaryRect(*args):
     desktop = QApplication.desktop(*args)
     return desktop.availableGeometry(desktop.primaryScreen())
 
 
-#
 def getDesktopRect(*args):
     desktop = QApplication.desktop(*args)
     return desktop.rect()
 
 
-#
 def getCursorPos(*args):
     return QtGui.QCursor.pos(*args)
 
@@ -288,7 +273,6 @@ def xFont(size=8, weight=50, italic=False, underline=False, strikeOut=False, fam
     return font
 
 
-#
 def _toLxOsIconFile(iconKeyword, ext='.png'):
     isMayaIcon = iconKeyword.startswith('maya')
     #
@@ -315,7 +299,6 @@ def _toLxOsIconFile(iconKeyword, ext='.png'):
         return osFile
 
 
-#
 def _toLxMayaOsIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya#out_{}'.format(mayaNodeType))
     if lxBasic.isOsExistsFile(iconFile):
@@ -325,7 +308,6 @@ def _toLxMayaOsIconFile(mayaNodeType):
     return osFile
 
 
-#
 def _toLxMayaOsSvgIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya@svg#{}'.format(mayaNodeType))
     if lxBasic.isOsExistsFile(iconFile):
@@ -335,7 +317,6 @@ def _toLxMayaOsSvgIconFile(mayaNodeType):
     return osFile
 
 
-#
 def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
     if isHove:
         startColor = endColor = cls_color(63, 255, 255, 255)
@@ -359,14 +340,12 @@ def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
     return pen, brush
 
 
-#
 def toGlobalPos(widget):
     op = widget.pos()
     p = widget.mapToGlobal(op)
     return p.x(), p.y()
 
 
-#
 class QPainterPath_(QtGui.QPainterPath):
     def __init__(self, *args, **kwargs):
         super(QtGui.QPainterPath, self).__init__(*args, **kwargs)
@@ -377,7 +356,6 @@ class QPainterPath_(QtGui.QPainterPath):
         self.addPolygon(QtGui.QPolygonF(points))
 
 
-#
 class QPainter_(
     QtGui.QPainter,
     uiCore.Basic
@@ -1178,7 +1156,6 @@ class QPainter_(
         self.drawPath(path0_ + path1_)
 
 
-#
 class TestWidget(QWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QWidget, self)
@@ -1228,7 +1205,6 @@ class TestWidget(QWidget):
         # painter.end()
 
 
-#
 class QThread_(QtCore.QThread):
     started = uiSignal()
     def __init__(self, *args, **kwargs):
@@ -1260,7 +1236,6 @@ class QThread_(QtCore.QThread):
             self.started.emit()
 
 
-#
 class xPythonHighlighter(QtGui.QSyntaxHighlighter):
     ruleLis = []
     formatDic = {}
@@ -1421,7 +1396,6 @@ class xPythonHighlighter(QtGui.QSyntaxHighlighter):
                 self.setFormat(i, len(text), self.formatDic['string'])
 
 
-#
 class QWidget_(QWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QWidget, self)
@@ -1436,7 +1410,6 @@ class QWidget_(QWidget):
         )
 
 
-#
 class UiMainWidget(QWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QWidget, self)
@@ -1511,7 +1484,6 @@ class UiMainWidget(QWidget):
             # painter.end()
 
 
-#
 def getWidgetMinimumHeight(widget):
     lis = []
     layout = widget.layout()
@@ -1534,7 +1506,6 @@ def getWidgetMinimumHeight(widget):
         return 0
 
 
-#
 class QGridLayout_(QGridLayout):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QGridLayout, self)
@@ -1557,7 +1528,6 @@ class QGridLayout_(QGridLayout):
             self.setAlignment(QtCore.Qt.AlignBottom)
 
 
-#
 class QVBoxLayout_(QVBoxLayout):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QVBoxLayout, self)
@@ -1580,7 +1550,6 @@ class QVBoxLayout_(QVBoxLayout):
             self.setAlignment(QtCore.Qt.AlignBottom)
 
 
-#
 class QHBoxLayout_(QHBoxLayout):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QHBoxLayout, self)
@@ -1603,7 +1572,6 @@ class QHBoxLayout_(QHBoxLayout):
             self.setAlignment(QtCore.Qt.AlignBottom)
 
 
-#
 class QScrollArea_(QScrollArea):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QScrollArea, self)
@@ -1842,7 +1810,6 @@ class QtTooltipWidget_(
         self.setFont(xFont(size=10, weight=75, family=_families[0]))
 
 
-#
 class QCommonStyle_(QCommonStyle):
     def __init__(self):
         self.clsSuper = super(QCommonStyle, self)
@@ -1858,22 +1825,19 @@ class QCommonStyle_(QCommonStyle):
             QCommonStyle().drawPrimitive(element, option, painter, widget)
 
 
-#
 def getTooltipDelayTime():
-    if lxScheme.Interface().isTooltipAutoShow() is False:
+    if lxScheme.Shm_Interface().isTooltipAutoShow() is False:
         return lxCore_.LynxiUi_Value_TooltipDelayTime
     else:
         return 250
 
 
-#
 def closeTooltipAutoShow():
     if UiTipTimer.isActive():
-        lxScheme.Interface().setTooltipAutoShow(False)
+        lxScheme.Shm_Interface().setTooltipAutoShow(False)
         UiTipTimer.stop()
 
 
-#
 def uiTooltipStartMethod(method):
     def subFn(*args):
         def show():
@@ -1884,7 +1848,7 @@ def uiTooltipStartMethod(method):
                 self._tooltipWidget.setTooltip(uiTip)
                 self._tooltipWidget.tooltipShow()
                 #
-                lxScheme.Interface().setTooltipAutoShow(True)
+                lxScheme.Shm_Interface().setTooltipAutoShow(True)
             #
             self._tooltipTimer.stop()
         # Class
@@ -1904,7 +1868,6 @@ def uiTooltipStartMethod(method):
     return subFn
 
 
-#
 def uiTooltipStopMethod(method):
     def subFn(*args):
         # Class
@@ -1921,7 +1884,6 @@ def uiTooltipStopMethod(method):
     return subFn
 
 
-#
 def uiTooltipClearMethod(method):
     def subFn(*args):
         # Class
@@ -1937,7 +1899,6 @@ def uiTooltipClearMethod(method):
     return subFn
 
 
-#
 def getAppWindow():
     # Maya Window
     application = bscMethods.PythonApplication()
@@ -1954,27 +1915,23 @@ def getAppWindow():
         # noinspection PyArgumentList
         windows = QApplication.allWidgets()
         for i in windows:
-            if i.__class__.__name__ == 'If_QtToolFloatWindow':
+            if i.__class__.__name__ == 'QtIf_ToolFloatWindow':
                 return i
 
 
-#
 def getApp():
     # noinspection PyArgumentList
     return QtCore.QCoreApplication.instance()
 
 
-#
 def getParamX(param):
     return param & 0xffff
 
 
-#
 def getParamY(param):
     return param >> 16
 
 
-#
 def nativeEve(ui, message):
     pixel = 8
     msg2 = wintypes.MSG.from_address(message.__int__())
@@ -2002,7 +1959,6 @@ def nativeEve(ui, message):
     return False, 0
 
 
-#
 def quitUi():
     if not getAppWindow():
         pass
@@ -2010,7 +1966,6 @@ def quitUi():
         # # app.quit()
 
 
-#
 def setScrollBarStyle(ui):
     uiStyle = '''
         QScrollBar:vertical{{
@@ -2074,7 +2029,6 @@ def setScrollBarStyle(ui):
     ui.horizontalScrollBar().setStyleSheet(uiStyle)
 
 
-#
 def setTreeWidgetStyle(ui):
     uiStyle = '''
         QTreeWidget{{
@@ -2120,7 +2074,6 @@ def setTreeWidgetStyle(ui):
     ui.setStyleSheet(uiStyle)
 
 
-#
 def deleteMayaUi(keyword):
     w = getAppWindow()
     if w is not None:
@@ -2131,6 +2084,17 @@ def deleteMayaUi(keyword):
                     i.uiQuit()
 
 
+def getAppWidgetFilterByClassName(className):
+    lis = []
+    # noinspection PyArgumentList
+    widgets = QApplication.allWidgets()
+    if widgets:
+        for w in widgets:
+            if className == w.__class__.__name__:
+                lis.append(w)
+    return lis
+
+
 #
 def getLogWindow():
     w = getAppWindow()
@@ -2138,7 +2102,7 @@ def getLogWindow():
         cs = w.children()
         if cs:
             for i in cs:
-                if 'QtLogWindow' in str(i):
+                if i.__class__.__name__ == 'QtLogWindow':
                     return i
 
 
@@ -2207,18 +2171,6 @@ def uiSetupShowMethod(method):
         plugSetup.setMayaPlugSetup()
         #
         deleteMayaUi(method.__module__)
-        #
-        return method(*args, **kwargs)
-    return subMethod
-
-
-#
-def uiShowMethod_(method):
-    def subMethod(*args, **kwargs):
-        from LxCore import lxUpdate
-        lxUpdate.setUpdate()
-        #
-        setExistsUiDelete(*args)
         #
         return method(*args, **kwargs)
     return subMethod

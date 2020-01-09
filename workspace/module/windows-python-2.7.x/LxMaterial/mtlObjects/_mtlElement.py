@@ -1,37 +1,53 @@
 # coding:utf-8
 from LxMaterial import mtlAbstract
 
-from LxMaterial.mtlObjects import _mtlRaw, _mtlSet, _mtlDefinition
+from LxMaterial.mtlObjects import _mtlRaw, _mtlSet
 
 
-class Elt_Look(mtlAbstract.Abc_Look):
+class Elm_Look(mtlAbstract.Abc_Look):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
     RAW_NAME_CLS = _mtlRaw.Raw_Name
     SET_ASSIGN_CLS = _mtlSet.Set_Assign
 
-    xml_prefix_label = 'look'
+    xml_key_element = 'look'
+    xml_key_attribute = 'look'
 
-    def __init__(self, lookNameString):
-        self._initAbcLook(lookNameString)
+    def __init__(self, *args):
+        self._initAbcLook(*args)
 
 
-class Elt_Material(mtlAbstract.Abc_Material):
+class Elm_Shaderset(mtlAbstract.Abc_Shaderset):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
     RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
     SET_SHADER_CLS = _mtlSet.Set_Dag
 
-    xml_prefix_label = 'material'
-    xml_name_suffix_label = '_MAT'
+    xml_key_element = 'material'
+    xml_key_attribute = 'material'
+
+    xml_name_label_suffix = '_MAT'
 
     def __init__(self, *args):
         """
         :param args: str(materialName)
         """
-        self._initAbcMaterial(*args)
+        self._initAbcShaderset(*args)
 
-    def _xmlStrRaw(self):
-        return {
-            self.Key_Label: self.xml_prefix_label,
-            self.Key_Attribute: {
-                self.Atr_Xml_Name: u'{}{}'.format(self.fullpathName(), self.xml_name_suffix_label)
-            },
-            self.Key_Children: self.shaders()
-        }
+
+class Elm_Portset(mtlAbstract.Abc_Portset):
+    PROXY_XML_CLS = _mtlRaw.Raw_Xml
+
+    RAW_DAGPATH_CLS = _mtlRaw.Raw_Dagpath
+    SET_PORT_INPUT_CLS = _mtlSet.Set_Dag
+
+    xml_key_element = 'propertyset'
+    xml_key_attribute = 'propertyset'
+
+    xml_name_label_suffix = '_PRT'
+
+    def __init__(self, *args):
+        """
+        :param args: str(materialName)
+        """
+        self._initAbcPortset(*args)

@@ -2232,7 +2232,7 @@ class QTreeWidget_(QTreeWidget):
     def setFilterLimitLis(self, lis):
         self._filterLimitLis = lis
     #
-    def setUiStyle(self, inuse='A'):
+    def setUiStyle(self, fontColor='A'):
         uiStyle = '''
             QHeaderView{{
                 color: rgba(191, 191, 191, 255); background: rgba(63, 63, 63, 255)
@@ -2290,7 +2290,7 @@ class QTreeWidget_(QTreeWidget):
             if objectPaths:
                 for objectPath in objectPaths:
                     if progressBar:
-                        progressBar.updateProgress()
+                        progressBar.update()
                     #
                     if not objectPath.startswith(pathsep):
                         objectPath = pathsep + objectPath

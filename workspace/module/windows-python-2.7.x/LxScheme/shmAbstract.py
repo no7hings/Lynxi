@@ -1,12 +1,12 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxScheme import shmConfigure
+from LxScheme import shmCore
 
 from LxCore import lxBasic
 
 
-class Abc_Object(shmConfigure.Basic):
+class Abc_Object(shmCore.Basic):
     def _initAbcObject(self, category, name):
         self._category = category
         self._name = name
@@ -37,7 +37,7 @@ class Abc_Object(shmConfigure.Basic):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abc_Path(shmConfigure.Basic):
+class Abc_Path(shmCore.Basic):
     def _initAbcPath(self):
         pass
 
@@ -190,7 +190,7 @@ class Abc_PthDirectory(Abc_Path):
         return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict())
 
 
-class Abc_File(shmConfigure.Basic):
+class Abc_File(shmCore.Basic):
     DIRECTORY_CLS = None
     METHOD_CLS = None
 
@@ -366,7 +366,7 @@ class Abc_System(Abc_Object):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abc_Raw(shmConfigure.Basic):
+class Abc_Raw(shmCore.Basic):
     def _initAbcRaw(self, raw, defRaw):
         if raw is not None:
             self._raw = raw
@@ -431,9 +431,10 @@ class Abc_Resource(Abc_Object):
     def _loadCache(self):
         serverRaw = self.file.serverFileRaw()
         if serverRaw:
-            self.version.create(serverRaw[self.Key_Version])
-            self.environ.create(serverRaw[self.Key_Environ])
-            self.dependent.create(serverRaw[self.Key_Dependent])
+            if self.isUsedef() is False:
+                self.version.create(serverRaw[self.Key_Version])
+                self.environ.create(serverRaw[self.Key_Environ])
+                self.dependent.create(serverRaw[self.Key_Dependent])
 
         self._raw = self._rawObj.raw()
 
@@ -479,6 +480,10 @@ class Abc_Resource(Abc_Object):
     @property
     def isModule(self):
         return self.category in self.Category_Module_Lis
+
+    @property
+    def isPlug(self):
+        return self.category in self.Category_Plug_Lis
 
     @property
     def isScheme(self):
@@ -562,7 +567,7 @@ class Abc_Resource(Abc_Object):
         return self._toJsonStringMethod(self.config.raw())
 
 
-class Abc_Preset(shmConfigure.Basic):
+class Abc_Preset(shmCore.Basic):
     SYSTEM_CLS = None
     FILE_CLS = None
     RAW_CLS = None
@@ -605,7 +610,7 @@ class Abc_Preset(shmConfigure.Basic):
         return self._toJsonStringMethod(self.raw.raw())
 
 
-class Abc_Operate(shmConfigure.Basic):
+class Abc_Operate(shmCore.Basic):
     def _initOperate(self):
         self._cls_dic = {}
         self._argument_dic = {}
@@ -731,7 +736,8 @@ class Abc_Operate(shmConfigure.Basic):
                     (self.Key_User, lxBasic.getOsUser()),
                     (self.Key_Timestamp, lxBasic.getOsActiveTimestamp()),
                     (self.Key_Environ, self.dependentEnvirons()),
-                    (self.Key_Module, self.dependentModules())
+                    (self.Key_Module, self.dependentModules()),
+                    (self.Key_Plug, self.dependentPlugs())
                 ]
             )
         )
@@ -824,18 +830,27 @@ class Abc_Operate(shmConfigure.Basic):
                 for k, v in raw_.items():
                     resourceName = k
                     category = v[self.Key_Category]
+                    system = v[self.Key_System]
+                    version = v[self.Key_Version]
 
                     cls = self._cls_dic[category]
                     argument = []
-                    argument_ = self._argument_dic[category]
-                    for i in argument_:
-                        i = i.format(**self._formatDict())
+
+                    argument_format_lis = self.module_copy.deepcopy(self._argument_dic[category])
+
+                    if isinstance(system, dict):
+                        for ik, iv in system.items():
+                            if ik in argument_format_lis:
+                                index = argument_format_lis.index(ik)
+                                argument_format_lis[index] = iv
+
+                    for i in argument_format_lis:
+                        i = i.format(**operate_._formatDict())
                         argument.append(i)
 
                     resource_ = cls(resourceName, *argument)
 
                     if resource_.file.isServerExist():
-                        version = v[self.Key_Version]
                         if version == self.Keyword_Version_Active:
                             version = resource_.version.active
 
@@ -884,7 +899,19 @@ class Abc_Operate(shmConfigure.Basic):
         for i in dependentLis:
             if i.resource.isModule:
                 lis.append(i.name)
+        if lis:
+            lis.sort()
+        return lis
 
+    def dependentPlugs(self):
+        lis = []
+
+        dependentLis = self.dependents()
+        for i in dependentLis:
+            if i.resource.isPlug:
+                lis.append(i.name)
+        if lis:
+            lis.sort()
         return lis
 
     def _formatDict(self):

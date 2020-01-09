@@ -1,16 +1,16 @@
 # coding:utf-8
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxMaya.interface.ifWidgets import ifMaGroup
 
 
 #
 class IfScLightShelf(
-    ifWidgetBasic.IfShelfBasic_
+    _qtIfAbcWidget.QtIfAbc_Shelf
 ):
     def __init__(self, mainWindow=None):
         super(IfScLightShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #
@@ -25,10 +25,10 @@ class IfScLightShelf(
 
 
 #
-class IfProductComposeShelf(ifWidgetBasic.IfShelfBasic_):
+class IfProductComposeShelf(_qtIfAbcWidget.QtIfAbc_Shelf):
     def __init__(self, mainWindow=None):
         super(IfProductComposeShelf, self).__init__()
-        self._initShelfBasic()
+        self._initIfAbcShelf()
         #
         self._mainWindow = mainWindow
         #

@@ -3,24 +3,25 @@
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
-#
+
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_
-from LxUi.qt import qtCommands
-#
+
 from LxCore.config import appCfg
-#
+
 from LxCore.preset import appVariant
-#
+
 from LxMaya.command import maUtils
-#
+
 mayaVersion = maUtils.getMayaVersion()
-#
+
 MaNode_DefaultRenderGlobals = 'defaultRenderGlobals'
 MaNode_DefaultArnoldDriver = 'defaultArnoldDriver'
 MaNode_DefaultArnoldRenderOptions = 'defaultArnoldRenderOptions'
-#
+
 MaArnold_DefaultRenderPass = 'beauty'
-#
+
 MaNodeAttrRenderOptionDic = {
     'renderer': 'defaultRenderGlobals.currentRenderer',
     'imagePrefix': 'defaultRenderGlobals.imageFilePrefix',
@@ -675,7 +676,7 @@ def setRenderTime(startFrame=None, endFrame=None):
     cmds.setAttr(MaNodeAttrRenderOptionDic['startFrame'], startFrame)
     cmds.setAttr(MaNodeAttrRenderOptionDic['endFrame'], endFrame)
     #
-    qtCommands.setMessageWindowShow(
+    bscMethods.If_Message(
         u'''Render Time has''', u'''Change to : %s - %s''' % (startFrame, endFrame)
     )
 
@@ -849,9 +850,9 @@ def setConnectLightsToScale(root):
                 aiLightDecays = []
                 explain = '''Connect Light to Scale'''
                 maxValue = len(lightObjectPaths)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in lightObjectPaths:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     attr = i + '.intensity'
                     if maUtils.isAppExist(attr):
                         if not maUtils.isAttrDestination(attr):

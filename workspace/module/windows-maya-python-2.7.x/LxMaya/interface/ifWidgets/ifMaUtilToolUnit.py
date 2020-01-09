@@ -1,16 +1,17 @@
 # coding=utf-8
 from itertools import product
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic
 #
 from LxCore.config import appCfg
 #
 from LxCore.preset.prod import projectPr
 #
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
-#
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
 from LxMaya.interface.ifCommands import maUtilsTreeViewCmds
 #
@@ -24,7 +25,7 @@ none = ''
 
 
 #
-class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = projectPr.getMayaProjectName()
     #
     UnitTitle = 'Attribute Manager'
@@ -511,7 +512,7 @@ class IfAttributeManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 
 #
 class IfNamespaceManagerUnit(
-    ifWidgetBasic.IfToolUnitBasic,
+    _qtIfAbcWidget.IfToolUnitBasic,
     _maUiMethod.Mtd_MaQtView
 ):
     projectName = projectPr.getMayaProjectName()
@@ -921,7 +922,7 @@ class IfNamespaceManagerUnit(
 
 
 #
-class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = projectPr.getMayaProjectName()
     #
     UnitTitle = 'Directory Manager'
@@ -1285,9 +1286,9 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
             childItemLis.extend(treeItem.childItems())
             progressExplain = u'''Read File(s)'''
             maxValue = len(childItemLis)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for treeItem in childItemLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 checkBox = treeItem.checkBox
                 if checkBox.isChecked():
                     directory = treeItem.path[1:]
@@ -1453,11 +1454,9 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                 isWithTx = self.withTxButton.isChecked()
                 isAutoCache = self.autoFurCacheButton.isChecked()
                 #
-                logWin = qtLog.setLogWindowShow()
                 self._connectObject.hide()
                 #
-                maDir.setDirectory(
-                    logWin,
+                maDir.setDirectoryModifyCmd(
                     collectionDataLis,
                     isCollection=isCollection,
                     isIgnoreExists=isIgnoreExists, isIgnoreTimeChanged=isIgnoreTimeChanged,
@@ -1466,7 +1465,6 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
                     isRepath=isRepath
                 )
                 #
-                logWin.setCountdownClose(5)
                 self._connectObject.show()
                 # Refresh
                 self.setListDir()
@@ -1543,7 +1541,7 @@ class IfUtilsDirectoryManagerUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Topology Comparison'
     UnitScriptJobWindowName = 'topologyComparisonScriptJobWindow'
     UnitWidth = 800
@@ -1939,7 +1937,7 @@ class IfTopologyConstantToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfSceneCleanToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Scene Clean'
     panelWidth = 800
     panelHeight = 800
@@ -2152,7 +2150,7 @@ class IfSceneCleanToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfLightGroupManagerUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitTitle = 'Light Group ( Arnold ) Manager'
     panelWidth = 400
     panelHeight = 800

@@ -1,15 +1,17 @@
 # coding:utf-8
 from LxBasic import bscCore
 
+from LxBasic.bscMethods import _bscMtdInterface
+
 
 class PythonLoader(bscCore.Basic):
     def __init__(self, moduleName):
         self._moduleName = moduleName
 
     def loadModule(self):
-        loader = self.pkgutil_method.find_loader(self._moduleName)
+        loader = self.module_pkgutil.find_loader(self._moduleName)
         if loader:
-            return self.importlib_method.import_module(self._moduleName)
+            return self.module_importlib.import_module(self._moduleName)
 
 
 class PythonReloader(bscCore.Basic):
@@ -40,7 +42,7 @@ class PythonReloader(bscCore.Basic):
 
             if filterFnc_(moduleName, filterModuleName) is True:
                 if not moduleName in lis:
-                    modules = [j for j in module.__dict__.values() if isinstance(j, cls.types_method.ModuleType)]
+                    modules = [j for j in module.__dict__.values() if isinstance(j, cls.module_types.ModuleType)]
                     if modules:
                         if not moduleName in lis:
                             lis.append(moduleName)
@@ -62,16 +64,16 @@ class PythonReloader(bscCore.Basic):
         lis = []
 
         for i in moduleNames:
-            loader = cls.pkgutil_method.find_loader(i)
+            loader = cls.module_pkgutil.find_loader(i)
             if loader:
-                recursionFnc_(cls.importlib_method.import_module(i))
+                recursionFnc_(cls.module_importlib.import_module(i))
 
         return lis
 
     @classmethod
     def _setModulesReload(cls, moduleNames):
         count = len(moduleNames)
-        progressBar = If_Progress('Update Python Module(s)', count)
+        progressBar = _bscMtdInterface.If_Progress('Update Python Module(s)', count)
         for i in moduleNames:
             module = PythonLoader(i).loadModule()
             if module:
@@ -80,18 +82,18 @@ class PythonReloader(bscCore.Basic):
                 if not nameString == '__main__':
                     if hasattr(module, '__file__'):
                         fileString = module.__file__
-                        if cls.os_path_method.isfile(fileString):
+                        if cls.method_os_path.isfile(fileString):
                             if cls.Enable_Print is True:
                                 print '# result >> reload "{}"'.format(nameString)
                             # print '    <{}>'.format(fileString)
-                            cls.imp_method.reload(module)
+                            cls.module_imp.reload(module)
             else:
                 progressBar.update()
 
     def run(self):
         self._setModulesReload(
             self._getModules(
-                self.sys_method.modules, self._moduleName
+                self.module_sys.modules, self._moduleName
             )
         )
 
@@ -104,7 +106,7 @@ class PythonMessage(bscCore.Basic):
 
     @classmethod
     def _setAddMessage(cls, text):
-        print u'@lynxi <{}>'.format(cls._getActiveViewTime())
+        print u'@lynxi <{}>'.format(cls._getActivePrettifyTime())
         print u'    {}'.format(text)
 
     @classmethod
@@ -143,7 +145,7 @@ class PythonLog(bscCore.Basic):
     def _setAddLog(cls, text, logFileString):
         cls._setCreateFileDirectory(logFileString)
         with open(logFileString, 'a') as log:
-            log.writelines(u'{} @ {}\n'.format(cls._getActiveViewTime(), cls._getUserName()))
+            log.writelines(u'<{}> @ {}\n'.format(cls._getActivePrettifyTime(), cls._getUserName()))
             log.writelines(u'{}\n'.format(text))
             log.close()
 
@@ -191,7 +193,7 @@ class PythonLog(bscCore.Basic):
 
 class PythonApplication(bscCore.Basic):
     def __init__(self):
-        self._applicationName = self.os_path_method.basename(self.sys_method.argv[0])
+        self._applicationName = self.method_os_path.basename(self.module_sys.argv[0])
 
     @property
     def isMaya(self):
@@ -200,55 +202,18 @@ class PythonApplication(bscCore.Basic):
         return False
 
 
-class If_Progress(object):
-    module_fullpath_name = 'LxUi.qt.qtCommands'
-
-    def __init__(self, explain, maxValue):
-        self._progressBar = self.__loadUi(explain, maxValue)
+class Mtd_Environ(bscCore.Basic):
+    @classmethod
+    def get(cls, key, failobj=None):
+        return cls.module_os.environ.get(key, failobj)
 
     @classmethod
-    def __loadUi(cls, explain, maxValue):
-        module = PythonLoader(cls.module_fullpath_name).loadModule()
-        if module is not None:
-            return module.setProgressWindowShow(explain, maxValue)
-
-    def update(self, subExplain=None):
-        if self._progressBar is not None:
-            self._progressBar.updateProgress(subExplain)
-
-
-class If_Message(object):
-    module_fullpath_name = 'LxUi.qt.qtCommands'
-
-    def __init__(self, text, keyword=None):
-        self._ui = self.__loadUi(text, keyword)
-
-    @property
-    def ui(self):
-        return self._ui
+    def set(cls, key, value):
+        cls.module_os.environ[key] = value
 
     @classmethod
-    def __loadUi(cls, text, keyword):
-        module = PythonLoader(cls.module_fullpath_name).loadModule()
-        if module is not None:
-            return module.setMessageWindowShow(text, keyword)
+    def getAsList(cls, key):
+        if key in cls.module_os.environ:
+            return cls.get(key).split(cls.module_os.pathsep)
+        return []
 
-
-class If_Tip(object):
-    module_fullpath_name = 'LxUi.qt.qtCommands'
-
-    def __init__(self, title, text):
-        self._ui = self.__loadUi(title, text)
-
-    @property
-    def ui(self):
-        return self._ui
-
-    @classmethod
-    def __loadUi(cls, title, text):
-        module = PythonLoader(cls.module_fullpath_name).loadModule()
-        if module is not None:
-            return module.setTipWindowShow(title, text)
-
-    def add(self, text):
-        self._ui.addHtml(text)

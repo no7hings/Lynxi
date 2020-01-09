@@ -9,8 +9,6 @@ from LxCore.preset import appVariant
 from LxCore.preset.prod import sceneryPr
 #
 from LxMaya.command import maUtils, maGeom
-#
-from LxUi.qt import qtCommands
 # Type Config
 typeSet = appVariant.astBasicClassifications
 typeLabel = appVariant.assetClassifyAbbDic

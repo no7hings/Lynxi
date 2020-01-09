@@ -5,7 +5,7 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtObjects import qtAbcWidget
 #
-from LxUi.qt.qtModels import qtGraphItemModel
+from LxUi.qt._qtModels import _qtGraphItemModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
@@ -169,7 +169,7 @@ class xGraphNodeItem(qtCore.QWidget):
         self._uiAttributeBorderRgba = 127, 127, 127, 255
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphNodeItemModel(self)
+        self._itemModel = _qtGraphItemModel.xGraphNodeItemModel(self)
 
 
 #
@@ -270,7 +270,7 @@ class xGraphGroupItem(qtCore.QWidget):
         self._uiOutputConnectionBackgroundRgba = 95, 95, 95, 255
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphGroupItemModel(self)
+        self._itemModel = _qtGraphItemModel.xGraphGroupItemModel(self)
 
 
 #
@@ -363,7 +363,7 @@ class xGraphExplainItem(qtCore.QWidget):
         self.setFont(qtCore.xFont(size=10, weight=50, family=qtCore._families[0]))
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphExplainItemModel(self, (cls_point, cls_rect))
+        self._itemModel = _qtGraphItemModel.xGraphExplainItemModel(self, (cls_point, cls_rect))
 
 
 #
@@ -422,7 +422,7 @@ class xGraphConnectionItem(qtCore.QWidget):
         self._uiBackgroundRgba = 0, 0, 0, 0
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphConnectionItemModel(self)
+        self._itemModel = _qtGraphItemModel.xGraphConnectionItemModel(self)
 
 
 #
@@ -571,5 +571,5 @@ class xGraphAttributePortItem(qtAbcWidget.QtAbcObj_ViewWidget):
         return self._itemModel
     #
     def setupUi(self):
-        self._itemModel = qtGraphItemModel.xGraphAttributePortItemModel(self)
+        self._itemModel = _qtGraphItemModel.xGraphAttributePortItemModel(self)
         self._viewModel = self._itemModel

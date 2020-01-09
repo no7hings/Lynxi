@@ -1,9 +1,10 @@
 # coding=utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxCore_
-from LxUi.qt import qtCommands
 #
 from LxCore.preset import appVariant
 #
@@ -27,9 +28,9 @@ def setAssembliesActiveSwitch(keyword='GPU'):
                 # View Progress
                 explain = '''Switch Assembly(s) "{}" to "{}"'''.format(k, keyword)
                 maxValue = len(v)
-                progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+                progressBar = bscMethods.If_Progress(explain, maxValue)
                 for i in v:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     assemblyReferenceString = i
                     lodLevel = maAsb.getAssemblyLodLevel(assemblyReferenceString)
                     levelLabel = ['', lodLevel][lodLevel != 'LOD00']

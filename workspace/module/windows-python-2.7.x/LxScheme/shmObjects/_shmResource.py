@@ -1,10 +1,7 @@
 # coding:utf-8
-from LxScheme import shmConfigure, shmAbstract
+from LxScheme import shmCore, shmAbstract
 
-from LxScheme.shmObjects import _shmSystem, _shmRaw, _shmFile, _shmMethod
-
-env = _shmMethod.Mtd_Environ()
-syspath = _shmMethod.Mtd_SystemPath()
+from LxScheme.shmObjects import _shmSystem, _shmRaw, _shmFile
 
 
 class Rsc_Operate(shmAbstract.Abc_Operate):
@@ -91,8 +88,7 @@ class Rsc_Operate(shmAbstract.Abc_Operate):
         self._initAbcOperate(config, version)
 
     def addPythonPath(self):
-        global syspath
-        syspath += self.sourcepath
+        pass
 
     def addDependentSystemPaths(self):
         dependentLis = self.dependents()
@@ -102,23 +98,7 @@ class Rsc_Operate(shmAbstract.Abc_Operate):
         pass
 
     def addEnvirons(self):
-        raw_ = self.environ.raw()
-        if raw_:
-            for k, v in raw_.items():
-                operate = v[self.Key_Operate]
-                if operate == '+':
-                    operate = '+='
-
-                value = v[self.Key_Value]
-
-                if isinstance(value, tuple) or isinstance(value, list):
-                    value = [u'"{}"'.format(i) for i in value]
-                    command = u'env.{} {} [{}]'.format(k, operate, ', '.join(value))
-                else:
-                    value = u'"{}"'.format(value)
-                    command = u'env.{} {} {}'.format(k, operate, value)
-
-                exec command
+        pass
 
 
 # Bin
@@ -128,7 +108,7 @@ class Rsc_PltLanguage(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Language
+    object_category = shmCore.Basic.Category_Plf_Language
 
     def __init__(self, resourceName, platformName, platformVersion):
         self._initAbcResource(
@@ -143,7 +123,7 @@ class Rsc_PltApplication(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Application
+    object_category = shmCore.Basic.Category_Plf_Application
 
     def __init__(self, resourceName, platformName, platformVersion):
         self._initAbcResource(
@@ -159,7 +139,7 @@ class Rsc_PltLanPackage(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Lan_Package
+    object_category = shmCore.Basic.Category_Plf_Lan_Package
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
         self._initAbcResource(
@@ -175,7 +155,7 @@ class Rsc_PltAppLanPackage(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Lan_Package
+    object_category = shmCore.Basic.Category_Plf_App_Lan_Package
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
         self._initAbcResource(
@@ -192,7 +172,7 @@ class Rsc_PltAppPackage(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Package
+    object_category = shmCore.Basic.Category_Plf_App_Package
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
         self._initAbcResource(
@@ -202,13 +182,14 @@ class Rsc_PltAppPackage(shmAbstract.Abc_Resource):
         )
 
 
+# Plug
 class Rsc_PltLanPlug(shmAbstract.Abc_Resource):
     SYSTEM_CLS = _shmSystem.Sys_PltLanguage
     FILE_CLS = _shmFile.Fle_RscPlug
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Lan_Plug
+    object_category = shmCore.Basic.Category_Plf_Lan_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
         self._initAbcResource(
@@ -224,7 +205,7 @@ class Rsc_PltAppLanPlug(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Lan_Plug
+    object_category = shmCore.Basic.Category_Plf_App_Lan_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
         self._initAbcResource(
@@ -241,7 +222,7 @@ class Rsc_PltAppPlug(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Plug
+    object_category = shmCore.Basic.Category_Plf_App_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
         self._initAbcResource(
@@ -258,7 +239,7 @@ class Rsc_PltLanModule(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Lan_Module
+    object_category = shmCore.Basic.Category_Plf_Lan_Module
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
         self._initAbcResource(
@@ -274,7 +255,7 @@ class Rsc_PltAppModule(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Module
+    object_category = shmCore.Basic.Category_Plf_App_Module
 
     def __init__(self, *args):
         """
@@ -289,7 +270,7 @@ class Rsc_PltAppLanModule(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Lan_Module
+    object_category = shmCore.Basic.Category_Plf_App_Lan_Module
 
     def __init__(self, *args):
         """
@@ -306,7 +287,7 @@ class Rsc_PltLanScheme(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Lan_Scheme
+    object_category = shmCore.Basic.Category_Plf_Lan_Scheme
 
     def __init__(self, *args):
         """
@@ -321,7 +302,7 @@ class Rsc_PltAppLanScheme(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Lan_Scheme
+    object_category = shmCore.Basic.Category_Plf_App_Lan_Scheme
 
     def __init__(self, *args):
         """
@@ -337,7 +318,7 @@ class Rsc_PltAppScheme(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Scheme
+    object_category = shmCore.Basic.Category_Plf_App_Scheme
 
     def __init__(self, *args):
         """
@@ -354,7 +335,7 @@ class Rsc_PltLanTool(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_Lan_Tool
+    object_category = shmCore.Basic.Category_Plf_Lan_Tool
 
     def __init__(self, *args):
         """
@@ -369,7 +350,7 @@ class Rsc_PltAppLanTool(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Lan_Tool
+    object_category = shmCore.Basic.Category_Plf_App_Lan_Tool
 
     def __init__(self, *args):
         """
@@ -385,7 +366,7 @@ class Rsc_PltAppTool(shmAbstract.Abc_Resource):
     RAW_CLS = _shmRaw.Raw_Resource
     OPERATE_CLS = Rsc_Operate
 
-    object_category = shmConfigure.Basic.Category_Plf_App_Tool
+    object_category = shmCore.Basic.Category_Plf_App_Tool
 
     def __init__(self, *args):
         """

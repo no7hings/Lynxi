@@ -1,29 +1,28 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_
-#
-#
+
 from LxCore.config import appCfg
-#
+
 from LxCore.preset import appVariant
-#
+
 from LxCore.preset.prod import projectPr, assetPr, scenePr
-#
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtLog, qtCommands
-#
-#
-from LxInterface.qt.ifBasic import ifWidgetBasic
-#
+
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
+
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
+
 from LxDatabase import dbGet
-#
+
 from LxMaya.command import maUtils, maDir
-#
+
 from LxMaya.product.data import datScene
-#
+
 from LxMaya.interface.ifCommands import maUtilsTreeViewCmds
-#
+
 from LxMaya.interface.ifWidgets import ifMaAnimToolUnit
-#
+
 from LxMaya.product import maScLoadCmds, maScUploadCmds
 # Project Data
 currentProjectName = projectPr.getMayaProjectName()
@@ -32,7 +31,7 @@ none = ''
 
 
 #
-class IfScLightLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScLightLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
     dicScLightUtilsTool = lxBasic.orderedDict()
@@ -69,7 +68,7 @@ class IfScLightLinkToolUnit(ifWidgetBasic.IfToolUnitBasic):
 
 
 #
-class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
+class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     projectName = currentProjectName
     #
     UnitTitle = 'Scene Maya Compose Manager'
@@ -100,7 +99,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     }
     def __init__(self, *args, **kwargs):
         super(IfScMayaComposeToolUnit, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self._initUnitVar()
         #
@@ -388,10 +387,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     maScLoadCmds.scUnitAssetLoadSubCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -401,8 +397,6 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         withAstCfx=True, withAstCfxFurCache=True,
                         withExtraCache=True
                     )
-                    #
-                    logWin.setCountdownClose()
             #
             self.refreshMethod()
     # Camera Cache
@@ -420,17 +414,12 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         subLabel
                     ) = _vars
                     #
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     maScLoadCmds.scUnitCameraCacheLoadSubCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
                         withCameraCache=True
                     )
-                    #
-                    logWin.setCountdownClose()
             #
             self.refreshMethod()
     # Asset Cache
@@ -448,10 +437,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     maScLoadCmds.scUnitAstModelCacheConnectCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -460,8 +446,6 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetClass, assetName, number, assetVariant,
                         withModelCache=True
                     )
-                    #
-                    logWin.setCountdownClose()
             #
             self.refreshMethod()
     #
@@ -479,10 +463,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetIndex, assetClass, assetName, number, assetVariant
                     ) = _vars
                     #
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     maScLoadCmds.scUnitAstExtraCacheConnectCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -491,8 +472,6 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         assetClass, assetName, number, assetVariant,
                         withAstRigExtraCache=True
                     )
-                    #
-                    logWin.setCountdownClose()
             #
             self.refreshMethod()
     #
@@ -511,10 +490,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         furObject
                     ) = _vars
                     #
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     maScLoadCmds.scUnitAstCfxFurCacheConnectSubCmd(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -524,8 +500,6 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                         furObject,
                         withAstCfxFurCache=True
                     )
-                    #
-                    logWin.setCountdownClose()
             #
             self.refreshMethod()
     #
@@ -552,7 +526,7 @@ class IfScMayaComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
 
 
 #
-class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
+class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     projectName = currentProjectName
     #
     UnitTitle = 'Scene Os Compose Manager'
@@ -569,7 +543,7 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     )
     def __init__(self, *args, **kwargs):
         super(IfScOsComposeToolUnit, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.initUnit()
         #
@@ -798,10 +772,7 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
     def setCollectionFile(self):
         collectionDataLis = self.getCollectionDataLis()
         if collectionDataLis:
-            logWin = qtLog.setLogWindowShow(u'路径修改')
-            #
-            maDir.setDirectory(
-                logWin,
+            maDir.setDirectoryModifyCmd(
                 collectionDataLis,
                 isCollection=True,
                 isIgnoreExists=True, isIgnoreTimeChanged=False,
@@ -809,8 +780,6 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
                 isAutoCache=False,
                 isRepath=True
             )
-            #
-            logWin.setCountdownClose(5)
             # Refresh
             self.setListFile()
     #
@@ -837,7 +806,7 @@ class IfScOsComposeToolUnit(ifWidgetBasic.IfUnitBasic_):
 
 
 #
-class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
+class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def __init__(self, *args, **kwargs):
         super(IfScAssetToolUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
@@ -1027,8 +996,6 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                             assetData.append(i[1:])
                 #
                 if assetData:
-                    logWin = qtLog.setLogWindowShow()
-                    #
                     timeTag = lxBasic.getOsActiveTimeTag()
                     description = u'镜头 - 资产（模型缓存）上传/更新'
                     notes = self._connectObject._scNoteUiLabel.datum()
@@ -1036,7 +1003,6 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                     assetConfig = (self._isWithScAstModelCache, self._isWithScAstSolverCache, self._isWithScAstExtraCache), self._isScAstModelCacheUseForSolver
                     withAsset = assetData, assetConfig
                     maScUploadCmds.scUnitAssetsUploadMainCmd_(
-                        logWin,
                         projectName,
                         sceneIndex,
                         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1046,7 +1012,7 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                         withAsset
                     )
                     #
-                    qtCommands.setMessageWindowShow('Scene Asset Cache Upload', 'Complete')
+                    bscMethods.If_Message('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
                 IfToolWindow = qtWidgets.QtToolWindow(self)
@@ -1094,9 +1060,9 @@ class IfScAssetToolUnit(ifWidgetBasic.IfToolUnitBasic):
                 # View Progress
                 progressExplain = '''Load Asset Unit(s)'''
                 maxValue = len(inData)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for k, v in inData.items():
-                    progressBar.updateProgress()
+                    progressBar.update()
                     setBranch(k, v, assetNumberKeys)
             #
             listBox.setRefresh()

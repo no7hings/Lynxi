@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxUi.qt import qtCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils
 #
@@ -553,9 +553,9 @@ def setConnectionsReconnect(connections):
     if connections:
         explain = '''Connect Attribute(s)'''
         maxValue = len(connections)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for sourceAttr, targetAttr in connections:
-            progressBar.updateProgress()
+            progressBar.update()
             # Filter Exists
             if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
                 # Filter Connected

@@ -23,3 +23,5 @@ class Sys_Environ(bscAbstract.Abc_System):
     @property
     def value(self):
         return self._getEnvironValue(self._keyString)
+
+

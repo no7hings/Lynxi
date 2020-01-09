@@ -2,8 +2,8 @@
 import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
-#
-from LxUi.qt import qtCommands
+
+from LxBasic import bscMethods
 #
 from LxCore.config import appCfg
 #
@@ -92,9 +92,9 @@ def getScnAssemblyComposeDatumLis(projectName, sceneryName):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for arPath in stringLis:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 arRelativePath = groupString + '|' + arPath.split(groupString)[-1][1:]
                 arNamespace = maAsb.getAssemblyNamespace(arPath)

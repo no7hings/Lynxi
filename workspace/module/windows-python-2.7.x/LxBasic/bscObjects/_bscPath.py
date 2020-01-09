@@ -30,9 +30,9 @@ class Pth_Directory(bscAbstract.Abc_Path):
                     lis.append(relativeName)
 
         def mainFnc_():
-            for i in cls.os_method.listdir(rootString):
+            for i in cls.module_os.listdir(rootString):
                 fullpathName = cls._toFileString(rootString, i)
-                if cls.os_path_method.isfile(fullpathName):
+                if cls.method_os_path.isfile(fullpathName):
                     collectionFnc_(fullpathName)
                 else:
                     if isFile is False:
@@ -45,7 +45,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         else:
             filterExtStringLis = None
 
-        if cls.os_path_method.exists(rootString):
+        if cls.method_os_path.exists(rootString):
             mainFnc_()
 
         return lis
@@ -69,10 +69,10 @@ class Pth_Directory(bscAbstract.Abc_Path):
                     lis.append(relativeName)
 
         def mainFnc_():
-            for root, _, fileRelativeNames in cls.os_method.walk(rootString, topdown=0):
+            for root, _, fileRelativeNames in cls.module_os.walk(rootString, topdown=0):
                 for i in fileRelativeNames:
                     fullpathName = cls._toFileString(root, i)
-                    if cls.os_path_method.isfile(fullpathName):
+                    if cls.method_os_path.isfile(fullpathName):
                         collectionFnc_(fullpathName)
                     else:
                         if isFile is False:
@@ -85,13 +85,13 @@ class Pth_Directory(bscAbstract.Abc_Path):
         else:
             filterExtStringLis = None
 
-        if cls.os_path_method.exists(rootString):
+        if cls.method_os_path.exists(rootString):
             mainFnc_()
 
         return lis
 
     def isExist(self):
-        return self.os_method.path.exists(self._directoryString)
+        return self.module_os.path.exists(self._directoryString)
 
     def create(self):
         pass
@@ -158,7 +158,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         dic = {}
         for i in self.allChildFileFullpathNames():
             relativeName = self._toRelativeNameMethod(self._directoryString, i)
-            timestamp = self.os_method.stat(i).st_mtime
+            timestamp = self.module_os.stat(i).st_mtime
             dic[relativeName] = timestamp
 
         return dic

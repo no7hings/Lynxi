@@ -1,12 +1,10 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscModifier
+from LxBasic import bscMethods, bscModifiers
 
 from LxCore import lxBasic, lxCore_
 
-from LxUi.qt import qtLog, qtCommands
-#
 from LxCore.config import appCfg
 #
 from LxCore.preset import appVariant
@@ -34,9 +32,8 @@ isSendDingTalk = lxCore_.LynxiIsSendDingTalk
 none = ''
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def scUnitAnimationUploadMainCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -48,15 +45,15 @@ def scUnitAnimationUploadMainCmd(
         withPreview=False, withCamera=False, withAsset=False, withScenery=False,
 ):
     # Set Log Window
-    logWin.setNameText(description)
+    logWin_ = bscMethods.If_Log(title=u'Animation Upload')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Animation Upload')
     maUtils.setDisplayMode(5)
     #
     methodDatumLis = [
         (
             'Upload / Update Source', True, scUnitSourceUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -66,7 +63,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Product', True, scUnitProductUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -75,7 +71,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Index', withIndex, scUnitIndexUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -86,7 +81,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Camera(s)', withCamera, scUnitCamerasUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -97,7 +91,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Preview(s)', withPreview, scUnitPreviewsUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -108,7 +101,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Asset(s)', withAsset, scUnitAssetCachesUploadCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -120,7 +112,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Upload / Update Scenery(s)', withScenery, scUnitSceneriesUploadCmd,(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -130,7 +121,6 @@ def scUnitAnimationUploadMainCmd(
         ),
         (
             'Open Source', True, scUnitSourceOpenCmd, (
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -139,22 +129,23 @@ def scUnitAnimationUploadMainCmd(
         )
     ]
     maxValue = len(methodDatumLis) + 1
-    logWin.setMaxProgressValue(maxValue)
+    logWin_.setMaxProgressValue(maxValue)
     maUtils.setVisiblePanelsDelete()
     for i in methodDatumLis:
         explain, enable, method, args = i
-        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic.str_camelcase2prettify(sceneStage)))
+        logWin_.addStartProgress(u'{} Upload'.format(explain))
         if enable is not False:
             method(*args)
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
         else:
-            qtLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
+            logWin_.addWarning(u'{} is Upload Ignore'.format(explain))
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             sceneIndex,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -171,9 +162,8 @@ def scUnitAnimationUploadMainCmd(
         )
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def scUnitLightUploadMainCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -184,14 +174,14 @@ def scUnitLightUploadMainCmd(
         withRender=False, withDeadline=False
 ):
     # Set Log Window
-    logWin.setNameText(description)
+    logWin_ = bscMethods.If_Log(title=u'Light Upload')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Light Upload')
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
     # Source
     scUnitSourceUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -200,7 +190,6 @@ def scUnitLightUploadMainCmd(
     )
     #
     scUnitProductUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -210,7 +199,6 @@ def scUnitLightUploadMainCmd(
     if withRender is not False:
         startFrame, endFrame, width, height = withRender
         scUnitRenderUploadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -218,7 +206,6 @@ def scUnitLightUploadMainCmd(
             timeTag
         )
         scUnitRenderIndexUploadCmd(
-            logWin,
             projectName,
             sceneIndex,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -231,7 +218,6 @@ def scUnitLightUploadMainCmd(
             deadlineVars = withDeadline
             #
             scUnitRenderDeadlineSubmitMainCmd(
-                logWin,
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage,
@@ -246,18 +232,18 @@ def scUnitLightUploadMainCmd(
             )
     #
     scUnitSourceOpenCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             sceneIndex,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -274,9 +260,8 @@ def scUnitLightUploadMainCmd(
         )
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def scUnitAssetsUploadMainCmd_(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -286,13 +271,13 @@ def scUnitAssetsUploadMainCmd_(
         #
         withAsset
 ):
-    logWin.setNameText(description)
+    logWin_ = bscMethods.If_Log(title=u'Asset Upload')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.addStartTask(u'Asset Upload')
     maUtils.setDisplayMode(5)
     #
     scUnitAssetCachesUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -302,13 +287,12 @@ def scUnitAssetsUploadMainCmd_(
         withAsset,
     )
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
-    # Close Log Window
-    logWin.setCountdownClose(5)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             sceneIndex,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage,
@@ -327,7 +311,6 @@ def scUnitAssetsUploadMainCmd_(
 
 #
 def scUnitAstAlembicCacheUploadCmd(
-        logWin,
         root,
         indexKey,
         indexFile, cacheFile,
@@ -337,6 +320,8 @@ def scUnitAstAlembicCacheUploadCmd(
         description=None, notes=None,
         alembicAttrs=None
 ):
+    logWin_ = bscMethods.If_Log()
+
     startFrame = scenePr.scStartFrame(startFrame)
     endFrame = scenePr.scEndFrame(endFrame)
     #
@@ -377,17 +362,18 @@ def scUnitAstAlembicCacheUploadCmd(
         #
         lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
-    qtLog.viewResult(logWin, multLineCacheFile)
+    logWin_.addResult(multLineCacheFile)
 
 
 #
 def uploadScAlembicCache(
-        logWin,
         root,
         cacheFile,
         currentFrame,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
+
     step = appVariant.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
     #
@@ -409,7 +395,7 @@ def uploadScAlembicCache(
     #
     lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
-    qtLog.viewResult(logWin, multLineCacheFile)
+    logWin_.addResult(multLineCacheFile)
 
 
 #
@@ -418,7 +404,9 @@ def uploadScAstMeshData(
         number,
         namespace,
         cache,
-        timeTag):
+        timeTag
+):
+    logWin_ = bscMethods.If_Log()
     meshDataFile = scenePr.getMeshDataFile(cache)
     #
     mainLineMeshDataFile = lxBasic.getOsFileJoinTimeTag(
@@ -444,20 +432,20 @@ def uploadScAstMeshData(
 
 #
 def scUnitSourceUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag,
         description, notes
 ):
+    logWin_ = bscMethods.If_Log()
     # Source File >>> 01
     backupSourceFile = scenePr.sceneUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
-    qtLog.viewResult(logWin, linkFile)
+    logWin_.addResult(linkFile)
     #
     maFile.updateMayaFile(linkFile)
     # Update File >>> 02
@@ -472,12 +460,12 @@ def scUnitSourceUploadCmd(
 
 #
 def scUnitSourceOpenCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
     # Open Source
     backupFile = scenePr.sceneUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup,
@@ -489,17 +477,17 @@ def scUnitSourceOpenCmd(
     )[1]
     backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localFile, timeTag)
-    qtLog.viewResult(logWin, localFile)
+    logWin_.addResult(localFile)
 
 
 #
 def scUnitProductUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
+    logWin_ = bscMethods.If_Log()
     # Main Method
     serverProductFile = scenePr.sceneUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
@@ -510,7 +498,7 @@ def scUnitProductUploadCmd(
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     maFile.updateMayaFile(serverProductFile)
-    qtLog.viewResult(logWin, serverProductFile)
+    logWin_.addResult(serverProductFile)
     # Back File
     lxBasic.backupOsFile(
         serverProductFile, backupProductFile,
@@ -520,7 +508,6 @@ def scUnitProductUploadCmd(
 
 # Upload Animation Data
 def scUnitIndexUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -537,6 +524,8 @@ def scUnitIndexUploadCmd(
             data, config = arg
         #
         return data, config
+
+    logWin_ = bscMethods.If_Log()
     #
     if withIndex is not False:
         withCamera, withAsset, withScenery = withIndex
@@ -581,12 +570,11 @@ def scUnitIndexUploadCmd(
             timeTag
         )
         #
-        qtLog.viewResult(logWin, serverIndexFile)
+        logWin_.addResult(serverIndexFile)
 
 
 # Upload Animation Camera
 def scUnitCamerasUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -603,7 +591,7 @@ def scUnitCamerasUploadCmd(
             data, config = arg
         #
         return data, config
-    #
+
     def setBranch(cameraObject, subLabel, zAdjust):
         # Camera Locator
         cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
@@ -646,13 +634,12 @@ def scUnitCamerasUploadCmd(
             zAdjust=zAdjust
         )
         maFile.fileExport(subCameraLocator, subServerProductFile)
-        qtLog.viewResult(logWin, subServerProductFile)
+        logWin_.addResult(subServerProductFile)
         #
         maFile.fbxExport(subCameraLocator, subServerCameraFbxFile)
-        qtLog.viewResult(logWin, subServerProductFile)
+        logWin_.addResult(subServerProductFile)
         #
         scUnitAstAlembicCacheUploadCmd(
-            logWin,
             subCameraLocator,
             lxCore_.LynxiCacheInfoKey,
             subCameraCacheIndexFile, subServerCameraAlembicCacheFile,
@@ -670,26 +657,24 @@ def scUnitCamerasUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Camera(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for seq, cameraObject in enumerate(sceneCameraLis):
                     if cameraObject in usedCameraLis:
                         # Sub Progress
-                        progressBar.updateProgress()
+                        progressBar.update()
                         #
                         subLabel = lxBasic.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, zAdjust)
             else:
-                qtLog.viewWarning(
-                    logWin,
-                    u'Camera is Non - Exists'
-                )
+                logWin_.addWarning(u'Camera is Non - Exists')
+
+    logWin_ = bscMethods.If_Log()
     #
     setMain()
 
 
 # Upload Preview
 def scUnitPreviewsUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -706,7 +691,7 @@ def scUnitPreviewsUploadCmd(
             data, config = arg
         #
         return data, config
-    #
+
     def setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode):
         # Get Camera
         outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabel
@@ -754,8 +739,8 @@ def scUnitPreviewsUploadCmd(
                 timeTag
             )
         #
-        qtLog.viewResult(logWin, subSeverPreviewFile)
-    #
+        logWin_.addResult(subSeverPreviewFile)
+
     def setMain():
         cameraData, uploadConfig = getData(withPreview)
         if cameraData is not None:
@@ -765,32 +750,32 @@ def scUnitPreviewsUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Preview(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 #
                 maUtils.setDefaultShaderColor(.5, .5, .5)
                 for seq, cameraObject in enumerate(sceneCameraLis):
                     if cameraObject in usedCameraLis:
                         # Sub Progress
-                        progressBar.updateProgress()
+                        progressBar.update()
                         #
                         subLabel = lxBasic.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode)
             else:
-                qtLog.viewWarning(
-                    logWin,
-                    u'Camera is Non - Exists'
-                )
-    #
+                logWin_.addWarning(u'Camera is Non - Exists')
+
+    logWin_ = bscMethods.If_Log()
+
     setMain()
 
 
 #
 def scUnitSoundUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = scenePr.sceneSoundFile(
         lxCore_.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
@@ -808,7 +793,6 @@ def scUnitSoundUploadCmd(
 
 #
 def scUnitAssetCachesUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -872,7 +856,6 @@ def scUnitAssetCachesUploadCmd(
                         scAstModelCacheIndexKey = lxCore_.LynxiCacheInfoKey
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
-                        logWin,
                         astModelLinkRoot,
                         scAstModelCacheIndexKey,
                         astCacheIndexFile, scAstModelCacheFile,
@@ -898,18 +881,13 @@ def scUnitAssetCachesUploadCmd(
                     )[1]
                     # Alembic Cache
                     uploadScAlembicCache(
-                        logWin,
                         astModelLinkRoot,
                         scAstModelPoseCache,
                         startFrame,
                         timeTag
                     )
                 else:
-                    qtLog.viewError(
-                        logWin,
-                        u'Asset Model ( Mesh Root ) is Non - Exists',
-                        scenePr.scAstName(assetName, number, assetVariant)
-                    )
+                    logWin_.addError(u'Asset Model ( Mesh Root ) is Non - Exists')
         # Extra Cache
         if astExtraSubRoot is not None:
             if isWithRigExtraCache is True and isModelCacheUseForSolver is False:
@@ -926,7 +904,6 @@ def scUnitAssetCachesUploadCmd(
                         assetClass, assetName, assetVariant
                     )
                     scUnitAstAlembicCacheUploadCmd(
-                        logWin,
                         astExtraSubRoot,
                         lxCore_.LynxiExtraCacheInfoKey,
                         astCacheIndexFile, astRigExtraCacheFile,
@@ -937,11 +914,7 @@ def scUnitAssetCachesUploadCmd(
                         alembicAttrs=alembicAttrs
                     )
                 else:
-                    qtLog.viewError(
-                        logWin,
-                        u'Asset Rig ( Extra Root ) is Non - Exists',
-                        scenePr.scAstName(assetName, number, assetVariant)
-                    )
+                    logWin_.addError(u'Asset Rig ( Extra Root ) is Non - Exists')
         # Solver Cache
         if astSolverSubRoot is not None:
             if isWithSolverCache is True:
@@ -954,7 +927,6 @@ def scUnitAssetCachesUploadCmd(
                     )[1]
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
-                        logWin,
                         astSolverSubRoot,
                         lxCore_.LynxiSolverCacheInfoKey,
                         astCacheIndexFile, assetSolverCacheFile,
@@ -964,12 +936,10 @@ def scUnitAssetCachesUploadCmd(
                         description, notes
                     )
                 else:
-                    qtLog.viewError(
-                        logWin,
-                        u'Asset Rig ( Solver Root ) is Non - Exists',
-                        scenePr.scAstName(assetName, number, assetVariant)
-                    )
+                    logWin_.addError(u'Asset Rig ( Solver Root ) is Non - Exists')
     #
+    logWin_ = bscMethods.If_Log()
+
     assetData, uploadConfig = getData(withAsset)
     if assetData:
         if len(uploadConfig) == 2:
@@ -982,28 +952,25 @@ def scUnitAssetCachesUploadCmd(
         # View Progress
         progressExplain = '''Upload Asset Cache(s)'''
         maxValue = len(assetData)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for seq, i in enumerate(assetData):
             # Progress
-            progressBar.updateProgress()
+            progressBar.update()
             #
             setBranch(i)
     else:
-        qtLog.viewWarning(
-            logWin,
-            u'Asset is Non - Exists'
-        )
+        logWin_.addWarning(u'Asset is Non - Exists')
 
 
 #
 def scUnitSceneriesUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag,
         withScenery
 ):
+    logWin_ = bscMethods.If_Log()
     # Main Method
     if withScenery is not False:
         withExtra,  = withScenery
@@ -1027,20 +994,18 @@ def scUnitSceneriesUploadCmd(
                     timeTag
                 )
             else:
-                qtLog.viewWarning(
-                    logWin,
-                    u'Scenery is Non - Exists'
-                )
+                logWin_.addWarning(u'Scenery is Non - Exists')
 
 
 #
 def scUnitSceneryComposeUploadCmd_(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
+    logWin_ = bscMethods.If_Log()
+
     data = datScene.getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage)
     if data:
         serverFile = scenePr.scUnitAssemblyComposeFile(
@@ -1064,18 +1029,20 @@ def scUnitSceneryComposeUploadCmd_(
         )
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def uploadScAstCfxFurCache(
         furCacheDataArray,
         useExistsCache=True
 ):
+    logWin_ = bscMethods.If_Log()
+
     cacheType = 'OneFile'
     cacheFormat = 'mcx'
     if furCacheDataArray:
         # View Progress
         progressExplain = '''Uploading Asset ( CFX ) Cache'''
         maxValue = len(furCacheDataArray)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         yetiObjects = []
         yetiCaches = []
         yetiStartFrame = None
@@ -1085,7 +1052,7 @@ def uploadScAstCfxFurCache(
             #
             furObject, furObjectName, furObjectType, furCacheFile, furCacheIndex, furCacheIndexFile, startFrame, endFrame, sample, solverMode = data
             # Progress
-            progressBar.updateProgress(furObjectName)
+            progressBar.update(furObjectName)
             #
             startFrame = scenePr.scStartFrame(startFrame)
             endFrame = scenePr.scEndFrame(endFrame)
@@ -1159,13 +1126,14 @@ def uploadScAstCfxFurCache(
 
 #
 def scUnitRenderUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize,
         timeTag,
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverRenderFile = scenePr.scUnitRenderFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -1177,7 +1145,7 @@ def scUnitRenderUploadCmd(
         sceneClass, sceneName, sceneVariant, sceneStage, customize
     )[1]
     #
-    qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) File'.format(
+    logWin_.addStartProgress(u'Upload / Update Scene Render ( {} ) File'.format(
         lxBasic.str_camelcase2prettify(sceneStage)))
     #
     maFile.saveMayaFile(serverRenderFile)
@@ -1187,14 +1155,13 @@ def scUnitRenderUploadCmd(
         timeTag
     )
     #
-    qtLog.viewResult(logWin, serverRenderFile)
+    logWin_.addResult(serverRenderFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
-@bscModifier.catchException
+@bscModifiers.fncCatchException
 def scUnitRenderIndexUploadCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1203,6 +1170,8 @@ def scUnitRenderIndexUploadCmd(
         customize,
         timeTag,
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverRenderFile = scenePr.scUnitRenderFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -1261,18 +1230,17 @@ def scUnitRenderIndexUploadCmd(
         composeFileLis,
         imageFileLis
     )
-    qtLog.viewStartProcess(logWin, u'Upload / Update Scene Render ( {} ) Index'.format(
+    logWin_.addStartProgress(u'Upload / Update Scene Render ( {} ) Index'.format(
         lxBasic.str_camelcase2prettify(sceneStage)))
     #
     lxBasic.writeOsJson(renderData, serverRenderIndexFile, 4)
     lxBasic.backupOsFile(serverRenderIndexFile, backupRenderIndexFile, timeTag)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def scUnitRenderDeadlineSubmitMainCmd(
-        logWin,
         projectName,
         sceneIndex,
         sceneClass, sceneName, sceneVariant, sceneStage,
@@ -1285,6 +1253,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
         frameOverride=False,
         melCommand=None,
 ):
+    logWin_ = bscMethods.If_Log()
     # Render File
     serverRenderFile = scenePr.scUnitRenderFile(
         lxCore_.LynxiRootIndex_Server,
@@ -1351,7 +1320,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
     #
     ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent = deadlineVars
     # Reduce Size
-    qtLog.viewStartProcess(logWin, u'Submit Deadline Job(s) ( {} ) '.format(lxBasic.str_camelcase2prettify(sceneStage)))
+    logWin_.addStartProgress(u'Submit Deadline Job(s) ( {} ) '.format(lxBasic.str_camelcase2prettify(sceneStage)))
     if renderLayerLis:
         batchName = scenePr.scDeadlineBatchName(
             projectName,
@@ -1361,9 +1330,9 @@ def scUnitRenderDeadlineSubmitMainCmd(
         # View Progress
         progressExplain = u'''Submit Deadline Job(s)'''
         maxValue = len(renderLayerLis)
-        progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
         for seq, currentRenderLayer in enumerate(renderLayerLis):
-            progressBar.updateProgress(currentRenderLayer)
+            progressBar.update(currentRenderLayer)
             # Switch Render Layer First
             maRender.setCurrentRenderLayer(currentRenderLayer)
             # Get Render Size Override
@@ -1398,34 +1367,40 @@ def scUnitRenderDeadlineSubmitMainCmd(
             serverSubDeadlineInfoFile = lxBasic.getOsSubFile(serverDeadlineInfoFile, subLabel)
             serverSubDeadlineJobFile = lxBasic.getOsSubFile(serverDeadlineJobFile, subLabel)
             #
-            qtLog.viewStartSubProcess(logWin, u'Submit Deadline Job for Layer : {}'.format(currentRenderLayer))
+            logWin_.addStartProgress(u'Submit Deadline Job for Layer : {}'.format(currentRenderLayer))
             #
-            scUnitDeadlineJobSubmitCmd(logWin, subInfoData, subJobData, serverSubDeadlineInfoFile, serverSubDeadlineJobFile, timeTag)
+            scUnitDeadlineJobSubmitCmd(
+                subInfoData,
+                subJobData,
+                serverSubDeadlineInfoFile,
+                serverSubDeadlineJobFile,
+                timeTag
+            )
             #
-            qtLog.viewCompleteSubProcess(logWin)
+            logWin_.addCompleteProgress()
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def scUnitDeadlineJobSubmitCmd(
-        logWin,
         infoData, jobData,
         infoFile, jobFile,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
     # Info
     mainLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, lxCore_.LynxiMainTimeTag, useMode=1)
     multLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, timeTag, useMode=1)
     lxBasic.writeOsData(infoData, multLineInfoFile)
     lxBasic.backupOsFile(multLineInfoFile, mainLineInfoFile)
-    qtLog.viewResult(logWin, multLineInfoFile)
+    logWin_.addResult(multLineInfoFile)
     # Job
     mainLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, lxCore_.LynxiMainTimeTag, useMode=1)
     multLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, timeTag, useMode=1)
     lxBasic.writeOsData(jobData, multLineJobFile)
     lxBasic.backupOsFile(multLineJobFile, mainLineJobFile)
-    qtLog.viewResult(logWin, multLineJobFile)
+    logWin_.addResult(multLineJobFile)
     #
     if multLineInfoFile and multLineJobFile:
         # Test Boolean
@@ -1435,11 +1410,11 @@ def scUnitDeadlineJobSubmitCmd(
             if result:
                 for i in result:
                     if not i.startswith('\r\n'):
-                        qtLog.viewResult(logWin, i)
+                        logWin_.addResult(i)
             #
             resultFile = lxCore_._toLxProductResultFile(multLineJobFile)
             #
             lxBasic.writeOsData(result, resultFile)
     else:
-        qtLog.viewError(logWin, 'Write Deadline Info and Job Error')
+        logWin_.addError('Write Deadline Info and Job Error')
 

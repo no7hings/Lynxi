@@ -1,6 +1,8 @@
 # coding=utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscMethods
 #
 from LxCore import lxBasic, lxScheme
 #
@@ -8,8 +10,7 @@ from LxCore.preset import pipePr, appVariant
 #
 from LxCore.preset.prod import projectPr, sceneryPr
 #
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit
 #
@@ -23,7 +24,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxScheme.Resource().version
+_version = lxScheme.Shm_Resource().version
 
 
 #
@@ -83,9 +84,9 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for i in uiDatumLis:
-            progressBar.updateProgress()
+            progressBar.update()
             #
             key, toolUnitClass, visible, connectMethodLis = i
             # Unit

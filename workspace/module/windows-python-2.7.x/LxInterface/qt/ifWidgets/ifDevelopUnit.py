@@ -7,13 +7,13 @@ from LxCore.method import _dbMethod
 
 from LxUi.qt import qtWidgets, qtCore, qtMethod
 
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 
 serverBasicPath = lxScheme.Root().basic.server
 
 
 #
-class ifDevelopOverviewUnit(ifWidgetBasic.IfOverviewUnitBasic):
+class ifDevelopOverviewUnit(_qtIfAbcWidget.IfOverviewUnitBasic):
     plf_file_method = _methodBasic.Mtd_PlfFile
     dtb_unit_method = _dbMethod.Mtd_DbUnit
     database_method = _methodBasic.Mtd_Database

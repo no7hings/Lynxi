@@ -1,12 +1,11 @@
 # coding:utf-8
-from LxMaterial import mtlConfigure
+from LxMaterial import mtlCore
 
 import collections
 
 import MaterialX as Mx
 
 
-#
 class loadVariant(object):
     def __init__(self, fileString):
         self._nodeDefDic = collections.OrderedDict()
@@ -26,18 +25,19 @@ class loadVariant(object):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic[mtlConfigure.Basic.Key_Type_String] = nodeType
-            nodeAttrDic = collections.OrderedDict()
+            nodeDic[mtlCore.Basic.Key_Type_String] = nodeType
+            nodeAttrLis = []
             for j in i.getInputs():
                 attrName = j.getName()
                 valueTypeString = j.getType()
                 valueString = j.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[mtlConfigure.Basic.Key_Type_String] = valueTypeString
-                attrDic[mtlConfigure.Basic.Key_Value_String] = valueString
-                nodeAttrDic[attrName] = attrDic
+                attrDic[mtlCore.Basic.Key_Name] = attrName
+                attrDic[mtlCore.Basic.Key_Type_String] = valueTypeString
+                attrDic[mtlCore.Basic.Key_Value_String] = valueString
+                nodeAttrLis.append(attrDic)
 
-            nodeDic['attribute'] = nodeAttrDic
+            nodeDic[mtlCore.Basic.Key_Port] = nodeAttrLis
             self._nodeDefDic[nodeCategory] = nodeDic
 
     def nodeDefs(self):

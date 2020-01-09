@@ -4,11 +4,11 @@ from LxBasic import bscAbstract
 
 class File(bscAbstract.Abc_File):
     def __init__(self, fileString):
-        self.__init__(fileString)
+        self._initAbcFile(fileString)
 
     def read(self, readLines=False):
         if self.isExist():
-            with open(self._fileString, 'r') as f:
+            with open(self._fileString, u'r') as f:
                 if readLines is False:
                     data = f.read()
                 else:
@@ -20,7 +20,7 @@ class File(bscAbstract.Abc_File):
     def write(self, raw):
         if raw is not None:
             self.createDirectory()
-            with open(self._fileString, 'wb') as f:
+            with open(self._fileString, u'w') as f:
                 if isinstance(raw, str) or isinstance(raw, unicode):
                     f.write(raw)
                 elif isinstance(raw, tuple) or isinstance(raw, list):
@@ -36,12 +36,12 @@ class JsonFile(bscAbstract.Abc_File):
     def read(self, encoding=None):
         if self.isExist():
             with open(self._fileString) as j:
-                data = self.json_method.load(j, encoding=encoding)
+                data = self.method_json.load(j, encoding=encoding)
                 return data
 
     def write(self, raw, indent=4, ensure_ascii=True):
         if raw is not None:
-            with open(self.temporary(), 'w') as j:
-                self.json_method.dump(raw, j, indent=indent, ensure_ascii=ensure_ascii)
+            with open(self.temporary(), u'w') as j:
+                self.method_json.dump(raw, j, indent=indent, ensure_ascii=ensure_ascii)
 
             self._copyFileMethod(self.temporary(), self._fileString)

@@ -1,4 +1,6 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxBasic, lxCore_, lxScheme
 #
 from LxInterface.qt.ifWidgets import ifUnit
@@ -7,7 +9,7 @@ from LxCore.preset.prod import projectPr, scenePr
 #
 from LxUi import uiCore
 #
-from LxUi.qt import qtWidgets_, qtChart_, qtWidgets, qtCore, qtCommands
+from LxUi.qt import qtModifiers, qtWidgets_, qtChart_, qtWidgets, qtCore
 #
 from LxInterface.qt.ifCommands import treeViewCmds
 #
@@ -27,7 +29,7 @@ class IfCacheManagerWindow(qtWidgets.QtToolWindow):
     #
     def setListCache(self):
         self._managerUnit.setListCache()
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -48,7 +50,7 @@ class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScIndexManagerWindow, self).__init__(parent)
         self.setDefaultSize(960, 480)
-        self.setIndexText(lxScheme.Resource().version)
+        self.setIndexText(lxScheme.Shm_Resource().version)
         #
         self.setupWindow()
     #
@@ -60,7 +62,7 @@ class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
     #
     def refreshMethod(self):
         self._unit.refreshMethod()
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -231,7 +233,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -306,7 +308,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
     #
     def setListTreeItem(self):
         def setSceneBranch(key, value):
-            progressBar.updateProgress()
+            progressBar.update()
             #
             sceneIndex, sceneVariant = key
             #
@@ -359,7 +361,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
         if inData:
             explain = '''List Scene Render'''
             maxValue = len(inData)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             [setSceneBranch(k, v) for k, v in inData.items()]
             #
             treeBox.setFilterLimitLis(sceneItemLis)
@@ -408,16 +410,16 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
         if self._methodLis:
             explain = '''Build Thread'''
             maxValue = len(self._methodLis)
-            progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+            progressBar = bscMethods.If_Progress(explain, maxValue)
             for seq, i in enumerate(self._methodLis):
-                progressBar.updateProgress()
+                progressBar.update()
                 i()
                 setBranch(seq, i)
     #
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -510,7 +512,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 customizeItem.compose = composeFiles or []
                 customizeItem.showExplain = u'{1}@{0}'.format(showExplain, customize)
             #
-            progressBar.updateProgress()
+            progressBar.update()
             #
             sceneIndex, sceneVariant = key
             #
@@ -555,7 +557,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         if inData:
             progressExplain = '''List Scene Render'''
             maxValue = len(inData)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             [setSceneBranch(k, v) for k, v in inData.items()]
     #
     def setListRightTreeItem(self):
@@ -664,9 +666,9 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             progressExplain = '''List Scene Compose'''
             maxValue = len(customizeItems)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             for i in customizeItems:
-                progressBar.updateProgress()
+                progressBar.update()
                 #
                 subComposeFiles = i.compose
                 showExplain = i.showExplain
@@ -710,10 +712,10 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             # View Progress
             progressExplain = u'''Collection File(s)'''
             maxValue = len(copyThreads)
-            progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
             if copyThreads:
                 for i in copyThreads:
-                    progressBar.updateProgress()
+                    progressBar.update()
                     i.join()
             #
             self.setListRightTreeItem()
@@ -797,7 +799,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         self._fileConstantStatisticsDic = {}
         #
         self._fileSizes = []
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     #

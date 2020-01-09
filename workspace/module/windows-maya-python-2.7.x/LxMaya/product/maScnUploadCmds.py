@@ -1,43 +1,39 @@
 # coding=utf-8
-from LxBasic import bscModifier
+from LxBasic import bscMethods, bscModifiers
 
 from LxCore import lxBasic, lxCore_
 
-from LxUi.qt import qtLog
-#
 from LxCore.preset import appVariant
-#
+
 from LxCore.preset.prod import sceneryPr
-#
+
 from LxCore.product.op import messageOp
-#
+
 from LxMaya.command import maUtils, maFile, maAsb
-#
+
 from LxDatabase import dbBasic, dbGet
-#
+
 from LxMaya.product import maAstUploadCmds, maScnLoadCmds
-#
+
 from LxMaya.product.data import datScenery
-#
+
 isSendMail = lxCore_.LynxiIsSendMail
 isSendDingTalk = lxCore_.LynxiIsSendDingTalk
-#
+
 none = ''
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def scnUnitAssemblyUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         description, notes
 ):
-    #
     timeTag = lxBasic.getOsActiveTimeTag()
     # Set Log Window
-    logWin.setNameText(u'场景上传')
+    logWin_ = bscMethods.If_Log(title=u'Scenery Upload')
     # Start
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -45,7 +41,6 @@ def scnUnitAssemblyUploadCmd(
     methodDatumLis = [
         (
             'Upload / Update Source', True, scnUnitAssemblySourceUploadCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -54,13 +49,10 @@ def scnUnitAssemblyUploadCmd(
             )
          ),
         (
-            'Clear Scene', True, maAstUploadCmds.astUnitSceneClearCmd, (
-                logWin,
-            )
+            'Clear Scene', True, maAstUploadCmds.astUnitSceneClearCmd, ()
         ),
         (
             'Upload / Update Preview', True, scnUnitAssemblyPreviewUploadCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -69,7 +61,6 @@ def scnUnitAssemblyUploadCmd(
         ),
         (
             'Upload / Update Compose Data', True, scnUnitAssemblyComposeUploadCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -78,7 +69,6 @@ def scnUnitAssemblyUploadCmd(
         ),
         (
             'Upload / Update Product', True, scnUnitAssemblyProductUploadCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -87,7 +77,6 @@ def scnUnitAssemblyUploadCmd(
         ),
         (
             'Upload / Update Assembly Definition', True, scnUnitAssemblyDefinitionUploadCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -96,7 +85,6 @@ def scnUnitAssemblyUploadCmd(
         ),
         (
             'Open Source', True, scnUnitAssemblySourceOpenCmd, (
-                logWin,
                 projectName,
                 sceneryIndex,
                 sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -106,22 +94,23 @@ def scnUnitAssemblyUploadCmd(
     ]
     #
     maxValue = len(methodDatumLis) + 1
-    logWin.setMaxProgressValue(maxValue)
-    qtLog.viewStartUploadMessage(logWin)
+    logWin_.setMaxProgressValue(maxValue)
+    logWin_.addStartTask(u'Scenery Upload')
     for i in methodDatumLis:
         explain, enable, method, args = i
-        qtLog.viewStartProcess(logWin, '''{} ( {} )'''.format(explain, lxBasic.str_camelcase2prettify(sceneryStage)))
+        logWin_.addStartProgress(u'{} Upload'.format(explain))
         if enable is not False:
             method(*args)
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
         else:
-            qtLog.viewWarning(logWin, '''{} is Ignore'''.format(explain))
+            logWin_.addWarning(u'{} Upload is Ignore'.format(explain))
     # Complete
-    qtLog.viewCompleteUploadMessage(logWin)
+    logWin_.addCompleteTask()
+    htmlLog = logWin_.htmlLog
     # Send Mail
     if isSendMail:
         messageOp.sendProductMessageByMail(
-            logWin,
+            htmlLog,
             sceneryIndex,
             projectName,
             sceneryClass, sceneryName, sceneryVariant, sceneryStage,
@@ -140,42 +129,47 @@ def scnUnitAssemblyUploadCmd(
 
 #
 def scnUnitAssemblySourceUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag,
         description, notes
 ):
+    logWin_ = bscMethods.If_Log()
+
     backSourceFile = sceneryPr.scnUnitSourceFile(
         lxCore_.LynxiRootIndex_Backup, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
-    #
+
     linkFile = lxBasic.getOsFileJoinTimeTag(backSourceFile, timeTag)
     maFile.saveMayaFile(linkFile)
-    qtLog.viewResult(logWin, linkFile)
-    #
+
     sceneryUnitIndex = dbGet.getDbSceneryUnitIndex(sceneryIndex, sceneryVariant)
-    #
+
     dbBasic.writeDbSceneryUnitHistory(sceneryUnitIndex, linkFile)
-    # Update Data >>> 02
+
     updateData = lxCore_.lxProductRecordDatumDic(
         linkFile,
         sceneryStage,
         description, notes
     )
+
     updateFile = lxCore_._toLxProductRecordFile(linkFile)
+
     lxBasic.writeOsJson(updateData, updateFile)
+
+    logWin_.addResult(linkFile)
 
 
 #
 def scnUnitAssemblyComposeUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -186,23 +180,25 @@ def scnUnitAssemblyComposeUploadCmd(
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
-    #
+
     datumLis = datScenery.getScnAssemblyComposeDatumLis(projectName, sceneryName)
-    #
+
     lxBasic.writeOsJson(datumLis, serverFile)
-    qtLog.viewResult(logWin, serverFile)
-    #
+
     lxBasic.backupOsFile(serverFile, backupFile, timeTag)
+
+    logWin_.addResult(serverFile)
 
 
 #
 def scnUnitAssemblyProductUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = sceneryPr.scnUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -213,31 +209,32 @@ def scnUnitAssemblyProductUploadCmd(
         projectName,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
-    #
+
     maFile.new()
     maScnLoadCmds.scnUnitMaAssemblyLoadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         withAssembly=True
     )
-    #
+
     maFile.saveMayaFile(serverFile)
-    qtLog.viewResult(logWin, serverFile)
-    #
+
     maFile.backupFile(serverFile, backupFile, timeTag)
+
+    logWin_.addResult(serverFile)
 
 
 #
 def scnUnitAssemblyPreviewUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag,
         useDefaultMaterial=0
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = sceneryPr.scnUnitPreviewFile(
         lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
@@ -255,19 +252,21 @@ def scnUnitAssemblyPreviewUploadCmd(
         useDefaultMaterial=useDefaultMaterial,
         width=appVariant.rndrImageWidth/2, height=appVariant.rndrImageHeight/2
     )
-    qtLog.viewResult(logWin, serverFile)
-    #
+
     lxBasic.backupOsFile(serverFile, backupFile, timeTag)
+
+    logWin_.addResult(serverFile)
 
 
 #
 def scnUnitAssemblyDefinitionUploadCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
+
     serverFile = sceneryPr.scnUnitDefinitionFile(
         lxCore_.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
@@ -284,25 +283,27 @@ def scnUnitAssemblyDefinitionUploadCmd(
     sceneryAdName = sceneryPr.scnAssemblyAdName(
         sceneryClass, sceneryName, sceneryVariant
     )
-    #
+
     maFile.new()
     maAsb.setAssemblySceneDefinitionCreate(sceneryAdName, serverProductFile)
-    #
+
     maFile.saveMayaFile(serverFile)
-    qtLog.viewResult(logWin, serverFile)
-    #
+
     maFile.backupFile(serverFile, backupFile, timeTag)
     maFile.new()
+
+    logWin_.addResult(serverFile)
 
 
 #
 def scnUnitAssemblySourceOpenCmd(
-        logWin,
         projectName,
         sceneryIndex,
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
+    logWin_ = bscMethods.If_Log()
+
     localFile = sceneryPr.scnUnitSourceFile(
         lxCore_.LynxiRootIndex_Local,
         projectName,
@@ -319,4 +320,4 @@ def scnUnitAssemblySourceOpenCmd(
         localFile,
         timeTag
     )
-    qtLog.viewResult(logWin, localFile)
+    logWin_.addResult(localFile)

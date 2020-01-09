@@ -1,11 +1,13 @@
 # coding=utf-8
+from LxBasic import bscMethods
+
 from LxCore import lxCore_, lxBasic, lxScheme
-#
+
 from LxCore.preset import basicPr, pipePr
-#
+
 from LxUi import uiCore
-#
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
+
+from LxUi.qt import qtModifiers, qtWidgets_, qtWidgets, qtCore
 
 
 #
@@ -15,7 +17,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxScheme.Resource().version
+    _Version = lxScheme.Shm_Resource().version
     def __init__(self):
         super(IfPresetWindow, self).__init__()
         #
@@ -242,7 +244,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(guidePresetKey),
                 u'成功'
             )
@@ -379,7 +381,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(mainPresetKey),
                 u'成功'
             )
@@ -505,7 +507,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                 lxBasic.writeOsJson(setDic, setFile)
             #
             refreshMethod()
-            qtCommands.setMessageWindowShow(
+            bscMethods.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(subPresetKey),
                 u'成功'
             )
@@ -601,7 +603,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         explains = [lxBasic.str_camelcase2prettify(i) for i in presetKeys]
         title = lxBasic.getUiStringPath(explains, lxCore_.LynxiUiPathsep)
         toolGroupBox.setTitle(title + ['', ' ( {} )'.format(scheme)][scheme is not None])
-    @qtCore.uiShowMethod_
+    @qtModifiers.showInterfaceExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -622,10 +624,10 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)
-        progressBar = qtCommands.setProgressWindowShow(explain, maxValue)
+        progressBar = bscMethods.If_Progress(explain, maxValue)
         for i in buildData:
             keyword, iconKeyword, tooltip = i
-            progressBar.updateProgress(keyword)
+            progressBar.update(keyword)
             #
             widget = qtCore.QWidget_()
             tabView.addTab(widget, keyword, iconKeyword, tooltip)

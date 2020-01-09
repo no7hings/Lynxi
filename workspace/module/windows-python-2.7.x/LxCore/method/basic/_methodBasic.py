@@ -430,7 +430,7 @@ class Mtd_Platform(Mtd_Basic):
 
 #
 class Mtd_PlfFile(Mtd_Basic):
-    os_method = Mtd_Platform
+    module_os = Mtd_Platform
     @staticmethod
     def getOsFileHashString(osFile):
         string = None
@@ -590,7 +590,7 @@ class Mtd_PlfFile(Mtd_Basic):
     def setOsFileBackupSub(cls, sourceOsFile, targetOsFile):
         cls.setOsFileCopy(sourceOsFile, targetOsFile)
         #
-        info = cls.os_method.getOsFileInfoDic(sourceOsFile)
+        info = cls.module_os.getOsFileInfoDic(sourceOsFile)
         infoFile = cls._toLxOsInfoFile(targetOsFile)
         cls.writeOsJson(info, infoFile)
     @staticmethod
@@ -1421,7 +1421,7 @@ class LxUpdateMethod(Mtd_Basic):
 #
 class LxDebugMethod(Mtd_Basic):
     @classmethod
-    def catchCostTime(cls, func):
+    def fncCatchCostTime(cls, func):
         def subFunc(*args, **kwargs):
             startTime = cls.getOsActiveTimestamp()
             traceMessage = 'Start [ %s ] in %s' % (func.__name__, (cls.getOsActiveViewTime()))
@@ -1435,7 +1435,7 @@ class LxDebugMethod(Mtd_Basic):
             return subFn
         return subFunc
     @classmethod
-    def catchException(cls, func):
+    def fncCatchException(cls, func):
         def subFunc(*args, **kw):
             # noinspection PyBroadException
             try:

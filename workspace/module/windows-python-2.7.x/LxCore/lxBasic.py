@@ -655,7 +655,7 @@ def setOsFolderCopy(sourceOsPath, targetOsPath, progressModule=None):
             progressBar = progressModule.setProgressWindowShow(explain, maxValue)
         for sourceOsFile in osFiles:
             if progressBar:
-                progressBar.updateProgress()
+                progressBar.update()
             targetOsFile = targetOsPath + sourceOsFile[len(sourceOsPath):]
             setOsFileCopy(sourceOsFile, targetOsFile)
 
@@ -671,7 +671,7 @@ def moveOsFolder(sourceOsPath, targetOsPath, progressModule=none):
             progressBar = progressModule.setProgressWindowShow(explain, maxValue)
         for sourceOsFile in osFiles:
             if progressBar:
-                progressBar.updateProgress()
+                progressBar.update()
             targetOsFile = targetOsPath + sourceOsFile[len(sourceOsPath):]
             setOsFileMove(sourceOsFile, targetOsFile)
 

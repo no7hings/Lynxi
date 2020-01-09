@@ -5,22 +5,18 @@ from LxCore import lxBasic
 #
 from LxUi.qt import qtCore
 #
-html_method = bscMethods.Mtd_Html
+method_html = bscMethods.Mtd_Html
 #
 none = ''
 #
-startLabel = ''
-endLabel = ''
-midLabel = ''
-indentLabel = '>'
+_lString = ''
+_indentString = '>'
 #
-indentStart = html_method.toHtml(u'{}'.format(startLabel), inuse=7)
-indentEnd = html_method.toHtml(u'{}'.format(endLabel), inuse=7)
-#
-indentTimeStartIndent = html_method.toHtml(u'{0}{1}'.format(midLabel, indentLabel), inuse=7)
-indentTimeEndIndent = html_method.toHtml(u'{0}{1}{1}{1}'.format(midLabel, indentLabel), inuse=7)
-indentResultIndent = html_method.toHtml(u'{0}{1}{1}'.format(midLabel, indentLabel), inuse=7)
-indentSubResultIndent = html_method.toHtml(u'{0}{1}{1}{1}'.format(midLabel, indentLabel), inuse=7)
+_indent_0 = method_html.toHtml(u'{}'.format(_lString), fontColor=u'gray')
+_indent_1 = method_html.toHtml(u'{0}{1}'.format(_lString, _indentString), fontColor=u'gray')
+_indent_2 = method_html.toHtml(u'{0}{1}{1}{1}'.format(_lString, _indentString), fontColor=u'gray')
+_indent_3 = method_html.toHtml(u'{0}{1}{1}'.format(_lString, _indentString), fontColor=u'gray')
+_indent_4 = method_html.toHtml(u'{0}{1}{1}{1}'.format(_lString, _indentString), fontColor=u'gray')
 
 
 #
@@ -71,10 +67,7 @@ def viewBatchMessage(win, message):
 # Message
 def viewStartLoadMessage(win):
     if win:
-        logHtml = html_method.toHtml(
-            indentStart + u'Start Load' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % html_method.toHtmlSpanTime(inuse=4),
-            inuse=2
-        )
+        logHtml = method_html.toHtml(_indent_0 + u'Start Load' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % method_html.toHtmlSpanTime(fontColor=u'blue'), fontColor=u'orange')
         win.addHtml(logHtml)
         #
         logOsFile = win.logFile()
@@ -85,9 +78,9 @@ def viewStartLoadMessage(win):
 #
 def viewCompleteLoadMessage(win):
     if win:
-        logHtml = html_method.toHtml(
-            indentEnd + u'Complete Load' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % html_method.toHtmlSpanTime(inuse=3),
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_0 + u'Complete Load' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % method_html.toHtmlSpanTime(fontColor=u'green'),
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -99,9 +92,9 @@ def viewCompleteLoadMessage(win):
 #
 def viewStartProcessMessage(win, progressExplain, progressSuper=none):
     if win:
-        logHtml = html_method.toHtml(
-            indentStart + u'Start Process ' + [progressExplain, progressExplain + u' ( %s ) ' % html_method.toHtmlSpan(progressSuper, inuse=6)][progressSuper != none] + u' @ %s' % lxBasic.getOsUser(),
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_0 + u'Start Process ' + [progressExplain, progressExplain + u' ( %s ) ' % method_html.toHtmlSpan(progressSuper, fontColor=6)][progressSuper != none] + u' @ %s' % lxBasic.getOsUser(),
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -113,9 +106,9 @@ def viewStartProcessMessage(win, progressExplain, progressSuper=none):
 #
 def viewCompleteProcessMessage(win):
     if win:
-        logHtml = html_method.toHtml(
-            indentEnd + u'Complete Process' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % html_method.toHtmlSpanTime(inuse=3),
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_0 + u'Complete Process' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % method_html.toHtmlSpanTime(fontColor=u'green'),
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -127,9 +120,9 @@ def viewCompleteProcessMessage(win):
 #
 def viewStartUploadMessage(win):
     if win:
-        logHtml = html_method.toHtml(
-            indentStart + u'Start Upload' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % html_method.toHtmlSpanTime(inuse=4),
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_0 + u'Start Upload' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % method_html.toHtmlSpanTime(fontColor=u'blue'),
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -141,9 +134,9 @@ def viewStartUploadMessage(win):
 #
 def viewCompleteUploadMessage(win):
     if win:
-        logHtml = html_method.toHtml(
-            indentEnd + u'Complete Upload' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % html_method.toHtmlSpanTime(inuse=3),
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_0 + u'Complete Upload' + u' @ %s' % lxBasic.getOsUser() + u' ( %s )' % method_html.toHtmlSpanTime(fontColor=u'green'),
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -156,18 +149,14 @@ def viewCompleteUploadMessage(win):
 def viewStartLoadFile(win, osFile):
     if win:
         progressStep = win.progressValue()
-        stepMessage = html_method.toHtml(
-            indentStart + u'Progress - %s' % progressStep,
-            inuse=2
-        )
+        stepMessage = method_html.toHtml(_indent_0 + u'Progress - %s' % progressStep, fontColor=u'orange')
         win.addHtml(stepMessage)
         #
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=4) + html_method.toHtmlSpanSuper(u'Start', inuse=4)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=u'blue') + method_html.toHtmlSpanSuper(u'Start', fontColor=u'blue')
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + html_method.toHtmlSpan(u'Run', inuse=2) + u'Load - ' + osFile + html_method.toHtmlSpanSuper('Process', inuse=2),
-            inuse=5
+        logHtml = method_html.toHtml(
+            _indent_3 + method_html.toHtmlSpan(u'Run', fontColor=u'orange') + u'Load - ' + osFile + method_html.toHtmlSpanSuper('Process', fontColor=u'orange'), fontColor=u'white'
         )
         win.addHtml(logHtml)
         #
@@ -179,7 +168,7 @@ def viewStartLoadFile(win, osFile):
 #
 def viewCompleteLoadFile(win):
     if win:
-        timeHtml = indentTimeEndIndent + html_method.toHtmlSpanTime(inuse=3) + html_method.toHtmlSpanSuper(u'Complete', 3)
+        timeHtml = _indent_2 + method_html.toHtmlSpanTime(fontColor=u'green') + method_html.toHtmlSpanSuper(u'Complete', 3)
         win.addHtml(timeHtml)
         #
         logOsFile = win.logFile()
@@ -191,19 +180,16 @@ def viewCompleteLoadFile(win):
 def viewStartUploadFile(win, osFile):
     if win:
         progressStep = win.progressValue()
-        stepMessage = html_method.toHtml(
-            indentStart + u'Progress - %s' % progressStep,
-            inuse=2
+        stepMessage = method_html.toHtml(
+            _indent_0 + u'Progress - %s' % progressStep,
+            fontColor=u'orange'
         )
         win.addHtml(stepMessage)
         #
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=4) + html_method.toHtmlSpanSuper(u'Start', 4)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=u'blue') + method_html.toHtmlSpanSuper(u'Start', 4)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + html_method.toHtmlSpan(u'Run', inuse=2) + u'Upload - ' + osFile + html_method.toHtmlSpanSuper('Process', 2),
-            inuse=5
-        )
+        logHtml = method_html.toHtml(_indent_3 + method_html.toHtmlSpan(u'Run', fontColor=u'orange') + u'Upload - ' + osFile + method_html.toHtmlSpanSuper('Process', 2), fontColor=u'white')
         win.addHtml(logHtml)
         #
         logOsFile = win.logFile()
@@ -214,7 +200,7 @@ def viewStartUploadFile(win, osFile):
 #
 def viewCompleteUploadFile(win):
     if win:
-        timeHtml = indentTimeEndIndent + html_method.toHtmlSpanTime(inuse=3) + html_method.toHtmlSpanSuper(u'Complete', 3)
+        timeHtml = _indent_2 + method_html.toHtmlSpanTime(fontColor=u'green') + method_html.toHtmlSpanSuper(u'Complete', 3)
         win.addHtml(timeHtml)
         #
         logOsFile = win.logFile()
@@ -227,17 +213,17 @@ def viewStartProcess(win, progressExplain, subExplain=none):
     if win:
         progressStep = win.progressValue()
         #
-        stepMessage = html_method.toHtml(
-            indentStart + u'Progress - %s' % progressStep, inuse=2
+        stepMessage = method_html.toHtml(
+            _indent_0 + u'Progress - %s' % progressStep, fontColor=u'orange'
         )
         win.addHtml(stepMessage)
         #
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=4) + html_method.toHtmlSpanSuper(u'Start', 4)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=u'blue') + method_html.toHtmlSpanSuper(u'Start', 4)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + html_method.toHtmlSpan(u'Run', inuse=2) + [progressExplain, progressExplain + ' ( %s ) ' % html_method.toHtmlSpan(subExplain, inuse=6)][subExplain != none] + html_method.toHtmlSpanSuper('Process', inuse=2),
-            inuse=5
+        logHtml = method_html.toHtml(
+            _indent_3 + method_html.toHtmlSpan(u'Run', fontColor=u'orange') + [progressExplain, progressExplain + ' ( %s ) ' % method_html.toHtmlSpan(subExplain, fontColor=6)][subExplain != none] + method_html.toHtmlSpanSuper('Process', fontColor=u'orange'),
+            fontColor=u'white'
         )
         win.addHtml(logHtml)
         #
@@ -249,7 +235,7 @@ def viewStartProcess(win, progressExplain, subExplain=none):
 #
 def viewCompleteProcess(win):
     if win:
-        timeHtml = indentTimeEndIndent + html_method.toHtmlSpanTime(inuse=3) + html_method.toHtmlSpanSuper(u'Complete', 3)
+        timeHtml = _indent_2 + method_html.toHtmlSpanTime(fontColor=u'green') + method_html.toHtmlSpanSuper(u'Complete', 3)
         win.addHtml(timeHtml)
         #
         logOsFile = win.logFile()
@@ -260,10 +246,10 @@ def viewCompleteProcess(win):
 #
 def viewFailProcess(win, progressExplain):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=1) + html_method.toHtmlSpanSuper(u'Fail', 1)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=1) + method_html.toHtmlSpanSuper(u'Fail', 1)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(indentResultIndent + progressExplain, 1)
+        logHtml = method_html.toHtml(_indent_3 + progressExplain, 1)
         win.addHtml(logHtml)
         #
         logOsFile = win.logFile()
@@ -274,12 +260,12 @@ def viewFailProcess(win, progressExplain):
 #
 def viewStartSubProcess(win, progressExplain, subExplain=none):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=4) + html_method.toHtmlSpanSuper(u'Start', 4)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=u'blue') + method_html.toHtmlSpanSuper(u'Start', 4)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + [progressExplain, progressExplain + ' ( %s ) ' % html_method.toHtmlSpan(subExplain, inuse=6)][subExplain != none],
-            inuse=2
+        logHtml = method_html.toHtml(
+            _indent_3 + [progressExplain, progressExplain + ' ( %s ) ' % method_html.toHtmlSpan(subExplain, fontColor=6)][subExplain != none],
+            fontColor=u'orange'
         )
         win.addHtml(logHtml)
         #
@@ -291,7 +277,7 @@ def viewStartSubProcess(win, progressExplain, subExplain=none):
 #
 def viewCompleteSubProcess(win):
     if win:
-        timeHtml = indentTimeEndIndent + html_method.toHtmlSpanTime(inuse=3) + html_method.toHtmlSpanSuper(u'Complete', 3)
+        timeHtml = _indent_2 + method_html.toHtmlSpanTime(fontColor=u'green') + method_html.toHtmlSpanSuper(u'Complete', 3)
         win.addHtml(timeHtml)
         #
         logOsFile = win.logFile()
@@ -302,7 +288,7 @@ def viewCompleteSubProcess(win):
 #
 def viewFailSubProcess(win):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=0) + html_method.toHtmlSpanSuper(u'Fail', 0)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=0) + method_html.toHtmlSpanSuper(u'Fail', 0)
         win.addHtml(timeHtml)
         #
         logOsFile = win.logFile()
@@ -313,16 +299,16 @@ def viewFailSubProcess(win):
 #
 def viewResult(win, result, subResult=none):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=7) + html_method.toHtmlSpanSuper(u'Result', 2)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=u'gray') + method_html.toHtmlSpanSuper(u'Result', 2)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + result, 5
+        logHtml = method_html.toHtml(
+            _indent_3 + result, 5
         )
         win.addHtml(logHtml)
         if subResult:
-            subLog = html_method.toHtml(
-                indentSubResultIndent + subResult, 5
+            subLog = method_html.toHtml(
+                _indent_4 + subResult, 5
             )
             win.addHtml(subLog)
         #
@@ -334,10 +320,10 @@ def viewResult(win, result, subResult=none):
 #
 def viewError(win, error, errorSuper=none):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=0) + html_method.toHtmlSpanSuper(u'Error', 0)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=0) + method_html.toHtmlSpanSuper(u'Error', 0)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(indentResultIndent + [error, error + html_method.toHtmlSpanSuper(errorSuper, 0)][errorSuper != none], 5)
+        logHtml = method_html.toHtml(_indent_3 + [error, error + method_html.toHtmlSpanSuper(errorSuper, 0)][errorSuper != none], 5)
         win.addHtml(logHtml)
         #
         logOsFile = win.logFile()
@@ -348,11 +334,11 @@ def viewError(win, error, errorSuper=none):
 #
 def viewWarning(win, warring, warringSuper=none):
     if win:
-        timeHtml = indentTimeStartIndent + html_method.toHtmlSpanTime(inuse=1) + html_method.toHtmlSpanSuper(u'Warning', 1)
+        timeHtml = _indent_1 + method_html.toHtmlSpanTime(fontColor=1) + method_html.toHtmlSpanSuper(u'Warning', 1)
         win.addHtml(timeHtml)
         #
-        logHtml = html_method.toHtml(
-            indentResultIndent + [warring, warring + html_method.toHtmlSpanSuper(warringSuper, 1)][warringSuper != none], 5
+        logHtml = method_html.toHtml(
+            _indent_3 + [warring, warring + method_html.toHtmlSpanSuper(warringSuper, 1)][warringSuper != none], 5
         )
         win.addHtml(logHtml)
         #

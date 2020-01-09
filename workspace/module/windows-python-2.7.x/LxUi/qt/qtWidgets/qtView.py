@@ -5,7 +5,7 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtObjects import qtAbcWidget
 #
-from LxUi.qt.qtModels import qtViewModel
+from LxUi.qt._qtModels import _qtViewModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
@@ -147,7 +147,7 @@ class QtScrollArea(qtCore.QWidget):
         self._layout.setSpacing(0)
         self._layout.setAlignment(QtCore.Qt.AlignTop)
         #
-        self._viewModel = qtViewModel.QtScrollareaModel(self)
+        self._viewModel = _qtViewModel.QtScrollareaModel(self)
 
 
 #
@@ -164,7 +164,7 @@ class QtCheckview(qtAbcWidget.QtAbcObj_ViewWidget):
         self.viewModel().addItem(widget)
     #
     def setupUi(self):
-        self._viewModel = qtViewModel.QtCheckviewModel(self)
+        self._viewModel = _qtViewModel.QtCheckviewModel(self)
 
 
 #
@@ -352,7 +352,7 @@ class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = qtViewModel.QtTreeviewModel(self)
+        self._viewModel = _qtViewModel.QtTreeviewModel(self)
         #
         self._uiPreActions = [
             ('Check',),
@@ -562,7 +562,7 @@ class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = qtViewModel.QtGridviewModel(self)
+        self._viewModel = _qtViewModel.QtGridviewModel(self)
         #
         self._uiPreActions = [
             ('Basic', ),
@@ -633,7 +633,7 @@ class QtPresetview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = qtViewModel.QtPresetviewModel(self)
+        self._viewModel = _qtViewModel.QtPresetviewModel(self)
         #
         self._uiPreActions = [
             ('Check',),

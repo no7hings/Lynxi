@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscObjects
+from LxBasic import bscObjects, bscMethods
 
 from LxCore import lxBasic, lxCore_, lxScheme
 #
@@ -13,9 +13,9 @@ from LxCore.operation import envOp
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
-from LxInterface.qt.ifBasic import ifWidgetBasic
+from LxInterface.qt.ifBasic import _qtIfAbcWidget
 #
-from LxInterface.qt.ifModels import ifUnitModel
+from LxInterface.qt._qtIfModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
@@ -24,7 +24,6 @@ serverBasicPath = lxScheme.Root().basic.server
 none = ''
 
 
-#
 class IfAstModelRadarUnit(qtCore.QWidget):
     evaluateItems = [
         'worldArea',
@@ -34,6 +33,7 @@ class IfAstModelRadarUnit(qtCore.QWidget):
         'face',
         'triangle'
     ]
+
     def __init__(self):
         super(IfAstModelRadarUnit, self).__init__()
         #
@@ -86,19 +86,20 @@ class IfAstModelRadarUnit(qtCore.QWidget):
         layout.addWidget(self._astModelRadarChart)
 
 
-#
 class IfScIndexManagerUnit(
-    ifWidgetBasic.IfUnitBasic_,
+    _qtIfAbcWidget.QtIfAbc_Unit,
     appConfig.Cfg_Product
 ):
     W = 120
+
     ConfigUiDic = {
         'startFrame': [W, 0, 0, 1, 1, 'Start Frame'],
         'endFrame': [W, 1, 0, 1, 1, 'End Frame']
     }
+
     def __init__(self):
         super(IfScIndexManagerUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.initUnit()
         self.setupUnit()
@@ -235,9 +236,9 @@ class IfScIndexManagerUnit(
             if indexRecordDic:
                 progressExplain = '''List Record'''
                 maxValue = len(indexRecordDic)
-                progressBar = qtCommands.setProgressWindowShow(progressExplain, maxValue)
+                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
                 for k, v in indexRecordDic.items():
-                    progressBar.updateProgress()
+                    progressBar.update()
                     setBranch(k, v)
             #
             self._activeItem = activeItem
@@ -527,7 +528,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -550,7 +551,7 @@ class IfScIndexManagerUnit(
                     #
                     lxBasic.backupOsFile(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         u'提示',
                         u'修改镜头配置成功！！！'
                     )
@@ -600,11 +601,10 @@ class IfScIndexManagerUnit(
         self.setupRightBox(rightScrollBox)
 
 
-#
-class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
+class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def __init__(self):
         super(IfScCacheManagerUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.initUnit()
         #
@@ -674,14 +674,14 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                     #
                     lxBasic.writeOsJsonDic(cacheIndex, indexFile, 4)
                     #
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         'Changer Active Cache is', 'Complete'
                     )
                     #
                     if self._connectObject:
                         self._connectObject.uiQuit()
                 else:
-                    qtCommands.setMessageWindowShow(
+                    bscMethods.If_Message(
                         'Cache File is', 'Non - Exists'
                     )
     #
@@ -702,7 +702,7 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
                 #
                 lxBasic.writeOsJsonDic(cacheIndex, indexFile)
                 #
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     'Changer Active Cache is', 'Complete'
                 )
                 #
@@ -947,11 +947,10 @@ class IfScCacheManagerUnit(ifWidgetBasic.IfUnitBasic_):
         self.meshEvaluateBox.setDef()
 
 
-#
-class IfProductUnitRegisterUnit(ifWidgetBasic.IfUnitBasic_):
+class IfProductUnitRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def __init__(self):
         super(IfProductUnitRegisterUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -1004,8 +1003,7 @@ class IfProductUnitRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self.setupCentralWidget(self._centralScrollLayout)
 
 
-#
-class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
+class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     w = 80
     dicMain = {
         0: 'Date',
@@ -1025,7 +1023,7 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
     #
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self._sourceFileDic = {}
         self._productFileDic = {}
@@ -1214,20 +1212,18 @@ class IfProductUnitRecordUnit(ifWidgetBasic.IfUnitBasic_):
         self.setupMainToolUiBox(self._mainToolBox)
 
 
-#
-class IfProductUnitRecordUnit_(ifWidgetBasic.IfUnitBasic_):
+class IfProductUnitRecordUnit_(_qtIfAbcWidget.QtIfAbc_Unit):
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit_, self).__init__(*args, **kwargs)
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
 
 
-#
-class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
+class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def __init__(self):
-        super(IfProjectOverviewUnit, self).__init__()
-        self._initUnitBasic()
+        super(QtIf_ProjectOverviewUnit, self).__init__()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -1298,12 +1294,12 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                             showProgress=True, isCloseMaya=isCloseMaya
                         )
                         # Switch Panel
-                        w = ifProductWindow.If_QtToolFloatWindow()
+                        w = ifProductWindow.QtIf_ToolFloatWindow()
                         w.windowShow()
                         # Update Method
                         lxUpdate.setUpdate(force=1)
                         #
-                        qtCommands.setMessageWindowShow(
+                        bscMethods.If_Message(
                             u'Project is Switch to ',
                             u'{}'.format(targetProjectName)
                         )
@@ -1374,6 +1370,17 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         gridView.setSortByName()
     #
     def setRightRefresh(self):
+        def setAction(treeItem):
+            def copyCmd():
+                qtCommands.setTextToClipboard(treeItem.nameText())
+
+            treeItem.setActionData(
+                [
+                    ('Basic',),
+                    ('Copy', 'svg_basic@svg#copy', True, copyCmd)
+                ]
+            )
+
         def setVariantPresetBranch(parentItem):
             data = projectPr.getProjectPresetVariantDic()
             if data:
@@ -1439,6 +1446,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                         mainPresetItem.addChild(subPresetItem)
                         #
                         subPresetItem.setNameText(i)
+                        setAction(subPresetItem)
             return len(data)
         #
         def setMayaModuleBranch(parentItem):
@@ -1500,12 +1508,12 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
                     showProgress=True, isCloseMaya=isCloseMaya
                 )
                 # Switch Panel
-                w = ifProductWindow.If_QtToolFloatWindow()
+                w = ifProductWindow.QtIf_ToolFloatWindow()
                 w.windowShow()
                 # Update Method
                 lxUpdate.setUpdate(force=1)
                 #
-                qtCommands.setMessageWindowShow(
+                bscMethods.If_Message(
                     u'Project is Switch to ',
                     u'{}'.format(targetProjectName)
                 )
@@ -1533,8 +1541,7 @@ class IfProjectOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         self.setupRightWidget(rightScrollBox)
 
 
-#
-class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
+class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     tips = [
         u"提示：",
         u"1：输入 中文名（ CH - Name ） ；",
@@ -1571,7 +1578,7 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
     )
     def __init__(self):
         super(IfPersonnelRegisterUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -1684,10 +1691,10 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
             if lxBasic.isMayaApp():
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
-                w = ifProductWindow.If_QtToolFloatWindow()
+                w = ifProductWindow.QtIf_ToolFloatWindow()
                 w.windowShow()
             #
-            qtCommands.setMessageWindowShow(u'提示：', u'设置用户信息成功')
+            bscMethods.If_Message(u'提示：', u'设置用户信息成功')
     #
     def setupUnit(self):
         widget = qtCore.QWidget_()
@@ -1699,11 +1706,10 @@ class IfPersonnelRegisterUnit(ifWidgetBasic.IfUnitBasic_):
         self.setupCentralWidget(layout)
 
 
-#
-class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
+class IfPersonnelOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def __init__(self):
         super(IfPersonnelOverviewUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -1793,8 +1799,7 @@ class IfPersonnelOverviewUnit(ifWidgetBasic.IfUnitBasic_):
         self.setupCentralWidget(layout)
 
 
-#
-class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
+class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     UnitConnectLinks = [
     ]
     UnitName = 'utilsTool'
@@ -1805,7 +1810,7 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
     SideWidth = 240
     def __init__(self):
         super(IfToolkitUnit, self).__init__()
-        self._initUnitBasic()
+        self._initIfAbcUnit()
         #
         self.setupUnit()
     #
@@ -2016,3 +2021,13 @@ class IfToolkitUnit(ifWidgetBasic.IfUnitBasic_):
         centralLayout = qtCore.QVBoxLayout_(centralWidget)
         self.setupCentralWidget(centralLayout)
 
+
+class QtIf_SystemInformationUnit(_qtIfAbcWidget.QtIfAbc_Unit):
+    def __init__(self):
+        super(QtIf_SystemInformationUnit, self).__init__()
+        self._initIfAbcUnit()
+        #
+        self.setupUnit()
+
+    def setupUnit(self):
+        pass

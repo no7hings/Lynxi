@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxUi.qt import qtCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils, maFur
 #
@@ -9,4 +9,4 @@ if selObj:
     for i in selObj:
         maFur.setRenameYetiGraph(i)
 #
-qtCommands.setMessageWindowShow('Rename Yeti - Graph ( Selected )', 'Complete')
+bscMethods.If_Message('Rename Yeti - Graph ( Selected )', 'Complete')

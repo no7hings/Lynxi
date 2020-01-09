@@ -47,7 +47,7 @@ class Val_Closure(mtlAbstract.Abc_Value):
     boolean Value
     """
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_Closure
+    RAW_DATUM_CLS = _mtlDatum.Dat_Closure
 
     value_type_string_pattern = mtlConfigure.Value_Type_Closure,
 
@@ -68,7 +68,7 @@ class Val_Boolean(mtlAbstract.Abc_Value):
     boolean Value
     """
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_Boolean
+    RAW_DATUM_CLS = _mtlDatum.Dat_Boolean
 
     value_type_string_pattern = mtlConfigure.Value_Type_Boolean,
 
@@ -86,7 +86,7 @@ class Val_Boolean(mtlAbstract.Abc_Value):
 # Value Integer
 class Val_Integer(_Val_DigitMethod):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_Integer
+    RAW_DATUM_CLS = _mtlDatum.Dat_Integer
 
     value_type_string_pattern = mtlConfigure.Value_Type_Integer,
 
@@ -103,7 +103,7 @@ class Val_Integer(_Val_DigitMethod):
 
 class Val_IntegerArray(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_IntegerN
+    RAW_DATUM_CLS = _mtlDatum.Dat_IntegerN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Integer_Array, None
 
@@ -122,7 +122,7 @@ class Val_IntegerArray(mtlAbstract.Abc_Value):
 # Value Float
 class Val_Float(_Val_DigitMethod):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_Float
+    RAW_DATUM_CLS = _mtlDatum.Dat_Float
 
     value_type_string_pattern = mtlConfigure.Value_Type_Float,
 
@@ -139,7 +139,7 @@ class Val_Float(_Val_DigitMethod):
 
 class Val_FloatArray(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Float_Array, None
 
@@ -158,7 +158,7 @@ class Val_FloatArray(mtlAbstract.Abc_Value):
 # Value Color
 class Val_Color2(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color2, None
 
@@ -177,7 +177,7 @@ class Val_Color2(mtlAbstract.Abc_Value):
 
 class Val_Color2Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color2_Array, None, None
 
@@ -196,7 +196,7 @@ class Val_Color2Array(mtlAbstract.Abc_Value):
 
 class Val_Color3(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color3, None
 
@@ -215,7 +215,7 @@ class Val_Color3(mtlAbstract.Abc_Value):
 
 class Val_Color3Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color3_Array, None, None
 
@@ -234,7 +234,7 @@ class Val_Color3Array(mtlAbstract.Abc_Value):
 
 class Val_Color4(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color4, None
 
@@ -253,7 +253,7 @@ class Val_Color4(mtlAbstract.Abc_Value):
 
 class Val_Color4Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Color4_Array, None, None
 
@@ -273,7 +273,7 @@ class Val_Color4Array(mtlAbstract.Abc_Value):
 # Value Vector
 class Val_Vector2(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector2, None
 
@@ -292,7 +292,7 @@ class Val_Vector2(mtlAbstract.Abc_Value):
 
 class Val_Vector2Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector2_Array, None, None
 
@@ -310,7 +310,7 @@ class Val_Vector2Array(mtlAbstract.Abc_Value):
 
 class Val_Vector3(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector3, None
 
@@ -329,7 +329,7 @@ class Val_Vector3(mtlAbstract.Abc_Value):
 
 class Val_Vector3Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector3_Array, None, None
 
@@ -347,7 +347,7 @@ class Val_Vector3Array(mtlAbstract.Abc_Value):
 
 class Val_Vector4(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector4, None
 
@@ -366,7 +366,7 @@ class Val_Vector4(mtlAbstract.Abc_Value):
 
 class Val_Vector4Array(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Vector4_Array, None, None
 
@@ -384,7 +384,7 @@ class Val_Vector4Array(mtlAbstract.Abc_Value):
 
 class Val_String(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_String
+    RAW_DATUM_CLS = _mtlDatum.Dat_String
 
     value_type_string_pattern = mtlConfigure.Value_Type_String,
 
@@ -399,7 +399,7 @@ class Val_String(mtlAbstract.Abc_Value):
 
 class Val_StringArray(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_StringN
+    RAW_DATUM_CLS = _mtlDatum.Dat_StringN
 
     value_type_string_pattern = mtlConfigure.Value_Type_String_Array, mtlConfigure.Value_Type_String
 
@@ -417,7 +417,7 @@ class Val_StringArray(mtlAbstract.Abc_Value):
 
 class Val_FileName(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FileName
+    RAW_DATUM_CLS = _mtlDatum.Dat_FileName
 
     value_type_string_pattern = mtlConfigure.Value_Type_FileName,
 
@@ -432,7 +432,7 @@ class Val_FileName(mtlAbstract.Abc_Value):
 
 class Val_GeometryName(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_NodeName
+    RAW_DATUM_CLS = _mtlDatum.Dat_NodeName
 
     value_type_string_pattern = mtlConfigure.Value_Type_GeometryName,
 
@@ -447,7 +447,7 @@ class Val_GeometryName(mtlAbstract.Abc_Value):
 
 class Val_GeometryNameArray(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_StringN
+    RAW_DATUM_CLS = _mtlDatum.Dat_StringN
 
     value_type_string_pattern = mtlConfigure.Value_Type_GeometryName_Array, mtlConfigure.Value_Type_GeometryName
 
@@ -465,7 +465,7 @@ class Val_GeometryNameArray(mtlAbstract.Abc_Value):
 
 class Val_Matrix33(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Matrix33, None, None
 
@@ -483,7 +483,7 @@ class Val_Matrix33(mtlAbstract.Abc_Value):
 
 class Val_Matrix44(mtlAbstract.Abc_Value):
     RAW_TYPE_CLS = _mtlRaw.Raw_ValueType
-    DATUM_CLS = _mtlDatum.Dat_FloatNN
+    RAW_DATUM_CLS = _mtlDatum.Dat_FloatNN
 
     value_type_string_pattern = mtlConfigure.Value_Type_Matrix33, None, None
 

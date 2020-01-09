@@ -1,39 +1,37 @@
 # coding=utf-8
-from LxBasic import bscModifier
+from LxBasic import bscMethods, bscModifiers
 
 from LxCore import lxBasic, lxCore_
 
-from LxUi.qt import qtLog
-#
 from LxCore.preset import appVariant
-#
+
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
-#
+
 from LxDatabase import dbGet
-#
+
 from LxMaya.command import maUtils, maFile, maShdr, maTxtr, maHier, maRender, maAsb
-#
+
 from LxMaya.product.data import datAsset
-#
+
 from LxMaya.product.op import assetOp
-#
+
 from LxMaya.database import maDbAstCmds
-#
+
 none = ''
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def astUnitModelCreateMainCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         isUseExistsHierarchy=False
 ):
-    # Set Log Window
-    logWin.setNameText(u'模型创建')
-    qtLog.viewStartProcessMessage(logWin, 'Asset Model Create')
+    logWin_ = bscMethods.If_Log(title=u'Model Create')
+    logWin_.showUi()
+
+    logWin_.addStartTask(u'Model Create')
     #
     existsHierarchy = None
     #
@@ -42,7 +40,7 @@ def astUnitModelCreateMainCmd(
         if selObjects:
             existsHierarchy = selObjects[0]
     #
-    qtLog.viewStartProcess(logWin, 'Create Model - Hierarchy')
+    logWin_.addStartProgress(u'Model Hierarchy Create')
     #
     maHier.setCreateAstModelHierarchy(assetClass, assetName)
     maHier.setCreateAstUnitModelSolverHierarchy(assetClass, assetName)
@@ -62,48 +60,44 @@ def astUnitModelCreateMainCmd(
         assetClass, assetName, assetVariant, assetStage
     )
     #
-    qtLog.viewCompleteProcess(logWin)
-    qtLog.viewCompleteProcessMessage(logWin)
-    #
-    logWin.setCountdownClose(5)
+    logWin_.addCompleteProgress()
+    logWin_.addCompleteTask()
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def astUnitModelLoadMainCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         force=True, lockTransform=True, collectionTexture=True,
 ):
     # Set Log Window
-    logWin.setNameText(u'模型领取')
+    logWin_ = bscMethods.If_Log(title=u'Model Load')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Load Model')
+
     maUtils.setDisplayMode(5)
-    #
-    if force:
+
+    if force is True:
         maFile.new()
-    #
+    # Geometry
     astUnitModelGeometryLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         lockTransform=lockTransform
     )
-    #
+    # Material
     astUnitModelMaterialLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=collectionTexture
     )
-    # Extra >>> 4
-    astUnitLoadExtraSub(
-        logWin,
+    # Extra
+    astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -118,21 +112,22 @@ def astUnitModelLoadMainCmd(
         assetClass, assetName, assetVariant, assetStage
     )
     # Save Source to Local
-    saveModelSource(logWin, projectName, assetClass, assetName, assetVariant, assetStage)
+    astUnitModelSourceSaveCmd(
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
+    )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
-    #
-    logWin.setCountdownClose(5)
+    logWin_.addCompleteTask()
 
 
 #
-def saveModelSource(
-        logWin,
+def astUnitModelSourceSaveCmd(
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
+    logWin_ = bscMethods.If_Log()
     # Local
-    localModelFile = assetPr.astUnitSourceFile(
+    localAstModelFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -141,33 +136,36 @@ def saveModelSource(
     maUtils.setVisiblePanelsDelete()
     assetOp.setUnknownNodeClear()
     #
-    qtLog.viewStartProcess(logWin, 'Save Model - Source ( Local )')
+    logWin_.addStartProgress(u'Model Source ( Local ) Save')
     #
-    maFile.saveMayaFileToLocal(localModelFile)
+    maFile.saveMayaFileToLocal(localAstModelFile)
+    logWin_.addResult(localAstModelFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
 def astUnitModelGeometryLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         lockTransform=True
 ):
+    logWin_ = bscMethods.If_Log()
+    
     isDbExists = dbGet.isDbAstExistsGeometry(assetIndex)
     if isDbExists:
-        qtLog.viewStartProcess(logWin, 'Load Asset Model Nde_Geometry')
+        logWin_.addStartProgress(u'Geometry Load')
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
         # Hide Solver Meshes
         assetOp.setSolverGroupGeometryHide(assetName)
     else:
+        logWin_.closeUi()
+        
         astUnitModelCreateMainCmd(
-            logWin,
             projectName,
             assetIndex,
             assetClass, assetName, assetVariant, assetStage
@@ -176,12 +174,13 @@ def astUnitModelGeometryLoadCmd(
 
 #
 def astUnitModelMaterialLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     assetSubIndexKey = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isDbExists = dbGet.isDbAstMaterialExists(assetSubIndexKey)
     if isDbExists:
@@ -190,11 +189,11 @@ def astUnitModelMaterialLoadCmd(
         #
         geometryObjectIndexLis = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
         astMaterialObjectIndexLis = dbGet.getDbMaterialIndexData(assetSubIndexKey)
-        qtLog.viewStartProcess(logWin, u'Load Asset Model ( Material )')
+        logWin_.addStartProgress(u'Material Load')
         #
         maDbAstCmds.dbAstMaterialLoadMainCmd(assetSubIndexKey, geometryObjectIndexLis, astMaterialObjectIndexLis)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
         # Load Texture >>> 02
         if collectionTexture:
             # Use Server Path
@@ -213,7 +212,7 @@ def astUnitModelMaterialLoadCmd(
                 )
                 isBackExists = True
             #
-            qtLog.viewStartProcess(logWin, 'Load Model - Texture')
+            logWin_.addStartProgress(u'Texture Load')
             #
             shaderObjects = datAsset.getAstMeshObjects(assetName, 1)
             # Debug ( Must Back of Rename Scene)
@@ -232,32 +231,33 @@ def astUnitModelMaterialLoadCmd(
                 inData=modelTextureNodes
             )
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
         #
         astAovObjectIndexLis = dbGet.getDbAovIndexData(assetSubIndexKey)
         if astAovObjectIndexLis:
-            qtLog.viewStartProcess(logWin, u'Load Asset Model ( AOV )')
+            logWin_.addStartProgress(u'AOV Load')
             #
             maDbAstCmds.dbAstLoadAov(renderer, assetSubIndexKey, astAovObjectIndexLis)
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
         else:
-            qtLog.viewFailProcess(logWin, u'Asset Model ( AOV ) is Non - Exists')
+            logWin_.addWarning(u'AOV is Non - Exists')
         # Collection Bridge Group
         astUnitModelLinkGroup = assetPr.astUnitModelLinkGroupName(assetName)
         astUnitModelBridgeGroup = assetPr.astUnitModelBridgeGroupName(assetName)
         maUtils.setObjectParent(astUnitModelBridgeGroup, astUnitModelLinkGroup)
     else:
-        qtLog.viewFailProcess(logWin, u'Asset Model ( Material ) is Non - Exists')
+        logWin_.addWarning(u'Material is Non - Exists')
 
 
 #
 def astUnitLoadModelTexture(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
-        useServerTexture=False):
+        useServerTexture=False
+):
+    logWin_ = bscMethods.If_Log()
     # Use Server Path
     if useServerTexture:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
@@ -282,7 +282,7 @@ def astUnitLoadModelTexture(
     #
     withTx = maTxtr.getTxTextureIsCollection(renderer)
     #
-    qtLog.viewStartProcess(logWin, 'Load Asset Model ( Texture )')
+    logWin_.addStartProgress(u'Texture Load')
     #
     maTxtr.setTexturesCollection(
         modelTextureDirectory,
@@ -295,32 +295,30 @@ def astUnitLoadModelTexture(
         modelTextureDirectory,
         inData=textureNodeLis
     )
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Crate Rig File
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def astUnitRigCreateMainCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage
 ):
-    logWin.setNameText(u'绑定创建')
+    logWin_ = bscMethods.If_Log(u'Rig Create')
+    logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isLoadMaterial = dbGet.isDbAstMaterialExists(modelIndex)
     #
     maxProgress = [0, 1][isLoadMesh] + [0, 2][isLoadMaterial]
-    logWin.setMaxProgressValue(maxProgress)
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Rig Create')
     maUtils.setDisplayMode(5)
     #
     astUnitModelGeometryLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -328,7 +326,6 @@ def astUnitRigCreateMainCmd(
     )
     #
     astUnitModelMaterialLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -336,8 +333,7 @@ def astUnitRigCreateMainCmd(
         useServerTexture=True
     )
     # Extra
-    astUnitLoadExtraSub(
-        logWin,
+    astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -350,30 +346,27 @@ def astUnitRigCreateMainCmd(
         assetClass, assetName, assetVariant, assetStage
     )
     #
-    saveRigSource(
-        logWin,
+    astUnitRigSaveCmd(
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 # Animation Rig Load
-@bscModifier.catchException
-@bscModifier.catchCostTime
-def astUnitLoadRigMain(
-        logWin,
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
+def astUnitRigLoadMainCmd(
         assetIndex,
         projectName, assetClass, assetName, assetVariant, assetStage,
         force=True
 ):
     # Set Log Window
-    logWin.setNameText(u'绑定领取')
-    maxProgress = 1
-    logWin.setMaxProgressValue(maxProgress)
+    logWin_ = bscMethods.If_Log(u'Rig Load')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Rig Load')
     maUtils.setDisplayMode(5)
     #
     dbRigFile = dbGet.getDbAstRigAstProductFile(assetIndex)
@@ -384,7 +377,7 @@ def astUnitLoadRigMain(
         assetClass, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
-    qtLog.viewStartProcess(logWin, 'Load Rig - Asset')
+    logWin_.addStartProgress(u'Rig Load')
     if lxBasic.isOsExistsFile(dbRigFile):
         if force:
             maFile.openMayaFileAsBack(dbRigFile, localSourceFile)
@@ -392,8 +385,7 @@ def astUnitLoadRigMain(
             maFile.setFileImport(dbRigFile)
             maFile.saveMayaFileToLocal(localSourceFile)
         # Extra
-        astUnitLoadExtraSub(
-            logWin,
+        astUnitExtraLoadCmd(
             assetIndex,
             projectName,
             assetClass, assetName, assetVariant, assetStage
@@ -408,15 +400,19 @@ def astUnitLoadRigMain(
             assetClass, assetName, assetVariant, assetStage
         )
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     else:
-        qtLog.viewFailProcess(logWin, 'Rig - Asset is Non - Exists')
+        logWin_.addWarning('Rig - Asset is Non - Exists')
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 #
-def saveRigSource(logWin, projectName, assetClass, assetName, assetVariant, assetStage):
+def astUnitRigSaveCmd(
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
+):
+    logWin_ = bscMethods.If_Log()
     # LocalFile
     localFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Local,
@@ -426,41 +422,39 @@ def saveRigSource(logWin, projectName, assetClass, assetName, assetVariant, asse
     maUtils.setVisiblePanelsDelete()
     assetOp.setUnknownNodeClear()
     #
-    qtLog.viewStartProcess(logWin, 'Save Asset Rig - Source ( Local )')
+    logWin_.addStartProgress(u'Source ( Local ) Save')
     #
     maFile.saveMayaFileToLocal(localFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 # Create CFX File
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def astUnitCreateCfxMain(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         withRig=False
 ):
     # Set Log Window
-    logWin.setNameText(u'毛发创建')
+    logWin_ = bscMethods.If_Log(u'Groom Create')
+    logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isLoadMaterial = dbGet.isDbAstMaterialExists(modelIndex)
     #
     maxProgress = [0, 1][isLoadMesh] + [0, 2][isLoadMaterial]
-    logWin.setMaxProgressValue(maxProgress)
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Groom Create')
     #
     maUtils.setDisplayMode(5)
     # Load Model
     maDbAstCmds.dbAstLoadModelProduct(assetIndex, assetName, assetVariant)
     # Extra
-    astUnitLoadExtraSub(
-        logWin,
+    astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -475,30 +469,32 @@ def astUnitCreateCfxMain(
         assetClass, assetName, assetVariant, assetStage
     )
     # Save Source
-    astUnitSaveSource(logWin, assetIndex, projectName, assetClass, assetName, assetVariant, assetStage)
+    astUnitSourceSaveCmd(
+        assetIndex,
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
+    )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 # Load CFX File
-@bscModifier.catchException
-@bscModifier.catchCostTime
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
 def astUnitCfxLoadMainCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionMap=True, useServerMap=False,
         collectionTexture=True, useServerTexture=False,
 ):
+    logWin_ = bscMethods.If_Log(u'Groom Load')
+    logWin_.showUi()
+    
     isExistsFur = dbGet.getExistsDbFur(assetIndex, assetVariant)
     isExistsCfxMaterial = dbGet.getExistsDbCfxMaterial(assetIndex, assetVariant)
-    # Set Log Window
-    logWin.setNameText(u'毛发领取')
-    maxProgress = [0, 1][isExistsFur] + [0, 2][isExistsCfxMaterial]
-    logWin.setMaxProgressValue(maxProgress)
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Groom Load')
     maUtils.setDisplayMode(5)
     # Load Model
     maDbAstCmds.dbAstLoadModelProduct(
@@ -507,7 +503,6 @@ def astUnitCfxLoadMainCmd(
     #
     if collectionTexture is True:
         astUnitLoadModelTexture(
-            logWin,
             projectName,
             assetIndex,
             assetClass, assetName, assetVariant, assetStage
@@ -518,22 +513,19 @@ def astUnitCfxLoadMainCmd(
     maUtils.setObjectReferenceDisplay(astUnitModelProductGroup)
     #
     astUnitCfxFurLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionMap=collectionMap, useServerMap=useServerMap
     )
     astUnitLoadCfxMaterialSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=collectionTexture, useServerTexture=useServerTexture
     )
     # Extra >>> 4
-    astUnitLoadExtraSub(
-        logWin,
+    astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
@@ -544,30 +536,34 @@ def astUnitCfxLoadMainCmd(
         assetClass, assetName, assetVariant, assetStage
     )
     # Save Source
-    astUnitSaveSource(logWin, assetIndex, projectName, assetClass, assetName, assetVariant, assetStage)
+    astUnitSourceSaveCmd(
+        assetIndex,
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
+    )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 #
 def astUnitCfxFurLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         collectionMap=False, useServerMap=False
 ):
+    logWin_ = bscMethods.If_Log()
     # Data
     cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName)
     # Load Fur Nde_Node
     existDbFur = dbGet.getExistsDbFur(assetIndex, assetVariant)
     if existDbFur:
-        qtLog.viewStartProcess(logWin, 'Load Asset CFX ( Fur )')
+        logWin_.addStartProgress(u'Fur Load')
         #
         maDbAstCmds.dbAstLoadFurIntegration(assetIndex, assetVariant)
         maDbAstCmds.dbAstLoadFurIndexSub(assetIndex, assetVariant)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
         if collectionMap is True:
             # Load Fur Map
             mapDirectory = assetPr.astUnitMapFolder(
@@ -582,28 +578,29 @@ def astUnitCfxFurLoadCmd(
                     assetClass, assetName, assetVariant, assetStage
                 )
             #
-            qtLog.viewStartProcess(logWin, u'Load Asset CFX ( Fur Map')
+            logWin_.addStartProgress(u'Map Load')
             #
             maTxtr.setCollectionMaps(mapDirectory)
             maTxtr.setRepathMaps(mapDirectory)
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
         #
         rootGroup = assetPr.astUnitRootGroupName(assetName)
         if maUtils.isAppExist(rootGroup):
             maUtils.setObjectParent(cfxGroup, rootGroup)
     else:
-        qtLog.viewFailProcess(logWin, u'Asset CFX ( Fur ) is Non - Exists')
+        logWin_.addWarning(u'Fur is Non - Exists')
 
 
 #
 def astUnitLoadCfxMaterialSub(
-        logWin,
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     renderer = projectPr.getProjectMayaRenderer(projectName)
     #
     cfxIndexKey = dbGet.getDbCfxIndex(assetIndex, assetVariant)
@@ -612,11 +609,11 @@ def astUnitLoadCfxMaterialSub(
     astMaterialObjectIndexLis = dbGet.getDbMaterialIndexData(cfxIndexKey)
     # Load Material >>> 01
     if astMaterialObjectIndexLis:
-        qtLog.viewStartProcess(logWin, u'Load Asset CFX ( Material )')
+        logWin_.addStartProgress(u'Material Load')
         #
         maDbAstCmds.dbAstMaterialLoadMainCmd(cfxIndexKey, furCompIndexKeys, astMaterialObjectIndexLis)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
         # Load Texture >>> 02
         if collectionTexture:
             if useServerTexture:
@@ -632,7 +629,7 @@ def astUnitLoadCfxMaterialSub(
                     assetClass, assetName, assetVariant, assetStage
                 )
             #
-            qtLog.viewStartProcess(logWin, u'Load Asset CFX ( Fur - Texture )')
+            logWin_.addStartProgress(u'Texture Load')
             #
             withTx = maTxtr.getTxTextureIsCollection(renderer)
             #
@@ -650,45 +647,45 @@ def astUnitLoadCfxMaterialSub(
                     inData=cfxTextureNodes
                 )
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
     else:
-        qtLog.viewFailProcess(logWin, u'Asset CFX ( Material ) is Non - Exists')
+        logWin_.addWarning(u'Material is Non - Exists')
     #
     astAovObjectIndexLis = dbGet.getDbAovIndexData(cfxIndexKey)
     if astAovObjectIndexLis:
-        qtLog.viewStartProcess(logWin, u'Load Asset CFX ( AOV )')
+        logWin_.addStartProgress(u'AOV Load')
         #
         maDbAstCmds.dbAstLoadAov(renderer, cfxIndexKey, astAovObjectIndexLis)
         #
-        qtLog.viewCompleteProcess(logWin)
+        logWin_.addCompleteProgress()
     else:
-        qtLog.viewFailProcess(logWin, u'Asset CFX ( AOV ) is Non - Exists')
+        logWin_.addWarning(u'AOV is Non - Exists')
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
-def astUnitCreateRigSolMain(
-        logWin,
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
+def astUnitSolverCreateMainCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        force=True):
+        force=True
+):
     # Set Log Window
-    logWin.setNameText(u'角色模拟创建')
+    logWin_ = bscMethods.If_Log(u'Solver Create')
+    logWin_.showUi()
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Solver Create')
     maUtils.setDisplayMode(5)
     #
-    qtLog.viewStartProcess(logWin, u'Load Asset CFX ( Fur )')
+    logWin_.addStartProgress(u'Groom Load')
     #
-    astUnitLoadReferenceSub(
-        logWin,
+    astUnitReferenceLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
     #
     maHier.setCreateAstRigSolverHierarchy(assetClass, assetName)
     maHier.astUnitRefreshRoot(
@@ -696,34 +693,31 @@ def astUnitCreateRigSolMain(
         assetClass, assetName, assetVariant, assetStage
     )
     # Save Source
-    astUnitSaveSource(
-        logWin,
+    astUnitSourceSaveCmd(
         assetIndex,
         projectName, assetClass, assetName, assetVariant, assetStage
     )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
-def astUnitCreateLightMain(
-        logWin,
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
+def astUnitLightCreateMainCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        force=True):
+        force=True
+):
     # Set Log Window
-    logWin.setNameText(u'灯光创建')
+    logWin_ = bscMethods.If_Log(u'Light Create')
+    logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isLoadMaterial = dbGet.isDbAstMaterialExists(modelIndex)
-    #
-    maxProgress = [0, 1][isLoadMesh] + [0, 2][isLoadMaterial]
-    logWin.setMaxProgressValue(maxProgress)
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'Light Create')
     #
     maUtils.setDisplayMode(5)
     #
@@ -731,7 +725,6 @@ def astUnitCreateLightMain(
         maFile.new()
     #
     astUnitModelGeometryLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -739,7 +732,6 @@ def astUnitCreateLightMain(
     )
     #
     astUnitModelMaterialLoadCmd(
-        logWin,
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
@@ -752,13 +744,12 @@ def astUnitCreateLightMain(
         assetClass, assetName, assetVariant, assetStage
     )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
-@bscModifier.catchException
-@bscModifier.catchCostTime
-def astUnitLoadMain(
-        logWin,
+@bscModifiers.fncCatchException
+@bscModifiers.fncCatchCostTime
+def astUnitLoadMainCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -766,32 +757,32 @@ def astUnitLoadMain(
         force=True
 ):
     # Set Log Window
-    logWin.setNameText('%s Load' % assetStage.capitalize())
-    maxProgress = 4
-    logWin.setMaxProgressValue(maxProgress)
+    assetStagePrettify = assetStage.capitalize()
+    logWin_ = bscMethods.If_Log(u'{} Load'.format(assetStagePrettify))
+    logWin_.showUi()
     # Start
-    qtLog.viewStartLoadMessage(logWin)
+    logWin_.addStartTask(u'{} Load'.format(assetStagePrettify))
     maUtils.setDisplayMode(5)
     # Refer >>> 01
-    astUnitLoadReferenceSub(
-        logWin,
-        assetIndex, projectName, assetClass, assetName, assetVariant, assetStage
+    astUnitReferenceLoadCmd(
+        assetIndex,
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
     )
     # Product >>> 02
-    astUnitLoadProductSub(
-        logWin,
-        assetIndex, projectName, assetClass, assetName, assetVariant, assetStage
+    astUnitProductLoadCmd(
+        assetIndex,
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
     )
     # Extra >>> 03
-    astUnitLoadExtraSub(
-        logWin,
+    astUnitExtraLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )
     # Cache >>> 04
-    astUnitLoadCacheSub(
-        logWin,
+    astUnitCacheLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
@@ -806,22 +797,26 @@ def astUnitLoadMain(
         assetClass, assetName, assetVariant, assetStage
     )
     #
-    astUnitSaveSource(
-        logWin,
-        assetIndex, projectName, assetClass, assetName, assetVariant, assetStage
+    astUnitSourceSaveCmd(
+        assetIndex,
+        projectName,
+        assetClass, assetName, assetVariant, assetStage
     )
     # Complete
-    qtLog.viewCompleteLoadMessage(logWin)
+    logWin_.addCompleteTask()
 
 
 #
-def astUnitLoadReferenceSub(
-        logWin,
+def astUnitReferenceLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
-    qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Reference' % assetStage.capitalize())
+    assetStagePrettify = assetStage.capitalize()
+
+    logWin_ = bscMethods.If_Log()
+    
+    logWin_.addStartProgress(u'Reference Load')
     #
     if assetPr.isAstSolverLink(assetStage):
         # Model
@@ -839,7 +834,6 @@ def astUnitLoadReferenceSub(
         )
         #
         astUnitLoadModelTexture(
-            logWin,
             projectName,
             assetIndex,
             assetClass, assetName, assetVariant, assetStage
@@ -848,33 +842,36 @@ def astUnitLoadReferenceSub(
         astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
         maUtils.setObjectReferenceDisplay(astUnitModelProductGroup)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
-def astUnitLoadProductSub(
-        logWin,
+def astUnitProductLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
+    assetStagePrettify = assetStage.capitalize()
+
+    logWin_ = bscMethods.If_Log()
+    
     serverProductFile = None
     if assetPr.isAstSolverLink(assetStage) or assetPr.isAstLightLink(assetStage):
         serverProductFile = assetPr.astUnitProductFile(
             lxCore_.LynxiRootIndex_Server,
-            projectName, assetClass, assetName, assetVariant, assetStage
+            projectName,
+            assetClass, assetName, assetVariant, assetStage
         )[1]
     #
     if serverProductFile is not None:
         if lxBasic.isOsExistsFile(serverProductFile):
-            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Product' % lxBasic.str_camelcase2prettify(assetStage))
+            logWin_.addStartProgress(u'Product Load')
             #
             maFile.setFileImport(serverProductFile)
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
             #
-            astUnitLoadTextureSub(
-                logWin,
+            astUnitTextureLoadCmd(
                 assetIndex,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage
@@ -882,13 +879,17 @@ def astUnitLoadProductSub(
 
 
 #
-def astUnitLoadTexture_(
+def astUnitTextureLoadSubCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         textureNodes,
         isWithTx
 ):
+    assetStagePrettify = assetStage.capitalize()
+
+    logWin_ = bscMethods.If_Log()
+    
     if textureNodes:
         localTextureFolder = assetPr.astUnitTextureFolder(
             lxCore_.LynxiRootIndex_Local,
@@ -908,12 +909,15 @@ def astUnitLoadTexture_(
 
 
 #
-def astUnitLoadTextureSub(
-        logWin,
+def astUnitTextureLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
+    assetStagePrettify = assetStage.capitalize()
+
+    logWin_ = bscMethods.If_Log()
+    
     linkGroupName = None
     #
     isWithTx = False
@@ -923,14 +927,15 @@ def astUnitLoadTextureSub(
     #
     if linkGroupName is not None:
         if maUtils.isAppExist(linkGroupName):
+            logWin_.addStartProgress(u'Texture Load')
+
             shaderObjectLis = maUtils.getChildrenByRoot(linkGroupName)
-            qtLog.viewStartProcess(logWin, 'Load Asset ( %s ) Texture' % lxBasic.str_camelcase2prettify(assetStage))
             #
             if shaderObjectLis:
                 textureNodes = maShdr.getTextureNodeLisByObject(shaderObjectLis)
                 if textureNodes:
                     # Load
-                    astUnitLoadTexture_(
+                    astUnitTextureLoadSubCmd(
                         assetIndex,
                         projectName,
                         assetClass, assetName, assetVariant, assetStage,
@@ -938,21 +943,22 @@ def astUnitLoadTextureSub(
                         isWithTx
                     )
                 else:
-                    qtLog.viewWarning(logWin, u'Texture - Nde_Node is Non - Exists')
+                    logWin_.addWarning(u'Texture is Non - Exists')
             else:
-                qtLog.viewWarning(logWin, u'Nde_ShaderRef - Object is Non - Exists')
+                logWin_.addWarning(u'Shader is Non - Exists')
             #
-            qtLog.viewCompleteProcess(logWin)
+            logWin_.addCompleteProgress()
 
 
 #
-def astUnitLoadCacheSub(
-        logWin,
+def astUnitCacheLoadCmd(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
         collectionCache=True, useServerTexture=False
 ):
+    logWin_ = bscMethods.If_Log()
+    
     linkGroupName = None
     #
     isWithTx = False
@@ -961,11 +967,13 @@ def astUnitLoadCacheSub(
 
 
 #
-def astUnitLoadExtraSub(
-        logWin,
+def astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetClass, assetName, assetVariant, assetStage
+):
+    logWin_ = bscMethods.If_Log()
+    
     serverExtraFile = assetPr.astUnitExtraFile(
         lxCore_.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
@@ -981,11 +989,15 @@ def astUnitLoadExtraSub(
 
 
 #
-def astUnitSaveSource(
-        logWin,
+def astUnitSourceSaveCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetClass, assetName, assetVariant, assetStage
+):
+    assetStagePrettify = assetStage.capitalize()
+
+    logWin_ = bscMethods.If_Log()
+    
     localSourceFile = assetPr.astUnitSourceFile(
         lxCore_.LynxiRootIndex_Local,
         projectName, assetClass, assetName, assetVariant, assetStage
@@ -994,20 +1006,22 @@ def astUnitSaveSource(
     maUtils.setVisiblePanelsDelete()
     assetOp.setUnknownNodeClear()
     #
-    qtLog.viewStartProcess(logWin, 'Save Asset ( %s ) Source to Local' % assetStage.capitalize())
+    logWin_.addStartProgress(u'Source ( Local ) Save')
     #
     maFile.saveMayaFileToLocal(localSourceFile)
     #
-    qtLog.viewCompleteProcess(logWin)
+    logWin_.addCompleteProgress()
 
 
 #
-def astUnitLoadAssemblyForScenery(
+def astUnitAssemblyLoadForScenery(
         assetIndex,
         projectName,
         assetClass, assetName, assetVariant,
-        isWithAnnotation=True, isWithHandle=True):
-    #
+        isWithAnnotation=True, isWithHandle=True
+):
+    logWin_ = bscMethods.If_Log()
+    
     activeRepresentation = 'GPU'
     #
     arName = assetPr.astUnitAssemblyReferenceName(assetName)
@@ -1037,6 +1051,8 @@ def astUnitRigLoadForAnimationCmd(
         assetIndex,
         assetClass, assetName, assetVariant
 ):
+    logWin_ = bscMethods.If_Log()
+    
     serverRigProductFile = assetPr.astUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
         projectName,
@@ -1056,10 +1072,13 @@ def astUnitRigLoadForAnimationCmd(
 
 
 #
-def astAssetLoadRigSolForAnimation(
+def astAssetSolverLoadForAnimation(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant):
+        assetClass, assetName, assetVariant
+):
+    logWin_ = bscMethods.If_Log()
+    
     serverSolverProductFile = assetPr.astUnitProductFile(
         lxCore_.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver

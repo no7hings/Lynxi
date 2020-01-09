@@ -8,7 +8,7 @@ from LxUi.qt import qtCore
 #
 from LxUi.qt.qtObjects import qtAbcModel, qtAbcWidget
 #
-from LxUi.qt.qtModels import qtItemModel
+from LxUi.qt._qtModels import _qtItemModel
 
 #
 QtGui = qtCore.QtGui
@@ -642,7 +642,7 @@ class QtMessageWidget(qtCore.QWidget):
 
 #
 class QtFilterCheckbutton(qtAbcWidget.QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtItemModel.QtFilterCheckviewItemModel
+    MODEL_ITEM_CLS = _qtItemModel.QtFilterCheckviewItemModel
 
     itemSize = 20, 20
     def __init__(self, iconKeyword=None, *args, **kwargs):
@@ -780,7 +780,7 @@ class QtFilterCheckbutton(qtAbcWidget.QtAbcObj_Item):
 
 #
 class QtCheckbutton(qtAbcWidget.QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtItemModel.QtCheckbuttonItemModel
+    MODEL_ITEM_CLS = _qtItemModel.QtCheckbuttonItemModel
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
@@ -845,7 +845,7 @@ class QtCheckbutton(qtAbcWidget.QtAbcObj_Item):
 
 #
 class QtRadioCheckbutton(qtAbcWidget.QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtItemModel.QtCheckbuttonItemModel
+    MODEL_ITEM_CLS = _qtItemModel.QtCheckbuttonItemModel
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
@@ -916,7 +916,7 @@ class QtRadioCheckbutton(qtAbcWidget.QtAbcObj_Item):
 
 #
 class QtEnablebutton(qtAbcWidget.QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtItemModel.QtEnablebuttonItemModel
+    MODEL_ITEM_CLS = _qtItemModel.QtEnablebuttonItemModel
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
@@ -1378,7 +1378,7 @@ class QtGridviewItem(qtAbcWidget.QtAbcObj_Item):
         return self.itemModel().id()
     #
     def setupUi(self):
-        self._itemModel = qtItemModel.QtGridviewItemModel(self)
+        self._itemModel = _qtItemModel.QtGridviewItemModel(self)
         #
         self._layout = qtCore.QGridLayout_(self)
         self._layout.setContentsMargins(
@@ -1624,7 +1624,7 @@ class QtPresetviewItem(qtAbcWidget.QtAbcObj_Item):
         return dic
     #
     def setupUi(self):
-        self._itemModel = qtItemModel.QtPresetviewItemModel(self)
+        self._itemModel = _qtItemModel.QtPresetviewItemModel(self)
         #
         self._descriptionLabel = QtEnterlabel()
         self._descriptionLabel.setParent(self)
@@ -1634,7 +1634,7 @@ class QtPresetviewItem(qtAbcWidget.QtAbcObj_Item):
 
 #
 class QtRecordviewItemItem(qtAbcWidget.QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtItemModel.QtRecordviewItemItemModel
+    MODEL_ITEM_CLS = _qtItemModel.QtRecordviewItemItemModel
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)
         self.clsSuper.__init__(*args, **kwargs)

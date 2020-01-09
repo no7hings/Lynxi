@@ -12,6 +12,13 @@ class Set_Dag(mtlAbstract.Abc_ObjectSet):
         self._initAbcObjectSet(*args)
 
 
-class Set_Attribute(mtlAbstract.Abc_ObjectSet):
+class Set_Geometry(mtlAbstract.Abc_ObjectSet):
+    xml_key_attribute = 'geom'
+
+    def __init__(self, *args):
+        self._initAbcObjectSet(*args)
+
+
+class Set_Port(mtlAbstract.Abc_ObjectSet):
     def __init__(self, *args):
         self._initAbcObjectSet(*args)

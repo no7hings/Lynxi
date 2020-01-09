@@ -1955,95 +1955,98 @@ class QtAbcObj_Window(qtCore.QMainWindow):
             QtGui.QIcon.On)
         #
         self.setWindowIcon(icon)
-    #
+
     def setNameText(self, string):
         self.windowModel().setNameText(string)
-        #
+
         self.setWindowTitle(string)
-    #
+
+    def nameText(self):
+        return self.windowModel().nameText()
+
     def setTitle(self, string):
         self.windowModel().setNameText(string)
-        #
+
         self.setWindowTitle(string)
-    #
+
     def setMargins(self, *args):
         self.windowModel().setViewportLayoutMargins(*args)
-    #
+
     def setSpacing(self, value):
         self.windowModel().setSpacing(value)
-    #
+
     def setStatusEnable(self, boolean):
         self.windowModel().setStatusEnable(boolean)
-    #
+
     def setDialogEnable(self, boolean):
         self.windowModel().setDialogEnable(boolean)
-    #
+
     def setMaximizeEnable(self, boolean):
         self.windowModel().setMaximizeEnable(boolean)
-    #
+
     def setMinimizeEnable(self, boolean):
         self.windowModel().setMinimizeEnable(boolean)
-    #
+
     def setExpandEnable(self, boolean):
         self.windowModel().setExpandEnable(boolean)
-    #
+
     def isExpandEnable(self):
         return self.windowModel().isExpandEnable()
-    #
+
     def setMaxProgressValue(self, value):
         self.windowModel().setMaxProgressValue(value)
-    #
+
     def maxProgressValue(self):
         return self.windowModel().maxProgressValue()
-    #
+
     def setProgressValue(self, value, maxValue=None):
         self.windowModel().setProgressValue(value, maxValue)
-    #
+
     def progressValue(self):
         return self.windowModel().progressValue()
-    #
+
     def setProgressStatus(self, status):
         pass
-    #
+
     def updateProgress(self, *args):
         self.windowModel().updateProgress()
-    #
+
     def addWidget(self, widget):
         self.windowModel().addWidget(widget)
-    #
+
     def uiShow(self, pos=None, size=None):
         self.windowModel().uiShow(pos, size)
-        #
+
         self.setFocus(QtCore.Qt.ActiveWindowFocusReason)
-    #
+
     def uiQuit(self):
         self.windowModel().uiQuit()
-    #
+
     def setQuitConnect(self, method):
         self.windowModel()._addQuitConnectMethod(method)
-    #
+
     def setCountdownClose(self, value=5):
         self.windowModel().setCountdownClose(value)
-    #
+
     def setCountdownCloseStop(self):
         self.windowModel().setCountdownCloseStop()
-    #
+
     def setPlaceholderEnable(self, boolean):
         self.windowModel().setPlaceholderEnable(boolean)
-    #
+
     def viewModel(self):
         return self._viewModel
-    #
+
     def windowModel(self):
         return self._viewModel
-    #
+
     def setActionData(self, actionData):
         self._menuButton.setActionData(actionData)
         if actionData:
             self._menuButton.setPressable(True)
         else:
             self._menuButton.setPressable(False)
-    #
+
     def setupUi(self):
         self.installEventFilter(self)
         #
@@ -3358,7 +3361,7 @@ class QtAbcObj_Tabbar(qtCore.QWidget):
         self.setSizePolicy(
             qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Expanding
         )
-        self.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.setFocusPolicy(QtCore.Qt.NoFocus)
         self.setMouseTracking(True)
         #
         self._initAbcObjTabbarUi()
@@ -3452,7 +3455,7 @@ class QtAbcObj_Tabgroup(qtCore.QWidget):
         self.setSizePolicy(
             qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Expanding
         )
-        self.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.setFocusPolicy(QtCore.Qt.NoFocus)
         self.setMouseTracking(True)
         #
         self._initAbcObjTabgroupUi()
