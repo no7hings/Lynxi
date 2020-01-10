@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxMaya.command import maUtils
 #
@@ -11,4 +11,4 @@ if selObj:
         if maUtils.isAppExist(objectName + '.' + attrName):
             maUtils.setAttrStringDatum(i, attrName, objectName)
 #
-bscMethods.If_Message('Refresh Light AOV Attribute', 'Complete')
+bscObjects.If_Message('Refresh Light AOV Attribute', 'Complete')

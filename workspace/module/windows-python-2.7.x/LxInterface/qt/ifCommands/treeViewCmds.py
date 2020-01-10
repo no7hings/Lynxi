@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset.prod import scenePr
 #
@@ -32,10 +32,10 @@ def setListScRenderImageCustomize(
                     maFile.fileOpen(serverRenderFile)
             #
             def openRenderFolder():
-                lxBasic.setOsFolderOpen(renderFolder)
+                bscMethods.OsDirectory.open(renderFolder)
             #
             renderFolder = scenePr.scUnitRenderFolder(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage,
                 customize
@@ -69,11 +69,11 @@ def setListScRenderImageCustomize(
                 parentUi.setExpanded(True)
             #
             serverRenderFile = scenePr.scUnitRenderFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
             localRenderFile = scenePr.scUnitRenderFile(
-                lxCore_.LynxiRootIndex_Local,
+                lxConfigure.LynxiRootIndex_Local,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
@@ -86,7 +86,7 @@ def setListScRenderImageCustomize(
             itemWidget = treeItem.setItemIconWidget(0, iconKeyword, showExplain, stateLabel)
             setActionData()
             #
-            showTimeTag = lxBasic.getCnViewTime(lxBasic.getOsFileMtimestamp(serverRenderFile))
+            showTimeTag = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverRenderFile))
             treeItem.setText(1, showTimeTag)
             #
             treeItem.imageFiles = imageFiles
@@ -107,7 +107,7 @@ def setListScRenderImageCustomize(
     if customizes:
         explain = '''List Scene Render ( Customizes )'''
         maxValue = len(customizes)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         [setBranch(i) for i in customizes]
     #
     return methods
@@ -158,7 +158,7 @@ def setListRenderImages(
     def setImageBranch(index, parentItem, imageFile):
         def setActionData():
             def openImageFolder():
-                lxBasic.setOsFolderOpen(imageFolder)
+                bscMethods.OsDirectory.open(imageFolder)
             #
             def openImageFolderEnabled():
                 return lxBasic.isOsExist(imageFolder)
@@ -210,7 +210,7 @@ def setListRenderImages(
         iconKeyword = 'svg_basic@svg#image'
         #
         explain = imageFile.split('/images')[-1][1:]
-        htmlExplain = bscMethods.Mtd_Html.toHtmlMayaRenderImage(imagePrefix, explain)
+        htmlExplain = bscMethods.HtmlText.toHtmlMayaRenderImage(imagePrefix, explain)
         itemWidget = treeItem.setItemIconWidget(0, iconKeyword, htmlExplain)
         # Action
         setActionData()

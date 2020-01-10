@@ -3,7 +3,7 @@ import os, collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxCore_
+from LxCore import lxConfigure
 #
 from LxCore.preset import appVariant
 #
@@ -111,9 +111,9 @@ def getAssetDirectoryReduceData(projectName):
             if state == 'Loaded':
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
                 dic[referenceNode] = currentFile, correctFile
     return dic
@@ -242,9 +242,9 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 # Directory and namespace
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
                 #
                 if currentFile.lower() == correctFile.lower():

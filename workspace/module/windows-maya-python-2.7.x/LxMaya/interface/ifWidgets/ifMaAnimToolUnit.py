@@ -3,9 +3,9 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxCore import lxBasic, lxConfigure, lxScheme
 
 from LxCore.config import appCfg, sceneCfg, appConfig
 
@@ -31,7 +31,7 @@ from LxMaya.product import maScUploadCmds
 
 from LxMaya.interface.ifCommands import maAnimTreeViewCmds
 
-from LxDeadline.command import ddlUtil
+from LxDeadline import ddlCommands
 
 # Project Data
 currentProjectName = projectPr.getMayaProjectName()
@@ -148,12 +148,12 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 #
                 def rigFolderOpenCmd():
                     osFile = assetPr.astUnitProductFile(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                     )[1]
-                    if lxBasic.isOsExist(osFile):
-                        lxBasic.setOsFileFolderOpen(osFile)
+
+                    bscMethods.OsFile.openDirectory(osFile)
                 #
                 subActionData = [
                     ('Basic',),
@@ -194,9 +194,9 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             #
             productFile = assetPr.astUnitProductFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
             )[1]
             mtimestamp = lxBasic.getOsFileMtimestamp(productFile)
             exists = mtimestamp is not None
@@ -205,7 +205,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             #
             messages = [
                 (messageWidget.DrawImage1, preview),
-                (messageWidget.DrawColor, (rgba, iconKeyword, lxBasic.getCnViewTime(mtimestamp)))
+                (messageWidget.DrawColor, (rgba, iconKeyword, bscMethods.OsTime.getCnPrettifyByTimestamp(mtimestamp)))
             ]
             messageWidget.setDatumLis(messages, 240, 240)
             #
@@ -222,7 +222,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
         #
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
-            assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Rig
+            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Rig
         )
         #
         gridView.cleanItems()
@@ -230,7 +230,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             # View Progress
             explain = '''Build Rig Unit(s)'''
             maxValue = len(uiData)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.update()
                 setBranch(s, k, v)
@@ -603,15 +603,15 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             if self._useMayaFileButton.isChecked():
                 serverCameraFile = scenePr.scUnitCameraProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             #
             boolean = lxBasic.isOsExist(serverCameraFile)
@@ -625,7 +625,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if maUtils.isAppExist(sceneCamera):
-                bscMethods.If_Message(
+                bscObjects.If_Message(
                     u'''Camera : %s''' % sceneCamera, u'''is Exists'''
                 )
             if not maUtils.isAppExist(sceneCamera):
@@ -678,7 +678,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if maUtils.isAppExist(usedCamera):
                 maUtils.setDisplayMode(5)
                 maUtils.setCameraView(usedCamera)
-                bscMethods.If_Message(
+                bscObjects.If_Message(
                     u'''Set Camera View''', u'''Complete'''
                 )
     @staticmethod
@@ -727,7 +727,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     timeTag,
                     withCamera
                 )
-                bscMethods.If_Message(
+                bscObjects.If_Message(
                     u'Animation Camera Upload', u'Complete'
                 )
     #
@@ -780,14 +780,14 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 if isOpenFolder:
                     localPreviewFile = scenePr.scenePreviewFile(
-                        lxCore_.LynxiRootIndex_Local,
+                        lxConfigure.LynxiRootIndex_Local,
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
                     previewFolder = lxBasic.getOsFileDirname(localPreviewFile)
                     if lxBasic.isOsExist(previewFolder):
-                        lxBasic.setOsFolderOpen(previewFolder)
+                        bscMethods.OsDirectory.open(previewFolder)
                 #
-                bscMethods.If_Message(
+                bscObjects.If_Message(
                     u'Animation Preview Upload', u'Complete'
                 )
     #
@@ -819,25 +819,25 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             if self._useMayaFileButton.isChecked():
                 serverCameraFile = scenePr.scUnitCameraProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout
+                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             if lxBasic.isOsExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         'Camera Import', 'Complete'
                     )
                 else:
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         'Camera', 'is Exists'
                     )
 
@@ -1045,7 +1045,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model
+        lxConfigure.LynxiProduct_Asset_Link_Model
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -1478,7 +1478,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneClass, sceneName, sceneVariant, sceneStage,
             timeTag,
         )
-        bscMethods.If_Message(
+        bscObjects.If_Message(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #
@@ -1758,7 +1758,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def openRenderPath():
             renderPath = self._scRenderPathLabel.datum()
-            lxBasic.setOsFolderOpen(renderPath)
+            bscMethods.OsDirectory.open(renderPath)
         #
         def setUpdateRenderIndex():
             customize = datScene.getSceneCustomizeLabel(sceneName)
@@ -1777,7 +1777,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 timeTag
             )
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -1995,7 +1995,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         toolBox.setSeparators(inData)
     #
     def _initDdlOptionToolUiBox(self):
-        renderPools = ddlUtil.getDdlPools()
+        renderPools = ddlCommands.getDdlPools()
         #
         self._ddlJobTypeLabel.setDatumLis(appCfg.DdlJobs)
         self._ddlJobTypeLabel.setChoose(appCfg.DdlMaCmdJob)
@@ -2073,19 +2073,19 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def saveCmd():
             osFile = self._melCommandFile
             data = self._commandEditBox.text()
-            lxBasic.writeOsData(data, self._melCommandFile)
+            bscMethods.OsFile.write(self._melCommandFile, data)
             #
             subOsFile = lxBasic.getOsFileJoinTimeTag(osFile)
             lxBasic.setOsFileCopy(osFile, subOsFile)
             #
             setLoadAction()
             #
-            bscMethods.If_Message('Save Mel Command', 'Complete !!!')
+            bscObjects.If_Message('Save Mel Command', 'Complete !!!')
         #
         def loadCmd():
             osFile = self._melCommandFile
             if lxBasic.isOsExist(osFile):
-                data = lxBasic.readOsFile(osFile)
+                data = bscMethods.OsFile.read(osFile)
                 #
                 self._commandEditBox.setText(data)
         #
@@ -2093,11 +2093,11 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             def setActionBranch(timeTag, subOsFile):
                 def subLoadCmd():
                     if lxBasic.isOsExist(subOsFile):
-                        subData = lxBasic.readOsFile(subOsFile)
+                        subData = bscMethods.OsFile.read(subOsFile)
                         #
                         self._commandEditBox.setText(subData)
                 #
-                actionExplain = lxBasic.translateRecordViewTime(timeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag)
                 actionDatumLis.append(
                     (actionExplain, 'svg_basic@svg#file', True, subLoadCmd)
                 )
@@ -2195,7 +2195,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 renderLayerOverride=overrideRenderLayerLis, frameOverride=overrideFrameLis, melCommand=melCommandString
              )
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Update Scene Render Index',
                 'Complete'
             )
@@ -2217,7 +2217,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             customize = self._scCustomizeLabel.datum()
             #
             renderFile = scenePr.scUnitRenderFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
@@ -3022,7 +3022,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         explain = '''Read Assets's Constant - Data'''
         maxValue = len(inData)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         #
         (
             assetArray, assetNumCortArray, assetDirCortArray, assNsHirCortArray, assNsNmCortArray, assetHirClrArray,
@@ -3165,9 +3165,10 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if existsNumber:
                         correctNumberArray.append(int(existsNumber))
                     existsNumberArray.append(guessNumber)
-                badNumberArray = lxBasic.getBadNumberArray(correctNumberArray, 1)
+
+                badNumberArray = bscMethods.List.getBadNumber(correctNumberArray, 1)
                 badNumberCount = len(badNumberArray)
-                #
+
                 if errorReferenceNode:
                     isRefresh = True
                     numberAdd = 0
@@ -3176,7 +3177,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         if num + 1 <= badNumberCount:
                             guessNumber = badNumberArray[num]
                         if num + 1 > badNumberCount:
-                            numberAdd = numberAdd + 1
+                            numberAdd += 1
                             guessNumber = max(correctNumberArray) + numberAdd
                         if guessNumber:
                             maUtils.setAttrStringDatumForce_(referenceNode, attrName, str(guessNumber).zfill(4))
@@ -3294,16 +3295,16 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if keyword == 'Low - Quality':
                 showLabel = astLayoutRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
             else:
                 showLabel = astAnimationRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
             #
             if os.path.isfile(rigAssetFile):
@@ -4179,7 +4180,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         errorLis = []
                         explain = '''Set Cache Check'''
                         maxValue = len(osFiles)
-                        progressBar = bscMethods.If_Progress(explain, maxValue)
+                        progressBar = bscObjects.If_Progress(explain, maxValue)
                         #
                         for osFile in osFiles:
                             isContinue = self._connectObject.isContinue()
@@ -4238,7 +4239,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if treeItems:
                 explain = '''Set Nurbs Hair Check'''
                 maxValue = len(treeItems)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in treeItems:
                     progressBar.update()
                     #
@@ -4257,8 +4258,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             treeItem = selectedTreeItems[0]
             if hasattr(treeItem, 'cfxFurObject'):
                 osFile = treeItem.localCacheFile
-                if osFile:
-                    lxBasic.setOsFileFolderOpen(osFile)
+                bscMethods.OsFile.openDirectory(osFile)
     #
     def setOpenCacheServerFolder(self):
         treeBox = self._rightTreeView
@@ -4267,8 +4267,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             treeItem = selectedTreeItems[0]
             if hasattr(treeItem, 'cfxFurObject'):
                 osFile = treeItem.serverCacheFile
-                if osFile:
-                    lxBasic.setOsFileFolderOpen(osFile)
+                bscMethods.OsFile.openDirectory(osFile)
     #
     def setUploadBtnState(self):
         self.needWriteFurNodes = []
@@ -4426,7 +4425,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     if furObjectType == appCfg.MaNodeType_Plug_Yeti:
                         furCacheFile = scenePr.scAstCfxYetiCacheFile(
-                            lxCore_.LynxiRootIndex_Server,
+                            lxConfigure.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4436,7 +4435,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     elif furObjectType == appCfg.MaHairSystemType:
                         furCacheFile = scenePr.scAstCfxGeomCacheFile(
-                            lxCore_.LynxiRootIndex_Server,
+                            lxConfigure.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4446,7 +4445,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     elif furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
                         furCacheFile = scenePr.scAstCfxNurbsHairCacheFile(
-                            lxCore_.LynxiRootIndex_Server,
+                            lxConfigure.LynxiRootIndex_Server,
                             projectName,
                             sceneName, sceneVariant,
                             assetName, number, assetVariant,
@@ -4461,7 +4460,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     )
                     #
                     nodeIndexFile = scenePr.scAstCfxFurCacheIndexFile(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number, assetVariant,
@@ -4493,7 +4492,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             # View Progress
             explain = '''Load Asset ( CFX ) Cache'''
             maxValue = len(objectlis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for furObject in objectlis:
                 progressBar.update()
                 #

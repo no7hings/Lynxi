@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxBasic import bscMethods
+
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -172,13 +174,13 @@ def scLinkHierarchyConfig(sceneName, sceneVariant, sceneStage):
 
 #
 def sceneSchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSchemeExt, appVariant.dbSceneBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSchemeExt, appVariant.dbSceneBasicKey)
     return lxBasic.getOsUniqueFile(string)
 
 
 #
 def sceneSetFileConfig(sceneIndex):
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneRoot, appVariant.dbBasicFolderName, lxCore_.LynxiSetExt, sceneIndex)
+    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSetExt, sceneIndex)
     return string
 
 
@@ -196,7 +198,7 @@ def defaultSceneSetConfig(projectName, number=0):
     lis = [
         [('project', u'项目 ( Project(s) )'), (projectName, )],
         #
-        [(lxCore_.LynxiInfoKey_Class, u'类型 ( Classification )'), sceneCfg.scBasicClass()],
+        [(lxConfigure.LynxiInfoKey_Class, u'类型 ( Classification )'), sceneCfg.scBasicClass()],
         [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
         [('variant', u'变体 ( Variant(s) )'), (appVariant.scnDefaultVariant,)],
         [('priority', u'优先级 ( Priority )'), sceneCfg.basicScenePriorityLis()],
@@ -205,8 +207,8 @@ def defaultSceneSetConfig(projectName, number=0):
         #
         [('layout', u'镜头预览 ( Layout )'), False],
         [('animation', u'镜头动画 ( Animation )'), False],
-        [(lxCore_.LynxiProduct_Scene_Link_Solver, u'镜头模拟 ( Solver )'), False],
-        [(lxCore_.LynxiProduct_Scene_Link_Simulation, u'镜头解算 ( Simulation )'), False],
+        [(lxConfigure.LynxiProduct_Scene_Link_Solver, u'镜头模拟 ( Solver )'), False],
+        [(lxConfigure.LynxiProduct_Scene_Link_Simulation, u'镜头解算 ( Simulation )'), False],
         [('light', u'镜头灯光 ( Light )'), False]
     ]
     return lis
@@ -216,7 +218,7 @@ def defaultSceneSetConfig(projectName, number=0):
 def getUiSceneSchemeDataDic():
     def getCustomData():
         osFile = sceneSchemeFileConfig()
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getDic(data):
         dic = lxBasic.orderedDict()
@@ -236,7 +238,7 @@ def getUiSceneSetDataLis(projectName, sceneIndex, number=0, overrideNumber=False
     #
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getDic(defaultLis, customDic):
         lis = []
@@ -278,7 +280,7 @@ def getUiSceneSetDataLis(projectName, sceneIndex, number=0, overrideNumber=False
 def getSceneViewName(sceneIndex):
     def getCustomData():
         osFile = sceneSchemeFileConfig()
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getSubDic(data):
         dic = lxBasic.orderedDict()
@@ -289,7 +291,7 @@ def getSceneViewName(sceneIndex):
         return dic
     #
     def getMain(customDic):
-        string = lxCore_.LynxiValue_Unspecified
+        string = lxConfigure.LynxiValue_Unspecified
         if sceneIndex in customDic:
             string = customDic[sceneIndex]
         return string
@@ -301,11 +303,11 @@ def getSceneViewName(sceneIndex):
 def getSceneClass(sceneIndex):
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getMain(customDic):
         if customDic:
-            return customDic[lxCore_.LynxiInfoKey_Class]
+            return customDic[lxConfigure.LynxiInfoKey_Class]
     #
     return getMain(getCustomData())
 
@@ -314,7 +316,7 @@ def getSceneClass(sceneIndex):
 def getSceneName(sceneIndex):
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getMain(customDic):
         if customDic:
@@ -327,7 +329,7 @@ def getSceneName(sceneIndex):
 def getScenePriority(sceneIndex):
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getMain(customDic):
         if customDic:
@@ -340,11 +342,11 @@ def getScenePriority(sceneIndex):
 def getSceneVariants(sceneIndex):
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getMain(customDic):
         if customDic:
-            return customDic[lxCore_.LynxiInfoKey_Variant]
+            return customDic[lxConfigure.LynxiInfoKey_Variant]
     #
     return getMain(getCustomData())
 
@@ -353,7 +355,7 @@ def getSceneVariants(sceneIndex):
 def getSceneLinkEnabled(sceneIndex, link):
     def getCustomData():
         osFile = sceneSetFileConfig(sceneIndex)
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getMain(customDic):
         if customDic:
@@ -396,15 +398,15 @@ def getSceneEnViewInfo(sceneIndex, sceneClass, sceneVariant):
 def getSceneIndexesFilter(projectFilter, sceneClassFilters=None):
     def getCustomData():
         osFile = sceneSchemeFileConfig()
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getBranch(lis, sceneIndex):
         osFile = sceneSetFileConfig(sceneIndex)
-        data = lxBasic.readOsJson(osFile)
+        data = bscMethods.OsJson.read(osFile)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
-                dbSceneClass = data[lxCore_.LynxiInfoKey_Class]
+                dbSceneClass = data[lxConfigure.LynxiInfoKey_Class]
                 if sceneClassFilters is not None:
                     if dbSceneClass in sceneClassFilters:
                         lis.append(sceneIndex)
@@ -427,7 +429,7 @@ def getSceneIndexesFilter(projectFilter, sceneClassFilters=None):
 def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=None):
     def getCustomData():
         osFile = sceneSchemeFileConfig()
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getLinks(data):
         lis = []
@@ -439,13 +441,13 @@ def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=No
     #
     def getBranch(dic, sceneIndex, description):
         osFile = sceneSetFileConfig(sceneIndex)
-        data = lxBasic.readOsJson(osFile)
+        data = bscMethods.OsJson.read(osFile)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
                 isFilter = False
                 #
-                dbSceneClass = data[lxCore_.LynxiInfoKey_Class]
+                dbSceneClass = data[lxConfigure.LynxiInfoKey_Class]
                 dbSceneName = data['name']
                 dbSceneLinks = getLinks(data)
                 if sceneClassFilters is not None:
@@ -481,21 +483,21 @@ def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=No
 def getUiSceneSetDataDic(projectFilter):
     def getCustomData():
         osFile = sceneSchemeFileConfig()
-        return lxBasic.readOsJson(osFile)
+        return bscMethods.OsJson.read(osFile)
     #
     def getBranch(dic, sceneIndex, description):
         osFile = sceneSetFileConfig(sceneIndex)
-        data = lxBasic.readOsJson(osFile)
+        data = bscMethods.OsJson.read(osFile)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
-                sceneClass = data[lxCore_.LynxiInfoKey_Class]
+                sceneClass = data[lxConfigure.LynxiInfoKey_Class]
                 sceneName = data['name']
                 sceneVariants = data['variant']
                 scenePriority = data['priority']
                 scLayoutEnable = data['layout']
                 scAnimationEnable = data['animation']
-                scSolverEnable = data[lxCore_.LynxiProduct_Scene_Link_Solver]
+                scSolverEnable = data[lxConfigure.LynxiProduct_Scene_Link_Solver]
                 scSimulationEnable = data['simulation']
                 scLightEnable = data['light']
                 for sceneVariant in sceneVariants:
@@ -532,22 +534,22 @@ def scEndFrame(endFrame, keyFrameOffset=None):
 #
 def previewIndexData(linkFile):
     dic = lxBasic.orderedDict()
-    dic[lxCore_.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[lxCore_.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
-    dic[lxCore_.Lynxi_Key_Info_SourceFile] = linkFile
+    dic[lxConfigure.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
+    dic[lxConfigure.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
+    dic[lxConfigure.Lynxi_Key_Info_SourceFile] = linkFile
     return dic
 
 
 #
 def alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description=None, notes=None):
     return {
-        lxCore_.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-        lxCore_.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+        lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
+        lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
         #
-        lxCore_.Lynxi_Key_Info_Description: description,
-        lxCore_.Lynxi_Key_Info_Note: notes,
+        lxConfigure.Lynxi_Key_Info_Description: description,
+        lxConfigure.Lynxi_Key_Info_Note: notes,
         #
-        lxCore_.Lynxi_Key_Info_Stage: sceneStage,
+        lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
         #
         'startFrame': startFrame,
         'endFrame': endFrame,
@@ -558,11 +560,11 @@ def alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description=None
 # Get Dict For Animation Camera Cache's Link
 def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeTag):
     dic = lxBasic.orderedDict()
-    dic[lxCore_.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[lxCore_.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
+    dic[lxConfigure.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
+    dic[lxConfigure.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
     #
-    dic[lxCore_.Lynxi_Key_Info_Stage] = sceneStage
-    dic[lxCore_.Lynxi_Key_Info_Version] = timeTag
+    dic[lxConfigure.Lynxi_Key_Info_Stage] = sceneStage
+    dic[lxConfigure.Lynxi_Key_Info_Version] = timeTag
     #
     dic['startFrame'] = startFrame
     dic['endFrame'] = endFrame
@@ -577,8 +579,8 @@ def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeT
 def furCacheIndexData(nodePath, solverNodeType, cacheFile, startFrame, endFrame, sample, solverMode, timeTag):
     dic = lxBasic.orderedDict()
     #
-    dic[lxCore_.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[lxCore_.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
+    dic[lxConfigure.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
+    dic[lxConfigure.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
     dic['version'] = timeTag
     #
     dic['startFrame'] = startFrame
@@ -624,7 +626,7 @@ def scRenderSize():
 #
 def isScLayoutLink(sceneStage):
     boolean = False
-    if sceneStage in lxCore_.LynxiScLayoutStages or sceneStage == lxCore_.LynxiProduct_Scene_Link_layout:
+    if sceneStage in lxConfigure.LynxiScLayoutStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_layout:
         boolean = True
     return boolean
 
@@ -632,7 +634,7 @@ def isScLayoutLink(sceneStage):
 #
 def isScAnimationLink(sceneStage):
     boolean = False
-    if sceneStage in lxCore_.LynxiScAnimationStages or sceneStage == lxCore_.LynxiProduct_Scene_Link_Animation:
+    if sceneStage in lxConfigure.LynxiScAnimationStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Animation:
         boolean = True
     return boolean
 
@@ -640,7 +642,7 @@ def isScAnimationLink(sceneStage):
 #
 def isScSolverLink(sceneStage):
     boolean = False
-    if sceneStage in lxCore_.LynxiScSolverStages or sceneStage == lxCore_.LynxiProduct_Scene_Link_Solver:
+    if sceneStage in lxConfigure.LynxiScSolverStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Solver:
         boolean = True
     return boolean
 
@@ -648,7 +650,7 @@ def isScSolverLink(sceneStage):
 #
 def isScSimulationLink(sceneStage):
     boolean = False
-    if sceneStage in lxCore_.LynxiScSimulationStages or sceneStage == lxCore_.LynxiProduct_Scene_Link_Simulation:
+    if sceneStage in lxConfigure.LynxiScSimulationStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Simulation:
         boolean = True
     return boolean
 
@@ -656,24 +658,24 @@ def isScSimulationLink(sceneStage):
 #
 def isScLightLink(sceneStage):
     boolean = False
-    if sceneStage in lxCore_.LynxiScLightStages or sceneStage == lxCore_.LynxiProduct_Scene_Link_Light:
+    if sceneStage in lxConfigure.LynxiScLightStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Light:
         boolean = True
     return boolean
 
 
 #
 def getSceneLink(sceneStage):
-    link = lxCore_.LynxiProduct_Scene_Link_layout
+    link = lxConfigure.LynxiProduct_Scene_Link_layout
     if isScLayoutLink(sceneStage):
-        link = lxCore_.LynxiProduct_Scene_Link_layout
+        link = lxConfigure.LynxiProduct_Scene_Link_layout
     elif isScAnimationLink(sceneStage):
-        link = lxCore_.LynxiProduct_Scene_Link_Animation
+        link = lxConfigure.LynxiProduct_Scene_Link_Animation
     elif isScSolverLink(sceneStage):
-        link = lxCore_.LynxiProduct_Scene_Link_Solver
+        link = lxConfigure.LynxiProduct_Scene_Link_Solver
     elif isScSimulationLink(sceneStage):
-        link = lxCore_.LynxiProduct_Scene_Link_Simulation
+        link = lxConfigure.LynxiProduct_Scene_Link_Simulation
     elif isScLightLink(sceneStage):
-        link = lxCore_.LynxiProduct_Scene_Link_Light
+        link = lxConfigure.LynxiProduct_Scene_Link_Light
     return link
 
 
@@ -813,7 +815,7 @@ def sceneAssetFileLabel(sceneStage):
 #
 def scAstSolverFileLabel(sceneStage):
     subLabel = appVariant.basicSolverSubLabel
-    return lxBasic.getComposeLabel(scBasicLinkLabel(sceneStage), subLabel)
+    return bscMethods.LabelText.toLabel(scBasicLinkLabel(sceneStage), subLabel)
 
 
 #
@@ -1208,7 +1210,7 @@ def scUnitSceneryExtraFile(rootIndexKey, projectName, sceneClass, sceneName, sce
 #
 def scAssemblyLabel(sceneStage):
     subLabel = appVariant.basicAssemblySubLabel
-    return lxBasic.getComposeLabel(scBasicLinkLabel(sceneStage), subLabel)
+    return bscMethods.LabelText.toLabel(scBasicLinkLabel(sceneStage), subLabel)
 
 
 #
@@ -1461,8 +1463,8 @@ def scAstCfxNurbsHairCacheFile(rootIndexKey, projectName, sceneName, sceneVarian
 def scUnitIndexDic(sceneIndex, projectName, sceneClass, sceneName, sceneVariant, sceneStage, startFrame, endFrame):
     dic = lxBasic.orderedDict()
     #
-    dic[lxCore_.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[lxCore_.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
+    dic[lxConfigure.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
+    dic[lxConfigure.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
     #
     dic[appVariant.basicIndexAttrLabel] = sceneIndex
     dic[appVariant.basicProjectAttrLabel] = projectName
@@ -1616,13 +1618,13 @@ def scDeadlineJobFile(rootIndexKey, projectName, sceneClass, sceneName, sceneVar
 
 #
 def getSceneStage(projectName, sceneClass, sceneName, sceneVariant):
-    string = lxCore_.LynxiScLayoutStages[0]
+    string = lxConfigure.LynxiScLayoutStages[0]
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         string = data[appVariant.basicStageAttrLabel]
     #
     return string
@@ -1632,11 +1634,11 @@ def getSceneStage(projectName, sceneClass, sceneName, sceneVariant):
 def getScUnitFrameRange(projectName, sceneClass, sceneName, sceneVariant):
     startFrame, endFrame = appVariant.animStartFrame, appVariant.animStartFrame + 20
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         startFrame = data[appVariant.basicStartFrameAttrLabel]
         endFrame = data[appVariant.basicEndFrameAttrLabel]
     return startFrame, endFrame
@@ -1648,7 +1650,7 @@ def getSceneProductFile(projectName, sceneClass, sceneName, sceneVariant):
     sceneStage = getSceneStage(projectName, sceneClass, sceneName, sceneVariant)
     #
     productFile = sceneUnitProductFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     if lxBasic.isOsExistsFile(productFile):
@@ -1662,7 +1664,7 @@ def getScUnitPreviewServerFile(projectName, sceneClass, sceneName, sceneVariant,
     previewTimeStamp = 0
     for osExt in [appVariant.aviExt, appVariant.movExt]:
         previewFile = scenePreviewFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage, osExt
         )[1]
         if lxBasic.isOsExistsFile(previewFile):
@@ -1679,11 +1681,11 @@ def getSceneUnitProductUpdate(projectName, sceneClass, sceneName, sceneVariant, 
     string = appVariant.infoNonExistsLabel
     #
     serverProductFile = sceneUnitProductFile(
-        lxCore_.LynxiRootIndex_Server, projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        lxConfigure.LynxiRootIndex_Server, projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     #
     if lxBasic.isOsExistsFile(serverProductFile):
-        data = lxBasic.getCnViewTime(lxBasic.getOsFileMtimestamp(serverProductFile))
+        data = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverProductFile))
         if data:
             string = data
     return string
@@ -1694,15 +1696,15 @@ def getSceneCameraIndexDataDic(projectName, sceneClass, sceneName, sceneVariant)
     dic = lxBasic.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         cameraData = data['camera']
         if cameraData:
             osPath = scCameraCacheFolder(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 sceneName, sceneVariant
             )
@@ -1710,11 +1712,11 @@ def getSceneCameraIndexDataDic(projectName, sceneClass, sceneName, sceneVariant)
                 osFileBasename = i + appVariant.scGeomCacheIndexExt
                 osFile = lxBasic._toOsFile(osPath, osFileBasename)
                 if lxBasic.isOsExistsFile(osFile):
-                    cacheIndexData = lxBasic.readOsJson(osFile)
+                    cacheIndexData = bscMethods.OsJson.read(osFile)
                     dataType = 'camera'
                     timestamp = lxBasic.getOsFileMtimestamp(osFile)
                     sceneStage = cacheIndexData['stage']
-                    cache = cacheIndexData[lxCore_.LynxiCacheInfoKey]
+                    cache = cacheIndexData[lxConfigure.LynxiCacheInfoKey]
                     #
                     startFrame, endFrame = getScUnitFrameRange(projectName, sceneClass, sceneName, sceneVariant)
                     #
@@ -1729,11 +1731,11 @@ def getOutputCameras(projectName, sceneClass, sceneName, sceneVariant):
     lis = []
     # Key File
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         cameraData = data['camera']
         if cameraData:
             for seq in range(len(cameraData)):
@@ -1751,15 +1753,15 @@ def getSceneAssetIndexDataDic(projectName, sceneClass, sceneName, sceneVariant):
     dic = lxBasic.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         scAstUploadData = data['asset']
         if scAstUploadData:
             osPath = scAstAlembicCacheFolder(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneName, sceneVariant
             )
             for i in scAstUploadData:
@@ -1768,12 +1770,12 @@ def getSceneAssetIndexDataDic(projectName, sceneClass, sceneName, sceneVariant):
                 osFile = lxBasic._toOsFile(osPath, osFileBasename)
                 dataType = 'asset'
                 if lxBasic.isOsExistsFile(osFile):
-                    cacheIndexData = lxBasic.readOsJson(osFile)
+                    cacheIndexData = bscMethods.OsJson.read(osFile)
                     timestamp = lxBasic.getOsFileMtimestamp(osFile)
-                    sceneStage = cacheIndexData[lxCore_.Lynxi_Key_Info_Stage]
+                    sceneStage = cacheIndexData[lxConfigure.Lynxi_Key_Info_Stage]
                     #
-                    modelCache = lxBasic.getKeyData(cacheIndexData, lxCore_.LynxiCacheInfoKey)
-                    extraCache = lxBasic.getKeyData(cacheIndexData, lxCore_.LynxiExtraCacheInfoKey)
+                    modelCache = lxBasic.getKeyData(cacheIndexData, lxConfigure.LynxiCacheInfoKey)
+                    extraCache = lxBasic.getKeyData(cacheIndexData, lxConfigure.LynxiExtraCacheInfoKey)
                 else:
                     timestamp = None
                     sceneStage = None
@@ -1795,27 +1797,27 @@ def getScSceneryIndexDataDic(projectName, sceneClass, sceneName, sceneVariant, s
     dic = lxBasic.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         key = 'scenery'
         if key in data:
             if sceneStage is None:
-                sceneStage = data[lxCore_.Lynxi_Key_Info_Stage]
+                sceneStage = data[lxConfigure.Lynxi_Key_Info_Stage]
             #
             indexDatas = data['scenery']
             if indexDatas:
                 for i in indexDatas:
                     sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage = i
                     sceneryExtraFile = scUnitSceneryExtraFile(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
                     sceneryFile = sceneryPr.scnUnitDefinitionFile(
-                        lxCore_.LynxiRootIndex_Server,
-                        projectName, sceneryClass, sceneryName, sceneryVariant, lxCore_.LynxiScLayoutStages[0]
+                        lxConfigure.LynxiRootIndex_Server,
+                        projectName, sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiScLayoutStages[0]
                     )[1]
                     timestamp = lxBasic.getOsFileMtimestamp(sceneryExtraFile)
                     dic.setdefault(key, []).append((
@@ -1835,11 +1837,11 @@ def getScSceneryExtraData(projectName, sceneClass, sceneName, sceneVariant):
         sceneClass, sceneName, sceneVariant
     )
     extraFile = scUnitSceneryExtraFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
     if lxBasic.isOsExistsFile(extraFile):
-        data = lxBasic.readOsJson(extraFile)
+        data = bscMethods.OsJson.read(extraFile)
         if data:
             dic = data
     return dic
@@ -1848,8 +1850,8 @@ def getScSceneryExtraData(projectName, sceneClass, sceneName, sceneVariant):
 #
 def getScSceneryAssemblyDic(projectName, sceneClass, sceneName, sceneVariant):
     extraData = getScSceneryExtraData(projectName, sceneClass, sceneName, sceneVariant)
-    if lxCore_.LynxiAssemblyReferenceDataKey in extraData:
-        data = extraData[lxCore_.LynxiAssemblyReferenceDataKey]
+    if lxConfigure.LynxiAssemblyReferenceDataKey in extraData:
+        data = extraData[lxConfigure.LynxiAssemblyReferenceDataKey]
         if data:
             for i in data:
                 objectPath, definition, namespace = i
@@ -1859,16 +1861,16 @@ def getScSceneryAssemblyDic(projectName, sceneClass, sceneName, sceneVariant):
 
 #
 def getScCameraCacheActive(projectName, sceneName, sceneVariant, subLabel=none):
-    key = lxCore_.LynxiCacheInfoKey
+    key = lxConfigure.LynxiCacheInfoKey
     #
     osFile = scCameraCacheIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneName, sceneVariant
     )[1]
     subOsFile = lxBasic.getOsSubFile(osFile, subLabel)
     cache = appVariant.infoNonExistsLabel
     if lxBasic.isOsExistsFile(subOsFile):
-        cacheIndexData = lxBasic.readOsJson(subOsFile)
+        cacheIndexData = bscMethods.OsJson.read(subOsFile)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1876,15 +1878,15 @@ def getScCameraCacheActive(projectName, sceneName, sceneVariant, subLabel=none):
 
 #
 def getScAstModelCacheActive(projectName, sceneName, sceneVariant, assetName, number):
-    key = lxCore_.LynxiCacheInfoKey
+    key = lxConfigure.LynxiCacheInfoKey
     #
     osFile = scAstCacheIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
     cache = appVariant.infoNonExistsLabel
     if lxBasic.isOsExistsFile(osFile):
-        cacheIndexData = lxBasic.readOsJson(osFile)
+        cacheIndexData = bscMethods.OsJson.read(osFile)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1892,16 +1894,16 @@ def getScAstModelCacheActive(projectName, sceneName, sceneVariant, assetName, nu
 
 #
 def getScAstSolverCacheActive(projectName, sceneName, sceneVariant, assetName, number):
-    key = lxCore_.LynxiSolverCacheInfoKey
+    key = lxConfigure.LynxiSolverCacheInfoKey
     #
     osFile = scAstCacheIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
     #
     cache = appVariant.infoNonExistsLabel
     if lxBasic.isOsExistsFile(osFile):
-        cacheIndexData = lxBasic.readOsJson(osFile)
+        cacheIndexData = bscMethods.OsJson.read(osFile)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1911,7 +1913,7 @@ def getScAstSolverCacheActive(projectName, sceneName, sceneVariant, assetName, n
 def getScAstModelPoseCacheActive(projectName, sceneName, sceneVariant, assetName, number):
     timeTag = '0000_0000_0000'
     cache = scAstModelPoseAlembicCacheFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneName, sceneVariant, assetName, number
     )[1]
@@ -1920,15 +1922,15 @@ def getScAstModelPoseCacheActive(projectName, sceneName, sceneVariant, assetName
 
 #
 def getScAstRigExtraCacheActive(projectName, sceneName, sceneVariant, assetName, number):
-    key = lxCore_.LynxiExtraCacheInfoKey
+    key = lxConfigure.LynxiExtraCacheInfoKey
     #
     osFile = scAstCacheIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
     cache = appVariant.infoNonExistsLabel
     if lxBasic.isOsExistsFile(osFile):
-        cacheIndexData = lxBasic.readOsJson(osFile)
+        cacheIndexData = bscMethods.OsJson.read(osFile)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1938,10 +1940,10 @@ def getScAstRigExtraCacheActive(projectName, sceneName, sceneVariant, assetName,
 def getScCameraCacheDic(projectName, sceneName, sceneVariant, subLabel):
     dic = lxBasic.orderedDict()
     #
-    sceneStages = [lxCore_.LynxiProduct_Scene_Link_layout, lxCore_.LynxiProduct_Scene_Link_Animation, lxCore_.LynxiProduct_Scene_Link_Simulation]
+    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation]
     for sceneStage in sceneStages:
         cacheFile = scUnitCameraAlembicCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage
         )[1]
@@ -1985,25 +1987,25 @@ def getScAstRigExtraCacheActiveTimeTag(projectName, sceneName, sceneVariant, ass
 #
 def getScAstCfxFurCache(projectName, sceneName, sceneVariant, assetName, number, assetVariant, furObjectLabel):
     osFile = scAstCfxFurCacheIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneName, sceneVariant, assetName, number, assetVariant,
         furObjectLabel
     )[1]
     furCache = appVariant.infoNonExistsLabel
     if lxBasic.isOsExistsFile(osFile):
-        cacheIndexData = lxBasic.readOsJson(osFile)
-        furCache = cacheIndexData[lxCore_.LynxiCacheInfoKey]
+        cacheIndexData = bscMethods.OsJson.read(osFile)
+        furCache = cacheIndexData[lxConfigure.LynxiCacheInfoKey]
     return furCache
 
 
 #
 def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, number):
     dic = lxBasic.orderedDict()
-    sceneStages = [lxCore_.LynxiProduct_Scene_Link_layout, lxCore_.LynxiProduct_Scene_Link_Animation, lxCore_.LynxiProduct_Scene_Link_Simulation, lxCore_.LynxiProduct_Scene_Link_Solver]
+    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation, lxConfigure.LynxiProduct_Scene_Link_Solver]
     for sceneStage in sceneStages:
         cacheFile = scAstModelAlembicCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage,
             assetName, number
@@ -2023,10 +2025,10 @@ def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
 #
 def getScAstSolverCacheDic(projectName, sceneName, sceneVariant, assetName, number):
     dic = lxBasic.orderedDict()
-    sceneStages = [lxCore_.LynxiProduct_Scene_Link_layout, lxCore_.LynxiProduct_Scene_Link_Animation, lxCore_.LynxiProduct_Scene_Link_Simulation, lxCore_.LynxiProduct_Scene_Link_Solver]
+    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation, lxConfigure.LynxiProduct_Scene_Link_Solver]
     for sceneStage in sceneStages:
         cacheFile = scAstSolverAlembicCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage,
             assetName, number
@@ -2048,7 +2050,7 @@ def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
     dic = lxBasic.orderedDict()
     #
     cacheFile = scAstRigExtraAlembicCacheFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneName, sceneVariant,
         assetName, number
@@ -2060,7 +2062,7 @@ def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
     if osFiles:
         for osFile in osFiles:
             osFile = osFile.replace('\\', '/')
-            dic.setdefault(lxCore_.LynxiProduct_Asset_Link_Rig, []).append(osFile)
+            dic.setdefault(lxConfigure.LynxiProduct_Asset_Link_Rig, []).append(osFile)
     #
     return dic
 
@@ -2072,21 +2074,21 @@ def getScAstCfxFurCacheDic(projectName, sceneName, sceneVariant, assetName, numb
     cacheFile = None
     if furObjectType == appCfg.MaNodeType_Plug_Yeti:
         cacheFile = scAstCfxYetiCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant,
             assetName, number, assetVariant, furObjectLabel
         )[1]
     elif furObjectType == appCfg.MaHairSystemType:
         cacheFile = scAstCfxGeomCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant,
             assetName, number, assetVariant, furObjectLabel
         )[1]
     elif furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
         cacheFile = scAstCfxNurbsHairCacheFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant,
             assetName, number, assetVariant, furObjectLabel
@@ -2099,7 +2101,7 @@ def getScAstCfxFurCacheDic(projectName, sceneName, sceneVariant, assetName, numb
             for osPath in osPaths:
                 osPath = osPath.replace('\\', '/')
                 osFile = lxBasic._toOsFile(osPath, osFileBasename)
-                dic.setdefault(lxCore_.LynxiProduct_Asset_Link_Cfx, []).append(osFile)
+                dic.setdefault(lxConfigure.LynxiProduct_Asset_Link_Cfx, []).append(osFile)
     return dic
 
 
@@ -2301,8 +2303,8 @@ def getRenderPoolFile(osFile, renderRoot):
 def getScWorkspaceRootDic():
     dic = lxBasic.orderedDict()
     #
-    for rootIndexKey in [lxCore_.LynxiRootIndex_Local, lxCore_.LynxiRootIndex_Server]:
-        dic[rootIndexKey] = scUnitRenderFolder, lxBasic.str_camelcase2prettify(lxCore_.LynxiRootLabelDic[rootIndexKey])
+    for rootIndexKey in [lxConfigure.LynxiRootIndex_Local, lxConfigure.LynxiRootIndex_Server]:
+        dic[rootIndexKey] = scUnitRenderFolder, lxBasic.str_camelcase2prettify(lxConfigure.LynxiRootLabelDic[rootIndexKey])
     return dic
 
 
@@ -2311,7 +2313,7 @@ def getScRenderCustomizes(projectName, sceneClass, sceneName, sceneVariant, scen
     lis = []
     #
     osPath = scUnitRenderBasicFolder(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage
     )
@@ -2321,7 +2323,7 @@ def getScRenderCustomizes(projectName, sceneClass, sceneName, sceneVariant, scen
         if subFolders:
             for subOsFolder in subFolders:
                 renderFile = scUnitRenderFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage, subOsFolder
                 )[1]
                 if lxBasic.isOsExistsFile(renderFile):
@@ -2344,8 +2346,8 @@ def getScRenderIndexData(
 ):
     dic = lxBasic.orderedDict()
     #
-    dic[lxCore_.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[lxCore_.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
+    dic[lxConfigure.Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
+    dic[lxConfigure.Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
     #
     dic[appVariant.basicIndexAttrLabel] = sceneIndex
     dic[appVariant.basicProjectAttrLabel] = projectName
@@ -2367,13 +2369,13 @@ def getScRenderIndexData(
 #
 def getScRenderImageData(projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize):
     indexFile = sceUnitRenderIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         image = data['image']
         prefix = data['prefix']
         #
@@ -2383,13 +2385,13 @@ def getScRenderImageData(projectName, sceneClass, sceneName, sceneVariant, scene
 #
 def getScRenderCompose(projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize):
     indexFile = sceUnitRenderIndexFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
         sceneClass, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     if lxBasic.isOsExistsFile(indexFile):
-        data = lxBasic.readOsJson(indexFile)
+        data = bscMethods.OsJson.read(indexFile)
         compose = data['compose']
         #
         return compose
@@ -2402,7 +2404,7 @@ def getScTdUploadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxCore_.LynxiMayaScriptKey]
+                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
@@ -2410,10 +2412,10 @@ def getScTdUploadCommand(projectName, link):
                 #
                 if var:
                     if lxBasic.isOsExist(var):
-                        osFile = var + '/' + lxCore_.LynxiSceneUploadCommandKey + '.py'
+                        osFile = var + '/' + lxConfigure.LynxiSceneUploadCommandKey + '.py'
                         if lxBasic.isOsExist(osFile):
-                            command = lxBasic.readOsFile(osFile)
-                            pythonCommand = 'python(' + lxBasic.getJsonDumps(command) + ');'
+                            command = bscMethods.OsFile.read(osFile)
+                            pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #
                             return pythonCommand
 
@@ -2425,7 +2427,7 @@ def getScTdLoadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxCore_.LynxiMayaScriptKey]
+                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
@@ -2433,9 +2435,9 @@ def getScTdLoadCommand(projectName, link):
                 #
                 if var:
                     if lxBasic.isOsExist(var):
-                        osFile = var + '/' + lxCore_.LynxiSceneLoadCommandKey + '.py'
+                        osFile = var + '/' + lxConfigure.LynxiSceneLoadCommandKey + '.py'
                         if lxBasic.isOsExist(osFile):
-                            command = lxBasic.readOsFile(osFile)
-                            pythonCommand = 'python(' + lxBasic.getJsonDumps(command) + ');'
+                            command = bscMethods.OsFile.read(osFile)
+                            pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #
                             return pythonCommand

@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -92,7 +92,7 @@ def getScnAssemblyComposeDatumLis(projectName, sceneryName):
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for arPath in stringLis:
                 progressBar.update()
                 #

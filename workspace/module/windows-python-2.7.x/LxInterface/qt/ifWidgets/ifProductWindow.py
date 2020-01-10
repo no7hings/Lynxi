@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxCore.preset import pipePr, personnelPr
 #
@@ -136,8 +136,8 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
         # Team Data
         teamData = personnelPr.getPersonnelTeamLis()
         self._teamLabel.setDatumLis(teamData)
-        self._teamLabel.setChoose(lxCore_.LynxiValue_Unspecified)
-        self._postLabel.setDatum(lxCore_.LynxiValue_Unspecified)
+        self._teamLabel.setChoose(lxConfigure.LynxiValue_Unspecified)
+        self._postLabel.setDatum(lxConfigure.LynxiValue_Unspecified)
 
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
@@ -176,7 +176,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
             isChecked = False
             self._tipLabel.setRule(self.subTips03)
         team = self._teamLabel.datum()
-        if team == lxCore_.LynxiValue_Unspecified:
+        if team == lxConfigure.LynxiValue_Unspecified:
             isChecked = False
             self._tipLabel.setRule(self.subTips04)
         post = self._postLabel.datum()
@@ -188,7 +188,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()
             #
-            bscMethods.If_Message(u'提示：', u'设置用户信息成功')
+            bscObjects.If_Message(u'提示：', u'设置用户信息成功')
             self.uiQuit()
     @qtModifiers.showInterfaceExclusive
     def windowShow(self):
@@ -320,7 +320,7 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
     @staticmethod
     def helpShow():
         helpDirectory = pipePr.mayaHelpDirectory('tool')
-        lxBasic.setOsFolderOpen(helpDirectory)
+        bscMethods.OsDirectory.open(helpDirectory)
     #
     def setupWindow(self):
         shelf = ifShelf.IfToolKitShelf(self)
@@ -369,8 +369,8 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Asset)
-        lxBasic.setOsFolderOpen(helpDirectory)
+        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Asset)
+        bscMethods.OsDirectory.open(helpDirectory)
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()
@@ -401,8 +401,8 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Scenery)
-        lxBasic.setOsFolderOpen(helpDirectory)
+        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scenery)
+        bscMethods.OsDirectory.open(helpDirectory)
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()
@@ -433,8 +433,8 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxCore_.LynxiProduct_Module_Scene)
-        lxBasic.setOsFolderOpen(helpDirectory)
+        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scene)
+        bscMethods.OsDirectory.open(helpDirectory)
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()

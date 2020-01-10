@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -63,7 +63,7 @@ def getSceneCustomizeLabel(sceneName):
 
 #
 def getSceneRootIndex(sceneName):
-    intValue = lxCore_.LynxiRootIndex_Local
+    intValue = lxConfigure.LynxiRootIndex_Local
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
@@ -162,7 +162,7 @@ def getSceneSounds():
 #
 def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
     lis = []
-    scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout)
+    scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout)
     if maUtils.isAppExist(scSceneryBranchPath):
         childGroups = maUtils.getGroupLisByRoot(scSceneryBranchPath)
         for i in childGroups:
@@ -336,7 +336,7 @@ def getScAstCfxFurDic_(projectName):
             assetIndex, assetClass, assetName, number, assetVariant
          ) = value
         # CFX
-        isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxCore_.LynxiProduct_Asset_Link_Cfx)
+        isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Cfx)
         if isCfxEnable:
             scAstCfxNamespace = scenePr.scAstCfxNamespace(
                 sceneName, sceneVariant,
@@ -434,7 +434,7 @@ def getScComposeInfoDic(projectName):
         def getScAstModelProductBranch():
             branchInfo = None
             #
-            isModelEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxCore_.LynxiProduct_Asset_Link_Model)
+            isModelEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Model)
             if isModelEnable is True:
                 branchInfo = False
                 #
@@ -449,7 +449,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstModelLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
+                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
                         )
                     #
                     branchInfo = scAstModelGroup, scAstModelNamespace, scAstModelLocalTimeTag
@@ -528,7 +528,7 @@ def getScComposeInfoDic(projectName):
         # CFX Product
         def getScAstCfxProductBranch():
             branchInfo = None
-            isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxCore_.LynxiProduct_Asset_Link_Cfx)
+            isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Cfx)
             if isCfxEnable is True:
                 branchInfo = False
                 #
@@ -543,7 +543,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstCfxLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Cfx
+                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
                         )
                     #
                     branchInfo = scAstCfxGroup, scAstCfxNamespace, scAstCfxLocalTimeTag
@@ -552,7 +552,7 @@ def getScComposeInfoDic(projectName):
         # CFX Fur Cache(s)
         def getScAstCfxCacheBranch():
             branchInfoLis = []
-            isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxCore_.LynxiProduct_Asset_Link_Cfx)
+            isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Cfx)
             if isCfxEnable is True:
                 namespace = scenePr.scAstCfxNamespace(
                     sceneName, sceneVariant,
@@ -577,7 +577,7 @@ def getScComposeInfoDic(projectName):
         def getScAstSolverProductBranch():
             branchInfo = None
             #
-            isSolverEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxCore_.LynxiProduct_Asset_Link_Solver)
+            isSolverEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Solver)
             if isSolverEnable is True:
                 branchInfo = False
                 #
@@ -592,7 +592,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstSolverLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
+                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
                         )
                     #
                     branchInfo = scAstSolverGroup, scAstSolverNamespace, scAstSolverLocalTimeTag
@@ -771,7 +771,7 @@ def getScAstModelMeshConstantData(
             # View Progress
             explain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionInfoDic)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for meshKey in unionInfoDic:
                 progressBar.update()
                 #
@@ -800,11 +800,11 @@ def getScAstRigAlembicAttrData(projectName, assetClass, assetName, assetVariant)
     lis = []
     rigExtraData = assetPr.getAssetUnitExtraData(
         projectName,
-        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )
     if rigExtraData:
-        if lxCore_.LynxiAlembicAttrDataKey in rigExtraData:
-            data = rigExtraData[lxCore_.LynxiAlembicAttrDataKey]
+        if lxConfigure.LynxiAlembicAttrDataKey in rigExtraData:
+            data = rigExtraData[lxConfigure.LynxiAlembicAttrDataKey]
             if data:
                 lis = data
     return lis
@@ -814,21 +814,21 @@ def getScAstRigAlembicAttrData(projectName, assetClass, assetName, assetVariant)
 def getScSceneryExtraData(sceneName, sceneVariant, sceneStage):
     dic = lxBasic.orderedDict()
     assemblyReferenceData, transformationData = getScScenery(sceneName, sceneVariant, sceneStage)
-    dic[lxCore_.LynxiAssemblyReferenceDataKey] = assemblyReferenceData
-    dic[lxCore_.LynxiTransformationDataKey] = transformationData
+    dic[lxConfigure.LynxiAssemblyReferenceDataKey] = assemblyReferenceData
+    dic[lxConfigure.LynxiTransformationDataKey] = transformationData
     return dic
 
 
 #
 def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
     lis = []
-    rootPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout)
+    rootPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout)
     if maUtils.isAppExist(rootPath):
         stringLis = maUtils.getChildNodesByRoot(rootPath, filterTypes=appCfg.MaNodeType_AssemblyReference)
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for assemblyPath in stringLis:
                 progressBar.update()
                 datum = getScnAssemblyComposeDatumSub(assemblyPath, rootPath)
@@ -875,7 +875,7 @@ def getScnAssemblyComposeDatumSub(assemblyPath, groupString):
 def getScScenery(sceneName, sceneVariant, sceneStage):
     lis1 = []
     lis2 = []
-    scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_layout)
+    scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout)
     if maUtils.isAppExist(scSceneryBranchPath):
         objectPathLis = maUtils.getObjectChildObjectLis(scSceneryBranchPath, 'assemblyReference')
         if objectPathLis:

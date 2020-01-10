@@ -1,7 +1,9 @@
 # coding:utf-8
 import chardet
+
+from LxBasic import bscMethods
 #
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxUi import uiCore
 #
@@ -2643,7 +2645,7 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
     #
     def readHistory(self):
         filterHistoryFile = lxScheme.UserPreset().uiFilterConfigFile
-        data = lxBasic.readOsJson(filterHistoryFile)
+        data = bscMethods.OsJson.read(filterHistoryFile)
         if data:
             self._historyLis = data
     #

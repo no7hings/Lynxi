@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxCore_, lxBasic, lxScheme
+from LxCore import lxConfigure, lxBasic, lxScheme
 
 from LxCore.preset import basicPr, pipePr
 
@@ -244,7 +244,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(guidePresetKey),
                 u'成功'
             )
@@ -381,7 +381,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(mainPresetKey),
                 u'成功'
             )
@@ -507,7 +507,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                 lxBasic.writeOsJson(setDic, setFile)
             #
             refreshMethod()
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(subPresetKey),
                 u'成功'
             )
@@ -601,7 +601,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             schemeChooseBox = self.chooseBoxDic[presetKeys[:2]]
             scheme = schemeChooseBox.datum()
         explains = [lxBasic.str_camelcase2prettify(i) for i in presetKeys]
-        title = lxBasic.getUiStringPath(explains, lxCore_.LynxiUiPathsep)
+        title = lxBasic.getUiStringPath(explains, lxConfigure.LynxiUiPathsep)
         toolGroupBox.setTitle(title + ['', ' ( {} )'.format(scheme)][scheme is not None])
     @qtModifiers.showInterfaceExclusive
     def windowShow(self):
@@ -609,22 +609,22 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     @staticmethod
     def helpShow():
         helpDirectory = pipePr.mayaHelpDirectory('preset')
-        lxBasic.setOsFolderOpen(helpDirectory)
+        bscMethods.OsDirectory.open(helpDirectory)
     #
     def setupWindow(self):
         tabView = qtWidgets.QtVShelfTabgroup()
         self.addWidget(tabView)
         buildData = [
-            (lxCore_.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
-            (lxCore_.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
-            (lxCore_.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
-            (lxCore_.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
-            (lxCore_.LynxiSoftwarePresetKey, 'svg_basic@svg#software', u'软件预设'),
-            (lxCore_.LynxiVariantPresetKey, 'svg_basic@svg#variant', u'基础预设')
+            (lxConfigure.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
+            (lxConfigure.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
+            (lxConfigure.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
+            (lxConfigure.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
+            (lxConfigure.LynxiSoftwarePresetKey, 'svg_basic@svg#software', u'软件预设'),
+            (lxConfigure.LynxiVariantPresetKey, 'svg_basic@svg#variant', u'基础预设')
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for i in buildData:
             keyword, iconKeyword, tooltip = i
             progressBar.update(keyword)
@@ -647,4 +647,4 @@ def tableShow():
 #
 def helpShow():
     helpDirectory = pipePr.mayaHelpDirectory('preset')
-    lxBasic.setOsFolderOpen(helpDirectory)
+    bscMethods.OsDirectory.open(helpDirectory)

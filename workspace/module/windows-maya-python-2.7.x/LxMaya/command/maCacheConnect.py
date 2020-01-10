@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -122,7 +122,7 @@ class LxAstModelCacheConnectMethod(object):
         stringLis = self._cacheObjectLis
         if stringLis:
             maxValue = len(stringLis)
-            progressBar = bscMethods.If_Progress('Rename Cache Shape(s)', maxValue)
+            progressBar = bscObjects.If_Progress('Rename Cache Shape(s)', maxValue)
             for objectPath in stringLis:
                 progressBar.update()
                 #
@@ -142,7 +142,7 @@ class LxAstModelCacheConnectMethod(object):
         nodeLis = self._cacheGroupLis + self._cacheObjectLis
         if nodeLis:
             maxValue = len(nodeLis)
-            progressBar = bscMethods.If_Progress('Connect Transform(s)', maxValue)
+            progressBar = bscObjects.If_Progress('Connect Transform(s)', maxValue)
             for sourcePath in nodeLis:
                 progressBar.update()
                 #
@@ -154,7 +154,7 @@ class LxAstModelCacheConnectMethod(object):
         objectLis = self._cacheObjectLis
         if objectLis:
             maxValue = len(objectLis)
-            progressBar = bscMethods.If_Progress('Connect Shape(s)', maxValue)
+            progressBar = bscObjects.If_Progress('Connect Shape(s)', maxValue)
             #
             for sourcePath in objectLis:
                 progressBar.update()

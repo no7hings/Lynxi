@@ -5,7 +5,7 @@ import maya.mel as mel
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxBasic
 #
@@ -189,7 +189,7 @@ def setOutYetisCache(directory, furNodes, startFrame, endFrame, sample=3, isUpda
         # View Progress
         progressExplain = '''Set Fur ( Yeti ) Cache'''
         maxValue = len(furNodes)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for yetiNode in furNodes:
             # In Progress
             progressBar.update()
@@ -478,7 +478,7 @@ def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolve
     if connectionDic:
         progressExplain = '''Connect Solver Guide'''
         maxValue = len(connectionDic)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.update()
             setBranch(k, v)
@@ -499,7 +499,7 @@ def setScAstCfxConnectToSolver(connectionDic, scAstCfxNamespace, scAstSolverName
     if connectionDic:
         progressExplain = '''Connect Nurbs Hair Guide'''
         maxValue = len(connectionDic)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.update()
             setBranch(k, v)
@@ -540,7 +540,7 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
         if nurbsCurveObjects:
             progressExplain = '''Connect Solver Cache'''
             maxValue = len(nurbsCurveObjects)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for i in nurbsCurveObjects:
                 progressBar.update()
                 #
@@ -1040,7 +1040,7 @@ def getNhrObjectsInfoDic(nurbsHairObjects):
         # View Progress
         progressExplain = u'''Read Nurbs Hair Information'''
         maxValue = len(nurbsHairObjects)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for nurbsHairObject in nurbsHairObjects:
             progressBar.update()
             uniqueId = maUuid.getNodeUniqueId(nurbsHairObject)

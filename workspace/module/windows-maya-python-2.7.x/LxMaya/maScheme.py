@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxScheme
 
@@ -12,7 +12,7 @@ class Shm_Resource(lxScheme.Shm_Resource):
 
     @property
     def plugNameLis(self):
-        return self.method_environ.getAsList(self.Environ_Key_Loadname_Plug)
+        return self.method_os_environ.getAsList(self.Environ_Key_Loadname_Plug)
 
     def loadPlugs(self):
         plugNameLis = self.plugNameLis
@@ -26,9 +26,9 @@ class Shm_Resource(lxScheme.Shm_Resource):
         # Load Unload Plugs
         if unloadPlugLis:
             # View Progress
-            progressBar = bscMethods.If_Progress(u'Load Plug(s)', len(unloadPlugLis))
+            progressBar = bscObjects.If_Progress(u'Load Plug(s)', len(unloadPlugLis))
             for plug in unloadPlugLis:
                 progressBar.update(plug)
                 maUtils.setPlugLoad(plug)
             #
-            bscMethods.If_Message(u'Plug(s) Load', u'Complete')
+            bscObjects.If_Message(u'Plug(s) Load', u'Complete')

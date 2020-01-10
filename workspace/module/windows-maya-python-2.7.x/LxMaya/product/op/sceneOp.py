@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import sceneCfg
 #
@@ -294,7 +294,7 @@ def setScSceneryAsbTransformation(data):
         for subData in data:
             explain = '''Load Assembly Transformation(s)'''
             maxValue = len(subData)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in subData:
                 progressBar.update()
                 objectPath, transAttrData = i
@@ -308,11 +308,11 @@ def setScSceneryAsbTransformation(data):
 #
 def setCreateScAstSolverExtra(extraData, sourceNamespace, targetNamespace):
     if extraData:
-        if lxCore_.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxCore_.LynxiAttributeDataKey]
+        if lxConfigure.LynxiAttributeDataKey in extraData:
+            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
             setCreateScAstSolverAttribute(attributeData, targetNamespace)
-        if lxCore_.LynxiConnectionDataKey in extraData:
-            connectionData = extraData[lxCore_.LynxiConnectionDataKey]
+        if lxConfigure.LynxiConnectionDataKey in extraData:
+            connectionData = extraData[lxConfigure.LynxiConnectionDataKey]
             setCreateScAstSolverConnection(connectionData, sourceNamespace, targetNamespace)
 
 
@@ -321,7 +321,7 @@ def setCreateScAstSolverAttribute(data, namespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Attribute'''
         maxValue = len(data)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objectPath, (shapeNodeData, shapeCustomAttrData) in data.items():
             progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, namespace)
@@ -335,7 +335,7 @@ def setCreateScAstSolverConnection(data, sourceNamespace, targetNamespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Connection'''
         maxValue = len(data)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objectPath, connectionArray in data.items():
             progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, targetNamespace)

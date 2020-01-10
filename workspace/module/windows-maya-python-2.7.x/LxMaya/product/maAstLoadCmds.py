@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers
+from LxBasic import bscMethods, bscModifiers, bscObjects
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 
 from LxCore.preset import appVariant
 
@@ -20,15 +20,15 @@ from LxMaya.database import maDbAstCmds
 none = ''
 
 
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitModelCreateMainCmd(
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage,
         isUseExistsHierarchy=False
 ):
-    logWin_ = bscMethods.If_Log(title=u'Model Create')
+    logWin_ = bscObjects.If_Log(title=u'Model Create')
     logWin_.showUi()
 
     logWin_.addStartTask(u'Model Create')
@@ -64,8 +64,8 @@ def astUnitModelCreateMainCmd(
     logWin_.addCompleteTask()
 
 
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitModelLoadMainCmd(
         projectName,
         assetIndex,
@@ -73,7 +73,7 @@ def astUnitModelLoadMainCmd(
         force=True, lockTransform=True, collectionTexture=True,
 ):
     # Set Log Window
-    logWin_ = bscMethods.If_Log(title=u'Model Load')
+    logWin_ = bscObjects.If_Log(title=u'Model Load')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Load Model')
@@ -125,10 +125,10 @@ def astUnitModelSourceSaveCmd(
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     # Local
     localAstModelFile = assetPr.astUnitSourceFile(
-        lxCore_.LynxiRootIndex_Local,
+        lxConfigure.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -151,7 +151,7 @@ def astUnitModelGeometryLoadCmd(
         assetClass, assetName, assetVariant, assetStage,
         lockTransform=True
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     isDbExists = dbGet.isDbAstExistsGeometry(assetIndex)
     if isDbExists:
@@ -179,7 +179,7 @@ def astUnitModelMaterialLoadCmd(
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     assetSubIndexKey = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isDbExists = dbGet.isDbAstMaterialExists(assetSubIndexKey)
@@ -199,14 +199,14 @@ def astUnitModelMaterialLoadCmd(
             # Use Server Path
             if useServerTexture:
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
                 isBackExists = False
             else:
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxCore_.LynxiRootIndex_Local,
+                    lxConfigure.LynxiRootIndex_Local,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -257,18 +257,18 @@ def astUnitLoadModelTexture(
         assetClass, assetName, assetVariant, assetStage,
         useServerTexture=False
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     # Use Server Path
     if useServerTexture:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
         isBackExists = False
     else:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
-            lxCore_.LynxiRootIndex_Local,
+            lxConfigure.LynxiRootIndex_Local,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -299,14 +299,14 @@ def astUnitLoadModelTexture(
 
 
 # Crate Rig File
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitRigCreateMainCmd(
         projectName,
         assetIndex,
         assetClass, assetName, assetVariant, assetStage
 ):
-    logWin_ = bscMethods.If_Log(u'Rig Create')
+    logWin_ = bscObjects.If_Log(u'Rig Create')
     logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
@@ -355,15 +355,15 @@ def astUnitRigCreateMainCmd(
 
 
 # Animation Rig Load
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitRigLoadMainCmd(
         assetIndex,
         projectName, assetClass, assetName, assetVariant, assetStage,
         force=True
 ):
     # Set Log Window
-    logWin_ = bscMethods.If_Log(u'Rig Load')
+    logWin_ = bscObjects.If_Log(u'Rig Load')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Rig Load')
@@ -372,7 +372,7 @@ def astUnitRigLoadMainCmd(
     dbRigFile = dbGet.getDbAstRigAstProductFile(assetIndex)
     #
     localSourceFile = assetPr.astUnitSourceFile(
-        lxCore_.LynxiRootIndex_Local,
+        lxConfigure.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -412,10 +412,10 @@ def astUnitRigSaveCmd(
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     # LocalFile
     localFile = assetPr.astUnitSourceFile(
-        lxCore_.LynxiRootIndex_Local,
+        lxConfigure.LynxiRootIndex_Local,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
@@ -430,8 +430,8 @@ def astUnitRigSaveCmd(
 
 
 # Create CFX File
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitCreateCfxMain(
         assetIndex,
         projectName,
@@ -439,7 +439,7 @@ def astUnitCreateCfxMain(
         withRig=False
 ):
     # Set Log Window
-    logWin_ = bscMethods.If_Log(u'Groom Create')
+    logWin_ = bscObjects.If_Log(u'Groom Create')
     logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
@@ -479,8 +479,8 @@ def astUnitCreateCfxMain(
 
 
 # Load CFX File
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitCfxLoadMainCmd(
         projectName,
         assetIndex,
@@ -488,7 +488,7 @@ def astUnitCfxLoadMainCmd(
         collectionMap=True, useServerMap=False,
         collectionTexture=True, useServerTexture=False,
 ):
-    logWin_ = bscMethods.If_Log(u'Groom Load')
+    logWin_ = bscObjects.If_Log(u'Groom Load')
     logWin_.showUi()
     
     isExistsFur = dbGet.getExistsDbFur(assetIndex, assetVariant)
@@ -552,7 +552,7 @@ def astUnitCfxFurLoadCmd(
         assetClass, assetName, assetVariant, assetStage,
         collectionMap=False, useServerMap=False
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     # Data
     cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName)
     # Load Fur Nde_Node
@@ -567,13 +567,13 @@ def astUnitCfxFurLoadCmd(
         if collectionMap is True:
             # Load Fur Map
             mapDirectory = assetPr.astUnitMapFolder(
-                lxCore_.LynxiRootIndex_Local,
+                lxConfigure.LynxiRootIndex_Local,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage
             )
             if useServerMap:
                 mapDirectory = assetPr.astUnitMapFolder(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -599,7 +599,7 @@ def astUnitLoadCfxMaterialSub(
         assetClass, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     renderer = projectPr.getProjectMayaRenderer(projectName)
     #
@@ -618,13 +618,13 @@ def astUnitLoadCfxMaterialSub(
         if collectionTexture:
             if useServerTexture:
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
             else:
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
-                    lxCore_.LynxiRootIndex_Local,
+                    lxConfigure.LynxiRootIndex_Local,
                     projectName,
                     assetClass, assetName, assetVariant, assetStage
                 )
@@ -662,8 +662,8 @@ def astUnitLoadCfxMaterialSub(
         logWin_.addWarning(u'AOV is Non - Exists')
 
 
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitSolverCreateMainCmd(
         assetIndex,
         projectName,
@@ -671,7 +671,7 @@ def astUnitSolverCreateMainCmd(
         force=True
 ):
     # Set Log Window
-    logWin_ = bscMethods.If_Log(u'Solver Create')
+    logWin_ = bscObjects.If_Log(u'Solver Create')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Solver Create')
@@ -701,8 +701,8 @@ def astUnitSolverCreateMainCmd(
     logWin_.addCompleteTask()
 
 
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitLightCreateMainCmd(
         assetIndex,
         projectName,
@@ -710,7 +710,7 @@ def astUnitLightCreateMainCmd(
         force=True
 ):
     # Set Log Window
-    logWin_ = bscMethods.If_Log(u'Light Create')
+    logWin_ = bscObjects.If_Log(u'Light Create')
     logWin_.showUi()
     #
     isLoadMesh = dbGet.isDbAstExistsGeometry(assetIndex)
@@ -747,8 +747,8 @@ def astUnitLightCreateMainCmd(
     logWin_.addCompleteTask()
 
 
-@bscModifiers.fncCatchException
-@bscModifiers.fncCatchCostTime
+@bscModifiers.fncExceptionCatch
+@bscModifiers.fncCostTimeCatch
 def astUnitLoadMainCmd(
         assetIndex,
         projectName,
@@ -758,7 +758,7 @@ def astUnitLoadMainCmd(
 ):
     # Set Log Window
     assetStagePrettify = assetStage.capitalize()
-    logWin_ = bscMethods.If_Log(u'{} Load'.format(assetStagePrettify))
+    logWin_ = bscObjects.If_Log(u'{} Load'.format(assetStagePrettify))
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'{} Load'.format(assetStagePrettify))
@@ -814,7 +814,7 @@ def astUnitReferenceLoadCmd(
 ):
     assetStagePrettify = assetStage.capitalize()
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     logWin_.addStartProgress(u'Reference Load')
     #
@@ -853,12 +853,12 @@ def astUnitProductLoadCmd(
 ):
     assetStagePrettify = assetStage.capitalize()
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     serverProductFile = None
     if assetPr.isAstSolverLink(assetStage) or assetPr.isAstLightLink(assetStage):
         serverProductFile = assetPr.astUnitProductFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )[1]
@@ -888,11 +888,11 @@ def astUnitTextureLoadSubCmd(
 ):
     assetStagePrettify = assetStage.capitalize()
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     if textureNodes:
         localTextureFolder = assetPr.astUnitTextureFolder(
-            lxCore_.LynxiRootIndex_Local,
+            lxConfigure.LynxiRootIndex_Local,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -916,7 +916,7 @@ def astUnitTextureLoadCmd(
 ):
     assetStagePrettify = assetStage.capitalize()
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     linkGroupName = None
     #
@@ -957,7 +957,7 @@ def astUnitCacheLoadCmd(
         assetClass, assetName, assetVariant, assetStage,
         collectionCache=True, useServerTexture=False
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     linkGroupName = None
     #
@@ -972,13 +972,13 @@ def astUnitExtraLoadCmd(
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     serverExtraFile = assetPr.astUnitExtraFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    extraData = lxBasic.readOsJson(serverExtraFile)
+    extraData = bscMethods.OsJson.read(serverExtraFile)
     if extraData:
         assetOp.setCreateAstExtraData(extraData)
     #
@@ -996,10 +996,10 @@ def astUnitSourceSaveCmd(
 ):
     assetStagePrettify = assetStage.capitalize()
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     localSourceFile = assetPr.astUnitSourceFile(
-        lxCore_.LynxiRootIndex_Local,
+        lxConfigure.LynxiRootIndex_Local,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
@@ -1020,15 +1020,15 @@ def astUnitAssemblyLoadForScenery(
         assetClass, assetName, assetVariant,
         isWithAnnotation=True, isWithHandle=True
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     activeRepresentation = 'GPU'
     #
     arName = assetPr.astUnitAssemblyReferenceName(assetName)
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
+        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
     if lxBasic.isOsExistsFile(serverAstUnitAsbDefinitionFile):
         assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
@@ -1051,12 +1051,12 @@ def astUnitRigLoadForAnimationCmd(
         assetIndex,
         assetClass, assetName, assetVariant
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     serverRigProductFile = assetPr.astUnitProductFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Rig
+        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )[1]
     if not lxBasic.isOsExistsFile(serverRigProductFile):
         maDbAstCmds.dbAstCopyRigProductTo(assetIndex, serverRigProductFile)
@@ -1077,11 +1077,11 @@ def astAssetSolverLoadForAnimation(
         projectName,
         assetClass, assetName, assetVariant
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     serverSolverProductFile = assetPr.astUnitProductFile(
-        lxCore_.LynxiRootIndex_Server,
-        projectName, assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
+        lxConfigure.LynxiRootIndex_Server,
+        projectName, assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
     )[1]
     timeTag = lxBasic.getOsActiveTimeTag()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag

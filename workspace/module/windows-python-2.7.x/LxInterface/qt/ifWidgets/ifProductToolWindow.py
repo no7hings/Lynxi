@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
@@ -170,13 +170,13 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
                 sceneStage = self.sceneStage
                 #
                 backupSourceFile = scenePr.sceneUnitSourceFile(
-                    lxCore_.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Light,
+                    lxConfigure.LynxiRootIndex_Backup,
+                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
                 )[1]
                 #
                 backupProductFile = scenePr.scUnitRenderFile(
-                    lxCore_.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxCore_.LynxiProduct_Scene_Link_Light,
+                    lxConfigure.LynxiRootIndex_Backup,
+                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
                     customize
                 )[1]
                 #
@@ -318,7 +318,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
                 scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
             ) = value
             #
-            sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
+            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
             #
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName,
@@ -361,7 +361,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
         if inData:
             explain = '''List Scene Render'''
             maxValue = len(inData)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             [setSceneBranch(k, v) for k, v in inData.items()]
             #
             treeBox.setFilterLimitLis(sceneItemLis)
@@ -410,7 +410,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
         if self._methodLis:
             explain = '''Build Thread'''
             maxValue = len(self._methodLis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for seq, i in enumerate(self._methodLis):
                 progressBar.update()
                 i()
@@ -473,10 +473,10 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                             maFile.fileOpen(serverRenderFile)
                     #
                     def openRenderFolder():
-                        lxBasic.setOsFolderOpen(renderFolder)
+                        bscMethods.OsDirectory.open(renderFolder)
                     #
                     renderFolder = scenePr.scUnitRenderFolder(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName,
                         sceneClass, sceneName, sceneVariant, sceneStage,
                         customize
@@ -490,7 +490,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                     itemWidget.setActionData(actions)
                 #
                 serverRenderFile = scenePr.scUnitRenderFile(
-                    lxCore_.LynxiRootIndex_Server,
+                    lxConfigure.LynxiRootIndex_Server,
                     projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
                 )[1]
                 #
@@ -499,7 +499,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 #
                 itemWidget = customizeItem.setItemIconWidget(0, 'object#mayaFile', customize)
                 setActionData()
-                showTimeTag = lxBasic.getCnViewTime(lxBasic.getOsFileMtimestamp(serverRenderFile))
+                showTimeTag = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverRenderFile))
                 #
                 customizeItem.setText(1, showTimeTag)
                 #
@@ -518,7 +518,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             description, sceneClass, sceneName = value[:3]
             #
-            sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
+            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
             #
             sceneItem = qtWidgets_.QTreeWidgetItem_()
             projectItem.addChild(sceneItem)
@@ -557,7 +557,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         if inData:
             progressExplain = '''List Scene Render'''
             maxValue = len(inData)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             [setSceneBranch(k, v) for k, v in inData.items()]
     #
     def setListRightTreeItem(self):
@@ -590,7 +590,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 #
                 self._fileConstantStatisticsDic.setdefault('Non - Exists', []).append(osFile)
             else:
-                isMtimeChanged = lxBasic.getOsFileIsMtimeChanged(osFile, targetFile)
+                isMtimeChanged = bscMethods.OsFile.isFileTimeChanged(osFile, targetFile)
                 if isMtimeChanged:
                     if ext == '.tx':
                         subExplain = 'Collection ( .tx )'
@@ -666,7 +666,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             progressExplain = '''List Scene Compose'''
             maxValue = len(customizeItems)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for i in customizeItems:
                 progressBar.update()
                 #
@@ -712,7 +712,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             # View Progress
             progressExplain = u'''Collection File(s)'''
             maxValue = len(copyThreads)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             if copyThreads:
                 for i in copyThreads:
                     progressBar.update()

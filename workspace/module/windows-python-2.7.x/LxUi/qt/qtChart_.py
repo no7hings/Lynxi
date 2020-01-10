@@ -1,6 +1,8 @@
 # coding=utf-8
 import math
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic
 #
 from LxUi.qt import qtCore
@@ -883,9 +885,9 @@ class QtColorchart_(qtCore.QWidget):
                         subPoints = getRegularPolygonPoints(x, y, sideCount, subRadius, side=0)
                         colorPath = qtCore.QPainterPath_()
                         colorPath._addPoints(subPoints)
-                        #
-                        angle = lxBasic.getAngle(x, y, xPos, yPos)
-                        length = lxBasic.getLength(x, y, xPos, yPos)
+
+                        angle = bscMethods.Math2D.getAngleByCoord(x, y, xPos, yPos)
+                        length = bscMethods.Math2D.getLengthByCoord(x, y, xPos, yPos)
                         #
                         h = -angle - hOffset
                         #
@@ -1085,7 +1087,7 @@ class QtColorchart_(qtCore.QWidget):
         x = point.x()
         y = point.y()
         #
-        return lxBasic.getAngle(x, y, xPos, yPos)
+        return bscMethods.Math2D.getAngleByCoord(x, y, xPos, yPos)
     #
     def getCurrentRgb(self):
         print self._rbgColor

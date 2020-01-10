@@ -162,7 +162,7 @@ class Abc_Raw(mtlCore.Basic):
         """
         :return: dict
         """
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.toString())
             ]
@@ -338,7 +338,7 @@ class Abc_Dagpath(Def_XmlObject):
         """
         :return: dict
         """
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.name())
             ]
@@ -427,7 +427,7 @@ class Abc_ObjectSet(Def_XmlObject):
         return self.objectsCount()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.toString())
             ]
@@ -445,7 +445,7 @@ class Abc_RawString(Def_XmlObject, Abc_Raw):
         """
         :return: dict
         """
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.toString())
             ]
@@ -513,7 +513,7 @@ class Abc_RawDatum(Abc_Raw):
         return self.toString()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.toString())
             ]
@@ -617,7 +617,7 @@ class Abc_RawDatumset(Abc_Raw):
         return self.datum_string_separator.join([i._toPrintString() for i in self.children()])
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.toString())
             ]
@@ -686,7 +686,7 @@ class Abc_Value(Def_XmlObject):
         return self._rawDatumObject().toString()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self._typeObject().xml_key_attribute, self._typeObject().toString()),
                 (self._rawDatumObject().xml_key_attribute, self._rawDatumObject().toString())
@@ -924,7 +924,7 @@ class Abc_Port(Def_XmlObject):
         return self._parentObject().attributeFullpathName()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self._dagpathObject().fullpathName())
             ]
@@ -1207,7 +1207,7 @@ class Abc_Shaderset(Def_XmlObject):
         return self._shaderSetObject().objects()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self.xml_key_attribute, self.fullpathName())
             ]
@@ -1585,7 +1585,7 @@ class Abc_AsnShaderset(Abc_Assign):
         return self.shaderset().fullpathName()
 
     def _xmlAttributeDic(self):
-        return self.cls_order_dic(
+        return self.cls_dic_order(
             [
                 (self._shadersetObject().xml_key_attribute, self._shadersetObject().name())
             ]

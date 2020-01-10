@@ -1,14 +1,15 @@
 # encoding=utf-8
 import os, collections
+
+from LxBasic import bscMethods
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg, assetCfg
 #
 from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import assetPr
-#
 #
 from LxUi.qt import qtWidgets_
 #
@@ -1420,7 +1421,7 @@ def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, ass
     treeBox.addItem(inspectionItem)
     if inData:
         serverTextureDirectory = assetPr.astUnitTextureFolder(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )
@@ -1458,7 +1459,7 @@ def setAstTextureCheckSubMethod(
     def setFolderItemBranch(parentItem_, osPath):
         def setFolderItemAction():
             def folderOpenCmd():
-                lxBasic.setOsFolderOpen(osPath)
+                bscMethods.OsDirectory.open(osPath)
             #
             actionDatumLis = [
                 ('Basic',),
@@ -1483,7 +1484,7 @@ def setAstTextureCheckSubMethod(
             def textureTxDeleteCmd():
                 if textureTxFileLis:
                     for i in textureTxFileLis:
-                        lxBasic.setOsFileRemove(i)
+                        bscMethods.OsFile.remove(i)
                 #
                 [textureTxFileLis.remove(i) for i in textureTxFileLis]
             #
@@ -1586,8 +1587,8 @@ def setAstTextureCheckSubMethod(
                 #
                 subTextureItem.setText(0, subTextureFileBasename)
                 subTextureItem.setText(1, subTextureText1)
-                subTextureItem.setText(2, lxBasic.getCnViewTime(subTextureMtimestamp))
-                subTextureItem.setText(3, lxBasic.getCnViewTime(subTextureTxMtimestamp))
+                subTextureItem.setText(2, bscMethods.OsTime.getCnPrettifyByTimestamp(subTextureMtimestamp))
+                subTextureItem.setText(3, bscMethods.OsTime.getCnPrettifyByTimestamp(subTextureTxMtimestamp))
             # Check
             formatCheck = sum([1 for i in suTxCheckLis if i is True]) == count
             txCheck = sum([1 for i in suTxCheckLis if i is True]) == count
@@ -1725,8 +1726,8 @@ def setAstTextureCheckSubMethod(
         textureItem.setItemIcon_(2, 'svg_basic@svg#time')
         textureItem.setItemIcon_(3, 'svg_basic@svg#time')
         textureItem.setText(1, textureText1)
-        textureItem.setText(2, lxBasic.getCnViewTime(textureFileMtimestamp))
-        textureItem.setText(3, lxBasic.getCnViewTime(textureTxFileMtimestamp))
+        textureItem.setText(2, bscMethods.OsTime.getCnPrettifyByTimestamp(textureFileMtimestamp))
+        textureItem.setText(3, bscMethods.OsTime.getCnPrettifyByTimestamp(textureTxFileMtimestamp))
         #
         setTextureItemAction(textureItemWidget)
     #

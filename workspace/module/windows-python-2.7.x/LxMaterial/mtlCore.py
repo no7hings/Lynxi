@@ -22,7 +22,7 @@ class Basic(object):
 
     Atr_Xml_Shader_Output_Type = 'context'
 
-    cls_order_dic = collections.OrderedDict
+    cls_dic_order = collections.OrderedDict
 
     module_types = types
 

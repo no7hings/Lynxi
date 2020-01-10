@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxMaya.command import maUtils
 #
@@ -145,7 +145,7 @@ def getKeyDatas(root):
     # View Progress
     progressExplain = '''Read Key(s)'''
     maxValue = len(maObjs)
-    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
     for objectString in maObjs:
         # In Progress
         progressBar.update(maUtils._toNodeName(objectString, 1))
@@ -243,7 +243,7 @@ def setKeys(root, keyDatas, frameOffset=0):
         if keyDatas:
             progressExplain = '''Load Key'''
             maxValue = len(keyDatas)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for seq, keyData in enumerate(keyDatas):
                 # In Progress
                 progressBar.update()

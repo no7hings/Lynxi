@@ -1,9 +1,9 @@
 # coding=utf-8
 import collections, threading
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -43,10 +43,10 @@ none = ''
 #
 class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model
+        lxConfigure.LynxiProduct_Asset_Link_Model
     ]
     UnitClassLimit = [
-        lxCore_.LynxiCharacterClassKey
+        lxConfigure.LynxiCharacterClassKey
     ]
     UnitTitle = 'Model ( Character ) Tool Unit'
     UnitIcon = 'window#charToolPanel'
@@ -61,7 +61,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def refreshMethod(self):
         if self.connectObject():
             if assetPr.isAstModelLink(self.connectObject().assetStage):
-                if self.connectObject().assetClass == lxCore_.LynxiCharacterClassKey:
+                if self.connectObject().assetClass == lxConfigure.LynxiCharacterClassKey:
                     self._initObjectPathDic()
                     #
                     self._updateBtnStateCmd()
@@ -235,7 +235,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model
+        lxConfigure.LynxiProduct_Asset_Link_Model
     ]
     UnitTitle = 'Model Tool Unit'
     UnitIcon = 'window#modelToolPanel'
@@ -424,7 +424,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self.withUnlockNormalButton.setChecked(False)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'修复模型', u'成功'
             )
     #
@@ -445,7 +445,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self.withTextureButton.setChecked(False)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'修复材质', u'成功'
             )
     #
@@ -464,7 +464,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Rig
+        lxConfigure.LynxiProduct_Asset_Link_Rig
     ]
     UnitTitle = 'Rig Tool Unit'
     UnitIcon = 'window#rigToolPanel'
@@ -498,8 +498,8 @@ class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Cfx,
-        lxCore_.LynxiProduct_Asset_Link_Solver
+        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#cfxToolPanel'
@@ -1618,7 +1618,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Solver
+        lxConfigure.LynxiProduct_Asset_Link_Solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#solverToolPanel'
@@ -1873,11 +1873,11 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model,
-        lxCore_.LynxiProduct_Asset_Link_Rig,
-        lxCore_.LynxiProduct_Asset_Link_Cfx,
-        lxCore_.LynxiProduct_Asset_Link_Solver,
-        lxCore_.LynxiProduct_Asset_Link_Light
+        lxConfigure.LynxiProduct_Asset_Link_Model,
+        lxConfigure.LynxiProduct_Asset_Link_Rig,
+        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Solver,
+        lxConfigure.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'General Tool Unit'
     UnitIcon = 'window#utilsToolPanel'
@@ -2212,7 +2212,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             root = assetPr.astUnitLightLinkGroupName(assetName)
             maRender.setConnectLightsToScale(root)
             #
-            bscMethods.If_Message('Connect Light to Scale', 'Complete')
+            bscObjects.If_Message('Connect Light to Scale', 'Complete')
         #
         inData = self.dicLight
         #
@@ -2319,11 +2319,11 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     )
                     [maShdr.setObjectDefaultShadingEngine(i) for i in shaderGeomObjects]
                     #
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         u'Import Nde_ShaderRef', u'Complete'
                     )
                 else:
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         u'Nde_ShaderRef', u'Non-Exists'
                     )
     @staticmethod
@@ -2362,11 +2362,11 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 mode
             )
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'Load Mesh Index', u'Complete'
             )
         else:
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'Mesh', u'Non-Exists'
             )
     #
@@ -2412,11 +2412,11 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model,
-        lxCore_.LynxiProduct_Asset_Link_Rig,
-        lxCore_.LynxiProduct_Asset_Link_Cfx,
-        lxCore_.LynxiProduct_Asset_Link_Solver,
-        lxCore_.LynxiProduct_Asset_Link_Light
+        lxConfigure.LynxiProduct_Asset_Link_Model,
+        lxConfigure.LynxiProduct_Asset_Link_Rig,
+        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Solver,
+        lxConfigure.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'Information Tool Unit'
     UnitIcon = 'window#infoToolPanel'
@@ -2651,11 +2651,11 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxCore_.LynxiProduct_Asset_Link_Model,
-        lxCore_.LynxiProduct_Asset_Link_Rig,
-        lxCore_.LynxiProduct_Asset_Link_Cfx,
-        lxCore_.LynxiProduct_Asset_Link_Solver,
-        lxCore_.LynxiProduct_Asset_Link_Light
+        lxConfigure.LynxiProduct_Asset_Link_Model,
+        lxConfigure.LynxiProduct_Asset_Link_Rig,
+        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Solver,
+        lxConfigure.LynxiProduct_Asset_Link_Light
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -3061,7 +3061,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         serverProductFile = assetPr.astUnitProductFile(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName,
             assetClass, assetName, assetVariant, assetStage
         )[1]
@@ -3106,7 +3106,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 checkResult = True
         if not geometryObjects:
             self._astMainCheckButton.setPressable(False)
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3137,7 +3137,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         elif not checkData:
             self._astMainCheckButton.setPressable(False)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3166,7 +3166,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3195,7 +3195,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         else:
             self._astMainCheckButton.setPressable(False)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'%s is' % keyword, u'Non - Exists'
             )
         #
@@ -3241,7 +3241,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     checkResult = True
                     _astSubCheckButton.setPressable(False)
                     #
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         u'Texture ( Nde_Node ) is',
                         u'Non - Exists'
                     )
@@ -3262,7 +3262,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         root = assetPr.astUnitModelProductGroupName(assetName, assetNamespace)
         #
-        overrideColor = lxBasic.getRgbByString(assetName, maximum=1.0)
+        overrideColor = bscMethods.Color.getRgbByString(assetName, maximum=1.0)
         maFile.makeSnapshot(
             root, viewportPreview0,
             useDefaultMaterial=1,
@@ -3271,7 +3271,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             overrideColor=overrideColor
         )
         #
-        bscMethods.If_Message(
+        bscObjects.If_Message(
             u'Make Snapshot ( Viewport )', u'Complete'
         )
     #
@@ -3301,7 +3301,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
         )
         #
-        bscMethods.If_Message(
+        bscObjects.If_Message(
             u'Make Snapshot ( Render )', u'Complete'
         )
     # Result
@@ -3406,7 +3406,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     self.setVarBtnState()
                     #
-                    bscMethods.If_Message(
+                    bscObjects.If_Message(
                         u'Set Variant', u'Complete'
                     )
     #

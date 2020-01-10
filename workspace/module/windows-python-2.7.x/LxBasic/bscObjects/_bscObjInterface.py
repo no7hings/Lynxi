@@ -1,9 +1,7 @@
 # coding:utf-8
 from LxBasic import bscCore
 
-from LxBasic import bscObjects
-
-from LxBasic.bscMethods import _bscMtdText
+from LxBasic.bscMethods import _bscMtdRaw, _bscMtdUtility
 
 
 class If_Progress(bscCore.Basic):
@@ -67,24 +65,30 @@ class If_Tip(bscCore.Basic):
 class If_Log(bscCore.Basic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
-    method_html = _bscMtdText.Mtd_Html
+    method_html = _bscMtdRaw.HtmlText
 
     def __init__(self, title=None, logTargetFile=None):
         self._ui = self.__loadUi(title)
-
-        self._logFile = self._getLogFile(logTargetFile)
+        if logTargetFile is not None:
+            self._logFileString = logTargetFile
+        else:
+            self._logFileString = None
 
         self._taskString = None
-        
+
         self._progressString = None
 
-        self._defIdtStr = u'&nbsp;'*4
+        self._defIdtStr = u'&nbsp;' * 4
 
         self._idtStr = u''
 
     @property
     def ui(self):
         return self._ui
+
+    @property
+    def htmlLog(self):
+        return self.ui.html().encode(u'utf-8')
 
     @classmethod
     def __loadUi(cls, title):
@@ -197,12 +201,8 @@ class If_Log(bscCore.Basic):
         self._setLogToFileUpdate()
 
     def _setLogToFileUpdate(self):
-        if self._logFile:
-            self._logFile.write(self.htmlLog)
-
-    def _getLogFile(self, fileString=None):
-        if fileString is not None:
-            return bscObjects.File(self._toHtmlLogFileString(fileString))
+        if self._logFileString is not None:
+            _bscMtdUtility.OsFile.write(self._logFileString, self.htmlLog)
 
     def countdownCloseUi(self, time=10):
         self.ui.setCountdownClose(time)
@@ -212,10 +212,6 @@ class If_Log(bscCore.Basic):
 
     def closeUi(self):
         self.ui.quitUi()
-
-    @property
-    def htmlLog(self):
-        return self.ui.html().encode(u'utf-8')
 
     def setMaxProgressValue(self, value):
         if self._ui is not None:

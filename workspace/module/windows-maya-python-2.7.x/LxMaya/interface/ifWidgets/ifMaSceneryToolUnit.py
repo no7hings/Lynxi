@@ -1,9 +1,9 @@
 # coding=utf-8
 import threading
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -121,11 +121,11 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 #
                 def assemblyFolderOpenCmd():
                     osPath = assetPr.astUnitAssemblyFolder(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName, assetClass, assetName
                     )
                     if lxBasic.isOsExist(osPath):
-                        lxBasic.setOsFolderOpen(osPath)
+                        bscMethods.OsDirectory.open(osPath)
                 #
                 subActionData = [
                     ('Basic', ),
@@ -141,7 +141,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                     exists = mtimestamp is not None
                     rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
                     iconKeyword = [None, 'svg_basic@svg#time'][exists]
-                    messageLis.append((messageWidget.DrawColor, (rgba, iconKeyword, lxBasic.getCnViewTime(mtimestamp))))
+                    messageLis.append((messageWidget.DrawColor, (rgba, iconKeyword, bscMethods.OsTime.getCnPrettifyByTimestamp(mtimestamp))))
             #
             assetIndex = key
             assetClass = assetPr.getAssetClass(assetIndex)
@@ -192,9 +192,9 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             gridItem.assetVariant = assetVariant
             #
             definitionFile = assetPr.astUnitAssemblyDefinitionFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
+                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
             )[1]
             #
             if not lxBasic.isOsExistsFile(definitionFile):
@@ -210,7 +210,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
             assetClassFilters=None,
-            assetLinkFilter=lxCore_.LynxiProduct_Asset_Link_Assembly
+            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Assembly
         )
         #
         gridView.cleanItems()
@@ -218,7 +218,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             # View Progress
             explain = '''Build Assembly Unit(s)'''
             maxValue = len(uiData)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.update()
                 setBranch(s, k, v)
@@ -875,7 +875,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         if root:
             viewportPreview = sceneryPr.scnUnitPreviewFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
             )[1]
             #
@@ -886,7 +886,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView
             )
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'Make Snapshot ( View Port )', u'Complete'
             )
     #
@@ -909,7 +909,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         if root:
             renderPreview = sceneryPr.scnUnitPreviewFile(
-                lxCore_.LynxiRootIndex_Server,
+                lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
                 appVariant.pngExt
             )[1]
@@ -921,7 +921,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 u'Make Snapshot ( Render )', u'Complete'
             )
     #
@@ -965,7 +965,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneryClass, sceneryName, sceneryVariant, sceneryStage,
             timeTag
         )
-        bscMethods.If_Message(
+        bscObjects.If_Message(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #

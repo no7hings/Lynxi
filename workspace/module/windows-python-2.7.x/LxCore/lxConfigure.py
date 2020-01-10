@@ -9,7 +9,7 @@ from LxBasic import bscObjects
 
 from LxCore import lxBasic
 
-LynxiPipelineTds = [
+Lynxi_Name_Td_Lis = [
     'dongchangbao',
     'changbao.dong'
 ]
@@ -255,7 +255,7 @@ LynxiScAstModelCacheType = 'modelCache'
 LynxiScAstCfxFurCacheType = 'cfxFurCache'
 LynxiScAstExtraCacheType = 'extraCache'
 # Ignore Send Message
-if lxBasic.getOsUser() in LynxiPipelineTds:
+if lxBasic.getOsUser() in Lynxi_Name_Td_Lis:
     LynxiIsSendMail = False
     LynxiIsSendDingTalk = False
 else:
@@ -290,7 +290,7 @@ varDic = globals()
 def isLxPipelineTd():
     boolean = False
     user = lxBasic.getOsUser()
-    if user in LynxiPipelineTds:
+    if user in Lynxi_Name_Td_Lis:
         boolean = True
     return boolean
 
@@ -329,33 +329,3 @@ def _toLxProductResultFile(osFile):
     base = lxBasic.getOsFileBase(osFile)
     string = base + LynxiResultExt
     return string
-
-
-class System(object):
-    platform_dic = {
-        'Windows': 'windows',
-        'Linux': 'linux'
-    }
-    application_dic = {
-        'maya.exe': 'maya',
-        'maya': 'maya'
-    }
-
-    def __init__(self, argv=None):
-        if argv is None:
-            argv = sys.argv
-        self._argv = argv
-
-    @property
-    def platform(self):
-        return self.platform_dic.get(platform.system())
-
-    @property
-    def application(self):
-        return self.application_dic.get(os.path.basename(self._argv[0]))
-
-    def isWindows(self):
-        return self.platform == 'windows'
-
-    def isMaya(self):
-        return self.application == 'maya'

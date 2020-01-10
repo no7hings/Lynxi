@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxUi.qt import qtWidgets, qtMethod
 #
@@ -147,7 +147,7 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         self.app_check_method.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
             progressBar.update(k)
             setInspectionBranch(s, k, v)

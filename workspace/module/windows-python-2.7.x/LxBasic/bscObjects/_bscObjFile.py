@@ -44,4 +44,4 @@ class JsonFile(bscAbstract.Abc_File):
             with open(self.temporary(), u'w') as j:
                 self.method_json.dump(raw, j, indent=indent, ensure_ascii=ensure_ascii)
 
-            self._copyFileMethod(self.temporary(), self._fileString)
+            self._setOsFileCopy(self.temporary(), self._fileString)

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxCore_
+from LxCore import lxConfigure
 #
 from LxCore.preset.prod import projectPr
 #
@@ -16,7 +16,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.addWidget(self.tool)
         #
         self.projectName = projectPr.getMayaProjectName()
-        self.sceneStage = lxCore_.LynxiProduct_Scene_Link_Light
+        self.sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
         #
         self.tool.setConnectObject(self)
         self.setQuitConnect(self.tool.delScriptJob)

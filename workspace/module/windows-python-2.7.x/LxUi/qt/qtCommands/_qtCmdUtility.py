@@ -37,7 +37,7 @@ def setProgressRun(title, methods):
 
 
 def setMessageWindowShow(text, keyword=None):
-    method_html = bscMethods.Mtd_Html()
+    method_html = bscMethods.HtmlText()
 
     fontSize = 10
 

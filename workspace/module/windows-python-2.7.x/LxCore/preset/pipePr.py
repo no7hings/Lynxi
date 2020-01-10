@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxBasic import bscMethods
+
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxCore.preset import basicPr
 #
@@ -15,13 +17,13 @@ none = ''
 
 #
 def getPipelinePresetVariantDic(pipelineScheme):
-    return basicPr.getGuidePresetVariantDic(lxCore_.LynxiPipelinePresetKey, pipelineScheme)
+    return basicPr.getGuidePresetVariantDic(lxConfigure.LynxiPipelinePresetKey, pipelineScheme)
 
 
 #
 def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     dic = lxBasic.orderedDict()
-    dic['config'] = basicPath + '/{0}'.format(lxCore_.LynxiPresetKey)
+    dic['config'] = basicPath + '/{0}'.format(lxConfigure.LynxiPresetKey)
     dic['environ'] = basicPath + '/preset/environ'
     dic['project'] = basicPath + '/preset/project'
     dic['team'] = basicPath + '/preset/team'
@@ -30,7 +32,7 @@ def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
     dic['naming'] = basicPath + '/preset/naming'
     dic['software'] = basicPath + '/preset/software'
     
-    dic[lxCore_.LynxiPresetKey] = basicPath + '/{0}/{1}'.format(lxCore_.LynxiPresetKey, lxCore_.LynxiKitPresetKey)
+    dic[lxConfigure.LynxiPresetKey] = basicPath + '/{0}/{1}'.format(lxConfigure.LynxiPresetKey, lxConfigure.LynxiKitPresetKey)
     #
     dic['tool'] = basicPath + '/tool/maya'
     #
@@ -167,7 +169,7 @@ def objectShapePreset():
 
 #
 def mayaHelpDirectory(keyword):
-    osPath = '{0}/{1}/{2}/{3}'.format(serverBasicPath, 'doc', lxCore_.Lynxi_App_Maya, keyword)
+    osPath = '{0}/{1}/{2}/{3}'.format(serverBasicPath, 'doc', lxConfigure.Lynxi_App_Maya, keyword)
     return osPath
 
 
@@ -182,7 +184,7 @@ def getToolPresetData(keyword):
     osFiles = lxBasic.getOsFilesByPath(subConfigPath)
     if osFiles:
         for osFile in osFiles:
-            command = lxBasic.readOsFile(osFile)
+            command = bscMethods.OsFile.read(osFile)
             commandName = lxBasic.getOsFileName(osFile)
             #
             toolTip = none
@@ -193,22 +195,9 @@ def getToolPresetData(keyword):
                     toolTip = [unicode(i, "gbk").replace('\r\n', none) for i in data]
             #
             if osFile.endswith('.py'):
-                commandReduce = 'python(' + lxBasic.getJsonDumps(command) + ');'
+                commandReduce = 'python(' + bscMethods.OsJson.dump(command) + ');'
                 dic[commandName] = commandReduce, toolTip
             #
             elif osFile.endswith('.mel'):
                 dic[commandName] = command, toolTip
     return dic
-
-
-#
-def getPythonModuleData(modules=none):
-    lis = []
-    data = lxBasic.getSystemModuleData()
-    if data:
-        for k, v in data.items():
-            root = k.split('.')[0]
-            if root in modules:
-                lis.append(k)
-    lis.sort()
-    return lis

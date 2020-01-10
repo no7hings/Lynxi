@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxMaya.command import maUtils
 #
@@ -553,7 +553,7 @@ def setConnectionsReconnect(connections):
     if connections:
         explain = '''Connect Attribute(s)'''
         maxValue = len(connections)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for sourceAttr, targetAttr in connections:
             progressBar.update()
             # Filter Exists

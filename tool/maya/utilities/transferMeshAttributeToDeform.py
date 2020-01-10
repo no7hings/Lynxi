@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 
 from LxMaya.command import maUtils, maAttr
 #
@@ -10,7 +10,7 @@ if groupStringLis:
     datumLis = maUtils.getMeshShapeDeformDatumLis(groupString)
     if datumLis:
         maxValue = len(datumLis)
-        progressBar = bscMethods.If_Progress('Transfer Attribute(s)', maxValue)
+        progressBar = bscObjects.If_Progress('Transfer Attribute(s)', maxValue)
         for sourceNode, targetNode in datumLis:
             progressBar.update()
             #

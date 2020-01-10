@@ -3,11 +3,7 @@ from LxBasic import bscMethods
 
 from LxCore import lxBasic, lxScheme
 #
-from LxCore.preset import pipePr
-#
 from LxCore.preset.prod import projectPr
-#
-from LxCore.operation import envOp
 #
 serverBasicPath = lxScheme.Root().basic.server
 #
@@ -15,21 +11,11 @@ none = ''
 
 
 #
-def setMaPythonPackageSetup(mayaVersion):
-    traceMessage = '''Setup Maya Python Package(s)'''
-    bscMethods.PythonMessage().trace(traceMessage)
-    #
-    osPathLis = pipePr.env_app_maya_python_package_lis(serverBasicPath, mayaVersion)
-    for osPath in osPathLis:
-        envOp.setSysPath(osPath)
-
-
-#
 def setMaScriptSetup(projectName):
     if lxBasic.isMayaApp():
         from LxMaya.command import maUtils
         traceMessage = '''Setup Maya Script(s)'''
-        bscMethods.PythonMessage().trace(traceMessage)
+        bscMethods.PyMessage.trace(traceMessage)
         #
         data = projectPr.getProjectMayaScriptDatumDic(projectName)
         if data:
@@ -38,11 +24,11 @@ def setMaScriptSetup(projectName):
                     osFileLis = lxBasic.getOsFilesByPath(i)
                     if osFileLis:
                         traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(lxBasic.str_camelcase2prettify(k), i)
-                        bscMethods.PythonMessage().traceResult(traceMessage)
+                        bscMethods.PyMessage.traceResult(traceMessage)
                         for osFile in osFileLis:
-                            command = lxBasic.readOsFile(osFile)
+                            command = bscMethods.OsFile.read(osFile)
                             if osFile.endswith('.py'):
-                                pythonCommand = 'python(' + lxBasic.getJsonDumps(command) + ');'
+                                pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                                 maUtils.runMelCommand(pythonCommand)
                             elif osFile.endswith('.mel'):
                                 melCommand = command
@@ -50,17 +36,17 @@ def setMaScriptSetup(projectName):
                                 maUtils.runMelCommand(melCommand)
                             #
                             traceMessage = '''Add Maya Script : {}'''.format(osFile)
-                            bscMethods.PythonMessage().traceResult(traceMessage)
+                            bscMethods.PyMessage.traceResult(traceMessage)
 
 
 #
 def setMaTdPackageSetup(projectName):
     traceMessage = '''Setup Maya TD Package(s)'''
-    bscMethods.PythonMessage().trace(traceMessage)
+    bscMethods.PyMessage.trace(traceMessage)
     #
     osPathLis = projectPr.getProjectMayaTdPackagePathLis(projectName)
     for osPath in osPathLis:
-        envOp.setSysPath(osPath)
+        bscMethods.OsEnviron.addSystemPath(osPath)
 
 
 #
@@ -74,7 +60,7 @@ def setMaHotkeySetup():
     from LxMaya.maSetup import maScriptSetup
     #
     traceMessage = '''Setup Maya Hotkey(s)'''
-    bscMethods.PythonMessage().trace(traceMessage)
+    bscMethods.PyMessage.trace(traceMessage)
     #
     maScriptSetup.initHideShowCmd()
 
@@ -94,7 +80,7 @@ def setMayaPreference():
 def setMayaProjectToolSetup(projectName, showProgress, isCloseMaya):
     if lxBasic.isMayaApp():
         traceMessage = '''Setup Maya Project : {}'''.format(projectName)
-        bscMethods.PythonMessage().trace(traceMessage)
+        bscMethods.PyMessage.trace(traceMessage)
         #
         setMaScriptSetup(projectName)
         setMaTdPackageSetup(projectName)

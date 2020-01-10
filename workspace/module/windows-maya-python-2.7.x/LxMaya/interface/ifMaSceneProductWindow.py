@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxBasic, lxScheme
 #
@@ -205,7 +205,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Tool Unit(s)'''
         maxValue = len(methods)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for i in methods:
             progressBar.update()
             i()
@@ -277,7 +277,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Viewer Unit(s)'''
         maxValue = len(methods)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for i in methods:
             progressBar.update()
             i()
@@ -484,4 +484,4 @@ def tableShow():
 #
 def helpShow():
     helpDirectory = pipePr.mayaHelpDirectory('animation')
-    lxBasic.setOsFolderOpen(helpDirectory)
+    bscMethods.OsDirectory.open(helpDirectory)

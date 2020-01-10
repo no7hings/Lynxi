@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscModifiers
+
+from LxCore import lxBasic, lxConfigure
 #
 none = ''
 
@@ -7,23 +9,23 @@ none = ''
 #
 def basicModuleConfig():
     lis = [
-        lxCore_.LynxiProduct_Module_Asset,
-        lxCore_.LynxiProduct_Module_Scenery,
-        lxCore_.LynxiProduct_Module_Scene
+        lxConfigure.LynxiProduct_Module_Asset,
+        lxConfigure.LynxiProduct_Module_Scenery,
+        lxConfigure.LynxiProduct_Module_Scene
     ]
     return lis
 
 
-@lxBasic.getDicMethod
+@bscModifiers.fncDictSwitch
 def basicModuleDic(*args):
     dic = lxBasic.orderedDict()
-    dic[lxCore_.LynxiProduct_Module_Asset] = 'Asset', u'资产'
-    dic[lxCore_.LynxiProduct_Module_Scenery] = 'Scenery', u'场景'
-    dic[lxCore_.LynxiProduct_Module_Scene] = 'Scene', u'镜头'
+    dic[lxConfigure.LynxiProduct_Module_Asset] = 'Asset', u'资产'
+    dic[lxConfigure.LynxiProduct_Module_Scenery] = 'Scenery', u'场景'
+    dic[lxConfigure.LynxiProduct_Module_Scene] = 'Scene', u'镜头'
     return dic
 
 
-@lxBasic.getDicMethod
+@bscModifiers.fncDictSwitch
 def basicPrioritiesDic(*args):
     dic = lxBasic.orderedDict()
     dic['major'] = 'Major', u'主要'
@@ -38,8 +40,8 @@ def basicVariantSetConfig(enabled=False, key=none, value=none):
         enabled,
         u'输入备注',
         [
-            (lxCore_.LynxiVariantKey, key),
-            (lxCore_.LynxiVariantValue, value)
+            (lxConfigure.LynxiVariantKey, key),
+            (lxConfigure.LynxiVariantValue, value)
         ]
     ]
     return lis
@@ -48,8 +50,8 @@ def basicVariantSetConfig(enabled=False, key=none, value=none):
 #
 def defaultVariantConfig():
     lis = [
-        (lxCore_.LynxiVariantKey, '', '', ''),
-        (lxCore_.LynxiVariantValue, '', '', '')
+        (lxConfigure.LynxiVariantKey, '', '', ''),
+        (lxConfigure.LynxiVariantValue, '', '', '')
     ]
     return lis
 
@@ -57,7 +59,7 @@ def defaultVariantConfig():
 #
 def basicPersonnelTeamConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'Model',
         'Rig',
         'CFX',
@@ -74,14 +76,14 @@ def basicPersonnelTeamConfig():
 #
 def basicPersonnelPostConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'Artist',
         'Producer',
         'Team - Leader',
         'PM',
         'TD',
         'Rnd',
-        lxCore_.LynxiPipelineTdPost
+        lxConfigure.LynxiPipelineTdPost
     ]
     return lis
 
@@ -89,8 +91,8 @@ def basicPersonnelPostConfig():
 #
 def basicAppConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
-        lxCore_.LynxiMayaPresetKey
+        lxConfigure.LynxiValue_Unspecified,
+        lxConfigure.LynxiMayaPresetKey
     ]
     return lis
 
@@ -98,8 +100,8 @@ def basicAppConfig():
 #
 def basicMayaVersionConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
-        lxCore_.LynxiGeneralValue,
+        lxConfigure.LynxiValue_Unspecified,
+        lxConfigure.LynxiGeneralValue,
         '2017',
         '2018',
         '2019'
@@ -110,9 +112,9 @@ def basicMayaVersionConfig():
 #
 def basicMayaRendererConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
-        lxCore_.LynxiArnoldRendererValue,
-        lxCore_.LynxiRedshiftRendererValue
+        lxConfigure.LynxiValue_Unspecified,
+        lxConfigure.LynxiArnoldRendererValue,
+        lxConfigure.LynxiRedshiftRendererValue
     ]
     return lis
 
@@ -120,7 +122,7 @@ def basicMayaRendererConfig():
 #
 def basicAppShelfSchemeConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'asset',
         'scenery',
         'animation',
@@ -133,7 +135,7 @@ def basicAppShelfSchemeConfig():
 #
 def basicAppShelfToolSchemeConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'assetManager',
         'sceneryManager',
         'animationManager',
@@ -150,11 +152,11 @@ def basicAppShelfToolSchemeConfig():
 #
 def basicPresetShelfSetConfig():
     lis = [
-        (lxCore_.LynxiAppNameKey, '<appNames>'),
-        (lxCore_.LynxiAppVersionKey, '<appVersions>'),
-        (lxCore_.LynxiShelfNameKey, '<shelfName>'),
-        (lxCore_.LynxiUiNameKey, '<shelfName>'),
-        (lxCore_.LynxiUiTipKey, '<shelfName>')
+        (lxConfigure.LynxiAppNameKey, '<appNames>'),
+        (lxConfigure.LynxiAppVersionKey, '<appVersions>'),
+        (lxConfigure.LynxiShelfNameKey, '<shelfName>'),
+        (lxConfigure.LynxiUiNameKey, '<shelfName>'),
+        (lxConfigure.LynxiUiTipKey, '<shelfName>')
     ]
     return lis
 
@@ -162,7 +164,7 @@ def basicPresetShelfSetConfig():
 #
 def basicPresetToolSchemeConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'model',
         'rig',
         'cfx',
@@ -182,11 +184,11 @@ def basicPresetToolSchemeConfig():
 #
 def basicPresetToolSetConfig():
     lis = [
-        (lxCore_.LynxiAppNameKey, '<appNames>'),
-        (lxCore_.LynxiAppVersionKey, '<appVersions>'),
-        (lxCore_.LynxiToolNameKey, '<toolName>'),
-        (lxCore_.LynxiUiNameKey, '<toolName>'),
-        (lxCore_.LynxiUiTipKey, '<toolName>')
+        (lxConfigure.LynxiAppNameKey, '<appNames>'),
+        (lxConfigure.LynxiAppVersionKey, '<appVersions>'),
+        (lxConfigure.LynxiToolNameKey, '<toolName>'),
+        (lxConfigure.LynxiUiNameKey, '<toolName>'),
+        (lxConfigure.LynxiUiTipKey, '<toolName>')
     ]
     return lis
 
@@ -194,7 +196,7 @@ def basicPresetToolSetConfig():
 #
 def basicPresetScriptSchemeConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'model',
         'rig',
         'cfx',
@@ -214,11 +216,11 @@ def basicPresetScriptSchemeConfig():
 #
 def basicPresetScriptSetConfig():
     lis = [
-        (lxCore_.LynxiAppNameKey, '<appNames>'),
-        (lxCore_.LynxiAppVersionKey, '<appVersions>'),
-        (lxCore_.LynxiScriptNameKey, '<scriptName>'),
-        (lxCore_.LynxiUiNameKey, '<scriptName>'),
-        (lxCore_.LynxiUiTipKey, '<scriptName>')
+        (lxConfigure.LynxiAppNameKey, '<appNames>'),
+        (lxConfigure.LynxiAppVersionKey, '<appVersions>'),
+        (lxConfigure.LynxiScriptNameKey, '<scriptName>'),
+        (lxConfigure.LynxiUiNameKey, '<scriptName>'),
+        (lxConfigure.LynxiUiTipKey, '<scriptName>')
     ]
     return lis
 
@@ -226,7 +228,7 @@ def basicPresetScriptSetConfig():
 #
 def basicAppPlugSchemeConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified
+        lxConfigure.LynxiValue_Unspecified
     ]
     return lis
 
@@ -234,13 +236,13 @@ def basicAppPlugSchemeConfig():
 #
 def basicAppPlugSetConfig():
     lis = [
-        (lxCore_.LynxiAppNameKey, '<applicationName>'),
-        (lxCore_.LynxiAppVersionKey, '<appVersions>'),
-        (lxCore_.Key_Plug_Name, '<plugName>'),
-        (lxCore_.Key_Plug_Version, '<plugVersions>'),
-        (lxCore_.Lynxi_Key_Plug_Load_Names, '<plugLoadNames>'),
-        (lxCore_.LynxiServerPathKey, '<serverBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>'),
-        (lxCore_.LynxiLocalPathKey, '<localBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>')
+        (lxConfigure.LynxiAppNameKey, '<applicationName>'),
+        (lxConfigure.LynxiAppVersionKey, '<appVersions>'),
+        (lxConfigure.Key_Plug_Name, '<plugName>'),
+        (lxConfigure.Key_Plug_Version, '<plugVersions>'),
+        (lxConfigure.Lynxi_Key_Plug_Load_Names, '<plugLoadNames>'),
+        (lxConfigure.LynxiServerPathKey, '<serverBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>'),
+        (lxConfigure.LynxiLocalPathKey, '<localBasicPath>/plug/<app>/<appVersion>/<plugName>/<plugVersion>')
     ]
     return lis
 
@@ -248,7 +250,7 @@ def basicAppPlugSetConfig():
 #
 def basicMayaTimeUnitConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         '15 fps',
         '24 fps',
         '25 fps',
@@ -277,9 +279,9 @@ def basicMayaCommonPlugConfig():
 #
 def basicProjectClassificationConfig():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
-        lxCore_.LynxiCgProjectValue,
-        lxCore_.LynxiGameProjectValue
+        lxConfigure.LynxiValue_Unspecified,
+        lxConfigure.LynxiCgProjectValue,
+        lxConfigure.LynxiGameProjectValue
     ]
     return lis
 
@@ -299,10 +301,10 @@ def basicProductionStages():
 #
 def basicProductionStageDic():
     dic = lxBasic.orderedDict()
-    dic[0] = lxCore_.LynxiProduct_Stage_Pending, 'Pending', u'等待'
-    dic[1] = lxCore_.LynxiProduct_Stage_Wip, 'WIP', u'制作'
-    dic[2] = lxCore_.LynxiProduct_Stage_Delivery, 'Delivery', u'提交'
-    dic[3] = lxCore_.LynxiProduct_Stage_Refine, 'Refine', u'返修'
-    dic[4] = lxCore_.LynxiProduct_Stage_Validated, 'Validated', u'通过'
+    dic[0] = lxConfigure.LynxiProduct_Stage_Pending, 'Pending', u'等待'
+    dic[1] = lxConfigure.LynxiProduct_Stage_Wip, 'WIP', u'制作'
+    dic[2] = lxConfigure.LynxiProduct_Stage_Delivery, 'Delivery', u'提交'
+    dic[3] = lxConfigure.LynxiProduct_Stage_Refine, 'Refine', u'返修'
+    dic[4] = lxConfigure.LynxiProduct_Stage_Validated, 'Validated', u'通过'
     return dic
 

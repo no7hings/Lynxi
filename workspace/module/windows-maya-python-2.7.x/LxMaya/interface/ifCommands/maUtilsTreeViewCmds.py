@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxBasic
 #
@@ -88,7 +88,7 @@ def setListDirectory(
         #
         def setActionData():
             def setOpenFolder():
-                lxBasic.setOsFolderOpen(filePath)
+                bscMethods.OsDirectory.open(filePath)
             #
             openFolderEnabled = lxBasic.isOsExist(filePath)
             #
@@ -142,7 +142,7 @@ def setListDirectory(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -263,7 +263,7 @@ def setListFile(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -479,7 +479,7 @@ def setListScMayaComposeCmdMain(
     if inData:
         explain = '''List Scene Compose'''
         maxValue = len(inData)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for k, v in inData.items():
             progressBar.update()
             #
@@ -542,7 +542,7 @@ def setListScCameraComposeCmdSub(
     if scCameraDatumLis:
         progressExplain = u'''List Scene Camera(s)'''
         maxValue = len(scCameraDatumLis)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for scCameraData in scCameraDatumLis:
             progressBar.update()
             setScCameraBranch(scCameraData)
@@ -690,7 +690,7 @@ def setListScAssetComposeCmdSub(
     if scAssetDatumLis:
         progressExplain = u'''List Scene Asset(s)'''
         maxValue = len(scAssetDatumLis)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for scAssetDatum in scAssetDatumLis:
             progressBar.update()
             setScAstBranch(scAssetDatum)

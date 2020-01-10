@@ -1,6 +1,8 @@
 # coding:utf-8
 import collections
 
+from LxBasic import bscMethods
+
 from LxCore import lxBasic
 
 
@@ -32,7 +34,7 @@ class helpDocument(object):
         self._sourceLineLis = lxBasic.readOsData(self._sourceFile, readLines=True)
         if self._sourceLineLis:
             self._collMember()
-            lxBasic.writeOsData(self.cls_lineLis, self._targetFile)
+            bscMethods.OsFile.write(self._targetFile, self.cls_lineLis)
 
     @staticmethod
     def _comTrans(raw):

@@ -1,29 +1,29 @@
 # coding:utf-8
 from LxScheme import shmCore
 
-from LxScheme.shmObjects import _shmResource
+from LxScheme.shmObjects import _shmObjResource
 
 
-class ResourcePreset(shmCore.Basic):
+class Prs_Resource(shmCore.Basic):
     def __init__(self):
         self.def_cls_resource_dic = {
-            self.Category_Plf_Language: _shmResource.Rsc_PltLanguage,
-            self.Category_Plf_Application: _shmResource.Rsc_PltApplication,
+            self.Category_Plf_Language: _shmObjResource.Rsc_PltLanguage,
+            self.Category_Plf_Application: _shmObjResource.Rsc_PltApplication,
 
-            self.Category_Plf_Lan_Package: _shmResource.Rsc_PltLanPackage,
-            self.Category_Plf_App_Lan_Package: _shmResource.Rsc_PltAppLanPackage,
-            self.Category_Plf_App_Package: _shmResource.Rsc_PltAppPackage,
+            self.Category_Plf_Lan_Package: _shmObjResource.Rsc_PltLanPackage,
+            self.Category_Plf_App_Lan_Package: _shmObjResource.Rsc_PltAppLanPackage,
+            self.Category_Plf_App_Package: _shmObjResource.Rsc_PltAppPackage,
 
-            self.Category_Plf_Lan_Plug: _shmResource.Rsc_PltLanPlug,
-            self.Category_Plf_App_Lan_Plug: _shmResource.Rsc_PltAppLanPlug,
-            self.Category_Plf_App_Plug: _shmResource.Rsc_PltAppPlug,
+            self.Category_Plf_Lan_Plug: _shmObjResource.Rsc_PltLanPlug,
+            self.Category_Plf_App_Lan_Plug: _shmObjResource.Rsc_PltAppLanPlug,
+            self.Category_Plf_App_Plug: _shmObjResource.Rsc_PltAppPlug,
 
-            self.Category_Plf_Lan_Module: _shmResource.Rsc_PltLanModule,
-            self.Category_Plf_App_Lan_Module: _shmResource.Rsc_PltAppLanModule,
-            self.Category_Plf_App_Module: _shmResource.Rsc_PltAppModule,
+            self.Category_Plf_Lan_Module: _shmObjResource.Rsc_PltLanModule,
+            self.Category_Plf_App_Lan_Module: _shmObjResource.Rsc_PltAppLanModule,
+            self.Category_Plf_App_Module: _shmObjResource.Rsc_PltAppModule,
 
-            self.Category_Plf_Lan_Scheme: _shmResource.Rsc_PltLanScheme,
-            self.Category_Plf_App_Lan_Scheme: _shmResource.Rsc_PltAppLanScheme
+            self.Category_Plf_Lan_Scheme: _shmObjResource.Rsc_PltLanScheme,
+            self.Category_Plf_App_Lan_Scheme: _shmObjResource.Rsc_PltAppLanScheme
         }
         self.def_argument_resource_dic = {
             self.Category_Plf_Language: [
@@ -199,6 +199,13 @@ class ResourcePreset(shmCore.Basic):
             'lx-scheme_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.Key_Name: 'LxScheme',
+                self.Key_System: [
+                    'windows', 'share', 'python', '2.7.x'
+                ]
+            },
+            'lx-preset_0': {
+                self.Key_Category: self.Category_Plf_Lan_Module,
+                self.Key_Name: 'LxPreset',
                 self.Key_System: [
                     'windows', 'share', 'python', '2.7.x'
                 ]
@@ -553,6 +560,13 @@ class ResourcePreset(shmCore.Basic):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
+            'lx-preset_0': {
+                'LxBasic': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                }
+            },
             'lx-core_0': {
                 'LxBasic': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
@@ -560,6 +574,11 @@ class ResourcePreset(shmCore.Basic):
                     self.Key_System: self.Keyword_System_Active
                 },
                 'LxScheme': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxPreset': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
@@ -578,13 +597,6 @@ class ResourcePreset(shmCore.Basic):
                 }
             },
             'lx-database_0': {
-                'LxCore': {
-                    self.Key_Category: self.Category_Plf_Lan_Module,
-                    self.Key_Version: self.Keyword_Version_Active,
-                    self.Key_System: self.Keyword_System_Active
-                }
-            },
-            'lxgraph_0': {
                 'LxCore': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
@@ -835,8 +847,14 @@ class ResourcePreset(shmCore.Basic):
                 resource_.dependent.create(self.def_dependent_dic[k])
 
             lis.append(resource_)
-            print resource_
 
+        return lis
+
+    def schemes(self):
+        lis = []
+        for i in self.resources():
+            if i.isScheme:
+                lis.append(i)
         return lis
 
     def createDefConfigCaches(self):

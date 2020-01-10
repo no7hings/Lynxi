@@ -8,7 +8,7 @@
 """
 import xlwt
 #
-from LxCore import lxCore_
+from LxCore import lxConfigure
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 LabelLis = ['Name', 'ID', 'Class', 'Priority', 'Frame', 'Layout Enable', 'Animation Enable', 'Simulation Enable', 'Solver Enable', 'Light Enable', 'Asset Enable', 'Scenery']
@@ -66,9 +66,9 @@ def setBranch(seq, k, v):
                     sceneryClass, sceneryName, sceneryVariant, sceneryStage,
                     sceneryFile, sceneryExtraFile
                 ) = j
-                if sceneryClass in lxCore_.LynxiAssetClassLis:
+                if sceneryClass in lxConfigure.LynxiAssetClassLis:
                     subLis.append(assetPr.getAssetViewInfo(sceneryIndex))
-                elif sceneryClass == lxCore_.LynxiSceneryClassKey:
+                elif sceneryClass == lxConfigure.LynxiSceneryClassKey:
                     subLis.append(sceneryPr.getSceneryViewInfo(sceneryIndex))
             #
             string = '\n'.join(subLis)

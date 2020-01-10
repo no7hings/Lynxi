@@ -1,7 +1,7 @@
 # coding=utf-8
 from itertools import product
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxBasic
 #
@@ -1286,7 +1286,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             childItemLis.extend(treeItem.childItems())
             progressExplain = u'''Read File(s)'''
             maxValue = len(childItemLis)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for treeItem in childItemLis:
                 progressBar.update()
                 checkBox = treeItem.checkBox
@@ -1341,7 +1341,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         # Target Exists Check
                         targetExists = lxBasic.isOsExistsFile(targetFile)
                         if targetExists:
-                            isChanged = lxBasic.getOsFileIsMtimeChanged(sourceFile, targetFile)
+                            isChanged = bscMethods.OsFile.isFileTimeChanged(sourceFile, targetFile)
                             if isChanged:
                                 checkState = 'warning'
                                 checkToolTip = 'Target is Time Changed'
@@ -1374,7 +1374,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             #
                             subTargetExists = lxBasic.isOsExistsFile(subTargetFile)
                             if subTargetExists:
-                                isSubChanged = lxBasic.getOsFileIsMtimeChanged(subSourceFile, subTargetFile)
+                                isSubChanged = bscMethods.OsFile.isFileTimeChanged(subSourceFile, subTargetFile)
                                 if isSubChanged:
                                     subCheckStateLabel = 'warning'
                                     subCheckToolTip = 'Target is Time Changed'

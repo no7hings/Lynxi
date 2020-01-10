@@ -1,26 +1,25 @@
 # coding:utf-8
 from LxBasic import bscObjects, bscMethods
 
-method_html = bscMethods.Mtd_Html
+method_html = bscMethods.HtmlText
 
 
-def fncCatchCostTime(fnc):
+def fncCostTimeCatch(fnc):
     def subFnc(*args, **kwargs):
         startTime = bscObjects.ActiveTime()
         traceMessage = u'Start "{}.{}" at <{}>'.format(fnc.__module__, fnc.__name__, startTime.prettify)
 
-        bscMethods.PythonMessage().traceResult(traceMessage)
+        bscMethods.PyMessage.traceResult(traceMessage)
 
         endTime = bscObjects.ActiveTime()
         traceMessage = u'Call "{}.{}" in {}s'.format(fnc.__module__, fnc.__name__, (endTime.timestamp - startTime.timestamp))
-        bscMethods.PythonMessage().traceResult(traceMessage)
+        bscMethods.PyMessage.traceResult(traceMessage)
 
         return fnc(*args, **kwargs)
-
     return subFnc
 
 
-def fncCatchException(fnc):
+def fncExceptionCatch(fnc):
     def subFnc(*args, **kw):
         # noinspection PyBroadException
         try:
@@ -32,7 +31,7 @@ def fncCatchException(fnc):
             fncModuleName = fnc.__module__
             fncFullName = '.'.join([fncModuleName, fncName])
             exceptionModule = method_html.toHtml('Python Function is Exception', 0)
-            tipWin = bscMethods.If_Tip('Exception Tip', exceptionModule)
+            tipWin = bscObjects.If_Tip('Exception Tip', exceptionModule)
             tipWin.add(method_html.toHtmlSpanTime())
 
             excStr = traceback.format_exc()
@@ -45,16 +44,21 @@ def fncCatchException(fnc):
 
             messages = text.split('\n')
             [tipWin.add(method_html.getHtmls(i, fontColor=u'yellow')) for i in messages]
-            tipWin.add(method_html.getHtmls(u'@ %s' % bscObjects.PC().userName, fontColor=u'orange'))
+            tipWin.add(method_html.getHtmls(u'@ %s' % bscObjects.System().userName, fontColor=u'orange'))
 
-            return bscMethods.PythonLog().addException(text)
-
+            return bscMethods.OsLog.addException(text)
     return subFnc
 
 
-def mtdCatchException(mtd):
-    def subMtd(*args, **kwargs):
-
-        return mtd(*args, **kwargs)
-
-    return subMtd
+def fncDictSwitch(fnc):
+    def subFnc(*args):
+        dic = fnc(*args)
+        if args:
+            key = args[0]
+            if key:
+                return dic[key]
+            else:
+                return dic
+        else:
+            return dic
+    return subFnc

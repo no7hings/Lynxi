@@ -1,8 +1,6 @@
 # coding:utf-8
 from LxScheme import shmCore, shmAbstract
 
-from LxCore import lxBasic
-
 
 class Sys_Platform(shmAbstract.Abc_System):
     object_category = shmCore.Basic.Category_Platform
@@ -58,7 +56,7 @@ class Sys_PltLanguage(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -100,7 +98,7 @@ class Sys_PltApplication(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -148,7 +146,7 @@ class Sys_PltAppLanguage(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),

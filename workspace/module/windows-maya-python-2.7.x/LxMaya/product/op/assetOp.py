@@ -5,9 +5,9 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxCore_
+from LxCore import lxConfigure
 
 from LxCore.preset.prod import assetPr
 
@@ -21,19 +21,19 @@ none = ''
 # Clean Nde_Node By Name
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     nodes = [i for i in inData if maUtils.isAppExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
             if maUtils.isAppExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
-                bscMethods.PythonMessage().traceResult(node)
+                bscMethods.PyMessage.traceResult(node)
 
 
 # Assign Default Shader
 def setRootDefaultShaderCmd(rootString):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     logWin_.addStartProgress(u'Assign Default - Shader')
     cmds.sets(rootString, forceElement='initialShadingGroup')
     logWin_.addCompleteProgress()
@@ -41,7 +41,7 @@ def setRootDefaultShaderCmd(rootString):
 
 # Assign Default Shaders
 def setObjectDefaultShaderCmd(objectStrings):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
 
     logWin_.addStartProgress(u'''Assign Initial - Shader''')
     for objectString in objectStrings:
@@ -57,19 +57,19 @@ def setObjectTransparentRefresh(objectStrings):
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, lxCore_.LynxiAttrName_Object_RenderVisible, attrDatum
+            objectPath, lxConfigure.LynxiAttrName_Object_RenderVisible, attrDatum
         )
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'aiOpaque')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, lxCore_.LynxiAttrName_Object_Transparent, not attrDatum
+            objectPath, lxConfigure.LynxiAttrName_Object_Transparent, not attrDatum
         )
 
 
 # Clean Object's Unused Shape
 def setObjectUnusedShapeClear(objectStrings):
     explain = u'''Clean Unused - Shape'''
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     errorObjects = []
     # Get Error Objects
     for objectString in objectStrings:
@@ -85,7 +85,7 @@ def setObjectUnusedShapeClear(objectStrings):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    bscMethods.PythonMessage().traceResult(maUtils._toNodeName(shape))
+                    bscMethods.PyMessage.traceResult(maUtils._toNodeName(shape))
 
 
 # Clean Unused Shader
@@ -98,7 +98,7 @@ def setMeshVertexNormalUnlockCmd(objectStrings):
     explain = '''Unlock Mesh's Vertex Normal'''
     if objectStrings:
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             maGeom.setMeshVertexNormalUnlock(objectString)
@@ -109,7 +109,7 @@ def setMeshesSmoothNormal(objectStrings):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
     if objectStrings:
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             maGeom.setMeshEdgeSmooth(objectString, True)
@@ -134,35 +134,35 @@ def cleanUnusedAov():
 #
 def setDisplayLayerClear():
     explain = u'''Clean Display - Layer'''
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     displayLayers = [i for i in cmds.ls(type='displayLayer') if i != 'defaultLayer' and cmds.getAttr(i + '.displayOrder') != 0 and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if displayLayers:
         cmds.lockNode(displayLayers, lock=0)
         cmds.delete(displayLayers)
-        [bscMethods.PythonMessage().traceResult(i) for i in displayLayers]
+        [bscMethods.PyMessage.traceResult(i) for i in displayLayers]
 
 
 #
 def setCleanRenderLayer():
     explain = u'''Clean Render - Layer'''
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     renderLayers = [i for i in cmds.ls(type='renderLayer') if i != 'defaultRenderLayer' and not cmds.referenceQuery(i, isNodeReferenced=1)]
     if renderLayers:
         cmds.lockNode(renderLayers, lock=0)
         cmds.delete(renderLayers)
-        [bscMethods.PythonMessage().traceResult(i) for i in renderLayers]
+        [bscMethods.PyMessage.traceResult(i) for i in renderLayers]
 
 
 #
 def setCleanReferenceFile():
     explain = u'''Clean Reference - File(s)'''
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     referenceNodeLis = cmds.ls(type='reference')
     if referenceNodeLis:
         for referenceNode in referenceNodeLis:
             try:
                 cmds.file(cmds.referenceQuery(referenceNode, filename=1), removeReference=1)
-                bscMethods.PythonMessage().traceResult(referenceNode)
+                bscMethods.PyMessage.traceResult(referenceNode)
             except:
                 pass
 
@@ -170,17 +170,17 @@ def setCleanReferenceFile():
 #
 def setCleanReferenceNode():
     explain = u'''Clean Reference - Nde_Node(s)'''
-    bscMethods.PythonMessage().trace(explain)
+    bscMethods.PyMessage.trace(explain)
     referenceNodeLis = [i for i in cmds.ls(type="reference") if cmds.lockNode(i, q=1)]
     if referenceNodeLis:
         cmds.lockNode(referenceNodeLis, lock=0)
         cmds.delete(referenceNodeLis)
-        [bscMethods.PythonMessage().traceResult(i) for i in referenceNodeLis]
+        [bscMethods.PyMessage.traceResult(i) for i in referenceNodeLis]
 
 
 # Link Component Main Object Group Step01
 def linkComponentMainObjectGroupStep01(objectString, inData):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     dic = collections.OrderedDict()
     for data in inData:
@@ -197,7 +197,7 @@ def linkComponentMainObjectGroupStep01(objectString, inData):
 
 # Link Component Main Object Group Step 02
 def linkComponentMainObjectGroupStep02(objectString, inData):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     dic = collections.OrderedDict()
     for data in inData:
@@ -272,14 +272,14 @@ def setSolverFurGroup(assetName, namespace=none, hide=0):
 #
 def setCreateAstExtraData(extraData):
     if extraData:
-        if lxCore_.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxCore_.LynxiAttributeDataKey]
+        if lxConfigure.LynxiAttributeDataKey in extraData:
+            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
             setCreateAstAttributeData(attributeData)
-        if lxCore_.LynxiConnectionDataKey in extraData:
-            connectionDic = extraData[lxCore_.LynxiConnectionDataKey]
+        if lxConfigure.LynxiConnectionDataKey in extraData:
+            connectionDic = extraData[lxConfigure.LynxiConnectionDataKey]
             setCreateAstExtraConnectionSub(connectionDic)
-        if lxCore_.LynxiNhrConnectionDataKey in extraData:
-            nhrConnectionDic = extraData[lxCore_.LynxiNhrConnectionDataKey]
+        if lxConfigure.LynxiNhrConnectionDataKey in extraData:
+            nhrConnectionDic = extraData[lxConfigure.LynxiNhrConnectionDataKey]
             setCreateAstExtraConnectionSub(nhrConnectionDic)
 
 
@@ -298,7 +298,7 @@ def setCreateAstExtraConnectionSub(connectionDic):
         # View Progress
         progressExplain = u'''Create Connection'''
         maxValue = len(connectionDic)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for objectPath, connectionArray in connectionDic.items():
             if objectPath.startswith('|'):
                 objectPath = objectPath[1:]

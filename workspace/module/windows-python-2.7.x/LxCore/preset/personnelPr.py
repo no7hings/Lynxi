@@ -1,9 +1,11 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscMethods
+
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import basicPr
 #
-guidePresetKey = lxCore_.LynxiPersonnelPresetKey
+guidePresetKey = lxConfigure.LynxiPersonnelPresetKey
 
 #
 none = ''
@@ -31,7 +33,7 @@ def getPersonnelTeamLis():
 
 #
 def getPersonnelTeamDataDic(team):
-    mainPresetKey = lxCore_.LynxiTeamPresetKey
+    mainPresetKey = lxConfigure.LynxiTeamPresetKey
     mainSchemeKey = team
     return basicPr.getPresetSetDic((guidePresetKey, mainPresetKey), mainSchemeKey)
 
@@ -43,14 +45,14 @@ def getPersonnelPosts():
 
 #
 def getPersonnelPostDataDic(post):
-    mainPresetKey = lxCore_.LynxiPostPresetKey
+    mainPresetKey = lxConfigure.LynxiPostPresetKey
     mainSchemeKey = post
     return basicPr.getPresetSetDic((guidePresetKey, mainPresetKey), mainSchemeKey)
 
 
 #
 def getPersonnelUserLis():
-    mainPresetKey = lxCore_.LynxiUserPresetKey
+    mainPresetKey = lxConfigure.LynxiUserPresetKey
     return basicPr.getPresetSchemes((guidePresetKey, mainPresetKey))
 
 
@@ -67,71 +69,71 @@ def getPersonnelUserExists(user=none):
 
 #
 def getPersonnelUserDataDic(user):
-    mainPresetKey = lxCore_.LynxiUserPresetKey
+    mainPresetKey = lxConfigure.LynxiUserPresetKey
     mainSchemeKey = user
     return basicPr.getPresetSetDic((guidePresetKey, mainPresetKey), mainSchemeKey)
 
 
 #
 def getPersonnelUserCnName(user=none):
-    string = lxCore_.LynxiValue_Unspecified
+    string = lxConfigure.LynxiValue_Unspecified
     if not user:
         user = lxBasic.getOsUser()
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        string = data[lxCore_.LynxiUserCnNameKey]
+        string = data[lxConfigure.LynxiUserCnNameKey]
     return string
 
 
 #
 def getPersonnelUserEnName(user=none):
-    string = lxCore_.LynxiValue_Unspecified
+    string = lxConfigure.LynxiValue_Unspecified
     if not user:
         user = lxBasic.getOsUser()
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        string = data[lxCore_.LynxiUserEnNameKey]
+        string = data[lxConfigure.LynxiUserEnNameKey]
     return string
 
 
 #
 def getPersonnelUserMail(user=none):
-    string = lxCore_.LynxiValue_Unspecified
+    string = lxConfigure.LynxiValue_Unspecified
     if not user:
         user = lxBasic.getOsUser()
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        string = data[lxCore_.LynxiUserMailKey]
+        string = data[lxConfigure.LynxiUserMailKey]
     return string
 
 
 #
 def getPersonnelUserTeam(user=none):
-    string = lxCore_.LynxiValue_Unspecified
+    string = lxConfigure.LynxiValue_Unspecified
     if not user:
         user = lxBasic.getOsUser()
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        string = data[lxCore_.LynxiTeamPresetKey]
+        string = data[lxConfigure.LynxiTeamPresetKey]
     return string
 
 
 #
 def getPersonnelUserPost(user=none):
-    string = lxCore_.LynxiValue_Unspecified
+    string = lxConfigure.LynxiValue_Unspecified
     if not user:
         user = lxBasic.getOsUser()
     #
-    if user in lxCore_.LynxiPipelineTds:
-        return lxCore_.LynxiPipelineTdPost
+    if user in lxConfigure.Lynxi_Name_Td_Lis:
+        return lxConfigure.LynxiPipelineTdPost
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        string = data[lxCore_.LynxiPostPresetKey]
+        string = data[lxConfigure.LynxiPostPresetKey]
     return string
 
 
@@ -143,19 +145,19 @@ def getPersonnelSendMailEnabled(user=none):
     #
     data = getPersonnelUserDataDic(user)
     if data:
-        boolean = data[lxCore_.LynxiUserSendMailEnabledKey]
+        boolean = data[lxConfigure.LynxiUserSendMailEnabledKey]
     return boolean
 
 
 #
 def getPostLevel(post):
-    mainPresetKey = lxCore_.LynxiPostPresetKey
+    mainPresetKey = lxConfigure.LynxiPostPresetKey
     #
-    if post == lxCore_.LynxiPipelineTdPost:
-        return lxCore_.LynxiPipelineTdLevel
+    if post == lxConfigure.LynxiPipelineTdPost:
+        return lxConfigure.LynxiPipelineTdLevel
     #
     mainSchemeKey = post
-    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxCore_.LynxiPostLevelKey)
+    return basicPr.getMainPresetSetValue(guidePresetKey, mainPresetKey, mainSchemeKey, lxConfigure.LynxiPostLevelKey)
 
 
 #
@@ -199,12 +201,12 @@ def getPersonnelUserLevel(user=none):
 def setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post):
     if not user:
         user = lxBasic.getOsUser()
-    mainPresetKey = lxCore_.LynxiUserPresetKey
+    mainPresetKey = lxConfigure.LynxiUserPresetKey
     mainSchemeKey = user
     users = getPersonnelUserLis()
     if not user in users:
         userIndexFile = basicPr.presetIndexFileMethod((guidePresetKey, mainPresetKey))
-        data = lxBasic.readOsJson(userIndexFile)
+        data = bscMethods.OsJson.read(userIndexFile)
         if data is None:
             data = []
         userSchemeData = basicPr.defaultSchemeConfig()
@@ -213,13 +215,13 @@ def setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post):
         lxBasic.writeOsJson(data, userIndexFile)
     #
     userSetFile = basicPr.presetSetFileMethod((guidePresetKey, mainPresetKey), mainSchemeKey)
-    data = lxBasic.readOsJson(userSetFile)
+    data = bscMethods.OsJson.read(userSetFile)
     if not data:
         data = {}
-    data[lxCore_.LynxiUserCnNameKey] = cnName
-    data[lxCore_.LynxiUserEnNameKey] = enName
-    data[lxCore_.LynxiUserMailKey] = mail
-    data[lxCore_.LynxiTeamPresetKey] = team
-    data[lxCore_.LynxiPostPresetKey] = post
+    data[lxConfigure.LynxiUserCnNameKey] = cnName
+    data[lxConfigure.LynxiUserEnNameKey] = enName
+    data[lxConfigure.LynxiUserMailKey] = mail
+    data[lxConfigure.LynxiTeamPresetKey] = team
+    data[lxConfigure.LynxiPostPresetKey] = post
     #
     lxBasic.writeOsJson(data, userSetFile)

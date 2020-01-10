@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 
 from LxCore import lxScheme
 #
@@ -80,7 +80,7 @@ class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
         if self.mainWindow:
             explain = u'''Build Develop Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()

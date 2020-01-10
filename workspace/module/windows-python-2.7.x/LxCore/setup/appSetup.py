@@ -27,9 +27,9 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
                 isEnable = True
             else:
                 errorMessage = 'Invalid Maya Project Name : {}'.format(projectName)
-                bscMethods.PythonMessage().traceError(errorMessage)
+                bscMethods.PyMessage.traceError(errorMessage)
                 #
-                bscMethods.PythonLog().addError(errorMessage)
+                bscMethods.OsLog.addError(errorMessage)
         #
         if isEnable is True:
             maSetup.setMayaProjectToolSetup(

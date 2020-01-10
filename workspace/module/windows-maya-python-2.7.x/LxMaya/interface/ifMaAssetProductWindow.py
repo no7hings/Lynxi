@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxBasic, lxScheme
 #
@@ -534,7 +534,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for i in uiDatumLis:
             progressBar.update()
             #
@@ -823,4 +823,4 @@ def tableShow():
 #
 def helpShow():
     helpDirectory = pipePr.mayaHelpDirectory('asset')
-    lxBasic.setOsFolderOpen(helpDirectory)
+    bscMethods.OsDirectory.open(helpDirectory)

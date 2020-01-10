@@ -3,11 +3,11 @@ from LxBasic import bscObjects
 
 from LxScheme import shmAbstract
 
-from LxScheme.shmObjects import _shmPath
+from LxScheme.shmObjects import _shmObjPath
 
 
 class Fle_RscBin(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -27,7 +27,7 @@ class Fle_RscBin(shmAbstract.Abc_File):
 
 
 class Fle_RscPackage(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -47,7 +47,7 @@ class Fle_RscPackage(shmAbstract.Abc_File):
 
 
 class Fle_RscPlug(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -67,7 +67,7 @@ class Fle_RscPlug(shmAbstract.Abc_File):
 
 
 class Fle_RscModule(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -87,7 +87,7 @@ class Fle_RscModule(shmAbstract.Abc_File):
 
 
 class Fle_RscScheme(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -107,7 +107,7 @@ class Fle_RscScheme(shmAbstract.Abc_File):
 
 
 class Fle_RscTool(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):
@@ -127,7 +127,7 @@ class Fle_RscTool(shmAbstract.Abc_File):
 
 
 class Fle_PrsUser(shmAbstract.Abc_File):
-    DIRECTORY_CLS = _shmPath.Pth_Directory
+    DIRECTORY_CLS = _shmObjPath.Pth_Directory
     METHOD_CLS = bscObjects.JsonFile
 
     def __init__(self, *args):

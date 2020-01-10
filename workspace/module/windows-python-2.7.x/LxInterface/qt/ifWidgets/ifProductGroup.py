@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxBasic
 #
@@ -90,7 +90,7 @@ class IfAssetProductGroup(
             if self.mainWindow():
                 explain = '''Build Asset Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #
@@ -174,7 +174,7 @@ class IfSceneryProductGroup(
             if self.mainWindow():
                 explain = '''Build Scenery Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #
@@ -256,7 +256,7 @@ class IfSceneProductGroup(
             if self.mainWindow():
                 explain = '''Build Scene Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #

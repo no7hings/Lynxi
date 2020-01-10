@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxCore import lxBasic
 #
@@ -153,7 +153,7 @@ def astMeshGeomDefCheck(meshObjects):
         # View Progress
         progressExplain = u'''Mesh Nde_Geometry Check'''
         maxValue = len(config)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for k, v in config.items():
             enable = v[0]
             subExplain = v[1]

@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -151,7 +151,7 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objSeq, objectString in enumerate(objectLis):
             progressBar.update()
             objectType = maUtils.getShapeType(objectString)
@@ -198,7 +198,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
         # View Progress
         explain = u'''Rename Material - Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.update(nodeName)
             print node, nodeName
@@ -211,7 +211,7 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for aovSeq, aov in enumerate(aovNodes):
             progressBar.update()
             nodes = getMaterialNodes(aov)
@@ -254,7 +254,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
         # View Progress
         explain = u'''Rename AOV Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.update(nodeName)
             maUtils.setNodeRename(node, nodeName)
@@ -623,7 +623,7 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         # View Progress
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for objectString, linkDatumLis in data.items():
             # In Progress
             progressBar.update()
@@ -655,7 +655,7 @@ def setMaterialsObjectSetsConnect(datumDic):
         # View Progress
         explain = u'''Connect Material's Object Set(s)'''
         maxValue = len(datumDic)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for compIndex, linkDatumLis in datumDic.items():
             progressBar.update()
             #
@@ -792,9 +792,9 @@ def setCreateLightLink(shadingEngine):
 #
 def getAovNodeLis(renderer):
     aovNodes = []
-    if renderer == lxCore_.LynxiArnoldRendererValue:
+    if renderer == lxConfigure.LynxiArnoldRendererValue:
         aovNodes = getArnoldAovNodeLis()
-    elif renderer == lxCore_.LynxiRedshiftRendererValue:
+    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
         aovNodes = getRedshiftAovNodes()
     return aovNodes
 
@@ -936,7 +936,7 @@ def setObjectsAttrsCreate(datumDic):
         # View Progress
         explain = u'''Set Material's Object Attribute(s)'''
         maxValue = len(datumDic)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for uniqueId, attrData in datumDic.items():
             progressBar.update()
             #

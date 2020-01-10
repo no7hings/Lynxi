@@ -1,6 +1,8 @@
 # coding:utf-8
 import copy
 
+import collections
+
 from LxBasic import bscObjects, bscMethods
 
 
@@ -175,7 +177,17 @@ class Basic(object):
 
     module_copy = copy
 
-    method_environ = bscMethods.Mtd_Environ
+    method_os_environ = bscMethods.OsEnviron
+
+    mtd_os_path = bscMethods.OsDirectory
+
+    method_os_system = bscMethods.OsSystem
+
+    mtd_os_json = bscMethods.OsJson
+
+    mtd_os_file = bscMethods.OsFile
+
+    cls_dic_order = collections.OrderedDict
 
     @staticmethod
     def _toSubPathMethod(*args):
@@ -220,15 +232,15 @@ class Basic(object):
 
     @classmethod
     def isDevelop(cls):
-        return [False, True][cls.method_environ.get(cls.Environ_Key_Enable_Develop, 'FALSE').lower() == 'true']
+        return [False, True][cls.method_os_environ.get(cls.Environ_Key_Enable_Develop, 'FALSE').lower() == 'true']
 
     @classmethod
     def isUsedef(cls):
-        return [False, True][cls.method_environ.get(cls.Environ_Key_Enable_Usedef, 'FALSE').lower() == 'true']
+        return [False, True][cls.method_os_environ.get(cls.Environ_Key_Enable_Usedef, 'FALSE').lower() == 'true']
 
     @classmethod
     def setUsedef(cls, boolean):
-        cls.method_environ.set(cls.Environ_Key_Enable_Usedef, ['FALSE', 'TRUE'][boolean])
+        cls.method_os_environ.set(cls.Environ_Key_Enable_Usedef, ['FALSE', 'TRUE'][boolean])
 
     # noinspection PyMethodMayBeStatic
     def _jsonStrRaw(self):

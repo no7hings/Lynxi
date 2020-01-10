@@ -10,18 +10,12 @@ none = ''
 
 #
 def getDdlCommand():
-    envData = lxBasic.getOsEnvironValue('DEADLINE_PATH')
-    if envData:
-        deadLineBinPath = envData
-    else:
-        deadLineBinPath = 'C:/Program Files/Thinkbox/Deadline10/bin'
-    #
-    sysPaths = lxBasic.getOsSystemPathLis()
-    if not deadLineBinPath in sysPaths:
-        lxBasic.setSystemPathInsert(deadLineBinPath)
-    #
-    deadlineCommand = (deadLineBinPath + '/' + 'deadlinecommand.exe').replace('\\', '/')
-    return deadlineCommand
+    deadLineBinPath = bscMethods.OsEnviron.getAsPath(
+        'DEADLINE_PATH',
+        'C:/Program Files/Thinkbox/Deadline10/bin'
+    )
+    bscMethods.OsEnviron.addSystemPath(deadLineBinPath)
+    return 'deadlinecommand.exe'
 
 
 #
@@ -36,7 +30,7 @@ def getDdlJobs():
     command = '-JSON -GetJobs'
     result = runDdlCommand(command)
     if result:
-        data = lxBasic.getJsonLoads(result[0])
+        data = bscMethods.OsJson.load(result[0])
         if isinstance(data, dict):
             return data['result']
 
@@ -48,7 +42,7 @@ def getDdlSubmitInfo(*keys):
     result = runDdlCommand(command)
     lis = []
     if result:
-        data = lxBasic.getJsonLoads(result[0])
+        data = bscMethods.OsJson.load(result[0])
         if isinstance(data, dict):
             for key in keys:
                 if 'result' in data:
@@ -56,7 +50,7 @@ def getDdlSubmitInfo(*keys):
                     if isinstance(resultData, dict):
                         lis.append(resultData[key])
                     else:
-                        bscMethods.PythonMessage().traceError(resultData)
+                        bscMethods.PyMessage.traceError(resultData)
     #
     return lis
 

@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscModifiers
+
+from LxCore import lxBasic, lxConfigure
 #
 astHierarchyKey = 'hierarchy'
 astGeometryKey = 'geometry'
@@ -16,26 +18,26 @@ none = ''
 #
 def astBasicClass():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         LynxiProduct_Asset_Class_Character,
         LynxiProduct_Asset_Class_Prop
     ]
     return lis
 
 
-@lxBasic.getDicMethod
+@bscModifiers.fncDictSwitch
 def astBasicViewLinkDic(*args):
     dic = lxBasic.orderedDict()
-    dic[lxCore_.LynxiProduct_Asset_Link_Model] = 'Model', u'模型'
-    dic[lxCore_.LynxiProduct_Asset_Link_Rig] = 'Rig', u'绑定'
-    dic[lxCore_.LynxiProduct_Asset_Link_Cfx] = 'Groom', u'毛发塑形'
-    dic[lxCore_.LynxiProduct_Asset_Link_Solver] = 'Solver Rig', u'毛发绑定'
-    dic[lxCore_.LynxiProduct_Asset_Link_Light] = 'Light', u'灯光'
-    dic[lxCore_.LynxiProduct_Asset_Link_Assembly] = 'Assembly', u'组装'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Model] = 'Model', u'模型'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Rig] = 'Rig', u'绑定'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Cfx] = 'Groom', u'毛发塑形'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Solver] = 'Solver Rig', u'毛发绑定'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Light] = 'Light', u'灯光'
+    dic[lxConfigure.LynxiProduct_Asset_Link_Assembly] = 'Assembly', u'组装'
     return dic
 
 
-@lxBasic.getDicMethod
+@bscModifiers.fncDictSwitch
 def astBasicViewClassDic(*args):
     dic = lxBasic.orderedDict()
     dic[LynxiProduct_Asset_Class_Character] = 'Character', u'角色'
@@ -47,7 +49,7 @@ def astBasicViewClassDic(*args):
 def astBasicClassDatumDic():
     return lxBasic.orderedDict(
         [
-            ('ast0', (lxCore_.LynxiValue_Unspecified, u'待定')),
+            ('ast0', (lxConfigure.LynxiValue_Unspecified, u'待定')),
             ('ast1', (LynxiProduct_Asset_Class_Character, u'角色')),
             ('ast2', (LynxiProduct_Asset_Class_Prop, u'道具')),
         ]
@@ -58,7 +60,7 @@ def astBasicClassDatumDic():
 #
 def basicAssetPriorityLis():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'major',
         'minor',
         'util'
@@ -69,7 +71,7 @@ def basicAssetPriorityLis():
 #
 def basicModelProcess():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'Model > Texture > Nde_ShaderRef'
     ]
     return lis
@@ -78,7 +80,7 @@ def basicModelProcess():
 #
 def basicRigProcess():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'Low - Quality > High - Quality'
     ]
     return lis
@@ -87,7 +89,7 @@ def basicRigProcess():
 #
 def basicCfxProcess():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'Fur - Groom > Fur - Nde_ShaderRef'
     ]
     return lis
@@ -337,12 +339,12 @@ def fileBoxConfig():
 #
 def basicAssetLinks():
     lis = [
-        lxCore_.LynxiProduct_Asset_Link_Model,
-        lxCore_.LynxiProduct_Asset_Link_Rig,
-        lxCore_.LynxiProduct_Asset_Link_Cfx,
-        lxCore_.LynxiProduct_Asset_Link_Solver,
-        lxCore_.LynxiProduct_Asset_Link_Light,
-        lxCore_.LynxiProduct_Asset_Link_Assembly
+        lxConfigure.LynxiProduct_Asset_Link_Model,
+        lxConfigure.LynxiProduct_Asset_Link_Rig,
+        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Solver,
+        lxConfigure.LynxiProduct_Asset_Link_Light,
+        lxConfigure.LynxiProduct_Asset_Link_Assembly
     ]
     return lis
 

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 none = ''
 #

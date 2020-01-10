@@ -3,9 +3,11 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
+from LxBasic import bscMethods
+#
 from LxCore import lxBasic
 #
-from LxMaya.command import maUtils, maFile, maCam
+from LxMaya.command import maUtils, maCam
 #
 previewWindowName = 'animationPreviewWindow'
 previewPanelName = 'animationPreviewPanel'
@@ -188,9 +190,9 @@ def makePreview(
         )
         imagePreviewFile = prvName + '_' + frameDic[frame] + '.jpg'
         if lxBasic.isOsExistsFile(imagePreviewFile):
-            lxBasic.setOsFileRemove(imagePreviewFile)
+            bscMethods.OsFile.remove(imagePreviewFile)
         #
-        lxBasic.setOsFileRename_(prvName + '.' + str(frame).zfill(4) + '.jpg', imagePreviewFile)
+        bscMethods.OsFile.renameTo_(prvName + '.' + str(frame).zfill(4) + '.jpg', imagePreviewFile)
         imagePreviewFiles.append(imagePreviewFile)
     # Remove Widow
     removeMayaWindow(prvWindow)

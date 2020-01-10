@@ -1,7 +1,7 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxCore_
+from LxCore import lxConfigure
 #
 from LxCore.preset import personnelPr
 #
@@ -35,7 +35,7 @@ class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxCore_.LynxiDefaultPipelineValue]
+            [lxConfigure.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [
@@ -44,7 +44,7 @@ class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
         if self._mainWindow:
             explain = '''Build Project Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()
@@ -80,7 +80,7 @@ class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxCore_.LynxiDefaultPipelineValue]
+            [lxConfigure.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [
@@ -90,7 +90,7 @@ class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
         if self._mainWindow:
             explain = '''Build Personnel Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()
@@ -117,7 +117,7 @@ class IfToolkitGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxCore_.LynxiDefaultPipelineValue]
+            [lxConfigure.LynxiDefaultPipelineValue]
         )
         #
         buildMethodLis = [
@@ -126,7 +126,7 @@ class IfToolkitGroup(_qtIfAbcWidget.QtIfAbc_Group):
         if self._mainWindow:
             explain = '''Build ToolKit Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()

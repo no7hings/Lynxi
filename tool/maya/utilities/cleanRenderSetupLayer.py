@@ -1,11 +1,11 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxMaya.command import maUtils
 #
 nodes = maUtils.getNodeLisByType(u'renderSetupLayer')
 
-logWin_ = bscMethods.If_Log()
+logWin_ = bscObjects.If_Log()
 if nodes:
     for node in nodes:
         if not maUtils.isNodeLocked(node):

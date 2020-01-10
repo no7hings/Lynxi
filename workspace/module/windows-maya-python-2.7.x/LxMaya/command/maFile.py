@@ -5,7 +5,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxCore import lxBasic
 #
@@ -680,7 +680,7 @@ def gpuSeqExport(objectString, startFrame, endFrame, osFile, withMaterial=0):
     # View Progress
     explain = '''Export GPU Sequence'''
     maxValue = endFrame - startFrame + 1
-    progressBar = bscMethods.If_Progress(explain, maxValue)
+    progressBar = bscObjects.If_Progress(explain, maxValue)
     for seq in sequenceRange:
         # In Progress
         progressBar.update()
@@ -794,7 +794,7 @@ def assExport(assFile, camera, startFrame, endFrame):
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
-    progressBar = bscMethods.If_Progress(explain, maxValue)
+    progressBar = bscObjects.If_Progress(explain, maxValue)
     # Move to Server
     for seq, tempSubAssFile in enumerate(tempSubAssFiles):
         # In Progress

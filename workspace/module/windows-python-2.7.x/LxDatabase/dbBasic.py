@@ -5,7 +5,7 @@ import hashlib
 #
 import struct
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxBasic
 #
@@ -148,7 +148,7 @@ def getDbBackupFile(directory, dbIndex, dbVersion):
 
 #
 def writeMayaAsciiGzip(mayaAscii, osFile):
-    data = lxBasic.readOsFileLines(mayaAscii)
+    data = bscMethods.OsFile.readlines(mayaAscii)
     lxBasic.writeDataGzip(data, osFile)
 
 
@@ -208,7 +208,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
         # View Progress
         explain = '''Contrasting Data - Base'''
         maxValue = len(dic)
-        progressBar = bscMethods.If_Progress(explain, maxValue)
+        progressBar = bscObjects.If_Progress(explain, maxValue)
         for compIndex, data in dic.items():
             progressBar.update()
             dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
@@ -235,7 +235,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
             # View Progress
             explain = '''Write Datum(s)'''
             maxValue = len(lis)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for dbCompIndex, data, hashValue, dbFile, dbBackupFile in lis:
                 progressBar.update()
                 dbData = getData(data, hashValue, dbVersion)
@@ -275,7 +275,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
             # View Progress
             explain = '''Read Datum(s)'''
             maxValue = len(compIndexes)
-            progressBar = bscMethods.If_Progress(explain, maxValue)
+            progressBar = bscObjects.If_Progress(explain, maxValue)
             for subCompIndexes in splitCompIndexes:
                 readThreadLis = []
                 for compIndex in subCompIndexes:

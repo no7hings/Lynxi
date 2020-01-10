@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
-from LxCore import lxCore_
+from LxCore import lxConfigure
 #
 from LxCore.preset import appVariant
 #
@@ -28,7 +28,7 @@ def setAssembliesActiveSwitch(keyword='GPU'):
                 # View Progress
                 explain = '''Switch Assembly(s) "{}" to "{}"'''.format(k, keyword)
                 maxValue = len(v)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in v:
                     progressBar.update()
                     assemblyReferenceString = i
@@ -41,9 +41,9 @@ def setAssembliesActiveSwitch(keyword='GPU'):
 #
 def setAssemblyVariantSwitch(assemblyReferenceString, projectName, assetClass, assetName, assetVariant):
     adFile = assetPr.astUnitAssemblyDefinitionFile(
-        lxCore_.LynxiRootIndex_Server,
+        lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Assembly
+        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
     #
     maUtils.setAttrStringDatum(assemblyReferenceString, 'definition', adFile)

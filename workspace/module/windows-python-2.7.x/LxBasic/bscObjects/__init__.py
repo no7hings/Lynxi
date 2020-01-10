@@ -1,16 +1,12 @@
 # coding:utf-8
-from ._bscFunction import *
+from ._bscObjSystem import *
 
-from ._bscMethod import *
+from ._bscObjTime import *
 
-from ._bscSystem import *
+from ._bscObjRaw import *
 
-from ._bscRaw import *
+from ._bscObjPath import *
 
-from ._bscPath import *
+from ._bscObjFile import *
 
-from ._bscFile import *
-
-from ._bscFunction import *
-
-from ._bscTime import *
+from ._bscObjInterface import *

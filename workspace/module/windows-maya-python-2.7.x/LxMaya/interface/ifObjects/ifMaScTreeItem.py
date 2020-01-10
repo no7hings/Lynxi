@@ -3,7 +3,7 @@ import types
 #
 from LxBasic import bscMethods
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -132,7 +132,7 @@ class IfAbc_ScCameraProductItem(
         )
         self._updateItemAction()
         #
-        self.setText(2, lxBasic.translateRecordViewTime(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
         #
         self._itemWidget.setTooltip(self._itemTooltip)
@@ -150,13 +150,13 @@ class IfAbc_ScCameraProductItem(
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
         #
-        self.setText(2, lxBasic.translateRecordViewTime(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
     #
     def _refreshItemServerState(self):
         self._itemIconState2 = 'off' if self._itemServerTimeTag is None else None
         #
-        self.setText(3, lxBasic.translateRecordViewTime(self._itemServerTimeTag))
+        self.setText(3, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemServerTimeTag))
         self.setItemIcon_(3, self._itemIcon2, self._itemIconState2)
     #
     def _refreshItemLocalFrameState(self):
@@ -299,7 +299,7 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
             #
             currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
-                actionExplain = lxBasic.translateRecordViewTime(currentTimeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -333,7 +333,7 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxCore_.LynxiScAstModelCacheType,
+                lxConfigure.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -690,13 +690,13 @@ class IfAbc_ScAstBranchItem(
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
         #
-        self.setText(2, lxBasic.translateRecordViewTime(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
     #
     def _refreshItemServerState(self):
         self._itemIconState2 = 'off' if self._itemServerTimeTag is None else None
         #
-        self.setText(3, lxBasic.translateRecordViewTime(self._itemServerTimeTag))
+        self.setText(3, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemServerTimeTag))
         self.setItemIcon_(3, self._itemIcon2, self._itemIconState2)
     #
     def _refreshItemLocalFrameState(self):
@@ -916,7 +916,7 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
                 for i in connections:
                     sourceAttr, targetAttr = i
                     
-                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -940,7 +940,7 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
         )
 
 
@@ -997,7 +997,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
             #
             currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
-                actionExplain = lxBasic.translateRecordViewTime(currentTimeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1033,7 +1033,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxCore_.LynxiScAstModelCacheType,
+                lxConfigure.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1130,7 +1130,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
             #
             currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
-                actionExplain = lxBasic.translateRecordViewTime(currentTimeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1166,7 +1166,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxCore_.LynxiScAstExtraCacheType,
+                lxConfigure.LynxiScAstExtraCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1302,7 +1302,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1323,7 +1323,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Cfx
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
         )
 
 
@@ -1381,7 +1381,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
             #
             currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
-                actionExplain = lxBasic.translateRecordViewTime(currentTimeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1418,7 +1418,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxCore_.LynxiScAstExtraCacheType,
+                lxConfigure.LynxiScAstExtraCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,
@@ -1549,7 +1549,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = bscMethods.Mtd_Html.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1569,7 +1569,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxCore_.LynxiProduct_Asset_Link_Solver
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
         )
 
 
@@ -1626,7 +1626,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
             #
             currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
-                actionExplain = lxBasic.translateRecordViewTime(currentTimeTag)
+                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1662,7 +1662,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
             w = ifProductToolWindow.IfCacheManagerWindow()
             w.setTitle(u'{} Manager'.format(self._itemText0))
             w.setArgs(
-                lxCore_.LynxiScAstModelCacheType,
+                lxConfigure.LynxiScAstModelCacheType,
                 (
                     self._projectName,
                     self._sceneIndex,

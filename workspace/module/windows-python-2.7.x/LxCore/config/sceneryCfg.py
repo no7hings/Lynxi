@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscModifiers
+
+from LxCore import lxBasic, lxConfigure
 #
 LynxiProduct_Scenery_Class_Scenery = 'scenery'
 LynxiProduct_Scenery_Class_Group = 'group'
@@ -11,7 +13,7 @@ none = ''
 #
 def scnBasicClass():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         LynxiProduct_Scenery_Class_Scenery,
         LynxiProduct_Scenery_Class_Group
     ]
@@ -21,15 +23,15 @@ def scnBasicClass():
 #
 def scnBasicViewLinkDic():
     dic = lxBasic.orderedDict()
-    dic[lxCore_.LynxiProduct_Scenery_Link_Scenery] = 'Scenery', u'场景布景'
-    dic[lxCore_.LynxiProduct_Scene_Link_layout] = 'Layout', u'场景预览'
-    dic[lxCore_.LynxiProduct_Scene_Link_Animation] = 'Animation', u'场景动画'
-    dic[lxCore_.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'场景解算'
-    dic[lxCore_.LynxiProduct_Scene_Link_Light] = 'Light', u'场景灯光'
+    dic[lxConfigure.LynxiProduct_Scenery_Link_Scenery] = 'Scenery', u'场景布景'
+    dic[lxConfigure.LynxiProduct_Scene_Link_layout] = 'Layout', u'场景预览'
+    dic[lxConfigure.LynxiProduct_Scene_Link_Animation] = 'Animation', u'场景动画'
+    dic[lxConfigure.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'场景解算'
+    dic[lxConfigure.LynxiProduct_Scene_Link_Light] = 'Light', u'场景灯光'
     return dic
 
 
-@lxBasic.getDicMethod
+@bscModifiers.fncDictSwitch
 def scnBasicViewClassDic(*args):
     dic = lxBasic.orderedDict()
     dic[LynxiProduct_Scenery_Class_Scenery] = 'Scenery', u'场景'
@@ -40,7 +42,7 @@ def scnBasicViewClassDic(*args):
 #
 def basicSceneryPriorities():
     lis = [
-        lxCore_.LynxiValue_Unspecified,
+        lxConfigure.LynxiValue_Unspecified,
         'major',
         'minor',
         'util'
@@ -51,10 +53,10 @@ def basicSceneryPriorities():
 #
 def basicSceneryLinks():
     lis = [
-        lxCore_.LynxiProduct_Scenery_Link_Scenery,
-        lxCore_.LynxiProduct_Scene_Link_layout,
-        lxCore_.LynxiProduct_Scene_Link_Animation,
-        lxCore_.LynxiProduct_Scene_Link_Simulation,
-        lxCore_.LynxiProduct_Scene_Link_Light,
+        lxConfigure.LynxiProduct_Scenery_Link_Scenery,
+        lxConfigure.LynxiProduct_Scene_Link_layout,
+        lxConfigure.LynxiProduct_Scene_Link_Animation,
+        lxConfigure.LynxiProduct_Scene_Link_Simulation,
+        lxConfigure.LynxiProduct_Scene_Link_Light,
     ]
     return lis

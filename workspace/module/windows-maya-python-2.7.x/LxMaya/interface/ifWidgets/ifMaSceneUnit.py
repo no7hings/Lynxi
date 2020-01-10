@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -222,7 +222,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(datumDic)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for k, v in datumDic.items():
                     progressBar.update()
                     #
@@ -293,7 +293,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Upload / Update Light Link(s)',
                 'Complete'
             )
@@ -313,7 +313,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Upload / Update Render Option(s)',
                 'Complete'
             )
@@ -637,7 +637,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(dataDic)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 #
                 defaultSetLis = self.mtd_app_node.getLightDefaultSetLis()
                 for k, v in dataDic.items():
@@ -696,7 +696,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         defaultSetDatum = self._defaultSetDatumLis
         if defaultSetDatum:
             self.setLightDefaultSet(defaultSetDatum)
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Load Light Default Set(s)',
                 'Complete'
             )
@@ -705,7 +705,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if lightLinkDatum:
             self.setLightLink(lightLinkDatum)
             #
-            bscMethods.If_Message(
+            bscObjects.If_Message(
                 'Load Light Link(s)',
                 'Complete'
             )

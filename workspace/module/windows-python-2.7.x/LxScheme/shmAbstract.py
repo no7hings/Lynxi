@@ -3,8 +3,6 @@ from LxBasic import bscMethods
 
 from LxScheme import shmCore
 
-from LxCore import lxBasic
-
 
 class Abc_Object(shmCore.Basic):
     def _initAbcObject(self, category, name):
@@ -89,7 +87,7 @@ class Abc_Path(shmCore.Basic):
         }
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Path_Key_Active, self.server),
                 (self.Path_Key_Server, self.server),
@@ -116,22 +114,22 @@ class Abc_PthRoot(Abc_Path):
         pass
 
     def _developPath(self):
-        data = lxBasic.getOsEnvironValue(self.environ_key_develop)
-        if data is not None:
-            return data.replace('\\', '/')
-        return self.path_default_develop
+        return self.method_os_environ.getAsPath(
+            self.environ_key_develop,
+            self.path_default_develop
+        )
 
     def _productPath(self):
-        data = lxBasic.getOsEnvironValue(self.environ_key_product)
-        if data is not None:
-            return data.replace('\\', '/')
-        return self.path_default_product
+        return self.method_os_environ.getAsPath(
+            self.environ_key_product,
+            self.path_default_product
+        )
 
     def _localPath(self):
-        data = lxBasic.getOsEnvironValue(self.environ_key_local)
-        if data is not None:
-            return data.replace('\\', '/')
-        return self.path_default_local
+        return self.method_os_environ.getAsPath(
+            self.environ_key_local,
+            self.path_default_local
+        )
 
 
 class Abc_PthDirectory(Abc_Path):
@@ -234,7 +232,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.activeFile(), raw)
 
     def isActiveExist(self):
-        return lxBasic.isOsExist(self.activeFile())
+        return self.mtd_os_path.isExist(self.activeFile())
 
     def activeFileRaw(self):
         if self.isActiveExist():
@@ -248,7 +246,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.serverFile(), raw)
 
     def isServerExist(self):
-        return lxBasic.isOsExist(self.serverFile())
+        return self.mtd_os_path.isExist(self.serverFile())
 
     def serverFileRaw(self):
         if self.isServerExist():
@@ -259,19 +257,19 @@ class Abc_File(shmCore.Basic):
         return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
     def isLocalExist(self):
-        return lxBasic.isOsExist(self.localFile())
+        return self.mtd_os_path.isExist(self.localFile())
 
     def developFile(self):
         return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
     def isDevelopExist(self):
-        return lxBasic.isOsExist(self.developFile())
+        return self.mtd_os_path.isExist(self.developFile())
 
     def productFile(self):
         return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     def isProductExist(self):
-        return lxBasic.isOsExist(self.productFile())
+        return self.mtd_os_path.isExist(self.productFile())
 
     def _formatDict(self):
         return {
@@ -279,7 +277,7 @@ class Abc_File(shmCore.Basic):
         }
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Path_Key_Active, self.activeFile()),
                 (self.Path_Key_Server, self.serverFile()),
@@ -343,7 +341,7 @@ class Abc_System(Abc_Object):
 
     @property
     def systemraw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Name, self.name),
                 (self.Key_Version, self.version)
@@ -351,7 +349,7 @@ class Abc_System(Abc_Object):
         )
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -399,7 +397,7 @@ class Abc_Raw(shmCore.Basic):
 class Abc_RawResource(Abc_Raw):
     def _initAbcRawResource(self, enable, category, name):
         self.create(
-            lxBasic.orderedDict(
+            self.cls_dic_order(
                 [
                     (self.Key_Enable, enable),
                     (self.Key_Category, category),
@@ -408,7 +406,7 @@ class Abc_RawResource(Abc_Raw):
             )
         )
 
-        self._rawObjDic = lxBasic.orderedDict()
+        self._rawObjDic = self.cls_dic_order()
 
     def addRaw(self, key, value):
         self._rawObjDic[key] = value
@@ -487,7 +485,7 @@ class Abc_Resource(Abc_Object):
 
     @property
     def isScheme(self):
-        return self.category in self.Category_Plf_Lan_Scheme
+        return self.category in self.Category_Scheme_Lis
 
     @property
     def path(self):
@@ -564,6 +562,9 @@ class Abc_Resource(Abc_Object):
         return u'{}/{}'.format(self.path.workspace, self.name)
 
     def __str__(self):
+        return self._toJsonStringMethod(self.config.raw())
+
+    def __repr__(self):
         return self._toJsonStringMethod(self.config.raw())
 
 
@@ -731,10 +732,10 @@ class Abc_Operate(shmCore.Basic):
     def createDevelopSetupFile(self):
         self.file._writeMethod(
             self.developSetupFile(),
-            lxBasic.orderedDict(
+            self.cls_dic_order(
                 [
-                    (self.Key_User, lxBasic.getOsUser()),
-                    (self.Key_Timestamp, lxBasic.getOsActiveTimestamp()),
+                    (self.Key_User, self.method_os_system.username()),
+                    (self.Key_Timestamp, self.method_os_system.activeTimestamp()),
                     (self.Key_Environ, self.dependentEnvirons()),
                     (self.Key_Module, self.dependentModules()),
                     (self.Key_Plug, self.dependentPlugs())
@@ -743,10 +744,10 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def createDevelopDirectory(self):
-        lxBasic.createOsPath(self._developPath())
+        self.mtd_os_path.setDirectoryCreate(self._developPath())
 
     def createDevelopSourceDirectory(self):
-        lxBasic.createOsPath(self.developSourceDirectory())
+        self.mtd_os_path.setDirectoryCreate(self.developSourceDirectory())
 
     def serverTimestampFile(self):
         return u'{}/source.timestamp.json'.format(
@@ -759,9 +760,9 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def serverTimestampDatum(self):
-        if lxBasic.isOsExist(self.serverTimestampFile()) is False:
+        if self.mtd_os_path.isExist(self.serverTimestampFile()) is False:
             self.createServerTimestamp()
-        return lxBasic.readOsJson(self.serverTimestampFile()) or {}
+        return self.mtd_os_json.read(self.serverTimestampFile()) or {}
 
     def localTimestampFile(self):
         return u'{}/source.timestamp.json'.format(
@@ -774,9 +775,9 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def localTimestampDatum(self):
-        if lxBasic.isOsExist(self.localTimestampFile()) is False:
+        if self.mtd_os_path.isExist(self.localTimestampFile()) is False:
             self.createLocalTimestamp()
-        return lxBasic.readOsJson(self.localTimestampFile()) or {}
+        return self.mtd_os_json.read(self.localTimestampFile()) or {}
 
     def localizationSource(self):
         changedFileLis = self._getChangedSourceFiles()
@@ -785,18 +786,17 @@ class Abc_Operate(shmCore.Basic):
                 sourceFile = self.serverSourceDirectory() + relativeOsFile
                 targetFile = self.localSourceDirectory() + relativeOsFile
 
-                lxBasic.setOsFileCopy(sourceFile, targetFile, force=False)
+                self.mtd_os_file.copyTo(sourceFile, targetFile, force=False)
 
                 traceMessage = u'Localization Resource "{}" : "{}" > "{}"'.format(
                     self.name, sourceFile, targetFile
                 )
-                bscMethods.PythonMessage()
-                bscMethods.PythonMessage().traceResult(traceMessage)
+                bscMethods.PyMessage.traceResult(traceMessage)
 
-                lxBasic.setOsFileCopy(self.serverTimestampFile(), self.localTimestampFile())
+                self.mtd_os_file.copyTo(self.serverTimestampFile(), self.localTimestampFile())
         else:
             traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self.name)
-            bscMethods.PythonMessage().traceResult(traceMessage)
+            bscMethods.PyMessage.traceResult(traceMessage)
 
     def environCommands(self):
         lis = []
@@ -923,18 +923,18 @@ class Abc_Operate(shmCore.Basic):
     def pushSourceToDevelop(self):
         workspaceSourcePath = self.resource.workspaceSourceDirectory()
         developPath = self._developPath()
-        relativeOsFileLis = lxBasic.getOsFilesFilter(workspaceSourcePath, '.py', useRelative=True)
+        relativeOsFileLis = self.mtd_os_path.getAllChildFileRelativeNames(workspaceSourcePath, extString='.py')
         if relativeOsFileLis:
             for i in relativeOsFileLis:
-                workspacePyFile = '{}/{}'.format(workspaceSourcePath, i)
-                developPyFile = '{}/{}/{}/{}'.format(developPath, self.Folder_Source, self.name, i)
-                lxBasic.setOsFileCopy(workspacePyFile, developPyFile)
+                workspacePyFile = u'{}/{}'.format(workspaceSourcePath, i)
+                developPyFile = u'{}/{}/{}/{}'.format(developPath, self.Folder_Source, self.name, i)
+                self.mtd_os_file.copyTo(workspacePyFile, developPyFile)
 
     def setup(self):
         pass
 
     def raw(self):
-        return lxBasic.orderedDict(
+        return self.cls_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),

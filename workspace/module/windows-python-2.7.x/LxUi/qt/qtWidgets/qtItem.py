@@ -1,5 +1,6 @@
 # coding:utf-8
-#
+from LxBasic import bscMethods
+
 from LxCore import lxBasic
 #
 from LxUi import uiCore
@@ -71,7 +72,8 @@ class QtMessageWidget(qtCore.QWidget):
             if self._imageOpenArea is not None and self._imageDrawData is not None:
                 if self._imageOpenArea.contains(event.pos()):
                     osFile, osTempFile, isVedio, image = self._imageDrawData
-                    lxBasic.openOsVedioFile(osFile, osTempFile)
+
+                    bscMethods.OsFile.openAsTemporary(osFile, osTempFile)
                     #
                     isPassThrough = False
         #

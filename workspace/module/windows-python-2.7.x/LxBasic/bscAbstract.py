@@ -7,8 +7,45 @@ class Abc_String(bscCore.Basic):
 
 
 class Abc_System(bscCore.Basic):
-    def _initAbcSys(self):
-        pass
+    platform_dic = {
+        u'Windows': u'windows',
+        u'Linux': u'linux'
+    }
+
+    application_dic = {
+        u'maya.exe': u'maya',
+        u'maya': u'maya'
+    }
+
+    @property
+    def platform(self):
+        return self.platform_dic.get(self.module_platform.system())
+
+    @property
+    def application(self):
+        return self.application_dic.get(
+            self.mtd_os_path.basename(self.module_sys.argv[0])
+        )
+
+    @property
+    def isWindows(self):
+        return self.platform == u'windows'
+
+    @property
+    def isMaya(self):
+        return self.application == u'maya'
+
+    @property
+    def userName(self):
+        return self._getSystemUsername()
+
+    @property
+    def hostName(self):
+        return self._getSystemHostname()
+
+    @property
+    def host(self):
+        return self._getSystemHost()
 
 
 class Abc_Time(bscCore.Basic):
@@ -21,59 +58,31 @@ class Abc_Time(bscCore.Basic):
 
     @property
     def timetag(self):
-        return self._toTimetag(self._timestamp)
+        return self._timestampToTimetag(self._timestamp)
 
     @property
     def datetag(self):
-        return self._toDatetag(self._timestamp)
+        return self._timestampToDatetag(self._timestamp)
 
     @property
     def prettify(self):
-        return self._toPrettify(self._timestamp)
+        return self._timestampToPrettify(self._timestamp)
 
 
 class Abc_Path(bscCore.Basic):
-    @classmethod
-    def _toTemporaryFileMethod(cls, fileString):
-        datetag = Abc_Time()._getActiveDatetag()
-        temporaryDirectory = 'D:/.lynxi.temporary/' + datetag
-        temporaryFileString = cls._toFileString(temporaryDirectory, cls.method_os_path.basename(fileString))
-        cls._setCreateDirectory(temporaryDirectory)
-        return temporaryFileString
-
-    @classmethod
-    def _copyFileMethod(cls, sourceFileString, targetFileString, force=True):
-        if cls.method_os_path.exists(sourceFileString):
-            cls._setCreateFileDirectory(targetFileString)
-            # Check Same File
-            if not cls.method_os_path.normpath(sourceFileString) == cls.method_os_path.normpath(targetFileString):
-                if force is True:
-                    cls.method_shutil.copy2(sourceFileString, targetFileString)
-                elif force is False:
-                    try:
-                        cls.method_shutil.copy2(sourceFileString, targetFileString)
-                    except IOError:
-                        print sourceFileString, targetFileString
-
-    @staticmethod
-    def _toPythonPath(pathString):
-        return pathString.replace('\\', '/')
-
-    @classmethod
-    def _toFileString(cls, osPath, osFileBasename):
-        return cls.method_os_path.join(osPath, osFileBasename).replace('\\', '/')
+    pass
 
 
 class Abc_File(Abc_Path):
     def _initAbcFile(self, fileString):
         assert isinstance(fileString, str) or isinstance(fileString, unicode), 'Argument: "fileString" must be "str" or "unicode"'
-        self._fileString = self._toPythonPath(fileString)
+        self._fileString = self._osPathToPythonStyle(fileString)
 
     def createDirectory(self):
-        self._setCreateDirectory(self.dirname())
+        self._setOsDirectoryCreate(self.dirname())
 
     def temporary(self):
-        return self._toTemporaryFileMethod(self._fileString)
+        return self._getOsFileTemporary(self._fileString)
 
     def isExist(self):
         return self.module_os.path.isfile(self._fileString)

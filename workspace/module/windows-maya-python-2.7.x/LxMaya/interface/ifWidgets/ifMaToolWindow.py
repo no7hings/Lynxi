@@ -5,7 +5,7 @@ import maya.cmds as cmds
 #
 from random import choice
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import appVariant
 #
@@ -720,16 +720,16 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
     def getAssetVariantLis(projectName, assetClass, assetName):
         lis = []
         osPath = assetPr.astUnitAssemblyFolder(
-            lxCore_.LynxiRootIndex_Server, projectName, assetClass, assetName
+            lxConfigure.LynxiRootIndex_Server, projectName, assetClass, assetName
         )
         if lxBasic.isOsExist(osPath):
             textLis = lxBasic.getOsFileBasenameLisByPath(osPath)
             if textLis:
                 for i in textLis:
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
-                        lxCore_.LynxiRootIndex_Server,
+                        lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, i, lxCore_.LynxiProduct_Asset_Link_Assembly
+                        assetClass, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
                     )[1]
                     #
                     if lxBasic.isOsExist(adFile):
@@ -1279,8 +1279,8 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 #
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
                 osFile = assetPr.astUnitProductFile(
-                    lxCore_.LynxiRootIndex_Server,
-                    projectName, None, assetName, assetVariant, lxCore_.LynxiProduct_Scene_Link_Light
+                    lxConfigure.LynxiRootIndex_Server,
+                    projectName, None, assetName, assetVariant, lxConfigure.LynxiProduct_Scene_Link_Light
                 )[1]
                 #
                 if os.path.isfile(osFile):

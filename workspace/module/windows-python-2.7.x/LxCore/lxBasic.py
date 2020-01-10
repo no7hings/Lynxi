@@ -270,20 +270,6 @@ def getDataUniqueId(data):
 
 
 #
-def getOsFileHashString(osFile):
-    string = none
-    if os.path.isfile(osFile):
-        with open(osFile, 'rb') as f:
-            md5Obj = hashlib.md5()
-            md5Obj.update(f.read())
-            hashValue = md5Obj.hexdigest()
-            f.close()
-            #
-            string = str(hashValue).upper()
-    return string
-
-
-#
 def getOsFileHashKey_(osFile):
     string = none
     if os.path.isfile(osFile):
@@ -632,19 +618,6 @@ def setOsFileMove(sourceOsFile, targetOsFile):
 
 
 #
-def setOsFileRename(osFile, osFileName):
-    newOsFile = toOsFileReplaceFileName(osFile, osFileName)
-    if not isOsSameFile(osFile, newOsFile):
-        os.rename(osFile, newOsFile)
-
-
-#
-def setOsFileRename_(osFile, newOsFile):
-    if not isOsSameFile(osFile, newOsFile):
-        os.rename(osFile, newOsFile)
-
-
-#
 def setOsFolderCopy(sourceOsPath, targetOsPath, progressModule=None):
     osFiles = getOsFiles(sourceOsPath)
     if osFiles:
@@ -661,160 +634,12 @@ def setOsFolderCopy(sourceOsPath, targetOsPath, progressModule=None):
 
 
 #
-def moveOsFolder(sourceOsPath, targetOsPath, progressModule=none):
+def moveOsFolder(sourceOsPath, targetOsPath):
     osFiles = getOsFiles(sourceOsPath)
     if osFiles:
-        progressBar = none
-        if progressModule:
-            explain = '''Copy Os File'''
-            maxValue = len(osFiles)
-            progressBar = progressModule.setProgressWindowShow(explain, maxValue)
         for sourceOsFile in osFiles:
-            if progressBar:
-                progressBar.update()
             targetOsFile = targetOsPath + sourceOsFile[len(sourceOsPath):]
             setOsFileMove(sourceOsFile, targetOsFile)
-
-
-#
-def setOsFileRemove(osFile):
-    if os.path.isfile(osFile):
-        os.remove(osFile)
-
-
-#
-def deleteOsFolder(osPath):
-    osFiles = getOsFiles(osPath)
-    if osFiles:
-        for osFile in osFiles:
-            setOsFileRemove(osFile)
-    #
-    setOsFileRemove(osPath)
-
-
-#
-def setOsFolderOpen(osPath):
-    if isOsPath(osPath):
-        os.startfile(osPath.replace('/', os.sep))
-
-
-#
-def setOsFileOpen(osFile):
-    if isOsExistsFile(osFile):
-        os.startfile(osFile.replace('/', os.sep))
-
-
-#
-def setOsFileFolderOpen(osFile):
-    osFolder = getOsFileDirname(osFile)
-    if isOsExist(osFolder):
-        os.startfile(osFolder.replace('/', os.sep))
-
-
-#
-def openOsVedioFile(osFile, tempOsFile=None):
-    if isOsExistsFile(osFile):
-        tempVedioFile = getOsTempVedioFile(osFile)
-        if tempOsFile is not None:
-            tempVedioFile = tempOsFile
-        timestamp = str(getOsFileMtimestamp(osFile))
-        if isOsExistsFile(tempVedioFile):
-            tempTimestamp = str(getOsFileMtimestamp(tempVedioFile))
-        else:
-            tempTimestamp = None
-        if not timestamp == tempTimestamp:
-            setOsFileCopy(osFile, tempVedioFile)
-        #
-        if isOsExist(tempVedioFile):
-            setOsFileOpen(tempVedioFile)
-
-
-#
-def openOsVedioFiles(osFiles):
-    lis = []
-    for osFile in osFiles:
-        tempVedioFile = getOsTempVedioFile(osFile)
-        timestamp = str(getOsFileMtimestamp(osFile))
-        if isOsExistsFile(tempVedioFile):
-            tempTimestamp = str(getOsFileMtimestamp(tempVedioFile))
-        else:
-            tempTimestamp = None
-        if not timestamp == tempTimestamp:
-            setOsFileCopy(osFile, tempVedioFile)
-        #
-        if isOsExist(tempVedioFile):
-            lis.append(tempVedioFile)
-    return lis
-
-
-#
-def getOsFileIsMtimeChanged(sourceOsFile, targetOsFile):
-    boolean = False
-    if isOsExistsFile(sourceOsFile) and isOsExistsFile(targetOsFile):
-        sourceFileTimestamp = str(getOsFileMtimestamp(sourceOsFile))
-        targetFileTimestamp = str(getOsFileMtimestamp(targetOsFile))
-        if sourceFileTimestamp != targetFileTimestamp:
-            boolean = True
-    return boolean
-
-
-#
-def getOsFileIsHashChanged(sourceOsFile, targetOsFile):
-    if isOsExistsFile(sourceOsFile):
-        if isOsExistsFile(targetOsFile):
-            sourceHash = getOsFileHashKey_(sourceOsFile)
-            targetHash = getOsFileHashKey_(targetOsFile)
-            if sourceHash != targetHash:
-                boolean = True
-            else:
-                boolean = False
-        else:
-            boolean = True
-    else:
-        boolean = True
-    return boolean
-
-
-#
-def getChangedOsFiles(sourceOsPath, targetOsPath):
-    def getBranch(osPath):
-        checkJson = osPath + '/timestamp.json'
-        if not isOsExist(checkJson):
-            dic = {}
-            isAscii = False
-            osFiles = getOsFiles(osPath)
-            if osFiles:
-                for osFile in osFiles:
-                    osFileTimestamp = str(getOsFileMtimestamp(osFile))
-                    localOsFile = osFile[len(osPath):]
-                    #
-                    if isinstance(localOsFile, unicode):
-                        isAscii = True
-                    #
-                    dic[localOsFile] = osFileTimestamp
-            writeOsJson(dic, checkJson, ensure_ascii=isAscii)
-        else:
-            dic = readOsJson(checkJson, encoding='gbk')
-        return dic
-    #
-    def getChanged(sourceDic, targetDic):
-        lis = []
-        for localOsFile, sourceTime in sourceDic.items():
-            if targetDic.__contains__(localOsFile):
-                targetTime = targetDic[localOsFile]
-                if sourceTime != targetTime:
-                    lis.append(localOsFile)
-            #
-            elif not targetDic.__contains__(localOsFile):
-                lis.append(localOsFile)
-        return lis
-    #
-    return getChanged(getBranch(sourceOsPath), getBranch(targetOsPath))
-
-
-#
-def getSystemModuleData():
-    return sys.modules
 
 
 #
@@ -986,26 +811,6 @@ def getFloatColor(inR, inG, inB):
 
 
 #
-def getLocaltime():
-    timestamp = time.time()
-    return [i for i in time.localtime(timestamp)]
-
-
-#
-def getViewLocalTime(localtime=none, mode=1):
-    if not localtime:
-        localtime = getLocaltime()
-    year, month, date, hour, minute, second, week, dayCount, isDst = localtime
-    viewDate = Dates[int(str(date - 1)[-1])][mode]
-    if date > 10:
-        viewDate = [Dates[int(str(date)[0]) - 1][0] + [u'十', ''][int(str(date)[-1]) == 0], str(date - 1)[0]][mode] \
-                   + [Dates[int(str(date - 1)[-1])][0] + u'日', Dates[int(str(date - 1)[-1])][1][:-2] + 'th'][mode]
-    viewMonth = (Months[month-1])[mode]
-    viewYear = ([u'{}年'.format(year), str(year)])[mode]
-    print viewDate, viewMonth, viewYear
-
-
-#
 def getCnViewDate():
     currentTime = time.localtime(time.time())
     year, month, date, hour, minute, second, week, dayCount, isDst = currentTime
@@ -1015,69 +820,6 @@ def getCnViewDate():
     timeString = u'{0}点{1}分'.format(str(hour).zfill(2), str(minute).zfill(2))
     #
     string = u'{0} {1}'.format(dateString, timeString)
-    return string
-
-
-#
-def getCnViewTime(timestamp):
-    if isinstance(timestamp, float):
-        return cnViewTimeSet(time.localtime(timestamp))
-    else:
-        return u'无记录'
-
-
-#
-def cnViewTimeSet(timetuple, useMode=0):
-    year, month, date, hour, minute, second, week, dayCount, isDst = timetuple
-    if useMode == 0:
-        timetuple_ = time.localtime(time.time())
-        year_, month_, date_, hour_, minute_, second_, week_, dayCount_, isDst_ = timetuple_
-        #
-        monday_ = date_ - week_
-        monday = date - week
-        if year_ == year:
-            dateString = u'{}月{}日'.format(str(month).zfill(2), str(date).zfill(2))
-            weekString = none
-            subString = none
-            if timetuple_[:2] == timetuple[:2]:
-                if monday_ == monday:
-                    dateString = none
-                    weekString = u'{0}'.format(Weeks[int(week)][0])
-                    if date_ == date:
-                        subString = u'（今天）'
-                    elif date_ == date + 1:
-                        subString = u'（昨天）'
-            #
-            timeString = u'{0}点{1}分'.format(str(hour).zfill(2), str(minute).zfill(2), str(second).zfill(2))
-            #
-            string = u'{0}{1}{2} {3}'.format(dateString, weekString, subString, timeString)
-            return string
-        else:
-            return u'{}年{}月{}日'.format(str(year).zfill(4), str(month).zfill(2), str(date).zfill(2))
-    else:
-        dateString = u'{0}年{1}月{2}日'.format(str(year).zfill(4), str(month).zfill(2), str(date).zfill(2))
-        timeString = u'{0}点{1}分{2}秒'.format(str(hour).zfill(2), str(minute).zfill(2), str(second).zfill(2))
-        return u'{0} {1}'.format(dateString, timeString)
-
-
-# Transform Update
-def translateRecordViewTime(timeTag, useMode=0):
-    if timeTag:
-        if re.findall(r'[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]', timeTag):
-            year = int(timeTag[:4])
-            month = int(timeTag[5:7])
-            date = int(timeTag[7:9])
-            hour = int(timeTag[10:12])
-            minute = int(timeTag[12:14])
-            if year > 0:
-                timetuple = datetime.datetime(year=year, month=month, day=date, hour=hour, minute=minute).timetuple()
-                string = cnViewTimeSet(timetuple, useMode)
-            else:
-                string = u'{0}{0}年{0}月{0}日{0}点分'.format('??')
-        else:
-            string = u'无记录'
-    else:
-        string = u'无记录'
     return string
 
 
@@ -1163,25 +905,6 @@ def getOsSubFile(osFile, label):
     return label.join(os.path.splitext(osFile))
 
 
-# Back up File
-def backupOsFile(osFile, osBackFile, timeTag=none):
-    if timeTag:
-        if isOsExistsFile(osFile):
-            backFileJoinUpdateTag = getOsFileJoinTimeTag(osBackFile, timeTag)
-            #
-            setOsFileCopy(osFile, backFileJoinUpdateTag)
-
-
-#
-def backupOsFile_(osFile, timeTag=none, useMode=0):
-    if isOsExistsFile(osFile):
-        osBackFile = getOsFileJoinTimeTag(osFile, timeTag, useMode)
-        #
-        setOsFileCopy(osFile, osBackFile)
-        #
-        return osBackFile
-
-
 #
 def toExceptionString():
     return traceback.format_exc()
@@ -1238,14 +961,6 @@ def readOsJson(osFile, encoding=None):
         with open(osFile) as j:
             data = json.load(j, encoding=encoding)
             return data
-
-
-#
-def readOsJsonDic(osFile, key):
-    data = readOsJson(osFile)
-    if data:
-        if key in data:
-            return data[key]
 
 
 #
@@ -1333,52 +1048,12 @@ def writeJsonTarGzip(datas, osFile):
 
 
 #
-def getJsonDumps(data):
-    return json.dumps(data)
-
-
-#
-def getJsonLoads(data):
-    return json.loads(data)
-
-
-#
-def readOsFileLines(osFile):
-    if os.path.isfile(osFile):
-        with open(osFile, 'r') as f:
-            data = f.readlines()
-            f.close()
-            return data
-
-
-#
-def readOsFile(osFile):
-    if os.path.isfile(osFile):
-        with open(osFile, 'r') as f:
-            data = f.read()
-            f.close()
-            return data
-
-
-#
 def readDataGzip(osFile):
     if isOsExistsFile(osFile):
         with gzip.GzipFile(mode='rb', fileobj=open(osFile, 'rb')) as g:
             data = g.read()
             g.close()
             return data
-
-
-#
-def writeOsData(data, osFile):
-    if data is not None:
-        setOsFileDirectoryCreate(osFile)
-        with open(osFile, 'wb') as f:
-            if isinstance(data, str) or isinstance(data, unicode):
-                f.write(data)
-            elif isinstance(data, tuple) or isinstance(data, list):
-                f.writelines(data)
-            f.close()
 
 
 #
@@ -1749,252 +1424,10 @@ def mapStepValue(value, delta, step, maximum, minimum):
 
 
 #
-def getPImage(textureFile):
-    # noinspection PyUnresolvedReferences
-    from PIL import Image
-    #
-    if isOsExistsFile(textureFile):
-        return Image.open(str(textureFile))
-
-
-#
-def getImageSize(texture, useMode=0):
-    size = 0, 0
-    if texture:
-        try:
-            if useMode == 0:
-                size = getPImage(texture).size
-            elif useMode == 1:
-                size = texture.size
-        except:
-            pass
-    return size
-
-
-#
-def getComposeLabel(*labels):
-    return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
-
-
-#
-def isOsSameFile(sourceOsFile, targetOsFile):
-    return os.path.normpath(sourceOsFile) == os.path.normpath(targetOsFile)
-
-
-#
-def hsvToRgb(h, s, v, maximum=255):
-    h = float(h % 360.0)
-    s = float(max(min(s, 1.0), 0.0))
-    v = float(max(min(v, 1.0), 0.0))
-    #
-    c = v * s
-    x = c * (1 - abs((h / 60.0) % 2 - 1))
-    m = v - c
-    if 0 <= h < 60:
-        r_, g_, b_ = c, x, 0
-    elif 60 <= h < 120:
-        r_, g_, b_ = x, c, 0
-    elif 120 <= h < 180:
-        r_, g_, b_ = 0, c, x
-    elif 180 <= h < 240:
-        r_, g_, b_ = 0, x, c
-    elif 240 <= h < 300:
-        r_, g_, b_ = x, 0, c
-    else:
-        r_, g_, b_ = c, 0, x
-    #
-    if maximum == 255:
-        r, g, b = int(round((r_ + m) * maximum)), int(round((g_ + m) * maximum)), int(round((b_ + m) * maximum))
-    else:
-        r, g, b = float((r_ + m)), float((g_ + m)), float((b_ + m))
-    return r, g, b
-
-
-#
-def getRgbByString(string, maximum=255):
-    a = int(''.join([str(ord(i)).zfill(3) for i in string]))
-    b = a % 3
-    i = int(a / 256) % 3
-    n = int(a % 256)
-    if a % 2:
-        if i == 0:
-            r, g, b = 64 + 64 * b, n, 0
-        elif i == 1:
-            r, g, b = 0, 64 + 64 * b, n
-        else:
-            r, g, b = 0, n, 64 + 64 * b
-    else:
-        if i == 0:
-            r, g, b = 0, n, 64 + 64 * b
-        elif i == 1:
-            r, g, b = 64 + 64 * b, 0, n
-        else:
-            r, g, b = 64 + 64 * b, n, 0
-    #
-    return r / 255.0 * maximum, g / 255.0 * maximum, b / 255.0 * maximum
-
-
-#
-def getOsLanguage():
-    return locale.getdefaultlocale()
-
-
-#
 def getAngleOfView(focalLength):
     b = focalLength
     a = 17.9999906718
     print math.degrees(math.atan(a / b)) * 2
-
-
-#
-def getBadNumberArray(numberArray, useMode=0):
-    lis = []
-    if numberArray:
-        maxiNumber = max(numberArray)
-        miniNumber = min(numberArray)
-        if useMode == 1:
-            miniNumber = 0
-        for number in range(miniNumber, maxiNumber + 1):
-            if not number in numberArray:
-                lis.append(number)
-    return lis
-
-
-#
-def setTranslateHelpToMd(helpOsFile, mdOsFile):
-    lis = ['[TOC]\r\n']
-    lineLis = readOsData(helpOsFile, readLines=True)
-    if lineLis:
-        for i in lineLis:
-            if i.lstrip() == '':
-                i = ''
-            else:
-                if i.lstrip().startswith('#'):
-                    if i.rstrip().endswith('#'):
-                        i = ''
-                    else:
-                        i = '> ' + i.lstrip()[1:].lstrip()
-                elif i.lstrip().startswith('|'):
-                    if i.rstrip().endswith('|'):
-                        i = ''
-                    else:
-                        if (
-                                i.lstrip().startswith('|  Method resolution order') or
-                                i.lstrip().startswith('|  Methods defined') or
-                                i.lstrip().startswith('|  Data descriptors defined') or
-                                i.lstrip().startswith('|  Data and other attributes defined') or
-                                i.lstrip().startswith('|  Methods inherited from') or
-                                i.lstrip().startswith('|  Data descriptors inherited from') or
-                                i.lstrip().startswith('|  Data and other attributes inherited from')
-                        ):
-                            if ' from ' in i:
-                                i = '------\r\n*' + i.lstrip()[1:].split(' from ')[0].lstrip().rstrip() + ' from:*\r\n' + '**' + i.split('from')[-1].lstrip().rstrip()[:-1] + '**\r\n'
-                            else:
-                                i = '------\r\n*' + i.lstrip()[1:].lstrip().rstrip() + '*\r\n'
-                        elif i.rstrip().endswith('|  ----------------------------------------------------------------------'):
-                            i = ''
-                        elif (
-                                i.rstrip().endswith('__dict__') or
-                                i.rstrip().endswith('__weakref__')
-                        ):
-                            i = '#### ' + i.lstrip()[1:].lstrip()
-
-                        elif i.rstrip().endswith(')') and not ':param' in i and not ':return' in i and not ' -> ' in i:
-                            if i.rstrip().endswith('(...)'):
-                                i = '#### ' + i.lstrip()[1:].lstrip()
-                            elif i.rstrip().endswith('if defined)'):
-                                i = '> ' + i.lstrip()[1:].lstrip()
-                            elif ' = ' in i:
-                                i = '#### ' + i.split(' = ')[0].lstrip()[1:].lstrip() + '(...)\r\n**= ' + i.split(' = ')[-1].rstrip() + '**\r\n'
-                            else:
-                                i = '#### ' + i.lstrip()[1:].lstrip()
-                        else:
-                            if i.lstrip()[1:].lstrip().startswith('*'):
-                                i = '> **' + i.lstrip()[1:].lstrip()[1:].lstrip().rstrip() + '**\r\n'
-                            elif ' = ' in i:
-                                if i.rstrip().endswith('>'):
-                                    if '<class' in i:
-                                        i = '- ' + i.lstrip()[1:].lstrip()
-                                    else:
-                                        i = '> ' + i.lstrip()[1:].lstrip()
-                                else:
-                                    i = '- ' + i.lstrip()[1:].lstrip()
-                            else:
-                                if ' -> ' in i:
-                                    i = '- ' + i.split(' -> ')[0].lstrip()[1:].lstrip() + '\r\nreturn -> ' + i.split(' -> ')[-1]
-                                elif ':param' in i:
-                                    i = '- *' + i.split(':param')[-1].lstrip().rstrip() + '*\r\n'
-                                elif ':return' in i:
-                                    i = '- return -> **' + '<span style="color:#7f5fff;">{}</span>'.format(i.split(':return:')[-1].lstrip().rstrip()) + '**\r\n'
-                                else:
-                                    i = '> ' + i.lstrip()[1:].lstrip()
-                elif (
-                        i.rstrip().endswith('NAME') or
-                        i.rstrip().endswith('FILE') or
-                        i.rstrip().endswith('CLASSES') or
-                        i.rstrip().endswith('DESCRIPTION') or
-                        i.rstrip().endswith('DATA') or
-                        i.rstrip().endswith('FUNCTIONS')
-                ):
-                    i = '# ' + i
-                else:
-                    if i.lstrip().startswith('class'):
-                        i = '## ' + i.lstrip()[5:].lstrip()
-                    else:
-                        if i.rstrip().endswith(')'):
-                            if i.rstrip().endswith('(...)'):
-                                if ' = ' in i:
-                                    i = '## ' + i.lstrip().split(' = ')[0] + '(...)\r\n>  = ' + i.split(' = ')[-1]
-                                else:
-                                    i = '## ' + i.lstrip()
-                            else:
-                                i = '## ' + i.lstrip()
-                        else:
-                            if ' -> ' in i:
-                                i = '- ' + i.split(' -> ')[0].lstrip()[1:].lstrip() + '\r\nreturn -> ' + i.split(' -> ')[-1]
-                            else:
-                                i = '> ' + i
-            #
-            i = i.replace('_', '\\_')
-            lis.append(i)
-    #
-    writeOsData(lis, mdOsFile)
-
-
-#
-def getAngle(x1, y1, x2, y2):
-    radian = 0.0
-    #
-    r0 = 0.0
-    r90 = math.pi / 2.0
-    r180 = math.pi
-    r270 = 3.0 * math.pi / 2.0
-    #
-    if x1 == x2:
-        if y1 < y2:
-            radian = r0
-        elif y1 > y2:
-            radian = r180
-    elif y1 == y2:
-        if x1 < x2:
-            radian = r90
-        elif x1 > x2:
-            radian = r270
-    elif x1 < x2 and y1 < y2:
-        radian = math.atan2((-x1 + x2), (-y1 + y2))
-    elif x1 < x2 and y1 > y2:
-        radian = r90 + math.atan2((y1 - y2), (-x1 + x2))
-    elif x1 > x2 and y1 > y2:
-        radian = r180 + math.atan2((x1 - x2), (y1 - y2))
-    elif x1 > x2 and y1 < y2:
-        radian = r270 + math.atan2((-y1 + y2), (x1 - x2))
-    #
-    return radian * 180 / math.pi
-
-
-#
-def getLength(x1, y1, x2, y2):
-    return math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2))
 
 
 #

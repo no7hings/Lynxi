@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxBasic
 
@@ -569,7 +569,7 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
         # View Progress
         progressExplain = u'''Load Database Nde_Geometry Object(s) Path'''
         maxValue = len(objectIndexes)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.update()
             setBranch(i)
@@ -586,7 +586,7 @@ def dbAstRemoveGeometryObjects(objectIndexes):
         # View Progress
         progressExplain = u'''Remove Database Nde_Geometry Object(s)'''
         maxValue = len(objectIndexes)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.update()
             setBranch(i)

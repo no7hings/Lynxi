@@ -146,7 +146,7 @@ class QtTipWindow(qtAbcWidget.QtAbcObj_Window):
 
 #
 class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
-    method_html = bscMethods.Mtd_Html
+    method_html = bscMethods.HtmlText
     def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)
         self.clsSuper.__init__(parent, *args, **kwargs)
@@ -221,7 +221,7 @@ class QtFloatWindow(qtAbcWidget.QtAbcObj_Window):
 
 #
 class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
-    method_html = bscMethods.Mtd_Html
+    method_html = bscMethods.HtmlText
 
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QMainWindow, self)

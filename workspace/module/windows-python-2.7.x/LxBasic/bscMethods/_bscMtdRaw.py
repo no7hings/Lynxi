@@ -1,8 +1,10 @@
 # coding:utf-8
-from LxBasic import bscConfigure, bscCore, bscObjects
+from LxBasic import bscConfigure, bscCore
+
+from LxBasic.bscMethods import _bscMtdDcc
 
 
-class Mtd_Html(bscCore.Basic):
+class HtmlText(bscCore.Basic):
     color_html_lis = bscConfigure.Ui().htmlColors
     color_html_dic = bscConfigure.Ui().htmlColorDict
 
@@ -85,12 +87,11 @@ class Mtd_Html(bscCore.Basic):
     @classmethod
     def toHtmlMayaConnection(cls, sourceAttr, targetAttr, namespaceFilter):
         def getBranch(attr):
-            nodePath = bscObjects.Pth_Maya(attr)
-            namespace = nodePath.namespace
-            name = nodePath.name
-            attrName = nodePath.attributeName
+            namespace = _bscMtdDcc.MayaPath.getNamespace(attr)
+            name = _bscMtdDcc.MayaPath.getName(attr)
+            attrName = _bscMtdDcc.MayaPath.getAttributeName(attr)
             #
-            namespaceSep = nodePath.attributeSep
+            namespaceSep = _bscMtdDcc.MayaPath.attributeSep()
             #
             if namespace:
                 namespaceHtml = cls.toHtmlSpan(namespace, 7, 10) + cls.toHtmlSpan(namespaceSep, 3, 10)
@@ -145,3 +146,45 @@ class Mtd_Html(bscCore.Basic):
         #
         htmlString = u'''<html><style>p{{line-height:{1}px}}</style>{0}</html>'''.format(htmlSep.join(htmls), lineHeight)
         return htmlString
+
+
+class List(object):
+    @classmethod
+    def getBadNumber(cls, lis, useMode=0):
+        lis_ = []
+
+        if lis:
+            maxiNumber = max(lis)
+            miniNumber = min(lis)
+            if useMode == 1:
+                miniNumber = 0
+            for number in range(miniNumber, maxiNumber + 1):
+                if not number in lis:
+                    lis_.append(number)
+        return lis_
+
+
+class LabelText(bscCore.Basic):
+    @classmethod
+    def toLabel(cls, *labels):
+        return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
+
+
+class Value(object):
+    @classmethod
+    def stepTo(cls, value, delta, step, maximum, minimum):
+        max_ = maximum - step
+        min_ = minimum + step
+        if value < min_:
+            if 0 < delta:
+                value += step
+            else:
+                value = minimum
+        elif min_ <= value <= max_:
+            value += [-step, step][delta > 0]
+        elif max_ < value:
+            if delta < 0:
+                value -= step
+            else:
+                value = maximum
+        return value

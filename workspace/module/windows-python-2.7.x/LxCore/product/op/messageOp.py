@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxCore_
+from LxBasic import bscMethods
+
+from LxCore import lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg, sceneryCfg, sceneCfg
 #
@@ -20,19 +22,19 @@ def getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage):
     viewClass = none
     viewName = none
     if moduleClass in assetCfg.astBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxCore_.LynxiProduct_Module_Asset)[1]
+        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Asset)[1]
         viewLink = assetCfg.astBasicViewLinkDic(assetPr.getAssetLink(moduleStage))[1]
         viewUnit = assetPr.getAssetViewInfo(dbUnitId, moduleClass, moduleVariant)
         viewClass = assetCfg.astBasicViewClassDic(moduleClass)[1]
         viewName = assetPr.getAssetViewName(dbUnitId)
     elif moduleClass in sceneryCfg.scnBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxCore_.LynxiProduct_Module_Scenery)[1]
+        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Scenery)[1]
         viewLink = sceneryCfg.scnBasicViewLinkDic()[sceneryPr.getSceneryLink(moduleStage)][1]
         viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, moduleClass, moduleVariant)
         viewClass = sceneryCfg.scnBasicViewClassDic(moduleClass)[1]
         viewName = sceneryPr.getSceneryViewName(dbUnitId)
     elif moduleClass in sceneCfg.scBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxCore_.LynxiProduct_Module_Scene)[1]
+        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Scene)[1]
         viewLink = sceneCfg.scBasicViewLinkDic()[scenePr.getSceneLink(moduleStage)][1]
         viewUnit = scenePr.getSceneViewInfo(dbUnitId, moduleClass, moduleVariant)
         viewClass = sceneCfg.scBasicViewClassDic(moduleClass)[1]
@@ -53,7 +55,7 @@ def sendProductMessageByDingTalk(
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    fncCatchCostTime = lxBasic.translateRecordViewTime(timeTag, useMode=1)
+    timeString = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag, useMode=1)
     #
     viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
     #
@@ -68,7 +70,7 @@ def sendProductMessageByDingTalk(
         viewLink,
         viewUnit, moduleName,
         userCnName, userName,
-        fncCatchCostTime,
+        timeString,
         description,
         note
     )
@@ -127,7 +129,7 @@ def sendProductMessageByMail(
         viewName,
         description,
         note,
-        log
+        htmlLog
     )
     mailOp.sendMail(
         toMails, summary, subject, mainBody

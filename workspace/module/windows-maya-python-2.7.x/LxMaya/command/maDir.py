@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscModifiers
+from LxBasic import bscMethods, bscModifiers, bscObjects
 #
 from LxCore import lxBasic
 #
@@ -119,7 +119,7 @@ def getReferenceLinkDic(nodes=None):
 #
 def setReferenceRepath(nodeString, osFile):
     sourceFile = maUtils.getReferenceFile(nodeString, useMode=1)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setReloadReferenceFile(nodeString)
         maUtils.setLoadReferenceFile(nodeString, osFile)
 
@@ -151,7 +151,7 @@ def setAssemblyReferenceRepath(nodeString, osFile):
     attrName = 'definition'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setAttrStringDatum(nodeString, attrName, osFile)
 
 
@@ -181,7 +181,7 @@ def getProxyCacheLinkDic(nodes=None):
 def setProxyCacheRepath(nodeString, osFile):
     attrName = 'dso'
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setAttrStringDatum(nodeString, attrName, osFile)
 
 
@@ -213,7 +213,7 @@ def getVolumeCacheLinkDic(nodes=None):
 def setVolumeCacheRepath(nodeString, osFile):
     attrName = 'filename'
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setAttrStringDatum(nodeString, attrName, osFile)
 
 
@@ -245,7 +245,7 @@ def setGpuCacheRepath(nodeString, osFile):
     attrName = 'cacheFileName'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setAttrStringDatum(nodeString, attrName, osFile)
 
 
@@ -278,7 +278,7 @@ def setRepathAlembicCache(nodeString, osFile):
     attrName = 'abc_File'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not lxBasic.isOsSameFile(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, osFile):
         maUtils.setAttrStringDatum(nodeString, attrName, osFile)
 
 
@@ -585,7 +585,7 @@ def getDirDataByNamespaceFilter(
     return getDirData(*args)
 
 
-@bscModifiers.fncCatchException
+@bscModifiers.fncExceptionCatch
 def setDirectoryModifyCmd(
         collectionDataLis,
         isCollection,
@@ -594,7 +594,7 @@ def setDirectoryModifyCmd(
         isAutoCache,
         isRepath
 ):
-    logWin_ = bscMethods.If_Log(u'Directory Modify')
+    logWin_ = bscObjects.If_Log(u'Directory Modify')
     logWin_.addStartTask(u'Directory Modify')
     # Step 01 ( Get Collection and Repath Data )
     logWin_.addStartProgress(u'''Directory Statistical''')
@@ -625,9 +625,9 @@ def setDirectoryModifyCmd(
     if referenceRepathDataArray:
         progressExplain = u'''Repath Reference Nde_Node'''
         maxValue = len(referenceRepathDataArray)
-        progress = bscMethods.If_Progress(progressExplain, maxValue)
+        progress = bscObjects.If_Progress(progressExplain, maxValue)
         for node, osFile in referenceRepathDataArray:
-            progress.updateProgress()
+            progress.update()
             setReferenceRepath(node, osFile)
         logWin_.addCompleteProgress()
     else:
@@ -647,17 +647,17 @@ def setDirectoryModifyCmd(
         if sceneryArRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Scenery ) Nde_Node'''
             maxValue = len(sceneryArRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, osFile in sceneryArRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setAssemblyReferenceRepath(node, osFile)
         # Assembly Unit
         if arUnitRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Unit ) Nde_Node'''
             maxValue = len(arUnitRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, osFile in arUnitRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setAssemblyReferenceRepath(node, osFile)
         logWin_.addCompleteProgress()
     else:
@@ -669,9 +669,9 @@ def setDirectoryModifyCmd(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setRepathFurMap(node, osFile)
         #
         logWin_.addCompleteProgress()
@@ -681,9 +681,9 @@ def setDirectoryModifyCmd(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setFurCacheRepath(node, sourceFile, targetFile, force=False)
         else:
             logWin_.addWarning(u'Non - Data ( Fur Cache )')
@@ -691,9 +691,9 @@ def setDirectoryModifyCmd(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, osFile, fileType in mapRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setRepathFurMap(node, osFile, force=True)
         else:
             logWin_.addWarning(u'Non - Data ( Fur Map )')
@@ -701,9 +701,9 @@ def setDirectoryModifyCmd(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = bscMethods.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.If_Progress(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
-                progress.updateProgress()
+                progress.update()
                 setFurCacheRepath(node, sourceFile, targetFile, force=True)
         else:
             logWin_.addWarning(u'Non - Data ( Fur Cache )')
@@ -712,9 +712,9 @@ def setDirectoryModifyCmd(
     if otherRepathDataArray:
         progressExplain = u'''Repath Other Nde_Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
-        progress = bscMethods.If_Progress(progressExplain, maxValue)
+        progress = bscObjects.If_Progress(progressExplain, maxValue)
         for node, osFile, fileType in otherRepathDataArray:
-            progress.updateProgress()
+            progress.update()
             setRepathGeneral(node, osFile, fileType)
         logWin_.addCompleteProgress()
     else:
@@ -731,7 +731,7 @@ def getDirectoryModifyData(
         isCollection,
         isRepath
 ):
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
     
     collectionDataArray = []
 
@@ -745,7 +745,7 @@ def getDirectoryModifyData(
 
         progressExplain = u'''Directory Statistical'''
         maxValue = len(collectionDataLis)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for fileType, nodes, osFileArray in collectionDataLis:
             progressBar.update(fileType)
             if osFileArray:
@@ -763,9 +763,9 @@ def getDirectoryModifyData(
                 if isRepath:
                     progressExplain = '''Get Repath Data %s''' % lxBasic.str_camelcase2prettify(fileType)
                     maxValue = len(nodes)
-                    subProgressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                    subProgressBar = bscObjects.If_Progress(progressExplain, maxValue)
                     for seq, node in enumerate(nodes):
-                        subProgressBar.updateProgress()
+                        subProgressBar.update()
                         logWin_.addStartProgress('Statistical Directory: ', node)
                         #
                         if fileType == 'reference':
@@ -799,7 +799,7 @@ def setFileCollectionCmd(
                 boolean = True
             else:
                 if not isIgnoreTimeChanged:
-                    isChanged = lxBasic.getOsFileIsMtimeChanged(sourceFile, targetFile)
+                    isChanged = bscMethods.OsFile.isFileTimeChanged(sourceFile, targetFile)
                     if isChanged:
                         boolean = True
         else:
@@ -842,11 +842,11 @@ def setFileCollectionCmd(
         if data:
             progressExplain = u'''Collection File(s)'''
             maxValue = len(data)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for sourceFile, targetFile, fileType in data:
                 progressBar.update(lxBasic.str_camelcase2prettify(fileType))
                 setCollectionBranch(sourceFile, targetFile, fileType)
 
-    logWin_ = bscMethods.If_Log()
+    logWin_ = bscObjects.If_Log()
 
     setMain(collectionData)

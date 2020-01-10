@@ -1,13 +1,13 @@
 # coding:utf-8
 from LxScheme import shmCore, shmAbstract
 
-from LxScheme.shmObjects import _shmSystem, _shmFile, _shmRaw
+from LxScheme.shmObjects import _shmObjSystem, _shmObjFile, _shmObjRaw
 
 
 class Prs_Project(shmAbstract.Abc_Preset):
-    SYSTEM_CLS = _shmSystem.Sys_PltLanguage
-    FILE_CLS = _shmFile.Fle_PrsUser
-    RAW_CLS = _shmRaw.Raw_Preset
+    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
+    FILE_CLS = _shmObjFile.Fle_PrsUser
+    RAW_CLS = _shmObjRaw.Raw_Preset
 
     object_category = shmCore.Basic.Category_Project
 

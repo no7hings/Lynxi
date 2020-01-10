@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 
 from LxCore.config import appCfg
 
@@ -760,7 +760,7 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         sceneStage = self._connectObject.sceneStage
         #
         sceneDirectory = scenePr.sceneExtraFolder(
-            lxCore_.LynxiRootIndex_Server,
+            lxConfigure.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage
         )
         projectServerRootPathLis = projectPr.getProjectServerRootLis(projectName)
@@ -1012,7 +1012,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         withAsset
                     )
                     #
-                    bscMethods.If_Message('Scene Asset Cache Upload', 'Complete')
+                    bscObjects.If_Message('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
                 IfToolWindow = qtWidgets.QtToolWindow(self)
@@ -1060,7 +1060,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 progressExplain = '''Load Asset Unit(s)'''
                 maxValue = len(inData)
-                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
                 for k, v in inData.items():
                     progressBar.update()
                     setBranch(k, v, assetNumberKeys)

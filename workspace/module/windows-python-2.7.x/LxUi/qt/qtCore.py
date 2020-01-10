@@ -11,9 +11,9 @@ from PyQt5 import QtGui, QtCore, QtSvg
 #
 from PyQt5.QtWidgets import *
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxBasic, lxCore_, lxScheme
+from LxCore import lxBasic, lxConfigure, lxScheme
 #
 from LxUi import uiCore
 #
@@ -1827,7 +1827,7 @@ class QCommonStyle_(QCommonStyle):
 
 def getTooltipDelayTime():
     if lxScheme.Shm_Interface().isTooltipAutoShow() is False:
-        return lxCore_.LynxiUi_Value_TooltipDelayTime
+        return lxConfigure.LynxiUi_Value_TooltipDelayTime
     else:
         return 250
 
@@ -1901,8 +1901,9 @@ def uiTooltipClearMethod(method):
 
 def getAppWindow():
     # Maya Window
-    application = bscMethods.PythonApplication()
-    if application.isMaya:
+
+    system = bscObjects.System()
+    if system.isMaya:
         # noinspection PyUnresolvedReferences
         import sip
         # noinspection PyUnresolvedReferences
@@ -2164,8 +2165,8 @@ def setExistsUiDelete(*args):
 #
 def uiSetupShowMethod(method):
     def subMethod(*args, **kwargs):
-        from LxCore import lxUpdate
-        lxUpdate.setUpdate()
+        from LxCore import lxScheme
+        lxScheme.Shm_Resource().loadActive()
         #
         from LxCore.setup import plugSetup
         plugSetup.setMayaPlugSetup()
@@ -2179,8 +2180,8 @@ def uiSetupShowMethod(method):
 #
 def uiSetupShowMethod_(method):
     def subMethod(*args, **kwargs):
-        from LxCore import lxUpdate
-        lxUpdate.setUpdate()
+        from LxCore import lxScheme
+        lxScheme.Shm_Resource().loadActive()
         #
         from LxCore.setup import plugSetup
         plugSetup.setMayaPlugSetup()

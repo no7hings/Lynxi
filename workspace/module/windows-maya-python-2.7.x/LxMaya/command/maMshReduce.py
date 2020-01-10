@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 
 
 #
@@ -48,7 +48,7 @@ def setMeshesReduce(meshObjects, percentage):
     # View Progress
     progressExplain = '''Reducing Mesh'''
     maxValue = len(meshObjects)
-    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
     for mesh in meshObjects:
         progressBar.update()
         try:

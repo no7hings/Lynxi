@@ -1,27 +1,28 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 
 from LxUi.qt import qtCommands
 
 
 def showInterfaceExclusive(mtd):
     def subMtd(*args, **kwargs):
-        from LxCore import lxUpdate
-        lxUpdate.setUpdate()
+        from LxCore import lxScheme
+        lxScheme.Shm_Resource().loadActive()
 
         qtCommands.setExistInterfaceQuit(*args)
 
         return mtd(*args, **kwargs)
+
     return subMtd
 
 
 def showAppInterfaceExclusive(mtd):
     def subMtd(*args, **kwargs):
-        from LxCore import lxUpdate
-        lxUpdate.setUpdate()
+        from LxCore import lxScheme
+        lxScheme.Shm_Resource().loadActive()
 
-        application = bscMethods.PythonApplication()
-        if application.isMaya:
+        system = bscObjects.System()
+        if system.isMaya:
             from LxMaya import maScheme
 
             maScheme.Shm_Resource().loadPlugs()

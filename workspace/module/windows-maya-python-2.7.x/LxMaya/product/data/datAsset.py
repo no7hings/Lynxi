@@ -5,9 +5,9 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import pymel.core as core
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -30,7 +30,7 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.update('Vertex')
@@ -313,8 +313,8 @@ def getShadingGroupsByObjects(objectLis):
 #
 def getAstUnitModelExtraData(assetName, namespace=none):
     extraData = {
-        lxCore_.LynxiAttributeDataKey: getAstUnitModelBridgeAttrData(assetName, namespace),
-        lxCore_.LynxiConnectionDataKey: getAstUnitModelReferenceConnectionData(assetName, namespace)
+        lxConfigure.LynxiAttributeDataKey: getAstUnitModelBridgeAttrData(assetName, namespace),
+        lxConfigure.LynxiConnectionDataKey: getAstUnitModelReferenceConnectionData(assetName, namespace)
     }
     return extraData
 
@@ -345,7 +345,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
                     dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
         #
         objectShapeName = maUtils._toNodeName(objectShape)
-        maUtils.setAttrStringDatumForce_(objectString, lxCore_.LynxiObjectShapeNameAttrName, objectShapeName)
+        maUtils.setAttrStringDatumForce_(objectString, lxConfigure.LynxiObjectShapeNameAttrName, objectShapeName)
     #
     dic = {}
     #
@@ -357,7 +357,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectLis)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for i in objectLis:
             progressBar.update()
             getBranch(i)
@@ -369,7 +369,7 @@ def getAstUnitRigExtraData(assetName):
     astUnitRigBridgeGroup = assetPr.astUnitRigBridgeGroupName(assetName)
     alembicAttrData = getAstAlembicAttrData(astUnitRigBridgeGroup)
     extraData = {
-        lxCore_.LynxiAlembicAttrDataKey: alembicAttrData
+        lxConfigure.LynxiAlembicAttrDataKey: alembicAttrData
     }
     return extraData
 
@@ -544,8 +544,8 @@ def getAstSolverGuideCheckData(assetName, namespace=none):
 #
 def getAstUnitRigSolExtraData(assetName, namespace=none):
     dic = {
-        lxCore_.LynxiConnectionDataKey: getAstUnitSolverConnectionData(assetName, namespace),
-        lxCore_.LynxiNhrConnectionDataKey: getAstUnitSolverNhrConnectionData(assetName, namespace)
+        lxConfigure.LynxiConnectionDataKey: getAstUnitSolverConnectionData(assetName, namespace),
+        lxConfigure.LynxiNhrConnectionDataKey: getAstUnitSolverNhrConnectionData(assetName, namespace)
     }
     return dic
 
@@ -573,7 +573,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.update()
             getBranch(i)
@@ -599,7 +599,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.update()
             getBranch(i)
@@ -684,7 +684,7 @@ def getTextureStatisticsDic(objectLis):
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(textureNodeLis)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for textureNode in textureNodeLis:
             # In Progress
             progressBar.update()
@@ -754,7 +754,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.update()
                 #
@@ -795,7 +795,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.update()
                 #
@@ -885,7 +885,7 @@ def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, ass
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(unionUniqueInfoData)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for uniqueId in unionUniqueInfoData:
             progressBar.update()
             #

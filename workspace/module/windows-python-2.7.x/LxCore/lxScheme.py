@@ -3,7 +3,7 @@ from LxBasic import bscCore, bscObjects, bscMethods
 
 from LxScheme import shmCore
 
-from LxScheme.shmObjects import _shmPath
+from LxScheme.shmObjects import _shmObjPath
 
 
 class Shm_Resource(shmCore.Basic):
@@ -25,35 +25,35 @@ class Shm_Resource(shmCore.Basic):
 
     @property
     def name(self):
-        return self.method_environ.get(
+        return self.method_os_environ.get(
             self.Environ_Key_Name_Scheme
         )
 
     @property
     def version(self):
-        return self.method_environ.get(
+        return self.method_os_environ.get(
             self.Environ_Key_Version_Scheme
         )
 
     @version.setter
     def version(self, versionString):
-        self.method_environ.get(
+        self.method_os_environ.get(
             self.Environ_Key_Version_Scheme,
             versionString
         )
-        bscMethods.PythonMessage().traceResult(
+        bscMethods.PyMessage.traceResult(
             u'Set Scheme: {} ( {} )'.format(self.name, self.activeVersion)
         )
 
     @property
     def configFile(self):
-        return self.method_environ.get(
+        return self.method_os_environ.get(
             self.Environ_Key_Config_File_Scheme
         )
 
     @property
     def setupFile(self):
-        return self.method_environ.get(
+        return self.method_os_environ.get(
             self.Environ_Key_File_Scheme
         )
 
@@ -66,13 +66,37 @@ class Shm_Resource(shmCore.Basic):
         return self._activeVersion
 
     def loadActiveModules(self):
-        pythonReload = bscMethods.PythonReloader(self.moduleNames)
-        pythonReload.run()
+        bscMethods.PyReloader.loadModule(self.moduleNames)
 
-        bscMethods.If_Message(
+        bscObjects.If_Message(
             u'Load Scheme: ',
             u'{} ( {} )'.format(self.name, self.activeVersion)
         )
+
+    def loadActive(self, force=False):
+        ui = Shm_Interface()
+        ui.restMessageCount()
+
+        localVersion = self.version
+        serverVersion = self.activeVersion
+
+        isUpdate = False
+
+        isDevelop = self.isDevelop()
+
+        if isDevelop is True:
+            isUpdate = True
+        else:
+            if localVersion is None or localVersion != serverVersion:
+                isUpdate = True
+
+        if force is True or isUpdate is True:
+            if isDevelop is False:
+                ui.closeAll()
+
+            self.loadActiveModules()
+
+            self.version = serverVersion
 
 
 class Shm_Interface(shmCore.Basic):
@@ -83,7 +107,7 @@ class Shm_Interface(shmCore.Basic):
 
     @classmethod
     def restMessageCount(cls):
-        cls.method_environ.set(cls.Environ_Key_Message_Count, '0')
+        cls.method_os_environ.set(cls.Environ_Key_Message_Count, '0')
 
     @classmethod
     def setMessageCount(cls, delta):
@@ -91,12 +115,12 @@ class Shm_Interface(shmCore.Basic):
         #
         value += delta
         #
-        cls.method_environ.set(cls.Environ_Key_Message_Count, str(value))
+        cls.method_os_environ.set(cls.Environ_Key_Message_Count, str(value))
         return value
 
     @classmethod
     def messageCount(cls):
-        data = cls.method_environ.get(cls.Environ_Key_Message_Count)
+        data = cls.method_os_environ.get(cls.Environ_Key_Message_Count)
         if data:
             return int(data)
         return 0
@@ -117,12 +141,12 @@ class Shm_Interface(shmCore.Basic):
     @classmethod
     def setTooltipAutoShow(cls, boolean):
         envValue = str(boolean).upper()
-        cls.method_environ.set(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
+        cls.method_os_environ.set(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
 
     @classmethod
     def isTooltipAutoShow(cls):
         boolean = False
-        envData = cls.method_environ.get(cls.Environ_Key_Enable_Tooltip_Auto)
+        envData = cls.method_os_environ.get(cls.Environ_Key_Enable_Tooltip_Auto)
         if envData:
             if envData == str(True).upper():
                 boolean = True
@@ -135,19 +159,19 @@ class Root(object):
 
     @property
     def basic(self):
-        return _shmPath.Pth_Root()
+        return _shmObjPath.Pth_Root()
 
     @property
     def preset(self):
-        return _shmPath.Pth_PresetRoot()
+        return _shmObjPath.Pth_PresetRoot()
 
     @property
     def toolkit(self):
-        return _shmPath.Pth_ToolkitRoot()
+        return _shmObjPath.Pth_ToolkitRoot()
 
     @property
     def icon(self):
-        return _shmPath.Pth_IconRoot()
+        return _shmObjPath.Pth_IconRoot()
 
 
 class Directory(object):
@@ -160,12 +184,12 @@ class Directory(object):
 
     @property
     def icon(self):
-        return _shmPath.Pth_IconDirectory()
+        return _shmObjPath.Pth_IconDirectory()
 
 
 class UserPreset(object):
     def __init__(self):
-        self._userName = bscCore.Basic()._getUserName()
+        self._userName = bscCore.Basic()._getSystemUsername()
         self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
     @property

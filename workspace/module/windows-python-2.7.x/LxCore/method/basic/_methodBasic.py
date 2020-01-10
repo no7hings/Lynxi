@@ -27,7 +27,7 @@ import hashlib
 #
 import glob
 #
-from LxCore import lxCore_, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import appConfig
 
@@ -1421,7 +1421,7 @@ class LxUpdateMethod(Mtd_Basic):
 #
 class LxDebugMethod(Mtd_Basic):
     @classmethod
-    def fncCatchCostTime(cls, func):
+    def fncCostTimeCatch(cls, func):
         def subFunc(*args, **kwargs):
             startTime = cls.getOsActiveTimestamp()
             traceMessage = 'Start [ %s ] in %s' % (func.__name__, (cls.getOsActiveViewTime()))
@@ -1435,7 +1435,7 @@ class LxDebugMethod(Mtd_Basic):
             return subFn
         return subFunc
     @classmethod
-    def fncCatchException(cls, func):
+    def fncExceptionCatch(cls, func):
         def subFunc(*args, **kw):
             # noinspection PyBroadException
             try:

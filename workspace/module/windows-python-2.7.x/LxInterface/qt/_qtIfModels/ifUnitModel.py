@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore.method import _presetMethod
 #
@@ -106,7 +106,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -125,7 +125,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -389,7 +389,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -408,7 +408,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()

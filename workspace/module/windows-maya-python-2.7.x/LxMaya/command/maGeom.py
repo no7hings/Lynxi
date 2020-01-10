@@ -4,9 +4,9 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.api.OpenMaya as OpenMaya
 
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -1137,7 +1137,7 @@ def getGeometryObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             #
@@ -1183,7 +1183,7 @@ def getMeshObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Mesh Information'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             #
@@ -1211,7 +1211,7 @@ def getNurbsCurveObjectsInfoData(groupString):
         # View Progress
         progressExplain = u'''Read Nurbs Curve Information'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         #
         for objectString in objectStrings:
             progressBar.update()
@@ -1234,7 +1234,7 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             if searchRoot in objectString:
@@ -1436,7 +1436,7 @@ def setCreateGeometryObjectsShape(dataDics):
             shapeData = geomShapeDic[uniqueId]
             objectPath = maUuid.getObject(uniqueId)
             if objectPath:
-                shapeName = maUtils.getAttrDatum(objectPath, lxCore_.LynxiObjectShapeNameAttrName)
+                shapeName = maUtils.getAttrDatum(objectPath, lxConfigure.LynxiObjectShapeNameAttrName)
                 setCreateGeometryObjectShape(objectPath, (topologyData, shapeData), shapeName)
 
 
@@ -1634,7 +1634,7 @@ def getMeshesTopoConstantData(groupString, withShape=0, maxRound=8):
         # View Progress
         progressExplain = u'''Read Mesh Topology'''
         maxValue = len(meshObjStrs)
-        progressBar = bscMethods.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
         for meshObjectString in meshObjStrs:
             progressBar.update()
             info = getMeshObjectGeomTopoInfo(meshObjectString)
@@ -1703,7 +1703,7 @@ def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, 
     # View Progress
     explain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = bscMethods.If_Progress(explain, maxValue)
+    progressBar = bscObjects.If_Progress(explain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.update('Vertex')

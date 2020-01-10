@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjects
 #
 from LxMaya.command import maUtils, maFur
 #
@@ -9,4 +9,4 @@ if selObj:
     for i in selObj:
         maFur.setRenameYetiGraph(i)
 #
-bscMethods.If_Message('Rename Yeti - Graph ( Selected )', 'Complete')
+bscObjects.If_Message('Rename Yeti - Graph ( Selected )', 'Complete')

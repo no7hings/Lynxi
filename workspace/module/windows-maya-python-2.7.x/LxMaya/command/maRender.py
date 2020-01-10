@@ -4,9 +4,9 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxBasic, lxCore_
+from LxCore import lxBasic, lxConfigure
 
 from LxCore.config import appCfg
 
@@ -78,10 +78,10 @@ MaArnoldLightAovLis = [
 ]
 #
 MaRendererDic = {
-    lxCore_.LynxiArnoldRendererValue: 'arnold',
-    lxCore_.LynxiRedshiftRendererValue: 'redshift',
-    lxCore_.LynxiMayaSoftwareRendererValue: 'mayaSoftware',
-    lxCore_.LynxiMayaHardwareRendererValue: 'mayaHardware'
+    lxConfigure.LynxiArnoldRendererValue: 'arnold',
+    lxConfigure.LynxiRedshiftRendererValue: 'redshift',
+    lxConfigure.LynxiMayaSoftwareRendererValue: 'mayaSoftware',
+    lxConfigure.LynxiMayaHardwareRendererValue: 'mayaHardware'
 }
 #
 MaDefaultWorkspaceRuleDic = {
@@ -676,7 +676,7 @@ def setRenderTime(startFrame=None, endFrame=None):
     cmds.setAttr(MaNodeAttrRenderOptionDic['startFrame'], startFrame)
     cmds.setAttr(MaNodeAttrRenderOptionDic['endFrame'], endFrame)
     #
-    bscMethods.If_Message(
+    bscObjects.If_Message(
         u'''Render Time has''', u'''Change to : %s - %s''' % (startFrame, endFrame)
     )
 
@@ -697,16 +697,16 @@ def setLoadArnoldRenderer():
 
 #
 def setLoadRenderer(renderer):
-    if renderer == lxCore_.LynxiArnoldRendererValue:
+    if renderer == lxConfigure.LynxiArnoldRendererValue:
         setLoadArnoldRenderer()
 
 
 # Set Renderer
 def setCurrentRenderer(renderer):
-    if renderer == lxCore_.LynxiArnoldRendererValue:
+    if renderer == lxConfigure.LynxiArnoldRendererValue:
         cmds.setAttr(MaNodeAttrRenderOptionDic['renderer'], 'arnold', type='string')
         setLoadArnoldRenderer()
-    elif renderer == lxCore_.LynxiRedshiftRendererValue:
+    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
         cmds.setAttr(MaNodeAttrRenderOptionDic['renderer'], 'redshift', type='string')
 
 
@@ -799,7 +799,7 @@ def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultVi
         cmds.viewFit(cameraShape, fitFactor=0, animate=1)
         cmds.select(clear=1)
     #
-    if renderer == lxCore_.LynxiArnoldRendererValue:
+    if renderer == lxConfigure.LynxiArnoldRendererValue:
         if useDefaultLight is True:
             setCreateArnoldLight()
         #
@@ -850,7 +850,7 @@ def setConnectLightsToScale(root):
                 aiLightDecays = []
                 explain = '''Connect Light to Scale'''
                 maxValue = len(lightObjectPaths)
-                progressBar = bscMethods.If_Progress(explain, maxValue)
+                progressBar = bscObjects.If_Progress(explain, maxValue)
                 for i in lightObjectPaths:
                     progressBar.update()
                     attr = i + '.intensity'
