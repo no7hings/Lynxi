@@ -59,7 +59,7 @@ def sendProductMessageByDingTalk(
     #
     viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
     #
-    userName = personnelPr.getUser()
+    userName = bscMethods.OsSystem.username()
     userCnName = personnelPr.getPersonnelUserCnName()
     #
     if not note:

@@ -28,11 +28,17 @@ class Basic(object):
     environ_key_config_file_scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
     environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
+    environ_key_enable_trace = 'LYNXI_ENABLE_TRACE'
+
     enable_default_develop = 'FALSE'
 
     @classmethod
     def _isDevelop(cls):
         return [False, True][os.environ.get(cls.environ_key_enable_develop, cls.enable_default_develop).lower() == 'true']
+
+    @classmethod
+    def isTraceEnable(cls):
+        return [False, True][os.environ.get(cls.environ_key_enable_trace, cls.enable_default_develop).lower() == 'true']
 
 
 class Method(object):
@@ -63,55 +69,58 @@ class Method(object):
 
     @classmethod
     def traceMessage(cls, text):
-        print u'# Lynxi <{}>'.format(cls.getOsActiveViewTime())
-        print u'    {}'.format(text)
+        if Basic.isTraceEnable():
+            print u'@lynxi <{}>'.format(cls.getOsActiveViewTime())
+            print u'    {}'.format(text)
 
     @classmethod
     def traceResult(cls, text):
         cls.traceMessage(
-            u'''# Result {}'''.format(text)
+            u'''@result {}'''.format(text)
         )
 
     @classmethod
     def traceWarning(cls, text):
         cls.traceMessage(
-            u'''# Warning {}'''.format(text)
+            u'''@warning {}'''.format(text)
         )
 
     @classmethod
     def traceError(cls, text):
         cls.traceMessage(
-            u'''# Error {}'''.format(text)
+            u'''@error {}'''.format(text)
         )
 
     @classmethod
     def addEnviron(cls, key, value):
-        if key in os.environ:
+        lowerKeys = [i.lower() for i in os.environ.keys()]
+        if key.lower() in lowerKeys:
             lowerLis = [i.lower() for i in os.environ[key].split(os.pathsep)]
             if value.lower() not in lowerLis:
                 os.environ[key] += os.pathsep + value
                 cls.traceResult(
-                    'Add Environ "{}": "{}"'.format(key, value)
+                    u'Add Environ "{}": "{}"'.format(key, value)
                 )
         else:
-            os.environ[key] = value
+            os.environ[key.upper()] = str(value)
             cls.traceResult(
-                'Set Environ "{}": "{}"'.format(key, value)
+                u'Set Environ "{}": "{}"'.format(key, value)
             )
 
     @classmethod
     def setEnviron(cls, key, value):
-        if key in os.environ:
+        lowerKeys = [i.lower() for i in os.environ.keys()]
+        if key.lower() in lowerKeys:
             lowerValue = os.environ[key].lower()
             if value.lower() != lowerValue:
                 os.environ[key] = value
                 cls.traceResult(
-                    'Override Environ "{}": "{}"'.format(key, value)
+                    u'Override Environ "{}": "{}"'.format(key, value)
                 )
         else:
-            os.environ[key] = value
+            os.environ[key.upper()] = str(value)
             cls.traceResult(
-                'Set Environ "{}": "{}"'.format(key, value)
+                u'Set Environ "{}": "{}"'.format(key, value)
             )
 
     @classmethod
@@ -120,7 +129,7 @@ class Method(object):
         if value.lower() not in lowerLis:
             sys.path.insert(0, value)
             cls.traceResult(
-                'Add Python Path: "{}"'.format(value)
+                u'Add Python Path: "{}"'.format(value)
             )
 
     @staticmethod
@@ -132,9 +141,9 @@ class Method(object):
 
 
 class Root(Basic):
-    def_path = 'e:/myworkspace/td/lynxi'
-    def_local_path = 'c:/.lynxi'
-    def_develop_path = 'e:/myworkspace/td/lynxi'
+    def_path = u'e:/myworkspace/td/lynxi'
+    def_local_path = u'c:/.lynxi'
+    def_develop_path = u'e:/myworkspace/td/lynxi'
 
     basic_method = Method
 
@@ -178,11 +187,11 @@ class Abc_Scheme(Basic):
 
         self._schemeName = schemeName
 
-        self.schemePathString = '{}/{}-{}'.format(
+        self.schemePathString = u'{}/{}-{}'.format(
             Root().server, self.scheme_subpath_string, schemeName
         )
 
-        if schemeVersion == 'active':
+        if schemeVersion == u'active':
             self._schemeVersion = self._getCurrentVersion()
         else:
             self._schemeVersion = schemeVersion
@@ -205,12 +214,12 @@ class Abc_Scheme(Basic):
     def _getCurrentVersion(self):
         data = Method.readOsJsonFile(self.configFile)
         if data:
-            return str(data['version']['active'])
+            return str(data[u'version'][u'active'])
 
     def _getSystemRaw(self):
         data = Method.readOsJsonFile(self.configFile)
         if data:
-            return str(data['system'])
+            return str(data[u'system'])
 
     @staticmethod
     def _formatDic():
@@ -219,31 +228,35 @@ class Abc_Scheme(Basic):
         }
 
     @classmethod
-    def _covertValue(cls, value):
-        value = value.format(**cls._formatDic())
-        if '|' in value:
-            if Basic()._isDevelop():
-                return value.split('|')[0]
-            return value.split('|')[1]
-        return value
+    def _setValueCovert(cls, value):
+        if not value.startswith(u'#'):
+            resourceName, environValue = value.split(u':')
+            environValue = environValue.rstrip().lstrip().format(**cls._formatDic())
 
-    def _addEnvironMethod(self, environDic):
+            if u'|' in environValue:
+                if Basic()._isDevelop():
+                    return environValue.split(u'|')[0]
+                return environValue.split(u'|')[1]
+            return environValue
+
+    def _addEnvirons(self, environDic):
         def add(key, value, operate):
-            if key == 'SYSTEM_PATH':
-                Method.addPythonPath(value)
-            else:
-                if operate == '+':
-                    Method.addEnviron(key, value)
-                elif operate == '=':
-                    Method.setEnviron(key, value)
+            if value is not None:
+                if key == u'SYSTEM_PATH':
+                    Method.addPythonPath(value)
+                else:
+                    if operate == u'+':
+                        Method.addEnviron(key, value)
+                    elif operate == u'=':
+                        Method.setEnviron(key, value)
         def main():
             for k, v in environDic.items():
-                operate = v['operate']
-                value = v['value']
+                operate = v[u'operate']
+                value = v[u'value']
                 if isinstance(value, list):
-                    [add(k, self._covertValue(i), operate) for i in value]
+                    [add(k, self._setValueCovert(i), operate) for i in value]
                 else:
-                    add(k, self._covertValue(value), operate)
+                    add(k, self._setValueCovert(value), operate)
 
         main()
 
@@ -268,37 +281,37 @@ class Abc_Scheme(Basic):
         if os.path.exists(fileString):
             with open(fileString) as j:
                 datumDic = json.load(j) or {}
-                environDic = datumDic.get('environ')
+                environDic = datumDic.get(u'environ')
 
                 if environDic:
-                    self._addEnvironMethod(environDic)
+                    self._addEnvirons(environDic)
 
     def setup(self):
         Method.traceResult(
-            'Start Setup Scheme "{}": "{}"'.format(self.name, self.version)
+            u'Start Setup Scheme "{}": "{}"'.format(self.name, self.version)
         )
         self.environSetup()
         Method.traceResult(
-            'Complete Setup Scheme "{}": "{}"'.format(self.name, self.version)
+            u'Complete Setup Scheme "{}": "{}"'.format(self.name, self.version)
         )
 
 
 class WindowsPython27Scheme(Abc_Scheme):
-    scheme_subpath_string = 'resource/scheme/windows-python-2.7.x'
+    scheme_subpath_string = u'resource/scheme/windows-python-2.7.x'
 
     def __init__(self, schemeName, schemeVersion):
         self._initAbcScheme(schemeName, schemeVersion)
 
 
 class WindowsMayaPython27Scheme(Abc_Scheme):
-    scheme_subpath_string = 'resource/scheme/windows-maya-python-2.7.x'
+    scheme_subpath_string = u'resource/scheme/windows-maya-python-2.7.x'
 
     def __init__(self, schemeName, schemeVersion):
         self._initAbcScheme(schemeName, schemeVersion)
 
 
 class WindowsMaya2019Python27Scheme(Abc_Scheme):
-    scheme_subpath_string = 'resource/scheme/windows-maya-2019-python-2.7.x'
+    scheme_subpath_string = u'resource/scheme/windows-maya-2019-python-2.7.x'
 
     def __init__(self, schemeName, schemeVersion):
         self._initAbcScheme(schemeName, schemeVersion)

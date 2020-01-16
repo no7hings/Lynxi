@@ -3,13 +3,13 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class IfMaNodeTreeItem(qtAbcWidget.QtAbcObj_Treeitem):
+class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
     ui_qt_method = uiCore.Basic
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):

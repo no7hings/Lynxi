@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscModifiers
+from LxBasic import bscModifiers, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 none = ''
 
@@ -18,7 +18,7 @@ def basicModuleConfig():
 
 @bscModifiers.fncDictSwitch
 def basicModuleDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[lxConfigure.LynxiProduct_Module_Asset] = 'Asset', u'资产'
     dic[lxConfigure.LynxiProduct_Module_Scenery] = 'Scenery', u'场景'
     dic[lxConfigure.LynxiProduct_Module_Scene] = 'Scene', u'镜头'
@@ -27,7 +27,7 @@ def basicModuleDic(*args):
 
 @bscModifiers.fncDictSwitch
 def basicPrioritiesDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['major'] = 'Major', u'主要'
     dic['minor'] = 'Minor', u'次要'
     dic['util'] = 'Util', u'龙套'
@@ -300,7 +300,7 @@ def basicProductionStages():
 
 #
 def basicProductionStageDic():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[0] = lxConfigure.LynxiProduct_Stage_Pending, 'Pending', u'等待'
     dic[1] = lxConfigure.LynxiProduct_Stage_Wip, 'WIP', u'制作'
     dic[2] = lxConfigure.LynxiProduct_Stage_Delivery, 'Delivery', u'提交'

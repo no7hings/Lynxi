@@ -7,9 +7,9 @@ from LxUi.qt import qtCore
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-cls_point = QtCore.QPoint
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
+CLS_point = QtCore.QPoint
+CLS_line = QtCore.QLine
+CLS_rect = QtCore.QRect
 
 
 #
@@ -80,9 +80,9 @@ class QtGraphviewModel(object):
         self._curGroupIndex = -1
         self._curGroupItemModel = None
         #
-        self.cls_rectSelectStartPoint = cls_point()
-        self.cls_rectSelectEndPoint = cls_point()
-        self._selectRect = cls_rect()
+        self.cls_rectSelectStartPoint = CLS_point()
+        self.cls_rectSelectEndPoint = CLS_point()
+        self._selectRect = CLS_rect()
         #
         self._mTranslate = 0, 0
         self._mScale = .5, .5
@@ -92,15 +92,15 @@ class QtGraphviewModel(object):
         self._selectedConnectionIndexLis = []
         #
         self._matComposite = qtCore.setMatrix3x3Identity(qtCore.matrix3x3())
-        self._mTrackPoint = cls_point()
-        self._mViewportPoint = cls_point()
+        self._mTrackPoint = CLS_point()
+        self._mViewportPoint = CLS_point()
         #
         self.cls_points = [
-            cls_point(),
-            cls_point(self._mBasicViewportWidth*self._mScale[0], self._mBasicViewportHeight*self._mScale[1])
+            CLS_point(),
+            CLS_point(self._mBasicViewportWidth*self._mScale[0], self._mBasicViewportHeight*self._mScale[1])
         ]
         #
-        self._mRect = cls_rect()
+        self._mRect = CLS_rect()
         self._updateMRect()
     #
     def __initBasicAction(self):
@@ -144,7 +144,7 @@ class QtGraphviewModel(object):
             x = m[0][0]*self.cls_points[seq].x() + m[0][1]*self.cls_points[seq].y() + m[0][2]
             y = m[1][0]*self.cls_points[seq].x() + m[1][1]*self.cls_points[seq].y() + m[1][2]
             #
-            self.cls_points[seq] = cls_point(x, y)
+            self.cls_points[seq] = CLS_point(x, y)
         #
         self._matComposite = qtCore.setMatrix3x3Identity(m)
     #
@@ -264,7 +264,7 @@ class QtGraphviewModel(object):
         node = itemModel._widget
         index = itemModel._index
         #
-        rect = cls_rect(
+        rect = CLS_rect(
             node._itemModel.x(), node._itemModel.y() - 20,
             node._itemModel.width_(), node._itemModel.height_() + 20
         )

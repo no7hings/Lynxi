@@ -1,7 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects
-
-from LxCore import lxBasic
+from LxBasic import bscObjects, bscCommands
 #
 from LxCore.preset import personnelPr
 #
@@ -71,7 +69,7 @@ class IfAssetProductGroup(
         def setMain():
             projectName = projectPr.getAppProjectName()
             #
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:
@@ -155,7 +153,7 @@ class IfSceneryProductGroup(
         def setMain():
             projectName = projectPr.getAppProjectName()
             #
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:
@@ -237,7 +235,7 @@ class IfSceneProductGroup(
         #
         def setMain():
             projectName = projectPr.getAppProjectName()
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:

@@ -5,9 +5,7 @@ import maya.mel as mel
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects
-#
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
@@ -63,13 +61,13 @@ def getFurMapAttrData(furMapNode):
 def setFurMapAttrData(furMapNode, furMapFile):
     nodeType = maUtils.getNodeType(furMapNode)
     if nodeType == appCfg.MaNurbsHairCacheType:
-        if lxBasic.isOsExistsFile(furMapFile):
-            ext = lxBasic.getOsFileExt(furMapFile)
+        if bscCommands.isOsExistsFile(furMapFile):
+            ext = bscCommands.getOsFileExt(furMapFile)
             if ext != '.nhr':
-                base, ext = lxBasic.toOsFileSplitByExt(furMapFile)
+                base, ext = bscCommands.toOsFileSplitByExt(furMapFile)
                 newFurMapFile = base + '.nhr'
                 # Use Copy
-                lxBasic.setOsFileCopy(furMapFile, newFurMapFile)
+                bscCommands.setOsFileCopy(furMapFile, newFurMapFile)
             else:
                 newFurMapFile = furMapFile
             #
@@ -110,7 +108,7 @@ def getYetiGuideHairSystems(yetiObject):
 
 #
 def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
-    lxBasic.setOsFileDirectoryCreate(osFile)
+    bscCommands.setOsFileDirectoryCreate(osFile)
     # Turn off Use Cache
     maUtils.setAttrDatumForce_(yetiNode, 'fileMode', False)
     #
@@ -129,7 +127,7 @@ def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUp
 #
 def setYetiObjectsWriteCache(yetiObjects, yetiCaches, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
     dic = {}
-    [lxBasic.setOsFileDirectoryCreate(i) for i in yetiCaches]
+    [bscCommands.setOsFileDirectoryCreate(i) for i in yetiCaches]
     [cmds.setAttr(i + '.' + 'fileMode', 0) for i in yetiObjects]
     yetiShapePathLis = [maUtils.getNodeShape(i) for i in yetiObjects]
     cmds.select(yetiShapePathLis)
@@ -827,12 +825,12 @@ def setOutExistsGeometryCache(cachePath, cacheName, hairSystem):
     cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
     if cacheFiles:
         xmlFile, cacheFile = cacheFiles
-        if lxBasic.isOsExistsFile(xmlFile):
-            base, ext = lxBasic.toOsFileSplitByExt(xmlFile)
+        if bscCommands.isOsExistsFile(xmlFile):
+            base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
             maFile.setCopyFile(xmlFile, targetXmlFile)
-        if lxBasic.isOsExistsFile(cacheFile):
-            base, ext = lxBasic.toOsFileSplitByExt(cacheFile)
+        if bscCommands.isOsExistsFile(cacheFile):
+            base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
             maFile.setCopyFile(cacheFile, targetCacheFile)
 
@@ -874,13 +872,13 @@ def setUploadExistsGeometryCache(cachePath, cacheName, hairSystem):
     cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
     if cacheFiles:
         xmlFile, cacheFile = cacheFiles
-        if lxBasic.isOsExistsFile(xmlFile):
-            base, ext = lxBasic.toOsFileSplitByExt(xmlFile)
+        if bscCommands.isOsExistsFile(xmlFile):
+            base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
             #
             maFile.setCopyFile(xmlFile, targetXmlFile)
-        if lxBasic.isOsExistsFile(cacheFile):
-            base, ext = lxBasic.toOsFileSplitByExt(cacheFile)
+        if bscCommands.isOsExistsFile(cacheFile):
+            base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
             #
             maFile.setCopyFile(cacheFile, targetCacheFile)
@@ -932,7 +930,7 @@ def setUploadExistsNurbsHairCache(cachePath, cacheName, nurbsHairObject):
             frame = getFrame(sourceFile)
             if frame:
                 targetFile = '{}/{}'.format(cachePath, cacheName + '.' + frame + ext)
-                lxBasic.setOsFileCopy(sourceFile, targetFile)
+                bscCommands.setOsFileCopy(sourceFile, targetFile)
 
 
 #
@@ -1011,7 +1009,7 @@ def setCreateFurObjectsUniqueId(pathData):
 
 #
 def getFurObjectsPathDic(furObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     if furObjects:
         for objectString in furObjects:
@@ -1023,7 +1021,7 @@ def getFurObjectsPathDic(furObjects):
 
 #
 def getFurObjectsInfoDic(furObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     if furObjects:
         for objectString in furObjects:
@@ -1034,7 +1032,7 @@ def getFurObjectsInfoDic(furObjects):
 
 #
 def getNhrObjectsInfoDic(nurbsHairObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     if nurbsHairObjects:
         # View Progress
@@ -1182,7 +1180,7 @@ def getNhrObjectGraphNodeSub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphNodeDic(nurbsHairObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1259,7 +1257,7 @@ def getNhrObjectGraphGeometrySub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphGeometryDic(nurbsHairObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1319,7 +1317,7 @@ def getNhrObjectGraphRelationSub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphRelationDic(nurbsHairObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1449,12 +1447,12 @@ def getNhrScatterObjects(nurbsHairObject):
 
 #
 def setNurbsHairNodeWriteCache(nurbsHairNode, cacheFile, timeTag=None):
-    tempCacheFile = lxBasic.getOsTemporaryFile(cacheFile, timeTag)
+    tempCacheFile = bscMethods.OsFile.temporaryFilename(cacheFile, timeTag)
     #
     melCommand = '''nurbsHairExport -f "{1}" -hn "{0}"'''.format(nurbsHairNode, tempCacheFile)
     mel.eval(melCommand)
     #
-    lxBasic.setOsFileCopy(tempCacheFile, cacheFile)
+    bscCommands.setOsFileCopy(tempCacheFile, cacheFile)
 
 
 #
@@ -1481,10 +1479,10 @@ def getNhrSolverGuideCacheObjects(mhrSolverGuideObjects):
 def setCollectionNhrSolverGuideObjectsCaches(nhrCacheObjects, targetOsPath, collection=True, repath=True):
     def setBranch(mObject):
         sourceOsFile = maUtils.getAttrDatum(mObject, appCfg.MaNurbsHairCacheFileAttrName)
-        osFileBasename = lxBasic.getOsFileBasename(sourceOsFile)
-        targetOsFile = lxBasic._toOsFile(targetOsPath, osFileBasename)
+        osFileBasename = bscCommands.getOsFileBasename(sourceOsFile)
+        targetOsFile = bscCommands.toOsFile(targetOsPath, osFileBasename)
         if collection is True:
-            lxBasic.setOsFileCopy(sourceOsFile, targetOsFile)
+            bscCommands.setOsFileCopy(sourceOsFile, targetOsFile)
         if repath is True:
             setNhrCacheObjectReadCache(mObject, targetOsFile)
     #

@@ -1,9 +1,9 @@
 # coding:utf-8
 import types
 #
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -68,7 +68,7 @@ class IfAbc_ScCameraProductItem(
         self._itemIconState3 = None
         self._itemText3 = None
         #
-        self.cls_painter_path = None
+        self.CLS_painterPath = None
         self._namespace = None
         #
         self._vars = None
@@ -91,10 +91,10 @@ class IfAbc_ScCameraProductItem(
                 self.setupItem()
     @property
     def path(self):
-        return self.cls_painter_path
+        return self.CLS_painterPath
     @path.setter
     def path(self, string):
-        self.cls_painter_path = string
+        self.CLS_painterPath = string
     @property
     def namespace(self):
         return self._namespace
@@ -145,7 +145,7 @@ class IfAbc_ScCameraProductItem(
     #
     def _updateLocalFrameRange(self):
         if self._objectType == appCfg.MaNodeType_Alembic:
-            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.cls_painter_path)
+            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
     #
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
@@ -202,11 +202,11 @@ class IfAbc_ScCameraProductItem(
             if self._branchInfo is not False:
                 nodePath, namespace, timeTag = self._branchInfo
                 #
-                self.cls_painter_path = nodePath
+                self.CLS_painterPath = nodePath
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils.getShapeType(self.cls_painter_path)
+                self._objectType = maUtils.getShapeType(self.CLS_painterPath)
                 #
                 self._updateLocalFrameRange()
                 #
@@ -297,7 +297,7 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
                 if self._connectMethod:
                     self._connectMethod()
             #
-            currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+            currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
                 actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
@@ -353,8 +353,9 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
         #
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
+
             actionDatumLis.append(
-                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -448,10 +449,10 @@ class IfScAssetProductItem(
             self.setupItem()
     @property
     def path(self):
-        return self.cls_painter_path
+        return self.CLS_painterPath
     @path.setter
     def path(self, string):
-        self.cls_painter_path = string
+        self.CLS_painterPath = string
     @property
     def namespace(self):
         return self._namespace
@@ -516,9 +517,9 @@ class IfScAssetProductItem(
             self._assetName, self._number
         )
         if maUtils.isAppExist(scAssetGroup):
-            self.cls_painter_path = scAssetGroup
+            self.CLS_painterPath = scAssetGroup
             #
-            self._itemLocalTimeTag = maUtils.getAttrDatum(self.cls_painter_path, 'tag')
+            self._itemLocalTimeTag = maUtils.getAttrDatum(self.CLS_painterPath, 'tag')
             #
             self._itemIconState0 = None
             self._itemTooltip = None
@@ -596,7 +597,7 @@ class IfAbc_ScAstBranchItem(
         self._itemIconState3 = None
         self._itemText3 = None
         #
-        self.cls_painter_path = None
+        self.CLS_painterPath = None
         self._namespace = None
         #
         self._vars = None
@@ -617,10 +618,10 @@ class IfAbc_ScAstBranchItem(
             self.setupItem()
     @property
     def path(self):
-        return self.cls_painter_path
+        return self.CLS_painterPath
     @path.setter
     def path(self, string):
-        self.cls_painter_path = string
+        self.CLS_painterPath = string
     @property
     def namespace(self):
         return self._namespace
@@ -681,11 +682,11 @@ class IfAbc_ScAstBranchItem(
     #
     def _updateLocalFrameRange(self):
         if self._objectType == appCfg.MaNodeType_Alembic:
-            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.cls_painter_path)
+            self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
         elif self._objectType == appCfg.MaNodeType_Plug_Yeti:
-            self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self.cls_painter_path)
+            self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self.CLS_painterPath)
         elif self._objectType == appCfg.MaNodeType_Plug_NurbsHair:
-            self._localStartFrame, self._localEndFrame = maFur.getNhrCacheFrameRange(self.cls_painter_path)
+            self._localStartFrame, self._localEndFrame = maFur.getNhrCacheFrameRange(self.CLS_painterPath)
     #
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
@@ -753,11 +754,11 @@ class IfAbc_ScAstBranchItem(
             if self._branchInfo is not False:
                 nodePath, namespace, timeTag = self._branchInfo
                 #
-                self.cls_painter_path = nodePath
+                self.CLS_painterPath = nodePath
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils.getShapeType(self.cls_painter_path)
+                self._objectType = maUtils.getShapeType(self.CLS_painterPath)
                 #
                 self._updateLocalFrameRange()
                 #
@@ -916,7 +917,7 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
                 for i in connections:
                     sourceAttr, targetAttr = i
                     
-                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.TxtHtml.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -995,7 +996,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
                 if self._connectMethod:
                     self._connectMethod()
             #
-            currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+            currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
                 actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
@@ -1054,7 +1055,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1128,7 +1129,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
                 if self._connectMethod:
                     self._connectMethod()
             #
-            currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+            currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
                 actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
@@ -1187,7 +1188,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1302,7 +1303,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.TxtHtml.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1370,7 +1371,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                     self._startFrame, self._endFrame,
                     self._assetIndex,
                     self._assetClass, self._assetName, self._number, self._assetVariant,
-                    self.cls_painter_path,
+                    self.CLS_painterPath,
                     withAstCfxFurCache=cacheFile
                 )
                 #
@@ -1379,7 +1380,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                 if self._connectMethod:
                     self._connectMethod()
             #
-            currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+            currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
                 actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
@@ -1403,7 +1404,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                 self._startFrame, self._endFrame,
                 self._assetIndex,
                 self._assetClass, self._assetName, self._number, self._assetVariant,
-                self.cls_painter_path,
+                self.CLS_painterPath,
                 withAstCfxFurCache=True
             )
             #
@@ -1440,7 +1441,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1470,7 +1471,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
             self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage,
             self._startFrame, self._endFrame,
             self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant,
-            self.cls_painter_path
+            self.CLS_painterPath
         )
 
 
@@ -1549,7 +1550,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
             if connections:
                 for i in connections:
                     sourceAttr, targetAttr = i
-                    html = bscMethods.HtmlText.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
+                    html = bscMethods.TxtHtml.toHtmlMayaConnection(sourceAttr, targetAttr, self._namespace)
                     tipWin.addHtml(html)
             #
             tipWin.uiShow()
@@ -1624,7 +1625,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
                 if self._connectMethod:
                     self._connectMethod()
             #
-            currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+            currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
             if not currentTimeTag == '0000_0000_0000':
                 actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
                 #
@@ -1683,7 +1684,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (lxBasic.str_camelcase2prettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)

@@ -7,30 +7,47 @@ import cgitb
 #
 from ctypes import wintypes
 #
-from PyQt5 import QtGui, QtCore, QtSvg
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from PyQt5.QtWidgets import *
-#
-from LxBasic import bscMethods, bscObjects
-#
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxUi import uiCore
+
+mod_pyqt5 = bscMethods.PyLoader.loadModule('PyQt5')
+if mod_pyqt5:
+    LOAD_INDEX = 0
+    from PyQt5 import QtGui, QtCore, QtSvg
+    # noinspection PyUnresolvedReferences
+    from PyQt5.QtWidgets import *
+else:
+    LOAD_INDEX = 1
+    mod_pyside2 = bscMethods.PyLoader.loadModule('PySide2')
+    if mod_pyside2:
+        # noinspection PyUnresolvedReferences
+        from PySide2 import QtGui, QtCore, QtSvg
+        # noinspection PyUnresolvedReferences
+        from PySide2.QtWidgets import *
+
+
 #
 cgitb.enable(format='text')
 #
 _families = uiCore.Lynxi_Ui_Family_Lis
 #
-cls_color = QtGui.QColor
-cls_brush = QtGui.QBrush
-cls_point = QtCore.QPoint
-cls_pointF = QtCore.QPointF
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
-cls_rectF = QtCore.QRectF
-cls_polygon = QtGui.QPolygon
-cls_polygonF = QtGui.QPolygonF
-cls_painter_path = QtGui.QPainterPath
+CLS_color = QtGui.QColor
+CLS_brush = QtGui.QBrush
+CLS_point = QtCore.QPoint
+CLS_pointF = QtCore.QPointF
+CLS_line = QtCore.QLine
+CLS_rect = QtCore.QRect
+CLS_rectF = QtCore.QRectF
+CLS_polygon = QtGui.QPolygon
+CLS_polygonF = QtGui.QPolygonF
+CLS_painterPath = QtGui.QPainterPath
+CLS_painter = QtGui.QPainter
+
+CLS_pen = QtGui.QPen
+CLS_timer = QtCore.QTimer
 #
 ExtendSelectMode = 0
 AddSelectMode = 1
@@ -105,9 +122,49 @@ OutsetBorder = 'outset'
 GrooveBorder = 'groove'
 RidgeBorder = 'ridge'
 #
-UiTipTimer = QtCore.QTimer()
+TOOLTIP_TIMER = CLS_timer()
 #
 none = ''
+
+load_dic = {
+    'qtProperty': [
+        ("PyQt5.QtCore", "pyqtProperty"),
+        ("PySide2.QtCore", "Property")
+    ],
+    'qtSignal': [
+        ("PyQt5.QtCore", "pyqtSignal"),
+        ("PySide2.QtCore", "Signal")
+    ],
+    'qtWrapinstance': [
+        ("sip", "wrapinstance"),
+        ("shiboken2", "wrapInstance")
+    ],
+    'qtIsDeleted': [
+        ("sip", "isdeleted"),
+        ("shiboken2", "isValid")
+    ]
+}
+
+misplaced_dic = {
+        "QtCore.pyqtProperty": "QtCore.Property",
+        "QtCore.pyqtSignal": "QtCore.Signal",
+        "QtCore.pyqtSlot": "QtCore.Slot",
+        "QtCore.QAbstractProxyModel": "QtCore.QAbstractProxyModel",
+        "QtCore.QSortFilterProxyModel": "QtCore.QSortFilterProxyModel",
+        "QtCore.QStringListModel": "QtCore.QStringListModel",
+        "QtCore.QItemSelection": "QtCore.QItemSelection",
+        "QtCore.QItemSelectionModel": "QtCore.QItemSelectionModel",
+        "QtCore.QItemSelectionRange": "QtCore.QItemSelectionRange",
+        "uic.loadUi": "QtCompat.loadUi",
+        "sip.wrapinstance": "QtCompat.wrapInstance",
+        "sip.unwrapinstance": "QtCompat.getCppPointer",
+        "sip.isdeleted": "QtCompat.isValid",
+        "QtWidgets.qApp": "QtWidgets.QApplication.instance()",
+        "QtCore.QCoreApplication.translate": "QtCompat.translate",
+        "QtWidgets.QApplication.translate": "QtCompat.translate",
+        "QtCore.qInstallMessageHandler": "QtCompat.qInstallMessageHandler",
+        "QtWidgets.QStyleOptionViewItem": "QtCompat.QStyleOptionViewItemV4",
+    }
 
 
 def iconRoot():
@@ -177,7 +234,7 @@ def toShowPercent(maxValue, value, roundCount=3):
     return percent
 
 
-def hsvToRgb(h, s, v, maximum=255):
+def hsv2Rgb(h, s, v, maximum=255):
     h = float(h % 360.0)
     s = float(max(min(s, 1.0), 0.0))
     v = float(max(min(v, 1.0), 0.0))
@@ -206,7 +263,7 @@ def hsvToRgb(h, s, v, maximum=255):
 
 
 def getRgbByString_(string, maximum=255):
-    return hsvToRgb(int(''.join([str(ord(i)).zfill(3) for i in string])), 1, 1, maximum)
+    return hsv2Rgb(int(''.join([str(ord(i)).zfill(3) for i in string])), 1, 1, maximum)
 
 
 def getRgbByString(string, maximum=255):
@@ -255,13 +312,29 @@ def setupApp():
     return QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads)
 
 
-# Signal
-def uiSignal(*args):
-    return QtCore.pyqtSignal(*args)
+# noinspection PyUnusedLocal
+def qtSignal(*args):
+    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(classString)
+
+
+# noinspection PyUnusedLocal
+def qtWrapinstance(*args):
+    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(classString)
+
+
+# noinspection PyUnusedLocal
+def qtIsDeleted(*args):
+    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(classString)
 
 
 # Font
-def xFont(size=8, weight=50, italic=False, underline=False, strikeOut=False, family=_families[0]):
+def qtFont(size=8, weight=50, italic=False, underline=False, strikeOut=False, family=_families[0]):
     font = QtGui.QFont()
     font.setPointSize(size)
     font.setFamily(family)
@@ -273,7 +346,7 @@ def xFont(size=8, weight=50, italic=False, underline=False, strikeOut=False, fam
     return font
 
 
-def _toLxOsIconFile(iconKeyword, ext='.png'):
+def _toLxOsIconFile(iconKeyword, ext=u'.png'):
     isMayaIcon = iconKeyword.startswith('maya')
     #
     subLabel = 'table'
@@ -291,7 +364,7 @@ def _toLxOsIconFile(iconKeyword, ext='.png'):
     osFile = '{}/{}/{}{}'.format(iconRoot(), subLabel, iconKeyword, ext)
     #
     if isMayaIcon:
-        if lxBasic.isOsExistsFile(osFile):
+        if bscCommands.isOsExistsFile(osFile):
             return osFile
         else:
             return '{}/{}/{}{}'.format(iconRoot(), subLabel, 'default', ext)
@@ -301,7 +374,7 @@ def _toLxOsIconFile(iconKeyword, ext='.png'):
 
 def _toLxMayaOsIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya#out_{}'.format(mayaNodeType))
-    if lxBasic.isOsExistsFile(iconFile):
+    if bscCommands.isOsExistsFile(iconFile):
         osFile = iconFile
     else:
         osFile = _toLxOsIconFile('maya#out_default')
@@ -310,7 +383,7 @@ def _toLxMayaOsIconFile(mayaNodeType):
 
 def _toLxMayaOsSvgIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya@svg#{}'.format(mayaNodeType))
-    if lxBasic.isOsExistsFile(iconFile):
+    if bscCommands.isOsExistsFile(iconFile):
         osFile = iconFile
     else:
         osFile = _toLxOsIconFile('maya@svg#{}default')
@@ -319,23 +392,23 @@ def _toLxMayaOsSvgIconFile(mayaNodeType):
 
 def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
     if isHove:
-        startColor = endColor = cls_color(63, 255, 255, 255)
+        startColor = endColor = CLS_color(63, 255, 255, 255)
     else:
         if isSelected is True:
-            startColor = endColor = cls_color(255, 127, 0, 255)
+            startColor = endColor = CLS_color(255, 127, 0, 255)
         else:
             if drawDir == 1:
-                startColor = cls_color(63, 255, 127, 255)
-                endColor = cls_color(255, 0, 63, 255)
+                startColor = CLS_color(63, 255, 127, 255)
+                endColor = CLS_color(255, 0, 63, 255)
             else:
-                startColor = cls_color(255, 0, 63, 255)
-                endColor = cls_color(63, 255, 127, 255)
+                startColor = CLS_color(255, 0, 63, 255)
+                endColor = CLS_color(63, 255, 127, 255)
     #
     gradient = QtGui.QLinearGradient(startPos, endPos)
     gradient.setColorAt(0, startColor)
     gradient.setColorAt(1, endColor)
-    brush = QtGui.QBrush(gradient)
-    pen = QtGui.QPen(brush, 1)
+    brush = CLS_brush(gradient)
+    pen = CLS_pen(brush, 1)
     #
     return pen, brush
 
@@ -346,29 +419,75 @@ def toGlobalPos(widget):
     return p.x(), p.y()
 
 
+def mtdTooltipStartModifier(method):
+    def subFn(*args):
+        def show():
+            if uiTip:
+                if not hasattr(self, '_tooltipWidget'):
+                    self._tooltipWidget = QtTooltipWidget_(self)
+                #
+                self._tooltipWidget.setTooltip(uiTip)
+                self._tooltipWidget.tooltipShow()
+                #
+                lxScheme.Shm_Interface().setTooltipAutoShow(True)
+            #
+            self._tooltipTimer.stop()
+        # Class
+        self = args[0]
+        #
+        if self.isVisible():
+            if hasattr(self, 'uiTip'):
+                # Tip
+                uiTip = self.uiTip
+                # Timer
+                if not hasattr(self, '_tooltipTimer'):
+                    self._tooltipTimer = QtCore.QTimer(self)
+                #
+                self._tooltipTimer.start(getTooltipDelayTime())
+                self._tooltipTimer.timeout.connect(show)
+        return method(*args)
+    return subFn
+
+
+def mtdTooltipStopModifier(method):
+    def subFn(*args):
+        # Class
+        self = args[0]
+        #
+        if hasattr(self, '_tooltipTimer'):
+            self._tooltipTimer.stop()
+        if hasattr(self, '_tooltipWidget'):
+            self._tooltipWidget.hide()
+        #
+        TOOLTIP_TIMER.start(2000)
+        TOOLTIP_TIMER.timeout.connect(closeTooltipAutoShow)
+        return method(*args)
+    return subFn
+
+
+def toRgbaStylesheetString(rgba):
+    return ', '.join([str(i) for i in rgba])
+
+
 class QPainterPath_(QtGui.QPainterPath):
-    def __init__(self, *args, **kwargs):
-        super(QtGui.QPainterPath, self).__init__(*args, **kwargs)
+    def __init__(self, *args):
+        super(QPainterPath_, self).__init__(*args)
         self.setFillRule(QtCore.Qt.WindingFill)
     #
     def _addPoints(self, points):
-        points = [QtCore.QPointF(x, y) for x, y in points]
-        self.addPolygon(QtGui.QPolygonF(points))
+        points = [CLS_pointF(x, y) for x, y in points]
+        self.addPolygon(CLS_polygonF(points))
 
 
-class QPainter_(
-    QtGui.QPainter,
-    uiCore.Basic
-):
+class QPainter_(QtGui.QPainter, uiCore.Basic):
     def __init__(self, *args, **kwargs):
-        # noinspection PyArgumentList
-        super(QtGui.QPainter, self).__init__(*args, **kwargs)
+        super(QPainter_, self).__init__(*args, **kwargs)
         #
-        self._borderColor = QtGui.QColor(127, 127, 127, 255)
-        self._backgroundColor = QtGui.QColor(63, 63, 63, 255)
+        self._borderColor = CLS_color(127, 127, 127, 255)
+        self._backgroundColor = CLS_color(63, 63, 63, 255)
         #
-        self.cls_pen = QtGui.QPen(self._borderColor)
-        self.cls_brush = QtGui.QBrush(self._backgroundColor)
+        self._pen = CLS_pen(self._borderColor)
+        self._brush = CLS_brush(self._backgroundColor)
     #
     def setBackgroundRgba(self, *args):
         if isinstance(args[0], int) or isinstance(args[0], float):
@@ -381,15 +500,15 @@ class QPainter_(
             rgba = 0, 0, 0, 0
         #
         r, g, b, a = min(255, rgba[0]), min(255, rgba[1]), min(255, rgba[2]), min(255, rgba[3])
-        self._backgroundColor = QtGui.QColor(r, g, b, a)
+        self._backgroundColor = CLS_color(r, g, b, a)
         #
-        self.cls_brush = QtGui.QBrush(self._backgroundColor)
-        self.setBrush(self.cls_brush)
+        self._brush = CLS_brush(self._backgroundColor)
+        self.setBrush(self._brush)
     #
     def setBrushStyle(self, brushStyle):
-        self.cls_brush = QtGui.QBrush(self._backgroundColor)
-        self.cls_brush.setStyle(brushStyle)
-        self.setBrush(self.cls_brush)
+        self._brush = CLS_brush(self._backgroundColor)
+        self._brush.setStyle(brushStyle)
+        self.setBrush(self._brush)
     #
     def setBorderRgba(self, *args):
         if isinstance(args[0], int) or isinstance(args[0], float):
@@ -402,31 +521,31 @@ class QPainter_(
             rgba = 0, 0, 0, 0
         #
         r, g, b, a = min(255, rgba[0]), min(255, rgba[1]), min(255, rgba[2]), min(255, rgba[3])
-        self._borderColor = QtGui.QColor(r, g, b, a)
+        self._borderColor = CLS_color(r, g, b, a)
         #
-        self.cls_pen = QtGui.QPen(self._borderColor)
-        self.cls_pen.setCapStyle(QtCore.Qt.RoundCap)
-        self.cls_pen.setWidth(1)
-        self.setPen(self.cls_pen)
+        self._pen = CLS_pen(self._borderColor)
+        self._pen.setCapStyle(QtCore.Qt.RoundCap)
+        self._pen.setWidth(1)
+        self.setPen(self._pen)
     #
     def setPenStyle(self, penStyle):
-        self.cls_pen = QtGui.QPen(self._borderColor)
-        self.cls_pen.setStyle(penStyle)
-        self.setPen(self.cls_pen)
+        self._pen = CLS_pen(self._borderColor)
+        self._pen.setStyle(penStyle)
+        self.setPen(self._pen)
     #
     def setPenWidth(self, value):
-        self.cls_pen = QtGui.QPen(self._borderColor)
-        self.cls_pen.setWidth(value)
-        self.setPen(self.cls_pen)
+        self._pen = CLS_pen(self._borderColor)
+        self._pen.setWidth(value)
+        self.setPen(self._pen)
     #
     def setDrawFrame(self, points):
-        points = [QtCore.QPoint(x, y) for x, y in points]
-        self.drawPolygon(QtGui.QPolygon(points))
+        points = [CLS_point(x, y) for x, y in points]
+        self.drawPolygon(CLS_polygon(points))
     #
     def setDrawDottedFrame(self, rect, backgroundRgba, borderRgba):
         self.setBackgroundRgba(backgroundRgba)
         #
-        pen = QtGui.QPen(QtGui.QColor(*borderRgba))
+        pen = CLS_pen(CLS_color(*borderRgba))
         pen.setStyle(QtCore.Qt.DashLine)
         self.setPen(pen)
         #
@@ -476,36 +595,19 @@ class QPainter_(
             borderColor1 = 0, 0, 0, 0
         #
         borderGradient = QtGui.QLinearGradient(startPos, endPos)
-        borderGradient.setColorAt(0, cls_color(*borderColor0)), borderGradient.setColorAt(1, cls_color(*borderColor1))
-        brush = QtGui.QBrush(borderGradient)
+        borderGradient.setColorAt(0, CLS_color(*borderColor0)), borderGradient.setColorAt(1, CLS_color(*borderColor1))
+        brush = CLS_brush(borderGradient)
         #
-        pen = QtGui.QPen(brush, 1)
+        pen = CLS_pen(brush, 1)
         self.setPen(pen)
         backGroundGradient = QtGui.QLinearGradient(startPos, endPos)
-        backGroundGradient.setColorAt(0, cls_color(*backgroundColor0))
-        backGroundGradient.setColorAt(1, cls_color(*backgroundColor1))
-        brush = QtGui.QBrush(backGroundGradient)
+        backGroundGradient.setColorAt(0, CLS_color(*backgroundColor0))
+        backGroundGradient.setColorAt(1, CLS_color(*backgroundColor1))
+        brush = CLS_brush(backGroundGradient)
         self.setBrush(brush)
         self.drawRect(titleRect)
         self.setBackgroundRgba(0, 0, 0, 0)
         self.drawRect(centralRect)
-    #
-    def setDrawTreeConnect(self):
-        pass
-    #
-    def setDrawExpandFrame(self, rect, isExpandable, isExpanded, isExpandHovered, hasChild, level):
-        self.setBackgroundRgba(0, 0, 0, 0)
-        self.setBorderRgba([(127, 127, 127, 255), (0, 191, 191, 255)][isExpandHovered])
-        #
-        w, h = 8, 8
-        if isExpandable:
-            x, y = rect.x(), rect.y()
-            width, height = rect.width(), rect.height()
-            frameRect = cls_rect(
-                x + (width - w)/2 - 1, y + (height - h)/2 - 1,
-                w, h
-            )
-            self.drawRect(frameRect)
     #
     def setDrawGradientFrame(self, rect, startPos, endPos, backgroundRgba, borderColors, isSelected, isChecked, isPressHovered, isBackGroundChanged=False):
         self.setBackgroundRgba(backgroundRgba)
@@ -513,47 +615,47 @@ class QPainter_(
         #
         if isSelected:
             if isPressHovered:
-                backgroundColor1 = cls_color(0, 127, 127, 255)
-                borderColor1 = cls_color(63, 255, 255, 255)
+                backgroundColor1 = CLS_color(0, 127, 127, 255)
+                borderColor1 = CLS_color(63, 255, 255, 255)
             else:
-                backgroundColor1 = cls_color(0, 127, 127, 255)
-                borderColor1 = cls_color(0, 191, 191, 255)
+                backgroundColor1 = CLS_color(0, 127, 127, 255)
+                borderColor1 = CLS_color(0, 191, 191, 255)
         else:
             if isPressHovered:
-                backgroundColor1 = cls_color(71, 71, 71, 255)
-                borderColor1 = cls_color(127, 127, 127, 255)
+                backgroundColor1 = CLS_color(71, 71, 71, 255)
+                borderColor1 = CLS_color(127, 127, 127, 255)
             else:
-                backgroundColor1 = cls_color(63, 63, 63, 255)
-                borderColor1 = cls_color(95, 95, 95, 255)
+                backgroundColor1 = CLS_color(63, 63, 63, 255)
+                borderColor1 = CLS_color(95, 95, 95, 255)
         #
         if isChecked:
             if isPressHovered:
-                backgroundColor0 = cls_color(255, 127, 64, 255)
-                borderColor0 = cls_color(255, 191, 0, 255)
+                backgroundColor0 = CLS_color(255, 127, 64, 255)
+                borderColor0 = CLS_color(255, 191, 0, 255)
             else:
-                backgroundColor0 = cls_color(255, 127, 64, 255)
-                borderColor0 = cls_color(255, 127, 0, 255)
+                backgroundColor0 = CLS_color(255, 127, 64, 255)
+                borderColor0 = CLS_color(255, 127, 0, 255)
         else:
             if isPressHovered:
-                backgroundColor0 = cls_color(71, 71, 71, 255)
-                borderColor0 = cls_color(127, 127, 127, 255)
+                backgroundColor0 = CLS_color(71, 71, 71, 255)
+                borderColor0 = CLS_color(127, 127, 127, 255)
             else:
-                backgroundColor0 = cls_color(63, 63, 63, 255)
-                borderColor0 = cls_color(95, 95, 95, 255)
+                backgroundColor0 = CLS_color(63, 63, 63, 255)
+                borderColor0 = CLS_color(95, 95, 95, 255)
         #
         if isBackGroundChanged is True:
             backGroundGradient = QtGui.QLinearGradient(startPos, endPos)
             backGroundGradient.setColorAt(0, backgroundColor0)
             backGroundGradient.setColorAt(1, backgroundColor1)
-            brush = QtGui.QBrush(backGroundGradient)
+            brush = CLS_brush(backGroundGradient)
             self.setBrush(brush)
         #
         borderGradient = QtGui.QLinearGradient(startPos, endPos)
         borderGradient.setColorAt(0, borderColor0)
         borderGradient.setColorAt(1, borderColor1)
-        brush = QtGui.QBrush(borderGradient)
+        brush = CLS_brush(borderGradient)
         #
-        pen = QtGui.QPen(brush, 1)
+        pen = CLS_pen(brush, 1)
         self.setPen(pen)
         #
         self.drawRect(rect)
@@ -586,7 +688,7 @@ class QPainter_(
                 ((x3, y3 - l_), (x3, y3), (x3 - l_, y3)),
                 ((x4 + l_, y4), (x4, y4), (x4, y4 - l_))
             )
-        elif isinstance(shape, QtCore.QRect):
+        elif isinstance(shape, CLS_rect):
             rect = shape
             #
             p1, p2, p3, p4 = rect.topLeft(), rect.topRight(), rect.bottomRight(), rect.bottomLeft()
@@ -644,27 +746,27 @@ class QPainter_(
         x = (width - r) / 2 + xPos
         y = (height - r) / 2 + yPos
         #
-        ellipseRect = QtCore.QRect(x - 1, y - 1, r + 2, r + 2)
+        ellipseRect = CLS_rect(x - 1, y - 1, r + 2, r + 2)
         points = [
-            self.getPointOnEllipse(x, y, r, 90),
-            self.getPointOnEllipse(x, y, r, 210),
-            self.getPointOnEllipse(x, y, r, 330),
-            self.getPointOnEllipse(x, y, r, 90)
+            self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=90),
+            self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=210),
+            self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=330),
+            self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=90)
         ]
         #
         self.setBackgroundRgba(backgroundRgba)
         self.setBorderRgba(borderRgba)
         #
-        self.cls_pen.setWidth(2)
-        self.setPen(self.cls_pen)
-        self.setRenderHint(QtGui.QPainter.Antialiasing)
+        self._pen.setWidth(2)
+        self.setPen(self._pen)
+        self.setRenderHint(self.Antialiasing)
         self.drawEllipse(ellipseRect)
         self.setDrawPath(points)
         #
         return ellipseRect
     #
     def setDrawExpandPattern(self, rect, scale, isExpanded, backgroundRgba, borderRgba):
-        self.setRenderHint(QtGui.QPainter.Antialiasing)
+        self.setRenderHint(self.Antialiasing)
         #
         xPos, yPos = rect.x(), rect.y()
         width = rect.width()
@@ -676,17 +778,17 @@ class QPainter_(
         #
         if isExpanded is True:
             points = [
-                self.getPointOnEllipse(x, y, r, 120),
-                self.getPointOnEllipse(x, y, r, 240),
-                self.getPointOnEllipse(x, y, r, 360),
-                self.getPointOnEllipse(x, y, r, 120)
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=120),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=240),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=360),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=120)
             ]
         else:
             points = [
-                self.getPointOnEllipse(x, y, r, 90),
-                self.getPointOnEllipse(x, y, r, 210),
-                self.getPointOnEllipse(x, y, r, 330),
-                self.getPointOnEllipse(x, y, r, 90)
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=90),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=210),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=330),
+                self.mtd_raw_ellipse2d.positionAtAngle(center=(x, y), radius=r, angle=90)
             ]
         #
         self.setBackgroundRgba(backgroundRgba)
@@ -700,8 +802,8 @@ class QPainter_(
         xTrackOffset, yTrackOffset = trackOffset
         xAxisOffset, yAxisOffset = axisOffset
         #
-        xPoints = QtCore.QPointF(xAxisOffset, height - yAxisOffset - yTrackOffset), QtCore.QPointF(width - xTrackOffset, height - yAxisOffset - yTrackOffset)
-        yPoints = QtCore.QPointF(xAxisOffset, 0), QtCore.QPointF(xAxisOffset, height - yAxisOffset - yTrackOffset)
+        xPoints = CLS_pointF(xAxisOffset, height - yAxisOffset - yTrackOffset), CLS_pointF(width - xTrackOffset, height - yAxisOffset - yTrackOffset)
+        yPoints = CLS_pointF(xAxisOffset, 0), CLS_pointF(xAxisOffset, height - yAxisOffset - yTrackOffset)
         #
         self.setBackgroundRgba(0, 0, 0, 0)
         self.setBorderRgba(borderRgba)
@@ -714,11 +816,11 @@ class QPainter_(
             for seq, points in enumerate(lines):
                 value = seq - axisSeq + 1
                 if value % 100 == 1:
-                    pen = self.cls_pen
+                    pen = self._pen
                     pen.setWidth(2)
                     self.setPen(pen)
                 else:
-                    pen = self.cls_pen
+                    pen = self._pen
                     pen.setWidth(1)
                     self.setPen(pen)
                 self.drawLine(*points)
@@ -734,7 +836,7 @@ class QPainter_(
                 else:
                     yPos1 = yPos2 = gridSize*(x - ySeq) + yGridOffset + yTrackOffset
                 #
-                lis.append((QtCore.QPointF(xPos1, yPos1), QtCore.QPointF(xPos2, yPos2)))
+                lis.append((CLS_pointF(xPos1, yPos1), CLS_pointF(xPos2, yPos2)))
             return lis
         #
         def getVLines():
@@ -749,7 +851,7 @@ class QPainter_(
                     yPos1 = height
                     yPos2 = yGridOffset
                 #
-                lis.append((QtCore.QPointF(xPos1, yPos1), QtCore.QPointF(xPos2, yPos2)))
+                lis.append((CLS_pointF(xPos1, yPos1), CLS_pointF(xPos2, yPos2)))
             return lis
         #
         if gridSize > 4:
@@ -770,7 +872,10 @@ class QPainter_(
         def drawBranch(points, axisSeq, mult, offset):
             for seq, point in enumerate(points):
                 if (seq - axisSeq) % 5 == 0:
-                    text = lxBasic.getShowNumber((seq - axisSeq) * mult + offset, numberMode)
+                    text = bscMethods.Value.toPrettify(
+                        (seq - axisSeq) * mult + offset,
+                        numberMode
+                    )
                     self.drawText(point, text)
         #
         def getHPoints():
@@ -781,7 +886,7 @@ class QPainter_(
                 else:
                     xPos, yPos = gridSize*(i - xSeq) + xGridOffset + xTrackOffset, textHeight
                 #
-                lis.append(cls_pointF(xPos, yPos))
+                lis.append(CLS_pointF(xPos, yPos))
             #
             return lis
         #
@@ -793,7 +898,7 @@ class QPainter_(
                 else:
                     xPos, yPos = 0, gridSize*(i - ySeq) + yGridOffset + yTrackOffset
                 #
-                lis.append(cls_pointF(xPos, yPos))
+                lis.append(CLS_pointF(xPos, yPos))
             #
             return lis
         #
@@ -811,7 +916,7 @@ class QPainter_(
             hPoints, vPoints = getHPoints(), getVPoints()
             #
             self.setBorderRgba(borderRgba)
-            self.setFont(xFont(size=8, weight=50, family=_families[0]))
+            self.setFont(qtFont(size=8, weight=50, family=_families[0]))
             #
             drawBranch(hPoints, xSeq, xValueMult, xValueOffset); drawBranch(vPoints, ySeq, yValueMult, yValueOffset)
     #
@@ -840,9 +945,9 @@ class QPainter_(
                     w_ = self.fontMetrics().width(s)
                     #
                     if isRightDir:
-                        subRect = QtCore.QRect(xPos + (width - w), yPos, w_, height)
+                        subRect = CLS_rect(xPos + (width - w), yPos, w_, height)
                     else:
-                        subRect = QtCore.QRect(xPos, yPos, w_, height)
+                        subRect = CLS_rect(xPos, yPos, w_, height)
                     #
                     if i == keywordFilterString:
                         self.setBorderRgba(highlightColor)
@@ -855,7 +960,7 @@ class QPainter_(
                     xPos += w_
     #
     def setDrawToolTip(self, rect, string, margin, shadowRadius, side, region):
-        self.setRenderHint(QtGui.QPainter.Antialiasing)
+        self.setRenderHint(self.Antialiasing)
         #
         xPos = rect.x()
         yPos = rect.y()
@@ -872,13 +977,13 @@ class QPainter_(
         _wP = width - margin*2 - _s - side*2
         _hP = height - margin*2 - _s - side*2
         #
-        path1 = cls_painter_path()
-        path1.addRoundedRect(cls_rectF(_xP, _yP, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
-        path1_ = cls_painter_path()
-        path1_.addRoundedRect(cls_rectF(_xP + _s, _yP + _s, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
+        path1 = CLS_painterPath()
+        path1.addRoundedRect(CLS_rectF(_xP, _yP, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
+        path1_ = CLS_painterPath()
+        path1_.addRoundedRect(CLS_rectF(_xP + _s, _yP + _s, _wP, _hP), 5.0, 5.0, QtCore.Qt.AbsoluteSize)
         #
-        path2 = cls_painter_path()
-        path2_ = cls_painter_path()
+        path2 = CLS_painterPath()
+        path2_ = CLS_painterPath()
         #
         x1, x2, x3 = _xP + _wP - _w / 4, _xP + _wP + _w / 4, _xP + _wP - _w / 4
         _x1, _x2, _x3 = xPos + side*2 + _w / 2, xPos + side*2, xPos + side*2 + _w / 2
@@ -886,17 +991,17 @@ class QPainter_(
         y1, y2, y3 = _yP, _yP + _w / 2, _yP + _w
         _y1, _y2, _y3 = _yP + _hP - _w, _yP + _hP - _w / 2, _yP + _hP
         if region == 0:
-            path2.addPolygon(cls_polygonF([cls_pointF(_x1, y1), cls_pointF(_x2, y2 + 1), cls_pointF(_x3, y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, y1 + _s), cls_pointF(_x2 + _s, y2 + _s + 1), cls_pointF(_x3 + _s, y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(_x1, y1), CLS_pointF(_x2, y2 + 1), CLS_pointF(_x3, y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(_x1 + _s, y1 + _s), CLS_pointF(_x2 + _s, y2 + _s + 1), CLS_pointF(_x3 + _s, y3 + _s)]))
         elif region == 1:
-            path2.addPolygon(cls_polygonF([cls_pointF(x1, y1), cls_pointF(x2, y2), cls_pointF(x3, y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, y1 + _s), cls_pointF(x2 + _s, y2 + _s), cls_pointF(x3 + _s, y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(x1, y1), CLS_pointF(x2, y2), CLS_pointF(x3, y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(x1 + _s, y1 + _s), CLS_pointF(x2 + _s, y2 + _s), CLS_pointF(x3 + _s, y3 + _s)]))
         elif region == 2:
-            path2.addPolygon(cls_polygonF([cls_pointF(_x1, _y1), cls_pointF(_x2, _y2), cls_pointF(_x3, _y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, _y1 + _s), cls_pointF(_x2 + _s, _y2 + _s), cls_pointF(_x3 + _s, _y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(_x1, _y1), CLS_pointF(_x2, _y2), CLS_pointF(_x3, _y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(_x1 + _s, _y1 + _s), CLS_pointF(_x2 + _s, _y2 + _s), CLS_pointF(_x3 + _s, _y3 + _s)]))
         else:
-            path2.addPolygon(cls_polygonF([cls_pointF(x1, _y1), cls_pointF(x2, _y2 - 1), cls_pointF(x3, _y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, _y1 + _s), cls_pointF(x2 + _s, _y2 + _s - 1), cls_pointF(x3 + _s, _y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(x1, _y1), CLS_pointF(x2, _y2 - 1), CLS_pointF(x3, _y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(x1 + _s, _y1 + _s), CLS_pointF(x2 + _s, _y2 + _s - 1), CLS_pointF(x3 + _s, _y3 + _s)]))
         #
         self.setBorderRgba(0, 0, 0, 64)
         self.setBackgroundRgba(0, 0, 0, 64)
@@ -915,7 +1020,7 @@ class QPainter_(
         _wS = width - margin*4 - _s - side*2
         _hS = height - margin*4 - _s - side*2
         #
-        textRect = QtCore.QRect(_xS, _yS, _wS, _hS)
+        textRect = CLS_rect(_xS, _yS, _wS, _hS)
         #
         self.drawText(textRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, string)
     #
@@ -931,13 +1036,13 @@ class QPainter_(
         _wP = width - margin*2 - _s - side*2
         _hP = height - margin*2 - _s - side*2
         # Frame
-        path1 = cls_painter_path()
-        path2 = cls_painter_path()
-        path1.addRect(cls_rectF(_xP, _yP, _wP, _hP))
+        path1 = CLS_painterPath()
+        path2 = CLS_painterPath()
+        path1.addRect(CLS_rectF(_xP, _yP, _wP, _hP))
         # Shadow
-        path1_ = cls_painter_path()
-        path2_ = cls_painter_path()
-        path1_.addRect(cls_rectF(_xP + _s - 1, _yP + _s - 1, _wP, _hP))
+        path1_ = CLS_painterPath()
+        path2_ = CLS_painterPath()
+        path1_.addRect(CLS_rectF(_xP + _s - 1, _yP + _s - 1, _wP, _hP))
         #
         x1, x2, x3 = _xP + margin, _xP + margin*2, _xP + margin*3
         _x1, _x2, _x3 = _xP + _wP - margin*3, _xP + _wP - margin*2, _xP + _wP - margin
@@ -945,17 +1050,17 @@ class QPainter_(
         y1, y2, y3 = _yP + 1, _yP - margin + 1, _yP + 1
         _y1, _y2, _y3 = _yP + _hP - 1, _yP + _hP + margin - 1, _yP + _hP - 1
         if region == 0:
-            path2.addPolygon(cls_polygonF([cls_pointF(x1, y1), cls_pointF(x2, y2), cls_pointF(x3, y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, y1 + _s), cls_pointF(x2 + _s, y2 + _s), cls_pointF(x3 + _s, y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(x1, y1), CLS_pointF(x2, y2), CLS_pointF(x3, y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(x1 + _s, y1 + _s), CLS_pointF(x2 + _s, y2 + _s), CLS_pointF(x3 + _s, y3 + _s)]))
         elif region == 1:
-            path2.addPolygon(cls_polygonF([cls_pointF(_x1, y1), cls_pointF(_x2, y2), cls_pointF(_x3, y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, y1 + _s), cls_pointF(_x2 + _s, y2 + _s), cls_pointF(_x3 + _s, y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(_x1, y1), CLS_pointF(_x2, y2), CLS_pointF(_x3, y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(_x1 + _s, y1 + _s), CLS_pointF(_x2 + _s, y2 + _s), CLS_pointF(_x3 + _s, y3 + _s)]))
         elif region == 2:
-            path2.addPolygon(cls_polygonF([cls_pointF(x1, _y1), cls_pointF(x2, _y2), cls_pointF(x3, _y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(x1 + _s, _y1 + _s), cls_pointF(x2 + _s, _y2 + _s), cls_pointF(x3 + _s, _y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(x1, _y1), CLS_pointF(x2, _y2), CLS_pointF(x3, _y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(x1 + _s, _y1 + _s), CLS_pointF(x2 + _s, _y2 + _s), CLS_pointF(x3 + _s, _y3 + _s)]))
         else:
-            path2.addPolygon(cls_polygonF([cls_pointF(_x1, _y1), cls_pointF(_x2, _y2), cls_pointF(_x3, _y3)]))
-            path2_.addPolygon(cls_polygonF([cls_pointF(_x1 + _s, _y1 + _s), cls_pointF(_x2 + _s, _y2 + _s), cls_pointF(_x3 + _s, _y3 + _s)]))
+            path2.addPolygon(CLS_polygonF([CLS_pointF(_x1, _y1), CLS_pointF(_x2, _y2), CLS_pointF(_x3, _y3)]))
+            path2_.addPolygon(CLS_polygonF([CLS_pointF(_x1 + _s, _y1 + _s), CLS_pointF(_x2 + _s, _y2 + _s), CLS_pointF(_x3 + _s, _y3 + _s)]))
         #
         self.setBorderRgba(0, 0, 0, 64)
         self.setBackgroundRgba(0, 0, 0, 64)
@@ -972,17 +1077,17 @@ class QPainter_(
         self.setBackgroundRgba(0, 0, 0, 64)
         #
         if isinstance(shape, tuple) or isinstance(shape, list):
-            points = [QtCore.QPoint(x + xOffset, y + yOffset) for x, y in shape]
-            self.drawPolygon(QtGui.QPolygon(points))
-        elif isinstance(shape, QtCore.QRect):
-            rect = cls_rect(shape.left() + xOffset, shape.top() + yOffset, shape.width() - 1, shape.height() - 1)
+            points = [CLS_point(x + xOffset, y + yOffset) for x, y in shape]
+            self.drawPolygon(CLS_polygon(points))
+        elif isinstance(shape, CLS_rect):
+            rect = CLS_rect(shape.left() + xOffset, shape.top() + yOffset, shape.width() - 1, shape.height() - 1)
             self.drawRect(rect)
     #
     def setDrawKeyPressMark(self, width, height, key, borderRgba):
-        rect = cls_rect(width - 120 - 4, 0, 120, height - 4)
+        rect = CLS_rect(width - 120 - 4, 0, 120, height - 4)
         #
         self.setBorderRgba(borderRgba)
-        self.setFont(xFont(size=10, weight=75, family=_families[1]))
+        self.setFont(qtFont(size=10, weight=75, family=_families[1]))
         self.drawText(rect, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom, key)
     #
     def setDrawImage(self, rect, osImageFile):
@@ -997,7 +1102,7 @@ class QPainter_(
                 )
     #
     def _setDrawSvgIcon(self, rect, osSvgFile):
-        rectF = QtCore.QRectF(
+        rectF = CLS_rectF(
             rect.x(), rect.y(),
             rect.width(), rect.height()
         )
@@ -1012,13 +1117,13 @@ class QPainter_(
         )
     #
     def setDrawIconText(self, rect, iconText, backgroundRgba, borderRgba):
-        w, h = rect.width(), rect.height()
         self.setBackgroundRgba(backgroundRgba)
         self.setBorderRgba(borderRgba)
-        self.setRenderHint(QtGui.QPainter.Antialiasing, True)
+        # noinspection PyArgumentEqualDefault
+        self.setRenderHint(self.Antialiasing, True)
         self.setPenWidth(2)
         self.drawEllipse(rect)
-        self.setRenderHint(QtGui.QPainter.Antialiasing, False)
+        self.setRenderHint(self.Antialiasing, False)
         self.drawText(rect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, iconText)
     #
     def setDrawButtonBasic(self, rect, borderWidth, borderRadius, backgroundRgba, borderRgba, borderStyle='outset'):
@@ -1028,7 +1133,10 @@ class QPainter_(
         #
         angleLis = []
         for p in [p0, p1, p2, p3]:
-            a = self.getAngle(p.x(), p.y(), cx, cy)
+            a = self.mtd_raw_position_2d.toAngle(
+                position0=(p.x(), p.y()),
+                position1=(cx, cy)
+            )
             angleLis.append(a)
         #
         br, bb, bg, ba = borderRgba
@@ -1052,26 +1160,26 @@ class QPainter_(
             else:
                 a = 90
             color = QtGui.QConicalGradient(cx, cy, a)
-            color.setColorAt(0, QtGui.QColor(br0, bb0, bg0, ba0))
+            color.setColorAt(0, CLS_color(br0, bb0, bg0, ba0))
             for seq, a in enumerate(angleLis):
                 p = float(a) / float(360)
                 if seq == 0:
-                    color.setColorAt(p, QtGui.QColor(br1, bb1, bg1, ba1))
+                    color.setColorAt(p, CLS_color(br1, bb1, bg1, ba1))
                 elif seq == 1:
-                    color.setColorAt(p - .0125, QtGui.QColor(br1, bb1, bg1, ba1))
-                    color.setColorAt(p, QtGui.QColor(br4, bb4, bg4, ba4))
+                    color.setColorAt(p - .0125, CLS_color(br1, bb1, bg1, ba1))
+                    color.setColorAt(p, CLS_color(br4, bb4, bg4, ba4))
                 elif seq == 2:
-                    color.setColorAt(p, QtGui.QColor(br4, bb4, bg4, ba4))
+                    color.setColorAt(p, CLS_color(br4, bb4, bg4, ba4))
                 elif seq == 3:
-                    color.setColorAt(p - .0125, QtGui.QColor(br3, bb3, bg3, ba3))
-                    color.setColorAt(p, QtGui.QColor(br0, bb0, bg0, ba0))
-            color.setColorAt(1, QtGui.QColor(br0, bb0, bg0, ba0))
+                    color.setColorAt(p - .0125, CLS_color(br3, bb3, bg3, ba3))
+                    color.setColorAt(p, CLS_color(br0, bb0, bg0, ba0))
+            color.setColorAt(1, CLS_color(br0, bb0, bg0, ba0))
             #
-            brush = QtGui.QBrush(color)
+            brush = CLS_brush(color)
             self.setBrush(brush)
             self.drawRoundedRect(rect, borderRadius, borderRadius, QtCore.Qt.AbsoluteSize)
         #
-        rect_ = QtCore.QRect(p0.x() + borderWidth, p0.y() + borderWidth, w - borderWidth*2, h - borderWidth*2)
+        rect_ = CLS_rect(p0.x() + borderWidth, p0.y() + borderWidth, w - borderWidth*2, h - borderWidth*2)
         self.setBackgroundRgba(backgroundRgba)
         self.drawRoundedRect(
             rect_,
@@ -1086,54 +1194,54 @@ class QPainter_(
         x_, y_ = p0.x() + borderWidth, p0.y() + borderWidth
         w_, h_ = w - borderWidth*2, h - borderWidth*2
         #
-        rectF0 = QtCore.QRectF(
+        rectF0 = CLS_rectF(
             x, y,
             w, h
         )
-        rectF0_ = QtCore.QRectF(
+        rectF0_ = CLS_rectF(
             x_, y_,
             w_, h_
         )
-        path0 = QtGui.QPainterPath()
+        path0 = CLS_painterPath()
         path0.addRoundedRect(rectF0, borderRadius, borderRadius, QtCore.Qt.AbsoluteSize)
-        path0_ = QtGui.QPainterPath()
+        path0_ = CLS_painterPath()
         path0_.addRoundedRect(rectF0_, borderRadius - borderWidth, borderRadius - borderWidth, QtCore.Qt.AbsoluteSize)
         #
         if tabRegion == 1:
             if tabPosition == South or tabPosition == North:
-                rectF1 = QtCore.QRectF(
+                rectF1 = CLS_rectF(
                     x+w/2, y,
                     w/2+1, h
                 )
-                rectF1_ = QtCore.QRectF(
+                rectF1_ = CLS_rectF(
                     x_+w_/2, y_,
                     w_/2+1, h_
                 )
             else:
-                rectF1 = QtCore.QRectF(
+                rectF1 = CLS_rectF(
                     x, y+h/2,
                     w, h/2+1
                 )
-                rectF1_ = QtCore.QRectF(
+                rectF1_ = CLS_rectF(
                     x_, y_+h_/2,
                     w_, h_/2+1
                 )
         elif tabRegion == 2:
             if tabPosition == South or tabPosition == North:
-                rectF1 = QtCore.QRectF(
+                rectF1 = CLS_rectF(
                     x, y,
                     w/2+1, h
                 )
-                rectF1_ = QtCore.QRectF(
+                rectF1_ = CLS_rectF(
                     x_, y_,
                     w_/2+1, h_
                 )
             else:
-                rectF1 = QtCore.QRectF(
+                rectF1 = CLS_rectF(
                     x, y,
                     w, h/2+1
                 )
-                rectF1_ = QtCore.QRectF(
+                rectF1_ = CLS_rectF(
                     x_, y_,
                     w_, h_/2+1
                 )
@@ -1141,10 +1249,10 @@ class QPainter_(
             rectF1 = rectF0
             rectF1_ = rectF0_
         #
-        path1 = QtGui.QPainterPath()
+        path1 = CLS_painterPath()
         path1.addRect(rectF1)
         #
-        path1_ = QtGui.QPainterPath()
+        path1_ = CLS_painterPath()
         path1_.addRect(rectF1_)
         #
         self.setBackgroundRgba(borderRgba)
@@ -1156,57 +1264,8 @@ class QPainter_(
         self.drawPath(path0_ + path1_)
 
 
-class TestWidget(QWidget):
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self._pos = West
-        if self._pos == West:
-            self.setMaximumSize(24, 96)
-        elif self._pos == West:
-            self.setMaximumSize(24, 96)
-    #
-    def paintEvent(self, event):
-        painter = QPainter_()
-        # painter.begin(self)  # fix
-        #
-        w, h = 96, 24
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        painter.setBackgroundRgba((63, 255, 127, 255))
-        # painter.drawRect(QtCore.QRect(xPos, yPos, width, height))
-        #
-        if self._pos == West:
-            rect0 = QtCore.QRect(w-h, 0, h, h)
-            rect1 = QtCore.QRect(h, 0, w-h, h)
-            painter.rotate(-90)
-            painter.translate(-w, 0)
-        else:
-            rect0 = QtCore.QRect(0, 0, h, h)
-            rect1 = QtCore.QRect(h, 0, w - h, h)
-            painter.rotate(90)
-            painter.translate(0, -h)
-        #
-        painter.setBackgroundRgba((255, 0, 63, 255))
-        painter.setBorderRgba((255, 0, 63, 255))
-        painter.drawRect(rect0)
-        #
-        textOption = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
-        string = 'Test'
-        painter.setBorderRgba((255, 255, 255, 255))
-        painter.drawText(
-            rect1,
-            textOption,
-            string
-        )
-
-        # painter.end()
-
-
 class QThread_(QtCore.QThread):
-    started = uiSignal()
+    started = qtSignal()
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QThread_, self)
         self.clsSuper.__init__(*args, **kwargs)
@@ -1251,16 +1310,16 @@ class xPythonHighlighter(QtGui.QSyntaxHighlighter):
         baseFormat.setFontFamily('Arial Unicode MS')
         baseFormat.setFontPointSize(8)
         for name, color in [
-                ('normal', QtGui.QColor(223, 223, 223, 255)),
-                ('keyword', QtGui.QColor(255, 127, 64, 255)),
-                ('builtin', QtGui.QColor(127, 127, 255, 255)),
-                ('constant', QtGui.QColor(127, 127, 255, 255)),
-                ('decorator', QtGui.QColor(255, 255, 64, 255)),
-                ('comment', QtGui.QColor(95, 95, 95, 255)),
-                ('string', QtGui.QColor(255, 255, 127, 255)),
-                ('unicode', QtGui.QColor(64, 159, 127, 255)),
-                ('number', QtGui.QColor(96, 159, 191, 255)),
-                ('error', QtGui.QColor(255, 0, 63, 255))
+                ('normal', CLS_color(223, 223, 223, 255)),
+                ('keyword', CLS_color(255, 127, 64, 255)),
+                ('builtin', CLS_color(127, 127, 255, 255)),
+                ('constant', CLS_color(127, 127, 255, 255)),
+                ('decorator', CLS_color(255, 255, 64, 255)),
+                ('comment', CLS_color(95, 95, 95, 255)),
+                ('string', CLS_color(255, 255, 127, 255)),
+                ('unicode', CLS_color(64, 159, 127, 255)),
+                ('number', CLS_color(96, 159, 191, 255)),
+                ('error', CLS_color(255, 0, 63, 255))
         ]:
             charFormat = QtGui.QTextCharFormat(baseFormat)
             charFormat.setForeground(color)
@@ -1398,7 +1457,7 @@ class xPythonHighlighter(QtGui.QSyntaxHighlighter):
 
 class QWidget_(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
+        self.clsSuper = super(QWidget_, self)
         self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -1410,10 +1469,14 @@ class QWidget_(QWidget):
         )
 
 
-class UiMainWidget(QWidget):
+class QWidget__(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QWidget__, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1484,32 +1547,15 @@ class UiMainWidget(QWidget):
             # painter.end()
 
 
-def getWidgetMinimumHeight(widget):
-    lis = []
-    layout = widget.layout()
-    if layout is not None:
-        count = layout.count()
-        spacing = layout.spacing()
-        if count:
-            for i in range(0, count):
-                item = layout.itemAt(i)
-                if item:
-                    wd = item.widget()
-                    h = wd.height()
-                    lis.append(h)
-        #
-        if lis:
-            return sum(lis) + (count - 1)*spacing
-        else:
-            return widget.minimumSize().height()
-    else:
-        return 0
-
-
 class QGridLayout_(QGridLayout):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QGridLayout, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QGridLayout, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QGridLayout_, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
     #
@@ -1530,8 +1576,13 @@ class QGridLayout_(QGridLayout):
 
 class QVBoxLayout_(QVBoxLayout):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QVBoxLayout, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QVBoxLayout, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QVBoxLayout_, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
     #
@@ -1552,8 +1603,13 @@ class QVBoxLayout_(QVBoxLayout):
 
 class QHBoxLayout_(QHBoxLayout):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QHBoxLayout, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QHBoxLayout, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QHBoxLayout_, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
     #
@@ -1574,12 +1630,16 @@ class QHBoxLayout_(QHBoxLayout):
 
 class QScrollArea_(QScrollArea):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QScrollArea, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self.setAttribute(
-            QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents
-        )
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QScrollArea, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
+            self.setAttribute(QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents)
+        else:
+            self.clsSuper = super(QScrollArea_, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
+            self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setWidgetResizable(True)
         #
@@ -1724,7 +1784,10 @@ class QtTooltipWidget_(
             xd, yd = deskPos.x(), deskPos.y()
             wd, hd = deskRect.width(), deskRect.height()
             #
-            region = self.getUiRegion(xd, yd, wd, hd)
+            region = self.mtd_raw_position_2d.toRegion(
+                position=(xd, yd),
+                size=(wd, hd)
+            )
             #
             op = parent.pos()
             p = parent.mapToGlobal(op)
@@ -1764,11 +1827,11 @@ class QtTooltipWidget_(
                 #
                 height = len(self._datum.split('\n'))*_h + margin*4 + shadowRadius
                 #
-                xP, yP, region = self.getRegionPos(
-                    xPos, yPos,
-                    maxWidth, maxHeight,
-                    width, height,
-                    xOffset, yOffset
+                xP, yP, region = self.mtd_raw_position_2d.regionTo(
+                    position=(xPos, yPos),
+                    size=(width, height),
+                    maximumSize=(maxWidth, maxHeight),
+                    offset=(xOffset, yOffset)
                 )
                 self._region = region
                 #
@@ -1777,7 +1840,7 @@ class QtTooltipWidget_(
                 else:
                     _yP = yP + margin + shadowRadius + side + __h
                 #
-                point = QtCore.QPoint(xP, _yP)
+                point = CLS_point(xP, _yP)
                 #
                 self.setGeometry(point.x(), point.y(), width, height)
                 self.show()
@@ -1807,13 +1870,41 @@ class QtTooltipWidget_(
         self._region = 0
     #
     def setupUi(self):
-        self.setFont(xFont(size=10, weight=75, family=_families[0]))
+        self.setFont(qtFont(size=10, weight=75, family=_families[0]))
+
+
+class QSplitter_(QSplitter):
+    def __init__(self, *args):
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QSplitter, self)
+            self.clsSuper.__init__(*args)
+        else:
+            self.clsSuper = super(QSplitter_, self)
+            self.clsSuper.__init__(*args)
+        #
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        #
+        self.setHandleWidth(2)
+        self.setContentsMargins(0, 0, 0, 0)
+        #
+        self.setStyleSheet(
+            'QSplitter{background: rgba(0, 0, 0, 0)}'
+            'QSplitter{border: none}'
+            'QSplitter::handle{background: rgba(63, 63, 63, 255)}'
+            'QSplitter::handle{border: 1px rgba(47, 47, 47, 255) ; border-radius: 1px ; border-style: outset ; margin: 160px 2px 160px 2px}'
+        )
+        #
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
 
 class QCommonStyle_(QCommonStyle):
     def __init__(self):
-        self.clsSuper = super(QCommonStyle, self)
-        self.clsSuper.__init__()
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QCommonStyle, self)
+            self.clsSuper.__init__()
+        else:
+            self.clsSuper = super(QCommonStyle_, self)
+            self.clsSuper.__init__()
     #
     def drawPrimitive(self, *args):
         element, option, painter, widget = args
@@ -1825,6 +1916,298 @@ class QCommonStyle_(QCommonStyle):
             QCommonStyle().drawPrimitive(element, option, painter, widget)
 
 
+class QPalette_(QtGui.QPalette):
+    def __init__(self, *args):
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QtGui.QPalette, self)
+            self.clsSuper.__init__(*args)
+        else:
+            self.clsSuper = super(QPalette_, self)
+            self.clsSuper.__init__(*args)
+        #
+        brush = CLS_brush(CLS_color(63, 127, 255, 127))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Highlight, brush)
+        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Highlight, brush)
+        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, brush)
+        #
+        brush = CLS_brush(CLS_color(63, 127, 255, 127))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
+        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
+        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
+        #
+        brush = CLS_brush(CLS_color(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.HighlightedText, brush)
+        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.HighlightedText, brush)
+        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.HighlightedText, brush)
+        #
+        brush = CLS_brush(CLS_color(223, 223, 223))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipText, brush)
+        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipText, brush)
+        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
+        #
+        brush = CLS_brush(CLS_color(63, 63, 63))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipBase, brush)
+        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipBase, brush)
+        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, brush)
+
+
+class QRadioButton_(QRadioButton):
+    # noinspection PyArgumentList
+    def __init__(self, iconKeyword=None, *args, **kwargs):
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QRadioButton, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QRadioButton_, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        #
+        self._uiIconKeyword = 'basic#radioCheck'
+        if iconKeyword:
+            self._uiIconKeyword = iconKeyword
+        #
+        self.toggled.connect(self._updateUiStyle)
+        self.setFont(qtFont(size=8, weight=50, family=_families[1]))
+        #
+        self.setUiSize()
+        #
+        self._updateUiStyle()
+    #
+    def setNameText(self, explain):
+        self.setText(explain)
+        self.setMaximumSize(QtCore.QSize(166667, 20))
+        self.setMinimumSize(QtCore.QSize(0, 20))
+    #
+    def setCheckable(self, *args):
+        self.clsSuper.setCheckable(*args)
+        self._updateUiStyle()
+    #
+    def setTooltip(self, string):
+        if string:
+            self.uiTip = string
+    #
+    def setIconExplain(self, iconKeyword, width=24, height=24):
+        self._uiIconKeyword = iconKeyword
+        self.setMaximumSize(QtCore.QSize(166667, height))
+        self.setMinimumSize(QtCore.QSize(width, height))
+        self._updateUiStyle()
+    @mtdTooltipStartModifier
+    def enterEvent(self, event):
+        if self.isCheckable():
+            self._setQtPressStyle(HoverState)
+    @mtdTooltipStopModifier
+    def leaveEvent(self, event):
+        self._updateUiStyle()
+    #
+    def _updateUiStyle(self):
+        if self.isCheckable():
+            self._setQtPressStyle([UncheckedState, CheckedState][self.isChecked()])
+        else:
+            self._setQtPressStyle(UncheckableState)
+    #
+    def _setQtPressStyle(self, state):
+        if state is CheckedState:
+            self.setStyleSheet(
+                '''
+                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(223, 223, 223, 255)}}
+                QRadioButton{{border: none}}
+                QRadioButton::indicator:checked{{image: url({0})}}
+                QRadioButton::indicator:unchecked{{image: url({1})}}
+                '''.format(_toLxOsIconFile(self._uiIconKeyword + 'on'), _toLxOsIconFile(self._uiIconKeyword + 'off'))
+            )
+        elif state is UncheckedState:
+            self.setStyleSheet(
+                '''
+                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(95, 95, 95, 255)}}
+                QRadioButton{{border: none}}
+                QRadioButton::indicator:checked{{image: url({0})}}
+                QRadioButton::indicator:unchecked{{image: url({1})}}
+                '''.format(_toLxOsIconFile(self._uiIconKeyword + 'on'), _toLxOsIconFile(self._uiIconKeyword + 'off'))
+            )
+        elif state is UncheckableState:
+            self.setStyleSheet(
+                '''
+                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(95, 95, 95, 255)}}
+                QRadioButton{{border: none}}
+                QRadioButton::indicator:checked{{image: url({0})}}
+                QRadioButton::indicator:unchecked{{image: url({1})}}
+                '''.format(_toLxOsIconFile('svg_basic@svg#unused'), _toLxOsIconFile('svg_basic@svg#unused'))
+            )
+        elif state is HoverState:
+            self.setStyleSheet(
+                '''
+                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(63, 255, 255, 255)}}
+                QRadioButton{{border: none}}
+                QRadioButton::indicator:checked{{image: url({0})}}
+                QRadioButton::indicator:unchecked{{image: url({1})}}
+                '''.format(_toLxOsIconFile(self._uiIconKeyword), _toLxOsIconFile(self._uiIconKeyword))
+            )
+    #
+    def setUiSize(self, width=20, height=20):
+        self.setMaximumSize(width, height)
+        self.setMinimumSize(width, height)
+
+
+class QCheckBox_(QCheckBox):
+    def __init__(self, iconKeyword=None, *args):
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QCheckBox, self)
+            self.clsSuper.__init__(*args)
+        else:
+            self.clsSuper = super(QCheckBox_, self)
+            self.clsSuper.__init__(*args)
+        #
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        #
+        self.initUi()
+        #
+        if iconKeyword:
+            self._uiIconKeyword = iconKeyword
+        # noinspection PyUnresolvedReferences
+        self.toggled.connect(self._updateUiStyle)
+        # noinspection PyArgumentEqualDefault
+        self.setFont(qtFont(size=8, weight=50, family=_families[1]))
+        #
+        self.setUiSize()
+        #
+        self._updateUiStyle()
+    #
+    def setNameText(self, explain):
+        self.setText(explain)
+        self.setMaximumSize(QtCore.QSize(166667, 20))
+        self.setMinimumSize(QtCore.QSize(0, 20))
+    #
+    def setDatum(self, message):
+        self.setChecked(message)
+    # noinspection PyUnusedLocal
+    def setIconExplain(self, iconKeyword, width=24, height=24):
+        self._uiIconKeyword = iconKeyword
+        self.setMaximumSize(QtCore.QSize(166667, height))
+        self.setMinimumSize(QtCore.QSize(0, height))
+        self._updateUiStyle()
+    #
+    def setDirt(self, dirt='left'):
+        if dirt == 'left':
+            self.setLayoutDirection(QtCore.Qt.LeftToRight)
+        elif dirt == 'right':
+            self.setLayoutDirection(QtCore.Qt.RightToLeft)
+    #
+    def setChecked(self, boolean):
+        self.clsSuper.setChecked(boolean)
+        #
+        self._isChecked = boolean
+        self._updateUiStyle()
+    #
+    def setCheckable(self, boolean):
+        self.clsSuper.setCheckable(boolean)
+        #
+        self._isCheckable = boolean
+        self._updateUiStyle()
+    #
+    def isChecked(self):
+        if self.isCheckable():
+            return self.clsSuper.isChecked()
+        else:
+            return False
+    #
+    def setToggledConnect(self, checkBox):
+        checkBox.toggled.connect(self.setVisible)
+    #
+    def setTooltip(self, string):
+        if string:
+            self.uiTip = string
+    @mtdTooltipStartModifier
+    def enterEvent(self, event):
+        if self.isCheckable():
+            self._setQtPressStyle(HoverState)
+    @mtdTooltipStopModifier
+    def leaveEvent(self, event):
+        self._updateUiStyle()
+    #
+    def datum(self):
+        return self.isChecked()
+    #
+    def _updateUiStyle(self):
+        if self.isCheckable():
+            self._setQtPressStyle([UncheckedState, CheckedState][self.isChecked()])
+        else:
+            self._setQtPressStyle(UncheckableState)
+    #
+    def _setQtPressStyle(self, state):
+        if state is CheckedState:
+            self.setStyleSheet(
+                '''
+                QCheckBox{{background: rgba(0,0, 0, 0) ; color:rgba(223, 223, 223, 255)}}
+                QCheckBox{{border: none}}
+                QCheckBox::indicator:checked{{image: url({0})}}
+                QCheckBox::indicator:unchecked{{image: url({1})}}
+            '''.format(_toLxOsIconFile(self._uiIconKeyword + 'on'), _toLxOsIconFile(self._uiIconKeyword + 'off'))
+            )
+        elif state is UncheckedState:
+            self.setStyleSheet(
+                '''
+                QCheckBox{{background: rgba(0, 0, 0, 0) ; color:rgba(95, 95, 95, 255)}}
+                QCheckBox{{border: none}}
+                QCheckBox::indicator:checked{{image: url({0})}}
+                QCheckBox::indicator:unchecked{{image: url({1})}}
+            '''.format(_toLxOsIconFile(self._uiIconKeyword + 'on'), _toLxOsIconFile(self._uiIconKeyword + 'off'))
+            )
+        elif state is UncheckableState:
+            self.setStyleSheet(
+                '''
+                QCheckBox{{background: rgba(0,0, 0, 0) ; color:rgba(95, 95, 95, 255)}}
+                QCheckBox{{border: none}}
+                QCheckBox::indicator:checked{{image: url({0})}}
+                QCheckBox::indicator:unchecked{{image: url({1})}}
+            '''.format(_toLxOsIconFile(self._uiIconKeyword + 'Disable'), _toLxOsIconFile(self._uiIconKeyword + 'Disable'))
+            )
+        elif state is HoverState:
+            self.setStyleSheet(
+                '''
+                QCheckBox{{background: rgba(63, 63, 63, 0) ; color:rgba(63, 255, 255, 255)}}
+                QCheckBox{{border: none}}
+                QCheckBox::indicator:checked{{image: url({0})}}
+                QCheckBox::indicator:unchecked{{image: url({1})}}
+            '''.format(_toLxOsIconFile(self._uiIconKeyword), _toLxOsIconFile(self._uiIconKeyword))
+            )
+    #
+    def setUiSize(self):
+        self.setMaximumSize(QtCore.QSize(20, 20))
+        self.setMinimumSize(QtCore.QSize(20, 20))
+    #
+    def initUi(self):
+        self._uiIconKeyword = 'basic#boxCheck'
+        #
+        self._isCheckable = True
+        self._isChecked = False
+
+
+def getWidgetMinimumHeight(widget):
+    lis = []
+    layout = widget.layout()
+    if layout is not None:
+        count = layout.count()
+        spacing = layout.spacing()
+        if count:
+            for i in range(0, count):
+                item = layout.itemAt(i)
+                if item:
+                    wd = item.widget()
+                    h = wd.height()
+                    lis.append(h)
+        #
+        if lis:
+            return sum(lis) + (count - 1)*spacing
+        else:
+            return widget.minimumSize().height()
+    else:
+        return 0
+
+
 def getTooltipDelayTime():
     if lxScheme.Shm_Interface().isTooltipAutoShow() is False:
         return lxConfigure.LynxiUi_Value_TooltipDelayTime
@@ -1833,55 +2216,9 @@ def getTooltipDelayTime():
 
 
 def closeTooltipAutoShow():
-    if UiTipTimer.isActive():
+    if TOOLTIP_TIMER.isActive():
         lxScheme.Shm_Interface().setTooltipAutoShow(False)
-        UiTipTimer.stop()
-
-
-def uiTooltipStartMethod(method):
-    def subFn(*args):
-        def show():
-            if uiTip:
-                if not hasattr(self, '_tooltipWidget'):
-                    self._tooltipWidget = QtTooltipWidget_(self)
-                #
-                self._tooltipWidget.setTooltip(uiTip)
-                self._tooltipWidget.tooltipShow()
-                #
-                lxScheme.Shm_Interface().setTooltipAutoShow(True)
-            #
-            self._tooltipTimer.stop()
-        # Class
-        self = args[0]
-        #
-        if self.isVisible():
-            if hasattr(self, 'uiTip'):
-                # Tip
-                uiTip = self.uiTip
-                # Timer
-                if not hasattr(self, '_tooltipTimer'):
-                    self._tooltipTimer = QtCore.QTimer(self)
-                #
-                self._tooltipTimer.start(getTooltipDelayTime())
-                self._tooltipTimer.timeout.connect(show)
-        return method(*args)
-    return subFn
-
-
-def uiTooltipStopMethod(method):
-    def subFn(*args):
-        # Class
-        self = args[0]
-        #
-        if hasattr(self, '_tooltipTimer'):
-            self._tooltipTimer.stop()
-        if hasattr(self, '_tooltipWidget'):
-            self._tooltipWidget.hide()
-        #
-        UiTipTimer.start(2000)
-        UiTipTimer.timeout.connect(closeTooltipAutoShow)
-        return method(*args)
-    return subFn
+        TOOLTIP_TIMER.stop()
 
 
 def uiTooltipClearMethod(method):
@@ -1905,13 +2242,11 @@ def getAppWindow():
     system = bscObjects.System()
     if system.isMaya:
         # noinspection PyUnresolvedReferences
-        import sip
-        # noinspection PyUnresolvedReferences
         import maya.OpenMayaUI as OpenMayaUI
         # noinspection PyUnresolvedReferences
         window = OpenMayaUI.MQtUtil.mainWindow()
         if window:
-            return sip.wrapinstance(long(window), QtCore.QObject)
+            return qtWrapinstance(long(window), QWidget)
     else:
         # noinspection PyArgumentList
         windows = QApplication.allWidgets()
@@ -1933,7 +2268,7 @@ def getParamY(param):
     return param >> 16
 
 
-def nativeEve(ui, message):
+def nativeEnvFnc(ui, message):
     pixel = 8
     msg2 = wintypes.MSG.from_address(message.__int__())
     width = ui.width()
@@ -2111,7 +2446,7 @@ def getLogWindow():
 def setShadow(ui, radius=4):
     shadow = QGraphicsDropShadowEffect()
     shadow.setBlurRadius(radius)
-    shadow.setColor(QtGui.QColor(32, 32, 32))
+    shadow.setColor(CLS_color(32, 32, 32))
     shadow.setOffset(0, 2)
     ui.setGraphicsEffect(shadow)
 

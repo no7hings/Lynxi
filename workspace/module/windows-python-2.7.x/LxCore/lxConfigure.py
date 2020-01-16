@@ -1,13 +1,5 @@
 # coding:utf-8
-import os
-
-import sys
-
-import platform
-
-from LxBasic import bscObjects
-
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscCommands
 
 Lynxi_Name_Td_Lis = [
     'dongchangbao',
@@ -255,12 +247,13 @@ LynxiScAstModelCacheType = 'modelCache'
 LynxiScAstCfxFurCacheType = 'cfxFurCache'
 LynxiScAstExtraCacheType = 'extraCache'
 # Ignore Send Message
-if lxBasic.getOsUser() in Lynxi_Name_Td_Lis:
+if bscMethods.OsSystem.username() in Lynxi_Name_Td_Lis:
     LynxiIsSendMail = False
     LynxiIsSendDingTalk = False
 else:
     LynxiIsSendMail = True
     LynxiIsSendDingTalk = True
+
 LynxiCharacterClassKey = 'character'
 LynxiPropClassKey = 'prop'
 LynxiAssetClassLis = [
@@ -289,7 +282,7 @@ varDic = globals()
 
 def isLxPipelineTd():
     boolean = False
-    user = lxBasic.getOsUser()
+    user = bscMethods.OsSystem.username()
     if user in Lynxi_Name_Td_Lis:
         boolean = True
     return boolean
@@ -302,30 +295,3 @@ def getLxVariantValue(varName):
 
 def setLxVariantValue(varName, value):
     varDic[varName] = value
-
-
-def lxProductRecordDatumDic(osFile, stage=None, description=None, notes=None):
-    dic = lxBasic.orderedDict()
-    dic[Lynxi_Key_Info_SourceFile] = osFile
-    dic[Lynxi_Key_Info_Update] = lxBasic.getOsActiveTimestamp()
-    dic[Lynxi_Key_Info_Artist] = lxBasic.getOsUser()
-    dic[Lynxi_Key_Info_HostName] = lxBasic.getOsHostName()
-    dic[Lynxi_Key_Info_Host] = lxBasic.getOsHost()
-    dic[Lynxi_Key_Info_Stage] = stage
-    dic[Lynxi_Key_Info_Description] = description
-    dic[Lynxi_Key_Info_Note] = notes
-    return dic
-
-
-# Get Update File
-def _toLxProductRecordFile(osFile):
-    base = lxBasic.getOsFileBase(osFile)
-    string = base + LynxiUpdateExt
-    return string
-
-
-# Get Update File
-def _toLxProductResultFile(osFile):
-    base = lxBasic.getOsFileBase(osFile)
-    string = base + LynxiResultExt
-    return string

@@ -1,19 +1,19 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcModel
+from LxUi.qt.qtObjects import qtObjModel
 
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-cls_point = QtCore.QPoint
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
+CLS_point = QtCore.QPoint
+CLS_line = QtCore.QLine
+CLS_rect = QtCore.QRect
 
 
 #
-class QtFilterCheckviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtFilterCheckviewItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -58,7 +58,7 @@ class QtFilterCheckviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
         count, maxCount = self._viewFilterItemModelIndexCount, self._maxFilterCount
         if count > 0:
             percent = float(count) / float(maxCount)
-            r, g, b = qtCore.hsvToRgb(120 * (1 - percent), 1, 1)
+            r, g, b = qtCore.hsv2Rgb(120 * (1 - percent), 1, 1)
             self._uiSubNameText = '{} / {}'.format(count, maxCount)
             self.widget()._uiSubNameColor = r, g, b, 255
         else:
@@ -166,7 +166,7 @@ class QtFilterCheckviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class QtCheckbuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtCheckbuttonItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -267,7 +267,7 @@ class QtCheckbuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class QtEnablebuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtEnablebuttonItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -327,7 +327,7 @@ class QtEnablebuttonItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class _QtTreeviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class _QtTreeviewItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -338,7 +338,7 @@ class _QtTreeviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class QtGridviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtGridviewItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -370,10 +370,10 @@ class QtGridviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._uiColorWidth, self._uiColorHeight = 12, 12
     #
     def __initUi(self):
-        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
-        self._titleRect, self._uiCentralRect, self._imageRect = cls_rect(), cls_rect(), cls_rect()
-        self._uiExpandRect, self._uiCheckRect, self._uiColorRect = cls_rect(), cls_rect(), cls_rect()
-        self._uiIndexTextRect, self._uiNameTextRect, self._uiIconRect = cls_rect(), cls_rect(), cls_rect()
+        self._uiBasicRect, self._shadowRect = CLS_rect(), CLS_rect()
+        self._titleRect, self._uiCentralRect, self._imageRect = CLS_rect(), CLS_rect(), CLS_rect()
+        self._uiExpandRect, self._uiCheckRect, self._uiColorRect = CLS_rect(), CLS_rect(), CLS_rect()
+        self._uiIndexTextRect, self._uiNameTextRect, self._uiIconRect = CLS_rect(), CLS_rect(), CLS_rect()
     #
     def __initVar(self):
         pass
@@ -483,7 +483,7 @@ class QtGridviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class QtPresetviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtPresetviewItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -658,7 +658,7 @@ class QtPresetviewItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class QtRecordviewItemItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class QtRecordviewItemItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #

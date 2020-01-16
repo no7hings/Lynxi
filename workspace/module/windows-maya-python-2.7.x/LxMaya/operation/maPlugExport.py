@@ -72,7 +72,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
         return argString
     @classmethod
     def _toAttributeArgString(cls, attrName):
-        lis = cls.app_method._toStringList(attrName)
+        lis = cls.app_method.toStringList(attrName)
         #
         if lis:
             argString = ' '.join(['{0} {1}'.format(cls.app_fle_cache_method.AttributeKey, i) for i in lis])

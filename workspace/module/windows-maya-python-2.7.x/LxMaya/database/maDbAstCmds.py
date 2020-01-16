@@ -1,7 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects
-
-from LxCore import lxBasic
+from LxBasic import bscObjects, bscCommands
 
 from LxUi.qt import qtCommands
 #
@@ -288,8 +286,8 @@ def dbAstCopyRigProductTo(assetIndex, targetFile):
     dbSubIndex = dbGet.getDbAstRigIndex(assetIndex)
     directory = databasePr.dbAstRigProductDirectory()
     asciiFile = directory + '/' + dbSubIndex
-    if lxBasic.isOsExistsFile(asciiFile):
-        lxBasic.setOsFileCopy(asciiFile, targetFile)
+    if bscCommands.isOsExistsFile(asciiFile):
+        bscCommands.setOsFileCopy(asciiFile, targetFile)
 
 
 # Nde_Geometry Load
@@ -530,7 +528,7 @@ def dbAstLoadModelProduct(assetIndex, assetName, assetVariant):
     directory = databasePr.dbAstModelProductDirectory()
     # Debug Current Variant Non - Exists
     dbProductFile = directory + '/' + dbModelIndex
-    if not lxBasic.isOsExistsFile(dbProductFile):
+    if not bscCommands.isOsExistsFile(dbProductFile):
         dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, appVariant.astDefaultVariant)
     #
     dbBasic.importDbMayaAscii(dbModelIndex, directory)

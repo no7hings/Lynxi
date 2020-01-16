@@ -2,12 +2,10 @@
 import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
-# noinspection PyUnresolvedReferences
-import pymel.core as core
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -25,7 +23,7 @@ none = ''
 # Get Poly Mesh Evaluate ( Method )
 def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox, showMode):
     # Dict { <Evaluate Name>: <Evaluate Data> }
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     used = [vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox]
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
@@ -136,8 +134,8 @@ def getAstGeometryObjects(assetName, namespace=none):
 
 # Get Instance In Check Objects( Data )
 def getInstanceObjectLis(objectLis):
-    # List [ <Instance Nde_Geometry> ]
-    lis = [i for i in objectLis if core.nodetypes.Shape(maUtils.getNodeShape(i, 1)).isInstanced()]
+    # Mark for Fix Later 2020 0114
+    lis = []
     return lis
 
 
@@ -158,7 +156,7 @@ def getObjectsShapeIsErrorNaming(objectLis, shapeSet=appVariant.shapeSet[0]):
 def getMeshObjectsEvaluateDic(objectLis, showMode=0):
     # Dict { <Poly Mesh> :
     #        List [ <Evaluate Info> ] }
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if objectLis:
         count = len(objectLis)
         data = getMeshObjectEvaluate(
@@ -187,7 +185,7 @@ def getMeshObjectsEvaluateDic(objectLis, showMode=0):
 
 #
 def getMaterialEvaluateData(objectLis, showMode=0):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if objectLis:
         evaluateData = maShdr.getMaterialEvaluateData(objectLis)
         #
@@ -202,7 +200,7 @@ def getMaterialEvaluateData(objectLis, showMode=0):
 
 # Get Objects Transformation (Data)
 def getObjectNonZeroTransAttrDic(objectLis):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     channelLabel = [
         'translate',
@@ -218,7 +216,7 @@ def getObjectNonZeroTransAttrDic(objectLis):
     ]
     if objectLis:
         for objectString in objectLis:
-            subDic = lxBasic.orderedDict()
+            subDic = bscCommands.orderedDict()
             for seq, channel in enumerate(channelSet):
                 subDic[channelLabel[seq]] = cmds.getAttr(objectString + channel)[0]
                 dic[objectString] = subDic
@@ -227,7 +225,7 @@ def getObjectNonZeroTransAttrDic(objectLis):
 
 #
 def filterObjectHistoryNodeDic(objectLis):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if objectLis:
         for objectString in objectLis:
             stringLis = cmds.listHistory(objectString, pruneDagObjects=1)
@@ -264,7 +262,7 @@ def getRedshiftAovNodes():
 
 #
 def getAovNodesData(renderer):
-    aovNodesData = lxBasic.orderedDict()
+    aovNodesData = bscCommands.orderedDict()
     if renderer == 'Arnold':
         aovNodesData = getArnoldAovNodesData()
     if renderer == 'Redshift':
@@ -274,7 +272,7 @@ def getAovNodesData(renderer):
 
 #
 def getArnoldAovNodesData():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     aovNodes = getArnoldAovNodeLis()
     if aovNodes:
         for aovNode in aovNodes:
@@ -285,7 +283,7 @@ def getArnoldAovNodesData():
 
 #
 def getRedshiftAovNodesData():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     aovNodes = getRedshiftAovNodes()
     if aovNodes:
         for aovNode in aovNodes:
@@ -305,7 +303,7 @@ def getShadingGroupsByObjects(objectLis):
         if shadingGroups:
             [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in MaDefShadingEngineLis]
 
-    lisR = lxBasic.getReduceList(lis)
+    lisR = bscMethods.List.cleanupTo(lis)
     lisR.sort()
     return lisR
 
@@ -437,7 +435,7 @@ def getAstCfxGrowSourceObjectLis(assetName, namespace=none):
 
 #
 def getAstCfxGrowSourceConnectionDic(assetName, namespace=none):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     objectPathLis = getAstCfxGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
         for objectString in objectPathLis:
@@ -454,7 +452,7 @@ def getAstSolverGrowSourceObjectLis(assetName, namespace):
 
 #
 def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     objectPathLis = getAstSolverGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
         for objectString in objectPathLis:
@@ -465,11 +463,11 @@ def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
 
 # Get Yeti Nde_Node Data
 def getYetiNodeData(assetClass, assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     yetiObjects = getYetiObjects(assetName)
     if yetiObjects:
         for yetiObject in yetiObjects:
-            subDic = lxBasic.orderedDict()
+            subDic = bscCommands.orderedDict()
             groomObjects = maUtils.getYetiGroomDic(yetiObject)
             if groomObjects:
                 for groomObject in groomObjects:
@@ -501,7 +499,7 @@ def getAstCfxNurbsHairObjects(assetName, namespace=none):
 
 #
 def getAstCfxNurbsHairSolverCheckData(assetName, namespace=none):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     objectPaths = getAstCfxNurbsHairObjects(assetName, namespace)
     if objectPaths:
         for objectPath in objectPaths:
@@ -533,7 +531,7 @@ def getAstSolverFurGuideCurveGroups(assetName, namespace=none):
 
 #
 def getAstSolverGuideCheckData(assetName, namespace=none):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     nhrGuideObjects = getAstUnitSolverNhrGuideObjects(assetName, namespace)
     if nhrGuideObjects:
         for nhrGuideObject in nhrGuideObjects:
@@ -615,7 +613,7 @@ def getAstUnitRigSolAttributeData(assetName, namespace=none):
         shapeCustomAttrData = maAttr.getNodeUserDefAttrData(objectString)
         dic[rigSolLinkGroup + objectString.split(rigSolLinkGroup)[-1]] = shapeDefinedAttrData, shapeCustomAttrData
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     rigSolLinkGroup = assetPr.astUnitRigSolFurSubGroupName(assetName)
     #
     objectPaths = getAstUnitSolverNhrGuideObjects(assetName, namespace)
@@ -628,9 +626,9 @@ def getAstUnitRigSolAttributeData(assetName, namespace=none):
 #
 def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDic, textureMtimestampDic):
     if textureString:
-        textureFilePath = lxBasic.getOsFileDirname(textureString)
+        textureFilePath = bscCommands.getOsFileDirname(textureString)
         #
-        textureFileBasename = lxBasic.getOsFileBasename(textureString)
+        textureFileBasename = bscCommands.getOsFileBasename(textureString)
         # Texture Path
         texturePathDic.setdefault(textureFilePath, []).append(textureFileBasename)
         #
@@ -640,7 +638,7 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
                 subTextureDatumLis = []
                 for subTextureFile in subTextureFileLis:
                     subTextureFileBasename = os.path.basename(subTextureFile)
-                    timestamp = lxBasic.getOsFileMtimestamp(subTextureFile)
+                    timestamp = bscMethods.OsFile.mtimestamp(subTextureFile)
                     if not (subTextureFileBasename, timestamp) in subTextureDatumLis:
                         subTextureDatumLis.append((subTextureFileBasename, timestamp))
                 #
@@ -653,7 +651,7 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
                 subTextureDatumLis = []
                 for subTextureFile in subTextureFileLis:
                     subTextureFileBasename = os.path.basename(subTextureFile)
-                    timestamp = lxBasic.getOsFileMtimestamp(subTextureFile)
+                    timestamp = bscMethods.OsFile.mtimestamp(subTextureFile)
                     if not (subTextureFileBasename, timestamp) in subTextureDatumLis:
                         subTextureDatumLis.append((subTextureFileBasename, timestamp))
                 #
@@ -661,8 +659,8 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
             else:
                 textureMtimestampDic[textureFileBasename] = None
         else:
-            if lxBasic.isOsExistsFile(textureString):
-                timestamp = lxBasic.getOsFileMtimestamp(textureString)
+            if bscCommands.isOsExistsFile(textureString):
+                timestamp = bscMethods.OsFile.mtimestamp(textureString)
                 textureMtimestampDic[textureFileBasename] = timestamp
             else:
                 textureMtimestampDic[textureFileBasename] = None
@@ -672,12 +670,12 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
 
 # Get Texture's Datum List Link
 def getTextureStatisticsDic(objectLis):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
-    texturePathDic = lxBasic.orderedDict()
+    texturePathDic = bscCommands.orderedDict()
     #
-    textureMtimestampDic = lxBasic.orderedDict()
-    textureNodeDic = lxBasic.orderedDict()
+    textureMtimestampDic = bscCommands.orderedDict()
+    textureNodeDic = bscCommands.orderedDict()
     #
     textureNodeLis = maShdr.getTextureNodeLisByObject(objectLis)
     if textureNodeLis:
@@ -692,7 +690,7 @@ def getTextureStatisticsDic(objectLis):
             getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDic, textureMtimestampDic)
     #
     for k, v in texturePathDic.items():
-        for i in lxBasic.getReduceList(v):
+        for i in bscMethods.List.cleanupTo(v):
             dic.setdefault(k, []).append((i, textureMtimestampDic[i], textureNodeDic[i]))
     return dic
 
@@ -707,7 +705,7 @@ def getVolume(objectString):
 #
 def getMeshObjectsConstantDic(assetName, namespace=none):
     infoConfig = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     meshesInformation = maGeom.getGeometryObjectsInfo(astUnitModelProductGroup)
     for seq, i in enumerate(infoConfig):
@@ -818,7 +816,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
 
 #
 def getObjectSetDic(data):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if data:
         for objectUniqueId, linkDataArray in data.items():
             for objIndex, materialUniqueId in linkDataArray:
@@ -987,7 +985,7 @@ def getAovCompIndexesForce(subIndex, aovs):
 
 #
 def getAstMeshConstantData(assetName, namespace=none):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     geometryObjects = getAstMeshObjects(assetName, 1, namespace)
     if geometryObjects:

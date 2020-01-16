@@ -3,23 +3,12 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
-from LxUi.qt._qtModels import _qtGraphItemModel
+from LxUi.qt._qtModels import _qtMdlGraphitem
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
-#
-cls_point = QtCore.QPoint
-cls_pointF = QtCore.QPointF
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
-cls_rectF = QtCore.QRectF
-#
-cls_color = QtGui.QColor
-cls_painter_path = QtGui.QPainterPath
-#
-_families = uiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
@@ -27,8 +16,12 @@ none = ''
 #
 class xGraphNodeItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xGraphNodeItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xGraphNodeItem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -78,7 +71,7 @@ class xGraphNodeItem(qtCore.QWidget):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
 
-        painter.setRenderHints(QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform)
+        painter.setRenderHints(painter.Antialiasing | painter.SmoothPixmapTransform)
         # Shadow
         painter.setBorderRgba((0, 0, 0, 64))
         painter.setBackgroundRgba((0, 0, 0, 64))
@@ -114,7 +107,7 @@ class xGraphNodeItem(qtCore.QWidget):
             painter.drawPixmap(self._itemModel._uiIconRect, icon)
         if self._itemModel._type is not None:
             painter.setFont(
-                qtCore.xFont(size=self._itemModel._uiFontSize, weight=75, family=qtCore._families[1])
+                qtCore.qtFont(size=self._itemModel._uiFontSize, weight=75, family=qtCore._families[1])
             )
             painter.setBorderRgba(self._uiBorderRgba)
             painter.drawText(
@@ -124,7 +117,7 @@ class xGraphNodeItem(qtCore.QWidget):
             )
 
         # painter.end()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     #
@@ -169,14 +162,18 @@ class xGraphNodeItem(qtCore.QWidget):
         self._uiAttributeBorderRgba = 127, 127, 127, 255
     #
     def setupUi(self):
-        self._itemModel = _qtGraphItemModel.xGraphNodeItemModel(self)
+        self._itemModel = _qtMdlGraphitem.xGraphNodeItemModel(self)
 
 
 #
 class xGraphGroupItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xGraphGroupItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xGraphGroupItem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -246,7 +243,7 @@ class xGraphGroupItem(qtCore.QWidget):
                 painter.drawEllipse(self._itemModel._outputConnectionRect)
             #
             painter.setFont(
-                qtCore.xFont(size=self._itemModel._uiFontSize, weight=75, family=qtCore._families[1])
+                qtCore.qtFont(size=self._itemModel._uiFontSize, weight=75, family=qtCore._families[1])
             )
             painter.setBorderRgba(self._uiBorderRgba)
             painter.drawText(
@@ -270,14 +267,18 @@ class xGraphGroupItem(qtCore.QWidget):
         self._uiOutputConnectionBackgroundRgba = 95, 95, 95, 255
     #
     def setupUi(self):
-        self._itemModel = _qtGraphItemModel.xGraphGroupItemModel(self)
+        self._itemModel = _qtMdlGraphitem.xGraphGroupItemModel(self)
 
 
 #
 class xGraphExplainItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xGraphExplainItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xGraphExplainItem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -334,7 +335,7 @@ class xGraphExplainItem(qtCore.QWidget):
             )
         #
         if self._itemModel._uiIndexText is not None:
-            painter.setFont(qtCore.xFont(size=8, weight=50, family=qtCore._families[0]))
+            painter.setFont(qtCore.qtFont(size=8, weight=50, family=qtCore._families[0]))
             painter.setBorderRgba(self._uiIndexRgba)
             painter.drawText(
                 self._itemModel._uiIndexTextRect,
@@ -360,17 +361,21 @@ class xGraphExplainItem(qtCore.QWidget):
         self._uiIndexRgba = 127, 127, 127, 255
         self._uiNameRgba = 191, 191, 191, 255
         #
-        self.setFont(qtCore.xFont(size=10, weight=50, family=qtCore._families[0]))
+        self.setFont(qtCore.qtFont(size=10, weight=50, family=qtCore._families[0]))
     #
     def setupUi(self):
-        self._itemModel = _qtGraphItemModel.xGraphExplainItemModel(self, (cls_point, cls_rect))
+        self._itemModel = _qtMdlGraphitem.xGraphExplainItemModel(self, (qtCore.CLS_point, qtCore.CLS_rect))
 
 
 #
 class xGraphConnectionItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xGraphConnectionItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xGraphConnectionItem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -400,7 +405,7 @@ class xGraphConnectionItem(qtCore.QWidget):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
 
-        painter.setRenderHints(QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform)
+        painter.setRenderHints(painter.Antialiasing | painter.SmoothPixmapTransform)
         #
         pen, brush = qtCore.getGradientColor(
             self._itemModel._startPoint, self._itemModel._endPoint,
@@ -422,14 +427,18 @@ class xGraphConnectionItem(qtCore.QWidget):
         self._uiBackgroundRgba = 0, 0, 0, 0
     #
     def setupUi(self):
-        self._itemModel = _qtGraphItemModel.xGraphConnectionItemModel(self)
+        self._itemModel = _qtMdlGraphitem.xGraphConnectionItemModel(self)
 
 
 #
-class xGraphAttributePortItem(qtAbcWidget.QtAbcObj_ViewWidget):
+class xGraphAttributePortItem(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xGraphAttributePortItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xGraphAttributePortItem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -571,5 +580,5 @@ class xGraphAttributePortItem(qtAbcWidget.QtAbcObj_ViewWidget):
         return self._itemModel
     #
     def setupUi(self):
-        self._itemModel = _qtGraphItemModel.xGraphAttributePortItemModel(self)
+        self._itemModel = _qtMdlGraphitem.xGraphAttributePortItemModel(self)
         self._viewModel = self._itemModel

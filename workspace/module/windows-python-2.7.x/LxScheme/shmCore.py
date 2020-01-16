@@ -175,11 +175,11 @@ class Basic(object):
 
     _String_Indent = '    '
 
-    module_copy = copy
+    MOD_copy = copy
 
     method_os_environ = bscMethods.OsEnviron
 
-    mtd_os_path = bscMethods.OsDirectory
+    MTD_os_path = bscMethods.OsDirectory
 
     method_os_system = bscMethods.OsSystem
 

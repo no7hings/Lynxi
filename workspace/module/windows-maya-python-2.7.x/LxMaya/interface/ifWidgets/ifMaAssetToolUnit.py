@@ -1,9 +1,9 @@
 # coding=utf-8
 import collections, threading
 #
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -121,11 +121,11 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             assetName = self.connectObject().assetName
             #
             hierarchyData = assetPr.astModelCharHierarchyConfig(assetName)
-            dic = lxBasic.getMayaPathDic(hierarchyData)
+            dic = bscCommands.getMayaPathDic(hierarchyData)
             self._objectPathDic.update(dic)
             #
             subHierarchyData = assetPr.astModelSolverHierarchyConfig(assetName)
-            subDic = lxBasic.getMayaPathDic(subHierarchyData)
+            subDic = bscCommands.getMayaPathDic(subHierarchyData)
             self._objectPathDic.update(subDic)
     #
     def setupUpToolUiBox(self, toolBox):
@@ -966,7 +966,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         #
         hierarchyData = assetPr.astCfxHierarchyConfig(assetName)
-        self.pathDic = lxBasic.getMayaPathDic(hierarchyData)
+        self.pathDic = bscCommands.getMayaPathDic(hierarchyData)
         #
         astCfxRoot = assetPr.astUnitCfxLinkGroupName(assetName)
         #
@@ -2131,12 +2131,12 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         #
         hierarchyData = hierarchyDataFn(assetName)
-        pathDic = lxBasic.getMayaPathDic(hierarchyData)
+        pathDic = bscCommands.getMayaPathDic(hierarchyData)
         #
         index = 0
         for seq, i in enumerate(buttonConfig):
             button = qtWidgets.QtPressbutton()
-            explain = lxBasic.str_camelcase2prettify(i)
+            explain = bscMethods.StrCamelcase.toPrettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
             x = seq % 2
@@ -2190,13 +2190,13 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         #
         hierarchyData = assetPr.astLightHierarchyConfig(assetName)
-        pathDic = lxBasic.getMayaPathDic(hierarchyData)
+        pathDic = bscCommands.getMayaPathDic(hierarchyData)
         #
         buttonConfig = assetPr.astLightBasicLeafs()
         index = 0
         for seq, i in enumerate(buttonConfig):
             button = qtWidgets.QtPressbutton()
-            explain = lxBasic.str_camelcase2prettify(i)
+            explain = bscMethods.StrCamelcase.toPrettify(i)
             button.setNameText(explain)
             button.setIcon('svg_basic@svg#addTab')
             x = seq % 2
@@ -3066,9 +3066,9 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             assetClass, assetName, assetVariant, assetStage
         )[1]
         #
-        if lxBasic.isOsExistsFile(serverProductFile):
-            timestamp = lxBasic.getOsFileMtimestamp(serverProductFile)
-            serverViewTime = lxBasic.getViewTime(timestamp, timeFormat=lxBasic.MaUpdateViewTimeFormat)
+        if bscCommands.isOsExistsFile(serverProductFile):
+            timestamp = bscMethods.OsFile.mtimestamp(serverProductFile)
+            serverViewTime = bscCommands.getViewTime(timestamp, timeFormat=bscCommands.MaUpdateViewTimeFormat)
             #
             astUnitRootGroup = assetPr.astUnitRootGroupName(assetName)
             localViewTime = maUtils.getAttrDatum(astUnitRootGroup, appVariant.basicUpdateAttrLabel)
@@ -3487,7 +3487,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._astMainCheckButton.setPressable(self._isAstMainCheckEnable), self._astSubCheckButton.setPressable(self._isAstMainCheckEnable)
         self._astMainCheckButton.setPercentRest(), self._astSubCheckButton.setPercentRest()
         self._astUploadButton.setNameText(u'Upload {} ！！！'.format(
-            lxBasic.str_camelcase2prettify(assetPr.getAssetLink(assetStage))))
+            bscMethods.StrCamelcase.toPrettify(assetPr.getAssetLink(assetStage))))
     #
     def _updateAstUploadState(self):
         self._initAstCheck()

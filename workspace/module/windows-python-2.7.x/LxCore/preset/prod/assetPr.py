@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import assetCfg
 #
@@ -491,14 +491,14 @@ def astSolverContainerName(assetName, namespace=none):
 
 #
 def astRootGroupHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitRootGroupName(assetName)] = []
     return dic
 
 
 # Pro Group Config
 def astModelLinkHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     dic[astUnitModelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName),
@@ -511,7 +511,7 @@ def astModelLinkHierarchyConfig(assetName):
 
 #
 def astModelCharHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitModelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
@@ -635,7 +635,7 @@ def astPropBuildBasicLeafs():
 
 #
 def astPropHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitModelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
@@ -672,7 +672,7 @@ def astSolverHairBasicLeafs():
 
 #
 def astModelSolverHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitModelLinkGroupName(assetName)] = [
         astUnitModelSolverGroupName(assetName)
     ]
@@ -695,7 +695,7 @@ def astModelSolverHierarchyConfig(assetName):
 
 #
 def astModelReferenceHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitModelLinkGroupName(assetName)] = [
         astUnitModelReferenceGroupName(assetName)
     ]
@@ -704,7 +704,7 @@ def astModelReferenceHierarchyConfig(assetName):
 
 #
 def astRigLinkHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     # Main
     dic[astUnitRigLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigControl'),
@@ -752,7 +752,7 @@ def astCfxHierarchyConfig(assetName):
     astCfxGrowDeformGroupLabel = appVariant.astCfxGrowDeformGroupLabel
     astCfxFurCollisionSubGroupLabel = appVariant.astCfxFurCollisionSubGroupLabel
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     # Main
     dic[astUnitCfxLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, astFurYetiGroupLabel),
@@ -799,7 +799,7 @@ def astCfxHierarchyConfig(assetName):
 
 #
 def astRigSolverHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitSolverLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigSolControl'),
         astBasicGroupNameSet(assetName, '_rigSolSkin'),
@@ -839,7 +839,7 @@ def astLightBasicLeafs():
 
 #
 def astLightHierarchyConfig(assetName):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[astUnitLightLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, appVariant.lgtFieldLabel)
     ]
@@ -857,7 +857,7 @@ def astUnitAssemblyReferenceName(assetName):
 #
 def assetSchemeFileConfig():
     string = '{0}/{1}/{2}/{3}'.format(appVariant.dbAssetRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSchemeExt, appVariant.dbAssetBasicKey)
-    return lxBasic.getOsUniqueFile(string)
+    return bscCommands.getOsUniqueFile(string)
 
 
 #
@@ -905,7 +905,7 @@ def getUiAssetSchemeDataDic():
         return bscMethods.OsJson.read(osFile)
     #
     def getDic(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 scheme, enable, description = i
@@ -931,7 +931,7 @@ def getUiAssetSetDataLis(projectName, assetIndex, number=0, overrideNumber=False
                 setKey, uiData = i
                 setUiKey = none
                 if isinstance(setKey, str) or isinstance(setKey, unicode):
-                    setUiKey = lxBasic.str_camelcase2prettify(setKey)
+                    setUiKey = bscMethods.StrCamelcase.toPrettify(setKey)
                 if isinstance(setKey, tuple):
                     setKey, setUiKey = setKey
                 #
@@ -981,7 +981,7 @@ def getAssetViewName(assetIndex):
         return bscMethods.OsJson.read(osFile)
     #
     def getSubDic(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 scheme, enable, description = i
@@ -1179,7 +1179,7 @@ def getUiAssetMultMsgDic(projectFilter, assetClassFilters=None, assetLinkFilter=
                     dic[assetIndex] = assetName, description
     #
     def getMain(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1203,7 +1203,7 @@ def getAssetIndexDic():
             dic[assetName] = assetIndex
     #
     def getMain(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1230,17 +1230,17 @@ def getUiAssetSetDataDic(projectFilter):
                 assetName = data['name']
                 assetVariants = data['variant']
                 assetPriority = data['priority']
-                modelEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Model)
-                rigEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Rig)
-                cfxEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Cfx)
-                scSolverEnable = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Solver)
-                scLightEnable = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Light)
-                assemblyEnabled = lxBasic.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
+                modelEnabled = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Model)
+                rigEnabled = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Rig)
+                cfxEnabled = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Cfx)
+                scSolverEnable = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Solver)
+                scLightEnable = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Light)
+                assemblyEnabled = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
                 for assetVariant in assetVariants:
                     dic[(assetIndex, assetVariant)] = description, assetClass, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
     #
     def getMain(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1273,11 +1273,11 @@ def getAstUnitAssemblyDic(projectFilter):
                             projectFilter,
                             assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
                         )[1]
-                        if lxBasic.isOsExistsFile(serverAstUnitAsbDefinitionFile):
+                        if bscCommands.isOsExistsFile(serverAstUnitAsbDefinitionFile):
                             dic[assetIndex] = description, assetClass, assetName, assetVariant
     #
     def getMain(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1451,7 +1451,7 @@ def astBasicMapFolder(assetStage):
         mainLabel = mainLabel[1:]
     #
     subLabel = appVariant.basicMapSubLabel
-    return bscMethods.LabelText.toLabel(mainLabel, subLabel)
+    return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
 
 
 #
@@ -1461,13 +1461,13 @@ def astBasicCacheFolder(assetStage):
         mainLabel = mainLabel[1:]
     #
     subLabel = appVariant.basicCacheSubLabel
-    return bscMethods.LabelText.toLabel(mainLabel, subLabel)
+    return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
 
 
 #
 def astBasicSourceFileLabel(assetStage):
     subLabel = appVariant.basicSourceSubLabel
-    return bscMethods.LabelText.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
@@ -1476,25 +1476,25 @@ def astBasicProductFileLabel(assetStage):
         return appVariant.astAnimationRigFileLabel
     else:
         subLabel = appVariant.basicProductSubLabel
-        return bscMethods.LabelText.toLabel(astBasicLinkLabel(assetStage), subLabel)
+        return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def astBasicAsbDefinitionFileLabel(assetStage):
     subLabel = appVariant.basicAssemblyDefinitionSubLabel
-    return bscMethods.LabelText.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def astAssetFurFileLabel(assetStage):
     subLabel = appVariant.basicFurSubLabel
-    return bscMethods.LabelText.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def assetPreviewFileLabel(assetStage):
     subLabel = appVariant.basicPreviewSubLabel
-    return bscMethods.LabelText.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
@@ -1559,7 +1559,8 @@ def astUnitTextureFolder(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1579,7 +1580,7 @@ def astUnitMapFolder(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1594,7 +1595,7 @@ def astUnitAssemblyTextureFolder(
     osFolderName = astBasicTextureFolder(assetStage)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1608,7 +1609,7 @@ def astUnitAssemblyMapFolder(
     osFolderName = astBasicMapFolder(assetStage)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1627,7 +1628,7 @@ def astUnitCacheFolder(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1641,7 +1642,7 @@ def astUnitAssemblyCacheFolder(
     osFolderName = astBasicCacheFolder(assetStage)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFolderName]
-    osFolder = lxBasic.getOsFileByKeyVars(keyVars)
+    osFolder = bscMethods.OsPath.composeBy(keyVars)
     return osFolder
 
 
@@ -1666,7 +1667,7 @@ def astUnitTextureIndexFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1688,7 +1689,7 @@ def astUnitLogFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1713,7 +1714,7 @@ def astUnitSourceFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1736,7 +1737,7 @@ def astUnitProductFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1760,7 +1761,7 @@ def astUnitAssemblyIndexFile(
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1768,13 +1769,13 @@ def astUnitAssemblyIndexFile(
 def astUnitAssemblyProductFile(projectName, assetName, assetVariant):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     #
-    fileLabel = bscMethods.LabelText.toLabel(appVariant.basicAssemblyLinkLabel, appVariant.basicProductSubLabel)
+    fileLabel = bscMethods.StrUnderline.toLabel(appVariant.basicAssemblyLinkLabel, appVariant.basicProductSubLabel)
     extLabel = appVariant.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1791,7 +1792,7 @@ def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetClass, assetNa
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1809,7 +1810,7 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1827,7 +1828,7 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1844,7 +1845,7 @@ def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1858,7 +1859,7 @@ def astUnitAssemblyBoxCacheFile(projectName, assetName):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1881,7 +1882,7 @@ def astUnitFurFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -1906,7 +1907,7 @@ def astUnitExtraFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = lxBasic.getOsFileByKeyVars(keyVars)
+    osFile = bscMethods.OsPath.composeBy(keyVars)
     return osFileName, osFile
 
 
@@ -2030,8 +2031,8 @@ def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, 
         assetClass, assetName, assetVariant, assetStage
     )[1]
     #
-    if lxBasic.isOsExistsFile(serverProductFile):
-        data = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverProductFile))
+    if bscCommands.isOsExistsFile(serverProductFile):
+        data = bscMethods.OsFile.mtimeChnPrettify(serverProductFile)
         if data:
             string = data
     return string
@@ -2044,18 +2045,18 @@ def getAstUnitProductActiveTimeTag(projectName, assetClass, assetName, assetVari
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
-    return lxBasic.getOsFileMtimeTag(serverProductFile)
+    return bscMethods.OsFile.mtimetag(serverProductFile)
 
 
 #
 def getAssetUnitExtraData(projectName, assetClass, assetName, assetVariant, assetStage):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     extraFile = astUnitExtraFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
         assetClass, assetName, assetVariant, assetStage
     )[1]
-    if lxBasic.isOsExistsFile(extraFile):
+    if bscCommands.isOsExistsFile(extraFile):
         data = bscMethods.OsJson.read(extraFile)
         if data:
             dic = data
@@ -2072,13 +2073,13 @@ def getAstTdUploadCommand(projectName, link):
                 mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
-                pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
+                pathCmd = bscCommands.toVariantConvert('var', mayaPackageStr)
                 exec pathCmd
                 #
                 if var:
-                    if lxBasic.isOsExist(var):
+                    if bscCommands.isOsExist(var):
                         osFile = var + '/' + lxConfigure.LynxiAssetUploadCommandKey + '.py'
-                        if lxBasic.isOsExist(osFile):
+                        if bscCommands.isOsExist(osFile):
                             command = bscMethods.OsFile.read(osFile)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #
@@ -2095,13 +2096,13 @@ def getAstTdLoadCommand(projectName, link):
                 mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
-                pathCmd = lxBasic._toVariantConvert('var', mayaPackageStr)
+                pathCmd = bscCommands.toVariantConvert('var', mayaPackageStr)
                 exec pathCmd
                 #
                 if var:
-                    if lxBasic.isOsExist(var):
+                    if bscCommands.isOsExist(var):
                         osFile = var + '/' + lxConfigure.LynxiAssetLoadCommandKey + '.py'
-                        if lxBasic.isOsExist(osFile):
+                        if bscCommands.isOsExist(osFile):
                             command = bscMethods.OsFile.read(osFile)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #

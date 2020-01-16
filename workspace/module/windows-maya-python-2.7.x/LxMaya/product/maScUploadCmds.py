@@ -1,9 +1,9 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 #
@@ -327,12 +327,12 @@ def scUnitAstAlembicCacheUploadCmd(
     #
     step = appVariant.animAlembicStep
     #
-    mainLineCacheFile = lxBasic.getOsFileJoinTimeTag(
+    mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
-        '0000_0000_0000'
+        '0000_0000_000000'
     )
     #
-    multLineCacheFile = lxBasic.getOsFileJoinTimeTag(
+    multLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
         timeTag
     )
@@ -345,13 +345,13 @@ def scUnitAstAlembicCacheUploadCmd(
     )
     # Information
     infoDic = scenePr.alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description, notes)
-    infoFile = lxBasic.getInfoFile(multLineCacheFile)
-    lxBasic.writeOsJson(infoDic, infoFile)
+    infoFile = bscMethods.OsFile.infoJsonFilename(multLineCacheFile)
+    bscMethods.OsJson.write(infoFile, infoDic)
     # Index
     if indexKey is not None:
         cacheIndex = {
-            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
+            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
             #
             lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
             #
@@ -363,7 +363,7 @@ def scUnitAstAlembicCacheUploadCmd(
             cacheIndex
         )
         #
-        lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
+        bscCommands.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
     logWin_.addResult(multLineCacheFile)
 
@@ -380,12 +380,12 @@ def uploadScAlembicCache(
     step = appVariant.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
     #
-    mainLineCacheFile = lxBasic.getOsFileJoinTimeTag(
+    mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
-        '0000_0000_0000'
+        '0000_0000_000000'
     )
     #
-    multLineCacheFile = lxBasic.getOsFileJoinTimeTag(
+    multLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
         timeTag
     )
@@ -396,7 +396,7 @@ def uploadScAlembicCache(
         currentFrame, currentFrame, step,
     )
     #
-    lxBasic.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
+    bscCommands.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
     #
     logWin_.addResult(multLineCacheFile)
 
@@ -412,12 +412,12 @@ def uploadScAstMeshData(
     logWin_ = bscObjects.If_Log()
     meshDataFile = scenePr.getMeshDataFile(cache)
     #
-    mainLineMeshDataFile = lxBasic.getOsFileJoinTimeTag(
+    mainLineMeshDataFile = bscMethods.OsFile.toJoinTimetag(
         meshDataFile,
-        '0000_0000_0000'
+        '0000_0000_000000'
     )
     #
-    multLineMeshDataFile = lxBasic.getOsFileJoinTimeTag(
+    multLineMeshDataFile = bscMethods.OsFile.toJoinTimetag(
         meshDataFile,
         timeTag
     )
@@ -428,9 +428,12 @@ def uploadScAstMeshData(
         namespace
     )
     #
-    maFile.writeOsJson(constantData, multLineMeshDataFile)
+    bscMethods.OsJson.write(
+        multLineMeshDataFile,
+        constantData
+    )
     #
-    lxBasic.setOsFileCopy(multLineMeshDataFile, mainLineMeshDataFile)
+    bscCommands.setOsFileCopy(multLineMeshDataFile, mainLineMeshDataFile)
 
 
 #
@@ -447,18 +450,21 @@ def scUnitSourceUploadCmd(
         lxConfigure.LynxiRootIndex_Backup,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
-    linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
+    linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     logWin_.addResult(linkFile)
     #
     maFile.updateMayaFile(linkFile)
     # Update File >>> 02
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = bscMethods.OsFile.productInfoDict(
         linkFile,
         sceneStage,
         description, notes
     )
-    recordFile = lxBasic.getRecordFile(linkFile)
-    maFile.writeOsJson(updateData, recordFile, 4)
+    recordFile = bscMethods.OsFile.infoJsonFilename(linkFile)
+    bscMethods.OsJson.write(
+        recordFile,
+        updateData
+    )
 
 
 #
@@ -478,7 +484,7 @@ def scUnitSourceOpenCmd(
         lxConfigure.LynxiRootIndex_Local,
         projectName, sceneClass, sceneName, sceneVariant, sceneStage
     )[1]
-    backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupFile, timeTag)
+    backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localFile, timeTag)
     logWin_.addResult(localFile)
 
@@ -617,28 +623,28 @@ def scUnitCamerasUploadCmd(
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
-        subServerProductFile = lxBasic.getOsSubFile(serverProductFile, subLabel)
+        subServerProductFile = bscCommands.getOsSubFile(serverProductFile, subLabel)
         # FBX
         serverCameraFbxFile = scenePr.scUnitCameraFbxFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
-        subServerCameraFbxFile = lxBasic.getOsSubFile(serverCameraFbxFile, subLabel)
+        subServerCameraFbxFile = bscCommands.getOsSubFile(serverCameraFbxFile, subLabel)
         # Alembic Cache
         serverCameraAlembicCacheFile = scenePr.scUnitCameraAlembicCacheFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage
         )[1]
-        subServerCameraAlembicCacheFile = lxBasic.getOsSubFile(serverCameraAlembicCacheFile, subLabel)
+        subServerCameraAlembicCacheFile = bscCommands.getOsSubFile(serverCameraAlembicCacheFile, subLabel)
         # Cache Index
         cameraCacheIndexFile = scenePr.scCameraCacheIndexFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant
         )[1]
-        subCameraCacheIndexFile = lxBasic.getOsSubFile(
+        subCameraCacheIndexFile = bscCommands.getOsSubFile(
             cameraCacheIndexFile, subLabel
         )
         # Bake Camera
@@ -678,7 +684,7 @@ def scUnitCamerasUploadCmd(
                         # Sub Progress
                         progressBar.update()
                         #
-                        subLabel = lxBasic.getSubLabel(seq)
+                        subLabel = bscCommands.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, zAdjust)
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
@@ -727,15 +733,15 @@ def scUnitPreviewsUploadCmd(
                 lxConfigure.LynxiRootIndex_Local,
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
             )[1]
-            servePreviewFile = lxBasic.getOsFileJoinTimeTag(localPreviewFile)
+            servePreviewFile = bscMethods.OsFile.toJoinTimetag(localPreviewFile)
         # Index File
         serverPreviewIndexFile = scenePr.scenePreviewIndexFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
-        subSeverPreviewFile = lxBasic.getOsSubFile(servePreviewFile, subLabel)
-        subBackupPreviewFile = lxBasic.getOsSubFile(backupPreviewFile, subLabel)
-        subServerPreviewIndexFile = lxBasic.getOsSubFile(serverPreviewIndexFile, subLabel)
+        subSeverPreviewFile = bscCommands.getOsSubFile(servePreviewFile, subLabel)
+        subBackupPreviewFile = bscCommands.getOsSubFile(backupPreviewFile, subLabel)
+        subServerPreviewIndexFile = bscCommands.getOsSubFile(serverPreviewIndexFile, subLabel)
         #
         imagePreviews = maPrv.makePreview(
             osFile=subSeverPreviewFile,
@@ -773,7 +779,7 @@ def scUnitPreviewsUploadCmd(
                         # Sub Progress
                         progressBar.update()
                         #
-                        subLabel = lxBasic.getSubLabel(seq)
+                        subLabel = bscCommands.getSubLabel(seq)
                         setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode)
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
@@ -1034,9 +1040,9 @@ def scUnitSceneryComposeUploadCmd_(
             sceneClass, sceneName, sceneVariant, sceneStage
         )[1]
         #
-        lxBasic.writeOsJson(
-            data,
-            serverFile
+        bscMethods.OsJson.write(
+            serverFile,
+            data
         )
         bscMethods.OsFile.backupTo(
             serverFile, backupFile,
@@ -1122,7 +1128,7 @@ def uploadScAstCfxFurCache(
                         shapePath
                     )
             #
-            lxBasic.writeOsJson(furCacheIndex, furCacheIndexFile, 4)
+            bscMethods.OsJson.write(furCacheIndexFile, furCacheIndex)
         # Concurrent
         if yetiObjects:
             if not useExistsCache:
@@ -1160,8 +1166,7 @@ def scUnitRenderUploadCmd(
         sceneClass, sceneName, sceneVariant, sceneStage, customize
     )[1]
     #
-    logWin_.addStartProgress(u'Upload / Update Scene Render ( {} ) File'.format(
-        lxBasic.str_camelcase2prettify(sceneStage)))
+    logWin_.addStartProgress(u'Render Upload')
     #
     maFile.saveMayaFile(serverRenderFile)
     # Back File
@@ -1233,7 +1238,7 @@ def scUnitRenderIndexUploadCmd(
         withTx=True
     )
     composeFileLis.insert(0, serverRenderFile)
-    imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, sceneNameOverride=lxBasic.getOsFileName(serverRenderFile))
+    imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, sceneNameOverride=bscCommands.getOsFileName(serverRenderFile))
     #
     renderData = scenePr.getScRenderIndexData(
         sceneIndex,
@@ -1245,10 +1250,9 @@ def scUnitRenderIndexUploadCmd(
         composeFileLis,
         imageFileLis
     )
-    logWin_.addStartProgress(u'Upload / Update Scene Render ( {} ) Index'.format(
-        lxBasic.str_camelcase2prettify(sceneStage)))
+    logWin_.addStartProgress(u'Render Index Upload')
     #
-    lxBasic.writeOsJson(renderData, serverRenderIndexFile, 4)
+    bscMethods.OsJson.write(serverRenderIndexFile, renderData)
     bscMethods.OsFile.backupTo(serverRenderIndexFile, backupRenderIndexFile, timeTag)
     #
     logWin_.addCompleteProgress()
@@ -1335,7 +1339,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
     #
     ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent = deadlineVars
     # Reduce Size
-    logWin_.addStartProgress(u'Submit Deadline Job(s) ( {} ) '.format(lxBasic.str_camelcase2prettify(sceneStage)))
+    logWin_.addStartProgress(u'Deadline Job(s) Submit')
     if renderLayerLis:
         batchName = scenePr.scDeadlineBatchName(
             projectName,
@@ -1379,10 +1383,10 @@ def scUnitRenderDeadlineSubmitMainCmd(
                 arnoldVerbose=ddlJobAbortError,
                 melCommand=melCommand
             )
-            serverSubDeadlineInfoFile = lxBasic.getOsSubFile(serverDeadlineInfoFile, subLabel)
-            serverSubDeadlineJobFile = lxBasic.getOsSubFile(serverDeadlineJobFile, subLabel)
+            serverSubDeadlineInfoFile = bscCommands.getOsSubFile(serverDeadlineInfoFile, subLabel)
+            serverSubDeadlineJobFile = bscCommands.getOsSubFile(serverDeadlineJobFile, subLabel)
             #
-            logWin_.addStartProgress(u'Submit Deadline Job for Layer : {}'.format(currentRenderLayer))
+            logWin_.addStartProgress(u'Render Layer', currentRenderLayer)
             #
             scUnitDeadlineJobSubmitCmd(
                 subInfoData,
@@ -1405,14 +1409,14 @@ def scUnitDeadlineJobSubmitCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Info
-    mainLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, lxConfigure.LynxiMainTimeTag, useMode=1)
-    multLineInfoFile = lxBasic.getOsFileJoinTimeTag(infoFile, timeTag, useMode=1)
+    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    multLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineInfoFile, infoData)
     bscMethods.OsFile.backupTo(multLineInfoFile, mainLineInfoFile)
     logWin_.addResult(multLineInfoFile)
     # Job
-    mainLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, lxConfigure.LynxiMainTimeTag, useMode=1)
-    multLineJobFile = lxBasic.getOsFileJoinTimeTag(jobFile, timeTag, useMode=1)
+    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    multLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineJobFile, jobData)
     bscMethods.OsFile.backupTo(multLineJobFile, mainLineJobFile)
     logWin_.addResult(multLineJobFile)
@@ -1427,7 +1431,8 @@ def scUnitDeadlineJobSubmitCmd(
                     if not i.startswith('\r\n'):
                         logWin_.addResult(i)
             #
-            resultFile = lxConfigure._toLxProductResultFile(multLineJobFile)
+            
+            resultFile = bscMethods.OsFile.resultFilename(multLineJobFile)
             #
             bscMethods.OsFile.write(resultFile, result)
     else:

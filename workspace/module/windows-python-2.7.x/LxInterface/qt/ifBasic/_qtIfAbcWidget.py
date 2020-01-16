@@ -98,7 +98,7 @@ class QtIfAbc_Group(
 
 #
 class QtIfAbc_Unit_(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
@@ -257,7 +257,7 @@ class QtIfAbc_Unit_(
 
 #
 class QtIfAbc_Unit(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs,
     _presetMethod.LxPresetMethod
 ):
@@ -413,7 +413,7 @@ class QtIfAbc_Unit(
 
 #
 class IfOverviewUnitBasic(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs
 ):
     SideWidth = 320
@@ -510,7 +510,7 @@ class IfOverviewUnitBasic(
 
 #
 class IfProductUnitOverviewUnitBasic(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs
 ):
     Cfg_Product = appConfig.Cfg_Product
@@ -622,7 +622,7 @@ class IfProductUnitOverviewUnitBasic(
                 subFilterButton.setItemFilterColumn(filterColumn)
                 subFilterButton.setItemFilterRow(filterRow)
                 #
-                r, g, b = qtCore.hsvToRgb(60 * seq, 1 / float(subSeq + 1), 1)
+                r, g, b = qtCore.hsv2Rgb(60 * seq, 1 / float(subSeq + 1), 1)
                 subFilterButton.setFilterColor((r, g, b, 255))
                 #
                 mainFilterButton.addFilterChild(subFilterButton)
@@ -664,7 +664,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
-            r, g, b = qtCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsv2Rgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -705,7 +705,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem.setName(u'{} ( {} )'.format(enExplain, cnExplain))
             filterItem.setChecked(True)
             #
-            r, g, b = qtCore.hsvToRgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsv2Rgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -819,7 +819,7 @@ class IfProductUnitOverviewUnitBasic(
 
 #
 class IfProductToolUnitBasic(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs
 ):
     pass
@@ -827,7 +827,7 @@ class IfProductToolUnitBasic(
 
 #
 class IfToolUnitBasic(
-    qtCore.UiMainWidget,
+    qtCore.QWidget__,
     qtIfAbstract.IfToolUnitAbs
 ):
     SideWidth = 400

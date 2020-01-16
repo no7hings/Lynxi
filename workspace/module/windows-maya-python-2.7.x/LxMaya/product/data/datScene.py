@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, sceneCfg
 #
@@ -119,7 +119,7 @@ def getSceneCameraIndexData(sceneName):
     #
     inData = getScActiveCameraLis(sceneName)
     for seq, i in enumerate(inData):
-        subLabel = lxBasic.getSubLabel(seq)
+        subLabel = bscCommands.getSubLabel(seq)
         data = sceneName + subLabel
         lis.append(data)
     return lis
@@ -193,7 +193,7 @@ def getScAnimAssetRefData(referenceNode):
             if keyword in osFile:
                 splitKey = keyword
                 #
-                fileName = lxBasic.getOsFileBasename(osFile)
+                fileName = bscCommands.getOsFileBasename(osFile)
                 #
                 assetName = fileName.split(splitKey)[0]
                 namespace = maUtils.getReferenceNamespace(referenceNode)
@@ -228,7 +228,7 @@ def getScAnimAssetRefDic():
             if assetData:
                 dic[referenceNode] = assetData
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for i in referenceNodes:
@@ -318,7 +318,7 @@ def getScAstCfxFurDic():
                 cfxObjects = getScAstCfxFurObjects(assetName, namespace)
             #
             dic.setdefault((sceneClass, sceneName, sceneVariant), []).append((referenceNode, assetClass, assetName, number, assetVariant, state, cfxObjects))
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for node in referenceNodes:
@@ -348,7 +348,7 @@ def getScAstCfxFurDic_(projectName):
                 assetIndex, assetClass, assetName, number, assetVariant, cfxFurObjects
             ))
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
@@ -396,7 +396,7 @@ def getScComposeInfoDic(projectName):
                 subLabel
             )
             #
-            isServerExists = lxBasic.isOsExistsFile(activeCacheFile)
+            isServerExists = bscCommands.isOsExistsFile(activeCacheFile)
             if isServerExists is True:
                 branchInfo = False
                 #
@@ -414,15 +414,15 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodes[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if lxBasic.isOsExistsFile(alembicCache):
-                                    localTimeTag = lxBasic.getOsFileTimeTag(alembicCache)
+                                if bscCommands.isOsExistsFile(alembicCache):
+                                    localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
                     #
                     branchInfo = alembicNode, namespace, localTimeTag
             return branchInfo
         #
-        subLabel = lxBasic.getSubLabel(seq)
+        subLabel = bscCommands.getSubLabel(seq)
         scCameraCacheBranchInfo = getScCameraCacheBranch()
         cameraCompose.append((
             subLabel,
@@ -462,7 +462,7 @@ def getScComposeInfoDic(projectName):
                 projectName,
                 sceneName, sceneVariant, assetName, number
             )
-            isServerExists = lxBasic.isOsExistsFile(scAstModelCacheFile)
+            isServerExists = bscCommands.isOsExistsFile(scAstModelCacheFile)
             if isServerExists:
                 branchInfo = False
                 #
@@ -481,8 +481,8 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if lxBasic.isOsExistsFile(alembicCache):
-                                    localTimeTag = lxBasic.getOsFileTimeTag(alembicCache)
+                                if bscCommands.isOsExistsFile(alembicCache):
+                                    localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
                     else:
@@ -500,7 +500,7 @@ def getScComposeInfoDic(projectName):
                 assetName, number
             )
             #
-            isServerExists = lxBasic.isOsExistsFile(activeCacheFile)
+            isServerExists = bscCommands.isOsExistsFile(activeCacheFile)
             if isServerExists:
                 branchInfo = False
                 #
@@ -518,8 +518,8 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if lxBasic.isOsExistsFile(alembicCache):
-                                    localTimeTag = lxBasic.getOsFileTimeTag(alembicCache)
+                                if bscCommands.isOsExistsFile(alembicCache):
+                                    localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
                     #
@@ -565,7 +565,7 @@ def getScComposeInfoDic(projectName):
                         for furObject in furObjectLis:
                             localFurCacheFile, localSolverMode, localCacheStartFrame, localCacheEndFrame = maFur.getFurCacheExists(furObject)
                             #
-                            localTimeTag = lxBasic.getOsFileTimeTag(localFurCacheFile)
+                            localTimeTag = bscMethods.OsFile.findTimetag(localFurCacheFile)
                             #
                             furObjectLabel = maFur.getFurObjectLabel(furObject, assetName)
                             branchInfoLis.append(
@@ -606,7 +606,7 @@ def getScComposeInfoDic(projectName):
                 projectName,
                 sceneName, sceneVariant, assetName, number
             )
-            isScAstSolverCacheEnable = lxBasic.isOsExist(scAstSolverCacheFile)
+            isScAstSolverCacheEnable = bscCommands.isOsExist(scAstSolverCacheFile)
             #
             if isScAstSolverCacheEnable:
                 branchInfo = False
@@ -626,8 +626,8 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if lxBasic.isOsExistsFile(alembicCache):
-                                    localTimeTag = lxBasic.getOsFileTimeTag(alembicCache)
+                                if bscCommands.isOsExistsFile(alembicCache):
+                                    localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                     #
                     branchInfo = alembicNode, namespace, localTimeTag
             return branchInfo
@@ -662,7 +662,7 @@ def getScComposeInfoDic(projectName):
             scAstExtraCacheBranchInfo
         ))
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
@@ -722,7 +722,7 @@ def getScAstUnitDic(projectName, sceneClass, sceneName, sceneVariant, sceneStage
             )
             dic[key] = assetIndex, assetClass, assetName, number, assetVariant
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     sceneAssetData = scenePr.getSceneAssetIndexDataDic(
         projectName, sceneClass, sceneName, sceneVariant
@@ -812,7 +812,7 @@ def getScAstRigAlembicAttrData(projectName, assetClass, assetName, assetVariant)
 
 #
 def getScSceneryExtraData(sceneName, sceneVariant, sceneStage):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     assemblyReferenceData, transformationData = getScScenery(sceneName, sceneVariant, sceneStage)
     dic[lxConfigure.LynxiAssemblyReferenceDataKey] = assemblyReferenceData
     dic[lxConfigure.LynxiTransformationDataKey] = transformationData
@@ -905,7 +905,7 @@ def getGeometryMeshes(sceneName, sceneVariant, assetName, number, namespace):
 #
 def getMeshObjectsConstantDic(astUnitModelProductGroup):
     infoConfig = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     meshesInformation = maGeom.getGeometryObjectsInfo(astUnitModelProductGroup)
     for seq, i in enumerate(infoConfig):
         dic[i] = meshesInformation[seq]
@@ -915,7 +915,7 @@ def getMeshObjectsConstantDic(astUnitModelProductGroup):
 #
 def getMeshConstantDataByRoot(sceneName, sceneVariant, assetName, number, namespace=none):
     # Dict { <Constant Item>: <Constant Value> }
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     geometries = []
     if namespace:
         scAstGeometryGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)

@@ -99,14 +99,14 @@ class Pth_PresetRoot(shmAbstract.Abc_PthRoot):
 
 
 class Pth_Directory(shmAbstract.Abc_PthDirectory):
-    ROOT_CLS = Pth_Root
+    CLS_path_root = Pth_Root
 
     def __init__(self, *args):
         self._initAbcPthDirectory(*args)
 
 
 class Pth_IconDirectory(shmAbstract.Abc_PthDirectory):
-    ROOT_CLS = Pth_IconRoot
+    CLS_path_root = Pth_IconRoot
 
     def __init__(self):
         self._initAbcPthDirectory('icon')

@@ -1,9 +1,9 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
@@ -322,7 +322,7 @@ def scUnitCameraCachesLoadCmd(
                 timestamp, cacheStage, startFrame, endFrame, scCameraCache = i
                 #
                 if timestamp is not None:
-                    subLabel = lxBasic.getSubLabel(seq)
+                    subLabel = bscCommands.getSubLabel(seq)
                     scUnitCameraCacheLoadSubCmd(
                         projectName,
                         sceneIndex,
@@ -351,7 +351,7 @@ def scUnitCameraCacheLoadSubCmd(
             fileString = withCameraCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     #
     logWin_ = bscObjects.If_Log()
@@ -371,7 +371,7 @@ def scUnitCameraCacheLoadSubCmd(
             #
             logWin_.addResult(u'Remove Exists', )
         #
-        logWin_.addStartProgress('Camera Cache Load', scCameraCacheFile)
+        logWin_.addStartProgress(u'Camera Cache Load', scCameraCacheFile)
         #
         maFile.setAlembicCacheImport(scCameraCacheFile, scCameraNamespace)
         #
@@ -449,7 +449,7 @@ def scUnitAstModelCacheLoadSubCmd(
             fileString = withModelCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     #
     logWin_ = bscObjects.If_Log()
@@ -488,12 +488,12 @@ def scUnitAstModelCacheLoadSubCmd(
         #
         maUtils.setNodeOutlinerRgb(scAstRootGroup, 0, 1, 1)
         #
-        timeTag = lxBasic.getOsActiveTimeTag()
+        timetag = bscMethods.OsTime.activeTimetag()
         maHier.refreshScAstUnitBranch(
             scAstRootGroup,
             assetIndex,
             assetClass, assetName, number, assetVariant,
-            timeTag
+            timetag
         )
         #
         if maUtils.isAppExist(scAstSubPath):
@@ -562,7 +562,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
             fileString = withModelPoseCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -657,13 +657,13 @@ def scUnitAssetLoadSubCmd(
         # Create Group
         maUtils.setAppPathCreate(scAstRootPath)
         #
-        timeTag = lxBasic.getOsActiveTimeTag()
+        timetag = bscMethods.OsTime.activeTimetag()
         #
         maHier.refreshScAstUnitBranch(
             scAstRootPath,
             assetIndex,
             assetClass, assetName, number, assetVariant,
-            timeTag
+            timetag
         )
         #
         maUtils.setNodeOutlinerRgb(scAstRootPath, 0, 1, 1)
@@ -747,7 +747,7 @@ def scUnitAstModelProductLoadCmd(
             fileString = withAstModel
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -757,7 +757,7 @@ def scUnitAstModelProductLoadCmd(
     #
     astModelProductFile = getProductFile()
     if astModelProductFile is not None:
-        timeTag = lxBasic.getOsFileMtimeTag(astModelProductFile)
+        timetag = bscMethods.OsFile.mtimetag(astModelProductFile)
         #
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         #
@@ -776,7 +776,7 @@ def scUnitAstModelProductLoadCmd(
             #
             logWin_.addResult(u'Clean Exists',)
         # Load Product
-        logWin_.addStartProgress('Model Product Load', astModelProductFile)
+        logWin_.addStartProgress(u'Model Product Load', astModelProductFile)
         #
         if appVariant.rndrUseReference is True:
             maFile.setMaFileReference(astModelProductFile, scAstModelNamespace)
@@ -788,7 +788,7 @@ def scUnitAstModelProductLoadCmd(
         maHier.scUnitRefreshRoot(
             assetIndex,
             assetClass, assetName, assetVariant, assetStage,
-            timeTag,
+            timetag,
             scAstModelNamespace
         )
         # Load Cache
@@ -844,7 +844,7 @@ def scUnitAstModelCacheConnectCmd(
             fileString = withModelCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     
@@ -863,13 +863,13 @@ def scUnitAstModelCacheConnectCmd(
                 #
                 connectMethod.setSourceClear()
                 #
-                logWin_.addStartProgress('Model Cache Load', cacheFile)
+                logWin_.addStartProgress(u'Model Cache Load', cacheFile)
                 #
                 maFile.setAlembicCacheImport(cacheFile, scAstModelCacheNamespace)
                 #
                 logWin_.addCompleteProgress()
                 #
-                logWin_.addStartProgress('Cache Connect')
+                logWin_.addStartProgress(u'Cache Connect')
                 #
                 connectMethod.connect()
                 #
@@ -894,7 +894,7 @@ def scUnitAstModelCacheConnectCmd(
                 # Offset Act Start Frame to Start Frame
                 currentStartFrame, currentEndFrame = maUtils.getFrameRange()
                 #
-                alembicNode = lxBasic.getOsFileName(cacheFile) + '_AlembicNode'
+                alembicNode = bscCommands.getOsFileName(cacheFile) + '_AlembicNode'
                 # Frame Offset
                 if isOffset:
                     offset = currentStartFrame - startFrame
@@ -932,7 +932,7 @@ def scUnitAstExtraCacheConnectCmd(
             fileString = withAstRigExtraCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -948,7 +948,7 @@ def scUnitAstExtraCacheConnectCmd(
             #
             logWin_.addResult(u'Clean Exists', )
         #
-        logWin_.addStartProgress('Extra Cache Load', scAstRigExtraCacheFile)
+        logWin_.addStartProgress(u'Extra Cache Load', scAstRigExtraCacheFile)
         #
         maFile.setAlembicCacheImport(scAstRigExtraCacheFile, scAstExtraCacheNamespace)
         #
@@ -981,8 +981,8 @@ def scUnitAstCfxProductLoadCmd(
         lxConfigure.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
     )[1]
-    if lxBasic.isOsExistsFile(astCfxProductFile):
-        timeTag = lxBasic.getOsFileMtimeTag(astCfxProductFile)
+    if bscCommands.isOsExistsFile(astCfxProductFile):
+        timetag = bscMethods.OsFile.mtimetag(astCfxProductFile)
         #
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         scAstCfxNamespace = scenePr.scAstCfxNamespace(sceneName, sceneVariant, assetName, number)
@@ -1003,7 +1003,7 @@ def scUnitAstCfxProductLoadCmd(
             maHier.scUnitRefreshRoot(
                 assetIndex,
                 assetClass, assetName, assetVariant, assetStage,
-                timeTag,
+                timetag,
                 scAstCfxNamespace
             )
             # Grow Source
@@ -1054,7 +1054,7 @@ def scUnitAstSolverProductLoadCmd(
         projectName,
         assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
     )[1]
-    if lxBasic.isOsExistsFile(astSolverProductFile):
+    if bscCommands.isOsExistsFile(astSolverProductFile):
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         #
         scAstCfxNamespace = scenePr.scAstCfxNamespace(sceneName, sceneVariant, assetName, number)
@@ -1079,7 +1079,7 @@ def scUnitAstSolverProductLoadCmd(
                 projectName,
                 assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
             )[1]
-            if lxBasic.isOsExist(astSolverExtraFile):
+            if bscCommands.isOsExist(astSolverExtraFile):
                 extraDic = bscMethods.OsJson.read(astSolverExtraFile)
                 if extraDic:
                     connectionDic = extraDic.get(lxConfigure.LynxiConnectionDataKey)
@@ -1128,7 +1128,7 @@ def scUnitAstSolverCacheConnectCmd(
             fileString = withAstSolverCache
         #
         if fileString is not None:
-            if lxBasic.isOsExist(fileString):
+            if bscCommands.isOsExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #

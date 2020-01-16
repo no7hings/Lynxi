@@ -1,9 +1,7 @@
 # coding:utf-8
 import collections
 
-from LxBasic import bscMethods
-
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscCommands
 
 
 class helpDocument(object):
@@ -31,7 +29,7 @@ class helpDocument(object):
         self._subClassLineDic = collections.OrderedDict()
         self._subExtendFuncDic = collections.OrderedDict()
 
-        self._sourceLineLis = lxBasic.readOsData(self._sourceFile, readLines=True)
+        self._sourceLineLis = bscMethods.OsFile.readlines(self._sourceFile)
         if self._sourceLineLis:
             self._collMember()
             bscMethods.OsFile.write(self._targetFile, self.cls_lineLis)

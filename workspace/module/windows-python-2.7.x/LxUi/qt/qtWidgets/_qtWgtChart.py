@@ -1,18 +1,22 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt._qtModels import _qtChartModel
+from LxUi.qt._qtModels import _qtMdlChart
 #
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 
 
 #
-class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
-    MODEL_CHART_CLS = _qtChartModel.QtRadarchartModel
+class QtRadarchart(qtObjWidget.QtAbcObj_Chart):
+    MODEL_CHART_CLS = _qtMdlChart.QtRadarchartModel
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtRadarchart, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjChart()
         self._initRadarChart()
@@ -44,7 +48,7 @@ class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
             )
             painter.setClipRect(self.chartModel().basicRect())
         #
-        painter.setRenderHint(qtCore.QtGui.QPainter.Antialiasing)
+        painter.setRenderHint(painter.Antialiasing)
         #
         drawDatum = self.chartModel().drawDatum()
         if drawDatum:
@@ -96,12 +100,16 @@ class QtRadarchart(qtAbcWidget.QtAbcObj_Chart):
 
 
 #
-class QtSectorchart(qtAbcWidget.QtAbcObj_Chart):
-    MODEL_CHART_CLS = _qtChartModel.QtSectorchartModel
+class QtSectorchart(qtObjWidget.QtAbcObj_Chart):
+    MODEL_CHART_CLS = _qtMdlChart.QtSectorchartModel
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtSectorchart, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjChart()
         #
@@ -125,7 +133,7 @@ class QtSectorchart(qtAbcWidget.QtAbcObj_Chart):
             painter.setBorderRgba(self._uiImageBorderRgba)
             painter.drawRect(self.chartModel().imageRect())
         #
-        painter.setRenderHint(qtCore.QtGui.QPainter.Antialiasing)
+        painter.setRenderHint(painter.Antialiasing)
         #
         drawDatum = self.chartModel().drawDatum()
         if drawDatum:

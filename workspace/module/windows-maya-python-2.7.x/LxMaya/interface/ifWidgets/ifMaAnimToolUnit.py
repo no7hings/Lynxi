@@ -3,9 +3,9 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 
 from LxCore.config import appCfg, sceneCfg, appConfig
 
@@ -13,7 +13,7 @@ from LxCore.preset import appVariant
 
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 
-from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
+from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
 from LxInterface.qt.ifBasic import _qtIfAbcWidget
 
@@ -55,11 +55,11 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
     #
     widthSet = 800
     #
-    dicFilter = lxBasic.orderedDict()
+    dicFilter = bscCommands.orderedDict()
     dicFilter['withCharacter'] = [0, 0, 0, 1, 2, 'Character ( 0000 )']
     dicFilter['withProp'] = [0, 0, 2, 1, 2, 'Prop ( 0000 )']
     #
-    dicTool = lxBasic.orderedDict()
+    dicTool = bscCommands.orderedDict()
     dicTool['usePoolAsset'] = [0, 0, 0, 1, 3, 'Ignore Asset ( Rig ) Update']
     # 1
     dicTool['multiple'] = [0, 2, 0, 1, 1, none]
@@ -198,7 +198,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 projectName,
                 assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
             )[1]
-            mtimestamp = lxBasic.getOsFileMtimestamp(productFile)
+            mtimestamp = bscMethods.OsFile.mtimestamp(productFile)
             exists = mtimestamp is not None
             rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
             iconKeyword = [None, 'svg_basic@svg#time'][exists]
@@ -614,7 +614,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             #
-            boolean = lxBasic.isOsExist(serverCameraFile)
+            boolean = bscCommands.isOsExist(serverCameraFile)
             #
             self._importCameraButton.setPressable([False, True][boolean])
     #
@@ -717,7 +717,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                timeTag = lxBasic.getOsActiveTimeTag()
+                timeTag = bscMethods.OsTime.activeTimetag()
                 #
                 maScUploadCmds.scUnitCamerasUploadCmd(
                     projectName,
@@ -760,7 +760,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 displayMode = 6
                 useMode = 1
                 #
-                timeTag = lxBasic.getOsActiveTimeTag()
+                timeTag = bscMethods.OsTime.activeTimetag()
                 #
                 cameraData = scCameraLis, selCameraLis
                 previewConfig = percent, quality, width, height, vedioFormat, displayMode, useMode
@@ -783,8 +783,8 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         lxConfigure.LynxiRootIndex_Local,
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
-                    previewFolder = lxBasic.getOsFileDirname(localPreviewFile)
-                    if lxBasic.isOsExist(previewFolder):
+                    previewFolder = bscCommands.getOsFileDirname(localPreviewFile)
+                    if bscCommands.isOsExist(previewFolder):
                         bscMethods.OsDirectory.open(previewFolder)
                 #
                 bscObjects.If_Message(
@@ -829,7 +829,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     projectName,
                     sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
-            if lxBasic.isOsExist(serverCameraFile):
+            if bscCommands.isOsExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
@@ -1010,7 +1010,7 @@ class IfScAnimationLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 class IfScUtilToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicUtils = lxBasic.orderedDict()
+    dicUtils = bscCommands.orderedDict()
     dicUtils['astUnitClearScene'] = [1, 0, 0, 1, 4, 'Clean Maya Scene']
     dicUtils['placeholder'] = [1, 1, 0, 1, 4, 'Placeholder']
     def __init__(self, *args, **kwargs):
@@ -1100,7 +1100,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneStage = self._connectObject.sceneStage
             #
             self._scAnimUploadButton.setNameText(
-                u'Upload {} ！！！'.format(lxBasic.str_camelcase2prettify(scenePr.getSceneLink(sceneStage)))
+                u'Upload {} ！！！'.format(bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage)))
             )
             #
             self._initScRangeConfig()
@@ -1434,7 +1434,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         description = u'镜头 - 动画 上传/更新'
         notes = self._scNoteUiLabel.datum()
         #
-        timeTag = lxBasic.getOsActiveTimeTag()
+        timeTag = bscMethods.OsTime.activeTimetag()
         #
         isWithIndex = getIndexUploadDatum()
         # Preview
@@ -1470,7 +1470,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
-        timeTag = lxBasic.getOsActiveTimeTag()
+        timeTag = bscMethods.OsTime.activeTimetag()
         #
         maScUploadCmds.scUnitSceneryComposeUploadCmd_(
             projectName,
@@ -1762,7 +1762,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def setUpdateRenderIndex():
             customize = datScene.getSceneCustomizeLabel(sceneName)
-            timeTag = lxBasic.getOsActiveTimeTag()
+            timeTag = bscMethods.OsTime.activeTimetag()
             #
             startFrame, endFrame = maRender.getRenderTime()
             width, height = maRender.getRenderSize()
@@ -1832,7 +1832,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     isWithDeadline = ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent
                 #
                 customize = datScene.getSceneCustomizeLabel(sceneName)
-                timeTag = lxBasic.getOsActiveTimeTag()
+                timeTag = bscMethods.OsTime.activeTimetag()
                 #
                 description = u'镜头 - 灯光 / 渲染 上传'
                 notes = self._scNoteUiLabel.datum()
@@ -2075,8 +2075,8 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             data = self._commandEditBox.text()
             bscMethods.OsFile.write(self._melCommandFile, data)
             #
-            subOsFile = lxBasic.getOsFileJoinTimeTag(osFile)
-            lxBasic.setOsFileCopy(osFile, subOsFile)
+            subOsFile = bscMethods.OsFile.toJoinTimetag(osFile)
+            bscCommands.setOsFileCopy(osFile, subOsFile)
             #
             setLoadAction()
             #
@@ -2084,7 +2084,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def loadCmd():
             osFile = self._melCommandFile
-            if lxBasic.isOsExist(osFile):
+            if bscCommands.isOsExist(osFile):
                 data = bscMethods.OsFile.read(osFile)
                 #
                 self._commandEditBox.setText(data)
@@ -2092,7 +2092,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def setLoadAction():
             def setActionBranch(timeTag, subOsFile):
                 def subLoadCmd():
-                    if lxBasic.isOsExist(subOsFile):
+                    if bscCommands.isOsExist(subOsFile):
                         subData = bscMethods.OsFile.read(subOsFile)
                         #
                         self._commandEditBox.setText(subData)
@@ -2110,7 +2110,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             ]
             osFile = self._melCommandFile
             #
-            recordDic = lxBasic.getOsFileRecordDic(osFile)
+            recordDic = bscMethods.OsFile.backupNameDict(osFile)
             if recordDic:
                 for k, v in recordDic.items()[-5:]:
                     setActionBranch(k, v)
@@ -2165,7 +2165,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneStage = self._connectObject.sceneStage
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
-            timeTag = lxBasic.getOsActiveTimeTag()
+            timeTag = bscMethods.OsTime.activeTimetag()
             #
             startFrame, endFrame = maRender.getRenderTime()
             width, height = maRender.getRenderSize()
@@ -2222,7 +2222,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 sceneClass, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
-            self._ddlSubmitButton.setPressable([False, True][lxBasic.isOsExist(renderFile)])
+            self._ddlSubmitButton.setPressable([False, True][bscCommands.isOsExist(renderFile)])
     #
     def setListRenderLayer(self):
         def setBranch(renderLayer):
@@ -3166,7 +3166,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         correctNumberArray.append(int(existsNumber))
                     existsNumberArray.append(guessNumber)
 
-                badNumberArray = bscMethods.List.getBadNumber(correctNumberArray, 1)
+                badNumberArray = bscMethods.Array.getDefects(correctNumberArray, 1)
                 badNumberCount = len(badNumberArray)
 
                 if errorReferenceNode:
@@ -3403,7 +3403,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if boolean:
             sourceObject = selectedObjects[0]
             targetObject = selectedObjects[1]
-            osFile = 'D:/animTemp/%s' % (sourceObject.split('|')[-1].split(':')[-1] + '_' + lxBasic.getOsActiveTimeTag())
+            osFile = 'D:/animTemp/%s' % (sourceObject.split('|')[-1].split(':')[-1] + '_' + bscMethods.OsTime.activeTimetag())
             maFile.animExport(osFile, sourceObject)
             maFile.animImport(osFile, targetObject)
     #
@@ -3412,7 +3412,8 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         root = self.root
         if root:
             data = maKeyframe.getKeyDatas(root)
-            maFile.writeOsJson(data, osFile, 4)
+
+            bscMethods.OsJson.write(osFile, data)
             #
             maUtils.setMessageWindowShow(
                 u'Animation ( Keys ) Export', u'Complete',
@@ -4213,7 +4214,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
                     cfxFurObjectPath = treeItem.cfxFurObject
                     cfxCacheFile = maFur.getNurbsHairCacheFile(cfxFurObjectPath)
-                    subCacheFiles = lxBasic.getOsMultFileLis(cfxCacheFile, useMode=1)
+                    subCacheFiles = bscCommands.getOsMultFileLis(cfxCacheFile, useMode=1)
                     if subCacheFiles:
                         checkResult = setSubBranch(subCacheFiles)
                         #

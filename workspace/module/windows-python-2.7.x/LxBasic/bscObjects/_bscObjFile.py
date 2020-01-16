@@ -36,12 +36,12 @@ class JsonFile(bscAbstract.Abc_File):
     def read(self, encoding=None):
         if self.isExist():
             with open(self._fileString) as j:
-                data = self.method_json.load(j, encoding=encoding)
+                data = self.MOD_json.load(j, encoding=encoding)
                 return data
 
     def write(self, raw, indent=4, ensure_ascii=True):
         if raw is not None:
             with open(self.temporary(), u'w') as j:
-                self.method_json.dump(raw, j, indent=indent, ensure_ascii=ensure_ascii)
+                self.MOD_json.dump(raw, j, indent=indent, ensure_ascii=ensure_ascii)
 
             self._setOsFileCopy(self.temporary(), self._fileString)

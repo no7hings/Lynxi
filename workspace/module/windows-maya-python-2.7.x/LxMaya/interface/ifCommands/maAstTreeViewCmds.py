@@ -1,9 +1,9 @@
 # encoding=utf-8
 import os, collections
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, assetCfg
 #
@@ -324,7 +324,7 @@ def setAstGeometryConstantMain(
         serverPathDic, serverInfoDic
 ):
     def getUniqueDic(inData):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         if inData:
             for k, v in inData.items():
                 if not v.startswith('|'):
@@ -428,7 +428,7 @@ def setAstGeometryConstantMain(
             classItemWidget = classItem.setItemIconWidget(
                 0,
                 'treeBox#{}'.format(className),
-                lxBasic.str_camelcase2prettify(className),
+                bscMethods.StrCamelcase.toPrettify(className),
                 classState
             )
             setClassItemBranch(classItemWidget, className, classState)
@@ -624,7 +624,7 @@ def setAstMeshTransCheckView(main, treeBox, inData, checkData, errorData):
             isTransError = False
             for ik, iv in v.items():
                 xValue, yValue, zValue = iv
-                transItem = qtWidgets_.QTreeWidgetItem_([lxBasic.str_camelcase2prettify(ik), str(xValue), str(yValue), str(zValue)])
+                transItem = qtWidgets_.QTreeWidgetItem_([bscMethods.StrCamelcase.toPrettify(ik), str(xValue), str(yValue), str(zValue)])
                 transItem.setItemMayaIcon(0, 'dagNode')
                 meshItem.addChild(transItem)
                 if ik in ['translate', 'rotate', 'pivot']:
@@ -725,7 +725,7 @@ def setAstMeshHistCheckView(main, treeBox, inData, inCheck, errorData):
 
 #
 def setAstCfxFurCheckTreeView(main, assetClass, assetName, treeBox, checkData, errorData):
-    checkFnDic = lxBasic.orderedDict()
+    checkFnDic = bscCommands.orderedDict()
     checkFnDic['astYetiCheck'] = setAstCfxFurYetiCheckTreeView
     checkFnDic['astPfxHairCheck'] = setAstCfxFurMayaCheckTreeView
     checkFnDic['astNurbsHairCheck'] = setAstCfxFurNhrCheckTreeView
@@ -1157,7 +1157,7 @@ def setAstCfxFurNhrCheckTreeView(main, assetClass, assetName, treeBox, checkData
         #
         stateLabel = none
         furMapFile = maFur.getFurMapAttrData(node)
-        if not lxBasic.isOsExistsFile(furMapFile):
+        if not bscCommands.isOsExistsFile(furMapFile):
             stateLabel = 'error'
             nodeItem.setText(2, 'Non - Exists')
             #
@@ -1504,7 +1504,7 @@ def setAstTextureCheckSubMethod(
         #
         def setUpdateCheck(origFileMtimestamp, osTargetTextureFile):
             if os.path.isfile(osTargetTextureFile):
-                timestamp = lxBasic.getOsFileMtimestamp(osTargetTextureFile)
+                timestamp = bscMethods.OsFile.mtimestamp(osTargetTextureFile)
                 if str(origFileMtimestamp) != str(timestamp):
                     check = False
                 else:
@@ -1516,7 +1516,7 @@ def setAstTextureCheckSubMethod(
         #
         def setTxCheck(osTxTextureFile, origFileMtimestamp):
             if os.path.isfile(osTxTextureFile):
-                timestamp = lxBasic.getOsFileMtimestamp(osTxTextureFile)
+                timestamp = bscMethods.OsFile.mtimestamp(osTxTextureFile)
                 if int(timestamp) != int(origFileMtimestamp):
 
                     check = False
@@ -1546,7 +1546,7 @@ def setAstTextureCheckSubMethod(
                 subTextureTxMtimestamp = None
                 #
                 subTextureName, subExt = os.path.splitext(subTextureFileBasename)
-                subTextureFile = lxBasic._toOsFile(osPath, subTextureFileBasename)
+                subTextureFile = bscCommands.toOsFile(osPath, subTextureFileBasename)
                 #
                 subWidth, subHeight = maTxtr.getTextureSize(subTextureFile)
                 subTextureText1 = '%s ( %s*%s )' % (
@@ -1636,9 +1636,9 @@ def setAstTextureCheckSubMethod(
         #
         textureFileBasename,  textureMtimestampDatum, textureNodeDatumLis = datum
         #
-        textureName, ext = lxBasic.toOsFileSplitByExt(textureFileBasename)
+        textureName, ext = bscCommands.toOsFileSplitByExt(textureFileBasename)
         #
-        textureFile = lxBasic._toOsFile(osPath, textureFileBasename)
+        textureFile = bscCommands.toOsFile(osPath, textureFileBasename)
         #
         textureFileText0 = textureFileBasename
         textureFileIconState0 = None

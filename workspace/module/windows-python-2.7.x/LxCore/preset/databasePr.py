@@ -1,5 +1,4 @@
 # coding:utf-8
-from LxCore import lxBasic, lxConfigure
 #
 from LxCore.preset import appVariant
 

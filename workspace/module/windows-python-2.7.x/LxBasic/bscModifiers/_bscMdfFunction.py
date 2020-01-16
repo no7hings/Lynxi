@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscObjects, bscMethods
 
-method_html = bscMethods.HtmlText
+method_html = bscMethods.TxtHtml
 
 
 def fncCostTimeCatch(fnc):

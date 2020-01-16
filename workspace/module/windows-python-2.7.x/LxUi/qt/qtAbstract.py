@@ -2540,10 +2540,10 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
             return 0
     #
     def _updatePercent(self):
-        self._percent = self.ui_method.mapRangeValue(
-            (self._minimum, self._maximum),
-            (self._minPercent, self._maxPercent),
-            self._value
+        self._percent = self.mtd_raw_value.mapTo(
+            value=self._value,
+            sourceValueRange=(self._minimum, self._maximum),
+            targetValueRange=(self._minPercent, self._maxPercent)
         )
     #
     def _updateValueByRow(self):
@@ -2552,10 +2552,10 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
     def _updateValueByPercent(self):
         self._updateMaximumValue()
         #
-        value = self.ui_method.mapRangeValue(
-            (self._minPercent, self._maxPercent),
-            (self._minimum, self._maximum),
-            self._percent
+        value = self.mtd_raw_value.mapTo(
+            value=self._percent,
+            sourceValueRange=(self._minPercent, self._maxPercent),
+            targetValueRange=(self._minimum, self._maximum),
         )
         #
         self.setValue(value)
@@ -2718,11 +2718,9 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
     #
     def _addAction(self):
         if self.value() < self.maximum():
-            value = self.ui_method.mapStepValue(
-                self._value,
-                +1,
-                40,
-                self._maximum, self._minimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._value, delta=+1, step=40,
+                valueRange=(self._minimum, self._maximum)
             )
             self.setValue(value)
         else:
@@ -2730,11 +2728,11 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
     #
     def _subAction(self):
         if self.minimum() < self.value():
-            value = self.ui_method.mapStepValue(
-                self._value,
-                -1,
-                40,
-                self._maximum, self._minimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._value,
+                delta=-1,
+                step=40,
+                valueRange=(self._minimum, self._maximum)
             )
             self.setValue(value)
         else:
@@ -2742,11 +2740,11 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
     #
     def _addRowAction(self):
         if self._curVisibleRow < self._maxItemRow:
-            value = self.ui_method.mapStepValue(
-                self._value,
-                +1,
-                self._rowValue,
-                self._maximum, self._minimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._value,
+                delta=+1,
+                step=self._rowValue,
+                valueRange=(self._minimum, self._maximum)
             )
             self.setValue(value, isRow=True)
         else:
@@ -2754,31 +2752,31 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
     #
     def _subRowAction(self):
         if self._minItemRow < self._curVisibleRow:
-            value = self.ui_method.mapStepValue(
-                self._value,
-                -1,
-                self._rowValue,
-                self._maximum, self._minimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._value,
+                delta=-1,
+                step=self._rowValue,
+                valueRange=(self._minimum, self._maximum)
             )
             self.setValue(value, isRow=True)
         else:
             self._autoScrollStopAction()
     #
     def _subPageAction(self):
-        value = self.ui_method.mapStepValue(
-            self._value,
-            -1,
-            self._pageValue,
-            self._maximum, self._minimum
+        value = self.mtd_raw_value.stepTo(
+            value=self._value,
+            delta=-1,
+            step=self._pageValue,
+            valueRange=(self._minimum, self._maximum)
         )
         self.setValue(value)
     #
     def _addPageAction(self):
-        value = self.ui_method.mapStepValue(
-            self._value,
-            +1,
-            self._pageValue,
-            self._maximum, self._minimum
+        value = self.mtd_raw_value.stepTo(
+            value=self._value,
+            delta=+1,
+            step=self._pageValue,
+            valueRange=(self._minimum, self._maximum)
         )
         self.setValue(value)
     #
@@ -2938,9 +2936,11 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
         if self._isScrollable:
             step = self._basicValue
             #
-            value = self.ui_method.mapStepValue(
-                self._value, - delta, step,
-                self._maximum, self._minimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._value,
+                delta=-delta,
+                step=step,
+                valueRange=(self._minimum, self._maximum)
             )
             self.setValue(value)
             #
@@ -3040,10 +3040,10 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
         self._initScrollBarConnect()
     #
     def setValueByPercent(self, percent):
-        value = self.ui_method.mapRangeValue(
-            (self._minPercent, self._maxPercent),
-            (self._minimum, self._maximum),
-            percent
+        value = self.mtd_raw_value.mapTo(
+            value=percent,
+            sourceValueRange=(self._minPercent, self._maxPercent),
+            targetValueRange=(self._minimum, self._maximum),
         )
         #
         self.setValue(value)
@@ -3051,10 +3051,10 @@ class QtAbc_ScrollbarModel(qtDefinition.QtDef_ScrollbarWidget):
         self._updateTempValue()
     #
     def valuePercent(self):
-        return self.ui_method.mapRangeValue(
-            (self._minimum, self._maximum),
-            (self._minPercent, self._maxPercent),
-            self._value
+        return self.mtd_raw_value.mapTo(
+            value=self._value,
+            sourceValueRange=(self._minimum, self._maximum),
+            targetValueRange=(self._minPercent, self._maxPercent),
         )
 
 
@@ -3577,11 +3577,12 @@ class QtAbc_ActionDropviewModel(qtDefinition.QtDef_Widget):
         #
         width_, height_ = width + margin*2 + side*2 + shadowRadius + 1, height + margin*2 + side*2 + shadowRadius + 1 + self.__titleHeight()
         #
-        xP, yP, region = self.ui_method.getRegionPos(
-            xPos, yPos,
-            maxWidth, maxHeight,
-            width_, height_,
-            xOffset, yOffset
+
+        xP, yP, region = self.mtd_raw_position_2d.regionTo(
+            position=(xPos, yPos),
+            size=(width_, height_),
+            maximumSize=(maxWidth, maxHeight),
+            offset=(xOffset, yOffset)
         )
         self._region = region
         #
@@ -3907,11 +3908,11 @@ class QtAbc_ChooseDropviewModel(qtDefinition.QtDef_Widget):
         width_ = width + margin*2 + side*2 + shadowRadius + 1
         height_ = height + margin*2 + side*2 + shadowRadius + 1
         #
-        xP, yP, region = self.ui_method.getRegionPos(
-            xPos, yPos,
-            maxWidth, maxHeight,
-            width_, height_,
-            xOffset, yOffset
+        xP, yP, region = self.mtd_raw_position_2d.regionTo(
+            position=(xPos, yPos),
+            size=(width_, height_),
+            maximumSize=(maxWidth, maxHeight),
+            offset=(xOffset, yOffset)
         )
         self._region = region
         #

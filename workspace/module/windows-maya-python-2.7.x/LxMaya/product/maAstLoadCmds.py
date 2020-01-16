@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.preset import appVariant
 
@@ -378,7 +378,7 @@ def astUnitRigLoadMainCmd(
     )[1]
     # Save to Local
     logWin_.addStartProgress(u'Rig Load')
-    if lxBasic.isOsExistsFile(dbRigFile):
+    if bscCommands.isOsExistsFile(dbRigFile):
         if force:
             maFile.openMayaFileAsBack(dbRigFile, localSourceFile)
         elif not force:
@@ -864,7 +864,7 @@ def astUnitProductLoadCmd(
         )[1]
     #
     if serverProductFile is not None:
-        if lxBasic.isOsExistsFile(serverProductFile):
+        if bscCommands.isOsExistsFile(serverProductFile):
             logWin_.addStartProgress(u'Product Load')
             #
             maFile.setFileImport(serverProductFile)
@@ -1030,7 +1030,7 @@ def astUnitAssemblyLoadForScenery(
         projectName,
         assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
-    if lxBasic.isOsExistsFile(serverAstUnitAsbDefinitionFile):
+    if bscCommands.isOsExistsFile(serverAstUnitAsbDefinitionFile):
         assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
         maAsb.setAssemblyReferenceCreate(arName, serverAstUnitAsbDefinitionFile)
         #
@@ -1058,16 +1058,16 @@ def astUnitRigLoadForAnimationCmd(
         projectName,
         assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )[1]
-    if not lxBasic.isOsExistsFile(serverRigProductFile):
+    if not bscCommands.isOsExistsFile(serverRigProductFile):
         maDbAstCmds.dbAstCopyRigProductTo(assetIndex, serverRigProductFile)
     #
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
     namespace = assetPr.astRigNamespaceSet(assetName) + '_' + timeTag
     #
     maFile.setMaFileReference(serverRigProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, lxBasic.getOsUser())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, lxBasic.getOsActiveTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, bscMethods.OsTime.activeTimestamp())
     maUtils.setAttrStringDatumForce_(referenceNode, appVariant.basicIndexAttrLabel, assetIndex)
 
 
@@ -1083,11 +1083,11 @@ def astAssetSolverLoadForAnimation(
         lxConfigure.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
     )[1]
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag
     #
     maFile.setMaFileReference(serverSolverProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, lxBasic.getOsUser())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, lxBasic.getOsActiveTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, bscMethods.OsTime.activeTimestamp())
     maUtils.setAttrStringDatumForce_(referenceNode, appVariant.basicIndexAttrLabel, assetIndex)

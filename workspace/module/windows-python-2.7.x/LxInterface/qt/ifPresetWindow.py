@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxConfigure, lxBasic, lxScheme
+from LxCore import lxConfigure, lxScheme
 
 from LxCore.preset import basicPr, pipePr
 
@@ -20,7 +20,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     _Version = lxScheme.Shm_Resource().version
     def __init__(self):
         super(IfPresetWindow, self).__init__()
-        #
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
@@ -100,7 +100,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         def setBranch(presetKeys):
             def setTreeItem():
                 if explainKey:
-                    treeItem.setText(0, lxBasic.str_camelcase2prettify(explainKey))
+                    treeItem.setText(0, bscMethods.StrCamelcase.toPrettify(explainKey))
                     iconKeyword = ['svg_basic@svg#project', 'svg_basic@svg#branch_main', 'svg_basic@svg#tag'][len(presetKeys) - 1]
                     treeItem.setItemIcon_(0, iconKeyword)
                 #
@@ -238,14 +238,14 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                     #
                     setFile = basicPr.presetSetFileMethod((guidePresetKey, ), schemeKey)
                     setData = i.getSubData()
-                    lxBasic.writeOsJson(setData, setFile)
+                    bscMethods.OsJson.write(setFile, setData)
                 #
-                lxBasic.writeOsJson(indexLis, indexFile)
+                bscMethods.OsJson.write(indexFile, indexLis)
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
             bscObjects.If_Message(
-                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(guidePresetKey),
+                u'保存 [ %s ] 预设' % bscMethods.StrCamelcase.toPrettify(guidePresetKey),
                 u'成功'
             )
         #
@@ -286,7 +286,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
-        entryLabel.setNameText('%s Name / Scheme' % lxBasic.str_camelcase2prettify(guidePresetKey))
+        entryLabel.setNameText('%s Name / Scheme' % bscMethods.StrCamelcase.toPrettify(guidePresetKey))
         entryLabel.setNameTextWidth(0)
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
@@ -375,14 +375,14 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                     #
                     setFile = basicPr.presetSetFileMethod((guidePresetKey, mainPresetKey), schemeKey)
                     setData = i.getSubData()
-                    lxBasic.writeOsJson(setData, setFile)
+                    bscMethods.OsJson.write(setFile, setData)
                 #
-                lxBasic.writeOsJson(indexLis, indexFile)
+                bscMethods.OsJson.write(indexFile, indexLis)
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
             bscObjects.If_Message(
-                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(mainPresetKey),
+                u'保存 [ %s ] 预设' % bscMethods.StrCamelcase.toPrettify(mainPresetKey),
                 u'成功'
             )
         #
@@ -427,7 +427,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         entryLabel = qtWidgets.QtEnterlabel()
         entryLabel.setEnterEnable(True)
         entryLabel.setEnterable(True)
-        entryLabel.setNameText('%s Name / Scheme' % lxBasic.str_camelcase2prettify(mainPresetKey))
+        entryLabel.setNameText('%s Name / Scheme' % bscMethods.StrCamelcase.toPrettify(mainPresetKey))
         entryLabel.setNameTextWidth(0)
         entryLabel.setTextValidator(48)
         toolLayout.addWidget(entryLabel)
@@ -503,12 +503,12 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                     setData = i.getSubData()
                     setDic[mainSetKey] = setData
                 #
-                lxBasic.writeOsJson(indexLis, indexFile)
-                lxBasic.writeOsJson(setDic, setFile)
+                bscMethods.OsJson.write(indexFile, indexLis)
+                bscMethods.OsJson.write(setFile, setDic)
             #
             refreshMethod()
             bscObjects.If_Message(
-                u'保存 [ %s ] 预设' % lxBasic.str_camelcase2prettify(subPresetKey),
+                u'保存 [ %s ] 预设' % bscMethods.StrCamelcase.toPrettify(subPresetKey),
                 u'成功'
             )
         #
@@ -600,10 +600,10 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         if len(presetKeys) == 3:
             schemeChooseBox = self.chooseBoxDic[presetKeys[:2]]
             scheme = schemeChooseBox.datum()
-        explains = [lxBasic.str_camelcase2prettify(i) for i in presetKeys]
-        title = lxBasic.getUiStringPath(explains, lxConfigure.LynxiUiPathsep)
+        explains = [bscMethods.StrCamelcase.toPrettify(i) for i in presetKeys]
+        title = bscMethods.StrCamelcase.toUiPath(explains)
         toolGroupBox.setTitle(title + ['', ' ( {} )'.format(scheme)][scheme is not None])
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-method_html = bscMethods.HtmlText
+method_html = bscMethods.TxtHtml
 
 
 def mtdCatchException(mtd):

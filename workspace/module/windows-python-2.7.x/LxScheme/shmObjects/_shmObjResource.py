@@ -103,10 +103,10 @@ class Rsc_Operate(shmAbstract.Abc_Operate):
 
 # Bin
 class Rsc_PltLanguage(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_Platform
-    FILE_CLS = _shmObjFile.Fle_RscBin
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_Platform
+    CLS_path_file = _shmObjFile.Fle_RscBin
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Language
 
@@ -118,10 +118,10 @@ class Rsc_PltLanguage(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltApplication(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_Platform
-    FILE_CLS = _shmObjFile.Fle_RscBin
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_Platform
+    CLS_path_file = _shmObjFile.Fle_RscBin
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Application
 
@@ -134,10 +134,10 @@ class Rsc_PltApplication(shmAbstract.Abc_Resource):
 
 # Package
 class Rsc_PltLanPackage(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_RscPackage
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_RscPackage
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Lan_Package
 
@@ -150,10 +150,10 @@ class Rsc_PltLanPackage(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppLanPackage(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltAppLanguage
-    FILE_CLS = _shmObjFile.Fle_RscPackage
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_path_file = _shmObjFile.Fle_RscPackage
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Lan_Package
 
@@ -167,10 +167,10 @@ class Rsc_PltAppLanPackage(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppPackage(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltApplication
-    FILE_CLS = _shmObjFile.Fle_RscPackage
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltApplication
+    CLS_path_file = _shmObjFile.Fle_RscPackage
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Package
 
@@ -184,10 +184,10 @@ class Rsc_PltAppPackage(shmAbstract.Abc_Resource):
 
 # Plug
 class Rsc_PltLanPlug(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_RscPlug
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_RscPlug
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Lan_Plug
 
@@ -200,10 +200,10 @@ class Rsc_PltLanPlug(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppLanPlug(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltAppLanguage
-    FILE_CLS = _shmObjFile.Fle_RscPlug
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_path_file = _shmObjFile.Fle_RscPlug
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Lan_Plug
 
@@ -217,10 +217,10 @@ class Rsc_PltAppLanPlug(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppPlug(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltApplication
-    FILE_CLS = _shmObjFile.Fle_RscPlug
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltApplication
+    CLS_path_file = _shmObjFile.Fle_RscPlug
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Plug
 
@@ -234,10 +234,10 @@ class Rsc_PltAppPlug(shmAbstract.Abc_Resource):
 
 # Module
 class Rsc_PltLanModule(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_RscModule
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_RscModule
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Lan_Module
 
@@ -250,10 +250,10 @@ class Rsc_PltLanModule(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppModule(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltApplication
-    FILE_CLS = _shmObjFile.Fle_RscModule
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltApplication
+    CLS_path_file = _shmObjFile.Fle_RscModule
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Module
 
@@ -265,10 +265,10 @@ class Rsc_PltAppModule(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppLanModule(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltAppLanguage
-    FILE_CLS = _shmObjFile.Fle_RscModule
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_path_file = _shmObjFile.Fle_RscModule
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Lan_Module
 
@@ -282,10 +282,10 @@ class Rsc_PltAppLanModule(shmAbstract.Abc_Resource):
 
 # Scheme
 class Rsc_PltLanScheme(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_RscScheme
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_RscScheme
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Lan_Scheme
 
@@ -297,10 +297,10 @@ class Rsc_PltLanScheme(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppLanScheme(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltAppLanguage
-    FILE_CLS = _shmObjFile.Fle_RscScheme
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_path_file = _shmObjFile.Fle_RscScheme
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Lan_Scheme
 
@@ -313,10 +313,10 @@ class Rsc_PltAppLanScheme(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppScheme(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltApplication
-    FILE_CLS = _shmObjFile.Fle_RscScheme
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltApplication
+    CLS_path_file = _shmObjFile.Fle_RscScheme
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Scheme
 
@@ -330,10 +330,10 @@ class Rsc_PltAppScheme(shmAbstract.Abc_Resource):
 
 # Tool
 class Rsc_PltLanTool(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_RscTool
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_RscTool
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_Lan_Tool
 
@@ -345,10 +345,10 @@ class Rsc_PltLanTool(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppLanTool(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltAppLanguage
-    FILE_CLS = _shmObjFile.Fle_RscTool
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_path_file = _shmObjFile.Fle_RscTool
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Lan_Tool
 
@@ -361,10 +361,10 @@ class Rsc_PltAppLanTool(shmAbstract.Abc_Resource):
 
 
 class Rsc_PltAppTool(shmAbstract.Abc_Resource):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltApplication
-    FILE_CLS = _shmObjFile.Fle_RscTool
-    RAW_CLS = _shmObjRaw.Raw_Resource
-    OPERATE_CLS = Rsc_Operate
+    CLS_system = _shmObjSystem.Sys_PltApplication
+    CLS_path_file = _shmObjFile.Fle_RscTool
+    CLS_raw = _shmObjRaw.Raw_Resource
+    CLS_operate = Rsc_Operate
 
     object_category = shmCore.Basic.Category_Plf_App_Tool
 

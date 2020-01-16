@@ -11,7 +11,7 @@ class MayaPath(bscCore.Basic):
     def _getNamespace(cls, pathString, nodeSep, namespaceSep):
         if namespaceSep in pathString:
             return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
-        return pathString
+        return ''
 
     @classmethod
     def _getName(cls, pathString, nodeSep, namespaceSep):
@@ -35,12 +35,23 @@ class MayaPath(bscCore.Basic):
 
     @classmethod
     def getNamespace(cls, pathString):
-        return cls._getNamespace(pathString, cls.separator_node, cls.separator_namespace)
+        return cls._getNamespace(
+            pathString,
+            nodeSep=cls.separator_node,
+            namespaceSep=cls.separator_namespace
+        )
 
     @classmethod
     def getName(cls, pathString):
-        return cls._getName(pathString, cls.separator_node, cls.separator_namespace)
+        return cls._getName(
+            pathString,
+            nodeSep=cls.separator_node,
+            namespaceSep=cls.separator_namespace
+        )
 
     @classmethod
     def getAttributeName(cls, pathString):
-        return cls._getAttributeName(pathString, cls.separator_attribute)
+        return cls._getAttributeName(
+            pathString,
+            attributeSep=cls.separator_attribute
+        )

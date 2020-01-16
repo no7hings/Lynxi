@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.preset import pipePr, personnelPr
 #
@@ -22,7 +22,7 @@ class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
     _Version = lxScheme.Shm_Resource().version
     def __init__(self):
         super(QtIf_ProjectWindow, self).__init__()
-        #
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
@@ -30,7 +30,7 @@ class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 
@@ -41,7 +41,7 @@ class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
 
 # Artist Panel
 class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
-    user = personnelPr.getUser()
+    user = bscMethods.OsSystem.username()
 
     tips = [
         u"提示：",
@@ -154,9 +154,9 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
         mail = personnelPr.getPersonnelUserMail(self.user)
         self._mailLabel.setDatum(mail)
         # PC Data
-        self._pcLabel.setDatum(personnelPr.getHostName())
+        self._pcLabel.setDatum(bscMethods.OsSystem.hostname())
         # IP Data
-        self._ipLabel.setDatum(personnelPr.getHost())
+        self._ipLabel.setDatum(bscMethods.OsSystem.host())
         # Tip Data
         self._tipLabel.setRule(self.tips)
 
@@ -184,13 +184,13 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
             pass
         if isChecked:
             personnelPr.setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post)
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()
             #
             bscObjects.If_Message(u'提示：', u'设置用户信息成功')
             self.uiQuit()
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 
@@ -297,24 +297,24 @@ class QtIf_ToolFloatWindow(qtWidgets.QtFloatWindow):
 
 
 #
-class If_QtToolkitWindow(qtWidgets.QtToolWindow):
+class QtIf_ToolkitWindow(qtWidgets.QtToolWindow):
     leftBoxWidth = 160
     #
     projectName = projectPr.getMayaProjectName()
-    _Title = 'Tool Kit'
+    _Title = 'Toolkit'
     _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
-        super(If_QtToolkitWindow, self).__init__(parent)
-        #
+        super(QtIf_ToolkitWindow, self).__init__(parent)
+
         self.setDefaultSize(600, 800)
         self.setMargins(0, 0, 0, 0)
         self.widthSet = 60
-        #
+
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
-        #
+
         self.setupWindow()
-    @qtModifiers.showAppInterfaceExclusive
+    @qtModifiers.mtdAppInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -331,8 +331,8 @@ class If_QtToolkitWindow(qtWidgets.QtToolWindow):
 class If_QtProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
     _Version = lxScheme.Shm_Resource().version
-    def __init__(self, parent=qtCore.getAppWindow()):
-        super(If_QtProductManagerWindow, self).__init__(parent)
+    def __init__(self):
+        self._initWindow()
         #
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
@@ -341,7 +341,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtModifiers.showAppInterfaceExclusive
+    @qtModifiers.mtdAppInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -356,7 +356,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtAssetManagerWindow, self).__init__(parent)
-        #
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
@@ -364,7 +364,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtModifiers.showAppInterfaceExclusive
+    @qtModifiers.mtdAppInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -388,7 +388,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneryManagerWindow, self).__init__(parent)
-        #
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
@@ -396,7 +396,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtModifiers.showAppInterfaceExclusive
+    @qtModifiers.mtdAppInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod
@@ -420,7 +420,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     _Version = lxScheme.Shm_Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneManagerWindow, self).__init__(parent)
-        #
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
@@ -428,7 +428,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
         self.setIndexText(self._Version)
         #
         self.setupWindow()
-    @qtModifiers.showAppInterfaceExclusive
+    @qtModifiers.mtdAppInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     @staticmethod

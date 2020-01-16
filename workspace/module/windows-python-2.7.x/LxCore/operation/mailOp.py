@@ -5,6 +5,8 @@ import traceback
 #
 from email.mime.text import MIMEText
 #
+from LxBasic import bscMethods
+#
 from LxCore.preset import personnelPr, appVariant
 #
 from email.header import Header
@@ -27,7 +29,7 @@ def getPipeMail():
 
 #
 def datum(toMails, summary, subject, information):
-    user = personnelPr.getUser()
+    user = bscMethods.OsSystem.username()
     userMail = personnelPr.getPersonnelUserMail()
     cnName = personnelPr.getPersonnelUserCnName()
     team = personnelPr.getPersonnelUserTeam()

@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxScheme
+from LxCore import lxScheme
 #
 from LxCore.config import appCfg, assetCfg
 #
@@ -33,7 +33,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfAssetProductToolWindow, self).__init__(parent)
-        #
+
         self.setNameText(_title)
         self.setIndexText(_version)
         #
@@ -119,7 +119,9 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             linkGroup = assetPr.astUnitLightLinkGroupName(assetName)
             #
         treeBox = self.treeBox
-        explain = '{} Hierarchy'.format(lxBasic.str_camelcase2prettify(assetPr.getAssetLink(assetStage)))
+        explain = '{} Hierarchy'.format(
+            bscMethods.StrCamelcase.toPrettify(assetPr.getAssetLink(assetStage))
+        )
         #
         self.setAstHierarchyBox(treeBox, explain)
         #
@@ -707,7 +709,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                 elif assetPr.isAstLightLink(assetStage):
                     self._initAstLightToolBar()
                 #
-                title = 'Asset {} Production'.format(lxBasic.str_camelcase2prettify(self.assetLink))
+                title = 'Asset {} Production'.format(bscMethods.StrCamelcase.toPrettify(self.assetLink))
                 self.setNameText(title)
             else:
                 self.setPlaceholderEnable(True)

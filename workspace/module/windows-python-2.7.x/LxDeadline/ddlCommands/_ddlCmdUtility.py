@@ -3,7 +3,6 @@ from subprocess import Popen, PIPE
 #
 from LxBasic import bscMethods
 #
-from LxCore import lxBasic
 #
 none = ''
 

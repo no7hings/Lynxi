@@ -1,7 +1,7 @@
 # coding:utf-8
-from LxBasic import bscObjects, bscMethods
+from LxBasic import bscObjects, bscMethods, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import appConfig
 #
@@ -231,7 +231,7 @@ class IfScIndexManagerUnit(
             activeItem.assetIndexLis = activeIndexLis
             activeItem.sceneryIndexLis = bscMethods.OsJson.getValue(serverSceneIndexFile, lxConfigure.LynxiProduct_Module_Scenery)
             #
-            indexRecordDic = lxBasic.getOsFileRecordDic(backupSceneIndexFile)
+            indexRecordDic = bscMethods.OsFile.backupNameDict(backupSceneIndexFile)
             if indexRecordDic:
                 progressExplain = '''List Record'''
                 maxValue = len(indexRecordDic)
@@ -512,14 +512,14 @@ class IfScIndexManagerUnit(
     #
     def confirmCmd(self):
         if self._assetDatumLis:
-            if lxBasic.isOsExistsFile(self._serverFile):
+            if bscCommands.isOsExistsFile(self._serverFile):
                 serverAssetDatum = bscMethods.OsJson.getValue(self._serverFile, lxConfigure.LynxiProduct_Module_Asset)
                 if not self._assetDatumLis == serverAssetDatum:
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+                            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
+                            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
                             #
                             lxConfigure.LynxiProduct_Module_Asset: self._assetDatumLis
                         }
@@ -527,7 +527,7 @@ class IfScIndexManagerUnit(
                     #
                     bscMethods.OsFile.backupTo(
                         self._serverFile, self._backupFile,
-                        lxBasic.getOsActiveTimeTag()
+                        bscMethods.OsTime.activeTimetag()
                     )
                     #
                     bscObjects.If_Message(
@@ -537,7 +537,7 @@ class IfScIndexManagerUnit(
         #
         startFrame, endFrame = self._startFrameLabel.datum(), self._endFrameLabel.datum()
         if startFrame is not None and endFrame is not None:
-            if lxBasic.isOsExistsFile(self._serverFile):
+            if bscCommands.isOsExistsFile(self._serverFile):
                 serverStartFrame, serverEndFrame = (
                     bscMethods.OsJson.getValue(self._serverFile, lxConfigure.Lynxi_Key_Info_StartFrame),
                     bscMethods.OsJson.getValue(self._serverFile, lxConfigure.Lynxi_Key_Info_EndFrame)
@@ -546,15 +546,15 @@ class IfScIndexManagerUnit(
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: lxBasic.getOsActiveTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: lxBasic.getOsUser(),
+                            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
+                            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
                             #
                             lxConfigure.Lynxi_Key_Info_StartFrame: startFrame,
                             lxConfigure.Lynxi_Key_Info_EndFrame: endFrame
                         }
                     )
                     #
-                    bscMethods.OsFile.backupTo(self._serverFile, self._backupFile, lxBasic.getOsActiveTimeTag())
+                    bscMethods.OsFile.backupTo(self._serverFile, self._backupFile, bscMethods.OsTime.activeTimetag())
                     #
                     bscObjects.If_Message(
                         u'提示',
@@ -671,7 +671,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 treeItem = selectedItems[0]
                 indexFile = treeItem.indexFile
                 cacheFile = treeItem.cacheFile
-                if lxBasic.isOsExistsFile(cacheFile):
+                if bscCommands.isOsExistsFile(cacheFile):
                     # Index
                     cacheIndex = {
                         lxConfigure.LynxiCacheInfoKey: cacheFile
@@ -696,7 +696,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def setListCache(self):
         def setSubActionData(treeItem, itemWidget, timeTag, indexFile, cacheFile):
             def setCacheImportCmd():
-                if lxBasic.isMayaApp():
+                if bscCommands.isMayaApp():
                     from LxMaya.command import maUtils, maFile
                     #
                     groupName = 'import_{}'.format(timeTag)
@@ -762,7 +762,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             cacheFileDic = {}
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
-                    currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+                    currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
                     if not currentTimeTag == '0000_0000_0000':
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
@@ -791,8 +791,8 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         cacheFileItem_.setSelected(True)
                         cacheFileItem_.setText(2, 'Active')
                     #
-                    infoFile = lxBasic.getInfoFile(cacheFile)
-                    if lxBasic.isOsExist(infoFile):
+                    infoFile = bscMethods.OsFile.infoJsonFilename(cacheFile)
+                    if bscCommands.isOsExist(infoFile):
                         osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
@@ -838,8 +838,8 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     cacheFileItem_.setSelected(True)
                     cacheFileItem_.setText(2, 'Active')
                 #
-                infoFile = lxBasic.getInfoFile(cacheFile_)
-                if lxBasic.isOsExist(infoFile):
+                infoFile = bscMethods.OsFile.infoJsonFilename(cacheFile_)
+                if bscCommands.isOsExist(infoFile):
                     osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
@@ -890,7 +890,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             cacheFileDic = {}
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
-                    currentTimeTag = lxBasic.getOsFileTimeTag(cacheFile)
+                    currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
                     if not currentTimeTag == '0000_0000_0000':
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
@@ -1100,7 +1100,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         uiDatumDic = self._uiInfoItemDic
         if update:
             sourceFile = sourceRecordDic[update]
-            infoFile = lxBasic.getRecordFile(sourceFile)
+            infoFile = bscMethods.OsFile.infoJsonFilename(sourceFile)
             infoDatumDic = bscMethods.OsJson.read(infoFile)
             if infoDatumDic:
                 for k, v in uiDatumDic.items():
@@ -1143,9 +1143,9 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             else:
                 self._productFileLabel.setEnterClear()
             #
-            booleanA = lxBasic.isOsExistsFile(sourceFile)
+            booleanA = bscCommands.isOsExistsFile(sourceFile)
             self._loadSourceButton.setPressable(booleanA)
-            booleanB = lxBasic.isOsExistsFile(productFile)
+            booleanB = bscCommands.isOsExistsFile(productFile)
             self._loadProductButton.setPressable(booleanB)
         else:
             self._sourceFileLabel.setEnterClear()
@@ -1161,8 +1161,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         self._productFileDic = {}
         #
         if sourceKeyFile:
-            sourceFileDic = lxBasic.getOsFileRecordDic(sourceKeyFile)
-            productRecordDic = lxBasic.getOsFileRecordDic(productKeyFile)
+            sourceFileDic = bscMethods.OsFile.backupNameDict(sourceKeyFile)
+            productRecordDic = bscMethods.OsFile.backupNameDict(productKeyFile)
             timeTagLis = []
             if sourceFileDic:
                 for timeTag, sourceFile in sourceFileDic.items():
@@ -1195,8 +1195,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if update:
             if update in sourceFileDic:
                 sourceFile = sourceFileDic[update]
-                if lxBasic.isOsExistsFile(sourceFile):
-                    if lxBasic.isMayaApp():
+                if bscCommands.isOsExistsFile(sourceFile):
+                    if bscCommands.isMayaApp():
                         print 'Load File : {}'.format(sourceFile)
                         from LxMaya.command import maFile
                         maFile.openFileToTemp(sourceFile)
@@ -1208,8 +1208,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if update:
             if update in productRecordDic:
                 productFile = productRecordDic[update]
-                if lxBasic.isOsExistsFile(productFile):
-                    if lxBasic.isMayaApp():
+                if bscCommands.isOsExistsFile(productFile):
+                    if bscCommands.isMayaApp():
                         print 'Load File : {}'.format(productFile)
                         from LxMaya.command import maFile
                         maFile.openFileToTemp(productFile)
@@ -1285,14 +1285,14 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setBranch(seq, key, value):
             def setBranchAction():
                 def loadProjectCmd():
-                    if lxBasic.isMayaApp():
+                    if bscCommands.isMayaApp():
                         from LxCore.setup import appSetup
                         #
                         from LxInterface.qt.ifWidgets import ifProductWindow
                         #
                         from LxCore import lxScheme
                         #
-                        mayaVersion = lxBasic.getMayaAppVersion()
+                        mayaVersion = bscCommands.getMayaAppVersion()
                         #
                         sourceProjectName = projectPr.getMayaProjectName()
                         targetProjectName = projectName
@@ -1368,7 +1368,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         gridView = self._centralGridview
         #
-        if lxBasic.isMayaApp():
+        if bscCommands.isMayaApp():
             projectNameData = projectPr.getMayaProjectNameDic()
             currentProjectName = projectPr.getMayaProjectName()
         else:
@@ -1439,7 +1439,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                                 subPresetItem.addChild(branchPresetItem)
                                 branchPresetItem.setNameText('{} = {}'.format(jk, jv))
             #
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 setSubBranch('Maya Tool', projectPr.getProjectMayaToolDataDic())
                 setSubBranch('Maya Script', projectPr.getProjectMayaScriptDatumDic())
             return 3
@@ -1461,7 +1461,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             return len(data)
         #
         def setMayaModuleBranch(parentItem):
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 from LxMaya.command import maUtils
                 data = maUtils.getModuleInfo()
                 if data:
@@ -1497,7 +1497,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             mainItem.setNameText('{} ( {} )'.format(mainExplain, count))
     #
     def confirmCmd(self):
-        if lxBasic.isMayaApp():
+        if bscCommands.isMayaApp():
             targetProjectItem = self._centralGridview.currentItem()
             if targetProjectItem is not None:
                 from LxCore.setup import appSetup
@@ -1506,7 +1506,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 from LxCore import lxScheme
                 #
-                mayaVersion = lxBasic.getMayaAppVersion()
+                mayaVersion = bscCommands.getMayaAppVersion()
                 #
                 sourceProjectName = projectPr.getMayaProjectName()
                 targetProjectName = targetProjectItem.name()
@@ -1642,7 +1642,7 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         toolBox.setInfo(inData, 'tip', self._tipLabel)
     #
     def setCentralRefresh(self):
-        osUser = personnelPr.getUser()
+        osUser = bscMethods.OsSystem.username()
         # Os User
         self._osUserNameLabel.setDatum(osUser)
         # CH - Name
@@ -1664,9 +1664,9 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         mail = personnelPr.getPersonnelUserMail(osUser)
         self._mailLabel.setDatum(mail)
         # PC Data
-        self._pcLabel.setDatum(personnelPr.getHostName())
+        self._pcLabel.setDatum(bscMethods.OsSystem.hostname())
         # IP Data
-        self._ipLabel.setDatum(personnelPr.getHost())
+        self._ipLabel.setDatum(bscMethods.OsSystem.host())
         # Tip Data
         self._tipLabel.setRule(self.tips)
     #
@@ -1699,7 +1699,7 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         if isChecked:
             personnelPr.setUpdatePersonnelUserSetData(user, chName, enName, mail, team, post)
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
                 w = ifProductWindow.QtIf_ToolFloatWindow()
@@ -1754,7 +1754,7 @@ class IfPersonnelOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     treeItem.setIcon('object#mainBranch')
                     treeItem.setExpanded(True)
                     #
-                    r, g, b = qtCore.hsvToRgb(360 * (float(seq) / float(count)), 1, 1)
+                    r, g, b = qtCore.hsv2Rgb(360 * (float(seq) / float(count)), 1, 1)
                     treeItem.setFilterColor((r, g, b, 255))
                     #
                     self._teamItemDic[teamName] = treeItem
@@ -1852,7 +1852,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         self._initTagFilterVar()
         #
-        if lxBasic.isMayaApp():
+        if bscCommands.isMayaApp():
             buildData = projectPr.getProjectMayaToolDataDic()
             for seq, (k, v) in enumerate(buildData.items()):
                 mainToolSearchDic = {}
@@ -1906,13 +1906,13 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             bscMethods.OsDirectory.open(path1)
         #
         def openPipelineFolderEnable():
-            return lxBasic.isOsExist(path1)
+            return bscCommands.isOsExist(path1)
         #
         def openUtilitiesFolderCmd():
             bscMethods.OsDirectory.open(path2)
         #
         def openUtilitiesFolderEnable():
-            return lxBasic.isOsExist(path2)
+            return bscCommands.isOsExist(path2)
         #
         actions = [
             ('Basic', ),
@@ -1925,11 +1925,8 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setBranch(seq, k, subToolBox):
             def openCommandCmd():
                 osCmdExe = 'sublime_text.exe'
-                subOsFiles = lxBasic.getOsSeqFiles(commandFile)
-                if subOsFiles:
-                    subOsFile = subOsFiles[0]
-                    osCmd = '''"{}" "{}"'''.format(osCmdExe, subOsFile)
-                    lxBasic.setOsCommandRun_(osCmd)
+                osCmd = '''"{}" "{}"'''.format(osCmdExe, commandFile)
+                bscCommands.setOsCommandRun_(osCmd)
             #
             toolName = k
             commandFile, command, toolTip = data[k]
@@ -1975,7 +1972,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             itemData[toolName] = button
         #
         def setMain():
-            dicStep01 = lxBasic.orderedDict(
+            dicStep01 = bscCommands.orderedDict(
                 [
                     ('{} - Create'.format(keyword), []),
                     ('{} - Loaded'.format(keyword), []),

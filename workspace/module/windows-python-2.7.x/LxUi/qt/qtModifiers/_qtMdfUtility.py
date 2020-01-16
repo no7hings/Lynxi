@@ -4,7 +4,7 @@ from LxBasic import bscObjects
 from LxUi.qt import qtCommands
 
 
-def showInterfaceExclusive(mtd):
+def mtdInterfaceShowExclusive(mtd):
     def subMtd(*args, **kwargs):
         from LxCore import lxScheme
         lxScheme.Shm_Resource().loadActive()
@@ -16,7 +16,7 @@ def showInterfaceExclusive(mtd):
     return subMtd
 
 
-def showAppInterfaceExclusive(mtd):
+def mtdAppInterfaceShowExclusive(mtd):
     def subMtd(*args, **kwargs):
         from LxCore import lxScheme
         lxScheme.Shm_Resource().loadActive()

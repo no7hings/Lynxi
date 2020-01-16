@@ -1,12 +1,14 @@
 # coding=utf-8
-from LxCore import lxBasic, lxScheme
+from LxBasic import bscCommands
+
+from LxCore import lxScheme
 
 
 #
 def getMayaAppPresetVariantDic():
     def getMayaNodeIcons(osPath):
         lis = []
-        osFileBasenames = lxBasic.getOsFileBasenameLisByPath(osPath)
+        osFileBasenames = bscCommands.getOsFileBasenameLisByPath(osPath)
         if osFileBasenames:
             for i in osFileBasenames:
                 if i.startswith('out_') and i.endswith('.png'):

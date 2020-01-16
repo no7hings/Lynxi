@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
+from LxBasic import bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import sceneCfg
 #
@@ -258,7 +258,7 @@ def setScAstRigRefresh(sceneName, sceneVariant, sceneStage):
                     # Create Group
                     maUtils.setAppPathCreate(scAstRootGroup)
                     #
-                    timeTag = lxBasic.getOsActiveTimeTag()
+                    timeTag = bscMethods.OsTime.activeTimetag()
                     maHier.refreshScAstUnitBranch(
                         scAstRootGroup,
                         assetIndex,

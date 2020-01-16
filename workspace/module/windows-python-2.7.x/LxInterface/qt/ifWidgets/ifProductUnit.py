@@ -1,7 +1,7 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import assetCfg, sceneryCfg, sceneCfg
 #
@@ -26,14 +26,14 @@ none = ''
 
 #
 def setAssetToolBar(layout):
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示资产生产面板',
              'import LxMaya.interface.ifMaAssetProductWindow as uiPanel;uiPanel.tableShow()'),
             ('window#toolKit', u'提示：点击显示通用工具面板',
-             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtToolkitWindow();w.windowShow()')
+             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()')
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
@@ -46,14 +46,14 @@ def setAssetToolBar(layout):
 
 #
 def setSceneryToolBar(layout):
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示场景生产面板',
              'import LxMaya.interface.ifMaSceneryProductWindow as uiPanel;uiPanel.tableShow()'),
             ('window#toolKit', u'提示：点击显示通用工具面板',
-             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtToolkitWindow();w.windowShow()')
+             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()')
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
@@ -66,14 +66,14 @@ def setSceneryToolBar(layout):
 
 #
 def setSceneToolBar(layout):
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
             ('window#productionTool', u'提示：点击显示场景生产面板',
              'import LxMaya.interface.ifMaSceneProductWindow as uiPanel;uiPanel.tableShow()'),
             ('window#toolKit', u'提示：点击显示通用工具面板',
-             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.If_QtToolkitWindow();w.windowShow()')
+             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()')
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
@@ -120,7 +120,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 self._curUnitName = currentItem.assetName
                 self._curUnitVariant = currentItem.assetVariant
                 #
-                self._centralUpToolboxGroup.setTitle('Asset > {} > {}'.format(self._curUnitName, self._curUnitVariant))
+                self._centralUpToolboxGroup.setTitle('Asset>{}>{}'.format(self._curUnitName, self._curUnitVariant))
                 #
                 self.setRecordRefresh()
         #
@@ -154,7 +154,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             button.clicked.connect(self.setRecordRefresh)
         #
         self.assetRightToolboxGroup = qtWidgets.QtToolboxGroup()
-        self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
+        self.assetRightToolboxGroup.setTitle('Asset Record>{}'.format(self.LinkLis[0]))
         self.assetRightToolboxGroup.setExpanded(True)
         layout.addWidget(self.assetRightToolboxGroup)
         #
@@ -591,7 +591,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if assetStage:
-                self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(assetStage))
+                self.assetRightToolboxGroup.setTitle('Asset Record>{}'.format(assetStage))
     #
     def setupUnitAction(self):
         def isForce():
@@ -683,7 +683,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 self._curUnitName = currentItem.sceneryName
                 self._curUnitVariant = currentItem.sceneryVariant
                 #
-                self._centralUpToolboxGroup.setTitle('Scenery > {} > {}'.format(self._curUnitName, self._curUnitVariant))
+                self._centralUpToolboxGroup.setTitle('Scenery>{}>{}'.format(self._curUnitName, self._curUnitVariant))
                 #
                 self.setRecordRefresh()
         #
@@ -728,7 +728,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             button.clicked.connect(self.setRecordRefresh)
         #
         self.assetRightToolboxGroup = qtWidgets.QtToolboxGroup()
-        self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(self.LinkLis[0]))
+        self.assetRightToolboxGroup.setTitle('Asset Record>{}'.format(self.LinkLis[0]))
         self.assetRightToolboxGroup.setExpanded(True)
         layout.addWidget(self.assetRightToolboxGroup)
         #
@@ -751,7 +751,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             def getBuildData(data):
                 for i in data:
                     unitLink, explain, enable, loadMethod, createMethod = i
-                    actionDatumLis.append((lxBasic.str_camelcase2prettify(unitLink),))
+                    actionDatumLis.append((bscMethods.StrCamelcase.toPrettify(unitLink),))
                     #
                     update = sceneryPr.getSceneryUnitProductUpdate(
                         projectName, sceneryClass, sceneryName, sceneryVariant, unitLink
@@ -895,7 +895,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             messageWidget = qtWidgets.QtMessageWidget()
             messageWidget.setExplainWidth(20)
             messageWidget.setDefaultHeight(self.MessageHeight)
-            imageIndex = [0, 1][lxBasic.isOsExist(renderPreview)]
+            imageIndex = [0, 1][bscCommands.isOsExist(renderPreview)]
             messageWidget.setImageIndex(imageIndex)
             gridItem.addWidget(messageWidget, 0, 0, 1, 1)
             messageWidget.setDatumLis(messageLis, self._uiItemWidth, self._uiItemHeight)
@@ -967,7 +967,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if unitStage:
-                self.assetRightToolboxGroup.setTitle('Asset Record > {}'.format(unitStage))
+                self.assetRightToolboxGroup.setTitle('Asset Record>{}'.format(unitStage))
     #
     def setupUnitAction(self):
         if self.connectObject():
@@ -986,7 +986,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._uiItemWidth = 200
         self._uiItemHeight = 200
         #
-        self._statisticsDic = lxBasic.orderedDict()
+        self._statisticsDic = bscCommands.orderedDict()
         #
         self._statisticsUiDic = {}
         #
@@ -1041,7 +1041,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 self._curSceneName = currentItem.sceneName
                 self._curSceneVariant = currentItem.sceneVariant
                 #
-                self._scUpToolboxGroup.setTitle('Scene > {} > {}'.format(self._curSceneName, self._curSceneVariant))
+                self._scUpToolboxGroup.setTitle('Scene>{}>{}'.format(self._curSceneName, self._curSceneVariant))
                 #
                 self.setCameraRefresh()
                 self.setAssetRefresh()
@@ -1137,7 +1137,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 button.clicked.connect(self.setRecordRefresh)
             #
             self.scRecordToolboxGroup = qtWidgets.QtToolboxGroup()
-            self.scRecordToolboxGroup.setTitle('Record > {}'.format(self.LinkLis[0]))
+            self.scRecordToolboxGroup.setTitle('Record>{}'.format(self.LinkLis[0]))
             self.scRecordToolboxGroup.setExpanded(True)
             layout.addWidget(self.scRecordToolboxGroup)
             #
@@ -1235,12 +1235,12 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                             index = 1
                     #
                     viewFileName = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneName)
-                    tempPreviewFile = lxBasic.getOsTempVedioFile(
-                        lxBasic.toOsFileReplaceFileName(previewFile, viewFileName))
+                    tempPreviewFile = bscCommands.getOsTempVedioFile(
+                        bscCommands.toOsFileReplaceFileName(previewFile, viewFileName))
                     #
                     previewFileLis.append(
                         ((previewFile, tempPreviewFile), (
-                        lxBasic.str_camelcase2prettify(sceneLink), 'Viewport ( {} )'.format(sceneVariant), (startFrame, endFrame)))
+                            bscMethods.StrCamelcase.toPrettify(sceneLink), 'Viewport ( {} )'.format(sceneVariant), (startFrame, endFrame)))
                     )
                 #
                 messageLis.append((4, previewFileLis))
@@ -1496,7 +1496,10 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             frameCount = endFrame - startFrame + 1
             self._maxFrameCount += frameCount
             if not tag in self._tagFilterSubExplainDic:
-                self._tagFilterSubExplainDic[tag] = lxBasic.int_frame2time(frameCount)
+                self._tagFilterSubExplainDic[tag] = bscMethods.Frame.toTimeString(
+                    frameValue=frameCount,
+                    fpsValue=30
+                )
             #
             gridItem = qtWidgets.QtGridviewItem()
             viewExplain = scenePr.getSceneViewInfo(sceneIndex, sceneClass, '{} - {}'.format(sceneName, sceneVariant))
@@ -1586,9 +1589,9 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             def openVedioCmd(osFiles):
                 fileCmd = '" "'.join(osFiles)
                 osCmdExe = 'KMPlayer.exe'
-                if lxBasic.isOsExistsFile(osCmdExe):
+                if bscCommands.isOsExistsFile(osCmdExe):
                     osCmd = '''"{}" "{}"'''.format(osCmdExe, fileCmd)
-                    lxBasic.setOsCommandRun_(osCmd.replace('/', '\\'))
+                    bscCommands.setOsCommandRun_(osCmd.replace('/', '\\'))
             #
             def getVedio(sceneStage=None):
                 lis = []
@@ -1739,7 +1742,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 ])
             #
             timestamp, sceneStage, startFrame, endFrame, scCameraFile = value
-            subLabel = lxBasic.getSubLabel(seq)
+            subLabel = bscCommands.getSubLabel(seq)
             #
             if subLabel:
                 viewExplain = '{} - {}'.format(key.capitalize(), subLabel)
@@ -1757,12 +1760,12 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             preview = scenePr.getScUnitPreviewServerFile(
                 projectName, sceneClass, sceneName, sceneVariant, sceneStage
             )
-            subPreviewFile = lxBasic.getOsSubFile(preview, subLabel)
+            subPreviewFile = bscCommands.getOsSubFile(preview, subLabel)
             previewFileLis = [
                 (
                     subPreviewFile,
                     (
-                        lxBasic.str_camelcase2prettify(scenePr.getSceneLink(sceneStage)),
+                        bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage)),
                         'Viewport',
                         (startFrame, endFrame)
                      )
@@ -1793,7 +1796,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 if loadDatumLis:
                     maPreference.setAnimationTimeUnit(projectName)
                     for seq, i in enumerate(loadDatumLis):
-                        subLabel = lxBasic.getSubLabel(seq)
+                        subLabel = bscCommands.getSubLabel(seq)
                         maScLoadCmds.scUnitCameraCacheLoadSubCmd(
                             projectName,
                             sceneIndex,
@@ -2317,8 +2320,8 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
                     #
-                    if lxBasic.isOsExist(serverProductFile):
-                        logWin_.addStartProgress('Open {}'.format(serverProductFile))
+                    if bscCommands.isOsExist(serverProductFile):
+                        logWin_.addStartProgress(u'Open', serverProductFile)
                         #
                         maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
                         #
@@ -2348,7 +2351,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     [setBranch(progressBar, i, enableLinks, pythonCommandString) for i in checkedGridItems]
                     logWin_.addStartTask('Complete Batch')
             #
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 from LxMaya.command import maFile
                 setMain()
         #
@@ -2384,7 +2387,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         projectName, sceneClass, sceneName, sceneVariant, sceneStage
                     )[1]
                     #
-                    if lxBasic.isOsExist(sceneryExtraDataFile):
+                    if bscCommands.isOsExist(sceneryExtraDataFile):
                         extraData = bscMethods.OsJson.read(sceneryExtraDataFile)
                         if extraData:
                             asbRefDatas = extraData[lxConfigure.LynxiAssemblyReferenceDataKey]
@@ -2413,7 +2416,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                                     sourceExtraFile = mainAsbDefFile[:-10] + '.extra'
                                     #
                                     sourceDic = {}
-                                    if lxBasic.isOsExist(sourceExtraFile):
+                                    if bscCommands.isOsExist(sourceExtraFile):
                                         sourceExtraData = bscMethods.OsJson.read(sourceExtraFile)
                                         if sourceExtraData:
                                             sourceTransData = sourceExtraData['transformation'][0]
@@ -2512,7 +2515,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         if self._rightRefreshEnable is True:
             self.recordBox.setRecordConnect(backupSourceFile, backupProductFile)
             if sceneStage:
-                self.scRecordToolboxGroup.setTitle('Record > {}'.format(lxBasic.str_camelcase2prettify(sceneStage)))
+                self.scRecordToolboxGroup.setTitle('Record>{}'.format(bscMethods.StrCamelcase.toPrettify(sceneStage)))
     #
     def setFilterItemRefresh(self, ignoreRefresh=False):
         for filterKey, filterItem in self._filterItemDic.items():
@@ -2531,8 +2534,12 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             #
             if self._isShowTimeEnable is True:
                 frameCount = sum(frameLis)
+                fpsValue = 30
                 if frameCount:
-                    uiSubName = '{} / {}'.format(lxBasic.int_frame2time(frameCount), lxBasic.int_frame2time(self._maxFrameCount))
+                    uiSubName = '{} / {}'.format(
+                        bscMethods.Frame.toTimeString(frameValue=frameCount, fpsValue=fpsValue),
+                        bscMethods.Frame.toTimeString(frameValue=self._maxFrameCount, fpsValue=fpsValue)
+                    )
                     filterItem.setUiSubName(uiSubName)
     #
     def setupUnitAction(self):

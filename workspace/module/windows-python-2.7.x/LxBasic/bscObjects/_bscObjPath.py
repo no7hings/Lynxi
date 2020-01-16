@@ -22,13 +22,13 @@ class Pth_Directory(bscAbstract.Abc_Path):
                 if isFullpath is True:
                     lis.append(fullpathName_)
                 else:
-                    relativeName = cls._toRelativeNameMethod(rootString, fullpathName_)
+                    relativeName = cls._osPathString2RelativeName(rootString, fullpathName_)
                     lis.append(relativeName)
 
         def mainFnc_():
-            for i in cls.module_os.listdir(rootString):
+            for i in cls.MOD_os.listdir(rootString):
                 fullpathName = cls._toOsFileString(rootString, i)
-                if cls.mtd_os_path.isfile(fullpathName):
+                if cls.MTD_os_path.isfile(fullpathName):
                     collectionFnc_(fullpathName)
                 else:
                     if isFile is False:
@@ -37,17 +37,17 @@ class Pth_Directory(bscAbstract.Abc_Path):
         lis = []
 
         if extString is not None:
-            filterExtStringLis = cls._toStringList(extString)
+            filterExtStringLis = cls.toStringList(extString)
         else:
             filterExtStringLis = None
 
-        if cls.mtd_os_path.exists(rootString):
+        if cls.MTD_os_path.exists(rootString):
             mainFnc_()
 
         return lis
 
     def isExist(self):
-        return self.module_os.path.exists(self._directoryString)
+        return self.MOD_os.path.exists(self._directoryString)
 
     def create(self):
         pass
@@ -78,7 +78,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         u"""
         :return: List of child's "relative name".
         """
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=None,
             isFile=False,
@@ -89,7 +89,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         u"""
         :return: List of child file's "relative name".
         """
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=None,
             isFile=True,
@@ -100,7 +100,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         u"""
         :return: List of child file's "relative name" with "ext".
         """
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=extString,
             isFile=True,
@@ -113,8 +113,8 @@ class Pth_Directory(bscAbstract.Abc_Path):
         """
         dic = {}
         for i in self.allChildFileFullpathNames():
-            relativeName = self._toRelativeNameMethod(self._directoryString, i)
-            timestamp = self.module_os.stat(i).st_mtime
+            relativeName = self._osPathString2RelativeName(self._directoryString, i)
+            timestamp = self.MOD_os.stat(i).st_mtime
             dic[relativeName] = timestamp
 
         return dic
@@ -123,7 +123,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         pass
 
     def allChildFileFullpathNames(self):
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=None,
             isFile=True,
@@ -131,7 +131,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         )
 
     def allChildFullpathNames(self):
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=None,
             isFile=False,
@@ -142,7 +142,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
         u"""
         :return: List of child file's "relative name" with "ext".
         """
-        return self._getOsPathNamesByDirectory(
+        return self._getOsPathNameLisByDirectory(
             self._directoryString,
             extString=extString,
             isFile=True,

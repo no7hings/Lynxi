@@ -3,9 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
-#
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscCommands
 #
 from LxMaya.command import maUtils, maCam
 #
@@ -80,7 +78,7 @@ def makePreview(
     #
     widthHeightReduce = (widthReduce, heightReduce)
     #
-    lxBasic.setOsFileDirectoryCreate(osFile)
+    bscCommands.setOsFileDirectoryCreate(osFile)
     fileName = os.path.basename(osFile)
     #
     isMov = os.path.splitext(fileName)[-1] == '.mov'
@@ -189,7 +187,7 @@ def makePreview(
             quality=quality
         )
         imagePreviewFile = prvName + '_' + frameDic[frame] + '.jpg'
-        if lxBasic.isOsExistsFile(imagePreviewFile):
+        if bscCommands.isOsExistsFile(imagePreviewFile):
             bscMethods.OsFile.remove(imagePreviewFile)
         #
         bscMethods.OsFile.renameTo_(prvName + '.' + str(frame).zfill(4) + '.jpg', imagePreviewFile)
@@ -204,7 +202,7 @@ def makeSnapshot(
         osFile, camera,
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight):
-    lxBasic.setOsFileDirectoryCreate(osFile)
+    bscCommands.setOsFileDirectoryCreate(osFile)
     filePath = os.path.dirname(osFile)
     fileName = os.path.basename(osFile)
     #

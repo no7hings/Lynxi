@@ -7,7 +7,7 @@ from LxUi import uiCore
 
 from LxUi.qt import qtCore
 
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
@@ -16,159 +16,136 @@ none = ''
 
 
 #
-class QtWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
+class QtWindow(qtObjWidget.QtAbcObj_Window):
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        else:
+            self.clsSuper = super(QtWindow, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window)
+
+        self._initWindow()
+
+    def _initWindow(self):
         self._initAbcObjWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
         #
         self.setIcon('svg_basic@svg#window')
+        if qtCore.LOAD_INDEX is 0:
+            pass
+        else:
+            self.setShadowEnable(False)
+            self.setMenuEnable(False)
         self.setDialogEnable(False)
 
 
 #
-class QtToolWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
-        #
+class QtToolWindow(qtObjWidget.QtAbcObj_Window):
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        else:
+            self.clsSuper = super(QtToolWindow, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window)
+
+        self._initToolWindow()
+
+    def _initToolWindow(self):
         self._initAbcObjWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
         #
         self.setIcon('svg_basic@svg#window')
+        if qtCore.LOAD_INDEX is 0:
+            pass
+        else:
+            self.setShadowEnable(False)
+            self.setMenuEnable(False)
         self.setDialogEnable(False)
         self.setStatusEnable(False)
         self.setMinimizeEnable(False)
 
 
 #
-class QtSubWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
-        #
-        self._initAbcObjWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        #
-        self.setupUi()
-        #
-        self._uiBackgroundRgba = 63, 63, 63, 223
-        #
-        self.windowModel().setViewportLayoutMargins(2, 2, 2, 2)
-        #
-        self.setIcon('svg_basic@svg#window')
-        self.setDialogEnable(False)
-        self.setStatusEnable(False)
-        self.setMaximizeEnable(False), self.setMinimizeEnable(False)
+class QtDialogWindow(qtObjWidget.QtAbcObj_Window):
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
 
+            self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        else:
+            self.clsSuper = super(QtDialogWindow, self)
+            self.clsSuper.__init__(parent)
 
-#
-class QtDialogWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
-        #
+            self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
+
+        self._initDialogWindow()
+
+    def _initDialogWindow(self):
         self._initAbcObjWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
         #
         self.setIcon('svg_basic@svg#dialog')
+        if qtCore.LOAD_INDEX is 0:
+            pass
+        else:
+            self.setShadowEnable(False)
+            self.setMenuEnable(False)
         self.setMaximizeEnable(False), self.setMinimizeEnable(False)
 
 
 #
-class QtTipWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
-        #
-        self._initAbcObjWindow()
-        self._initTipWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+class QtTipWindow(qtObjWidget.QtAbcObj_Window):
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        else:
+            self.clsSuper = super(QtTipWindow, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
+
         self.setWindowModality(QtCore.Qt.ApplicationModal)
-        #
-        self.setupUi()
-        #
-        self.setIcon('svg_basic@svg#dialog')
-        self.setMaximizeEnable(False), self.setMinimizeEnable(False)
-        #
-        self.setMargins(2, 2, 2, 2)
-        #
-        self._textBrower = qtAbcWidget._QtTextbrower()
-        self._textBrower.setFontSize(10)
-        self.addWidget(self._textBrower)
+
+        self._initTipWindow()
 
     def _initTipWindow(self):
-        self._logFile = None
-
-    def addHtml(self, datum, isHtml=True):
-        if isHtml is False:
-            # noinspection PyArgumentEqualDefault
-            datum = self.method_html.toHtml(datum, fontColor=u'white')
-        #
-        if isinstance(datum, str) or isinstance(datum, unicode):
-            self._textBrower.textEdit().append(datum)
-        elif isinstance(datum, tuple) or isinstance(datum, list):
-            self._textBrower.textEdit().append(datum)
-
-    def html(self):
-        return self._textBrower.textEdit().toHtml()
-
-    def addMessage(self, html):
-        self.addHtml(html)
-
-    def datum(self):
-        return self.html()
-
-    def setLogFile(self, osFile):
-        self._logFile = osFile
-
-    def logFile(self):
-        return self._logFile
-
-
-#
-class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
-    method_html = bscMethods.HtmlText
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
-        #
         self._initAbcObjWindow()
-        self._initLogWindow()
-        #
-        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self._initTipWindowVar()
         #
         self.setupUi()
         #
         self.setIcon('svg_basic@svg#dialog')
+        if qtCore.LOAD_INDEX is 0:
+            pass
+        else:
+            self.setShadowEnable(False)
+            self.setMenuEnable(False)
         self.setMaximizeEnable(False), self.setMinimizeEnable(False)
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtAbcWidget._QtTextbrower()
+        self._textBrower = qtObjWidget._QtTextbrower()
         self._textBrower.setFontSize(10)
-        #
         self.addWidget(self._textBrower)
 
-    def _initLogWindow(self):
+    def _initTipWindowVar(self):
         self._logFile = None
 
     def addHtml(self, datum, isHtml=True):
@@ -198,14 +175,88 @@ class QtLogWindow(qtAbcWidget.QtAbcObj_Window):
 
 
 #
-class QtFloatWindow(qtAbcWidget.QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
+class QtLogWindow(qtObjWidget.QtAbcObj_Window):
+    method_html = bscMethods.TxtHtml
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        else:
+            self.clsSuper = super(QtLogWindow, self)
+            self.clsSuper.__init__(parent)
+
+            self.setWindowFlags(QtCore.Qt.Window)
+
+        self._initLogWindow()
+
+    def _initLogWindow(self):
+        self._initAbcObjWindow()
+        self._initLogWindowVar()
         #
+        self.setupUi()
+        #
+        self.setIcon('svg_basic@svg#dialog')
+        if qtCore.LOAD_INDEX is 0:
+            pass
+        else:
+            self.setShadowEnable(False)
+            self.setMenuEnable(False)
+        self.setMaximizeEnable(False), self.setMinimizeEnable(False)
+        #
+        self.setMargins(2, 2, 2, 2)
+        #
+        self._textBrower = qtObjWidget._QtTextbrower()
+        self._textBrower.setFontSize(10)
+        #
+        self.addWidget(self._textBrower)
+
+    def _initLogWindowVar(self):
+        self._logFile = None
+
+    def addHtml(self, datum, isHtml=True):
+        if isHtml is False:
+            # noinspection PyArgumentEqualDefault
+            datum = self.method_html.toHtml(datum, fontColor=u'white')
+        #
+        if isinstance(datum, str) or isinstance(datum, unicode):
+            self._textBrower.textEdit().append(datum)
+        elif isinstance(datum, tuple) or isinstance(datum, list):
+            self._textBrower.textEdit().append(datum)
+
+    def html(self):
+        return self._textBrower.textEdit().toHtml()
+
+    def addMessage(self, html):
+        self.addHtml(html)
+
+    def datum(self):
+        return self.html()
+
+    def setLogFile(self, osFile):
+        self._logFile = osFile
+
+    def logFile(self):
+        return self._logFile
+
+
+#
+class QtFloatWindow(qtObjWidget.QtAbcObj_Window):
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+        else:
+            self.clsSuper = super(QtFloatWindow, self)
+            self.clsSuper.__init__(parent)
+
+        self._initFloatWindow()
+
+    def _initFloatWindow(self):
         self._initAbcObjWindow()
         #
-        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         #
         self.setupUi()
         #
@@ -220,18 +271,24 @@ class QtFloatWindow(qtAbcWidget.QtAbcObj_Window):
 
 
 #
-class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
-    method_html = bscMethods.HtmlText
+class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
+    method_html = bscMethods.TxtHtml
 
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._initAbcObjWindow()
-        self._initProgressWindow()
-        #
+    def __init__(self, parent=None):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+        else:
+            self.clsSuper = super(QtMessageWindow, self)
+            self.clsSuper.__init__(parent)
+
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
+        self._initMessageWindow()
+
+    def _initMessageWindow(self):
+        self._initAbcObjWindow()
+        self._initMessageWindowVar()
         #
         self.setupUi()
         #
@@ -248,13 +305,13 @@ class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtAbcWidget._QtTextbrower()
+        self._textBrower = qtObjWidget._QtTextbrower()
         self._textBrower.setFontSize(10)
 
         self.addWidget(self._textBrower)
         self._textBrower.setEnterEnable(False)
 
-    def _initProgressWindow(self):
+    def _initMessageWindowVar(self):
         self.normalWidth = 320
         self.normalHeight = 96
         #
@@ -300,7 +357,7 @@ class QtMessageWindow(qtAbcWidget.QtAbcObj_Window):
         self.show()
 
     def _quitLater(self):
-        self.inTimer = QtCore.QTimer()
+        self.inTimer = qtCore.CLS_timer()
         self.inTimer.start(self.quitTime)
         #
         self.inTimer.timeout.connect(self.uiQuit)

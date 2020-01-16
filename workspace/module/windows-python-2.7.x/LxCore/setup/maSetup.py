@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 
-from LxCore import lxBasic, lxScheme
+from LxCore import lxScheme
 #
 from LxCore.preset.prod import projectPr
 #
@@ -12,7 +12,7 @@ none = ''
 
 #
 def setMaScriptSetup(projectName):
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         from LxMaya.command import maUtils
         traceMessage = '''Setup Maya Script(s)'''
         bscMethods.PyMessage.trace(traceMessage)
@@ -21,9 +21,9 @@ def setMaScriptSetup(projectName):
         if data:
             for k, v in data.items():
                 for i in v:
-                    osFileLis = lxBasic.getOsFilesByPath(i)
+                    osFileLis = bscCommands.getOsFilesByPath(i)
                     if osFileLis:
-                        traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(lxBasic.str_camelcase2prettify(k), i)
+                        traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(bscMethods.StrCamelcase.toPrettify(k), i)
                         bscMethods.PyMessage.traceResult(traceMessage)
                         for osFile in osFileLis:
                             command = bscMethods.OsFile.read(osFile)
@@ -78,7 +78,7 @@ def setMayaPreference():
 
 # noinspection PyUnresolvedReferences
 def setMayaProjectToolSetup(projectName, showProgress, isCloseMaya):
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         traceMessage = '''Setup Maya Project : {}'''.format(projectName)
         bscMethods.PyMessage.trace(traceMessage)
         #
@@ -97,7 +97,7 @@ def setMayaProjectToolSetup(projectName, showProgress, isCloseMaya):
 
 
 def setMayaToolSetup():
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         # noinspection PyUnresolvedReferences
         import maya.utils as utils
         commandLis = [

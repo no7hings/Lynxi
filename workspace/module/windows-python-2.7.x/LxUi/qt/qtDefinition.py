@@ -161,12 +161,15 @@ class QtDef_Widget(uiCore.Basic):
         if hasattr(widget, '_viewport'):
             self._viewport = widget._viewport
         else:
-            self._viewport = qtCore.QWidget_(self.widget())
+            self._viewport = qtCore.QWidget(self.widget())
         #
         self._viewport.setGeometry(0, 0, 0, 0)
-        self._viewport.setAttribute(
-            QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents
-        )
+
+        if qtCore.LOAD_INDEX is 0:
+            self._viewport.setAttribute(QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents)
+        else:
+            self._viewport.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
         self._viewport.setMouseTracking(True)
         #
         self._viewport.setFocusProxy(self.widget())
@@ -264,7 +267,7 @@ class QtDef_ExpandWidget(QtDef_Widget):
         #
         self._isExpandHovered = False
         #
-        self._expandTimer = QtCore.QTimer()
+        self._expandTimer = qtCore.CLS_timer()
     #
     def _initDefExpandWidgetAction(self):
         self._expandFlag = False
@@ -681,7 +684,7 @@ class QtDef_PressWidget(QtDef_Widget):
         if string is not None:
             self._uiNameText = unicode(string)
         #
-        self._updateWidgetState()
+        self.update()
     #
     def nameText(self):
         return self._uiNameText
@@ -1549,16 +1552,17 @@ class QtDef_WindowWidget(QtDef_Widget):
         self._isMinimized = False
         #
         self._isDialogEnable = True
+        self._isShadowEnable = True
         #
         self._isPercentEnable = False
         #
         self._isSubWindow = False
         #
-        self._progressTimer = QtCore.QTimer(self._widget)
+        self._progressTimer = qtCore.CLS_timer(self._widget)
         #
         self._countdownStep = 0
         #
-        self._countdownCloseTimer = QtCore.QTimer(self._widget)
+        self._countdownCloseTimer = qtCore.CLS_timer(self._widget)
         # noinspection PyUnresolvedReferences
         self._countdownCloseTimer.timeout.connect(self._countdownCloseStartAction)
         #
@@ -1649,11 +1653,32 @@ class QtDef_WindowWidget(QtDef_Widget):
         else:
             return False
     #
+    def setMenuEnable(self, boolean):
+        self._isMenuEnable = boolean
+    #
+    def isMenuEnable(self):
+        return self._isMenuEnable
+    #
     def setStatusEnable(self, boolean):
         self._isStatusEnable = boolean
     #
     def isStatusEnable(self):
         return self._isStatusEnable
+    #
+    def setDialogEnable(self, boolean):
+        self._isDialogEnable = boolean
+    #
+    def isDialogEnable(self):
+        if self.isStatusEnable():
+            return self._isDialogEnable
+        else:
+            return False
+
+    def setShadowEnable(self, boolean):
+        self._isShadowEnable = boolean
+
+    def isShadowEnable(self):
+        return self._isShadowEnable
     #
     def setDragEnable(self, boolean):
         self._isDragEnable = boolean
@@ -1751,15 +1776,6 @@ class QtDef_WindowWidget(QtDef_Widget):
     def placeholderRect(self):
         return self._uiPlaceholderRect
     #
-    def setDialogEnable(self, boolean):
-        self._isDialogEnable = boolean
-    #
-    def isDialogEnable(self):
-        if self.isStatusEnable():
-            return self._isDialogEnable
-        else:
-            return False
-    #
     def setPercentEnable(self, boolean):
         self._isPercentEnable = boolean
     #
@@ -1785,12 +1801,6 @@ class QtDef_WindowWidget(QtDef_Widget):
     #
     def statusTextRect(self):
         return self._uiStatusTextRect
-    #
-    def setMenuEnable(self, boolean):
-        self._isMenuEnable = boolean
-    #
-    def isMenuEnable(self):
-        return self._isMenuEnable
     #
     def isMessageWindow(self):
         return self._isMessageWindow
@@ -1831,8 +1841,8 @@ class QtDef_ScrollbarWidget(QtDef_Widget):
         self._rowValue = 5
         self._pageValue = 5
         #
-        self._addScrollTimer = QtCore.QTimer(self._widget)
-        self._subScrollTimer = QtCore.QTimer(self._widget)
+        self._addScrollTimer = qtCore.CLS_timer(self._widget)
+        self._subScrollTimer = qtCore.CLS_timer(self._widget)
     #
     def _initDefScrollbarWidgetAction(self):
         self._pressFlag, self._dragFlag, self._clickFlag = False, False, False
@@ -2862,10 +2872,12 @@ class QtDef_ViewModel(
         if delta != 0:
             step = self._uiItemWidth
             #
-            value = self.mapStepValue(
-                    self._hScrollValue, - delta, step,
-                    self._hScrollMaximum, self._hScrollMinimum
-                )
+            value = self.mtd_raw_value.stepTo(
+                value=self._hScrollValue,
+                delta=-delta,
+                step=step,
+                valueRange=(self._hScrollMinimum, self._hScrollMaximum)
+            )
             #
             self.setHScrollValue(value)
     #
@@ -2873,9 +2885,11 @@ class QtDef_ViewModel(
         if delta != 0:
             step = self._uiItemHeight
             #
-            value = self.mapStepValue(
-                self._vScrollValue, - delta, step,
-                self._vScrollMaximum, self._vScrollMinimum
+            value = self.mtd_raw_value.stepTo(
+                value=self._vScrollValue,
+                delta=-delta,
+                step=step,
+                valueRange=(self._vScrollMinimum, self._vScrollMaximum)
             )
             #
             self.setVScrollValue(value)

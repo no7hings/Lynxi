@@ -64,7 +64,7 @@ def setMayaMenu():
     def toolKitCmd():
         from LxInterface.qt.ifWidgets import ifProductWindow
         #
-        w = ifProductWindow.If_QtToolkitWindow()
+        w = ifProductWindow.QtIf_ToolkitWindow()
         w.windowShow()
 
     def updateCmd():
@@ -120,7 +120,7 @@ def setMayaMenu():
     menuDatumLis = [
         ('Project [ {} ]'.format(currentProject), 'svg_basic@svg#menu', toolShelfCmd),
         (),
-        ('Tool Kit', 'svg_basic@svg#toolkit', toolKitCmd),
+        ('Toolkit', 'svg_basic@svg#toolkit', toolKitCmd),
         (),
         ('Update', 'svg_basic@svg#update', updateCmd),
         ('Help', 'svg_basic@svg#help', None)

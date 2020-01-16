@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.preset import appVariant
 
@@ -31,7 +31,7 @@ def scnUnitAssemblyUploadCmd(
         sceneryClass, sceneryName, sceneryVariant, sceneryStage,
         description, notes
 ):
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
     # Set Log Window
     logWin_ = bscObjects.If_Log(title=u'Scenery Upload')
     # Start
@@ -141,22 +141,22 @@ def scnUnitAssemblySourceUploadCmd(
         lxConfigure.LynxiRootIndex_Backup, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
-    linkFile = lxBasic.getOsFileJoinTimeTag(backSourceFile, timeTag)
+    linkFile = bscMethods.OsFile.toJoinTimetag(backSourceFile, timeTag)
     maFile.saveMayaFile(linkFile)
 
     sceneryUnitIndex = dbGet.getDbSceneryUnitIndex(sceneryIndex, sceneryVariant)
 
     dbBasic.writeDbSceneryUnitHistory(sceneryUnitIndex, linkFile)
 
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = bscMethods.OsFile.productInfoDict(
         linkFile,
         sceneryStage,
         description, notes
     )
 
-    updateFile = lxConfigure._toLxProductRecordFile(linkFile)
+    infoJsonFilename = bscMethods.OsFile.infoJsonFilename(linkFile)
 
-    lxBasic.writeOsJson(updateData, updateFile)
+    bscMethods.OsJson.write(infoJsonFilename, updateData)
 
     logWin_.addResult(linkFile)
 
@@ -183,7 +183,7 @@ def scnUnitAssemblyComposeUploadCmd(
 
     datumLis = datScenery.getScnAssemblyComposeDatumLis(projectName, sceneryName)
 
-    lxBasic.writeOsJson(datumLis, serverFile)
+    bscMethods.OsJson.write(serverFile, datumLis)
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
 
@@ -220,7 +220,7 @@ def scnUnitAssemblyProductUploadCmd(
 
     maFile.saveMayaFile(serverFile)
 
-    maFile.backupFile(serverFile, backupFile, timeTag)
+    bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
 
     logWin_.addResult(serverFile)
 
@@ -289,7 +289,7 @@ def scnUnitAssemblyDefinitionUploadCmd(
 
     maFile.saveMayaFile(serverFile)
 
-    maFile.backupFile(serverFile, backupFile, timeTag)
+    bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
     maFile.new()
 
     logWin_.addResult(serverFile)
@@ -316,7 +316,7 @@ def scnUnitAssemblySourceOpenCmd(
     )[1]
     #
     maFile.openMayaFileToLocal(
-        lxBasic.getOsFileJoinTimeTag(backupFile, timeTag),
+        bscMethods.OsFile.toJoinTimetag(backupFile, timeTag),
         localFile,
         timeTag
     )

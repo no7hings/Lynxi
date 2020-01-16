@@ -2,15 +2,17 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
 from LxCore.preset import appVariant
 #
 from LxCore.preset.prod import projectPr, assetPr
+#
+from LxDatabase import dtbCore
 #
 from LxDatabase.data import datHash
 #
@@ -28,7 +30,7 @@ MaDefShadingEngineLis = [
 
 #
 def materialNodeTypeConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     majorTypes = [
         'texture',
@@ -147,7 +149,7 @@ def getTextureNodeLisByObject(objectLis):
 
 #
 def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetStage):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
@@ -207,7 +209,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
 
 #
 def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
@@ -312,7 +314,7 @@ def getNodeAttrDataReduce(attrDatas):
             if attrName in MaTexture_AttrNameLis:
                 isTexture = maTxtr.isOsTextureExist(data)
                 if isTexture:
-                    data = lxBasic.getOsFileBasename(data)
+                    data = bscCommands.getOsFileBasename(data)
                 if not isTexture:
                     data = none
             attrDataArray.append((attrName, data))
@@ -321,7 +323,7 @@ def getNodeAttrDataReduce(attrDatas):
 
 # Nde_Node Data
 def getMaterialsNodeData(materials):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -355,7 +357,7 @@ def getMaterialRelationData(material):
 
 # Nde_Node Data
 def getMaterialsRelationData(materials):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -396,7 +398,7 @@ def getNodeConnectionDataReduce(connections):
 
 #
 def getMaterialsInformationData(materials):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -497,7 +499,7 @@ def getMaterialEvaluateData(objectLis):
         'defaultColorMgtGlobals'
     ]
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     totalMaterials = []
     totalNodes = []
     totalConnections = []
@@ -532,7 +534,7 @@ def getMaterialEvaluateData(objectLis):
 #
 def getObjectsMaterialRelinkData(objectLis):
     shaderObjectTypes = ['mesh', 'pgYetiMaya', 'nurbsHair']
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     for objectString in objectLis:
         linkDatumLis = []
         shape = maUtils.getNodeShape(objectString, fullPath=1)
@@ -579,7 +581,7 @@ def getShadingEngineMaterialUniqueId(shadingEngine):
 
 #
 def getShaderObjectsObjSetDic(objectLis):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     for objectString in objectLis:
         compIndex = maUuid.getNodeUniqueId(objectString)
         linkDatumLis = getShaderObjectObjSetSub(objectString)
@@ -817,7 +819,7 @@ def getRedshiftAovNodes():
 
 #
 def getAovNodesData(renderer):
-    aovNodesData = lxBasic.orderedDict()
+    aovNodesData = bscCommands.orderedDict()
     if renderer == 'Arnold':
         aovNodesData = getArnoldAovNodesData()
     if renderer == 'Redshift':
@@ -827,7 +829,7 @@ def getAovNodesData(renderer):
 
 #
 def getArnoldAovNodesData():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     aovNodes = getArnoldAovNodeLis()
     if aovNodes:
         for aovNode in aovNodes:
@@ -838,7 +840,7 @@ def getArnoldAovNodesData():
 
 #
 def getRedshiftAovNodesData():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     aovNodes = getRedshiftAovNodes()
     if aovNodes:
         for aovNode in aovNodes:
@@ -877,7 +879,7 @@ def setCreateAovNodeLink(aovNode, maxDepth=50):
     setMain()
 
 
-@lxBasic.threadSemaphoreMethod
+@dtbCore.fncThreadSemaphoreModifier
 def setRepairAovNodesLink():
     getArnoldOption()
     aovs = maUtils.getNodeLisByType('aiAOV')
@@ -917,7 +919,7 @@ def setRepairArnoldAov(aovNodes=None):
 
 #
 def getObjectsAttrData(objectLis):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     if objectLis:
         for objectString in objectLis:
@@ -1000,7 +1002,7 @@ def setArnoldShaderCovert(objectString, texturePath):
                         inputAttr = maUtils._toNodeAttr([nodeName, 'baseColor'])
                         stringLis = maUtils.getInputAttrByAttr(inputAttr)
                         if stringLis:
-                            textureNodeName = shadingEngine + 'cls_color'
+                            textureNodeName = shadingEngine + 'CLS_color'
                             #
                             texture = texturePath + '/' + textureNodeName + '.jpg'
                             attr = stringLis[0]

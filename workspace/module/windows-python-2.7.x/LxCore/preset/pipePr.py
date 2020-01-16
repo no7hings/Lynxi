@@ -1,14 +1,14 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxCore.preset import basicPr
 #
 serverBasicPath = lxScheme.Root().basic.server
 productRoot = lxScheme.Root().basic.product
 #
-_mayaVersion = lxBasic.getMayaAppVersion()
+_mayaVersion = bscCommands.getMayaAppVersion()
 #
 configExt = '.config'
 #
@@ -22,7 +22,7 @@ def getPipelinePresetVariantDic(pipelineScheme):
 
 #
 def env_basic_pipeline_dic(basicPath=serverBasicPath, mayaVersion=_mayaVersion):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['config'] = basicPath + '/{0}'.format(lxConfigure.LynxiPresetKey)
     dic['environ'] = basicPath + '/preset/environ'
     dic['project'] = basicPath + '/preset/project'
@@ -81,7 +81,7 @@ def env_app_maya_python_package_lis(basicPath=serverBasicPath, mayaVersion=_maya
 
 #
 def nameComposePreset():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['projectName'] = '< Project Name >'
     #
     dic['astUnitBasicDirectory'] = '< Asset Directory >'
@@ -177,20 +177,20 @@ def mayaHelpDirectory(keyword):
 def getToolPresetData(keyword):
     mainKey = 'tool'
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     presetPath = env_basic_pipeline_dic()[mainKey]
     subConfigPath = presetPath + '/' + keyword
     #
-    osFiles = lxBasic.getOsFilesByPath(subConfigPath)
+    osFiles = bscCommands.getOsFilesByPath(subConfigPath)
     if osFiles:
         for osFile in osFiles:
             command = bscMethods.OsFile.read(osFile)
-            commandName = lxBasic.getOsFileName(osFile)
+            commandName = bscCommands.getOsFileName(osFile)
             #
             toolTip = none
-            toolTipFile = lxBasic.getOsFileReplaceExt(osFile, '.tip')
-            if lxBasic.isOsExistsFile(toolTipFile):
-                data = lxBasic.readOsData(toolTipFile)
+            toolTipFile = bscCommands.getOsFileReplaceExt(osFile, '.tip')
+            if bscCommands.isOsExistsFile(toolTipFile):
+                data = bscMethods.OsFile.read(toolTipFile)
                 if data:
                     toolTip = [unicode(i, "gbk").replace('\r\n', none) for i in data]
             #

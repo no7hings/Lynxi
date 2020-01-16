@@ -286,7 +286,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic, _maConfig.MaProduc
         if stringLis:
             for transform in stringLis:
                 shapePath = cls.getNodeShape(transform)
-                if cls.isObjectInstanced(shapePath) is True:
+                if cls.isObjectShapeInstanced(shapePath) is True:
                     lis.append(transform)
         return lis
     @classmethod

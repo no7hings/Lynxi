@@ -12,6 +12,7 @@ from LxMaya.interface.ifWidgets import ifMaSceneToolUnit
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
+
         self.tool = ifMaSceneToolUnit.IfScOsComposeToolUnit()
         self.addWidget(self.tool)
         #

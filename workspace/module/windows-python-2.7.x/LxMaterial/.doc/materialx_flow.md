@@ -256,8 +256,8 @@ end
 ```
 
 ```
-<materialassign name=" maname " material=" materialname "
-[geom=" geomexpr1[,geomexpr2...] "] [collection=" collectionname "]
+<materialassign name="maname" material="materialname"
+[geom="geomexpr1[,geomexpr2...]"] [collection="collectionname"]
 [exclusive=true|false]>
 ...optional variantassign elements...
 </materialassign>
@@ -449,7 +449,7 @@ classDef style_branch_bound fill:#fff,stroke:#000,stroke-width:1px,fill-opacity:
 
 shaderref((shaderref)); class shaderref style_element_cur
 shaderref_branch(("or")); class shaderref_branch style_branch_0
-shaderref_bound((" ")); class shaderref_bound style_branch_bound
+shaderref_bound(("")); class shaderref_bound style_branch_bound
 shaderref.name(name); class shaderref.name style_attribute_sep
 shaderref.node(node); class shaderref.node style_attribute_input
 shaderref.type(type); class shaderref.type style_attribute_input
@@ -516,7 +516,7 @@ classDef style_branch_bound fill:#fff,stroke:#000,stroke-width:1px,fill-opacity:
 
 bindinput((bindinput)); class bindinput style_element_cur
 bindinput_branch(("or")); class bindinput_branch style_branch_0
-bindinput_bound((" ")); class bindinput_bound style_branch_bound
+bindinput_bound(("")); class bindinput_bound style_branch_bound
 bindinput.name(name); class bindinput.name style_attribute_input
 bindinput.type(type); class bindinput.type style_attribute_input
 bindinput.value(value); class bindinput.value style_attribute_input
@@ -587,7 +587,7 @@ end
 ```
 
 ```
-<nodegraph name=" graphname ">
+<nodegraph name="graphname">
 ...node element(s)...
 ...output element(s)...
 </nodegraph>
@@ -642,9 +642,9 @@ end
 ```
 
 ```
-< nodecategory name=" nodename " type=" outputdatatype " [version=" version "]>
-	<input name=" paramname " type=" type " [nodename=" nodename "] [value=" value "]/>
-	<parameter name=" paramname " type=" type " value=" value "/>
+< nodecategory name="nodename" type="outputdatatype" [version="version"]>
+	<input name="paramname" type="type" [nodename="nodename"] [value="value"]/>
+	<parameter name="paramname" type="type" value="value"/>
 	...additional input or parameter elements...
 </ nodecategory >
 ```
@@ -669,11 +669,12 @@ classDef style_branch_bound fill:#fff,stroke:#000,stroke-width:1px,fill-opacity:
 input((input)); class input style_element_cur
 
 input_branch(("or")); class input_branch style_branch_0
-input_bound((" ")); class input_bound style_branch_bound
+input_bound(("")); class input_bound style_branch_bound
 input.name(name); class input.name style_attribute_input
 input.type(type); class input.type style_attribute_input
 input.value(value); class input.value style_attribute_input
 input.nodename(nodename); class input.nodename style_attribute_input
+input.member(member); class input.member style_attribute_input
 input.channels(channels); class input.channels style_attribute_input
 
 input_branch ===|"required"| input
@@ -682,6 +683,7 @@ input.type ===|"required"| input
 input.value ---|"optional"| input_branch
 input_bound ---|"optional"| input_branch
 input.nodename ---|"optional"| input_bound
+input.member ---|"optional"| input_bound
 input.channels ---|"optional"| input_bound
 
 subgraph string
@@ -706,6 +708,9 @@ subgraph string
     data0.value.string["channel.name"]; class data0.value.string style_data_output
 end
     data0.value.string -.- input.channels
+```
+```
+<input name="paramname" type="type" [nodename="nodename" member="membername" channels="channels"] [value="value"]/>
 ```
 
 #### output

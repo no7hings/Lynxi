@@ -4,9 +4,9 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
@@ -402,7 +402,7 @@ def getImageFile(sceneRoot, sceneName, cameraName, renderLayer, renderPass, fram
         imageFormat = 'jpg'
     #
     var = str
-    pathCmd = lxBasic._toVariantConvert('var', imagePrefix)
+    pathCmd = bscCommands.toVariantConvert('var', imagePrefix)
     exec pathCmd
     #
     periodInExt = cmds.getAttr(MaNodeAttrRenderOptionDic['periodInExt'])
@@ -478,7 +478,7 @@ def getSceneName():
     data = cmds.file(query=1, expandName=1)
     if data:
         if not data.endswith('untitled'):
-            osFileName = lxBasic.getOsFileName(data)
+            osFileName = bscCommands.getOsFileName(data)
             string = osFileName
         else:
             string = 'untitled'
@@ -499,7 +499,7 @@ def getScenePath():
     string = none
     data = cmds.file(query=1, expandName=1)
     if data:
-        string = lxBasic.getOsFileDirname(data)
+        string = bscCommands.getOsFileDirname(data)
     return string
 
 
@@ -586,7 +586,7 @@ def setRenderCamera(filterCameras):
 
 #
 def getRenderCameraName(camera):
-    return lxBasic.getStrPathName(camera, appCfg.Ma_Separator_Node, appCfg.Ma_Separator_Namespace).replace(appCfg.Ma_Separator_Namespace, '_')
+    return bscCommands.getStrPathName(camera, appCfg.Ma_Separator_Node, appCfg.Ma_Separator_Namespace).replace(appCfg.Ma_Separator_Namespace, '_')
 
 
 #
@@ -616,7 +616,7 @@ def getWorkspaceRule(ruleString):
 def getImagePath():
     workspacePath = getWorkspacePath()
     imageAbsPath = getWorkspaceRule('images')
-    return lxBasic._toOsFile(workspacePath, imageAbsPath)
+    return bscCommands.toOsFile(workspacePath, imageAbsPath)
 
 
 #
@@ -653,9 +653,9 @@ def getTempRenderImage(imageFormat):
     if workspacePath:
         tempImagePath = '{0}/{1}'.format(workspacePath, localDirectory)
         currentFile = maUtils.getCurrentFile()
-        currentFileName = lxBasic.getOsFileName(currentFile)
+        currentFileName = bscCommands.getOsFileName(currentFile)
         renderImage = '{0}/{1}{2}'.format(tempImagePath, currentFileName, imageFormat)
-        if lxBasic.isOsExistsFile(renderImage):
+        if bscCommands.isOsExistsFile(renderImage):
             return renderImage
 
 
@@ -809,7 +809,7 @@ def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultVi
         if isRender:
             image = getTempRenderImage(imageFormat)
             if image:
-                lxBasic.setOsFileCopy(image, osFile)
+                bscCommands.setOsFileCopy(image, osFile)
 
 
 #
@@ -858,7 +858,7 @@ def setConnectLightsToScale(root):
                         if not maUtils.isAttrDestination(attr):
                             setBranch(scaleAttr, attr)
                     #
-                    lxBasic.setListExtendSubList(aiLightDecays, getAiLightDecays(i))
+                    bscCommands.setListExtendSubList(aiLightDecays, getAiLightDecays(i))
                 #
                 if aiLightDecays:
                     for i in aiLightDecays:
@@ -901,7 +901,7 @@ def setCovertTextureToTx(textures, force):
         arg_options = "-v --unpremult --oiio"
         if force == 0:
             arg_options = "-u " + arg_options
-        mayaVersion_ = lxBasic.getMayaAppVersion()
+        mayaVersion_ = bscCommands.getMayaAppVersion()
         if mel.eval("exists \"colorManagementPrefs\""):
             # only do this if command colorManagementPrefs exists
             renderColorSpace = getRenderColorSpace()

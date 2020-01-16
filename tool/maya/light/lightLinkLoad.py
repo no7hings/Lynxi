@@ -7,6 +7,7 @@ from LxMaya.interface.ifWidgets import ifMaSceneUnit
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
+
         self.tool = ifMaSceneUnit.IfScLightLinkLoadUnit()
         self.addWidget(self.tool)
         self.tool.setConnectObject(self)
@@ -22,7 +23,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.setDefaultSize(self.tool.UnitWidth, 800)
         self.setNameText(self.tool.UnitTitle)
 
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 

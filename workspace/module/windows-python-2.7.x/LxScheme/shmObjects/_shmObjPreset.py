@@ -5,9 +5,9 @@ from LxScheme.shmObjects import _shmObjSystem, _shmObjFile, _shmObjRaw
 
 
 class Prs_Project(shmAbstract.Abc_Preset):
-    SYSTEM_CLS = _shmObjSystem.Sys_PltLanguage
-    FILE_CLS = _shmObjFile.Fle_PrsUser
-    RAW_CLS = _shmObjRaw.Raw_Preset
+    CLS_system = _shmObjSystem.Sys_PltLanguage
+    CLS_path_file = _shmObjFile.Fle_PrsUser
+    CLS_raw = _shmObjRaw.Raw_Preset
 
     object_category = shmCore.Basic.Category_Project
 

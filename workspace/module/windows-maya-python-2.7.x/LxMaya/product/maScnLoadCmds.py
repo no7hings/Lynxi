@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.preset.prod import sceneryPr
 
@@ -59,7 +59,7 @@ def scnUnitLoadMainCmd(
             lxConfigure.LynxiRootIndex_Local,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
         )[1]
-        if lxBasic.isOsExistsFile(serverProductFile):
+        if bscCommands.isOsExistsFile(serverProductFile):
             maFile.openMayaFileAsBack(serverProductFile, localSourceFile)
         else:
             scnUnitMaAssemblyLoadCmd(
@@ -69,8 +69,8 @@ def scnUnitLoadMainCmd(
                 withAssembly=True
             )
             #
-            timeTag = lxBasic.getOsActiveTimeTag()
-            localFile = lxBasic.getOsFileJoinTimeTag(localSourceFile, timeTag)
+            timeTag = bscMethods.OsTime.activeTimetag()
+            localFile = bscMethods.OsFile.toJoinTimetag(localSourceFile, timeTag)
             #
             maFile.saveToMayaFile(localFile)
 
@@ -246,7 +246,7 @@ def scnUnitAssemblyLoadByReferenceCmd(
         lxConfigure.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
     )[1]
-    if lxBasic.isOsExistsFile(serverSceneryAdFile):
+    if bscCommands.isOsExistsFile(serverSceneryAdFile):
         maAsb.setAssemblyReferenceCreate(scnAssemblyReference, serverSceneryAdFile)
         sceneryOp.setAssembliesActiveSwitch(active)
         maHier.refreshScnBranch(

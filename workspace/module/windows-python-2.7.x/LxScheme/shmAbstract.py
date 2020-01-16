@@ -133,7 +133,7 @@ class Abc_PthRoot(Abc_Path):
 
 
 class Abc_PthDirectory(Abc_Path):
-    ROOT_CLS = None
+    CLS_path_root = None
 
     def _initAbcPthDirectory(self, *args):
         self.pathFormatString = {
@@ -145,7 +145,7 @@ class Abc_PthDirectory(Abc_Path):
             self.Path_Key_Workspace: u'{self.root.workspace}/{self.subpath}'
         }
 
-        self._root = self.ROOT_CLS()
+        self._root = self.CLS_path_root()
 
         self._subPathString = self._toSubPathMethod(*args)
         self._subNameString = self._toSubNameMethod(*args)
@@ -189,8 +189,8 @@ class Abc_PthDirectory(Abc_Path):
 
 
 class Abc_File(shmCore.Basic):
-    DIRECTORY_CLS = None
-    METHOD_CLS = None
+    CLS_path_directory = None
+    CLS_file = None
 
     def _initAbcFile(self, directoryArgs, baseName, ext):
         self.pathFormatString = {
@@ -201,17 +201,17 @@ class Abc_File(shmCore.Basic):
             self.Path_Key_Product: u'{self.directory.product}/{self.basename}'
         }
 
-        self._directory = self.DIRECTORY_CLS(*directoryArgs)
+        self._directory = self.CLS_path_directory(*directoryArgs)
 
         self._baseName = u'{}{}'.format(baseName, ext)
 
     @classmethod
     def _readMethod(cls, fileString):
-        return cls.METHOD_CLS(fileString).read()
+        return cls.CLS_file(fileString).read()
 
     @classmethod
     def _writeMethod(cls, fileString, raw):
-        cls.METHOD_CLS(fileString).write(raw)
+        cls.CLS_file(fileString).write(raw)
 
     @property
     def root(self):
@@ -232,7 +232,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.activeFile(), raw)
 
     def isActiveExist(self):
-        return self.mtd_os_path.isExist(self.activeFile())
+        return self.MTD_os_path.isExist(self.activeFile())
 
     def activeFileRaw(self):
         if self.isActiveExist():
@@ -246,7 +246,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.serverFile(), raw)
 
     def isServerExist(self):
-        return self.mtd_os_path.isExist(self.serverFile())
+        return self.MTD_os_path.isExist(self.serverFile())
 
     def serverFileRaw(self):
         if self.isServerExist():
@@ -257,19 +257,19 @@ class Abc_File(shmCore.Basic):
         return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
     def isLocalExist(self):
-        return self.mtd_os_path.isExist(self.localFile())
+        return self.MTD_os_path.isExist(self.localFile())
 
     def developFile(self):
         return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
     def isDevelopExist(self):
-        return self.mtd_os_path.isExist(self.developFile())
+        return self.MTD_os_path.isExist(self.developFile())
 
     def productFile(self):
         return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     def isProductExist(self):
-        return self.mtd_os_path.isExist(self.productFile())
+        return self.MTD_os_path.isExist(self.productFile())
 
     def _formatDict(self):
         return {
@@ -292,7 +292,7 @@ class Abc_File(shmCore.Basic):
 
 
 class Abc_System(Abc_Object):
-    SYSTEM_CLS = None
+    CLS_system = None
 
     key_environ_bin_path = None
     key_bin_default = None
@@ -310,8 +310,8 @@ class Abc_System(Abc_Object):
         )
         self._version = systemVersion
 
-        if self.SYSTEM_CLS is not None:
-            self._systemObj = self.SYSTEM_CLS(*args[:-2])
+        if self.CLS_system is not None:
+            self._systemObj = self.CLS_system(*args[:-2])
 
     def create(self, *args):
         """
@@ -419,10 +419,10 @@ class Abc_RawResource(Abc_Raw):
 
 
 class Abc_Resource(Abc_Object):
-    SYSTEM_CLS = None
-    FILE_CLS = None
-    RAW_CLS = None
-    OPERATE_CLS = None
+    CLS_system = None
+    CLS_path_file = None
+    CLS_raw = None
+    CLS_operate = None
 
     object_category = None
 
@@ -448,11 +448,11 @@ class Abc_Resource(Abc_Object):
         )
         # Bin
         self._argument = args[1:]
-        self._systemObj = self.SYSTEM_CLS(*self._argument)
+        self._systemObj = self.CLS_system(*self._argument)
 
         self._enable = True
         # Config
-        self._rawObj = self.RAW_CLS(
+        self._rawObj = self.CLS_raw(
             True, self.object_category, resourceName,
             self._systemObj
         )
@@ -460,13 +460,20 @@ class Abc_Resource(Abc_Object):
         args_ = list(self._systemObj.argument())
         args_.append(resourceName.lower())
         fileArgs = [i for i in args_ if not i == self.Keyword_Share]
-        self._fileObj = self.FILE_CLS(*fileArgs)
+        self._fileObj = self.CLS_path_file(*fileArgs)
         # Raw
         self._version = self._rawObj.version
         self._environ = self._rawObj.environ
         self._dependent = self._rawObj.dependent
         # init
         self._loadCache()
+
+    def _getModuleVersion(self):
+        module = bscMethods.PyLoader.loadModule(self.name)
+        if module:
+            if hasattr(module, '__version__'):
+                return module.__version__
+        return self.Version_Default
 
     def create(self, *args):
         pass
@@ -538,9 +545,12 @@ class Abc_Resource(Abc_Object):
     def raw(self):
         return self._rawObj
 
-    def operateAt(self, version):
-        if version in self.version.record:
-            return self.OPERATE_CLS(self, version)
+    def operateAt(self, version=None):
+        if self.isModule:
+            if version is None:
+                version = self._getModuleVersion()
+
+        return self.CLS_operate(self, version)
 
     def createServerCache(self):
         self.file.createServerFile(self.config.raw())
@@ -569,10 +579,10 @@ class Abc_Resource(Abc_Object):
 
 
 class Abc_Preset(shmCore.Basic):
-    SYSTEM_CLS = None
-    FILE_CLS = None
-    RAW_CLS = None
-    OPERATE_CLS = None
+    CLS_system = None
+    CLS_path_file = None
+    CLS_raw = None
+    CLS_operate = None
 
     object_category = None
 
@@ -588,11 +598,11 @@ class Abc_Preset(shmCore.Basic):
 
         self._enable = True
         # Raw
-        self._rawObj = self.RAW_CLS(
+        self._rawObj = self.CLS_raw(
             True, self.object_category, presetName,
         )
         # File
-        self._fileObj = self.FILE_CLS(presetName)
+        self._fileObj = self.CLS_path_file(presetName)
         # init
         self._loadCache()
 
@@ -627,7 +637,7 @@ class Abc_Operate(shmCore.Basic):
         value = value.replace(self.root.active, '{root.active}')
         if self.resource.isModule:
             value = '{}|'.format(self._workspacePath().replace(self.root.active, '{root.active}')) + value
-        return value
+        return '{}:{}'.format(self.name, value)
 
     def __covertEnvironRaw(self):
         raw_ = self.environ.raw()
@@ -744,10 +754,10 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def createDevelopDirectory(self):
-        self.mtd_os_path.setDirectoryCreate(self._developPath())
+        self.MTD_os_path.setDirectoryCreate(self._developPath())
 
     def createDevelopSourceDirectory(self):
-        self.mtd_os_path.setDirectoryCreate(self.developSourceDirectory())
+        self.MTD_os_path.setDirectoryCreate(self.developSourceDirectory())
 
     def serverTimestampFile(self):
         return u'{}/source.timestamp.json'.format(
@@ -760,7 +770,7 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def serverTimestampDatum(self):
-        if self.mtd_os_path.isExist(self.serverTimestampFile()) is False:
+        if self.MTD_os_path.isExist(self.serverTimestampFile()) is False:
             self.createServerTimestamp()
         return self.mtd_os_json.read(self.serverTimestampFile()) or {}
 
@@ -775,7 +785,7 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def localTimestampDatum(self):
-        if self.mtd_os_path.isExist(self.localTimestampFile()) is False:
+        if self.MTD_os_path.isExist(self.localTimestampFile()) is False:
             self.createLocalTimestamp()
         return self.mtd_os_json.read(self.localTimestampFile()) or {}
 
@@ -836,7 +846,7 @@ class Abc_Operate(shmCore.Basic):
                     cls = self._cls_dic[category]
                     argument = []
 
-                    argument_format_lis = self.module_copy.deepcopy(self._argument_dic[category])
+                    argument_format_lis = self.MOD_copy.deepcopy(self._argument_dic[category])
 
                     if isinstance(system, dict):
                         for ik, iv in system.items():
@@ -922,13 +932,15 @@ class Abc_Operate(shmCore.Basic):
 
     def pushSourceToDevelop(self):
         workspaceSourcePath = self.resource.workspaceSourceDirectory()
-        developPath = self._developPath()
-        relativeOsFileLis = self.mtd_os_path.getAllChildFileRelativeNames(workspaceSourcePath, extString='.py')
+        developSourceDirectory = self.developSourceDirectory()
+
+        relativeOsFileLis = self.MTD_os_path.getAllChildFileRelativeNames(workspaceSourcePath, extString='.py')
         if relativeOsFileLis:
+            bscMethods.OsDirectory.remove(developSourceDirectory)
             for i in relativeOsFileLis:
                 workspacePyFile = u'{}/{}'.format(workspaceSourcePath, i)
-                developPyFile = u'{}/{}/{}/{}'.format(developPath, self.Folder_Source, self.name, i)
-                self.mtd_os_file.copyTo(workspacePyFile, developPyFile)
+                developPyFile = u'{}/{}/{}'.format(developSourceDirectory, self.name, i)
+                bscMethods.OsFile.copyTo(workspacePyFile, developPyFile)
 
     def setup(self):
         pass

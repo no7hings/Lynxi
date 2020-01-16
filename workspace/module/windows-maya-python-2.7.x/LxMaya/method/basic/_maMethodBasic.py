@@ -1,8 +1,6 @@
 # coding:utf-8
 import re
 # noinspection PyUnresolvedReferences
-import pymel.core as pmcore
-# noinspection PyUnresolvedReferences
 from maya import cmds, mel
 # noinspection PyUnresolvedReferences
 from maya import OpenMaya, OpenMayaUI
@@ -152,7 +150,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     @classmethod
     def getNodeLisBySearchKey(cls, searchKey, nodeType, fullPath=True):
         lis = []
-        searchKeyLis = cls._toStringList(searchKey)
+        searchKeyLis = cls.toStringList(searchKey)
         for searchKey in searchKeyLis:
             stringLis = cmds.ls(searchKey, type=nodeType, long=fullPath)
             if stringLis:
@@ -321,7 +319,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     @classmethod
     def getNodeLisByType(cls, nodeTypeString, fullPath=True, exceptStrings=None):
         lis = []
-        filterTypeLis = cls._toStringList(nodeTypeString, cmds.allNodeTypes())
+        filterTypeLis = cls.toStringList(nodeTypeString, cmds.allNodeTypes())
         if filterTypeLis:
             lis = cmds.ls(type=filterTypeLis, long=fullPath) or []
             if exceptStrings is not None:
@@ -344,7 +342,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def getNodeLisByFilter(cls, nodeTypeString, namespace=None, fullPath=True):
         lis = []
         #
-        namespaceLis = cls._toStringList(namespace)
+        namespaceLis = cls.toStringList(namespace)
         nodeLis = cls.getNodeLisByType(nodeTypeString, fullPath)
         if namespaceLis:
             for namespace in namespaceLis:
@@ -528,8 +526,7 @@ class Mtd_MaUiBasic(
     @staticmethod
     def _toQtObject(ptr, base=qtCore.QWidget):
         # noinspection PyUnresolvedReferences
-        import sip
-        return sip.wrapinstance(long(ptr), base)
+        return qtCore.qtWrapinstance(long(ptr), base)
     @classmethod
     def _toQtWidget(cls, controlName, base=qtCore.QWidget):
         ptr = OpenMayaUI.MQtUtil.findControl(controlName)
@@ -1026,7 +1023,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     def getObjectLisByType(cls, nodeTypeString, fullPath=True, exceptStrings=None):
         lis = []
         #
-        filterTypeLis = cls._toStringList(nodeTypeString, cmds.allNodeTypes())
+        filterTypeLis = cls.toStringList(nodeTypeString, cmds.allNodeTypes())
         shapeLis = cmds.ls(type=filterTypeLis, long=fullPath) or []
         if shapeLis:
             lis = [cls.getNodeTransform(i) for i in shapeLis]
@@ -1057,7 +1054,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls._toStringList(nodeTypeString)
+        filterTypeLis = cls.toStringList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1091,7 +1088,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls._toStringList(nodeTypeString)
+        filterTypeLis = cls.toStringList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1138,7 +1135,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls._toStringList(nodeTypeString)
+        filterTypeLis = cls.toStringList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1221,7 +1218,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         #
         lis = []
         #
-        filterTypeLis = cls._toStringList(nodeTypeString)
+        filterTypeLis = cls.toStringList(nodeTypeString)
         stringLis = cmds.ls(type=cls.MaNodeType_Transform, selection=1, dagObjects=1, long=1) or []
         for i in stringLis:
             shapePath = cls.getNodeShape(i)
@@ -1484,7 +1481,6 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if cls.getNodeType(parentNode) == cls.MaNodeType_AssemblyReference:
                 node = parentNode
         return node
-
     # noinspection PyUnusedLocal
     @classmethod
     def lxHideShow(cls, operation, extend=False):
@@ -1509,7 +1505,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             else:
                 cls.setMessageWindowShow('Selected Nde_Node(s) is', 'Show !!!')
     @classmethod
-    def isObjectInstanced(cls, objectString):
+    def isObjectShapeInstanced(cls, objectString):
         boolean = False
         shapePath = cls.getNodeShape(objectString)
         if shapePath:
@@ -1519,7 +1515,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         return boolean
     @classmethod
     def setObjectInstanceCovert(cls, objectString):
-        if cls.isObjectInstanced(objectString):
+        if cls.isObjectShapeInstanced(objectString):
             stringLis = cmds.duplicate(objectString)
             cmds.delete(objectString)
             cmds.rename(stringLis[0], cls._toNodeName(objectString))

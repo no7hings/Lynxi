@@ -2,9 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
-#
-from LxCore import lxBasic
+from LxBasic import bscObjects, bscCommands
 #
 from LxMaya.command import maUtils
 #
@@ -147,7 +145,7 @@ def astMeshGeomDefCheck(meshObjects):
         'meshVertexNonManifoldCheck': nonManifoldVertex
     }
     #
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     config = assetCfg.astMeshGeomCheckConfig()
     if meshObjects:
         # View Progress
@@ -179,12 +177,12 @@ def astMeshClean(meshObjects):
 
 # Get Check Data
 def getAstMeshGeomCheckDataDic(meshObjects):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     data = astMeshGeomDefCheck(meshObjects)
     if data:
         for k, v in data.items():
-            subDic = lxBasic.orderedDict()
+            subDic = bscCommands.orderedDict()
             if v:
                 for i in v:
                     mesh = i.split('.')[0]

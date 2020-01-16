@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
@@ -34,7 +34,7 @@ none = ''
 class IfScLightLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicScLightUtilsTool = lxBasic.orderedDict()
+    dicScLightUtilsTool = bscCommands.orderedDict()
     dicScLightUtilsTool['sceneAssetManager'] = [0, 0, 0, 1, 4, 'Scene Compose', 'svg_basic@svg#subWindow']
     def __init__(self, *args, **kwargs):
         super(IfScLightLinkToolUnit, self).__init__(*args, **kwargs)
@@ -689,18 +689,18 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     #
     def getCollectionDataLis(self):
         def getSceneFile(sourceOsFile):
-            targetOsFile = lxBasic._toOsFile(sceneDirectory, lxBasic.getOsFileBasename(sourceOsFile))
+            targetOsFile = bscCommands.toOsFile(sceneDirectory, bscCommands.getOsFileBasename(sourceOsFile))
             return targetOsFile
         #
         def getServerFile(sourceOsFile, localRoot):
             targetOsFile = None
             for i in projectServerRootPathLis:
                 guessFile = i + sourceOsFile[len(localRoot):]
-                if lxBasic.getOsMultFileLis(guessFile, useMode=1):
+                if bscCommands.getOsMultFileLis(guessFile, useMode=1):
                     targetOsFile = guessFile
                     break
             if targetOsFile is None:
-                targetOsFile = lxBasic._toOsFile(sceneDirectory, lxBasic.getOsFileBasename(sourceOsFile))
+                targetOsFile = bscCommands.toOsFile(sceneDirectory, bscCommands.getOsFileBasename(sourceOsFile))
             return targetOsFile
         #
         def getOsFileCollectionDataLis(treeItemLis):
@@ -715,7 +715,7 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     targetFile = getSceneFile(sourceFile)
                     osFileCollectionDataLis.append((sourceFile, targetFile))
                     #
-                    existsSourceOsFileLis = lxBasic.getOsMultFileLis(sourceFile)
+                    existsSourceOsFileLis = bscCommands.getOsMultFileLis(sourceFile)
                     if existsSourceOsFileLis:
                         existsSourceCollectionCount = len(existsSourceOsFileLis)
                         if existsSourceCollectionCount > 1:
@@ -740,7 +740,7 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     targetFile = getServerFile(sourceFile, localRoot)
                     osFileCollectionDataLis.append((sourceFile, targetFile))
                     #
-                    existsSourceOsFileLis = lxBasic.getOsMultFileLis(sourceFile)
+                    existsSourceOsFileLis = bscCommands.getOsMultFileLis(sourceFile)
                     if existsSourceOsFileLis:
                         existsSourceCollectionCount = len(existsSourceOsFileLis)
                         if existsSourceCollectionCount > 1:
@@ -996,7 +996,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             assetData.append(i[1:])
                 #
                 if assetData:
-                    timeTag = lxBasic.getOsActiveTimeTag()
+                    timeTag = bscMethods.OsTime.activeTimetag()
                     description = u'镜头 - 资产（模型缓存）上传/更新'
                     notes = self._connectObject._scNoteUiLabel.datum()
                     #

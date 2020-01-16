@@ -27,7 +27,7 @@ def getControlHir(root):
 #
 def getControls(root):
     typeFilter = 'nurbsCurve'
-    typeFilters = maUtils._toStringList(typeFilter)
+    typeFilters = maUtils.toStringList(typeFilter)
     return maUtils.getChildObjectsByRoot(root, typeFilters)
 
 

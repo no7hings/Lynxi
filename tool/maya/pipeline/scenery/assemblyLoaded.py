@@ -4,10 +4,10 @@ from LxUi.qt import qtModifiers, qtWidgets
 from LxMaya.interface.ifWidgets import ifMaSceneryToolUnit
 
 
-#
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
+
         self.windowModel().setViewportLayoutMargins(2, 2, 2, 2)
         #
         win = self
@@ -22,7 +22,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         win.setDefaultSize(unit.panelWidth, 800)
         win.setNameText(unit.UnitTitle)
 
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 

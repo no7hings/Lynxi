@@ -19,12 +19,12 @@ class Abc_System(bscCore.Basic):
 
     @property
     def platform(self):
-        return self.platform_dic.get(self.module_platform.system())
+        return self.platform_dic.get(self.MOD_platform.system())
 
     @property
     def application(self):
         return self.application_dic.get(
-            self.mtd_os_path.basename(self.module_sys.argv[0])
+            self.MTD_os_path.basename(self.MOD_sys.argv[0])
         )
 
     @property
@@ -82,22 +82,22 @@ class Abc_File(Abc_Path):
         self._setOsDirectoryCreate(self.dirname())
 
     def temporary(self):
-        return self._getOsFileTemporary(self._fileString)
+        return self._getOsFileTemporaryName(self._fileString)
 
     def isExist(self):
-        return self.module_os.path.isfile(self._fileString)
+        return self.MOD_os.path.isfile(self._fileString)
 
     def dirname(self):
-        return self.module_os.path.dirname(self._fileString)
+        return self.MOD_os.path.dirname(self._fileString)
 
     def basename(self):
-        return self.module_os.path.basename(self._fileString)
+        return self.MOD_os.path.basename(self._fileString)
 
     def name(self):
-        return self.module_os.path.splitext(self.basename())[0]
+        return self.MOD_os.path.splitext(self.basename())[0]
 
     def ext(self):
-        return self.module_os.path.splitext(self.basename())[1]
+        return self.MOD_os.path.splitext(self.basename())[1]
 
     def read(self, *args):
         pass

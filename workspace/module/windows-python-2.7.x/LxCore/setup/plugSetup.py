@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 
 from LxCore.preset import plugPr
 
@@ -11,7 +11,7 @@ IsMayaPlugLoadKey = 'IsMayaPlugLoaded'
 
 
 def setMayaPlugSetup():
-    if lxBasic.isMayaApp():
+    if bscCommands.isMayaApp():
         isMayaPlugLoaded = lxConfigure.getLxVariantValue(IsMayaPlugLoadKey)
         # Value is True, False or None
         if isMayaPlugLoaded is not True:

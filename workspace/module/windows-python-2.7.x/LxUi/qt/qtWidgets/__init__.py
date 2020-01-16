@@ -1,10 +1,10 @@
 # coding:utf-8
-from .qtWindow import *
+from ._qtWgtWindow import *
 #
-from .qtView import *
+from ._qtWgtView import *
 #
-from .qtGroup import *
+from ._qtWgtGroup import *
 #
-from .qtItem import *
+from ._qtWgtItem import *
 #
-from .qtChart import *
+from ._qtWgtChart import *

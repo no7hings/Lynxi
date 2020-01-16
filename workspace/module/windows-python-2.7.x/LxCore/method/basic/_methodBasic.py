@@ -70,7 +70,7 @@ class Mtd_Basic(appConfig.Cfg_Basic):
         else:
             return 0, 0, w0, h0
     @staticmethod
-    def _toStringList(string, stringLimits=None):
+    def toStringList(string, stringLimits=None):
         lis = []
         if isinstance(string, str) or isinstance(string, unicode):
             if stringLimits:
@@ -102,7 +102,7 @@ class Mtd_Basic(appConfig.Cfg_Basic):
                     lis.append(i)
         return lis
     @classmethod
-    def _toOsFile(cls, osPath, osFileBasename):
+    def toOsFile(cls, osPath, osFileBasename):
         return cls._toOsPathConvert(os.path.join(osPath, osFileBasename))
     @staticmethod
     def getOsUser():
@@ -181,7 +181,7 @@ class Mtd_Basic(appConfig.Cfg_Basic):
                 boolean = True
         return boolean
     @staticmethod
-    def hsvToRgb(h, s, v, maximum=255):
+    def hsv2Rgb(h, s, v, maximum=255):
         h = float(h % 360.0)
         s = float(max(min(s, 1.0), 0.0))
         v = float(max(min(v, 1.0), 0.0))
@@ -339,7 +339,7 @@ class Mtd_Path(Mtd_Basic):
                 addItem(subPathString)
         #
         lis = []
-        pathStringLis = cls._toStringList(pathString)
+        pathStringLis = cls.toStringList(pathString)
         for i in pathStringLis:
             # Debug add root
             if not i.startswith(pathsep):
@@ -368,7 +368,7 @@ class Mtd_Path(Mtd_Basic):
         #
         def getMain():
             # Get Dict
-            pathStringLis = cls._toStringList(pathString)
+            pathStringLis = cls.toStringList(pathString)
             if pathStringLis:
                 for i in pathStringLis:
                     nodeArray = i.split(pathsep)
@@ -430,7 +430,7 @@ class Mtd_Platform(Mtd_Basic):
 
 #
 class Mtd_PlfFile(Mtd_Basic):
-    module_os = Mtd_Platform
+    MOD_os = Mtd_Platform
     @staticmethod
     def getOsFileHashString(osFile):
         string = None
@@ -457,9 +457,9 @@ class Mtd_PlfFile(Mtd_Basic):
         if timeTag is None:
             timeTag = cls.getOsActiveTimeTag()
         #
-        tempDirectory = cls._toOsFile(cls.LynxiOsPath_LocalTemporary, timeTag)
+        tempDirectory = cls.toOsFile(cls.LynxiOsPath_LocalTemporary, timeTag)
         osFileBasename = cls.getOsFileBasename(osFile)
-        string = cls._toOsFile(tempDirectory, osFileBasename)
+        string = cls.toOsFile(tempDirectory, osFileBasename)
         #
         cls.setOsFileDirectoryCreate(string)
         return string
@@ -467,7 +467,7 @@ class Mtd_PlfFile(Mtd_Basic):
     def getOsTempFolder(cls, osFile):
         tempDirectory = 'D:/.lynxi.temporary/' + cls.getOsActiveDateTag()
         osFileBasename = cls.getOsFileBasename(osFile)
-        string = cls._toOsFile(tempDirectory, osFileBasename)
+        string = cls.toOsFile(tempDirectory, osFileBasename)
         #
         cls.setOsFileDirectoryCreate(string)
         return string
@@ -489,13 +489,13 @@ class Mtd_PlfFile(Mtd_Basic):
     @classmethod
     def getOsTargetFile(cls, osFile, targetOsPath):
         osFileBasename = cls.getOsFileBasename(osFile)
-        targetTexture = cls._toOsFile(targetOsPath, osFileBasename)
+        targetTexture = cls.toOsFile(targetOsPath, osFileBasename)
         return targetTexture
     @classmethod
     def getOsTargetFileLis(cls, osFile, targetOsPath):
         lis = []
         #
-        osFileLis = cls._toStringList(osFile)
+        osFileLis = cls.toStringList(osFile)
         if osFileLis:
             [lis.append(cls.getOsTargetFile(i, targetOsPath)) for i in osFileLis]
         return lis
@@ -550,7 +550,7 @@ class Mtd_PlfFile(Mtd_Basic):
         #
         lis = []
         #
-        osFileLis = cls._toStringList(osFile)
+        osFileLis = cls.toStringList(osFile)
         if osFileLis:
             [getBranch(i) for i in osFileLis]
         return lis
@@ -590,7 +590,7 @@ class Mtd_PlfFile(Mtd_Basic):
     def setOsFileBackupSub(cls, sourceOsFile, targetOsFile):
         cls.setOsFileCopy(sourceOsFile, targetOsFile)
         #
-        info = cls.module_os.getOsFileInfoDic(sourceOsFile)
+        info = cls.MOD_os.getOsFileInfoDic(sourceOsFile)
         infoFile = cls._toLxOsInfoFile(targetOsFile)
         cls.writeOsJson(info, infoFile)
     @staticmethod
@@ -634,7 +634,7 @@ class Mtd_PlfFile(Mtd_Basic):
         lis = []
         #
         osDirname, osBasename = cls.getOsFileDirname(osFile), cls.getOsFileBasename(osFile)
-        osFile = cls._toOsFile(osDirname, osBasename.lower())
+        osFile = cls.toOsFile(osDirname, osBasename.lower())
         subOsFileLis = glob.glob(osFile.replace(keyword.lower(), '[0-9]'*padding))
         if subOsFileLis:
             # Use for Repath
@@ -732,7 +732,7 @@ class Mtd_PlfFile(Mtd_Basic):
         data = cls.getOsFileBasenameLisByPath(osPath)
         if data:
             for osFileBasename in data:
-                osFile = cls._toOsFile(osPath, osFileBasename)
+                osFile = cls.toOsFile(osPath, osFileBasename)
                 lis.append(osFile)
         return lis
     @classmethod
@@ -751,7 +751,7 @@ class Mtd_PlfFile(Mtd_Basic):
                     getBranch(i)
         #
         lis = []
-        filterExtLis = cls._toStringList(filterExt)
+        filterExtLis = cls.toStringList(filterExt)
         getBranch(filePath)
         if lis:
             lis.sort()
@@ -1367,14 +1367,14 @@ class LxUpdateMethod(Mtd_Basic):
         def getBranch(directory, keywordFilterString=None):
             osFileBasenameLis = cls.getOsFileBasenameLisByPath(directory)
             if osFileBasenameLis:
-                keywordFilterStringLis = cls._toStringList(keywordFilterString)
+                keywordFilterStringLis = cls.toStringList(keywordFilterString)
                 # Filter
                 if keywordFilterString:
                     osFileBasenameLis = [i for i in osFileBasenameLis if i in keywordFilterStringLis] + ['__init__' + ext]
                 #
                 if '__init__' + ext in osFileBasenameLis:
                     for osFileBasename in osFileBasenameLis:
-                        osFile = cls._toOsFile(directory, osFileBasename)
+                        osFile = cls.toOsFile(directory, osFileBasename)
                         if osFile.endswith(ext):
                             timestamp = cls.getOsFileMtimestamp(osFile)
                             pythonModule = osFile[len(modulePath) + 1:-len(ext)].replace('/', '.')

@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxScheme
+from LxCore import lxScheme
+
+from LxBasic import bscCommands
 
 from LxCore.method.basic import _methodBasic
 
@@ -116,7 +118,7 @@ class ifDevelopOverviewUnit(_qtIfAbcWidget.IfOverviewUnitBasic):
                         self.plf_file_method.setOsFileCopy(dbDatumFile, tempOsFile)
                     #
                     osCmd = '''"{}" "{}"'''.format(osCmdExe, tempOsFile)
-                    lxBasic.setOsCommandRun_(osCmd)
+                    bscCommands.setOsCommandRun_(osCmd)
                 #
                 actionDatumLis = [
                     ('Basic', ),
@@ -131,7 +133,7 @@ class ifDevelopOverviewUnit(_qtIfAbcWidget.IfOverviewUnitBasic):
             treeItem.setIcon('svg_basic@svg#{}'.format(dbDatumType))
             ext = self.plf_file_method.getOsFileExt(osRelativeFile)
             #
-            osSourceFile = self.plf_file_method._toOsFile(sourcePath, osRelativeFile)
+            osSourceFile = self.plf_file_method.toOsFile(sourcePath, osRelativeFile)
             if self.plf_file_method.isOsExistsFile(osSourceFile):
                 sourceDatumId = self.plf_file_method.getOsFileHashString(osSourceFile)
                 if not sourceDatumId == dbDatumId:

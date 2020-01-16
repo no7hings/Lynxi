@@ -2,9 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods
-#
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscCommands
 #
 from LxCore.preset import appVariant
 #
@@ -20,16 +18,16 @@ none = ''
 
 #
 def setSwitchAssetGpu(projectName, referenceNode, classify, name, subNumber):
-    update = lxBasic.getOsActiveTimeTag()
-    artist = lxBasic.getOsUser()
+    timetag = bscMethods.OsTime.activeTimetag()
+    username = bscMethods.OsSystem.username()
     #
     startFrame, endFrame = maUtils.getFrameRange()
     #
     namespace = maUtils.getReferenceNamespace(referenceNode)
     astUnitModelProductGroup = '%s:%s' % (namespace, assetPr.astUnitModelProductGroupName(name))
     #
-    tempPath = appVariant.temporaryDirectory(appVariant.serverAnimationRoot, projectName, artist, update)
-    cacheFileName = appVariant.cacheFileNameConfig(name, subNumber, appVariant.asbGpuFileLabel, '_' + update)
+    tempPath = appVariant.temporaryDirectory(appVariant.serverAnimationRoot, projectName, username, timetag)
+    cacheFileName = appVariant.cacheFileNameConfig(name, subNumber, appVariant.asbGpuFileLabel, '_' + timetag)
     cacheFile = '%s/%s' % (tempPath, cacheFileName)
     gpuName = assetPr.astGpuName(name, subNumber)
     #
@@ -52,7 +50,7 @@ def setSwitchAssetRig(projectName, referenceNode, classify, name, subNumber):
     startFrame, endFrame = maUtils.getFrameRange()
     #
     cacheFile = maUtils.getAttrDatum(referenceNode, inGpuAttrLabel)
-    if lxBasic.isOsExistsFile(cacheFile):
+    if bscCommands.isOsExistsFile(cacheFile):
         bscMethods.OsFile.remove(cacheFile)
     #
     gpuName = assetPr.astGpuName(name, subNumber)
@@ -65,7 +63,7 @@ def setSwitchAssetRig(projectName, referenceNode, classify, name, subNumber):
 
 
 #
-def setRepairReferenceNamespace(inData, progressBar=none):
+def setRepairReferenceNamespace(inData, progressBar=None):
     errorReferenceNamespaceDic = {}
     if inData:
         for seq, (namespacePath, referenceNode) in enumerate(inData.items()):

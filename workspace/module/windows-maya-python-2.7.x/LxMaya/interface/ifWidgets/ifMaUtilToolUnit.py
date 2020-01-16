@@ -1,9 +1,7 @@
 # coding=utf-8
 from itertools import product
 #
-from LxBasic import bscMethods, bscObjects
-#
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
@@ -945,7 +943,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         'placeholder': [0, 8, 0, 1, 4, u'Placeholder']
     }
     #
-    dic_config = lxBasic.orderedDict()
+    dic_config = bscCommands.orderedDict()
     dic_config['collection'] = [0, 0, 0, 1, 1, u'Collection']
     dic_config['ignoreExists'] = [0, 1, 0, 1, 1, u'Ignore Exists']
     dic_config['ignoreMtimeChanged'] = [0, 1, 1, 1, 1, u'Ignore Time Changed']
@@ -956,7 +954,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     dic_config['isExistsOnly'] = [0, 4, 0, 1, 1, u'Exists Only']
     dic_config['placeholder'] = [0, 5, 0, 1, 4, u'Placeholder']
     #
-    dicTool = lxBasic.orderedDict()
+    dicTool = bscCommands.orderedDict()
     dicTool['ignoreStructure'] = [w, 0, 0, 1, 4, 'Ignore Structure']
     # 1
     dicTool['sourceDirectory'] = [w, 2, 0, 1, 4, 'Source']
@@ -1255,7 +1253,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def getTargetFile(sourceOsFile):
             if self.ignoreStructureButton.isChecked():
-                targetOsFile = lxBasic._toOsFile(targetDirectory, lxBasic.getOsFileBasename(sourceOsFile))
+                targetOsFile = bscCommands.toOsFile(targetDirectory, bscCommands.getOsFileBasename(sourceOsFile))
             else:
                 targetOsFile = targetDirectory + sourceOsFile[len(sourceDirectory):]
             return targetOsFile
@@ -1306,7 +1304,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 checkState = none
                 checkToolTip = none
                 #
-                fileName = lxBasic.getOsFileBasename(osFile)
+                fileName = bscCommands.getOsFileBasename(osFile)
                 nodeCount = len(nodes)
                 fileItem = qtWidgets_.QTreeWidgetItem_()
                 subTreeBox.addItem(fileItem)
@@ -1321,7 +1319,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 osFileCollectionDataLis.append((sourceFile, targetFile))
                 #
-                existsSourceFiles = lxBasic.getOsMultFileLis(sourceFile)
+                existsSourceFiles = bscCommands.getOsMultFileLis(sourceFile)
                 existsSourceCount = len(existsSourceFiles)
                 #
                 self.sourceArray.append(sourceFile)
@@ -1339,7 +1337,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if existsSourceCount == 1:
                         textureCount = 1
                         # Target Exists Check
-                        targetExists = lxBasic.isOsExistsFile(targetFile)
+                        targetExists = bscCommands.isOsExistsFile(targetFile)
                         if targetExists:
                             isChanged = bscMethods.OsFile.isFileTimeChanged(sourceFile, targetFile)
                             if isChanged:
@@ -1372,7 +1370,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             #
                             subTargetFile = getTargetFile(subSourceFile)
                             #
-                            subTargetExists = lxBasic.isOsExistsFile(subTargetFile)
+                            subTargetExists = bscCommands.isOsExistsFile(subTargetFile)
                             if subTargetExists:
                                 isSubChanged = bscMethods.OsFile.isFileTimeChanged(subSourceFile, subTargetFile)
                                 if isSubChanged:
@@ -1385,12 +1383,12 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                                 subCheckStateLabel = 'error'
                                 subCheckToolTip = 'Target is Non - Exists'
                             #
-                            subFileName = lxBasic.getOsFileBasename(subSourceFile)
+                            subFileName = bscCommands.getOsFileBasename(subSourceFile)
                             subFileItem.setItemIcon_(0, subIconKeyword, stateLabel)
                             subFileItem.setText(0, subFileName)
                             #
                             subFileItem.setItemIcon_(1, iconKeyword1, subCheckStateLabel)
-                            subFileItem.setText(1, lxBasic.str_camelcase2prettify(fileType))
+                            subFileItem.setText(1, bscMethods.StrCamelcase.toPrettify(fileType))
                             #
                             subFileItem.setToolTip(1, subCheckToolTip)
                             #
@@ -1413,7 +1411,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 fileItem.setItemIcon_(0, iconKeyword0, stateLabel)
                 fileItem.setText(0, text0)
                 #
-                text1 = '{} ( {} * {} )'.format(lxBasic.str_camelcase2prettify(fileType), nodeCount, textureCount)
+                text1 = '{} ( {} * {} )'.format(bscMethods.StrCamelcase.toPrettify(fileType), nodeCount, textureCount)
                 fileItem.setItemIcon_(1, iconKeyword1, checkState)
                 fileItem.setText(1, text1)
                 #
@@ -1550,7 +1548,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     widthSet = 400
     #
     w = 180
-    dicFilter = lxBasic.orderedDict()
+    dicFilter = bscCommands.orderedDict()
     dicFilter['enableAll'] = [0, 0, 0, 1, 1, none]
     dicFilter['enableClear'] = [0, 0, 2, 1, 1, none]
     # 1
@@ -1558,7 +1556,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     dicFilter['withCurve'] = [0, 2, 2, 1, 2, 'Curve']
     dicFilter['placeholder'] = [0, 3, 0, 1, 4, 'Placeholder']
     #
-    dic_config = lxBasic.orderedDict()
+    dic_config = bscCommands.orderedDict()
     dic_config['withShape'] = [0, 0, 0, 1, 2, 'Shape']
     dic_config['floatRound'] = [0, 0, 2, 1, 2, 'Round']
     #
@@ -1722,7 +1720,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setListObjects(self):
         # Use Order Dic
-        self.pathReduceDic = lxBasic.orderedDict()
+        self.pathReduceDic = bscCommands.orderedDict()
         #
         treeBox = self.leftTreeViewBox
         #
@@ -2158,13 +2156,13 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     widthSet = 400
     #
-    dicLightManagerTool = lxBasic.orderedDict()
+    dicLightManagerTool = bscCommands.orderedDict()
     dicLightManagerTool['placeholder'] = [1, 0, 0, 1, 4, 'Placeholder']
     def __init__(self, *args, **kwargs):
         super(IfLightGroupManagerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.nodeDic = lxBasic.orderedDict()
+        self.nodeDic = bscCommands.orderedDict()
         self.lightGroups = []
         #
         self.setupUnit()

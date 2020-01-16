@@ -1,9 +1,9 @@
 # coding=utf-8
 import threading
 #
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
@@ -124,7 +124,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                         lxConfigure.LynxiRootIndex_Server,
                         projectName, assetClass, assetName
                     )
-                    if lxBasic.isOsExist(osPath):
+                    if bscCommands.isOsExist(osPath):
                         bscMethods.OsDirectory.open(osPath)
                 #
                 subActionData = [
@@ -137,7 +137,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             #
             def getBuildData(data):
                 for keyword, osFile in data:
-                    mtimestamp = lxBasic.getOsFileMtimestamp(osFile)
+                    mtimestamp = bscMethods.OsFile.mtimestamp(osFile)
                     exists = mtimestamp is not None
                     rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
                     iconKeyword = [None, 'svg_basic@svg#time'][exists]
@@ -197,7 +197,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
             )[1]
             #
-            if not lxBasic.isOsExistsFile(definitionFile):
+            if not bscCommands.isOsExistsFile(definitionFile):
                 gridItem.setPressable(False)
                 gridItem.setCheckable(False)
             else:
@@ -276,7 +276,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
     projectName = currentProjectName
     #
     w = 80
-    dicImport = lxBasic.orderedDict()
+    dicImport = bscCommands.orderedDict()
     dicImport['episode'] = [w, 0, 0, 1, 4, 'Episode']
     dicImport['sequence'] = [w, 1, 0, 1, 4, 'Sequence']
     dicImport['shot'] = [w, 2, 0, 1, 4, 'Shot']
@@ -957,7 +957,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneryVariant = self._connectObject.sceneryVariant
         sceneryStage = self._connectObject.sceneryStage
         #
-        timeTag = lxBasic.getOsActiveTimeTag()
+        timeTag = bscMethods.OsTime.activeTimetag()
         #
         maScnUploadCmds.scnUnitAssemblyComposeUploadCmd(
             projectName,

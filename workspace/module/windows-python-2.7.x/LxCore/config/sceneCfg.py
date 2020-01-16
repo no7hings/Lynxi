@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscModifiers
+from LxBasic import bscModifiers, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 CameraSep = ';'
 #
@@ -27,7 +27,7 @@ def scBasicClass():
 
 @bscModifiers.fncDictSwitch
 def scBasicViewLinkDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[lxConfigure.LynxiProduct_Scene_Link_layout] = 'Layout', u'预览'
     dic[lxConfigure.LynxiProduct_Scene_Link_Animation] = 'Animation', u'动画'
     dic[lxConfigure.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'解算'
@@ -38,7 +38,7 @@ def scBasicViewLinkDic(*args):
 
 @bscModifiers.fncDictSwitch
 def scBasicViewClassDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[LynxiProduct_Scene_Class_Scene] = 'Scene', u'镜头'
     dic[LynxiProduct_Scene_Class_Act] = 'Act', u'动作'
     return dic

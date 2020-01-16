@@ -9,10 +9,8 @@ class PyLoader(bscCore.Basic):
 
 
 class PyReloader(bscCore.Basic):
-    Enable_Print = False
-
     @classmethod
-    def _getModules(cls, moduleNames, filterModuleName=None):
+    def _getModuleLis(cls, moduleNames, filterModuleName=None):
         def filterFnc_(moduleName, keyword):
             if keyword is not None:
                 if isinstance(keyword, tuple) or isinstance(keyword, list):
@@ -29,7 +27,7 @@ class PyReloader(bscCore.Basic):
 
             if filterFnc_(moduleName, filterModuleName) is True:
                 if not moduleName in lis:
-                    modules = [j for j in module.__dict__.values() if isinstance(j, cls.module_types.ModuleType)]
+                    modules = [j for j in module.__dict__.values() if isinstance(j, cls.MOD_types.ModuleType)]
                     if modules:
                         if not moduleName in lis:
                             lis.append(moduleName)
@@ -51,16 +49,14 @@ class PyReloader(bscCore.Basic):
         lis = []
 
         for i in moduleNames:
-            loader = cls.module_pkgutil.find_loader(i)
+            loader = cls.MOD_pkgutil.find_loader(i)
             if loader:
-                recursionFnc_(cls.module_importlib.import_module(i))
+                recursionFnc_(cls.MOD_importlib.import_module(i))
 
         return lis
 
     @classmethod
     def _setModulesReload(cls, moduleNames):
-        count = len(moduleNames)
-        progressBar = cls._getQtProgressBar('Update Python Module(s)', count)
         for i in moduleNames:
             module = PyLoader.loadModule(i)
             if module:
@@ -68,25 +64,17 @@ class PyReloader(bscCore.Basic):
                 if not nameString == '__main__':
                     if hasattr(module, '__file__'):
                         fileString = module.__file__
-                        if cls.mtd_os_path.isfile(fileString):
-                            if cls.Enable_Print is True:
-                                print '# result >> reload "{}"'.format(nameString)
-                                print '    <{}>'.format(fileString)
-                            cls.module_imp.reload(module)
-
-                cls._setQtProgressBarUpdate(progressBar, nameString)
-            else:
-                cls._setQtProgressBarUpdate(progressBar)
-
-    @classmethod
-    def setPrintEnable(cls, boolean):
-        cls.Enable_Print = boolean
+                        if cls.MTD_os_path.isfile(fileString):
+                            if cls._isTraceEnable() is True:
+                                print u'reload <module = {}>'.format(nameString)
+                                print u'    <file = {}>'.format(fileString)
+                            cls.MOD_imp.reload(module)
 
     @classmethod
     def loadModule(cls, moduleName):
         cls._setModulesReload(
-            cls._getModules(
-                cls.module_sys.modules, moduleName
+            cls._getModuleLis(
+                cls.MOD_sys.modules, moduleName
             )
         )
 

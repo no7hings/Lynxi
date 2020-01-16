@@ -1,9 +1,9 @@
 # coding=utf-8
 import os
 #
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.preset import appVariant, databasePr
 #
@@ -45,9 +45,9 @@ def astUnitModelUploadMainCmd(
     # Index
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     # Updater
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
     # Log Target File
-    logTargetFile = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
             lxConfigure.LynxiRootIndex_Backup,
             projectName,
@@ -435,18 +435,18 @@ def astUnitUploadModelSourceSub(
     #
     logWin_.addStartProgress(u'Source Upload')
     #
-    linkFile = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
+    linkFile = bscMethods.OsFile.toJoinTimetag(backModelFile, timeTag)
     maFile.saveMayaFile(linkFile)
     #
     dbBasic.writeDbAssetHistory(modelIndex, linkFile)
     # Update Data >>> 02
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = bscMethods.OsFile.productInfoDict(
         linkFile,
         assetStage,
         description, notes
     )
-    updateFile = lxConfigure._toLxProductRecordFile(linkFile)
-    maFile.writeOsJson(updateData, updateFile, 4)
+    bscMethods.OsFile.infoJsonFilename = bscMethods.OsFile.infoJsonFilename(linkFile)
+    bscMethods.OsJson.write(bscMethods.OsFile.infoJsonFilename, updateData)
     #
     logWin_.addCompleteProgress()
 
@@ -471,7 +471,7 @@ def astUnitOpenModelSource(
     )[1]
     logWin_.addStartProgress(u'Source ( Local ) Open')
     #
-    backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backModelFile, timeTag)
+    backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backModelFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localModelFile, timeTag)
     #
     logWin_.addCompleteProgress()
@@ -556,8 +556,8 @@ def astUnitUploadModelGeometrySub(
 #
 def dbAstUploadIndex(
         assetIndex,
-        projectName, 
-        assetClass, assetName, assetVariant, 
+        projectName,
+        assetClass, assetName, assetVariant,
         percentage, timeTag
 ):
     logWin_ = bscObjects.If_Log()
@@ -622,7 +622,7 @@ def dbAstUploadModelMeshConstant(
 # Model Material
 def astUnitModelMaterialUploadSubCmd(
         assetIndex, modelIndex,
-        projectName, 
+        projectName,
         assetClass, assetName, assetVariant, assetStage,
         renderer,
         withAov,
@@ -687,7 +687,7 @@ def astUnitUploadModelProductSub(
         withProduct=False
 ):
     logWin_ = bscObjects.If_Log()
-    
+
     logWin_.addStartProgress(u'Product Upload')
     #
     maFile.new()
@@ -754,7 +754,7 @@ def astUnitUploadModelProductSub(
             )
         #
         maFile.saveMayaFile(serverProductFile)
-        maFile.backupFile(serverProductFile, backupProductFile, timeTag)
+        bscMethods.OsFile.backupTo(serverProductFile, backupProductFile, timeTag)
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
@@ -764,7 +764,7 @@ def astUnitUploadModelProductSub(
             assetClass, assetName
         )[1]
         if assetVariant == appVariant.astDefaultVariant:
-            lxBasic.writeOsJson(meshData, serverBasicMeshFile)
+            bscMethods.OsJson.write(serverBasicMeshFile, meshData)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -772,7 +772,7 @@ def astUnitUploadModelProductSub(
             assetClass, assetName, assetVariant, assetStage
         )[1]
         #
-        lxBasic.writeOsJson(meshData, serverModelMeshFile)
+        bscMethods.OsJson.write(serverModelMeshFile, meshData)
         #
         serverModelTextureDataFile = assetPr.astUnitTextureConstantFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -782,7 +782,7 @@ def astUnitUploadModelProductSub(
         #
         textureData = maTxtr.getTextureDatumDic(modelTextureNodes)
         #
-        lxBasic.writeOsJson(textureData, serverModelTextureDataFile)
+        bscMethods.OsJson.write(serverModelTextureDataFile, textureData)
     #
     logWin_.addCompleteProgress()
 
@@ -1177,9 +1177,9 @@ def astUnitUploadAssemblyMain(
 ):
     #
     astAssemblyIndexFile = assetPr.astUnitAssemblyIndexFile(projectName, assetName)[1]
-    if not lxBasic.isOsExistsFile(astAssemblyIndexFile):
+    if not bscCommands.isOsExistsFile(astAssemblyIndexFile):
         astAssemblyIndexDatum = assetPr.astUnitAssemblyIndexDatum(assetIndex, assetClass, assetName)
-        lxBasic.writeOsJson(astAssemblyIndexDatum, astAssemblyIndexFile)
+        bscMethods.OsJson.write(astAssemblyIndexFile, astAssemblyIndexDatum)
     # Upload Sub Asset >>>> 01
     astUnitUploadAssemblyProductSub(
         assetIndex,
@@ -1240,8 +1240,8 @@ def astUnitUploadRigMain(
 ):
     rigIndexKey = dbGet.getDbAstRigIndex(assetIndex)
     # Update Label
-    timeTag = lxBasic.getOsActiveTimeTag()
-    logTargetFile = lxBasic.getOsFileJoinTimeTag(
+    timeTag = bscMethods.OsTime.activeTimetag()
+    logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
             lxConfigure.LynxiRootIndex_Backup,
             projectName,
@@ -1335,7 +1335,7 @@ def astUnitUploadRigProduct(
         withProduct=False
 ):
     logWin_ = bscObjects.If_Log()
-    
+
     logWin_.addStartProgress(u'Product Upload')
     #
     serverRigProductFile = assetPr.astUnitProductFile(
@@ -1348,7 +1348,7 @@ def astUnitUploadRigProduct(
         projectName,
         assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )[1]
-    rigAstTempFile = lxBasic.getOsTemporaryFile(serverRigProductFile, timeTag)
+    rigAstTempFile = bscMethods.OsFile.temporaryFilename(serverRigProductFile, timeTag)
     #
     rigAstRoot = assetPr.astUnitRootGroupName(assetName)
     rigAstSetObjects = maUtils.getSets()
@@ -1383,7 +1383,7 @@ def astUnitUploadRigProduct(
     maDbAstCmds.dbAstUploadRigAssetIntegration(assetIndex)
     if withProduct:
         maFile.saveMayaFile(serverRigProductFile)
-        maFile.backupFile(serverRigProductFile, backupRigProductFile, timeTag)
+        bscMethods.OsFile.backupTo(serverRigProductFile, backupRigProductFile, timeTag)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -1393,7 +1393,10 @@ def astUnitUploadRigProduct(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        maFile.writeOsJson(meshData, serverMeshConstantFile, 4)
+        bscMethods.OsJson.write(
+            serverMeshConstantFile,
+            meshData
+        )
     #
     logWin_.addCompleteProgress()
 
@@ -1409,9 +1412,9 @@ def astUnitCfxUploadMainCmd(
     renderer = projectPr.getProjectMayaRenderer(projectName)
     # Index
     assetSubIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
     # Log Target File
-    logTargetFile = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
             lxConfigure.LynxiRootIndex_Backup,
             projectName,
@@ -1532,7 +1535,7 @@ def astUnitUploadCfxFurSub(
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
-    
+
     rootGroup = assetPr.astUnitRootGroupName(assetName)
     cfxAssetRoot = assetPr.astUnitCfxLinkGroupName(assetName)
     cfxSet = assetPr.cfxSetName(assetName)
@@ -1555,7 +1558,7 @@ def astUnitUploadCfxFurSub(
         assetClass, assetName, assetVariant, assetStage
     )[1]
     #
-    tempFurFile = lxBasic.getOsTemporaryFile(serverAstUnitFurFile, timeTag)
+    tempFurFile = bscMethods.OsFile.temporaryFilename(serverAstUnitFurFile, timeTag)
     maFile.exportMayaFileWithSet(tempFurFile, cfxAssetRoot, cfxSet)
     # Open and Upload
     maFile.fileOpen(tempFurFile)
@@ -1622,7 +1625,7 @@ def astUnitUploadCfxFurForSolver_(
 ):
     #
     logWin_ = bscObjects.If_Log()
-    
+
     assetSubIndex = dbBasic.getDatabaseSubIndex(
         assetIndex,
         [assetPr.getAssetLink(assetStage), assetVariant]
@@ -1709,7 +1712,7 @@ def astUnitUploadCfxProduct(
         withProduct=False
 ):
     logWin_ = bscObjects.If_Log()
-    
+
     logWin_.addStartProgress(u'Product Upload')
     # New Scene
     maFile.new()
@@ -1788,7 +1791,7 @@ def astUnitUploadCfxProduct(
             )
         #
         maFile.saveMayaFile(serverCfxProductFile)
-        maFile.backupFile(serverCfxProductFile, backupCfxProductFile, timeTag)
+        bscMethods.OsFile.backupTo(serverCfxProductFile, backupCfxProductFile, timeTag)
     #
     logWin_.addCompleteProgress()
 
@@ -1796,14 +1799,14 @@ def astUnitUploadCfxProduct(
 @bscModifiers.fncExceptionCatch
 def astUnitUploadMain(
         assetIndex,
-        projectName, 
+        projectName,
         assetClass, assetName, assetVariant, assetStage,
         withProduct=True, description=None, notes=None
 ):
     assetStagePrettify = assetStage.capitalize()
-    timeTag = lxBasic.getOsActiveTimeTag()
+    timeTag = bscMethods.OsTime.activeTimetag()
 
-    logTargetFile = lxBasic.getOsFileJoinTimeTag(
+    logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
             lxConfigure.LynxiRootIndex_Backup,
             projectName,
@@ -1915,19 +1918,19 @@ def astUnitUploadSourceSub(
     )[1]
     logWin_.addStartProgress(u'Source Upload')
     #
-    linkFile = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
+    linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     #
     maFile.saveMayaFile(linkFile)
     # Database History
     dbBasic.writeDbAssetHistory(assetSubIndex, linkFile)
     # Update
-    updateData = lxConfigure.lxProductRecordDatumDic(
+    updateData = bscMethods.OsFile.productInfoDict(
         linkFile,
         assetStage,
         description, notes
     )
-    updateFile = lxConfigure._toLxProductRecordFile(linkFile)
-    lxBasic.writeOsJson(updateData, updateFile, 4)
+    bscMethods.OsFile.infoJsonFilename = bscMethods.OsFile.infoJsonFilename(linkFile)
+    bscMethods.OsJson.write(bscMethods.OsFile.infoJsonFilename, updateData)
     #
     logWin_.addCompleteProgress()
 
@@ -1951,7 +1954,7 @@ def astUnitSourceOpenCmd_(
     )[1]
     logWin_.addStartProgress(u'Source ( Local ) Open')
     #
-    backupSourceFileJoinUpdateTag = lxBasic.getOsFileJoinTimeTag(backupSourceFile, timeTag)
+    backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localSourceFile, timeTag)
     #
     logWin_.addCompleteProgress()
@@ -1988,7 +1991,7 @@ def astUnitTextureBackupCmd_(
         inData=textureNodes
     )
     # Texture Index
-    lxBasic.writeOsJson(textureIndexData, serverTextureIndexFile)
+    bscMethods.OsJson.write(serverTextureIndexFile, textureIndexData)
     bscMethods.OsFile.backupTo(serverTextureIndexFile, backupTextureIndexFile, timeTag)
 
 
@@ -2038,7 +2041,7 @@ def astUnitRemoveReferenceSub(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        lxBasic.writeOsJson(meshData, serverMeshConstantFile, 4)
+        bscMethods.OsJson.write(serverMeshConstantFile, meshData)
         bscMethods.OsFile.backupTo(serverMeshConstantFile, backupMeshConstantFile, timeTag)
         #
         cfxBranch = assetPr.astUnitCfxLinkGroupName(assetName)
@@ -2061,7 +2064,7 @@ def astUnitRemoveReferenceSub(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        lxBasic.writeOsJson(meshData, serverMeshConstantFile, 4)
+        bscMethods.OsJson.write(serverMeshConstantFile, meshData)
         bscMethods.OsFile.backupTo(serverMeshConstantFile, backupMeshConstantFile, timeTag)
     #
     if referBranchLis is not None:
@@ -2099,7 +2102,7 @@ def astUnitUploadProductSub(
             #
             logWin_.addStartProgress(u'Product Upload')
             #
-            tempFile = lxBasic.getOsTemporaryFile(serverProductFile, timeTag)
+            tempFile = bscMethods.OsFile.temporaryFilename(serverProductFile, timeTag)
             #
             maUtils.setParentToWorld(linkBranch)
             maUtils.setNodeDelete(rootGroup)
@@ -2129,7 +2132,7 @@ def astUnitUploadProductSub(
             )
             #
             maFile.saveMayaFile(serverProductFile)
-            maFile.backupFile(serverProductFile, backupProductFile, timeTag)
+            bscMethods.OsFile.backupTo(serverProductFile, backupProductFile, timeTag)
             #
             logWin_.addCompleteProgress()
 

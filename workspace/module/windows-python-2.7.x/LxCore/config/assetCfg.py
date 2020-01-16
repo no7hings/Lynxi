@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscModifiers
+from LxBasic import bscModifiers, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 astHierarchyKey = 'hierarchy'
 astGeometryKey = 'geometry'
@@ -27,7 +27,7 @@ def astBasicClass():
 
 @bscModifiers.fncDictSwitch
 def astBasicViewLinkDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[lxConfigure.LynxiProduct_Asset_Link_Model] = 'Model', u'模型'
     dic[lxConfigure.LynxiProduct_Asset_Link_Rig] = 'Rig', u'绑定'
     dic[lxConfigure.LynxiProduct_Asset_Link_Cfx] = 'Groom', u'毛发塑形'
@@ -39,7 +39,7 @@ def astBasicViewLinkDic(*args):
 
 @bscModifiers.fncDictSwitch
 def astBasicViewClassDic(*args):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic[LynxiProduct_Asset_Class_Character] = 'Character', u'角色'
     dic[LynxiProduct_Asset_Class_Prop] = 'Prop', u'道具'
     return dic
@@ -47,7 +47,7 @@ def astBasicViewClassDic(*args):
 
 #
 def astBasicClassDatumDic():
-    return lxBasic.orderedDict(
+    return bscCommands.orderedDict(
         [
             ('ast0', (lxConfigure.LynxiValue_Unspecified, u'待定')),
             ('ast1', (LynxiProduct_Asset_Class_Character, u'角色')),
@@ -97,7 +97,7 @@ def basicCfxProcess():
 
 # Model Check Config
 def astModelCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['meshInstanceCheck'] = [
         True,
         'Mesh Instance Check',
@@ -138,7 +138,7 @@ def astModelCheckConfig():
 
 #
 def astMeshGeomCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['meshFaceNSidedCheck'] = [
         True,
         'N - Sided Face Check',
@@ -208,7 +208,7 @@ def astMeshGeomCheckConfig():
 
 #
 def astCfxGroomCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['astYetiCheck'] = [
         True,
         'Yeti Check',
@@ -239,7 +239,7 @@ def astCfxGroomCheckConfig():
 
 #
 def astSolverCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['astSolverGuideCheck'] = [
         True,
         'Solver - Guide Check',
@@ -255,7 +255,7 @@ def astSolverCheckConfig():
 
 #
 def astRigCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['astRigControlCheck'] = [
         False,
         'Rig Control Check',
@@ -266,7 +266,7 @@ def astRigCheckConfig():
 
 #
 def astLightCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['astLightTransformCheck'] = [
         False,
         'Light Transform Check',
@@ -277,7 +277,7 @@ def astLightCheckConfig():
 
 #
 def astShaderCheckConfig():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['arTextureFormatCheck'] = [
         False,
         'Arnold Texture Format Check',
@@ -299,7 +299,7 @@ def astShaderCheckConfig():
 # Nde_Geometry Data Config
 def geometryDataConfig():
     # Dic { <Data Label>: <Data Label in UI> }
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['hierarchyId'] = 'Hierarchy - ID'
     dic['geometryId'] = 'Nde_Geometry - ID'
     dic['uvCoordId'] = 'UVs - ID'
@@ -320,16 +320,16 @@ def geometryDataConfig():
 # File Box Config
 def fileBoxConfig():
     # Dic { <Data Label>: <Data Label in UI> }
-    dic = lxBasic.orderedDict()
-    modelDic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
+    modelDic = bscCommands.orderedDict()
     modelDic['mesh'] = 'Mesh'
     modelDic['material'] = 'Material'
     dic['model'] = ['Model', modelDic]
-    cfxDic = lxBasic.orderedDict()
+    cfxDic = bscCommands.orderedDict()
     cfxDic['fur'] = 'Fur'
     cfxDic['furMaterial'] = 'Fur - Material'
     dic['cfx'] = ['CFX', cfxDic]
-    rigDic = lxBasic.orderedDict()
+    rigDic = bscCommands.orderedDict()
     rigDic['layoutRig'] = 'Low - Quality'
     rigDic['animationRig'] = 'High - Quality'
     dic['rig'] = ['Rig', rigDic]

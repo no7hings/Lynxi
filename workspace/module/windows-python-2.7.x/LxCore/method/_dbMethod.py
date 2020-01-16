@@ -39,7 +39,7 @@ class Mtd_DbUnit(appConfig.LxDbConfig):
             if osRelativeFileLis:
                 osRelativeFileLis.sort()
                 for osRelativeFile in osRelativeFileLis:
-                    osFile = cls.plf_file_method._toOsFile(osPath, osRelativeFile)
+                    osFile = cls.plf_file_method.toOsFile(osPath, osRelativeFile)
                     dbDatumId = cls.plf_file_method.getOsFileHashString(osFile)
                     dbUnitIncludeIndex = cls.database_method._lxDbOsUnitIncludeIndex(dbDatumType, dbDatumId, osRelativeFile)
                     dbUnitIncludeDatum.append(dbUnitIncludeIndex)

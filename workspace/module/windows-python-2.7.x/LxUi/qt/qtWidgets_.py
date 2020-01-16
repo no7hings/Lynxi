@@ -1,42 +1,15 @@
 # coding:utf-8
-import cgitb
-#
 import types
 #
-from PyQt5 import QtGui, QtCore
+from LxUi.qt.qtCore import *
 #
-from PyQt5.QtWidgets import *
-
-from LxCore import lxBasic
-#
-from LxUi import uiCore
-#
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
 from LxUi.qt import qtWidgets, qtCore
-
 #
 cgitb.enable(format='text')
 #
-cls_pen = QtGui.QPen
-cls_color = QtGui.QColor
-cls_brush = QtGui.QBrush
-cls_point = QtCore.QPoint
-cls_pointF = QtCore.QPointF
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
-cls_rectF = QtCore.QRectF
-cls_polygon = QtGui.QPolygon
-cls_polygonF = QtGui.QPolygonF
-cls_painter_path = QtGui.QPainterPath
-#
 _families = uiCore.Lynxi_Ui_Family_Lis
-#
-SolidBorder = 'solid'
-InsetBorder = 'inset'
-OutsetBorder = 'outset'
-GrooveBorder = 'groove'
-RidgeBorder = 'ridge'
 #
 none = ''
 
@@ -48,7 +21,7 @@ def chooseviewDropModifier(fn):
         self = args[0]
         chooseNames = self._messages
         if chooseNames:
-            dropBox = qtAbcWidget._QtChooseDropView(self)
+            dropBox = qtObjWidget._QtChooseDropView(self)
             dropBox.setCurrentIndex(self.currentIndex)
             dropBox.installEventFilter(self)
             dropBox._viewModel.addItems(chooseNames, self._uiIconKeyword)
@@ -58,14 +31,13 @@ def chooseviewDropModifier(fn):
     return subFn
 
 
-#
 def chooseviewEventFilterModifier(fn):
     def subFn(*args):
         self = args[0]
         widget_ = args[1]
         event = args[2]
         # Filter by Widget is Press
-        if type(widget_) == qtAbcWidget._QtChooseDropView:
+        if type(widget_) == qtObjWidget._QtChooseDropView:
             if event.type() == QtCore.QEvent.MouseButtonPress:
                 widget_.close()
                 #
@@ -78,77 +50,16 @@ def chooseviewEventFilterModifier(fn):
     return subFn
 
 
-#
-def getRgbaStyle(rgba):
-    return ', '.join([str(i) for i in rgba])
-
-
-#
-class QPalette_(QtGui.QPalette):
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtGui.QPalette, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        brush = QtGui.QBrush(QtGui.QColor(63, 127, 255, 127))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Highlight, brush)
-        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Highlight, brush)
-        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Highlight, brush)
-        #
-        brush = QtGui.QBrush(QtGui.QColor(63, 127, 255, 127))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
-        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
-        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
-        #
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.HighlightedText, brush)
-        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.HighlightedText, brush)
-        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.HighlightedText, brush)
-        #
-        brush = QtGui.QBrush(QtGui.QColor(223, 223, 223))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipText, brush)
-        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipText, brush)
-        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        #
-        brush = QtGui.QBrush(QtGui.QColor(63, 63, 63))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        self.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipBase, brush)
-        self.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipBase, brush)
-        self.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, brush)
-
-
-#
-class xSplitter(QSplitter):
-    def __init__(self, *args):
-        self.clsSuper = super(xSplitter, self)
-        self.clsSuper.__init__(*args)
-        #
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        #
-        self.setHandleWidth(2)
-        self.setContentsMargins(0, 0, 0, 0)
-        #
-        self.setStyleSheet(
-            'QSplitter{background: rgba(0, 0, 0, 0)}'
-            'QSplitter{border: none}'
-            'QSplitter::handle{background: rgba(63, 63, 63, 255)}'
-            'QSplitter::handle{border: 1px rgba(47, 47, 47, 255) ; border-radius: 1px ; border-style: outset ;\
-             margin: 160px 2px 160px 2px}'
-        )
-        #
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
-
-#
 class xExplainLabel(QWidget):
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xExplainLabel, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -163,10 +74,10 @@ class xExplainLabel(QWidget):
     def setTooltip(self, string):
         if string:
             self.uiTip = string
-    @qtCore.uiTooltipStartMethod
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         pass
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         pass
     # noinspection PyArgumentList
@@ -194,14 +105,15 @@ class xExplainLabel(QWidget):
         yPos = 0
         #
         width = self.width()
-        height = self.height()
+        # height = self.height()
         if self._uiNameText is not None:
             painter.setBorderRgba(self._uiNameRgba)
             #
             explainRect = QtCore.QRect(
                 xPos + self._uiFrameWidth, yPos, width - self._uiFrameWidth, self._uiFrameHeight
             )
-            painter.setFont(qtCore.xFont(size=8, weight=50, family=_families[0]))
+            # noinspection PyArgumentEqualDefault
+            painter.setFont(qtCore.qtFont(size=8, weight=50, family=_families[0]))
             reduceStr = qtCore.getUiStrWidthReduce(painter, self._uiNameText, width - 40)
             painter.drawText(explainRect, QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter, reduceStr + self._separator)
         #
@@ -211,7 +123,8 @@ class xExplainLabel(QWidget):
             explainRect = QtCore.QRect(
                 xPos, yPos, width, self._uiFrameHeight
             )
-            painter.setFont(qtCore.xFont(size=8, weight=50, family=_families[0]))
+            # noinspection PyArgumentEqualDefault
+            painter.setFont(qtCore.qtFont(size=8, weight=50, family=_families[0]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, self._superExplain)
 
         # painter.end()
@@ -248,13 +161,16 @@ class xExplainLabel(QWidget):
         self._superExplain = None
 
 
-#
 class xIconLabel(QWidget):
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xIconLabel, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -264,10 +180,10 @@ class xIconLabel(QWidget):
         #
         self.setUiStyle()
         self.setUiSize()
-    @qtCore.uiTooltipStartMethod
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         self._setQtPressStyle(qtCore.HoverState)
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         self._updateUiStyle()
     @qtCore.uiTooltipClearMethod
@@ -339,10 +255,10 @@ class xIconLabel(QWidget):
         xPos += frameWidth + spacing
 
         # painter.end()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def setMenu(self):
         pass
     #
@@ -415,7 +331,7 @@ class xIconLabel(QWidget):
             QLabel{{background: rgba(0, 0, 0, 0)}}
             QLabel{{color: rgba({0})}}
             QLabel{{border: none}}
-        '''.format(getRgbaStyle(self._uiNameRgba))
+        '''.format(qtCore.toRgbaStylesheetString(self._uiNameRgba))
         self.textLabel.setStyleSheet(uiStyle)
         #
         self.update()
@@ -457,7 +373,8 @@ class xIconLabel(QWidget):
         #
         self._uiNameText = None
         self._uiNameRgba = 191, 191, 191, 255
-        self._uiExplainFont = qtCore.xFont(size=8, weight=50, family=_families[0])
+        # noinspection PyArgumentEqualDefault
+        self._uiExplainFont = qtCore.qtFont(size=8, weight=50, family=_families[0])
         #
         self._uiExplainNormalStateColor = 191, 191, 191, 255
         #
@@ -473,249 +390,28 @@ class xIconLabel(QWidget):
         self.textLabel.setFont(self._uiExplainFont)
 
 
-#
-class QRadioButton_(QRadioButton):
-    # noinspection PyArgumentList
-    def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(QRadioButton_, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self._uiIconKeyword = 'basic#radioCheck'
-        if iconKeyword:
-            self._uiIconKeyword = iconKeyword
-        #
-        self.toggled.connect(self._updateUiStyle)
-        self.setFont(qtCore.xFont(size=8, weight=50, family=_families[1]))
-        #
-        self.setUiSize()
-        #
-        self._updateUiStyle()
-    #
-    def setNameText(self, explain):
-        self.setText(explain)
-        self.setMaximumSize(QtCore.QSize(166667, 20))
-        self.setMinimumSize(QtCore.QSize(0, 20))
-    #
-    def setCheckable(self, *args):
-        self.clsSuper.setCheckable(*args)
-        self._updateUiStyle()
-    #
-    def setTooltip(self, string):
-        if string:
-            self.uiTip = string
-    #
-    def setIconExplain(self, iconKeyword, width=24, height=24):
-        self._uiIconKeyword = iconKeyword
-        self.setMaximumSize(QtCore.QSize(166667, height))
-        self.setMinimumSize(QtCore.QSize(width, height))
-        self._updateUiStyle()
-    @qtCore.uiTooltipStartMethod
-    def enterEvent(self, event):
-        if self.isCheckable():
-            self._setQtPressStyle(qtCore.HoverState)
-    @qtCore.uiTooltipStopMethod
-    def leaveEvent(self, event):
-        self._updateUiStyle()
-    #
-    def _updateUiStyle(self):
-        if self.isCheckable():
-            self._setQtPressStyle([qtCore.UncheckedState, qtCore.CheckedState][self.isChecked()])
-        else:
-            self._setQtPressStyle(qtCore.UncheckableState)
-    #
-    def _setQtPressStyle(self, state):
-        if state is qtCore.CheckedState:
-            self.setStyleSheet(
-                '''
-                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(223, 223, 223, 255)}}
-                QRadioButton{{border: none}}
-                QRadioButton::indicator:checked{{image: url({0})}}
-                QRadioButton::indicator:unchecked{{image: url({1})}}
-                '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword + 'on'), qtCore._toLxOsIconFile(self._uiIconKeyword + 'off'))
-            )
-        elif state is qtCore.UncheckedState:
-            self.setStyleSheet(
-                '''
-                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(95, 95, 95, 255)}}
-                QRadioButton{{border: none}}
-                QRadioButton::indicator:checked{{image: url({0})}}
-                QRadioButton::indicator:unchecked{{image: url({1})}}
-                '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword + 'on'), qtCore._toLxOsIconFile(self._uiIconKeyword + 'off'))
-            )
-        elif state is qtCore.UncheckableState:
-            self.setStyleSheet(
-                '''
-                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(95, 95, 95, 255)}}
-                QRadioButton{{border: none}}
-                QRadioButton::indicator:checked{{image: url({0})}}
-                QRadioButton::indicator:unchecked{{image: url({1})}}
-                '''.format(qtCore._toLxOsIconFile('svg_basic@svg#unused'), qtCore._toLxOsIconFile('svg_basic@svg#unused'))
-            )
-        elif state is qtCore.HoverState:
-            self.setStyleSheet(
-                '''
-                QRadioButton{{background: rgba(63, 63, 63, 0) ; color:rgba(63, 255, 255, 255)}}
-                QRadioButton{{border: none}}
-                QRadioButton::indicator:checked{{image: url({0})}}
-                QRadioButton::indicator:unchecked{{image: url({1})}}
-                '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword), qtCore._toLxOsIconFile(self._uiIconKeyword))
-            )
-    #
-    def setUiSize(self, width=20, height=20):
-        self.setMaximumSize(width, height)
-        self.setMinimumSize(width, height)
-
-
-#
-class xCheckBox(QCheckBox):
-    # noinspection PyArgumentList
-    def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(QCheckBox, self)
-        self.clsSuper.__init__(*args, **kwargs)
-        #
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        #
-        self.initUi()
-        #
-        if iconKeyword:
-            self._uiIconKeyword = iconKeyword
-        #
-        self.toggled.connect(self._updateUiStyle)
-        self.setFont(qtCore.xFont(size=8, weight=50, family=_families[1]))
-        #
-        self.setUiSize()
-        #
-        self._updateUiStyle()
-    #
-    def setNameText(self, explain):
-        self.setText(explain)
-        self.setMaximumSize(QtCore.QSize(166667, 20))
-        self.setMinimumSize(QtCore.QSize(0, 20))
-    #
-    def setDatum(self, message):
-        self.setChecked(message)
-    #
-    def setIconExplain(self, iconKeyword, width=24, height=24):
-        self._uiIconKeyword = iconKeyword
-        self.setMaximumSize(QtCore.QSize(166667, height))
-        self.setMinimumSize(QtCore.QSize(0, height))
-        self._updateUiStyle()
-    #
-    def setDirt(self, dirt='left'):
-        if dirt == 'left':
-            self.setLayoutDirection(QtCore.Qt.LeftToRight)
-        elif dirt == 'right':
-            self.setLayoutDirection(QtCore.Qt.RightToLeft)
-    #
-    def setChecked(self, boolean):
-        self.clsSuper.setChecked(boolean)
-        #
-        self._isChecked = boolean
-        self._updateUiStyle()
-    #
-    def setCheckable(self, boolean):
-        self.clsSuper.setCheckable(boolean)
-        #
-        self._isCheckable = boolean
-        self._updateUiStyle()
-    #
-    def isChecked(self):
-        if self.isCheckable():
-            return self.clsSuper.isChecked()
-        else:
-            return False
-    #
-    def setToggledConnect(self, checkBox):
-        checkBox.toggled.connect(self.setVisible)
-    #
-    def setTooltip(self, string):
-        if string:
-            self.uiTip = string
-    @qtCore.uiTooltipStartMethod
-    def enterEvent(self, event):
-        if self.isCheckable():
-            self._setQtPressStyle(qtCore.HoverState)
-    @qtCore.uiTooltipStopMethod
-    def leaveEvent(self, event):
-        self._updateUiStyle()
-    #
-    def datum(self):
-        return self.isChecked()
-    #
-    def _updateUiStyle(self):
-        if self.isCheckable():
-            self._setQtPressStyle([qtCore.UncheckedState, qtCore.CheckedState][self.isChecked()])
-        else:
-            self._setQtPressStyle(qtCore.UncheckableState)
-    #
-    def _setQtPressStyle(self, state):
-        if state is qtCore.CheckedState:
-            self.setStyleSheet(
-                '''
-                QCheckBox{{background: rgba(0,0, 0, 0) ; color:rgba(223, 223, 223, 255)}}
-                QCheckBox{{border: none}}
-                QCheckBox::indicator:checked{{image: url({0})}}
-                QCheckBox::indicator:unchecked{{image: url({1})}}
-            '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword + 'on'), qtCore._toLxOsIconFile(self._uiIconKeyword + 'off'))
-            )
-        elif state is qtCore.UncheckedState:
-            self.setStyleSheet(
-                '''
-                QCheckBox{{background: rgba(0, 0, 0, 0) ; color:rgba(95, 95, 95, 255)}}
-                QCheckBox{{border: none}}
-                QCheckBox::indicator:checked{{image: url({0})}}
-                QCheckBox::indicator:unchecked{{image: url({1})}}
-            '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword + 'on'), qtCore._toLxOsIconFile(self._uiIconKeyword + 'off'))
-            )
-        elif state is qtCore.UncheckableState:
-            self.setStyleSheet(
-                '''
-                QCheckBox{{background: rgba(0,0, 0, 0) ; color:rgba(95, 95, 95, 255)}}
-                QCheckBox{{border: none}}
-                QCheckBox::indicator:checked{{image: url({0})}}
-                QCheckBox::indicator:unchecked{{image: url({1})}}
-            '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword + 'Disable'), qtCore._toLxOsIconFile(self._uiIconKeyword + 'Disable'))
-            )
-        elif state is qtCore.HoverState:
-            self.setStyleSheet(
-                '''
-                QCheckBox{{background: rgba(63, 63, 63, 0) ; color:rgba(63, 255, 255, 255)}}
-                QCheckBox{{border: none}}
-                QCheckBox::indicator:checked{{image: url({0})}}
-                QCheckBox::indicator:unchecked{{image: url({1})}}
-            '''.format(qtCore._toLxOsIconFile(self._uiIconKeyword), qtCore._toLxOsIconFile(self._uiIconKeyword))
-            )
-    #
-    def setUiSize(self):
-        self.setMaximumSize(QtCore.QSize(20, 20))
-        self.setMinimumSize(QtCore.QSize(20, 20))
-    #
-    def initUi(self):
-        self._uiIconKeyword = 'basic#boxCheck'
-        #
-        self._isCheckable = True
-        self._isChecked = False
-
-
-#
-class xSpacer(QLineEdit):
+class xSpacer(QWidget):
     # noinspection PyArgumentList
     def __init__(self, *args, **kwargs):
-        super(xSpacer, self).__init__(*args, **kwargs)
-        self.setReadOnly(True)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xSpacer, self)
+            self.clsSuper.__init__(*args, **kwargs)
+
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setFocusPolicy(QtCore.Qt.NoFocus)
-        #
+        self.setSizePolicy(qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Minimum)
+
         self.setStyleSheet(
-            'QLineEdit{background: rgba(63, 63, 63,0)}'
-            'QLineEdit{border: none}')
-        #
-        self.setMaximumSize(QtCore.QSize(166667, 0))
-        self.setMinimumSize(QtCore.QSize(0, 0))
+            'QWidget{border: none}'
+            'QWidget{background: rgba(63, 63, 63, 0)}'
+        )
 
 
-#
 class QTextEdit_(QTextEdit):
-    entryChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
     #
     menuWidth = 160
     # noinspection PyArgumentList
@@ -764,7 +460,7 @@ class QTextEdit_(QTextEdit):
                 self._parent._setQtPressStyle(qtCore.OffState)
             if not self.isReadOnly():
                 self._parent._setQtPressStyle(qtCore.NormalState)
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -790,7 +486,7 @@ class QTextEdit_(QTextEdit):
                 ]
             #
             if actions:
-                self.contextMenu = qtAbcWidget._QtActionDropview(self)
+                self.contextMenu = qtObjWidget._QtActionDropview(self)
                 self.contextMenu.setFocusProxy(self)
                 self.contextMenu.installEventFilter(self)
                 self.contextMenu.setActionData(actions)
@@ -832,7 +528,6 @@ class QTextEdit_(QTextEdit):
         qtCore.setScrollBarStyle(self)
 
 
-#
 class xBoxFrame(QWidget):
     frameXPos = 0
     frameYPos = 0
@@ -874,7 +569,6 @@ class xBoxFrame(QWidget):
         self._uiBorderRgba = 95, 95, 95, 255
 
 
-#
 class xTipFrame(QWidget):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QWidget, self)
@@ -943,12 +637,11 @@ class xTipFrame(QWidget):
         # painter.end()
 
 
-#
 class xLineEdit(QLineEdit):
-    entryChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
     #
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     #
     borderWidth = 1
     borderRadius = 10
@@ -959,16 +652,18 @@ class xLineEdit(QLineEdit):
     def __init__(self, parent=None, *args, **kwargs):
         self.clsSuper = super(xLineEdit, self)
         self.clsSuper.__init__(*args, **kwargs)
-        #
+
+        # noinspection PyArgumentEqualDefault
         self.textChanged.connect(self.entryEvent)
+        # noinspection PyArgumentEqualDefault
         self.returnPressed.connect(self.entryEvent)
-        #
+
         self._parent = parent
-        #
+
         self.contextMenu = None
-        #
+
         self.initUi()
-        #
+
         self.setUiStyle()
         self.setUiSize()
     # noinspection PyArgumentList
@@ -989,7 +684,7 @@ class xLineEdit(QLineEdit):
     def focusOutEvent(self, event):
         self.clsSuper.focusOutEvent(event)
         self._updateUiStyle()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
     # noinspection PyArgumentList
@@ -1015,7 +710,7 @@ class xLineEdit(QLineEdit):
             ]
         #
         if actions:
-            self.contextMenu = qtAbcWidget._QtActionDropview(self)
+            self.contextMenu = qtObjWidget._QtActionDropview(self)
             self.contextMenu.setFocusProxy(self)
             self.contextMenu.installEventFilter(self)
             self.contextMenu.setActionData(actions)
@@ -1074,16 +769,19 @@ class xLineEdit(QLineEdit):
         pass
 
 
-#
 class xEntryBox(QFrame):
-    entryChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
     #
     borderRadius = 0
     normalBorderStyle = InsetBorder
     offBorderStyle = qtCore.SolidBorder
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QFrame, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QFrame, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xEntryBox, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -1195,7 +893,7 @@ class xEntryBox(QFrame):
         layout.addWidget(self.entryLabel)
         self.entryLabel.setReadOnly(True)
         self.entryLabel.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
-        self.entryLabel.setFont(qtCore.xFont(size=8, weight=50))
+        self.entryLabel.setFont(qtCore.qtFont(size=8, weight=50))
         self.entryLabel.entryChanged.connect(self.entryEvent)
         # self.entryLabel.doubleClicked.connect(self.setEntryEnableSwitch)
         #
@@ -1206,11 +904,10 @@ class xEntryBox(QFrame):
         self._clearButton.clicked.connect(self.entryEvent)
 
 
-#
 class xEntryLabel(QFrame):
-    datumChanged = qtCore.uiSignal()
-    entryChanged = qtCore.uiSignal()
-    chooseChanged = qtCore.uiSignal()
+    datumChanged = qtCore.qtSignal()
+    entryChanged = qtCore.qtSignal()
+    chooseChanged = qtCore.qtSignal()
     #
     explainWidth = 120
     chooseBoxWidth = 256
@@ -1221,8 +918,12 @@ class xEntryLabel(QFrame):
     borderRadius = 10
     borderStyle = InsetBorder
     def __init__(self, explainVisible=True, *args, **kwargs):
-        self.clsSuper = super(xEntryLabel, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QFrame, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xEntryLabel, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1352,7 +1053,7 @@ class xEntryLabel(QFrame):
     def setExtendDatumDic(self, multMsgs):
         if isinstance(multMsgs, dict):
             messages = []
-            self._datumDic = lxBasic.orderedDict()
+            self._datumDic = bscCommands.orderedDict()
             for index, (name, description) in multMsgs.items():
                 viewName = unicode(description)
                 if viewName in messages:
@@ -1544,7 +1245,7 @@ class xEntryLabel(QFrame):
         self._datum = None
         self._multMsg = None
         self._multDic = None
-        self._datumDic = lxBasic.orderedDict()
+        self._datumDic = bscCommands.orderedDict()
         #
         self._msgTypeRecord = none
         self._defaultMsg = None
@@ -1598,7 +1299,7 @@ class xEntryLabel(QFrame):
         self._entryEnableButton.clicked.connect(self.setEntryEnableSwitch)
         self._entryEnableButton.setTooltip(u'点击启用/关闭输入锁定')
         #
-        self._checkButton = xCheckBox('basic#boxCheck')
+        self._checkButton = qtCore.QCheckBox_('basic#boxCheck')
         self._checkButton.hide()
         layout.addWidget(self._checkButton)
         self._checkButton.clicked.connect(self._checkClickSwitchAction)
@@ -1608,7 +1309,7 @@ class xEntryLabel(QFrame):
         layout.addWidget(self.entryLabel)
         self.entryLabel.setReadOnly(self._isEntryLock)
         self.entryLabel.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
-        self.entryLabel.setFont(qtCore.xFont(size=8, weight=50, family=_families[0]))
+        self.entryLabel.setFont(qtCore.qtFont(size=8, weight=50, family=_families[0]))
         self.entryLabel.entryChanged.connect(self.entryEvent)
         #
         self._copyButton = qtWidgets.QtIconbutton('basic#copy')
@@ -1628,8 +1329,12 @@ class xEntryLabel(QFrame):
 #
 class xToolBar(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xToolBar, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1666,9 +1371,14 @@ class xToolBar(QWidget):
 
 #
 class QTreeWidgetItem_(QTreeWidgetItem):
-    def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QTreeWidgetItem, self)
-        self.clsSuper.__init__(*args, **kwargs)
+    def __init__(self, *args):
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QTreeWidgetItem, self)
+            self.clsSuper.__init__(*args)
+        else:
+            self.clsSuper = super(QTreeWidgetItem_, self)
+            self.clsSuper.__init__(*args)
+
         self.setFlags(
             QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled
         )
@@ -1763,11 +1473,11 @@ class QTreeWidgetItem_(QTreeWidgetItem):
             rgba = 191, 191, 191, 255
         #
         r, g, b, a = rgba
-        brush = QtGui.QBrush(QtGui.QColor(r, g, b, a))
+        brush = qtCore.CLS_brush(qtCore.CLS_color(r, g, b, a))
         brush.setStyle(QtCore.Qt.SolidPattern)
         self.setForeground(index, brush)
         #
-        font = qtCore.xFont(
+        font = qtCore.qtFont(
             size=8,
             weight=fontWeight,
             italic=isItalic,
@@ -1885,7 +1595,7 @@ class QTreeWidgetItem_(QTreeWidgetItem):
             fontWeight = 50
             rgba = 191, 191, 191, 255
         #
-        font = qtCore.xFont(size=8, weight=fontWeight, italic=isItalic, underline=isUnderline, family=_families[0])
+        font = qtCore.qtFont(size=8, weight=fontWeight, italic=isItalic, underline=isUnderline, family=_families[0])
         #
         treeBox = self.treeWidget()
         #
@@ -1910,13 +1620,17 @@ class QTreeWidgetItem_(QTreeWidgetItem):
 
 #
 class QTreeWidget_(QTreeWidget):
-    focusIn = qtCore.uiSignal()
-    focusOut = qtCore.uiSignal()
+    focusIn = qtCore.qtSignal()
+    focusOut = qtCore.qtSignal()
     #
     headerBorderStyle = SolidBorder
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QTreeWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if LOAD_INDEX is 0:
+            self.clsSuper = super(QTreeWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QTreeWidget_, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1939,7 +1653,7 @@ class QTreeWidget_(QTreeWidget):
         self.headerView.setHighlightSections(True)
         self.headerView.setSortIndicatorShown(True)
         self.headerView.setCascadingSectionResizes(True)
-        self.headerView.setFont(qtCore.xFont(size=8, weight=75))
+        self.headerView.setFont(qtCore.qtFont(size=8, weight=75))
         #
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         #
@@ -2037,7 +1751,7 @@ class QTreeWidget_(QTreeWidget):
         return lis
     #
     def itemWidgetDatumDic(self, column=(0, 1)):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         for treeItem in self.treeItems():
             for seq in range(*column):
                 itemWidget = self.itemWidget(treeItem, seq)
@@ -2077,8 +1791,8 @@ class QTreeWidget_(QTreeWidget):
         self.setHeaderLabels(explains)
         for index in range(0, count):
             self.setColumnWidth(index, unitWidth * (widths[index]))
-            self.headerItem().setBackground(index, QtGui.QColor(63, 63, 63))
-            brush = QtGui.QBrush(QtGui.QColor(191, 191, 191))
+            self.headerItem().setBackground(index, qtCore.CLS_color(63, 63, 63))
+            brush = qtCore.CLS_brush(qtCore.CLS_color(191, 191, 191))
             brush.setStyle(QtCore.Qt.SolidPattern)
             self.headerItem().setForeground(index, brush)
             icon = QtGui.QIcon()
@@ -2112,8 +1826,8 @@ class QTreeWidget_(QTreeWidget):
                 self.setColumnWidth(i, maxWidth / 2 / (count - 1))
         #
         for index in range(0, count):
-            self.headerItem().setBackground(index, QtGui.QColor(32, 32, 32))
-            brush = QtGui.QBrush(QtGui.QColor(191, 191, 191))
+            self.headerItem().setBackground(index, qtCore.CLS_color(32, 32, 32))
+            brush = qtCore.CLS_brush(qtCore.CLS_color(191, 191, 191))
             brush.setStyle(QtCore.Qt.SolidPattern)
             self.headerItem().setForeground(index, brush)
             icon = QtGui.QIcon()
@@ -2134,7 +1848,7 @@ class QTreeWidget_(QTreeWidget):
     #
     def setHeaderView(self, data, widthSet, mode=1):
         count = len(data)
-        explains = [lxBasic.str_camelcase2prettify(i[0]) for i in data]
+        explains = [bscMethods.StrCamelcase.toPrettify(i[0]) for i in data]
         widths = [i[1] for i in data]
         maxDivision = sum(widths)
         unitWidth = widthSet / maxDivision
@@ -2144,8 +1858,8 @@ class QTreeWidget_(QTreeWidget):
         self.setHeaderLabels(explains)
         for index in range(0, count):
             self.setColumnWidth(index, unitWidth * (widths[index]))
-            self.headerItem().setBackground(index, QtGui.QColor(63, 63, 63))
-            brush = QtGui.QBrush(QtGui.QColor(191, 191, 191))
+            self.headerItem().setBackground(index, qtCore.CLS_color(63, 63, 63))
+            brush = qtCore.CLS_brush(qtCore.CLS_color(191, 191, 191))
             brush.setStyle(QtCore.Qt.SolidPattern)
             self.headerItem().setForeground(index, brush)
             icon = QtGui.QIcon()
@@ -2195,10 +1909,10 @@ class QTreeWidget_(QTreeWidget):
         # self.horizontalScrollBar().hide()
         #
         self.focusOut.emit()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def setMenu(self):
         pass
     #
@@ -2252,7 +1966,7 @@ class QTreeWidget_(QTreeWidget):
         '''.format(qtCore.iconRoot())
         self.headerView.setStyleSheet(uiStyle)
         #
-        self.setPalette(QPalette_())
+        self.setPalette(qtCore.QPalette_())
         qtCore.setTreeWidgetStyle(self)
         qtCore.setScrollBarStyle(self)
     #
@@ -2272,7 +1986,7 @@ class QTreeWidget_(QTreeWidget):
         self.headerView.setMinimumHeight(24)
     @classmethod
     def getGraphDatumDic(cls, objectPaths, pathsep, progressBar=None):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         # Get Root
         def getRoot(objectPath, objectNames):
             node = objectNames[-1]
@@ -2344,7 +2058,7 @@ class QTreeWidget_(QTreeWidget):
         return lis
     #
     def getGraphExpandDic(self):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         #
         treeItems = self.treeItems()
         if treeItems:
@@ -2420,11 +2134,15 @@ class QTreeWidget_(QTreeWidget):
 
 #
 class xCheckItemWidget(QWidget):
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xCheckItemWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -2472,7 +2190,7 @@ class xCheckItemWidget(QWidget):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
         #
-        painter.setFont(qtCore.xFont(size=8, weight=75, family=_families[2]))
+        painter.setFont(qtCore.qtFont(size=8, weight=75, family=_families[2]))
         painter.setBorderRgba(self._uiBackgroundRgba)
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         #
@@ -2534,14 +2252,14 @@ class xCheckItemWidget(QWidget):
                 xPos, yPos, width - xPos, height
             )
             isItalic = not self._isChecked
-            painter.setFont(qtCore.xFont(size=8, weight=75, italic=isItalic, family=_families[2]))
+            painter.setFont(qtCore.qtFont(size=8, weight=75, italic=isItalic, family=_families[2]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, showMessage)
 
         # painter.end()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -2707,11 +2425,15 @@ class xCheckItemWidget(QWidget):
 
 # Sub Method
 class xPresetItemWidget(QWidget):
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xPresetItemWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -2770,7 +2492,7 @@ class xPresetItemWidget(QWidget):
         if key:
             self.setDatum(key)
             if isUseNiceName:
-                self.setNameText(lxBasic.str_camelcase2prettify(key))
+                self.setNameText(bscMethods.StrCamelcase.toPrettify(key))
         if value:
             enabled, description = value
             self.setChecked(enabled)
@@ -2820,7 +2542,7 @@ class xPresetItemWidget(QWidget):
                         widget.setChoose(setData)
                     elif isinstance(uiData, dict):
                         widget.setExtendDatumDic(uiData)
-                        dic = lxBasic.orderedDict()
+                        dic = bscCommands.orderedDict()
                         for k, (ik, iv) in uiData.items():
                             dic[ik] = iv
                         if setData in dic.keys():
@@ -2883,8 +2605,12 @@ class xPresetItemWidget(QWidget):
 #
 class xRegisterListViewBox(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xRegisterListViewBox, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -2938,10 +2664,14 @@ class xRegisterListViewBox(QWidget):
 
 #
 class QtExpandWidget(QWidget):
-    expanded = qtCore.uiSignal()
+    expanded = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtExpandWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtExpandWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -3178,8 +2908,12 @@ class QtExpandWidget(QWidget):
 #
 class xTreeLabelBar(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xTreeLabelBar, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setSizePolicy(
@@ -3207,10 +2941,10 @@ class xTreeLabelBar(QWidget):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #

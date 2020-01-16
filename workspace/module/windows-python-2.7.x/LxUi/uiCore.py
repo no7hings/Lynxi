@@ -1,7 +1,9 @@
 # coding:utf-8
-import math
+import threading
 
-from LxCore import lxBasic, lxScheme
+from LxBasic import bscMethods, bscCommands
+
+from LxCore import lxScheme
 
 Lynxi_Ui_Family_Lis = [
     'Arial',
@@ -15,9 +17,18 @@ Lynxi_Ui_Window_Size_Dialog = 1920 * .5, 1080 * .5
 
 
 class Basic(object):
+    mtd_raw_position_2d = bscMethods.Position2d
+
+    mtd_raw_ellipse2d = bscMethods.Ellipse2d
+
+    mtd_raw_value = bscMethods.Value
+
+    mtd_raw_color = bscMethods.Color
+
     @classmethod
     def _lxIconRoot(cls):
         return lxScheme.Directory().icon.server
+
     @staticmethod
     def _toUiDatum(data):
         string = None
@@ -51,67 +62,6 @@ class Basic(object):
         return boolean
 
     @staticmethod
-    def getLength(x1, y1, x2, y2):
-        return math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2))
-
-    @staticmethod
-    def getPointOnEllipse(x, y, r, a):
-        xp = math.sin(math.radians(a)) * r / 2 + x + r / 2
-        yp = math.cos(math.radians(a)) * r / 2 + y + r / 2
-        return xp, yp
-
-    @staticmethod
-    def getRegionPos(xPos, yPos, maxWidth, maxHeight, width, height, xOffset=0, yOffset=0):
-        def getRegion(x, y, w, h):
-            if 0 <= x < w / 2 and 0 <= y < h / 2:
-                value = 0
-            elif w / 2 <= x < w and 0 <= y < h / 2:
-                value = 1
-            elif 0 <= x < w / 2 and h / 2 <= y < h:
-                value = 2
-            else:
-                value = 3
-            return value
-
-        #
-        region = getRegion(xPos, yPos, maxWidth, maxHeight)
-        #
-        if region == 0:
-            xp = xPos + xOffset
-            yp = yPos + yOffset
-        elif region == 1:
-            xp = xPos - width - xOffset
-            yp = yPos + yOffset
-        elif region == 2:
-            xp = xPos + xOffset
-            yp = yPos - height - yOffset
-        else:
-            xp = xPos - width - xOffset
-            yp = yPos - height - yOffset
-        #
-        return xp, yp, region
-
-    @staticmethod
-    def getUiRegion(xPos, yPos, maxWidth, maxHeight):
-        # 0, 1
-        # 2, 3
-        def getRegion(x, y, w, h):
-            if 0 <= x < w / 2 and 0 <= y < h / 2:
-                value = 0
-            elif w / 2 <= x < w and 0 <= y < h / 2:
-                value = 1
-            elif 0 <= x < w / 2 and h / 2 <= y < h:
-                value = 2
-            else:
-                value = 3
-            return value
-
-        #
-        region = getRegion(xPos, yPos, maxWidth, maxHeight)
-        #
-        return region
-
-    @staticmethod
     def getUiStrWidth(ui, string):
         linesep = '\n'
         if linesep in string:
@@ -139,43 +89,6 @@ class Basic(object):
         return [string, string[:splitIndex] + '...'][boolean]
 
     @classmethod
-    def setSvgColor(cls):
-        pass
-
-    @staticmethod
-    def mapStepValue(value, delta, step, maximum, minimum):
-        _max = maximum - step
-        _min = minimum + step
-        if value < _min:
-            if 0 < delta:
-                value += step
-            else:
-                value = minimum
-        elif _min <= value <= _max:
-            value += [-step, step][delta > 0]
-        elif _max < value:
-            if delta < 0:
-                value -= step
-            else:
-                value = maximum
-        return value
-
-    @staticmethod
-    def mapRangeValue(range1, range2, value1):
-        assert isinstance(range1, tuple) or isinstance(range1, list), 'Argument Error, "range1" Must "tuple" or "list".'
-        assert isinstance(range2, tuple) or isinstance(range2, list), 'Argument Error, "range1" Must "tuple" or "list".'
-        min1, max1 = range1
-        min2, max2 = range2
-        #
-        if max1 - min1 > 0:
-            percent = float(value1 - min1) / float(max1 - min1)
-            #
-            value2 = (max2 - min2) * percent + min2
-            return value2
-        else:
-            return min2
-
-    @classmethod
     def _toLxOsIconFile(cls, iconKeyword, ext='.png'):
         isMayaIcon = iconKeyword.startswith('maya')
         #
@@ -194,55 +107,12 @@ class Basic(object):
         osFile = cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, iconKeyword, ext)
         #
         if isMayaIcon:
-            if lxBasic.isOsExist(osFile):
+            if bscCommands.isOsExist(osFile):
                 return osFile
             else:
                 return cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, 'default', ext)
         else:
             return osFile
-
-    @staticmethod
-    def toShowPercent(maxValue, value, roundCount=3):
-        valueRange = 100
-        if maxValue > 0:
-            percent = round(float(value) / float(maxValue), roundCount) * valueRange
-        else:
-            if value > 0:
-                percent = float('inf')
-            elif value < 0:
-                percent = float('-inf')
-            else:
-                percent = 0
-        return percent
-
-    @staticmethod
-    def getAngle(x1, y1, x2, y2):
-        radian = 0.0
-        #
-        r0 = 0.0
-        r90 = math.pi / 2.0
-        r180 = math.pi
-        r270 = 3.0 * math.pi / 2.0
-        #
-        if x1 == x2:
-            if y1 < y2:
-                radian = r0
-            elif y1 > y2:
-                radian = r180
-        elif y1 == y2:
-            if x1 < x2:
-                radian = r90
-            elif x1 > x2:
-                radian = r270
-        elif x1 < x2 and y1 < y2:
-            radian = math.atan2((-x1 + x2), (-y1 + y2))
-        elif x1 < x2 and y1 > y2:
-            radian = r90 + math.atan2((y1 - y2), (-x1 + x2))
-        elif x1 > x2 and y1 > y2:
-            radian = r180 + math.atan2((x1 - x2), (y1 - y2))
-        elif x1 > x2 and y1 < y2:
-            radian = r270 + math.atan2((-y1 + y2), (x1 - x2))
-        return radian * 180 / math.pi
 
     @staticmethod
     def _toGeometryRemap(size0, size1):
@@ -263,34 +133,6 @@ class Basic(object):
             return x, y, w, h
         else:
             return 0, 0, w0, h0
-
-    @staticmethod
-    def hsvToRgb(h, s, v, maximum=255):
-        h = float(h % 360.0)
-        s = float(max(min(s, 1.0), 0.0))
-        v = float(max(min(v, 1.0), 0.0))
-        #
-        c = v * s
-        x = c * (1 - abs((h / 60.0) % 2 - 1))
-        m = v - c
-        if 0 <= h < 60:
-            r_, g_, b_ = c, x, 0
-        elif 60 <= h < 120:
-            r_, g_, b_ = x, c, 0
-        elif 120 <= h < 180:
-            r_, g_, b_ = 0, c, x
-        elif 180 <= h < 240:
-            r_, g_, b_ = 0, x, c
-        elif 240 <= h < 300:
-            r_, g_, b_ = x, 0, c
-        else:
-            r_, g_, b_ = c, 0, x
-        #
-        if maximum == 255:
-            r, g, b = int(round((r_ + m) * maximum)), int(round((g_ + m) * maximum)), int(round((b_ + m) * maximum))
-        else:
-            r, g, b = float((r_ + m)), float((g_ + m)), float((b_ + m))
-        return r, g, b
 
     @staticmethod
     def getRgbByString(string, maximum=255):
@@ -316,42 +158,20 @@ class Basic(object):
         return r / 255.0 * maximum, g / 255.0 * maximum, b / 255.0 * maximum
 
     @staticmethod
-    def _toShowNumber(number):
-        showNumber = number
-        #
-        dv = 1000
-        lis = [(dv ** 4, 'T'), (dv ** 3, 'B'), (dv ** 2, 'M'), (dv ** 1, 'K')]
-        #
-        if number >= dv:
-            for i in lis:
-                s = int(abs(number)) / i[0]
-                if s:
-                    showNumber = str(round(float(number) / float(i[0]), 2)) + i[1]
-                    break
-        else:
-            showNumber = number
-        #
-        return str(showNumber)
-
-    @staticmethod
-    def _toShowFileSize(number):
-        showNumber = number
-        #
-        dv = 1024
-        lis = [(dv ** 4, 'T'), (dv ** 3, 'G'), (dv ** 2, 'M'), (dv ** 1, 'K')]
-        #
-        for i in lis:
-            s = abs(number) / i[0]
-            if s:
-                showNumber = str(round(float(number) / float(i[0]), 2)) + i[1]
-                break
-        #
-        return str(showNumber)
-
-    @staticmethod
     def _lxMayaPngIconKeyword(nodeTypeString):
         return 'maya#out_{}'.format(nodeTypeString)
 
     @staticmethod
     def _lxMayaSvgIconKeyword(nodeTypeString):
         return 'maya@svg#{}'.format(nodeTypeString)
+
+
+class UiThread(threading.Thread):
+    def __init__(self, *args):
+        threading.Thread.__init__(self)
+        # noinspection PyUnresolvedReferences
+        self._fnc = args[0]
+        self._args = args[1:]
+    #
+    def run(self):
+        self._fnc(*self._args)

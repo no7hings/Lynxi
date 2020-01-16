@@ -4,8 +4,10 @@ import os
 import maya.cmds as cmds
 #
 from random import choice
+
+from LxBasic import bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.preset import appVariant
 #
@@ -86,6 +88,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
     }
     def __init__(self):
         super(IfAssemblyManagerWindow, self).__init__()
+
         self.widthSet = 800
         self.setDefaultSize(800, 800)
         self.setTitle(title)
@@ -722,8 +725,8 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         osPath = assetPr.astUnitAssemblyFolder(
             lxConfigure.LynxiRootIndex_Server, projectName, assetClass, assetName
         )
-        if lxBasic.isOsExist(osPath):
-            textLis = lxBasic.getOsFileBasenameLisByPath(osPath)
+        if bscCommands.isOsExist(osPath):
+            textLis = bscCommands.getOsFileBasenameLisByPath(osPath)
             if textLis:
                 for i in textLis:
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
@@ -732,7 +735,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         assetClass, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
                     )[1]
                     #
-                    if lxBasic.isOsExist(adFile):
+                    if bscCommands.isOsExist(adFile):
                         lis.append(i)
         return lis
     #
@@ -1590,7 +1593,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         treeBox.clearSelection()
         #
         self.setSelObjForAction()
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #

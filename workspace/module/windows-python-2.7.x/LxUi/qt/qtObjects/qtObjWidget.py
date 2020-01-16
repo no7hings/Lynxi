@@ -1,15 +1,15 @@
 # coding:utf-8
 import chardet
 
-from LxBasic import bscMethods
+from LxBasic import bscMethods, bscCommands
 #
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxScheme
 #
 from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcModel
+from LxUi.qt.qtObjects import qtObjModel
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
@@ -97,15 +97,15 @@ def actionviewEventFilterModifier(method):
 
 
 class QLineEdit_(qtCore.QLineEdit):
-    entryChanged = qtCore.uiSignal()
-    valueChanged = qtCore.uiSignal()
-    focusChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
+    valueChanged = qtCore.qtSignal()
+    focusChanged = qtCore.qtSignal()
     #
-    focusOut = qtCore.uiSignal()
-    focusIn = qtCore.uiSignal()
+    focusOut = qtCore.qtSignal()
+    focusIn = qtCore.qtSignal()
     #
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     def __init__(self, *args):
         self.clsSuper = super(QLineEdit_, self)
         self.clsSuper.__init__(*args)
@@ -299,11 +299,11 @@ class QLineEdit_(qtCore.QLineEdit):
 
 
 class QTextEdit_(qtCore.QTextEdit):
-    entryChanged = qtCore.uiSignal()
-    focusChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
+    focusChanged = qtCore.qtSignal()
     #
-    focusIn = qtCore.uiSignal()
-    focusOut = qtCore.uiSignal()
+    focusIn = qtCore.qtSignal()
+    focusOut = qtCore.qtSignal()
     #
     menuWidth = 160
     # noinspection PyArgumentList
@@ -420,17 +420,17 @@ class QTextEdit_(qtCore.QTextEdit):
 class QtAbcObj_Item(qtCore.QWidget):
     MODEL_ITEM_CLS = None
 
-    toggled = qtCore.uiSignal(bool)
-    clicked = qtCore.uiSignal()
-    doubleClicked = qtCore.uiSignal()
+    toggled = qtCore.qtSignal(bool)
+    clicked = qtCore.qtSignal()
+    doubleClicked = qtCore.qtSignal()
     #
-    expanded = qtCore.uiSignal()
-    checked = qtCore.uiSignal()
+    expanded = qtCore.qtSignal()
+    checked = qtCore.qtSignal()
     #
-    pressed = qtCore.uiSignal()
-    released = qtCore.uiSignal()
+    pressed = qtCore.qtSignal()
+    released = qtCore.qtSignal()
     #
-    visibleToggled = qtCore.uiSignal(bool)
+    visibleToggled = qtCore.qtSignal(bool)
     def _initAbcObjItemWidget(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -445,7 +445,7 @@ class QtAbcObj_Item(qtCore.QWidget):
         self.actionData = []
     #
     def _initAbcObjItemWidgetUi(self):
-        self._uiFont = qtCore.xFont()
+        self._uiFont = qtCore.qtFont()
         self.setFont(self._uiFont)
         #
         self._uiFontItalic = False
@@ -477,10 +477,10 @@ class QtAbcObj_Item(qtCore.QWidget):
         self._uiCentralBorderRgba = 95, 95, 95, 255
         #
         self._uiBorderStyle = 'outset'
-    @qtCore.uiTooltipStartMethod
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         self.itemModel()._hoverStartAction(event)
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         self.itemModel()._hoverStopAction(event)
     @qtCore.uiTooltipClearMethod
@@ -734,7 +734,7 @@ class QtAbcObj_Item(qtCore.QWidget):
 
 # Tree Item
 class QtAbcObj_Treeitem(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtTreeviewItemModel
+    MODEL_ITEM_CLS = qtObjModel._QtTreeviewItemModel
 
     def _initAbcObjTreeitem(self):
         self._initAbcObjItemWidget()
@@ -849,10 +849,10 @@ class QtAbcObj_Treeitem(QtAbcObj_Item):
 
 # Icon Button
 class QtAbcObj_QtIconbutton(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtIconbuttonModel
+    MODEL_ITEM_CLS = qtObjModel._QtIconbuttonModel
 
-    upScrolled = qtCore.uiSignal()
-    downScrolled = qtCore.uiSignal()
+    upScrolled = qtCore.qtSignal()
+    downScrolled = qtCore.qtSignal()
 
     def _initAbcObjIconbutton(self, iconKeyword=None):
         self._initAbcObjItemWidget()
@@ -960,15 +960,19 @@ class QtAbcObj_QtIconbutton(QtAbcObj_Item):
 
 class _QtIconbutton(QtAbcObj_QtIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtIconbutton, self)
+            self.clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjIconbutton(iconKeyword)
 
 
 # Action Icon Button
 class QtAbcObj_ActionIconbutton(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtIconbuttonModel
+    MODEL_ITEM_CLS = qtObjModel._QtIconbuttonModel
 
     def _initAbcObjActionIconbutton(self, iconKeyword=None):
         # self.setSizePolicy(qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Preferred)
@@ -1016,7 +1020,7 @@ class QtAbcObj_ActionIconbutton(QtAbcObj_Item):
         if self.itemModel().nameText() is not None:
             painter.setBorderRgba(self._uiNameRgba)
             # noinspection PyArgumentEqualDefault
-            painter.setFont(qtCore.xFont(size=8, weight=50, italic=self._uiFontItalic, family=_families[0]))
+            painter.setFont(qtCore.qtFont(size=8, weight=50, italic=self._uiFontItalic, family=_families[0]))
             textOption = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
             painter.drawText(
                 self.itemModel().nameTextRect(),
@@ -1070,21 +1074,25 @@ class QtAbcObj_ActionIconbutton(QtAbcObj_Item):
 
 class _QtActionIconbutton(QtAbcObj_ActionIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtActionIconbutton, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjActionIconbutton(iconKeyword)
 
 
 # Enter Label
 class QtAbcObj_Enterlabel(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtEnterlabelModel
+    MODEL_ITEM_CLS = qtObjModel._QtEnterlabelModel
 
-    entryChanged = qtCore.uiSignal()
-    chooseChanged = qtCore.uiSignal()
-    checkChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
+    chooseChanged = qtCore.qtSignal()
+    checkChanged = qtCore.qtSignal()
     #
-    datumChanged = qtCore.uiSignal()
+    datumChanged = qtCore.qtSignal()
 
     def _initAbcObjEnterlabel(self):
         self.setSizePolicy(
@@ -1353,7 +1361,7 @@ class QtAbcObj_Enterlabel(QtAbcObj_Item):
         self._clearButton.setParent(self)
         self._clearButton.clicked.connect(self.entryEvent)
         #
-        self._itemModel = qtAbcModel._QtEnterlabelModel(self)
+        self._itemModel = qtObjModel._QtEnterlabelModel(self)
         #
         self._chooseButton.upScrolled.connect(self._itemModel._chooseScrollUpAction)
         self._chooseButton.downScrolled.connect(self._itemModel._chooseScrollDownAction)
@@ -1368,11 +1376,15 @@ class QtAbcObj_Enterlabel(QtAbcObj_Item):
 
 # Choose Item
 class _QtChooseitem(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtItemModel
+    MODEL_ITEM_CLS = qtObjModel._QtItemModel
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtChooseitem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1381,11 +1393,15 @@ class _QtChooseitem(QtAbcObj_Item):
 
 # Attribute Item
 class _QtAttributeitem(QtAbcObj_Item):
-    MODEL_ITEM_CLS = qtAbcModel._QtAttributeitemModel
+    MODEL_ITEM_CLS = qtObjModel._QtAttributeitemModel
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtAttributeitem, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1425,7 +1441,7 @@ class _QtAttributeitem(QtAbcObj_Item):
         if self._itemModel._uiNameText is not None:
             painter.setBorderRgba(self._uiNameRgba)
             # noinspection PyArgumentEqualDefault
-            painter.setFont(qtCore.xFont(size=8, weight=50, italic=self._uiFontItalic, family=_families[0]))
+            painter.setFont(qtCore.qtFont(size=8, weight=50, italic=self._uiFontItalic, family=_families[0]))
             textOption = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
             painter.drawText(
                 self._itemModel._uiNameTextRect,
@@ -1438,13 +1454,13 @@ class _QtAttributeitem(QtAbcObj_Item):
 
 # View
 class QtAbcObj_ViewWidget(qtCore.QWidget):
-    clicked = qtCore.uiSignal()
-    itemClicked = qtCore.uiSignal()
-    currentChanged = qtCore.uiSignal()
-    selectedChanged = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
+    itemClicked = qtCore.qtSignal()
+    currentChanged = qtCore.qtSignal()
+    selectedChanged = qtCore.qtSignal()
     #
-    itemExpanded = qtCore.uiSignal()
-    itemChecked = qtCore.uiSignal()
+    itemExpanded = qtCore.qtSignal()
+    itemChecked = qtCore.qtSignal()
     def _initAbcViewWidget(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -1654,14 +1670,18 @@ class QtAbcObj_ViewWidget(qtCore.QWidget):
         return self._viewModel
     #
     def setupUi(self):
-        self._viewModel = qtAbcModel._QtViewModel(self)
+        self._viewModel = qtObjModel._QtViewModel(self)
 
 
 # Choose View
 class _QtChooseview(QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(_QtChooseview, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtChooseview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -1671,13 +1691,13 @@ class _QtChooseview(QtAbcObj_ViewWidget):
         self._hScrollBar = _QtScrollBar(self)
         self._vScrollBar = _QtScrollBar(self)
         #
-        self._viewModel = qtAbcModel._QtChooseviewModel(self)
+        self._viewModel = qtObjModel._QtChooseviewModel(self)
 
 
 # Window
-class QtAbcObj_Window(qtCore.QMainWindow):
-    closed = qtCore.uiSignal()
-    confirmClicked = qtCore.uiSignal()
+class QtAbcObj_Window(qtCore.QWidget):
+    closed = qtCore.qtSignal()
+    confirmClicked = qtCore.qtSignal()
 
     def _initAbcObjWindow(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -1711,19 +1731,19 @@ class QtAbcObj_Window(qtCore.QMainWindow):
         self._uiStatusBackgroundRgba = 63, 63, 63, 255
         self._uiStatusBorderRgba = 95, 95, 95, 255
         #
-        self.setFont(qtCore.xFont(
+        self.setFont(qtCore.qtFont(
             size=12, weight=75, family=_families[1])
         )
         # noinspection PyArgumentEqualDefault
-        self._uiIndexFont = qtCore.xFont(
+        self._uiIndeqtFont = qtCore.qtFont(
             size=8, weight=50, family=_families[0]
         )
         #
-        self._uiNameTextFont = qtCore.xFont(
+        self._uiNameTextFont = qtCore.qtFont(
             size=12, weight=75, family=_families[1]
         )
         # noinspection PyArgumentEqualDefault
-        self._uiHelpFont = qtCore.xFont(
+        self._uiHelpFont = qtCore.qtFont(
             size=8, weight=50, family=_families[0]
         )
     #
@@ -1779,7 +1799,7 @@ class QtAbcObj_Window(qtCore.QMainWindow):
                 event.ignore()
     #
     def nativeEvent(self, event, message):
-        return self.windowModel()._resizeAction(event, message)
+        return self.windowModel()._nativeAction(event, message)
     #
     def resizeEvent(self, event):
         if self.windowModel()._isSizeChanged():
@@ -1802,12 +1822,12 @@ class QtAbcObj_Window(qtCore.QMainWindow):
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
-        #
-        if not self.isMaximized():
-            painter.setDrawShadow(
-                self.windowModel()._uiBasicRect,
-                self.windowModel()._uiShadowRadius, self.windowModel()._uiShadowRadius
-            )
+        if self.isShadowEnable() is True:
+            if self.isMaximized() is False:
+                painter.setDrawShadow(
+                    self.windowModel()._uiBasicRect,
+                    self.windowModel()._uiShadowRadius, self.windowModel()._uiShadowRadius
+                )
         if self.windowModel().isWindowActive() is True:
             frameBorderRgba = 63, 127, 255, 255
         elif self.windowModel().isExpanded() is False:
@@ -1819,7 +1839,7 @@ class QtAbcObj_Window(qtCore.QMainWindow):
         painter.setBorderRgba(frameBorderRgba)
         painter.drawRect(self.windowModel()._uiBasicRect)
         #
-        if self.windowModel().isExpanded():
+        if self.windowModel().isExpanded() and self.isMenuEnable():
             painter.setBackgroundRgba(frameBorderRgba)
             #
             painter.setBorderRgba(frameBorderRgba)
@@ -1854,10 +1874,16 @@ class QtAbcObj_Window(qtCore.QMainWindow):
             #
             rect = self.windowModel()._uiPercentValueRect
             w = rect.width()
-            gradient.setColorAt(0, QtGui.QColor(*self._uiProgressStartBackgroundRgba))
-            gradient.setColorAt(lxBasic.mapRangeValue((0, w), (0, 1.0), max(16, w - 16)), QtGui.QColor(*self._uiProgressStartBackgroundRgba))
-            gradient.setColorAt(1, QtGui.QColor(*self._uiProgressEndBackgroundRgba))
-            brush = QtGui.QBrush(gradient)
+            gradient.setColorAt(0, qtCore.CLS_color(*self._uiProgressStartBackgroundRgba))
+            gradient.setColorAt(
+                bscMethods.Value.mapTo(
+                    value=max(16, w - 16),
+                    sourceValueRange=(0, w), targetValueRange=(0, 1.0)
+                ),
+                qtCore.CLS_color(*self._uiProgressStartBackgroundRgba)
+            )
+            gradient.setColorAt(1, qtCore.CLS_color(*self._uiProgressEndBackgroundRgba))
+            brush = qtCore.CLS_brush(gradient)
             painter.setBrush(brush)
             painter.setBorderRgba(self._uiProgressBorderRgba)
             painter.drawRect(rect)
@@ -1908,7 +1934,7 @@ class QtAbcObj_Window(qtCore.QMainWindow):
             if self.windowModel().indexText() is not None:
                 rect = self.windowModel().indexTextRect()
                 painter.setBorderRgba(self._uiIndexRgba)
-                painter.setFont(self._uiIndexFont)
+                painter.setFont(self._uiIndeqtFont)
                 textOption = QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter
                 string = self.windowModel().indexText()
                 painter.drawText(
@@ -1931,6 +1957,38 @@ class QtAbcObj_Window(qtCore.QMainWindow):
     #
     def closeEvent(self, event):
         pass
+
+    def winEvent(self, message):
+        def getParamX(param):
+            return param & 0xffff
+
+        def getParamY(param):
+            return param >> 16
+
+        ui = self
+        pixel = 8
+        width = ui.width()
+        height = ui.height()
+        if message.message == 0x84:
+            xPos = getParamX(message.lParam) - ui.frameGeometry().x()
+            yPos = getParamY(message.lParam) - ui.frameGeometry().y()
+            if xPos < pixel and pixel < yPos < (height - pixel):
+                return True, 10
+            if (width - pixel) < xPos < (width + pixel) and pixel < yPos < (height - pixel):
+                return True, 11
+            if pixel < xPos < (width - pixel) and yPos < pixel:
+                return True, 12
+            if xPos < pixel and yPos < pixel:
+                return True, 13
+            if (width - pixel) < xPos < (width + pixel) and yPos < pixel:
+                return True, 14
+            if pixel < xPos < (width - pixel) and (height - pixel) < yPos < (height + pixel):
+                return True, 15
+            if xPos < pixel and (height - pixel) < yPos:
+                return True, 0x10
+            if (width - pixel) < xPos and (height - pixel) < yPos:
+                return True, 17
+        return False, 0
     #
     def confirmAction(self):
         self.confirmClicked.emit()
@@ -1967,9 +2025,7 @@ class QtAbcObj_Window(qtCore.QMainWindow):
         return self.windowModel().nameText()
 
     def setTitle(self, string):
-        self.windowModel().setNameText(string)
-
-        self.setWindowTitle(string)
+        self.setNameText(string)
 
     def setMargins(self, *args):
         self.windowModel().setViewportLayoutMargins(*args)
@@ -1977,11 +2033,23 @@ class QtAbcObj_Window(qtCore.QMainWindow):
     def setSpacing(self, value):
         self.windowModel().setSpacing(value)
 
+    def setMenuEnable(self, boolean):
+        self.windowModel().setMenuEnable(boolean)
+
+    def isMenuEnable(self):
+        return self.windowModel().isMenuEnable()
+
     def setStatusEnable(self, boolean):
         self.windowModel().setStatusEnable(boolean)
 
     def setDialogEnable(self, boolean):
         self.windowModel().setDialogEnable(boolean)
+
+    def setShadowEnable(self, boolean):
+        self.windowModel().setShadowEnable(boolean)
+
+    def isShadowEnable(self):
+        return self.windowModel().isShadowEnable()
 
     def setMaximizeEnable(self, boolean):
         self.windowModel().setMaximizeEnable(boolean)
@@ -2089,7 +2157,7 @@ class QtAbcObj_Window(qtCore.QMainWindow):
         self._progressBar = qtCore.QProgressBar()
         self._progressBar.setParent(self)
         #
-        self._viewModel = qtAbcModel._QtWindowModel(self)
+        self._viewModel = qtObjModel._QtWindowModel(self)
         #
         self._closeButton.clicked.connect(self.uiQuit)
         #
@@ -2099,13 +2167,18 @@ class QtAbcObj_Window(qtCore.QMainWindow):
 
 
 class _QtSeparateWindow(QtAbcObj_Window):
-    def __init__(self, parent=qtCore.getAppWindow(), *args, **kwargs):
-        self.clsSuper = super(qtCore.QMainWindow, self)
-        self.clsSuper.__init__(parent, *args, **kwargs)
+    def __init__(self, parent=qtCore.getAppWindow()):
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(parent)
+        else:
+            self.clsSuper = super(_QtSeparateWindow, self)
+            self.clsSuper.__init__(parent)
         #
         self._initAbcObjWindow()
         #
-        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint), self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
         self.setupUi()
         #
@@ -2115,7 +2188,7 @@ class _QtSeparateWindow(QtAbcObj_Window):
         #
         self.setIcon('svg_basic@svg#subWindow', 16, 16)
         #
-        self._uiNameTextFont = qtCore.xFont(size=10, weight=75, family=_families[1])
+        self._uiNameTextFont = qtCore.qtFont(size=10, weight=75, family=_families[1])
         #
         self.setDialogEnable(False)
         self.setStatusEnable(False)
@@ -2140,7 +2213,7 @@ class QtAbcObj_Chart(qtCore.QWidget):
         )
         # noinspection PyArgumentEqualDefault
         self.setFont(
-            qtCore.xFont(size=8, weight=50, family=qtCore._families[1])
+            qtCore.qtFont(size=8, weight=50, family=qtCore._families[1])
         )
         #
         self._initAbcObjChartUi()
@@ -2214,8 +2287,8 @@ class QtAbcObj_Chart(qtCore.QWidget):
 
 
 class QtAbcObj_Scrollbar(qtCore.QWidget):
-    valueChanged = qtCore.uiSignal()
-    stop = qtCore.uiSignal()
+    valueChanged = qtCore.qtSignal()
+    stop = qtCore.qtSignal()
 
     def _initAbcScrollbarWidget(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
@@ -2420,14 +2493,18 @@ class QtAbcObj_Scrollbar(qtCore.QWidget):
         self._addScrollButton.setTooltip(u'''单击：向下翻页\n按住：向下滚动''')
         self._tooltipWidget = qtCore.QtTooltipWidget_(self)
         #
-        self._viewModel = qtAbcModel._QtScrollbarModel(self)
+        self._viewModel = qtObjModel._QtScrollbarModel(self)
 
 
 # Scroll Bar
 class _QtScrollBar(QtAbcObj_Scrollbar):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtScrollBar, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcScrollbarWidget()
 
@@ -2461,7 +2538,7 @@ class QtAbcObj_ValueEnterlabel(qtCore.QWidget):
         self._uiBorderStyle = 'solid'
         #
         self.setFont(
-            qtCore.xFont()
+            qtCore.qtFont()
         )
     #
     def resizeEvent(self, event):
@@ -2539,13 +2616,13 @@ class QtAbcObj_ValueEnterlabel(qtCore.QWidget):
         return self._itemModel
     #
     def setupUi(self):
-        self._itemModel = qtAbcModel._QtValueEnterlabelModel(self)
+        self._itemModel = qtObjModel._QtValueEnterlabelModel(self)
         self._itemModel.setEnterWidgetClass(QLineEdit_)
 
 
 # Filter Enter Label
 class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
-    entryChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
     def _initAbcObjFilterEnterlabel(self):
         self.setSizePolicy(
             qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Preferred
@@ -2652,7 +2729,7 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
     def writeHistory(self):
         filterHistoryFile = lxScheme.UserPreset().uiFilterConfigFile
         data = self._historyLis[-10:]
-        lxBasic.writeOsJson(data, filterHistoryFile)
+        bscMethods.OsJson.write(filterHistoryFile, data)
     #
     def removeHistory(self):
         string = self._enterWidget.text()
@@ -2697,7 +2774,7 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
         self._enterWidget = QLineEdit_()
         self._enterWidget.setParent(self)
         # noinspection PyArgumentEqualDefault
-        self._enterWidget.setFont(qtCore.xFont(size=8, weight=50))
+        self._enterWidget.setFont(qtCore.qtFont(size=8, weight=50))
         self._enterWidget.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self._enterWidget.entryChanged.connect(self.enterChangedEmit)
         # Copy
@@ -2712,7 +2789,7 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
         self._clearButton.setParent(self)
         self._clearButton.hide()
         #
-        self._itemModel = qtAbcModel._QtFilterEnterlabelModel(self)
+        self._itemModel = qtObjModel._QtFilterEnterlabelModel(self)
         #
         self._historyButton.clicked.connect(self._loadHistoryAction)
         #
@@ -2723,17 +2800,25 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
 
 class _QtFilterEnterlabel(QtAbcObj_FilterEnterlabel):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtFilterEnterlabel, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjFilterEnterlabel()
 
 
 class _QtChooseDropView(qtCore.QWidget):
-    currentChanged = qtCore.uiSignal()
+    currentChanged = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtChooseDropView, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setWindowFlags(QtCore.Qt.Drawer | QtCore.Qt.FramelessWindowHint)
         #
@@ -2747,7 +2832,7 @@ class _QtChooseDropView(qtCore.QWidget):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
         # noinspection PyArgumentEqualDefault
-        painter.setFont(qtCore.xFont(size=8, weight=50, family=_families[1]))
+        painter.setFont(qtCore.qtFont(size=8, weight=50, family=_families[1]))
         #
         side = self.viewModel()._uiSide
         margin = self.viewModel()._uiMargin
@@ -2805,16 +2890,20 @@ class _QtChooseDropView(qtCore.QWidget):
         self._filterViewWidget = _QtFilterEnterlabel(self)
         self._filterViewWidget.hide()
         #
-        self._viewModel = qtAbcModel._QtChooseDropviewModel(self, _QtChooseitem)
+        self._viewModel = qtObjModel._QtChooseDropviewModel(self, _QtChooseitem)
 
 
 class _QtActionitem(qtCore.QWidget):
-    clicked = qtCore.uiSignal()
+    clicked = qtCore.qtSignal()
     itemHeight = 20
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtActionitem, self)
+            self.clsSuper.__init__(*args, **kwargs)
 
         self._initActionitem()
 
@@ -2899,7 +2988,7 @@ class _QtActionitem(qtCore.QWidget):
         self._uiNameRgba = 191, 191, 191, 255
         self._uiIndexRgba = 191, 191, 191, 255
         # noinspection PyArgumentEqualDefault
-        self.setFont(qtCore.xFont(size=8, weight=50))
+        self.setFont(qtCore.qtFont(size=8, weight=50))
         #
         self._uiFontItalic = False
     #
@@ -2910,15 +2999,19 @@ class _QtActionitem(qtCore.QWidget):
         self._extendButton = _QtIconbutton('svg_basic@svg#subWindow', self)
         self._extendButton.hide()
         #
-        self._itemModel = qtAbcModel._QtActionitemModel(self)
+        self._itemModel = qtObjModel._QtActionitemModel(self)
 
 
 class _QtActionDropview(qtCore.QWidget):
-    actionAccepted = qtCore.uiSignal()
+    actionAccepted = qtCore.qtSignal()
 
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtActionDropview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initActionDropview()
     #
@@ -2996,7 +3089,7 @@ class _QtActionDropview(qtCore.QWidget):
         painter = qtCore.QPainter_(self)
         # painter.begin(self)  # fix
         # noinspection PyArgumentEqualDefault
-        painter.setFont(qtCore.xFont(size=8, weight=50, family=_families[1]))
+        painter.setFont(qtCore.qtFont(size=8, weight=50, family=_families[1]))
         #
         side = self.viewModel()._uiSide
         margin = self.viewModel()._uiMargin
@@ -3055,12 +3148,12 @@ class _QtActionDropview(qtCore.QWidget):
         #
         self._vScrollBar = None
         #
-        self._viewModel = qtAbcModel._QtActionDropviewModel(self, _QtActionitem)
+        self._viewModel = qtObjModel._QtActionDropviewModel(self, _QtActionitem)
 
 
 class QtAbcObj_Tab(qtCore.QWidget):
-    clicked = qtCore.uiSignal()
-    currentToggled = qtCore.uiSignal(bool)
+    clicked = qtCore.qtSignal()
+    currentToggled = qtCore.qtSignal(bool)
     def _initAbcObjTab(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
@@ -3074,11 +3167,11 @@ class QtAbcObj_Tab(qtCore.QWidget):
         #
         self._uiNameRgba = 191, 191, 191, 255
         # noinspection PyArgumentEqualDefault
-        self._uiNameTextFont = qtCore.xFont(size=8, weight=75, family=_families[1])
-    @qtCore.uiTooltipStartMethod
+        self._uiNameTextFont = qtCore.qtFont(size=8, weight=75, family=_families[1])
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         self.itemModel()._hoverStartAction(event)
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         self.itemModel()._hoverStopAction(event)
     @qtCore.uiTooltipClearMethod
@@ -3184,13 +3277,17 @@ class QtAbcObj_Tab(qtCore.QWidget):
         self._closeButton.hide()
         self._closeButton.setIcon('svg_basic@svg#closeTab', 8, 8, 10, 10)
         #
-        self._itemModel = qtAbcModel._QtTabModel(self)
+        self._itemModel = qtObjModel._QtTabModel(self)
 
 
 class _QtButtontab(QtAbcObj_Tab):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtButtontab, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTab()
         #
@@ -3207,13 +3304,17 @@ class _QtButtontab(QtAbcObj_Tab):
         self._closeButton.hide()
         self._closeButton.setIcon('svg_basic@svg#closeTab', 8, 8, 10, 10)
         #
-        self._itemModel = qtAbcModel._QtButtontabModel(self)
+        self._itemModel = qtObjModel._QtButtontabModel(self)
 
 
 class _QtShelftab(QtAbcObj_Tab):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtShelftab, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTab()
         self._overrideUi()
@@ -3255,15 +3356,19 @@ class _QtShelftab(QtAbcObj_Tab):
         self._closeButton.hide()
         self._closeButton.setIcon('svg_basic@svg#closeTab', 8, 8, 10, 10)
         #
-        self._itemModel = qtAbcModel._QtShelftabModel(self)
+        self._itemModel = qtObjModel._QtShelftabModel(self)
 
 
 # Choose Tab
 class _QtChoosetab(qtCore.QWidget):
-    chooseChanged = qtCore.uiSignal()
+    chooseChanged = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(_QtChoosetab, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtChoosetab, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjChoosetab()
     #
@@ -3271,7 +3376,7 @@ class _QtChoosetab(qtCore.QWidget):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
         # noinspection PyArgumentEqualDefault
-        self.setFont(qtCore.xFont(size=10, weight=50, family=_families[2]))
+        self.setFont(qtCore.qtFont(size=10, weight=50, family=_families[2]))
         #
         self._initUiVar()
         #
@@ -3345,7 +3450,7 @@ class _QtChoosetab(qtCore.QWidget):
         )
         self._chooseButton.clicked.connect(self._chooseDropAction)
         #
-        self._itemModel = qtAbcModel._QtChoosetabModel(self)
+        self._itemModel = qtObjModel._QtChoosetabModel(self)
         #
         self._chooseButton.upScrolled.connect(self._itemModel._chooseScrollUpAction)
         self._chooseButton.downScrolled.connect(self._itemModel._chooseScrollDownAction)
@@ -3354,10 +3459,10 @@ class _QtChoosetab(qtCore.QWidget):
 # Tab Bar
 class QtAbcObj_Tabbar(qtCore.QWidget):
     # Scroll
-    valueChanged = qtCore.uiSignal()
-    stop = qtCore.uiSignal()
+    valueChanged = qtCore.qtSignal()
+    stop = qtCore.qtSignal()
     # Click
-    currentChanged = qtCore.uiSignal()
+    currentChanged = qtCore.qtSignal()
     def _initAbcObjTabbar(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setSizePolicy(
@@ -3433,25 +3538,29 @@ class QtAbcObj_Tabbar(qtCore.QWidget):
         return self._viewModel
     #
     def setupUi(self):
-        self._viewModel = qtAbcModel.QtTabBarModel(self)
+        self._viewModel = qtObjModel.QtTabBarModel(self)
 
 
 class _QtTabBar(QtAbcObj_Tabbar):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtTabBar, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabbar()
         #
         self.setupUi()
     #
     def setupUi(self):
-        self._viewModel = qtAbcModel.QtTabBarModel(self)
+        self._viewModel = qtObjModel.QtTabBarModel(self)
 
 
 # Tab View
 class QtAbcObj_Tabgroup(qtCore.QWidget):
-    currentChanged = qtCore.uiSignal()
+    currentChanged = qtCore.qtSignal()
     def _initAbcObjTabgroup(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setSizePolicy(
@@ -3519,13 +3628,13 @@ class QtAbcObj_Tabgroup(qtCore.QWidget):
         self._tabBar = _QtTabBar(self)
         self._tabBar.currentChanged.connect(self._currentChangedEmit)
         #
-        self._viewModel = qtAbcModel._TabgroupModel(self)
+        self._viewModel = qtObjModel._TabgroupModel(self)
 
 
 # Group
 class QtAbcObj_Group(qtCore.QWidget):
-    expanded = qtCore.uiSignal()
-    separated = qtCore.uiSignal()
+    expanded = qtCore.qtSignal()
+    separated = qtCore.qtSignal()
     def _initGroupBasic(self):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -3554,14 +3663,14 @@ class QtAbcObj_Group(qtCore.QWidget):
         self._uiColorBorderRgba = 127, 127, 127, 255
         # noinspection PyArgumentEqualDefault
         self.setFont(
-            qtCore.xFont(size=8, weight=75, family=_families[1])
+            qtCore.qtFont(size=8, weight=75, family=_families[1])
         )
         #
         self._separatorLis = []
-    @qtCore.uiTooltipStartMethod
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         self.groupModel()._hoverStartAction(event)
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         self.groupModel()._hoverStopAction(event)
     @qtCore.uiTooltipClearMethod
@@ -3648,12 +3757,12 @@ class QtAbcObj_Group(qtCore.QWidget):
         self._menuButton.setTooltip(
             u'''点击显示更多操作'''
         )
-        self._groupModel = qtAbcModel._QtGroupModel(self)
+        self._groupModel = qtObjModel._QtGroupModel(self)
 
 
 # Text Brower
 class QtAbcObj_Textbrower(qtCore.QWidget):
-    entryChanged = qtCore.uiSignal()
+    entryChanged = qtCore.qtSignal()
 
     counterWidth = 32
     menuHeight = 24
@@ -3683,10 +3792,10 @@ class QtAbcObj_Textbrower(qtCore.QWidget):
         self._coding = None
         #
         self._index = None
-    @qtCore.uiTooltipStartMethod
+    @qtCore.mtdTooltipStartModifier
     def enterEvent(self, event):
         pass
-    @qtCore.uiTooltipStopMethod
+    @qtCore.mtdTooltipStopModifier
     def leaveEvent(self, event):
         pass
     #
@@ -3879,7 +3988,7 @@ class QtAbcObj_Textbrower(qtCore.QWidget):
     #
     def setFontSize(self, value):
         self.textEdit().setFont(
-            qtCore.xFont(size=value, family=_families[1])
+            qtCore.qtFont(size=value, family=_families[1])
         )
     #
     def setupUi(self):
@@ -3890,10 +3999,10 @@ class QtAbcObj_Textbrower(qtCore.QWidget):
         self._textEdit.setLineWrapColumnOrWidth(0)
         # noinspection PyArgumentEqualDefault
         self._textEdit.setFont(
-            qtCore.xFont(size=8, family=_families[1])
+            qtCore.qtFont(size=8, family=_families[1])
         )
         #
-        self._itemModel = qtAbcModel._QtTextbrowerModel(self)
+        self._itemModel = qtObjModel._QtTextbrowerModel(self)
         #
         self._textEdit.focusChanged.connect(self.itemModel()._updateUiEnterState)
         self._textEdit.entryChanged.connect(self._entryChangedEmit)
@@ -3903,7 +4012,11 @@ class QtAbcObj_Textbrower(qtCore.QWidget):
 
 class _QtTextbrower(QtAbcObj_Textbrower):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(_QtTextbrower, self)
+            self.clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjTextbrower()

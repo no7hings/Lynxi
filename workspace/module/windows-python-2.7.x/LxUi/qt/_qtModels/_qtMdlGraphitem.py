@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxUi.qt import qtDefinition, qtCore
 #
-from LxUi.qt.qtObjects import qtAbcModel, qtAbcWidget
+from LxUi.qt.qtObjects import qtObjModel, qtObjWidget
 
 #
 
@@ -9,18 +9,18 @@ from LxUi.qt.qtObjects import qtAbcModel, qtAbcWidget
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-cls_point = QtCore.QPoint
-cls_pointF = QtCore.QPointF
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
-cls_rectF = QtCore.QRectF
-cls_polygon = QtGui.QPolygon
-cls_polygonF = QtGui.QPolygonF
-cls_painter_path = QtGui.QPainterPath
+CLS_point = QtCore.QPoint
+CLS_pointF = QtCore.QPointF
+CLS_line = QtCore.QLine
+CLS_rect = QtCore.QRect
+CLS_rectF = QtCore.QRectF
+CLS_polygon = QtGui.QPolygon
+CLS_polygonF = QtGui.QPolygonF
+CLS_painterPath = QtGui.QPainterPath
 
 
 #
-class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class xGraphNodeItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -41,12 +41,12 @@ class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._explainLabel = self._explainClass()
         self._attributePort = self._attributeClass()
         #
-        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
-        self._uiIconRect, self._uiTypeTextRect = cls_rect(), cls_rect()
-        self._inputConnectionRect, self._outputConnectionRect = cls_rect(), cls_rect()
-        self._inputConnectionShadowRect, self._outputConnectionShadowRect = cls_rect(), cls_rect()
+        self._uiBasicRect, self._shadowRect = CLS_rect(), CLS_rect()
+        self._uiIconRect, self._uiTypeTextRect = CLS_rect(), CLS_rect()
+        self._inputConnectionRect, self._outputConnectionRect = CLS_rect(), CLS_rect()
+        self._inputConnectionShadowRect, self._outputConnectionShadowRect = CLS_rect(), CLS_rect()
         #
-        self._outputPoint, self._inputPoint = cls_point(), cls_point()
+        self._outputPoint, self._inputPoint = CLS_point(), CLS_point()
         #
         self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0.0, 2.0, 2.0, 4.0
         #
@@ -72,9 +72,9 @@ class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
         #
         self._inputConnectionDropFlag, self._outputConnectionDropFlag = False, False
         #
-        self._dragStartPoint = cls_point()
+        self._dragStartPoint = CLS_point()
         #
-        self._globalPoint = cls_point()
+        self._globalPoint = CLS_point()
         #
         self._uiIconKeyword = None
         self._uiIcon = None
@@ -88,7 +88,7 @@ class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._inputAttributeLis, self._outputAttributeLis = [], []
         self._isInputEnable, self._isOutputEnable = False, False
         #
-        self._selectRect = cls_rectF()
+        self._selectRect = CLS_rectF()
     #
     def __connectUi(self, widget):
         self.setWidget(widget)
@@ -212,7 +212,7 @@ class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
     #
     def _dragMoveBy(self, point, offsetPoint=None):
         if not offsetPoint:
-            offsetPoint = cls_point()
+            offsetPoint = CLS_point()
         #
         point = point - offsetPoint
         x, y = point.x(), point.y()
@@ -492,7 +492,7 @@ class xGraphNodeItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class xGraphGroupItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class xGraphGroupItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -505,12 +505,12 @@ class xGraphGroupItemModel(qtAbcModel.QtAbcObj_ItemModel):
     def __initUi(self):
         self._explainLabel = self._explainClass()
         #
-        self._uiBasicRect, self._rimRect = cls_rect(), cls_rect()
-        self._uiIconRect, self._uiTypeTextRect = cls_rect(), cls_rect()
+        self._uiBasicRect, self._rimRect = CLS_rect(), CLS_rect()
+        self._uiIconRect, self._uiTypeTextRect = CLS_rect(), CLS_rect()
         #
-        self._inputConnectionRect, self._outputConnectionRect = cls_rect(), cls_rect()
+        self._inputConnectionRect, self._outputConnectionRect = CLS_rect(), CLS_rect()
         #
-        self._inputPoint, self._outputPoint = cls_point(), cls_point()
+        self._inputPoint, self._outputPoint = CLS_point(), CLS_point()
         #
         self._uiOffset, self._uiSide, self._uiSpacing, self._uiShadowRadius = 0.0, 8.0, 2.0, 4.0
         #
@@ -545,7 +545,7 @@ class xGraphGroupItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._nodeIndexLis = []
         self._nodeModelItemLis = []
         #
-        self._dragStartPoint = cls_point()
+        self._dragStartPoint = CLS_point()
         #
         self._pos = 0, 0
         self._size = 0, 0
@@ -827,7 +827,7 @@ class xGraphGroupItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class xGraphConnectionItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget):
         self._initAbcObjItemModel(widget)
         #
@@ -846,11 +846,11 @@ class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._isPressHovered = False
     #
     def __initUi(self):
-        self._inputPoint, self._outputPoint = cls_pointF(), cls_pointF()
+        self._inputPoint, self._outputPoint = CLS_pointF(), CLS_pointF()
         #
-        self._startPoint, self._endPoint = cls_pointF(), cls_pointF()
+        self._startPoint, self._endPoint = CLS_pointF(), CLS_pointF()
         #
-        self._curvePath = cls_painter_path()
+        self._curvePath = CLS_painterPath()
         #
         self._pressFlag = False
         self._dragFlag = False
@@ -922,7 +922,7 @@ class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
             self._startPoint.setX(xPos + 1), self._startPoint.setY(yPos + height - 2)
             self._endPoint.setX(xPos + width - 2), self._endPoint.setY(yPos + 1)
         #
-        path = cls_painter_path(self._startPoint)
+        path = CLS_painterPath(self._startPoint)
         #
         self._curvePath = path
         #
@@ -1011,7 +1011,7 @@ class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
         x, y = self.x(), self.y()
         w, h = self.width(), self.height()
         #
-        rectF = cls_rectF()
+        rectF = CLS_rectF()
         rectF.setRect(
             x, y,
             w, h
@@ -1044,7 +1044,7 @@ class xGraphConnectionItemModel(qtAbcModel.QtAbcObj_ItemModel):
 
 
 #
-class xGraphExplainItemModel(qtAbcModel.QtAbcObj_ItemModel):
+class xGraphExplainItemModel(qtObjModel.QtAbcObj_ItemModel):
     def __init__(self, widget, (pointClass, rectClass)):
         self._initAbcObjItemModel(widget)
         #
@@ -1061,9 +1061,9 @@ class xGraphExplainItemModel(qtAbcModel.QtAbcObj_ItemModel):
         self._isExpanded = False
     #
     def __initUi(self):
-        self._uiExpandRect = cls_rect()
-        self._uiIndexTextRect = cls_rect()
-        self._uiNameTextRect = cls_rect()
+        self._uiExpandRect = CLS_rect()
+        self._uiIndexTextRect = CLS_rect()
+        self._uiNameTextRect = CLS_rect()
         #
         self._uiSpacing = 4
         #
@@ -1196,7 +1196,7 @@ class xGraphAttributePortItemModel(
         self._isColorEnable = True
     #
     def __initUi(self):
-        self._uiBasicRect, self._shadowRect = cls_rect(), cls_rect()
+        self._uiBasicRect, self._shadowRect = CLS_rect(), CLS_rect()
         #
         self._uiBasicWidthRound, self._uiBasicHeightRound = 10.0, 10.0
         #
@@ -1308,13 +1308,13 @@ class xGraphAttributePortItemModel(
         self._updateQtPressStyle()
     #
     def setInputAttributes(self, attributes):
-        inputItem = qtAbcWidget._QtAttributeitem()
+        inputItem = qtObjWidget._QtAttributeitem()
         inputItemModel = inputItem.itemModel()
         inputItemModel.setName('input')
         self.addItem(inputItem)
         if attributes:
             for i in attributes:
-                attributeItem = qtAbcWidget._QtAttributeitem()
+                attributeItem = qtObjWidget._QtAttributeitem()
                 attributeItem.setName(i)
                 inputItem.addChild(attributeItem)
         #

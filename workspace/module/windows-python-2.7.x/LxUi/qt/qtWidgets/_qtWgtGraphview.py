@@ -1,33 +1,15 @@
 # coding=utf-8
 import sys
 #
-import math
-#
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
-from LxUi.qt._qtModels import _qtGraphViewModel
+from LxUi.qt._qtModels import _qtMdlGraphview
 #
-from LxUi.qt.qtWidgets import qtGraphItem
+from LxUi.qt.qtWidgets import _qtWgtGraphitem
 #
-QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
-#
-cls_point = QtCore.QPoint
-cls_pointF = QtCore.QPointF
-cls_line = QtCore.QLine
-cls_rect = QtCore.QRect
-cls_rectF = QtCore.QRectF
-#
-cls_color = QtGui.QColor
-cls_painter_path = QtGui.QPainterPath
-#
-fnc_angle = math.radians
-fnc_sin = math.sin
-fnc_cos = math.cos
-_sqrt = math.sqrt
-_pow = math.pow
 #
 ExtendSelectMode = 0
 AddSelectMode = 1
@@ -37,8 +19,8 @@ SubSelectMode = 2
 #
 def setDrawConnectionFrame(painter, xPos, yPos, width, height, backgroundRgba, borderRgba):
     painter.setBackgroundRgba(backgroundRgba)
-    color = cls_color(borderRgba[0], borderRgba[1], borderRgba[2], borderRgba[3])
-    pen = QtGui.QPen(color)
+    color = qtCore.CLS_color(borderRgba[0], borderRgba[1], borderRgba[2], borderRgba[3])
+    pen = qtCore.CLS_pen(color)
     painter.setPen(pen)
     uiShadowRadius = 0
     points = [
@@ -61,27 +43,31 @@ def setDrawConnectionFrame(painter, xPos, yPos, width, height, backgroundRgba, b
 
 #
 def setDrawPositionMark(painter, width, height, string, borderRgba):
-    rect = cls_rect(4, 0, width, height - 4)
+    rect = qtCore.CLS_rect(4, 0, width, height - 4)
     #
     painter.setBorderRgba(borderRgba)
-    painter.setFont(qtCore.xFont(size=10, weight=75, family=qtCore._families[1]))
+    painter.setFont(qtCore.qtFont(size=10, weight=75, family=qtCore._families[1]))
     painter.drawText(rect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom, string)
 
 
 #
 def setDrawKeyPressMark(painter, width, height, key, borderRgba):
-    rect = cls_rect(width - 120 - 4, 0, 120, height - 4)
+    rect = qtCore.CLS_rect(width - 120 - 4, 0, 120, height - 4)
     #
     painter.setBorderRgba(borderRgba)
-    painter.setFont(qtCore.xFont(size=10, weight=75, family=qtCore._families[1]))
+    painter.setFont(qtCore.qtFont(size=10, weight=75, family=qtCore._families[1]))
     painter.drawText(rect, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom, key)
 
 
 # Main
 class xNodeViewport(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(xNodeViewport, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(xNodeViewport, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -103,7 +89,7 @@ class xNodeViewport(qtCore.QWidget):
             #
             painter.setBackgroundRgba(self._uiBackgroundRgba)
             painter.setBorderRgba(self._uiBorderRgba)
-            rect = cls_rect(xPos, yPos, width, height)
+            rect = qtCore.CLS_rect(xPos, yPos, width, height)
             painter.drawRect(rect)
 
         # painter.end()
@@ -114,14 +100,18 @@ class xNodeViewport(qtCore.QWidget):
         #
         self._drawBackgroundEnable = False
         #
-        self._selectRect = cls_rectF()
+        self._selectRect = qtCore.CLS_rectF()
 
 
 #
 class QtGraphview(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtGraphview, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtGraphview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -219,7 +209,7 @@ class QtGraphview(qtCore.QWidget):
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         if self._drawBackgroundEnable is True:
-            rect = cls_rect(xPos, yPos, width, height)
+            rect = qtCore.CLS_rect(xPos, yPos, width, height)
             painter.drawRect(rect)
         if self._drawGridEnable is True:
             painter.setDrawGrid(
@@ -350,19 +340,19 @@ class QtGraphview(qtCore.QWidget):
         self._drawPositionEnable = False
     #
     def setupUi(self):
-        self._timer = QtCore.QTimer(self)
+        self._timer = qtCore.CLS_timer(self)
         #
         self._viewport = xNodeViewport(self)
         #
-        self._viewModel = _qtGraphViewModel.QtGraphviewModel(
+        self._viewModel = _qtMdlGraphview.QtGraphviewModel(
             self,
             (
-                qtGraphItem.xGraphNodeItem, qtGraphItem.xGraphConnectionItem, qtGraphItem.xGraphGroupItem,
-                qtGraphItem.xGraphExplainItem, qtGraphItem.xGraphAttributePortItem,
-                qtAbcWidget._QtActionDropview,
-                cls_point, cls_pointF,
-                cls_rect, cls_rectF,
-                cls_painter_path
+                _qtWgtGraphitem.xGraphNodeItem, _qtWgtGraphitem.xGraphConnectionItem, _qtWgtGraphitem.xGraphGroupItem,
+                _qtWgtGraphitem.xGraphExplainItem, _qtWgtGraphitem.xGraphAttributePortItem,
+                qtObjWidget._QtActionDropview,
+                qtCore.CLS_point, qtCore.CLS_pointF,
+                qtCore.CLS_rect, qtCore.CLS_rectF,
+                qtCore.CLS_painterPath
             )
         )
 

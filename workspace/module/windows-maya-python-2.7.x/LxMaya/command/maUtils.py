@@ -6,9 +6,6 @@ import sys
 import collections
 #
 import glob
-#
-# noinspection PyUnresolvedReferences
-import pymel.core as core
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
@@ -20,7 +17,7 @@ from random import choice
 #
 from itertools import product
 #
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscCommands
 #
 from LxCore.config import appCfg
 #
@@ -30,7 +27,7 @@ none = ''
 
 
 #
-def _toStringList(string, stringLimits=None):
+def toStringList(string, stringLimits=None):
     lis = []
     if isinstance(string, str) or isinstance(string, unicode):
         if stringLimits:
@@ -106,7 +103,7 @@ def getOsTextureSequenceLis(textureFile):
 #
 def isOsTextureExists(textureFile):
     boolean = False
-    textureBasename = lxBasic.getOsFileBasename(textureFile)
+    textureBasename = bscCommands.getOsFileBasename(textureFile)
     if '<udim>' in textureBasename.lower():
         subTextureFileLis = getOsTextureUdimLis(textureFile)
         if subTextureFileLis:
@@ -116,7 +113,7 @@ def isOsTextureExists(textureFile):
         if subTextureFileLis:
             boolean = True
     else:
-        if lxBasic.isOsExistsFile(textureFile):
+        if bscCommands.isOsExistsFile(textureFile):
             boolean = True
     return boolean
 
@@ -263,7 +260,7 @@ def setObjectsZeroTransform(objectLis, visible=1):
 
 # Bake Object Transform Channel's Keyframe
 def setObjectBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
-    maObjs = _toStringList(maObjs)
+    maObjs = toStringList(maObjs)
     if maObjs:
         cmds.bakeResults(
             *maObjs,
@@ -274,7 +271,7 @@ def setObjectBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
 
 # Bake Object Shape Channel's Keyframe
 def setObjectShapeBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
-    maObjs = _toStringList(maObjs)
+    maObjs = toStringList(maObjs)
     if maObjs:
         objectShapes = [getNodeShape(i) for i in maObjs]
         cmds.bakeResults(
@@ -341,7 +338,7 @@ def setAttrBooleanDatum(objectString, attrName, boolean):
 def setAttrBooleanDatumForce(objectString, attrName, boolean):
     attr = objectString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic.str_camelcase2prettify(attrName), attributeType='bool')
+        cmds.addAttr(objectString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
     #
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, boolean, lock=1)
@@ -405,7 +402,7 @@ def setAttrStringDatum(objectString, attrName, data):
 def setAttrStringDatumForce(objectString, attrName, data):
     attr = objectString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=lxBasic.str_camelcase2prettify(attrName), dataType='string')
+        cmds.addAttr(objectString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, data, type='string', lock=1)
 
@@ -530,7 +527,7 @@ def getObjectChildObjectLis(objectString, mType=appCfg.MaNodeType_Transform, ful
 #
 def getObjectChildObjects(objectString, filterTypes, fullPath=True):
     lis = []
-    filterTypes = _toStringList(filterTypes)
+    filterTypes = toStringList(filterTypes)
     children = cmds.listRelatives(objectString, children=1, type=appCfg.MaNodeType_Transform, fullPath=fullPath)
     if children:
         for child in children:
@@ -589,7 +586,7 @@ def getChildObjectsByRoot(root, filterTypes, fullPath=True):
                 getBranch(child)
     #
     lis = []
-    filterTypes = _toStringList(filterTypes)
+    filterTypes = toStringList(filterTypes)
     if isAppExist(root):
         getBranch(root)
     return lis
@@ -609,7 +606,7 @@ def getChildNodesByRoot(root, filterTypes, fullPath=True):
                 getChild(child)
     lis = []
     #
-    typeLis = _toStringList(filterTypes)
+    typeLis = toStringList(filterTypes)
     if isAppExist(root):
         getChild(root)
     return lis
@@ -643,7 +640,7 @@ def getChildShapesByRoot(root, filterTypes, fullPath=True):
                     lis.extend(shapes)
                 getChild(child)
     #
-    filterTypes = _toStringList(filterTypes)
+    filterTypes = toStringList(filterTypes)
     if isAppExist(root):
         getChild(root)
     return lis
@@ -1087,7 +1084,7 @@ def getInputNodesFilterByType(objectString, filterTypes):
     #
     lis = []
     #
-    filterTypes = _toStringList(filterTypes)
+    filterTypes = toStringList(filterTypes)
     #
     getBranch(objectString)
     #
@@ -1192,7 +1189,7 @@ def getOutputNodeLisByAttr(attr):
 #
 def getInputObjectsByAttrName(objectString, filterAttrNames=None):
     lis = []
-    filterAttrNames = _toStringList(filterAttrNames)
+    filterAttrNames = toStringList(filterAttrNames)
     #
     if isAppExist(objectString):
         guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
@@ -1230,7 +1227,7 @@ def getOutputNodeLisFilter(objectString, attrNames=none):
 #
 def getInputAttrFilterByAttrName(objectString, filterAttrNames=None):
     lis = []
-    filterAttrNames = _toStringList(filterAttrNames)
+    filterAttrNames = toStringList(filterAttrNames)
     #
     guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
     if guessData:
@@ -1652,7 +1649,7 @@ def setCreateEventScriptJob(windowName, scriptJobEvn, method):
 def setCreateNodeDeleteScriptJob(windowName, node, method):
     if method:
         if not cmds.window(windowName, exists=1):
-            cmds.window(windowName, title=lxBasic.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
+            cmds.window(windowName, title=bscMethods.StrCamelcase.toPrettify(windowName), sizeable=1, resizeToFitChildren=1)
         #
         if isinstance(method, list):
             for subMethod in method:
@@ -1665,7 +1662,7 @@ def setCreateNodeDeleteScriptJob(windowName, node, method):
 def setCreateAttrChangedScriptJob(windowName, attr, method):
     if method:
         if not cmds.window(windowName, exists=1):
-            cmds.window(windowName, title=lxBasic.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
+            cmds.window(windowName, title=bscMethods.StrCamelcase.toPrettify(windowName), sizeable=1, resizeToFitChildren=1)
         #
         if isinstance(method, list):
             for subMethod in method:
@@ -2007,7 +2004,7 @@ def getNodeLisByType(mTypes, fullPath=True, keyword=none):
     #
     lis = []
     # to List
-    mTypes = _toStringList(mTypes)
+    mTypes = toStringList(mTypes)
     # to Used List
     mTypes = getUsed(mTypes)
     # type Arg != []
@@ -2021,7 +2018,7 @@ def getNodeLisByType(mTypes, fullPath=True, keyword=none):
 def getNodesByNamespace(filterType, filterNamespace, fullPath=True):
     lis = []
     #
-    filterNamespace = _toStringList(filterNamespace)
+    filterNamespace = toStringList(filterNamespace)
     nodes = getNodeLisByType(filterType, fullPath)
     if filterNamespace and nodes:
         for namespace in filterNamespace:
@@ -2718,7 +2715,7 @@ def getReferenceNodeFilterByNamespace(filterNamespace):
     lis = []
     #
     nodes = getReferenceNodeLis()
-    filterNamespace = _toStringList(filterNamespace)
+    filterNamespace = toStringList(filterNamespace)
     if nodes and filterNamespace:
         for node in nodes:
             namespace = getReferenceNamespace(node)
@@ -3326,7 +3323,7 @@ def setNodeDelete(objectString):
 
 #
 def setNodesDelete(nodeLis):
-    stringLis = _toStringList(nodeLis)
+    stringLis = toStringList(nodeLis)
     [setNodeDelete(i) for i in stringLis]
 
 

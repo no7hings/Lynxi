@@ -13,7 +13,8 @@ class QtIf_DevelopWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
     _Version = lxScheme.Shm_Resource().version
     def __init__(self):
-        super(QtIf_DevelopWindow, self).__init__()
+        self._initWindow()
+
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
@@ -30,7 +31,8 @@ class QtIf_SystemInformationWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
     _Version = lxScheme.Shm_Resource().version
     def __init__(self):
-        super(QtIf_SystemInformationWindow, self).__init__()
+        self._initWindow()
+
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #

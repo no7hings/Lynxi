@@ -1,11 +1,13 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure, lxScheme
+from LxCore import lxConfigure, lxScheme
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxCore.preset.prod import projectPr, scenePr
+#
+from LxDatabase import dtbCore
 #
 from LxUi import uiCore
 #
@@ -20,6 +22,7 @@ none = ''
 class IfCacheManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfCacheManagerWindow, self).__init__(parent)
+
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Dialog)
         #
         self.setupWindow()
@@ -29,7 +32,7 @@ class IfCacheManagerWindow(qtWidgets.QtToolWindow):
     #
     def setListCache(self):
         self._managerUnit.setListCache()
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -49,6 +52,7 @@ class IfCacheManagerWindow(qtWidgets.QtToolWindow):
 class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScIndexManagerWindow, self).__init__(parent)
+
         self.setDefaultSize(960, 480)
         self.setIndexText(lxScheme.Shm_Resource().version)
         #
@@ -62,7 +66,7 @@ class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
     #
     def refreshMethod(self):
         self._unit.refreshMethod()
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -78,7 +82,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
     SideWidth = 320
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfScRenderManagerWindow, self).__init__(parent)
-        #
+
         self.setNameText('Scene Render ( Image ) Manager')
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
         #
@@ -215,7 +219,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
                 #
                 thread.wait()
             #
-            timer = qtWidgets_.QtCore.QTimer(self)
+            timer = qtCore.CLS_timer(self)
             self._timerLis.append(timer)
             #
             thread = qtCore.QThread_(self)
@@ -233,7 +237,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -263,7 +267,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
 class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfRenderImageComposeWindow, self).__init__(parent)
-        #
+
         self.setNameText('Scene Render ( Image ) Manager')
         #
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
@@ -297,7 +301,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
             #
             treeBox.setFilterConnect(self._filterEnterLabel)
         #
-        splitterLayout = qtWidgets_.xSplitter()
+        splitterLayout = qtCore.QSplitter_()
         layout.addWidget(splitterLayout)
         #
         self.treeViewBox = qtWidgets_.QTreeWidget_()
@@ -397,7 +401,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
                 #
                 thread.wait()
             #
-            timer = qtWidgets_.QtCore.QTimer(self)
+            timer = qtCore.CLS_timer(self)
             self._timerLis.append(timer)
             #
             thread = qtCore.QThread_(self)
@@ -419,7 +423,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
     def initializationPanel(self):
         self._timerLis = []
         self._methodLis = []
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -445,13 +449,13 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
 #
 class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
     w = 80
-    dicTool = lxBasic.orderedDict()
+    dicTool = bscCommands.orderedDict()
     dicTool['sourceDirectory'] = [w, 0, 0, 1, 4, 'Source']
     dicTool['targetDirectory'] = [w, 1, 0, 1, 4, 'Target']
     dicTool['collectionFile'] = [w, 2, 0, 1, 4, 'Collection']
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfRenderFileComposeWindow, self).__init__(parent)
-        #
+
         self.setNameText('Scene Render ( Compose ) Manager')
         #
         self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
@@ -468,7 +472,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             def setCustomizeBranch(customize):
                 def setActionData():
                     def openRenderFile():
-                        if lxBasic.isOsExistsFile(serverRenderFile):
+                        if bscCommands.isOsExistsFile(serverRenderFile):
                             from LxMaya.command import maFile
                             maFile.fileOpen(serverRenderFile)
                     #
@@ -499,7 +503,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 #
                 itemWidget = customizeItem.setItemIconWidget(0, 'object#mayaFile', customize)
                 setActionData()
-                showTimeTag = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverRenderFile))
+                showTimeTag = bscMethods.OsFile.mtimeChnPrettify(serverRenderFile)
                 #
                 customizeItem.setText(1, showTimeTag)
                 #
@@ -565,14 +569,14 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             def getTargetFile(sourceOsFile):
                 return targetPath + sourceOsFile[len(sourcePath):]
             #
-            ext = lxBasic.getOsFileExt(osFile)
+            ext = bscCommands.getOsFileExt(osFile)
             #
             self.setProgressValue(index + 1, maxValue)
             #
             treeItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(treeItem)
             state = none
-            if not lxBasic.isOsExistsFile(osFile):
+            if not bscCommands.isOsExistsFile(osFile):
                 state = 'off'
             else:
                 if not osFile.startswith(sourcePath):
@@ -582,7 +586,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             treeItem.setText(0, osFile)
             #
             targetFile = getTargetFile(osFile)
-            if not lxBasic.isOsExistsFile(targetFile):
+            if not bscCommands.isOsExistsFile(targetFile):
                 subExplain = 'Target is Non - Exists'
                 subState = 'error'
                 #
@@ -618,8 +622,8 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             self._fileTypeCountStatisticsDic.setdefault(ext, []).append(osFile)
             #
-            if lxBasic.isOsExistsFile(osFile):
-                fileSize = lxBasic.getOsFileSize(osFile)
+            if bscCommands.isOsExistsFile(osFile):
+                fileSize = bscCommands.getOsFileSize(osFile)
             else:
                 fileSize = 0
             #
@@ -631,9 +635,9 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         #
         def getProxyCompose(osFile, lis, _showExplain):
             if osFile.endswith('_prx.ass'):
-                filePath = lxBasic.getOsFileDirname(osFile)
+                filePath = bscCommands.getOsFileDirname(osFile)
                 texturePath = filePath + '/' + 'texture'
-                textures = lxBasic.getOsFilesByPath(texturePath)
+                textures = bscCommands.getOsFilesByPath(texturePath)
                 if textures:
                     for t in textures:
                         if not t.endswith('.mayaSwatches'):
@@ -697,16 +701,16 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         self.collectionFileButton.setPercent(maxCount, maxCount-needCollectionCount)
     #
     def setCollection(self):
-        @lxBasic.threadSemaphoreMethod
+        @dtbCore.fncThreadSemaphoreModifier
         def copyFileThreadMethod(sourceFile, targetFile):
-            lxBasic.setOsFileCopy(sourceFile, targetFile)
+            bscCommands.setOsFileCopy(sourceFile, targetFile)
         #
         collectionDataArray = self._needCollectionFileArray
         if collectionDataArray:
             copyThreads = []
             #
             for i, j in collectionDataArray:
-                t = lxBasic.runThread(copyFileThreadMethod, i, j)
+                t = uiCore.UiThread(copyFileThreadMethod, i, j)
                 copyThreads.append(t)
                 t.start()
             # View Progress
@@ -728,7 +732,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             dv = 255 / len(statisticsData)
             for seq, (k, v) in enumerate(statisticsData.items()):
                 count = len(v)
-                r, g, b = qtCore.hsvToRgb(dv * seq, 1, 1)
+                r, g, b = qtCore.hsv2Rgb(dv * seq, 1, 1)
                 lis.append(('{0} ( {1} / {2} )'.format(k, count, maxCount), count, (r, g, b, 255)))
         #
         self.fileTypeCountPieChart.setDrawData(
@@ -742,9 +746,19 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             maxCount = sum(self._fileSizes)
             dv = 255 / len(statisticsData)
             for seq, (k, v) in enumerate(statisticsData.items()):
+
                 count = sum(v)
-                r, g, b = qtCore.hsvToRgb(dv * seq, 1, 1)
-                lis.append(('{0} ( {1} / {2} )'.format(k, lxBasic.getShowNumber(count, 1), lxBasic.getShowNumber(maxCount, 1)), count, (r, g, b, 255)))
+                r, g, b = qtCore.hsv2Rgb(dv * seq, 1, 1)
+                lis.append(
+                    (
+                        '{0} ( {1} / {2} )'.format(
+                            k,
+                            bscMethods.Value.toFileSizePrettify(count),
+                            bscMethods.Value.toFileSizePrettify(maxCount)
+                        ),
+                        count, (r, g, b, 255)
+                    )
+                )
         #
         self.fileTypeSizePieChart.setDrawData(
             lis
@@ -799,7 +813,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         self._fileConstantStatisticsDic = {}
         #
         self._fileSizes = []
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
     #
@@ -877,7 +891,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         mainLayout.addWidget(toolBar)
         setupTopToolBar(toolBar)
         #
-        splitterLayout = qtWidgets_.xSplitter()
+        splitterLayout = qtCore.QSplitter_()
         mainLayout.addWidget(splitterLayout)
         #
         sideWidth = 320

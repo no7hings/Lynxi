@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxCore import lxBasic, lxScheme
+from LxBasic import bscMethods, bscCommands
+
+from LxCore import lxScheme
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # Shelf
@@ -293,7 +295,7 @@ def setupMayaShelf(data):
             if k.endswith('Shelf'):
                 shelfName = v['shelfName']
                 shelfTip = v['shelfTip']
-                shelfBackgroundRgba = lxBasic.getFloatColor(68, 68, 68)
+                shelfBackgroundRgba = bscMethods.Color.mapToFloat(68, 68, 68)
                 #
                 spacer = (count - len(shelfName)) * ' '
                 shelfShowName = spacer + shelfName + spacer

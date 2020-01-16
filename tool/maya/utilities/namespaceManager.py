@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxUi.qt import qtModifiers, qtWidgets, qtCore
+from LxUi.qt import qtModifiers, qtWidgets
 #
 from LxMaya.interface.ifWidgets import ifMaUtilToolUnit
 
@@ -7,6 +7,7 @@ from LxMaya.interface.ifWidgets import ifMaUtilToolUnit
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
+
         self.tool = ifMaUtilToolUnit.IfNamespaceManagerUnit()
         self.addWidget(self.tool)
         self.tool.setConnectObject(self)
@@ -22,7 +23,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.setDefaultSize(self.tool.widthSet, 800)
         self.setNameText(self.tool.UnitTitle)
 
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 

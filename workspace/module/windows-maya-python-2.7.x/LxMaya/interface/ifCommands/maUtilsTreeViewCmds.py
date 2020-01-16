@@ -1,7 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
-
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
@@ -90,7 +88,7 @@ def setListDirectory(
             def setOpenFolder():
                 bscMethods.OsDirectory.open(filePath)
             #
-            openFolderEnabled = lxBasic.isOsExist(filePath)
+            openFolderEnabled = bscCommands.isOsExist(filePath)
             #
             actionExplain = 'Open Source Folder ( %s )' % folderName
             #
@@ -112,7 +110,7 @@ def setListDirectory(
         if fileDataArray:
             count = len(fileDataArray)
         #
-        if not lxBasic.isOsExist(filePath):
+        if not bscCommands.isOsExist(filePath):
             stateLabel = 'off'
         #
         parentItem = treeItem.parent()
@@ -212,7 +210,7 @@ def setListFile(
         count = 0
         fileDataArray = getFileDataArray(filePath)
         #
-        if not lxBasic.isOsExist(filePath):
+        if not bscCommands.isOsExist(filePath):
             stateLabel = 'off'
         #
         if fileDataArray:
@@ -307,11 +305,11 @@ def setListFileBranch(
     #
     state = none
     #
-    fileName = lxBasic.getOsFileBasename(sourceFile)
+    fileName = bscCommands.getOsFileBasename(sourceFile)
     count = len(nodes)
     showExplain = '{0} ( {1} )'.format(fileName, count)
     #
-    existsSourceFiles = lxBasic.getOsMultFileLis(sourceFile)
+    existsSourceFiles = bscCommands.getOsMultFileLis(sourceFile)
     existsSourceCount = len(existsSourceFiles)
     #
     fileItem = qtWidgets_.QTreeWidgetItem_()
@@ -327,7 +325,7 @@ def setListFileBranch(
             subSourceFiles = existsSourceFiles[1:]
             for subSourceFile in subSourceFiles:
                 subFileItem = qtWidgets_.QTreeWidgetItem_()
-                subShowExplain = lxBasic.getOsFileBasename(subSourceFile)
+                subShowExplain = bscCommands.getOsFileBasename(subSourceFile)
                 setBranch(subFileItem, fileItem, subSourceFile, subIconKeyword, subState, subShowExplain)
     else:
         state = 'off'

@@ -3,9 +3,9 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcWidget
+from LxUi.qt.qtObjects import qtObjWidget
 #
-from LxUi.qt._qtModels import _qtViewModel
+from LxUi.qt._qtModels import _qtMdlView
 #
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
@@ -16,10 +16,14 @@ none = ''
 
 
 # Scroll Bar
-class QtScrollBar(qtAbcWidget.QtAbcObj_Scrollbar):
+class QtScrollBar(qtObjWidget.QtAbcObj_Scrollbar):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtScrollBar, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcScrollbarWidget()
 
@@ -28,8 +32,12 @@ class QtScrollBar(qtAbcWidget.QtAbcObj_Scrollbar):
 class QtScrollArea(qtCore.QWidget):
     scrollWidth = 20
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtScrollArea, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initScrollArea()
         #
@@ -147,14 +155,18 @@ class QtScrollArea(qtCore.QWidget):
         self._layout.setSpacing(0)
         self._layout.setAlignment(QtCore.Qt.AlignTop)
         #
-        self._viewModel = _qtViewModel.QtScrollareaModel(self)
+        self._viewModel = _qtMdlView.QtScrollareaModel(self)
 
 
 #
-class QtCheckview(qtAbcWidget.QtAbcObj_ViewWidget):
+class QtCheckview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtCheckview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -164,14 +176,18 @@ class QtCheckview(qtAbcWidget.QtAbcObj_ViewWidget):
         self.viewModel().addItem(widget)
     #
     def setupUi(self):
-        self._viewModel = _qtViewModel.QtCheckviewModel(self)
+        self._viewModel = _qtMdlView.QtCheckviewModel(self)
 
 
 #
-class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
+class QtTreeview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtTreeview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         self._overrideUi()
@@ -332,10 +348,10 @@ class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
                             y += h
 
         # painter.end()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -352,7 +368,7 @@ class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = _qtViewModel.QtTreeviewModel(self)
+        self._viewModel = _qtMdlView.QtTreeviewModel(self)
         #
         self._uiPreActions = [
             ('Check',),
@@ -369,10 +385,14 @@ class QtTreeview(qtAbcWidget.QtAbcObj_ViewWidget):
 
 
 #
-class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
+class QtGridview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtGridview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -461,10 +481,10 @@ class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
                 )
 
         # painter.end()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -562,7 +582,7 @@ class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = _qtViewModel.QtGridviewModel(self)
+        self._viewModel = _qtMdlView.QtGridviewModel(self)
         #
         self._uiPreActions = [
             ('Basic', ),
@@ -592,10 +612,14 @@ class QtGridview(qtAbcWidget.QtAbcObj_ViewWidget):
 
 
 # Preset
-class QtPresetview(qtAbcWidget.QtAbcObj_ViewWidget):
+class QtPresetview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self.clsSuper = super(qtCore.QWidget, self)
+            self.clsSuper.__init__(*args, **kwargs)
+        else:
+            self.clsSuper = super(QtPresetview, self)
+            self.clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -613,10 +637,10 @@ class QtPresetview(qtAbcWidget.QtAbcObj_ViewWidget):
                 self._menuDropAction()
         else:
             event.ignore()
-    @qtAbcWidget.actionviewEventFilterModifier
+    @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
-    @qtAbcWidget.actionviewDropModifier
+    @qtObjWidget.actionviewDropModifier
     def _menuDropAction(self):
         pass
     #
@@ -633,7 +657,7 @@ class QtPresetview(qtAbcWidget.QtAbcObj_ViewWidget):
         self._hScrollBar = QtScrollBar(self)
         self._vScrollBar = QtScrollBar(self)
         #
-        self._viewModel = _qtViewModel.QtPresetviewModel(self)
+        self._viewModel = _qtMdlView.QtPresetviewModel(self)
         #
         self._uiPreActions = [
             ('Check',),

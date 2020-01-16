@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxScheme
+from LxCore import lxScheme
 #
 from LxCore.preset import pipePr, appVariant
 #
@@ -38,7 +38,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneProductToolWindow, self).__init__(parent)
-        #
+
         self.setNameText(_title)
         self.setIndexText(_version)
         #
@@ -361,7 +361,9 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
             else:
                 self._initScAnimTool()
             #
-            title = 'Scene ( {} ) Upload'.format(lxBasic.str_camelcase2prettify(scenePr.getSceneLink(sceneStage)))
+            title = 'Scene ( {} ) Upload'.format(
+                bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage))
+            )
             self.setTitle(title)
         else:
             self.setPlaceholderEnable(True)

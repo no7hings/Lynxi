@@ -11,16 +11,15 @@ class Shm_Resource(lxScheme.Shm_Resource):
         self._initResource()
 
     @property
-    def plugNameLis(self):
+    def plugNames(self):
         return self.method_os_environ.getAsList(self.Environ_Key_Loadname_Plug)
 
     def loadPlugs(self):
-        plugNameLis = self.plugNameLis
+        plugNameLis = self.plugNames
         
         unloadPlugLis = []
         # Get Unload Plugs
         for i in plugNameLis:
-            print i
             if maUtils.isPlugLoaded(i) is False:
                 unloadPlugLis.append(i)
         # Load Unload Plugs

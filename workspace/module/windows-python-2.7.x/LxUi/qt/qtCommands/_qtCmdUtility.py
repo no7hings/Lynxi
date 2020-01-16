@@ -10,7 +10,7 @@ def setProgressWindowShow(title, maxValue):
     w = qtWidgets.QtMessageWindow()
     w.setParent(qtCore.getAppWindow())
 
-    if maxValue > 0:
+    if maxValue > 1:
         w.setNameText(title)
         w.startProgress(maxValue)
         w._messageShow()
@@ -37,7 +37,7 @@ def setProgressRun(title, methods):
 
 
 def setMessageWindowShow(text, keyword=None):
-    method_html = bscMethods.HtmlText()
+    method_html = bscMethods.TxtHtml()
 
     fontSize = 10
 

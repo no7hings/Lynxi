@@ -7,6 +7,7 @@ from LxMaya.interface.ifWidgets import ifMaUtilToolUnit
 class IfToolWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfToolWindow, self).__init__()
+
         self.windowModel().setViewportLayoutMargins(2, 2, 2, 2)
         #
         self.tool = ifMaUtilToolUnit.IfAttributeManagerUnit()
@@ -19,7 +20,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.setDefaultSize(self.tool.UnitWidth, self.tool.UnitWidth)
         self.setTitle(self.tool.UnitTitle)
 
-    @qtModifiers.showInterfaceExclusive
+    @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):
         self.uiShow()
 

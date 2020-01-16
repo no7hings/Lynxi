@@ -3,6 +3,6 @@
 if __name__ == '__main__':
     from LxMaterial import mtlObjects
 
-    a = mtlObjects.Prt_Shaderinput()
+    a = mtlObjects.ShaderPort()
 
     print a

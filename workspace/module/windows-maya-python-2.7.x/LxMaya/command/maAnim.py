@@ -5,9 +5,9 @@ import maya.cmds as cmds
 #
 from random import choice
 #
-from LxCore import lxBasic
+from LxBasic import bscCommands
 #
-from LxMaya.command import maUtils, maFile, maAttr, maProxy
+from LxMaya.command import maUtils, maAttr, maProxy
 #
 inBoxLabel = '_inBox'
 inGpuLabel = '_inGpu'
@@ -23,7 +23,7 @@ none = ''
 
 #
 def setOutActProxy(osFile, frame, renderer):
-    lxBasic.setOsFileDirectoryCreate(osFile)
+    bscCommands.setOsFileDirectoryCreate(osFile)
     # Set Frame
     cmds.currentTime(frame)
     maProxy.setOutProxy(osFile, renderer, 1)

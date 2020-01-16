@@ -124,6 +124,13 @@ class Prs_Resource(shmCore.Basic):
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
+            'py-27-pyside2': {
+                self.Key_Category: self.Category_Plf_Lan_Package,
+                self.Key_Name: 'PySide2',
+                self.Key_System: [
+                    'windows', 'share', 'python', '2.7.x'
+                ]
+            },
             'py-2.7-materialx': {
                 self.Key_Category: self.Category_Plf_Lan_Package,
                 self.Key_Name: 'MaterialX',
@@ -341,6 +348,10 @@ class Prs_Resource(shmCore.Basic):
             'py-27-pyqt5': {
                 self.Key_Record: ['5.3.2'],
                 self.Key_Active: '5.3.2'
+            },
+            'py-27-pyside2': {
+                self.Key_Record: ['2.0.0~alpha0'],
+                self.Key_Active: '2.0.0~alpha0'
             },
             'py-2.7-materialx': {
                 self.Key_Record: ['1.36.5'],
@@ -854,6 +865,20 @@ class Prs_Resource(shmCore.Basic):
         lis = []
         for i in self.resources():
             if i.isScheme:
+                lis.append(i)
+        return lis
+
+    def modules(self):
+        lis = []
+        for i in self.resources():
+            if i.isModule:
+                lis.append(i)
+        return lis
+
+    def packages(self):
+        lis = []
+        for i in self.resources():
+            if i.isPackage:
                 lis.append(i)
         return lis
 

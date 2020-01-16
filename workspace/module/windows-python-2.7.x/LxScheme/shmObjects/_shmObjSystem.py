@@ -26,7 +26,7 @@ class Sys_Platform(shmAbstract.Abc_System):
 
 
 class Sys_PltLanguage(shmAbstract.Abc_System):
-    SYSTEM_CLS = Sys_Platform
+    CLS_system = Sys_Platform
 
     object_category = shmCore.Basic.Category_Plf_Language
 
@@ -67,7 +67,7 @@ class Sys_PltLanguage(shmAbstract.Abc_System):
 
 
 class Sys_PltApplication(shmAbstract.Abc_System):
-    SYSTEM_CLS = Sys_Platform
+    CLS_system = Sys_Platform
 
     object_category = shmCore.Basic.Category_Plf_Application
     raw_key = shmCore.Basic.Key_Application
@@ -109,7 +109,7 @@ class Sys_PltApplication(shmAbstract.Abc_System):
 
 
 class Sys_PltAppLanguage(shmAbstract.Abc_System):
-    SYSTEM_CLS = Sys_PltApplication
+    CLS_system = Sys_PltApplication
 
     object_category = shmCore.Basic.Category_Plf_App_Language
 

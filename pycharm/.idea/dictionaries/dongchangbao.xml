@@ -29,6 +29,7 @@
       <w>coords</w>
       <w>ctom</w>
       <w>ctomcmds</w>
+      <w>dagname</w>
       <w>dagpath</w>
       <w>datetag</w>
       <w>datumset</w>
@@ -48,13 +49,17 @@
       <w>exts</w>
       <w>failobj</w>
       <w>filebasename</w>
+      <w>floatarray</w>
       <w>foldername</w>
       <w>fullpath</w>
+      <w>gemassign</w>
       <w>geometryinput</w>
       <w>geometrypath</w>
       <w>geometryset</w>
       <w>geomname</w>
       <w>geomnamearray</w>
+      <w>geomnames</w>
+      <w>geompath</w>
       <w>graphitem</w>
       <w>graphset</w>
       <w>graphview</w>
@@ -66,6 +71,9 @@
       <w>iconfont</w>
       <w>iconkeyword</w>
       <w>importname</w>
+      <w>inputport</w>
+      <w>inputports</w>
+      <w>integerarray</w>
       <w>isdevelop</w>
       <w>keyable</w>
       <w>lgroups</w>
@@ -99,20 +107,28 @@
       <w>moduleversion</w>
       <w>mtime</w>
       <w>mtimestamp</w>
+      <w>mtimetag</w>
       <w>mtlx</w>
       <w>mtoa</w>
       <w>mtos</w>
       <w>mult</w>
+      <w>multifile</w>
       <w>myproject</w>
       <w>myworkspace</w>
       <w>namespacesep</w>
       <w>nodedefs</w>
+      <w>nodegraph</w>
       <w>nodeinput</w>
       <w>nodename</w>
+      <w>nodeoutput</w>
       <w>nodepath</w>
+      <w>nodeport</w>
       <w>nonrep</w>
       <w>nurbs</w>
       <w>objs</w>
+      <w>outliner</w>
+      <w>outputport</w>
+      <w>outputports</w>
       <w>overscan</w>
       <w>packageapp</w>
       <w>packagename</w>
@@ -130,6 +146,8 @@
       <w>plugname</w>
       <w>plugpath</w>
       <w>plugversion</w>
+      <w>portname</w>
+      <w>portpath</w>
       <w>portset</w>
       <w>presetview</w>
       <w>pressable</w>
@@ -138,11 +156,13 @@
       <w>projectname</w>
       <w>propertyset</w>
       <w>pyqt</w>
+      <w>pyside</w>
       <w>pythonmodule</w>
       <w>pythonpackage</w>
       <w>pythonpath</w>
       <w>pythonversion</w>
       <w>radarchart</w>
+      <w>rangecase</w>
       <w>raws</w>
       <w>rawset</w>
       <w>readlines</w>
@@ -170,10 +190,12 @@
       <w>serverrootpath</w>
       <w>shaderinput</w>
       <w>shaderoutput</w>
+      <w>shaderport</w>
       <w>shaderref</w>
       <w>shaders</w>
       <w>shaderset</w>
       <w>shadersets</w>
+      <w>shadesetinput</w>
       <w>shelftab</w>
       <w>shutil</w>
       <w>solidangle</w>
@@ -201,6 +223,7 @@
       <w>treeview</w>
       <w>udim</w>
       <w>unclicked</w>
+      <w>underlinecase</w>
       <w>unentry</w>
       <w>unexpand</w>
       <w>unexpandable</w>
@@ -213,11 +236,13 @@
       <w>uuids</w>
       <w>vedio</w>
       <w>versionactive</w>
+      <w>versionname</w>
       <w>versionrecord</w>
       <w>viewframe</w>
       <w>volumeshader</w>
       <w>workarea</w>
       <w>workspacepath</w>
+      <w>wrapinstance</w>
       <w>xbmlangpath</w>
       <w>xmax</w>
       <w>xmin</w>

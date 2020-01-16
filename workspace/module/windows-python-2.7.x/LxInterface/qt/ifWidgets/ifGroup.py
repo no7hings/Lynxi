@@ -124,7 +124,7 @@ class IfToolkitGroup(_qtIfAbcWidget.QtIfAbc_Group):
             setupOverviewUnit
         ]
         if self._mainWindow:
-            explain = '''Build ToolKit Unit(s)'''
+            explain = '''Build Toolkit Unit(s)'''
             maxValue = len(buildMethodLis)
             progressBar = bscObjects.If_Progress(explain, maxValue)
             for i in buildMethodLis:

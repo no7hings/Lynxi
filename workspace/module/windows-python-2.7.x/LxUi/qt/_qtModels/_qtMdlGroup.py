@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxUi.qt import qtCore
 #
-from LxUi.qt.qtObjects import qtAbcModel
+from LxUi.qt.qtObjects import qtObjModel
 
 
 #
-class QtToolboxGroupModel(qtAbcModel.QtAbcObj_GroupModel):
+class QtToolboxGroupModel(qtObjModel.QtAbcObj_GroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -126,7 +126,7 @@ class QtToolboxGroupModel(qtAbcModel.QtAbcObj_GroupModel):
 
 
 #
-class QtToolboxModel(qtAbcModel.QtAbcObj_GroupModel):
+class QtToolboxModel(qtObjModel.QtAbcObj_GroupModel):
     def __init__(self, widget):
         self._initGroupModelBasic(widget)
         self._overrideAttr()
@@ -184,13 +184,13 @@ class QtToolboxModel(qtAbcModel.QtAbcObj_GroupModel):
 
 
 #
-class QtButtonTabBarModel(qtAbcModel.QtAbcObj_TabbarModel):
+class QtButtonTabBarModel(qtObjModel.QtAbcObj_TabbarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
 
 
 # Tab Bar
-class QtShelfTabBarModel(qtAbcModel.QtAbcObj_TabbarModel):
+class QtShelfTabBarModel(qtObjModel.QtAbcObj_TabbarModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
         #
@@ -325,13 +325,13 @@ class QtShelfTabBarModel(qtAbcModel.QtAbcObj_TabbarModel):
 
 
 # Tab View
-class QtButtonTabGroupModel(qtAbcModel.QtAbcObj_TabgroupModel):
+class QtButtonTabGroupModel(qtObjModel.QtAbcObj_TabgroupModel):
     def __init__(self, widget):
         self._initAbcObjTabgroupModel(widget)
 
 
 #
-class QtShelfTabGroupModel(qtAbcModel.QtAbcObj_TabgroupModel):
+class QtShelfTabGroupModel(qtObjModel.QtAbcObj_TabgroupModel):
     def __init__(self, widget):
         self._initAbcObjTabgroupModel(widget)
     #
@@ -486,7 +486,7 @@ class QtShelfTabGroupModel(qtAbcModel.QtAbcObj_TabgroupModel):
         self._addButton = widget._addButton
         #
         self._subScrollButton, self._addScrollButton = self.widget()._subScrollButton, self.widget()._addScrollButton
-        self._scrollSubTimer, self._scrollAddTimer = qtCore.QtCore.QTimer(self._widget), qtCore.QtCore.QTimer(self._widget)
+        self._scrollSubTimer, self._scrollAddTimer = qtCore.CLS_timer(self._widget), qtCore.CLS_timer(self._widget)
     #
     def setTabPosition(self, value):
         self.tabBar().viewModel().setTabPosition(value)

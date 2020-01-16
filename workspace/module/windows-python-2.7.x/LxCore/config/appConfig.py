@@ -110,7 +110,7 @@ class Cfg_Basic(object):
                 return dic
         return subFunc
     @staticmethod
-    def _toVariantConvert(varName, string):
+    def toVariantConvert(varName, string):
         def getStringLis():
             # noinspection RegExpSingleCharAlternation
             return [i for i in re.split("<|>", string) if i]
@@ -243,41 +243,27 @@ class Cfg_Basic(object):
         #
         return str(showNumber)
     @staticmethod
-    def _toShowFileSize(number):
-        showNumber = number
-        #
-        dv = 1024
-        lis = [(dv ** 4, 'T'), (dv ** 3, 'G'), (dv ** 2, 'M'), (dv ** 1, 'K')]
-        #
-        for i in lis:
-            s = abs(number) / i[0]
-            if s:
-                showNumber = str(round(float(number) / float(i[0]), 2)) + i[1]
-                break
-        #
-        return str(showNumber)
-    @staticmethod
     def getOsActiveViewTime():
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     @classmethod
     def traceMessage(cls, text):
         if cls.LynxiEnable_Trance is True:
-            print u'# Lynxi <{}>'.format(cls.getOsActiveViewTime())
+            print u'@lynxi <{}>'.format(cls.getOsActiveViewTime())
             print u'    {}'.format(text)
     @classmethod
     def traceResult(cls, text):
         cls.traceMessage(
-            u'''# Result {}'''.format(text)
+            u'''@result {}'''.format(text)
         )
     @classmethod
     def traceWaning(cls, text):
         cls.traceMessage(
-            u'''# Warning {}'''.format(text)
+            u'''@warning {}'''.format(text)
         )
     @classmethod
     def traceError(cls, text):
         cls.traceMessage(
-            u'''# Error {}'''.format(text)
+            u'''@error {}'''.format(text)
         )
 
 
@@ -319,7 +305,7 @@ class LxUiConfig(Cfg_Basic):
     @classmethod
     def traceMessage(cls, text):
         if cls.LynxiEnable_Trance is True:
-            print u'# Lynxi <{}>'.format(cls.getOsActiveViewTime())
+            print u'@lynxi <{}>'.format(cls.getOsActiveViewTime())
             print u'    {}'.format(text)
 
 
@@ -849,9 +835,9 @@ class LxNodeConfig(Cfg_Basic):
         groupLabel = cls.LynxiNamePostfix_Group
         var = str
         if seq is None:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_Group)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_Group)
         else:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_SubGroup)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_SubGroup)
         exec command
         return var
     # noinspection PyUnusedLocal
@@ -860,9 +846,9 @@ class LxNodeConfig(Cfg_Basic):
         setLabel = cls.LynxiNamePostfix_Set
         var = str
         if seq is None:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_Set)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_Set)
         else:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_SubSet)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_SubSet)
         exec command
         return var
     # noinspection PyUnusedLocal
@@ -871,9 +857,9 @@ class LxNodeConfig(Cfg_Basic):
         objectLabel = cls.LynxiNamePostfix_Object
         var = str
         if seq is None:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_Node)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_Node)
         else:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_SubNode)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_SubNode)
         exec command
         return var
     # noinspection PyUnusedLocal
@@ -882,9 +868,9 @@ class LxNodeConfig(Cfg_Basic):
         groupLabel = cls.LynxiNamePostfix_Group
         var = str
         if seq is None:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_NodeGroup)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_NodeGroup)
         else:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_NodeSubGroup)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_NodeSubGroup)
         exec command
         return var
     # noinspection PyUnusedLocal
@@ -893,9 +879,9 @@ class LxNodeConfig(Cfg_Basic):
         setLabel = cls.LynxiNamePostfix_Set
         var = str
         if seq is None:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_NodeSet)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_NodeSet)
         else:
-            command = cls._toVariantConvert('var', cls.LynxiNameFormat_NodeSubSet)
+            command = cls.toVariantConvert('var', cls.LynxiNameFormat_NodeSubSet)
         exec command
         return var
 

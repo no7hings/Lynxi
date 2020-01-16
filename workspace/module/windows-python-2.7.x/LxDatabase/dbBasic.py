@@ -5,11 +5,11 @@ import hashlib
 #
 import struct
 
-from LxBasic import bscMethods, bscObjects
-#
-from LxCore import lxBasic
+from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.preset import appVariant, databasePr
+
+from LxDatabase import dtbCore
 #
 backupExtLabel = appVariant.dbHistoryUnitKey
 mayaAsciiExtLabel = '.ma'
@@ -51,16 +51,16 @@ none = ''
 
 # Get Upload Temp File
 def getTemporaryOsFile(osFile):
-    osFileBasename = lxBasic.getOsFileBasename(osFile)
-    tempFile = lxBasic._toOsFile(_tempDirectory, osFileBasename)
+    osFileBasename = bscCommands.getOsFileBasename(osFile)
+    tempFile = bscCommands.toOsFile(_tempDirectory, osFileBasename)
     #
-    lxBasic.setOsFileDirectoryCreate(tempFile)
+    bscCommands.setOsFileDirectoryCreate(tempFile)
     return tempFile
 
 
 #
 def getDatabaseMainIndex(queryString):
-    basicUniqueId = lxBasic._basicUniqueId()
+    basicUniqueId = bscCommands.basicUniqueId()
     codeString = none
     if isinstance(queryString, str) or isinstance(queryString, unicode):
         codeString = str(queryString)
@@ -126,11 +126,11 @@ def readDbData():
 
 # Get Lock Data
 def getDbInfo(hashValue, dbVersion):
-    dic = lxBasic.orderedDict()
-    dic[updateLabel] = lxBasic.getOsActiveTimestamp()
-    dic[userLabel] = lxBasic.getOsUser()
-    dic[hostNameLabel] = lxBasic.getOsHostName()
-    dic[hostLabel] = lxBasic.getOsHost()
+    dic = bscCommands.orderedDict()
+    dic[updateLabel] = bscMethods.OsTime.activeTimestamp()
+    dic[userLabel] = bscMethods.OsSystem.username()
+    dic[hostNameLabel] = bscMethods.OsSystem.hostname()
+    dic[hostLabel] = bscMethods.OsSystem.host()
     dic[keyLabel] = hashValue
     dic[versionLabel] = dbVersion
     return dic
@@ -147,18 +147,12 @@ def getDbBackupFile(directory, dbIndex, dbVersion):
 
 
 #
-def writeMayaAsciiGzip(mayaAscii, osFile):
-    data = bscMethods.OsFile.readlines(mayaAscii)
-    lxBasic.writeDataGzip(data, osFile)
-
-
-#
 def getData(data, hashValue, dbVersion):
-    dic = lxBasic.orderedDict()
-    dic[updateLabel] = lxBasic.getOsActiveTimestamp()
-    dic[userLabel] = lxBasic.getOsUser()
-    dic[hostNameLabel] = lxBasic.getOsHostName()
-    dic[hostLabel] = lxBasic.getOsHost()
+    dic = bscCommands.orderedDict()
+    dic[updateLabel] = bscMethods.OsTime.activeTimestamp()
+    dic[userLabel] = bscMethods.OsSystem.username()
+    dic[hostNameLabel] = bscMethods.OsSystem.hostname()
+    dic[hostLabel] = bscMethods.OsSystem.host()
     dic[keyLabel] = hashValue
     dic[versionLabel] = dbVersion
     dic[DbKey_Data] = data
@@ -167,14 +161,14 @@ def getData(data, hashValue, dbVersion):
 
 #
 def dbGetHashKey(dbFile):
-    dbData = lxBasic.readJsonGzip(dbFile)
+    dbData = bscMethods.OsJsonGzip.read(dbFile)
     if dbData:
         return dbData[keyLabel]
 
 
 #
 def dbDatumRead(dbFile):
-    dbData = lxBasic.readJsonGzip(dbFile)
+    dbData = bscMethods.OsJsonGzip.read(dbFile)
     if dbData:
         return dbData[DbKey_Data]
 
@@ -197,8 +191,9 @@ def dbCompDatumWrite(dbCompIndex, data, directory, dbVersion):
         #
         if isUpdate:
             dbData = getData(data, hashValue, dbVersion)
-            lxBasic.writeJsonGzip(dbData, dbFile)
-            lxBasic.setOsFileCopy(dbFile, dbBackupFile)
+
+            bscMethods.OsJsonGzip.write(dbFile, dbData)
+            bscCommands.setOsFileCopy(dbFile, dbBackupFile)
 
 
 #
@@ -239,8 +234,8 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
             for dbCompIndex, data, hashValue, dbFile, dbBackupFile in lis:
                 progressBar.update()
                 dbData = getData(data, hashValue, dbVersion)
-                lxBasic.writeJsonGzip(dbData, dbFile)
-                lxBasic.setOsFileCopy(dbFile, dbBackupFile)
+                bscMethods.OsJsonGzip.write(dbFile, dbData)
+                bscCommands.setOsFileCopy(dbFile, dbBackupFile)
     #
     if dic:
         writeMain(getMain())
@@ -253,7 +248,7 @@ def dbCompDatumRead(dbCompIndex, directory):
     return data
 
 
-@lxBasic.threadSemaphoreMethod
+@dtbCore.fncThreadSemaphoreModifier
 def readDbCompDataThreadMethod(dbIndex, directory):
     dbFile = getDbFile(directory, dbIndex)
     data = dbDatumRead(dbFile)
@@ -262,12 +257,12 @@ def readDbCompDataThreadMethod(dbIndex, directory):
 
 # Sub Method
 def dbCompDatumDicRead(compIndexes, dbIndex, directory):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     if compIndexes:
         if isinstance(compIndexes, list):
-            splitCompIndexes = lxBasic._toListSplit(compIndexes, 250)
+            splitCompIndexes = bscMethods.List.splitTo(compIndexes, 250)
         elif isinstance(compIndexes, dict):
-            splitCompIndexes = lxBasic._toListSplit(compIndexes.keys(), 250)
+            splitCompIndexes = bscMethods.List.splitTo(compIndexes.keys(), 250)
         else:
             splitCompIndexes = None
         #
@@ -280,7 +275,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
                 readThreadLis = []
                 for compIndex in subCompIndexes:
                     dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
-                    t = lxBasic.dbThread(readDbCompDataThreadMethod, dbCompIndex, directory)
+                    t = dtbCore.DtbThread(readDbCompDataThreadMethod, dbCompIndex, directory)
                     readThreadLis.append((compIndex, t))
                     t.start()
                 #
@@ -296,19 +291,19 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
 
 #
 def writeJsonGzipDic(osFile, dicKey, value):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     #
     gzFile = osFile
-    if lxBasic.isOsExistsFile(gzFile):
-        dic = lxBasic.readJsonGzip(osFile)
+    if bscCommands.isOsExistsFile(gzFile):
+        dic = bscMethods.OsJsonGzip.read(osFile)
     dic[dicKey] = value
-    lxBasic.writeJsonGzip(dic, osFile)
+    bscMethods.OsJsonGzip.write(osFile, dic)
 
 
 #
 def readJsonGzipDic(osFile, dicKey):
     string = none
-    data = lxBasic.readJsonGzip(osFile)
+    data = bscMethods.OsJsonGzip.read(osFile)
     if data:
         if dicKey in data:
             value = data[dicKey]
@@ -327,14 +322,14 @@ def saveDbMayaAscii(dbSubIndex, directory):
     cmds.file(rename=tempAsciiFile)
     cmds.file(save=1, type='mayaAscii')
     #
-    lxBasic.setOsFileCopy(tempAsciiFile, asciiFile)
+    bscCommands.setOsFileCopy(tempAsciiFile, asciiFile)
 
 
 # noinspection PyUnresolvedReferences
 def importDbMayaAscii(dbSubIndex, directory, namespace=':'):
     import maya.cmds as cmds
     asciiFile = directory + '/' + dbSubIndex
-    if lxBasic.isOsExistsFile(asciiFile):
+    if bscCommands.isOsExistsFile(asciiFile):
         cmds.file(
             asciiFile,
             i=1,
@@ -345,17 +340,6 @@ def importDbMayaAscii(dbSubIndex, directory, namespace=':'):
             namespace=namespace,
             preserveReferences=1
         )
-
-
-# noinspection PyUnresolvedReferences
-def writeDbMayaAsciiData(dbSubIndex, directory):
-    import maya.cmds as cmds
-    #
-    osFile = directory + '/' + dbSubIndex
-    mayaAscii = getTemporaryOsFile(osFile) + mayaAsciiExtLabel
-    cmds.file(rename=mayaAscii)
-    cmds.file(save=1, type='mayaAscii')
-    writeMayaAsciiGzip(mayaAscii, osFile)
 
 
 #
@@ -391,15 +375,15 @@ def readDbSceneryHistory(dbIndex, dicKey):
 #
 def writeDbAssetHistory(dbIndex, sourceFile):
     directory = databasePr.dbAstHistoryDirectory()
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, lxBasic.getOsUser())
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, lxBasic.getOsActiveTimestamp())
+    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
     writeDbHistory(dbIndex, directory, appVariant.infoSourceLabel, sourceFile)
 
 
 #
 def writeDbSceneryUnitHistory(dbIndex, sourceFile):
     directory = databasePr.dbScnHistoryDirectory()
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, lxBasic.getOsUser())
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, lxBasic.getOsActiveTimestamp())
+    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
     writeDbHistory(dbIndex, directory, appVariant.infoSourceLabel, sourceFile)
 

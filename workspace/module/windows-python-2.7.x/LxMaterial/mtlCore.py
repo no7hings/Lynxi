@@ -12,20 +12,6 @@ class Basic(object):
     Key_Name = 'name'
     Key_FullpathName = 'fullpathName'
 
-    Atr_Xml_Name = 'name'
-    Atr_Xml_Node = 'node'
-    Atr_Xml_Type = 'type'
-    Atr_Xml_Material = 'material'
-    Atr_Xml_Geom = 'geom'
-
-    Atr_Xml_Value = 'value'
-
-    Atr_Xml_Shader_Output_Type = 'context'
-
-    cls_dic_order = collections.OrderedDict
-
-    module_types = types
-
     @classmethod
     def _toJsonStringMethod(cls, raw, indent=4):
         def addNoneFnc_(lString, rString):

@@ -2,8 +2,8 @@
 scheme_name = 'maya_default'
 scheme_version = 'active'
 
-scheme_basic_path = r'l:\tdAsset\lynxi'
-scheme_toolkit_path = r'l:\tdAsset\lynxi'
+scheme_basic_path = r'L:\packages\pg\prerelease\lynxitool\0.0.2\lynxitool'
+scheme_toolkit_path = r'L:\packages\pg\prerelease\lynxitool\0.0.2\lynxitool'
 
 
 class Setup(object):

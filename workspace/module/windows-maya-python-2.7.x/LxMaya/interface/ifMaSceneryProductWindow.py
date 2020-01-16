@@ -32,6 +32,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
     widthSet = 400
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfSceneryProductToolWindow, self).__init__(parent)
+
         self.setDefaultSize(self.widthSet, 875)
         #
         self.setNameText(_title)
@@ -127,7 +128,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         self.toolWidget.show()
     #
     def setScnRightToolBox(self):
-        self.scnHierarchyToggleButton = qtWidgets_.QRadioButton_()
+        self.scnHierarchyToggleButton = qtCore.QRadioButton_()
         #
         uiData = [
             (self.scnHierarchyToggleButton, 'window#hierarchyPanel', u'点击显示场景层级', True, (self.setScnHierarchyView,))

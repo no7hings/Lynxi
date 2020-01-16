@@ -3,9 +3,9 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore import lxBasic
+from LxBasic import bscCommands
 #
-from LxMaya.command import maUtils, maFile, maAttr, maProxy
+from LxMaya.command import maUtils, maAttr, maProxy
 #
 from random import choice
 #
@@ -26,7 +26,7 @@ none = ''
 
 #
 def setOutAstProxy(osFile, objectString, renderer):
-    lxBasic.setOsFileDirectoryCreate(osFile)
+    bscCommands.setOsFileDirectoryCreate(osFile)
     # Export
     cmds.select(objectString)
     maProxy.setOutProxy(osFile, renderer, 0)
@@ -191,7 +191,7 @@ def setCreateProxyAov(aovData):
 
 #
 def getProxyAovData():
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     aovNodes = cmds.ls(type='aiAOV')
     if aovNodes:
         for inAovNode in aovNodes:

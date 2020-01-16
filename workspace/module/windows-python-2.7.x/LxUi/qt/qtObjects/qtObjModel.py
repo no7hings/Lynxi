@@ -3,7 +3,7 @@ import types
 #
 import math
 #
-from LxCore import lxBasic
+from LxBasic import bscCommands
 #
 from LxUi.qt import qtAbstract, qtAction, qtCore
 
@@ -254,7 +254,7 @@ class QtAbcObj_ItemModel(
     def setWidget(self, widget):
         self._widget = widget
         #
-        self._pressedTimer = QtCore.QTimer(self._widget)
+        self._pressedTimer = qtCore.CLS_timer(self._widget)
         self._pressedTimer.timeout.connect(self._pressedAction)
     #
     def filterColor(self):
@@ -527,7 +527,7 @@ class _QtEnterlabelModel(QtAbcObj_ItemModel):
     def setWidget(self, widget):
         self._widget = widget
         #
-        self._pressedTimer = QtCore.QTimer(self._widget)
+        self._pressedTimer = qtCore.CLS_timer(self._widget)
         self._pressedTimer.timeout.connect(self._pressedAction)
         #
         self._entryButton = self._widget._entryButton
@@ -764,7 +764,7 @@ class _QtPressbuttonModel(QtAbcObj_ItemModel):
                 if percent == 1:
                     r, g, b = 64, 255, 127
                 else:
-                    r, g, b = self.hsvToRgb(45 * percent, 1, 1)
+                    r, g, b = self.mtd_raw_color.hsv2Rgb(45 * percent, 1, 1)
                 #
                 self.widget()._uiPercentValueRgba = [(r * .5, g * .5, b * .5, 255), (r * .75, g * .75, b * .75, 255)][self.isPressHovered()]
         else:
@@ -815,7 +815,7 @@ class _QtPressbuttonModel(QtAbcObj_ItemModel):
     # noinspection PyUnresolvedReferences
     def acceptPressCommand(self):
         if self._pressCommand is not None:
-            if lxBasic.isMayaApp():
+            if bscCommands.isMayaApp():
                 import maya.mel as mel
                 mel.eval(self._pressCommand)
             else:
@@ -2773,10 +2773,10 @@ class _QtShelftabModel(QtAbcObj_TabModel):
                 yPos += 4
                 h -= 4
                 # noinspection PyArgumentEqualDefault
-                self.widget().setFont(qtCore.xFont(size=8, weight=50, family=qtCore._families[2]))
+                self.widget().setFont(qtCore.qtFont(size=8, weight=50, family=qtCore._families[2]))
             else:
                 # noinspection PyArgumentEqualDefault
-                self.widget().setFont(qtCore.xFont(size=10, weight=50, family=qtCore._families[2]))
+                self.widget().setFont(qtCore.qtFont(size=10, weight=50, family=qtCore._families[2]))
             #
             self.nameTextRect().setRect(
                 xPos, yPos,
@@ -3158,7 +3158,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             if self.isStatusEnable():
                 h += self._uiStatusHeight
             #
-            shadowRadius = self._uiShadowRadius
+            shadowRadius = self._shadowRadius()
             l, t, r, b = self.margins()
             #
             width_, height_ = w + l + r + shadowRadius, h + t + b + shadowRadius
@@ -3231,7 +3231,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
         height -= 1
         #
         frameWidth, frameHeight = self._uiFrameWidth, self._uiFrameHeight
-        shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
+        shadowRadius = self._shadowRadius()
         #
         self.basicRect().setRect(
             xPos, yPos,
@@ -3276,108 +3276,111 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             self._uiFocusPath = path
     #
     def _updateMenuButtonGeometry(self):
-        width, height = self.width() - 1, self.height() - 1
-        #
-        menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
-        buttonWidth, buttonHeight = self._uiButtonWidth, self._uiButtonHeight
-        #
-        isHorizontal = self.direction() is qtCore.Horizontal
-        #
-        side, spacing, shadowRadius = self._uiSide, self._uiSpacing, [self._uiShadowRadius, 0][self.isMaximized()]
-        if isHorizontal:
-            xPos, yPos = width - buttonWidth - side - shadowRadius, (menuHeight - buttonHeight)/2
-        else:
-            xPos, yPos = width - menuHeight + (menuHeight - buttonWidth)/2 - shadowRadius, (menuHeight - buttonWidth)/2
-        #
-        self._closeButton.setGeometry(
-            xPos, yPos,
-            buttonWidth, buttonHeight
-        )
-        # Maximize
-        if self.isMaximizeable():
+        if self.isMenuEnable():
+            width, height = self.width() - 1, self.height() - 1
+            #
+            menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
+            buttonWidth, buttonHeight = self._uiButtonWidth, self._uiButtonHeight
+            #
+            isHorizontal = self.direction() is qtCore.Horizontal
+            #
+            side, spacing, shadowRadius = self._uiSide, self._uiSpacing, self._shadowRadius()
+            if isHorizontal:
+                xPos, yPos = width - buttonWidth - side - shadowRadius, (menuHeight - buttonHeight)/2
+            else:
+                xPos, yPos = width - menuHeight + (menuHeight - buttonWidth)/2 - shadowRadius, (menuHeight - buttonWidth)/2
+            #
+            self._closeButton.setGeometry(
+                xPos, yPos,
+                buttonWidth, buttonHeight
+            )
+            # Maximize
+            if self.isMaximizeable():
+                if isHorizontal:
+                    xPos -= (buttonWidth + spacing)
+                else:
+                    yPos += (buttonWidth + spacing)
+                #
+                self._maximizeButton.setGeometry(
+                    xPos, yPos,
+                    buttonWidth, buttonHeight
+                )
+                #
+                if self.isExpanded():
+                    self._maximizeButton.setIconKeyword(['svg_basic@svg#maximize', 'svg_basic@svg#normmize'][self.isMaximized()])
+                #
+                self._maximizeButton.show()
+            else:
+                self._maximizeButton.hide()
+            # Minimize
+            if self.isMinimizeable():
+                if isHorizontal:
+                    xPos -= (buttonWidth + spacing)
+                else:
+                    yPos += (buttonWidth + spacing)
+                #
+                self._minimizeButton.setGeometry(
+                    xPos, yPos,
+                    buttonWidth, buttonHeight
+                )
+                #
+                self._minimizeButton.show()
+            else:
+                self._minimizeButton.hide()
+            # Expand
+            if self.isExpandable():
+                if isHorizontal:
+                    xPos -= (buttonWidth + spacing)
+                else:
+                    yPos += (buttonWidth + spacing)
+                #
+                self._expandButton.setGeometry(
+                    xPos, yPos,
+                    buttonWidth, buttonHeight
+                )
+                #
+                if not self.isMaximized():
+                    iconKeyword = ['svg_basic@svg#unfold', 'svg_basic@svg#fold'][self.isExpanded()]
+                    self._expandButton.setIconKeyword(iconKeyword)
+                #
+                self._expandButton.show()
+            else:
+                self._expandButton.hide()
+            # Menu
             if isHorizontal:
                 xPos -= (buttonWidth + spacing)
             else:
                 yPos += (buttonWidth + spacing)
             #
-            self._maximizeButton.setGeometry(
+            self._menuButton.setGeometry(
                 xPos, yPos,
                 buttonWidth, buttonHeight
             )
             #
-            if self.isExpanded():
-                self._maximizeButton.setIconKeyword(['svg_basic@svg#maximize', 'svg_basic@svg#normmize'][self.isMaximized()])
+            self._xMenuPos, self._yMenuPos = xPos, yPos
             #
-            self._maximizeButton.show()
-        else:
-            self._maximizeButton.hide()
-        # Minimize
-        if self.isMinimizeable():
-            if isHorizontal:
-                xPos -= (buttonWidth + spacing)
-            else:
-                yPos += (buttonWidth + spacing)
-            #
-            self._minimizeButton.setGeometry(
-                xPos, yPos,
-                buttonWidth, buttonHeight
+            self._progressBar.setGeometry(
+                0, -2,
+                width - shadowRadius, 1
             )
-            #
-            self._minimizeButton.show()
         else:
-            self._minimizeButton.hide()
-        # Expand
-        if self.isExpandable():
-            if isHorizontal:
-                xPos -= (buttonWidth + spacing)
-            else:
-                yPos += (buttonWidth + spacing)
-            #
-            self._expandButton.setGeometry(
-                xPos, yPos,
-                buttonWidth, buttonHeight
-            )
-            #
-            if not self.isMaximized():
-                iconKeyword = ['svg_basic@svg#unfold', 'svg_basic@svg#fold'][self.isExpanded()]
-                self._expandButton.setIconKeyword(iconKeyword)
-            #
-            self._expandButton.show()
-        else:
-            self._expandButton.hide()
-        # Menu
-        if isHorizontal:
-            xPos -= (buttonWidth + spacing)
-        else:
-            yPos += (buttonWidth + spacing)
-        #
-        self._menuButton.setGeometry(
-            xPos, yPos,
-            buttonWidth, buttonHeight
-        )
-        #
-        self._xMenuPos, self._yMenuPos = xPos, yPos
-        #
-        self._progressBar.setGeometry(
-            0, -2,
-            width - shadowRadius, 1
-        )
+            for i in [self._menuButton, self._minimizeButton, self._maximizeButton, self._expandButton, self._closeButton]:
+                i.hide()
     #
     def _updateMenuRectGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        width -= 1
-        height -= 1
-        #
-        menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
-        statusWidth, statusHeight = self._uiStatusWidth, self._uiStatusHeight
-        #
-        side, spacing, shadowRadius = self._uiSide, self._uiSpacing, [self._uiShadowRadius, 0][self.isMaximized()]
-        #
-        iconWidth, iconHeight = self._uiIconWidth, self._uiIconHeight
-        frameWidth, frameHeight = self._uiMenuHeight, self._uiMenuHeight
-        # Menu
         if self.isMenuEnable():
+            xPos, yPos = 0, 0
+            width, height = self.width(), self.height()
+            width -= 1
+            height -= 1
+            #
+            menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
+            statusWidth, statusHeight = self._uiStatusWidth, self._uiStatusHeight
+            #
+            side, spacing, shadowRadius = self._uiSide, self._uiSpacing, self._shadowRadius()
+            #
+            iconWidth, iconHeight = self._uiIconWidth, self._uiIconHeight
+            frameWidth, frameHeight = self._uiMenuHeight, self._uiMenuHeight
             _w, _h = (frameWidth - iconWidth) / 2, (frameHeight - iconHeight) / 2
             if self.direction() == qtCore.Horizontal:
                 x, y = xPos, yPos
@@ -3406,7 +3409,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
                 # Index
                 if self.indexText() is not None:
                     textMaxWidth = self._xMenuPos - xPos
-                    self.widget().setFont(self.widget()._uiIndexFont)
+                    self.widget().setFont(self.widget()._uiIndeqtFont)
                     textWidth = self._textWidth(self.indexText())
                     rectWidth = min(textMaxWidth, textWidth)
                     self.indexTextRect().setRect(
@@ -3437,7 +3440,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
                     xPos += (rectWidth + spacing)
                 # Index
                 if self.indexText() is not None:
-                    self.widget().setFont(self.widget()._uiIndexFont)
+                    self.widget().setFont(self.widget()._uiIndeqtFont)
                     textWidth = self._textWidth(self.indexText())
                     rectWidth = textWidth
                     self.indexTextRect().setRect(
@@ -3452,6 +3455,8 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
                 x, y,
                 w, h
             )
+        else:
+            self._uiMenuRect.setRect(0, 0, 0, 0)
     #
     def _updateStatusButtonGeometry(self):
         if self.isStatusEnable() and self.isExpanded():
@@ -3463,7 +3468,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             buttonWidth, buttonHeight = self._uiButtonWidth, self._uiButtonHeight
             #
             spacing = self._uiSpacing
-            shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
+            shadowRadius = self._shadowRadius()
             #
             xPos += self._uiSide
             yPos = height - self._uiMenuHeight - shadowRadius + (self._uiMenuHeight - buttonHeight)/2
@@ -3511,7 +3516,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             height -= 1
             #
             buttonWidth, buttonHeight = self._uiButtonWidth, self._uiButtonHeight
-            shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
+            shadowRadius = self._shadowRadius()
             #
             yPos = height - self._uiStatusHeight - shadowRadius
             #
@@ -3540,7 +3545,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             #
             menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
             #
-            shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
+            shadowRadius = self._shadowRadius()
             #
             if self.direction() == qtCore.Horizontal:
                 maxWidth = width - shadowRadius
@@ -3560,19 +3565,18 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
                 )
     #
     def _updateViewportGeometry(self):
-        xPos, yPos = 0, 0
-        width, height = self.width(), self.height()
-        #
-        menuWidth, menuHeight = self._uiMenuWidth, self._uiMenuHeight
-        statusWidth, statusHeight = self._uiStatusWidth, self._uiStatusHeight
-        #
-        shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
-        #
         if self.isExpanded():
-            self.viewport().show()
+            xPos, yPos = 0, 0
+            width, height = self.width(), self.height()
             #
+            menuWidth, menuHeight = self._uiMenuWidth, self._menuHeight()
+            statusWidth, statusHeight = self._uiStatusWidth, self._uiStatusHeight
+            #
+            shadowRadius = self._shadowRadius()
+            self.viewport().show()
+
             if self.direction() is qtCore.Horizontal:
-                x, y = xPos, yPos + self._uiMenuHeight
+                x, y = xPos, yPos + menuHeight
                 w = width - shadowRadius
                 #
                 if self.isStatusEnable():
@@ -3587,10 +3591,8 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
                     h = height - statusHeight - shadowRadius
                 else:
                     h = height - shadowRadius
-            #
-            self.viewport().setGeometry(
-                *self._toViewportGeometryArgs(x, y, w, h)
-            )
+
+            self.viewport().setGeometry(*self._toViewportGeometryArgs(x, y, w, h))
         else:
             self.viewport().hide()
     #
@@ -3607,9 +3609,9 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
         #
         self._updatePercentRectGeometry()
     # noinspection PyUnusedLocal
-    def _resizeAction(self, event, message):
+    def _nativeAction(self, event, message):
         if self.isResizeable():
-            return qtCore.nativeEve(self._widget, message)
+            return qtCore.nativeEnvFnc(self._widget, message)
         else:
             return False, 0
     # Button
@@ -3648,7 +3650,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             xPos, yPos = self.x(), self.y()
             currentWidth, currentHeight = self.width(), self.height()
             if self._isExpanded is True:
-                shadowRadius = [self._uiShadowRadius, 0][self.isMaximized()]
+                shadowRadius = self._shadowRadius()
                 #
                 if self.direction() is qtCore.Horizontal:
                     width, height = self._uiMenuWidth, self._uiMenuHeight + shadowRadius + 1
@@ -3685,6 +3687,18 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
         #
         self._updateWidgetSize()
         self.update()
+    #
+    def _menuHeight(self):
+        if self.isMenuEnable():
+            return self._uiMenuHeight
+        return 0
+    #
+    def _shadowRadius(self):
+        if self.isMaximized():
+            return 0
+        elif self.isShadowEnable():
+            return 4
+        return 0
     #
     def _setCtrlFlag(self, boolean):
         self._ctrlFlag = boolean
@@ -3789,17 +3803,17 @@ class QtAbcObj_ChartModel(qtAbstract.QtAbc_ChartModel):
     fnc_cos = math.cos
     fnc_tan = math.tan
     #
-    cls_pen = QtGui.QPen
-    cls_color = QtGui.QColor
-    cls_brush = QtGui.QBrush
-    cls_point = QtCore.QPoint
-    cls_pointF = QtCore.QPointF
-    cls_line = QtCore.QLine
-    cls_rect = QtCore.QRect
-    cls_rectF = QtCore.QRectF
-    cls_polygon = QtGui.QPolygon
-    cls_polygonF = QtGui.QPolygonF
-    cls_painter_path = QtGui.QPainterPath
+    CLS_pen = QtGui.QPen
+    CLS_color = QtGui.QColor
+    CLS_brush = QtGui.QBrush
+    CLS_point = QtCore.QPoint
+    CLS_pointF = QtCore.QPointF
+    CLS_line = QtCore.QLine
+    CLS_rect = QtCore.QRect
+    CLS_rectF = QtCore.QRectF
+    CLS_polygon = QtGui.QPolygon
+    CLS_polygonF = QtGui.QPolygonF
+    CLS_painterPath = QtGui.QPainterPath
     def _initAbcObjChart(self):
         self._initAbcChartModel()
     #
@@ -4022,19 +4036,22 @@ class QtAbcObj_GroupModel(qtAbstract.QtAbc_GroupModel):
             self._viewport = widget._viewport
         else:
             self._viewport = qtCore.QWidget_(self.widget())
-        #
+
         self._widgetLayout = qtCore.QVBoxLayout(self.widget())
         self._widgetLayout.setContentsMargins(0, 0, 0, 0)
         self._widgetLayout.setSpacing(0)
-        #
+
         self._widgetLayout.addWidget(self._viewport)
-        #
+
         self._viewport.setGeometry(0, 0, 0, 0)
-        self._viewport.setAttribute(
-            QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents
-        )
+
+        if qtCore.LOAD_INDEX is 0:
+            self._viewport.setAttribute(QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents)
+        else:
+            self._viewport.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+
         self._viewport.setMouseTracking(True)
-        #
+
         self._viewport.setFocusProxy(self.widget())
     #
     def update(self):

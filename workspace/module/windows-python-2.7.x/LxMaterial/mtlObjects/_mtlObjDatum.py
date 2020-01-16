@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxMaterial import mtlAbstract, mtlConfigure
 
-from LxMaterial.mtlObjects import _mtlRaw
+from LxMaterial.mtlObjects import _mtlObjRaw
 
 
 class _Dat_Method(mtlAbstract.Abc_RawDatum):
@@ -43,11 +43,11 @@ class _Dat_Method(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_Closure(mtlAbstract.Abc_RawDatum):
-    RAW_CLS = _mtlRaw.Raw_Closure
+    CLS_raw = _mtlObjRaw.Raw_Closure
 
-    raw_type = _mtlRaw.Raw_Closure
+    raw_type = _mtlObjRaw.Raw_Closure
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -62,11 +62,11 @@ class Dat_Closure(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_Boolean(mtlAbstract.Abc_RawDatum):
-    RAW_CLS = bool
+    CLS_raw = bool
 
     raw_type = bool, int
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -86,11 +86,11 @@ class Dat_Boolean(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_Integer(_Dat_Method):
-    RAW_CLS = int
+    CLS_raw = int
 
     raw_type = int, float
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -102,11 +102,11 @@ class Dat_Integer(_Dat_Method):
 
 
 class Dat_IntegerN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_Integer
+    CLS_set_child = Dat_Integer
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -118,11 +118,11 @@ class Dat_IntegerN(mtlAbstract.Abc_RawDatumset):
 
 
 class Dat_IntegerNN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_IntegerN
+    CLS_set_child = Dat_IntegerN
 
     datum_string_separator = mtlConfigure.Separator_Raw_String_Array
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -134,11 +134,11 @@ class Dat_IntegerNN(mtlAbstract.Abc_RawDatumset):
 
 
 class Dat_Float(_Dat_Method):
-    RAW_CLS = float
+    CLS_raw = float
 
     raw_type = float, int
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -150,11 +150,11 @@ class Dat_Float(_Dat_Method):
 
 
 class Dat_FloatN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_Float
+    CLS_set_child = Dat_Float
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -166,11 +166,11 @@ class Dat_FloatN(mtlAbstract.Abc_RawDatumset):
 
 
 class Dat_FloatNN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_FloatN
+    CLS_set_child = Dat_FloatN
 
     datum_string_separator = mtlConfigure.Separator_Raw_String_Array
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -182,11 +182,11 @@ class Dat_FloatNN(mtlAbstract.Abc_RawDatumset):
 
 
 class Dat_String(mtlAbstract.Abc_RawDatum):
-    RAW_CLS = unicode
+    CLS_raw = unicode
 
     raw_type = unicode, str
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -198,11 +198,11 @@ class Dat_String(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_StringN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_String
+    CLS_set_child = Dat_String
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -214,11 +214,11 @@ class Dat_StringN(mtlAbstract.Abc_RawDatumset):
 
 
 class Dat_FileName(mtlAbstract.Abc_RawDatum):
-    RAW_CLS = unicode
+    CLS_raw = unicode
 
     raw_type = unicode, str
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -230,11 +230,11 @@ class Dat_FileName(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_NodeName(mtlAbstract.Abc_RawDatum):
-    RAW_CLS = unicode
+    CLS_raw = unicode
 
     raw_type = unicode, str
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -246,11 +246,11 @@ class Dat_NodeName(mtlAbstract.Abc_RawDatum):
 
 
 class Dat_NodeNameN(mtlAbstract.Abc_RawDatumset):
-    SET_CHILD_CLS = Dat_NodeName
+    CLS_set_child = Dat_NodeName
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
 
-    xml_key_attribute = 'value'
+    STR_mtlx_key_attribute = 'value'
 
     def __init__(self, *args):
         """

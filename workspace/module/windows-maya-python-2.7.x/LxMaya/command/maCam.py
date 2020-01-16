@@ -1,7 +1,9 @@
 # coding=utf-8
 import math
+
+from LxBasic import bscCommands
 #
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
@@ -172,7 +174,7 @@ def setHudColor(labelColor=19, valueColor=16):
 
 #
 def hudConfig(fontSize='large'):
-    dic = lxBasic.orderedDict()
+    dic = bscCommands.orderedDict()
     dic['Time Config Info'] = dict(
         section=0, block=0,
         blockAlignment='center',
@@ -237,7 +239,7 @@ def hudConfig(fontSize='large'):
         blockSize=fontSize,
         label='Date : ',
         labelWidth=48,
-        command=lambda: lxBasic.getCnViewDate(),
+        command=lambda: bscCommands.getCnViewDate(),
         attachToRefresh=1
     )
     return dic

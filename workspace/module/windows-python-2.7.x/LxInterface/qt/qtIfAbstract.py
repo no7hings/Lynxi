@@ -131,7 +131,7 @@ class IfUnitAbs(appConfig.LxUiConfig):
                 #
                 thread.wait()
             #
-            timer = qtCore.QtCore.QTimer(self)
+            timer = qtCore.CLS_timer(self)
             self._timerLis.append(timer)
             #
             thread = qtCore.QThread_(self)

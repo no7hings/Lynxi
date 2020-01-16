@@ -65,7 +65,7 @@ class If_Tip(bscCore.Basic):
 class If_Log(bscCore.Basic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
-    method_html = _bscMtdRaw.HtmlText
+    method_html = _bscMtdRaw.TxtHtml
 
     def __init__(self, title=None, logTargetFile=None):
         self._ui = self.__loadUi(title)

@@ -1,7 +1,7 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxCore import lxBasic, lxConfigure
+from LxCore import lxConfigure
 #
 from LxCore.preset.prod import scenePr
 #
@@ -22,12 +22,12 @@ def setListScRenderImageCustomize(
     def setBranch(customize):
         def setActionData():
             def openRenderFileToLocalCmd():
-                if lxBasic.isOsExistsFile(serverRenderFile):
+                if bscCommands.isOsExistsFile(serverRenderFile):
                     from LxMaya.command import maFile
                     maFile.openMayaFileToLocal(serverRenderFile, localRenderFile)
             #
             def openRenderFileCmd():
-                if lxBasic.isOsExistsFile(serverRenderFile):
+                if bscCommands.isOsExistsFile(serverRenderFile):
                     from LxMaya.command import maFile
                     maFile.fileOpen(serverRenderFile)
             #
@@ -86,7 +86,7 @@ def setListScRenderImageCustomize(
             itemWidget = treeItem.setItemIconWidget(0, iconKeyword, showExplain, stateLabel)
             setActionData()
             #
-            showTimeTag = bscMethods.OsTime.getCnPrettifyByTimestamp(lxBasic.getOsFileMtimestamp(serverRenderFile))
+            showTimeTag = bscMethods.OsFile.mtimeChnPrettify(serverRenderFile)
             treeItem.setText(1, showTimeTag)
             #
             treeItem.imageFiles = imageFiles
@@ -122,7 +122,7 @@ def setListRenderImages(
 ):
     #
     def getDic(data):
-        dic = lxBasic.orderedDict()
+        dic = bscCommands.orderedDict()
         findKey = '<RenderLayer>'
         splitPrefix = imagePrefix.split(pathSep)
         if findKey in splitPrefix:
@@ -161,29 +161,37 @@ def setListRenderImages(
                 bscMethods.OsDirectory.open(imageFolder)
             #
             def openImageFolderEnabled():
-                return lxBasic.isOsExist(imageFolder)
+                return bscCommands.isOsExist(imageFolder)
             #
             def openImage():
                 osCmdExe = 'pdplayer64.exe'
-                if lxBasic.isOsExistsFile(osCmdExe):
-                    subOsFiles = lxBasic.getOsSeqFiles(imageFile)
+                if bscCommands.isOsExistsFile(osCmdExe):
+                    subOsFiles = bscMethods.OsMultifile.existFiles(imageFile)
                     if subOsFiles:
                         subOsFile = subOsFiles[0]
                         osCmd = '''"{}" "{}"'''.format(osCmdExe, subOsFile)
-                        lxBasic.setOsCommandRun_(osCmd)
+                        bscCommands.setOsCommandRun_(osCmd)
             #
             def showSizeHistogramWindow():
                 win = qtWidgets.QtDialogWindow()
                 win.setNameText('Image Size Histogram')
                 chart = qtChart_.QtHistogramchart_()
                 win.addWidget(chart)
-                chart.setDrawData(lxBasic.getOsSeqFileSizes(imageFile, startFrame, endFrame), (startFrame, 0), ('Frame', 'Size'))
+
+                chart.setDrawData(
+                    bscMethods.OsMultifile.fileSizes(
+                        fileString=imageFile,
+                        frameRange=(startFrame, endFrame)
+                    ),
+                    (startFrame, 0),
+                    ('Frame', 'Size')
+                )
                 win.uiShow()
             #
             def openImageEnabled():
                 pass
             #
-            imageFolder = lxBasic.getOsFileDirname(imageFile)
+            imageFolder = bscCommands.getOsFileDirname(imageFile)
             #
             actions = [
                 ('Basic', ),
@@ -195,10 +203,8 @@ def setListRenderImages(
             itemWidget.setActionData(actions)
         #
         def updateCompletion():
-            numbers = lxBasic.getOsSeqFileNumbers(imageFile)
-            #
-            numRangeArray = lxBasic.lis_frame2range(numbers)
-            #
+            frames = bscMethods.OsMultifile.existFrames(imageFile)
+            numRangeArray = bscMethods.Array.toRangecase(frames)
             lineChart.setDrawData(numRangeArray, startFrame, endFrame)
         #
         if index == 0:
@@ -210,7 +216,7 @@ def setListRenderImages(
         iconKeyword = 'svg_basic@svg#image'
         #
         explain = imageFile.split('/images')[-1][1:]
-        htmlExplain = bscMethods.HtmlText.toHtmlMayaRenderImage(imagePrefix, explain)
+        htmlExplain = bscMethods.TxtHtml.toHtmlMayaRenderImage(imagePrefix, explain)
         itemWidget = treeItem.setItemIconWidget(0, iconKeyword, htmlExplain)
         # Action
         setActionData()
