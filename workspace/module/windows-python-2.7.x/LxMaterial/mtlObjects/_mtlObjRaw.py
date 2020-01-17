@@ -50,6 +50,8 @@ class Raw_ShaderCategory(mtlAbstract.Abc_RawString):
 
 
 class Raw_NodeCategory(mtlAbstract.Abc_RawString):
+    STR_mtlx_key_attribute = u'category'
+
     def __init__(self, *args):
         self._initAbcRawString(*args)
 

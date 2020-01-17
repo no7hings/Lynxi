@@ -4,68 +4,114 @@ from LxMaterial import mtlAbstract
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet
 
 
+class Channel(mtlAbstract.Abc_Input):
+    CLS_portpath = _mtlObjRaw.Raw_PortPath
+
+    CLS_set_channel = _mtlObjSet.Set_Port
+
+    def __init__(self, *args):
+        self._initAbcInput(*args)
+
+
 # maya: shader engine
-class ShadersetPort(mtlAbstract.Abc_ShaderPort):
+class ShadersetInput(mtlAbstract.Abc_Input):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = 'bindinput'
-    STR_mtlx_key_attribute = 'context'
+    STR_mtlx_key_element = u'bindinput'
+    STR_mtlx_key_attribute = u'context'
 
     def __init__(self, *args):
-        self._initAbcPort(*args)
+        self._initAbcInput(*args)
 
 
-class ShaderPort(mtlAbstract.Abc_ShaderPort):
+class ShaderInput(mtlAbstract.Abc_ShaderInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = 'bindinput'
-    STR_mtlx_key_attribute = 'member'
+    STR_mtlx_key_element = u'bindinput'
+    STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcPort(*args)
+        self._initAbcShaderInput(*args)
 
 
-class NodePort(mtlAbstract.Abc_NodePort):
+class NodeInput(mtlAbstract.Abc_NodeInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = 'input'
-    STR_mtlx_key_attribute = 'member'
+    STR_mtlx_key_element = u'input'
+    STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcPort(*args)
+        self._initAbcNodeInput(*args)
 
 
-class GeometryPort(mtlAbstract.Abc_NodePort):
+class Property(mtlAbstract.Abc_Property):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = 'property'
-    STR_mtlx_key_attribute = 'member'
+    STR_mtlx_key_element = u'property'
+    STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcPort(*args)
+        self._initAbcProperty(*args)
+
+
+class Visibility(mtlAbstract.Abc_Visibility):
+    CLS_portpath = _mtlObjRaw.Raw_PortPath
+
+    CLS_set_channel = _mtlObjSet.Set_Port
+
+    STR_mtlx_key_element = u'property'
+    STR_mtlx_key_attribute = u'member'
+
+    def __init__(self, *args):
+        self._initAbcVisibility(*args)
+
+
+class GeometryOutput(mtlAbstract.Abc_ShaderOutput):
+    CLS_portpath = _mtlObjRaw.Raw_PortPath
+
+    CLS_set_channel = _mtlObjSet.Set_Port
+
+    STR_mtlx_key_attribute = u'member'
+
+    def __init__(self, *args):
+        self._initAbcShaderOutput(*args)
 
 
 class ShaderOutput(mtlAbstract.Abc_ShaderOutput):
-    CLS_raw_name = _mtlObjRaw.Raw_Name
+    CLS_portpath = _mtlObjRaw.Raw_PortPath
 
-    STR_mtlx_key_attribute = 'context'
+    CLS_set_channel = _mtlObjSet.Set_Port
 
-    def __init__(self, *args):
-        self._initAbcShaderOutput(*args)
-
-
-class NodeOutput(mtlAbstract.Abc_ShaderOutput):
-    CLS_raw_name = _mtlObjRaw.Raw_Name
-
-    STR_mtlx_key_attribute = 'output'
+    STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcShaderOutput(*args)
+
+
+class NodeOutput(mtlAbstract.Abc_NodeOutput):
+    CLS_portpath = _mtlObjRaw.Raw_PortPath
+
+    CLS_set_channel = _mtlObjSet.Set_Port
+
+    STR_mtlx_key_attribute = u'member'
+
+    def __init__(self, *args):
+        self._initAbcNodeOutput(*args)
+
+
+class NodeGraphOutput(mtlAbstract.Abc_NodeGraphOutput):
+    CLS_raw_name = _mtlObjRaw.Raw_Name
+
+    STR_mtlx_key_element = u'output'
+    STR_mtlx_key_attribute = u'output'
+
+    def __init__(self, *args):
+        self._initAbcNodeGraphOutput(*args)

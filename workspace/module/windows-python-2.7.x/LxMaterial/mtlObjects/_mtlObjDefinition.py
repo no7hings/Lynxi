@@ -2,6 +2,11 @@
 from LxMaterial import mtlAbstract
 
 
+class Definition(mtlAbstract.Abc_Def):
+    def __init__(self):
+        self._initAbcDef()
+
+
 class Def_Type(mtlAbstract.Abc_TypeDef):
     def __init__(self, typeString):
         pass

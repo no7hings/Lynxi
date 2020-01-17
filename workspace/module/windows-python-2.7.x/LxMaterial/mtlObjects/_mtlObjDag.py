@@ -45,11 +45,12 @@ class Geometry(mtlAbstract.Abc_Geometry):
     CLS_raw_category = _mtlObjRaw.Raw_NodeCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
 
-    CLS_set_port = _mtlObjSet.Set_Port
+    CLS_set_input = _mtlObjSet.Set_Input
     CLS_set_output = _mtlObjSet.Set_Output
     CLS_set_child = _mtlObjSet.Set_Dag
 
-    CLS_port = _mtlObjPort.GeometryPort
+    CLS_input = _mtlObjPort.Property
+    CLS_output = _mtlObjPort.GeometryOutput
     CLS_definition = _mtlObjDefinition.Def_Node
 
     DIC_cls_value = DIC_CLS_VALUE
@@ -65,11 +66,12 @@ class Shader(mtlAbstract.Abc_Shader):
     CLS_raw_category = _mtlObjRaw.Raw_ShaderCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
 
-    CLS_set_port = _mtlObjSet.Set_Port
+    CLS_set_input = _mtlObjSet.Set_Input
     CLS_set_output = _mtlObjSet.Set_Output
     CLS_set_child = _mtlObjSet.Set_Dag
 
-    CLS_port = _mtlObjPort.ShaderPort
+    CLS_input = _mtlObjPort.ShaderInput
+    CLS_output = _mtlObjPort.ShaderOutput
     CLS_definition = _mtlObjDefinition.Def_Node
 
     DIC_cls_value = DIC_CLS_VALUE
@@ -88,11 +90,12 @@ class Node(mtlAbstract.Abc_Node):
     CLS_raw_category = _mtlObjRaw.Raw_NodeCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
 
-    CLS_set_port = _mtlObjSet.Set_Port
+    CLS_set_input = _mtlObjSet.Set_Input
     CLS_set_output = _mtlObjSet.Set_Output
     CLS_set_child = _mtlObjSet.Set_Dag
 
-    CLS_port = _mtlObjPort.NodePort
+    CLS_input = _mtlObjPort.NodeInput
+    CLS_output = _mtlObjPort.NodeOutput
     CLS_definition = _mtlObjDefinition.Def_Node
 
     DIC_cls_value = DIC_CLS_VALUE

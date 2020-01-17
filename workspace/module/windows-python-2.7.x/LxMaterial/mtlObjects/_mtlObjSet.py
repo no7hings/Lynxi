@@ -24,6 +24,11 @@ class Set_Port(mtlAbstract.Abc_Set):
         self._initAbcSet(*args)
 
 
+class Set_Input(mtlAbstract.Abc_Set):
+    def __init__(self, *args):
+        self._initAbcSet(*args)
+
+
 class Set_Output(mtlAbstract.Abc_Set):
     def __init__(self, *args):
         self._initAbcSet(*args)

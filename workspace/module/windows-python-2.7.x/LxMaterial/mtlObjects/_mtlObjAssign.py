@@ -10,9 +10,7 @@ class ShadersetAssign(mtlAbstract.Abc_ShadersetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
-    CLS_shaderset = _mtlObjElement.ShadersetElement
-
-    separator_geometry = mtlConfigure.Separator_Raw_Basic
+    STR_geometry_separator = mtlConfigure.Separator_Raw_Basic
 
     STR_mtlx_key_element = 'materialassign'
 
@@ -23,14 +21,27 @@ class ShadersetAssign(mtlAbstract.Abc_ShadersetAssign):
         self._initAbcShadersetAssign(*args)
 
 
-class GeomPortsetAssign(mtlAbstract.Abc_GeomPortsetAssign):
+class PropertysetAssign(mtlAbstract.Abc_PropertysetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
-    STR_mtlx_key_element = 'propertyset'
+    STR_mtlx_key_element = 'propertysetAssign'
 
     def __init__(self, *args):
         """
         :param args: nameString
         """
-        self._initAbcGeomPortsetAssign(*args)
+        self._initPropertysetAssign(*args)
+
+
+class VisibilityAssign(mtlAbstract.Abc_VisibilityAssign):
+    CLS_raw_name = _mtlObjRaw.Raw_Name
+    CLS_set_geometry = _mtlObjSet.Set_Geometry
+
+    STR_mtlx_key_element = 'visibility'
+
+    def __init__(self, *args):
+        """
+        :param args: nameString
+        """
+        self._initAbcVisibilityAssign(*args)

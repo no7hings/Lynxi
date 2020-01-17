@@ -39,9 +39,138 @@ Value_Type_FileName = u'filename'
 Value_Type_GeometryName = u'geomname'
 Value_Type_GeometryName_Array = u'geomnamearray'
 
+Def_Geometry_Port_Lis = [
+    {
+        "name": "opaque",
+        "typeString": "boolean",
+        "valueString": "true"
+    },
+    {
+        "name": "matte",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "use_shadow_group",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "motion_start",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "motion_end",
+        "typeString": "float",
+        "valueString": "1"
+    },
+    {
+        "name": "id",
+        "typeString": "integer",
+        "valueString": "0"
+    },
+    {
+        "name": "smoothing",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "subdiv_type",
+        "typeString": "string",
+        "valueString": "none"
+    },
+    {
+        "name": "subdiv_iterations",
+        "typeString": "integer",
+        "valueString": "0"
+    },
+    {
+        "name": "subdiv_adaptive_error",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "subdiv_adaptive_metric",
+        "typeString": "string",
+        "valueString": "auto"
+    },
+    {
+        "name": "subdiv_adaptive_space",
+        "typeString": "string",
+        "valueString": "raster"
+    },
+    {
+        "name": "subdiv_uv_smoothing",
+        "typeString": "string",
+        "valueString": "pin_corners"
+    },
+    {
+        "name": "subdiv_frustum_ignore",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "subdiv_smooth_derivs",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "disp_padding",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "disp_height",
+        "typeString": "float",
+        "valueString": "1"
+    },
+    {
+        "name": "disp_zero_value",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "disp_autobump",
+        "typeString": "boolean",
+        "valueString": "false"
+    },
+    {
+        "name": "autobump_visibility",
+        "typeString": "integer",
+        "valueString": "1"
+    },
+    {
+        "name": "step_size",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "volume_padding",
+        "typeString": "float",
+        "valueString": "0"
+    },
+    {
+        "name": "invert_normals",
+        "typeString": "boolean",
+        "valueString": "true"
+    },
+    {
+        "name": "self_shadows",
+        "typeString": "boolean",
+        "valueString": "true"
+    },
+    {
+        "name": "receive_shadows",
+        "typeString": "boolean",
+        "valueString": "true"
+    }
+]
+
 Def_Node_Dic = {
     "geometry": {
-        "typeString": "geometry",
+        "typeString": "closure",
+        "port": Def_Geometry_Port_Lis
     },
     "ray_switch_rgba": {
         "typeString": "color4",
@@ -6302,4 +6431,57 @@ Def_Node_Dic = {
             }
         ]
     }
+}
+
+
+Def_Output_Dic = {
+    u'geometry': [],
+    u'closure': [
+        {
+            u'name': u'out_color',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        },
+        {
+            u'name': u'out_transparency',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        }
+    ],
+    u'color3': [
+        {
+            u'name': u'out_color',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        },
+        {
+            u'name': u'out_transparency',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        }
+    ],
+    u'color4': [
+        {
+            u'name': u'out_color',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        },
+        {
+            u'name': u'out_transparency',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        },
+        {
+            u'name': u'out_alpha',
+            u'typeString': u'float',
+            u'valueString': u'0'
+        }
+    ],
+    u'boolean': [
+        {
+            u'name': u'out_color',
+            u'typeString': u'color3',
+            u'valueString': u'0, 0, 0'
+        }
+    ]
 }
