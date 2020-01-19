@@ -83,6 +83,33 @@ class Val_Boolean(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
+class Val_Visibility(mtlAbstract.Abc_Value):
+    """
+    boolean Value
+    """
+    CLS_raw_type = _mtlObjRaw.Raw_ValueType
+    CLS_raw_datum = _mtlObjDatum.Dat_Boolean
+
+    value_type_string_pattern = mtlConfigure.Value_Type_Boolean,
+
+    value_size_pattern = 1
+
+    STR_mtlx_key_attribute = 'visible'
+
+    def __init__(self, *args):
+        """
+        :param args:
+            1.bool;
+            2.str(valueString).
+        """
+        self._initAbcValue(*args)
+
+    def _xmlAttributeRaw(self):
+        return [
+            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+        ]
+
+
 # Value Integer
 class Val_Integer(_Val_DigitMethod):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType

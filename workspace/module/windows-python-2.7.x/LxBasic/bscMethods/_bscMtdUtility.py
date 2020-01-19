@@ -66,7 +66,7 @@ class OsEnviron(bscCore.Basic):
             lis.sort()
             dic[key_] = lis
 
-        dic = cls.cls_dic_order()
+        dic = cls.CLS_dic_order()
         keyLis = cls.MOD_copy.deepcopy(cls.MOD_os.environ.keys())
         if keyLis:
             keyLis.sort()
@@ -75,21 +75,6 @@ class OsEnviron(bscCore.Basic):
         dic['SYSTEM_PATH'] = cls.getSystemPaths()
         #
         return dic
-
-
-class OsPath(bscCore.Basic):
-    @classmethod
-    def composeBy(cls, *args):
-        if isinstance(args[0], (list, tuple)):
-            pathStringLis = args[0]
-        else:
-            pathStringLis = list(args)
-
-        string = ''
-        for i in pathStringLis:
-            if i not in ['', None]:
-                string += '/{}'.format(i)
-        return string
 
 
 class OsDirectory(bscCore.Basic):

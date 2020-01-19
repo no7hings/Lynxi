@@ -31,7 +31,7 @@ class Def_Xml(mtlCore.Basic):
     def _xmlNameString(self):
         pass
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         pass
 
     def _xmlChildList(self):
@@ -64,20 +64,21 @@ class Def_Xml(mtlCore.Basic):
                             addAttributeFnc_(i, lString, rString)
                         else:
                             k, v = i
-                            lis.append(u'{}{}="{}"{}'.format(lString, k, v, rString))
+                            if v:
+                                lis.append(u'{}{}="{}"{}'.format(lString, k, v, rString))
 
         def addBranchFnc_(elementObject_, rString, parentElementObject=None):
             if parentElementObject is not None:
                 lString = elementObject_._xmlIndentString
             else:
-                lString = ''
+                lString = u''
 
-            elementTagString = elementObject_._xmlElementKeyString()
-            addPrefixFnc_(elementTagString, lString=lString, rString='')
+            tagString = elementObject_._xmlElementKeyString()
+            addPrefixFnc_(tagString, lString=lString, rString=u'')
             # Attribute
-            attributes = elementObject_._xmlAttributeLis()
+            attributes = elementObject_._xmlAttributeObjectLis()
             if attributes:
-                [addAttributeFnc_(i, lString=cls.xml_separator_attribute, rString='') for i in attributes]
+                [addAttributeFnc_(i, lString=cls.xml_separator_attribute, rString=u'') for i in attributes]
             # Children
             children = elementObject_._xmlChildList()
             if children:
@@ -88,7 +89,7 @@ class Def_Xml(mtlCore.Basic):
                         i._xmlIndentString = lString + defIndentString
                         addBranchFnc_(i, rString=rString, parentElementObject=elementObject_)
 
-                lis.append(u'{}</{}>\r\n'.format(lString, elementTagString))
+                lis.append(u'{}</{}>\r\n'.format(lString, tagString))
             else:
                 lis.append(u'{}/>\r\n'.format(cls.xml_separator_attribute))
 
@@ -287,6 +288,7 @@ class Abc_Set(Def_Xml):
     def _initAbcSet(self, *args):
         self._objectLis = []
         self._objectDic = {}
+
         self._objectCount = 0
 
         self._objectFilterStr = None
@@ -296,11 +298,16 @@ class Abc_Set(Def_Xml):
     def createByRaw(self, *args):
         pass
 
-    def objects(self):
+    def addObject(self, obj):
         """
-        :return: list(object, ...)
+        :param obj: object of typed
+        :return:
         """
-        return self._objectLis
+        queryString = obj._queryString()
+        assert queryString not in self._objectDic, '''Key is Exist.'''
+        self._objectLis.append(obj)
+        self._objectDic[queryString] = obj
+        self._objectCount += 1
 
     def hasObjects(self):
         """
@@ -308,22 +315,26 @@ class Abc_Set(Def_Xml):
         """
         return self._objectLis != []
 
+    def objects(self):
+        """
+        :return: list(object, ...)
+        """
+        return self._objectLis
+
+    def hasObject(self, *args):
+        """
+        :return: bool
+        """
+        if isinstance(args[0], (str, unicode)):
+            return args[0] in self._objectDic
+        else:
+            return args[0] in self._objectLis
+
     def objectCount(self):
         """
         :return: int
         """
         return self._objectCount
-
-    def addObject(self, keyString, obj):
-        """
-        :param keyString: str(query key)
-        :param obj: object of typed
-        :return: 
-        """
-        assert keyString not in self._objectDic, '''Key is Exist.'''
-        self._objectLis.append(obj)
-        self._objectDic[keyString] = obj
-        self._objectCount += 1
 
     def objectAt(self, index):
         """
@@ -338,12 +349,6 @@ class Abc_Set(Def_Xml):
         :return: object
         """
         pass
-
-    def hasObject(self, obj):
-        """
-        :return: bool
-        """
-        return obj in self._objectLis
 
     def objectWithKey(self, keyString):
         """
@@ -390,6 +395,9 @@ class Abc_RawString(Abc_Raw):
         :return: str
         """
         return unicode(self._raw)
+
+    def createByString(self, *args):
+        self._raw = unicode(args[0])
 
     def _xmlAttributeValueString(self):
         return self.toString()
@@ -689,7 +697,7 @@ class Abc_Value(Def_Xml):
         return self._datumObj._toPrintString()
 
 
-# Port ( Attribute )
+# > Port ( Attribute )
 class Abc_Port(Def_Xml):
     CLS_portpath = None
     CLS_set_channel = None
@@ -801,7 +809,7 @@ class Abc_Port(Def_Xml):
         :return: None
         """
         inputObject._setParent(self)
-        self._channelSetObj.addObject(inputObject.fullpathName(), inputObject)
+        self._channelSetObj.addObject(inputObject)
 
     def channels(self):
         """
@@ -812,7 +820,7 @@ class Abc_Port(Def_Xml):
     def channel(self, channelName):
         return self._channelSetObj.objectWithKey(channelName)
 
-    def hasChannel(self):
+    def hasChannels(self):
         """
         :return: bool
         """
@@ -828,31 +836,34 @@ class Abc_Port(Def_Xml):
         """
         :return: object of Port
         """
-        return self._parentDagObj()
+        return self._parentDagObj
 
     def hasParent(self):
         """
         :return: bool
         """
-        return self._parentDagObj() is not None
+        return self._parentDagObj is not None
 
     def parentFullpathName(self):
         """
         :return: str
         """
-        return self._parentDagObj().fullpathName()
+        return self._parentDagObj.fullpathName()
 
     def parentAttributeName(self):
         """
         :return: str
         """
-        return self._parentDagObj().portname()
+        return self._parentDagObj.portname()
 
     def parentFullAttributeName(self):
         """
         :return: str
         """
-        return self._parentDagObj().fullpathPortname()
+        return self._parentDagObj.fullpathPortname()
+
+    def _queryString(self):
+        return self.fullpathPortname()
 
     def _xmlAttributeValueString(self):
         return self.portname()
@@ -901,7 +912,7 @@ class Abc_Input(Abc_Port):
             return self.source()
         return self.value()
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.path(), self.porttype(), self._given()]
 
 
@@ -931,14 +942,14 @@ class Abc_NodeInput(Abc_Input):
         self._initAbcInput(*args)
 
 
-class Abc_Property(Abc_Input):
-    def _initAbcProperty(self, *args):
-        self._initAbcInput(*args)
+class Abc_GeometryProperty(Abc_Port):
+    def _initAbcGeometryProperty(self, *args):
+        self._initAbcPort(*args)
 
 
-class Abc_Visibility(Abc_Input):
+class Abc_GeometryVisibility(Abc_Port):
     def _initAbcVisibility(self, *args):
-        self._initAbcInput(*args)
+        self._initAbcPort(*args)
 
 
 class Abc_Output(Abc_Port):
@@ -988,6 +999,121 @@ class Abc_NodeOutput(Abc_Output):
         self._initAbcOutput(*args)
 
 
+# Geometry
+class Abc_Geometry(Def_Xml):
+    CLS_raw_dagpath = None
+
+    CLS_set_property = None
+    CLS_set_assign_visibility = None
+
+    CLS_property = None
+    CLS_visibility = None
+    CLS_def_geometry = None
+
+    DIC_cls_value = {}
+
+    def _initAbcGeometry(self, *args):
+        self._dagpathObj = self.CLS_raw_dagpath(*args)
+
+        self._propertySetObj = self.CLS_set_property()
+        self._visibilityAssignSetObj = self.CLS_set_assign_visibility()
+
+        self._geometryDefObj = self.CLS_def_geometry()
+
+        for i in self._geometryDefObj.properties():
+            portnameString = i[self.Key_Name]
+            valueTypeString = i[self.Key_Type_String]
+            valueString = i[self.Key_Value_String]
+
+            portObj = self.CLS_property(self, portnameString)
+            valueCls = self.DIC_cls_value[valueTypeString]
+
+            portObj._setValueObject(valueCls(valueString))
+            portObj._setDefValueObject(valueCls(valueString))
+
+            self._addPropertyObject(portObj)
+
+        for i in self._geometryDefObj.visibilities():
+            portnameString = i[self.Key_Name]
+            valueTypeString = i[self.Key_Type_String]
+            valueString = i[self.Key_Value_String]
+
+            portObj = self.CLS_visibility(self, portnameString)
+            valueCls = self.DIC_cls_value[valueTypeString]
+
+            portObj._setValueObject(valueCls(valueString))
+            portObj._setDefValueObject(valueCls(valueString))
+
+            self._addVisibilityObject(portObj)
+
+        self._initDefXml()
+
+    def path(self):
+        """
+        :return: object of Dagpath
+        """
+        return self._dagpathObj
+
+    def setFullpathName(self, fullpathName):
+        """
+        :param fullpathName: str
+        :return: None
+        """
+        self._dagpathObj.setRaw(fullpathName)
+
+    def fullpathName(self):
+        """
+        :return: str
+        """
+        return self._dagpathObj.fullpathName()
+
+    def setNameString(self, nameString):
+        """
+        :param nameString: str
+        :return: None
+        """
+        self._dagpathObj.setNameString(nameString)
+
+    def nameString(self):
+        """
+        :return: str
+        """
+        return self._dagpathObj.nameString()
+
+    def _addPropertyObject(self, propertyObject):
+        self._propertySetObj.addObject(propertyObject)
+
+    def property(self, propertyNameString):
+        return self._propertySetObj.objectWithKey(propertyNameString)
+
+    def hasProperty(self, *args):
+        return self._propertySetObj.hasObject(*args)
+
+    def properties(self):
+        return self._propertySetObj.objects()
+
+    def _addVisibilityObject(self, visibilityObject):
+        self._visibilityAssignSetObj.addObject(visibilityObject)
+
+    def visibility(self, visibilityNameString):
+        return self._visibilityAssignSetObj.objectWithKey(visibilityNameString)
+
+    def hasVisibility(self, *args):
+        return self._visibilityAssignSetObj.hasObject(*args)
+
+    def visibilities(self):
+        return self._visibilityAssignSetObj.objects()
+
+    def toString(self):
+        return self.fullpathName()
+
+    def _queryString(self):
+        return self.fullpathName()
+
+    def _xmlChildList(self):
+        return self.properties()
+
+
 # Dag
 class Abc_Dag(Def_Xml):
     CLS_raw_type = None
@@ -1001,7 +1127,7 @@ class Abc_Dag(Def_Xml):
 
     CLS_input = None
     CLS_output = None
-    CLS_definition = None
+    CLS_def_dag = None
 
     DIC_cls_value = {}
 
@@ -1009,20 +1135,20 @@ class Abc_Dag(Def_Xml):
         self._categoryObj = self.CLS_raw_category(categoryString)
         self._dagpathObj = self.CLS_raw_dagpath(fullpathName)
 
-        self._defObj = self.CLS_definition(categoryString)
-        self._typeObj = self.CLS_raw_type(self._defObj.typeString())
+        self._dagDefObj = self.CLS_def_dag(categoryString)
+        self._typeObj = self.CLS_raw_type(self._dagDefObj.typeString())
 
         self._inputSetObj = self.CLS_set_input()
         self._outputSetObj = self.CLS_set_output()
 
         self._childSetObj = self.CLS_set_child()
 
-        for i in self._defObj.inputRaw():
-            portname = i[self.Key_Name]
+        for i in self._dagDefObj.inputRaw():
+            portnameString = i[self.Key_Name]
             valueTypeString = i[self.Key_Type_String]
             valueString = i[self.Key_Value_String]
 
-            portObj = self.CLS_input(self, portname)
+            portObj = self.CLS_input(self, portnameString)
             valueCls = self.DIC_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
@@ -1030,12 +1156,12 @@ class Abc_Dag(Def_Xml):
 
             self._addInputObject(portObj)
 
-        for i in self._defObj.outputRaw():
-            portname = i[self.Key_Name]
+        for i in self._dagDefObj.outputRaw():
+            portnameString = i[self.Key_Name]
             valueTypeString = i[self.Key_Type_String]
             valueString = i[self.Key_Value_String]
 
-            portObj = self.CLS_output(self, portname)
+            portObj = self.CLS_output(self, portnameString)
 
             valueCls = self.DIC_cls_value[valueTypeString]
 
@@ -1076,9 +1202,6 @@ class Abc_Dag(Def_Xml):
         """
         return self._categoryObject().toString()
 
-    def _dagpathObject(self):
-        return self._dagpathObj
-
     def path(self):
         """
         :return: object of Dagpath
@@ -1111,9 +1234,6 @@ class Abc_Dag(Def_Xml):
         """
         return self._dagpathObj.nameString()
 
-    def _childSetObject(self):
-        return self._childSetObj
-
     def children(self):
         """
         :return: list(object of Node, ...)
@@ -1144,17 +1264,20 @@ class Abc_Dag(Def_Xml):
         :param dagObject: object of Node
         :return: None
         """
-        self._childSetObj.addObject(dagObject.fullpathName(), dagObject)
+        self._childSetObj.addObject(dagObject)
 
     def _addInputObject(self, portObject):
         """
         :param portObject: object of Port
         :return: None
         """
-        self._inputSetObj.addObject(
-            portObject.fullpathPortname(),
-            portObject
-        )
+        self._inputSetObj.addObject(portObject)
+
+    def hasInputs(self):
+        return self._inputSetObj.hasObjects()
+
+    def hasInput(self, *args):
+        return self._inputSetObj.hasObject(*args)
 
     def inputs(self):
         """
@@ -1170,10 +1293,7 @@ class Abc_Dag(Def_Xml):
         return self._inputSetObj.objectWithKey(inputNameString)
 
     def _addOutputObject(self, portObject):
-        self._outputSetObj.addObject(
-            portObject.fullpathPortname(),
-            portObject
-        )
+        self._outputSetObj.addObject(portObject)
 
     def outputs(self):
         return self._outputSetObj.objects()
@@ -1193,6 +1313,9 @@ class Abc_Dag(Def_Xml):
     def targetShaders(self):
         return [i for i in self.targetDags() if isinstance(i, Abc_Shader)]
 
+    def _queryString(self):
+        return self.fullpathName()
+
     def connectedOutputs(self, toShader=False):
         lis = []
 
@@ -1206,19 +1329,7 @@ class Abc_Dag(Def_Xml):
         return lis
 
 
-# Geometry
-class Abc_Geometry(Abc_Dag):
-    def _initAbcGeometry(self, *args):
-        self._initAbcDag(*args)
-
-    def _xmlAttributeLis(self):
-        return [self.path(), self.type()]
-
-    def _xmlChildList(self):
-        return self.inputs()
-
-
-# Shader
+# Dag > Shader
 class Abc_Shader(Abc_Dag):
     def _initAbcShader(self, *args):
         self._initAbcDag(*args)
@@ -1251,14 +1362,14 @@ class Abc_Shader(Abc_Dag):
     def outAlpha(self):
         return self.output('out_alpha')
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.path(), self.type()]
 
     def _xmlChildList(self):
         return self.inputs()
 
 
-# Node
+# Dag > Node
 class Abc_Node(Abc_Dag):
     def _initAbcNode(self, *args):
         self._initAbcDag(*args)
@@ -1274,7 +1385,7 @@ class Abc_Node(Abc_Dag):
     def _xmlElementKeyString(self):
         return self.categoryString()
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.path(), self.type()]
 
     def _xmlChildList(self):
@@ -1289,13 +1400,13 @@ class Abc_Node(Abc_Dag):
         ]
 
 
-# Material
+# Shaderset
 class Abc_Shaderset(Def_Xml):
     CLS_raw_dagpath = None
     CLS_set_input = None
 
     CLS_input = None
-    CLS_definition = None
+    CLS_def_dag = None
 
     DIC_cls_value = None
 
@@ -1312,12 +1423,12 @@ class Abc_Shaderset(Def_Xml):
         self._displacementPortObj = None
         self._sourceVolumePortObj = None
         
-        for i in self.CLS_definition.shadersetInputRaw():
-            portname = i[self.Key_Name]
+        for i in self.CLS_def_dag.shadersetInputRaw():
+            portnameString = i[self.Key_Name]
             valueTypeString = i[self.Key_Type_String]
             valueString = i[self.Key_Value_String]
 
-            portObj = self.CLS_input(self, portname)
+            portObj = self.CLS_input(self, portnameString)
             valueCls = self.DIC_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
@@ -1362,10 +1473,7 @@ class Abc_Shaderset(Def_Xml):
         return self._dagpathObj.nameString()
 
     def _addInputObject(self, inputObject):
-        self._inputSetObj.addObject(
-            inputObject.fullpathPortname(),
-            inputObject
-        )
+        self._inputSetObj.addObject(inputObject)
 
     def inputs(self):
         """
@@ -1422,7 +1530,7 @@ class Abc_Shaderset(Def_Xml):
     def sourcePorts(self):
         pass
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.path()]
 
     def _xmlChildList(self):
@@ -1448,7 +1556,8 @@ class Abc_Shaderset(Def_Xml):
         ]
 
 
-class Abc_PortSet(Def_Xml):
+# Portset
+class Abc_Portset(Def_Xml):
     CLS_raw_name = None
 
     CLS_set_port = None
@@ -1477,7 +1586,7 @@ class Abc_PortSet(Def_Xml):
         self._nameObj.setRaw(nameString)
 
     def addPort(self, portObject):
-        self._portSetObj.addObject(portObject.fullpathPortname(), portObject)
+        self._portSetObj.addObject(portObject)
 
     def ports(self):
         return self._portSetObj.objects()
@@ -1491,11 +1600,11 @@ class Abc_PortSet(Def_Xml):
         ]
 
 
-class Abc_Propertyset(Abc_PortSet):
+class Abc_Propertyset(Abc_Portset):
     def _initAbcPropertyset(self, *args):
         self._initAbcPortset(*args)
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.name()]
 
     def _xmlChildList(self):
@@ -1544,7 +1653,10 @@ class Abc_NodeGraphOutput(Def_Xml):
     def nodeGraph(self):
         return self._nodeGraphObj
 
-    def _xmlAttributeLis(self):
+    def _queryString(self):
+        return self.nameString()
+
+    def _xmlAttributeObjectLis(self):
         return [self.name(), self.porttype(), self.port()]
 
     def _xmlAttributeValueString(self):
@@ -1606,7 +1718,7 @@ class Abc_NodeGraph(Def_Xml):
 
         nodeObject.setNodeGraph(self)
 
-        self._dagSetObj.addObject(nodeObject.fullpathName(), nodeObject)
+        self._dagSetObj.addObject(nodeObject)
 
         outputObjects = nodeObject.connectedOutputs(toShader=True)
         if outputObjects:
@@ -1639,7 +1751,7 @@ class Abc_NodeGraph(Def_Xml):
         """
         return self._dagSetObj.objectCount()
 
-    def hasNode(self):
+    def hasNodes(self):
         """
         :return: bool
         """
@@ -1652,7 +1764,7 @@ class Abc_NodeGraph(Def_Xml):
         """
         outputObject.setNodeGraph(self)
 
-        self._outputSetObj.addObject(outputObject.nameString(), outputObject)
+        self._outputSetObj.addObject(outputObject)
 
     def outputs(self):
         """
@@ -1671,13 +1783,13 @@ class Abc_NodeGraph(Def_Xml):
         key = inputObject.fullpathName()
         return self._outputDic[key]
 
-    def hasOutput(self):
+    def hasOutputs(self):
         """
         :return: bool
         """
         return self._outputSetObj.hasObjects()
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self._nameObj]
 
     def _xmlChildList(self):
@@ -1701,10 +1813,12 @@ class Abc_GeometryCollection(Def_Xml):
 
     STR_geometry_separator = None
 
-    def _initAbcCollection(self):
-        self._nameObj = self.CLS_raw_name()
+    def _initAbcGeometryCollection(self, *args):
+        self._nameObj = self.CLS_raw_name(*args)
+
         self._geometrySetObj = self.CLS_set_geometry()
-        self._collectionSet = self.CLS_set_collection()
+        self._collectionSetObj = self.CLS_set_collection()
+        self._excludeGeometrySetObj = self.CLS_set_geometry()
 
         self._initDefXml()
 
@@ -1720,112 +1834,16 @@ class Abc_GeometryCollection(Def_Xml):
         :return: None
         """
         self._nameObj.setRaw(nameString)
+    
+    def geometrySet(self):
+        return self._geometrySetObj
 
     def addGeometry(self, geometryObject):
         """
         :param geometryObject: object of Geometry
         :return:
         """
-        self._geometrySetObj.addObject(geometryObject.fullpathName(), geometryObject)
-
-    def geometries(self):
-        """
-        :return: list(object or geometry, ...)
-        """
-        return self._geometrySetObj.objects()
-
-    def hasGeometries(self):
-        """
-        :return: bool
-        """
-        return self._geometrySetObj.hasObjects()
-
-    def geomnames(self):
-        """
-        :return: list(str, ...)
-        """
-        return [i.fullpathName() for i in self.geometries()]
-
-    def fullpathGeomnames(self):
-        """
-        :return: list(str, ...)
-        """
-        return [i.fullpathName() for i in self.geometries()]
-
-    def geometryString(self):
-        return self.STR_geometry_separator.join(self.fullpathGeomnames())
-
-    def _collectionSetObject(self):
-        return self._collectionSet
-
-    def addCollection(self, collectionObject):
-        """
-        :param collectionObject: object of Collection
-        :return: None
-        """
-        self._collectionSetObject().addObject(collectionObject.fullpathName(), collectionObject)
-
-    def collections(self):
-        """
-        :return: list(object of Collection, ...)
-        """
-        return self._collectionSetObject().objects()
-
-    def hasCollections(self):
-        """
-        :return: bool
-        """
-        return self._collectionSetObject().hasObjects()
-
-    def collectionNames(self):
-        """
-        :return: list(str, ...)
-        """
-        return [i.nameString() for i in self.collections()]
-
-
-class Abc_Assign(Def_Xml):
-    CLS_raw_name = None
-    CLS_set_geometry = None
-
-    STR_geometry_separator = None
-
-    def _initAbcAssign(self, *args):
-        self._nameObj = self.CLS_raw_name(*args)
-
-        self._geometrySetObj = self.CLS_set_geometry()
-        self._collectionObj = None
-
-        self._initDefXml()
-
-    def name(self):
-        return self._nameObj
-
-    def nameString(self):
-        """
-        :return: str
-        """
-        return self._nameObj.raw()
-
-    def setNameString(self, nameString):
-        """
-        :param nameString: str
-        :return: None
-        """
-        self._nameObj.setRaw(nameString)
-
-    def geometrySet(self):
-        """
-        :return: object of Set
-        """
-        return self._geometrySetObj
-
-    def addGeometry(self, geometryObject):
-        """
-        :param geometryObject: object of Geometry
-        :return: None
-        """
-        self._geometrySetObj.addObject(geometryObject.fullpathName(), geometryObject)
+        self._geometrySetObj.addObject(geometryObject)
 
     def addGeometries(self, *args):
         if isinstance(args[0], (list, tuple)):
@@ -1847,26 +1865,160 @@ class Abc_Assign(Def_Xml):
         """
         return self._geometrySetObj.hasObjects()
 
-    def geomnames(self):
+    def geometrynameStrings(self):
         """
         :return: list(str, ...)
         """
         return [i.fullpathName() for i in self.geometries()]
 
-    def fullpathGeomnames(self):
+    def fullpathGeometrynameStrings(self):
         """
         :return: list(str, ...)
         """
         return [i.fullpathName() for i in self.geometries()]
 
-    def geometryString(self):
+    def excludeGeometrySet(self):
+        return self._excludeGeometrySetObj
+
+    def addExcludeGeometry(self, geometryObject):
+        self._excludeGeometrySetObj.addObject(geometryObject)
+
+    def addExcludeGeometries(self, *args):
+        if isinstance(args[0], (list, tuple)):
+            objectLis = args[0]
+        else:
+            objectLis = args
+
+        [self.addExcludeGeometry(i) for i in objectLis]
+
+    def excludeGeometries(self):
+        return self._excludeGeometrySetObj.objects()
+
+    def collectionSet(self):
+        return self._collectionSetObj
+
+    def addCollection(self, collectionObject):
+        """
+        :param collectionObject: object of Collection
+        :return: None
+        """
+        self._collectionSetObj.addObject(collectionObject)
+
+    def hasCollections(self):
+        """
+        :return: bool
+        """
+        return self._collectionSetObj.hasObjects()
+
+    def collections(self):
+        """
+        :return: list(object of Collection, ...)
+        """
+        return self._collectionSetObj.objects()
+
+    def collectionNames(self):
+        """
+        :return: list(str, ...)
+        """
+        return [i.nameString() for i in self.collections()]
+
+    def toString(self):
+        return self.nameString()
+
+    def _queryString(self):
+        return self.nameString()
+
+    def _xmlAttributeObjectLis(self):
+        return [self._nameObj, self.geometrySet(), self.collectionSet(), self.excludeGeometrySet()]
+
+    def _xmlAttributeValueString(self):
+        return self.nameString()
+
+    def _xmlAttributeRaw(self):
+        return [
+            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+        ]
+
+
+class Abc_Assign(Def_Xml):
+    CLS_raw_name = None
+    CLS_set_geometry = None
+
+    STR_geometry_separator = None
+
+    def _initAbcAssign(self, *args):
+        self._nameObj = self.CLS_raw_name(*args)
+
+        self._geometrySetObj = self.CLS_set_geometry()
+        self._collectionObj = None
+        
+        self._lookObj = None
+
+        self._initDefXml()
+
+    def name(self):
+        return self._nameObj
+
+    def hasNameString(self):
+        return self._nameObj.hasRaw()
+
+    def nameString(self):
         """
         :return: str
         """
-        return self.STR_geometry_separator.join(self.fullpathGeomnames())
+        return self._nameObj.raw()
 
-    def __collectionObject(self):
-        return self._collectionObj
+    def setNameString(self, nameString):
+        """
+        :param nameString: str
+        :return: None
+        """
+        self._nameObj.createByString(nameString)
+
+    def geometrySet(self):
+        """
+        :return: object of Set
+        """
+        return self._geometrySetObj
+
+    def addGeometry(self, geometryObject):
+        """
+        :param geometryObject: object of Geometry
+        :return: None
+        """
+        self._geometrySetObj.addObject(geometryObject)
+
+    def addGeometries(self, *args):
+        if isinstance(args[0], (list, tuple)):
+            objectLis = args[0]
+        else:
+            objectLis = args
+
+        [self.addGeometry(i) for i in objectLis]
+
+    def geometries(self):
+        """
+        :return: list(object or geometry, ...)
+        """
+        return self._geometrySetObj.objects()
+
+    def hasGeometries(self):
+        """
+        :return: bool
+        """
+        return self._geometrySetObj.hasObjects()
+
+    def geometrynameStrings(self):
+        """
+        :return: list(str, ...)
+        """
+        return [i.nameString() for i in self.geometries()]
+
+    def fullpathGeometrynameStrings(self):
+        """
+        :return: list(str, ...)
+        """
+        return [i.fullpathName() for i in self.geometries()]
 
     def setCollection(self, collectionObject):
         """
@@ -1879,15 +2031,22 @@ class Abc_Assign(Def_Xml):
         """
         :return: object of Collection
         """
-        return self.__collectionObject()
+        return self._collectionObj
 
     def collectionName(self):
         """
         :return: str
         """
         return self._collectionObj.nameString()
+    
+    def setLook(self, lookObject):
+        self._lookObj = lookObject
+        self._lookObj.addAssign(self)
 
-    def _given(self):
+    def _queryString(self):
+        return self.nameString()
+
+    def _givens(self):
         pass
 
 
@@ -1919,19 +2078,14 @@ class Abc_ShadersetAssign(Abc_Assign):
         """
         return self.shaderset().fullpathName()
 
-    def _given(self):
-        return self._shadersetObj
-
-    def _xmlAttributeLis(self):
-        return [self.name(), self.shaderset(), self.geometrySet()]
+    def _givens(self):
+        return [self._shadersetObj, self._collectionObj]
 
     def _xmlAttributeValueString(self):
         self.nameString()
 
-    def _xmlAttributeRaw(self):
-        return [
-            self.shaderset()
-        ]
+    def _xmlAttributeObjectLis(self):
+        return [self.name(), self.shaderset(), self.geometrySet(), self.collection()]
 
 
 class Abc_PropertysetAssign(Abc_Assign):
@@ -1953,27 +2107,61 @@ class Abc_PropertysetAssign(Abc_Assign):
         """
         return self._propertysetObj
 
-    def _given(self):
-        return self._propertysetObj
+    def _givens(self):
+        return [self._propertysetObj, self._collectionObj]
 
-    def _xmlAttributeLis(self):
-        return [self.name(), self.propertyset(), self.geometrySet()]
+    def _xmlAttributeObjectLis(self):
+        return [self.name(), self.propertyset(), self.geometrySet(), self.collection()]
 
 
 class Abc_VisibilityAssign(Abc_Assign):
+    CLS_raw_type = None
+    CLS_value_visibility = None
+
+    CLS_set_geometry_viewer = None
+
+    CLS_def_geometry = None
+
     def _initAbcVisibilityAssign(self, *args):
         self._initAbcAssign(*args)
 
-        self._portObj = None
+        self._geometryDef = self.CLS_def_geometry()
 
-    def setPort(self, portObject):
-        self._portObj = portObject
+        self._typeObj = None
 
-    def port(self):
-        return self._portObj
+        self._visibilityValueObj = None
+        self._defVisibilityValueObj = None
 
-    def _xmlAttributeLis(self):
-        return [self.name(), self.port(), self.geometrySet()]
+        self._viewerGeometrySetObj = self.CLS_set_geometry_viewer()
+
+    def setTypeString(self, visibilityTypeString):
+        self._typeObj = self.CLS_raw_type(visibilityTypeString)
+
+        i = self._geometryDef.visibility(visibilityTypeString)
+        valueString = i[self.Key_Value_String]
+
+        self._visibilityValueObj = self.CLS_value_visibility(valueString)
+
+    def type(self):
+        return self._typeObj
+
+    def visible(self):
+        return self._visibilityValueObj
+
+    def viewerGeometrySet(self):
+        return self._viewerGeometrySetObj
+    
+    def addViewerGeometry(self, geometryObject):
+        self._viewerGeometrySetObj.addObject(geometryObject)
+        
+    def viewerGeometries(self):
+        return self._viewerGeometrySetObj.objsets()
+
+    def _givens(self):
+        return [self._collectionObj]
+
+    def _xmlAttributeObjectLis(self):
+        return [self.name(), self.type(), self.visible(), self.geometrySet(), self.viewerGeometrySet(), self.collection()]
 
 
 class Abc_Look(Def_Xml):
@@ -1981,8 +2169,16 @@ class Abc_Look(Def_Xml):
 
     CLS_set_assign = None
 
+    CLS_set_assign_shaderset = None
+    ClS_set_assign_propertyset = None
+    CLS_set_assign_visibility = None
+
     def _initAbcLook(self, *args):
         self._nameObj = self.CLS_raw_name(*args)
+
+        self._shadersetAssignSetObj = self.CLS_set_assign_shaderset()
+        self._propertysetAssignSetObj = self.ClS_set_assign_propertyset()
+        self._visibilityAssignSetObj = self.CLS_set_assign_visibility()
 
         self._assignSetObj = self.CLS_set_assign()
 
@@ -1994,25 +2190,78 @@ class Abc_Look(Def_Xml):
     def _assignSetObject(self):
         return self._assignSetObj
 
-    def addAssign(self, assignObject):
-        self._assignSetObject().addObject(
-            assignObject.nameString(),
-            assignObject
-        )
+    def addVisibilityAssign(self, visibilityAssignObject):
+        """
+        :param visibilityAssignObject: object of VisibilityAssign
+        :return:
+        """
+        assert isinstance(visibilityAssignObject, Abc_VisibilityAssign)
 
-    def assigns(self):
-        return self._assignSetObject().objects()
+        count = self._visibilityAssignSetObj.objectCount()
+        if visibilityAssignObject.hasNameString() is False:
+            visibilityAssignObject.setNameString('visibility_assign_{}'.format(count))
+        self._visibilityAssignSetObj.addObject(visibilityAssignObject)
+
+    def visibilityAssigns(self):
+        return self._visibilityAssignSetObj.objects()
+
+    def addShadersetAssign(self, shadersetAssignObject):
+        """
+        :param shadersetAssignObject: object of ShadersetAssign
+        :return:
+        """
+        assert isinstance(shadersetAssignObject, Abc_ShadersetAssign)
+
+        count = self._shadersetAssignSetObj.objectCount()
+        if shadersetAssignObject.hasNameString() is False:
+            shadersetAssignObject.setNameString('shaderset_assign_{}'.format(count))
+        self._shadersetAssignSetObj.addObject(shadersetAssignObject)
 
     def shadersetAssigns(self):
-        pass
+        return self._shadersetAssignSetObj.objects()
+
+    def addPropertysetAssign(self, propertysetAssignObject):
+        """
+        :param propertysetAssignObject: object of PropertysetAssign
+        :return:
+        """
+        assert isinstance(propertysetAssignObject, Abc_PropertysetAssign)
+
+        count = self._propertysetAssignSetObj.objectCount()
+        if propertysetAssignObject.hasNameString() is False:
+            propertysetAssignObject.setNameString('propertyset_assign_{}'.format(count))
+        self._propertysetAssignSetObj.addObject(propertysetAssignObject)
 
     def propertysetAssigns(self):
-        pass
+        return self._propertysetAssignSetObj.objects()
+
+    def addAssign(self, assignObject):
+        if isinstance(assignObject, Abc_VisibilityAssign):
+            self.addVisibilityAssign(assignObject)
+        elif isinstance(assignObject, Abc_ShadersetAssign):
+            self.addShadersetAssign(assignObject)
+        elif isinstance(assignObject, Abc_PropertysetAssign):
+            self.addPropertysetAssign(assignObject)
+
+    def hasAssigns(self):
+        return self.assigns() != []
+
+    def assigns(self):
+        return self.visibilityAssigns() + self.shadersetAssigns() + self.propertysetAssigns()
 
     def _givens(self):
-        return [i._given() for i in self.assigns()]
+        lis = []
+        for i in self.assigns():
+            for j in i._givens():
+                if j is not None:
+                    if j not in lis:
+                        lis.append(j)
+        return lis
 
-    def _xmlAttributeLis(self):
+    def _queryString(self):
+        return self.nameString()
+
+    def _xmlAttributeObjectLis(self):
         return [self._nameObj]
 
     def _xmlChildList(self):
@@ -2036,10 +2285,13 @@ class Abc_Reference(Def_Xml):
     def file(self):
         return self._fileObject()
 
-    def filename(self):
+    def filenameString(self):
         return self._fileObject().toString()
 
-    def _xmlAttributeLis(self):
+    def _queryString(self):
+        return self.filenameString()
+
+    def _xmlAttributeObjectLis(self):
         return [self.file()]
 
 
@@ -2065,7 +2317,7 @@ class Abc_XmlDocument(Def_Xml):
     def _fileObject(self):
         return self._fileObj
 
-    def filename(self):
+    def filenameString(self):
         return self._fileObject().toString()
 
     def _versionObject(self):
@@ -2081,10 +2333,7 @@ class Abc_XmlDocument(Def_Xml):
         return self._referenceSetObj
 
     def addReference(self, referenceObject):
-        self._lookSetObject().addObject(
-            referenceObject.filename(),
-            referenceObject
-        )
+        self._lookSetObject().addObject(referenceObject)
 
     def references(self):
         return self._lookSetObject().objects()
@@ -2093,15 +2342,12 @@ class Abc_XmlDocument(Def_Xml):
         return self._lookSetObj
 
     def addLook(self, lookObject):
-        self._lookSetObject().addObject(
-            lookObject.nameString(),
-            lookObject
-        )
+        self._lookSetObject().addObject(lookObject)
 
     def looks(self):
         return self._lookSetObject().objects()
 
-    def _xmlAttributeLis(self):
+    def _xmlAttributeObjectLis(self):
         return [self.version()]
 
     def _xmlChildList(self):
@@ -2110,7 +2356,7 @@ class Abc_XmlDocument(Def_Xml):
 
 class Abc_Def(mtlCore.Basic):
     def _initAbcDef(self):
-        self._nodeDefsDic = mtlConfigure.Def_Node_Dic
+        self._nodeDefsDic = mtlConfigure.Def_Dag_Dic
         self._outputDefDic = mtlConfigure.Def_Output_Dic
 
     def load(self, *args):
@@ -2132,9 +2378,49 @@ class Abc_TypeDef(Abc_Def):
     pass
 
 
+class Abc_GeometryDef(mtlCore.Basic):
+    def _initAbcGeometryDef(self):
+        self._geometryDefDic = mtlConfigure.Def_Geometry_Dic
+        self._geometryPropertyDefLis = self._geometryDefDic['property']
+        self._geometryVisibilityDefLis = self._geometryDefDic['visibility']
+
+        self._geometryPropertyDefDic = {}
+        for i in self._geometryPropertyDefLis:
+            nameString = i[self.Key_Name]
+            valueTypeString = i[self.Key_Type_String]
+            valueString = i[self.Key_Value_String]
+            self._geometryPropertyDefDic[nameString] = {
+                self.Key_Type_String: valueTypeString,
+                self.Key_Value_String: valueString
+            }
+
+        self._geometryVisibilityDefDic = {}
+        for i in self._geometryVisibilityDefLis:
+            nameString = i[self.Key_Name]
+            valueTypeString = i[self.Key_Type_String]
+            valueString = i[self.Key_Value_String]
+            self._geometryVisibilityDefDic[nameString] = {
+                self.Key_Type_String: valueTypeString,
+                self.Key_Value_String: valueString
+            }
+
+    def properties(self):
+        return self._geometryPropertyDefLis
+
+    def property(self, propertyNameString):
+        return self._geometryPropertyDefDic[propertyNameString]
+
+    def visibilities(self):
+        return self._geometryVisibilityDefLis
+
+    def visibility(self, visibilityNameString):
+        return self._geometryVisibilityDefDic[visibilityNameString]
+
+
 class Abc_DagDef(Abc_Def):
     def _initAbcDagDef(self, category):
         self._initAbcDef()
+
         self._categoryString = category
 
         self._nodeDefDic = self.getNodeDef(self._categoryString)

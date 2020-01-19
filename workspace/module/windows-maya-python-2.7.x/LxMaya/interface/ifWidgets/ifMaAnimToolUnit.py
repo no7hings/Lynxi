@@ -15,7 +15,7 @@ from LxCore.preset.prod import projectPr, assetPr, scenePr
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 
 from LxDatabase import dbGet
 
@@ -29,7 +29,7 @@ from LxMaya.product.op import animOp, sceneOp
 
 from LxMaya.product import maScUploadCmds
 
-from LxMaya.interface.ifCommands import maAnimTreeViewCmds
+from LxMaInterface import maIfMethods
 
 from LxDeadline import ddlCommands
 
@@ -2796,7 +2796,10 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             #
                             serverMeshData = {}
                             #
-                            maAnimTreeViewCmds.setAnimationAssetMeshCheck(assetItem, localMeshData, serverMeshData, 2)
+                            checkResults = datAnim.getAnimationSceneMeshConstant(localMeshData, serverMeshData)
+                            maIfMethods.SceneAssetTreeitem.setMeshCheck(
+                                treeitem=assetItem, column=2, checkResults=checkResults
+                            )
                             geometryCheck = datAnim.getGeometryCheck(localMeshData, serverMeshData)
                             assetSubLabel = ['Error', 'On'][geometryCheck]
                     #
@@ -3382,7 +3385,10 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             assetItem.state = keyword
             assetItem.setText(1, keyword)
             #
-            maAnimTreeViewCmds.setAnimationAssetMeshCheck(assetItem, localMeshData, serverMeshData, 2)
+            checkResults = datAnim.getAnimationSceneMeshConstant(localMeshData, serverMeshData)
+            maIfMethods.SceneAssetTreeitem.setMeshCheck(
+                treeitem=assetItem, column=2, checkResults=checkResults
+            )
             #
             maUtils.setMessageWindowShow(
                 u'%s Switch to Rig' % assetName, u'Complete',

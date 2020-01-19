@@ -50,7 +50,7 @@ class NodeInput(mtlAbstract.Abc_NodeInput):
         self._initAbcNodeInput(*args)
 
 
-class Property(mtlAbstract.Abc_Property):
+class GeometryProperty(mtlAbstract.Abc_GeometryProperty):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -59,15 +59,15 @@ class Property(mtlAbstract.Abc_Property):
     STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcProperty(*args)
+        self._initAbcGeometryProperty(*args)
 
 
-class Visibility(mtlAbstract.Abc_Visibility):
+class GeometryVisibility(mtlAbstract.Abc_GeometryVisibility):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'property'
+    STR_mtlx_key_element = u'vistype'
     STR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):

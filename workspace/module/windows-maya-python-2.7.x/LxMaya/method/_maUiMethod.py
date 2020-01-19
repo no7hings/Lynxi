@@ -2,6 +2,8 @@
 # noinspection PyUnresolvedReferences
 from maya import cmds
 
+from LxBasic import bscMethods
+
 from LxCore.method.basic import _methodBasic
 
 from LxUi.qt import qtMethod
@@ -86,23 +88,16 @@ class Mtd_MaUiControl(_maMethodBasic.Mtd_MaUiBasic):
 class Mtd_MaQtView(
     qtMethod.QtViewMethod
 ):
-    dat_path_method = _methodBasic.Mtd_Path
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def setTreeViewListNamespace(cls, treeView, pathString, branchViewMethod):
-        pathsep = cls.mtd_app_node.Ma_Separator_Namespace
-        #
-        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewBuildDic = bscMethods.MayaPath.namespaceTreeViewBuildDic(pathString)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)
     @classmethod
     def setTreeViewListNode(cls, treeView, pathString, branchViewMethod):
-        pathsep = cls.mtd_app_node.Ma_Separator_Node
-        #
-        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewBuildDic = bscMethods.MayaPath.nodeTreeViewBuildDic(pathString)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)

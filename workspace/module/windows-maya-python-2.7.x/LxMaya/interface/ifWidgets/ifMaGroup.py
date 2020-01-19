@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxMaya.method import _maProductMethod
 #

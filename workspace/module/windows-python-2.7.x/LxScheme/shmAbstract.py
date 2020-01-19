@@ -87,7 +87,7 @@ class Abc_Path(shmCore.Basic):
         }
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Path_Key_Active, self.server),
                 (self.Path_Key_Server, self.server),
@@ -277,7 +277,7 @@ class Abc_File(shmCore.Basic):
         }
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Path_Key_Active, self.activeFile()),
                 (self.Path_Key_Server, self.serverFile()),
@@ -341,7 +341,7 @@ class Abc_System(Abc_Object):
 
     @property
     def systemraw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Name, self.name),
                 (self.Key_Version, self.version)
@@ -349,7 +349,7 @@ class Abc_System(Abc_Object):
         )
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -397,7 +397,7 @@ class Abc_Raw(shmCore.Basic):
 class Abc_RawResource(Abc_Raw):
     def _initAbcRawResource(self, enable, category, name):
         self.create(
-            self.cls_dic_order(
+            self.CLS_dic_order(
                 [
                     (self.Key_Enable, enable),
                     (self.Key_Category, category),
@@ -406,7 +406,7 @@ class Abc_RawResource(Abc_Raw):
             )
         )
 
-        self._rawObjDic = self.cls_dic_order()
+        self._rawObjDic = self.CLS_dic_order()
 
     def addRaw(self, key, value):
         self._rawObjDic[key] = value
@@ -742,7 +742,7 @@ class Abc_Operate(shmCore.Basic):
     def createDevelopSetupFile(self):
         self.file._writeMethod(
             self.developSetupFile(),
-            self.cls_dic_order(
+            self.CLS_dic_order(
                 [
                     (self.Key_User, self.method_os_system.username()),
                     (self.Key_Timestamp, self.method_os_system.activeTimestamp()),
@@ -946,7 +946,7 @@ class Abc_Operate(shmCore.Basic):
         pass
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),

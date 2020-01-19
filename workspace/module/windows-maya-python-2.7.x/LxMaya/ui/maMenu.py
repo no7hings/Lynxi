@@ -67,7 +67,7 @@ def setMayaMenu():
         w = ifProductWindow.QtIf_ToolkitWindow()
         w.windowShow()
 
-    def updateCmd():
+    def moduleReloadCmd():
         from LxCore import lxScheme
         lxScheme.Shm_Resource().loadActiveModules()
     #
@@ -122,7 +122,13 @@ def setMayaMenu():
         (),
         ('Toolkit', 'svg_basic@svg#toolkit', toolKitCmd),
         (),
-        ('Update', 'svg_basic@svg#update', updateCmd),
+        [
+            'Extend',
+            'svg_basic@svg#menu',
+            [
+                ('Reload Module(s)', 'svg_basic@svg#update', moduleReloadCmd)
+            ]
+        ],
         ('Help', 'svg_basic@svg#help', None)
     ]
     #

@@ -1,5 +1,7 @@
 # coding:utf-8
 import types
+
+from LxBasic import bscMethods
 #
 from LxCore.config import appConfig
 
@@ -15,7 +17,6 @@ class QtViewMethod(
     appConfig.LxUiConfig
 ):
     plf_file_method = _methodBasic.Mtd_PlfFile
-    dat_path_method = _methodBasic.Mtd_Path
     @classmethod
     def setTreeView(cls, treeBox, treeViewBuildDic, branchViewMethod=None, expandedDic=None):
         def setBranch(parentData):
@@ -79,10 +80,7 @@ class QtViewMethod(
             treeItem.setName(osName)
             treeItem.setIcon(iconKeyword)
         #
-        pathsep = cls.OsFileSep
-        #
-        treeViewPathLis = cls.dat_path_method._toTreeViewPathLis(pathString, pathsep)
-        treeViewBuildDic = cls.dat_path_method.getTreeViewBuildDic(treeViewPathLis, pathsep)
+        treeViewBuildDic = bscMethods.OsPath.treeViewBuildDic(pathString)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)

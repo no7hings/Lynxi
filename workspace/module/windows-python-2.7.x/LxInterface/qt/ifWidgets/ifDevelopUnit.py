@@ -9,7 +9,7 @@ from LxCore.method import _dbMethod
 
 from LxUi.qt import qtWidgets, qtCore, qtMethod
 
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 
 serverBasicPath = lxScheme.Root().basic.server
 

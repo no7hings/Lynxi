@@ -13,7 +13,7 @@ from LxUi import uiCore
 #
 from LxUi.qt import qtModifiers, qtWidgets_, qtChart_, qtWidgets, qtCore
 #
-from LxInterface.qt.ifCommands import treeViewCmds
+from LxInterface.qt.qtIfCommands import treeViewCmds
 #
 none = ''
 

@@ -12,6 +12,11 @@ class Def_Type(mtlAbstract.Abc_TypeDef):
         pass
 
 
+class GeometryDefinition(mtlAbstract.Abc_GeometryDef):
+    def __init__(self):
+        self._initAbcGeometryDef()
+
+
 class Def_Node(mtlAbstract.Abc_DagDef):
     def __init__(self, categoryString):
         self._initAbcDagDef(categoryString)

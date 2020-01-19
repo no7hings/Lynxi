@@ -101,8 +101,7 @@ class Mtd_DbProdUnit(appConfig.LxDbConfig):
     database_method = _methodBasic.Mtd_Database
 
     @classmethod
-    def dbUpdateProductUnit(cls, jsonDatum, dbUnitType, dbUnitId, dbUnitBranch=None, enable=True, description=None,
-                            note=None):
+    def dbUpdateProductUnit(cls, jsonDatum, dbUnitType, dbUnitId, dbUnitBranch=None, enable=True, description=None, note=None):
         dbClass = cls.database_method.LxDb_Class_Product
         # Index
         cls.database_method._lxDbUpdateUnitIndexSub(

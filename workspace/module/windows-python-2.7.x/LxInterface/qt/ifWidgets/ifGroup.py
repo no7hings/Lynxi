@@ -5,7 +5,7 @@ from LxCore import lxConfigure
 #
 from LxCore.preset import personnelPr
 #
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #

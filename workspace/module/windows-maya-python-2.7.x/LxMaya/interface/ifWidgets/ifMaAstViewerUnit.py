@@ -3,7 +3,7 @@ from LxBasic import bscObjects
 #
 from LxUi.qt import qtWidgets, qtMethod
 #
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxMaya.method import _maMethod
 #

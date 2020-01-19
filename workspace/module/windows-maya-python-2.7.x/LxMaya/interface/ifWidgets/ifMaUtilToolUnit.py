@@ -9,7 +9,7 @@ from LxCore.preset.prod import projectPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxMaya.interface.ifCommands import maUtilsTreeViewCmds
 #
@@ -832,7 +832,8 @@ class IfNamespaceManagerUnit(
                 objectPathLis = []
                 subNodeArray = []
                 for node in nodeLis:
-                    if node.startswith(self.Ma_Separator_Node):
+
+                    if node.startswith(appCfg.Ma_Separator_Namespace):
                         objectPathLis.append(node)
                     else:
                         subNodeArray.append(node)

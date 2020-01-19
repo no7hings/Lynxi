@@ -908,6 +908,12 @@ end
     data1.value.geomnamearray -.- collection.excludegeom
 ```
 
+```
+<collection name=" collectionname " [includegeom="geomexpr1[,geomexpr2]..."]
+[includecollection="collectionname1[,collectionname2]..."]
+[excludegeom="geomexpr3[,geomexpr4]..."]/>
+```
+
 ### typedef
 
 ### nodedef

@@ -7,7 +7,7 @@ from LxCore.config import assetCfg, sceneryCfg, sceneCfg
 #
 from LxUi import uiCore
 #
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit, ifProductToolWindow
 #
@@ -30,10 +30,14 @@ def setAssetToolBar(layout):
         toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
-            ('window#productionTool', u'提示：点击显示资产生产面板',
-             'import LxMaya.interface.ifMaAssetProductWindow as uiPanel;uiPanel.tableShow()'),
-            ('window#toolKit', u'提示：点击显示通用工具面板',
-             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()')
+            (
+                'window#productionTool', u'提示：点击显示资产生产面板',
+                'import LxMaya.interface.ifMaAssetProductWindow as uiPanel;uiPanel.tableShow()'
+            ),
+            (
+                'window#toolKit', u'提示：点击显示通用工具面板',
+                'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()'
+            )
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i
@@ -50,10 +54,14 @@ def setSceneryToolBar(layout):
         toolBar = qtWidgets_.xToolBar()
         layout.addWidget(toolBar)
         buildData = [
-            ('window#productionTool', u'提示：点击显示场景生产面板',
-             'import LxMaya.interface.ifMaSceneryProductWindow as uiPanel;uiPanel.tableShow()'),
-            ('window#toolKit', u'提示：点击显示通用工具面板',
-             'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()')
+            (
+                'window#productionTool', u'提示：点击显示场景生产面板',
+                'import LxMaya.interface.ifMaSceneryProductWindow as uiPanel;uiPanel.tableShow()'
+            ),
+            (
+                'window#toolKit', u'提示：点击显示通用工具面板',
+                'from LxInterface.qt.ifWidgets import ifProductWindow;w=ifProductWindow.QtIf_ToolkitWindow();w.windowShow()'
+            )
         ]
         for i in buildData:
             iconKeyword, uiTip, command = i

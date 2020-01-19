@@ -3,7 +3,7 @@ from LxMaterial import mtlConfigure
 
 from LxMaterial import mtlAbstract
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjElement
+from LxMaterial.mtlObjects import _mtlObjDefinition, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
 
 
 class ShadersetAssign(mtlAbstract.Abc_ShadersetAssign):
@@ -36,7 +36,12 @@ class PropertysetAssign(mtlAbstract.Abc_PropertysetAssign):
 
 class VisibilityAssign(mtlAbstract.Abc_VisibilityAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
+    CLS_raw_type = _mtlObjRaw.Raw_VisibilityType
     CLS_set_geometry = _mtlObjSet.Set_Geometry
+    CLS_set_geometry_viewer = _mtlObjSet.Set_ViewerGeometry
+
+    CLS_value_visibility = _mtlObjValue.Val_Visibility
+    CLS_def_geometry = _mtlObjDefinition.GeometryDefinition
 
     STR_mtlx_key_element = 'visibility'
 

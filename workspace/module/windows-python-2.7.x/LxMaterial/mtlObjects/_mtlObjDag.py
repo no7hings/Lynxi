@@ -41,24 +41,21 @@ DIC_CLS_VALUE = {
 
 
 class Geometry(mtlAbstract.Abc_Geometry):
-    CLS_raw_type = _mtlObjRaw.Raw_Type
-    CLS_raw_category = _mtlObjRaw.Raw_NodeCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
 
-    CLS_set_input = _mtlObjSet.Set_Input
-    CLS_set_output = _mtlObjSet.Set_Output
-    CLS_set_child = _mtlObjSet.Set_Dag
+    CLS_set_property = _mtlObjSet.Set_Property
+    CLS_set_assign_visibility = _mtlObjSet.Set_Visibility
 
-    CLS_input = _mtlObjPort.Property
-    CLS_output = _mtlObjPort.GeometryOutput
-    CLS_definition = _mtlObjDefinition.Def_Node
+    CLS_property = _mtlObjPort.GeometryProperty
+    CLS_visibility = _mtlObjPort.GeometryVisibility
+    CLS_def_geometry = _mtlObjDefinition.GeometryDefinition
 
     DIC_cls_value = DIC_CLS_VALUE
 
     STR_mtlx_key_element = 'geom'
 
     def __init__(self, *args):
-        self._initAbcGeometry('geometry', *args)
+        self._initAbcGeometry(*args)
 
 
 class Shader(mtlAbstract.Abc_Shader):
@@ -72,7 +69,7 @@ class Shader(mtlAbstract.Abc_Shader):
 
     CLS_input = _mtlObjPort.ShaderInput
     CLS_output = _mtlObjPort.ShaderOutput
-    CLS_definition = _mtlObjDefinition.Def_Node
+    CLS_def_dag = _mtlObjDefinition.Def_Node
 
     DIC_cls_value = DIC_CLS_VALUE
 
@@ -96,7 +93,7 @@ class Node(mtlAbstract.Abc_Node):
 
     CLS_input = _mtlObjPort.NodeInput
     CLS_output = _mtlObjPort.NodeOutput
-    CLS_definition = _mtlObjDefinition.Def_Node
+    CLS_def_dag = _mtlObjDefinition.Def_Node
 
     DIC_cls_value = DIC_CLS_VALUE
 

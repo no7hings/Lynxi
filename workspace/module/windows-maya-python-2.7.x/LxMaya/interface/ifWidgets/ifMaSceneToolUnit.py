@@ -11,7 +11,7 @@ from LxCore.preset.prod import projectPr, assetPr, scenePr
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 
 from LxDatabase import dbGet
 

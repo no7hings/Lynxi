@@ -5,10 +5,7 @@ from LxCore.method import _osMethod
 
 
 #
-class LxPresetMethod(
-    _osMethod.OsFileMethod,
-    appConfig.LxDbProductUnitConfig
-):
+class LxPresetMethod(_osMethod.OsFileMethod, appConfig.LxDbProductUnitConfig):
     @classmethod
     def isDbProductUnitExists(cls, dbUnitId):
         osFile = cls.dbProductUnitSetFile(dbUnitId)

@@ -1,4 +1,6 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxCore.method.basic import _methodBasic
 
 from LxMaya.method.basic import _maMethodBasic
@@ -8,7 +10,6 @@ from LxMaya import method
 
 #
 class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
-    plf_file_method = _methodBasic.Mtd_PlfFile
     app_method = _maMethodBasic.Mtd_AppMaya
     app_animation_method = method.Mtd_MaAnimation
     app_fle_cache_method = method.Mtd_MaAbcCache
@@ -86,7 +87,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
             return ' '.join(usefulArgLis)
     #
     def export(self):
-        temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
+        temporaryOsFile = bscMethods.OsFile.temporaryFilename(self._fileString)
         argLis = [
             self._toFrameArgString(self._frame),
             self._toStepArgString(self._step),
@@ -103,7 +104,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
             # Export
             self.app_fle_cache_method.abcCacheExportCommand(exportArgString)
             #
-            self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
+            bscMethods.OsFile.copyTo(temporaryOsFile, self._fileString)
 
 
 #
@@ -190,7 +191,6 @@ class MaProxyCacheExport(_methodBasic.Mtd_Basic):
 
 #
 class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
-    plf_file_method = _methodBasic.Mtd_PlfFile
     app_file_method = method.MaFileMethod
 
     def __init__(self, fileString, groupString=None, setString=None):
@@ -211,9 +211,9 @@ class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
     def run(self):
         self._updateObjectOptionKwargs()
         # Export
-        temporaryOsFile = self.plf_file_method.getOsTemporaryFile(self._fileString)
+        temporaryOsFile = bscMethods.OsFile.temporaryFilename(self._fileString)
         self.app_file_method.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
-        self.plf_file_method.setOsFileCopy(temporaryOsFile, self._fileString)
+        bscMethods.OsFile.copyTo(temporaryOsFile, self._fileString)
 
 
 #

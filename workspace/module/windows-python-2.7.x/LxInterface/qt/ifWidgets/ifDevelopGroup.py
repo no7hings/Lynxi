@@ -7,7 +7,7 @@ from LxCore.preset import personnelPr
 #
 from LxCore.method import _dbMethod
 #
-from LxInterface.qt.ifBasic import _qtIfAbcWidget
+from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifDevelopUnit
 

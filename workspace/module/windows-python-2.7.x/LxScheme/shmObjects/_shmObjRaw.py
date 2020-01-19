@@ -6,7 +6,7 @@ class Raw_Version(shmAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
-            self.cls_dic_order(
+            self.CLS_dic_order(
                 [
                     (self.Key_Record, []),
                     (self.Key_Active, None)
@@ -46,7 +46,7 @@ class Raw_Custom(shmAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
-            self.cls_dic_order(
+            self.CLS_dic_order(
                 [
                     (self.Key_Record, []),
                     (self.Key_Active, None)

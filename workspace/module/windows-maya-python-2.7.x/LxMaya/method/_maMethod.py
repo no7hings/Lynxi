@@ -1242,54 +1242,6 @@ class MaFileMethod(_maConfig.MaConfig):
 
 
 #
-class MaTextureNodeMethod(_maMethodBasic.MaNodeMethodBasic):
-    pass
-
-
-#
-class MaTextureFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
-    MaTexture_NodeTypeLis = [
-        'file',
-        'aiImage',
-        'RedshiftNormalMap',
-        'RedshiftCameraMap'
-    ]
-    #
-    MaTexture_AttrNameLis = [
-        'fileTextureName',
-        'filename',
-        'tex0'
-    ]
-    #
-    MaTexture_AttrNameDic = {
-        'file': 'fileTextureName',
-        'aiImage': 'filename',
-        'RedshiftNormalMap': 'tex0',
-        'RedshiftCameraMap': 'tex0'
-    }
-    @classmethod
-    def isTextureNode(cls, node):
-        nodeType = cls.getNodeType(node)
-        if nodeType in cls.MaTexture_NodeTypeLis:
-            boolean = True
-        else:
-            boolean = False
-        return boolean
-    @classmethod
-    def getTextureNodeLis(cls):
-        return cls.getNodeLisByType(cls.MaTexture_NodeTypeLis)
-    @classmethod
-    def getTextureNodeLisByNamespace(cls, namespace):
-        return cls.getNodeLisByFilter(cls.MaTexture_NodeTypeLis, namespace)
-    @classmethod
-    def getTextureNodeLisByObject(cls, objectString):
-        pass
-    #
-    def getTextureLis(self, textureNode=None):
-        pass
-
-
-#
 class MaPreviewFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
     MaPlayblastFormatLis = [
         'qt',

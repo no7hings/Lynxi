@@ -56,7 +56,7 @@ class Sys_PltLanguage(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -98,7 +98,7 @@ class Sys_PltApplication(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),
@@ -146,7 +146,7 @@ class Sys_PltAppLanguage(shmAbstract.Abc_System):
         )
 
     def raw(self):
-        return self.cls_dic_order(
+        return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
                 (self.Key_Name, self.name),

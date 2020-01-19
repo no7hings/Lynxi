@@ -1,13 +1,17 @@
 # coding:utf-8
 from LxBasic import bscConfigure, bscCore
 
-from LxBasic.bscMethods import _bscMtdDcc
+from LxBasic.bscMethods import _bscMtdPath
 
 
-class StrUnderline(object):
+class StrUnderline(bscCore.Basic):
     @classmethod
     def toLabel(cls, *labels):
         return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
+
+    @classmethod
+    def toCamelcase(cls, string):
+        return cls.MOD_re.sub(r'_(\w)', lambda x: x.group(1).upper(), string)
 
 
 class StrCamelcase(bscCore.Basic):
@@ -105,11 +109,11 @@ class TxtHtml(bscCore.Basic):
     @classmethod
     def toHtmlMayaConnection(cls, sourceAttr, targetAttr, namespaceFilter):
         def getBranch(attr):
-            namespace = _bscMtdDcc.MayaPath.getNamespace(attr)
-            name = _bscMtdDcc.MayaPath.getName(attr)
-            attrName = _bscMtdDcc.MayaPath.getAttributeName(attr)
+            namespace = _bscMtdPath.MayaPath.getNamespace(attr)
+            name = _bscMtdPath.MayaPath.getName(attr)
+            attrName = _bscMtdPath.MayaPath.getAttributeName(attr)
             #
-            namespaceSep = _bscMtdDcc.MayaPath.attributeSep()
+            namespaceSep = _bscMtdPath.MayaPath.attributeSep()
             #
             if namespace:
                 namespaceHtml = cls.toHtmlSpan(namespace, 7, 10) + cls.toHtmlSpan(namespaceSep, 3, 10)

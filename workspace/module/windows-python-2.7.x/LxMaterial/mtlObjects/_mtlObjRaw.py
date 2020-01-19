@@ -28,6 +28,13 @@ class Raw_Type(mtlAbstract.Abc_RawString):
         self._initAbcRawString(*args)
 
 
+class Raw_VisibilityType(mtlAbstract.Abc_RawString):
+    STR_mtlx_key_attribute = u'vistype'
+
+    def __init__(self, *args):
+        self._initAbcRawString(*args)
+
+
 class Raw_Version(mtlAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'version'
 

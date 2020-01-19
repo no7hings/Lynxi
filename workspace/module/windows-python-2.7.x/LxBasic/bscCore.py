@@ -72,7 +72,7 @@ class Basic(object):
 
     MTD_os_path = os.path
 
-    cls_dic_order = collections.OrderedDict
+    CLS_dic_order = collections.OrderedDict
 
     def_os_separator_string = '/'
 
@@ -630,6 +630,92 @@ class Basic(object):
         return u'{}/{}.result.log'.format(
             cls._logDirectory(), cls._getActiveDatetag()
         )
+
+
+class PathBasic(Basic):
+    @classmethod
+    def _toTreeViewPathLis(cls, pathString, pathsep):
+        def addItem(item):
+            if not item in lis:
+                lis.append(item)
+        #
+        def getBranch(subPathString):
+            if not subPathString in lis:
+                stringLis = subPathString.split(pathsep)
+                #
+                dataCount = len(stringLis)
+                for seq, data in enumerate(stringLis):
+                    if data:
+                        if seq + 1 < dataCount:
+                            subPath = pathsep.join(stringLis[:seq + 1])
+                            addItem(subPath)
+                #
+                addItem(subPathString)
+        #
+        lis = []
+        pathStringLis = cls.toStringList(pathString)
+        for i in pathStringLis:
+            # Debug add root
+            if not i.startswith(pathsep):
+                i = pathsep + i
+            #
+            getBranch(i)
+        return lis
+
+    @classmethod
+    def _getTreeViewBuildDic(cls, pathString, pathsep):
+        def addItem(item):
+            if not item in lis:
+                lis.append(item)
+        #
+        def getRootBranch(subPathString, nodeArray):
+            node = nodeArray[-1]
+            dic.setdefault((None, None), []).append((node, subPathString))
+        #
+        def getBranch(subPathString, nodeArray):
+            parent = nodeArray[-2]
+            parentPath = pathsep.join(nodeArray[:-1])
+            node = nodeArray[-1]
+            addItem(((parent, parentPath), (node, subPathString)))
+        #
+        def getMain():
+            # Get Dict
+            pathStringLis = cls.toStringList(pathString)
+            if pathStringLis:
+                for i in pathStringLis:
+                    nodeArray = i.split(pathsep)
+                    isRoot = len(nodeArray) == 2
+                    # Filter is Root
+                    if isRoot:
+                        getRootBranch(i, nodeArray)
+                    else:
+                        getBranch(i, nodeArray)
+            # Reduce Dict
+            if lis:
+                covertToDict_(dic, lis)
+
+        def covertToDict_(dic_, lis_):
+            [dic_.setdefault(p, []).append(c) for p, c in lis_]
+        #
+        lis = []
+        dic = cls.CLS_dic_order()
+        #
+        getMain()
+        return dic
+
+    @classmethod
+    def _getNamespace(cls, pathString, nodeSep, namespaceSep):
+        if namespaceSep in pathString:
+            return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
+        return ''
+
+    @classmethod
+    def _getName(cls, pathString, nodeSep, namespaceSep):
+        return pathString.split(nodeSep)[-1].split(namespaceSep)[-1]
+
+    @classmethod
+    def _getAttributeName(cls, attrString, attributeSep):
+        return attributeSep.join(attrString.split(attributeSep)[1:])
 
 
 class FileBasic(Basic):

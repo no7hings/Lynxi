@@ -5,7 +5,7 @@ from ._bscMtdUtility import *
 
 from ._bscMtdPython import *
 
-from ._bscMtdDcc import *
+from ._bscMtdPath import *
 
 from ._bscMtdFile import *
 

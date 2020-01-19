@@ -1,7 +1,5 @@
 # coding:utf-8
-import types
-
-import collections
+import functools
 
 
 class Basic(object):
@@ -11,6 +9,15 @@ class Basic(object):
 
     Key_Name = 'name'
     Key_FullpathName = 'fullpathName'
+
+    @classmethod
+    def _setMethodAdd(cls, fnc):
+        # noinspection PyUnusedLocal
+        @functools.wraps(fnc)
+        def dummy(self, *args, **kwargs):
+            fnc(*args, **kwargs)
+
+        setattr(cls, fnc.func_name, dummy)
 
     @classmethod
     def _toJsonStringMethod(cls, raw, indent=4):

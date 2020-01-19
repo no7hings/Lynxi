@@ -187,7 +187,7 @@ class Basic(object):
 
     mtd_os_file = bscMethods.OsFile
 
-    cls_dic_order = collections.OrderedDict
+    CLS_dic_order = collections.OrderedDict
 
     @staticmethod
     def _toSubPathMethod(*args):
