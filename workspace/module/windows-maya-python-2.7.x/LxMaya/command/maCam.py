@@ -13,7 +13,7 @@ import maya.OpenMayaUI as OpenMayaUI
 #
 from fractions import Fraction
 #
-from LxCore.preset import personnelPr
+from LxCore.preset import prsMethod
 #
 from LxCore.preset.prod import projectPr, scenePr
 #
@@ -152,7 +152,11 @@ def getFpsInfo():
 
 #
 def getArtistInfo():
-    string = '%s ( %s ) @ %s' % (personnelPr.getPersonnelUserCnName(), personnelPr.getPersonnelUserEnName(), personnelPr.getPersonnelUserTeam())
+    string = '%s ( %s ) @ %s' % (
+        prsMethod.Personnel.userChnname(),
+        prsMethod.Personnel.userEngname(),
+        prsMethod.Personnel.userTeam()
+    )
     return string
 
 

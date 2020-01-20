@@ -459,7 +459,7 @@ class QtSequencechart_(qtCore.QWidget_):
                         subHeight = height - subSide * 2 + 2
                         #
                         percent = float(1) / float(maxValue)
-                        r, g, b = qtCore.hsv2Rgb(140, 1 * percent, 1)
+                        r, g, b = qtCore.hsv2rgb(140, 1 * percent, 1)
                         painter.setBorderRgba(r, g, b, 255)
                         painter.setBackgroundRgba(r, g, b, 255)
                         #
@@ -478,7 +478,7 @@ class QtSequencechart_(qtCore.QWidget_):
                         subHeight = height - subSide * 2 + 2
                         #
                         percent = float(subEndNum - subStartNum + 1) / float(maxValue)
-                        r, g, b = qtCore.hsv2Rgb(140, 1 * percent, 1)
+                        r, g, b = qtCore.hsv2rgb(140, 1 * percent, 1)
                         painter.setBorderRgba(r, g, b, 255)
                         painter.setBackgroundRgba(r, g, b, 255)
                         #
@@ -631,7 +631,7 @@ class QtHistogramchart_(qtCore.QWidget):
                 currentValueY = None
                 for seq, v in enumerate(self._valueArray):
                     rgbPercent = float(v) / float(maxValue)
-                    r, g, b = qtCore.hsv2Rgb(140 * rgbPercent, 1, 1)
+                    r, g, b = qtCore.hsv2rgb(140 * rgbPercent, 1, 1)
                     #
                     painter.setBackgroundRgba(r, g, b, 255)
                     painter.setBorderRgba(r, g, b, 255)
@@ -895,7 +895,7 @@ class QtColorchart_(qtCore.QWidget):
                         v = vMult / 100.0
                         v = float(max(min(v, 1.0), 0.0))
                         #
-                        r, g, b = qtCore.hsv2Rgb(h, s, v)
+                        r, g, b = qtCore.hsv2rgb(h, s, v)
                         backgroundRgba = r, g, b, 255
                         borderRgba = 0, 0, 0, 255
                         #

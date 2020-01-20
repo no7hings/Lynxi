@@ -2,13 +2,13 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscObjects
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import sceneCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -23,14 +23,14 @@ none = ''
 def setSceneCustomizeLabel(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        maUtils.setAttrStringDatumForce(scUnitRoot, appVariant.basicCustomizeAttrLabel, data)
+        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariant.Util.basicCustomizeAttrLabel, data)
 
 
 #
 def setSceneRootIndex(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        maUtils.setAttrStringDatumForce(scUnitRoot, appVariant.basicRootIndexAttrLabel, str(data))
+        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariant.Util.basicRootIndexAttrLabel, str(data))
 
 
 # Camera

@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 
 from LxCore import lxConfigure, lxScheme
 #
-from LxCore.preset import pipePr, personnelPr
+from LxCore.preset import prsMethod
 #
 from LxCore.preset.prod import projectPr
 #
@@ -134,24 +134,24 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
     def setArtistBoxShow(self):
         self._userNameLabel.setDatum(self.user)
         # Team Data
-        teamData = personnelPr.getPersonnelTeamLis()
+        teamData = prsMethod.Personnel.teams()
         self._teamLabel.setDatumLis(teamData)
         self._teamLabel.setChoose(lxConfigure.LynxiValue_Unspecified)
         self._postLabel.setDatum(lxConfigure.LynxiValue_Unspecified)
 
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
-        teams = personnelPr.getPersonnelTeamLis()
-        team = personnelPr.getPersonnelUserTeam(self.user)
+        teams = prsMethod.Personnel.teams()
+        team = prsMethod.Personnel.userTeam(self.user)
         self._teamLabel.setDatumLis(teams)
         self._teamLabel.setChoose(team)
-        post = personnelPr.getPersonnelUserPost(self.user)
+        post = prsMethod.Personnel.userPost(self.user)
         self._postLabel.setDatum(post)
-        cnName = personnelPr.getPersonnelUserCnName(self.user)
+        cnName = prsMethod.Personnel.userChnname(self.user)
         self._chNameLabel.setDatum(cnName)
-        enName = personnelPr.getPersonnelUserEnName(self.user)
+        enName = prsMethod.Personnel.userEngname(self.user)
         self._enNameLabel.setDatum(enName)
-        mail = personnelPr.getPersonnelUserMail(self.user)
+        mail = prsMethod.Personnel.userMail(self.user)
         self._mailLabel.setDatum(mail)
         # PC Data
         self._pcLabel.setDatum(bscMethods.OsSystem.hostname())
@@ -182,8 +182,9 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
         post = self._postLabel.datum()
         if post:
             pass
+
         if isChecked:
-            personnelPr.setUpdatePersonnelUserSetData(user, cnName, enName, mail, team, post)
+            prsMethod.Personnel.updateUserDatum(user, cnName, enName, mail, team, post)
             if bscCommands.isMayaApp():
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()
@@ -319,8 +320,7 @@ class QtIf_ToolkitWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory('tool')
-        bscMethods.OsDirectory.open(helpDirectory)
+        pass
     #
     def setupWindow(self):
         shelf = ifShelf.IfToolKitShelf(self)
@@ -369,8 +369,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Asset)
-        bscMethods.OsDirectory.open(helpDirectory)
+        pass
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()
@@ -401,8 +400,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scenery)
-        bscMethods.OsDirectory.open(helpDirectory)
+        pass
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()
@@ -433,8 +431,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory(lxConfigure.LynxiProduct_Module_Scene)
-        bscMethods.OsDirectory.open(helpDirectory)
+        pass
     #
     def setupWindow(self):
         shelf = qtWidgets.QtVShelfTabgroup()

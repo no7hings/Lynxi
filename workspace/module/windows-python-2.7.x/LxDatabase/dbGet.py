@@ -5,17 +5,17 @@ from LxCore import lxConfigure
 #
 from LxCore.config import assetCfg
 #
-from LxCore.preset import appVariant, databasePr, personnelPr
+from LxCore.preset import prsVariant, prsDirectory, prsMethod
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
 from LxDatabase import dbBasic
 # Type Config
-astBasicClassifications = appVariant.astBasicClassifications
-astBasicPriorities = appVariant.astBasicPriorities
-astSceneryClass = appVariant.astSceneryClass
+astBasicClassifications = prsVariant.Util.astBasicClassifications
+astBasicPriorities = prsVariant.Util.astBasicPriorities
+astSceneryClass = prsVariant.Util.astSceneryClass
 #
-astDefaultVariant = appVariant.astDefaultVersion
+astDefaultVariant = prsVariant.Util.astDefaultVersion
 #
 Ma_Separator_Node = bscCommands.Ma_Separator_Node
 Ma_Separator_Namespace = bscCommands.Ma_Separator_Namespace
@@ -73,7 +73,7 @@ def getExistsDbCompFile(assetIndex, scCompIndex, directory):
 
 #
 def getExistsDbAsset(assetIndex):
-    directory = databasePr.dbAstNameIndexDirectory()
+    directory = prsDirectory.Database.assetNameIndex
     return isDbExistsGzFile(assetIndex, directory)
 
 
@@ -81,9 +81,9 @@ def getExistsDbAsset(assetIndex):
 def getDbAssetIndex(projectName, assetName):
     # Lis [ <Name> ]
     string = none
-    directory = databasePr.dbAstNameIndexDirectory()
+    directory = prsDirectory.Database.assetNameIndex
     if projectName and assetName:
-        assetIndex = dbBasic.getDatabaseMainIndex([projectName, assetName])
+        assetIndex = bscMethods.Uuid.covertByString(projectName, assetName)
         if isDbExistsGzFile(assetIndex, directory):
             string = assetIndex
     return string
@@ -159,7 +159,7 @@ def getDbAssetClass(assetIndex):
 def getDbAssetTag(assetIndex):
     string = astBasicPriorities[0]
     if assetIndex:
-        directory = databasePr.dbAstFilterIndexDirectory()
+        directory = prsDirectory.Database.assetFilterIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             value = data['tag']
@@ -172,7 +172,7 @@ def getDbAssetTag(assetIndex):
 def getDbAssetName(assetIndex, projectName=none):
     string = none
     if assetIndex:
-        directory = databasePr.dbAstNameIndexDirectory()
+        directory = prsDirectory.Database.assetNameIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             if projectName in data:
@@ -185,7 +185,7 @@ def getDbAssetVariants(assetIndex):
     # LIST [ <Variant> ]
     lis = []
     if assetIndex:
-        directory = databasePr.dbAstVariantIndexDirectory()
+        directory = prsDirectory.Database.assetVariantIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             lis = data
@@ -197,7 +197,7 @@ def getDbAssemblyPercentage(assetIndex):
     # LIST [ <LOD01 Percentage>, <LOD02 Percentage> ]
     lis = []
     if assetIndex:
-        directory = databasePr.dbAstAssemblyIndexDirectory()
+        directory = prsDirectory.Database.assetAssemblyIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             lis = data['percentage']
@@ -205,9 +205,9 @@ def getDbAssemblyPercentage(assetIndex):
 
 
 #
-def dbAssetPreviewFile(assetIndex, assetLink, assetVariant, extLabel=appVariant.jpgExt):
+def dbAssetPreviewFile(assetIndex, assetLink, assetVariant, extLabel=prsVariant.Util.jpgExt):
     if assetIndex:
-        directory = databasePr.dbAstPreviewDirectory()
+        directory = prsDirectory.Database.assetPreview
         string = directory + '/' + assetIndex + extLabel
         if assetVariant:
             subIndex = dbBasic.getDatabaseSubIndex(assetIndex, [assetLink, assetVariant])
@@ -221,8 +221,8 @@ def dbAssetPreviewFile(assetIndex, assetLink, assetVariant, extLabel=appVariant.
 def dbAstViewportPreviewFile(assetIndex):
     string = none
     if assetIndex:
-        directory = databasePr.dbAstPreviewDirectory()
-        osFile = directory + '/' + assetIndex + appVariant.jpgExt
+        directory = prsDirectory.Database.assetPreview
+        osFile = directory + '/' + assetIndex + prsVariant.Util.jpgExt
         if bscCommands.isOsExist(osFile):
             string = osFile
     return string
@@ -232,9 +232,9 @@ def dbAstViewportPreviewFile(assetIndex):
 def dbAstRenderPreviewFile(assetIndex, assetVariant):
     string = none
     if assetIndex:
-        directory = databasePr.dbAstPreviewDirectory()
+        directory = prsDirectory.Database.assetPreview
         assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Model, assetVariant])
-        osFile = directory + '/' + assetSubIndex + appVariant.pngExt
+        osFile = directory + '/' + assetSubIndex + prsVariant.Util.pngExt
         if bscCommands.isOsExist(osFile):
             string = osFile
     return string
@@ -244,12 +244,12 @@ def dbAstRenderPreviewFile(assetIndex, assetVariant):
 def getDbAstPreviewFile(assetIndex, assetVariant=none):
     string = none
     if assetIndex:
-        directory = databasePr.dbAstPreviewDirectory()
-        string = directory + '/' + assetIndex + appVariant.jpgExt
+        directory = prsDirectory.Database.assetPreview
+        string = directory + '/' + assetIndex + prsVariant.Util.jpgExt
         if assetVariant:
             dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
-            renderPrv = directory + '/' + dbModelIndex + appVariant.pngExt
-            texturePrv = directory + '/' + dbModelIndex + appVariant.jpgExt
+            renderPrv = directory + '/' + dbModelIndex + prsVariant.Util.pngExt
+            texturePrv = directory + '/' + dbModelIndex + prsVariant.Util.jpgExt
             if bscCommands.isOsExistsFile(renderPrv):
                 string = renderPrv
             elif bscCommands.isOsExistsFile(texturePrv):
@@ -261,12 +261,12 @@ def getDbAstPreviewFile(assetIndex, assetVariant=none):
 def getDbSceneryUnitPreviewFile(assetIndex, assetVariant=none):
     string = none
     if assetIndex:
-        directory = databasePr.dbScnUnitPreviewDirectory()
-        string = directory + '/' + assetIndex + appVariant.jpgExt
+        directory = prsDirectory.Database.sceneryPreview
+        string = directory + '/' + assetIndex + prsVariant.Util.jpgExt
         if assetVariant:
             dbModelIndex = getDbSceneryUnitIndex(assetIndex, assetVariant)
-            renderPrv = directory + '/' + dbModelIndex + appVariant.pngExt
-            texturePrv = directory + '/' + dbModelIndex + appVariant.jpgExt
+            renderPrv = directory + '/' + dbModelIndex + prsVariant.Util.pngExt
+            texturePrv = directory + '/' + dbModelIndex + prsVariant.Util.jpgExt
             if bscCommands.isOsExistsFile(renderPrv):
                 string = renderPrv
             elif bscCommands.isOsExistsFile(texturePrv):
@@ -276,25 +276,25 @@ def getDbSceneryUnitPreviewFile(assetIndex, assetVariant=none):
 
 #
 def getDbAstGeometryFile(assetIndex):
-    directory = databasePr.dbAstGeometryIndexDirectory()
+    directory = prsDirectory.Database.assetGeometryIndex
     return getDbGzFile(assetIndex, directory)
 
 
 #
 def isDbAstExistsGeometry(assetIndex):
-    directory = databasePr.dbAstGeometryIndexDirectory()
+    directory = prsDirectory.Database.assetGeometryIndex
     return isDbExistsGzFile(assetIndex, directory)
 
 
 #
 def getDbAstMaterialFile(dbSubIndex):
-    directory = databasePr.dbAstMaterialIndexDirectory()
+    directory = prsDirectory.Database.assetMaterialIndex
     return getDbGzFile(dbSubIndex, directory)
 
 
 #
 def isDbAstMaterialExists(dbSubIndex):
-    directory = databasePr.dbAstMaterialIndexDirectory()
+    directory = prsDirectory.Database.assetMaterialIndex
     return isDbExistsGzFile(dbSubIndex, directory)
 
 
@@ -312,17 +312,17 @@ def getExistsDbCfxMaterial(assetIndex, assetVariant):
 
 #
 def getExistsDbAssembly(assetIndex):
-    directory = databasePr.dbAstAssemblyIndexDirectory()
+    directory = prsDirectory.Database.assetAssemblyIndex
     return isDbExistsGzFile(assetIndex, directory)
 
 
 #
 def getDbAstUpdate(assetIndex, assetVariant, assetStage):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         assetLink = assetPr.getAssetLink(assetStage)
         assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [assetLink, assetVariant])
-        timestamp = dbBasic.readDbAssetHistory(assetSubIndex, appVariant.infoUpdateLabel)
+        timestamp = dbBasic.readDbAssetHistory(assetSubIndex, prsVariant.Util.infoUpdateLabel)
         if timestamp:
             string = bscMethods.OsTime.getCnPrettifyByTimestamp(timestamp)
     return string
@@ -330,22 +330,22 @@ def getDbAstUpdate(assetIndex, assetVariant, assetStage):
 
 #
 def getDbAstUpdater(assetIndex, assetVariant, assetStage):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         assetLink = assetPr.getAssetLink(assetStage)
         if assetPr.isAstRigLink(assetStage):
             assetSubIndex = getDbAstRigIndex(assetIndex)
         else:
             assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [assetLink, assetVariant])
-        osUser = dbBasic.readDbAssetHistory(assetSubIndex, appVariant.infoUpdaterLabel)
+        osUser = dbBasic.readDbAssetHistory(assetSubIndex, prsVariant.Util.infoUpdaterLabel)
         if osUser:
-            string = personnelPr.getPersonnelUserCnName(osUser)
+            string = prsMethod.Personnel.userChnname(osUser)
     return string
 
 
 #
 def getDbModelUpdate(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
@@ -365,11 +365,11 @@ def getDbModelUpdate(assetIndex, assetVariant):
 
 #
 def getDbModelUpdater(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
-        data = dbBasic.readDbAssetHistory(dbModelIndex, appVariant.infoUpdaterLabel)
+        data = dbBasic.readDbAssetHistory(dbModelIndex, prsVariant.Util.infoUpdaterLabel)
         if data:
             string = data
     return string
@@ -392,7 +392,7 @@ def getDbModelStage(assetIndex, assetVariant):
 def getDbGeometryObjectsIndexDic(assetIndex):
     dic = bscCommands.orderedDict()
     if assetIndex:
-        directory = databasePr.dbAstGeometryIndexDirectory()
+        directory = prsDirectory.Database.assetGeometryIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             dic = data
@@ -403,13 +403,13 @@ def getDbGeometryObjectsIndexDic(assetIndex):
 def getDbGeometryObjectsInfoDic(assetIndex, dbName, namespace, searchRoot):
     dic = bscCommands.orderedDict()
     if assetIndex:
-        directory = databasePr.dbAstGeometryIndexDirectory()
+        directory = prsDirectory.Database.assetGeometryIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
         if data:
             for objectIndex, info in data.items():
                 meshPath = getDbGeometryObjectPath(assetIndex, dbName, objectIndex)
                 if searchRoot in meshPath:
-                    key = [none, namespace + Ma_Separator_Namespace][namespace is not none] + bscCommands.getMayaObjectName(meshPath)
+                    key = [none, namespace + Ma_Separator_Namespace][namespace is not none] + bscMethods.MayaPath.name(meshPath)
                     dic[key] = info
     return dic
 
@@ -418,7 +418,7 @@ def getDbGeometryObjectsInfoDic(assetIndex, dbName, namespace, searchRoot):
 def getDbGeometryObjectPath(assetIndex, dbName, objectIndex):
     string = none
     if assetIndex:
-        directory = databasePr.dbAstGeometryTransformUnitDirectory()
+        directory = prsDirectory.Database.assetGeometryTransform
         dbCompIndex = dbBasic.getDatabaseCompIndex(assetIndex, objectIndex)
         data = dbBasic.dbCompDatumRead(dbCompIndex, directory)
         if data:
@@ -435,7 +435,7 @@ def getDbGeometryObjectPath(assetIndex, dbName, objectIndex):
 def getDbAstGeometryUnitTransform(assetIndex, objectIndex):
     tup = ()
     if assetIndex:
-        directory = databasePr.dbAstGeometryTransformUnitDirectory()
+        directory = prsDirectory.Database.assetGeometryTransform
         dbCompIndex = dbBasic.getDatabaseCompIndex(assetIndex, objectIndex)
         data = dbBasic.dbCompDatumRead(dbCompIndex, directory)
         if data:
@@ -459,7 +459,7 @@ def getDbGeometryUnitsPathDic(assetIndex):
 def getDbGeometryObjectsAttributeDic(assetIndex, objectIndex):
     lis = []
     if assetIndex:
-        directory = databasePr.dbAstMaterialObjAttrUnitDirectory()
+        directory = prsDirectory.Database.assetMaterialAttribute
         dbCompIndex = dbBasic.getDatabaseCompIndex(assetIndex, objectIndex)
         data = dbBasic.dbCompDatumRead(dbCompIndex, directory)
         if data:
@@ -471,7 +471,7 @@ def getDbGeometryObjectsAttributeDic(assetIndex, objectIndex):
 def getDbGeometryObjectsObjSetDic(assetIndex, objectIndex):
     lis = []
     if assetIndex:
-        directory = databasePr.dbAstMaterialObjSetUnitDirectory()
+        directory = prsDirectory.Database.assetMaterialObjectSet
         dbCompIndex = dbBasic.getDatabaseCompIndex(assetIndex, objectIndex)
         data = dbBasic.dbCompDatumRead(dbCompIndex, directory)
         if data:
@@ -482,7 +482,7 @@ def getDbGeometryObjectsObjSetDic(assetIndex, objectIndex):
 #
 def getDbCompFurIndexData(dbSubIndex):
     dic = {}
-    directory = databasePr.dbAstFurIndexDirectory()
+    directory = prsDirectory.Database.assetFurIndex
     data = dbBasic.dbCompDatumRead(dbSubIndex, directory)
     if data:
         dic = data
@@ -492,7 +492,7 @@ def getDbCompFurIndexData(dbSubIndex):
 #
 def getDbCompNurbsHairIndexData(dbSubIndex):
     dic = {}
-    directory = databasePr.dbAstGraphIndexDirectory()
+    directory = prsDirectory.Database.assetGraphIndex
     data = dbBasic.dbCompDatumRead(dbSubIndex, directory)
     if data:
         dic = data
@@ -503,7 +503,7 @@ def getDbCompNurbsHairIndexData(dbSubIndex):
 def getDbMaterialIndexData(dbSubIndex):
     dic = {}
     if dbSubIndex:
-        directory = databasePr.dbAstMaterialIndexDirectory()
+        directory = prsDirectory.Database.assetMaterialIndex
         data = dbBasic.dbCompDatumRead(dbSubIndex, directory)
         if data:
             dic = data
@@ -514,7 +514,7 @@ def getDbMaterialIndexData(dbSubIndex):
 def getDbAovIndexData(dbSubIndex):
     dic = {}
     if dbSubIndex:
-        directory = databasePr.dbAstAovIndexDirectory()
+        directory = prsDirectory.Database.assetAovIndex
         data = dbBasic.dbCompDatumRead(dbSubIndex, directory)
         if data:
             dic = data
@@ -581,20 +581,20 @@ def getAstUnitDbAssemblyUpdate(projectName, assetClass, assetName, assetVariant)
 
 #
 def getDbFurFile(dbSubIndex):
-    directory = databasePr.dbAstCfxFurProductDirectory()
+    directory = prsDirectory.Database.assetFurProduct
     return getDbProductFile(dbSubIndex, directory)
 
 
 #
 def getExistsDbFur(assetIndex, assetVariant):
-    directory = databasePr.dbAstCfxFurProductDirectory()
+    directory = prsDirectory.Database.assetFurProduct
     dbCfxIndex = getDbCfxIndex(assetIndex, assetVariant)
     return getExistsDbIntegrationFile(dbCfxIndex, directory)
 
 
 #
 def getDbCfxUpdate(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         dbCfxIndex = getDbCfxIndex(assetIndex, assetVariant)
@@ -615,11 +615,11 @@ def getDbCfxUpdate(assetIndex, assetVariant):
 
 #
 def getDbCfxUpdater(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         dbCfxIndex = getDbCfxIndex(assetIndex, assetVariant)
-        data = dbBasic.readDbAssetHistory(dbCfxIndex, appVariant.infoUpdaterLabel)
+        data = dbBasic.readDbAssetHistory(dbCfxIndex, prsVariant.Util.infoUpdaterLabel)
         if data:
             string = data
     return string
@@ -641,21 +641,21 @@ def getDbCfxStage(assetIndex, assetVariant):
 # Asset ( Rig ) File
 def getDbAstRigAstProductFile(assetIndex, version='anim'):
     dbRigIndex = getDbAstRigIndex(assetIndex, version)
-    directory = databasePr.dbAstRigProductDirectory()
+    directory = prsDirectory.Database.assetRigProduct
     return getDbProductFile(dbRigIndex, directory)
 
 
 # Asset ( Rig ) File
 def getDbAstSolverRigProductFile(assetIndex, assetVariant):
     dbRigIndex = getDbAstSolverIndex(assetIndex, assetVariant)
-    directory = databasePr.dbAstRigSolProductDirectory()
+    directory = prsDirectory.Database.assetSolverProduct
     return getDbProductFile(dbRigIndex, directory)
 
 
 #
 def getExistsDbRigAstIntFile(assetIndex, version='anim'):
     dbRigIndex = getDbAstRigIndex(assetIndex, version)
-    directory = databasePr.dbAstRigProductDirectory()
+    directory = prsDirectory.Database.assetRigProduct
     return getExistsDbIntegrationFile(dbRigIndex, directory)
 
 
@@ -673,11 +673,11 @@ def getDbAstSolverUpdate(assetIndex, assetVariant):
 
 #
 def getDbRigUpdater(assetIndex, version='anim'):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         dbRigIndex = getDbAstRigIndex(assetIndex, version)
-        data = dbBasic.readDbAssetHistory(dbRigIndex, appVariant.infoUpdaterLabel)
+        data = dbBasic.readDbAssetHistory(dbRigIndex, prsVariant.Util.infoUpdaterLabel)
         if data:
             string = data
     return string
@@ -685,10 +685,10 @@ def getDbRigUpdater(assetIndex, version='anim'):
 
 # Update
 def getDbSceneryUnitUpdate(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         sceneryUnitIndex = getDbSceneryUnitIndex(assetIndex, assetVariant)
-        data = dbBasic.readDbSceneryHistory(sceneryUnitIndex, appVariant.infoUpdateLabel)
+        data = dbBasic.readDbSceneryHistory(sceneryUnitIndex, prsVariant.Util.infoUpdateLabel)
         if data:
             string = bscMethods.OsTime.getCnPrettifyByTimestamp(data)
     return string
@@ -696,11 +696,11 @@ def getDbSceneryUnitUpdate(assetIndex, assetVariant):
 
 # Updater
 def getDbSceneryUnitUpdater(assetIndex, assetVariant):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     if assetIndex:
         # Mesh
         sceneryUnitIndex = getDbSceneryUnitIndex(assetIndex, assetVariant)
-        data = dbBasic.readDbSceneryHistory(sceneryUnitIndex, appVariant.infoUpdaterLabel)
+        data = dbBasic.readDbSceneryHistory(sceneryUnitIndex, prsVariant.Util.infoUpdaterLabel)
 
         if data:
             string = data
@@ -723,7 +723,7 @@ def getDbRigStage(assetIndex, assetVariant):
 def getDbMeshConstantData(dbSubIndex):
     dic = {}
     if dbSubIndex:
-        directory = databasePr.dbAstGeometryConstantDirectory()
+        directory = prsDirectory.Database.assetGeometryConstantIndex
         gzData = dbBasic.dbCompDatumRead(dbSubIndex, directory)
         if gzData:
             dic = gzData
@@ -734,12 +734,12 @@ def getDbMeshConstantData(dbSubIndex):
 def getDbAssetIndexesFilter(projectName, filterClassify=none, tag=none):
     # Lis [ <Index> ]
     lis = []
-    dbAstNameIndexDirectory = databasePr.dbAstNameIndexDirectory()
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(dbAstNameIndexDirectory)
+    assetNameIndex = prsDirectory.Database.assetNameIndex
+    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
     if osFileNames:
         for subData in osFileNames:
             assetIndex = subData
-            indexFile = '%s/%s' % (dbAstNameIndexDirectory, assetIndex)
+            indexFile = '%s/%s' % (assetNameIndex, assetIndex)
             gzData = dbBasic.dbDatumRead(indexFile)
             if gzData:
                 if projectName in gzData:
@@ -772,8 +772,8 @@ def getDbAssetIndexDic(projectFilter):
     models = []
     cfxs = []
     rigs = []
-    dbAstNameIndexDirectory = databasePr.dbAstNameIndexDirectory()
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(dbAstNameIndexDirectory)
+    assetNameIndex = prsDirectory.Database.assetNameIndex
+    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
     if osFileNames:
         if osFileNames:
             explain = '''Read Asset Database'''
@@ -785,7 +785,7 @@ def getDbAssetIndexDic(projectFilter):
                 dbAssetClassify = getDbAssetClass(assetIndex)
                 dbAssetTag = getDbAssetTag(assetIndex)
                 #
-                indexFile = '%s/%s' % (dbAstNameIndexDirectory, assetIndex)
+                indexFile = '%s/%s' % (assetNameIndex, assetIndex)
                 gzData = dbBasic.dbDatumRead(indexFile)
                 if gzData:
                     if projectFilter in gzData:
@@ -810,12 +810,12 @@ def getDbAssetIndexDic(projectFilter):
 def getDbAssetIndexDicFilter(projectName, filterClassify=none, tag=none):
     # Lis [ <Name> ]
     dic = {}
-    dbAstNameIndexDirectory = databasePr.dbAstNameIndexDirectory()
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(dbAstNameIndexDirectory)
+    assetNameIndex = prsDirectory.Database.assetNameIndex
+    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
     if osFileNames:
         for osFileName in osFileNames:
             assetIndex = osFileName
-            indexFile = '%s/%s' % (dbAstNameIndexDirectory, assetIndex)
+            indexFile = '%s/%s' % (assetNameIndex, assetIndex)
             gzData = dbBasic.dbDatumRead(indexFile)
             if gzData:
                 if projectName in gzData:
@@ -914,7 +914,7 @@ def getDbCfxNamesByClassify(projectName, filterClassify=none):
         for assetIndex in dbIndexes:
             progressBar.update()
             #
-            if getExistsDbFur(assetIndex, appVariant.astDefaultVariant):
+            if getExistsDbFur(assetIndex, prsVariant.Util.astDefaultVariant):
                 assetName = getDbAssetName(assetIndex, projectName)
                 lis.append(assetName)
     if lis:
@@ -947,7 +947,7 @@ def getDbAssetFilterData(assetClass, tag=none):
 #
 def getDbAssetNameData(assetIndex, projectName, assetName):
     dic = {none: assetName}
-    directory = databasePr.dbAstNameIndexDirectory()
+    directory = prsDirectory.Database.assetNameIndex
     gzData = dbBasic.dbCompDatumRead(assetIndex, directory)
     if gzData:
         dic = gzData
@@ -958,7 +958,7 @@ def getDbAssetNameData(assetIndex, projectName, assetName):
 #
 def getDbAssetVariantData(assetIndex, assetVariant):
     lis = []
-    directory = databasePr.dbAstVariantIndexDirectory()
+    directory = prsDirectory.Database.assetVariantIndex
     variantData = dbBasic.dbCompDatumRead(assetIndex, directory)
     if variantData:
         lis = variantData
@@ -970,7 +970,7 @@ def getDbAssetVariantData(assetIndex, assetVariant):
 #
 def getDbAssetAssemblyData(assetIndex, percentage):
     dic = {}
-    directory = databasePr.dbAstAssemblyIndexDirectory()
+    directory = prsDirectory.Database.assetAssemblyIndex
     dbAssemblyData = dbBasic.dbCompDatumRead(assetIndex, directory)
     if dbAssemblyData:
         dic = dbAssemblyData

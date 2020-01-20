@@ -1,8 +1,6 @@
 # coding:utf-8
 from LxBasic import bscCore
 
-from LxBasic.bscMethods import _bscMtdPython
-
 
 class OsSystem(bscCore.Basic):
     @classmethod
@@ -75,65 +73,6 @@ class OsEnviron(bscCore.Basic):
         dic['SYSTEM_PATH'] = cls.getSystemPaths()
         #
         return dic
-
-
-class OsDirectory(bscCore.Basic):
-    @classmethod
-    def getAllChildren(cls, directoryString):
-        """
-        :param directoryString: str
-        :return: list([str, ...])
-        """
-        return cls._getOsPathNameLisByDirectory(
-            directoryString,
-            extString=None,
-            isFile=False,
-            isFullpath=True
-        )
-
-    @classmethod
-    def isExist(cls, directoryString):
-        """
-        :param directoryString: str
-        :return: bool
-        """
-        return cls.MTD_os_path.exists(directoryString)
-
-    @classmethod
-    def setDirectoryCreate(cls, directoryString):
-        """
-        :param directoryString: str
-        :return: None
-        """
-        cls._setOsDirectoryCreate(directoryString)
-
-    @classmethod
-    def getAllChildFileRelativeNames(cls, directoryString, extString):
-        return cls._getOsPathNameLisByDirectory(
-            rootString=directoryString,
-            extString=extString,
-            isFile=True,
-            isFullpath=False
-        )
-
-    @classmethod
-    def remove(cls, directoryString):
-        """
-        :param directoryString: str
-        :return: None
-        """
-        children = cls.getAllChildren(directoryString)
-        if children:
-            children.reverse()
-            for i in children:
-                _bscMtdPython.PyMessage.traceResult(u'Os Remove: {}'.format(i.decode(u'gbk')))
-                cls._setOsPathRemove(i)
-
-        cls._setOsPathRemove(directoryString)
-
-    @classmethod
-    def open(cls, directoryString):
-        cls._setOsDirectoryOpen(directoryString)
 
 
 class OsLog(bscCore.Basic):
@@ -231,7 +170,7 @@ class Math2D(bscCore.Basic):
 
 class Color(bscCore.Basic):
     @classmethod
-    def getRgbByString(cls, string, maximum=255):
+    def str2rgb(cls, string, maximum=255):
         a = int(''.join([str(ord(i)).zfill(3) for i in string]))
         b = a % 3
         i = int(a / 256) % 3
@@ -255,7 +194,7 @@ class Color(bscCore.Basic):
         return r / 255.0 * maximum, g / 255.0 * maximum, b / 255.0 * maximum
     
     @classmethod
-    def hsv2Rgb(cls, h, s, v, maximum=255):
+    def hsv2rgb(cls, h, s, v, maximum=255):
         h = float(h % 360.0)
         s = float(max(min(s, 1.0), 0.0))
         v = float(max(min(v, 1.0), 0.0))
@@ -281,3 +220,17 @@ class Color(bscCore.Basic):
         else:
             r, g, b = float((r_ + m)), float((g_ + m)), float((b_ + m))
         return r, g, b
+
+
+class Uuid(bscCore.Basic):
+    @classmethod
+    def str2uuid(cls, string):
+        return cls._stringToUniqueId(string)
+
+    @classmethod
+    def covertByString(cls, *args):
+        return cls._stringsToUniqueId(*args)
+
+    @classmethod
+    def new(cls):
+        return cls._getUuid()

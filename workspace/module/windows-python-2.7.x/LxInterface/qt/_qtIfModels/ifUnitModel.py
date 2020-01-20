@@ -1,6 +1,8 @@
 # coding:utf-8
 from LxBasic import bscMethods, bscObjects
 #
+from LxPreset import prsConfigure
+#
 from LxCore.method import _presetMethod
 #
 from LxUi.qt import qtWidgets, qtCore
@@ -165,7 +167,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             #
             copyUnitSetDatum = unitItem.presetSetDatum()
             serverUnitCount = self.getDbProductUnitCount(self._productModule)
-            copyUnitSetDatum['name'] = self._toProductUnitName(serverUnitCount + 1)
+            copyUnitSetDatum['name'] = prsConfigure.Product._toProductUnitName(serverUnitCount + 1)
             #
             self.addUnitItem(
                 description=copyUnitDescription, overrideSetDatum=copyUnitSetDatum
@@ -448,7 +450,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             #
             copyUnitSetDatum = unitItem.presetSetDatum()
             serverUnitCount = self.getDbProductUnitCount(self._productModule)
-            copyUnitSetDatum['name'] = self._toProductUnitName(serverUnitCount + 1)
+            copyUnitSetDatum['name'] = prsConfigure.Product._toProductUnitName(serverUnitCount + 1)
             #
             self.addUnitItem(
                 description=copyUnitDescription, overrideSetDatum=copyUnitSetDatum

@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 #
 from LxBasic import bscMethods
 #
-from LxCore.preset import personnelPr, appVariant
+from LxCore.preset import prsVariant, prsMethod
 #
 from email.header import Header
 #
@@ -18,21 +18,21 @@ none = ''
 
 #
 def getPipeMail():
-    mailEnabled = appVariant.pipeMailEnabled
+    mailEnabled = prsVariant.Util.pipeMailEnabled
     if mailEnabled:
-        mailServer = appVariant.pipeMailServer
-        mailPot = appVariant.pipeMailPort
-        mailAddress = appVariant.pipeMailAddress
-        mailPassword = appVariant.pipeMailPassword
+        mailServer = prsVariant.Util.pipeMailServer
+        mailPot = prsVariant.Util.pipeMailPort
+        mailAddress = prsVariant.Util.pipeMailAddress
+        mailPassword = prsVariant.Util.pipeMailPassword
         return mailServer, int(mailPot), mailAddress, str(mailPassword)
 
 
 #
 def datum(toMails, summary, subject, information):
     user = bscMethods.OsSystem.username()
-    userMail = personnelPr.getPersonnelUserMail()
-    cnName = personnelPr.getPersonnelUserCnName()
-    team = personnelPr.getPersonnelUserTeam()
+    userMail = prsMethod.Personnel.userMail()
+    cnName = prsMethod.Personnel.userChnname()
+    team = prsMethod.Personnel.userTeam()
     #
     fromMessage = '''%s by %s Team's [ %s ( %s ) ] < %s >''' % (summary, team, user, cnName, userMail)
     message = MIMEText(information, 'html', 'utf-8')
@@ -46,12 +46,12 @@ def datum(toMails, summary, subject, information):
 
 #
 def getToMails():
-    userMail = personnelPr.getPersonnelUserMail()
+    userMail = prsMethod.Personnel.userMail()
     toMails = [userMail]
-    teamLeaders = personnelPr.getUsersFilterByPost('Team - Leader')
+    teamLeaders = prsMethod.Personnel.usernamesFilterByPost('Team - Leader')
     if teamLeaders:
         for i in teamLeaders:
-            mail = personnelPr.getPersonnelUserMail(i)
+            mail = prsMethod.Personnel.userMail(i)
             toMails.append(mail)
     return toMails
 

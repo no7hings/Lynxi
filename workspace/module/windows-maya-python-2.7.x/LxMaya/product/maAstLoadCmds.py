@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
 from LxCore import lxConfigure
 
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 
@@ -1066,9 +1066,9 @@ def astUnitRigLoadForAnimationCmd(
     #
     maFile.setMaFileReference(serverRigProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, bscMethods.OsTime.activeTimestamp())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicIndexAttrLabel, assetIndex)
 
 
 #
@@ -1088,6 +1088,6 @@ def astAssetSolverLoadForAnimation(
     #
     maFile.setMaFileReference(serverSolverProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.updateLabel, bscMethods.OsTime.activeTimestamp())
-    maUtils.setAttrStringDatumForce_(referenceNode, appVariant.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicIndexAttrLabel, assetIndex)

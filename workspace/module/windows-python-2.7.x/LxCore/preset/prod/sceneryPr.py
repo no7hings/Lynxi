@@ -5,7 +5,7 @@ from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import sceneryCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 # do not delete and rename
 serverBasicPath = lxScheme.Root().basic.server
 localBasicPath = lxScheme.Root().basic.local
@@ -23,12 +23,12 @@ def scnBasicNameSet(*args):
             else:
                 j = '{}'
             formatString += j
-    return appVariant.Lynxi_Prefix_Product_Scenery + formatString.format(*args)
+    return prsVariant.Util.Lynxi_Prefix_Product_Scenery + formatString.format(*args)
 
 
 # Group Name Config
 def scnBasicGroupNameSet(*args):
-    return scnBasicNameSet(*args) + appVariant.basicGroupLabel
+    return scnBasicNameSet(*args) + prsVariant.Util.basicGroupLabel
 
 
 #
@@ -38,55 +38,55 @@ def scnBasicNodeNameSet(*args):
 
 # Group Name Config
 def scnGroupNameSet(sceneryName, groupNameLabel):
-    nameSet = '%s_%s%s%s' % (appVariant.Lynxi_Prefix_Product_Scenery, sceneryName, groupNameLabel, appVariant.basicGroupLabel)
+    nameSet = '%s_%s%s%s' % (prsVariant.Util.Lynxi_Prefix_Product_Scenery, sceneryName, groupNameLabel, prsVariant.Util.basicGroupLabel)
     return nameSet
 
 
 #
 def scnComposeRootGroupName(sceneryName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, appVariant.basicComposeRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, prsVariant.Util.basicComposeRootGroupLabel)
     return string
 
 
 #
 def scnUnitRootGroupName(sceneryName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, appVariant.basicUnitRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, prsVariant.Util.basicUnitRootGroupLabel)
     return string
 
 
 #
 def scnAssemblyGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, appVariant.basicAssemblyLabel)
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, prsVariant.Util.basicAssemblyLabel)
 
 
 #
 def scnAssemblyFieldGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(appVariant.basicAssemblyLabel, appVariant.basicFieldLabel))
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(prsVariant.Util.basicAssemblyLabel, prsVariant.Util.basicFieldLabel))
 
 
 #
 def scnGpuFieldGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(appVariant.basicGpuLabel, appVariant.basicFieldLabel))
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(prsVariant.Util.basicGpuLabel, prsVariant.Util.basicFieldLabel))
 
 
 #
 def scnProxyFieldGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(appVariant.basicProxyLabel, appVariant.basicFieldLabel))
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(prsVariant.Util.basicProxyLabel, prsVariant.Util.basicFieldLabel))
 
 
 #
 def scnControlFieldGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(appVariant.basicControlLabel, appVariant.basicFieldLabel))
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(prsVariant.Util.basicControlLabel, prsVariant.Util.basicFieldLabel))
 
 
 #
 def scnAssetFieldGroupName(sceneryName, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(appVariant.basicAssetLabel, appVariant.basicFieldLabel))
+    return ('' if namespace is None else namespace + ':') + scnBasicGroupNameSet(sceneryName, bscMethods.StrUnderline.toLabel(prsVariant.Util.basicAssetLabel, prsVariant.Util.basicFieldLabel))
 
 
 #
 def scnUnitLocatorName(sceneryName, sceneryVariant, namespace=None):
-    return ('' if namespace is None else namespace + ':') + scnBasicNodeNameSet(sceneryName, sceneryVariant, appVariant.basicAssemblyLabel)
+    return ('' if namespace is None else namespace + ':') + scnBasicNodeNameSet(sceneryName, sceneryVariant, prsVariant.Util.basicAssemblyLabel)
 
 
 #
@@ -96,7 +96,7 @@ def scnAssemblyGroupPath(sceneryName, namespace=none):
 
 #
 def scnLightGroupName(sceneryName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, appVariant.basicLightLinkGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scnGroupNameSet(sceneryName, prsVariant.Util.basicLightLinkGroupLabel)
     return string
 
 
@@ -144,37 +144,37 @@ def assemblyLodColorConfig():
 
 # Scenery AD Name
 def scnAssemblyAdName(sceneryClass, sceneryName, sceneryVariant=none):
-    string = '%s_%s_%s%s' % (appVariant.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, appVariant.scnSceneryDefinitionLabel)
+    string = '%s_%s_%s%s' % (prsVariant.Util.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, prsVariant.Util.scnSceneryDefinitionLabel)
     return string
 
 
 # Scenery AR Name
 def scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant=none):
-    string = '%s_%s_%s%s' % (appVariant.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, appVariant.scnSceneryReferenceLabel)
+    string = '%s_%s_%s%s' % (prsVariant.Util.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, prsVariant.Util.scnSceneryReferenceLabel)
     return string
 
 
 #
 def assemblyGroupArName(sceneryName):
-    string = '%s_%s%s' % (appVariant.scnAssemblyPrefix, sceneryName, appVariant.scnSceneryReferenceLabel)
+    string = '%s_%s%s' % (prsVariant.Util.scnAssemblyPrefix, sceneryName, prsVariant.Util.scnSceneryReferenceLabel)
     return string
 
 
 # Scenery Main Locator
 def sceneryMainLocatorName(sceneryClass, sceneryName, sceneryVariant):
-    string = '%s_%s_%s%s' % (appVariant.scnAssemblyPrefix, sceneryName, sceneryVariant, appVariant.scnSceneryLocatorLabel)
+    string = '%s_%s_%s%s' % (prsVariant.Util.scnAssemblyPrefix, sceneryName, sceneryVariant, prsVariant.Util.scnSceneryLocatorLabel)
     return string
 
 
 # Scenery Main Locator
 def sceneryAssemblyMainLocatorName(sceneryName, sceneryVariant):
-    string = '%s_%s_%s%s' % (appVariant.scnAssemblyPrefix, sceneryName, sceneryVariant, appVariant.scnSceneryLocatorLabel)
+    string = '%s_%s_%s%s' % (prsVariant.Util.scnAssemblyPrefix, sceneryName, sceneryVariant, prsVariant.Util.scnSceneryLocatorLabel)
     return string
 
 
 # Scene Object Locator Name
 def sceneryAssemblySubLocatorName(assetName, number, assetVariant):
-    string = '%s_%s_%s_%s%s' % (appVariant.scnAssemblyPrefix, assetName, number, assetVariant, appVariant.scnSceneryLocatorLabel)
+    string = '%s_%s_%s_%s%s' % (prsVariant.Util.scnAssemblyPrefix, assetName, number, assetVariant, prsVariant.Util.scnSceneryLocatorLabel)
     return string
 
 
@@ -200,7 +200,7 @@ def scnLightHierarchyConfig(sceneryName):
     dic = bscCommands.orderedDict()
     # Main
     dic[scnLightGroupName(sceneryName)] = [
-        scnGroupNameSet(sceneryName, appVariant.lgtFieldLabel)
+        scnGroupNameSet(sceneryName, prsVariant.Util.lgtFieldLabel)
     ]
     return dic
 
@@ -208,7 +208,7 @@ def scnLightHierarchyConfig(sceneryName):
 #
 def isSceneryStage(sceneryStage):
     boolean = False
-    if sceneryStage in appVariant.scnSceneryStages:
+    if sceneryStage in prsVariant.Util.scnSceneryStages:
         boolean = True
     return boolean
 
@@ -216,20 +216,20 @@ def isSceneryStage(sceneryStage):
 #
 def isAssemblyStage(sceneryStage):
     boolean = False
-    if sceneryStage in appVariant.scnAssemblyStages:
+    if sceneryStage in prsVariant.Util.scnAssemblyStages:
         boolean = True
     return boolean
 
 
 #
 def scenerySchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSchemeExt, appVariant.dbSceneryBasicKey)
-    return bscCommands.getOsUniqueFile(string)
+    string = '{0}/{1}/{2}/{3}'.format(prsVariant.Util.dbSceneryRoot, prsVariant.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariant.Util.dbSceneryBasicKey)
+    return bscMethods.OsFile.uniqueFilename(string)
 
 
 #
 def scenerySetFileConfig(sceneryIndex):
-    string = '{0}/{1}/{2}/{3}'.format(appVariant.dbSceneryRoot, appVariant.dbBasicFolderName, lxConfigure.LynxiSetExt, sceneryIndex)
+    string = '{0}/{1}/{2}/{3}'.format(prsVariant.Util.dbSceneryRoot, prsVariant.Util.dbBasicFolderName, lxConfigure.LynxiSetExt, sceneryIndex)
     return string
 
 
@@ -248,7 +248,7 @@ def defaultScenerySetConfig(projectName, number=0):
         [('project', u'项目 ( Project(s) )'), (projectName, )],
         [('classify', u'类型 ( Classify )'), sceneryCfg.scnBasicClass()],
         [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
-        [('variant', u'变体 ( Variant(s) )'), (appVariant.scnDefaultVariant, )],
+        [('variant', u'变体 ( Variant(s) )'), (prsVariant.Util.scnDefaultVariant,)],
         [('priority', u'优先级 ( Priority )'), sceneryCfg.basicSceneryPriorities()],
         [(lxConfigure.LynxiProduct_Scenery_Link_Scenery, u'场景布景 ( Scenery )'), False],
         [(lxConfigure.LynxiProduct_Scene_Link_layout, u'场景预览 ( Layout )'), False],
@@ -405,7 +405,7 @@ def getSceneryViewInfo(sceneryIndex, sceneryClass=None, sceneryVariant=None):
     if sceneryClass is None:
         sceneryClass = getSceneryClass(sceneryIndex)
     if sceneryVariant is None:
-        sceneryVariant = appVariant.scnDefaultVariant
+        sceneryVariant = prsVariant.Util.scnDefaultVariant
     return sceneryViewInfoSet(getSceneryViewName(sceneryIndex), sceneryClass, sceneryVariant)
 
 
@@ -447,7 +447,7 @@ def getUiSceneryMultMsgs(projectFilter, sceneryClassFilters=None, sceneryLinkFil
     #
     def getLinks(data):
         lis = []
-        for i in appVariant.scnBasicLinks:
+        for i in prsVariant.Util.scnBasicLinks:
             enabled = data[i]
             if enabled is True:
                 lis.append(i)
@@ -535,7 +535,7 @@ def getUiScenerySetDataDic(projectFilter):
                 sceneryVariants = data['variant']
                 sceneryPriority = data['priority']
                 #
-                sceneryEnabled = bscCommands.getKeyEnabled(data, lxConfigure.LynxiProduct_Scenery_Link_Scenery)
+                sceneryEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Scenery_Link_Scenery)
                 scLayoutEnable = data[lxConfigure.LynxiProduct_Scene_Link_layout]
                 scAnimationEnable = data[lxConfigure.LynxiProduct_Scene_Link_Animation]
                 scSimulationEnable = data[lxConfigure.LynxiProduct_Scene_Link_Simulation]
@@ -612,93 +612,93 @@ def getSceneryLink(sceneryStage):
 
 #
 def sceneryLinkFolder(sceneryStage):
-    string = appVariant.scnSceneryFolder
+    string = prsVariant.Util.scnSceneryFolder
     if isScnSceneryLink(sceneryStage):
-        string = appVariant.scnSceneryFolder
+        string = prsVariant.Util.scnSceneryFolder
     elif isScnLayoutLink(sceneryStage):
-        string = appVariant.scnLayoutFolder
+        string = prsVariant.Util.scnLayoutFolder
     elif isScnAnimationLink(sceneryStage):
-        string = appVariant.scnAnimationFolder
+        string = prsVariant.Util.scnAnimationFolder
     elif isScnSimulationLink(sceneryStage):
-        string = appVariant.scnSimulationFolder
+        string = prsVariant.Util.scnSimulationFolder
     elif isScnLightLink(sceneryStage):
-        string = appVariant.scnLightFolder
+        string = prsVariant.Util.scnLightFolder
     return string
 
 
 #
 def scnBasicLinkLabel(sceneryStage):
-    string = appVariant.basicSceneryLinkLabel
+    string = prsVariant.Util.basicSceneryLinkLabel
     if isScnSceneryLink(sceneryStage):
-        string = appVariant.basicSceneryLinkLabel
+        string = prsVariant.Util.basicSceneryLinkLabel
     elif isScnLayoutLink(sceneryStage):
-        string = appVariant.basicLayoutLinkLabel
+        string = prsVariant.Util.basicLayoutLinkLabel
     elif isScnAnimationLink(sceneryStage):
-        string = appVariant.basicAnimationLinkLabel
+        string = prsVariant.Util.basicAnimationLinkLabel
     elif isScnSimulationLink(sceneryStage):
-        string = appVariant.basicSimulationLinkLabel
+        string = prsVariant.Util.basicSimulationLinkLabel
     elif isScnLightLink(sceneryStage):
-        string = appVariant.basicLightLinkLabel
+        string = prsVariant.Util.basicLightLinkLabel
     return string
 
 
 #
 def scenerySourceFileLabel(sceneryStage):
-    string = appVariant.scnScenerySourceLabel
+    string = prsVariant.Util.scnScenerySourceLabel
     if isScnSceneryLink(sceneryStage):
-        string = appVariant.scnScenerySourceLabel
+        string = prsVariant.Util.scnScenerySourceLabel
     elif isScnLayoutLink(sceneryStage):
-        string = appVariant.scnLayoutSourceLabel
+        string = prsVariant.Util.scnLayoutSourceLabel
     elif isScnAnimationLink(sceneryStage):
-        string = appVariant.scnAnimationSourceLabel
+        string = prsVariant.Util.scnAnimationSourceLabel
     elif isScnSimulationLink(sceneryStage):
-        string = appVariant.scnSimulationSourceLabel
+        string = prsVariant.Util.scnSimulationSourceLabel
     elif isScnLightLink(sceneryStage):
-        string = appVariant.scnLightSourceLabel
+        string = prsVariant.Util.scnLightSourceLabel
     return string
 
 
 #
 def scnProductFileLabel(sceneryStage):
-    subLabel = appVariant.basicProductSubLabel
+    subLabel = prsVariant.Util.basicProductSubLabel
     return bscMethods.StrUnderline.toLabel(scnBasicLinkLabel(sceneryStage), subLabel)
 
 
 #
 def scnAssemblyLabel(sceneryStage):
-    subLabel = appVariant.basicAssemblySubLabel
+    subLabel = prsVariant.Util.basicAssemblySubLabel
     return bscMethods.StrUnderline.toLabel(scnBasicLinkLabel(sceneryStage), subLabel)
 
 
 #
 def sceneryPreviewFileLabel(sceneryStage):
-    string = appVariant.scnSceneryPreviewLabel
+    string = prsVariant.Util.scnSceneryPreviewLabel
     if isScnSceneryLink(sceneryStage):
-        string = appVariant.scnSceneryPreviewLabel
+        string = prsVariant.Util.scnSceneryPreviewLabel
     elif isScnLayoutLink(sceneryStage):
-        string = appVariant.scnLayoutPreviewLabel
+        string = prsVariant.Util.scnLayoutPreviewLabel
     elif isScnAnimationLink(sceneryStage):
-        string = appVariant.scnAnimationPreviewLabel
+        string = prsVariant.Util.scnAnimationPreviewLabel
     elif isScnSimulationLink(sceneryStage):
-        string = appVariant.scnSimulationPreviewLabel
+        string = prsVariant.Util.scnSimulationPreviewLabel
     elif isScnLightLink(sceneryStage):
-        string = appVariant.scnLightPreviewLabel
+        string = prsVariant.Util.scnLightPreviewLabel
     return string
 
 
 #
 def sceneryDefinitionFileLabel(sceneryStage):
-    string = appVariant.scnSceneryDefinitionLabel
+    string = prsVariant.Util.scnSceneryDefinitionLabel
     if isScnSceneryLink(sceneryStage):
-        string = appVariant.scnSceneryDefinitionLabel
+        string = prsVariant.Util.scnSceneryDefinitionLabel
     if isScnLayoutLink(sceneryStage):
-        string = appVariant.scnDefLayoutinitionLabel
+        string = prsVariant.Util.scnDefLayoutinitionLabel
     elif isScnAnimationLink(sceneryStage):
-        string = appVariant.scnAnimationDefinitionLabel
+        string = prsVariant.Util.scnAnimationDefinitionLabel
     elif isScnSimulationLink(sceneryStage):
-        string = appVariant.scnSimulationDefinitionLabel
+        string = prsVariant.Util.scnSimulationDefinitionLabel
     elif isScnLightLink(sceneryStage):
-        string = appVariant.scnLightDefinitionLabel
+        string = prsVariant.Util.scnLightDefinitionLabel
     return string
 
 
@@ -710,8 +710,8 @@ def scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel):
 
 # Scenery Path
 def sceneryUnitBasicDirectory(rootIndexKey, projectName):
-    root = [appVariant.serverSceneryRoot, appVariant.localSceneryRoot, appVariant.backupSceneryRoot]
-    return '%s/%s/%s/%s' % (root[rootIndexKey], projectName, appVariant.basicSceneryFolder, appVariant.scnUnitFolder)
+    root = [prsVariant.Util.serverSceneryRoot, prsVariant.Util.localSceneryRoot, prsVariant.Util.backupSceneryRoot]
+    return '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariant.Util.basicSceneryFolder, prsVariant.Util.scnUnitFolder)
 
 
 #
@@ -731,7 +731,7 @@ def scnUnitSourceFile(rootIndexKey, projectName, sceneryClass, sceneryName, scen
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
     fileLabel = scenerySourceFileLabel(sceneryStage)
-    extLabel = appVariant.mayaAsciiExt
+    extLabel = prsVariant.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -749,7 +749,7 @@ def scnUnitProductFile(rootIndexKey, projectName, sceneryClass, sceneryName, sce
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
     fileLabel = scnProductFileLabel(sceneryStage)
-    extLabel = appVariant.mayaAsciiExt
+    extLabel = prsVariant.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -762,7 +762,7 @@ def scnUnitProductFile(rootIndexKey, projectName, sceneryClass, sceneryName, sce
 
 
 #
-def scnUnitPreviewFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage, extLabel=appVariant.jpgExt):
+def scnUnitPreviewFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage, extLabel=prsVariant.Util.jpgExt):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
@@ -784,7 +784,7 @@ def scnUnitDefinitionFile(rootIndexKey, projectName, sceneryClass, sceneryName, 
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
     fileLabel = sceneryDefinitionFileLabel(sceneryStage)
-    extLabel = appVariant.mayaAsciiExt
+    extLabel = prsVariant.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -802,7 +802,7 @@ def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryClass, sceneryN
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
     fileLabel = scnAssemblyLabel(sceneryStage)
-    extLabel = appVariant.assemblyComposeExt
+    extLabel = prsVariant.Util.assemblyComposeExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -843,7 +843,7 @@ def getScnAssemblyComposeDatumDic(projectName, sceneryClass, sceneryName, scener
 
 #
 def getSceneryUnitProductUpdate(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
-    string = appVariant.infoNonExistsLabel
+    string = prsVariant.Util.infoNonExistsLabel
     #
     serverProductFile = scnUnitProductFile(
         lxConfigure.LynxiRootIndex_Server, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
@@ -861,7 +861,7 @@ def getScnUnitPreviewFile(projectName, sceneryClass, sceneryName, sceneryVariant
     renderPreviewFile = scnUnitPreviewFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
-        extLabel=appVariant.pngExt
+        extLabel=prsVariant.Util.pngExt
     )[1]
     if bscCommands.isOsExistsFile(renderPreviewFile):
         return renderPreviewFile
@@ -869,7 +869,7 @@ def getScnUnitPreviewFile(projectName, sceneryClass, sceneryName, sceneryVariant
         viewportPreviewFile = scnUnitPreviewFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
-            extLabel=appVariant.jpgExt
+            extLabel=prsVariant.Util.jpgExt
         )[1]
         if bscCommands.isOsExistsFile(viewportPreviewFile):
             return viewportPreviewFile

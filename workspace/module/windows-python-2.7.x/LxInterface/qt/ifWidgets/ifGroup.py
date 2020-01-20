@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxConfigure
 #
-from LxCore.preset import personnelPr
+from LxCore.preset import prsMethod
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
@@ -35,7 +35,7 @@ class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxConfigure.Lynxi_Def_Value_Pipeline]
         )
         #
         buildMethodLis = [
@@ -52,7 +52,7 @@ class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
 
 #
 class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
-    userLevel = personnelPr.getPersonnelUserLevel()
+    userLevel = prsMethod.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfPersonnelGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()
@@ -80,7 +80,7 @@ class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxConfigure.Lynxi_Def_Value_Pipeline]
         )
         #
         buildMethodLis = [
@@ -117,7 +117,7 @@ class IfToolkitGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self._pipelineTab = self.chooseTab()
         self._pipelineTab.setDatumLis(
-            [lxConfigure.LynxiDefaultPipelineValue]
+            [lxConfigure.Lynxi_Def_Value_Pipeline]
         )
         #
         buildMethodLis = [

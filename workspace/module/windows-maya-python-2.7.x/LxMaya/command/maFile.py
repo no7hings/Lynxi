@@ -1,5 +1,5 @@
 # coding=utf-8
-import os, time, shutil, json, platform, locale
+import os, shutil, json
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
@@ -9,76 +9,12 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
-#
 from LxMaya.command import maUtils
-#
-temporaryDirectory = appVariant.localTemporaryDirectory()
-astModelTextureFolder = appVariant.astModelTextureFolder
 #
 tempFolderLabel = 'temp'
 gzExtLabel = '.gz'
 #
 none = ''
-
-
-#
-def setHideDirectory(directory):
-    if os.path.isdir(directory):
-        if 'Windows' in platform.system():
-            command = 'attrib +h "' + directory + '"'
-            command = command.encode(locale.getdefaultlocale()[1])
-            os.popen(command).close()
-
-
-#
-def setRemoveDirectory(directory):
-    if os.path.isdir(directory):
-        for root, dirs, files in os.walk(directory, topdown=0):
-            for seq, name in enumerate(files):
-                osFile = os.path.join(root, name).replace('\\', '/')
-                os.remove(osFile)
-            os.removedirs(root)
-
-
-#
-def setCopyFile(sourceFile, targetFile):
-    if os.path.isfile(sourceFile):
-        bscCommands.setOsFileDirectoryCreate(targetFile)
-        shutil.copy2(sourceFile, targetFile)
-
-
-#
-def setMoveFile(sourceFile, targetFile):
-    if os.path.isfile(sourceFile):
-        bscCommands.setOsFileDirectoryCreate(targetFile)
-        shutil.move(sourceFile, targetFile)
-
-
-#
-def getFileSize(osFile):
-    value = 0
-    if os.path.isfile(osFile):
-        fileSize = os.path.getsize(osFile)
-        fileSize /= float(1024 * 1024)
-        value = round(fileSize, 2)
-    return value
-
-
-# Get Upload Temp File
-def getTemporaryOsFile(osFile):
-    fileName = os.path.basename(osFile)
-    temporaryFile = os.path.join(temporaryDirectory, fileName).replace('\\', '/')
-    bscCommands.setOsFileDirectoryCreate(temporaryFile)
-    return temporaryFile
-
-
-#
-def setTransferFile(osFile):
-    temporaryFile = getTemporaryOsFile(osFile)
-    cmds.file(rename=temporaryFile)
-    cmds.file(save=1, type=getMayaFileType(osFile))
-    setMoveFile(temporaryFile, osFile)
 
 
 # Get Maya File Type
@@ -130,18 +66,18 @@ def fileOpen(osFile):
 
 # Save Maya File
 def saveMayaFile(osFile):
-    temporaryFile = getTemporaryOsFile(osFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
     cmds.file(rename=temporaryFile)
     cmds.file(save=1, type=getMayaFileType(osFile))
-    bscCommands.setOsFileDirectoryCreate(osFile)
-    setMoveFile(temporaryFile, osFile)
+    bscMethods.OsFile.createDirectory(osFile)
+    bscMethods.OsFile.copyTo(temporaryFile, osFile)
 
 
 #
 def saveToMayaFile(osFile):
     cmds.file(rename=osFile)
     cmds.file(save=1, type=getMayaFileType(osFile))
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
 
 
 # Open Maya File as Back
@@ -149,7 +85,7 @@ def openMayaFileAsBack(osFile, backFile, timeTag=none):
     if not timeTag:
         timeTag = bscMethods.OsTime.activeTimetag()
     if os.path.isfile(osFile):
-        bscCommands.setOsFileDirectoryCreate(backFile)
+        bscMethods.OsFile.createDirectory(backFile)
         fileJoinUpdate = bscMethods.OsFile.toJoinTimetag(backFile, timeTag)
         # Main
         shutil.copyfile(osFile, fileJoinUpdate)
@@ -162,7 +98,7 @@ def openMayaFileToLocal(osFile, localFile, timeTag=none):
         timeTag = bscMethods.OsTime.activeTimetag()
     #
     if os.path.isfile(osFile):
-        bscCommands.setOsFileDirectoryCreate(localFile)
+        bscMethods.OsFile.createDirectory(localFile)
         localFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(localFile, timeTag)
         # Main
         shutil.copyfile(osFile, localFileJoinUpdateTag)
@@ -171,9 +107,9 @@ def openMayaFileToLocal(osFile, localFile, timeTag=none):
 
 #
 def openFileToTemp(osFile):
-    temporaryFile = getTemporaryOsFile(osFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
     if os.path.isfile(osFile):
-        bscCommands.setOsFileDirectoryCreate(temporaryFile)
+        bscMethods.OsFile.createDirectory(temporaryFile)
         # Main
         shutil.copyfile(osFile, temporaryFile)
         fileOpen(temporaryFile)
@@ -203,7 +139,7 @@ def saveTempFile():
     origFile = cmds.file(query=1, sceneName=1)
     if not origFile:
         origFile = 'D:/Projects/temp.mb'
-        bscCommands.setOsFileDirectoryCreate(origFile)
+        bscMethods.OsFile.createDirectory(origFile)
         saveMayaFile(origFile)
     temporaryFile = '_temp'.join(os.path.splitext(origFile))
     cmds.file(rename=temporaryFile)
@@ -216,7 +152,7 @@ def saveMayaFileToLocal(osFile, timeTag=none):
     if not timeTag:
         timeTag = bscMethods.OsTime.activeTimetag()
     #
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     fileJoinUpdate = bscMethods.OsFile.toJoinTimetag(osFile, timeTag)
     #
     maUtils.setCleanUnknownNodes()
@@ -237,7 +173,7 @@ def new():
 
 # Export Maya File
 def fileExport(objects, osFile, history=0):
-    temporaryFile = getTemporaryOsFile(osFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
     cmds.select(objects)
     cmds.file(
         temporaryFile,
@@ -249,7 +185,7 @@ def fileExport(objects, osFile, history=0):
         constructionHistory=history
     )
     cmds.select(clear=1)
-    setMoveFile(temporaryFile, osFile)
+    bscMethods.OsFile.copyTo(temporaryFile, osFile)
 
 
 # Export Maya File
@@ -264,7 +200,7 @@ def exportMayaFileWithSet(osFile, cfxGroup, setObjects, history=1):
             if cmds.objExists(i):
                 cmds.select(i, add=1, noExpand=1)
     #
-    temporaryFile = getTemporaryOsFile(osFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
     cmds.file(
         temporaryFile,
         force=1,
@@ -274,7 +210,7 @@ def exportMayaFileWithSet(osFile, cfxGroup, setObjects, history=1):
         exportSelected=1,
         constructionHistory=history)
     cmds.select(clear=1)
-    setMoveFile(temporaryFile, osFile)
+    bscMethods.OsFile.copyTo(temporaryFile, osFile)
 
 
 # Import Maya File
@@ -359,7 +295,7 @@ def removeMayaWindow(window):
 
 # Make Snapshot
 def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, height=720, useDefaultView=1, overrideColor=None):
-    temporaryFile = getTemporaryOsFile(osImageFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osImageFile)
     tempPrv = os.path.splitext(temporaryFile)[0]
     #
     prvWindow = 'snapShot'
@@ -475,14 +411,14 @@ def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, hei
     maUtils.setDisplayMode(5)
     #
     tempPrvFile = tempPrv + '.0000.jpg'
-    setMoveFile(tempPrvFile, osImageFile)
+    bscMethods.OsFile.copyTo(tempPrvFile, osImageFile)
     cmds.setAttr('lambert1.color', .5, .5, .5)
 
 
 # Write Json
 def writeOsJson(data, osFile, indent=0):
     if data:
-        bscCommands.setOsFileDirectoryCreate(osFile)
+        bscMethods.OsFile.createDirectory(osFile)
         with open(osFile, 'w') as f:
             if indent:
                 json.dump(data, f, ensure_ascii=True, indent=indent)
@@ -501,7 +437,7 @@ def readOsJson(osFile):
 #
 def writeOsData(data, osFile):
     if data:
-        bscCommands.setOsFileDirectoryCreate(osFile)
+        bscMethods.OsFile.createDirectory(osFile)
         with open(osFile, 'wb') as f:
             f.write(data)
             f.close()
@@ -533,7 +469,7 @@ def fbxExport(objectStrings, osFile):
         preserveReferences=0,
         force=1
     )
-    bscCommands.setOsFileCopy(temporaryFile, osFile)
+    bscMethods.OsFile.copyTo(temporaryFile, osFile)
     #
     maUtils.setSelClear()
 
@@ -583,7 +519,7 @@ def abcExport(objectString, osFile, startFrame, endFrame, step, attrs=None):
         #
         return argString
     #
-    temporaryFile = getTemporaryOsFile(osFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
     #
     exportArg = None
     #
@@ -605,14 +541,14 @@ def abcExport(objectString, osFile, startFrame, endFrame, step, attrs=None):
         #
         cmds.AbcExport(j=exportArg)
         #
-        setMoveFile(temporaryFile, osFile)
+        bscMethods.OsFile.copyTo(temporaryFile, osFile)
 
 
 #
 def gpuExport(objectString, osFile, startFrame, endFrame, withMaterial=0):
     cmds.loadPlugin('gpuCache', quiet=1)
     if cmds.objExists(objectString):
-        temporaryFile = getTemporaryOsFile(osFile)
+        temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
         #
         path = os.path.dirname(temporaryFile)
         fileName = os.path.splitext(os.path.basename(temporaryFile))[0]
@@ -625,7 +561,7 @@ def gpuExport(objectString, osFile, startFrame, endFrame, withMaterial=0):
             fileName=fileName
         )
         #
-        setMoveFile(temporaryFile, osFile)
+        bscMethods.OsFile.copyTo(temporaryFile, osFile)
 
 
 #
@@ -665,7 +601,7 @@ def abcConnect(cache, objectString):
 #
 def animExport(osFile, objectString=none, mode=0):
     cmds.loadPlugin('animImportExport', quiet=1)
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     if objectString:
         cmds.select(objectString)
     options = \
@@ -740,12 +676,12 @@ def exportSubArnoldAss(subAssFile, camera, frame):
 #
 def assExport(assFile, camera, startFrame, endFrame):
     # Use Temp Folder
-    temporaryFile = getTemporaryOsFile(assFile)
+    temporaryFile = bscMethods.OsFile.temporaryFilename(assFile)
     # Export Ass
     exportArnoldAss(temporaryFile, camera, startFrame, endFrame)
     # Get Temp ASS File
     tempSubAssFiles = [(os.path.splitext(temporaryFile)[0] + str(i).zfill(4) + os.path.splitext(temporaryFile)[1]).replace('\\', '/') for i in range(startFrame, endFrame + 1)]
-    bscCommands.setOsFileDirectoryCreate(assFile)
+    bscMethods.OsFile.createDirectory(assFile)
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
@@ -756,7 +692,7 @@ def assExport(assFile, camera, startFrame, endFrame):
         progressBar.update()
         if os.path.isfile(tempSubAssFile):
             subAssFile = os.path.dirname(assFile) + '/' + os.path.basename(tempSubAssFile)
-            setMoveFile(tempSubAssFile, subAssFile)
+            bscMethods.OsFile.copyTo(tempSubAssFile, subAssFile)
 
 
 #

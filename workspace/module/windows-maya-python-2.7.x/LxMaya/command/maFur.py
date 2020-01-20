@@ -9,7 +9,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr
 #
@@ -17,15 +17,15 @@ from LxMaya.command import maUtils, maFile, maUuid, maAttr, maObj, maGeom, maGeo
 #
 from LxDatabase.data import datHash
 #
-inShapeLabel = appVariant.inShapeLabel
+inShapeLabel = prsVariant.Util.inShapeLabel
 #
-astCfxGrowSourceGroupLabel = appVariant.astCfxGrowSourceGroupLabel
-astCfxGrowSourceAttrLabel = appVariant.astCfxGrowSourceAttrLabel
+astCfxGrowSourceGroupLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
+astCfxGrowSourceAttrLabel = prsVariant.Util.astCfxGrowSourceAttrLabel
 #
-cacheAttrLabel = appVariant.cacheAttrLabel
-cacheUpdateAttrLabel = appVariant.cacheUpdateAttrLabel
-assetAttrLabel = appVariant.assetAttrLabel
-assetUpdateAttrLabel = appVariant.assetUpdateAttrLabel
+cacheAttrLabel = prsVariant.Util.cacheAttrLabel
+cacheUpdateAttrLabel = prsVariant.Util.cacheUpdateAttrLabel
+assetAttrLabel = prsVariant.Util.assetAttrLabel
+assetUpdateAttrLabel = prsVariant.Util.assetUpdateAttrLabel
 #
 mayaVersion = maUtils.getMayaVersion()
 #
@@ -39,9 +39,9 @@ none = ''
 def getFurNodeName(furObject):
     splitKey = '_'
     if maUtils.getTransformType(furObject) == 'pgYetiMaya':
-        splitKey = appVariant.astYetiNodeGroupLabel
+        splitKey = prsVariant.Util.astYetiNodeGroupLabel
     if maUtils.getTransformType(furObject) == 'pfxHair':
-        splitKey = appVariant.astPfxHairGroupLabel
+        splitKey = prsVariant.Util.astPfxHairGroupLabel
     furNodeName = (furObject.split('|')[-1].split(':')[-1]).split(splitKey)[-1][1:]
     return furNodeName
 
@@ -67,7 +67,7 @@ def setFurMapAttrData(furMapNode, furMapFile):
                 base, ext = bscCommands.toOsFileSplitByExt(furMapFile)
                 newFurMapFile = base + '.nhr'
                 # Use Copy
-                bscCommands.setOsFileCopy(furMapFile, newFurMapFile)
+                bscMethods.OsFile.copyTo(furMapFile, newFurMapFile)
             else:
                 newFurMapFile = furMapFile
             #
@@ -108,7 +108,7 @@ def getYetiGuideHairSystems(yetiObject):
 
 #
 def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     # Turn off Use Cache
     maUtils.setAttrDatumForce_(yetiNode, 'fileMode', False)
     #
@@ -127,7 +127,7 @@ def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUp
 #
 def setYetiObjectsWriteCache(yetiObjects, yetiCaches, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
     dic = {}
-    [bscCommands.setOsFileDirectoryCreate(i) for i in yetiCaches]
+    [bscMethods.OsFile.createDirectory(i) for i in yetiCaches]
     [cmds.setAttr(i + '.' + 'fileMode', 0) for i in yetiObjects]
     yetiShapePathLis = [maUtils.getNodeShape(i) for i in yetiObjects]
     cmds.select(yetiShapePathLis)
@@ -613,7 +613,7 @@ def setScAstNurbsHairSolverConnectToTime(assetName, astCfxNamespace, startFrame)
     #
     astCfxNurbsHairSolverGroup = assetPr.astUnitRigSolNhrSolGuideObjectGroupPath(assetName, astCfxNamespace)
     if maUtils.isAppExist(astCfxNurbsHairSolverGroup):
-        objectPaths = maUtils.getChildObjectsByRoot(astCfxNurbsHairSolverGroup, appVariant.maNurbsHairInGuideCurvesNode, fullPath=True)
+        objectPaths = maUtils.getChildObjectsByRoot(astCfxNurbsHairSolverGroup, prsVariant.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
         if objectPaths:
             for i in objectPaths:
                 setConnectToTime(i)
@@ -828,11 +828,11 @@ def setOutExistsGeometryCache(cachePath, cacheName, hairSystem):
         if bscCommands.isOsExistsFile(xmlFile):
             base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
-            maFile.setCopyFile(xmlFile, targetXmlFile)
+            bscMethods.OsFile.copyTo(xmlFile, targetXmlFile)
         if bscCommands.isOsExistsFile(cacheFile):
             base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
-            maFile.setCopyFile(cacheFile, targetCacheFile)
+            bscMethods.OsFile.copyTo(cacheFile, targetCacheFile)
 
 
 #
@@ -876,12 +876,12 @@ def setUploadExistsGeometryCache(cachePath, cacheName, hairSystem):
             base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
             #
-            maFile.setCopyFile(xmlFile, targetXmlFile)
+            bscMethods.OsFile.copyTo(xmlFile, targetXmlFile)
         if bscCommands.isOsExistsFile(cacheFile):
             base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
             #
-            maFile.setCopyFile(cacheFile, targetCacheFile)
+            bscMethods.OsFile.copyTo(cacheFile, targetCacheFile)
 
 
 #
@@ -930,7 +930,7 @@ def setUploadExistsNurbsHairCache(cachePath, cacheName, nurbsHairObject):
             frame = getFrame(sourceFile)
             if frame:
                 targetFile = '{}/{}'.format(cachePath, cacheName + '.' + frame + ext)
-                bscCommands.setOsFileCopy(sourceFile, targetFile)
+                bscMethods.OsFile.copyTo(sourceFile, targetFile)
 
 
 #
@@ -1452,7 +1452,7 @@ def setNurbsHairNodeWriteCache(nurbsHairNode, cacheFile, timeTag=None):
     melCommand = '''nurbsHairExport -f "{1}" -hn "{0}"'''.format(nurbsHairNode, tempCacheFile)
     mel.eval(melCommand)
     #
-    bscCommands.setOsFileCopy(tempCacheFile, cacheFile)
+    bscMethods.OsFile.copyTo(tempCacheFile, cacheFile)
 
 
 #
@@ -1482,7 +1482,7 @@ def setCollectionNhrSolverGuideObjectsCaches(nhrCacheObjects, targetOsPath, coll
         osFileBasename = bscCommands.getOsFileBasename(sourceOsFile)
         targetOsFile = bscCommands.toOsFile(targetOsPath, osFileBasename)
         if collection is True:
-            bscCommands.setOsFileCopy(sourceOsFile, targetOsFile)
+            bscMethods.OsFile.copyTo(sourceOsFile, targetOsFile)
         if repath is True:
             setNhrCacheObjectReadCache(mObject, targetOsFile)
     #
@@ -1563,7 +1563,7 @@ def setNurbsHairObjectCreateSolverGuide(nurbsHairObject, assetName):
                     maUtils.setAttrConnect(sourceAttr, nhrSolGuideObjectTargetAttr)
                     maUtils.setAttrConnect(nhrSolGuideObjectSourceAttr, targetAttr)
             #
-            maUtils.setAttrStringDatumForce_(nhrSolGuideObjectName, appVariant.astRigSolGuideSourceAttrLabel, nhrScatterObject)
+            maUtils.setAttrStringDatumForce_(nhrSolGuideObjectName, prsVariant.Util.astRigSolGuideSourceAttrLabel, nhrScatterObject)
 
 
 #

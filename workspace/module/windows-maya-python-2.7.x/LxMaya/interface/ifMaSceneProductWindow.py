@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxScheme
 #
-from LxCore.preset import pipePr, appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
@@ -16,15 +16,11 @@ from LxMaya.command import maUtils
 from LxMaya.product.data import datScene, datAnim
 #
 currentProjectName = projectPr.getMayaProjectName()
-# Type Config
-typeSet = appVariant.astBasicClassifications
-typeLabel = appVariant.assetClassifyAbbDic
-typeDic = appVariant.assetClassifyFullDic
 # Utilities Label
-infoNonExistsLabel = appVariant.infoNonExistsLabel
-astDefaultVersion = appVariant.astDefaultVersion
+infoNonExistsLabel = prsVariant.Util.infoNonExistsLabel
+astDefaultVersion = prsVariant.Util.astDefaultVersion
 # Animation Config
-animStages = appVariant.animStages
+animStages = prsVariant.Util.animStages
 #
 none = ''
 #
@@ -485,5 +481,4 @@ def tableShow():
 
 #
 def helpShow():
-    helpDirectory = pipePr.mayaHelpDirectory('animation')
-    bscMethods.OsDirectory.open(helpDirectory)
+    pass

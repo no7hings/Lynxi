@@ -135,7 +135,7 @@ class Basic(object):
             return 0, 0, w0, h0
 
     @staticmethod
-    def getRgbByString(string, maximum=255):
+    def str2rgb(string, maximum=255):
         a = int(''.join([str(ord(i)).zfill(3) for i in string]))
         b = a % 3
         i = int(a / 256) % 3

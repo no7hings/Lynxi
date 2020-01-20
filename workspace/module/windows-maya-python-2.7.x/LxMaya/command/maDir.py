@@ -817,7 +817,7 @@ def setFileCollectionCmd(
                 logWin_.addStartProgress(u'Collection', targetTx)
                 sourceTxExists = bscCommands.isOsExistsFile(sourceTx)
                 if sourceTxExists:
-                    maFile.setCopyFile(sourceTx, targetTx)
+                    bscMethods.OsFile.copyTo(sourceTx, targetTx)
                     logWin_.addCompleteProgress()
                 else:
                     logWin_.addError(sourceTx, 'Non - Exists')
@@ -828,7 +828,7 @@ def setFileCollectionCmd(
         logWin_.addStartProgress(u'Collection', targetFile)
         #
         if enable:
-            bscCommands.setOsFileCopy(sourceFile, targetFile)
+            bscMethods.OsFile.copyTo(sourceFile, targetFile)
             logWin_.addCompleteProgress()
         else:
             logWin_.addWarning(targetFile, 'Is - Ignore')

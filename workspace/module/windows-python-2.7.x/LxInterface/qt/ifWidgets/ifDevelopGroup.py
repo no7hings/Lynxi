@@ -3,7 +3,7 @@ from LxBasic import bscObjects
 
 from LxCore import lxScheme
 #
-from LxCore.preset import personnelPr
+from LxCore.preset import prsMethod
 #
 from LxCore.method import _dbMethod
 #
@@ -51,7 +51,7 @@ class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
     #
     _dbMethod = _dbMethod.Mtd_DbUnit
     #
-    userLevel = personnelPr.getPersonnelUserLevel()
+    userLevel = prsMethod.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfDevelopGroup, self).__init__(mainWindow)
         #

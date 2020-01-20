@@ -28,7 +28,7 @@ class loadVariant(object):
             nodeDic[mtlCore.Basic.Key_Type_String] = nodeType
             nodeAttrLis = []
             for j in i.getInputs():
-                attrName = j.getName()
+                attrName = j.name()
                 valueTypeString = j.getType()
                 valueString = j.getValueString()
                 attrDic = collections.OrderedDict()

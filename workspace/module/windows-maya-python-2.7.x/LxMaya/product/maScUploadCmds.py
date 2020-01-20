@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -22,9 +22,9 @@ from LxMaya.product.op import sceneOp
 from LxDeadline import ddlCommands
 
 #
-astDefaultVersion = appVariant.astDefaultVersion
+astDefaultVersion = prsVariant.Util.astDefaultVersion
 #
-animAlembicStep = appVariant.animAlembicStep
+animAlembicStep = prsVariant.Util.animAlembicStep
 #
 isSendMail = lxConfigure.LynxiIsSendMail
 isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
@@ -325,7 +325,7 @@ def scUnitAstAlembicCacheUploadCmd(
     startFrame = scenePr.scStartFrame(startFrame)
     endFrame = scenePr.scEndFrame(endFrame)
     #
-    step = appVariant.animAlembicStep
+    step = prsVariant.Util.animAlembicStep
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
@@ -363,7 +363,7 @@ def scUnitAstAlembicCacheUploadCmd(
             cacheIndex
         )
         #
-        bscCommands.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
+        bscMethods.OsFile.copyTo(multLineCacheFile, mainLineCacheFile)
     #
     logWin_.addResult(multLineCacheFile)
 
@@ -377,7 +377,7 @@ def uploadScAlembicCache(
 ):
     logWin_ = bscObjects.If_Log()
 
-    step = appVariant.animAlembicStep
+    step = prsVariant.Util.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
@@ -396,7 +396,7 @@ def uploadScAlembicCache(
         currentFrame, currentFrame, step,
     )
     #
-    bscCommands.setOsFileCopy(multLineCacheFile, mainLineCacheFile)
+    bscMethods.OsFile.copyTo(multLineCacheFile, mainLineCacheFile)
     #
     logWin_.addResult(multLineCacheFile)
 
@@ -433,7 +433,7 @@ def uploadScAstMeshData(
         constantData
     )
     #
-    bscCommands.setOsFileCopy(multLineMeshDataFile, mainLineMeshDataFile)
+    bscMethods.OsFile.copyTo(multLineMeshDataFile, mainLineMeshDataFile)
 
 
 #

@@ -8,7 +8,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, sceneCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -24,17 +24,17 @@ none = ''
 #
 def getSceneInfo(printEnable=False):
     lis = []
-    keyword = appVariant.basicUnitRootGroupLabel + appVariant.basicGroupLabel
+    keyword = prsVariant.Util.basicUnitRootGroupLabel + prsVariant.Util.basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
-                if rootGroup.startswith(appVariant.Lynxi_Prefix_Product_Scene):
-                    sceneIndex = maUtils.getAttrDatum(rootGroup, appVariant.basicIndexAttrLabel)
-                    sceneClass = maUtils.getAttrDatum(rootGroup, appVariant.basicClassAttrLabel)
-                    sceneName = maUtils.getAttrDatum(rootGroup, appVariant.basicNameAttrLabel)
-                    sceneVariant = maUtils.getAttrDatum(rootGroup, appVariant.basicVariantAttrLabel)
-                    sceneStage = maUtils.getAttrDatum(rootGroup, appVariant.basicStageAttrLabel)
+                if rootGroup.startswith(prsVariant.Util.Lynxi_Prefix_Product_Scene):
+                    sceneIndex = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
+                    sceneClass = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicClassAttrLabel)
+                    sceneName = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicNameAttrLabel)
+                    sceneVariant = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicVariantAttrLabel)
+                    sceneStage = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicStageAttrLabel)
                     if sceneIndex is not None:
                         if sceneClass in sceneCfg.scBasicClass()[1:]:
                             data = sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage
@@ -50,11 +50,11 @@ def getSceneInfo(printEnable=False):
 
 #
 def getSceneCustomizeLabel(sceneName):
-    string = appVariant.scDefaultCustomizeLabel
+    string = prsVariant.Util.scDefaultCustomizeLabel
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        data = maUtils.getAttrDatum(scUnitRoot, appVariant.basicCustomizeAttrLabel)
+        data = maUtils.getAttrDatum(scUnitRoot, prsVariant.Util.basicCustomizeAttrLabel)
         if data:
             string = data
     #
@@ -67,11 +67,11 @@ def getSceneRootIndex(sceneName):
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        data = maUtils.getAttrDatum(scUnitRoot, appVariant.basicRootIndexAttrLabel)
+        data = maUtils.getAttrDatum(scUnitRoot, prsVariant.Util.basicRootIndexAttrLabel)
         if data:
             intValue = int(data)
         else:
-            maUtils.setAttrStringDatumForce(scUnitRoot, appVariant.basicRootIndexAttrLabel, str(intValue))
+            maUtils.setAttrStringDatumForce(scUnitRoot, prsVariant.Util.basicRootIndexAttrLabel, str(intValue))
     #
     return intValue
 
@@ -166,15 +166,15 @@ def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
     if maUtils.isAppExist(scSceneryBranchPath):
         childGroups = maUtils.getGroupLisByRoot(scSceneryBranchPath)
         for i in childGroups:
-            indexAttr = i + '.' + appVariant.basicIndexAttrLabel
+            indexAttr = i + '.' + prsVariant.Util.basicIndexAttrLabel
             if maUtils.isAppExist(indexAttr):
                 branchGroup = i
                 #
-                sceneryIndex = maUtils.getAttrDatum(branchGroup, appVariant.basicIndexAttrLabel)
-                sceneryClass = maUtils.getAttrDatum(branchGroup, appVariant.basicClassAttrLabel)
-                sceneryName = maUtils.getAttrDatum(branchGroup, appVariant.basicNameAttrLabel)
-                sceneryVariant = maUtils.getAttrDatum(branchGroup, appVariant.basicVariantAttrLabel)
-                sceneryStage = maUtils.getAttrDatum(branchGroup, appVariant.basicStageAttrLabel)
+                sceneryIndex = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicIndexAttrLabel)
+                sceneryClass = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicClassAttrLabel)
+                sceneryName = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicNameAttrLabel)
+                sceneryVariant = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicVariantAttrLabel)
+                sceneryStage = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicStageAttrLabel)
                 lis.append(
                     (sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage)
                 )
@@ -183,7 +183,7 @@ def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
 
 #
 def getScAnimAssetRefData(referenceNode):
-    keywords = [appVariant.astAnimationRigFileLabel, appVariant.astLayoutRigFileLabel]
+    keywords = [prsVariant.Util.astAnimationRigFileLabel, prsVariant.Util.astLayoutRigFileLabel]
     #
     osFile = cmds.referenceQuery(referenceNode, filename=1)
     data = ()
@@ -201,17 +201,17 @@ def getScAnimAssetRefData(referenceNode):
                 root = assetPr.astUnitRigLinkGroupName(assetName, namespace)
                 #
                 if maUtils.isAppExist(root):
-                    assetIndex = maUtils.getAttrDatum(root, appVariant.basicIndexAttrLabel)
+                    assetIndex = maUtils.getAttrDatum(root, prsVariant.Util.basicIndexAttrLabel)
                     if assetIndex:
                         assetClass = assetPr.getAssetClass(assetIndex)
                         # Number
                         number = '0000'
-                        attrData = maUtils.getAttrDatum(referenceNode, appVariant.basicNumberAttrLabel)
+                        attrData = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicNumberAttrLabel)
                         if attrData:
                             number = attrData
                         # Variant
-                        assetVariant = appVariant.astDefaultVariant
-                        attrData = maUtils.getAttrDatum(referenceNode, appVariant.basicVariantAttrLabel)
+                        assetVariant = prsVariant.Util.astDefaultVariant
+                        attrData = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicVariantAttrLabel)
                         if attrData:
                             assetVariant = attrData
                         #
@@ -255,8 +255,8 @@ def getScAnimAssetCfxFurData(referenceNode):
         return '_'.join(dataArray[-2:-1])
     data = ()
     # Filter is CFX
-    if referenceNode.startswith(appVariant.Lynxi_Prefix_Product_Scene) and referenceNode.endswith(
-            appVariant.basicCfxLinkGroupLabel + 'RN'):
+    if referenceNode.startswith(prsVariant.Util.Lynxi_Prefix_Product_Scene) and referenceNode.endswith(
+            prsVariant.Util.basicCfxLinkGroupLabel + 'RN'):
         namespace = maUtils.getReferenceNamespace(referenceNode)
         #
         splitData = referenceNode.split('_')
@@ -268,8 +268,8 @@ def getScAnimAssetCfxFurData(referenceNode):
         #
         cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, namespace)
         if maUtils.isAppExist(cfxGroup):
-            assetClass = maUtils.getAttrDatum(cfxGroup, appVariant.basicClassAttrLabel)
-            assetVariant = maUtils.getAttrDatum(cfxGroup, appVariant.basicVariantAttrLabel)
+            assetClass = maUtils.getAttrDatum(cfxGroup, prsVariant.Util.basicClassAttrLabel)
+            assetVariant = maUtils.getAttrDatum(cfxGroup, prsVariant.Util.basicVariantAttrLabel)
             data = sceneClass, sceneName, sceneVariant, assetClass, assetName, number, assetVariant
     return data
 
@@ -371,13 +371,13 @@ def getScAstCfxFurDic_(projectName):
 #
 def getSceneAssetUnitData(branchGroup):
     data = ()
-    assetIndex = maUtils.getAttrDatum(branchGroup, appVariant.basicIndexAttrLabel)
+    assetIndex = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicIndexAttrLabel)
     if assetIndex:
-        assetClass = maUtils.getAttrDatum(branchGroup, appVariant.basicClassAttrLabel)
-        assetName = maUtils.getAttrDatum(branchGroup, appVariant.basicNameAttrLabel)
-        number = maUtils.getAttrDatum(branchGroup, appVariant.basicNumberAttrLabel)
-        assetVariant = maUtils.getAttrDatum(branchGroup, appVariant.basicVariantAttrLabel)
-        timeTag = maUtils.getAttrDatum(branchGroup, appVariant.basicTagAttrLabel)
+        assetClass = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicClassAttrLabel)
+        assetName = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicNameAttrLabel)
+        number = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicNumberAttrLabel)
+        assetVariant = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicVariantAttrLabel)
+        timeTag = maUtils.getAttrDatum(branchGroup, prsVariant.Util.basicTagAttrLabel)
         #
         data = assetIndex, assetClass, assetName, number, assetVariant, timeTag
     return data
@@ -445,7 +445,7 @@ def getScComposeInfoDic(projectName):
                 scAstModelGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstModelNamespace)
                 if maUtils.isAppExist(scAstModelGroup):
                     if not maUtils.isReferenceNode(scAstModelGroup):
-                        scAstModelLocalTimeTag = maUtils.getAttrDatum(scAstModelGroup, appVariant.basicTagAttrLabel)
+                        scAstModelLocalTimeTag = maUtils.getAttrDatum(scAstModelGroup, prsVariant.Util.basicTagAttrLabel)
                     else:
                         scAstModelLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
@@ -539,7 +539,7 @@ def getScComposeInfoDic(projectName):
                 scAstCfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, scAstCfxNamespace)
                 if maUtils.isAppExist(scAstCfxGroup):
                     if not maUtils.isReferenceNode(scAstCfxGroup):
-                        scAstCfxLocalTimeTag = maUtils.getAttrDatum(scAstCfxGroup, appVariant.basicTagAttrLabel)
+                        scAstCfxLocalTimeTag = maUtils.getAttrDatum(scAstCfxGroup, prsVariant.Util.basicTagAttrLabel)
                     else:
                         scAstCfxLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
@@ -588,7 +588,7 @@ def getScComposeInfoDic(projectName):
                 scAstSolverGroup = assetPr.astUnitSolverLinkGroupName(assetName, scAstSolverNamespace)
                 if maUtils.isAppExist(scAstSolverGroup):
                     if not maUtils.isReferenceNode(scAstSolverGroup):
-                        scAstSolverLocalTimeTag = maUtils.getAttrDatum(scAstSolverGroup, appVariant.basicTagAttrLabel)
+                        scAstSolverLocalTimeTag = maUtils.getAttrDatum(scAstSolverGroup, prsVariant.Util.basicTagAttrLabel)
                     else:
                         scAstSolverLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,

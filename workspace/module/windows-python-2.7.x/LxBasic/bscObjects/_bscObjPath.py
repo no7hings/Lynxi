@@ -27,7 +27,7 @@ class Pth_Directory(bscAbstract.Abc_Path):
 
         def mainFnc_():
             for i in cls.MOD_os.listdir(rootString):
-                fullpathName = cls._toOsFileString(rootString, i)
+                fullpathName = cls._toOsFilename(rootString, i)
                 if cls.MTD_os_path.isfile(fullpathName):
                     collectionFnc_(fullpathName)
                 else:
@@ -78,33 +78,36 @@ class Pth_Directory(bscAbstract.Abc_Path):
         u"""
         :return: List of child's "relative name".
         """
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=None,
             isFile=False,
-            isFullpath=False
+            isFullpath=False,
+            isAll=True
         )
 
     def allChildFileRelativeNames(self):
         u"""
         :return: List of child file's "relative name".
         """
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=None,
             isFile=True,
-            isFullpath=False
+            isFullpath=False,
+            isAll=True
         )
 
     def allChildFileRelativeNamesWithExt(self, extString):
         u"""
         :return: List of child file's "relative name" with "ext".
         """
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=extString,
             isFile=True,
-            isFullpath=False
+            isFullpath=False,
+            isAll=True
         )
 
     def allChildFileTimestampDic(self):
@@ -123,30 +126,33 @@ class Pth_Directory(bscAbstract.Abc_Path):
         pass
 
     def allChildFileFullpathNames(self):
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=None,
             isFile=True,
-            isFullpath=True
+            isFullpath=True,
+            isAll=True
         )
 
     def allChildFullpathNames(self):
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=None,
             isFile=False,
-            isFullpath=True
+            isFullpath=True,
+            isAll=True
         )
 
     def allChildFileFullpathNamesWithExt(self, extString):
         u"""
         :return: List of child file's "relative name" with "ext".
         """
-        return self._getOsPathNameLisByDirectory(
+        return self._getPathnameListByOsDirectory(
             self._directoryString,
             extString=extString,
             isFile=True,
-            isFullpath=True
+            isFullpath=True,
+            isAll=True
         )
 
     def __str__(self):

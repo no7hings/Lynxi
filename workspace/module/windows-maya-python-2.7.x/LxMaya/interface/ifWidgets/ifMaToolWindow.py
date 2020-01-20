@@ -9,7 +9,7 @@ from LxBasic import bscCommands
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
@@ -345,7 +345,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
-        self.variantLabel.setDatumLis([appVariant.astDefaultVersion])
+        self.variantLabel.setDatumLis([prsVariant.Util.astDefaultVersion])
         #
         self.switchVariantButton = qtWidgets.QtPressbutton()
         self.switchVariantButton.setPercentEnable(True)
@@ -752,7 +752,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
             enable = len(inData) == 1
             if enable:
                 variantLis = []
-                assetVariant = appVariant.astDefaultVersion
+                assetVariant = prsVariant.Util.astDefaultVersion
                 count = 0
                 for k, v in inData.items():
                     assetName, assetVariant = k.split(' - ')
@@ -768,7 +768,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 button.setPercent(maxCount, count)
             else:
                 chooseLabel.setChooseClear()
-                chooseLabel.setDatumLis([appVariant.astDefaultVersion])
+                chooseLabel.setDatumLis([prsVariant.Util.astDefaultVersion])
                 #
                 button.setPercentRest()
                 button.setPressable(False)
@@ -1383,7 +1383,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         assemblyReferencePath, projectName, assetClass, assetName, assetVariant
                     )
                     #
-                    assemblyAnnotation = appVariant.assemblyUnitShowName(assetName, assetVariant)
+                    assemblyAnnotation = prsVariant.Util.assemblyUnitShowName(assetName, assetVariant)
                     sceneryOp.setAssemblyAnnotationSwitch(assemblyReferencePath, assemblyAnnotation)
     #
     def setVisibilityOn(self):

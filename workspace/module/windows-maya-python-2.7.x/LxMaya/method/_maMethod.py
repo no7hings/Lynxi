@@ -248,7 +248,7 @@ class MaGeometryNodeMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
 
 
 #
-class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic, _maConfig.MaProductConfig):
+class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     @classmethod
     def filterGroupEmptyLis(cls, groupString):
         lis = []

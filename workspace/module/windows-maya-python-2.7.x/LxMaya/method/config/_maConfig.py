@@ -35,11 +35,6 @@ class Cfg_M2(appConfig.Cfg_Basic):
 
 
 #
-class MaProductConfig(appConfig.Cfg_Product):
-    pass
-
-
-#
 class MaAssemblyConfig(appConfig.Cfg_Basic):
     pass
 

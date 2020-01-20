@@ -1,6 +1,8 @@
 # coding=utf-8
 from LxBasic import bscMethods, bscObjects
 
+from LxPreset import prsConfigure
+
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
@@ -266,7 +268,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         productUnit = None
         productUnitDatumDic = self.mtd_app_prd_unit.getProductUnitDatumDic()
         if productUnitDatumDic:
-            moduleUnitDatumLis = productUnitDatumDic[self.mtd_app_prd_unit.LynxiProduct_Module_Asset]
+            moduleUnitDatumLis = productUnitDatumDic[prsConfigure.Asset.name()]
             if moduleUnitDatumLis:
                 productUnit = moduleUnitDatumLis[0]
         #

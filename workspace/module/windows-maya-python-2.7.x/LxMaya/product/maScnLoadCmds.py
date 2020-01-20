@@ -201,7 +201,7 @@ def scnUnitComposeLoadCmd_(
                     worldMatrix, worldBoundingBox
                 )
                 #
-                r, g, b = bscMethods.Color.getRgbByString(assetName, maximum=1)
+                r, g, b = bscMethods.Color.str2rgb(assetName, maximum=1)
                 #
                 maUtils.setNodeOverrideRgb(objectPath, r, g, b)
                 maUtils.setNodeOutlinerRgb(objectPath, r, g, b)

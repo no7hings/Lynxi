@@ -4,44 +4,16 @@ import maya.cmds as cmds
 
 from LxBasic import bscMethods, bscCommands
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr
 #
 from LxMaya.command import maUtils, maFile
 #
-inGpuAttrLabel = appVariant.inGpuAttrLabel
-showGpuAttrLabel = appVariant.showGpuAttrLabel
+inGpuAttrLabel = prsVariant.Util.inGpuAttrLabel
+showGpuAttrLabel = prsVariant.Util.showGpuAttrLabel
 #
 none = ''
-
-
-#
-def setSwitchAssetGpu(projectName, referenceNode, classify, name, subNumber):
-    timetag = bscMethods.OsTime.activeTimetag()
-    username = bscMethods.OsSystem.username()
-    #
-    startFrame, endFrame = maUtils.getFrameRange()
-    #
-    namespace = maUtils.getReferenceNamespace(referenceNode)
-    astUnitModelProductGroup = '%s:%s' % (namespace, assetPr.astUnitModelProductGroupName(name))
-    #
-    tempPath = appVariant.temporaryDirectory(appVariant.serverAnimationRoot, projectName, username, timetag)
-    cacheFileName = appVariant.cacheFileNameConfig(name, subNumber, appVariant.asbGpuFileLabel, '_' + timetag)
-    cacheFile = '%s/%s' % (tempPath, cacheFileName)
-    gpuName = assetPr.astGpuName(name, subNumber)
-    #
-    maFile.abcExport(
-        astUnitModelProductGroup,
-        cacheFile,
-        startFrame, endFrame, 1
-    )
-    maUtils.setGpu(gpuName, cacheFile)
-    #
-    maUtils.setAttrBooleanDatumForce_(referenceNode, showGpuAttrLabel, 1)
-    maUtils.setAttrStringDatumForce_(referenceNode, inGpuAttrLabel, cacheFile)
-    #
-    maUtils.setUnloadReference(referenceNode)
 
 
 #

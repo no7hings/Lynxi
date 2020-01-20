@@ -3,7 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCommands
+from LxBasic import bscMethods, bscCommands
 #
 from LxMaya.command import maUtils, maAttr, maProxy
 #
@@ -26,7 +26,7 @@ none = ''
 
 #
 def setOutAstProxy(osFile, objectString, renderer):
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     # Export
     cmds.select(objectString)
     maProxy.setOutProxy(osFile, renderer, 0)

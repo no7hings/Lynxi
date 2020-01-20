@@ -7,47 +7,6 @@ none = ''
 
 
 #
-def basicModuleConfig():
-    lis = [
-        lxConfigure.LynxiProduct_Module_Asset,
-        lxConfigure.LynxiProduct_Module_Scenery,
-        lxConfigure.LynxiProduct_Module_Scene
-    ]
-    return lis
-
-
-@bscModifiers.fncDictSwitch
-def basicModuleDic(*args):
-    dic = bscCommands.orderedDict()
-    dic[lxConfigure.LynxiProduct_Module_Asset] = 'Asset', u'资产'
-    dic[lxConfigure.LynxiProduct_Module_Scenery] = 'Scenery', u'场景'
-    dic[lxConfigure.LynxiProduct_Module_Scene] = 'Scene', u'镜头'
-    return dic
-
-
-@bscModifiers.fncDictSwitch
-def basicPrioritiesDic(*args):
-    dic = bscCommands.orderedDict()
-    dic['major'] = 'Major', u'主要'
-    dic['minor'] = 'Minor', u'次要'
-    dic['util'] = 'Util', u'龙套'
-    return dic
-
-
-#
-def basicVariantSetConfig(enabled=False, key=none, value=none):
-    lis = [
-        enabled,
-        u'输入备注',
-        [
-            (lxConfigure.LynxiVariantKey, key),
-            (lxConfigure.LynxiVariantValue, value)
-        ]
-    ]
-    return lis
-
-
-#
 def defaultVariantConfig():
     lis = [
         (lxConfigure.LynxiVariantKey, '', '', ''),
@@ -92,7 +51,7 @@ def basicPersonnelPostConfig():
 def basicAppConfig():
     lis = [
         lxConfigure.LynxiValue_Unspecified,
-        lxConfigure.LynxiMayaPresetKey
+        lxConfigure.Lynxi_Key_Preset_Maya
     ]
     return lis
 

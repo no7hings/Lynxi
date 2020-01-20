@@ -21,7 +21,7 @@ def setMaScriptSetup(projectName):
         if data:
             for k, v in data.items():
                 for i in v:
-                    osFileLis = bscCommands.getOsFilesByPath(i)
+                    osFileLis = bscMethods.OsDirectory.filenames(i)
                     if osFileLis:
                         traceMessage = '''Add Maya Script(s) "{}" : {}'''.format(bscMethods.StrCamelcase.toPrettify(k), i)
                         bscMethods.PyMessage.traceResult(traceMessage)

@@ -29,95 +29,27 @@ import subprocess
 #
 import locale
 #
-GzipExt = '.gz'
-TarGZipExt = '.tar.gz'
-UpdateExt = '.update'
-InfoExt = '.info'
-LogExt = '.log'
+GzipExt = u'.gz'
+TarGZipExt = u'.tar.gz'
+UpdateExt = u'.update'
+InfoExt = u'.info'
+LogExt = u'.log'
 #
-UpdateViewTimeFormat = '%Y - %m%d - [ %H:%M:%S ]'
-MaUpdateViewTimeFormat = '%Y-%m-%d %H:%M:%S'
+UpdateViewTimeFormat = u'%Y - %m%d - [ %H:%M:%S ]'
+MaUpdateViewTimeFormat = u'%Y-%m-%d %H:%M:%S'
 #
 THREAD_MAX = threading.Semaphore(1024)
 #
-OsFilePathSep = '/'
-Ma_Separator_Node = '|'
-Ma_Separator_Namespace = ':'
+OsFilePathSep = u'/'
+Ma_Separator_Node = u'|'
+Ma_Separator_Namespace = u':'
 #
 none = ''
 
 
 #
-class DtbThread(threading.Thread):
-    def __init__(self, *args):
-        threading.Thread.__init__(self)
-        self._fn = args[0]
-        self._args = args[1:]
-        #
-        self._data = None
-    #
-    def setData(self, data):
-        self._data = data
-    #
-    def data(self):
-        return self._data
-    #
-    def run(self):
-        self.setData(self._fn(*self._args))
-    #
-    def getData(self):
-        return self._data
-
-
-#
-def toStringList(data):
-    lis = []
-    if isinstance(data, str) or isinstance(data, unicode):
-        lis = [data]
-    elif isinstance(data, list) or isinstance(data, tuple):
-        lis = list(data)
-    return lis
-
-
-#
 def basicUniqueId():
     return '4908BDB4-911F-3DCE-904E-96E4792E75F1'
-
-
-#
-def getUniqueId(string=none):
-    basicUuid = basicUniqueId()
-    if string:
-        return str(uuid.uuid3(uuid.UUID(basicUuid), str(string))).upper()
-    elif not string:
-        return str(uuid.uuid1()).upper()
-
-
-#
-def getUserUniqueId(user):
-    basicUuid = basicUniqueId()
-    return str(uuid.uuid5(uuid.UUID(basicUuid), str(user))).upper()
-
-
-#
-def getDbUniqueId(directory):
-    basicUuid = basicUniqueId()
-    return str(uuid.uuid5(uuid.UUID(basicUuid), str(directory))).upper()
-
-
-#
-def getSubUniqueId(strings):
-    basicUuid = basicUniqueId()
-    #
-    codeString = strings
-    if isinstance(strings, str) or isinstance(strings, unicode):
-        codeString = str(strings)
-    elif isinstance(strings, tuple) or isinstance(strings, list):
-        codeString = str(none.join(strings))
-    #
-    subCode = none.join([str(ord(i) + seq).zfill(4) for seq, i in enumerate(codeString)])
-    subUuid = uuid.uuid3(uuid.UUID(basicUuid), subCode)
-    return str(subUuid).upper()
 
 
 #
@@ -130,11 +62,6 @@ def getDataHashString(data):
         hashValue = md5Obj.hexdigest()
         string = str(hashValue).upper()
     return string
-
-
-#
-def getDataUniqueId(data):
-    return getSubUniqueId(getDataHashString(data))
 
 
 #
@@ -152,27 +79,6 @@ def getOsFileHashKey_(osFile):
             f.close()
             string = str(hashValue).upper()
     return string
-
-
-#
-def getOsFileUniqueId(osFile):
-    return getSubUniqueId(getOsFileHashKey_(osFile))
-
-
-#
-def getKeyEnabled(dic, key):
-    boolean = False
-    if key in dic:
-        boolean = dic[key]
-    return boolean
-
-
-#
-def getKeyData(dic, key):
-    data = None
-    if key in dic:
-        data = dic[key]
-    return data
 
 
 #
@@ -307,142 +213,8 @@ def getOsFileBasenameLisByPath(osPath):
 
 
 #
-def isOsAbsPath(osPath):
-    return os.path.isabs(osPath)
-
-
-#
-def getOsFilesByPath(osPath):
-    lis = []
-    data = getOsFileBasenameLisByPath(osPath)
-    if data:
-        for osFileBasename in data:
-            osFile = toOsFile(osPath, osFileBasename)
-            lis.append(osFile)
-    return lis
-
-
-#
-def getOsFileSize(osFile):
-    return int(os.path.getsize(osFile))
-
-
-#
 def toOsFile(osPath, osFileBasename):
     return os.path.join(osPath, osFileBasename).replace('\\', '/')
-
-
-#
-def getOsFiles(osPath):
-    lis = []
-    for root, dirs, osFileBasenames in os.walk(osPath, topdown=0):
-        for osFileBasename in osFileBasenames:
-            osFile = toOsFile(root, osFileBasename)
-            lis.append(osFile)
-    return lis
-
-
-#
-def getOsFilesFilter(filePath, filterExts, useRelative=False):
-    # Sub Method
-    def getBranch(osPath):
-        osFiles = getOsFilesByPath(osPath)
-        for i in osFiles:
-            if isOsFile(i):
-                ext = getOsFileExt(i)
-                if ext.lower() in filterExts:
-                    if useRelative:
-                        i = i[len(filePath) + 1:]
-                    lis.append(i)
-            elif isOsPath(i):
-                getBranch(i)
-    #
-    lis = []
-    filterExts = toStringList(filterExts)
-    getBranch(filePath)
-    if lis:
-        lis.sort()
-    return lis
-
-
-#
-def getOsUniqueFile(osFile):
-    osPath = getOsFileDirname(osFile)
-    osFileBasename = getOsFileBasename(osFile)
-    basicUuid = basicUniqueId()
-    uniqueId = str(uuid.uuid3(uuid.UUID(basicUuid), str(osFileBasename))).upper()
-    return toOsFile(osPath, uniqueId)
-
-
-#
-def setOsFileDirectoryCreate(osFile):
-    osPath = os.path.dirname(osFile)
-    if not isOsExist(osPath):
-        os.makedirs(osPath)
-
-
-#
-def createOsPath(osPath):
-    try:
-        os.makedirs(osPath)
-    except WindowsError:
-        return False
-
-
-#
-def hideOsFolder(osPath):
-    if os.path.isdir(osPath):
-        if 'Windows' in platform.system():
-            command = 'attrib +h "' + osPath + '"'
-            command = command.encode(locale.getdefaultlocale()[1])
-            os.popen(command).close()
-
-
-#
-def setOsFileCopy(sourceOsFile, targetOsFile, force=True):
-    if os.path.isfile(sourceOsFile):
-        setOsFileDirectoryCreate(targetOsFile)
-        # Check Same File
-        if not os.path.normpath(sourceOsFile) == os.path.normpath(targetOsFile):
-            if force is True:
-                shutil.copy2(sourceOsFile, targetOsFile)
-            elif force is False:
-                try:
-                    shutil.copy2(sourceOsFile, targetOsFile)
-                except IOError:
-                    print sourceOsFile, targetOsFile
-
-
-#
-def setOsFileMove(sourceOsFile, targetOsFile):
-    if os.path.isfile(sourceOsFile):
-        setOsFileDirectoryCreate(targetOsFile)
-        shutil.move(sourceOsFile, targetOsFile)
-
-
-#
-def setOsFolderCopy(sourceOsPath, targetOsPath, progressModule=None):
-    osFiles = getOsFiles(sourceOsPath)
-    if osFiles:
-        progressBar = None
-        if progressModule:
-            explain = '''Copy Os File'''
-            maxValue = len(osFiles)
-            progressBar = progressModule.setProgressWindowShow(explain, maxValue)
-        for sourceOsFile in osFiles:
-            if progressBar:
-                progressBar.update()
-            targetOsFile = targetOsPath + sourceOsFile[len(sourceOsPath):]
-            setOsFileCopy(sourceOsFile, targetOsFile)
-
-
-#
-def moveOsFolder(sourceOsPath, targetOsPath):
-    osFiles = getOsFiles(sourceOsPath)
-    if osFiles:
-        for sourceOsFile in osFiles:
-            targetOsFile = targetOsPath + sourceOsFile[len(sourceOsPath):]
-            setOsFileMove(sourceOsFile, targetOsFile)
 
 
 #
@@ -497,7 +269,7 @@ def setOsCommandRun_(command):
 #
 def openOsFileByNotePad(osFile):
     if isOsExist(osFile):
-        commandExe = 'C:/Windows/write.exe'
+        commandExe = u'C:/Windows/write.exe'
         command = '''"{}" "{}'''.format(commandExe, osFile)
         setOsCommandRun_(command)
 
@@ -509,7 +281,7 @@ def setOsEnvironValue(osEnvironKey, environData):
 
 #
 def setAddOsEnvironData(osEnvironKey, environData):
-    os.environ[osEnvironKey] += '%s%s' % (os.pathsep, environData)
+    os.environ[osEnvironKey] += u'%s%s' % (os.pathsep, environData)
 
 
 #
@@ -609,7 +381,7 @@ def getOsSubFile(osFile, label):
 
 #
 def getOsTempVedioFile(osFile):
-    tempDirectory = 'D:/.lynxi.temporary/vedio'
+    tempDirectory = u'D:/.lynxi.temporary/vedio'
     osFileBasename = getOsFileBasename(osFile)
     tempFile = toOsFile(tempDirectory, osFileBasename)
     return tempFile
@@ -675,125 +447,8 @@ def toVariantConvert(varName, string):
     #
     varStrings = getVarStringLis()
     #
-    command = '''{0} = '{1}' % ({2})'''.format(varName, '%s'*len(strings), ', '.join(varStrings))
+    command = '''{0} = u'{1}' % ({2})'''.format(varName, '%s'*len(strings), ', '.join(varStrings))
     return command
-
-
-#
-def getNumberByString(string):
-    varPattern = re.compile(r'[[](.*?)[]]', re.S)
-    return re.findall(varPattern, string)
-
-
-#
-def embeddedNumberLis(string):
-    re_digits = re.compile(r'(\d+)')
-    pieces = re_digits.split(unicode(string))
-    pieces[1::2] = map(int, pieces[1::2])
-    return pieces
-
-
-#
-def getMayaPathDic(dic):
-    def getBranch(parent):
-        if parent in dic:
-            parentPath = parent
-            if parent in pathDic:
-                parentPath = pathDic[parent]
-            #
-            children = dic[parent]
-            if children:
-                for child in children:
-                    childPath = parentPath + pathsep + child
-                    pathDic[child] = childPath
-                    getBranch(child)
-    pathsep = '|'
-    #
-    pathDic = orderedDict()
-    root = dic.keys()[0]
-    pathDic[root] = root
-    getBranch(root)
-    return pathDic
-
-
-#
-def getDateData(dateString):
-    return [i for i in datetime.datetime.strptime(dateString, "%Y-%m-%d").timetuple()]
-
-
-#
-def getTodayData():
-    return getDateData(datetime.date.today().strftime("%Y-%m-%d"))
-
-
-#
-def getDateDatas(startDateString, endDateString):
-    lis = []
-    date = datetime.datetime.strptime(startDateString, "%Y-%m-%d")
-    endDate = datetime.datetime.strptime(endDateString, "%Y-%m-%d")
-    while date <= endDate:
-        dateString = date.strftime("%Y-%m-%d")
-        lis.append(getDateData(dateString))
-        #
-        date += datetime.timedelta(days=1)
-    return lis
-
-
-# Get Md5 Key
-def getHashKey(data):
-    if isinstance(data, str) or isinstance(data, unicode):
-        packData = str(data)
-        return hashlib.md5(packData).hexdigest()
-    elif isinstance(data, tuple) or isinstance(data, list):
-        packData = []
-        for i in data:
-            packData.append(str(i))
-        return hashlib.md5(none.join(packData)).hexdigest()
-
-
-#
-def setListExtendSubList(lis, subLis):
-    [lis.append(i) for i in subLis if i not in lis]
-
-
-# Get Update File
-def getRecordFile(osFile):
-    base = os.path.splitext(osFile)[0]
-    return base + UpdateExt
-
-
-#
-def getStrPathName(pathString, pathSep, namespaceSep):
-    string = pathString.split(pathSep)[-1].split(namespaceSep)[-1]
-    return string
-
-
-#
-def getStrPathNamespace(pathString, pathSep, namespaceSep):
-    if namespaceSep in pathString:
-        string = namespaceSep.join(pathString.split(pathSep)[-1].split(namespaceSep)[:-1])
-    else:
-        string = none
-    return string
-
-
-#
-def getMayaObjectName(objectPath):
-    return getStrPathName(objectPath, Ma_Separator_Node, Ma_Separator_Namespace)
-
-
-#
-def getPathJoinNamespace(pathString, namespace, pathSep, namespaceSep):
-    isFullPath = pathString.startswith(pathSep)
-    if isFullPath:
-        return (pathSep + namespace + namespaceSep).join(pathString.split(pathSep))
-    else:
-        return namespace + namespaceSep + (pathSep + namespace + namespaceSep).join(pathString.split(pathSep))
-
-
-#
-def getMayaObjectPathJoinNamespace(objectPath, namespace):
-    return getPathJoinNamespace(objectPath, namespace, Ma_Separator_Node, Ma_Separator_Namespace)
 
 
 #

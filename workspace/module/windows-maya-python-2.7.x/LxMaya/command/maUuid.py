@@ -3,9 +3,9 @@ import uuid
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
-assetUniqueIdLabel = appVariant.astUniqueIdAttrLabel
+assetUniqueIdLabel = prsVariant.Util.astUniqueIdAttrLabel
 #
 none = ''
 

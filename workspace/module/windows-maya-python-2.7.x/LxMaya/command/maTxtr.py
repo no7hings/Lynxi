@@ -488,7 +488,7 @@ def getMultUpdateLabel(textures):
 
 # Set To Render Pool
 def setToRender(source, target):
-    bscCommands.setOsFileCopy(source, target)
+    bscMethods.OsFile.copyTo(source, target)
 
 
 #
@@ -523,9 +523,9 @@ def copyFileThreadMethod(sourceFile, targetFile, backupExists=False):
     if backupExists is True:
         if bscCommands.isOsExistsFile(targetFile):
             backupFile = bscMethods.OsFile.backupFilename(targetFile)
-            bscCommands.setOsFileCopy(targetFile, backupFile)
+            bscMethods.OsFile.copyTo(targetFile, backupFile)
     #
-    bscCommands.setOsFileCopy(sourceFile, targetFile)
+    bscMethods.OsFile.copyTo(sourceFile, targetFile)
 
 
 #

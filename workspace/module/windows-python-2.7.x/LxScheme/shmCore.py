@@ -63,10 +63,10 @@ class Basic(object):
     Environ_Key_Config_File_Scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
     Environ_Key_Enable_Develop = 'LYNXI_ENABLE_DEVELOP'
-    Environ_Key_Path_Product = 'LYNXI_PATH_PRODUCT'
 
-    Environ_Key_Path_Develop = 'LYNXI_PATH_DEVELOP'
     Environ_Key_Path_Local = 'LYNXI_PATH_LOCAL'
+    Environ_Key_Path_Develop = 'LYNXI_PATH_DEVELOP'
+    Environ_Key_Path_Product = 'LYNXI_PATH_PRODUCT'
 
     Environ_Key_Path_Preset = 'LYNXI_PATH_PRESET'
     Environ_Key_Path_Toolkit = 'LYNXI_PATH_TOOLKIT'

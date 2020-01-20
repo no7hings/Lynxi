@@ -4,6 +4,49 @@ from LxBasic import bscConfigure, bscCore
 from LxBasic.bscMethods import _bscMtdPath
 
 
+class String(bscCore.Basic):
+    @classmethod
+    def toNumberEmbeddedList(cls, string):
+        pieces = cls.MOD_re.compile(r'(\d+)').split(unicode(string))
+        pieces[1::2] = map(int, pieces[1::2])
+        return pieces
+
+    @classmethod
+    def toVariantCommand(cls, varName, string):
+        def getStringLis():
+            # noinspection RegExpSingleCharAlternation
+            return [i for i in cls.MOD_re.split("<|>", string) if i]
+
+        #
+        def getVariantLis():
+            varPattern = cls.MOD_re.compile(r'[<](.*?)[>]', cls.MOD_re.S)
+            return cls.MOD_re.findall(varPattern, string)
+
+        #
+        def getVarStringLis():
+            lis = []
+            for i in strings:
+                if i in variants:
+                    lis.append(i)
+                else:
+                    v = '''"%s"''' % i
+                    lis.append(v)
+            return lis
+
+        #
+        strings = getStringLis()
+        variants = getVariantLis()
+        #
+        varStrings = getVarStringLis()
+        #
+        command = '''{0} = u'{1}' % ({2})'''.format(varName, '%s' * len(strings), ', '.join(varStrings))
+        return command
+
+
+class Variant(object):
+    pass
+
+
 class StrUnderline(bscCore.Basic):
     @classmethod
     def toLabel(cls, *labels):
@@ -109,9 +152,9 @@ class TxtHtml(bscCore.Basic):
     @classmethod
     def toHtmlMayaConnection(cls, sourceAttr, targetAttr, namespaceFilter):
         def getBranch(attr):
-            namespace = _bscMtdPath.MayaPath.getNamespace(attr)
-            name = _bscMtdPath.MayaPath.getName(attr)
-            attrName = _bscMtdPath.MayaPath.getAttributeName(attr)
+            namespace = _bscMtdPath.MayaPath.namespace(attr)
+            name = _bscMtdPath.MayaPath.name(attr)
+            attrName = _bscMtdPath.MayaPath.attributeName(attr)
             #
             namespaceSep = _bscMtdPath.MayaPath.attributeSep()
             #
@@ -281,6 +324,23 @@ class List(object):
         lis_ = []
         [lis_.append(i) for i in lis if i not in lis_]
         return lis_
+
+    @classmethod
+    def extendFrom(cls, lis, subLis):
+        [lis.append(i) for i in subLis if i not in lis]
+
+
+class Dict(object):
+    @classmethod
+    def getValue(cls, dic, key, failobj=None):
+        if key in dic:
+            return dic.get(key, failobj)
+
+    @classmethod
+    def getAsBoolean(cls, dic, key, failobj=False):
+        if key in dic:
+            return dic.get(key, failobj)
+        return False
 
 
 class Array(List):
@@ -462,7 +522,7 @@ class Color(object):
         return mapFnc_(r), mapFnc_(g), mapFnc_(b)
 
     @classmethod
-    def hsv2Rgb(cls, h, s, v, maximum=255):
+    def hsv2rgb(cls, h, s, v, maximum=255):
         h = float(h % 360.0)
         s = float(max(min(s, 1.0), 0.0))
         v = float(max(min(v, 1.0), 0.0))

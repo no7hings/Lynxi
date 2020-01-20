@@ -45,6 +45,8 @@ import tarfile
 
 import threading
 
+import uuid
+
 
 class Basic(object):
     MOD_getpass = getpass
@@ -69,6 +71,7 @@ class Basic(object):
     MOD_gzip = gzip
     MOD_tarfile = tarfile
     MOD_threading = threading
+    MOD_uuid = uuid
 
     MTD_os_path = os.path
 
@@ -81,6 +84,10 @@ class Basic(object):
 
     environ_key_path_product = 'LYNXI_PATH_PRODUCT'
     path_default_product = 'e:/myworkspace/td/lynxi'
+
+    environ_key_path_preset = 'LYNXI_PATH_PRESET'
+    environ_key_path_toolkit = 'LYNXI_PATH_TOOLKIT'
+    path_default_preset = 'e:/myworkspace/td/lynxi'
 
     environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
     environ_key_enable_trace = 'LYNXI_ENABLE_TRACE'
@@ -245,7 +252,7 @@ class Basic(object):
         return cls.MTD_os_path.normpath(sourceFileString) == cls.MTD_os_path.normpath(targetFileString)
     
     @classmethod
-    def _getOsFileDirectoryName(cls, fileString):
+    def _getOsFileDirname(cls, fileString):
         return cls.MTD_os_path.dirname(fileString)
 
     @classmethod
@@ -258,7 +265,7 @@ class Basic(object):
     
     @classmethod
     def _toOsFileStringReplaceFileName(cls, fileString, newFileName):
-        osPath = cls._getOsFileDirectoryName(fileString)
+        osPath = cls._getOsFileDirname(fileString)
         osExt = cls._getOsFileExt(fileString)
         newFileString = u'{0}/{1}{2}'.format(osPath, newFileName, osExt)
         return newFileString
@@ -300,6 +307,10 @@ class Basic(object):
         if cls._isOsFileExist(fileString):
             return cls.MTD_os_path.getsize(fileString)
         return 0
+
+    @classmethod
+    def _isAbsOsPath(cls, pathString):
+        return cls.MTD_os_path.isabs(pathString)
         
     @classmethod
     def _isOsFileTimeChanged(cls, sourceFileString, targetFileString):
@@ -382,15 +393,35 @@ class Basic(object):
             cls.MOD_os.removedirs(pathString)
 
     @classmethod
+    def _setOsFileMove_(cls, fileString, targetPathString):
+        basename = cls._getOsFileBasename(fileString)
+        targetFileString = cls._toOsFilename(targetPathString, basename)
+        cls._setOsFileMove(fileString, targetFileString)
+
+    @classmethod
+    def _setOsFileMove(cls, fileString, targetFileString):
+        if cls.MTD_os_path.isfile(fileString):
+            cls._setOsFileDirectoryCreate(targetFileString)
+            cls.MOD_shutil.move(fileString, targetFileString)
+
+    @classmethod
+    def setOsDirectoryHide(cls, directoryString):
+        if cls._isOsDirectoryExist(directoryString):
+            if u'Windows' in cls.MOD_platform.system():
+                command = u'attrib +h "' + directoryString + u'"'
+                command = command.encode(cls.MOD_locale.getdefaultlocale()[1])
+                cls.MOD_os.popen(command).close()
+
+    @classmethod
     def _osPathString2RelativeName(cls, rootString, fullpathName):
         return fullpathName[len(rootString) + 1:]
     
     @classmethod
-    def _toOsFileString(cls, osPath, osFileBasename):
+    def _toOsFilename(cls, osPath, osFileBasename):
         return cls.MTD_os_path.join(osPath, osFileBasename).replace('\\', '/')
 
     @classmethod
-    def _getOsPathNameLisByDirectory(cls, rootString, extString, isFile, isFullpath):
+    def _getPathnameListByOsDirectory(cls, rootString, extString, isFile, isFullpath, isAll):
         def extFilterFnc_(fullpathName_):
             if filterExtStringLis is not None:
                 for i in filterExtStringLis:
@@ -411,14 +442,15 @@ class Basic(object):
             children = cls.MOD_os.listdir(directoryString_)
             if children:
                 for i in children:
-                    fullpathName = cls._toOsFileString(directoryString_, i)
+                    fullpathName = cls._toOsFilename(directoryString_, i)
                     if cls.MTD_os_path.isfile(fullpathName):
                         addFnc_(fullpathName)
                     else:
                         if isFile is False:
                             addFnc_(fullpathName)
 
-                        recursionFnc_(fullpathName)
+                        if isAll is True:
+                            recursionFnc_(fullpathName)
 
         lis = []
 
@@ -439,7 +471,7 @@ class Basic(object):
 
         temporaryDirectory = u'D:/.lynxi.temporary/{}'.format(timetag)
 
-        temporaryFileString = cls._toOsFileString(temporaryDirectory, cls._getOsFileBasename(fileString))
+        temporaryFileString = cls._toOsFilename(temporaryDirectory, cls._getOsFileBasename(fileString))
         cls._setOsDirectoryCreate(temporaryDirectory)
         return temporaryFileString
 
@@ -451,7 +483,7 @@ class Basic(object):
         if useMode == 0:
             return (u'.{}'.format(timetag)).join(os.path.splitext(fileString))
         elif useMode == 1:
-            return u'{}/{}/{}'.format(cls._getOsFileDirectoryName(fileString), timetag, cls._getOsFileBasename(fileString))
+            return u'{}/{}/{}'.format(cls._getOsFileDirname(fileString), timetag, cls._getOsFileBasename(fileString))
         return fileString
 
     @classmethod
@@ -484,18 +516,26 @@ class Basic(object):
         return base + u'.result.log'
 
     @classmethod
-    def _getDevelopPath(cls):
+    def _getDevelopRoot(cls):
         return cls._getOsEnvironRawAsPath(cls.environ_key_path_develop, cls.path_default_develop)
 
     @classmethod
-    def _getProductPath(cls):
+    def _getProductRoot(cls):
         return cls._getOsEnvironRawAsPath(cls.environ_key_path_product, cls.path_default_product)
+
+    @classmethod
+    def _getPresetRoot(cls):
+        return cls._getOsEnvironRawAsPath(cls.environ_key_path_preset, cls._getProductRoot())
+
+    @classmethod
+    def _getToolkitRoot(cls):
+        return cls._getOsEnvironRawAsPath(cls.environ_key_path_toolkit, cls._getProductRoot())
 
     @classmethod
     def _getServerPath(cls):
         if cls._isDevelop():
-            return cls._getDevelopPath()
-        return cls._getProductPath()
+            return cls._getDevelopRoot()
+        return cls._getProductRoot()
 
     @classmethod
     def _toPathString(cls, strings, separator):
@@ -559,7 +599,7 @@ class Basic(object):
     def _getOsFileBackupNameDict(cls, fileString):
         dic = {}
         if fileString:
-            directoryName = cls._getOsFileDirectoryName(fileString)
+            directoryName = cls._getOsFileDirname(fileString)
             if cls._isOsDirectoryExist(directoryName):
                 backupFilename = cls._toOsFileJoinTimetag(fileString, cls.def_time_tag_search_string)
                 stringLis = glob.glob(backupFilename)
@@ -630,6 +670,32 @@ class Basic(object):
         return u'{}/{}.result.log'.format(
             cls._logDirectory(), cls._getActiveDatetag()
         )
+
+    @classmethod
+    def _basicUniqueId(cls):
+        return '4908BDB4-911F-3DCE-904E-96E4792E75F1'
+
+    @classmethod
+    def _stringToUniqueId(cls, string):
+        basicUuid = cls._basicUniqueId()
+        return str(cls.MOD_uuid.uuid3(cls.MOD_uuid.UUID(basicUuid), str(string))).upper()
+
+    @classmethod
+    def _stringsToUniqueId(cls, *args):
+        def toOrderCodeString_(strings_):
+            return ''.join([str(ord(i) + seq).zfill(4) for seq, i in enumerate(strings_)])
+
+        if len(args) > 1:
+            strings = list(args)
+        else:
+            strings = cls.toStringList(args[0])
+        #
+        subCode = toOrderCodeString_(strings)
+        return cls._stringToUniqueId(subCode)
+
+    @classmethod
+    def _getUuid(cls):
+        return str(cls.MOD_uuid.uuid1()).upper()
 
 
 class PathBasic(Basic):
@@ -704,6 +770,29 @@ class PathBasic(Basic):
         return dic
 
     @classmethod
+    def _setDicConvertToPathCreateDic(cls, dic, nodeSep):
+        def getBranch(parent):
+            if parent in dic:
+                parentPath = parent
+                if parent in dic_:
+                    parentPath = dic_[parent]
+                #
+                children = dic[parent]
+                if children:
+                    for child in children:
+                        childPath = parentPath + pathsep + child
+                        dic_[child] = childPath
+                        getBranch(child)
+
+        pathsep = nodeSep
+        #
+        dic_ = cls.CLS_dic_order()
+        root = dic.keys()[0]
+        dic_[root] = root
+        getBranch(root)
+        return dic_
+
+    @classmethod
     def _getNamespace(cls, pathString, nodeSep, namespaceSep):
         if namespaceSep in pathString:
             return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
@@ -712,6 +801,10 @@ class PathBasic(Basic):
     @classmethod
     def _getName(cls, pathString, nodeSep, namespaceSep):
         return pathString.split(nodeSep)[-1].split(namespaceSep)[-1]
+
+    @classmethod
+    def _getNameWithNamespace(cls, pathString, nodeSep):
+        return pathString.split(nodeSep)[-1]
 
     @classmethod
     def _getAttributeName(cls, attrString, attributeSep):
@@ -758,9 +851,13 @@ class FileBasic(Basic):
         cls._setOsFileOpen(fileString)
 
     @classmethod
+    def moveTo(cls, fileString, targetFileString):
+        cls._setOsFileMove(fileString, targetFileString)
+
+    @classmethod
     def openDirectory(cls, fileString):
         if cls._isOsFileExist(fileString):
-            directoryString = cls._getOsFileDirectoryName(fileString)
+            directoryString = cls._getOsFileDirname(fileString)
             cls._setOsDirectoryOpen(directoryString)
 
     @classmethod
@@ -806,6 +903,12 @@ class FileBasic(Basic):
         return cls._toOsFileJoinTimetag(fileString, timetag, useMode)
 
     @classmethod
+    def uniqueFilename(cls, fileString):
+        osPath = cls._getOsFileDirname(fileString)
+        uniqueId = cls._stringToUniqueId(cls._getOsFileBasename(fileString))
+        return cls._toOsFilename(osPath, uniqueId)
+
+    @classmethod
     def infoJsonFilename(cls, fileString):
         return cls._toOsFileInfoJsonFileString(fileString)
 
@@ -836,6 +939,10 @@ class FileBasic(Basic):
         dic[cls.STR_key_description] = description
         dic[cls.STR_key_note] = note
         return dic
+
+    @classmethod
+    def size(cls, fileString):
+        return cls._getOsFileSize(fileString)
 
 
 class _EnvironString(str):

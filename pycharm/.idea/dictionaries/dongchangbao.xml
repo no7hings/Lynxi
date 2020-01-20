@@ -20,9 +20,11 @@
       <w>chardet</w>
       <w>checkable</w>
       <w>checkview</w>
+      <w>chnname</w>
       <w>chooseitem</w>
       <w>choosetab</w>
       <w>chooseview</w>
+      <w>classnames</w>
       <w>colorable</w>
       <w>colorchart</w>
       <w>compilepath</w>
@@ -43,12 +45,15 @@
       <w>dragable</w>
       <w>dropview</w>
       <w>enablebutton</w>
+      <w>engname</w>
       <w>enterable</w>
       <w>enterbox</w>
       <w>enteritem</w>
       <w>exts</w>
       <w>failobj</w>
       <w>filebasename</w>
+      <w>filebasenames</w>
+      <w>filenames</w>
       <w>floatarray</w>
       <w>foldername</w>
       <w>fullpath</w>
@@ -78,6 +83,8 @@
       <w>isdevelop</w>
       <w>keyable</w>
       <w>lgroups</w>
+      <w>linkname</w>
+      <w>linknames</w>
       <w>loadname</w>
       <w>loadnames</w>
       <w>localroot</w>
@@ -105,6 +112,7 @@
       <w>minimizeable</w>
       <w>moduleapp</w>
       <w>modulename</w>
+      <w>modulenames</w>
       <w>moduleversion</w>
       <w>mtime</w>
       <w>mtimestamp</w>
@@ -126,6 +134,7 @@
       <w>nodeport</w>
       <w>nonrep</w>
       <w>nurbs</w>
+      <w>nurbscurve</w>
       <w>objs</w>
       <w>outliner</w>
       <w>outputport</w>
@@ -136,6 +145,7 @@
       <w>packagepath</w>
       <w>packagesource</w>
       <w>packageversion</w>
+      <w>pathbasenames</w>
       <w>pathnames</w>
       <w>pathsep</w>
       <w>percentable</w>
@@ -151,8 +161,10 @@
       <w>portpath</w>
       <w>portset</w>
       <w>porttype</w>
+      <w>prefixname</w>
       <w>presetview</w>
       <w>pressable</w>
+      <w>prioritynames</w>
       <w>procname</w>
       <w>productroot</w>
       <w>projectname</w>
@@ -199,11 +211,14 @@
       <w>shadersets</w>
       <w>shadesetinput</w>
       <w>shelftab</w>
+      <w>showname</w>
+      <w>shownames</w>
       <w>shutil</w>
       <w>solidangle</w>
       <w>sourcepath</w>
       <w>sqlite</w>
       <w>sqrt</w>
+      <w>stagename</w>
       <w>storable</w>
       <w>stringarray</w>
       <w>strs</w>
@@ -235,6 +250,7 @@
       <w>unselectable</w>
       <w>unuse</w>
       <w>usedef</w>
+      <w>usernames</w>
       <w>uuids</w>
       <w>vedio</w>
       <w>versionactive</w>

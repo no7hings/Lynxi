@@ -137,9 +137,9 @@ class QtRadarchartModel(qtObjModel.QtAbcObj_ChartModel):
             if subPercent == 0:
                 r, g, b = 64, 255, 127
             elif subPercent > 0:
-                r, g, b = cls.mtd_raw_color.hsv2Rgb(45*(1 - min(subPercent, 1)), 1, 1)
+                r, g, b = cls.mtd_raw_color.hsv2rgb(45*(1 - min(subPercent, 1)), 1, 1)
             else:
-                r, g, b = cls.mtd_raw_color.hsv2Rgb(120 + 45*(1 - min(subPercent, 1)), 1, 1)
+                r, g, b = cls.mtd_raw_color.hsv2rgb(120 + 45*(1 - min(subPercent, 1)), 1, 1)
             #
             backgroundRgba = r, g, b, 255
             borderRgba = r, g, b, 255
@@ -251,9 +251,9 @@ class QtSectorchartModel(qtObjModel.QtAbcObj_ChartModel):
             if percent == 1:
                 r, g, b = 64, 255, 127
             elif percent > 1:
-                r, g, b = cls.mtd_raw_color.hsv2Rgb(240 - min(percent*15, 45), 1, 1)
+                r, g, b = cls.mtd_raw_color.hsv2rgb(240 - min(percent*15, 45), 1, 1)
             else:
-                r, g, b = cls.mtd_raw_color.hsv2Rgb(45*colorPercent, 1, 1)
+                r, g, b = cls.mtd_raw_color.hsv2rgb(45*colorPercent, 1, 1)
             #
             backgroundRgba = r, g, b, 255
             borderRgba = r, g, b, 255

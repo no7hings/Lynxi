@@ -78,7 +78,7 @@ def makePreview(
     #
     widthHeightReduce = (widthReduce, heightReduce)
     #
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     fileName = os.path.basename(osFile)
     #
     isMov = os.path.splitext(fileName)[-1] == '.mov'
@@ -202,7 +202,7 @@ def makeSnapshot(
         osFile, camera,
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight):
-    bscCommands.setOsFileDirectoryCreate(osFile)
+    bscMethods.OsFile.createDirectory(osFile)
     filePath = os.path.dirname(osFile)
     fileName = os.path.basename(osFile)
     #

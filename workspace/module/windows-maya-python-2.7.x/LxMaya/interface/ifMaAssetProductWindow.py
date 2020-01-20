@@ -1,11 +1,9 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxScheme
 #
 from LxCore.config import appCfg, assetCfg
-#
-from LxCore.preset import pipePr
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -824,5 +822,4 @@ def tableShow():
 
 #
 def helpShow():
-    helpDirectory = pipePr.mayaHelpDirectory('asset')
-    bscMethods.OsDirectory.open(helpDirectory)
+    pass

@@ -1,14 +1,11 @@
 # coding:utf-8
 import os, subprocess
-#
-from LxCore.preset import pipePr
 
 
 #
 class cmdRunAs(object):
-    windowsPlugDirectory = pipePr.env_basic_pipeline_dic()['windowsPlug']
     def __init__(self, commandExe, commandArgv):
-        self._programExe = self.windowsPlugDirectory + '/lsrunase/lsrunase.exe'
+        self._programExe = 'lsrunase.exe'
         self._user = 'dongchangbao'
         self._password = 'vQ=='
         self._domain = ''

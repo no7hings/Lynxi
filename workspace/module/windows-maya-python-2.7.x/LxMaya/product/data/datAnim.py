@@ -5,7 +5,7 @@ import maya.cmds as cmds
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
@@ -18,8 +18,8 @@ none = ''
 
 #
 def getRigAssetData(referenceNode, projectName):
-    keyword = appVariant.astAnimationRigFileLabel
-    subKeyword = appVariant.astLayoutRigFileLabel
+    keyword = prsVariant.Util.astAnimationRigFileLabel
+    subKeyword = prsVariant.Util.astLayoutRigFileLabel
     #
     referenceFile = cmds.referenceQuery(referenceNode, filename=1)
     data = ()
@@ -35,19 +35,19 @@ def getRigAssetData(referenceNode, projectName):
         #
         assetClass = None
         #
-        rigAssetName = appVariant.astBasicOsFileNameConfig(assetName, keyword, none)
+        rigAssetName = prsVariant.Util.astBasicOsFileNameConfig(assetName, keyword, none)
         if subKeyword in referenceFile:
-            rigAssetName = appVariant.astBasicOsFileNameConfig(assetName, subKeyword, none)
+            rigAssetName = prsVariant.Util.astBasicOsFileNameConfig(assetName, subKeyword, none)
         # Check is Rig File
         if rigAssetName in fileName:
             # Number
             number = '0000'
-            attrData = maUtils.getAttrDatum(referenceNode, appVariant.basicNumberAttrLabel)
+            attrData = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicNumberAttrLabel)
             if attrData:
                 number = attrData
             # Variant
-            variant = appVariant.astDefaultVariant
-            attrData = maUtils.getAttrDatum(referenceNode, appVariant.basicVariantAttrLabel)
+            variant = prsVariant.Util.astDefaultVariant
+            attrData = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicVariantAttrLabel)
             if attrData:
                 variant = attrData
             #
@@ -62,7 +62,7 @@ def getReferenceDic(projectName):
         if assetData:
             assetClass, assetName, number, variant = assetData
             isLoaded = cmds.referenceQuery(referenceNode, isLoaded=1)
-            isGpu = maUtils.getAttrDatum(referenceNode, appVariant.showGpuAttrLabel)
+            isGpu = maUtils.getAttrDatum(referenceNode, prsVariant.Util.showGpuAttrLabel)
             #
             state = 'Unloaded'
             if isLoaded:
@@ -233,7 +233,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
             referenceNode = k
             assetClass, assetName, number, assetVariant, state = v
             if state == 'Loaded':
-                existNumber = maUtils.getAttrDatum(referenceNode, appVariant.basicNumberAttrLabel)
+                existNumber = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicNumberAttrLabel)
                 #
                 numberKey = '%s - %s - %s' % (assetClass, assetName, number)
                 if existNumber and not numberKey in numberKeyArray:

@@ -4,22 +4,9 @@ import maya.cmds as cmds
 #
 from LxBasic import bscCommands
 #
-from LxCore.preset import appVariant
-#
 from LxCore.preset.prod import sceneryPr
 #
 from LxMaya.command import maUtils, maGeom
-# Type Config
-typeSet = appVariant.astBasicClassifications
-typeLabel = appVariant.assetClassifyAbbDic
-typeDic = appVariant.assetClassifyFullDic
-# File Label
-scnSceneryLocatorLabel = appVariant.scnSceneryLocatorLabel
-sceneryLabel = appVariant.localSceneryRoot
-scnSceneryDefinitionLabel = appVariant.scnSceneryDefinitionLabel
-# Utilities Label
-adFileAttrLabel = appVariant.adFileAttrLabel
-asbLodLevelAttrLabel = appVariant.asbLodLevelAttrLabel
 #
 none = ''
 

@@ -3,7 +3,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr
 #
@@ -37,6 +37,6 @@ def setAnimationTimeUnit(projectName=none):
 
 #
 def setAnimationTime():
-    startFrame = appVariant.animStartFrame
+    startFrame = prsVariant.Util.animStartFrame
     maUtils.setAnimationFrameRange(startFrame, startFrame + 100)
     maUtils.setCurrentFrame(startFrame)

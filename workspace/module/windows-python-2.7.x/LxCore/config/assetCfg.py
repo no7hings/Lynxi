@@ -1,5 +1,7 @@
 # coding=utf-8
-from LxBasic import bscModifiers, bscCommands
+import collections
+
+from LxBasic import bscModifiers
 
 from LxCore import lxConfigure
 #
@@ -15,89 +17,9 @@ LynxiProduct_Asset_Class_Prop = 'prop'
 none = ''
 
 
-#
-def astBasicClass():
-    lis = [
-        lxConfigure.LynxiValue_Unspecified,
-        LynxiProduct_Asset_Class_Character,
-        LynxiProduct_Asset_Class_Prop
-    ]
-    return lis
-
-
-@bscModifiers.fncDictSwitch
-def astBasicViewLinkDic(*args):
-    dic = bscCommands.orderedDict()
-    dic[lxConfigure.LynxiProduct_Asset_Link_Model] = 'Model', u'模型'
-    dic[lxConfigure.LynxiProduct_Asset_Link_Rig] = 'Rig', u'绑定'
-    dic[lxConfigure.LynxiProduct_Asset_Link_Cfx] = 'Groom', u'毛发塑形'
-    dic[lxConfigure.LynxiProduct_Asset_Link_Solver] = 'Solver Rig', u'毛发绑定'
-    dic[lxConfigure.LynxiProduct_Asset_Link_Light] = 'Light', u'灯光'
-    dic[lxConfigure.LynxiProduct_Asset_Link_Assembly] = 'Assembly', u'组装'
-    return dic
-
-
-@bscModifiers.fncDictSwitch
-def astBasicViewClassDic(*args):
-    dic = bscCommands.orderedDict()
-    dic[LynxiProduct_Asset_Class_Character] = 'Character', u'角色'
-    dic[LynxiProduct_Asset_Class_Prop] = 'Prop', u'道具'
-    return dic
-
-
-#
-def astBasicClassDatumDic():
-    return bscCommands.orderedDict(
-        [
-            ('ast0', (lxConfigure.LynxiValue_Unspecified, u'待定')),
-            ('ast1', (LynxiProduct_Asset_Class_Character, u'角色')),
-            ('ast2', (LynxiProduct_Asset_Class_Prop, u'道具')),
-        ]
-
-    )
-
-
-#
-def basicAssetPriorityLis():
-    lis = [
-        lxConfigure.LynxiValue_Unspecified,
-        'major',
-        'minor',
-        'util'
-    ]
-    return lis
-
-
-#
-def basicModelProcess():
-    lis = [
-        lxConfigure.LynxiValue_Unspecified,
-        'Model > Texture > Nde_ShaderRef'
-    ]
-    return lis
-
-
-#
-def basicRigProcess():
-    lis = [
-        lxConfigure.LynxiValue_Unspecified,
-        'Low - Quality > High - Quality'
-    ]
-    return lis
-
-
-#
-def basicCfxProcess():
-    lis = [
-        lxConfigure.LynxiValue_Unspecified,
-        'Fur - Groom > Fur - Nde_ShaderRef'
-    ]
-    return lis
-
-
 # Model Check Config
 def astModelCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['meshInstanceCheck'] = [
         True,
         'Mesh Instance Check',
@@ -138,7 +60,7 @@ def astModelCheckConfig():
 
 #
 def astMeshGeomCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['meshFaceNSidedCheck'] = [
         True,
         'N - Sided Face Check',
@@ -208,7 +130,7 @@ def astMeshGeomCheckConfig():
 
 #
 def astCfxGroomCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['astYetiCheck'] = [
         True,
         'Yeti Check',
@@ -239,7 +161,7 @@ def astCfxGroomCheckConfig():
 
 #
 def astSolverCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['astSolverGuideCheck'] = [
         True,
         'Solver - Guide Check',
@@ -255,7 +177,7 @@ def astSolverCheckConfig():
 
 #
 def astRigCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['astRigControlCheck'] = [
         False,
         'Rig Control Check',
@@ -266,7 +188,7 @@ def astRigCheckConfig():
 
 #
 def astLightCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['astLightTransformCheck'] = [
         False,
         'Light Transform Check',
@@ -277,7 +199,7 @@ def astLightCheckConfig():
 
 #
 def astShaderCheckConfig():
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['arTextureFormatCheck'] = [
         False,
         'Arnold Texture Format Check',
@@ -299,7 +221,7 @@ def astShaderCheckConfig():
 # Nde_Geometry Data Config
 def geometryDataConfig():
     # Dic { <Data Label>: <Data Label in UI> }
-    dic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
     dic['hierarchyId'] = 'Hierarchy - ID'
     dic['geometryId'] = 'Nde_Geometry - ID'
     dic['uvCoordId'] = 'UVs - ID'
@@ -320,16 +242,16 @@ def geometryDataConfig():
 # File Box Config
 def fileBoxConfig():
     # Dic { <Data Label>: <Data Label in UI> }
-    dic = bscCommands.orderedDict()
-    modelDic = bscCommands.orderedDict()
+    dic = collections.OrderedDict()
+    modelDic = collections.OrderedDict()
     modelDic['mesh'] = 'Mesh'
     modelDic['material'] = 'Material'
     dic['model'] = ['Model', modelDic]
-    cfxDic = bscCommands.orderedDict()
+    cfxDic = collections.OrderedDict()
     cfxDic['fur'] = 'Fur'
     cfxDic['furMaterial'] = 'Fur - Material'
     dic['cfx'] = ['CFX', cfxDic]
-    rigDic = bscCommands.orderedDict()
+    rigDic = collections.OrderedDict()
     rigDic['layoutRig'] = 'Low - Quality'
     rigDic['animationRig'] = 'High - Quality'
     dic['rig'] = ['Rig', rigDic]

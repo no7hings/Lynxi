@@ -47,8 +47,9 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
-          <option value="LxCore.preset.appVariant.*" />
+          <option value="LxCore.preset.prsVariant.*" />
           <option value="PyQt5.QtCore.timeout.connect" />
+          <option value="LxCore.preset.prsDirectory.*" />
         </list>
       </option>
     </inspection_tool>

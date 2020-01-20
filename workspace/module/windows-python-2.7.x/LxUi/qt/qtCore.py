@@ -234,7 +234,7 @@ def toShowPercent(maxValue, value, roundCount=3):
     return percent
 
 
-def hsv2Rgb(h, s, v, maximum=255):
+def hsv2rgb(h, s, v, maximum=255):
     h = float(h % 360.0)
     s = float(max(min(s, 1.0), 0.0))
     v = float(max(min(v, 1.0), 0.0))
@@ -263,10 +263,10 @@ def hsv2Rgb(h, s, v, maximum=255):
 
 
 def getRgbByString_(string, maximum=255):
-    return hsv2Rgb(int(''.join([str(ord(i)).zfill(3) for i in string])), 1, 1, maximum)
+    return hsv2rgb(int(''.join([str(ord(i)).zfill(3) for i in string])), 1, 1, maximum)
 
 
-def getRgbByString(string, maximum=255):
+def str2rgb(string, maximum=255):
     a = int(''.join([str(ord(i)).zfill(3) for i in string]))
     b = a % 3
     i = int(a / 256) % 3

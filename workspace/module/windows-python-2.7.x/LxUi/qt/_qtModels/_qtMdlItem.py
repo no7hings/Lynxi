@@ -58,7 +58,7 @@ class QtFilterCheckviewItemModel(qtObjModel.QtAbcObj_ItemModel):
         count, maxCount = self._viewFilterItemModelIndexCount, self._maxFilterCount
         if count > 0:
             percent = float(count) / float(maxCount)
-            r, g, b = qtCore.hsv2Rgb(120 * (1 - percent), 1, 1)
+            r, g, b = qtCore.hsv2rgb(120 * (1 - percent), 1, 1)
             self._uiSubNameText = '{} / {}'.format(count, maxCount)
             self.widget()._uiSubNameColor = r, g, b, 255
         else:

@@ -5,7 +5,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 
@@ -1081,7 +1081,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             projectName, sceneClass, sceneName, sceneVariant
         )
         #
-        frameOffset = appVariant.animKeyFrameOffset
+        frameOffset = prsVariant.Util.animKeyFrameOffset
         #
         listBox = self._scAstGridview
         #

@@ -1,11 +1,13 @@
 # coding=utf-8
 from LxBasic import bscMethods
 
+from LxPreset import prsConfigure
+
 from LxCore import lxConfigure
 #
 from LxCore.config import basicCfg, assetCfg, sceneryCfg, sceneCfg
 #
-from LxCore.preset import personnelPr
+from LxCore.preset import prsMethod
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
@@ -15,29 +17,30 @@ none = ''
 
 
 #
-def getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage):
+def getShowInfo(dbUnitId, classString, variantString, stageString):
     viewModule = none
     viewLink = none
     viewUnit = none
     viewClass = none
     viewName = none
-    if moduleClass in assetCfg.astBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Asset)[1]
-        viewLink = assetCfg.astBasicViewLinkDic(assetPr.getAssetLink(moduleStage))[1]
-        viewUnit = assetPr.getAssetViewInfo(dbUnitId, moduleClass, moduleVariant)
-        viewClass = assetCfg.astBasicViewClassDic(moduleClass)[1]
+    
+    if classString in prsConfigure.Product.LynxiProduct_Asset_Class_Lis:
+        viewModule = prsConfigure.Asset.showname()
+        viewLink = prsConfigure.Asset.linkShowname_(stageString)
+        viewUnit = assetPr.getAssetViewInfo(dbUnitId, classString, variantString)
+        viewClass = prsConfigure.Asset.classShowname(classString)
         viewName = assetPr.getAssetViewName(dbUnitId)
-    elif moduleClass in sceneryCfg.scnBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Scenery)[1]
-        viewLink = sceneryCfg.scnBasicViewLinkDic()[sceneryPr.getSceneryLink(moduleStage)][1]
-        viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, moduleClass, moduleVariant)
-        viewClass = sceneryCfg.scnBasicViewClassDic(moduleClass)[1]
+    elif classString in sceneryCfg.scnBasicClass():
+        viewModule = prsConfigure.Scenery.showname()
+        viewLink = prsConfigure.Scenery.linkShowname_(stageString)
+        viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, classString, variantString)
+        viewClass = prsConfigure.Scenery.classShowname(classString)
         viewName = sceneryPr.getSceneryViewName(dbUnitId)
-    elif moduleClass in sceneCfg.scBasicClass():
-        viewModule = basicCfg.basicModuleDic(lxConfigure.LynxiProduct_Module_Scene)[1]
-        viewLink = sceneCfg.scBasicViewLinkDic()[scenePr.getSceneLink(moduleStage)][1]
-        viewUnit = scenePr.getSceneViewInfo(dbUnitId, moduleClass, moduleVariant)
-        viewClass = sceneCfg.scBasicViewClassDic(moduleClass)[1]
+    elif classString in sceneCfg.scBasicClass():
+        viewModule = prsConfigure.Scene.showname()
+        viewLink = prsConfigure.Scene.linkShowname_(stageString)
+        viewUnit = scenePr.getSceneViewInfo(dbUnitId, classString, variantString)
+        viewClass = prsConfigure.Scene.classShowname(classString)
         viewName = scenePr.getSceneViewName(dbUnitId)
     return viewModule, viewLink, viewUnit, viewClass, viewName
 
@@ -46,7 +49,7 @@ def getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage):
 def sendProductMessageByDingTalk(
         dbUnitId,
         projectName,
-        moduleClass, moduleName, moduleVariant, moduleStage,
+        classString, moduleName, variantString, stageString,
         timeTag,
         description, note
 ):
@@ -57,10 +60,10 @@ def sendProductMessageByDingTalk(
     #
     timeString = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag, useMode=1)
     #
-    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
+    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, classString, variantString, stageString)
     #
     userName = bscMethods.OsSystem.username()
-    userCnName = personnelPr.getPersonnelUserCnName()
+    userCnName = prsMethod.Personnel.userChnname()
     #
     if not note:
         note = u'N/a'
@@ -83,22 +86,24 @@ def sendProductMessageByMail(
         htmlLog,
         dbUnitId,
         projectName,
-        moduleClass, moduleName, moduleVariant, moduleStage,
+        classString, moduleName, variantString, stageString,
         description, note
 ):
-    toMails = personnelPr.getPersonnelUsersEmails(personnelPr.getUserFilterBySendMailEnabled())
+    toMails = prsMethod.Personnel.userMailsFilterByUsernames(
+        prsMethod.Personnel.usernamesFilterByMailSendEnable()
+    )
     #
     projectNameData = projectPr.getMayaProjectNameDic()
     viewProject = projectName
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, moduleClass, moduleVariant, moduleStage)
+    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, classString, variantString, stageString)
     #
     summary = u'''项目更新【{0} - {1} - {2}】'''.format(viewProject, viewModule, viewUnit)
     subject = u'''{0} - {1} - {2}'''.format(viewProject, viewModule, viewUnit)
     #
-    userCnName = personnelPr.getPersonnelUserCnName()
+    userCnName = prsMethod.Personnel.userChnname()
     #
     if not description:
         description = u'N/a'

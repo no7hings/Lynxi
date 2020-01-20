@@ -1462,7 +1462,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         return boolean
     @classmethod
     def lynxi_getNodeColor(cls, nodeString):
-        r, g, b = cls.getRgbByString(cls._toNodeName(nodeString), maximum=1.0)
+        r, g, b = cls.str2rgb(cls._toNodeName(nodeString), maximum=1.0)
         #
         attrName = cls.LynxiAttrName_NodeColor
         attr = cls._toNodeAttr([nodeString, attrName])

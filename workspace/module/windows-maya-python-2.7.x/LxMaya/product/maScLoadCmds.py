@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 
 from LxCore.preset.prod import assetPr, scenePr
 
@@ -19,7 +19,7 @@ from LxMaya.product.data import datScene
 
 from LxMaya.product.op import sceneOp, sceneryOp
 
-astDefaultVersion = appVariant.astDefaultVersion
+astDefaultVersion = prsVariant.Util.astDefaultVersion
 
 none = ''
 
@@ -167,8 +167,8 @@ def scUnitSceneCreateMainCmd(
             maUtils.setRenderSize(width, height)
         #
         elif scenePr.isScSolverLink(sceneStage) or scenePr.isScSimulationLink(sceneStage) or scenePr.isScLightLink(sceneStage):
-            width = appVariant.rndrImageWidth
-            height = appVariant.rndrImageHeight
+            width = prsVariant.Util.rndrImageWidth
+            height = prsVariant.Util.rndrImageHeight
             #
             maUtils.setRenderSize(width, height)
         #
@@ -178,7 +178,7 @@ def scUnitSceneCreateMainCmd(
         workspaceRoot = scenePr.scUnitRenderFolder(
             lxConfigure.LynxiRootIndex_Local,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage, appVariant.scDefaultCustomizeLabel
+            sceneClass, sceneName, sceneVariant, sceneStage, prsVariant.Util.scDefaultCustomizeLabel
         )
         maRender.setCreateWorkspace(workspaceRoot)
         #
@@ -718,7 +718,7 @@ def scUnitAssetLoadSubCmd(
         #
         logWin_.addCompleteProgress()
     else:
-        assetShowName = appVariant.assetTreeViewName(assetName, number, assetVariant)
+        assetShowName = prsVariant.Util.assetTreeViewName(assetName, number, assetVariant)
         logWin_.addWarning(assetShowName, u'Asset is Exists')
     #
     maUtils.setObjectParent(scAstRootPath, scAstSubPath)
@@ -766,7 +766,7 @@ def scUnitAstModelProductLoadCmd(
         scAstModelContainer = assetPr.astModelContainerName(assetName, scAstModelNamespace)
         # Clean Exists
         if maUtils.isAppExist(scAstModelGroup):
-            if appVariant.rndrUseReference is True:
+            if prsVariant.Util.rndrUseReference is True:
                 scAstModelReferenceNode = scenePr.scAstModelReferenceNode(sceneName, sceneVariant, assetName, number)
                 #
                 maUtils.setReferenceRemove(scAstModelReferenceNode)
@@ -778,7 +778,7 @@ def scUnitAstModelProductLoadCmd(
         # Load Product
         logWin_.addStartProgress(u'Model Product Load', astModelProductFile)
         #
-        if appVariant.rndrUseReference is True:
+        if prsVariant.Util.rndrUseReference is True:
             maFile.setMaFileReference(astModelProductFile, scAstModelNamespace)
         else:
             maFile.setAlembicCacheImport(astModelProductFile, scAstModelNamespace)
@@ -993,7 +993,7 @@ def scUnitAstCfxProductLoadCmd(
         if not maUtils.isAppExist(astCfxGroup):
             logWin_.addStartProgress(u'Groom Product Load', astCfxProductFile)
             #
-            if appVariant.rndrUseReference is True:
+            if prsVariant.Util.rndrUseReference is True:
                 maFile.setMaFileReference(astCfxProductFile, scAstCfxNamespace)
             else:
                 maFile.setAlembicCacheImport(astCfxProductFile, scAstCfxNamespace)

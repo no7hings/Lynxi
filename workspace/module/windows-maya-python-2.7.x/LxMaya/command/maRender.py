@@ -4,13 +4,11 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects, bscCommands
 
 from LxCore import lxConfigure
 
-from LxCore.config import appCfg
-
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 
 from LxMaya.command import maUtils
 
@@ -586,7 +584,7 @@ def setRenderCamera(filterCameras):
 
 #
 def getRenderCameraName(camera):
-    return bscCommands.getStrPathName(camera, appCfg.Ma_Separator_Node, appCfg.Ma_Separator_Namespace).replace(appCfg.Ma_Separator_Namespace, '_')
+    return bscMethods.MayaPath.nameWithNamespace(camera).replace(bscMethods.MayaPath.namespaceSep(), '_')
 
 
 #
@@ -743,7 +741,7 @@ def setCreateLightWithName(nodeName, nodeType):
 
 #
 def setCreateArnoldLight():
-    nodeName = appVariant.lxPreviewLight
+    nodeName = prsVariant.Util.lxPreviewLight
     nodeType = 'aiSkyDomeLight'
     if not maUtils.isAppExist(nodeName):
         setCreateLightWithName(nodeName, nodeType)
@@ -769,7 +767,7 @@ def setRenderPreMelCommand(melCommand):
 def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultView, useDefaultLight):
     setLoadArnoldRenderer()
     #
-    imageFormat = appVariant.pngExt
+    imageFormat = prsVariant.Util.pngExt
     camera = 'persp'
     cameraShape = 'perspShape'
     cmds.camera(
@@ -809,7 +807,7 @@ def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultVi
         if isRender:
             image = getTempRenderImage(imageFormat)
             if image:
-                bscCommands.setOsFileCopy(image, osFile)
+                bscMethods.OsFile.copyTo(image, osFile)
 
 
 #
@@ -858,7 +856,7 @@ def setConnectLightsToScale(root):
                         if not maUtils.isAttrDestination(attr):
                             setBranch(scaleAttr, attr)
                     #
-                    bscCommands.setListExtendSubList(aiLightDecays, getAiLightDecays(i))
+                    bscMethods.List.extendFrom(aiLightDecays, getAiLightDecays(i))
                 #
                 if aiLightDecays:
                     for i in aiLightDecays:

@@ -6,7 +6,7 @@ from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxScheme
 #
-from LxCore.preset import pipePr, appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr, sceneryPr
 #
@@ -233,7 +233,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
     def getSelAsb(self):
         selLis = []
         if self.treeBox.selectedItems():
-            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not appVariant.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
+            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not prsVariant.Util.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
         return selLis
     #
     def setupPanel(self):
@@ -325,5 +325,4 @@ def tableShow():
 
 #
 def helpShow():
-    helpDirectory = pipePr.mayaHelpDirectory('scenery')
-    bscMethods.OsDirectory.open(helpDirectory)
+    pass

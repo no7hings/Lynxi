@@ -764,7 +764,7 @@ class _QtPressbuttonModel(QtAbcObj_ItemModel):
                 if percent == 1:
                     r, g, b = 64, 255, 127
                 else:
-                    r, g, b = self.mtd_raw_color.hsv2Rgb(45 * percent, 1, 1)
+                    r, g, b = self.mtd_raw_color.hsv2rgb(45 * percent, 1, 1)
                 #
                 self.widget()._uiPercentValueRgba = [(r * .5, g * .5, b * .5, 255), (r * .75, g * .75, b * .75, 255)][self.isPressHovered()]
         else:

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCommands
+from LxBasic import bscMethods, bscCommands
 #
 from LxUi.qt import qtCore
 #
@@ -139,7 +139,8 @@ class QtGridviewModel(qtObjModel.QtAbcObj_ViewModel):
         return x - column*w, y + v - row*h
     #
     def _updateSortLis(self, index, reverse=False, force=False):
-        self._topItemModelSortKeyLis.sort(key=lambda x: bscCommands.embeddedNumberLis(x[index]), reverse=reverse)
+
+        self._topItemModelSortKeyLis.sort(key=lambda x: bscMethods.String.toNumberEmbeddedList(x[index]), reverse=reverse)
         #
         self._updateTopItemModelIndexSortLis()
         self._updateVisibleItemModelIndexLisByVisible(ignoreHidden=force)

@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
@@ -146,7 +146,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             assetIndex = key
             assetClass = assetPr.getAssetClass(assetIndex)
             assetName, viewName = value
-            assetVariant = appVariant.astDefaultVariant
+            assetVariant = prsVariant.Util.astDefaultVariant
             # Tag
             if ' - ' in viewName:
                 tag, _ = viewName.split(' - ')[:2]
@@ -165,7 +165,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             viewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {}'.format(assetName, assetVariant))
             gridItem.setNameText(viewExplain)
             gridItem.setIcon('svg_basic@svg#assembly_object')
-            r, g, b = qtCore.getRgbByString(assetName)
+            r, g, b = qtCore.str2rgb(assetName)
             gridItem.setFilterColor((r, g, b, 255))
             #
             preview = dbGet.getDbAstPreviewFile(assetIndex, assetVariant)
@@ -406,7 +406,7 @@ class IfScnAssemblyInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         )
         #
         self._scnAssemblyRadarChart.setImage(previewFile)
-        self._scnAssemblyRadarChart.setImageSize(appVariant.rndrImageWidth, appVariant.rndrImageHeight)
+        self._scnAssemblyRadarChart.setImageSize(prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight)
         #
         serverDatumDic = {}
         localDatumDic = {}
@@ -528,7 +528,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if objectPathLis:
                 objectPath = objectPathLis[0]
                 if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.Ma_Separator_Node + self._rootGroup):
-                    if objectPath.endswith(appVariant.basicGroupLabel):
+                    if objectPath.endswith(prsVariant.Util.basicGroupLabel):
                         objectName = maUtils._toNodeName(objectPath)
                         self._parentGroupLabel.setDatum(objectName)
         #
@@ -882,7 +882,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             maFile.makeSnapshot(
                 root, viewportPreview,
                 useDefaultMaterial=0,
-                width=appVariant.rndrImageWidth / 2, height=appVariant.rndrImageHeight / 2,
+                width=prsVariant.Util.rndrImageWidth / 2, height=prsVariant.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView
             )
             #
@@ -911,13 +911,13 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             renderPreview = sceneryPr.scnUnitPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
-                appVariant.pngExt
+                prsVariant.Util.pngExt
             )[1]
             renderer = projectPr.getProjectMayaRenderer(projectName)
             #
             maRender.setRenderSnapshot(
                 root, renderPreview, renderer,
-                width=appVariant.rndrImageWidth / 2, height=appVariant.rndrImageHeight / 2,
+                width=prsVariant.Util.rndrImageWidth / 2, height=prsVariant.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #

@@ -5,7 +5,7 @@ from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import appVariant, databasePr
+from LxCore.preset import prsVariant, prsDirectory
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -241,8 +241,8 @@ def astUnitSceneRefreshCmd_(
     logWin_.addStartProgress(u'Refresh Asset')
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, appVariant.basicVariantAttrLabel, assetVariant)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, appVariant.basicStageAttrLabel, assetStage)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariant.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariant.Util.basicStageAttrLabel, assetStage)
     #
     if assetPr.isAstModelLink(assetStage):
         # Show All
@@ -496,7 +496,7 @@ def astUnitModelPreviewUploadCmd(
     if not useDefaultMaterial:
         maUtils.setDisplayMode(6)
     #
-    overrideColor = bscMethods.Color.getRgbByString(assetName, maximum=1.0)
+    overrideColor = bscMethods.Color.str2rgb(assetName, maximum=1.0)
     maFile.makeSnapshot(
         astUnitModelProductGroup, dbAssetPreviewFile,
         useDefaultMaterial=useDefaultMaterial, overrideColor=overrideColor
@@ -506,18 +506,18 @@ def astUnitModelPreviewUploadCmd(
         maUtils.setDisplayMode(5)
     #
     if withProduct:
-        if assetVariant == appVariant.astDefaultVariant:
+        if assetVariant == prsVariant.Util.astDefaultVariant:
             serverBasicPreviewFile = assetPr.astUnitBasicPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName, assetClass, assetName
             )[1]
-            maFile.setCopyFile(dbAssetPreviewFile, serverBasicPreviewFile)
+            bscMethods.OsFile.copyTo(dbAssetPreviewFile, serverBasicPreviewFile)
         #
         serverModelPreviewFile = assetPr.astUnitPreviewFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName, assetClass, assetName, assetVariant, assetStage
         )[1]
-        maFile.setCopyFile(dbAssetPreviewFile, serverModelPreviewFile)
+        bscMethods.OsFile.copyTo(dbAssetPreviewFile, serverModelPreviewFile)
     #
     logWin_.addCompleteProgress()
 
@@ -578,7 +578,7 @@ def dbAstUploadIndex(
 #
 def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
     # Name File
-    directory = databasePr.dbAstNameIndexDirectory()
+    directory = prsDirectory.Database.assetNameIndex
     data = dbGet.getDbAssetNameData(assetIndex, projectName, assetName)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -586,7 +586,7 @@ def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
 #
 def dbAstUploadFilter(assetIndex, assetClass, timeTag):
     # Filter File
-    directory = databasePr.dbAstFilterIndexDirectory()
+    directory = prsDirectory.Database.assetFilterIndex
     data = dbGet.getDbAssetFilterData(assetClass)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -594,7 +594,7 @@ def dbAstUploadFilter(assetIndex, assetClass, timeTag):
 #
 def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
     # Variant File
-    directory = databasePr.dbAstVariantIndexDirectory()
+    directory = prsDirectory.Database.assetVariantIndex
     data = dbGet.getDbAssetVariantData(assetIndex, assetVariant)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -602,7 +602,7 @@ def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
 #
 def dbAstUploadAssembly(assetIndex, percentage, timeTag):
     # Assembly File
-    directory = databasePr.dbAstAssemblyIndexDirectory()
+    directory = prsDirectory.Database.assetAssemblyIndex
     data = dbGet.getDbAssetAssemblyData(assetIndex, percentage)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -614,7 +614,7 @@ def dbAstUploadModelMeshConstant(
         timeTag
 ):
     # Mesh Constant
-    directory = databasePr.dbAstGeometryConstantDirectory()
+    directory = prsDirectory.Database.assetGeometryConstantIndex
     constantData = datAsset.getAstMeshConstantData(assetName)
     dbBasic.dbCompDatumWrite(assetIndex, constantData, directory, timeTag)
 
@@ -634,13 +634,13 @@ def astUnitModelMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     modelTextureNodes = maShdr.getTextureNodeLisByObject(shaderObjects)
     #
-    dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
+    assetTexture = prsDirectory.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
     if modelTextureNodes:
-        serverModelTextureDirectory = dbAstTextureDirectory + '/' + modelIndex
-        if appVariant.isPushModelTextureToDatabase is False:
+        serverModelTextureDirectory = assetTexture + '/' + modelIndex
+        if prsVariant.Util.isPushModelTextureToDatabase is False:
             serverModelTextureDirectory = assetPr.astUnitTextureFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
@@ -763,7 +763,7 @@ def astUnitUploadModelProductSub(
             projectName,
             assetClass, assetName
         )[1]
-        if assetVariant == appVariant.astDefaultVariant:
+        if assetVariant == prsVariant.Util.astDefaultVariant:
             bscMethods.OsJson.write(serverBasicMeshFile, meshData)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
@@ -948,7 +948,7 @@ def astUnitUploadAsbGpuCacheSub(
 ):
     logWin_ = bscObjects.If_Log()
     # Check is Default Variant
-    if assetVariant == appVariant.astDefaultVariant:
+    if assetVariant == prsVariant.Util.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(
@@ -1008,7 +1008,7 @@ def astUploadSceneryUnitBoxCacheSub(
 ):
     logWin_ = bscObjects.If_Log()
     # Check is Default Variant
-    if assetVariant == appVariant.astDefaultVariant:
+    if assetVariant == prsVariant.Util.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=False)
@@ -1190,7 +1190,7 @@ def astUnitUploadAssemblyMain(
     # GPU and Box >>>> 02
     if withMesh:
         # Get Random Color
-        color = bscMethods.Color.getRgbByString(
+        color = bscMethods.Color.str2rgb(
             assetName, maximum=1.0
         )
         # GPU
@@ -1356,7 +1356,7 @@ def astUnitUploadRigProduct(
     # Open and Upload
     maFile.fileOpen(rigAstTempFile)
     #
-    assetVariant = appVariant.astDefaultVariant
+    assetVariant = prsVariant.Util.astDefaultVariant
     serverRigTextureDirectory = assetPr.astUnitTextureFolder(
         lxConfigure.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
@@ -1580,12 +1580,12 @@ def astUnitUploadCfxFurSub(
     [maFur.setYetiObjectCloseSolver(i) for i in yetiObjects]
     [maFur.setPfxHairObjectCloseSolver(i) for i in pfxHairObjects]
     # Collection Map
-    dbCfxMapDirectory = databasePr.dbAstMapDirectory()
+    dbCfxMapDirectory = prsDirectory.Database.assetMap
     #
     logWin_.addStartProgress(u'Map Upload')
     if furObjects:
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
-        if appVariant.isPushCfxMapToDatabase is False:
+        if prsVariant.Util.isPushCfxMapToDatabase is False:
             serverMapFolder = assetPr.astUnitMapFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
@@ -1600,7 +1600,7 @@ def astUnitUploadCfxFurSub(
     # Progress >>> 02
     logWin_.addStartProgress(u'Fur Upload')
     #
-    maUtils.setAttrStringDatumForce(cfxAssetRoot, appVariant.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(cfxAssetRoot, prsVariant.Util.basicVariantAttrLabel, assetVariant)
     # Production
     maDbAstCmds.dbAstUploadFurProduct(assetIndex, assetVariant)
     # HisTory
@@ -1649,7 +1649,7 @@ def astUnitCfxMaterialUploadSubCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Collection Texture >>>> 01
-    dbAstTextureDirectory = databasePr.dbAstTextureDirectory()
+    assetTexture = prsDirectory.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
@@ -1661,14 +1661,14 @@ def astUnitCfxMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     textureNodeLis = maShdr.getTextureNodeLisByObject(shaderFurNodes)
     if textureNodeLis:
-        if appVariant.isPushCfxTextureToDatabase is False:
+        if prsVariant.Util.isPushCfxTextureToDatabase is False:
             cfxTextureDirectory = assetPr.astUnitTextureFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 assetClass, assetName, assetVariant, assetStage
             )
         else:
-            cfxTextureDirectory = dbAstTextureDirectory + '/' + assetSubIndex
+            cfxTextureDirectory = assetTexture + '/' + assetSubIndex
         #
         isWithTx = maTxtr.getTxTextureIsCollection(renderer)
         #

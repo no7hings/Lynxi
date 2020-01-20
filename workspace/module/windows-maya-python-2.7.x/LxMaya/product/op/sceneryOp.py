@@ -6,7 +6,7 @@ from LxBasic import bscObjects
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
@@ -14,8 +14,8 @@ from LxMaya.command import maUtils, maAsb
 #
 from LxMaya.product.data import datScenery
 # Utilities Label
-adFileAttrLabel = appVariant.adFileAttrLabel
-asbLodLevelAttrLabel = appVariant.asbLodLevelAttrLabel
+adFileAttrLabel = prsVariant.Util.adFileAttrLabel
+asbLodLevelAttrLabel = prsVariant.Util.asbLodLevelAttrLabel
 
 
 #

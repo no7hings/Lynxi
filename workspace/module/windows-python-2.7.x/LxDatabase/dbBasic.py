@@ -7,11 +7,11 @@ import struct
 
 from LxBasic import bscMethods, bscObjects, bscCommands
 #
-from LxCore.preset import appVariant, databasePr
+from LxCore.preset import prsVariant, prsDirectory
 
 from LxDatabase import dtbCore
 #
-backupExtLabel = appVariant.dbHistoryUnitKey
+backupExtLabel = prsVariant.Util.dbHistoryUnitKey
 mayaAsciiExtLabel = '.ma'
 #
 keyLabel = 'key'
@@ -42,37 +42,12 @@ rigStateLabel = 'rigState'
 #
 noneExistsLabel = 'Non - Exists'
 #
-_tempDirectory = appVariant.localTemporaryDirectory()
-_defaultVariant = appVariant.astDefaultVariant
-_defaultVersion = appVariant.astDefaultVersion
+_defaultVariant = prsVariant.Util.astDefaultVariant
+_defaultVersion = prsVariant.Util.astDefaultVersion
 #
 none = ''
 
 
-# Get Upload Temp File
-def getTemporaryOsFile(osFile):
-    osFileBasename = bscCommands.getOsFileBasename(osFile)
-    tempFile = bscCommands.toOsFile(_tempDirectory, osFileBasename)
-    #
-    bscCommands.setOsFileDirectoryCreate(tempFile)
-    return tempFile
-
-
-#
-def getDatabaseMainIndex(queryString):
-    basicUniqueId = bscCommands.basicUniqueId()
-    codeString = none
-    if isinstance(queryString, str) or isinstance(queryString, unicode):
-        codeString = str(queryString)
-    if isinstance(queryString, list):
-        codeString = str(none.join(queryString))
-    #
-    queryCode = none.join([str(ord(i) + seq).zfill(4) for seq, i in enumerate(codeString)])
-    mainIndex = uuid.uuid3(uuid.UUID(basicUniqueId), str(queryCode))
-    return str(mainIndex).upper()
-
-
-#
 def getDatabaseSubIndex(dbIndex, queryString=none):
     if dbIndex:
         subDatabaseCode = dbIndex
@@ -193,7 +168,7 @@ def dbCompDatumWrite(dbCompIndex, data, directory, dbVersion):
             dbData = getData(data, hashValue, dbVersion)
 
             bscMethods.OsJsonGzip.write(dbFile, dbData)
-            bscCommands.setOsFileCopy(dbFile, dbBackupFile)
+            bscMethods.OsFile.copyTo(dbFile, dbBackupFile)
 
 
 #
@@ -235,7 +210,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
                 progressBar.update()
                 dbData = getData(data, hashValue, dbVersion)
                 bscMethods.OsJsonGzip.write(dbFile, dbData)
-                bscCommands.setOsFileCopy(dbFile, dbBackupFile)
+                bscMethods.OsFile.copyTo(dbFile, dbBackupFile)
     #
     if dic:
         writeMain(getMain())
@@ -318,11 +293,11 @@ def saveDbMayaAscii(dbSubIndex, directory):
     #
     asciiFile = directory + '/' + dbSubIndex
     #
-    tempAsciiFile = getTemporaryOsFile(asciiFile) + mayaAsciiExtLabel
+    tempAsciiFile = bscMethods.OsFile.temporaryFilename(asciiFile) + mayaAsciiExtLabel
     cmds.file(rename=tempAsciiFile)
     cmds.file(save=1, type='mayaAscii')
     #
-    bscCommands.setOsFileCopy(tempAsciiFile, asciiFile)
+    bscMethods.OsFile.copyTo(tempAsciiFile, asciiFile)
 
 
 # noinspection PyUnresolvedReferences
@@ -362,28 +337,28 @@ def readDbHistory(dbIndex, directory, dicKey):
 
 #
 def readDbAssetHistory(dbIndex, dicKey):
-    directory = databasePr.dbAstHistoryDirectory()
+    directory = prsDirectory.Database.assetHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def readDbSceneryHistory(dbIndex, dicKey):
-    directory = databasePr.dbScnHistoryDirectory()
+    directory = prsDirectory.Database.sceneryHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def writeDbAssetHistory(dbIndex, sourceFile):
-    directory = databasePr.dbAstHistoryDirectory()
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
-    writeDbHistory(dbIndex, directory, appVariant.infoSourceLabel, sourceFile)
+    directory = prsDirectory.Database.assetHistory
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoSourceLabel, sourceFile)
 
 
 #
 def writeDbSceneryUnitHistory(dbIndex, sourceFile):
-    directory = databasePr.dbScnHistoryDirectory()
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, appVariant.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
-    writeDbHistory(dbIndex, directory, appVariant.infoSourceLabel, sourceFile)
+    directory = prsDirectory.Database.sceneryHistory
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariant.Util.infoSourceLabel, sourceFile)
 

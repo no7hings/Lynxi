@@ -622,10 +622,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             self._fileTypeCountStatisticsDic.setdefault(ext, []).append(osFile)
             #
-            if bscCommands.isOsExistsFile(osFile):
-                fileSize = bscCommands.getOsFileSize(osFile)
-            else:
-                fileSize = 0
+            fileSize = bscMethods.OsFile.size(osFile)
             #
             self._fileTypeSizeStatisticsDic.setdefault(ext, []).append(fileSize)
             #
@@ -637,7 +634,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             if osFile.endswith('_prx.ass'):
                 filePath = bscCommands.getOsFileDirname(osFile)
                 texturePath = filePath + '/' + 'texture'
-                textures = bscCommands.getOsFilesByPath(texturePath)
+                textures = bscMethods.OsDirectory.filenames(texturePath)
                 if textures:
                     for t in textures:
                         if not t.endswith('.mayaSwatches'):
@@ -703,7 +700,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
     def setCollection(self):
         @dtbCore.fncThreadSemaphoreModifier
         def copyFileThreadMethod(sourceFile, targetFile):
-            bscCommands.setOsFileCopy(sourceFile, targetFile)
+            bscMethods.OsFile.copyTo(sourceFile, targetFile)
         #
         collectionDataArray = self._needCollectionFileArray
         if collectionDataArray:
@@ -732,7 +729,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             dv = 255 / len(statisticsData)
             for seq, (k, v) in enumerate(statisticsData.items()):
                 count = len(v)
-                r, g, b = qtCore.hsv2Rgb(dv * seq, 1, 1)
+                r, g, b = qtCore.hsv2rgb(dv * seq, 1, 1)
                 lis.append(('{0} ( {1} / {2} )'.format(k, count, maxCount), count, (r, g, b, 255)))
         #
         self.fileTypeCountPieChart.setDrawData(
@@ -748,7 +745,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             for seq, (k, v) in enumerate(statisticsData.items()):
 
                 count = sum(v)
-                r, g, b = qtCore.hsv2Rgb(dv * seq, 1, 1)
+                r, g, b = qtCore.hsv2rgb(dv * seq, 1, 1)
                 lis.append(
                     (
                         '{0} ( {1} / {2} )'.format(

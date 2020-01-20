@@ -9,7 +9,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import appVariant, databasePr
+from LxCore.preset import prsVariant, prsDirectory
 #
 from LxCore.preset.prod import assetPr
 #
@@ -75,7 +75,7 @@ def getAssetIndex(assetName):
     rootGroup = assetPr.astUnitRootGroupName(assetName)
     #
     if maUtils.isAppExist(rootGroup):
-        data = maUtils.getAttrDatum(rootGroup, appVariant.basicIndexAttrLabel)
+        data = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
         if data:
             string = data
     return string
@@ -84,17 +84,17 @@ def getAssetIndex(assetName):
 #
 def getAssetInfo():
     lis = []
-    keyword = appVariant.basicUnitRootGroupLabel + appVariant.basicGroupLabel
+    keyword = prsVariant.Util.basicUnitRootGroupLabel + prsVariant.Util.basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
-                if rootGroup.startswith(appVariant.Lynxi_Prefix_Product_Asset):
-                    assetClass = maUtils.getAttrDatum(rootGroup, appVariant.basicClassAttrLabel)
-                    assetName = maUtils.getAttrDatum(rootGroup, appVariant.basicNameAttrLabel)
-                    assetVariant = maUtils.getAttrDatum(rootGroup, appVariant.basicVariantAttrLabel)
-                    assetStage = maUtils.getAttrDatum(rootGroup, appVariant.basicStageAttrLabel)
-                    assetIndex = maUtils.getAttrDatum(rootGroup, appVariant.basicIndexAttrLabel)
+                if rootGroup.startswith(prsVariant.Util.Lynxi_Prefix_Product_Asset):
+                    assetClass = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicClassAttrLabel)
+                    assetName = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicNameAttrLabel)
+                    assetVariant = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicVariantAttrLabel)
+                    assetStage = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicStageAttrLabel)
+                    assetIndex = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
                     if assetIndex is not None:
                         data = assetIndex, assetClass, assetName, assetVariant, assetStage
                         #
@@ -142,13 +142,6 @@ def getInstanceObjectLis(objectLis):
 #
 def getMeshesIsNormalLock(meshObjects):
     lis = [i for i in meshObjects if maGeom.getMeshObjectIsNormalLocked(i)]
-    return lis
-
-
-# Get Error Shape Name
-def getObjectsShapeIsErrorNaming(objectLis, shapeSet=appVariant.shapeSet[0]):
-    # List [  <Shape Naming Error Nde_Geometry> ]
-    lis = [i for i in objectLis if not maUtils.getNodeShape(i, 1).endswith(shapeSet)]
     return lis
 
 
@@ -512,7 +505,7 @@ def getAstUnitSolverNhrGuideObjects(assetName, namespace=none):
     groupStr = assetPr.astUnitRigSolNhrGuideObjectGroupName(assetName, namespace)
     if maUtils.isAppExist(groupStr):
         maUtils.setNodeOutlinerRgb(groupStr, 1, .5, 1)
-    return maUtils.getChildObjectsByRoot(groupStr, appVariant.maNurbsHairInGuideCurvesNode, fullPath=True)
+    return maUtils.getChildObjectsByRoot(groupStr, prsVariant.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
 
 
 #
@@ -835,7 +828,7 @@ def getServerMeshSetData(projectName, assetName, assetVariant):
     assetIndex = getAssetIndex(assetName)
     uniqueIds = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
     modelIndexKey = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
-    directory = databasePr.dbAstMaterialObjSetUnitDirectory()
+    directory = prsDirectory.Database.assetMaterialObjectSet
     data = dbBasic.dbCompDatumDicRead(uniqueIds, modelIndexKey, directory)
     return getObjectSetDic(data)
 

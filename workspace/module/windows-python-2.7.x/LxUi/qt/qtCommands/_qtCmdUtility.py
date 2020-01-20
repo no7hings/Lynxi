@@ -24,7 +24,7 @@ def setProgressRun(title, methods):
         if enabled is True:
             function(*args)
 
-        progressBar.update(subExplain)
+        progressBar.updateProgress(subExplain)
 
     def main_(data):
         for i in data:

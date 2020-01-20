@@ -1,6 +1,8 @@
 # coding:utf-8
 from LxBasic import bscMethods, bscObjects, bscCommands
 
+from LxPreset import prsConfigure
+
 from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import assetCfg, sceneryCfg, sceneCfg
@@ -11,7 +13,7 @@ from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit, ifProductToolWindow
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
@@ -94,7 +96,7 @@ def setSceneToolBar(layout):
 
 # Asset
 class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
-    LinkLis = assetCfg.basicAssetLinks()
+    LinkLis = prsConfigure.Asset.linknames()
     MessageWidth = 240
     MessageHeight = 240
     LeftWidth = 320
@@ -111,7 +113,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             self.setCentralRefresh()
     #
     def setupLeftWidget(self, layout):
-        productModule = self.Cfg_Product.LynxiProduct_Module_Asset
+        productModule = prsConfigure.Asset.name()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -188,8 +190,8 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     for linkActionData in linkActionDataLis:
                         unitLink, explain, enable, update, loadMethod, createMethod = linkActionData
                         #
-                        exists = [False, True][update != appVariant.infoNonExistsLabel]
-                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != appVariant.infoNonExistsLabel]
+                        exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
+                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != prsVariant.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(unitLink, []).append(
                             (assetIndex, assetVariant, enable, exists)
@@ -675,7 +677,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._initOverviewUnitBasic()
     #
     def setupLeftWidget(self, layout):
-        productModule = self.Cfg_Product.LynxiProduct_Module_Scenery
+        productModule = prsConfigure.Scenery.name()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -704,7 +706,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._centralUpToolboxGroup.addWidget(self._centralUpGridview)
         self._centralUpGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = appVariant.rndrImageWidth, appVariant.rndrImageHeight
+        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width * (float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -764,8 +766,8 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     update = sceneryPr.getSceneryUnitProductUpdate(
                         projectName, sceneryClass, sceneryName, sceneryVariant, unitLink
                     )
-                    exists = [False, True][update != appVariant.infoNonExistsLabel]
-                    state = ['wait', None][update != appVariant.infoNonExistsLabel]
+                    exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
+                    state = ['wait', None][update != prsVariant.Util.infoNonExistsLabel]
                     # Message
                     if enable:
                         rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
@@ -825,7 +827,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 maScnLoadCmds.scnUnitAssemblyLoadByReferenceCmd(
                     projectName,
                     sceneryIndex,
-                    sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Module_Scenery, active='GPU'
+                    sceneryClass, sceneryName, sceneryVariant, prsConfigure.Scenery.name(), active='GPU'
                 )
             #
             def scnAssemblyLoadByReferenceForLightCmd():
@@ -833,7 +835,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 maScnLoadCmds.scnUnitAssemblyLoadByReferenceCmd(
                     projectName,
                     sceneryIndex,
-                    sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Module_Scenery, active='Proxy'
+                    sceneryClass, sceneryName, sceneryVariant, prsConfigure.Scenery.name(), active='Proxy'
                 )
             #
             def scnUnitAssemblyLoad():
@@ -879,7 +881,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery,
-                appVariant.pngExt
+                prsVariant.Util.pngExt
             )[1]
             #
             messageLis = [
@@ -1026,7 +1028,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._initOverviewUnitBasic()
     #
     def setupLeftWidget(self, layout):
-        productModule = self.Cfg_Product.LynxiProduct_Module_Scene
+        productModule = prsConfigure.Scene.name()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -1069,7 +1071,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._scUpToolboxGroup.addWidget(self._scGridview)
         self._scGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = appVariant.rndrImageWidth, appVariant.rndrImageHeight
+        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width*(float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -1102,7 +1104,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         tabWidget.addTab(self._cameraListViewBox, 'Camera(s)', 'svg_basic@svg#tab')
         self._cameraListViewBox.setCheckEnable(True)
         #
-        renderWidth, renderHeight = appVariant.rndrImageWidth, appVariant.rndrImageHeight
+        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
         height = self.MessageHeight
         width = int(height*(float(renderWidth) / float(renderHeight)))
         self._cameraItemWidth = width
@@ -1263,8 +1265,8 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         update = scenePr.getSceneUnitProductUpdate(
                             projectName, sceneClass, sceneName, sceneVariant, sceneLink
                         )
-                        exists = [False, True][update != appVariant.infoNonExistsLabel]
-                        state = ['wait', None][update != appVariant.infoNonExistsLabel]
+                        exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
+                        state = ['wait', None][update != prsVariant.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(sceneLink, []).append(
                             (sceneIndex, sceneVariant, enable, exists)
@@ -1869,7 +1871,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         if exists:
                             messageLis.append((5, (rgba, (subIconKeyword, subAstCheckState), bscMethods.OsTime.getCnPrettifyByTimetag(subAstTimeTag))))
                         else:
-                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), appVariant.infoNonExistsLabel)))
+                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), prsVariant.Util.infoNonExistsLabel)))
                     else:
                         rgba = 95, 95, 95, 255
                         messageLis.append(

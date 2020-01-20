@@ -1,6 +1,7 @@
 # coding:utf-8
 from LxCore.config import appConfig, basicCfg
 #
+from LxPreset import prsConfigure
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -513,7 +514,6 @@ class IfProductUnitOverviewUnitBasic(
     qtCore.QWidget__,
     qtIfAbstract.IfUnitAbs
 ):
-    Cfg_Product = appConfig.Cfg_Product
     SideWidth = 320
     def _initOverviewUnitBasic(self):
         self._initUnitAbs()
@@ -562,7 +562,7 @@ class IfProductUnitOverviewUnitBasic(
         pass
     #
     def _setupLinkFilter(self, productModule, layout):
-        uiSetDic = self.Cfg_Product._lxProductLinkUiSetDic(productModule)
+        uiSetDic = prsConfigure.Product._lxProductLinkUiSetDic(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Link Filter')
         toolGroupBox.setExpanded(True)
@@ -587,7 +587,7 @@ class IfProductUnitOverviewUnitBasic(
             self._filterItemDic[keyword] = filterItem
     #
     def _setupClassFilter(self, productModule, layout):
-        uiSetDic = self.Cfg_Product._lxProductClassUiSetDic(productModule)
+        uiSetDic = prsConfigure.Product.moduleClassShownames(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Class Filter')
         toolGroupBox.setExpanded(True)
@@ -611,7 +611,7 @@ class IfProductUnitOverviewUnitBasic(
             #
             filterRow += 1
             #
-            subFilterConfigDic = self.Cfg_Product._lxProductPriorityUiSetDic(productModule)
+            subFilterConfigDic = prsConfigure.Product._lxProductPriorityUiSetDic(productModule)
             for subSeq, (subKeyword, subExplainLis) in enumerate(subFilterConfigDic.items()):
                 subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
@@ -622,7 +622,7 @@ class IfProductUnitOverviewUnitBasic(
                 subFilterButton.setItemFilterColumn(filterColumn)
                 subFilterButton.setItemFilterRow(filterRow)
                 #
-                r, g, b = qtCore.hsv2Rgb(60 * seq, 1 / float(subSeq + 1), 1)
+                r, g, b = qtCore.hsv2rgb(60 * seq, 1 / float(subSeq + 1), 1)
                 subFilterButton.setFilterColor((r, g, b, 255))
                 #
                 mainFilterButton.addFilterChild(subFilterButton)
@@ -632,7 +632,7 @@ class IfProductUnitOverviewUnitBasic(
                 filterRow += 1
     #
     def _setupStageFilter(self, productModule, layout):
-        linkLis = self.Cfg_Product._lxProductLinkLis(productModule)
+        linkLis = prsConfigure.Product._lxProductLinkLis(productModule)
         #
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
@@ -651,7 +651,7 @@ class IfProductUnitOverviewUnitBasic(
         #
         checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
-        uiSetDic = self.Cfg_Product._lxProductStageUiSetDic(productModule)
+        uiSetDic = prsConfigure.Product._lxProductStageUiSetDic(productModule)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #
@@ -664,7 +664,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
-            r, g, b = qtCore.hsv2Rgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsv2rgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -705,7 +705,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem.setName(u'{} ( {} )'.format(enExplain, cnExplain))
             filterItem.setChecked(True)
             #
-            r, g, b = qtCore.hsv2Rgb(180 + 24 * filterRow, 1, 1)
+            r, g, b = qtCore.hsv2rgb(180 + 24 * filterRow, 1, 1)
             filterItem.setFilterColor((r, g, b, 255))
             #
             filterItem.setItemFilterColumn(filterColumn)

@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxConfigure, lxScheme
 
-from LxCore.preset import basicPr, pipePr
+from LxCore.preset import basicPr
 
 from LxUi import uiCore
 
@@ -608,19 +608,18 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         self.uiShow()
     @staticmethod
     def helpShow():
-        helpDirectory = pipePr.mayaHelpDirectory('preset')
-        bscMethods.OsDirectory.open(helpDirectory)
+        pass
     #
     def setupWindow(self):
         tabView = qtWidgets.QtVShelfTabgroup()
         self.addWidget(tabView)
         buildData = [
             (lxConfigure.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
-            (lxConfigure.LynxiPersonnelPresetKey, 'svg_basic@svg#personnel', u'人员预设'),
-            (lxConfigure.LynxiPipelinePresetKey, 'svg_basic@svg#pipeline', u'流程预设'),
-            (lxConfigure.LynxiMayaPresetKey, 'svg_basic@svg#maya', u'Maya预设'),
-            (lxConfigure.LynxiSoftwarePresetKey, 'svg_basic@svg#software', u'软件预设'),
-            (lxConfigure.LynxiVariantPresetKey, 'svg_basic@svg#variant', u'基础预设')
+            (lxConfigure.Lynxi_Key_Preset_Personnel, 'svg_basic@svg#personnel', u'人员预设'),
+            (lxConfigure.Lynxi_Key_Pipeline, 'svg_basic@svg#pipeline', u'流程预设'),
+            (lxConfigure.Lynxi_Key_Preset_Maya, 'svg_basic@svg#maya', u'Maya预设'),
+            (lxConfigure.Lynxi_Key_Preset_Software, 'svg_basic@svg#software', u'软件预设'),
+            (lxConfigure.Lynxi_Key_Preset_Variant, 'svg_basic@svg#variant', u'基础预设')
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)
@@ -646,5 +645,4 @@ def tableShow():
 
 #
 def helpShow():
-    helpDirectory = pipePr.mayaHelpDirectory('preset')
-    bscMethods.OsDirectory.open(helpDirectory)
+    pass

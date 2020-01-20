@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, assetCfg
 #
-from LxCore.preset import appVariant
+from LxCore.preset import prsVariant
 #
 from LxCore.preset.prod import assetPr
 #
@@ -21,28 +21,28 @@ from LxMaya.product.data import datAsset
 #
 from LxMaya.database import maDbAstCmds
 #
-astPfxHairGroupLabel = appVariant.astPfxHairGroupLabel
-astPfxHairGrowGroupLabel = appVariant.astPfxHairGrowGroupLabel
-astPfxHairFollicleGroupLabel = appVariant.astPfxHairFollicleGroupLabel
-astPfxHairCurveGroupLabel = appVariant.astPfxHairCurveGroupLabel
-astPfxHairSolverNodeGroupLabel = appVariant.astPfxHairSolverNodeGroupLabel
-astPfxHairNucleusNodeLabel = appVariant.astPfxHairNucleusNodeLabel
-astPfxHairShaderNodeLabel = appVariant.astPfxHairShaderNodeLabel
+astPfxHairGroupLabel = prsVariant.Util.astPfxHairGroupLabel
+astPfxHairGrowGroupLabel = prsVariant.Util.astPfxHairGrowGroupLabel
+astPfxHairFollicleGroupLabel = prsVariant.Util.astPfxHairFollicleGroupLabel
+astPfxHairCurveGroupLabel = prsVariant.Util.astPfxHairCurveGroupLabel
+astPfxHairSolverNodeGroupLabel = prsVariant.Util.astPfxHairSolverNodeGroupLabel
+astPfxHairNucleusNodeLabel = prsVariant.Util.astPfxHairNucleusNodeLabel
+astPfxHairShaderNodeLabel = prsVariant.Util.astPfxHairShaderNodeLabel
 #
-astYetiGuideGroupLabel = appVariant.astYetiGuideGroupLabel
+astYetiGuideGroupLabel = prsVariant.Util.astYetiGuideGroupLabel
 #
-astYetiGuideSolverNodeGroupLabel = appVariant.astYetiGuideSolverNodeGroupLabel
-astYetiGuideFollicleGroupLabel = appVariant.astYetiGuideFollicleGroupLabel
-astYetiGuideCurveGroupLabel = appVariant.astYetiGuideCurveGroupLabel
-astPfxHairLocalCurveNodeLabel = appVariant.astPfxHairLocalCurveNodeLabel
+astYetiGuideSolverNodeGroupLabel = prsVariant.Util.astYetiGuideSolverNodeGroupLabel
+astYetiGuideFollicleGroupLabel = prsVariant.Util.astYetiGuideFollicleGroupLabel
+astYetiGuideCurveGroupLabel = prsVariant.Util.astYetiGuideCurveGroupLabel
+astPfxHairLocalCurveNodeLabel = prsVariant.Util.astPfxHairLocalCurveNodeLabel
 #
-astYetiGuideSetNodeLabel = appVariant.astYetiGuideSetNodeLabel
-astYetiGuideNucleusNodeLabel = appVariant.astYetiGuideNucleusNodeLabel
+astYetiGuideSetNodeLabel = prsVariant.Util.astYetiGuideSetNodeLabel
+astYetiGuideNucleusNodeLabel = prsVariant.Util.astYetiGuideNucleusNodeLabel
 #
-astCfxGrowSourceGroupLabel = appVariant.astCfxGrowSourceGroupLabel
-astCfxFurGrowTargetGroupLabel = appVariant.astCfxFurGrowTargetGroupLabel
-astCfxGrowDeformGroupLabel = appVariant.astCfxGrowDeformGroupLabel
-astCfxFurCollisionSubGroupLabel = appVariant.astCfxFurCollisionSubGroupLabel
+astCfxGrowSourceGroupLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
+astCfxFurGrowTargetGroupLabel = prsVariant.Util.astCfxFurGrowTargetGroupLabel
+astCfxGrowDeformGroupLabel = prsVariant.Util.astCfxGrowDeformGroupLabel
+astCfxFurCollisionSubGroupLabel = prsVariant.Util.astCfxFurCollisionSubGroupLabel
 #
 none = ''
 txExt = '.tx'
@@ -773,7 +773,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                     groomItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(groomObject), 'Groom'])
                     groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom)
                     #
-                    groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, appVariant.astYetiGroomGroupLabel)
+                    groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiGroomGroupLabel)
                     #
                     if not maUtils.isChild(groomObjectGroup, groomObject):
                         isChecked = False
@@ -795,7 +795,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                     yetiItem.addChild(growItem)
                     #
                     growObjectGroup = \
-                        assetPr.astBasicGroupNameSet(assetName, appVariant.astYetiGrowGroupLabel)
+                        assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiGrowGroupLabel)
                     #
                     if not maUtils.isChild(growObjectGroup, growObject):
                         isChecked = False
@@ -821,7 +821,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                             referenceItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
                             #
                             referenceObjectGroup = \
-                                assetPr.astBasicGroupNameSet(assetName, appVariant.astYetiReferenceGroupLabel)
+                                assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiReferenceGroupLabel)
                             if not maUtils.isChild(referenceObjectGroup, referenceObject):
                                 isChecked = False
                                 referenceItem.setText(2, 'Non - Collection')
@@ -1035,7 +1035,7 @@ def setAstCfxFurMayaCheckTreeView(main, assetClass, assetName, treeBox, checkDat
         growObjects, shaders, textures, maps, systemObjects, nucleusObjects, follicleData = maUtils.getPfxHairConnectionData(pfxHairObject)
         # Grow
         if growObjects:
-            growGroup = assetPr.astBasicGroupNameSet(assetName, appVariant.astPfxHairGrowGroupLabel)
+            growGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairGrowGroupLabel)
             setCheckLeaf(growObjects, pfxHairItem, 'Grow', 'poly', growGroup, subErrorArray)
         # Nde_ShaderRef
         if shaders:
@@ -1408,9 +1408,9 @@ def setAstSolverGrowSourceCheckSub(main, assetClass, assetName, treeBox, checkDa
 
 #
 def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, assetStage, treeBox, inData, checkData, errorData):
-    isFormatCheck = appVariant.arTextureFormatCheck
-    isArTxCheck = appVariant.arTextureTxCheck
-    isArColorSpaceCheck = appVariant.arTextureColorSpaceCheck
+    isFormatCheck = prsVariant.Util.arTextureFormatCheck
+    isArTxCheck = prsVariant.Util.arTextureTxCheck
+    isArColorSpaceCheck = prsVariant.Util.arTextureColorSpaceCheck
     #
     folderItemDic = {}
     textureFileItemDic = {}
