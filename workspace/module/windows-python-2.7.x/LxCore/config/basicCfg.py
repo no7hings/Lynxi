@@ -243,27 +243,3 @@ def basicProjectClassificationConfig():
         lxConfigure.LynxiGameProjectValue
     ]
     return lis
-
-
-#
-def basicProductionStages():
-    lis = [
-        'Validated',
-        'Delivery',
-        'Refine',
-        'WIP',
-        'Pending'
-    ]
-    return lis
-
-
-#
-def basicProductionStageDic():
-    dic = bscCommands.orderedDict()
-    dic[0] = lxConfigure.LynxiProduct_Stage_Pending, 'Pending', u'等待'
-    dic[1] = lxConfigure.LynxiProduct_Stage_Wip, 'WIP', u'制作'
-    dic[2] = lxConfigure.LynxiProduct_Stage_Delivery, 'Delivery', u'提交'
-    dic[3] = lxConfigure.LynxiProduct_Stage_Refine, 'Refine', u'返修'
-    dic[4] = lxConfigure.LynxiProduct_Stage_Validated, 'Validated', u'通过'
-    return dic
-

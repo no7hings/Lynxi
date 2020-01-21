@@ -24,6 +24,7 @@
       <w>chooseitem</w>
       <w>choosetab</w>
       <w>chooseview</w>
+      <w>classname</w>
       <w>classnames</w>
       <w>colorable</w>
       <w>colorchart</w>
@@ -82,6 +83,7 @@
       <w>integerarray</w>
       <w>isdevelop</w>
       <w>keyable</w>
+      <w>labelname</w>
       <w>lgroups</w>
       <w>linkname</w>
       <w>linknames</w>
@@ -195,6 +197,7 @@
       <w>resourceversion</w>
       <w>rgba</w>
       <w>rltn</w>
+      <w>rootname</w>
       <w>rootpath</w>
       <w>sceneries</w>
       <w>scrollarea</w>

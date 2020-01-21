@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxPreset import prsConfigure
+from LxPreset import prsCore, prsMethods
 
 from LxCore.method.basic import _methodBasic
 
@@ -15,37 +15,37 @@ class MaProductUnitMethod(_productMethod.LxProductUnitMethod):
     @classmethod
     def getProductUnitDatumLis(cls, moduleString):
         lis = []
-        if moduleString in prsConfigure.Product.LynxiProduct_ModuleLis:
-            searchKey = cls.mtd_app_node.lxNodeGroupName('*', prsConfigure.Product.LynxiUnit_Label_Root)
+        if moduleString in prsMethods.Product.moduleNames():
+            searchKey = cls.mtd_app_node.lxNodeGroupName('*', prsMethods.Product.rootLabel())
             nodeLis = cls.mtd_app_node.getNodeLisBySearchKey(searchKey, cls.mtd_app_node.MaNodeType_Transform)
             if nodeLis:
                 for nodePath in nodeLis:
                     if cls.mtd_app_node.isAppExist(nodePath):
                         nodeName = cls.mtd_app_node._toNodeName(nodePath)
-                        if nodeName.startswith(prsConfigure.Product.modulePrefixname(moduleString)):
+                        if nodeName.startswith(prsMethods.Product.modulePrefixname(moduleString)):
                             unitDatum = []
-                            for attrName in prsConfigure.Product.LynxiProduct_Unit_AttrNameLis:
+                            for attrName in prsMethods.Product.attributeNames():
                                 attrDatum = cls.mtd_app_node.getNodeAttrValue(nodePath, attrName)
                                 unitDatum.append(attrDatum)
                             #
-                            unitIndex, unitClass, unitName, unitVariant, unitStage = unitDatum
-                            if unitClass in prsConfigure.Product.moduleClassnames(moduleString):
+                            unitIndex, categoryString, unitName, unitVariant, unitStage = unitDatum
+                            if categoryString in prsMethods.Product.moduleCategoryNames(moduleString):
                                 lis.append(
-                                    (unitIndex, unitClass, unitName, unitVariant, unitStage)
+                                    (unitIndex, categoryString, unitName, unitVariant, unitStage)
                                 )
         return lis
     @classmethod
     def getProductUnitDatumDic(cls):
         dic = cls.mtd_app_node.orderedDict()
-        for moduleString in prsConfigure.Product.LynxiProduct_ModuleLis:
+        for moduleString in prsMethods.Product.moduleNames():
             dic[moduleString] = cls.getProductUnitDatumLis(moduleString)
         return dic
     @classmethod
     def getAssetUnitDatumLis(cls):
-        return cls.getProductUnitDatumLis(prsConfigure.Asset.name())
+        return cls.getProductUnitDatumLis(prsMethods.Asset.moduleName())
     @classmethod
     def getSceneryUnitDatumLis(cls):
-        return cls.getProductUnitDatumLis(prsConfigure.Scenery.name())
+        return cls.getProductUnitDatumLis(prsMethods.Scenery.moduleName())
     @classmethod
     def getSceneUnitDatumLis(cls):
-        return cls.getProductUnitDatumLis(prsConfigure.Scene.name())
+        return cls.getProductUnitDatumLis(prsMethods.Scene.moduleName())

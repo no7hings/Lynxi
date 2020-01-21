@@ -8,7 +8,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 
 from LxCore import lxConfigure
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxMaya.command import maUtils
 
@@ -741,7 +741,7 @@ def setCreateLightWithName(nodeName, nodeType):
 
 #
 def setCreateArnoldLight():
-    nodeName = prsVariant.Util.lxPreviewLight
+    nodeName = prsVariants.Util.lxPreviewLight
     nodeType = 'aiSkyDomeLight'
     if not maUtils.isAppExist(nodeName):
         setCreateLightWithName(nodeName, nodeType)
@@ -767,7 +767,7 @@ def setRenderPreMelCommand(melCommand):
 def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultView, useDefaultLight):
     setLoadArnoldRenderer()
     #
-    imageFormat = prsVariant.Util.pngExt
+    imageFormat = prsVariants.Util.pngExt
     camera = 'persp'
     cameraShape = 'perspShape'
     cmds.camera(

@@ -1,13 +1,7 @@
 # coding=utf-8
 from LxBasic import bscMethods
 
-from LxPreset import prsConfigure
-
-from LxCore import lxConfigure
-#
-from LxCore.config import basicCfg, assetCfg, sceneryCfg, sceneCfg
-#
-from LxCore.preset import prsMethod
+from LxPreset import prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
@@ -17,30 +11,29 @@ none = ''
 
 
 #
-def getShowInfo(dbUnitId, classString, variantString, stageString):
+def getShowInfo(dbUnitId, categoryString, variantString, stageString):
     viewModule = none
     viewLink = none
     viewUnit = none
     viewClass = none
     viewName = none
-    
-    if classString in prsConfigure.Product.LynxiProduct_Asset_Class_Lis:
-        viewModule = prsConfigure.Asset.showname()
-        viewLink = prsConfigure.Asset.linkShowname_(stageString)
-        viewUnit = assetPr.getAssetViewInfo(dbUnitId, classString, variantString)
-        viewClass = prsConfigure.Asset.classShowname(classString)
+    if prsMethods.Asset.isValidCategoryName(categoryString):
+        viewModule = prsMethods.Asset.moduleShowname()
+        viewLink = prsMethods.Asset.linkShowname_(stageString)
+        viewUnit = assetPr.getAssetViewInfo(dbUnitId, categoryString, variantString)
+        viewClass = prsMethods.Asset.classShowname(categoryString)
         viewName = assetPr.getAssetViewName(dbUnitId)
-    elif classString in sceneryCfg.scnBasicClass():
-        viewModule = prsConfigure.Scenery.showname()
-        viewLink = prsConfigure.Scenery.linkShowname_(stageString)
-        viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, classString, variantString)
-        viewClass = prsConfigure.Scenery.classShowname(classString)
+    elif prsMethods.Scenery.isValidCategoryName(categoryString):
+        viewModule = prsMethods.Scenery.moduleShowname()
+        viewLink = prsMethods.Scenery.linkShowname_(stageString)
+        viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, categoryString, variantString)
+        viewClass = prsMethods.Scenery.classShowname(categoryString)
         viewName = sceneryPr.getSceneryViewName(dbUnitId)
-    elif classString in sceneCfg.scBasicClass():
-        viewModule = prsConfigure.Scene.showname()
-        viewLink = prsConfigure.Scene.linkShowname_(stageString)
-        viewUnit = scenePr.getSceneViewInfo(dbUnitId, classString, variantString)
-        viewClass = prsConfigure.Scene.classShowname(classString)
+    elif prsMethods.Scene.isValidCategoryName(categoryString):
+        viewModule = prsMethods.Scene.moduleShowname()
+        viewLink = prsMethods.Scene.linkShowname_(stageString)
+        viewUnit = scenePr.getSceneViewInfo(dbUnitId, categoryString, variantString)
+        viewClass = prsMethods.Scene.classShowname(categoryString)
         viewName = scenePr.getSceneViewName(dbUnitId)
     return viewModule, viewLink, viewUnit, viewClass, viewName
 
@@ -49,7 +42,7 @@ def getShowInfo(dbUnitId, classString, variantString, stageString):
 def sendProductMessageByDingTalk(
         dbUnitId,
         projectName,
-        classString, moduleName, variantString, stageString,
+        categoryString, moduleName, variantString, stageString,
         timeTag,
         description, note
 ):
@@ -60,10 +53,10 @@ def sendProductMessageByDingTalk(
     #
     timeString = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag, useMode=1)
     #
-    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, classString, variantString, stageString)
+    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, categoryString, variantString, stageString)
     #
     userName = bscMethods.OsSystem.username()
-    userCnName = prsMethod.Personnel.userChnname()
+    userCnName = prsMethods.Personnel.userChnname()
     #
     if not note:
         note = u'N/a'
@@ -86,11 +79,11 @@ def sendProductMessageByMail(
         htmlLog,
         dbUnitId,
         projectName,
-        classString, moduleName, variantString, stageString,
+        categoryString, moduleName, variantString, stageString,
         description, note
 ):
-    toMails = prsMethod.Personnel.userMailsFilterByUsernames(
-        prsMethod.Personnel.usernamesFilterByMailSendEnable()
+    toMails = prsMethods.Personnel.userMailsFilterByUsernames(
+        prsMethods.Personnel.usernamesFilterByMailSendEnable()
     )
     #
     projectNameData = projectPr.getMayaProjectNameDic()
@@ -98,12 +91,12 @@ def sendProductMessageByMail(
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, classString, variantString, stageString)
+    viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, categoryString, variantString, stageString)
     #
     summary = u'''项目更新【{0} - {1} - {2}】'''.format(viewProject, viewModule, viewUnit)
     subject = u'''{0} - {1} - {2}'''.format(viewProject, viewModule, viewUnit)
     #
-    userCnName = prsMethod.Personnel.userChnname()
+    userCnName = prsMethods.Personnel.userChnname()
     #
     if not description:
         description = u'N/a'

@@ -1023,7 +1023,7 @@ def defaultDirectoryNameConfig():
             ['astRigFolderEnabled', True],
             ['astCfxLinkFolder', 'cfx'],
             ['astCfxFolderEnabled', True],
-            ['astRigSolFolder', 'solver'],
+            ['astSolverFolder', 'solver'],
             ['astSolverFolderEnabled', True],
             ['astLightLinkFolder', 'light'],
             ['astLightFolderEnabled', True],

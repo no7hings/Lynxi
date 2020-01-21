@@ -1,7 +1,5 @@
 # coding:utf-8
-from LxCore.config import appConfig, basicCfg
-#
-from LxPreset import prsConfigure
+from LxPreset import prsMethods
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -562,7 +560,7 @@ class IfProductUnitOverviewUnitBasic(
         pass
     #
     def _setupLinkFilter(self, productModule, layout):
-        uiSetDic = prsConfigure.Product._lxProductLinkUiSetDic(productModule)
+        uiSetDic = prsMethods.Product.moduleLinkShownameDic(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Link Filter')
         toolGroupBox.setExpanded(True)
@@ -587,7 +585,7 @@ class IfProductUnitOverviewUnitBasic(
             self._filterItemDic[keyword] = filterItem
     #
     def _setupClassFilter(self, productModule, layout):
-        uiSetDic = prsConfigure.Product.moduleClassShownames(productModule)
+        uiSetDic = prsMethods.Product.moduleClassShownames(productModule)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Class Filter')
         toolGroupBox.setExpanded(True)
@@ -611,7 +609,7 @@ class IfProductUnitOverviewUnitBasic(
             #
             filterRow += 1
             #
-            subFilterConfigDic = prsConfigure.Product._lxProductPriorityUiSetDic(productModule)
+            subFilterConfigDic = prsMethods.Product.modulePriorityShownameDic(productModule)
             for subSeq, (subKeyword, subExplainLis) in enumerate(subFilterConfigDic.items()):
                 subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
@@ -632,7 +630,7 @@ class IfProductUnitOverviewUnitBasic(
                 filterRow += 1
     #
     def _setupStageFilter(self, productModule, layout):
-        linkLis = prsConfigure.Product._lxProductLinkLis(productModule)
+        linkLis = prsMethods.Product._lxProductLinkLis(productModule)
         #
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
@@ -651,7 +649,7 @@ class IfProductUnitOverviewUnitBasic(
         #
         checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
-        uiSetDic = prsConfigure.Product._lxProductStageUiSetDic(productModule)
+        uiSetDic = prsMethods.Product.moduleStepShownameDic(productModule)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #
@@ -692,7 +690,7 @@ class IfProductUnitOverviewUnitBasic(
         #
         checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
-        filterConfigDic = basicCfg.basicProductionStageDic()
+        filterConfigDic = prsMethods.Product.stepShownamesDic()
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #

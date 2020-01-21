@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
@@ -146,7 +146,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             assetIndex = key
             assetClass = assetPr.getAssetClass(assetIndex)
             assetName, viewName = value
-            assetVariant = prsVariant.Util.astDefaultVariant
+            assetVariant = prsVariants.Util.astDefaultVariant
             # Tag
             if ' - ' in viewName:
                 tag, _ = viewName.split(' - ')[:2]
@@ -406,7 +406,7 @@ class IfScnAssemblyInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         )
         #
         self._scnAssemblyRadarChart.setImage(previewFile)
-        self._scnAssemblyRadarChart.setImageSize(prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight)
+        self._scnAssemblyRadarChart.setImageSize(prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight)
         #
         serverDatumDic = {}
         localDatumDic = {}
@@ -497,7 +497,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self.setupScnUtilToolBox(self._scnUtilTooUiBox)
             #
-            if sceneryPr.isScnLightLink(sceneryStage):
+            if sceneryPr.isLightLinkName(sceneryStage):
                 self._addObjectButton.setNameText('Add Light')
             #
             self.setScriptJob()
@@ -528,7 +528,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if objectPathLis:
                 objectPath = objectPathLis[0]
                 if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.Ma_Separator_Node + self._rootGroup):
-                    if objectPath.endswith(prsVariant.Util.basicGroupLabel):
+                    if objectPath.endswith(prsVariants.Util.basicGroupLabel):
                         objectName = maUtils._toNodeName(objectPath)
                         self._parentGroupLabel.setDatum(objectName)
         #
@@ -765,10 +765,10 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def _initToolUiBox(self):
         sceneryStage = self._connectObject.sceneryStage
-        if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
+        if sceneryPr.isSceneryLinkName(sceneryStage) or sceneryPr.isLayoutLinkName(sceneryStage):
             self._scnUploadToolUiBox.show()
             self.setupScnUploadToolUiBox(self._scnUploadToolUiBox)
-        elif sceneryPr.isScnLightLink(sceneryStage):
+        elif sceneryPr.isLightLinkName(sceneryStage):
             pass
     #
     def setupBasicTab(self, layout):
@@ -866,9 +866,9 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneryStage = self._connectObject.sceneryStage
         root = None
         #
-        if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
+        if sceneryPr.isSceneryLinkName(sceneryStage) or sceneryPr.isLayoutLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyGroupName(sceneryName)
-        elif sceneryPr.isScnLightLink(sceneryStage):
+        elif sceneryPr.isLightLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant)
         #
         isUseDefaultView = self._useDefaultViewButton.isChecked()
@@ -882,7 +882,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             maFile.makeSnapshot(
                 root, viewportPreview,
                 useDefaultMaterial=0,
-                width=prsVariant.Util.rndrImageWidth / 2, height=prsVariant.Util.rndrImageHeight / 2,
+                width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView
             )
             #
@@ -899,9 +899,9 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         root = None
         #
-        if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
+        if sceneryPr.isSceneryLinkName(sceneryStage) or sceneryPr.isLayoutLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyGroupName(sceneryName)
-        elif sceneryPr.isScnLightLink(sceneryStage):
+        elif sceneryPr.isLightLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant)
         #
         isUseDefaultView = self._useDefaultViewButton.isChecked()
@@ -911,13 +911,13 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             renderPreview = sceneryPr.scnUnitPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
-                prsVariant.Util.pngExt
+                prsVariants.Util.pngExt
             )[1]
             renderer = projectPr.getProjectMayaRenderer(projectName)
             #
             maRender.setRenderSnapshot(
                 root, renderPreview, renderer,
-                width=prsVariant.Util.rndrImageWidth / 2, height=prsVariant.Util.rndrImageHeight / 2,
+                width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #

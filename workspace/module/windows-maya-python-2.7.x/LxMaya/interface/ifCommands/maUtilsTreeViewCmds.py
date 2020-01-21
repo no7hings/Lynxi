@@ -604,7 +604,7 @@ def setListScAssetComposeCmdSub(
         )
         scAstModelCacheItemLis.append(scAstModelCacheItem)
         # Extra Cache
-        if scenePr.isScLightLink(sceneStage):
+        if scenePr.isLightLinkName(sceneStage):
             # Rig Extra
             scAstExtraCacheItem = ifMaScTreeItem.IfScAstExtraCacheItem(
                 scAssetUnitItem,
@@ -644,7 +644,7 @@ def setListScAssetComposeCmdSub(
                 )
                 scAstCfxFurCacheItemLis.append(scAstCfxFurCacheItem)
         # Solver
-        if scenePr.isScSolverLink(sceneStage):
+        if scenePr.isSolverLinkName(sceneStage):
             # Solver Product
             scAstSolverProductItem = ifMaScTreeItem.IfScAstSolverProductItem(
                 scAssetUnitItem,

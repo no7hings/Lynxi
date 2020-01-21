@@ -1,6 +1,8 @@
 # coding=utf-8
 from LxBasic import bscMethods, bscObjects
 
+from LxPreset import prsCore, prsMethods
+
 from LxCore import lxScheme
 #
 from LxCore.config import appCfg, assetCfg
@@ -104,34 +106,25 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         assetStage = self.assetStage
         #
-        linkGroup = None
-        if assetPr.isAstModelLink(assetStage):
-            linkGroup = assetPr.astUnitModelLinkGroupName(assetName)
-        elif assetPr.isAstRigLink(assetStage):
-            linkGroup = assetPr.astUnitRigLinkGroupName(assetName)
-        elif assetPr.isAstCfxLink(assetStage):
-            linkGroup = assetPr.astUnitCfxLinkGroupName(assetName)
-        elif assetPr.isAstSolverLink(assetStage):
-            linkGroup = assetPr.astUnitSolverLinkGroupName(assetName)
-        elif assetPr.isAstLightLink(assetStage):
-            linkGroup = assetPr.astUnitLightLinkGroupName(assetName)
-            #
         treeBox = self.treeBox
-        explain = '{} Hierarchy'.format(
-            bscMethods.StrCamelcase.toPrettify(assetPr.getAssetLink(assetStage))
-        )
-        #
-        self.setAstHierarchyBox(treeBox, explain)
-        #
-        self.expandedDic = treeBox.getGraphExpandDic()
-        #
         treeBox.clear()
-        if linkGroup:
-            maAstTreeViewCmds.setAstHierarchyView(
-                treeBox,
-                linkGroup,
-                self.searchDic, self.expandedDic
+        if prsMethods.Asset.isValidStageName(assetStage):
+            linkGroup = prsMethods.Asset.toLinkGroupName(assetName, assetStage)
+            
+            explain = '{} Hierarchy'.format(
+                bscMethods.StrCamelcase.toPrettify(prsMethods.Asset.stageName2linkName(assetStage))
             )
+            #
+            self.setAstHierarchyBox(treeBox, explain)
+            #
+            self.expandedDic = treeBox.getGraphExpandDic()
+            #
+            if linkGroup:
+                maAstTreeViewCmds.setAstHierarchyView(
+                    treeBox,
+                    linkGroup,
+                    self.searchDic, self.expandedDic
+                )
     #
     def setAstMeshConstantBox(self, treeBox, explain):
         treeBox.setColumns_(
@@ -154,7 +147,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         self.setAstMeshConstantBox(treeBox, explain)
         # Use Model Group
-        astModelLinkGroup = assetPr.astUnitModelLinkGroupName(assetName)
+        astModelLinkGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         #
         localInfoDic = maGeom.getGeometryObjectsInfoDic(astModelLinkGroup)
         localPathDic = maGeom.getGeometryObjectsPathDic(astModelLinkGroup)
@@ -204,15 +197,16 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         treeBox.clear()
         #
-        if assetPr.isAstModelLink(assetStage):
+        
+        if prsMethods.Asset.isModelStageName(assetStage):
             checkConfig = assetCfg.astModelCheckConfig()
-        elif assetPr.isAstCfxLink(assetStage):
+        elif prsMethods.Asset.isGroomStageName(assetStage):
             checkConfig = assetCfg.astCfxGroomCheckConfig()
-        elif assetPr.isAstRigLink(assetStage):
+        elif prsMethods.Asset.isRigStageName(assetStage):
             checkConfig = assetCfg.astRigCheckConfig()
-        elif assetPr.isAstSolverLink(assetStage):
+        elif prsMethods.Asset.isSolverStageName(assetStage):
             checkConfig = assetCfg.astSolverCheckConfig()
-        elif assetPr.isAstLightLink(assetStage):
+        elif prsMethods.Asset.isLightStageName(assetStage):
             checkConfig = assetCfg.astLightCheckConfig()
         #
         self.rightToolboxGroup.setTitle('Check List')
@@ -404,16 +398,16 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         assetStage = self.assetStage
         #
         usedObjects = []
-        if assetPr.isAstModelLink(assetStage) or assetPr.isAstRigLink(assetStage):
+        if prsMethods.Asset.isModelStageName(assetStage) or prsMethods.Asset.isRigStageName(assetStage):
             usedObjects = datAsset.getAstMeshObjects(assetName, 1)
-        elif assetPr.isAstCfxLink(assetStage):
+        elif prsMethods.Asset.isGroomStageName(assetStage):
             yetiObjects = datAsset.getYetiObjects(assetName)
             nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
             #
             usedObjects = yetiObjects
             usedObjects.extend(nurbsHairObjects)
-        elif assetPr.isAstLightLink(assetStage):
-            linkBranch = assetPr.astUnitLightLinkGroupName(assetName)
+        elif prsMethods.Asset.isLightStageName(assetStage):
+            linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
             usedObjects = maUtils.getChildrenByRoot(linkBranch)
         #
         treeBox = self.treeBox
@@ -683,9 +677,8 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             self.assetVariant = assetVariant
             self.assetStage = assetStage
             #
-            self.assetLink = assetPr.getAssetLink(assetStage)
-            #
-            if assetPr.isAssetLink(assetStage):
+            self.assetLink = prsMethods.Asset.stageName2linkName(assetStage)
+            if prsMethods.Asset.isValidStageName(assetStage):
                 isAssetLink = True
                 #
                 self.setAssetInfo(assetIndex, assetClass, assetName, assetVariant)
@@ -696,15 +689,15 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                 self.setInformationShow()
                 #
                 self.setAssetCheckList()
-                if assetPr.isAstModelLink(assetStage):
+                if prsMethods.Asset.isModelStageName(assetStage):
                     self._initAstModelToolBar()
-                elif assetPr.isAstRigLink(assetStage):
+                elif prsMethods.Asset.isRigStageName(assetStage):
                     self._initAstRigToolBar()
-                elif assetPr.isAstCfxLink(assetStage):
+                elif prsMethods.Asset.isGroomStageName(assetStage):
                     self._initAstCfxToolBar()
-                elif assetPr.isAstSolverLink(assetStage):
+                elif prsMethods.Asset.isSolverStageName(assetStage):
                     self._initAstSolverToolBar()
-                elif assetPr.isAstLightLink(assetStage):
+                elif prsMethods.Asset.isLightStageName(assetStage):
                     self._initAstLightToolBar()
                 #
                 title = 'Asset {} Production'.format(bscMethods.StrCamelcase.toPrettify(self.assetLink))

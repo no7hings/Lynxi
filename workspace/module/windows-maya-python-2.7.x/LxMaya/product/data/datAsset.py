@@ -4,12 +4,12 @@ import os
 import maya.cmds as cmds
 
 from LxBasic import bscMethods, bscObjects, bscCommands
+
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
-#
-from LxCore.preset import prsVariant, prsDirectory
 #
 from LxCore.preset.prod import assetPr
 #
@@ -72,10 +72,10 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
 def getAssetIndex(assetName):
     string = none
     #
-    rootGroup = assetPr.astUnitRootGroupName(assetName)
+    rootGroup = prsMethods.Asset.rootName(assetName)
     #
     if maUtils.isAppExist(rootGroup):
-        data = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
+        data = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
         if data:
             string = data
     return string
@@ -84,17 +84,17 @@ def getAssetIndex(assetName):
 #
 def getAssetInfo():
     lis = []
-    keyword = prsVariant.Util.basicUnitRootGroupLabel + prsVariant.Util.basicGroupLabel
+    keyword = prsVariants.Util.basicUnitRootGroupLabel + prsVariants.Util.basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
-                if rootGroup.startswith(prsVariant.Util.Lynxi_Prefix_Product_Asset):
-                    assetClass = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicClassAttrLabel)
-                    assetName = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicNameAttrLabel)
-                    assetVariant = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicVariantAttrLabel)
-                    assetStage = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicStageAttrLabel)
-                    assetIndex = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
+                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Asset):
+                    assetClass = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
+                    assetName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
+                    assetVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
+                    assetStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
+                    assetIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
                     if assetIndex is not None:
                         data = assetIndex, assetClass, assetName, assetVariant, assetStage
                         #
@@ -110,7 +110,7 @@ def getAssetInfo():
 def getAstMeshObjects(assetName, key=0, namespace=none):
     # List [ <Nde_Geometry(Transfer)> ]
     meshObjects = []
-    astModelGroup = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+    astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     #
     root = none
@@ -128,7 +128,7 @@ def getAstMeshObjects(assetName, key=0, namespace=none):
 
 #
 def getAstGeometryObjects(assetName, namespace=none):
-    astModelGroup = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+    astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
     return maGeom.getGeometryObjectsByGroup(astModelGroup)
 
 
@@ -340,7 +340,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
     #
     dic = {}
     #
-    astUnitRoot = assetPr.astUnitRootGroupName(assetName)
+    astUnitRoot = prsMethods.Asset.rootName(assetName)
     astUnitModelReferenceGroup = assetPr.astUnitModelReferenceGroupName(assetName, namespace)
     #
     objectLis = maUtils.getChildObjectsByRoot(astUnitModelReferenceGroup, appCfg.MaNodeType_Mesh)
@@ -505,7 +505,7 @@ def getAstUnitSolverNhrGuideObjects(assetName, namespace=none):
     groupStr = assetPr.astUnitRigSolNhrGuideObjectGroupName(assetName, namespace)
     if maUtils.isAppExist(groupStr):
         maUtils.setNodeOutlinerRgb(groupStr, 1, .5, 1)
-    return maUtils.getChildObjectsByRoot(groupStr, prsVariant.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
+    return maUtils.getChildObjectsByRoot(groupStr, prsVariants.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
 
 
 #
@@ -557,7 +557,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
     #
     dic = {}
     #
-    astUnitRoot = assetPr.astUnitRootGroupName(assetName)
+    astUnitRoot = prsMethods.Asset.rootName(assetName)
     #
     objectStrings = getAstUnitSolverNhrGuideObjects(assetName, namespace)
     if objectStrings:
@@ -583,7 +583,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
     #
     dic = {}
     #
-    astUnitRoot = assetPr.astUnitRootGroupName(assetName)
+    astUnitRoot = prsMethods.Asset.rootName(assetName)
     #
     objectStrings = getAstUnitCfxNhrGuideObjects(assetName, namespace)
     if objectStrings:
@@ -733,7 +733,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
     mapChangedArray = []
     mapShapeChangedArray = []
     #
-    meshRoot = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+    meshRoot = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
     if maUtils.isAppExist(meshRoot):
         localInfoDic = maGeom.getGeometryObjectsInfoDic(meshRoot)
         #
@@ -774,7 +774,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
     mapChangedArray = []
     mapShapeChangedArray = []
     #
-    meshRoot = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+    meshRoot = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
     if maUtils.isAppExist(meshRoot):
         localInfoDic = maGeom.getMeshObjectsInfoDic(meshRoot)
         #
@@ -828,7 +828,7 @@ def getServerMeshSetData(projectName, assetName, assetVariant):
     assetIndex = getAssetIndex(assetName)
     uniqueIds = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
     modelIndexKey = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetMaterialObjectSet
+    directory = prsVariants.Database.assetMaterialObjectSet
     data = dbBasic.dbCompDatumDicRead(uniqueIds, modelIndexKey, directory)
     return getObjectSetDic(data)
 
@@ -898,7 +898,7 @@ def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, ass
 def getErrorTransforms(assetName):
     lis = []
     #
-    group = assetPr.astUnitModelLinkGroupName(assetName)
+    group = prsMethods.Asset.modelLinkGroupName(assetName)
     #
     transforms = maUtils.getChildTransformLisByGroup(group)
     for transform in transforms:

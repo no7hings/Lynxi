@@ -217,8 +217,8 @@ class helpDocument(object):
         functionDic = {}
         docstringLis = []
         resolutionLis = []
-        className = lines[0].rstrip()
-        if className.endswith('(__builtin__.object)'):
+        categoryName = lines[0].rstrip()
+        if categoryName.endswith('(__builtin__.object)'):
             isDocstring, isFunction = True, False
             subIndex = 0
             for i in lines[1:]:

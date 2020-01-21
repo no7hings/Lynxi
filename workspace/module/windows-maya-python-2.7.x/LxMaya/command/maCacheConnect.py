@@ -3,6 +3,8 @@
 import maya.cmds as cmds
 #
 from LxBasic import bscMethods, bscObjects
+
+from LxPreset import prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -30,7 +32,7 @@ class LxAstModelCacheConnectMethod(object):
         self._cacheNamespace = cacheNamespace
         self._assetNamespace = assetNamespace
         #
-        self._rootGroupName = assetPr.astUnitModelLinkGroupName(self._assetName)
+        self._rootGroupName = prsMethods.Asset.modelLinkGroupName(self._assetName)
         #
         self._containerName = assetPr.astModelContainerName(self._assetName)
         self._scContainerName = assetPr.astModelContainerName(self._assetName, self._assetNamespace)

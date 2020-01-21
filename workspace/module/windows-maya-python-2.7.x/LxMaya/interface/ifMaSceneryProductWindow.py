@@ -2,11 +2,11 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects
 #
 from LxCore import lxScheme
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, sceneryPr
 #
@@ -172,11 +172,11 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         sceneryStage = self.sceneryStage
         #
         root = none
-        if sceneryPr.isScnSceneryLink(sceneryStage):
+        if sceneryPr.isSceneryLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyGroupName(sceneryName)
-        elif sceneryPr.isScnLayoutLink(sceneryStage):
+        elif sceneryPr.isLayoutLinkName(sceneryStage):
             root = sceneryPr.scnAssemblyGroupName(sceneryName)
-        elif sceneryPr.isScnLightLink(sceneryStage):
+        elif sceneryPr.isLightLinkName(sceneryStage):
             root = sceneryPr.scnLightGroupName(sceneryName)
         #
         treeBox = self.treeBox
@@ -233,7 +233,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
     def getSelAsb(self):
         selLis = []
         if self.treeBox.selectedItems():
-            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not prsVariant.Util.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
+            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not prsVariants.Util.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
         return selLis
     #
     def setupPanel(self):

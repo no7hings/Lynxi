@@ -315,22 +315,22 @@ def setupApp():
 # noinspection PyUnusedLocal
 def qtSignal(*args):
     module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(classString)
+    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(categoryString)
 
 
 # noinspection PyUnusedLocal
 def qtWrapinstance(*args):
     module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(classString)
+    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(categoryString)
 
 
 # noinspection PyUnusedLocal
 def qtIsDeleted(*args):
     module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    classString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(classString)
+    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(categoryString)
 
 
 # Font
@@ -2420,13 +2420,13 @@ def deleteMayaUi(keyword):
                     i.uiQuit()
 
 
-def getAppWidgetFilterByClassName(className):
+def getAppWidgetFilterByCategoryName(categoryName):
     lis = []
     # noinspection PyArgumentList
     widgets = QApplication.allWidgets()
     if widgets:
         for w in widgets:
-            if className == w.__class__.__name__:
+            if categoryName == w.__class__.__name__:
                 lis.append(w)
     return lis
 
@@ -2484,13 +2484,13 @@ def setExistsUiDelete(*args):
     lis = []
     #
     self = args[0]
-    className = args[0].__class__.__name__
+    categoryName = args[0].__class__.__name__
     parent = self.parent()
     if parent:
         cs = parent.children()
         if cs:
             for c in cs:
-                if className == c.__class__.__name__:
+                if categoryName == c.__class__.__name__:
                     lis.append(c)
     #
     if len(lis) > 1:

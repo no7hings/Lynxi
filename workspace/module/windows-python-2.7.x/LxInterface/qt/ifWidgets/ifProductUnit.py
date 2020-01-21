@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxPreset import prsConfigure
+from LxPreset import prsCore
 
 from LxCore import lxConfigure, lxScheme
 #
-from LxCore.config import assetCfg, sceneryCfg, sceneCfg
+from LxCore.config import sceneryCfg, sceneCfg
 #
 from LxUi import uiCore
 #
@@ -13,7 +13,7 @@ from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit, ifProductToolWindow
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
@@ -96,7 +96,7 @@ def setSceneToolBar(layout):
 
 # Asset
 class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
-    LinkLis = prsConfigure.Asset.linknames()
+    LinkLis = prsMethods.Asset.linknames()
     MessageWidth = 240
     MessageHeight = 240
     LeftWidth = 320
@@ -113,7 +113,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             self.setCentralRefresh()
     #
     def setupLeftWidget(self, layout):
-        productModule = prsConfigure.Asset.name()
+        productModule = prsMethods.Asset.moduleName()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -190,8 +190,8 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     for linkActionData in linkActionDataLis:
                         unitLink, explain, enable, update, loadMethod, createMethod = linkActionData
                         #
-                        exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
-                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != prsVariant.Util.infoNonExistsLabel]
+                        exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
+                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != prsVariants.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(unitLink, []).append(
                             (assetIndex, assetVariant, enable, exists)
@@ -212,11 +212,11 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                                     branchActionData.append(
                                         ('Load {}'.format(explain), ('basic#{}Link'.format(unitLink), 'svg_basic@svg#load_action'), exists, loadMethod)
                                     )
-                                    if assetPr.isAstRigLink(unitLink):
+                                    if prsMethods.Asset.isRigStageName(unitLink):
                                         branchActionData.append(
                                             ('Load for Animation', ('basic#AnimationLink', 'svg_basic@svg#reference_action'), True, astLoadRigForAnimationCmd)
                                         )
-                                    if assetPr.isAstSolverLink(unitLink):
+                                    if prsMethods.Asset.isSolverStageName(unitLink):
                                         branchActionData.append(
                                             ('Load for Animation', ('basic#AnimationLink', 'svg_basic@svg#reference_action'), True, loadSolverForAnimation)
                                         )
@@ -480,7 +480,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     (
                         'FX',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Cfx, 'for Groom', astCfxEnable, cfxUpdate, loadForCfx, createForCfx),
+                            (lxConfigure.LynxiProduct_Asset_Link_Groom, 'for Groom', astCfxEnable, cfxUpdate, loadForCfx, createForCfx),
                             (lxConfigure.LynxiProduct_Asset_Link_Solver, 'for Solver Rig', astSolverEnable, solverUpdate, loadForSolver, createForSolver)
                         ]
                     ),
@@ -677,7 +677,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._initOverviewUnitBasic()
     #
     def setupLeftWidget(self, layout):
-        productModule = prsConfigure.Scenery.name()
+        productModule = prsMethods.Scenery.moduleName()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -706,7 +706,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._centralUpToolboxGroup.addWidget(self._centralUpGridview)
         self._centralUpGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
+        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width * (float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -766,8 +766,8 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     update = sceneryPr.getSceneryUnitProductUpdate(
                         projectName, sceneryClass, sceneryName, sceneryVariant, unitLink
                     )
-                    exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
-                    state = ['wait', None][update != prsVariant.Util.infoNonExistsLabel]
+                    exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
+                    state = ['wait', None][update != prsVariants.Util.infoNonExistsLabel]
                     # Message
                     if enable:
                         rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
@@ -827,7 +827,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 maScnLoadCmds.scnUnitAssemblyLoadByReferenceCmd(
                     projectName,
                     sceneryIndex,
-                    sceneryClass, sceneryName, sceneryVariant, prsConfigure.Scenery.name(), active='GPU'
+                    sceneryClass, sceneryName, sceneryVariant, prsMethods.Scenery.moduleName(), active='GPU'
                 )
             #
             def scnAssemblyLoadByReferenceForLightCmd():
@@ -835,7 +835,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 maScnLoadCmds.scnUnitAssemblyLoadByReferenceCmd(
                     projectName,
                     sceneryIndex,
-                    sceneryClass, sceneryName, sceneryVariant, prsConfigure.Scenery.name(), active='Proxy'
+                    sceneryClass, sceneryName, sceneryVariant, prsMethods.Scenery.moduleName(), active='Proxy'
                 )
             #
             def scnUnitAssemblyLoad():
@@ -881,7 +881,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
                 sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery,
-                prsVariant.Util.pngExt
+                prsVariants.Util.pngExt
             )[1]
             #
             messageLis = [
@@ -1028,7 +1028,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._initOverviewUnitBasic()
     #
     def setupLeftWidget(self, layout):
-        productModule = prsConfigure.Scene.name()
+        productModule = prsMethods.Scene.moduleName()
         self._setupLinkFilter(productModule, layout)
         self._setupClassFilter(productModule, layout)
         self._setupStageFilter(productModule, layout)
@@ -1071,7 +1071,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._scUpToolboxGroup.addWidget(self._scGridview)
         self._scGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
+        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width*(float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -1104,7 +1104,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         tabWidget.addTab(self._cameraListViewBox, 'Camera(s)', 'svg_basic@svg#tab')
         self._cameraListViewBox.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight
+        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
         height = self.MessageHeight
         width = int(height*(float(renderWidth) / float(renderHeight)))
         self._cameraItemWidth = width
@@ -1265,8 +1265,8 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         update = scenePr.getSceneUnitProductUpdate(
                             projectName, sceneClass, sceneName, sceneVariant, sceneLink
                         )
-                        exists = [False, True][update != prsVariant.Util.infoNonExistsLabel]
-                        state = ['wait', None][update != prsVariant.Util.infoNonExistsLabel]
+                        exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
+                        state = ['wait', None][update != prsVariants.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(sceneLink, []).append(
                             (sceneIndex, sceneVariant, enable, exists)
@@ -1764,7 +1764,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             gridItem.setIcon('basic#camera')
             gridView.addItem(gridItem)
             #
-            sceneLink = scenePr.getSceneLink(sceneStage)
+            sceneLink = prsMethods.Scene.stageName2linkName(sceneStage)
             #
             messageLis = []
             preview = scenePr.getScUnitPreviewServerFile(
@@ -1775,7 +1775,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 (
                     subPreviewFile,
                     (
-                        bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage)),
+                        bscMethods.StrCamelcase.toPrettify(prsMethods.Scene.stageName2linkName(sceneStage)),
                         'Viewport',
                         (startFrame, endFrame)
                      )
@@ -1871,7 +1871,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         if exists:
                             messageLis.append((5, (rgba, (subIconKeyword, subAstCheckState), bscMethods.OsTime.getCnPrettifyByTimetag(subAstTimeTag))))
                         else:
-                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), prsVariant.Util.infoNonExistsLabel)))
+                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), prsVariants.Util.infoNonExistsLabel)))
                     else:
                         rgba = 95, 95, 95, 255
                         messageLis.append(
@@ -1933,7 +1933,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             #
             isAstModelEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Model)
             isAstRigEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Rig)
-            isAstCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Cfx)
+            isAstCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Groom)
             isAstSolverEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Solver)
             #
             viewportPreview = dbGet.dbAstViewportPreviewFile(assetIndex)
@@ -2164,7 +2164,10 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         progressBar.update()
                         scLoadAssetBranch(i)
                     # TD Command
-                    tdCommand = scenePr.getScTdLoadCommand(projectName, scenePr.getSceneLink(sceneStage))
+                    tdCommand = scenePr.getScTdLoadCommand(
+                        projectName,
+                        prsMethods.Scene.stageName2linkName(sceneStage)
+                    )
                     if tdCommand:
                         maUtils.runMelCommand(tdCommand)
             #

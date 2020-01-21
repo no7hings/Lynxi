@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxScheme
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
@@ -17,10 +17,10 @@ from LxMaya.product.data import datScene, datAnim
 #
 currentProjectName = projectPr.getMayaProjectName()
 # Utilities Label
-infoNonExistsLabel = prsVariant.Util.infoNonExistsLabel
-astDefaultVersion = prsVariant.Util.astDefaultVersion
+infoNonExistsLabel = prsVariants.Util.infoNonExistsLabel
+astDefaultVersion = prsVariants.Util.astDefaultVersion
 # Animation Config
-animStages = prsVariant.Util.animStages
+animStages = prsVariants.Util.animStages
 #
 none = ''
 #
@@ -350,15 +350,17 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
             self.setScLeftToolBox()
             self.setScLeftToolBoxShow()
             #
-            if scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage):
+            if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage):
                 self._initScFxTool()
-            elif scenePr.isScLightLink(sceneStage):
+            elif scenePr.isLightLinkName(sceneStage):
                 self._initScLightTool()
             else:
                 self._initScAnimTool()
             #
             title = 'Scene ( {} ) Upload'.format(
-                bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage))
+                bscMethods.StrCamelcase.toPrettify(
+                    prsMethods.Scene.stageName2linkName(sceneStage)
+                )
             )
             self.setTitle(title)
         else:

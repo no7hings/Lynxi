@@ -5,13 +5,13 @@ import maya.cmds as cmds
 
 from LxBasic import bscMethods, bscObjects, bscCommands
 
-from LxPreset import prsConfigure
+from LxPreset import prsCore
 
 from LxCore import lxConfigure, lxScheme
 
-from LxCore.config import appCfg, sceneCfg, appConfig
+from LxCore.config import appCfg, sceneCfg
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 
@@ -38,9 +38,9 @@ from LxDeadline import ddlCommands
 # Project Data
 currentProjectName = projectPr.getMayaProjectName()
 # File Label
-astLayoutRigFileLabel = prsVariant.Util.astLayoutRigFileLabel
-astAnimationRigFileLabel = prsVariant.Util.astAnimationRigFileLabel
-astSimulationRigFileLabel = prsVariant.Util.astSimulationRigFileLabel
+astLayoutRigFileLabel = prsVariants.Util.astLayoutRigFileLabel
+astAnimationRigFileLabel = prsVariants.Util.astAnimationRigFileLabel
+astSimulationRigFileLabel = prsVariants.Util.astSimulationRigFileLabel
 #
 none = ''
 
@@ -168,7 +168,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             assetIndex = key
             assetClass = None
             assetName, viewName = value
-            assetVariant = prsVariant.Util.astDefaultVariant
+            assetVariant = prsVariants.Util.astDefaultVariant
             # Tag
             if ' - ' in viewName:
                 tag, _ = viewName.split(' - ')[:2]
@@ -558,7 +558,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 sceneVariant = self._connectObject.sceneVariant
                 sceneStage = self._connectObject.sceneStage
                 #
-                if scenePr.isScLayoutLink(sceneStage):
+                if scenePr.isLayoutLinkName(sceneStage):
                     startFrame, endFrame = maUtils.getFrameRange()
                 else:
                     startFrame, endFrame = scenePr.getScUnitFrameRange(projectName, sceneClass, sceneName, sceneVariant)
@@ -724,7 +724,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
-                    startFrame, endFrame, prsVariant.Util.animKeyFrameOffset,
+                    startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
                     timeTag,
                     withCamera
                 )
@@ -750,7 +750,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             quality = self._previewQualityLabel.value()
             percent = self._previewPercentLabel.value()
             #
-            vedioFormat = [prsVariant.Util.aviExt, prsVariant.Util.movExt][self.movFormatButton.isChecked()]
+            vedioFormat = [prsVariants.Util.aviExt, prsVariants.Util.movExt][self.movFormatButton.isChecked()]
 
             isOpenFolder = self.openFolderButton.isChecked()
             #
@@ -774,7 +774,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     projectName,
                     sceneIndex,
                     sceneClass, sceneName, sceneVariant, sceneStage,
-                    startFrame, endFrame, prsVariant.Util.animKeyFrameOffset,
+                    startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
                     timeTag,
                     withPreview
                 )
@@ -793,7 +793,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 )
     #
     def setSceneClassUiLabelShow(self):
-        self._scClassLabel.setExtendDatumDic(prsConfigure.Product.LynxiProduct_Scene_Class_UiDatumDic)
+        self._scClassLabel.setExtendDatumDic(prsMethods.Scene.classShownameDic())
         self._scClassLabel.sendChooseChangedEmit()
     #
     def setSceneNameUiLabelShow(self):
@@ -1101,7 +1101,11 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneStage = self._connectObject.sceneStage
             #
             self._scAnimUploadButton.setNameText(
-                u'Upload {} ！！！'.format(bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(sceneStage)))
+                u'Upload {} ！！！'.format(
+                    bscMethods.StrCamelcase.toPrettify(
+                        prsMethods.Scene.stageName2linkName(sceneStage)
+                    )
+                )
             )
             #
             self._initScRangeConfig()
@@ -1305,7 +1309,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
-        if scenePr.isScLayoutLink(sceneStage):
+        if scenePr.isLayoutLinkName(sceneStage):
             startFrame, endFrame = maUtils.getFrameRange()
             self._scFrameValueLabel.setEnterEnable(True), self._scRenderValueLabel.setEnterEnable(True)
         else:
@@ -1316,11 +1320,11 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 sceneClass, sceneName, sceneVariant
             )
         self._scFrameValueLabel.setDefaultValue((startFrame, endFrame))
-        self._scRenderValueLabel.setDefaultValue((prsVariant.Util.rndrImageWidth, prsVariant.Util.rndrImageHeight))
+        self._scRenderValueLabel.setDefaultValue((prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight))
     #
     def _initScUploadConfig(self):
         sceneStage = self._connectObject.sceneStage
-        if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
+        if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
             # Camera
             self._scWithCameraButton.setChecked(False), self._scWithCameraButton.setCheckable(True)
             #
@@ -1328,12 +1332,12 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._scWithSceneryButton.setChecked(True), self._scWithSceneryButton.setCheckable(True)
             #
-            if scenePr.isScLayoutLink(sceneStage):
+            if scenePr.isLayoutLinkName(sceneStage):
                 self._scWithIndexButton.setChecked(False)
             else:
                 self._scWithIndexButton.setChecked(False)
             self._scWithIndexButton.setCheckable(True)
-        elif scenePr.isScSimulationLink(sceneStage):
+        elif scenePr.isSimulationLinkName(sceneStage):
             self._scWithCameraButton.setChecked(False), self._scWithCameraButton.setCheckable(False)
             #
             self._scWithAssetButton.setChecked(False), self._scWithAssetButton.setCheckable(False)
@@ -1341,7 +1345,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._scWithSceneryButton.setChecked(False), self._scWithSceneryButton.setCheckable(False)
             #
             self._scWithIndexButton.setChecked(False), self._scWithIndexButton.setCheckable(False)
-        elif scenePr.isScSolverLink(sceneStage):
+        elif scenePr.isSolverLinkName(sceneStage):
             self._scWithCameraButton.setChecked(False), self._scWithCameraButton.setCheckable(False)
             #
             self._scWithAssetButton.setChecked(False), self._scWithAssetButton.setCheckable(False)
@@ -1349,7 +1353,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._scWithSceneryButton.setChecked(False), self._scWithSceneryButton.setCheckable(False)
             #
             self._scWithIndexButton.setChecked(False), self._scWithIndexButton.setCheckable(False)
-        elif scenePr.isScLightLink(sceneStage):
+        elif scenePr.isLightLinkName(sceneStage):
             self._scWithCameraButton.setChecked(False), self._scWithCameraButton.setCheckable(False)
             #
             self._scWithAssetButton.setChecked(False), self._scWithAssetButton.setCheckable(False)
@@ -1370,7 +1374,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             mainBoolean = self._scWithCameraButton.isChecked()
             if mainBoolean is True:
                 # Camera Data
-                if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
+                if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
                     sceneCameraLis = datScene.getScActiveCameraLis(sceneName)
                 else:
                     sceneCameraLis = datScene.getScOutputCameraLis(sceneName, sceneVariant)
@@ -1386,13 +1390,13 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             mainBoolean = self._scWithPreviewButton.isChecked()
             if mainBoolean is True:
                 # Camera Data
-                if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
+                if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
                     sceneCameraLis = datScene.getScActiveCameraLis(sceneName)
                 else:
                     sceneCameraLis = datScene.getScOutputCameraLis(sceneName, sceneVariant)
                 cameraData = sceneCameraLis, sceneCameraLis
                 # Preview Config
-                vedioFormat = [prsVariant.Util.aviExt, prsVariant.Util.movExt][self._movFormatSubButton.isChecked()]
+                vedioFormat = [prsVariants.Util.aviExt, prsVariants.Util.movExt][self._movFormatSubButton.isChecked()]
                 displayMode = [6, 7][self._withLightSubButton.isChecked()]
                 useMode = 0
                 previewConfig = 100, 100, width, height, vedioFormat, displayMode, useMode
@@ -1428,7 +1432,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneStage = self._connectObject.sceneStage
         #
         startFrame, endFrame = self._scFrameValueLabel.value()
-        frameOffset = prsVariant.Util.animKeyFrameOffset
+        frameOffset = prsVariants.Util.animKeyFrameOffset
         #
         width, height = self._scRenderValueLabel.value()
         #
@@ -1589,7 +1593,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def refreshMethod(self):
         if self._connectObject:
             sceneStage = self._connectObject.sceneStage
-            if scenePr.isScLightLink(sceneStage):
+            if scenePr.isLightLinkName(sceneStage):
                 self._initRenderOptionToolUiBox()
                 self._initCustomizeToolUiBox()
                 self._initDdlOptionToolUiBox()
@@ -1678,8 +1682,8 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             startFrame, endFrame = sceneFrameRange
             self._scRenderFrameLabel.setDefaultValue((startFrame, endFrame))
             # Size
-            width = prsVariant.Util.rndrImageWidth
-            height = prsVariant.Util.rndrImageHeight
+            width = prsVariants.Util.rndrImageWidth
+            height = prsVariants.Util.rndrImageHeight
             self._scRenderSizeBox.setDefaultValue((width, height))
     #
     def setupCustomizeToolUiBox(self, toolBox):
@@ -2613,7 +2617,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
-        self.variantLabel.setDatum(prsVariant.Util.astDefaultVersion)
+        self.variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
         #
         self.setVariantButton = qtWidgets.QtPressbutton()
         toolBox.addButton('setVariant', self.setVariantButton)
@@ -2809,7 +2813,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         state = 'Low - Quality'
                         showLabel = astLayoutRigFileLabel
                     #
-                    existNumber = maUtils.getAttrDatum(referenceNode, prsVariant.Util.basicNumberAttrLabel)
+                    existNumber = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
                     if not existNumber:
                         assetSubLabel = 'Error'
                         stateSubLabel = 'Error'
@@ -2821,7 +2825,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     self.assetDataDic[assetItem] = referenceNode, assetClass, assetName, number, assetVariant
                 #
-                showName = prsVariant.Util.assetTreeViewName(assetName, number, assetVariant)
+                showName = prsVariants.Util.assetTreeViewName(assetName, number, assetVariant)
                 #
                 assetItem.assetIndex = None
                 assetItem.assetClass = assetClass
@@ -2912,12 +2916,12 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     numberLabel.setDefaultValue(int(number))
                     numberLabel.setValue(int(number))
                 else:
-                    variantLabel.setDatum(prsVariant.Util.astDefaultVersion)
+                    variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
                     #
                     numberLabel.setDefaultValue(0)
                     numberLabel.setValue(0)
             else:
-                variantLabel.setDatum(prsVariant.Util.astDefaultVersion)
+                variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
                 #
                 numberLabel.setDefaultValue(0)
                 numberLabel.setValue(0)
@@ -3117,9 +3121,9 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             referenceNode = assetItem.node
             newVariant = self.variantLabel.datum()
             if not newVariant == assetVariant:
-                maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicVariantAttrLabel, newVariant)
+                maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicVariantAttrLabel, newVariant)
                 assetItem.assetVariant = newVariant
-                newShowName = prsVariant.Util.assetTreeViewName(assetName, number, newVariant)
+                newShowName = prsVariants.Util.assetTreeViewName(assetName, number, newVariant)
                 assetItem.setText(0, newShowName)
                 maUtils.setMessageWindowShow(
                     u'Set Asset Variant', u'is Complete',
@@ -3136,8 +3140,8 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             referenceNode = assetItem.node
             newNumber = self.numberLabel.value()
             if not newNumber == number:
-                maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicNumberAttrLabel, str(newNumber).zfill(4))
-                newShowName = prsVariant.Util.assetTreeViewName(assetName, str(newNumber).zfill(4), assetVariant)
+                maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicNumberAttrLabel, str(newNumber).zfill(4))
+                newShowName = prsVariants.Util.assetTreeViewName(assetName, str(newNumber).zfill(4), assetVariant)
                 assetItem.setText(0, newShowName)
                 maUtils.setMessageWindowShow(
                     u'Set Asset Number', u'is Complete',
@@ -3148,7 +3152,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         inData = datAnim.getAssetNumberReduceData(projectName)
         if inData:
             isRefresh = False
-            attrName = prsVariant.Util.basicNumberAttrLabel
+            attrName = prsVariants.Util.basicNumberAttrLabel
             maxValue = len(inData)
             for seq, (k, v) in enumerate(inData.items()):
                 if self._connectObject:
@@ -3443,7 +3447,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def getSelRig(self):
         self.selectedAsset = []
         #
-        data = maUtils.getSelObjParentFilter(prsVariant.Util.basicGeometryGroupLabel)
+        data = maUtils.getSelObjParentFilter(prsVariants.Util.basicGeometryGroupLabel)
         if data:
             for i in data:
                 self.selectedAsset.append(i)

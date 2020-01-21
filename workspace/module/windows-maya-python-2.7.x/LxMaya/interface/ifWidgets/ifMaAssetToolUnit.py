@@ -2,12 +2,13 @@
 import collections, threading
 #
 from LxBasic import bscMethods, bscObjects, bscCommands
+
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
-#
-from LxCore.preset import prsVariant, prsDirectory
+
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -31,10 +32,10 @@ from LxMaya.interface.ifCommands import maAstTreeViewCmds
 #
 from LxMaya.database import maDbAstCmds
 #
-astYetiNodeGroupLabel = prsVariant.Util.astYetiNodeGroupLabel
-astYetiGroomGroupLabel = prsVariant.Util.astYetiGroomGroupLabel
-astYetiGrowGroupLabel = prsVariant.Util.astYetiGrowGroupLabel
-astYetiReferenceGroupLabel = prsVariant.Util.astYetiReferenceGroupLabel
+astYetiNodeGroupLabel = prsVariants.Util.astYetiNodeGroupLabel
+astYetiGroomGroupLabel = prsVariants.Util.astYetiGroomGroupLabel
+astYetiGrowGroupLabel = prsVariants.Util.astYetiGrowGroupLabel
+astYetiReferenceGroupLabel = prsVariants.Util.astYetiReferenceGroupLabel
 #
 none = ''
 
@@ -59,7 +60,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def refreshMethod(self):
         if self.connectObject():
-            if assetPr.isAstModelLink(self.connectObject().assetStage):
+            if prsMethods.Asset.isModelStageName(self.connectObject().assetStage):
                 if self.connectObject().assetClass == lxConfigure.LynxiCharacterClassKey:
                     self._initObjectPathDic()
                     #
@@ -267,7 +268,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def refreshMethod(self):
         if self.connectObject() is not None:
-            if assetPr.isAstModelLink(self.connectObject().assetStage):
+            if prsMethods.Asset.isModelStageName(self.connectObject().assetStage):
                 pass
             self.connectObject().withTransformationButton = self.withTransformationButton
             self.connectObject().withHistoryButton = self.withHistoryButton
@@ -498,7 +499,7 @@ class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Groom,
         lxConfigure.LynxiProduct_Asset_Link_Solver
     ]
     UnitTitle = 'Character FX Tool Unit'
@@ -548,7 +549,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def refreshMethod(self):
         if self.connectObject() is not None:
-            if assetPr.isAstCfxLink(self.connectObject().assetStage):
+            if prsMethods.Asset.isGroomStageName(self.connectObject().assetStage):
                 self._astCfxHirToolUiBox.show()
                 self._astCfxUtilsToolUiBox.show()
                 #
@@ -556,7 +557,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self.setListAstModelGeometryObjects()
                 #
                 self.setScriptJob()
-            elif assetPr.isAstSolverLink(self.connectObject().assetStage):
+            elif prsMethods.Asset.isSolverStageName(self.connectObject().assetStage):
                 self._astCfxUtilsToolUiBox.show()
                 #
                 self.setListAstModelGeometryObjects()
@@ -872,15 +873,15 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     pfxHairObjectPath)
                 # Grow
                 if growObjects:
-                    growGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairGrowGroupLabel)
+                    growGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairGrowGroupLabel)
                     listBranch(growObjects, pfxHairItem, 'Grow', 'poly', objectGroup=growGroup)
                 # System
                 if systemObjects:
-                    systemGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairSolverNodeGroupLabel)
+                    systemGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairSolverNodeGroupLabel)
                     listBranch(systemObjects, pfxHairItem, 'System', 'hairSystem', objectGroup=systemGroup)
                 # Nucleus
                 if nucleusObjects:
-                    nucleusGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairSolverNodeGroupLabel)
+                    nucleusGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairSolverNodeGroupLabel)
                     listBranch(nucleusObjects, pfxHairItem, 'Nucleus', 'nucleus', objectGroup=nucleusGroup)
                 # Follicle
                 if follicleData:
@@ -892,20 +893,20 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         localCurveObjects.extend(subLocalCurveObjects)
                         outputCurveObjects.extend(subOutputCurveObjects)
                     if follicleObjects:
-                        follicleGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairFollicleGroupLabel)
+                        follicleGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairFollicleGroupLabel)
                         listBranch(follicleObjects, pfxHairItem, 'Follicle', 'follicle', objectGroup=follicleGroup,
                                    subRootItem=True)
                     if localCurveObjects:
-                        localCurveGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairFollicleGroupLabel)
+                        localCurveGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairFollicleGroupLabel)
                         listBranch(localCurveObjects, pfxHairItem, 'Local Curve', 'inputCurve',
                                    objectGroup=localCurveGroup, subRootItem=True)
                     if outputCurveObjects:
-                        outputCurveGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairCurveGroupLabel)
+                        outputCurveGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairCurveGroupLabel)
                         listBranch(outputCurveObjects, pfxHairItem, 'Output Curve', 'outputCurve',
                                    objectGroup=outputCurveGroup, subRootItem=True)
                 #
                 treeBox.addItem(pfxHairItem)
-                pfxHairGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairGroupLabel)
+                pfxHairGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairGroupLabel)
                 boolean = maUtils.isChild(pfxHairGroup, pfxHairObjectPath)
                 pfxHairItem.setItemMayaIcon(0, appCfg.MaPfxHairType, [none, 'off'][boolean])
                 #
@@ -968,7 +969,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         hierarchyData = assetPr.astCfxHierarchyConfig(assetName)
         self.pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
         #
-        astCfxRoot = assetPr.astUnitCfxLinkGroupName(assetName)
+        astCfxRoot = prsMethods.Asset.groomLinkGroupName(assetName)
         #
         treeBox = self._astCfxFurObjectsTreeViewBox
         #
@@ -996,7 +997,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 for meshObject in meshObjectLis:
                     meshObjectItem = maAstTreeViewCmds.setObjectBranch(self._astModelGeometryObjectDic, treeBox, meshObject)
                     meshName = maUtils._toNodeName(meshObject)
-                    growSourceMesh = meshName + prsVariant.Util.astCfxGrowSourceGroupLabel
+                    growSourceMesh = meshName + prsVariants.Util.astCfxGrowSourceGroupLabel
                     if maUtils.isAppExist(growSourceMesh):
                         meshObjectItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'on')
         #
@@ -1080,19 +1081,19 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 guideFollicleGroup = assetPr.guideFollicleGroupName(assetName)
                 #
-                guideFollicleSubGroup = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariant.Util.astYetiGuideFollicleGroupLabel) + prsVariant.Util.basicGroupLabel
+                guideFollicleSubGroup = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariants.Util.astYetiGuideFollicleGroupLabel) + prsVariants.Util.basicGroupLabel
                 #
                 maUtils.setObjectAddChildGroup(guideFollicleSubGroup, guideFollicleGroup)
                 #
                 guideCurveGroup = assetPr.guideCurveGroupName(assetName)
                 #
-                guideCurveSubGroup = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariant.Util.astYetiGuideCurveGroupLabel) + prsVariant.Util.basicGroupLabel
+                guideCurveSubGroup = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariants.Util.astYetiGuideCurveGroupLabel) + prsVariants.Util.basicGroupLabel
                 #
                 maUtils.setObjectAddChildGroup(guideCurveSubGroup, guideCurveGroup)
                 #
                 for seq, (guideSet, data) in enumerate(guideData.items()):
                     # Guide Set
-                    guideSetName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariant.Util.astYetiGuideSetNodeLabel) + '_' + str(seq + 1)
+                    guideSetName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariants.Util.astYetiGuideSetNodeLabel) + '_' + str(seq + 1)
                     #
                     maUtils.setNodeRename(guideSet, guideSetName)
                     maUtils.setElementSet(guideSetName, cfxSetName)
@@ -1108,7 +1109,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         #
                         guideCurveName = yetiObjectName.replace(
                             astYetiNodeGroupLabel,
-                            prsVariant.Util.astYetiGuideOutputCurveNodeLabel
+                            prsVariants.Util.astYetiGuideOutputCurveNodeLabel
                         ) + '_' + str(seq + 1) + '_' + str(subSeq + 1)
                         guideCurveShapeName = guideCurveName + appCfg.MaKeyword_Shape
                         #
@@ -1120,14 +1121,14 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         #
                         follicleName = yetiObjectName.replace(
                             astYetiNodeGroupLabel,
-                            prsVariant.Util.astYetiGuideFollicleNodeLabel
+                            prsVariants.Util.astYetiGuideFollicleNodeLabel
                         ) + '_' + str(seq + 1) + '_' + str(subSeq + 1)
                         #
                         follicleShapeName = follicleName + appCfg.MaKeyword_Shape
                         #
                         localCurveName = yetiObjectName.replace(
                             astYetiNodeGroupLabel,
-                            prsVariant.Util.astYetiGuideLocalCurveNodeLabel
+                            prsVariants.Util.astYetiGuideLocalCurveNodeLabel
                         ) + '_' + str(seq + 1) + '_' + str(subSeq + 1)
                         localCurveShapeName = localCurveName + appCfg.MaKeyword_Shape
                         # Rename Local Curve First
@@ -1150,7 +1151,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if guideSystemData:
                     guideSystems = maUtils.getReduceList(guideSystemData)
                     for seq, guideSystem in enumerate(guideSystems):
-                        guideSystemName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariant.Util.astYetiGuideSystemNodeLabel) + '_' + str(seq + 1)
+                        guideSystemName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariants.Util.astYetiGuideSystemNodeLabel) + '_' + str(seq + 1)
                         guideSystemShapeName = guideSystemName + appCfg.MaKeyword_Shape
                         #
                         maUtils.setNodeRename(guideSystem, guideSystemName)
@@ -1160,7 +1161,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if guideNucleusData:
                     guideNuclei = maUtils.getReduceList(guideNucleusData)
                     for seq, guideNucleus in enumerate(guideNuclei):
-                        guideNucleusName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariant.Util.astYetiGuideNucleusNodeLabel) + '_' + str(seq + 1)
+                        guideNucleusName = yetiObjectName.replace(astYetiNodeGroupLabel, prsVariants.Util.astYetiGuideNucleusNodeLabel) + '_' + str(seq + 1)
                         maUtils.setNodeRename(guideNucleus, guideNucleusName)
                         maUtils.setObjectParent(guideNucleusName, guideSystemGroup)
             # Debug ( Rename in Final )
@@ -1174,7 +1175,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 childNameSet = rootName.replace(rootNameLabel, childNameLabel)
                 objectGroup = assetPr.astBasicGroupNameSet(assetName, groupNameLabel)
                 if subGroup:
-                    subGroup = nameSet + prsVariant.Util.basicGroupLabel
+                    subGroup = nameSet + prsVariants.Util.basicGroupLabel
                     maUtils.setObjectAddChildGroup(subGroup, objectGroup)
                 maxValue = len(objects)
                 for seq, maObj in enumerate(objects):
@@ -1221,41 +1222,41 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             # Pfx Hair
             pfxHairObjectName = nodeName
             pfxHairShapeName = nodeName + appCfg.MaKeyword_Shape
-            pfxHairObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairGroupLabel)
+            pfxHairObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairGroupLabel)
             #
             growObjects, shaders, textures, maps, systemObjects, nucleusObjects, follicleData = maUtils.getPfxHairConnectionData(pfxHairObjectPath)
             # Grow
             if growObjects:
                 addBranch(
-                    growObjects, pfxHairObjectName, prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairGrowGroupLabel, prsVariant.Util.astPfxHairGrowGroupLabel,
+                    growObjects, pfxHairObjectName, prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairGrowGroupLabel, prsVariants.Util.astPfxHairGrowGroupLabel,
                     renameShape=True, subGroup=False, hide=True
                 )
             # Nde_ShaderRef
             if shaders:
                 for seq, shader in enumerate(shaders):
-                    shaderName = pfxHairObjectName.replace(prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairShaderNodeLabel) + '_' + str(seq)
+                    shaderName = pfxHairObjectName.replace(prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairShaderNodeLabel) + '_' + str(seq)
                     maUtils.setNodeRename(shader, shaderName)
             # Texture
             if textures:
                 for seq, texture in enumerate(textures):
-                    textureName = pfxHairObjectName.replace(prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairTextureNodeLabel) + '_' + str(seq)
+                    textureName = pfxHairObjectName.replace(prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairTextureNodeLabel) + '_' + str(seq)
                     maUtils.setNodeRename(texture, textureName)
             # Map
             if maps:
                 for seq, map in enumerate(maps):
-                    mapName = pfxHairObjectName.replace(prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairMapNodeLabel) + '_' + str(seq)
+                    mapName = pfxHairObjectName.replace(prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairMapNodeLabel) + '_' + str(seq)
                     maUtils.setNodeRename(map, mapName)
             # System
             if systemObjects:
                 addBranch(
-                    systemObjects, pfxHairObjectName, prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairSolverNodeGroupLabel,
-                    prsVariant.Util.astPfxHairSystemNodeLabel,
+                    systemObjects, pfxHairObjectName, prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairSolverNodeGroupLabel,
+                    prsVariants.Util.astPfxHairSystemNodeLabel,
                     renameShape=True, subGroup=False, hide=False)
             # Nucleus
             if nucleusObjects:
                 addBranch(
-                    nucleusObjects, pfxHairObjectName, prsVariant.Util.astPfxHairGroupLabel, prsVariant.Util.astPfxHairSolverNodeGroupLabel,
-                    prsVariant.Util.astPfxHairNucleusNodeLabel,
+                    nucleusObjects, pfxHairObjectName, prsVariants.Util.astPfxHairGroupLabel, prsVariants.Util.astPfxHairSolverNodeGroupLabel,
+                    prsVariants.Util.astPfxHairNucleusNodeLabel,
                     renameShape=False, subGroup=False, hide=False
                 )
             #
@@ -1270,13 +1271,13 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     addBranch(
                         follicleObjects,
                         pfxHairObjectName,
-                        prsVariant.Util.astPfxHairGroupLabel,
-                        prsVariant.Util.astPfxHairFollicleGroupLabel,
-                        prsVariant.Util.astPfxHairFollicleNodeLabel,
+                        prsVariants.Util.astPfxHairGroupLabel,
+                        prsVariants.Util.astPfxHairFollicleGroupLabel,
+                        prsVariants.Util.astPfxHairFollicleNodeLabel,
                         renameShape=True,
                         subGroup=True,
                         hide=True,
-                        childNameLabel=prsVariant.Util.astPfxHairLocalCurveNodeLabel,
+                        childNameLabel=prsVariants.Util.astPfxHairLocalCurveNodeLabel,
                         repairShape=True,
                         delHistory=isDelHistory
                     )
@@ -1285,9 +1286,9 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     addBranch(
                         outputCurveObjects,
                         pfxHairObjectName,
-                        prsVariant.Util.astPfxHairGroupLabel,
-                        prsVariant.Util.astPfxHairCurveGroupLabel,
-                        prsVariant.Util.astPfxHairOutputCurveNodeLabel,
+                        prsVariants.Util.astPfxHairGroupLabel,
+                        prsVariants.Util.astPfxHairCurveGroupLabel,
+                        prsVariants.Util.astPfxHairOutputCurveNodeLabel,
                         renameShape=True,
                         subGroup=True,
                         hide=False
@@ -1341,21 +1342,21 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if graphObjects:
                     for seq, childObjectPath in enumerate(graphObjects):
                         addObjectBranch(
-                            childObjectPath, prsVariant.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariant.Util.astCfxFurNhrObjectGroupLabel,
+                            childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrObjectGroupLabel,
                             subLabel=nodeLabel + '_' + str(seq)
                         )
                 #
                 if graphGrowGeometries:
                     for seq, childObjectPath in enumerate(graphGrowGeometries):
                         addObjectBranch(
-                            childObjectPath, prsVariant.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariant.Util.astCfxFurNhrGrowGroupLabel,
+                            childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrGrowGroupLabel,
                             subLabel=nodeLabel + '_' + str(seq)
                         )
                 #
                 if graphGuideGeometries:
                     for seq, childObjectPath in enumerate(graphGuideGeometries):
                         addObjectBranch(
-                            childObjectPath, prsVariant.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariant.Util.astCfxFurNhrGuideGroupLabel,
+                            childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrGuideGroupLabel,
                             subLabel=nodeLabel + '_' + str(seq),
                             isUseLeafGroup=True
                         )
@@ -1365,7 +1366,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         addNodeBranch(childNode, subLabel=nodeLabel + '_' + str(seq))
                 #
                 addObjectBranch(
-                    objectPath, prsVariant.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariant.Util.astCfxFurNhrObjectGroupLabel,
+                    objectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrObjectGroupLabel,
                     subLabel=nodeLabel
                 )
             #
@@ -1416,12 +1417,12 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if not maUtils.isAppExist(objectGroupPath):
                     maUtils.setAppPathCreate(objectGroupPath)
                 #
-                growSourceObjectName = meshName + prsVariant.Util.astCfxGrowSourceGroupLabel
+                growSourceObjectName = meshName + prsVariants.Util.astCfxGrowSourceGroupLabel
                 if not maUtils.isAppExist(growSourceObjectName):
                     maUtils.setCopyNode(meshObject, growSourceObjectName)
                     #
                     maAttr.setNodeUnrenderable(growSourceObjectName)
-                    maUtils.setAttrStringDatumForce(growSourceObjectName, prsVariant.Util.astCfxGrowSourceAttrLabel, meshName)
+                    maUtils.setAttrStringDatumForce(growSourceObjectName, prsVariants.Util.astCfxGrowSourceAttrLabel, meshName)
                     #
                     maUtils.setNodeOutlinerRgb(growSourceObjectName, 1, .5, 1)
                     #
@@ -1436,9 +1437,9 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         objectGroupPath = None
-        if assetPr.isAstCfxLink(assetStage):
+        if prsMethods.Asset.isGroomStageName(assetStage):
             objectGroupPath = assetPr.astUnitCfxGroupSourceGroupPath(assetName)
-        elif assetPr.isAstSolverLink(assetStage):
+        elif prsMethods.Asset.isSolverStageName(assetStage):
             objectGroupPath = assetPr.astUnitSolverGrowSourceObjectGroupPath(assetName)
         if objectGroupPath:
             setMain()
@@ -1449,10 +1450,10 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         groupName = None
-        if assetPr.isAstCfxLink(assetStage):
-            groupName = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astCfxFurGrowTargetGroupLabel)
-        elif assetPr.isAstSolverLink(assetStage):
-            groupName = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astRigSolGrowTargetGroupLabel)
+        if prsMethods.Asset.isGroomStageName(assetStage):
+            groupName = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astCfxFurGrowTargetGroupLabel)
+        elif prsMethods.Asset.isSolverStageName(assetStage):
+            groupName = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astRigSolGrowTargetGroupLabel)
         if groupName:
             self._addObjectCmd(groupName)
     #
@@ -1462,9 +1463,9 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         groupPath = None
-        if assetPr.isAstCfxLink(assetStage):
+        if prsMethods.Asset.isGroomStageName(assetStage):
             groupPath = assetPr.astUnitCfxGrowDeformObjectGroupPath(assetName)
-        elif assetPr.isAstSolverLink(assetStage):
+        elif prsMethods.Asset.isSolverStageName(assetStage):
             groupPath = assetPr.astUnitSolverGrowDeformObjectGroupPath(assetName)
         if groupPath:
             self._addObjectCmd(groupPath)
@@ -1475,10 +1476,10 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetStage = self.connectObject().assetStage
         #
         groupPath = None
-        if assetPr.isAstCfxLink(assetStage):
-            groupPath = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astCfxFurCollisionSubGroupLabel)
-        elif assetPr.isAstSolverLink(assetStage):
-            groupPath = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astRigSolCollisionSubGroupLabel)
+        if prsMethods.Asset.isGroomStageName(assetStage):
+            groupPath = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astCfxFurCollisionSubGroupLabel)
+        elif prsMethods.Asset.isSolverStageName(assetStage):
+            groupPath = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astRigSolCollisionSubGroupLabel)
         if groupPath:
             self._addObjectCmd(groupPath)
     @staticmethod
@@ -1513,11 +1514,11 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 button.setPressable(boolean)
                 #
                 if selObjectPath in yetiObjects:
-                    self.astFurNodeNameLabel = prsVariant.Util.astYetiNodeGroupLabel[1:]
+                    self.astFurNodeNameLabel = prsVariants.Util.astYetiNodeGroupLabel[1:]
                 elif selObjectPath in pfxHairObjects:
-                    self.astFurNodeNameLabel = prsVariant.Util.astPfxHairGroupLabel[1:]
+                    self.astFurNodeNameLabel = prsVariants.Util.astPfxHairGroupLabel[1:]
                 elif selObjectPath in nurbsHairObjects:
-                    self.astFurNodeNameLabel = prsVariant.Util.maNurbsHairNode
+                    self.astFurNodeNameLabel = prsVariants.Util.maNurbsHairNode
             else:
                 button.setPressable(False)
                 self._addNFurNodeTipLabel.setDatum(self.addNodeTips)
@@ -1566,7 +1567,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if selectedMeshes:
             meshPath = selectedMeshes[0]
             meshName = maUtils._toNodeName(meshPath)
-            growSourceMesh = meshName + prsVariant.Util.astCfxGrowSourceGroupLabel
+            growSourceMesh = meshName + prsVariants.Util.astCfxGrowSourceGroupLabel
             boolean = not maUtils.isAppExist(growSourceMesh)
             self._growSourceCreateTipLabel.setDatum([self.createGrowSourceSubTips2, self.createGrowSourceSubTips1][boolean])
             button.setPressable([False, True][boolean])
@@ -1651,7 +1652,7 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def refreshMethod(self):
         if self.connectObject() is not None:
-            if assetPr.isAstCfxLink(self.connectObject().assetStage) or assetPr.isAstSolverLink(self.connectObject().assetStage):
+            if prsMethods.Asset.isGroomStageName(self.connectObject().assetStage) or prsMethods.Asset.isSolverStageName(self.connectObject().assetStage):
                 self.setupAstRigSolFurSolGuideQtToolbox()
                 self.setupAstRigSolSolGuideConnectQtToolbox()
                 #
@@ -1835,7 +1836,7 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         nurbsHairSolverObjects = datAsset.getAstUnitSolverNhrGuideObjects(assetName)
         if nurbsHairSolverObjects:
             for nurbsHairSolverObject in nurbsHairSolverObjects:
-                currentGuideGroup = maUtils.getAttrDatum(nurbsHairSolverObject, prsVariant.Util.astRigSolGuideSourceAttrLabel)
+                currentGuideGroup = maUtils.getAttrDatum(nurbsHairSolverObject, prsVariants.Util.astRigSolGuideSourceAttrLabel)
                 if currentGuideGroup:
                     if maUtils.isAppExist(currentGuideGroup):
                         maFur.setConnectNurbsHairSolver(nurbsHairSolverObject, currentGuideGroup)
@@ -1875,7 +1876,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxConfigure.LynxiProduct_Asset_Link_Model,
         lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Groom,
         lxConfigure.LynxiProduct_Asset_Link_Solver,
         lxConfigure.LynxiProduct_Asset_Link_Light
     ]
@@ -1925,16 +1926,21 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if self.connectObject() is not None:
             self.setAstVariantUiLabelShow()
             #
-            self._rootGroup = assetPr.astUnitRootGroupName(self.connectObject().assetName)
-            self._linkGroup = assetPr.astUnitLinkGroupName(self.connectObject().assetName, self.connectObject().assetStage)
+            self._rootGroup = prsMethods.Asset.rootName(
+                self.connectObject().assetName
+            )
+            self._linkGroup = prsMethods.Asset.toLinkGroupName(
+                self.connectObject().assetName,
+                self.connectObject().assetStage
+            )
             #
             self.setupAstUtilsGraphToolUiBox(self._astUtilsGraphToolUiBox)
             #
-            if assetPr.isAstModelLink(self.connectObject().assetStage):
+            if prsMethods.Asset.isModelStageName(self.connectObject().assetStage):
                 self._addObjectButton.setNameText('Add Nde_Geometry')
                 self.filterTypes = [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve]
                 #
-                if assetPr.isPropClass(self.connectObject().assetClass):
+                if prsMethods.Asset.isPropCategoryName(self.connectObject().assetClass):
                     self.setupAstPropGraphToolUiBox(self._astModelPropHierToolUiBox)
                     self._astModelPropHierToolUiBox.show()
                 #
@@ -1943,7 +1949,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 self.setupAstModelSolHairGraphToolUiBox(self._astModelSolverHairGraphToolUiBox)
                 self._astModelSolverHairGraphToolUiBox.show()
-            elif assetPr.isAstLightLink(self.connectObject().assetStage):
+            elif prsMethods.Asset.isLightStageName(self.connectObject().assetStage):
                 self._addObjectButton.setNameText('Add Light')
                 self.filterTypes = maUtils.getNodeTypeLisByFilter('light')
                 self.filterTypes.extend([appCfg.MaNodeType_Mesh])
@@ -1979,7 +1985,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if objectPathLis:
                 objectPath = objectPathLis[0]
                 if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.Ma_Separator_Node + self._rootGroup):
-                    if objectPath.endswith(prsVariant.Util.basicGroupLabel):
+                    if objectPath.endswith(prsVariants.Util.basicGroupLabel):
                         objectName = maUtils._toNodeName(objectPath)
                         self._parentGroupLabel.setDatum(objectName)
         #
@@ -2209,7 +2215,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setupAstLightToolUiBox(self, toolBox):
         def setConnectLightToScale():
-            root = assetPr.astUnitLightLinkGroupName(assetName)
+            root = prsMethods.Asset.lightLinkGroupName(assetName)
             maRender.setConnectLightsToScale(root)
             #
             bscObjects.If_Message('Connect Light to Scale', 'Complete')
@@ -2288,7 +2294,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._astShaderVariantLabel.setChooseClear()
         if variantLis:
             self._astShaderVariantLabel.setDatumLis(variantLis)
-            self._astShaderVariantLabel.setChoose(prsVariant.Util.astDefaultVersion)
+            self._astShaderVariantLabel.setChoose(prsVariants.Util.astDefaultVersion)
         #
         self.setBtnState()
     #
@@ -2414,7 +2420,7 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxConfigure.LynxiProduct_Asset_Link_Model,
         lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Groom,
         lxConfigure.LynxiProduct_Asset_Link_Solver,
         lxConfigure.LynxiProduct_Asset_Link_Light
     ]
@@ -2653,7 +2659,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
         lxConfigure.LynxiProduct_Asset_Link_Model,
         lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
+        lxConfigure.LynxiProduct_Asset_Link_Groom,
         lxConfigure.LynxiProduct_Asset_Link_Solver,
         lxConfigure.LynxiProduct_Asset_Link_Light
     ]
@@ -3009,7 +3015,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
         #
-        if assetPr.isAstModelLink(assetStage) or assetPr.isAstCfxLink(assetStage):
+        if prsMethods.Asset.isModelStageName(assetStage) or prsMethods.Asset.isGroomStageName(assetStage):
             isWithAssembly = assetPr.getAssetIsAssemblyEnabled(assetIndex)
             self._astWithAssemblyButton.setChecked(isWithAssembly)
         else:
@@ -3032,7 +3038,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 chooseBox.setChoose(assetVariant)
             else:
                 chooseBox.setLockVisible(False)
-                chooseBox.setDatum(prsVariant.Util.astDefaultVersion)
+                chooseBox.setDatum(prsVariants.Util.astDefaultVersion)
     #
     def setAssemblyPercentageBoxShow(self):
         assetName = self.connectObject().assetName
@@ -3070,8 +3076,8 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             timestamp = bscMethods.OsFile.mtimestamp(serverProductFile)
             serverViewTime = bscCommands.getViewTime(timestamp, timeFormat=bscCommands.MaUpdateViewTimeFormat)
             #
-            astUnitRootGroup = assetPr.astUnitRootGroupName(assetName)
-            localViewTime = maUtils.getAttrDatum(astUnitRootGroup, prsVariant.Util.basicUpdateAttrLabel)
+            astUnitRootGroup = prsMethods.Asset.rootName(assetName)
+            localViewTime = maUtils.getAttrDatum(astUnitRootGroup, prsVariants.Util.basicUpdateAttrLabel)
             #
             self._astUpdateCheckResult = serverViewTime < localViewTime
         else:
@@ -3290,8 +3296,8 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
         #
-        directory = prsDirectory.Database.assetPreview
-        renderPreview = directory + '/' + modelIndex + prsVariant.Util.pngExt
+        directory = prsVariants.Database.assetPreview
+        renderPreview = directory + '/' + modelIndex + prsVariants.Util.pngExt
         #
         renderer = projectPr.getProjectMayaRenderer(projectName)
         #
@@ -3362,11 +3368,11 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._astCfxMainCheckResult = True
             self.astTextureCheckResult = True
             #
-            if assetPr.isAstModelLink(assetStage):
+            if prsMethods.Asset.isModelStageName(assetStage):
                 self._updateAstModelCheckResult()
-            elif assetPr.isAstRigLink(assetStage):
+            elif prsMethods.Asset.isRigStageName(assetStage):
                 self._updateAstRigCheckResult()
-            elif assetPr.isAstCfxLink(assetStage):
+            elif prsMethods.Asset.isGroomStageName(assetStage):
                 self._updateAstCfxCheckResult()
             #
             self._uploadToolWidget.show()
@@ -3417,26 +3423,26 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self.setupAstSnapshotToolUiBox(self._astSnapToolUiBox)
         self.setupAstCheckToolUiBox(self._checkToolUiBox)
         self.setupAstUploadToolUiBox(self._uploadToolUiBox)
-        if assetPr.isAstModelLink(assetStage):
+        if prsMethods.Asset.isModelStageName(assetStage):
             self._initAstModelUploadTool()
             #
             self.setupAstModelExtendToolUiBox(self._extendToolUiBox)
             #
             self._tipTextBrower.setRule(self.astModelUploadTips)
             #
-        elif assetPr.isAstRigLink(assetStage):
+        elif prsMethods.Asset.isRigStageName(assetStage):
             self._initAstRigUploadTool()
             #
             self._tipTextBrower.setRule(self.astRigUploadTips)
-        elif assetPr.isAstCfxLink(assetStage):
+        elif prsMethods.Asset.isGroomStageName(assetStage):
             self._initAstCfxUploadTool()
             #
             self._tipTextBrower.setRule(self.astCfxUploadTips)
-        elif assetPr.isAstSolverLink(assetStage):
+        elif prsMethods.Asset.isSolverStageName(assetStage):
             self._initAstRigSolUploadTool()
             #
             self._tipTextBrower.setRule(self.astSolverUploadTips)
-        elif assetPr.isAstLightLink(assetStage):
+        elif prsMethods.Asset.isLightStageName(assetStage):
             self._initAstLightUploadTool()
             #
             self._tipTextBrower.setRule(self.astLightUploadTips)
@@ -3449,32 +3455,32 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _initAstCheck(self):
         assetStage = self.connectObject().assetStage
         #
-        if assetPr.isAstModelLink(assetStage):
+        if prsMethods.Asset.isModelStageName(assetStage):
             self._isAstMainCheckEnable, self._isAstSubCheckEnable = True, True
             #
             self._astModelMainCheckResult, self.astTextureCheckResult = False, False
             self.isAstUploadModel = False
             self._tipTextBrower.setRule(self.astModelUploadTips)
             self._updateAstModelCheckResult()
-        elif assetPr.isAstRigLink(assetStage):
+        elif prsMethods.Asset.isRigStageName(assetStage):
             self._isAstMainCheckEnable, self._isAstSubCheckEnable = False, False
             #
             self._updateAstRigCheckResult()
-        elif assetPr.isAstCfxLink(assetStage):
+        elif prsMethods.Asset.isGroomStageName(assetStage):
             self._isAstMainCheckEnable, self._isAstSubCheckEnable = True, True
             #
             self._astCfxMainCheckResult, self.astTextureCheckResult = False, False
             self.isAstUploadCfx = False
             self._tipTextBrower.setRule(self.astCfxUploadTips)
             self._updateAstCfxCheckResult()
-        elif assetPr.isAstSolverLink(assetStage):
+        elif prsMethods.Asset.isSolverStageName(assetStage):
             self._isAstMainCheckEnable, self._isAstSubCheckEnable = True, False
             #
             self._astRigSolMainCheckResult = False
             self.isAstUploadRigSol = False
             self._tipTextBrower.setRule(self.astSolverUploadTips)
             self._updateAstRigSolCheckResult()
-        elif assetPr.isAstLightLink(assetStage):
+        elif prsMethods.Asset.isLightStageName(assetStage):
             self._isAstMainCheckEnable, self._isAstSubCheckEnable = True, True
             #
             self._astLightMainCheckResult, self.astTextureCheckResult = False, False
@@ -3487,7 +3493,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._astMainCheckButton.setPressable(self._isAstMainCheckEnable), self._astSubCheckButton.setPressable(self._isAstMainCheckEnable)
         self._astMainCheckButton.setPercentRest(), self._astSubCheckButton.setPercentRest()
         self._astUploadButton.setNameText(u'Upload {} ！！！'.format(
-            bscMethods.StrCamelcase.toPrettify(assetPr.getAssetLink(assetStage))))
+            bscMethods.StrCamelcase.toPrettify(prsMethods.Asset.stageName2linkName(assetStage))))
     #
     def _updateAstUploadState(self):
         self._initAstCheck()
@@ -3502,10 +3508,10 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         isHide = False
         if isMeshChanged:
-            if assetPr.isAstModelLink(assetStage):
-                if assetVariant != prsVariant.Util.astDefaultVersion:
+            if prsMethods.Asset.isModelStageName(assetStage):
+                if assetVariant != prsVariants.Util.astDefaultVersion:
                     isHide = True
-            elif assetPr.isAstCfxLink(assetStage) or assetPr.isAstRigLink(assetStage) or assetPr.isAstLightLink(assetStage):
+            elif prsMethods.Asset.isGroomStageName(assetStage) or prsMethods.Asset.isRigStageName(assetStage) or prsMethods.Asset.isLightStageName(assetStage):
                 isHide = True
                 errorTips = self.errorTips2
         #
@@ -3530,7 +3536,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
-        if assetPr.isAstModelLink(assetStage):
+        if prsMethods.Asset.isModelStageName(assetStage):
             if self.isAstUploadModel:
                 isRepairWithTrans = self.connectObject().withTransformationButton.isChecked()
                 isRepairWithHistory = self.connectObject().withHistoryButton.isChecked()
@@ -3577,7 +3583,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
-        if assetPr.isAstRigLink(assetStage):
+        if prsMethods.Asset.isRigStageName(assetStage):
             if self.isAstUploadRig:
                 isWithProduct = self._astWithProductButton.isChecked()
                 isWithAssembly = self._astWithAssemblyButton.isChecked()
@@ -3606,7 +3612,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
         #
-        if assetPr.isAstCfxLink(assetStage):
+        if prsMethods.Asset.isGroomStageName(assetStage):
             if self.isAstUploadCfx:
                 isWithProduct = self._astWithProductButton.isChecked()
                 isWithAssembly = self._astWithAssemblyButton.isChecked()
@@ -3638,7 +3644,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
         #
-        if assetPr.isAstSolverLink(assetStage):
+        if prsMethods.Asset.isSolverStageName(assetStage):
             if self.isAstUploadRigSol:
                 isWithProduct = self._astWithProductButton.isChecked()
                 isWithAssembly = self._astWithAssemblyButton.isChecked()
@@ -3666,7 +3672,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
-        if assetPr.isAstLightLink(assetStage):
+        if prsMethods.Asset.isLightStageName(assetStage):
             if self.isAstUploadLight:
                 isWithProduct = self._astWithProductButton.isChecked()
                 isWithAssembly = self._astWithAssemblyButton.isChecked()

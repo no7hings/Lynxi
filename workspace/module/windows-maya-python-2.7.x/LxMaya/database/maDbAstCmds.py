@@ -3,9 +3,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 
 from LxUi.qt import qtCommands
 #
-from LxCore.preset import prsVariant, prsDirectory
-#
-from LxCore.preset.prod import assetPr
+from LxPreset import prsVariants, prsMethods
 #
 from LxDatabase import dbBasic, dbGet
 #
@@ -43,42 +41,42 @@ def dbAstGeometryUploadMainCmd_(assetIndex, objectStrings, groupString, assetNam
 
 #
 def dbAstUploadGeometryObjectsIndexSub(assetIndex, objectStrings, groupString, timeTag):
-    directory = prsDirectory.Database.assetGeometryIndex
+    directory = prsVariants.Database.assetGeometryIndex
     dataDic = maGeom.getGeometryObjectsInfoDic_(objectStrings, groupString)
     dbBasic.dbCompDatumWrite(assetIndex, dataDic, directory, timeTag)
 
 
 #
 def dbAstUploadGeometryObjectsTransformSub(assetIndex, objectStrings, groupString, assetName, timeTag):
-    directory = prsDirectory.Database.assetGeometryTransform
+    directory = prsVariants.Database.assetGeometryTransform
     dataDic = maGeom.getGeometryObjectsTransformDic_(objectStrings, groupString, assetName)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
 def dbAstUploadGeometryObjectsGeometrySub(assetIndex, objectStrings, timeTag):
-    geomTopoDir, geomShapeDir = prsDirectory.Database.assetGeometryTopology, prsDirectory.Database.assetGeometryShape
+    geomTopoDir, geomShapeDir = prsVariants.Database.assetGeometryTopology, prsVariants.Database.assetGeometryShape
     geomTopoDic, geomShapeDic = maGeom.getGeometryObjectsGeometryDic_(objectStrings)
     dbBasic.dbCompDatumDicWrite(geomTopoDic, assetIndex, geomTopoDir, timeTag), dbBasic.dbCompDatumDicWrite(geomShapeDic, assetIndex, geomShapeDir, timeTag)
 
 
 #
 def dbAstUploadGeometryObjectsMapSub(assetIndex, objectStrings, timeTag):
-    directory = prsDirectory.Database.assetGeometryMap
+    directory = prsVariants.Database.assetGeometryMap
     dataDic = maGeom.getGeometryObjectsMapDic_(objectStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
 def dbAstUploadGeometryObjectsVertexNormalSub(assetIndex, objectStrings, timeTag):
-    directory = prsDirectory.Database.assetGeometryVertexNormal
+    directory = prsVariants.Database.assetGeometryVertexNormal
     dataDic = maGeom.getGeometryObjectsVertexNormalDic_(objectStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
 def dbAstUploadGeometryObjectsEdgeSmoothSub(assetIndex, objectStrings, timeTag):
-    directory = prsDirectory.Database.assetGeometryEdgeSmooth
+    directory = prsVariants.Database.assetGeometryEdgeSmooth
     dataDic = maGeom.getGeometryObjectsEdgeSmoothDic_(objectStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
@@ -86,7 +84,7 @@ def dbAstUploadGeometryObjectsEdgeSmoothSub(assetIndex, objectStrings, timeTag):
 #
 def dbAstUploadModelGeometryConstantSub(assetIndex, groupString, timeTag):
     # Mesh Constant
-    directory = prsDirectory.Database.assetGeometryConstantIndex
+    directory = prsVariants.Database.assetGeometryConstantIndex
     data = maGeom.getGeometryObjectsConstantDic_(groupString)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -106,14 +104,14 @@ def dbAstUploadFurMain(compFurObjects, assetSubIndex, timeTag):
 
 #
 def dbAstUploadFurIndexSub(compFurObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetFurIndex
+    directory = prsVariants.Database.assetFurIndex
     dataDic = maFur.getFurObjectsInfoDic(compFurObjects)
     dbBasic.dbCompDatumWrite(assetSubIndex, dataDic, directory, timeTag)
 
 
 #
 def dbAstUploadFurPathSub(compFurObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetFurPath
+    directory = prsVariants.Database.assetFurPath
     dataDic = maFur.getFurObjectsPathDic(compFurObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
@@ -136,28 +134,28 @@ def dbAstUploadNurbsHairMain(nurbsHairObjects, assetSubIndex, timeTag):
 
 #
 def dbAstUploadNurbsHairObjectsIndexSub(nurbsHairObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetGraphIndex
+    directory = prsVariants.Database.assetGraphIndex
     dataDic = maFur.getNhrObjectsInfoDic(nurbsHairObjects)
     dbBasic.dbCompDatumWrite(assetSubIndex, dataDic, directory, timeTag)
 
 
 #
 def dbAstUploadNurbsHairObjectsGraphNodeSub(nurbsHairObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetGraphNode
+    directory = prsVariants.Database.assetGraphNode
     dataDic = maFur.getNhrObjectsGraphNodeDic(nurbsHairObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadNurbsHairObjectsGraphGeometrySub(nurbsHairObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetGraphGeometry
+    directory = prsVariants.Database.assetGraphGeometry
     dataDic = maFur.getNhrObjectsGraphGeometryDic(nurbsHairObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadNurbsHairObjectsGraphRelationSub(nurbsHairObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetGraphRelation
+    directory = prsVariants.Database.assetGraphRelation
     dataDic = maFur.getNhrObjectsGraphRelationDic(nurbsHairObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
@@ -181,35 +179,35 @@ def dbAstMaterialUploadMainCmd(compMatlObjects, assetSubIndex, timeTag):
 
 #
 def dbAstUploadMaterialIndexSub(compMaterials, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetMaterialIndex
+    directory = prsVariants.Database.assetMaterialIndex
     dataDic = maShdr.getMaterialsInformationData(compMaterials)
     dbBasic.dbCompDatumWrite(assetSubIndex, dataDic, directory, timeTag)
 
 
 #
 def dbAstUploadMaterialCompNodeSub(compMaterials, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetMaterialNode
+    directory = prsVariants.Database.assetMaterialNode
     dataDic = maShdr.getMaterialsNodeData(compMaterials)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadMaterialCompRelationSub(compMaterials, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetMaterialRelation
+    directory = prsVariants.Database.assetMaterialRelation
     dataDic = maShdr.getMaterialsRelationData(compMaterials)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadMaterialObjSetSub(compMatlObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetMaterialObjectSet
+    directory = prsVariants.Database.assetMaterialObjectSet
     dataDic = maShdr.getShaderObjectsObjSetDic(compMatlObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadMaterialObjAttrSub(compMatlObjects, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetMaterialAttribute
+    directory = prsVariants.Database.assetMaterialAttribute
     dataDic = maShdr.getObjectsAttrData(compMatlObjects)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
@@ -229,21 +227,21 @@ def dbAstAovUploadCmd(renderer, assetSubIndex, timeTag):
 
 #
 def dbAstUploadAovIndexSub(aovNodeLis, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetAovIndex
+    directory = prsVariants.Database.assetAovIndex
     dataDic = maShdr.getMaterialsInformationData(aovNodeLis)
     dbBasic.dbCompDatumWrite(assetSubIndex, dataDic, directory, timeTag)
 
 
 #
 def dbAstUploadAovCompNodeSub(aovNodeLis, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetAovNode
+    directory = prsVariants.Database.assetAovNode
     dataDic = maShdr.getMaterialsNodeData(aovNodeLis)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
 
 #
 def dbAstUploadAovCompRelationSub(aovNodeLis, assetSubIndex, timeTag):
-    directory = prsDirectory.Database.assetAovRelation
+    directory = prsVariants.Database.assetAovRelation
     dataDic = maShdr.getMaterialsRelationData(aovNodeLis)
     dbBasic.dbCompDatumDicWrite(dataDic, assetSubIndex, directory, timeTag)
 
@@ -251,40 +249,40 @@ def dbAstUploadAovCompRelationSub(aovNodeLis, assetSubIndex, timeTag):
 #
 def dbAstUploadModelProduct(assetIndex, assetVariant):
     dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetModelProduct
+    directory = prsVariants.Database.assetModelProduct
     dbBasic.saveDbMayaAscii(dbModelIndex, directory)
 
 
 #
 def dbAstUploadMeshProduct(assetIndex, assetVariant):
-    directory = prsDirectory.Database.assetMeshProduct
+    directory = prsVariants.Database.assetMeshProduct
     dbBasic.saveDbMayaAscii(assetIndex, directory)
 
 
 #
 def dbAstUploadCfxProduct(assetIndex, assetVariant):
     dbCfxIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetGroomProduct
+    directory = prsVariants.Database.assetGroomProduct
     dbBasic.saveDbMayaAscii(dbCfxIndex, directory)
 
 
 #
 def dbAstUploadFurProduct(assetIndex, assetVariant):
     dbCfxIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetFurProduct
+    directory = prsVariants.Database.assetFurProduct
     dbBasic.saveDbMayaAscii(dbCfxIndex, directory)
 
 
 #
 def dbAstUploadRigAssetIntegration(assetIndex):
     dbRigIndex = dbGet.getDbAstRigIndex(assetIndex)
-    directory = prsDirectory.Database.assetRigProduct
+    directory = prsVariants.Database.assetRigProduct
     dbBasic.saveDbMayaAscii(dbRigIndex, directory)
 
 
 def dbAstCopyRigProductTo(assetIndex, targetFile):
     dbSubIndex = dbGet.getDbAstRigIndex(assetIndex)
-    directory = prsDirectory.Database.assetRigProduct
+    directory = prsVariants.Database.assetRigProduct
     asciiFile = directory + '/' + dbSubIndex
     if bscCommands.isOsExistsFile(asciiFile):
         bscMethods.OsFile.copyTo(asciiFile, targetFile)
@@ -318,15 +316,15 @@ def dbAstLoadGeometryObjectsSub(assetIndex, assetName, objectIndexes, lockTransf
 
 #
 def dbAstLoadGeometryTransformSub(assetIndex, objectIndexes, assetName, lockTransform):
-    directory = prsDirectory.Database.assetGeometryTransform
+    directory = prsVariants.Database.assetGeometryTransform
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, directory)
     maGeom.setCreateObjectsTransform(dataDic, assetName, lockTransform)
 
 
 #
 def dbAstLoadGeometryGeometrySub(assetIndex, objectIndexes):
-    geomTopoDir = prsDirectory.Database.assetGeometryTopology
-    geomShapeDir = prsDirectory.Database.assetGeometryShape
+    geomTopoDir = prsVariants.Database.assetGeometryTopology
+    geomShapeDir = prsVariants.Database.assetGeometryShape
     geomTopoDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, geomTopoDir)
     geomShapeDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, geomShapeDir)
     maGeom.setCreateGeometryObjectsShape((geomTopoDic, geomShapeDic))
@@ -334,14 +332,14 @@ def dbAstLoadGeometryGeometrySub(assetIndex, objectIndexes):
 
 #
 def dbAstLoadGeometryMapSub(assetIndex, objectIndexes):
-    directory = prsDirectory.Database.assetGeometryMap
+    directory = prsVariants.Database.assetGeometryMap
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, directory)
     maGeom.setCreateGeometryObjectMap(dataDic)
 
 
 #
 def dbAstLoadGeometryEdgeSmoothSub(assetIndex, objectIndexes):
-    directory = prsDirectory.Database.assetGeometryEdgeSmooth
+    directory = prsVariants.Database.assetGeometryEdgeSmooth
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, directory)
     maGeom.setCreateGeometryObjectsEdgeSmooth(dataDic)
 
@@ -357,7 +355,7 @@ def dbAstLoadFurIndexSub(assetIndex, assetVariant):
 #
 def dbAstLoadFurCompIndex(assetSubIndex, objectIndexes):
     # Mesh Nde_Geometry
-    directory = prsDirectory.Database.assetFurPath
+    directory = prsVariants.Database.assetFurPath
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maFur.setCreateFurObjectsUniqueId(dataDic)
 
@@ -384,21 +382,21 @@ def dbAstLoadNurbsHairMain(assetSubIndex):
 
 #
 def dbAstLoadNhrObjectsGraphNodeSub(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetGraphNode
+    directory = prsVariants.Database.assetGraphNode
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maFur.setCreateNurbsHairObjects(dataDic)
 
 
 #
 def dbAstLoadNhrObjectsGraphGeometrySub(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetGraphGeometry
+    directory = prsVariants.Database.assetGraphGeometry
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maFur.setCreateNhrObjectsGeometry(dataDic)
 
 
 #
 def dbAstLoadNhrObjectsGraphRelationSub(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetGraphRelation
+    directory = prsVariants.Database.assetGraphRelation
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maFur.setCreateNhrObjectsRelation(dataDic)
 
@@ -420,28 +418,28 @@ def dbAstMaterialLoadMainCmd(assetSubIndex, compObjectIndexes, compMaterialIndex
 
 #
 def dbAstMaterialCompNodesLoadCmd(assetSubIndex, compMaterialIndexes):
-    directory = prsDirectory.Database.assetMaterialNode
+    directory = prsVariants.Database.assetMaterialNode
     dataDic = dbBasic.dbCompDatumDicRead(compMaterialIndexes, assetSubIndex, directory)
     maShdr.setCreateCompMaterialsNodes(dataDic)
 
 
 #
 def dbAstMaterialCompRelationsLoadCmd(assetSubIndex, compMaterialIndexes):
-    directory = prsDirectory.Database.assetMaterialRelation
+    directory = prsVariants.Database.assetMaterialRelation
     dataDic = dbBasic.dbCompDatumDicRead(compMaterialIndexes, assetSubIndex, directory)
     maShdr.setCreateMaterialsConnections(dataDic)
 
 
 #
 def dbAstMaterialCompObjectAttrsLoadCmd(assetIndex, compObjectIndexes):
-    directory = prsDirectory.Database.assetMaterialAttribute
+    directory = prsVariants.Database.assetMaterialAttribute
     dataDic = dbBasic.dbCompDatumDicRead(compObjectIndexes, assetIndex, directory)
     maShdr.setObjectsAttrsCreate(dataDic)
 
 
 # Material Object Set(s)
 def dbAstMaterialCompObjectSetsLoadCmd(assetSubIndex, compObjectIndexes):
-    directory = prsDirectory.Database.assetMaterialObjectSet
+    directory = prsVariants.Database.assetMaterialObjectSet
     dataDic = dbBasic.dbCompDatumDicRead(compObjectIndexes, assetSubIndex, directory)
     maShdr.setMaterialsObjectSetsConnect(dataDic)
 
@@ -460,14 +458,14 @@ def dbAstLoadAov(renderer, assetSubIndex, dbAovCompIndexes):
 
 #
 def dbAstLoadAovCompNodes(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetAovNode
+    directory = prsVariants.Database.assetAovNode
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maShdr.setCreateCompAovsNodes(dataDic)
 
 
 #
 def dbAstLoadAovCompRelations(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetAovRelation
+    directory = prsVariants.Database.assetAovRelation
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maShdr.setCreateMaterialsConnections(dataDic)
 
@@ -475,14 +473,14 @@ def dbAstLoadAovCompRelations(assetSubIndex, objectIndexes):
 #
 def dbAstLoadFurIntegration(assetIndex, assetVariant):
     dbCfxIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetFurProduct
+    directory = prsVariants.Database.assetFurProduct
     dbBasic.importDbMayaAscii(dbCfxIndex, directory)
 
 
 #
 def dbAstLoadGeometryObjectsIndex(assetIndex, assetName, objectIndexes, mode=0):
     # Mesh Nde_Geometry
-    directory = prsDirectory.Database.assetGeometryTransform
+    directory = prsVariants.Database.assetGeometryTransform
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetIndex, directory)
     if dataDic:
         # Path Mode
@@ -506,7 +504,7 @@ def dbAstLoadGeometryObjectsIndex(assetIndex, assetName, objectIndexes, mode=0):
                 nodeName = dataDic[1]
                 nodeName = nodeName.replace('<assetName>', assetName)
                 nodeDic[nodeName] = uniqueId
-            groupString = assetPr.astUnitModelLinkGroupName(assetName)
+            groupString = prsMethods.Asset.modelLinkGroupName(assetName)
             childPaths = maGeom.getGeometryObjectsByGroup(groupString)
             for objectPath in childPaths:
                 objectName = maUtils._toNodeName(objectPath)
@@ -517,7 +515,7 @@ def dbAstLoadGeometryObjectsIndex(assetIndex, assetName, objectIndexes, mode=0):
 
 #
 def dbAstLoadMaterialCompIndex(assetSubIndex, objectIndexes):
-    directory = prsDirectory.Database.assetMaterialNode
+    directory = prsVariants.Database.assetMaterialNode
     dataDic = dbBasic.dbCompDatumDicRead(objectIndexes, assetSubIndex, directory)
     maShdr.setCreateCompMaterialsUniqueId(dataDic)
 
@@ -525,11 +523,11 @@ def dbAstLoadMaterialCompIndex(assetSubIndex, objectIndexes):
 #
 def dbAstLoadModelProduct(assetIndex, assetName, assetVariant):
     dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
-    directory = prsDirectory.Database.assetModelProduct
+    directory = prsVariants.Database.assetModelProduct
     # Debug Current Variant Non - Exists
     dbProductFile = directory + '/' + dbModelIndex
     if not bscCommands.isOsExistsFile(dbProductFile):
-        dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, prsVariant.Util.astDefaultVariant)
+        dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, prsVariants.Util.astDefaultVariant)
     #
     dbBasic.importDbMayaAscii(dbModelIndex, directory)
     #

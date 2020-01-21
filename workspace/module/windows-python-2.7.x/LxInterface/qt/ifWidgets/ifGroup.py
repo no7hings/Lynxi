@@ -1,9 +1,9 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscObjects
 
 from LxCore import lxConfigure
-#
-from LxCore.preset import prsMethod
+
+from LxPreset import prsMethods
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
@@ -52,7 +52,7 @@ class QtIf_ProjectGroup(_qtIfAbcWidget.QtIfAbc_Group):
 
 #
 class IfPersonnelGroup(_qtIfAbcWidget.QtIfAbc_Group):
-    userLevel = prsMethod.Personnel.userLevel()
+    userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfPersonnelGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()

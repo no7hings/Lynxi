@@ -2,13 +2,13 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import sceneCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -23,14 +23,14 @@ none = ''
 def setSceneCustomizeLabel(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariant.Util.basicCustomizeAttrLabel, data)
+        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariants.Util.basicCustomizeAttrLabel, data)
 
 
 #
 def setSceneRootIndex(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if maUtils.isAppExist(scUnitRoot):
-        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariant.Util.basicRootIndexAttrLabel, str(data))
+        maUtils.setAttrStringDatumForce(scUnitRoot, prsVariants.Util.basicRootIndexAttrLabel, str(data))
 
 
 # Camera
@@ -249,7 +249,7 @@ def setScAstRigRefresh(sceneName, sceneVariant, sceneStage):
                 if not referenceNode == scRigReferenceNode:
                     maUtils.setRenameForce(referenceNode, scRigReferenceNode)
                 #
-                astUnitRootGroup = assetPr.astUnitRootGroupName(assetName, scAstRigNamespace)
+                astUnitRootGroup = prsMethods.Asset.rootName(assetName, scAstRigNamespace)
                 #
                 linkAssetPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
                 scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
@@ -351,7 +351,7 @@ def setCreateScAstSolverConnection(data, sourceNamespace, targetNamespace):
 def setScAstModelDisplayLayer(assetName, namespace, displayLater):
     hideLis = []
     #
-    linGroup = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+    linGroup = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
     lis = maUtils.getChildrenByRoot(linGroup)
     #
     if lis:

@@ -6,12 +6,12 @@ import hashlib
 import struct
 
 from LxBasic import bscMethods, bscObjects, bscCommands
-#
-from LxCore.preset import prsVariant, prsDirectory
+
+from LxPreset import prsVariants
 
 from LxDatabase import dtbCore
 #
-backupExtLabel = prsVariant.Util.dbHistoryUnitKey
+backupExtLabel = prsVariants.Util.dbHistoryUnitKey
 mayaAsciiExtLabel = '.ma'
 #
 keyLabel = 'key'
@@ -42,8 +42,8 @@ rigStateLabel = 'rigState'
 #
 noneExistsLabel = 'Non - Exists'
 #
-_defaultVariant = prsVariant.Util.astDefaultVariant
-_defaultVersion = prsVariant.Util.astDefaultVersion
+_defaultVariant = prsVariants.Util.astDefaultVariant
+_defaultVersion = prsVariants.Util.astDefaultVersion
 #
 none = ''
 
@@ -337,28 +337,28 @@ def readDbHistory(dbIndex, directory, dicKey):
 
 #
 def readDbAssetHistory(dbIndex, dicKey):
-    directory = prsDirectory.Database.assetHistory
+    directory = prsVariants.Database.assetHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def readDbSceneryHistory(dbIndex, dicKey):
-    directory = prsDirectory.Database.sceneryHistory
+    directory = prsVariants.Database.sceneryHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def writeDbAssetHistory(dbIndex, sourceFile):
-    directory = prsDirectory.Database.assetHistory
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoSourceLabel, sourceFile)
+    directory = prsVariants.Database.assetHistory
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
 
 
 #
 def writeDbSceneryUnitHistory(dbIndex, sourceFile):
-    directory = prsDirectory.Database.sceneryHistory
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
-    writeDbHistory(dbIndex, directory, prsVariant.Util.infoSourceLabel, sourceFile)
+    directory = prsVariants.Database.sceneryHistory
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
 

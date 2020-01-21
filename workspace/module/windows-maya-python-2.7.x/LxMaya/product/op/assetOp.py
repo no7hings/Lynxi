@@ -7,6 +7,8 @@ import maya.mel as mel
 
 from LxBasic import bscMethods, bscObjects
 
+from LxPreset import prsMethods
+
 from LxCore import lxConfigure
 
 from LxCore.preset.prod import assetPr
@@ -260,7 +262,7 @@ def setSolverFurGroup(assetName, namespace=none, hide=0):
     # Solver Group
     solverGroup = assetPr.astUnitModelSolverGroupName(assetName, namespace)
     # Solver Fur Group
-    cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName)
+    cfxGroup = prsMethods.Asset.groomLinkGroupName(assetName)
     #
     maUtils.setObjectParent(cfxGroup, solverGroup)
     # Set Grow Hide

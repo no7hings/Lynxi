@@ -9,7 +9,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr
 #
@@ -17,15 +17,15 @@ from LxMaya.command import maUtils, maFile, maUuid, maAttr, maObj, maGeom, maGeo
 #
 from LxDatabase.data import datHash
 #
-inShapeLabel = prsVariant.Util.inShapeLabel
+inShapeLabel = prsVariants.Util.inShapeLabel
 #
-astCfxGrowSourceGroupLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
-astCfxGrowSourceAttrLabel = prsVariant.Util.astCfxGrowSourceAttrLabel
+astCfxGrowSourceGroupLabel = prsVariants.Util.astCfxGrowSourceGroupLabel
+astCfxGrowSourceAttrLabel = prsVariants.Util.astCfxGrowSourceAttrLabel
 #
-cacheAttrLabel = prsVariant.Util.cacheAttrLabel
-cacheUpdateAttrLabel = prsVariant.Util.cacheUpdateAttrLabel
-assetAttrLabel = prsVariant.Util.assetAttrLabel
-assetUpdateAttrLabel = prsVariant.Util.assetUpdateAttrLabel
+cacheAttrLabel = prsVariants.Util.cacheAttrLabel
+cacheUpdateAttrLabel = prsVariants.Util.cacheUpdateAttrLabel
+assetAttrLabel = prsVariants.Util.assetAttrLabel
+assetUpdateAttrLabel = prsVariants.Util.assetUpdateAttrLabel
 #
 mayaVersion = maUtils.getMayaVersion()
 #
@@ -39,9 +39,9 @@ none = ''
 def getFurNodeName(furObject):
     splitKey = '_'
     if maUtils.getTransformType(furObject) == 'pgYetiMaya':
-        splitKey = prsVariant.Util.astYetiNodeGroupLabel
+        splitKey = prsVariants.Util.astYetiNodeGroupLabel
     if maUtils.getTransformType(furObject) == 'pfxHair':
-        splitKey = prsVariant.Util.astPfxHairGroupLabel
+        splitKey = prsVariants.Util.astPfxHairGroupLabel
     furNodeName = (furObject.split('|')[-1].split(':')[-1]).split(splitKey)[-1][1:]
     return furNodeName
 
@@ -339,7 +339,7 @@ def setSolverGroup(assetName, namespace=none):
 
 #
 def setScAstCfxDisplayLayer(assetName, namespace=none, scAstCfxDisplayLayer=None):
-    scCfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, namespace)
+    scCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
     lis = maUtils.getChildObjectsByRoot(scCfxGroup, [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve])
     #
     if scAstCfxDisplayLayer:
@@ -549,9 +549,9 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
 
 #
 def setScAstCfxFurGrowConnect__(assetName, astRootNamespace, astCfxNamespace):
-    astUnitGroup = assetPr.astUnitRootGroupName(assetName, astRootNamespace)
+    astUnitGroup = prsMethods.Asset.rootName(assetName, astRootNamespace)
     #
-    astCfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, astCfxNamespace)
+    astCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, astCfxNamespace)
     astCfxContainer = assetPr.astCfxContainerName(assetName)
     #
     astCfxGrowSourceGroup = assetPr.astUnitCfxGrowSourceObjectGroupName(assetName, astCfxNamespace)
@@ -613,7 +613,7 @@ def setScAstNurbsHairSolverConnectToTime(assetName, astCfxNamespace, startFrame)
     #
     astCfxNurbsHairSolverGroup = assetPr.astUnitRigSolNhrSolGuideObjectGroupPath(assetName, astCfxNamespace)
     if maUtils.isAppExist(astCfxNurbsHairSolverGroup):
-        objectPaths = maUtils.getChildObjectsByRoot(astCfxNurbsHairSolverGroup, prsVariant.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
+        objectPaths = maUtils.getChildObjectsByRoot(astCfxNurbsHairSolverGroup, prsVariants.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
         if objectPaths:
             for i in objectPaths:
                 setConnectToTime(i)
@@ -1563,7 +1563,7 @@ def setNurbsHairObjectCreateSolverGuide(nurbsHairObject, assetName):
                     maUtils.setAttrConnect(sourceAttr, nhrSolGuideObjectTargetAttr)
                     maUtils.setAttrConnect(nhrSolGuideObjectSourceAttr, targetAttr)
             #
-            maUtils.setAttrStringDatumForce_(nhrSolGuideObjectName, prsVariant.Util.astRigSolGuideSourceAttrLabel, nhrScatterObject)
+            maUtils.setAttrStringDatumForce_(nhrSolGuideObjectName, prsVariants.Util.astRigSolGuideSourceAttrLabel, nhrScatterObject)
 
 
 #

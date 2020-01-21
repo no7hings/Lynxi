@@ -24,13 +24,13 @@ def scnUnitCreateMainCmd(
     
     logWin_.addStartTask(u'Scenery Hierarchy Create')
     #
-    if sceneryPr.isScnSceneryLink(sceneryStage) or sceneryPr.isScnLayoutLink(sceneryStage):
+    if sceneryPr.isSceneryLinkName(sceneryStage) or sceneryPr.isLayoutLinkName(sceneryStage):
         maHier.setCreateScnAssemblyHierarchy(sceneryClass, sceneryName, sceneryVariant)
 
-    elif sceneryPr.isScnAnimationLink(sceneryStage):
+    elif sceneryPr.isAnimationLinkName(sceneryStage):
         pass
 
-    elif sceneryPr.isScnLightLink(sceneryStage):
+    elif sceneryPr.isLightLinkName(sceneryStage):
         pass
     #
     maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
@@ -50,7 +50,7 @@ def scnUnitLoadMainCmd(
 
     logWin_.addStartTask(u'Scenery Load')
 
-    if sceneryPr.isScnSceneryLink(sceneryStage):
+    if sceneryPr.isSceneryLinkName(sceneryStage):
         serverProductFile = sceneryPr.scnUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
@@ -76,10 +76,10 @@ def scnUnitLoadMainCmd(
 
             logWin_.addResult(localFile)
 
-    elif sceneryPr.isScnLayoutLink(sceneryStage) or sceneryPr.isScnAnimationLink(sceneryStage) or sceneryPr.isScnSimulationLink(sceneryStage):
+    elif sceneryPr.isLayoutLinkName(sceneryStage) or sceneryPr.isAnimationLinkName(sceneryStage) or sceneryPr.isSimulationLinkName(sceneryStage):
         pass
 
-    elif sceneryPr.isScnLightLink(sceneryStage):
+    elif sceneryPr.isLightLinkName(sceneryStage):
         pass
 
     maHier.setCreateScnRootHierarchy(sceneryClass, sceneryName, sceneryVariant)

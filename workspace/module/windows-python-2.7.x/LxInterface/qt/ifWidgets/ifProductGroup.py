@@ -1,9 +1,7 @@
 # coding:utf-8
 from LxBasic import bscObjects, bscCommands
 #
-from LxPreset import prsConfigure
-#
-from LxCore.preset import prsMethod
+from LxPreset import prsMethods
 #
 from LxCore.preset.prod import projectPr
 #
@@ -23,7 +21,7 @@ class IfAssetProductGroup(
     _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
-    userLevel = prsMethod.Personnel.userLevel()
+    userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfAssetProductGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()
@@ -60,7 +58,7 @@ class IfAssetProductGroup(
                 name, iconkeyword, tooltip = args
                 unit = ifUnit.IfProductUnitRegisterUnit()
                 #
-                unit.setProductModule(prsConfigure.Asset.name())
+                unit.setProductModule(prsMethods.Asset.moduleName())
                 unit.setConnectObject(self)
                 #
                 self.addTab(
@@ -106,7 +104,7 @@ class IfSceneryProductGroup(
     _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
-    userLevel = prsMethod.Personnel.userLevel()
+    userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneryProductGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()
@@ -144,7 +142,7 @@ class IfSceneryProductGroup(
                 name, iconkeyword, tooltip = args
                 unit = ifUnit.IfProductUnitRegisterUnit()
                 #
-                unit.setProductModule(prsConfigure.Scenery.name())
+                unit.setProductModule(prsMethods.Scenery.moduleName())
                 unit.setConnectObject(self)
                 #
                 self.addTab(
@@ -190,7 +188,7 @@ class IfSceneProductGroup(
     _qtIfAbcWidget.QtIfAbc_Group,
     _presetMethod.LxPresetMethod
 ):
-    userLevel = prsMethod.Personnel.userLevel()
+    userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneProductGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()
@@ -227,7 +225,7 @@ class IfSceneProductGroup(
                 name, iconkeyword, tooltip = args
                 unit = ifUnit.IfProductUnitRegisterUnit()
                 #
-                unit.setProductModule(prsConfigure.Scene.name())
+                unit.setProductModule(prsMethods.Scene.moduleName())
                 unit.setConnectObject(self)
                 #
                 self.addTab(

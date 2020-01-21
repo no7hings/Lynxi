@@ -7,7 +7,7 @@ from LxBasic import bscObjects
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
@@ -15,18 +15,18 @@ from LxMaya.command import maUtils, maAsb
 #
 currentProjectName = projectPr.getMayaProjectName()
 # File Label
-scnSceneryLocatorLabel = prsVariant.Util.scnSceneryLocatorLabel
-astDefaultVersion = prsVariant.Util.astDefaultVersion
+scnSceneryLocatorLabel = prsVariants.Util.scnSceneryLocatorLabel
+astDefaultVersion = prsVariants.Util.astDefaultVersion
 # Type Config
 # Group Config
-basicGroupLabel = prsVariant.Util.basicGroupLabel
-basicModelLinkGroupLabel = prsVariant.Util.basicModelLinkGroupLabel
-basicGeometryGroupLabel = prsVariant.Util.basicGeometryGroupLabel
-basicSolverGeometrySubGroupLabel = prsVariant.Util.basicSolverGeometrySubGroupLabel
-basicCfxLinkGroupLabel = prsVariant.Util.basicCfxLinkGroupLabel
+basicGroupLabel = prsVariants.Util.basicGroupLabel
+basicModelLinkGroupLabel = prsVariants.Util.basicModelLinkGroupLabel
+basicGeometryGroupLabel = prsVariants.Util.basicGeometryGroupLabel
+basicSolverGeometrySubGroupLabel = prsVariants.Util.basicSolverGeometrySubGroupLabel
+basicCfxLinkGroupLabel = prsVariants.Util.basicCfxLinkGroupLabel
 #
-basicAssemblyLabel = prsVariant.Util.basicAssemblyLabel
-scnAssemblyPrefix = prsVariant.Util.scnAssemblyPrefix
+basicAssemblyLabel = prsVariants.Util.basicAssemblyLabel
+scnAssemblyPrefix = prsVariants.Util.scnAssemblyPrefix
 #
 none = ''
 
@@ -206,17 +206,17 @@ def getAssemblyFilterDic():
 #
 def getSceneryInfo(printEnable=False):
     lis = []
-    keyword = prsVariant.Util.basicUnitRootGroupLabel + basicGroupLabel
+    keyword = prsVariants.Util.basicUnitRootGroupLabel + basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
-                if rootGroup.startswith(prsVariant.Util.Lynxi_Prefix_Product_Scenery):
-                    sceneryClass = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicClassAttrLabel)
-                    sceneryName = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicNameAttrLabel)
-                    sceneryVariant = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicVariantAttrLabel)
-                    sceneryStage = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicStageAttrLabel)
-                    sceneryIndex = maUtils.getAttrDatum(rootGroup, prsVariant.Util.basicIndexAttrLabel)
+                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Scenery):
+                    sceneryClass = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
+                    sceneryName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
+                    sceneryVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
+                    sceneryStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
+                    sceneryIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
                     if sceneryIndex is not None:
                         data = sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage
                         if printEnable is True:

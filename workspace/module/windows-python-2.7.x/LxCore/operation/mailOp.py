@@ -6,8 +6,8 @@ import traceback
 from email.mime.text import MIMEText
 #
 from LxBasic import bscMethods
-#
-from LxCore.preset import prsVariant, prsMethod
+
+from LxPreset import prsVariants, prsMethods
 #
 from email.header import Header
 #
@@ -18,21 +18,21 @@ none = ''
 
 #
 def getPipeMail():
-    mailEnabled = prsVariant.Util.pipeMailEnabled
+    mailEnabled = prsVariants.Util.pipeMailEnabled
     if mailEnabled:
-        mailServer = prsVariant.Util.pipeMailServer
-        mailPot = prsVariant.Util.pipeMailPort
-        mailAddress = prsVariant.Util.pipeMailAddress
-        mailPassword = prsVariant.Util.pipeMailPassword
+        mailServer = prsVariants.Util.pipeMailServer
+        mailPot = prsVariants.Util.pipeMailPort
+        mailAddress = prsVariants.Util.pipeMailAddress
+        mailPassword = prsVariants.Util.pipeMailPassword
         return mailServer, int(mailPot), mailAddress, str(mailPassword)
 
 
 #
 def datum(toMails, summary, subject, information):
     user = bscMethods.OsSystem.username()
-    userMail = prsMethod.Personnel.userMail()
-    cnName = prsMethod.Personnel.userChnname()
-    team = prsMethod.Personnel.userTeam()
+    userMail = prsMethods.Personnel.userMail()
+    cnName = prsMethods.Personnel.userChnname()
+    team = prsMethods.Personnel.userTeam()
     #
     fromMessage = '''%s by %s Team's [ %s ( %s ) ] < %s >''' % (summary, team, user, cnName, userMail)
     message = MIMEText(information, 'html', 'utf-8')
@@ -46,12 +46,12 @@ def datum(toMails, summary, subject, information):
 
 #
 def getToMails():
-    userMail = prsMethod.Personnel.userMail()
+    userMail = prsMethods.Personnel.userMail()
     toMails = [userMail]
-    teamLeaders = prsMethod.Personnel.usernamesFilterByPost('Team - Leader')
+    teamLeaders = prsMethods.Personnel.usernamesFilterByPost('Team - Leader')
     if teamLeaders:
         for i in teamLeaders:
-            mail = prsMethod.Personnel.userMail(i)
+            mail = prsMethods.Personnel.userMail(i)
             toMails.append(mail)
     return toMails
 

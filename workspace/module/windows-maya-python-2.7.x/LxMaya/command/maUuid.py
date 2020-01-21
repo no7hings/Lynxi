@@ -3,9 +3,10 @@ import uuid
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
+
 #
-assetUniqueIdLabel = prsVariant.Util.astUniqueIdAttrLabel
+assetUniqueIdLabel = prsVariants.Util.astUniqueIdAttrLabel
 #
 none = ''
 

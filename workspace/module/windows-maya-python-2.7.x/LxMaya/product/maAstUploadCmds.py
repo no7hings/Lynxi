@@ -5,7 +5,7 @@ from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import prsVariant, prsDirectory
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -204,16 +204,16 @@ def astUnitSceneRenameCmd_(
     usedObjects = []
     progressBar.update(u'''Rename Material' Nde_Node''')
     #
-    if assetPr.isAstModelLink(assetStage):
+    if prsMethods.Asset.isModelStageName(assetStage):
         usedObjects = datAsset.getAstMeshObjects(assetName, 0)
-    elif assetPr.isAstCfxLink(assetStage):
+    elif prsMethods.Asset.isGroomStageName(assetStage):
         yetiObject = datAsset.getYetiObjects(assetName)
         nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
         #
         usedObjects = yetiObject
         usedObjects.extend(nurbsHairObjects)
-    elif assetPr.isAstLightLink(assetStage):
-        linkBranch = assetPr.astUnitLightLinkGroupName(assetName)
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
         #
         usedObjects = maUtils.getChildrenByRoot(linkBranch)
     #
@@ -241,12 +241,12 @@ def astUnitSceneRefreshCmd_(
     logWin_.addStartProgress(u'Refresh Asset')
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariant.Util.basicVariantAttrLabel, assetVariant)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariant.Util.basicStageAttrLabel, assetStage)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariants.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariants.Util.basicStageAttrLabel, assetStage)
     #
-    if assetPr.isAstModelLink(assetStage):
+    if prsMethods.Asset.isModelStageName(assetStage):
         # Show All
-        modelLinkGroupName = assetPr.astUnitModelLinkGroupName(assetName)
+        modelLinkGroupName = prsMethods.Asset.modelLinkGroupName(assetName)
         maUtils.setNodeShowByGroup(modelLinkGroupName)
         #
         modelObjectLis = datAsset.getAstMeshObjects(assetName, 0)
@@ -265,9 +265,9 @@ def astUnitSceneRefreshCmd_(
         datAsset.getAovCompIndexesForce(modelIndex, modelAovs)
         maUuid.setAttrUniqueIds(modelAovs)
     #
-    elif assetPr.isAstCfxLink(assetStage):
+    elif prsMethods.Asset.isGroomStageName(assetStage):
         # Show All
-        cfxLinkGroup = assetPr.astUnitCfxLinkGroupName(assetName)
+        cfxLinkGroup = prsMethods.Asset.groomLinkGroupName(assetName)
         maUtils.setNodeShowByGroup(cfxLinkGroup)
         #
         assetSubIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
@@ -506,7 +506,7 @@ def astUnitModelPreviewUploadCmd(
         maUtils.setDisplayMode(5)
     #
     if withProduct:
-        if assetVariant == prsVariant.Util.astDefaultVariant:
+        if assetVariant == prsVariants.Util.astDefaultVariant:
             serverBasicPreviewFile = assetPr.astUnitBasicPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName, assetClass, assetName
@@ -529,8 +529,8 @@ def astUnitUploadModelGeometrySub(
 ):
     logWin_ = bscObjects.If_Log()
     # Data
-    rootGroup = assetPr.astUnitRootGroupName(assetName)
-    astModelGroup = assetPr.astUnitModelLinkGroupName(assetName)
+    rootGroup = prsMethods.Asset.rootName(assetName)
+    astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
     # Parent to World
     maUtils.setParentToWorld(astModelGroup)
     maUtils.setNodeDelete(rootGroup)
@@ -578,7 +578,7 @@ def dbAstUploadIndex(
 #
 def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
     # Name File
-    directory = prsDirectory.Database.assetNameIndex
+    directory = prsVariants.Database.assetNameIndex
     data = dbGet.getDbAssetNameData(assetIndex, projectName, assetName)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -586,7 +586,7 @@ def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
 #
 def dbAstUploadFilter(assetIndex, assetClass, timeTag):
     # Filter File
-    directory = prsDirectory.Database.assetFilterIndex
+    directory = prsVariants.Database.assetFilterIndex
     data = dbGet.getDbAssetFilterData(assetClass)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -594,7 +594,7 @@ def dbAstUploadFilter(assetIndex, assetClass, timeTag):
 #
 def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
     # Variant File
-    directory = prsDirectory.Database.assetVariantIndex
+    directory = prsVariants.Database.assetVariantIndex
     data = dbGet.getDbAssetVariantData(assetIndex, assetVariant)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -602,7 +602,7 @@ def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
 #
 def dbAstUploadAssembly(assetIndex, percentage, timeTag):
     # Assembly File
-    directory = prsDirectory.Database.assetAssemblyIndex
+    directory = prsVariants.Database.assetAssemblyIndex
     data = dbGet.getDbAssetAssemblyData(assetIndex, percentage)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -614,7 +614,7 @@ def dbAstUploadModelMeshConstant(
         timeTag
 ):
     # Mesh Constant
-    directory = prsDirectory.Database.assetGeometryConstantIndex
+    directory = prsVariants.Database.assetGeometryConstantIndex
     constantData = datAsset.getAstMeshConstantData(assetName)
     dbBasic.dbCompDatumWrite(assetIndex, constantData, directory, timeTag)
 
@@ -634,13 +634,13 @@ def astUnitModelMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     modelTextureNodes = maShdr.getTextureNodeLisByObject(shaderObjects)
     #
-    assetTexture = prsDirectory.Database.assetTexture
+    assetTexture = prsVariants.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
     if modelTextureNodes:
         serverModelTextureDirectory = assetTexture + '/' + modelIndex
-        if prsVariant.Util.isPushModelTextureToDatabase is False:
+        if prsVariants.Util.isPushModelTextureToDatabase is False:
             serverModelTextureDirectory = assetPr.astUnitTextureFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
@@ -763,7 +763,7 @@ def astUnitUploadModelProductSub(
             projectName,
             assetClass, assetName
         )[1]
-        if assetVariant == prsVariant.Util.astDefaultVariant:
+        if assetVariant == prsVariants.Util.astDefaultVariant:
             bscMethods.OsJson.write(serverBasicMeshFile, meshData)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
@@ -810,19 +810,19 @@ def astUnitUploadAssemblyProductSub(
     serverAstUnitCfxProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
     )[1]
     # Main
     maFile.new()
     logWin_.addStartProgress(u'Product Upload')
-    assetUnitRoot = assetPr.astUnitRootGroupName(assetName)
+    assetUnitRoot = prsMethods.Asset.rootName(assetName)
     if not maUtils.isAppExist(assetUnitRoot):
         maUtils.setAppPathCreate(assetUnitRoot)
     # Model
     if os.path.isfile(serverAstUnitModelProductFile):
         # Merger Model and Fur >>> 01
         maFile.setFileImport(serverAstUnitModelProductFile)
-        astModelGroup = assetPr.astUnitModelLinkGroupName(assetName)
+        astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         maUtils.setObjectParent(astModelGroup, assetUnitRoot)
         # Collection Model Texture >>> 02
         serverAstAssemblyModelTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
@@ -847,7 +847,7 @@ def astUnitUploadAssemblyProductSub(
     if os.path.isfile(serverAstUnitCfxProductFile):
         maFile.setFileImport(serverAstUnitCfxProductFile)
         # Connect Solver Fur Group
-        cfxAssetRoot = assetPr.astUnitCfxLinkGroupName(assetName)
+        cfxAssetRoot = prsMethods.Asset.groomLinkGroupName(assetName)
         maUtils.setObjectParent(cfxAssetRoot, assetUnitRoot)
         forHide = maUtils.getNodeLisByType('mesh', 1, cfxAssetRoot)
         [maUtils.setHide(maUtils.getNodeTransform(i)) for i in forHide]
@@ -855,7 +855,7 @@ def astUnitUploadAssemblyProductSub(
         serverAssemblyCfxTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
         )
         #
         shaderFurObjects = datAsset.getAstFurShaderObjects(assetName)
@@ -874,7 +874,7 @@ def astUnitUploadAssemblyProductSub(
         serverAssemblyCfxMapDirectory = assetPr.astUnitAssemblyMapFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
         )
         maTxtr.setCollectionMaps(serverAssemblyCfxMapDirectory)
         maTxtr.setRepathMaps(serverAssemblyCfxMapDirectory)
@@ -902,7 +902,7 @@ def astUnitUploadAsbProxyCacheSub(
         maFile.new()
         maFile.fileOpen(serverAssemblyProductFile)
         #
-        assetUnitRoot = assetPr.astUnitRootGroupName(assetName)
+        assetUnitRoot = prsMethods.Asset.rootName(assetName)
         modelShaderObjects = datAsset.getAstMeshObjects(assetName, 1)
         # Main Proxy Cache
         serverAstUnitAsbProxyCacheFile = assetPr.astUnitAssemblyProxyCacheFile(
@@ -914,7 +914,7 @@ def astUnitUploadAsbProxyCacheSub(
             serverAstUnitAsbCfxCacheDirectory = assetPr.astUnitAssemblyCacheFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
             )
             # Set Fur Cache
             maFur.setOutYetisCache(serverAstUnitAsbCfxCacheDirectory, furNodes, 1, 1, 3)
@@ -948,7 +948,7 @@ def astUnitUploadAsbGpuCacheSub(
 ):
     logWin_ = bscObjects.If_Log()
     # Check is Default Variant
-    if assetVariant == prsVariant.Util.astDefaultVariant:
+    if assetVariant == prsVariants.Util.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(
@@ -1008,7 +1008,7 @@ def astUploadSceneryUnitBoxCacheSub(
 ):
     logWin_ = bscObjects.If_Log()
     # Check is Default Variant
-    if assetVariant == prsVariant.Util.astDefaultVariant:
+    if assetVariant == prsVariants.Util.astDefaultVariant:
         maFile.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=False)
@@ -1350,13 +1350,13 @@ def astUnitUploadRigProduct(
     )[1]
     rigAstTempFile = bscMethods.OsFile.temporaryFilename(serverRigProductFile, timeTag)
     #
-    rigAstRoot = assetPr.astUnitRootGroupName(assetName)
+    rigAstRoot = prsMethods.Asset.rootName(assetName)
     rigAstSetObjects = maUtils.getSets()
     maFile.exportMayaFileWithSet(rigAstTempFile, rigAstRoot, rigAstSetObjects)
     # Open and Upload
     maFile.fileOpen(rigAstTempFile)
     #
-    assetVariant = prsVariant.Util.astDefaultVariant
+    assetVariant = prsVariants.Util.astDefaultVariant
     serverRigTextureDirectory = assetPr.astUnitTextureFolder(
         lxConfigure.LynxiRootIndex_Server,
         projectName, assetClass, assetName, assetVariant, assetStage
@@ -1536,8 +1536,8 @@ def astUnitUploadCfxFurSub(
 ):
     logWin_ = bscObjects.If_Log()
 
-    rootGroup = assetPr.astUnitRootGroupName(assetName)
-    cfxAssetRoot = assetPr.astUnitCfxLinkGroupName(assetName)
+    rootGroup = prsMethods.Asset.rootName(assetName)
+    cfxAssetRoot = prsMethods.Asset.groomLinkGroupName(assetName)
     cfxSet = assetPr.cfxSetName(assetName)
     yetiObjects = datAsset.getYetiObjects(assetName)
     nurbsHairObjects = datAsset.getAstCfxNurbsHairObjects(assetName)
@@ -1580,12 +1580,12 @@ def astUnitUploadCfxFurSub(
     [maFur.setYetiObjectCloseSolver(i) for i in yetiObjects]
     [maFur.setPfxHairObjectCloseSolver(i) for i in pfxHairObjects]
     # Collection Map
-    dbCfxMapDirectory = prsDirectory.Database.assetMap
+    dbCfxMapDirectory = prsVariants.Database.assetMap
     #
     logWin_.addStartProgress(u'Map Upload')
     if furObjects:
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
-        if prsVariant.Util.isPushCfxMapToDatabase is False:
+        if prsVariants.Util.isPushCfxMapToDatabase is False:
             serverMapFolder = assetPr.astUnitMapFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
@@ -1600,7 +1600,7 @@ def astUnitUploadCfxFurSub(
     # Progress >>> 02
     logWin_.addStartProgress(u'Fur Upload')
     #
-    maUtils.setAttrStringDatumForce(cfxAssetRoot, prsVariant.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(cfxAssetRoot, prsVariants.Util.basicVariantAttrLabel, assetVariant)
     # Production
     maDbAstCmds.dbAstUploadFurProduct(assetIndex, assetVariant)
     # HisTory
@@ -1628,7 +1628,7 @@ def astUnitUploadCfxFurForSolver_(
 
     assetSubIndex = dbBasic.getDatabaseSubIndex(
         assetIndex,
-        [assetPr.getAssetLink(assetStage), assetVariant]
+        [prsMethods.Asset.stageName2linkName(assetStage), assetVariant]
     )
     logWin_.addStartProgress(u'Cache Upload')
     # NurbsHair
@@ -1649,7 +1649,7 @@ def astUnitCfxMaterialUploadSubCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Collection Texture >>>> 01
-    assetTexture = prsDirectory.Database.assetTexture
+    assetTexture = prsVariants.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
@@ -1661,7 +1661,7 @@ def astUnitCfxMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     textureNodeLis = maShdr.getTextureNodeLisByObject(shaderFurNodes)
     if textureNodeLis:
-        if prsVariant.Util.isPushCfxTextureToDatabase is False:
+        if prsVariants.Util.isPushCfxTextureToDatabase is False:
             cfxTextureDirectory = assetPr.astUnitTextureFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
@@ -1904,12 +1904,12 @@ def astUnitUploadSourceSub(
 ):
     logWin_ = bscObjects.If_Log()
     # Sub Index
-    if assetPr.isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetSubIndex = dbGet.getDbAstRigIndex(assetIndex)
     else:
         assetSubIndex = dbBasic.getDatabaseSubIndex(
             assetIndex,
-            [assetPr.getAssetLink(assetStage), assetVariant]
+            [prsMethods.Asset.stageName2linkName(assetStage), assetVariant]
         )
     # Source
     backupSourceFile = assetPr.astUnitSourceFile(
@@ -2026,8 +2026,8 @@ def astUnitRemoveReferenceSub(
         timeTag
 ):
     referBranchLis = []
-    if assetPr.isAstSolverLink(assetStage):
-        modelBranch = assetPr.astUnitModelLinkGroupName(assetName)
+    if prsMethods.Asset.isSolverStageName(assetStage):
+        modelBranch = prsMethods.Asset.modelLinkGroupName(assetName)
         referBranchLis.append(modelBranch)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
@@ -2044,13 +2044,13 @@ def astUnitRemoveReferenceSub(
         bscMethods.OsJson.write(serverMeshConstantFile, meshData)
         bscMethods.OsFile.backupTo(serverMeshConstantFile, backupMeshConstantFile, timeTag)
         #
-        cfxBranch = assetPr.astUnitCfxLinkGroupName(assetName)
+        cfxBranch = prsMethods.Asset.groomLinkGroupName(assetName)
         referBranchLis.append(cfxBranch)
         #
         assetOp.setDisconnectNhrGuideObjectsConnection(assetName)
     #
-    elif assetPr.isAstLightLink(assetStage):
-        modelBranch = assetPr.astUnitModelLinkGroupName(assetName)
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        modelBranch = prsMethods.Asset.modelLinkGroupName(assetName)
         referBranchLis.append(modelBranch)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
@@ -2082,12 +2082,12 @@ def astUnitUploadProductSub(
 ):
     logWin_ = bscObjects.If_Log()
     
-    rootGroup = assetPr.astUnitRootGroupName(assetName)
+    rootGroup = prsMethods.Asset.rootName(assetName)
     linkBranch = None
-    if assetPr.isAstSolverLink(assetStage):
-        linkBranch = assetPr.astUnitSolverLinkGroupName(assetName)
-    elif assetPr.isAstLightLink(assetStage):
-        linkBranch = assetPr.astUnitLightLinkGroupName(assetName)
+    if prsMethods.Asset.isSolverStageName(assetStage):
+        linkBranch = prsMethods.Asset.solverLinkGroupName(assetName)
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
     #
     if linkBranch is not None:
         if maUtils.isAppExist(linkBranch):
@@ -2148,8 +2148,8 @@ def astUnitUploadTextureSub(
     
     linkBranch = None
     isWithTx = False
-    if assetPr.isAstLightLink(assetStage):
-        linkBranch = assetPr.astUnitLightLinkGroupName(assetName)
+    if prsMethods.Asset.isLightStageName(assetStage):
+        linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
         isWithTx = True
     if linkBranch is not None:
         if maUtils.isAppExist(linkBranch):
@@ -2204,11 +2204,11 @@ def astUnitUploadExtraSub(
     
     extraData = None
     # Rig
-    if assetPr.isAstModelLink(assetStage):
+    if prsMethods.Asset.isModelStageName(assetStage):
         extraData = datAsset.getAstUnitModelExtraData(assetName)
-    elif assetPr.isAstRigLink(assetStage):
+    elif prsMethods.Asset.isRigStageName(assetStage):
         extraData = datAsset.getAstUnitRigExtraData(assetName)
-    elif assetPr.isAstSolverLink(assetStage):
+    elif prsMethods.Asset.isSolverStageName(assetStage):
         extraData = datAsset.getAstUnitRigSolExtraData(assetName)
     #
     if extraData:
@@ -2242,10 +2242,10 @@ def astUnitUploadPreviewSub(
     logWin_ = bscObjects.If_Log()
     # GeometryGroup
     linkBranch = None
-    if assetPr.isAstLightLink(assetStage):
-        linkBranch = assetPr.astUnitLightLinkGroupName(assetName)
-    elif assetPr.isAstSolverLink(assetStage):
-        linkBranch = assetPr.astUnitSolverLinkGroupName(assetName)
+    if prsMethods.Asset.isLightStageName(assetStage):
+        linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
+    elif prsMethods.Asset.isSolverStageName(assetStage):
+        linkBranch = prsMethods.Asset.solverLinkGroupName(assetName)
     if linkBranch is not None:
         if maUtils.isAppExist(linkBranch):
             # Model Preview File

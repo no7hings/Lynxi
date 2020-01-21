@@ -1,13 +1,9 @@
 # coding:utf-8
 from LxBasic import bscObjects, bscMethods, bscCommands
 
-from LxPreset import prsConfigure
+from LxPreset import prsVariants, prsMethods
 
 from LxCore import lxConfigure, lxScheme
-#
-from LxCore.config import appConfig
-#
-from LxCore.preset import prsVariant, prsMethod
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
 #
@@ -177,7 +173,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             #
             
             user = bscMethods.OsJson.getValue(osJsonFile, lxConfigure.Lynxi_Key_Info_Artist)
-            personnel = prsMethod.Personnel.userChnname(user)
+            personnel = prsMethods.Personnel.userChnname(user)
             #
             treeItem = qtWidgets.QtTreeviewItem()
             activeItem.addChild(treeItem)
@@ -193,14 +189,14 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             #
             curIndexLis = bscMethods.OsJson.getValue(
                 osJsonFile,
-                prsConfigure.Asset.name()
+                prsMethods.Asset.moduleName()
             )
             if curIndexLis == activeIndexLis:
                 treeItem.setFilterColor((63, 127, 255, 255))
             treeItem.assetIndexLis = curIndexLis
             treeItem.sceneryIndexLis = bscMethods.OsJson.getValue(
                 serverSceneIndexFile,
-                prsConfigure.Scenery.name()
+                prsMethods.Scenery.moduleName()
             )
         #
         if self._args is not None:
@@ -233,12 +229,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             activeItem.endFrame = bscMethods.OsJson.getValue(serverSceneIndexFile, lxConfigure.Lynxi_Key_Info_EndFrame)
             #
             activeIndexLis = bscMethods.OsJson.getValue(
-                serverSceneIndexFile, prsConfigure.Asset.name()
+                serverSceneIndexFile, prsMethods.Asset.moduleName()
             )
             activeItem.assetIndexLis = activeIndexLis
             activeItem.sceneryIndexLis = bscMethods.OsJson.getValue(
                 serverSceneIndexFile,
-                prsConfigure.Scenery.name()
+                prsMethods.Scenery.moduleName()
             )
             #
             indexRecordDic = bscMethods.OsFile.backupNameDict(backupSceneIndexFile)
@@ -289,12 +285,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         classItemDic = {}
 
-        for productModule in prsConfigure.Product.modulenames():
-            v = prsConfigure.Product.moduleShowname(productModule)
+        for productModule in prsMethods.Product.moduleNames():
+            v = prsMethods.Product.moduleShowname(productModule)
             moduleItem = setModuleBranch(productModule, v)
             #
-            classKeyLis = prsConfigure.Product.moduleClassnames(productModule)
-            classUiDic = prsConfigure.Product.moduleClassShownames(productModule)
+            classKeyLis = prsMethods.Product.moduleCategoryNames(productModule)
+            classUiDic = prsMethods.Product.moduleClassShownames(productModule)
             #
             for unitClass in classKeyLis:
                 iv = classUiDic[unitClass]
@@ -369,7 +365,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setSceneryModuleBranch(indexes):
             def setUnitSubBranch(seq, value):
                 sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage = value
-                if prsConfigure.Product.isLxSceneryClass(sceneryClass):
+                if prsMethods.Product.isValidSceneryCategoryName(sceneryClass):
                     treeItem = qtWidgets.QtTreeviewItem()
                     classItem = classItemDic[sceneryClass]
                     classItem.addChild(treeItem)
@@ -383,7 +379,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     treeItem.sceneryVariant = sceneryVariant
                 else:
                     treeItem = qtWidgets.QtTreeviewItem()
-                    classItem = classItemDic[prsConfigure.Product.LynxiProduct_Scenery_Class_Assembly]
+                    classItem = classItemDic[prsMethods.Asset.assemblyCategoryName()]
                     classItem.addChild(treeItem)
                     #
                     viewName = assetPr.getAssetViewName(sceneryIndex)
@@ -447,7 +443,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 assetIndex = key
                 assetClass = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
-                assetVariant = prsVariant.Util.astDefaultVariant
+                assetVariant = prsVariants.Util.astDefaultVariant
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[assetClass]
@@ -466,10 +462,10 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 assetIndex = key
                 assetClass = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
-                assetVariant = prsVariant.Util.astDefaultVariant
+                assetVariant = prsVariants.Util.astDefaultVariant
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
-                classItem = classItemDic[prsConfigure.Product.LynxiProduct_Scenery_Class_Assembly]
+                classItem = classItemDic[prsMethods.Asset.assemblyCategoryName()]
                 classItem.addChild(treeItem)
                 #
                 viewExplain = u'{} ( {} - {} )'.format(assetViewName, assetName, assetVariant)
@@ -496,7 +492,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 sceneryIndex = key
                 sceneryClass = assetPr.getAssetClass(sceneryIndex)
                 sceneryName, sceneryViewName = value
-                sceneryVariant = prsVariant.Util.astDefaultVariant
+                sceneryVariant = prsVariants.Util.astDefaultVariant
             #
             setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=lxConfigure.LynxiProduct_Scenery_Link_Scenery)
             if setDic:
@@ -526,7 +522,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             if bscCommands.isOsExistsFile(self._serverFile):
                 serverAssetDatum = bscMethods.OsJson.getValue(
                     self._serverFile,
-                    prsConfigure.Asset.name()
+                    prsMethods.Asset.moduleName()
                 )
                 if not self._assetDatumLis == serverAssetDatum:
                     bscMethods.OsJson.setValue(
@@ -535,7 +531,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                             lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
                             lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
                             #
-                            prsConfigure.Asset.name(): self._assetDatumLis
+                            prsMethods.Asset.moduleName(): self._assetDatumLis
                         }
                     )
                     #
@@ -810,7 +806,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
-                            cacheFileItem_.setText(3, prsMethod.Personnel.userChnname(osUser))
+                            cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
                         #
                         startFrame_ = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_StartFrame)
                         endFrame_ = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_EndFrame)
@@ -857,7 +853,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
-                        cacheFileItem_.setText(3, prsMethod.Personnel.userChnname(osUser))
+                        cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
                     #
                     startFrame_ = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_StartFrame)
                     endFrame_ = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_EndFrame)
@@ -1122,7 +1118,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     if k in infoDatumDic:
                         info = infoDatumDic[k]
                         if k == lxConfigure.Lynxi_Key_Info_Artist:
-                            cnName = prsMethod.Personnel.userChnname(info)
+                            cnName = prsMethods.Personnel.userChnname(info)
                             if cnName:
                                 viewInfo = u'{} ( {} )'.format(cnName, info)
                             else:
@@ -1660,22 +1656,22 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         # Os User
         self._osUserNameLabel.setDatum(osUser)
         # CH - Name
-        chName = prsMethod.Personnel.userChnname(osUser)
+        chName = prsMethods.Personnel.userChnname(osUser)
         self._chNameLabel.setDatum(chName)
         self._chNameLabel.setDefaultDatum(chName)
         # En - Name
-        enName = prsMethod.Personnel.userEngname(osUser)
+        enName = prsMethods.Personnel.userEngname(osUser)
         self._enNameLabel.setDatum(enName)
         self._enNameLabel.setDefaultDatum(enName)
         #
-        teamLis = prsMethod.Personnel.teams()
-        team = prsMethod.Personnel.userTeam(osUser)
+        teamLis = prsMethods.Personnel.teams()
+        team = prsMethods.Personnel.userTeam(osUser)
         self._teamLabel.setDatumLis(teamLis)
         self._teamLabel.setChoose(team)
         #
-        post = prsMethod.Personnel.userPost(osUser)
+        post = prsMethods.Personnel.userPost(osUser)
         self._postLabel.setDatum(post)
-        mail = prsMethod.Personnel.userMail(osUser)
+        mail = prsMethods.Personnel.userMail(osUser)
         self._mailLabel.setDatum(mail)
         # PC Data
         self._pcLabel.setDatum(bscMethods.OsSystem.hostname())
@@ -1712,7 +1708,7 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         post = self._postLabel.datum()
         #
         if isChecked:
-            prsMethod.Personnel.updateUserDatum(user, chName, enName, mail, team, post)
+            prsMethods.Personnel.updateUserDatum(user, chName, enName, mail, team, post)
             if bscCommands.isMayaApp():
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
@@ -1758,7 +1754,7 @@ class IfPersonnelOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     #
     def setCentralRefresh(self):
         def setTeamBranch(parentItem):
-            teamLis = prsMethod.Personnel.teams()
+            teamLis = prsMethods.Personnel.teams()
             if teamLis:
                 count = len(teamLis)
                 for seq, teamName in enumerate(teamLis):
@@ -1774,11 +1770,11 @@ class IfPersonnelOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     self._teamItemDic[teamName] = treeItem
         #
         def setUserBranch():
-            userLis = prsMethod.Personnel.usernames()
+            userLis = prsMethods.Personnel.usernames()
             #
             if userLis:
                 for userName in userLis:
-                    userDataDic = prsMethod.Personnel.usernameDatumDic(userName)
+                    userDataDic = prsMethods.Personnel.usernameDatumDic(userName)
                     if userDataDic:
                         chName = userDataDic[lxConfigure.LynxiUserCnNameKey]
                         enName = userDataDic[lxConfigure.LynxiUserEnNameKey]

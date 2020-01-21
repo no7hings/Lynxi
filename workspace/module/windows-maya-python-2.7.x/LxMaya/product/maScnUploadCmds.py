@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import sceneryPr
 
@@ -250,7 +250,7 @@ def scnUnitAssemblyPreviewUploadCmd(
         root,
         serverFile,
         useDefaultMaterial=useDefaultMaterial,
-        width=prsVariant.Util.rndrImageWidth / 2, height=prsVariant.Util.rndrImageHeight / 2
+        width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2
     )
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)

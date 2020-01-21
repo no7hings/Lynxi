@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
 
 from LxCore import lxConfigure
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 
@@ -243,7 +243,7 @@ def astUnitModelMaterialLoadCmd(
         else:
             logWin_.addWarning(u'AOV is Non - Exists')
         # Collection Bridge Group
-        astUnitModelLinkGroup = assetPr.astUnitModelLinkGroupName(assetName)
+        astUnitModelLinkGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         astUnitModelBridgeGroup = assetPr.astUnitModelBridgeGroupName(assetName)
         maUtils.setObjectParent(astUnitModelBridgeGroup, astUnitModelLinkGroup)
     else:
@@ -391,7 +391,7 @@ def astUnitRigLoadMainCmd(
             assetClass, assetName, assetVariant, assetStage
         )
         # Create Branch
-        rigBranch = assetPr.astUnitRigLinkGroupName(assetName)
+        rigBranch = prsMethods.Asset.rigLinkGroupName(assetName)
         if not maUtils.isAppExist(rigBranch):
             maHier.setCreateAstRigHierarchy(assetClass, assetName)
         #
@@ -554,7 +554,7 @@ def astUnitCfxFurLoadCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Data
-    cfxGroup = assetPr.astUnitCfxLinkGroupName(assetName)
+    cfxGroup = prsMethods.Asset.groomLinkGroupName(assetName)
     # Load Fur Nde_Node
     existDbFur = dbGet.getExistsDbFur(assetIndex, assetVariant)
     if existDbFur:
@@ -585,7 +585,7 @@ def astUnitCfxFurLoadCmd(
             #
             logWin_.addCompleteProgress()
         #
-        rootGroup = assetPr.astUnitRootGroupName(assetName)
+        rootGroup = prsMethods.Asset.rootName(assetName)
         if maUtils.isAppExist(rootGroup):
             maUtils.setObjectParent(cfxGroup, rootGroup)
     else:
@@ -818,7 +818,7 @@ def astUnitReferenceLoadCmd(
     
     logWin_.addStartProgress(u'Reference Load')
     #
-    if assetPr.isAstSolverLink(assetStage):
+    if prsMethods.Asset.isSolverStageName(assetStage):
         # Model
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName)
         #
@@ -827,7 +827,7 @@ def astUnitReferenceLoadCmd(
         # Refresh Root
         astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
         maUtils.setObjectReferenceDisplay(astUnitModelProductGroup)
-    elif assetPr.isAstLightLink(assetStage):
+    elif prsMethods.Asset.isLightStageName(assetStage):
         maDbAstCmds.dbAstLoadModelProduct(
             assetIndex,
             assetName, assetVariant
@@ -856,7 +856,7 @@ def astUnitProductLoadCmd(
     logWin_ = bscObjects.If_Log()
     
     serverProductFile = None
-    if assetPr.isAstSolverLink(assetStage) or assetPr.isAstLightLink(assetStage):
+    if prsMethods.Asset.isSolverStageName(assetStage) or prsMethods.Asset.isLightStageName(assetStage):
         serverProductFile = assetPr.astUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
@@ -921,8 +921,8 @@ def astUnitTextureLoadCmd(
     linkGroupName = None
     #
     isWithTx = False
-    if assetPr.isAstLightLink(assetStage):
-        linkGroupName = assetPr.astUnitLightLinkGroupName(assetName)
+    if prsMethods.Asset.isLightStageName(assetStage):
+        linkGroupName = prsMethods.Asset.lightLinkGroupName(assetName)
         isWithTx = True
     #
     if linkGroupName is not None:
@@ -962,7 +962,7 @@ def astUnitCacheLoadCmd(
     linkGroupName = None
     #
     isWithTx = False
-    if assetPr.isAstSolverLink(assetStage):
+    if prsMethods.Asset.isSolverStageName(assetStage):
         pass
 
 
@@ -984,7 +984,7 @@ def astUnitExtraLoadCmd(
     #
     astUnitModelBridgeGroup = assetPr.astUnitModelBridgeGroupName(assetName)
     if maUtils.isAppExist(astUnitModelBridgeGroup):
-        astUnitModelGroup = assetPr.astUnitModelLinkGroupName(assetName)
+        astUnitModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         maUtils.setObjectParent(astUnitModelBridgeGroup, astUnitModelGroup)
 
 
@@ -1066,9 +1066,9 @@ def astUnitRigLoadForAnimationCmd(
     #
     maFile.setMaFileReference(serverRigProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)
 
 
 #
@@ -1088,6 +1088,6 @@ def astAssetSolverLoadForAnimation(
     #
     maFile.setMaFileReference(serverSolverProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariant.Util.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)

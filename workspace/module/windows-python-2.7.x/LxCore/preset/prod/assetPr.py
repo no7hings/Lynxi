@@ -1,13 +1,11 @@
 # coding=utf-8
 from LxBasic import bscMethods, bscCommands
 
-from LxPreset import prsConfigure
-
 from LxCore import lxConfigure, lxScheme
 #
 from LxCore.config import assetCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsCore, prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr
 # do not delete and rename
@@ -27,12 +25,12 @@ def astBasicNameSet(*args):
             else:
                 j = '{}'
             formatString += j
-    return prsVariant.Util.Lynxi_Prefix_Product_Asset + formatString.format(*args)
+    return prsVariants.Util.Lynxi_Prefix_Product_Asset + formatString.format(*args)
 
 
 # Group Name Config
 def astBasicGroupNameSet(*args):
-    return astBasicNameSet(*args) + prsVariant.Util.basicGroupLabel
+    return astBasicNameSet(*args) + prsVariants.Util.basicGroupLabel
 
 
 #
@@ -42,7 +40,7 @@ def astBasicNodeNameSet(*args):
 
 #
 def astBasicSetNameSet(*args):
-    return astBasicNameSet(*args) + prsVariant.Util.basicSetLabel
+    return astBasicNameSet(*args) + prsVariants.Util.basicSetLabel
 
 
 #
@@ -60,7 +58,7 @@ def astUnitAssemblyBasicNameSet(*args):
             else:
                 j = '{}'
             formatString += j
-    return prsVariant.Util.scnAssemblyPrefix + formatString.format(*args)
+    return prsVariants.Util.scnAssemblyPrefix + formatString.format(*args)
 
 
 #
@@ -70,12 +68,12 @@ def astAssemblyBasicObjectNameSet(*args):
 
 #
 def astRigNamespaceSet(*args):
-    return astBasicNameSet(*args) + prsVariant.Util.astRigNodeLabel
+    return astBasicNameSet(*args) + prsVariants.Util.astRigNodeLabel
 
 
 #
 def astSolverNamespaceSet(*args):
-    return astBasicNameSet(*args) + prsVariant.Util.astSolverNodeLabel
+    return astBasicNameSet(*args) + prsVariants.Util.astSolverNodeLabel
 
 
 # Group Name Config
@@ -85,288 +83,231 @@ def astNodeGroupNameSet(assetName, groupNameLabel, objectNameLabel):
 
 #
 def astAssemblyProxyObjectName(assetName, namespace=none):
-    return [none, namespace + ':'][namespace is not none] + astAssemblyBasicObjectNameSet(assetName) + prsVariant.Util.asbProxyFileLabel
+    return [none, namespace + ':'][namespace is not none] + astAssemblyBasicObjectNameSet(assetName) + prsVariants.Util.asbProxyFileLabel
 
 
 # Compose Group Name
 def astComposeRootGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicComposeRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicComposeRootGroupLabel)
     return string
-
-
-# Unit Group Name
-def astUnitRootGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicUnitRootGroupLabel)
-    return string
-
-
-#
-def astUnitLinkGroupLabel(assetStage):
-    string = ''
-    if isAstModelLink(assetStage):
-        string = prsVariant.Util.basicModelLinkGroupLabel
-    elif isAstRigLink(assetStage):
-        string = prsVariant.Util.basicRigLinkGroupLabel
-    elif isAstCfxLink(assetStage):
-        string = prsVariant.Util.basicCfxLinkGroupLabel
-    elif isAstSolverLink(assetStage):
-        string = prsVariant.Util.basicSolverLinkGroupLabel
-    elif isAstLightLink(assetStage):
-        string = prsVariant.Util.basicLightLinkGroupLabel
-    return string
-
-
-#
-def astUnitLinkGroupName(assetName, assetStage, namespace=None):
-    return ('' if namespace is None else namespace + ':') + astBasicGroupNameSet(assetName, astUnitLinkGroupLabel(assetStage))
 
 
 # Model Root Group Name
 def astModelRootGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicModelRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicModelRootGroupLabel)
     return string
 
 
 #
 def astRigRootGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicRigRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicRigRootGroupLabel)
     return string
 
 
 #
 def astCfxRootGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicCfxRootGroupLabel)
-    return string
-
-
-# Model Group Name
-def astUnitModelLinkGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicModelLinkGroupLabel)
-    return string
-
-
-#
-def astUnitRigLinkGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicRigLinkGroupLabel)
-    return string
-
-
-#
-def astUnitCfxLinkGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicCfxLinkGroupLabel)
-    return string
-
-
-#
-def astUnitSolverLinkGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicRigSolLinkGroupLabel)
-    return string
-
-
-#
-def astUnitLightLinkGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicLightLinkGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicCfxRootGroupLabel)
     return string
 
 
 # Product Nde_Geometry Group Name
 def astUnitModelProductGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicGeometryGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicGeometryGroupLabel)
     return string
 
 
 # Solver Group Name
 def astUnitModelSolverGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicSolverGeometrySubGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicSolverGeometrySubGroupLabel)
     return string
 
 
 #
 def astUnitModelReferenceGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicModelReferenceGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicModelReferenceGroupLabel)
     return string
 
 
 #
 def astUnitModelBridgeGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicModelBridgeGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicModelBridgeGroupLabel)
     return string
 
 
 #
 def astUnitRigBridgeGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicRigBridgeGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicRigBridgeGroupLabel)
     return string
 
 
 #
 def astUnitSolverBridgeGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicSolverBridgeGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicSolverBridgeGroupLabel)
     return string
 
 
 # Rig Solver Link Group
 def astUnitRigSolFurSubGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.astFurSolverGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.astFurSolverGroupLabel)
     return string
 
 
 # Solver Group Name
 def astUnitCfxFurCollisionFieldGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.astRigSolFurCollisionFieldGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.astRigSolFurCollisionFieldGroupLabel)
     return string
 
 
 #
 def astUnitModelSolClothFieldGroupName(assetName):
-    string = astBasicGroupNameSet(assetName, prsVariant.Util.basicSolverClothFieldGroupLabel)
+    string = astBasicGroupNameSet(assetName, prsVariants.Util.basicSolverClothFieldGroupLabel)
     return string
 
 
 #
 def astUnitModelSolHairFieldGroupName(assetName):
-    string = astBasicGroupNameSet(assetName, prsVariant.Util.basicSolverHairFieldGroupLabel)
+    string = astBasicGroupNameSet(assetName, prsVariants.Util.basicSolverHairFieldGroupLabel)
     return string
 
 
 # Solver Group Name
 def scAstCfxTempGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicCfxLinkGroupLabel + '_temp')
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicCfxLinkGroupLabel + '_temp')
     return string
 
 
 # Solver Group Name
 def scAstSolverTempGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicSolverGeometrySubGroupLabel + '_temp')
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicSolverGeometrySubGroupLabel + '_temp')
     return string
 
 
 #
 def yetiGroupName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariant.Util.basicCfxLinkGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, prsVariants.Util.basicCfxLinkGroupLabel)
     return string
 
 
 #
 def cfxSetName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicSetNameSet(assetName, prsVariant.Util.basicCfxLinkGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicSetNameSet(assetName, prsVariants.Util.basicCfxLinkGroupLabel)
     return string
 
 
 #
 def solverCollisionFieldGroupName(assetName):
-    string = astBasicGroupNameSet(assetName, prsVariant.Util.basicCollisionFieldGroupLabel)
+    string = astBasicGroupNameSet(assetName, prsVariants.Util.basicCollisionFieldGroupLabel)
     return string
 
 
 #
 def yetiNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astYetiNodeGroupLabel
+    subLabel = prsVariants.Util.astYetiNodeGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def guideSystemGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astYetiGuideSolverNodeGroupLabel
+    subLabel = prsVariants.Util.astYetiGuideSolverNodeGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def guideFollicleGroupName(assetName):
-    subLabel = prsVariant.Util.astYetiGuideFollicleGroupLabel
+    subLabel = prsVariants.Util.astYetiGuideFollicleGroupLabel
     string = astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def guideLocalCurveGroupName(assetName):
-    subLabel = prsVariant.Util.astPfxHairLocalCurveNodeLabel
+    subLabel = prsVariants.Util.astPfxHairLocalCurveNodeLabel
     string = astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def guideCurveGroupName(assetName):
-    subLabel = prsVariant.Util.astYetiGuideCurveGroupLabel
+    subLabel = prsVariants.Util.astYetiGuideCurveGroupLabel
     string = astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astPfxHairNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astPfxHairGroupLabel
+    subLabel = prsVariants.Util.astPfxHairGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitCfxNhrFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxFurNhrFieldGroupLabel
+    subLabel = prsVariants.Util.astCfxFurNhrFieldGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astCfxNurbsHairNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxFurNhrObjectGroupLabel
+    subLabel = prsVariants.Util.astCfxFurNhrObjectGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astCfxNhrGrowObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxFurNhrGrowGroupLabel
+    subLabel = prsVariants.Util.astCfxFurNhrGrowGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitCfxNhrGuideObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxFurNhrGuideGroupLabel
+    subLabel = prsVariants.Util.astCfxFurNhrGuideGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitRigSolFurFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astRigSolFurFieldGroupLabel
+    subLabel = prsVariants.Util.astRigSolFurFieldGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitRigSolNhrFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astRigSolNhrFieldGroupLabel
+    subLabel = prsVariants.Util.astRigSolNhrFieldGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitRigSolNhrSubGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astRigSolNhrSubGroupLabel
+    subLabel = prsVariants.Util.astRigSolNhrSubGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitSolverGrowFieldSubGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astSolverGrowFieldSubGroupLabel
+    subLabel = prsVariants.Util.astSolverGrowFieldSubGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitRigSolNhrGuideObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astRigSolNhrSolGuideGroupLabel
+    subLabel = prsVariants.Util.astRigSolNhrSolGuideGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitRigSolNhrCurveObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astRigSolNhrSolCurveGroupLabel
+    subLabel = prsVariants.Util.astRigSolNhrSolCurveGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
@@ -383,7 +324,7 @@ def astUnitRigSolNhrSolGuideObjectGroupPath(assetName, namespace=none):
 
 #
 def astUnitSolverGrowSourceObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astSolverGrowSourceGroupLabel
+    subLabel = prsVariants.Util.astSolverGrowSourceGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
@@ -392,7 +333,7 @@ def astUnitSolverGrowSourceObjectGroupName(assetName, namespace=none):
 def astUnitSolverGrowSourceObjectGroupPath(assetName, namespace=none):
     return '|'.join(
         [
-            astUnitSolverLinkGroupName(assetName, namespace),
+            prsMethods.Asset.solverLinkGroupName(assetName, namespace),
             astUnitSolverGrowFieldSubGroupName(assetName, namespace),
             astUnitSolverGrowSourceObjectGroupName(assetName, namespace)
         ]
@@ -401,7 +342,7 @@ def astUnitSolverGrowSourceObjectGroupPath(assetName, namespace=none):
 
 #
 def astUnitSolverGrowDeformObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astSolverGrowDeformGroupLabel
+    subLabel = prsVariants.Util.astSolverGrowDeformGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
@@ -410,7 +351,7 @@ def astUnitSolverGrowDeformObjectGroupName(assetName, namespace=none):
 def astUnitSolverGrowDeformObjectGroupPath(assetName, namespace=none):
     return '|'.join(
         [
-            astUnitSolverLinkGroupName(assetName, namespace),
+            prsMethods.Asset.solverLinkGroupName(assetName, namespace),
             astUnitSolverGrowFieldSubGroupName(assetName, namespace),
             astUnitSolverGrowDeformObjectGroupName(assetName, namespace)
         ]
@@ -419,21 +360,21 @@ def astUnitSolverGrowDeformObjectGroupPath(assetName, namespace=none):
 
 #
 def pfxSystemGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astPfxHairSolverNodeGroupLabel
+    subLabel = prsVariants.Util.astPfxHairSolverNodeGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitCfxGrowFieldSubGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxGrowFieldSubGroupLabel
+    subLabel = prsVariants.Util.astCfxGrowFieldSubGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
 
 #
 def astUnitCfxGrowSourceObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
+    subLabel = prsVariants.Util.astCfxGrowSourceGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
@@ -442,7 +383,7 @@ def astUnitCfxGrowSourceObjectGroupName(assetName, namespace=none):
 def astUnitCfxGroupSourceGroupPath(assetName, namespace=none):
     return '|'.join(
         [
-            astUnitCfxLinkGroupName(assetName, namespace),
+            prsMethods.Asset.groomLinkGroupName(assetName, namespace),
             astUnitCfxGrowFieldSubGroupName(assetName, namespace),
             astUnitCfxGrowSourceObjectGroupName(assetName, namespace)
         ]
@@ -451,7 +392,7 @@ def astUnitCfxGroupSourceGroupPath(assetName, namespace=none):
 
 #
 def astUnitCfxGrowDeformObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariant.Util.astCfxGrowDeformGroupLabel
+    subLabel = prsVariants.Util.astCfxGrowDeformGroupLabel
     string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
     return string
 
@@ -460,7 +401,7 @@ def astUnitCfxGrowDeformObjectGroupName(assetName, namespace=none):
 def astUnitCfxGrowDeformObjectGroupPath(assetName, namespace=none):
     return '|'.join(
         [
-            astUnitCfxLinkGroupName(assetName, namespace),
+            prsMethods.Asset.groomLinkGroupName(assetName, namespace),
             astUnitCfxGrowFieldSubGroupName(assetName, namespace),
             astUnitCfxGrowDeformObjectGroupName(assetName, namespace)
         ]
@@ -469,32 +410,34 @@ def astUnitCfxGrowDeformObjectGroupPath(assetName, namespace=none):
 
 # Asset Namespace
 def furAssetGroupName(assetName, number, variant):
-    string = '%s_%s_%s_%s%s%s' % (prsVariant.Util.Lynxi_Prefix_Product_Asset, assetName, number, variant, prsVariant.Util.astCfxProductFileLabel, prsVariant.Util.basicGroupLabel)
+    string = '%s_%s_%s_%s%s%s' % (
+        prsVariants.Util.Lynxi_Prefix_Product_Asset, assetName, number, variant, prsVariants.Util.astCfxProductFileLabel, prsVariants.Util.basicGroupLabel
+    )
     return string
 
 
 #
 def astModelContainerName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariant.Util.scModelNodeLabel, prsVariant.Util.astContainerNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariants.Util.scModelNodeLabel, prsVariants.Util.astContainerNodeLabel)
     return string
 
 
 #
 def astCfxContainerName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariant.Util.basicCharacterFxLinkLabel, prsVariant.Util.astContainerNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariants.Util.basicCharacterFxLinkLabel, prsVariants.Util.astContainerNodeLabel)
     return string
 
 
 #
 def astSolverContainerName(assetName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariant.Util.basicSolverLinkLabel, prsVariant.Util.astContainerNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + astBasicNameSet(assetName, prsVariants.Util.basicSolverLinkLabel, prsVariants.Util.astContainerNodeLabel)
     return string
 
 
 #
 def astRootGroupHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitRootGroupName(assetName)] = []
+    dic[prsMethods.Asset.rootName(assetName)] = []
     return dic
 
 
@@ -502,7 +445,7 @@ def astRootGroupHierarchyConfig(assetName):
 def astModelLinkHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
     #
-    dic[astUnitModelLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName),
         astUnitModelSolverGroupName(assetName),
         astUnitModelReferenceGroupName(assetName),
@@ -514,7 +457,7 @@ def astModelLinkHierarchyConfig(assetName):
 #
 def astModelCharHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitModelLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
     dic[astUnitModelProductGroupName(assetName)] = [
@@ -610,7 +553,7 @@ def astModelCharHierarchyConfig(assetName):
 
 #
 def astGpuName(assetName, number):
-    gpuName = '%s_%s%s' % (assetName, number, prsVariant.Util.asbGpuFileLabel)
+    gpuName = '%s_%s%s' % (assetName, number, prsVariants.Util.asbGpuFileLabel)
     return gpuName
 
 
@@ -638,7 +581,7 @@ def astPropBuildBasicLeafs():
 #
 def astPropHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitModelLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
     dic[astUnitModelProductGroupName(assetName)] = [
@@ -675,7 +618,7 @@ def astSolverHairBasicLeafs():
 #
 def astModelSolverHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitModelLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelSolverGroupName(assetName)
     ]
     dic[astUnitModelSolverGroupName(assetName)] = [
@@ -698,7 +641,7 @@ def astModelSolverHierarchyConfig(assetName):
 #
 def astModelReferenceHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitModelLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelReferenceGroupName(assetName)
     ]
     return dic
@@ -708,7 +651,7 @@ def astModelReferenceHierarchyConfig(assetName):
 def astRigLinkHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
     # Main
-    dic[astUnitRigLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.rigLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigControl'),
         astBasicGroupNameSet(assetName, '_rigSkin'),
         # Bridge
@@ -727,36 +670,36 @@ def astRigLinkHierarchyConfig(assetName):
 
 #
 def astCfxHierarchyConfig(assetName):
-    astFurYetiGroupLabel = prsVariant.Util.astFurYetiGroupLabel
-    astFurMayaGroupLabel = prsVariant.Util.astFurMayaGroupLabel
-    astFurNurbsGroupLabel = prsVariant.Util.astFurNurbsGroupLabel
+    astFurYetiGroupLabel = prsVariants.Util.astFurYetiGroupLabel
+    astFurMayaGroupLabel = prsVariants.Util.astFurMayaGroupLabel
+    astFurNurbsGroupLabel = prsVariants.Util.astFurNurbsGroupLabel
     #
-    astYetiNodeGroupLabel = prsVariant.Util.astYetiNodeGroupLabel
-    astYetiGroomGroupLabel = prsVariant.Util.astYetiGroomGroupLabel
-    astYetiGrowGroupLabel = prsVariant.Util.astYetiGrowGroupLabel
-    astYetiReferenceGroupLabel = prsVariant.Util.astYetiReferenceGroupLabel
-    astYetiGuideGroupLabel = prsVariant.Util.astYetiGuideGroupLabel
-    astYetiGuideFollicleGroupLabel = prsVariant.Util.astYetiGuideFollicleGroupLabel
-    astYetiGuideCurveGroupLabel = prsVariant.Util.astYetiGuideCurveGroupLabel
-    astYetiGuideSolverNodeGroupLabel = prsVariant.Util.astYetiGuideSolverNodeGroupLabel
+    astYetiNodeGroupLabel = prsVariants.Util.astYetiNodeGroupLabel
+    astYetiGroomGroupLabel = prsVariants.Util.astYetiGroomGroupLabel
+    astYetiGrowGroupLabel = prsVariants.Util.astYetiGrowGroupLabel
+    astYetiReferenceGroupLabel = prsVariants.Util.astYetiReferenceGroupLabel
+    astYetiGuideGroupLabel = prsVariants.Util.astYetiGuideGroupLabel
+    astYetiGuideFollicleGroupLabel = prsVariants.Util.astYetiGuideFollicleGroupLabel
+    astYetiGuideCurveGroupLabel = prsVariants.Util.astYetiGuideCurveGroupLabel
+    astYetiGuideSolverNodeGroupLabel = prsVariants.Util.astYetiGuideSolverNodeGroupLabel
     #
-    astPfxHairGroupLabel = prsVariant.Util.astPfxHairGroupLabel
-    astPfxHairGrowGroupLabel = prsVariant.Util.astPfxHairGrowGroupLabel
-    astPfxHairFollicleGroupLabel = prsVariant.Util.astPfxHairFollicleGroupLabel
-    astPfxHairCurveGroupLabel = prsVariant.Util.astPfxHairCurveGroupLabel
-    astPfxHairSolverNodeGroupLabel = prsVariant.Util.astPfxHairSolverNodeGroupLabel
+    astPfxHairGroupLabel = prsVariants.Util.astPfxHairGroupLabel
+    astPfxHairGrowGroupLabel = prsVariants.Util.astPfxHairGrowGroupLabel
+    astPfxHairFollicleGroupLabel = prsVariants.Util.astPfxHairFollicleGroupLabel
+    astPfxHairCurveGroupLabel = prsVariants.Util.astPfxHairCurveGroupLabel
+    astPfxHairSolverNodeGroupLabel = prsVariants.Util.astPfxHairSolverNodeGroupLabel
     #
-    astCfxFurNhrFieldGroupLabel = prsVariant.Util.astCfxFurNhrFieldGroupLabel
+    astCfxFurNhrFieldGroupLabel = prsVariants.Util.astCfxFurNhrFieldGroupLabel
     #
-    astCfxGrowFieldSubGroupLabel = prsVariant.Util.astCfxGrowFieldSubGroupLabel
-    astCfxGrowSourceGroupLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
-    astCfxFurGrowTargetGroupLabel = prsVariant.Util.astCfxFurGrowTargetGroupLabel
-    astCfxGrowDeformGroupLabel = prsVariant.Util.astCfxGrowDeformGroupLabel
-    astCfxFurCollisionSubGroupLabel = prsVariant.Util.astCfxFurCollisionSubGroupLabel
+    astCfxGrowFieldSubGroupLabel = prsVariants.Util.astCfxGrowFieldSubGroupLabel
+    astCfxGrowSourceGroupLabel = prsVariants.Util.astCfxGrowSourceGroupLabel
+    astCfxFurGrowTargetGroupLabel = prsVariants.Util.astCfxFurGrowTargetGroupLabel
+    astCfxGrowDeformGroupLabel = prsVariants.Util.astCfxGrowDeformGroupLabel
+    astCfxFurCollisionSubGroupLabel = prsVariants.Util.astCfxFurCollisionSubGroupLabel
     #
     dic = bscCommands.orderedDict()
     # Main
-    dic[astUnitCfxLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.groomLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, astFurYetiGroupLabel),
         astBasicGroupNameSet(assetName, astFurMayaGroupLabel),
         astBasicGroupNameSet(assetName, astFurNurbsGroupLabel),
@@ -802,15 +745,15 @@ def astCfxHierarchyConfig(assetName):
 #
 def astRigSolverHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitSolverLinkGroupName(assetName)] = [
+    dic[prsMethods.Asset.solverLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigSolControl'),
         astBasicGroupNameSet(assetName, '_rigSolSkin'),
         astBasicGroupNameSet(assetName, '_rigSolField'),
         #
         astUnitRigSolNhrSubGroupName(assetName),
         #
-        astBasicGroupNameSet(assetName, prsVariant.Util.astSolverGrowFieldSubGroupLabel),
-        astBasicGroupNameSet(assetName, prsVariant.Util.astRigSolCollisionSubGroupLabel)
+        astBasicGroupNameSet(assetName, prsVariants.Util.astSolverGrowFieldSubGroupLabel),
+        astBasicGroupNameSet(assetName, prsVariants.Util.astRigSolCollisionSubGroupLabel)
     ]
     dic[astUnitRigSolNhrSubGroupName(assetName)] = [
         astUnitRigSolNhrFieldGroupName(assetName)
@@ -819,10 +762,10 @@ def astRigSolverHierarchyConfig(assetName):
         astUnitRigSolNhrGuideObjectGroupName(assetName),
         astUnitRigSolNhrCurveObjectGroupName(assetName)
     ]
-    dic[astBasicGroupNameSet(assetName, prsVariant.Util.astSolverGrowFieldSubGroupLabel)] = [
-        astBasicGroupNameSet(assetName, prsVariant.Util.astSolverGrowSourceGroupLabel),
-        astBasicGroupNameSet(assetName, prsVariant.Util.astRigSolGrowTargetGroupLabel),
-        astBasicGroupNameSet(assetName, prsVariant.Util.astSolverGrowDeformGroupLabel)
+    dic[astBasicGroupNameSet(assetName, prsVariants.Util.astSolverGrowFieldSubGroupLabel)] = [
+        astBasicGroupNameSet(assetName, prsVariants.Util.astSolverGrowSourceGroupLabel),
+        astBasicGroupNameSet(assetName, prsVariants.Util.astRigSolGrowTargetGroupLabel),
+        astBasicGroupNameSet(assetName, prsVariants.Util.astSolverGrowDeformGroupLabel)
     ]
     return dic
 
@@ -842,10 +785,10 @@ def astLightBasicLeafs():
 #
 def astLightHierarchyConfig(assetName):
     dic = bscCommands.orderedDict()
-    dic[astUnitLightLinkGroupName(assetName)] = [
-        astBasicGroupNameSet(assetName, prsVariant.Util.lgtFieldLabel)
+    dic[prsMethods.Asset.lightLinkGroupName(assetName)] = [
+        astBasicGroupNameSet(assetName, prsVariants.Util.lgtFieldLabel)
     ]
-    dic[astBasicGroupNameSet(assetName, prsVariant.Util.lgtFieldLabel)] = [
+    dic[astBasicGroupNameSet(assetName, prsVariants.Util.lgtFieldLabel)] = [
         astBasicGroupNameSet(assetName, '_' + i) for i in astLightBasicLeafs()
         ]
     return dic
@@ -858,14 +801,14 @@ def astUnitAssemblyReferenceName(assetName):
 
 #
 def assetSchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(prsVariant.Util.dbAssetRoot, prsVariant.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariant.Util.dbAssetBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbAssetRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariants.Util.dbAssetBasicKey)
     return bscMethods.OsFile.uniqueFilename(string)
 
 
 #
 def assetSetFileConfig(assetIndex):
     string = '{0}/{1}/{2}/{3}'.format(
-        prsVariant.Util.dbAssetRoot, prsVariant.Util.dbBasicFolderName, lxConfigure.LynxiSetExt, assetIndex
+        prsVariants.Util.dbAssetRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSetExt, assetIndex
     )
     return string
 
@@ -884,13 +827,13 @@ def defaultAssetSetConfig(projectName, number=0):
     lis = [
         [('project', u'项目 ( Project(s) )'), (projectName, )],
         [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
-        [('variant', u'变体 ( Variant(s) )'), (prsVariant.Util.astDefaultVariant,)],
-        [('classify', u'类型 ( Classify )'), prsConfigure.Asset.classShownameDic()],
-        [('priority', u'优先级 ( Priority )'), prsConfigure.Asset.prioritynames()],
+        [('variant', u'变体 ( Variant(s) )'), (prsVariants.Util.astDefaultVariant,)],
+        [('classify', u'类型 ( Classify )'), prsMethods.Asset.classShownameDic()],
+        [('priority', u'优先级 ( Priority )'), prsMethods.Asset.priorityNames()],
         #
         [(lxConfigure.LynxiProduct_Asset_Link_Model, u'模型制作 Model'), False],
         [(lxConfigure.LynxiProduct_Asset_Link_Rig, u'绑定制作 ( Rig )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Cfx, u'角色特效制作 ( Character FX )'), False],
+        [(lxConfigure.LynxiProduct_Asset_Link_Groom, u'角色特效制作 ( Character FX )'), False],
         [(lxConfigure.LynxiProduct_Asset_Link_Solver, u'角色模拟制作 ( Solver )'), False],
         [(lxConfigure.LynxiProduct_Asset_Link_Light, u'资产灯光 ( Light )'), False],
         #
@@ -1063,12 +1006,12 @@ def getAssetIsAssemblyEnabled(assetIndex):
 def assetViewInfoSet(assetViewName, assetClass, assetVariant=None):
     if assetVariant is None:
         string = u'{} {}'.format(
-            prsConfigure.Asset.classShowname(assetClass)[1],
+            prsMethods.Asset.classShowname(assetClass)[1],
             assetViewName
         )
     else:
         string = u'{} {} ( {} )'.format(
-            prsConfigure.Asset.classShowname(assetClass)[1],
+            prsMethods.Asset.classShowname(assetClass)[1],
             assetViewName,
             assetVariant
         )
@@ -1128,7 +1071,7 @@ def getUiAssetMultMsgDic(projectFilter, assetClassFilters=None, assetLinkFilter=
     #
     def getLinks(data):
         lis = []
-        for i in prsConfigure.Asset.linknames():
+        for i in prsMethods.Asset.linknames():
             enable = data[i]
             if enable is True:
                 lis.append(i)
@@ -1216,7 +1159,7 @@ def getUiAssetSetDataDic(projectFilter):
                 assetPriority = data['priority']
                 modelEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Model)
                 rigEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Rig)
-                cfxEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Cfx)
+                cfxEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Groom)
                 scSolverEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Solver)
                 scLightEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Light)
                 assemblyEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
@@ -1272,159 +1215,62 @@ def getAstUnitAssemblyDic(projectFilter):
 
 
 #
-def isCharacterClass(assetClass):
-    boolean = False
-    if assetClass == assetCfg.LynxiProduct_Asset_Class_Character:
-        boolean = True
-    return boolean
-
-
-#
-def isPropClass(assetClass):
-    boolean = False
-    if assetClass == assetCfg.LynxiProduct_Asset_Class_Prop:
-        boolean = True
-    return boolean
-
-
-#
-def isAstModelLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiAstModelStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Model:
-        boolean = True
-    return boolean
-
-
-#
-def isAstRigLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiAstRigStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Rig:
-        boolean = True
-    return boolean
-
-
-#
-def isAstCfxLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiAstCfxStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Cfx:
-        boolean = True
-    return boolean
-
-
-#
-def isAstSolverLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiAstRigSolStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Solver:
-        boolean = True
-    return boolean
-
-
-#
-def isAstLightLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiScLightStages or assetStage == lxConfigure.LynxiProduct_Asset_Link_Light:
-        boolean = True
-    return boolean
-
-
-#
-def isAstAssemblyLink(assetStage):
-    boolean = False
-    if assetStage in lxConfigure.LynxiAstAssemblyStages:
-        boolean = True
-    return boolean
-
-
-#
-def isAssetLink(assetStage):
-    if isAstModelLink(assetStage):
-        boolean = True
-    elif isAstRigLink(assetStage):
-        boolean = True
-    elif isAstCfxLink(assetStage):
-        boolean = True
-    elif isAstSolverLink(assetStage):
-        boolean = True
-    elif isAstLightLink(assetStage):
-        boolean = True
-    else:
-        boolean = False
-    return boolean
-
-
-#
-def getAssetLink(assetStage):
-    link = lxConfigure.LynxiProduct_Asset_Link_Model
-    if isAstModelLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Model
-    elif isAstRigLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Rig
-    elif isAstCfxLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Cfx
-    elif isAstSolverLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Solver
-    elif isAstLightLink(assetStage):
-        link = lxConfigure.LynxiProduct_Asset_Link_Light
-    return link
-
-
-#
 def astBasicLinkFolder(assetStage):
     string = none
-    if isAstModelLink(assetStage):
-        if prsVariant.Util.astModelFolderEnabled is True:
-            string = prsVariant.Util.astModelLinkFolder
-    elif isAstRigLink(assetStage):
-        if prsVariant.Util.astRigFolderEnabled is True:
-            string = prsVariant.Util.astRigLinkFolder
-    elif isAstCfxLink(assetStage):
-        if prsVariant.Util.astCfxFolderEnabled is True:
-            string = prsVariant.Util.astCfxLinkFolder
-    elif isAstSolverLink(assetStage):
-        if prsVariant.Util.astSolverFolderEnabled is True:
-            string = prsVariant.Util.astRigSolFolder
-    elif isAstLightLink(assetStage):
-        if prsVariant.Util.astLightFolderEnabled is True:
-            string = prsVariant.Util.astLightLinkFolder
-    elif isAstAssemblyLink(assetStage):
-        if prsVariant.Util.astAssemblyFolderEnabled is True:
-            string = prsVariant.Util.astAssemblyLinkFolder
+    if prsMethods.Asset.isModelStageName(assetStage):
+        if prsVariants.Util.astModelFolderEnabled is True:
+            string = prsVariants.Util.astModelLinkFolder
+    elif prsMethods.Asset.isRigStageName(assetStage):
+        if prsVariants.Util.astRigFolderEnabled is True:
+            string = prsVariants.Util.astRigLinkFolder
+    elif prsMethods.Asset.isGroomStageName(assetStage):
+        if prsVariants.Util.astCfxFolderEnabled is True:
+            string = prsVariants.Util.astCfxLinkFolder
+    elif prsMethods.Asset.isSolverStageName(assetStage):
+        if prsVariants.Util.astSolverFolderEnabled is True:
+            string = prsVariants.Util.astSolverFolder
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        if prsVariants.Util.astLightFolderEnabled is True:
+            string = prsVariants.Util.astLightLinkFolder
+    elif prsMethods.Asset.isAssemblyStageName(assetStage):
+        if prsVariants.Util.astAssemblyFolderEnabled is True:
+            string = prsVariants.Util.astAssemblyLinkFolder
     return string
 
 
 #
 def astBasicLinkLabel(assetStage):
-    string = prsVariant.Util.basicModelLinkLabel
-    if isAstModelLink(assetStage):
-        string = prsVariant.Util.basicModelLinkLabel
-    elif isAstRigLink(assetStage):
-        string = prsVariant.Util.basicRigLinkLabel
-    elif isAstCfxLink(assetStage):
-        string = prsVariant.Util.basicCharacterFxLinkLabel
-    elif isAstSolverLink(assetStage):
-        string = prsVariant.Util.basicSolverLinkLabel
-    elif isAstLightLink(assetStage):
-        string = prsVariant.Util.basicLightLinkLabel
-    elif isAstAssemblyLink(assetStage):
-        string = prsVariant.Util.basicAssemblyLinkLabel
+    string = prsVariants.Util.basicModelLinkLabel
+    if prsMethods.Asset.isModelStageName(assetStage):
+        string = prsVariants.Util.basicModelLinkLabel
+    elif prsMethods.Asset.isRigStageName(assetStage):
+        string = prsVariants.Util.basicRigLinkLabel
+    elif prsMethods.Asset.isGroomStageName(assetStage):
+        string = prsVariants.Util.basicCharacterFxLinkLabel
+    elif prsMethods.Asset.isSolverStageName(assetStage):
+        string = prsVariants.Util.basicSolverLinkLabel
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        string = prsVariants.Util.basicLightLinkLabel
+    elif prsMethods.Asset.isAssemblyStageName(assetStage):
+        string = prsVariants.Util.basicAssemblyLinkLabel
     return string
 
 
 #
 def astBasicTextureFolder(assetStage):
     string = none
-    if isAstModelLink(assetStage):
-        string = prsVariant.Util.astModelTextureFolder
-    elif isAstRigLink(assetStage):
-        string = prsVariant.Util.astRigTextureFolder
-    elif isAstCfxLink(assetStage):
-        string = prsVariant.Util.astCfxTextureFolder
-    elif isAstSolverLink(assetStage):
-        string = prsVariant.Util.astSolverTextureFolder
-    elif isAstLightLink(assetStage):
-        string = prsVariant.Util.astLightTextureFolder
-    elif isAstAssemblyLink(assetStage):
-        string = prsVariant.Util.astAssemblyTextureFolder
+    if prsMethods.Asset.isModelStageName(assetStage):
+        string = prsVariants.Util.astModelTextureFolder
+    elif prsMethods.Asset.isRigStageName(assetStage):
+        string = prsVariants.Util.astRigTextureFolder
+    elif prsMethods.Asset.isGroomStageName(assetStage):
+        string = prsVariants.Util.astCfxTextureFolder
+    elif prsMethods.Asset.isSolverStageName(assetStage):
+        string = prsVariants.Util.astSolverTextureFolder
+    elif prsMethods.Asset.isLightStageName(assetStage):
+        string = prsVariants.Util.astLightTextureFolder
+    elif prsMethods.Asset.isAssemblyStageName(assetStage):
+        string = prsVariants.Util.astAssemblyTextureFolder
     return string
 
 
@@ -1434,7 +1280,7 @@ def astBasicMapFolder(assetStage):
     if mainLabel.startswith('_'):
         mainLabel = mainLabel[1:]
     #
-    subLabel = prsVariant.Util.basicMapSubLabel
+    subLabel = prsVariants.Util.basicMapSubLabel
     return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
 
 
@@ -1444,40 +1290,40 @@ def astBasicCacheFolder(assetStage):
     if mainLabel.startswith('_'):
         mainLabel = mainLabel[1:]
     #
-    subLabel = prsVariant.Util.basicCacheSubLabel
+    subLabel = prsVariants.Util.basicCacheSubLabel
     return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
 
 
 #
 def astBasicSourceFileLabel(assetStage):
-    subLabel = prsVariant.Util.basicSourceSubLabel
+    subLabel = prsVariants.Util.basicSourceSubLabel
     return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def astBasicProductFileLabel(assetStage):
-    if isAstRigLink(assetStage):
-        return prsVariant.Util.astAnimationRigFileLabel
+    if prsMethods.Asset.isRigStageName(assetStage):
+        return prsVariants.Util.astAnimationRigFileLabel
     else:
-        subLabel = prsVariant.Util.basicProductSubLabel
+        subLabel = prsVariants.Util.basicProductSubLabel
         return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def astBasicAsbDefinitionFileLabel(assetStage):
-    subLabel = prsVariant.Util.basicAssemblyDefinitionSubLabel
+    subLabel = prsVariants.Util.basicAssemblyDefinitionSubLabel
     return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def astAssetFurFileLabel(assetStage):
-    subLabel = prsVariant.Util.basicFurSubLabel
+    subLabel = prsVariants.Util.basicFurSubLabel
     return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
 #
 def assetPreviewFileLabel(assetStage):
-    subLabel = prsVariant.Util.basicPreviewSubLabel
+    subLabel = prsVariants.Util.basicPreviewSubLabel
     return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
 
 
@@ -1489,15 +1335,15 @@ def astBasicOsFileNameConfig(assetName, fileLabel, extLabel):
 
 # Asset Path
 def astUnitBasicDirectory(rootIndexKey, projectName):
-    root = [prsVariant.Util.serverAssetRoot, prsVariant.Util.localAssetRoot, prsVariant.Util.backupAssetRoot]
-    directory = '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariant.Util.basicAssetFolder, prsVariant.Util.basicUnitFolder)
+    root = [prsVariants.Util.serverAssetRoot, prsVariants.Util.localAssetRoot, prsVariants.Util.backupAssetRoot]
+    directory = '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariants.Util.basicAssetFolder, prsVariants.Util.basicUnitFolder)
     return directory
 
 
 # Asset Path
 def astUnitAssemblyBasicDirectory(rootIndexKey, projectName):
-    root = [prsVariant.Util.serverAssetRoot, prsVariant.Util.localAssetRoot, prsVariant.Util.backupAssetRoot]
-    directory = '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariant.Util.basicAssemblyFolder, prsVariant.Util.basicUnitFolder)
+    root = [prsVariants.Util.serverAssetRoot, prsVariants.Util.localAssetRoot, prsVariants.Util.backupAssetRoot]
+    directory = '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariants.Util.basicAssemblyFolder, prsVariants.Util.basicUnitFolder)
     return directory
 
 
@@ -1539,7 +1385,7 @@ def astUnitTextureFolder(
     #
     osFolderName = astBasicTextureFolder(assetStage)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
@@ -1560,7 +1406,7 @@ def astUnitMapFolder(
     #
     osFolderName = astBasicMapFolder(assetStage)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
@@ -1608,7 +1454,7 @@ def astUnitCacheFolder(
     #
     osFolderName = astBasicCacheFolder(assetStage)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFolderName]
@@ -1635,7 +1481,7 @@ def astUnitTextureIndexFile(
         rootIndexKey,
         projectName,
         assetClass, assetName, assetVariant, assetStage):
-    if isAstAssemblyLink(assetStage):
+    if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     else:
         basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
@@ -1643,11 +1489,11 @@ def astUnitTextureIndexFile(
     linkFolder = astBasicLinkFolder(assetStage)
     #
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.dbTextureUnitKey
+    extLabel = prsVariants.Util.dbTextureUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1665,11 +1511,11 @@ def astUnitLogFile(
     linkFolder = astBasicLinkFolder(assetStage)
     #
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.logExt
+    extLabel = prsVariants.Util.logExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1682,7 +1528,7 @@ def astUnitSourceFile(
         rootIndexKey,
         projectName,
         assetClass, assetName, assetVariant, assetStage):
-    if isAstAssemblyLink(assetStage):
+    if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     else:
         basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
@@ -1690,11 +1536,11 @@ def astUnitSourceFile(
     linkFolder = astBasicLinkFolder(assetStage)
     #
     fileLabel = astBasicSourceFileLabel(assetStage)
-    extLabel = prsVariant.Util.mayaAsciiExt
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1713,11 +1559,11 @@ def astUnitProductFile(
     linkFolder = astBasicLinkFolder(assetStage)
     #
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.mayaAsciiExt
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1741,7 +1587,7 @@ def astUnitAssemblyIndexFile(
 ):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     fileLabel = ''
-    extLabel = prsVariant.Util.astAssemblyIndexExt
+    extLabel = prsVariants.Util.astAssemblyIndexExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     keyVars = [basicDirectory, assetName, osFileName]
@@ -1753,8 +1599,8 @@ def astUnitAssemblyIndexFile(
 def astUnitAssemblyProductFile(projectName, assetName, assetVariant):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     #
-    fileLabel = bscMethods.StrUnderline.toLabel(prsVariant.Util.basicAssemblyLinkLabel, prsVariant.Util.basicProductSubLabel)
-    extLabel = prsVariant.Util.mayaAsciiExt
+    fileLabel = bscMethods.StrUnderline.toLabel(prsVariants.Util.basicAssemblyLinkLabel, prsVariants.Util.basicProductSubLabel)
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
@@ -1768,11 +1614,11 @@ def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetClass, assetNa
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
     fileLabel = astBasicAsbDefinitionFileLabel(assetStage)
-    extLabel = prsVariant.Util.mayaAsciiExt
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
@@ -1785,9 +1631,9 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     #
     if lod == 0:
-        fileLabel = prsVariant.Util.asbProxyFileLabel
+        fileLabel = prsVariants.Util.asbProxyFileLabel
     else:
-        fileLabel = prsVariant.Util.asbProxyFileLabel + '_lod%s' % str(lod).zfill(2)
+        fileLabel = prsVariants.Util.asbProxyFileLabel + '_lod%s' % str(lod).zfill(2)
     #
     extLabel = projectPr.getProjectProxyExt(projectName)
     #
@@ -1803,11 +1649,11 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     #
     if lod == 0:
-        fileLabel = prsVariant.Util.asbProxyFileLabel
+        fileLabel = prsVariants.Util.asbProxyFileLabel
     else:
-        fileLabel = prsVariant.Util.asbProxyFileLabel + '_lod%s' % str(lod).zfill(2)
+        fileLabel = prsVariants.Util.asbProxyFileLabel + '_lod%s' % str(lod).zfill(2)
     #
-    extLabel = prsVariant.Util.mayaAsciiExt
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
@@ -1820,11 +1666,11 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
 def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
     if lod == 0:
-        fileLabel = prsVariant.Util.asbGpuFileLabel
+        fileLabel = prsVariants.Util.asbGpuFileLabel
     else:
-        fileLabel = prsVariant.Util.asbGpuFileLabel + '_lod%s' % str(lod).zfill(2)
+        fileLabel = prsVariants.Util.asbGpuFileLabel + '_lod%s' % str(lod).zfill(2)
     #
-    extLabel = prsVariant.Util.gpuCacheExt
+    extLabel = prsVariants.Util.gpuCacheExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
@@ -1836,9 +1682,9 @@ def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
 #
 def astUnitAssemblyBoxCacheFile(projectName, assetName):
     basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
-    fileLabel = prsVariant.Util.asbBoxFileLabel
+    fileLabel = prsVariants.Util.asbBoxFileLabel
     #
-    extLabel = prsVariant.Util.gpuCacheExt
+    extLabel = prsVariants.Util.gpuCacheExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
@@ -1858,11 +1704,11 @@ def astUnitFurFile(
     linkFolder = astBasicLinkFolder(assetStage)
     #
     fileLabel = astAssetFurFileLabel(assetStage)
-    extLabel = prsVariant.Util.mayaAsciiExt
+    extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1876,18 +1722,18 @@ def astUnitExtraFile(
         projectName,
         assetClass, assetName, assetVariant, assetStage
 ):
-    if isAstAssemblyLink(assetStage):
+    if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     else:
         basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = astBasicLinkFolder(assetStage)
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.dbExtraUnitKey
+    extLabel = prsVariants.Util.dbExtraUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
-    if isAstRigLink(assetStage):
+    if prsMethods.Asset.isRigStageName(assetStage):
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
@@ -1903,7 +1749,7 @@ def astUnitBasicPreviewFile(
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
     fileLabel = ''
-    extLabel = prsVariant.Util.dbPreviewUnitKey
+    extLabel = prsVariants.Util.dbPreviewUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}'.format(
@@ -1919,7 +1765,7 @@ def astUnitPreviewFile(
         rootIndexKey,
         projectName,
         assetClass, assetName, assetVariant, assetStage,
-        extLabel=prsVariant.Util.jpgExt
+        extLabel=prsVariants.Util.jpgExt
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1945,7 +1791,7 @@ def astUnitBasicMeshConstantFile(
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
     fileLabel = ''
-    extLabel = prsVariant.Util.dbMeshUnitKey
+    extLabel = prsVariants.Util.dbMeshUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}'.format(
@@ -1966,7 +1812,7 @@ def astUnitMeshConstantFile(
     #
     linkFolder = astBasicLinkFolder(assetStage)
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.dbMeshUnitKey
+    extLabel = prsVariants.Util.dbMeshUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -1988,7 +1834,7 @@ def astUnitTextureConstantFile(
     #
     linkFolder = astBasicLinkFolder(assetStage)
     fileLabel = astBasicProductFileLabel(assetStage)
-    extLabel = prsVariant.Util.dbTextureUnitKey
+    extLabel = prsVariants.Util.dbTextureUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     osFile = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -2007,7 +1853,7 @@ def getAssetMeshConstantDatumDic(projectName, assetClass, assetName, assetStage)
 
 #
 def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, assetStage):
-    string = prsVariant.Util.infoNonExistsLabel
+    string = prsVariants.Util.infoNonExistsLabel
     #
     serverProductFile = astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,

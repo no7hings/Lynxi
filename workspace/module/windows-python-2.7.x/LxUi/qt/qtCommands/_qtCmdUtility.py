@@ -75,13 +75,13 @@ def setExistInterfaceQuit(*args):
     #
     self = args[0]
 
-    className = self.__class__.__name__
+    categoryName = self.__class__.__name__
     parent = self.parent()
     if parent:
         cs = parent.children()
         if cs:
             for c in cs:
-                if className == c.__class__.__name__:
+                if categoryName == c.__class__.__name__:
                     lis.append(c)
     #
     if len(lis) > 1:
@@ -89,7 +89,7 @@ def setExistInterfaceQuit(*args):
 
 
 def getLogWindow(title=None):
-    existsWidgets = qtCore.getAppWidgetFilterByClassName(u'QtLogWindow')
+    existsWidgets = qtCore.getAppWidgetFilterByCategoryName(u'QtLogWindow')
     if existsWidgets:
         w = existsWidgets[0]
         return w
@@ -107,7 +107,7 @@ def getLogWindow(title=None):
 
 
 def setLogWindowShow(title=None):
-    existsWidgets = qtCore.getAppWidgetFilterByClassName(u'QtLogWindow')
+    existsWidgets = qtCore.getAppWidgetFilterByCategoryName(u'QtLogWindow')
     if existsWidgets:
         w = existsWidgets[0]
         w.uiShow((10, 10), (720, 320))

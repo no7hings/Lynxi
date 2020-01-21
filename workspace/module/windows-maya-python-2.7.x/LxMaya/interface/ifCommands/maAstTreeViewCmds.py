@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, assetCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr
 #
@@ -21,28 +21,28 @@ from LxMaya.product.data import datAsset
 #
 from LxMaya.database import maDbAstCmds
 #
-astPfxHairGroupLabel = prsVariant.Util.astPfxHairGroupLabel
-astPfxHairGrowGroupLabel = prsVariant.Util.astPfxHairGrowGroupLabel
-astPfxHairFollicleGroupLabel = prsVariant.Util.astPfxHairFollicleGroupLabel
-astPfxHairCurveGroupLabel = prsVariant.Util.astPfxHairCurveGroupLabel
-astPfxHairSolverNodeGroupLabel = prsVariant.Util.astPfxHairSolverNodeGroupLabel
-astPfxHairNucleusNodeLabel = prsVariant.Util.astPfxHairNucleusNodeLabel
-astPfxHairShaderNodeLabel = prsVariant.Util.astPfxHairShaderNodeLabel
+astPfxHairGroupLabel = prsVariants.Util.astPfxHairGroupLabel
+astPfxHairGrowGroupLabel = prsVariants.Util.astPfxHairGrowGroupLabel
+astPfxHairFollicleGroupLabel = prsVariants.Util.astPfxHairFollicleGroupLabel
+astPfxHairCurveGroupLabel = prsVariants.Util.astPfxHairCurveGroupLabel
+astPfxHairSolverNodeGroupLabel = prsVariants.Util.astPfxHairSolverNodeGroupLabel
+astPfxHairNucleusNodeLabel = prsVariants.Util.astPfxHairNucleusNodeLabel
+astPfxHairShaderNodeLabel = prsVariants.Util.astPfxHairShaderNodeLabel
 #
-astYetiGuideGroupLabel = prsVariant.Util.astYetiGuideGroupLabel
+astYetiGuideGroupLabel = prsVariants.Util.astYetiGuideGroupLabel
 #
-astYetiGuideSolverNodeGroupLabel = prsVariant.Util.astYetiGuideSolverNodeGroupLabel
-astYetiGuideFollicleGroupLabel = prsVariant.Util.astYetiGuideFollicleGroupLabel
-astYetiGuideCurveGroupLabel = prsVariant.Util.astYetiGuideCurveGroupLabel
-astPfxHairLocalCurveNodeLabel = prsVariant.Util.astPfxHairLocalCurveNodeLabel
+astYetiGuideSolverNodeGroupLabel = prsVariants.Util.astYetiGuideSolverNodeGroupLabel
+astYetiGuideFollicleGroupLabel = prsVariants.Util.astYetiGuideFollicleGroupLabel
+astYetiGuideCurveGroupLabel = prsVariants.Util.astYetiGuideCurveGroupLabel
+astPfxHairLocalCurveNodeLabel = prsVariants.Util.astPfxHairLocalCurveNodeLabel
 #
-astYetiGuideSetNodeLabel = prsVariant.Util.astYetiGuideSetNodeLabel
-astYetiGuideNucleusNodeLabel = prsVariant.Util.astYetiGuideNucleusNodeLabel
+astYetiGuideSetNodeLabel = prsVariants.Util.astYetiGuideSetNodeLabel
+astYetiGuideNucleusNodeLabel = prsVariants.Util.astYetiGuideNucleusNodeLabel
 #
-astCfxGrowSourceGroupLabel = prsVariant.Util.astCfxGrowSourceGroupLabel
-astCfxFurGrowTargetGroupLabel = prsVariant.Util.astCfxFurGrowTargetGroupLabel
-astCfxGrowDeformGroupLabel = prsVariant.Util.astCfxGrowDeformGroupLabel
-astCfxFurCollisionSubGroupLabel = prsVariant.Util.astCfxFurCollisionSubGroupLabel
+astCfxGrowSourceGroupLabel = prsVariants.Util.astCfxGrowSourceGroupLabel
+astCfxFurGrowTargetGroupLabel = prsVariants.Util.astCfxFurGrowTargetGroupLabel
+astCfxGrowDeformGroupLabel = prsVariants.Util.astCfxGrowDeformGroupLabel
+astCfxFurCollisionSubGroupLabel = prsVariants.Util.astCfxFurCollisionSubGroupLabel
 #
 none = ''
 txExt = '.tx'
@@ -151,7 +151,7 @@ def setAstGeometryConstantSub(
         treeBox,
         assetIndex,
         assetName, assetVariant,
-        className, paths, uniqueIdDic, localInfoDic,
+        categoryName, paths, uniqueIdDic, localInfoDic,
         serverInfoDic, expandedDic, meshItemDic
 ):
     def setBranchView(treeItem):
@@ -236,7 +236,7 @@ def setAstGeometryConstantSub(
             statusBar.addItem('object#meshMapShape', mapShapeCheck)
             #
             actionDatumLis = []
-            if className == 'intersection':
+            if categoryName == 'intersection':
                 actionDatumLis.extend(
                     [
                         ('Reverse ( Mesh )', 'svg_basic@svg#undo', True, loadGeometryObject),
@@ -249,13 +249,13 @@ def setAstGeometryConstantSub(
                         ('Reverse ( Mesh ) Map - Shape', 'svg_basic@svg#undo', False, reverseMeshMapShape)
                     ]
                 )
-            elif className == 'addition':
+            elif categoryName == 'addition':
                 actionDatumLis.extend(
                     [
                         ('Remove ( Mesh )', 'svg_basic@svg#delete', True, removeGeometryObject)
                     ]
                 )
-            elif className == 'deletion':
+            elif categoryName == 'deletion':
                 actionDatumLis.extend(
                     [
                         ('Add ( Mesh )', 'svg_basic@svg#add', enableAddMesh, addGeometryObject)
@@ -284,7 +284,7 @@ def setAstGeometryConstantSub(
         hierarchyData = treeBox.getGraphDatumDic(subPaths, pathsep)
         for seq, (k, v) in enumerate(hierarchyData.items()):
             if seq == 0:
-                dic[(className, className)] = v
+                dic[(categoryName, categoryName)] = v
             elif seq > 0:
                 dic[k] = v
         return dic
@@ -340,23 +340,23 @@ def setAstGeometryConstantMain(
                 if serverPathDic:
                     if compIndexKey in serverPathDic:
                         intersectionObjectIndexLis.append(compIndexKey)
-                        dic.setdefault(classNames[0], []).append(compPath)
+                        dic.setdefault(categoryNames[0], []).append(compPath)
                     if not compIndexKey in serverPathDic:
                         additionObjectIndexLis.append(compIndexKey)
-                        dic.setdefault(classNames[1], []).append(compPath)
+                        dic.setdefault(categoryNames[1], []).append(compPath)
                 #
                 if not serverPathDic:
                     additionObjectIndexLis.append(compIndexKey)
-                    dic.setdefault(classNames[1], []).append(compPath)
+                    dic.setdefault(categoryNames[1], []).append(compPath)
         #
         if serverPathDic:
             for compIndexKey, compPath in serverPathDic.items():
                 if not compIndexKey in localPathDic:
                     deletionObjectIndexLis.append(compIndexKey)
-                    dic.setdefault(classNames[2], []).append(compPath)
+                    dic.setdefault(categoryNames[2], []).append(compPath)
         return dic
     #
-    def setClassItemBranch(itemWidget, className, classState):
+    def setClassItemBranch(itemWidget, categoryName, classState):
         def loadIntersectionGeometryObjects():
             if intersectionObjectIndexLis:
                 maDbAstCmds.dbAstRemoveGeometryObjects(intersectionObjectIndexLis)
@@ -380,19 +380,19 @@ def setAstGeometryConstantMain(
                 maDbAstCmds.dbAstLoadGeometryObjectsSub(assetIndex, assetName, deletionObjectIndexLis)
         #
         actionData = []
-        if className == 'intersection' and classState == none:
+        if categoryName == 'intersection' and classState == none:
             actionData = [
                 ('Load Nde_Geometry', 'menu#loadMenu', True, loadIntersectionGeometryObjects),
                 (),
                 ('Load Nde_Geometry ( Path )', 'menu#loadMenu', True, loadIntersectionGeometryObjectsPath)
             ]
-        elif className == 'addition' and classState == none:
+        elif categoryName == 'addition' and classState == none:
             actionData = [
                 ('Remove Extra Nde_Geometry', 'menu#deleteMenu', True, removeExtraGeometryObjects),
                 (),
                 ('Upload Extra Nde_Geometry', 'uploadObject', False, uploadExtraGeometryObjects)
             ]
-        elif className == 'deletion' and classState == none:
+        elif categoryName == 'deletion' and classState == none:
             actionData = [
                 ('Add Deletion Nde_Geometry', 'menu#addMenu', True, addDeletionGeometryObjects)
             ]
@@ -401,39 +401,39 @@ def setAstGeometryConstantMain(
         #
     #
     def setMain():
-        maxValue = len(classNames)
-        for seq, className in enumerate(classNames):
+        maxValue = len(categoryNames)
+        for seq, categoryName in enumerate(categoryNames):
             main.setProgressValue(seq + 1, maxValue)
             classItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(classItem)
             #
             classItem.setExpanded(True)
-            classItem.path = className
+            classItem.path = categoryName
             #
-            treeItemGraphDic[className] = classItem
+            treeItemGraphDic[categoryName] = classItem
             classState = none
             #
-            if className in pathDic:
-                paths = pathDic[className]
+            if categoryName in pathDic:
+                paths = pathDic[categoryName]
                 setAstGeometryConstantSub(
                     treeBox,
                     assetIndex, assetName, assetVariant,
-                    className, paths, unionUniqueIdDic, localInfoDic,
+                    categoryName, paths, unionUniqueIdDic, localInfoDic,
                     serverInfoDic, expandedDic, meshItemDic
                 )
             #
-            elif not className in pathDic:
+            elif not categoryName in pathDic:
                 classState = 'off'
             #
             classItemWidget = classItem.setItemIconWidget(
                 0,
-                'treeBox#{}'.format(className),
-                bscMethods.StrCamelcase.toPrettify(className),
+                'treeBox#{}'.format(categoryName),
+                bscMethods.StrCamelcase.toPrettify(categoryName),
                 classState
             )
-            setClassItemBranch(classItemWidget, className, classState)
+            setClassItemBranch(classItemWidget, categoryName, classState)
     #
-    classNames = ['intersection', 'addition', 'deletion']
+    categoryNames = ['intersection', 'addition', 'deletion']
     #
     localUniqueDic = getUniqueDic(localPathDic)
     serverUniqueDic = getUniqueDic(serverPathDic)
@@ -524,7 +524,7 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
     serverTopoConstantDic = {}
     #
     endKey = ' ( Data - Base )'
-    root = assetPr.astUnitModelLinkGroupName(assetName, assetNamespace)
+    root = prsMethods.Asset.modelLinkGroupName(assetName, assetNamespace)
     #
     serverInfoDic = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
     serverPathDic = dbGet.getDbGeometryUnitsPathDic(assetIndex)
@@ -773,7 +773,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                     groomItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(groomObject), 'Groom'])
                     groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom)
                     #
-                    groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiGroomGroupLabel)
+                    groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astYetiGroomGroupLabel)
                     #
                     if not maUtils.isChild(groomObjectGroup, groomObject):
                         isChecked = False
@@ -795,7 +795,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                     yetiItem.addChild(growItem)
                     #
                     growObjectGroup = \
-                        assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiGrowGroupLabel)
+                        assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astYetiGrowGroupLabel)
                     #
                     if not maUtils.isChild(growObjectGroup, growObject):
                         isChecked = False
@@ -821,7 +821,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
                             referenceItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
                             #
                             referenceObjectGroup = \
-                                assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astYetiReferenceGroupLabel)
+                                assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astYetiReferenceGroupLabel)
                             if not maUtils.isChild(referenceObjectGroup, referenceObject):
                                 isChecked = False
                                 referenceItem.setText(2, 'Non - Collection')
@@ -1035,7 +1035,7 @@ def setAstCfxFurMayaCheckTreeView(main, assetClass, assetName, treeBox, checkDat
         growObjects, shaders, textures, maps, systemObjects, nucleusObjects, follicleData = maUtils.getPfxHairConnectionData(pfxHairObject)
         # Grow
         if growObjects:
-            growGroup = assetPr.astBasicGroupNameSet(assetName, prsVariant.Util.astPfxHairGrowGroupLabel)
+            growGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astPfxHairGrowGroupLabel)
             setCheckLeaf(growObjects, pfxHairItem, 'Grow', 'poly', growGroup, subErrorArray)
         # Nde_ShaderRef
         if shaders:
@@ -1240,7 +1240,7 @@ def setAstCfxFurNhrCheckTreeView(main, assetClass, assetName, treeBox, checkData
         treeBox.setFilterExplainRefresh()
     #
     enExplain = 'Nurbs - Hair Check'
-    astCfxRoot = assetPr.astUnitCfxLinkGroupName(assetName)
+    astCfxRoot = prsMethods.Asset.groomLinkGroupName(assetName)
     #
     setMain()
 
@@ -1408,9 +1408,9 @@ def setAstSolverGrowSourceCheckSub(main, assetClass, assetName, treeBox, checkDa
 
 #
 def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, assetStage, treeBox, inData, checkData, errorData):
-    isFormatCheck = prsVariant.Util.arTextureFormatCheck
-    isArTxCheck = prsVariant.Util.arTextureTxCheck
-    isArColorSpaceCheck = prsVariant.Util.arTextureColorSpaceCheck
+    isFormatCheck = prsVariants.Util.arTextureFormatCheck
+    isArTxCheck = prsVariants.Util.arTextureTxCheck
+    isArColorSpaceCheck = prsVariants.Util.arTextureColorSpaceCheck
     #
     folderItemDic = {}
     textureFileItemDic = {}

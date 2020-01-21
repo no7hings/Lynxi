@@ -8,7 +8,7 @@ from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -165,13 +165,13 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
                     if nodes:
                         for nodSeq, node in enumerate(nodes):
                             seq = str(index)
-                            hierarchyName = maUtils.getAttrDatum(objectString, prsVariant.Util.basicHierarchyAttrLabel)
+                            hierarchyName = maUtils.getAttrDatum(objectString, prsVariants.Util.basicHierarchyAttrLabel)
                             if hierarchyName is None:
                                 hierarchyName = assetStage + '_' + objectType + '_' + str(objSeq)
                             nodeType = maUtils.getNodeType(node)
                             #
                             nodeName = '{0}_{1}_{2}_{3}_{4}_{5}'.format(
-                                prsVariant.Util.Lynxi_Prefix_Product_Asset, assetName, assetVariant,
+                                prsVariants.Util.Lynxi_Prefix_Product_Asset, assetName, assetVariant,
                                 hierarchyName,
                                 nodeType, seq
                             )

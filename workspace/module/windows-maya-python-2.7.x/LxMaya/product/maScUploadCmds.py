@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -22,9 +22,9 @@ from LxMaya.product.op import sceneOp
 from LxDeadline import ddlCommands
 
 #
-astDefaultVersion = prsVariant.Util.astDefaultVersion
+astDefaultVersion = prsVariants.Util.astDefaultVersion
 #
-animAlembicStep = prsVariant.Util.animAlembicStep
+animAlembicStep = prsVariants.Util.animAlembicStep
 #
 isSendMail = lxConfigure.LynxiIsSendMail
 isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
@@ -325,7 +325,7 @@ def scUnitAstAlembicCacheUploadCmd(
     startFrame = scenePr.scStartFrame(startFrame)
     endFrame = scenePr.scEndFrame(endFrame)
     #
-    step = prsVariant.Util.animAlembicStep
+    step = prsVariants.Util.animAlembicStep
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
@@ -377,7 +377,7 @@ def uploadScAlembicCache(
 ):
     logWin_ = bscObjects.If_Log()
 
-    step = prsVariant.Util.animAlembicStep
+    step = prsVariants.Util.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
@@ -841,12 +841,12 @@ def scUnitAssetCachesUploadCmd(
             namespace = maUtils._toNamespaceByNodePath(keyNode)
         # Render
         astModelLinkRoot, astExtraSubRoot, astSolverSubRoot = [None]*3
-        if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
-            astModelLinkRoot = assetPr.astUnitModelLinkGroupName(assetName, namespace)
+        if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
+            astModelLinkRoot = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
             #
             astExtraSubRoot = assetPr.astUnitRigBridgeGroupName(assetName, namespace)
             astSolverSubRoot = assetPr.astUnitSolverBridgeGroupName(assetName, namespace)
-        elif scenePr.isScSimulationLink(sceneStage):
+        elif scenePr.isSimulationLinkName(sceneStage):
             astModelLinkRoot = scenePr.scAstModelGroupName(sceneName, sceneVariant, assetName, number, namespace)
         #
         astCacheIndexFile = scenePr.scAstCacheIndexFile(

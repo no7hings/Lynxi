@@ -133,7 +133,7 @@ class Basic(object):
     Key_Plug_Source_Path = 'plugpath'
 
     Key_Plug_Load_Name = 'loadname'
-    Key_Plug_Module_Name = 'modulename'
+    Key_Plug_Module_Name = 'moduleName'
 
     Language_Python = 'python'
     Language_Share = 'share'

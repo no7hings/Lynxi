@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxPreset import prsConfigure
+from LxPreset import prsMethods
 
 from LxCore.config import appConfig
 #
@@ -37,7 +37,7 @@ class LxPresetMethod(_osMethod.OsFileMethod, appConfig.LxDbProductUnitConfig):
     @classmethod
     def getDbProductUnitSetUiDatum(cls, projectName, productModule, dbUnitId, number=0, overrideNumber=False):
         def getDefaultDatum():
-            return prsConfigure.Product.lxDbProductUnitDefaultSetConfig(projectName, productModule, number)
+            return prsMethods.Product.lxDbProductUnitDefaultSetConfig(projectName, productModule, number)
         #
         def getCustomDatum():
             osFile = cls.dbProductUnitSetFile(dbUnitId)
@@ -70,11 +70,11 @@ class LxPresetMethod(_osMethod.OsFileMethod, appConfig.LxDbProductUnitConfig):
                         else:
                             if key == 'name':
 
-                                value = prsConfigure.Product._toProductUnitName(number)
+                                value = prsMethods.Product._toProductUnitName(number)
                         #
                         if overrideNumber is True:
                             if key == 'name':
-                                value = prsConfigure.Product._toProductUnitName(number)
+                                value = prsMethods.Product._toProductUnitName(number)
                     lis.append(
                         (key, uiKey, value, defValue, uiValue)
                     )

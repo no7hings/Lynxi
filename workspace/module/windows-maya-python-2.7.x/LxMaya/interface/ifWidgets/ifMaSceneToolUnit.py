@@ -5,7 +5,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 
@@ -820,7 +820,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._connectObject = method
         if self._connectObject:
             sceneStage = self._connectObject.sceneStage
-            if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
+            if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
                 self._isWithScAstModelCache = True
                 self._isWithScAstSolverCache = True
                 self._isWithScAstExtraCache = True
@@ -828,7 +828,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self._isWithScAstModelCacheEnable = True
                 self._isWithScAstSolverCacheEnable = True
                 self._isWithScAstExtraCacheEnable = True
-            elif scenePr.isScSimulationLink(sceneStage):
+            elif scenePr.isSimulationLinkName(sceneStage):
                 self._isWithScAstModelCache = True
                 self._isWithScAstSolverCache = False
                 self._isWithScAstExtraCache = False
@@ -836,7 +836,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self._isWithScAstModelCacheEnable = True
                 self._isWithScAstSolverCacheEnable = False
                 self._isWithScAstExtraCacheEnable = False
-            elif scenePr.isScSolverLink(sceneStage):
+            elif scenePr.isSolverLinkName(sceneStage):
                 self._isWithScAstModelCache = False
                 self._isWithScAstSolverCache = False
                 self._isWithScAstExtraCache = False
@@ -844,7 +844,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self._isWithScAstModelCacheEnable = False
                 self._isWithScAstSolverCacheEnable = False
                 self._isWithScAstExtraCacheEnable = False
-            elif scenePr.isScLightLink(sceneStage):
+            elif scenePr.isLightLinkName(sceneStage):
                 self._isWithScAstModelCache = False
                 self._isWithScAstSolverCache = False
                 self._isWithScAstExtraCache = False
@@ -944,7 +944,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def setActionData():
             def isScUploadAstCacheEnable():
-                if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage) or scenePr.isScSimulationLink(sceneStage):
+                if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage) or scenePr.isSimulationLinkName(sceneStage):
                     boolean = True
                 else:
                     boolean = False
@@ -1046,9 +1046,9 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def setMain():
             inData = None
-            if scenePr.isScLayoutLink(sceneStage) or scenePr.isScAnimationLink(sceneStage):
+            if scenePr.isLayoutLinkName(sceneStage) or scenePr.isAnimationLinkName(sceneStage):
                 inData = datScene.getScAnimAssetRefDic()
-            elif scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage) or scenePr.isScLightLink(sceneStage):
+            elif scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
                 inData = datScene.getScAstUnitDic(
                     projectName,
                     sceneClass, sceneName, sceneVariant, sceneStage
@@ -1081,7 +1081,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             projectName, sceneClass, sceneName, sceneVariant
         )
         #
-        frameOffset = prsVariant.Util.animKeyFrameOffset
+        frameOffset = prsVariants.Util.animKeyFrameOffset
         #
         listBox = self._scAstGridview
         #

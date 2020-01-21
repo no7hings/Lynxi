@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxBasic import bscMethods, bscObjects
 
-from LxPreset import prsConfigure
+from LxPreset import prsMethods
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -268,7 +268,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         productUnit = None
         productUnitDatumDic = self.mtd_app_prd_unit.getProductUnitDatumDic()
         if productUnitDatumDic:
-            moduleUnitDatumLis = productUnitDatumDic[prsConfigure.Asset.name()]
+            moduleUnitDatumLis = productUnitDatumDic[prsMethods.Asset.moduleName()]
             if moduleUnitDatumLis:
                 productUnit = moduleUnitDatumLis[0]
         #

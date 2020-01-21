@@ -11,11 +11,10 @@ import re
 #
 import time
 #
-from LxPreset import prsConfigure
 #
-from LxCore import lxConfigure
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
+
 #
 cgitb.enable(format='text')
 
@@ -315,7 +314,7 @@ class LxUiConfig(Cfg_Basic):
 
 #
 class LxDbConfig(Cfg_Basic):
-    DbAssetRoot = prsVariant.Util.dbAssetRoot
+    DbAssetRoot = prsVariants.Util.dbAssetRoot
     DbRoot_Basic = 'e:/myproject'
     #
     LxDb_Folder_Basic = '.lynxi.database'
@@ -400,13 +399,13 @@ class LxDbProductUnitConfig(LxDbConfig):
     @classmethod
     def dbProductUnitIndexFile(cls, productModule):
         return '{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariant.Util.dbBasicFolderName, cls.LynxiDatabaseKey_Index,
+            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, cls.LynxiDatabaseKey_Index,
             cls._stringToUniqueId(productModule)
         )
     @classmethod
     def dbProductUnitSetFile(cls, dbUnitId):
         return '{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariant.Util.dbBasicFolderName, cls.LynxiDatabaseKey_Set,
+            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, cls.LynxiDatabaseKey_Set,
             dbUnitId
         )
 

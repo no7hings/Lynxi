@@ -1,7 +1,9 @@
 # coding:utf-8
 import types
 #
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
+
+from LxPreset import prsMethods
 #
 from LxCore import lxConfigure
 #
@@ -355,7 +357,11 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
 
             actionDatumLis.append(
-                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (
+                    bscMethods.StrCamelcase.toPrettify(
+                        prsMethods.Scene.stageName2linkName(cacheSceneStage)
+                    ),
+                )
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1055,7 +1061,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(prsMethods.Scene.stageName2linkName(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1188,7 +1194,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(prsMethods.Scene.stageName2linkName(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1324,7 +1330,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Cfx
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
         )
 
 
@@ -1441,7 +1447,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(prsMethods.Scene.stageName2linkName(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)
@@ -1684,7 +1690,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
         actionDatumLis = []
         for seq, (cacheSceneStage, cacheFileLis) in enumerate(osFileDic.items()):
             actionDatumLis.append(
-                (bscMethods.StrCamelcase.toPrettify(scenePr.getSceneLink(cacheSceneStage)),)
+                (bscMethods.StrCamelcase.toPrettify(prsMethods.Scene.stageName2linkName(cacheSceneStage)),)
             )
             for currentCacheFile in cacheFileLis[-5:]:
                 setCacheLoadActionCmdBranch(cacheSceneStage, currentCacheFile)

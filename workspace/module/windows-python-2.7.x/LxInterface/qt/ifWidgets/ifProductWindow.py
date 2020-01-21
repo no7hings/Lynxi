@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects, bscCommands
 
 from LxCore import lxConfigure, lxScheme
 #
-from LxCore.preset import prsMethod
+from LxPreset import prsMethods
 #
 from LxCore.preset.prod import projectPr
 #
@@ -134,24 +134,24 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
     def setArtistBoxShow(self):
         self._userNameLabel.setDatum(self.user)
         # Team Data
-        teamData = prsMethod.Personnel.teams()
+        teamData = prsMethods.Personnel.teams()
         self._teamLabel.setDatumLis(teamData)
         self._teamLabel.setChoose(lxConfigure.LynxiValue_Unspecified)
         self._postLabel.setDatum(lxConfigure.LynxiValue_Unspecified)
 
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
-        teams = prsMethod.Personnel.teams()
-        team = prsMethod.Personnel.userTeam(self.user)
+        teams = prsMethods.Personnel.teams()
+        team = prsMethods.Personnel.userTeam(self.user)
         self._teamLabel.setDatumLis(teams)
         self._teamLabel.setChoose(team)
-        post = prsMethod.Personnel.userPost(self.user)
+        post = prsMethods.Personnel.userPost(self.user)
         self._postLabel.setDatum(post)
-        cnName = prsMethod.Personnel.userChnname(self.user)
+        cnName = prsMethods.Personnel.userChnname(self.user)
         self._chNameLabel.setDatum(cnName)
-        enName = prsMethod.Personnel.userEngname(self.user)
+        enName = prsMethods.Personnel.userEngname(self.user)
         self._enNameLabel.setDatum(enName)
-        mail = prsMethod.Personnel.userMail(self.user)
+        mail = prsMethods.Personnel.userMail(self.user)
         self._mailLabel.setDatum(mail)
         # PC Data
         self._pcLabel.setDatum(bscMethods.OsSystem.hostname())
@@ -184,7 +184,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
             pass
 
         if isChecked:
-            prsMethod.Personnel.updateUserDatum(user, cnName, enName, mail, team, post)
+            prsMethods.Personnel.updateUserDatum(user, cnName, enName, mail, team, post)
             if bscCommands.isMayaApp():
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()

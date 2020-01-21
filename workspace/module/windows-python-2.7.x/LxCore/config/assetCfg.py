@@ -239,38 +239,6 @@ def geometryDataConfig():
     return dic
 
 
-# File Box Config
-def fileBoxConfig():
-    # Dic { <Data Label>: <Data Label in UI> }
-    dic = collections.OrderedDict()
-    modelDic = collections.OrderedDict()
-    modelDic['mesh'] = 'Mesh'
-    modelDic['material'] = 'Material'
-    dic['model'] = ['Model', modelDic]
-    cfxDic = collections.OrderedDict()
-    cfxDic['fur'] = 'Fur'
-    cfxDic['furMaterial'] = 'Fur - Material'
-    dic['cfx'] = ['CFX', cfxDic]
-    rigDic = collections.OrderedDict()
-    rigDic['layoutRig'] = 'Low - Quality'
-    rigDic['animationRig'] = 'High - Quality'
-    dic['rig'] = ['Rig', rigDic]
-    return dic
-
-
-#
-def basicAssetLinks():
-    lis = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Cfx,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light,
-        lxConfigure.LynxiProduct_Asset_Link_Assembly
-    ]
-    return lis
-
-
 #
 def basicAssetMeshCheckKeys():
     lis = [

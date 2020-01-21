@@ -9,7 +9,7 @@ from LxBasic import bscCommands
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, sceneryPr
 #
@@ -345,7 +345,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
-        self.variantLabel.setDatumLis([prsVariant.Util.astDefaultVersion])
+        self.variantLabel.setDatumLis([prsVariants.Util.astDefaultVersion])
         #
         self.switchVariantButton = qtWidgets.QtPressbutton()
         self.switchVariantButton.setPercentEnable(True)
@@ -752,7 +752,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
             enable = len(inData) == 1
             if enable:
                 variantLis = []
-                assetVariant = prsVariant.Util.astDefaultVersion
+                assetVariant = prsVariants.Util.astDefaultVersion
                 count = 0
                 for k, v in inData.items():
                     assetName, assetVariant = k.split(' - ')
@@ -768,7 +768,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 button.setPercent(maxCount, count)
             else:
                 chooseLabel.setChooseClear()
-                chooseLabel.setDatumLis([prsVariant.Util.astDefaultVersion])
+                chooseLabel.setDatumLis([prsVariants.Util.astDefaultVersion])
                 #
                 button.setPercentRest()
                 button.setPressable(False)
@@ -1229,16 +1229,16 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                                 maFile.setFileImport(osFile, asbNamespace)
                             # Asset
                             if keyword == 'Asset':
-                                assetUnitRoot = '|' + assetPr.astUnitRootGroupName(assetName, asbNamespace)
+                                assetUnitRoot = '|' + prsMethods.Asset.rootName(assetName, asbNamespace)
                                 if maUtils.isAppExist(assetUnitRoot):
                                     maUtils.setObjectAddParentGroup(assetUnitRoot, importObjectName)
                                 else:
-                                    modelGroupName = '|' + assetPr.astUnitModelLinkGroupName(assetName, asbNamespace)
+                                    modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
                                     if maUtils.isAppExist(modelGroupName):
                                         maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                             # Box and GPU
                             elif keyword == 'Box' or keyword == 'GPU':
-                                modelGroupName = '|' + assetPr.astUnitModelLinkGroupName(assetName, asbNamespace)
+                                modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
                                 if maUtils.isAppExist(modelGroupName):
                                     maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                                 else:
@@ -1289,7 +1289,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 if os.path.isfile(osFile):
                     if not maUtils.isAppExist(importObjectName):
                         maFile.setFileImport(osFile)
-                        lightGroup = assetPr.astUnitLightLinkGroupName(assetName)
+                        lightGroup = prsMethods.Asset.lightLinkGroupName(assetName)
                         if maUtils.isAppExist(lightGroup):
                             maUtils.setObjectLockTransform(lightGroup)
                             maUtils.setObjectAddParentGroup('|' + lightGroup, importObjectName)
@@ -1383,7 +1383,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         assemblyReferencePath, projectName, assetClass, assetName, assetVariant
                     )
                     #
-                    assemblyAnnotation = prsVariant.Util.assemblyUnitShowName(assetName, assetVariant)
+                    assemblyAnnotation = prsVariants.Util.assemblyUnitShowName(assetName, assetVariant)
                     sceneryOp.setAssemblyAnnotationSwitch(assemblyReferencePath, assemblyAnnotation)
     #
     def setVisibilityOn(self):

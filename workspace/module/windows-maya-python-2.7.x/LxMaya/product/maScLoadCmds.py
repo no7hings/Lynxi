@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxCore.preset import prsVariant
+from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
 
@@ -19,7 +19,7 @@ from LxMaya.product.data import datScene
 
 from LxMaya.product.op import sceneOp, sceneryOp
 
-astDefaultVersion = prsVariant.Util.astDefaultVersion
+astDefaultVersion = prsVariants.Util.astDefaultVersion
 
 none = ''
 
@@ -46,10 +46,10 @@ def scUnitSceneCreateMainCmd(
     #
     maPreference.setAnimationTimeUnit(projectName)
     # Layout
-    if scenePr.isScLayoutLink(sceneStage):
+    if scenePr.isLayoutLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
     # Animation
-    elif scenePr.isScAnimationLink(sceneStage):
+    elif scenePr.isAnimationLinkName(sceneStage):
         serverProductFile = scenePr.sceneUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
@@ -60,7 +60,7 @@ def scUnitSceneCreateMainCmd(
         )[1]
         maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     # Simulation
-    elif scenePr.isScSimulationLink(sceneStage):
+    elif scenePr.isSimulationLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         # Asset Model Cache
         scUnitAstModelCachesLoadCmd(
@@ -75,7 +75,7 @@ def scUnitSceneCreateMainCmd(
             sceneClass, sceneName, sceneVariant, sceneStage
         )
     # Solver
-    elif scenePr.isScSolverLink(sceneStage):
+    elif scenePr.isSolverLinkName(sceneStage):
         # Load Animation
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         #
@@ -89,7 +89,7 @@ def scUnitSceneCreateMainCmd(
             withExtraCache=withExtraCache,
         )
     # Light
-    elif scenePr.isScLightLink(sceneStage):
+    elif scenePr.isLightLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
         #
         scUnitAssetsLoadCmd(
@@ -106,20 +106,20 @@ def scUnitSceneCreateMainCmd(
     # is Used Default Camera
     if withCamera:
         logWin_.addStartProgress(u'Camera Create')
-        if scenePr.isScLayoutLink(sceneStage):
+        if scenePr.isLayoutLinkName(sceneStage):
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
             if not maUtils.isAppExist(sceneCamera):
                 sceneOp.setCreateSceneCamera(sceneName, sceneVariant)
             #
             sceneOp.setAddSceneCameras(sceneName, [maUtils._getNodePathString(sceneCamera)])
         # Simulation and Light
-        elif scenePr.isScSolverLink(sceneStage) or scenePr.isScSimulationLink(sceneStage) or scenePr.isScLightLink(sceneStage):
+        elif scenePr.isSolverLinkName(sceneStage) or scenePr.isSimulationLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             scUnitCameraCachesLoadCmd(
                 projectName,
                 sceneIndex,
                 sceneClass, sceneName, sceneVariant, sceneStage
             )
-            if scenePr.isScLightLink(sceneStage):
+            if scenePr.isLightLinkName(sceneStage):
                 scOutputCameras = scenePr.getOutputCameras(
                     projectName,
                     sceneClass, sceneName, sceneVariant
@@ -129,7 +129,7 @@ def scUnitSceneCreateMainCmd(
         logWin_.addCompleteProgress()
     # Load Scenery
     if withScenery:
-        if scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage) or scenePr.isScLightLink(sceneStage):
+        if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             scUnitSceneryExtraLoadLoadCmd(
                 projectName,
                 sceneClass, sceneName, sceneVariant, sceneStage
@@ -138,22 +138,22 @@ def scUnitSceneCreateMainCmd(
     if withFrame:
         logWin_.addStartProgress(u'Render Frame Create')
         #
-        if scenePr.isScLayoutLink(sceneStage):
+        if scenePr.isLayoutLinkName(sceneStage):
             startFrame, endFrame = withFrame
             maUtils.setAnimationFrameRange(startFrame, endFrame)
         #
-        elif scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage) or scenePr.isScLightLink(sceneStage):
+        elif scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName, sceneClass, sceneName, sceneVariant
             )
-            if scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage):
+            if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage):
                 startFrame -= 50
             # Frame Range
             maUtils.setAnimationFrameRange(startFrame, endFrame)
             # Current Frame
             maUtils.setCurrentFrame(startFrame)
             #
-            if scenePr.isScLightLink(sceneStage):
+            if scenePr.isLightLinkName(sceneStage):
                 maRender.setRenderTime(startFrame, endFrame)
                 maRender.setAnimationFrameMode()
         #
@@ -162,29 +162,32 @@ def scUnitSceneCreateMainCmd(
     if withSize:
         logWin_.addStartProgress(u'Render Size Create')
         #
-        if scenePr.isScLayoutLink(sceneStage):
+        if scenePr.isLayoutLinkName(sceneStage):
             width, height = withSize
             maUtils.setRenderSize(width, height)
         #
-        elif scenePr.isScSolverLink(sceneStage) or scenePr.isScSimulationLink(sceneStage) or scenePr.isScLightLink(sceneStage):
-            width = prsVariant.Util.rndrImageWidth
-            height = prsVariant.Util.rndrImageHeight
+        elif scenePr.isSolverLinkName(sceneStage) or scenePr.isSimulationLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
+            width = prsVariants.Util.rndrImageWidth
+            height = prsVariants.Util.rndrImageHeight
             #
             maUtils.setRenderSize(width, height)
         #
         logWin_.addCompleteProgress()
     # Set Workspace
-    if scenePr.isScLightLink(sceneStage):
+    if scenePr.isLightLinkName(sceneStage):
         workspaceRoot = scenePr.scUnitRenderFolder(
             lxConfigure.LynxiRootIndex_Local,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage, prsVariant.Util.scDefaultCustomizeLabel
+            sceneClass, sceneName, sceneVariant, sceneStage, prsVariants.Util.scDefaultCustomizeLabel
         )
         maRender.setCreateWorkspace(workspaceRoot)
         #
         maRender.setImagePath(maRender.MaRender_DefaultImageFilePrefix)
     # TD Command
-    tdCommand = scenePr.getScTdLoadCommand(projectName, scenePr.getSceneLink(sceneStage))
+    tdCommand = scenePr.getScTdLoadCommand(
+        projectName,
+        prsMethods.Scene.stageName2linkName(sceneStage)
+    )
     if tdCommand:
         maUtils.runMelCommand(tdCommand)
     # Save to Local
@@ -211,7 +214,7 @@ def scUnitFrameLoadCmd(
     # Time Unit
     maPreference.setAnimationTimeUnit(projectName)
     #
-    if scenePr.isScSimulationLink(sceneStage) or scenePr.isScSolverLink(sceneStage):
+    if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage):
         maUtils.setAnimationFrameRange(startFrame - 50, endFrame)
     else:
         maUtils.setAnimationFrameRange(startFrame, endFrame)
@@ -251,7 +254,7 @@ def scUnitSceneLoadMainCmd(
     #
     maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     #
-    if not scenePr.isScAnimationLink(sceneStage):
+    if not scenePr.isAnimationLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
     #
     maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
@@ -465,9 +468,9 @@ def scUnitAstModelCacheLoadSubCmd(
         scAstSubPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
         #
         scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
-        scAstUnitRootGroup = assetPr.astUnitRootGroupName(assetName)
+        scAstUnitRootGroup = prsMethods.Asset.rootName(assetName)
         #
-        astModelGroup = assetPr.astUnitModelLinkGroupName(assetName)
+        astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         scAstModelGroup = scenePr.scAstModelGroupName(sceneName, sceneVariant, assetName, number)
         if maUtils.isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
@@ -569,7 +572,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
     scAstModelPoseCacheFile = getFile()
     if scAstModelPoseCacheFile is not None:
         scAstSimNamespace = scenePr.scAstSimulationNamespace(sceneName, sceneVariant, assetName, number)
-        scAstModelGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstSimNamespace)
+        scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstSimNamespace)
         if maUtils.isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
             #
@@ -718,7 +721,7 @@ def scUnitAssetLoadSubCmd(
         #
         logWin_.addCompleteProgress()
     else:
-        assetShowName = prsVariant.Util.assetTreeViewName(assetName, number, assetVariant)
+        assetShowName = prsVariants.Util.assetTreeViewName(assetName, number, assetVariant)
         logWin_.addWarning(assetShowName, u'Asset is Exists')
     #
     maUtils.setObjectParent(scAstRootPath, scAstSubPath)
@@ -762,11 +765,11 @@ def scUnitAstModelProductLoadCmd(
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         #
         scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
-        scAstModelGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstModelNamespace)
+        scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelNamespace)
         scAstModelContainer = assetPr.astModelContainerName(assetName, scAstModelNamespace)
         # Clean Exists
         if maUtils.isAppExist(scAstModelGroup):
-            if prsVariant.Util.rndrUseReference is True:
+            if prsVariants.Util.rndrUseReference is True:
                 scAstModelReferenceNode = scenePr.scAstModelReferenceNode(sceneName, sceneVariant, assetName, number)
                 #
                 maUtils.setReferenceRemove(scAstModelReferenceNode)
@@ -778,7 +781,7 @@ def scUnitAstModelProductLoadCmd(
         # Load Product
         logWin_.addStartProgress(u'Model Product Load', astModelProductFile)
         #
-        if prsVariant.Util.rndrUseReference is True:
+        if prsVariants.Util.rndrUseReference is True:
             maFile.setMaFileReference(astModelProductFile, scAstModelNamespace)
         else:
             maFile.setAlembicCacheImport(astModelProductFile, scAstModelNamespace)
@@ -854,9 +857,9 @@ def scUnitAstModelCacheConnectCmd(
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         scAstModelCacheNamespace = scenePr.scAstModelCacheNamespace(sceneName, sceneVariant, assetName, number)
         #
-        scAstModelGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstModelNamespace)
+        scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelNamespace)
         if maUtils.isAppExist(scAstModelGroup):
-            scAstModelCacheGroup = assetPr.astUnitModelLinkGroupName(assetName, scAstModelCacheNamespace)
+            scAstModelCacheGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelCacheNamespace)
             if not maUtils.isAppExist(scAstModelCacheGroup):
                 # Clear Cache Nde_Node
                 connectMethod = maCacheConnect.LxAstModelCacheConnectMethod(assetName, scAstModelCacheNamespace, scAstModelNamespace)
@@ -975,7 +978,7 @@ def scUnitAstCfxProductLoadCmd(
     
     maPreference.setAnimationTimeUnit(projectName)
     #
-    assetStage = lxConfigure.LynxiProduct_Asset_Link_Cfx
+    assetStage = lxConfigure.LynxiProduct_Asset_Link_Groom
     #
     astCfxProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
@@ -988,12 +991,12 @@ def scUnitAstCfxProductLoadCmd(
         scAstCfxNamespace = scenePr.scAstCfxNamespace(sceneName, sceneVariant, assetName, number)
         #
         scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
-        astCfxGroup = assetPr.astUnitCfxLinkGroupName(assetName, scAstCfxNamespace)
+        astCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, scAstCfxNamespace)
         scAstCfxContainer = assetPr.astCfxContainerName(assetName, scAstCfxNamespace)
         if not maUtils.isAppExist(astCfxGroup):
             logWin_.addStartProgress(u'Groom Product Load', astCfxProductFile)
             #
-            if prsVariant.Util.rndrUseReference is True:
+            if prsVariants.Util.rndrUseReference is True:
                 maFile.setMaFileReference(astCfxProductFile, scAstCfxNamespace)
             else:
                 maFile.setAlembicCacheImport(astCfxProductFile, scAstCfxNamespace)
@@ -1061,7 +1064,7 @@ def scUnitAstSolverProductLoadCmd(
         #
         scAstSolverNamespace = scenePr.scAstSolverNamespace(sceneName, sceneVariant, assetName, number)
         #
-        astSolverLinkGroup = assetPr.astUnitCfxLinkGroupName(assetName, scAstSolverNamespace)
+        astSolverLinkGroup = prsMethods.Asset.groomLinkGroupName(assetName, scAstSolverNamespace)
         if not maUtils.isAppExist(astSolverLinkGroup):
             logWin_.addStartProgress(u'Solver Product Load', astSolverProductFile)
             #
@@ -1138,7 +1141,7 @@ def scUnitAstSolverCacheConnectCmd(
         scAstSolverNamespace = scenePr.scAstSolverNamespace(sceneName, sceneVariant, assetName, number)
         scAstSolverCacheNamespace = scenePr.scAstSolverCacheNamespace(sceneName, sceneVariant, assetName, number)
         #
-        astSolverLinkGroup = assetPr.astUnitSolverLinkGroupName(assetName, scAstSolverNamespace)
+        astSolverLinkGroup = prsMethods.Asset.solverLinkGroupName(assetName, scAstSolverNamespace)
         astSolverBridgeGroup = assetPr.astUnitSolverBridgeGroupName(assetName, scAstSolverCacheNamespace)
         # Load
         if not maUtils.isAppExist(astSolverBridgeGroup):
@@ -1295,7 +1298,7 @@ def scUnitSceneryExtraLoadLoadCmd(
             data = extraData[lxConfigure.LynxiTransformationDataKey]
             sceneOp.setScSceneryAsbTransformation(data)
         #
-        if scenePr.isScLightLink(sceneStage):
+        if scenePr.isLightLinkName(sceneStage):
             sceneryOp.setAssembliesActiveSwitch('Proxy')
         #
         logWin_.addCompleteProgress()
