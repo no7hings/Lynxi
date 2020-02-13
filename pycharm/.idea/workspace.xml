@@ -279,11 +279,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsConfigure.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="328" column="8" selection-start-line="328" selection-start-column="8" selection-end-line="328" selection-end-column="8" />
+            <state relative-caret-position="247">
+              <caret line="329" selection-start-line="329" selection-end-line="329" />
               <folding>
                 <element signature="e#64#6827#0" />
                 <element signature="e#6846#7265#0" />
@@ -318,11 +318,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsObjAbstract.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="19">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -689,12 +689,12 @@
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxCore/lxConfigure.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxCore/preset/basicPr.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsMethods/_prsMtdUtility.py" />
-        <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsConfigure.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxCore/preset/prsCore.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsAbstract.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxBasic/bscObjects/_bscObjSystem.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxBasic/bscConfigure.py" />
         <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxDatabase/dtbConfigure.py" />
+        <option value="$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsConfigure.py" />
       </list>
     </option>
   </component>
@@ -990,7 +990,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="3456" height="1426" extended-state="6" />
+    <frame x="-8" y="-8" width="3456" height="1426" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1544763" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -6828,43 +6829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsConfigure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="328" column="8" selection-start-line="328" selection-start-column="8" selection-end-line="328" selection-end-column="8" />
-          <folding>
-            <element signature="e#64#6827#0" />
-            <element signature="e#6846#7265#0" />
-            <element signature="e#7300#16306#0" />
-            <element signature="e#7604#7717#0" />
-            <element signature="e#7760#7977#0" />
-            <element signature="e#8046#8237#0" />
-            <element signature="e#8393#8482#0" />
-            <element signature="e#8556#8700#0" />
-            <element signature="e#8778#8917#0" />
-            <element signature="e#9132#9269#0" />
-            <element signature="e#9345#9563#0" />
-            <element signature="e#9643#9853#0" />
-            <element signature="e#9999#10083#0" />
-            <element signature="e#10157#10291#0" />
-            <element signature="e#10369#10501#0" />
-            <element signature="e#10673#10780#0" />
-            <element signature="e#10848#11030#0" />
-            <element signature="e#11102#11282#0" />
-            <element signature="e#11607#11849#0" />
-            <element signature="e#11922#12322#0" />
-            <element signature="e#12682#12947#0" />
-            <element signature="e#13022#13460#0" />
-            <element signature="e#13745#13957#0" />
-            <element signature="e#14030#14387#0" />
-            <element signature="e#14431#14636#0" />
-            <element signature="e#14917#15091#0" />
-            <element signature="e#15684#15863#0" />
-            <element signature="e#15902#16179#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsCore.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -7377,7 +7341,44 @@
     <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsObjAbstract.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../workspace/module/windows-python-2.7.x/LxPreset/prsConfigure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="329" selection-start-line="329" selection-end-line="329" />
+          <folding>
+            <element signature="e#64#6827#0" />
+            <element signature="e#6846#7265#0" />
+            <element signature="e#7300#16306#0" />
+            <element signature="e#7604#7717#0" />
+            <element signature="e#7760#7977#0" />
+            <element signature="e#8046#8237#0" />
+            <element signature="e#8393#8482#0" />
+            <element signature="e#8556#8700#0" />
+            <element signature="e#8778#8917#0" />
+            <element signature="e#9132#9269#0" />
+            <element signature="e#9345#9563#0" />
+            <element signature="e#9643#9853#0" />
+            <element signature="e#9999#10083#0" />
+            <element signature="e#10157#10291#0" />
+            <element signature="e#10369#10501#0" />
+            <element signature="e#10673#10780#0" />
+            <element signature="e#10848#11030#0" />
+            <element signature="e#11102#11282#0" />
+            <element signature="e#11607#11849#0" />
+            <element signature="e#11922#12322#0" />
+            <element signature="e#12682#12947#0" />
+            <element signature="e#13022#13460#0" />
+            <element signature="e#13745#13957#0" />
+            <element signature="e#14030#14387#0" />
+            <element signature="e#14431#14636#0" />
+            <element signature="e#14917#15091#0" />
+            <element signature="e#15684#15863#0" />
+            <element signature="e#15902#16179#0" />
+          </folding>
         </state>
       </provider>
     </entry>
