@@ -1,6 +1,4 @@
 # coding=utf-8
-from LxBasic import bscModifiers, bscCommands
-
 from LxCore import lxConfigure
 #
 none = ''

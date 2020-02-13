@@ -1,7 +1,7 @@
 # coding=utf-8
 import math
 #
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 #
 #
 from LxUi.qt import qtCore

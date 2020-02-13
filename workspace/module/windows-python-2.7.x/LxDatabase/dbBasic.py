@@ -5,7 +5,7 @@ import hashlib
 #
 import struct
 
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxPreset import prsVariants
 
@@ -101,8 +101,8 @@ def readDbData():
 
 # Get Lock Data
 def getDbInfo(hashValue, dbVersion):
-    dic = bscCommands.orderedDict()
-    dic[updateLabel] = bscMethods.OsTime.activeTimestamp()
+    dic = bscCore.orderedDict()
+    dic[updateLabel] = bscMethods.OsTimestamp.active()
     dic[userLabel] = bscMethods.OsSystem.username()
     dic[hostNameLabel] = bscMethods.OsSystem.hostname()
     dic[hostLabel] = bscMethods.OsSystem.host()
@@ -123,8 +123,8 @@ def getDbBackupFile(directory, dbIndex, dbVersion):
 
 #
 def getData(data, hashValue, dbVersion):
-    dic = bscCommands.orderedDict()
-    dic[updateLabel] = bscMethods.OsTime.activeTimestamp()
+    dic = bscCore.orderedDict()
+    dic[updateLabel] = bscMethods.OsTimestamp.active()
     dic[userLabel] = bscMethods.OsSystem.username()
     dic[hostNameLabel] = bscMethods.OsSystem.hostname()
     dic[hostLabel] = bscMethods.OsSystem.host()
@@ -232,7 +232,7 @@ def readDbCompDataThreadMethod(dbIndex, directory):
 
 # Sub Method
 def dbCompDatumDicRead(compIndexes, dbIndex, directory):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if compIndexes:
         if isinstance(compIndexes, list):
             splitCompIndexes = bscMethods.List.splitTo(compIndexes, 250)
@@ -265,20 +265,20 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
 
 
 #
-def writeJsonGzipDic(osFile, dicKey, value):
-    dic = bscCommands.orderedDict()
+def writeJsonGzipDic(fileString_, dicKey, value):
+    dic = bscCore.orderedDict()
     #
-    gzFile = osFile
-    if bscCommands.isOsExistsFile(gzFile):
-        dic = bscMethods.OsJsonGzip.read(osFile)
+    gzFile = fileString_
+    if bscMethods.OsFile.isExist(gzFile):
+        dic = bscMethods.OsJsonGzip.read(fileString_)
     dic[dicKey] = value
-    bscMethods.OsJsonGzip.write(osFile, dic)
+    bscMethods.OsJsonGzip.write(fileString_, dic)
 
 
 #
-def readJsonGzipDic(osFile, dicKey):
+def readJsonGzipDic(fileString_, dicKey):
     string = none
-    data = bscMethods.OsJsonGzip.read(osFile)
+    data = bscMethods.OsJsonGzip.read(fileString_)
     if data:
         if dicKey in data:
             value = data[dicKey]
@@ -293,7 +293,7 @@ def saveDbMayaAscii(dbSubIndex, directory):
     #
     asciiFile = directory + '/' + dbSubIndex
     #
-    tempAsciiFile = bscMethods.OsFile.temporaryFilename(asciiFile) + mayaAsciiExtLabel
+    tempAsciiFile = bscMethods.OsFile.temporaryName(asciiFile) + mayaAsciiExtLabel
     cmds.file(rename=tempAsciiFile)
     cmds.file(save=1, type='mayaAscii')
     #
@@ -304,7 +304,7 @@ def saveDbMayaAscii(dbSubIndex, directory):
 def importDbMayaAscii(dbSubIndex, directory, namespace=':'):
     import maya.cmds as cmds
     asciiFile = directory + '/' + dbSubIndex
-    if bscCommands.isOsExistsFile(asciiFile):
+    if bscMethods.OsFile.isExist(asciiFile):
         cmds.file(
             asciiFile,
             i=1,
@@ -320,16 +320,16 @@ def importDbMayaAscii(dbSubIndex, directory, namespace=':'):
 #
 def writeDbHistory(dbIndex, directory, dicKey, value):
     if dbIndex:
-        osFile = '%s/%s' % (directory, dbIndex)
-        writeJsonGzipDic(osFile, dicKey, value)
+        fileString_ = '%s/%s' % (directory, dbIndex)
+        writeJsonGzipDic(fileString_, dicKey, value)
 
 
 #
 def readDbHistory(dbIndex, directory, dicKey):
     string = none
     if dbIndex:
-        osFile = '%s/%s' % (directory, dbIndex)
-        value = readJsonGzipDic(osFile, dicKey)
+        fileString_ = '%s/%s' % (directory, dbIndex)
+        value = readJsonGzipDic(fileString_, dicKey)
         if value:
             string = value
     return string
@@ -351,7 +351,7 @@ def readDbSceneryHistory(dbIndex, dicKey):
 def writeDbAssetHistory(dbIndex, sourceFile):
     directory = prsVariants.Database.assetHistory
     writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
     writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
 
 
@@ -359,6 +359,6 @@ def writeDbAssetHistory(dbIndex, sourceFile):
 def writeDbSceneryUnitHistory(dbIndex, sourceFile):
     directory = prsVariants.Database.sceneryHistory
     writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTime.activeTimestamp())
+    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
     writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
 

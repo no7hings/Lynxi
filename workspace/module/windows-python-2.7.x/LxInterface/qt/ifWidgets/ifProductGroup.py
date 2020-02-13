@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscObjects, bscMethods
 #
 from LxPreset import prsMethods
 #
@@ -11,16 +11,11 @@ from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxInterface.qt.ifWidgets import ifProductUnit
 #
-from LxCore.method import _presetMethod
-#
 none = ''
 
 
 #
-class IfAssetProductGroup(
-    _qtIfAbcWidget.QtIfAbc_Group,
-    _presetMethod.LxPresetMethod
-):
+class IfAssetProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfAssetProductGroup, self).__init__(mainWindow)
@@ -69,7 +64,7 @@ class IfAssetProductGroup(
         def setMain():
             projectName = projectPr.getAppProjectName()
             #
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:
@@ -100,10 +95,7 @@ class IfAssetProductGroup(
 
 
 #
-class IfSceneryProductGroup(
-    _qtIfAbcWidget.QtIfAbc_Group,
-    _presetMethod.LxPresetMethod
-):
+class IfSceneryProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneryProductGroup, self).__init__(mainWindow)
@@ -153,7 +145,7 @@ class IfSceneryProductGroup(
         def setMain():
             projectName = projectPr.getAppProjectName()
             #
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:
@@ -184,10 +176,7 @@ class IfSceneryProductGroup(
 
 
 #
-class IfSceneProductGroup(
-    _qtIfAbcWidget.QtIfAbc_Group,
-    _presetMethod.LxPresetMethod
-):
+class IfSceneProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneProductGroup, self).__init__(mainWindow)
@@ -235,7 +224,7 @@ class IfSceneProductGroup(
         #
         def setMain():
             projectName = projectPr.getAppProjectName()
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
                     projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
                 else:

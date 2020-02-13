@@ -5,7 +5,7 @@ from LxCore import lxScheme
 #
 from LxPreset import prsMethods
 #
-from LxCore.method import _dbMethod
+from LxDatabase import dtbMethods
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
@@ -48,8 +48,6 @@ class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
     indexPath = backupPath + '/' + '.index'
     historyPath = backupPath + '/' + '.history'
     infoPath = backupPath + '/' + '.info'
-    #
-    _dbMethod = _dbMethod.Mtd_DbUnit
     #
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):

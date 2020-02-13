@@ -3,7 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxPreset import prsVariants, prsMethods
 #
@@ -23,7 +23,7 @@ none = ''
 # Get Poly Mesh Evaluate ( Method )
 def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox, showMode):
     # Dict { <Evaluate Name>: <Evaluate Data> }
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     used = [vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox]
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
@@ -90,17 +90,17 @@ def getAssetInfo():
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
                 if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Asset):
-                    assetClass = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
+                    assetCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     assetName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
                     assetVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
                     assetStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
                     assetIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
                     if assetIndex is not None:
-                        data = assetIndex, assetClass, assetName, assetVariant, assetStage
+                        data = assetIndex, assetCategory, assetName, assetVariant, assetStage
                         #
-                        print '''assetIndex = '{}'\nassetClass = '{}'\nassetName = '{}'\nassetVariant = '{}'\nassetStage = '{}'\n'''.format(
+                        print '''assetIndex = '{}'\nassetCategory = '{}'\nassetName = '{}'\nassetVariant = '{}'\nassetStage = '{}'\n'''.format(
                             assetIndex,
-                            assetClass, assetName, assetVariant, assetStage
+                            assetCategory, assetName, assetVariant, assetStage
                         )
                         lis.append(data)
     return lis
@@ -149,7 +149,7 @@ def getMeshesIsNormalLock(meshObjects):
 def getMeshObjectsEvaluateDic(objectLis, showMode=0):
     # Dict { <Poly Mesh> :
     #        List [ <Evaluate Info> ] }
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if objectLis:
         count = len(objectLis)
         data = getMeshObjectEvaluate(
@@ -178,7 +178,7 @@ def getMeshObjectsEvaluateDic(objectLis, showMode=0):
 
 #
 def getMaterialEvaluateData(objectLis, showMode=0):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if objectLis:
         evaluateData = maShdr.getMaterialEvaluateData(objectLis)
         #
@@ -193,7 +193,7 @@ def getMaterialEvaluateData(objectLis, showMode=0):
 
 # Get Objects Transformation (Data)
 def getObjectNonZeroTransAttrDic(objectLis):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     channelLabel = [
         'translate',
@@ -209,7 +209,7 @@ def getObjectNonZeroTransAttrDic(objectLis):
     ]
     if objectLis:
         for objectString in objectLis:
-            subDic = bscCommands.orderedDict()
+            subDic = bscCore.orderedDict()
             for seq, channel in enumerate(channelSet):
                 subDic[channelLabel[seq]] = cmds.getAttr(objectString + channel)[0]
                 dic[objectString] = subDic
@@ -218,7 +218,7 @@ def getObjectNonZeroTransAttrDic(objectLis):
 
 #
 def filterObjectHistoryNodeDic(objectLis):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if objectLis:
         for objectString in objectLis:
             stringLis = cmds.listHistory(objectString, pruneDagObjects=1)
@@ -230,8 +230,8 @@ def filterObjectHistoryNodeDic(objectLis):
 
 
 # List [ <Output Connection Nde_Node> ]
-def getOutputNode(node, assetClass=none):
-    outputNodes = cmds.listConnections(node, destination=1, source=0, type=assetClass)
+def getOutputNode(node, assetCategory=none):
+    outputNodes = cmds.listConnections(node, destination=1, source=0, type=assetCategory)
     return outputNodes
 
 
@@ -255,7 +255,7 @@ def getRedshiftAovNodes():
 
 #
 def getAovNodesData(renderer):
-    aovNodesData = bscCommands.orderedDict()
+    aovNodesData = bscCore.orderedDict()
     if renderer == 'Arnold':
         aovNodesData = getArnoldAovNodesData()
     if renderer == 'Redshift':
@@ -265,7 +265,7 @@ def getAovNodesData(renderer):
 
 #
 def getArnoldAovNodesData():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     aovNodes = getArnoldAovNodeLis()
     if aovNodes:
         for aovNode in aovNodes:
@@ -276,7 +276,7 @@ def getArnoldAovNodesData():
 
 #
 def getRedshiftAovNodesData():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     aovNodes = getRedshiftAovNodes()
     if aovNodes:
         for aovNode in aovNodes:
@@ -428,7 +428,7 @@ def getAstCfxGrowSourceObjectLis(assetName, namespace=none):
 
 #
 def getAstCfxGrowSourceConnectionDic(assetName, namespace=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     objectPathLis = getAstCfxGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
         for objectString in objectPathLis:
@@ -445,7 +445,7 @@ def getAstSolverGrowSourceObjectLis(assetName, namespace):
 
 #
 def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     objectPathLis = getAstSolverGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
         for objectString in objectPathLis:
@@ -455,12 +455,12 @@ def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
 
 
 # Get Yeti Nde_Node Data
-def getYetiNodeData(assetClass, assetName):
-    dic = bscCommands.orderedDict()
+def getYetiNodeData(assetCategory, assetName):
+    dic = bscCore.orderedDict()
     yetiObjects = getYetiObjects(assetName)
     if yetiObjects:
         for yetiObject in yetiObjects:
-            subDic = bscCommands.orderedDict()
+            subDic = bscCore.orderedDict()
             groomObjects = maUtils.getYetiGroomDic(yetiObject)
             if groomObjects:
                 for groomObject in groomObjects:
@@ -492,7 +492,7 @@ def getAstCfxNurbsHairObjects(assetName, namespace=none):
 
 #
 def getAstCfxNurbsHairSolverCheckData(assetName, namespace=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     objectPaths = getAstCfxNurbsHairObjects(assetName, namespace)
     if objectPaths:
         for objectPath in objectPaths:
@@ -524,7 +524,7 @@ def getAstSolverFurGuideCurveGroups(assetName, namespace=none):
 
 #
 def getAstSolverGuideCheckData(assetName, namespace=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     nhrGuideObjects = getAstUnitSolverNhrGuideObjects(assetName, namespace)
     if nhrGuideObjects:
         for nhrGuideObject in nhrGuideObjects:
@@ -606,7 +606,7 @@ def getAstUnitRigSolAttributeData(assetName, namespace=none):
         shapeCustomAttrData = maAttr.getNodeUserDefAttrData(objectString)
         dic[rigSolLinkGroup + objectString.split(rigSolLinkGroup)[-1]] = shapeDefinedAttrData, shapeCustomAttrData
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     rigSolLinkGroup = assetPr.astUnitRigSolFurSubGroupName(assetName)
     #
     objectPaths = getAstUnitSolverNhrGuideObjects(assetName, namespace)
@@ -619,9 +619,9 @@ def getAstUnitRigSolAttributeData(assetName, namespace=none):
 #
 def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDic, textureMtimestampDic):
     if textureString:
-        textureFilePath = bscCommands.getOsFileDirname(textureString)
+        textureFilePath = bscMethods.OsFile.dirname(textureString)
         #
-        textureFileBasename = bscCommands.getOsFileBasename(textureString)
+        textureFileBasename = bscMethods.OsFile.basename(textureString)
         # Texture Path
         texturePathDic.setdefault(textureFilePath, []).append(textureFileBasename)
         #
@@ -652,7 +652,7 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
             else:
                 textureMtimestampDic[textureFileBasename] = None
         else:
-            if bscCommands.isOsExistsFile(textureString):
+            if bscMethods.OsFile.isExist(textureString):
                 timestamp = bscMethods.OsFile.mtimestamp(textureString)
                 textureMtimestampDic[textureFileBasename] = timestamp
             else:
@@ -663,12 +663,12 @@ def getTextureDatumLis(textureNode, textureString, texturePathDic, textureNodeDi
 
 # Get Texture's Datum List Link
 def getTextureStatisticsDic(objectLis):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
-    texturePathDic = bscCommands.orderedDict()
+    texturePathDic = bscCore.orderedDict()
     #
-    textureMtimestampDic = bscCommands.orderedDict()
-    textureNodeDic = bscCommands.orderedDict()
+    textureMtimestampDic = bscCore.orderedDict()
+    textureNodeDic = bscCore.orderedDict()
     #
     textureNodeLis = maShdr.getTextureNodeLisByObject(objectLis)
     if textureNodeLis:
@@ -698,7 +698,7 @@ def getVolume(objectString):
 #
 def getMeshObjectsConstantDic(assetName, namespace=none):
     infoConfig = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     meshesInformation = maGeom.getGeometryObjectsInfo(astUnitModelProductGroup)
     for seq, i in enumerate(infoConfig):
@@ -725,7 +725,7 @@ def getMeshConstant(uniqueId, localInfoDic, serverInfoDic):
 
 
 #
-def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespace):
+def getAstGeometryObjectsConstantData(assetIndex, assetCategory, assetName, namespace):
     totalArray = []
     pathChangedArray = []
     geomChangedArray = []
@@ -766,7 +766,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetClass, assetName, namespa
 
 
 #
-def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
+def getAstMeshObjectsConstantData(assetIndex, assetCategory, assetName, namespace):
     totalArray = []
     pathChangedArray = []
     geomChangedArray = []
@@ -809,7 +809,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetClass, assetName, namespace):
 
 #
 def getObjectSetDic(data):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if data:
         for objectUniqueId, linkDataArray in data.items():
             for objIndex, materialUniqueId in linkDataArray:
@@ -855,7 +855,7 @@ def setMaterialConstant(uniqueId, localInfoDic, serverInfoDic, localMeshSetData,
 
 
 #
-def getMaterialsConstantData(assetIndex, projectName, assetClass, assetName, assetVariant, namespace=none):
+def getMaterialsConstantData(assetIndex, projectName, assetCategory, assetName, assetVariant, namespace=none):
     totalArray = []
     composeChangedArray = []
     attributeChangedArray = []
@@ -978,7 +978,7 @@ def getAovCompIndexesForce(subIndex, aovs):
 
 #
 def getAstMeshConstantData(assetName, namespace=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     geometryObjects = getAstMeshObjects(assetName, 1, namespace)
     if geometryObjects:

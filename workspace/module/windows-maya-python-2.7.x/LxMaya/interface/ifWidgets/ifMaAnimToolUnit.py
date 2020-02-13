@@ -3,9 +3,7 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects, bscCommands
-
-from LxPreset import prsCore
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure, lxScheme
 
@@ -57,11 +55,11 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
     #
     widthSet = 800
     #
-    dicFilter = bscCommands.orderedDict()
+    dicFilter = bscCore.orderedDict()
     dicFilter['withCharacter'] = [0, 0, 0, 1, 2, 'Character ( 0000 )']
     dicFilter['withProp'] = [0, 0, 2, 1, 2, 'Prop ( 0000 )']
     #
-    dicTool = bscCommands.orderedDict()
+    dicTool = bscCore.orderedDict()
     dicTool['usePoolAsset'] = [0, 0, 0, 1, 3, 'Ignore Asset ( Rig ) Update']
     # 1
     dicTool['multiple'] = [0, 2, 0, 1, 1, none]
@@ -104,14 +102,14 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 if checkedItems:
                     for gridItem in checkedItems:
                         assetIndex = gridItem.assetIndex
-                        assetClass = None
+                        assetCategory = None
                         assetName = gridItem.assetName
                         assetVariant = gridItem.assetVariant
                         #
                         maAstLoadCmds.astUnitRigLoadForAnimationCmd(
                             projectName,
                             assetIndex,
-                            assetClass, assetName, assetVariant
+                            assetCategory, assetName, assetVariant
                         )
             #
             actionDatumLis = [
@@ -145,17 +143,17 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                     maAstLoadCmds.astUnitRigLoadForAnimationCmd(
                         projectName,
                         assetIndex,
-                        assetClass, assetName, assetVariant
+                        assetCategory, assetName, assetVariant
                     )
                 #
                 def rigFolderOpenCmd():
-                    osFile = assetPr.astUnitProductFile(
+                    fileString_ = assetPr.astUnitProductFile(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                     )[1]
 
-                    bscMethods.OsFile.openDirectory(osFile)
+                    bscMethods.OsFile.openDirectory(fileString_)
                 #
                 subActionData = [
                     ('Basic',),
@@ -166,7 +164,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 gridItem.setActionData(subActionData, title=viewExplain)
             #
             assetIndex = key
-            assetClass = None
+            assetCategory = None
             assetName, viewName = value
             assetVariant = prsVariants.Util.astDefaultVariant
             # Tag
@@ -182,7 +180,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             #
             self._tagFilterIndexDic.setdefault(tag, []).append(seq)
             #
-            viewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {}'.format(assetName, assetVariant))
+            viewExplain = assetPr.getAssetViewInfo(assetIndex, assetCategory, '{} - {}'.format(assetName, assetVariant))
             gridItem = qtWidgets.QtGridviewItem()
             gridView.addItem(gridItem)
             #
@@ -198,7 +196,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             productFile = assetPr.astUnitProductFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
             )[1]
             mtimestamp = bscMethods.OsFile.mtimestamp(productFile)
             exists = mtimestamp is not None
@@ -207,12 +205,12 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             #
             messages = [
                 (messageWidget.DrawImage1, preview),
-                (messageWidget.DrawColor, (rgba, iconKeyword, bscMethods.OsTime.getCnPrettifyByTimestamp(mtimestamp)))
+                (messageWidget.DrawColor, (rgba, iconKeyword, bscMethods.OsTimestamp.toChnPrettify(mtimestamp)))
             ]
             messageWidget.setDatumLis(messages, 240, 240)
             #
             gridItem.assetIndex = assetIndex
-            gridItem.assetClass = None
+            gridItem.assetCategory = None
             gridItem.assetName = assetName
             gridItem.assetVariant = assetVariant
             #
@@ -553,7 +551,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def setFrameBox():
             if self._connectObject:
                 projectName = self._connectObject.projectName
-                sceneClass = self._connectObject.sceneClass
+                sceneCategory = self._connectObject.sceneCategory
                 sceneName = self._connectObject.sceneName
                 sceneVariant = self._connectObject.sceneVariant
                 sceneStage = self._connectObject.sceneStage
@@ -561,7 +559,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if scenePr.isLayoutLinkName(sceneStage):
                     startFrame, endFrame = maUtils.getFrameRange()
                 else:
-                    startFrame, endFrame = scenePr.getScUnitFrameRange(projectName, sceneClass, sceneName, sceneVariant)
+                    startFrame, endFrame = scenePr.getScUnitFrameRange(projectName, sceneCategory, sceneName, sceneVariant)
                 self._previewFrameBox.setDefaultValue((startFrame, endFrame))
         #
         def setSizeBox():
@@ -598,7 +596,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setImportBtnState(self):
         if self._connectObject:
             projectName = self.projectName
-            sceneClass = self.getSceneClass()
+            sceneCategory = self.getSceneClass()
             sceneName = self.getSceneName()
             sceneVariant = self.getSceneVariant()
             #
@@ -606,16 +604,16 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 serverCameraFile = scenePr.scUnitCameraProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             #
-            boolean = bscCommands.isOsExist(serverCameraFile)
+            boolean = bscMethods.OsFile.isExist(serverCameraFile)
             #
             self._importCameraButton.setPressable([False, True][boolean])
     #
@@ -696,7 +694,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if self._connectObject:
             sceneIndex = self._connectObject.sceneIndex
             projectName = self.projectName
-            sceneClass = self._connectObject.sceneClass
+            sceneCategory = self._connectObject.sceneCategory
             sceneName = self._connectObject.sceneName
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
@@ -718,12 +716,12 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 maUtils.setCurrentFrame(startFrame)
                 #
-                timeTag = bscMethods.OsTime.activeTimetag()
+                timeTag = bscMethods.OsTimetag.active()
                 #
                 maScUploadCmds.scUnitCamerasUploadCmd(
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
                     timeTag,
                     withCamera
@@ -736,7 +734,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if self._connectObject:
             sceneIndex = self._connectObject.sceneIndex
             projectName = self.projectName
-            sceneClass = self._connectObject.sceneClass
+            sceneCategory = self._connectObject.sceneCategory
             sceneName = self._connectObject.sceneName
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
@@ -761,7 +759,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 displayMode = 6
                 useMode = 1
                 #
-                timeTag = bscMethods.OsTime.activeTimetag()
+                timeTag = bscMethods.OsTimetag.active()
                 #
                 cameraData = scCameraLis, selCameraLis
                 previewConfig = percent, quality, width, height, vedioFormat, displayMode, useMode
@@ -773,7 +771,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maScUploadCmds.scUnitPreviewsUploadCmd(
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
                     timeTag,
                     withPreview
@@ -782,10 +780,10 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if isOpenFolder:
                     localPreviewFile = scenePr.scenePreviewFile(
                         lxConfigure.LynxiRootIndex_Local,
-                        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+                        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                     )[1]
-                    previewFolder = bscCommands.getOsFileDirname(localPreviewFile)
-                    if bscCommands.isOsExist(previewFolder):
+                    previewFolder = bscMethods.OsFile.dirname(localPreviewFile)
+                    if bscMethods.OsFile.isExist(previewFolder):
                         bscMethods.OsDirectory.open(previewFolder)
                 #
                 bscObjects.If_Message(
@@ -798,9 +796,9 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setSceneNameUiLabelShow(self):
         projectName = self._connectObject.projectName
-        sceneClass = self.getSceneClass()
+        sceneCategory = self.getSceneClass()
         #
-        datumDic = scenePr.getUiSceneMultMsgs(projectName, [sceneClass])
+        datumDic = scenePr.getUiSceneMultMsgs(projectName, [sceneCategory])
         self._scNameLabel.setExtendDatumDic(datumDic)
         self._scNameLabel.sendChooseChangedEmit()
     #
@@ -814,7 +812,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setImportCameraCmd(self):
         if self._connectObject:
             projectName = self.projectName
-            sceneClass = self.getSceneClass()
+            sceneCategory = self.getSceneClass()
             sceneName = self.getSceneName()
             sceneVariant = self.getSceneVariant()
             #
@@ -822,15 +820,15 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 serverCameraFile = scenePr.scUnitCameraProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
                 )[1]
-            if bscCommands.isOsExist(serverCameraFile):
+            if bscMethods.OsFile.isExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
                 if not maUtils.isAppExist(cameraLocator):
                     maFile.setFileImport(serverCameraFile)
@@ -1011,7 +1009,7 @@ class IfScAnimationLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 class IfScUtilToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicUtils = bscCommands.orderedDict()
+    dicUtils = bscCore.orderedDict()
     dicUtils['astUnitClearScene'] = [1, 0, 0, 1, 4, 'Clean Maya Scene']
     dicUtils['placeholder'] = [1, 1, 0, 1, 4, 'Placeholder']
     def __init__(self, *args, **kwargs):
@@ -1304,7 +1302,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def _initScRangeConfig(self):
         projectName = self.projectName
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
@@ -1317,7 +1315,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             )
         self._scFrameValueLabel.setDefaultValue((startFrame, endFrame))
         self._scRenderValueLabel.setDefaultValue((prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight))
@@ -1426,7 +1424,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         sceneIndex = self._connectObject.sceneIndex
         projectName = self._connectObject.projectName
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
@@ -1439,7 +1437,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         description = u'镜头 - 动画 上传/更新'
         notes = self._scNoteUiLabel.datum()
         #
-        timeTag = bscMethods.OsTime.activeTimetag()
+        timeTag = bscMethods.OsTimetag.active()
         #
         isWithIndex = getIndexUploadDatum()
         # Preview
@@ -1456,7 +1454,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         maScUploadCmds.scUnitAnimationUploadMainCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame, frameOffset,
             timeTag,
             description, notes,
@@ -1470,17 +1468,17 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _scAssemblyComposeUploadCmd(self):
         sceneIndex = self._connectObject.sceneIndex
         projectName = self._connectObject.projectName
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
-        timeTag = bscMethods.OsTime.activeTimetag()
+        timeTag = bscMethods.OsTimetag.active()
         #
         maScUploadCmds.scUnitSceneryComposeUploadCmd_(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             timeTag,
         )
         bscObjects.If_Message(
@@ -1654,7 +1652,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _initRenderOptionToolUiBox(self):
         projectName = self._connectObject.projectName
         sceneIndex = self._connectObject.sceneIndex
-        sceneClass = self._connectObject.sceneIndex
+        sceneCategory = self._connectObject.sceneIndex
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
@@ -1671,13 +1669,13 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             # Camera
             outputCameras = scenePr.getOutputCameras(
                 projectName,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             )
             self._scRenderCameraLabel.setDefaultDatum(outputCameras)
             # Frame
             sceneFrameRange = scenePr.getScUnitFrameRange(
                 projectName,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             )
             startFrame, endFrame = sceneFrameRange
             self._scRenderFrameLabel.setDefaultValue((startFrame, endFrame))
@@ -1724,7 +1722,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             renderPath = scenePr.scUnitRenderFolder(
                 rootIndex,
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 customize
             )
             #
@@ -1737,7 +1735,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def setCustomizeLabel():
             serverCustomizes = scenePr.getScRenderCustomizes(
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage
+                sceneCategory, sceneName, sceneVariant, sceneStage
             )
             currentCustomize = datScene.getSceneCustomizeLabel(sceneName)
             #
@@ -1755,7 +1753,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             serverRenderPath = scenePr.scUnitRenderFolder(
                 rootIndex,
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 customize
             )
             #
@@ -1767,7 +1765,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         def setUpdateRenderIndex():
             customize = datScene.getSceneCustomizeLabel(sceneName)
-            timeTag = bscMethods.OsTime.activeTimetag()
+            timeTag = bscMethods.OsTimetag.active()
             #
             startFrame, endFrame = maRender.getRenderTime()
             width, height = maRender.getRenderSize()
@@ -1775,7 +1773,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             maScUploadCmds.scUnitRenderIndexUploadCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 width, height,
                 customize,
@@ -1789,7 +1787,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         projectName = self._connectObject.projectName
         sceneIndex = self._connectObject.sceneIndex
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
@@ -1812,7 +1810,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def setUpdateRender():
             projectName = self._connectObject.projectName
             sceneIndex = self._connectObject.sceneIndex
-            sceneClass = self._connectObject.sceneClass
+            sceneCategory = self._connectObject.sceneCategory
             sceneName = self._connectObject.sceneName
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
@@ -1837,7 +1835,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     isWithDeadline = ddlJobType, ddlJobPool, ddlJobPriority, ddlJobTimeout, ddlJobMachineLimit, ddlJobAbortError, ddlJobSizePercent
                 #
                 customize = datScene.getSceneCustomizeLabel(sceneName)
-                timeTag = bscMethods.OsTime.activeTimetag()
+                timeTag = bscMethods.OsTimetag.active()
                 #
                 description = u'镜头 - 灯光 / 渲染 上传'
                 notes = self._scNoteUiLabel.datum()
@@ -1845,7 +1843,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maScUploadCmds.scUnitLightUploadMainCmd(
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     customize,
                     timeTag,
                     description, notes,
@@ -2076,33 +2074,33 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setupDdlMelCommandToolUiBox(self, toolBox):
         def saveCmd():
-            osFile = self._melCommandFile
+            fileString_ = self._melCommandFile
             data = self._commandEditBox.text()
             bscMethods.OsFile.write(self._melCommandFile, data)
             #
-            subOsFile = bscMethods.OsFile.toJoinTimetag(osFile)
-            bscMethods.OsFile.copyTo(osFile, subOsFile)
+            subOsFile = bscMethods.OsFile.toJoinTimetag(fileString_)
+            bscMethods.OsFile.copyTo(fileString_, subOsFile)
             #
             setLoadAction()
             #
             bscObjects.If_Message('Save Mel Command', 'Complete !!!')
         #
         def loadCmd():
-            osFile = self._melCommandFile
-            if bscCommands.isOsExist(osFile):
-                data = bscMethods.OsFile.read(osFile)
+            fileString_ = self._melCommandFile
+            if bscMethods.OsFile.isExist(fileString_):
+                data = bscMethods.OsFile.read(fileString_)
                 #
                 self._commandEditBox.setText(data)
         #
         def setLoadAction():
             def setActionBranch(timeTag, subOsFile):
                 def subLoadCmd():
-                    if bscCommands.isOsExist(subOsFile):
+                    if bscMethods.OsFile.isExist(subOsFile):
                         subData = bscMethods.OsFile.read(subOsFile)
                         #
                         self._commandEditBox.setText(subData)
                 #
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag)
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(timeTag)
                 actionDatumLis.append(
                     (actionExplain, 'svg_basic@svg#file', True, subLoadCmd)
                 )
@@ -2113,9 +2111,9 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 ('Load ( Last Save )', 'menu#loadMenu', True, loadCmd),
                 ('History', )
             ]
-            osFile = self._melCommandFile
+            fileString_ = self._melCommandFile
             #
-            recordDic = bscMethods.OsFile.backupNameDict(osFile)
+            recordDic = bscMethods.OsFile.backupNameDict(fileString_)
             if recordDic:
                 for k, v in recordDic.items()[-5:]:
                     setActionBranch(k, v)
@@ -2164,13 +2162,13 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def scSubmitDeadlineCmd():
             projectName = self._connectObject.projectName
             sceneIndex = self._connectObject.sceneIndex
-            sceneClass = self._connectObject.sceneClass
+            sceneCategory = self._connectObject.sceneCategory
             sceneName = self._connectObject.sceneName
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
             #
             customize = datScene.getSceneCustomizeLabel(sceneName)
-            timeTag = bscMethods.OsTime.activeTimetag()
+            timeTag = bscMethods.OsTimetag.active()
             #
             startFrame, endFrame = maRender.getRenderTime()
             width, height = maRender.getRenderSize()
@@ -2191,7 +2189,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             maScUploadCmds.scUnitRenderDeadlineSubmitMainCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 width, height,
                 timeTag,
@@ -2214,7 +2212,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if self._connectObject:
             projectName = self._connectObject.projectName
             sceneIndex = self._connectObject.sceneIndex
-            sceneClass = self._connectObject.sceneClass
+            sceneCategory = self._connectObject.sceneCategory
             sceneName = self._connectObject.sceneName
             sceneVariant = self._connectObject.sceneVariant
             sceneStage = self._connectObject.sceneStage
@@ -2224,10 +2222,10 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             renderFile = scenePr.scUnitRenderFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage, customize
+                sceneCategory, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
-            self._ddlSubmitButton.setPressable([False, True][bscCommands.isOsExist(renderFile)])
+            self._ddlSubmitButton.setPressable([False, True][bscMethods.OsFile.isExist(renderFile)])
     #
     def setListRenderLayer(self):
         def setBranch(renderLayer):
@@ -2285,7 +2283,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         projectName = self._connectObject.projectName
         sceneIndex = self._connectObject.sceneIndex
-        sceneClass = self._connectObject.sceneIndex
+        sceneCategory = self._connectObject.sceneIndex
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
@@ -2294,7 +2292,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         sceneStartFrame, sceneEndFrame = scenePr.getScUnitFrameRange(
             projectName,
-            sceneClass, sceneName, sceneVariant
+            sceneCategory, sceneName, sceneVariant
         )
         renderStartFrame, renderEndFrame = maRender.getRenderTime()
         #
@@ -2485,7 +2483,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self.sceneFullName = none
         #
         self.sceneIndex = None
-        self.sceneClass = None
+        self.sceneCategory = None
         self.sceneName = None
         self.sceneVariant = None
         self.sceneStage = None
@@ -2745,10 +2743,10 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneInfoLis = datScene.getSceneInfo()
         if sceneInfoLis:
             sceneInfo = sceneInfoLis[0]
-            sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage = sceneInfo
+            sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage = sceneInfo
             #
             self.sceneIndex = sceneIndex
-            self.sceneClass = sceneClass
+            self.sceneCategory = sceneCategory
             self.sceneName = sceneName
             self.sceneVariant = sceneVariant
             self.sceneStage = sceneStage
@@ -2774,7 +2772,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if self._connectObject:
                     self._connectObject.setProgressValue(seq + 1, maxValue)
                 referenceNode = k
-                assetClass, assetName, number, assetVariant, state = v
+                assetCategory, assetName, number, assetVariant, state = v
                 assetItem = qtWidgets_.QTreeWidgetItem_()
                 #
                 treeBox.addItem(assetItem)
@@ -2792,9 +2790,9 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     assetCheck = True
                     #
                     namespace = maUtils.getReferenceNamespace(referenceNode)
-                    osFile = maUtils.getReferenceFile(referenceNode)
+                    fileString_ = maUtils.getReferenceFile(referenceNode)
                     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
-                    if astAnimationRigFileLabel in osFile:
+                    if astAnimationRigFileLabel in fileString_:
                         showLabel = astAnimationRigFileLabel
                         if maUtils.isAppExist(astUnitModelProductGroup):
                             localMeshData = datAsset.getMeshObjectsConstantDic(assetName, namespace)
@@ -2809,7 +2807,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             assetSubLabel = ['Error', 'On'][geometryCheck]
                     #
                     state = 'High - Quality'
-                    if astLayoutRigFileLabel in osFile:
+                    if astLayoutRigFileLabel in fileString_:
                         state = 'Low - Quality'
                         showLabel = astLayoutRigFileLabel
                     #
@@ -2817,18 +2815,18 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if not existNumber:
                         assetSubLabel = 'Error'
                         stateSubLabel = 'Error'
-                    numberKey = '%s - %s - %s' % (assetClass, assetName, number)
+                    numberKey = '%s - %s - %s' % (assetCategory, assetName, number)
                     if numberKey in numberKeyArray:
                         assetSubLabel = 'Error'
                         stateSubLabel = 'Error'
                     numberKeyArray.append(numberKey)
                     #
-                    self.assetDataDic[assetItem] = referenceNode, assetClass, assetName, number, assetVariant
+                    self.assetDataDic[assetItem] = referenceNode, assetCategory, assetName, number, assetVariant
                 #
                 showName = prsVariants.Util.assetTreeViewName(assetName, number, assetVariant)
                 #
                 assetItem.assetIndex = None
-                assetItem.assetClass = assetClass
+                assetItem.assetCategory = assetCategory
                 assetItem.assetName = assetName
                 assetItem.number = number
                 assetItem.assetVariant = assetVariant
@@ -2863,7 +2861,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         boolean = len(selectedItems) == 1
         if boolean:
             assetItem = selectedItems[0]
-            assetClass = assetItem.assetClass
+            assetCategory = assetItem.assetCategory
             assetName = assetItem.assetName
             number = assetItem.number
             assetVariant = assetItem.assetVariant
@@ -2873,8 +2871,8 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 namespace = maUtils.getReferenceNamespace(referenceNode)
                 namespaceLabel.setDatum(namespace)
                 #
-                osFile = maUtils.getReferenceFile(referenceNode)
-                fileLabel.setDatum(osFile)
+                fileString_ = maUtils.getReferenceFile(referenceNode)
+                fileLabel.setDatum(fileString_)
             else:
                 namespaceLabel.setDatum(none)
                 fileLabel.setDatum(none)
@@ -2902,7 +2900,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if boolean:
                 assetItem = selectedItems[0]
                 assetIndex = assetItem.assetIndex
-                assetClass = assetItem.assetClass
+                assetCategory = assetItem.assetCategory
                 assetName = assetItem.assetName
                 number = assetItem.number
                 assetVariant = assetItem.assetVariant
@@ -2954,7 +2952,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             selectedItems = treeBox.selectedItems()
             if selectedItems:
                 for assetItem in selectedItems:
-                    assetClass = assetItem.assetClass
+                    assetCategory = assetItem.assetCategory
                     assetName = assetItem.assetName
                     number = assetItem.number
                     assetVariant = assetItem.assetVariant
@@ -3113,7 +3111,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         assetItem = self.selectedAssetItem
         if assetItem:
-            assetClass = assetItem.assetClass
+            assetCategory = assetItem.assetCategory
             assetName = assetItem.assetName
             number = assetItem.number
             assetVariant = assetItem.assetVariant
@@ -3132,7 +3130,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setAssetNumber(self):
         assetItem = self.selectedAssetItem
         if assetItem:
-            assetClass = assetItem.assetClass
+            assetCategory = assetItem.assetCategory
             assetName = assetItem.assetName
             number = assetItem.number
             assetVariant = assetItem.assetVariant
@@ -3294,7 +3292,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setRigSwitch(self, keyword):
         def setBranch(assetItem):
-            assetClass = assetItem.assetClass
+            assetCategory = assetItem.assetCategory
             assetName = assetItem.assetName
             number = assetItem.number
             assetVariant = assetItem.assetVariant
@@ -3305,14 +3303,14 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 rigAssetFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
             else:
                 showLabel = astAnimationRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
             #
             if os.path.isfile(rigAssetFile):
@@ -3350,14 +3348,14 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setGpuSwitchToRig(self):
         def setBranch(assetItem):
-            assetClass = assetItem.assetClass
+            assetCategory = assetItem.assetCategory
             assetName = assetItem.assetName
             number = assetItem.number
             assetVariant = assetItem.assetVariant
             state = assetItem.state
             referenceNode = assetItem.node
             #
-            animOp.setSwitchAssetRig(projectName, referenceNode, assetClass, assetName, number)
+            animOp.setSwitchAssetRig(projectName, referenceNode, assetCategory, assetName, number)
             #
             namespace = maUtils.getReferenceNamespace(referenceNode)
             astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
@@ -3391,27 +3389,28 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if boolean:
             sourceObject = selectedObjects[0]
             targetObject = selectedObjects[1]
-            osFile = 'D:/animTemp/%s' % (sourceObject.split('|')[-1].split(':')[-1] + '_' + bscMethods.OsTime.activeTimetag())
-            maFile.animExport(osFile, sourceObject)
-            maFile.animImport(osFile, targetObject)
+            fileString_ = 'D:/animTemp/%s' % (sourceObject.split('|')[-1].split(':')[-1] + '_' + bscMethods.OsTimetag.active())
+            maFile.animExport(fileString_, sourceObject)
+            maFile.animImport(fileString_, targetObject)
     #
     def setExportAnimation(self):
-        osFile = 'D:/animTemp/tempAnim.key'
+        fileString_ = 'D:/animTemp/tempAnim.key'
         root = self.root
         if root:
             data = maKeyframe.getKeyDatas(root)
 
-            bscMethods.OsJson.write(osFile, data)
+            bscMethods.OsJson.write(fileString_, data)
             #
             maUtils.setMessageWindowShow(
                 u'Animation ( Keys ) Export', u'Complete',
-                position='topCenter', fade=1, dragKill=0)
+                position='topCenter', fade=1, dragKill=0
+            )
     #
     def setImportAnimation(self):
-        osFile = 'D:/animTemp/tempAnim.key'
+        fileString_ = 'D:/animTemp/tempAnim.key'
         root = self.root
         if root:
-            data = maFile.readOsJson(osFile)
+            data = bscMethods.OsJson.read(fileString_)
             maKeyframe.setKeys(root, data)
             #
             maUtils.setMessageWindowShow(
@@ -3432,14 +3431,14 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if selectedItems:
             for i in selectedItems:
                 if i in assetData:
-                    referenceNode, assetClass, assetName, number, assetVariant = assetData[i]
+                    referenceNode, assetCategory, assetName, number, assetVariant = assetData[i]
                     namespace = \
                         maUtils.getReferenceNamespace(referenceNode)
                     astUnitModelProductGroup = \
                         [namespace + ':', none][namespace is none] + assetPr.astUnitModelProductGroupName(assetName)
                     lis.append(astUnitModelProductGroup)
                 if i in gpuData:
-                    referenceNode, assetClass, assetName, number, assetVariant = gpuData[i]
+                    referenceNode, assetCategory, assetName, number, assetVariant = gpuData[i]
                     gpuName = assetPr.astGpuName(assetName, number)
                     lis.append(gpuName)
         return lis
@@ -3765,8 +3764,6 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         toolBox.setButton(inData, 'nurbsHairCacheCheck', self.nurbsHairCacheCheckButton)
         self.nurbsHairCacheCheckButton.setPercentEnable(True)
         #
-        self.nurbsHairCacheCheckButton.clicked.connect(self.setNurbsHairCacheCheck)
-        #
         toolBox.setSeparators(inData)
     #
     def setRightTreeViewBox(self):
@@ -4038,12 +4035,12 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             #
                             cfxFurItem.solverMode = localSolverMode
                         #
-                        cfxFurItem.sceneClass = sceneClass
+                        cfxFurItem.sceneCategory = sceneCategory
                         cfxFurItem.sceneName = sceneName
                         cfxFurItem.sceneVariant = sceneVariant
                         cfxFurItem.startFrame = sceneStartFrame
                         cfxFurItem.endFrame = sceneEndFrame
-                        cfxFurItem.assetClass = assetClass
+                        cfxFurItem.assetCategory = assetCategory
                         cfxFurItem.assetName = assetName
                         cfxFurItem.number = number
                         cfxFurItem.assetVariant = assetVariant
@@ -4064,7 +4061,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     for i in nodeDataLis:
                         setAstCfxFurSubBranch(i)
                 # Assets
-                for assetIndex, assetClass, assetName, number, assetVariant, furNodesInAsset in assetDataLis:
+                for assetIndex, assetCategory, assetName, number, assetVariant, furNodesInAsset in assetDataLis:
                     furNodesInScene.extend(furNodesInAsset)
                     #
                     assetItem = qtWidgets_.QTreeWidgetItem_()
@@ -4073,7 +4070,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     assetIcon = 'svg_basic@svg#package_object'
                     assetIconSubLabel = none
                     #
-                    assetShowName = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
+                    assetShowName = assetPr.getAssetViewInfo(assetIndex, assetCategory, assetVariant)
                     #
                     assetItem.setItemIconWidget(0, assetIcon, assetShowName, assetIconSubLabel)
                     #
@@ -4089,19 +4086,19 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     assetItem.setExpanded(True)
             #
-            for (sceneIndex, sceneClass, sceneName, sceneVariant), assetDataArray in sceneDataDic.items():
+            for (sceneIndex, sceneCategory, sceneName, sceneVariant), assetDataArray in sceneDataDic.items():
                 if self._connectObject:
                     self._connectObject.updateProgress()
                 #
                 sceneStartFrame, sceneEndFrame = scenePr.getScUnitFrameRange(
-                    projectName, sceneClass, sceneName, sceneVariant
+                    projectName, sceneCategory, sceneName, sceneVariant
                 )
                 #
                 sceneItemIcon0 = 'svg_basic@svg#package_object'
                 sceneIconSubLabel = None
                 sceneItemIcon1 = 'svg_basic@svg#time'
                 #
-                sceneShowName = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneVariant)
+                sceneShowName = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneVariant)
                 #
                 sceneItem = qtWidgets_.QTreeWidgetItem_()
                 treeBox.addItem(sceneItem)
@@ -4156,98 +4153,14 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
                         self._cfxNurbsHairItems.append(treeItem)
     #
-    def setNurbsHairCacheCheck(self):
-        def setBranch(treeItem):
-            def setSubBranch(osFiles):
-                boolean = True
-                if osFiles:
-                    try:
-                        # noinspection PyUnresolvedReferences
-                        import nurbsHairCacheFileInfo
-                        #
-                        sizeLis = []
-                        errorLis = []
-                        explain = '''Set Cache Check'''
-                        maxValue = len(osFiles)
-                        progressBar = bscObjects.If_Progress(explain, maxValue)
-                        #
-                        for osFile in osFiles:
-                            isContinue = self._connectObject.isContinue()
-                            if isContinue is False:
-                                print isContinue
-                            progressBar.update()
-                            #
-                            result = nurbsHairCacheFileInfo.nurbsHairCacheFileInfo(osFile)
-                            check, data = result()
-                            if check is True:
-                                if not data in sizeLis:
-                                    if sizeLis:
-                                        print osFile
-                                        print data
-                                    #
-                                    sizeLis.append(data)
-                            else:
-                                print osFile
-                                print data
-                                #
-                                errorLis.append(osFile)
-                        #
-                        boolean = len(sizeLis) == 1 and len(errorLis) == 0
-                    except ImportError:
-                        print 'Module is Non - Exists'
-                return boolean
-            #
-            if hasattr(treeItem, 'furObjectType'):
-                furObjectType = treeItem.furObjectType
-                if furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
-                    cfxFurObjectPath = treeItem.cfxFurObject
-                    cfxCacheFile = maFur.getNurbsHairCacheFile(cfxFurObjectPath)
-                    subCacheFiles = bscCommands.getOsMultFileLis(cfxCacheFile, useMode=1)
-                    if subCacheFiles:
-                        checkResult = setSubBranch(subCacheFiles)
-                        #
-                        if checkResult is False:
-                            treeItem.setItemIcon(0, 'treeBox#node', 'error')
-                            cfxFurLabel = treeItem.cfxFurLabel
-                            treeItem.setText(0, cfxFurLabel + ' ( Cache Size Error !!! )')
-                        else:
-                            treeItem.setItemIcon(0, 'treeBox#node', 'on')
-                            cfxFurLabel = treeItem.cfxFurLabel
-                            treeItem.setText(0, cfxFurLabel + ' ( Cache Size Correct )')
-                            #
-                            self._correctCfxNurbsHairItems.append(treeItem)
-                        #
-                        treeItem.setExpanded(True)
-        #
-        def setMain():
-            if self.checkAllNodeButton.isChecked():
-                treeItems = self._cfxNurbsHairItems
-            else:
-                treeItems = [i for i in self._cfxNurbsHairItems if i.isSelected()]
-            #
-            if treeItems:
-                explain = '''Set Nurbs Hair Check'''
-                maxValue = len(treeItems)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
-                for i in treeItems:
-                    progressBar.update()
-                    #
-                    setBranch(i)
-        #
-        self._correctCfxNurbsHairItems = []
-        #
-        setMain()
-        #
-        self.setBottomBtnState()
-    #
     def setOpenCacheLocalFolder(self):
         treeBox = self._rightTreeView
         selectedTreeItems = treeBox.selectedItems()
         if selectedTreeItems:
             treeItem = selectedTreeItems[0]
             if hasattr(treeItem, 'cfxFurObject'):
-                osFile = treeItem.localCacheFile
-                bscMethods.OsFile.openDirectory(osFile)
+                fileString_ = treeItem.localCacheFile
+                bscMethods.OsFile.openDirectory(fileString_)
     #
     def setOpenCacheServerFolder(self):
         treeBox = self._rightTreeView
@@ -4255,8 +4168,8 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if selectedTreeItems:
             treeItem = selectedTreeItems[0]
             if hasattr(treeItem, 'cfxFurObject'):
-                osFile = treeItem.serverCacheFile
-                bscMethods.OsFile.openDirectory(osFile)
+                fileString_ = treeItem.serverCacheFile
+                bscMethods.OsFile.openDirectory(fileString_)
     #
     def setUploadBtnState(self):
         self.needWriteFurNodes = []
@@ -4385,14 +4298,14 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     furNodeName = maUtils._toNodeName(furObjectPath)
                     #
                     cfxFurItem = nodeItemDic[furObjectPath]
-                    sceneClass = cfxFurItem.sceneClass
+                    sceneCategory = cfxFurItem.sceneCategory
                     sceneName = cfxFurItem.sceneName
                     sceneVariant = cfxFurItem.sceneVariant
                     #
                     startFrame = cfxFurItem.startFrame
                     endFrame = cfxFurItem.endFrame
                     #
-                    assetClass = cfxFurItem.assetClass
+                    assetCategory = cfxFurItem.assetCategory
                     assetName = cfxFurItem.assetName
                     number = cfxFurItem.number
                     assetVariant = cfxFurItem.assetVariant

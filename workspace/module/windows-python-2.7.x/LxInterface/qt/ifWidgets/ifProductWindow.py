@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure, lxScheme
 #
@@ -185,7 +185,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
 
         if isChecked:
             prsMethods.Personnel.updateUserDatum(user, cnName, enName, mail, team, post)
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()
             #

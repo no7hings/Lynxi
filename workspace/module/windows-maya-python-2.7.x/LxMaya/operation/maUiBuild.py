@@ -1,4 +1,5 @@
 # coding:utf-8
+from LxBasic import bscConfigure
 from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxMaya.method import _maUiMethod
@@ -12,7 +13,7 @@ class MaUiMenuBuild(_maUiMethod.Mtd_MaUiMenu):
 #
 class MaToolKitBuild(_maUiMethod.Mtd_MaUiControl):
     def __init__(self):
-        self._controlName = self.LynxiUiName_ToolKitPanel
+        self._controlName = bscConfigure.MtdBasic.STR_ui_name_toolkit
     #
     def currentControl(self):
         return self._toQtWidget(self._controlName)

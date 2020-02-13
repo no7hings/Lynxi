@@ -1,16 +1,15 @@
 # coding:utf-8
-from LxPreset import prsCore, prsMethods
+from LxBasic import bscCore
 
-from LxCore.method.basic import _methodBasic
+from LxPreset import prsMethods
 
-from LxCore.method import _productMethod
+from LxDatabase import dtbConfigure
 
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class MaProductUnitMethod(_productMethod.LxProductUnitMethod):
-    prd_method = _methodBasic.LxProductMethodBasic
+class MaProductUnitMethod(dtbConfigure.DtbBasic):
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def getProductUnitDatumLis(cls, moduleString):
@@ -36,7 +35,7 @@ class MaProductUnitMethod(_productMethod.LxProductUnitMethod):
         return lis
     @classmethod
     def getProductUnitDatumDic(cls):
-        dic = cls.mtd_app_node.orderedDict()
+        dic = bscCore.orderedDict()
         for moduleString in prsMethods.Product.moduleNames():
             dic[moduleString] = cls.getProductUnitDatumLis(moduleString)
         return dic

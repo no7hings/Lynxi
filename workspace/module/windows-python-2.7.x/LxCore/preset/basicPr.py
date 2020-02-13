@@ -1,7 +1,7 @@
 # coding=utf-8
 import types
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore import lxConfigure, lxScheme
 #
@@ -10,8 +10,6 @@ from LxCore.config import basicCfg, assetCfg
 STR_ROOT_PRESET = lxScheme.Root().preset.product
 #
 IsPresetVariantKey = True
-#
-presetPathsep = bscCommands.Ma_Separator_Node
 guideExt = '.guide'
 #
 configExt = '.config'
@@ -21,7 +19,7 @@ none = ''
 
 #
 def basicPresetConfig(guidePresetKey):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Variant
     dic[lxConfigure.Lynxi_Key_Preset_Variant] = [
         (lxConfigure.Lynxi_Key_Preset_Variant,),
@@ -240,7 +238,7 @@ def defaultPipelineSetConfig():
 
 #
 def defaultPipelineDeploymentSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['pipeStructure'] = [
         None,
         u'流程架构预设',
@@ -268,7 +266,7 @@ def defaultPipelineDeploymentSetConfig():
 
 #
 def defaultPipelineOptionSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['pipelineOption'] = [
         None,
         u'权限设置',
@@ -338,7 +336,7 @@ def defaultPipelineOptionSetConfig():
 
 #
 def defaultBasicNameSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['basicNode'] = [
         None,
         u'数据库预设',
@@ -362,7 +360,7 @@ def defaultBasicNameSetConfig():
 
 #
 def defaultDataNameSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['informationLabel'] = [
         None,
         u'数据库预设',
@@ -397,7 +395,7 @@ def defaultDataNameSetConfig():
 
 #
 def defaultDatabaseNameSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['databaseFolder'] = [
         None,
         u'数据库预设',
@@ -530,8 +528,8 @@ def defaultPersonnelPostSetConfig():
 #
 def defaultPersonnelUserSetConfig():
     lis = [
-        [lxConfigure.Lynxi_Key_Preset_Team, teams()],
-        [lxConfigure.Lynxi_Key_Preset_Post, posts()],
+        [lxConfigure.Lynxi_Key_Preset_Team, _getPersonnelTeamLis()],
+        [lxConfigure.Lynxi_Key_Preset_Post, _getPersonnelPostLis()],
         [lxConfigure.LynxiUserCnNameKey, ''],
         [lxConfigure.LynxiUserEnNameKey, ''],
         [lxConfigure.LynxiUserMailKey, ''],
@@ -603,7 +601,7 @@ def defaultAppShelfToolSchemeConfig():
 #
 def defaultAppShelfToolSetConfig():
     lis = [
-        ('shelf', getShelfNames()),
+        ('shelf', _getVariantShelfLis()),
         ('toolName', '<toolName>'),
         ('nameText', '<toolName>'),
         ('toolIcon', '<serverBasicPath>/<pipeBasicIconFolder>/shelf/manager.png'),
@@ -739,8 +737,8 @@ def defaultMayaRendererSchemeConfig():
 
 # Project Scheme
 def defaultProjectSchemeConfig():
-    if bscCommands.isMayaApp():
-        mayaVersion = bscCommands.getMayaAppVersion()
+    if bscMethods.MayaApp.isActive():
+        mayaVersion = bscMethods.MayaApp.version()
         defaultValue = '{}_{}'.format(lxConfigure.Lynxi_Keyword_Project_Default, mayaVersion)
     else:
         defaultValue = lxConfigure.LynxiDefaultProjectValue
@@ -790,7 +788,7 @@ def defaultProjectSetConfig():
 def defaultProjectBasicSetConfig():
     lis = [
         [lxConfigure.LynxiProjectClassificationKey, basicCfg.basicProjectClassificationConfig()],
-        [lxConfigure.LynxiMayaRendererKey, getMayaRenderer()],
+        [lxConfigure.LynxiMayaRendererKey, _getMayaRendererLis()],
         [lxConfigure.LynxiMayaTimeUnitKey, basicCfg.basicMayaTimeUnitConfig()],
         [lxConfigure.Lynxi_Key_Preset_Episode, (lxConfigure.LynxiDefaultEpisodeKey,)]
     ]
@@ -799,7 +797,7 @@ def defaultProjectBasicSetConfig():
 
 #
 def defaultProjectOptionSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['animationOption'] = [
         None,
         u'动画设置',
@@ -831,7 +829,7 @@ def defaultProjectOptionSetConfig():
 
 #
 def defaultAssetProductionSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['modelProduction'] = [
         None,
         u'模型生产设置',
@@ -854,7 +852,7 @@ def defaultAssetProductionSetConfig():
 
 #
 def defaultSceneProductionSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['layoutProduction'] = [
         None,
         u'镜头 - 预览 - 生产设置',
@@ -905,7 +903,7 @@ def defaultSceneProductionSetConfig():
 
 #
 def defaultAssetInspectionSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['astModelInspection'] = [
         None,
         u'资产 - 模型 - 检查设置',
@@ -946,7 +944,7 @@ def defaultAssetInspectionSetConfig():
 
 #
 def defaultDirectoryNameConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['basicFolder'] = [
         None,
         u'文件夹名预设',
@@ -1429,9 +1427,9 @@ def defaultDirectoryNameConfig():
     return dic
 
 
-#
+# noinspection PyUnusedLocal
 def lxSet_name_node_dic(*args):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['Lynxi_Prefix'] = [
         None,
         u'节点前缀标签预设',
@@ -1646,7 +1644,7 @@ def lxSet_name_node_dic(*args):
 
 #
 def defaultAttributeNameSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['basicAttributeLabel'] = [
         None,
         u'节点组标签预设',
@@ -1719,7 +1717,7 @@ def defaultAttributeNameSetConfig():
 
 #
 def defaultRootStorageSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['databaseRoot'] = [
         None,
         u'数据库根目录预设',
@@ -1789,7 +1787,7 @@ def defaultRootStorageSetConfig():
 
 #
 def defaultFileStorageSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['assetModelFile'] = [
         None,
         u'资产预设',
@@ -1823,7 +1821,7 @@ def defaultFileStorageSetConfig():
 #
 def defaultMayaProjectSetConfig():
     lis = [
-        [lxConfigure.LynxiMayaVersionKey, getMayaVersions()],
+        [lxConfigure.LynxiMayaVersionKey, _getMayaVersionLis()],
         [lxConfigure.LynxiMayaCommonPlugsKey, basicCfg.basicMayaCommonPlugConfig()]
     ]
     return lis
@@ -1831,7 +1829,7 @@ def defaultMayaProjectSetConfig():
 
 #
 def defaultProjectMayaShelfSetDic():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Asset
     dic['assetShelf'] = [
         None,
@@ -2107,7 +2105,7 @@ def defaultProjectMayaShelfSetDic():
 
 #
 def defaultProjectMayaToolKitSetDic():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['model'] = [
         True,
         u'模型工具',
@@ -2223,7 +2221,7 @@ def defaultProjectMayaToolKitSetDic():
 
 #
 def defaultProjectMayaScriptSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['model'] = [
         False,
         u'模型脚本',
@@ -2328,7 +2326,7 @@ def defaultProjectMayaScriptSetConfig():
 
 #
 def defaultProjectMayaTdSetConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['model'] = [
         False,
         u'模型脚本',
@@ -2406,7 +2404,7 @@ def presetIndexFileMethod(presetKeys, mainSchemeKey=none):
     string = '{0}/{1}/.{2}'.format(presetPath(STR_ROOT_PRESET), lxConfigure.LynxiSchemeExt, '.'.join(presetKeys))
     if mainSchemeKey:
         string = '{0}/{1}/{3}@.{2}'.format(presetPath(STR_ROOT_PRESET), lxConfigure.LynxiSchemeExt, '.'.join(presetKeys), mainSchemeKey)
-    return bscMethods.OsFile.uniqueFilename(string)
+    return bscMethods.OsFile.uniqueName(string)
 
 
 #
@@ -2414,7 +2412,7 @@ def presetSetFileMethod(presetKeys, mainSchemeKey=none):
     string = '{0}/{1}/.{2}'.format(presetPath(STR_ROOT_PRESET), lxConfigure.LynxiSetExt, '.'.join(presetKeys))
     if mainSchemeKey:
         string = '{0}/{1}/{3}@.{2}'.format(presetPath(STR_ROOT_PRESET), lxConfigure.LynxiSetExt, '.'.join(presetKeys), mainSchemeKey)
-    return bscMethods.OsFile.uniqueFilename(string)
+    return bscMethods.OsFile.uniqueName(string)
 
 
 #
@@ -2428,9 +2426,9 @@ def presetDicMethod(fn):
     return subMethod
 
 
-#
+# noinspection PyUnusedLocal
 def basicPresetSchemeConfig(presetKeys, mainSchemeKey=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Preset 01
     dic[(lxConfigure.Lynxi_Key_Preset_Variant,)] = defaultPresetSchemeLis
     # Pipeline 01
@@ -2526,9 +2524,9 @@ def basicPresetSchemeConfig(presetKeys, mainSchemeKey=none):
             return data()
 
 
-#
+# noinspection PyUnusedLocal
 def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if len(presetKeys) == 1:
         # Pipeline 01
         dic[(lxConfigure.Lynxi_Key_Pipeline,)] = \
@@ -2605,9 +2603,9 @@ def basicPresetSetConfig(presetKeys, mainSchemeKey=none):
             return {}
 
 
-#
+# noinspection PyUnusedLocal
 def basicSubPresetSchemeConfig(presetKeys, mainSchemeKey=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     dic[(lxConfigure.Lynxi_Key_Preset_Variant, lxConfigure.Lynxi_Key_Preset_Plug, lxConfigure.Lynxi_Key_Preset_Environ)] = basicCfg.defaultVariantConfig
     key = presetKeys
@@ -2621,7 +2619,7 @@ def basicSubPresetSchemeConfig(presetKeys, mainSchemeKey=none):
     elif not key in dic:
         if key == (
                 lxConfigure.Lynxi_Key_Preset_Software, lxConfigure.Lynxi_Key_Preset_App, lxConfigure.Lynxi_Key_Preset_Plug):
-            return getPlugVariantLis(lxConfigure.Lynxi_Key_Preset_Maya, getMayaVersions(), '')
+            return getPlugVariantLis(lxConfigure.Lynxi_Key_Preset_Maya, _getMayaVersionLis(), '')
 
 
 # Schemes
@@ -2630,8 +2628,8 @@ def getPresetSchemes(presetKeys, mainSchemeKey=none):
         return basicPresetSchemeConfig(presetKeys)
     #
     def getCustomData():
-        osFile = presetIndexFileMethod(presetKeys, mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetIndexFileMethod(presetKeys, mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getSubLis(data):
         lis = []
@@ -2642,12 +2640,12 @@ def getPresetSchemes(presetKeys, mainSchemeKey=none):
                     lis.append(schemeKey)
         return lis
     #
-    def toStringList(defaultLis, customLis):
+    def string2list(defaultLis, customLis):
         lis = defaultLis
         [lis.append(i) for i in customLis if i not in lis]
         return lis
     #
-    return toStringList(getSubLis(getDefaultData()), getSubLis(getCustomData()))
+    return string2list(getSubLis(getDefaultData()), getSubLis(getCustomData()))
 
 
 # Scheme Data
@@ -2656,11 +2654,11 @@ def getUiPresetSchemeDataDic(presetKeys, mainSchemeKey=none):
         return basicPresetSchemeConfig(presetKeys)
     #
     def getCustomData():
-        osFile = presetIndexFileMethod(presetKeys, mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetIndexFileMethod(presetKeys, mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getSubDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 scheme, enabled, description = i
@@ -2668,7 +2666,7 @@ def getUiPresetSchemeDataDic(presetKeys, mainSchemeKey=none):
         return dic
     #
     def getDic(defaultDic, customDic):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if defaultDic:
             for k, v in defaultDic.items():
                 enabled, description = v
@@ -2696,8 +2694,8 @@ def getUiPresetSetDataLis(presetKeys, mainSchemeKey=none):
         return basicPresetSetConfig(presetKeys)
     #
     def getCustomData():
-        osFile = presetSetFileMethod(presetKeys, mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod(presetKeys, mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDic(defaultLis, customDic):
         lis = []
@@ -2731,15 +2729,15 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
         return basicPresetSetConfig((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
     #
     def getCustomIndexData():
-        osFile = presetIndexFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetIndexFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getCustomSetData():
-        osFile = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDefaultIndexDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
                 enabled, description, subSetDatas = v
@@ -2747,7 +2745,7 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
         return dic
     #
     def getCustomIndexDic(data):
-        indexDic = bscCommands.orderedDict()
+        indexDic = bscCore.orderedDict()
         if data:
             for i in data:
                 subScheme, enabled, description = i
@@ -2755,10 +2753,10 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
         return indexDic
     #
     def getDefaultSetDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
-                subDic = bscCommands.orderedDict()
+                subDic = bscCore.orderedDict()
                 enabled, description, subSetDatas = v
                 for subSetData in subSetDatas:
                     subSetKey, subSetValue = subSetData
@@ -2773,17 +2771,17 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
         return dic
     #
     def getCustomSetDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
-                subDic = bscCommands.orderedDict()
+                subDic = bscCore.orderedDict()
                 for ik, iv in v.items():
                     subDic[ik] = iv
                 dic[k] = subDic
         return dic
     #
     def getUtilsIndexDic(defaultIndexDic, customIndexDic):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if defaultIndexDic:
             for k, v in defaultIndexDic.items():
                 enabled, description = defaultIndexDic[k]
@@ -2832,7 +2830,7 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
         return lis
     #
     def getUiSetDataDic(defaultSetData, customIndexData, customSetData):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         #
         defaultIndexDic = getDefaultIndexDic(defaultSetData)
         defaultSetDic = getDefaultSetDic(defaultSetData)
@@ -2843,8 +2841,8 @@ def getUiSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSc
             for k, v in utilsIndexes.items():
                 enabled, description = v
                 #
-                subDefaultSetDic = bscCommands.orderedDict()
-                subCustomSetDic = bscCommands.orderedDict()
+                subDefaultSetDic = bscCore.orderedDict()
+                subCustomSetDic = bscCore.orderedDict()
                 if k in defaultSetDic:
                     subDefaultSetDic = defaultSetDic[k]
                 if k in customSetDic:
@@ -2863,11 +2861,11 @@ def getPresetSetDic(presetKeys, mainSchemeKey):
         return basicPresetSetConfig(presetKeys)
     #
     def getCustomData():
-        osFile = presetSetFileMethod(presetKeys, mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod(presetKeys, mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDic(defaultLis, customDic):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if defaultLis:
             for i in defaultLis:
                 setKey, setData = i
@@ -2888,7 +2886,7 @@ def getPresetSetDic(presetKeys, mainSchemeKey):
 #
 def getGuidePresetSetValue(guidePresetKey, mainPresetKey, schemeKey):
     def getDefaultData():
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         data = basicPresetSetConfig((guidePresetKey, ))
         if data:
             for i in data:
@@ -2902,8 +2900,8 @@ def getGuidePresetSetValue(guidePresetKey, mainPresetKey, schemeKey):
         return dic
     #
     def getCustomData():
-        osFile = presetSetFileMethod((guidePresetKey, ), schemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod((guidePresetKey, ), schemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getValue(defaultDic, customDic):
         value = None
@@ -2923,7 +2921,7 @@ def getGuidePresetSetValue(guidePresetKey, mainPresetKey, schemeKey):
 #
 def getMainPresetSetValue(guidePresetKey, mainPresetKey, schemeKey, mainSetKey):
     def getDefaultData():
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         data = basicPresetSetConfig((guidePresetKey, mainPresetKey))
         if data:
             for i in data:
@@ -2937,8 +2935,8 @@ def getMainPresetSetValue(guidePresetKey, mainPresetKey, schemeKey, mainSetKey):
         return dic
     #
     def getCustomData():
-        osFile = presetSetFileMethod((guidePresetKey, mainPresetKey), schemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod((guidePresetKey, mainPresetKey), schemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getValue(defaultDic, customDic):
         value = None
@@ -2959,20 +2957,20 @@ def getSubPresetSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, mainSche
         return basicPresetSetConfig((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
     #
     def getCustomSetData():
-        osFile = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     defaultSetData = getDefaultData()
     customSetData = getCustomSetData()
     if defaultSetData:
         for setClassification, (enabled, description, setDatumLis) in defaultSetData.items():
-            subCustomSetsDic = bscCommands.orderedDict()
+            subCustomSetsDic = bscCore.orderedDict()
             if customSetData:
                 if setClassification in customSetData:
                     subCustomSetsDic = customSetData[setClassification]
             #
-            subDic = bscCommands.orderedDict()
+            subDic = bscCore.orderedDict()
             for setDatum in setDatumLis:
                 subSetKey, subSetValue = setDatum
                 if isinstance(subSetKey, tuple):
@@ -2997,15 +2995,15 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return basicPresetSetConfig((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
     #
     def getCustomIndexData():
-        osFile = presetIndexFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetIndexFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getCustomSetData():
-        osFile = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = presetSetFileMethod((guidePresetKey, mainPresetKey, subPresetKey), mainSchemeKey)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDefaultIndexDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
                 enabled, description, subSetDatas = v
@@ -3013,7 +3011,7 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return dic
     #
     def getCustomIndexDic(data):
-        indexDic = bscCommands.orderedDict()
+        indexDic = bscCore.orderedDict()
         if data:
             for i in data:
                 subScheme, enabled, description = i
@@ -3021,7 +3019,7 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return indexDic
     #
     def getUtilsIndexDic(defaultIndexDic, customIndexDic):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if defaultIndexDic:
             for k, v in defaultIndexDic.items():
                 enabled, description = defaultIndexDic[k]
@@ -3039,7 +3037,7 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return dic
     #
     def getSubUtilsSetLis(subDefaultSetDic, subCustomSetDic):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if subDefaultSetDic:
             for k, v in subDefaultSetDic.items():
                 setValue = v
@@ -3056,10 +3054,10 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return dic
     #
     def getDefaultSetDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
-                subDic = bscCommands.orderedDict()
+                subDic = bscCore.orderedDict()
                 enabled, description, subSetDatas = v
                 for subSetData in subSetDatas:
                     subSetKey, subSetValue = subSetData
@@ -3070,17 +3068,17 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
         return dic
     #
     def getCustomSetDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for k, v in data.items():
-                subDic = bscCommands.orderedDict()
+                subDic = bscCore.orderedDict()
                 for ik, iv in v.items():
                     subDic[ik] = iv
                 dic[k] = subDic
         return dic
     #
     def getUiSetDataDic(defaultSetData, customIndexData, customSetData):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         #
         defaultIndexDic = getDefaultIndexDic(defaultSetData)
         defaultSetDic = getDefaultSetDic(defaultSetData)
@@ -3091,8 +3089,8 @@ def getSubPresetEnabledSetDataDic(guidePresetKey, mainPresetKey, subPresetKey, m
             for k, v in utilsIndexes.items():
                 enabled, description = v
                 #
-                subDefaultSetDic = bscCommands.orderedDict()
-                subCustomSetDic = bscCommands.orderedDict()
+                subDefaultSetDic = bscCore.orderedDict()
+                subCustomSetDic = bscCore.orderedDict()
                 if k in defaultSetDic:
                     subDefaultSetDic = defaultSetDic[k]
                 if k in customSetDic:
@@ -3120,54 +3118,12 @@ def getGuidePresetVariantDic(guidePresetKey, guideSchemeKey):
                         subDic = data
                         dic[mainSetKey] = subDic
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     basicData = basicPresetConfig(guidePresetKey)
     if basicData:
         [getBranch(i) for i in basicData]
     return dic
-
-
-#
-def teams():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Personnel
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Team
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
-
-
-#
-def posts():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Personnel
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Post
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
-
-
-#
-def getAppNames():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Software
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_App
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
-
-
-#
-def getShelfNames():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Shelf
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
-
-
-#
-def getToolNames():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Kit
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
-
-
-#
-def getPlugNames():
-    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
-    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Plug
-    return getPresetSchemes((guidePresetKey, mainPresetKey))
 
 
 #
@@ -3188,7 +3144,7 @@ def getPlugVariantLis(applicationName, appVersions, plugName):
                 if key == lxConfigure.LynxiAppVersionKey:
                     value = appVersions
                 if key == lxConfigure.Key_Plug_Name:
-                    value = getPlugNames()
+                    value = _getVariantPlugLis()
                 setValue = value
                 defValue = value
                 if isinstance(value, list):
@@ -3199,12 +3155,54 @@ def getPlugVariantLis(applicationName, appVersions, plugName):
 
 
 #
-def getMayaVersions():
+def _getPersonnelTeamLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Personnel
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Team
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getPersonnelPostLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Personnel
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Post
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getSoftwareApplicationLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Software
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_App
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getVariantShelfLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Shelf
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getVariantKitLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Kit
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getVariantPlugLis():
+    guidePresetKey = lxConfigure.Lynxi_Key_Preset_Variant
+    mainPresetKey = lxConfigure.Lynxi_Key_Preset_Plug
+    return getPresetSchemes((guidePresetKey, mainPresetKey))
+
+
+#
+def _getMayaVersionLis():
     return getPresetSchemes((lxConfigure.Lynxi_Key_Preset_Maya, lxConfigure.Lynxi_Key_Preset_Version))
 
 
 #
-def getMayaRenderer():
+def _getMayaRendererLis():
     guidePresetKey = lxConfigure.Lynxi_Key_Preset_Maya
     mainPresetKey = lxConfigure.Lynxi_Key_Preset_Renderer
     return getPresetSchemes((guidePresetKey, mainPresetKey))

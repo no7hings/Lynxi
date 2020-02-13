@@ -2,29 +2,27 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscModifiers, bscObjects
 #
 from LxCore.config import appCfg
 #
-from LxMaya.command import maUtils, maFile, maTxtr, maFur, maAsb, maProxy, maAbc, maGeomCache, maArnold
-#
-pathsep = appCfg.OsFilePathSep
+from LxMaya.command import maUtils, maTxtr, maFur, maAsb, maProxy, maAbc, maGeomCache, maArnold
 #
 none = ''
 
 
 #
-def getLinkDicMethod(dic, nodeString, osFile):
-    osFile = osFile.replace('\\', pathsep)
-    osFile = bscCommands.getPathReduce(osFile, pathsep)
+def getLinkDicMethod(dic, nodeString, fileString_):
+    fileString_ = fileString_.replace('\\', '/')
+    fileString_ = bscMethods.OsFile.reduceFilename(fileString_)
     #
-    key = osFile.lower()
-    dic.setdefault(key, []).append((nodeString, osFile))
+    key = fileString_.lower()
+    dic.setdefault(key, []).append((nodeString, fileString_))
 
 
 #
 def getTextureLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -40,14 +38,14 @@ def getTextureLinkDic(nodes=None):
 
 #
 def getTxTexture(texture):
-    base, ext = bscCommands.toOsFileSplitByExt(texture)
+    base, ext = bscMethods.OsFile.toExtSplit(texture)
     txTexture = '%s%s' % (base, appCfg.MaArnoldTxExt)
     return txTexture
 
 
 #
 def getFurMapLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -96,7 +94,7 @@ def getReferenceNodeLis(filterNamespace=None):
 
 #
 def getReferenceLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -115,11 +113,11 @@ def getReferenceLinkDic(nodes=None):
 
 
 #
-def setReferenceRepath(nodeString, osFile):
+def setReferenceRepath(nodeString, fileString_):
     sourceFile = maUtils.getReferenceFile(nodeString, useMode=1)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
         maUtils.setReloadReferenceFile(nodeString)
-        maUtils.setLoadReferenceFile(nodeString, osFile)
+        maUtils.setLoadReferenceFile(nodeString, fileString_)
 
 
 # Assembly Reference
@@ -130,7 +128,7 @@ def getAssemblyReferenceNodeLis(filterNamespace=None):
 
 #
 def getAsbRefLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -145,12 +143,12 @@ def getAsbRefLinkDic(nodes=None):
 
 
 #
-def setAssemblyReferenceRepath(nodeString, osFile):
+def setAssemblyReferenceRepath(nodeString, fileString_):
     attrName = 'definition'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
-        maUtils.setAttrStringDatum(nodeString, attrName, osFile)
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
+        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
 
 
 # Proxy ( Arnold )
@@ -161,7 +159,7 @@ def getArnoldProxyLis(filterNamespace=None):
 
 #
 def getProxyCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -176,11 +174,11 @@ def getProxyCacheLinkDic(nodes=None):
 
 
 #
-def setProxyCacheRepath(nodeString, osFile):
+def setProxyCacheRepath(nodeString, fileString_):
     attrName = 'dso'
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
-        maUtils.setAttrStringDatum(nodeString, attrName, osFile)
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
+        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
 
 
 #
@@ -191,7 +189,7 @@ def getVolumeCacheNodeLis(filterNamespace=None):
 
 #
 def getVolumeCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -208,11 +206,11 @@ def getVolumeCacheLinkDic(nodes=None):
 
 
 #
-def setVolumeCacheRepath(nodeString, osFile):
+def setVolumeCacheRepath(nodeString, fileString_):
     attrName = 'filename'
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
-        maUtils.setAttrStringDatum(nodeString, attrName, osFile)
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
+        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
 
 
 # GPU Cache
@@ -223,7 +221,7 @@ def getGpuCacheNodeLis(filterNamespace=None):
 
 #
 def getGpuCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -239,12 +237,12 @@ def getGpuCacheLinkDic(nodes=None):
 
 
 #
-def setGpuCacheRepath(nodeString, osFile):
+def setGpuCacheRepath(nodeString, fileString_):
     attrName = 'cacheFileName'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
-        maUtils.setAttrStringDatum(nodeString, attrName, osFile)
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
+        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
 
 
 # Alembic Cache
@@ -255,7 +253,7 @@ def getAlembicCacheNodeLis(filterNamespace=None):
 
 #
 def getAlembicCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -272,12 +270,12 @@ def getAlembicCacheLinkDic(nodes=None):
 
 
 #
-def setRepathAlembicCache(nodeString, osFile):
+def setRepathAlembicCache(nodeString, fileString_):
     attrName = 'abc_File'
     #
     sourceFile = maUtils.getAttrDatum(nodeString, attrName)
-    if not bscMethods.OsFile.isSame(sourceFile, osFile):
-        maUtils.setAttrStringDatum(nodeString, attrName, osFile)
+    if not bscMethods.OsFile.isSame(sourceFile, fileString_):
+        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
 
 
 #
@@ -293,7 +291,7 @@ def getFurCacheNodeLis(filterNamespace=None):
 
 #
 def getFurCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -321,7 +319,7 @@ def getGeomCacheNodeLis(filterNamespace=None):
 
 #
 def getGeomCacheLinkDic(nodes=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -350,21 +348,20 @@ def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
 
 
 #
-def setRepathGeomCache(nodeString, osFile):
+def setRepathGeomCache(nodeString, fileString_):
     if maUtils.getNodeType(nodeString) == 'cacheFile':
-        maGeomCache.setRepathGeometryCache(nodeString, osFile)
+        maGeomCache.setRepathGeometryCache(nodeString, fileString_)
 
 
 #
-def getYetiCacheRange(osFile):
+def getYetiCacheRange(fileString_):
     startFrame = 0
     endFrame = 0
-    existsYetiCaches = bscCommands.getOsMultFileLis(osFile)
-    if existsYetiCaches:
-        usedCaches = existsYetiCaches[1:]
-        if usedCaches:
-            startFrame = int(min(usedCaches)[-8:-4])
-            endFrame = int(max(usedCaches)[-8:-4])
+
+    existFrameLis = bscMethods.OsMultifile.existFrames(fileString_)
+    if existFrameLis:
+        startFrame = int(min(existFrameLis))
+        endFrame = int(max(existFrameLis))
     return startFrame, endFrame
 
 
@@ -384,35 +381,35 @@ def setRepathYetiCache(nodeString, sourceFile, targetFile, force=False):
 
 
 #
-def setRepathGeneral(nodeString, osFile, fileType):
+def setRepathGeneral(nodeString, fileString_, fileType):
     if fileType == 'texture':
-        setTextureRepath(nodeString, osFile)
+        setTextureRepath(nodeString, fileString_)
     elif fileType == 'assemblyReference':
-        setAssemblyReferenceRepath(nodeString, osFile)
+        setAssemblyReferenceRepath(nodeString, fileString_)
     elif fileType == 'proxyCache':
-        setProxyCacheRepath(nodeString, osFile)
+        setProxyCacheRepath(nodeString, fileString_)
     elif fileType == 'volumeCache':
-        setVolumeCacheRepath(nodeString, osFile)
+        setVolumeCacheRepath(nodeString, fileString_)
     elif fileType == 'gpuCache':
-        setGpuCacheRepath(nodeString, osFile)
+        setGpuCacheRepath(nodeString, fileString_)
     elif fileType == 'alembicCache':
-        setRepathAlembicCache(nodeString, osFile)
+        setRepathAlembicCache(nodeString, fileString_)
     elif fileType == 'geometryCache':
-        setRepathGeomCache(nodeString, osFile)
+        setRepathGeomCache(nodeString, fileString_)
 
 
 #
-def setTextureRepath(nodeString, osFile):
+def setTextureRepath(nodeString, fileString_):
     # Mast Lower
-    osFile = osFile.replace('<UDIM>', '<udim>')
-    maTxtr.setTextureAttr(nodeString, osFile)
+    fileString_ = fileString_.replace('<UDIM>', '<udim>')
+    maTxtr.setTextureAttr(nodeString, fileString_)
 
 
 #
-def setRepathFurMap(nodeString, osFile, force=False):
+def setRepathFurMap(nodeString, fileString_, force=False):
     # Must Upper
-    osFile = osFile.replace('<udim>', '<UDIM>')
-    maTxtr.setMapAttr(nodeString, osFile, force)
+    fileString_ = fileString_.replace('<udim>', '<UDIM>')
+    maTxtr.setMapAttr(nodeString, fileString_, force)
 
 
 #
@@ -440,20 +437,20 @@ def getDirData(
                 data = method(args)
         #
         if data:
-            for osFileKey, linkDatas in data.items():
-                osPath = bscCommands.getOsFileDirname(osFileKey)
+            for osFileKey, linkDatumLis in data.items():
+                osPath = bscMethods.OsFile.dirname(osFileKey)
                 if not osPath in osPathLis:
                     osPathLis.append(osPath)
                     osPathLis.append(osPath)
                 #
-                if linkDatas:
+                if linkDatumLis:
                     nodes = []
                     #
-                    osFile = linkDatas[0][1]
-                    for node, subOsFile in linkDatas:
+                    fileString_ = linkDatumLis[0][1]
+                    for node, subOsFile in linkDatumLis:
                         nodes.append(node)
                     #
-                    osFileDic.setdefault(osPath, []).append((fileType, osFile, nodes))
+                    osFileDic.setdefault(osPath, []).append((fileType, fileString_, nodes))
     #
     osPathLis = []
     osFileDic = {}
@@ -490,14 +487,15 @@ def getComposeFileLis(
         withAlembicCache=False,
         withFurCache=False,
         withGeomCache=False,
-        withTx=False):
+        withTx=False
+):
     def getBranch(key, value):
-        def getExistsFile(osFile):
-            if not osFile in lis:
-                lis.append(osFile)
+        def getExistsFile(fileString_):
+            if not fileString_ in lis:
+                lis.append(fileString_)
                 if fileType == 'texture':
                     if withTx:
-                        txTextureFile = getTxTexture(osFile)
+                        txTextureFile = getTxTexture(fileString_)
                         if not txTextureFile in lis:
                             lis.append(txTextureFile)
         fileType = key
@@ -512,16 +510,12 @@ def getComposeFileLis(
                 data = method(args)
         #
         if data:
-            for osFileKey, linkDatas in data.items():
-                if linkDatas:
-                    for node, subOsFile in linkDatas:
-                        multFiles = bscCommands.getOsMultFileLis(subOsFile)
-                        if multFiles:
-                            count = len(multFiles)
-                            if count == 1:
-                                getExistsFile(multFiles[0])
-                            elif count > 1:
-                                [getExistsFile(i) for i in multFiles[1:]]
+            for osFileKey, linkDatumLis in data.items():
+                if linkDatumLis:
+                    for node, fileString in linkDatumLis:
+                        existFileLis = bscMethods.OsMultifile.existFiles(fileString)
+                        if existFileLis:
+                            [getExistsFile(i) for i in existFileLis]
     #
     lis = []
     if withCurrent is True:
@@ -624,9 +618,9 @@ def setDirectoryModifyCmd(
         progressExplain = u'''Repath Reference Node'''
         maxValue = len(referenceRepathDataArray)
         progress = bscObjects.If_Progress(progressExplain, maxValue)
-        for node, osFile in referenceRepathDataArray:
+        for node, fileString_ in referenceRepathDataArray:
             progress.update()
-            setReferenceRepath(node, osFile)
+            setReferenceRepath(node, fileString_)
         logWin_.addCompleteProgress()
     else:
         logWin_.addWarning(u'Non - Data ( Reference )')
@@ -635,28 +629,28 @@ def setDirectoryModifyCmd(
     if arRepathDataArray:
         sceneryArRepathDataArray = []
         arUnitRepathDataArray = []
-        for node, osFile in arRepathDataArray:
-            isScenery = not 'assembly/unit' in osFile.lower()
+        for node, fileString_ in arRepathDataArray:
+            isScenery = not 'assembly/unit' in fileString_.lower()
             if isScenery:
-                sceneryArRepathDataArray.append((node, osFile))
+                sceneryArRepathDataArray.append((node, fileString_))
             else:
-                arUnitRepathDataArray.append((node, osFile))
+                arUnitRepathDataArray.append((node, fileString_))
         # Scenery
         if sceneryArRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Scenery ) Node'''
             maxValue = len(sceneryArRepathDataArray)
             progress = bscObjects.If_Progress(progressExplain, maxValue)
-            for node, osFile in sceneryArRepathDataArray:
+            for node, fileString_ in sceneryArRepathDataArray:
                 progress.update()
-                setAssemblyReferenceRepath(node, osFile)
+                setAssemblyReferenceRepath(node, fileString_)
         # Assembly Unit
         if arUnitRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Unit ) Node'''
             maxValue = len(arUnitRepathDataArray)
             progress = bscObjects.If_Progress(progressExplain, maxValue)
-            for node, osFile in arUnitRepathDataArray:
+            for node, fileString_ in arUnitRepathDataArray:
                 progress.update()
-                setAssemblyReferenceRepath(node, osFile)
+                setAssemblyReferenceRepath(node, fileString_)
         logWin_.addCompleteProgress()
     else:
         logWin_.addWarning(u'Non - Data ( Assembly Reference )')
@@ -668,9 +662,9 @@ def setDirectoryModifyCmd(
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
             progress = bscObjects.If_Progress(progressExplain, maxValue)
-            for node, osFile, fileType in mapRepathDataArray:
+            for node, fileString_, fileType in mapRepathDataArray:
                 progress.update()
-                setRepathFurMap(node, osFile)
+                setRepathFurMap(node, fileString_)
         #
         logWin_.addCompleteProgress()
         if not mapRepathDataArray:
@@ -690,9 +684,9 @@ def setDirectoryModifyCmd(
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
             progress = bscObjects.If_Progress(progressExplain, maxValue)
-            for node, osFile, fileType in mapRepathDataArray:
+            for node, fileString_, fileType in mapRepathDataArray:
                 progress.update()
-                setRepathFurMap(node, osFile, force=True)
+                setRepathFurMap(node, fileString_, force=True)
         else:
             logWin_.addWarning(u'Non - Data ( Fur Map )')
         #
@@ -711,9 +705,9 @@ def setDirectoryModifyCmd(
         progressExplain = u'''Repath Other Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
         progress = bscObjects.If_Progress(progressExplain, maxValue)
-        for node, osFile, fileType in otherRepathDataArray:
+        for node, fileString_, fileType in otherRepathDataArray:
             progress.update()
-            setRepathGeneral(node, osFile, fileType)
+            setRepathGeneral(node, fileString_, fileType)
         logWin_.addCompleteProgress()
     else:
         logWin_.addWarning(u'Non - Data ( Other Node )')
@@ -793,7 +787,7 @@ def setFileCollectionCmd(
     def getCollectionEnable(sourceFile, targetFile, fileType):
         boolean = False
         if isIgnoreExists:
-            if not bscCommands.isOsExistsFile(targetFile):
+            if not bscMethods.OsFile.isExist(targetFile):
                 boolean = True
             else:
                 if not isIgnoreTimeChanged:
@@ -807,15 +801,15 @@ def setFileCollectionCmd(
     def setCollectionTx(sourceFile, targetFile, fileType):
         if fileType == 'texture':
             txExt = '.tx'
-            sourceBase = bscCommands.getOsFileBase(sourceFile)
+            sourceBase = bscMethods.OsFile.base(sourceFile)
             sourceTx = '%s%s' % (sourceBase, txExt)
-            targetBase = bscCommands.getOsFileBase(targetFile)
+            targetBase = bscMethods.OsFile.base(targetFile)
             targetTx = '%s%s' % (targetBase, txExt)
             #
             txEnable = getCollectionEnable(sourceTx, targetTx, fileType)
             if txEnable:
                 logWin_.addStartProgress(u'Collection', targetTx)
-                sourceTxExists = bscCommands.isOsExistsFile(sourceTx)
+                sourceTxExists = bscMethods.OsFile.isExist(sourceTx)
                 if sourceTxExists:
                     bscMethods.OsFile.copyTo(sourceTx, targetTx)
                     logWin_.addCompleteProgress()

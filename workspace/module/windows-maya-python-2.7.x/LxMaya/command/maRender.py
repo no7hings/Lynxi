@@ -4,11 +4,11 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.mel as mel
 
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 
 from LxCore import lxConfigure
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsVariants
 
 from LxMaya.command import maUtils
 
@@ -400,7 +400,7 @@ def getImageFile(sceneRoot, sceneName, cameraName, renderLayer, renderPass, fram
         imageFormat = 'jpg'
     #
     var = str
-    pathCmd = bscCommands.toVariantConvert('var', imagePrefix)
+    pathCmd = bscMethods.Variant.covertTo('var', imagePrefix)
     exec pathCmd
     #
     periodInExt = cmds.getAttr(MaNodeAttrRenderOptionDic['periodInExt'])
@@ -476,7 +476,7 @@ def getSceneName():
     data = cmds.file(query=1, expandName=1)
     if data:
         if not data.endswith('untitled'):
-            osFileName = bscCommands.getOsFileName(data)
+            osFileName = bscMethods.OsFile.name(data)
             string = osFileName
         else:
             string = 'untitled'
@@ -497,7 +497,7 @@ def getScenePath():
     string = none
     data = cmds.file(query=1, expandName=1)
     if data:
-        string = bscCommands.getOsFileDirname(data)
+        string = bscMethods.OsFile.dirname(data)
     return string
 
 
@@ -614,7 +614,7 @@ def getWorkspaceRule(ruleString):
 def getImagePath():
     workspacePath = getWorkspacePath()
     imageAbsPath = getWorkspaceRule('images')
-    return bscCommands.toOsFile(workspacePath, imageAbsPath)
+    return bscMethods.OsPath.composeBy(workspacePath, imageAbsPath)
 
 
 #
@@ -651,9 +651,9 @@ def getTempRenderImage(imageFormat):
     if workspacePath:
         tempImagePath = '{0}/{1}'.format(workspacePath, localDirectory)
         currentFile = maUtils.getCurrentFile()
-        currentFileName = bscCommands.getOsFileName(currentFile)
+        currentFileName = bscMethods.OsFile.name(currentFile)
         renderImage = '{0}/{1}{2}'.format(tempImagePath, currentFileName, imageFormat)
-        if bscCommands.isOsExistsFile(renderImage):
+        if bscMethods.OsFile.isExist(renderImage):
             return renderImage
 
 
@@ -764,7 +764,7 @@ def setRenderPreMelCommand(melCommand):
 
 
 #
-def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultView, useDefaultLight):
+def setRenderSnapshot(groupString, fileString_, renderer, width, height, useDefaultView, useDefaultLight):
     setLoadArnoldRenderer()
     #
     imageFormat = prsVariants.Util.pngExt
@@ -807,7 +807,7 @@ def setRenderSnapshot(groupString, osFile, renderer, width, height, useDefaultVi
         if isRender:
             image = getTempRenderImage(imageFormat)
             if image:
-                bscMethods.OsFile.copyTo(image, osFile)
+                bscMethods.OsFile.copyTo(image, fileString_)
 
 
 #
@@ -899,7 +899,7 @@ def setCovertTextureToTx(textures, force):
         arg_options = "-v --unpremult --oiio"
         if force == 0:
             arg_options = "-u " + arg_options
-        mayaVersion_ = bscCommands.getMayaAppVersion()
+        mayaVersion_ = bscMethods.MayaApp.version()
         if mel.eval("exists \"colorManagementPrefs\""):
             # only do this if command colorManagementPrefs exists
             renderColorSpace = getRenderColorSpace()

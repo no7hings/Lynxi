@@ -1,7 +1,7 @@
 # coding=utf-8
 from subprocess import Popen, PIPE
 #
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 #
 #
 none = ''

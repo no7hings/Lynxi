@@ -1,7 +1,7 @@
 # coding=utf-8
 import math
 
-from LxBasic import bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore import lxConfigure
 # noinspection PyUnresolvedReferences
@@ -61,7 +61,7 @@ def getProjectInfo():
     #
     infos = datScene.getSceneInfo()
     if infos:
-        sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage = infos[0]
+        sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage = infos[0]
         projectInfo = '%s ( %s )' % (projectName, sceneStage.capitalize())
     return projectInfo
 
@@ -79,8 +79,8 @@ def getSceneInfo():
     #
     infos = datScene.getSceneInfo()
     if infos:
-        sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage = infos[0]
-        sceneInfo = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneName)
+        sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage = infos[0]
+        sceneInfo = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneName)
     return sceneInfo
 
 
@@ -178,7 +178,7 @@ def setHudColor(labelColor=19, valueColor=16):
 
 #
 def hudConfig(fontSize='large'):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic['Time Config Info'] = dict(
         section=0, block=0,
         blockAlignment='center',
@@ -243,7 +243,7 @@ def hudConfig(fontSize='large'):
         blockSize=fontSize,
         label='Date : ',
         labelWidth=48,
-        command=lambda: bscCommands.getCnViewDate(),
+        command=lambda: bscMethods.OsTimestamp.activeChnPrettify(),
         attachToRefresh=1
     )
     return dic

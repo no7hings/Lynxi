@@ -9,4 +9,6 @@ from ._bscMtdPath import *
 
 from ._bscMtdFile import *
 
+from ._bscMtdSystem import *
+
 

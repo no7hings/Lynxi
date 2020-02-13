@@ -5,7 +5,7 @@ import maya.cmds as cmds
 #
 from random import choice
 
-from LxBasic import bscCommands
+from LxBasic import bscMethods
 #
 from LxCore import lxConfigure
 #
@@ -720,22 +720,22 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         selectedDatumDic = self.selectedAssemblyActiveDic
         self._refreshButtonMethod(uiDatumDic, selectedDatumDic)
     @staticmethod
-    def getAssetVariantLis(projectName, assetClass, assetName):
+    def getAssetVariantLis(projectName, assetCategory, assetName):
         lis = []
         osPath = assetPr.astUnitAssemblyFolder(
-            lxConfigure.LynxiRootIndex_Server, projectName, assetClass, assetName
+            lxConfigure.LynxiRootIndex_Server, projectName, assetCategory, assetName
         )
-        if bscCommands.isOsExist(osPath):
-            textLis = bscCommands.getOsFileBasenameLisByPath(osPath)
+        if bscMethods.OsFile.isExist(osPath):
+            textLis = bscMethods.OsDirectory.fileBasenames(osPath)
             if textLis:
                 for i in textLis:
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetClass, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                        assetCategory, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
                     )[1]
                     #
-                    if bscCommands.isOsExist(adFile):
+                    if bscMethods.OsFile.isExist(adFile):
                         lis.append(i)
         return lis
     #
@@ -756,10 +756,10 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 count = 0
                 for k, v in inData.items():
                     assetName, assetVariant = k.split(' - ')
-                    assetClass = None
+                    assetCategory = None
                     self.variantSwitchData = projectName, assetName, v
                     count = len(v)
-                    variantLis = self.getAssetVariantLis(projectName, assetClass, assetName)
+                    variantLis = self.getAssetVariantLis(projectName, assetCategory, assetName)
                 #
                 chooseLabel.setDatumLis(variantLis)
                 chooseLabel.setChoose(assetVariant)
@@ -1183,32 +1183,32 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                     asbName = maUtils._toNodeName(assemblyReference, useMode=1)
                     importObjectName = asbNamespace + ':' + asbName + '_' + 'in' + keyword.capitalize()
                     #
-                    assetClass = None
+                    assetCategory = None
                     assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReference)
-                    osFile = none
+                    fileString_ = none
                     if keyword == 'Asset':
-                        osFile = assetPr.astUnitAssemblyProductFile(
+                        fileString_ = assetPr.astUnitAssemblyProductFile(
                             projectName, assetName, assetVariant
                         )[1]
-                        # osFile = assetPr.astUnitProductFile(
+                        # fileString_ = assetPr.astUnitProductFile(
                         #     lxCore_.LynxiRootIndex_Server,
                         #     projectName,
-                        #     assetClass, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
+                        #     assetCategory, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
                         # )[1]
                     elif keyword == 'Box':
-                        osFile = assetPr.astUnitAssemblyBoxCacheFile(
+                        fileString_ = assetPr.astUnitAssemblyBoxCacheFile(
                             projectName, assetName
                         )[1]
                     elif keyword == 'GPU':
-                        osFile = assetPr.astUnitAssemblyGpuCacheFile(
+                        fileString_ = assetPr.astUnitAssemblyGpuCacheFile(
                             projectName, assetName
                         )[1]
                     elif keyword == 'Proxy':
-                        osFile = assetPr.astUnitAssemblyProxyCacheFile(
+                        fileString_ = assetPr.astUnitAssemblyProxyCacheFile(
                             projectName, assetName, assetVariant
                         )[1]
                     #
-                    if os.path.isfile(osFile):
+                    if os.path.isfile(fileString_):
                         if keyword == 'Proxy':
                             importObjectName = asbName + '_' + 'in' + keyword.capitalize()
                         else:
@@ -1217,16 +1217,16 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         if not maUtils.isAppExist(importObjectName):
                             if keyword == 'Proxy':
                                 if isRemoveGpu:
-                                    maScnAsb.setCreateArnoldProxy(importObjectName, osFile)
+                                    maScnAsb.setCreateArnoldProxy(importObjectName, fileString_)
                                 else:
-                                    maFile.setFileImport(osFile)
+                                    maFile.setFileImport(fileString_)
                             elif keyword == 'Asset':
                                 if isUseReference:
-                                    maFile.setMaFileReference(osFile, asbNamespace)
+                                    maFile.setMaFileReference(fileString_, asbNamespace)
                                 else:
-                                    maFile.setFileImport(osFile, asbNamespace)
+                                    maFile.setFileImport(fileString_, asbNamespace)
                             else:
-                                maFile.setFileImport(osFile, asbNamespace)
+                                maFile.setFileImport(fileString_, asbNamespace)
                             # Asset
                             if keyword == 'Asset':
                                 assetUnitRoot = '|' + prsMethods.Asset.rootName(assetName, asbNamespace)
@@ -1281,14 +1281,14 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 importObjectName = maUtils._toNodeName(assemblyReferencePath, useMode=1) + '_' + 'inLight'
                 #
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
-                osFile = assetPr.astUnitProductFile(
+                fileString_ = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName, None, assetName, assetVariant, lxConfigure.LynxiProduct_Scene_Link_Light
                 )[1]
                 #
-                if os.path.isfile(osFile):
+                if os.path.isfile(fileString_):
                     if not maUtils.isAppExist(importObjectName):
-                        maFile.setFileImport(osFile)
+                        maFile.setFileImport(fileString_)
                         lightGroup = prsMethods.Asset.lightLinkGroupName(assetName)
                         if maUtils.isAppExist(lightGroup):
                             maUtils.setObjectLockTransform(lightGroup)
@@ -1372,7 +1372,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         switchData = self.variantSwitchData
         assetVariant = self.variantLabel.datum()
         if switchData:
-            assetClass = None
+            assetCategory = None
             projectName, assetName, assemblyObjectArray = switchData
             if assemblyObjectArray:
                 maxValue = len(assemblyObjectArray)
@@ -1380,7 +1380,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 for assemblyReferencePath in assemblyObjectArray:
                     self.updateProgress()
                     sceneryOp.setAssemblyVariantSwitch(
-                        assemblyReferencePath, projectName, assetClass, assetName, assetVariant
+                        assemblyReferencePath, projectName, assetCategory, assetName, assetVariant
                     )
                     #
                     assemblyAnnotation = prsVariants.Util.assemblyUnitShowName(assetName, assetVariant)

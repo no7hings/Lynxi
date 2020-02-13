@@ -1,9 +1,5 @@
 # coding=utf-8
 import collections
-
-from LxBasic import bscModifiers
-
-from LxCore import lxConfigure
 #
 astHierarchyKey = 'hierarchy'
 astGeometryKey = 'geometry'

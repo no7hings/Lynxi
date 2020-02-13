@@ -1,10 +1,8 @@
 # coding:utf-8
 # noinspection PyUnresolvedReferences
 from maya import cmds, OpenMaya, OpenMayaUI
-#
-from LxCore.method import _osMethod
-#
-from LxCore.method.basic import _methodBasic
+
+from LxBasic import bscCore, bscMethods
 #
 from LxMaya.method.basic import _maMethodBasic
 #
@@ -12,7 +10,7 @@ from LxMaya.method.config import _maConfig
 
 
 #
-class Mtd_MaAnimation(_methodBasic.Mtd_Basic):
+class Mtd_MaAnimation(object):
     app_method = _maMethodBasic.Mtd_AppMaya
     @staticmethod
     def setCurrentFrame(frame):
@@ -55,10 +53,10 @@ class MaAssemblyMethod(_maMethodBasic.Mtd_AppMaya):
     def getAssemblyNamespace(assemblyReferenceString):
         return cmds.assembly(assemblyReferenceString, query=1, repNamespace=1)
     @classmethod
-    def setAssemblySceneDefinitionCreate(cls, assemblyReferenceString, osFile):
+    def setAssemblySceneDefinitionCreate(cls, assemblyReferenceString, fileString_):
         cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.MaNodeType_AssemblyDefinition)
-        cmds.assembly(assemblyReferenceString, edit=1, createRepresentation='Scene', input=osFile)
-        cmds.assembly(assemblyReferenceString, edit=1, active=cls.getOsFileBasename(osFile))
+        cmds.assembly(assemblyReferenceString, edit=1, createRepresentation='Scene', input=fileString_)
+        cmds.assembly(assemblyReferenceString, edit=1, active=bscMethods.OsFile.basename(fileString_))
     @classmethod
     def setAssemblyReferenceCreate(cls, assemblyReferenceString, osAssemblyDefinitionFile):
         cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.MaNodeType_AssemblyReference)
@@ -87,10 +85,10 @@ class MaWindowMethod(_maMethodBasic.Mtd_AppMaya):
     def setCreateWindow(cls, nameText, width, height, percent=.5):
         cls.setWindowDelete(nameText)
         #
-        width, height = cls._toSizeRemap(width, height, maximum=cls.MaDefWindowMaximum)
+        width, height = bscMethods.Size2d.remapTo(width, height, maximum=cls.MaDefWindowMaximum)
         cmds.window(
             nameText,
-            title=cls.str_camelcase2prettify(nameText)
+            title=bscMethods.StrCamelcase.toPrettify(nameText)
         )
         #
         cmds.showWindow(nameText)
@@ -140,7 +138,7 @@ class Mtd_MaViewport(_maMethodBasic.Mtd_AppMaya):
     @classmethod
     def setCreateViewPanel(cls, viewport, layout, camera, menuBarVisible=False):
         return cmds.modelPanel(
-            label=cls.str_camelcase2prettify(viewport),
+            label=bscMethods.StrCamelcase.toPrettify(viewport),
             parent=layout,
             camera=camera,
             menuBarVisible=menuBarVisible,
@@ -461,7 +459,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         return dic
     @classmethod
     def maAstModelGeometryCheckConfigDic(cls):
-        return cls.orderedDict(
+        return bscCore.orderedDict(
             [
                 ('meshInstanceCheck', (True, 'Mesh has Instance', u'存在关联复制的"Mesh"', cls.filterObjectInstanceLis, None)),
                 ('meshHistoryCheck', (True, 'Mesh has History Nde_Node(s)', u'存在历史记录的"Mesh"', cls.filterObjectHistoryNodeDic, None)),
@@ -492,14 +490,14 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         )
     @classmethod
     def maAstModelTransformCheckConfigDic(cls):
-        return cls.orderedDict(
+        return bscCore.orderedDict(
             [
                 ('transformNonShapeCheck', (True, 'Transform has Non - Shape', u'无"Shape"的"Transform"', cls.filterNonShapeTransformLis, None))
             ]
         )
     @classmethod
     def maAstModelGroupCheckConfigDic(cls):
-        return cls.orderedDict(
+        return bscCore.orderedDict(
             [
                 ('groupEmptyCheck', (True, 'Group is Empty', u'空的"Group"', cls.filterGroupEmptyLis, cls.fixGroupEmpty))
             ]
@@ -876,7 +874,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                     #
                     getLightBranch(lightNodePath, useDefaultSet)
         #
-        dic = cls.orderedDict()
+        dic = bscCore.orderedDict()
         #
         searchDatumLis = [
             cls.MaAttrNameLis_LightLink,
@@ -1160,89 +1158,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
 
 
 #
-class MaFileMethod(_maConfig.MaConfig):
-    app_method = _maMethodBasic.Mtd_AppMaya
-    plf_file_method = _osMethod.OsFileMethod
-
-    MayaAsciiType = 'mayaAscii'
-    MayaBinaryType = 'mayaBinary'
-    AlembicType = 'Alembic'
-    #
-    FileTypeDic = {
-        '.ma': MayaAsciiType,
-        '.mb': MayaBinaryType,
-        '.abc': AlembicType
-    }
-    #
-    MaFileExportAllOption = 'exportAll'
-    MaFileExportSelectedOption = 'exportSelected'
-    #
-    MaFileConstructionHistoryOption = 'constructionHistory'
-    MaFileShaderOption = 'shader'
-    #
-    MaFileExportSelectedOptions = [
-        MaFileConstructionHistoryOption,
-        MaFileShaderOption
-    ]
-    MaDefFileExportKwargs = dict(
-        type='mayaAscii',
-        options='v=0',
-        force=True,
-        defaultExtensions=True,
-        exportAll=True,
-        preserveReferences=False,
-    )
-    MaDefFileImportKwargs = dict(
-        options='v=0;',
-        type='mayaAscii',
-        i=True,
-        renameAll=True,
-        mergeNamespacesOnClash=True,
-        namespace=':',
-        preserveReferences=True
-    )
-    @classmethod
-    def getFileType(cls, fileString):
-        """
-        :param fileString: str or unicode
-        :return: str or unicode
-        """
-        ext = cls.plf_file_method.getOsFileExt(fileString)
-        return cls.FileTypeDic.get(ext, cls.MayaAsciiType)
-    @classmethod
-    def fileExportCommand(cls, fileString, optionKwargs=None):
-        if optionKwargs is None:
-            optionKwargs = cls.MaDefFileExportKwargs.copy()
-        #
-        optionKwargs['type'] = cls.getFileType(fileString)
-        #
-        cmds.file(fileString, **optionKwargs)
-    @classmethod
-    def fileImportCommand(cls, fileString, optionKwargs=None):
-        if optionKwargs is None:
-            optionKwargs = cls.MaDefFileImportKwargs.copy()
-        #
-        optionKwargs['type'] = cls.getFileType(fileString)
-        #
-        cmds.file(
-            fileString,
-            **optionKwargs
-        )
-    @classmethod
-    def setFileImport(cls, fileString, namespace=':'):
-        optionKwargs = cls.MaDefFileImportKwargs.copy()
-        #
-        optionKwargs['type'] = cls.getFileType(fileString)
-        optionKwargs['namespace'] = namespace
-        #
-        cmds.file(
-            fileString,
-            **optionKwargs
-        )
-
-
-#
-class MaPreviewFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
+class MaPreviewFileMethod(_maMethodBasic.Mtd_AppMaya):
     MaPlayblastFormatLis = [
         'qt',
         'avi',
@@ -1266,7 +1182,8 @@ class MaPreviewFileMethod(_maMethodBasic.Mtd_AppMaya, _methodBasic.Mtd_PlfFile):
     )
     @classmethod
     def previewExportCommand(cls, fileString, optionKwargs=None):
-        fileBase, ext = cls.toOsFileSplitByExt(fileString)
+
+        fileBase, ext = bscMethods.OsFile.toExtSplit(fileString)
         if optionKwargs is None:
             optionKwargs = cls.MaDefPreviewOptionKwargs.copy()
         #

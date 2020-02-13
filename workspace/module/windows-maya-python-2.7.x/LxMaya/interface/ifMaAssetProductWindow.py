@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxPreset import prsCore, prsMethods
 
@@ -41,7 +41,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         self.assetIndex = none
         self.projectName = none
-        self.assetClass = none
+        self.assetCategory = none
         self.assetName = none
         self.assetVariant = none
         self.assetStage = none
@@ -138,7 +138,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         assetIndex = self.assetIndex
         #
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         assetVariant = self.assetVariant
         #
@@ -170,7 +170,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
     def setAstMeshTopoConstantView(self):
         assetIndex = self.assetIndex
         projectName = self.projectName
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         assetVariant = self.assetVariant
         #
@@ -226,7 +226,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                     inspectionItem.setItemIcon(0, 'svg_basic@svg#checkDisable')
     #
     def setAstModelCheckBox(self):
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         treeBox = self.treeBox
@@ -247,7 +247,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             self.setAssetCheckList()
     #
     def setAstMeshTransCheck(self):
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         self.astMeshTransErrorData = []
@@ -268,7 +268,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         maAstTreeViewCmds.setAstMeshTransCheckView(self, treeBox, inData, checkObjectLis, errorData)
     #
     def setAstMeshGeomCheck(self):
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         self.astMeshGeomErrorData = []
@@ -290,7 +290,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         maAstTreeViewCmds.setAstMeshGeomCheckView(self, treeBox, inData, checkObjectLis, errorData)
     #
     def setAstMeshHistCheck(self):
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         self.astMeshHistoryErrorData = []
@@ -392,7 +392,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.astTextureErrorData = []
         #
         projectName = self.projectName
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         assetVariant = self.assetVariant
         assetStage = self.assetStage
@@ -423,7 +423,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         treeBox.clear()
         maAstTreeViewCmds.setAstTextureCheckView(
             projectName,
-            assetClass, assetName, assetVariant, assetStage,
+            assetCategory, assetName, assetVariant, assetStage,
             treeBox, inData, checkData, errorData
         )
     #
@@ -438,7 +438,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.astCfxFurData = []
         self.astCfxFurErrorData = []
         #
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         treeBox = self.treeBox
@@ -449,13 +449,13 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.setAstCfxGroomCheckBox(treeBox, explain)
         #
         treeBox.clear()
-        maAstTreeViewCmds.setAstCfxFurCheckTreeView(self, assetClass, assetName, treeBox, checkData, errorData)
+        maAstTreeViewCmds.setAstCfxFurCheckTreeView(self, assetCategory, assetName, treeBox, checkData, errorData)
     #
     def setAstSolverCheckCmd(self):
         self._astSolverCheckItemLis = []
         self._astSolverErrorItemLis = []
         #
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         treeBox = self.treeBox
@@ -466,8 +466,8 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.setAstCfxGroomCheckBox(treeBox, explain)
         #
         treeBox.clear()
-        maAstTreeViewCmds.setAstSolverGuideCheckSub(self, assetClass, assetName, treeBox, checkData, errorData)
-        maAstTreeViewCmds.setAstSolverGrowSourceCheckSub(self, assetClass, assetName, treeBox, checkData, errorData)
+        maAstTreeViewCmds.setAstSolverGuideCheckSub(self, assetCategory, assetName, treeBox, checkData, errorData)
+        maAstTreeViewCmds.setAstSolverGrowSourceCheckSub(self, assetCategory, assetName, treeBox, checkData, errorData)
     #
     def setViewAstLightCheckResult(self):
         pass
@@ -480,7 +480,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.rightToolboxGroup.setTitle(explain)
     #
     def setShaderCheckView(self):
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         assetName = self.assetName
         #
         treeBox = self.treeBox
@@ -489,7 +489,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         self.setShaderCheckBox(treeBox, explain)
         #
         if self.assetStage != 'cfx':
-            maAstTreeViewCmds.setAstShaderCheckView(assetClass, assetName, treeBox)
+            maAstTreeViewCmds.setAstShaderCheckView(assetCategory, assetName, treeBox)
     #
     def setupToolUnits(self):
         self.setupLeftWidget(self.leftToolScrollBox, self.leftBottomToolBar)
@@ -513,7 +513,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
     # Tool Panel
     def setupLeftWidget(self, toolBoxLayout, toolBarLayout):
         assetLink = self.assetLink
-        assetClass = self.assetClass
+        assetCategory = self.assetCategory
         #
         uiDatumLis = [
             ('astCharTool', ifMaAssetToolUnit.IfAstModelCharToolUnit, False, []),
@@ -553,7 +553,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             if not assetLink in links:
                 toggleButton.hide()
             if hasattr(toolUnitClass, 'UnitClassLimit'):
-                if not assetClass in toolUnitClass.UnitClassLimit:
+                if not assetCategory in toolUnitClass.UnitClassLimit:
                     toggleButton.hide()
             #
             if connectMethodLis:
@@ -670,9 +670,9 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             self.setPlaceholderEnable(False)
             #
             assetInfo = assetInfoLis[0]
-            assetIndex, assetClass, assetName, assetVariant, assetStage = assetInfo
+            assetIndex, assetCategory, assetName, assetVariant, assetStage = assetInfo
             self.assetIndex = assetIndex
-            self.assetClass = assetClass
+            self.assetCategory = assetCategory
             self.assetName = assetName
             self.assetVariant = assetVariant
             self.assetStage = assetStage
@@ -681,7 +681,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             if prsMethods.Asset.isValidStageName(assetStage):
                 isAssetLink = True
                 #
-                self.setAssetInfo(assetIndex, assetClass, assetName, assetVariant)
+                self.setAssetInfo(assetIndex, assetCategory, assetName, assetVariant)
                 #
                 self.setupToolUnits()
                 #
@@ -717,14 +717,14 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
     def setRefresh(self):
         pass
     #
-    def setAssetInfo(self, assetIndex, assetClass, assetName, assetVariant):
-        if assetClass and assetName and assetVariant:
+    def setAssetInfo(self, assetIndex, assetCategory, assetName, assetVariant):
+        if assetCategory and assetName and assetVariant:
             showName = assetPr.getAssetViewInfo(
-                assetIndex, assetClass, assetVariant
+                assetIndex, assetCategory, assetVariant
             )
             self._infoLabel.setDatum(showName)
             #
-            self.assetClass = assetClass
+            self.assetCategory = assetCategory
             self.assetName = assetName
             self.assetVariant = assetVariant
     #

@@ -7,7 +7,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 from PIL import Image
 
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -39,7 +39,7 @@ none = ''
 
 #
 def getPTexture(textureFile):
-    if bscCommands.isOsExistsFile(textureFile):
+    if bscMethods.OsFile.isExist(textureFile):
         return Image.open(str(textureFile))
 
 
@@ -124,7 +124,7 @@ def getOsTextureCompLis(textureFile):
 #
 def isOsTextureExist(textureFile):
     boolean = False
-    textureBasename = bscCommands.getOsFileBasename(textureFile)
+    textureBasename = bscMethods.OsFile.basename(textureFile)
     if '<udim>' in textureBasename.lower():
         subTextureFileLis = getOsTextureUdimLis(textureFile)
         if subTextureFileLis:
@@ -134,7 +134,7 @@ def isOsTextureExist(textureFile):
         if subTextureFileLis:
             boolean = True
     else:
-        if bscCommands.isOsExistsFile(textureFile):
+        if bscMethods.OsFile.isExist(textureFile):
             boolean = True
     return boolean
 
@@ -145,8 +145,8 @@ def getTargetTextureExists(textureNode, textureFile):
         isUdim = True
         if textureFile:
             isSequence = maUtils.getAttrDatum(textureNode, 'useFrameExtension')
-            textureDirname = bscCommands.getOsFileDirname(textureFile)
-            textureBasename = bscCommands.getOsFileBasename(textureFile)
+            textureDirname = bscMethods.OsFile.dirname(textureFile)
+            textureBasename = bscMethods.OsFile.basename(textureFile)
             #
             findKeys = re.findall('[0-9][0-9][0-9][0-9]', textureBasename)
             if findKeys:
@@ -164,7 +164,7 @@ def getTargetTextureExists(textureNode, textureFile):
                 elif isSequence:
                     textureBasename = textureBasename.replace(findKeys[-1], '<f>')
                 #
-                textureFile = bscCommands.toOsFile(textureDirname, textureBasename)
+                textureFile = bscMethods.OsPath.composeBy(textureDirname, textureBasename)
     return isOsTextureExist(textureFile)
 
 
@@ -200,7 +200,7 @@ def getTextures(textureFile):
         if sequenceTexture:
             lis = sequenceTexture
     else:
-        if bscCommands.isOsExistsFile(textureFile):
+        if bscMethods.OsFile.isExist(textureFile):
             lis = [textureFile]
     return lis
 
@@ -256,8 +256,8 @@ def getTextureNodeAttrData(textureNode):
         isUdim = True
         if textureFile:
             isSequence = maUtils.getAttrDatum(textureNode, 'useFrameExtension')
-            textureDirname = bscCommands.getOsFileDirname(textureFile)
-            textureBasename = bscCommands.getOsFileBasename(textureFile)
+            textureDirname = bscMethods.OsFile.dirname(textureFile)
+            textureBasename = bscMethods.OsFile.basename(textureFile)
             #
             findKeys = re.findall('[0-9][0-9][0-9][0-9]', textureBasename)
             if findKeys:
@@ -275,7 +275,7 @@ def getTextureNodeAttrData(textureNode):
                 elif isSequence:
                     textureBasename = textureBasename.replace(findKeys[-1], '<f>')
                 #
-                textureFile = bscCommands.toOsFile(textureDirname, textureBasename)
+                textureFile = bscMethods.OsPath.composeBy(textureDirname, textureBasename)
     return textureFile
 
 
@@ -287,7 +287,7 @@ def getTextureAttrDataForRepath(textureNode):
 
 #
 def getTextureDatumDic(inData=none, mode=0):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if inData:
         usedData = inData
@@ -310,7 +310,7 @@ def getFurMapNodes(filterNamespace=none):
 
 #
 def getFurMapDataDic(inData=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     usedData = []
     if inData:
@@ -411,25 +411,25 @@ def setTextureAttrToTx(textureDatumDic=none):
             textureNode = k
             textureString = v[0]
             #
-            textureDirectory, textureBasename = bscCommands.getOsFileDirname(textureString), bscCommands.getOsFileBasename(textureString)
-            textureName, ext = bscCommands.toOsFileSplitByExt(textureBasename)
+            textureDirectory, textureBasename = bscMethods.OsFile.dirname(textureString), bscMethods.OsFile.basename(textureString)
+            textureName, ext = bscMethods.OsFile.toExtSplit(textureBasename)
             txTexture = '{}/{}{}'.format(textureDirectory, textureName, appCfg.MaArnoldTxExt)
             if len(v) == 1:
-                if bscCommands.isOsExistsFile(textureString):
+                if bscMethods.OsFile.isExist(textureString):
                     # Exists Filter
-                    if bscCommands.isOsExistsFile(txTexture):
+                    if bscMethods.OsFile.isExist(txTexture):
                         textureLis.append(textureString)
                         txLis.append(txTexture)
             elif len(v) > 1:
                 for i in v[1:]:
                     subTextureFile = i
-                    if bscCommands.isOsExistsFile(subTextureFile):
-                        subTextureBaseName = bscCommands.getOsFileBasename(subTextureFile)
-                        subTextureName, subExt = bscCommands.toOsFileSplitByExt(subTextureBaseName)
+                    if bscMethods.OsFile.isExist(subTextureFile):
+                        subTextureBaseName = bscMethods.OsFile.basename(subTextureFile)
+                        subTextureName, subExt = bscMethods.OsFile.toExtSplit(subTextureBaseName)
                         #
                         subTxTexture = '{}/{}{}'.format(textureDirectory, subTextureName, appCfg.MaArnoldTxExt)
                         # Exists Filter
-                        if bscCommands.isOsExistsFile(subTxTexture):
+                        if bscMethods.OsFile.isExist(subTxTexture):
                             textureLis.append(subTextureFile)
                             txLis.append(subTxTexture)
             # Set Attr
@@ -443,27 +443,15 @@ def setTextureAttrToTx(textureDatumDic=none):
 
 # Get File's Data
 def getTextureData(textureFile):
-    textureBaseName = bscCommands.getOsFileBasename(textureFile)
-    textureName, ext = bscCommands.toOsFileSplitByExt(textureBaseName)
+    textureBaseName = bscMethods.OsFile.basename(textureFile)
+    textureName, ext = bscMethods.OsFile.toExtSplit(textureBaseName)
     return textureName, ext
-
-
-# Get File's Update Label
-def getOsFileMtimeTag(textureFile):
-    timestamp = bscMethods.OsFile.mtimestamp(textureFile)
-    if timestamp:
-        return datetime.datetime.fromtimestamp(timestamp).strftime('%Y_%m%d_%H%M%S')
-
-
-#
-def getPoolTimeTag(textureFile):
-    timestamp = bscMethods.OsFile.mtimestamp(textureFile)
-    return datetime.datetime.fromtimestamp(timestamp).strftime('%Y_%m%d_%H%M%S')
 
 
 #
 def getBackupTexture(targetPath, sourceTextureFile):
-    timeTag = getOsFileMtimeTag(sourceTextureFile)
+
+    timeTag = bscMethods.OsFile.mtimetag(sourceTextureFile)
     if timeTag:
         textureName, ext = getTextureData(sourceTextureFile)
         newTexture = '%s/%s%s.%s' % (targetPath, textureName, ext, timeTag)
@@ -472,7 +460,7 @@ def getBackupTexture(targetPath, sourceTextureFile):
 
 #
 def getUdimTextureFolder(udimTexture):
-    udimTextureFolder = bscCommands.getOsFileName(udimTexture)[:-len('<udim>')].replace('.', none)
+    udimTextureFolder = bscMethods.OsFile.name(udimTexture)[:-len('<udim>')].replace('.', none)
     return udimTextureFolder
 
 
@@ -496,7 +484,7 @@ def getTextureIsCollection(sourceTextureFile, targetTexture):
     boolean = False
     # Exists Filter
     if not bscMethods.OsFile.isSame(sourceTextureFile, targetTexture):
-        textureExists = bscCommands.isOsExistsFile(targetTexture)
+        textureExists = bscMethods.OsFile.isExist(targetTexture)
         if not textureExists:
             boolean = True
         # Update Filter
@@ -521,8 +509,8 @@ def getTxTextureIsCollection(renderer):
 @dtbCore.fncThreadSemaphoreModifier
 def copyFileThreadMethod(sourceFile, targetFile, backupExists=False):
     if backupExists is True:
-        if bscCommands.isOsExistsFile(targetFile):
-            backupFile = bscMethods.OsFile.backupFilename(targetFile)
+        if bscMethods.OsFile.isExist(targetFile):
+            backupFile = bscMethods.OsFile.backupName(targetFile)
             bscMethods.OsFile.copyTo(targetFile, backupFile)
     #
     bscMethods.OsFile.copyTo(sourceFile, targetFile)
@@ -530,7 +518,7 @@ def copyFileThreadMethod(sourceFile, targetFile, backupExists=False):
 
 #
 def setBackupTextures(targetPath, withTx=True, inData=none):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     collectionDatumLis = []
     # Filter Collection
@@ -539,11 +527,11 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
         for k, v in textureData.items():
             sourceTextureFileLis = [[v[0]], v[1:]][len(v) > 1]
             for sourceTextureFile in sourceTextureFileLis:
-                if bscCommands.isOsExistsFile(sourceTextureFile):
-                    sourcePath = bscCommands.getOsFileDirname(sourceTextureFile)
+                if bscMethods.OsFile.isExist(sourceTextureFile):
+                    sourcePath = bscMethods.OsFile.dirname(sourceTextureFile)
                     #
                     backupTexture = getBackupTexture(targetPath, sourceTextureFile)
-                    isCollectionTexture = not bscCommands.isOsExistsFile(backupTexture)
+                    isCollectionTexture = not bscMethods.OsFile.isExist(backupTexture)
                     #
                     if isCollectionTexture:
                         collectionDatumLis.append((sourceTextureFile, backupTexture))
@@ -551,12 +539,12 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
                     if withTx:
                         sourceTxTexture = getTxTexture(sourcePath, sourceTextureFile)
                         backupTxTexture = getBackupTexture(targetPath, sourceTxTexture)
-                        isCollectionTxTexture = not bscCommands.isOsExistsFile(backupTxTexture)
+                        isCollectionTxTexture = not bscMethods.OsFile.isExist(backupTxTexture)
                         #
                         if isCollectionTxTexture:
                             collectionDatumLis.append((sourceTxTexture, backupTxTexture))
                     #
-                    dic[bscCommands.getOsFileBasename(sourceTextureFile)] = bscCommands.getOsFileBasename(backupTexture)
+                    dic[bscMethods.OsFile.basename(sourceTextureFile)] = bscMethods.OsFile.basename(backupTexture)
     #
     if collectionDatumLis:
         # View Progress
@@ -588,8 +576,8 @@ def setTexturesCollection(targetPath, inData=none, withTx=True, backupExists=Fal
         for k, v in textureData.items():
             sourceTextureFileLis = [[v[0]], v[1:]][len(v) > 1]
             for sourceTextureFile in sourceTextureFileLis:
-                if bscCommands.isOsExistsFile(sourceTextureFile):
-                    sourcePath = bscCommands.getOsFileDirname(sourceTextureFile)
+                if bscMethods.OsFile.isExist(sourceTextureFile):
+                    sourcePath = bscMethods.OsFile.dirname(sourceTextureFile)
                     #
                     targetTexture = getTargetTexture(targetPath, sourceTextureFile)
                     isCollectionTexture = getTextureIsCollection(sourceTextureFile, targetTexture)
@@ -634,7 +622,7 @@ def setCollectionMaps(targetPath, inData=none, backupExists=False):
         for k, v in mapData.items():
             sourceMaps = [[v[0]], v[1:]][len(v) > 1]
             for sourceMap in sourceMaps:
-                if bscCommands.isOsExistsFile(sourceMap):
+                if bscMethods.OsFile.isExist(sourceMap):
                     targetMap = getTargetTexture(targetPath, sourceMap)
                     isCollectionMap = getTextureIsCollection(sourceMap, targetMap)
                     #
@@ -753,7 +741,7 @@ def setRefreshTextureColorSpace_():
     if textureNodes:
         for i in textureNodes:
             textureFile = getTextureNodeAttrDatum(i)
-            textureName = bscCommands.getOsFileName(textureFile)
+            textureName = bscMethods.OsFile.name(textureFile)
             isEnabled = False
             for j in filterKeywords:
                 if j in textureName:

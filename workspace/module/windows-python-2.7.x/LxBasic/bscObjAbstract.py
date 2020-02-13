@@ -2,11 +2,11 @@
 from LxBasic import bscCore
 
 
-class Abc_String(bscCore.Basic):
+class Abc_String(bscCore.BscMtdBasic):
     pass
 
 
-class Abc_System(bscCore.Basic):
+class Abc_System(bscCore.BscMtdBasic):
     platform_dic = {
         u'Windows': u'windows',
         u'Linux': u'linux'
@@ -48,7 +48,7 @@ class Abc_System(bscCore.Basic):
         return self._getSystemHost()
 
 
-class Abc_Time(bscCore.Basic):
+class Abc_Time(bscCore.BscMtdBasic):
     def _initAbcTime(self, timestamp):
         self._timestamp = timestamp
 
@@ -58,7 +58,7 @@ class Abc_Time(bscCore.Basic):
 
     @property
     def timetag(self):
-        return self._timestampToTimetag(self._timestamp)
+        return self._timestamp2timetag(self._timestamp)
 
     @property
     def datetag(self):
@@ -69,7 +69,7 @@ class Abc_Time(bscCore.Basic):
         return self._timestampToPrettify(self._timestamp)
 
 
-class Abc_Path(bscCore.Basic):
+class Abc_Path(bscCore.BscMtdBasic):
     pass
 
 
@@ -112,7 +112,7 @@ class Abc_File(Abc_Path):
         return self._fileString
 
 
-class Abc_DccPath(bscCore.Basic):
+class Abc_DccPath(bscCore.BscMtdBasic):
     separator_namespace = None
     separator_node = None
     separator_attribute = None
@@ -121,17 +121,17 @@ class Abc_DccPath(bscCore.Basic):
         self._pathString = pathString
 
     @classmethod
-    def _getNamespace(cls, pathString, nodeSep, namespaceSep):
+    def _getNamespaceByPathString(cls, pathString, nodeSep, namespaceSep):
         if namespaceSep in pathString:
             return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
         return pathString
 
     @classmethod
-    def _getName(cls, pathString, nodeSep, namespaceSep):
+    def _getNameByPathString(cls, pathString, nodeSep, namespaceSep):
         return pathString.split(nodeSep)[-1].split(namespaceSep)[-1]
 
     @classmethod
-    def _getAttributeName(cls, attrString, attributeSep):
+    def _getAttributeNameByPathString(cls, attrString, attributeSep):
         return attributeSep.join(attrString.split(attributeSep)[1:])
 
     @property
@@ -148,12 +148,12 @@ class Abc_DccPath(bscCore.Basic):
 
     @property
     def namespace(self):
-        return self._getNamespace(self._pathString, self.separator_node, self.separator_namespace)
+        return self._getNamespaceByPathString(self._pathString, self.separator_node, self.separator_namespace)
 
     @property
     def name(self):
-        return self._getName(self._pathString, self.separator_node, self.separator_namespace)
+        return self._getNameByPathString(self._pathString, self.separator_node, self.separator_namespace)
 
     @property
     def attributeName(self):
-        return self._getAttributeName(self._pathString, self.separator_attribute)
+        return self._getAttributeNameByPathString(self._pathString, self.separator_attribute)

@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
+from LxBasic import bscCore, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -212,17 +212,17 @@ def getSceneryInfo(printEnable=False):
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
                 if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Scenery):
-                    sceneryClass = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
+                    sceneryCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     sceneryName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
                     sceneryVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
                     sceneryStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
                     sceneryIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
                     if sceneryIndex is not None:
-                        data = sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+                        data = sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
                         if printEnable is True:
-                            print '''sceneryIndex = '{}'\nsceneryClass = '{}'\nsceneryName = '{}'\nsceneryVariant = '{}'\nsceneryStage = '{}'\n'''.format(
+                            print '''sceneryIndex = '{}'\nsceneryCategory = '{}'\nsceneryName = '{}'\nsceneryVariant = '{}'\nsceneryStage = '{}'\n'''.format(
                                 sceneryIndex,
-                                sceneryClass, sceneryName, sceneryVariant, sceneryStage
+                                sceneryCategory, sceneryName, sceneryVariant, sceneryStage
                             )
                         lis.append(data)
     return lis

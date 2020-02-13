@@ -1,8 +1,7 @@
 # coding=utf-8
 import collections, threading
 #
-from LxBasic import bscMethods, bscObjects, bscCommands
-
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -46,7 +45,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         lxConfigure.LynxiProduct_Asset_Link_Model
     ]
     UnitClassLimit = [
-        lxConfigure.LynxiCharacterClassKey
+        prsMethods.Asset.characterCategory()
     ]
     UnitTitle = 'Model ( Character ) Tool Unit'
     UnitIcon = 'window#charToolPanel'
@@ -61,7 +60,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def refreshMethod(self):
         if self.connectObject():
             if prsMethods.Asset.isModelStageName(self.connectObject().assetStage):
-                if self.connectObject().assetClass == lxConfigure.LynxiCharacterClassKey:
+                if prsMethods.Asset.isCharacterCategory(self.connectObject().assetCategory):
                     self._initObjectPathDic()
                     #
                     self._updateBtnStateCmd()
@@ -365,23 +364,23 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         toolBox.setSeparators(inData)
     #
     def setAddSolverHierarchyCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
-        maHier.setCreateAstUnitModelSolverHierarchy(assetClass, assetName)
+        maHier.setCreateAstUnitModelSolverHierarchy(assetCategory, assetName)
         #
         self.setAddSubGrpBtnState()
     #
     def setAddReferenceHierarchyCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
-        maHier.setCreateAstUnitModelReferenceHierarchy(assetClass, assetName)
+        maHier.setCreateAstUnitModelReferenceHierarchy(assetCategory, assetName)
         #
         self.setAddSubGrpBtnState()
     #
     def setCollectionReferenceObjectCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         astUnitModelReferenceGroup = assetPr.astUnitModelReferenceGroupName(assetName)
@@ -404,7 +403,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         pass
     #
     def setRepairMeshCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         meshObjects = datAsset.getAstMeshObjects(assetName, 0)
@@ -430,7 +429,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             )
     #
     def setRepairShaderCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         meshObjects = datAsset.getAstMeshObjects(assetName, 0)
@@ -963,7 +962,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self.pfxHairObjects = []
         self.nurbsHairObjects = []
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         hierarchyData = assetPr.astCfxHierarchyConfig(assetName)
@@ -1001,7 +1000,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if maUtils.isAppExist(growSourceMesh):
                         meshObjectItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'on')
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         treeBox = self._astModelGeometryObjectTreeViewBox
@@ -1301,7 +1300,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self.connectObject().setAstCfxHierarchyView()
         #
         def setAddAstFurNurbs(nurbsHairObjectPath, nodeLabel=none):
-            def addObjectBranch(objectPath, mainGroupLabel, groupNameLabel=False, subLabel=none, isUseLeafGroup=False):
+            def addObjectBranch(objectPath, mainGroupLabel, groupNameLabel=False, subLabelString=none, isUseLeafGroup=False):
                 if maUtils.isAppExist(objectPath):
                     objectType = maUtils.getTransformType(objectPath)
                     objectParentName = assetPr.astBasicGroupNameSet(assetName, mainGroupLabel)
@@ -1321,7 +1320,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             maUtils.setAppPathCreate(parentPath)
                     #
                     if parentPath is not None:
-                        newObjectName = assetPr.astBasicNodeNameSet(assetName, objectType, objectNameLabel) + subLabel
+                        newObjectName = assetPr.astBasicNodeNameSet(assetName, objectType, objectNameLabel) + subLabelString
                         shape = maUtils.getNodeShape(objectPath)
                         #
                         origParentPath = maUtils._toNodeParentPath(objectPath)
@@ -1330,10 +1329,10 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         newObjectPath = origParentPath + '|' + newObjectName
                         maUtils.setObjectParent(newObjectPath, parentPath)
             #
-            def addNodeBranch(node, subLabel):
+            def addNodeBranch(node, subLabelString):
                 if maUtils.isAppExist(node):
                     nodeType = maUtils.getNodeType(node)
-                    newNodeName = assetPr.astBasicNodeNameSet(assetName, nodeType, objectNameLabel) + subLabel
+                    newNodeName = assetPr.astBasicNodeNameSet(assetName, nodeType, objectNameLabel) + subLabelString
                     maUtils.setNodeRename(node, newNodeName)
             #
             def setMain(objectPath):
@@ -1343,36 +1342,36 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     for seq, childObjectPath in enumerate(graphObjects):
                         addObjectBranch(
                             childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrObjectGroupLabel,
-                            subLabel=nodeLabel + '_' + str(seq)
+                            subLabelString=nodeLabel + '_' + str(seq)
                         )
                 #
                 if graphGrowGeometries:
                     for seq, childObjectPath in enumerate(graphGrowGeometries):
                         addObjectBranch(
                             childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrGrowGroupLabel,
-                            subLabel=nodeLabel + '_' + str(seq)
+                            subLabelString=nodeLabel + '_' + str(seq)
                         )
                 #
                 if graphGuideGeometries:
                     for seq, childObjectPath in enumerate(graphGuideGeometries):
                         addObjectBranch(
                             childObjectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrGuideGroupLabel,
-                            subLabel=nodeLabel + '_' + str(seq),
+                            subLabelString=nodeLabel + '_' + str(seq),
                             isUseLeafGroup=True
                         )
                 #
                 if graphNodes:
                     for seq, childNode in enumerate(graphNodes):
-                        addNodeBranch(childNode, subLabel=nodeLabel + '_' + str(seq))
+                        addNodeBranch(childNode, subLabelString=nodeLabel + '_' + str(seq))
                 #
                 addObjectBranch(
                     objectPath, prsVariants.Util.astCfxFurNhrFieldGroupLabel, groupNameLabel=prsVariants.Util.astCfxFurNhrObjectGroupLabel,
-                    subLabel=nodeLabel
+                    subLabelString=nodeLabel
                 )
             #
             setMain(nurbsHairObjectPath)
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         nodeName = self.getChildNodeName()
@@ -1432,7 +1431,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         treeBox = self._astModelGeometryObjectTreeViewBox
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetStage = self.connectObject().assetStage
         #
@@ -1445,7 +1444,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             setMain()
     #
     def astAddGrowTargetCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetStage = self.connectObject().assetStage
         #
@@ -1458,7 +1457,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._addObjectCmd(groupName)
     #
     def astAddGrowDeformCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetStage = self.connectObject().assetStage
         #
@@ -1471,7 +1470,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._addObjectCmd(groupPath)
     #
     def astAddGrowCollisionCmd(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetStage = self.connectObject().assetStage
         #
@@ -1527,7 +1526,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._addNFurNodeTipLabel.setDatum(self.addNodeTips)
     #
     def setAstFurNodeName(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         entryUiLabel = self._furNodeKeywordEntryLabel
@@ -1763,7 +1762,7 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._nhrGuideLis = []
         self._nhrGuideCheckLis = []
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         treeBox = self.astSolverFurNodeTreeViewBox
@@ -1785,7 +1784,7 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     else:
                         nhrGuideObjectItem.setItemMayaIcon(0, appCfg.MaNurbsHairInGuideCurvesType, 'off')
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         treeBox = self.astSolverFurGuideTreeViewBox
@@ -1820,7 +1819,7 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                                 maUtils.setObjectParent(nhrGuideObjectNewName, nhrGuideGroup)
                                 maUtils.setNodeOutlinerRgb(nhrGuideObjectNewName, 1, .5, 1)
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         setMain()
@@ -1940,7 +1939,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 self._addObjectButton.setNameText('Add Nde_Geometry')
                 self.filterTypes = [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve]
                 #
-                if prsMethods.Asset.isPropCategoryName(self.connectObject().assetClass):
+                if prsMethods.Asset.isPropCategory(self.connectObject().assetCategory):
                     self.setupAstPropGraphToolUiBox(self._astModelPropHierToolUiBox)
                     self._astModelPropHierToolUiBox.show()
                 #
@@ -2301,7 +2300,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setImportShader(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.getShaderVariant()
         assetStage = self.connectObject().assetStage
@@ -2320,7 +2319,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     maAstLoadCmds.astUnitModelMaterialLoadCmd(
                         projectName,
                         assetIndex,
-                        assetClass, assetName, assetVariant, assetStage,
+                        assetCategory, assetName, assetVariant, assetStage,
                         collectionTexture=True, useServerTexture=True
                     )
                     [maShdr.setObjectDefaultShadingEngine(i) for i in shaderGeomObjects]
@@ -2481,7 +2480,7 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
         #
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         namespace = self.connectObject().assetNamespace
@@ -2490,7 +2489,7 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         constantData = datAsset.getAstGeometryObjectsConstantData(
             assetIndex,
-            assetClass, assetName,
+            assetCategory, assetName,
             namespace
         )
         if constantData:
@@ -2533,13 +2532,13 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setShaderSectorChartUpdate(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetNamespace = self.connectObject().assetNamespace
         #
         constantData = datAsset.getMaterialsConstantData(
-            assetIndex, projectName, assetClass, assetName, assetVariant,
+            assetIndex, projectName, assetCategory, assetName, assetVariant,
             assetNamespace
         )
         if constantData:
@@ -2573,7 +2572,7 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetIndex = self.connectObject().assetIndex
         #
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -2611,7 +2610,7 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         evaluateConfig = self.materialEvaluateConfig
         #
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetStage = self.connectObject().assetStage
         assetNamespace = self.connectObject().assetNamespace
@@ -3010,7 +3009,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def getAssetUploadEnable(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3024,7 +3023,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setAstVariantUiLabelShow(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3061,7 +3060,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def setAstUpdateCheck(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3069,12 +3068,12 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         serverProductFile = assetPr.astUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
-        if bscCommands.isOsExistsFile(serverProductFile):
+        if bscMethods.OsFile.isExist(serverProductFile):
             timestamp = bscMethods.OsFile.mtimestamp(serverProductFile)
-            serverViewTime = bscCommands.getViewTime(timestamp, timeFormat=bscCommands.MaUpdateViewTimeFormat)
+            serverViewTime = bscMethods.OsTimestamp._timestampToPrettify(timestamp)
             #
             astUnitRootGroup = prsMethods.Asset.rootName(assetName)
             localViewTime = maUtils.getAttrDatum(astUnitRootGroup, prsVariants.Util.basicUpdateAttrLabel)
@@ -3084,7 +3083,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._astUpdateCheckResult = True
     # Model
     def setAstModelCheck(self):
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         #
         tipsLabel = self._tipTextBrower
@@ -3209,7 +3208,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setAstTextureCheck(self):
         if self.connectObject() is not None:
-            assetClass = self.connectObject().assetClass
+            assetCategory = self.connectObject().assetCategory
             assetName = self.connectObject().assetName
             assetStage = self.connectObject().assetStage
             #
@@ -3257,7 +3256,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _astViewportSnapshotCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetNamespace = self.connectObject().assetNamespace
@@ -3268,7 +3267,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         root = assetPr.astUnitModelProductGroupName(assetName, assetNamespace)
         #
-        overrideColor = bscMethods.Color.str2rgb(assetName, maximum=1.0)
+        overrideColor = bscMethods.String.toRgb(assetName, maximum=1.0)
         maFile.makeSnapshot(
             root, viewportPreview0,
             useDefaultMaterial=1,
@@ -3284,7 +3283,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _astRenderSnapshotCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetNamespace = self.connectObject().assetNamespace
@@ -3390,7 +3389,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setAssetVariant(self):
         assetIndex = self.connectObject().assetIndex
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3403,11 +3402,11 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if newAssetVariant != assetVariant:
                     maHier.astUnitRefreshRoot(
                         assetIndex,
-                        assetClass, assetName, newAssetVariant, assetStage
+                        assetCategory, assetName, newAssetVariant, assetStage
                     )
                     #
                     self.connectObject().setAssetInfo(
-                        assetIndex, assetClass, assetName, newAssetVariant
+                        assetIndex, assetCategory, assetName, newAssetVariant
                     )
                     #
                     self.setVarBtnState()
@@ -3532,7 +3531,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _astModelUploadCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3562,7 +3561,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maAstUploadCmds.astUnitModelUploadMainCmd(
                     projectName,
                     assetIndex,
-                    assetClass, assetName, assetVariant, assetStage,
+                    assetCategory, assetName, assetVariant, assetStage,
                     withProduct=isWithProduct, withAssembly=isWithAssembly, withAnimation=isWithAnimation,
                     withAov=isWithAov,
                     description=description, notes=note,
@@ -3579,7 +3578,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _uploadAstRigCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3596,7 +3595,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maAstUploadCmds.astUnitUploadRigMain(
                     assetIndex,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage,
+                    assetCategory, assetName, assetVariant, assetStage,
                     withProduct=isWithProduct,
                     description=description, notes=note
                 )
@@ -3607,7 +3606,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _uploadAstCfxCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3627,7 +3626,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maAstUploadCmds.astUnitCfxUploadMainCmd(
                     assetIndex,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage,
+                    assetCategory, assetName, assetVariant, assetStage,
                     withProduct=isWithProduct, withAssembly=isWithAssembly,
                     withAov=isWithAov,
                     description=description, notes=note
@@ -3639,7 +3638,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _uploadAstSolverCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3657,7 +3656,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maAstUploadCmds.astUnitUploadMain(
                     assetIndex,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage,
+                    assetCategory, assetName, assetVariant, assetStage,
                     withProduct=isWithProduct,
                     description=description, notes=note
                 )
@@ -3668,7 +3667,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def _uploadAstLightCmd(self):
         assetIndex = self.connectObject().assetIndex
         projectName = self.connectObject().projectName
-        assetClass = self.connectObject().assetClass
+        assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
@@ -3685,7 +3684,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maAstUploadCmds.astUnitUploadMain(
                     assetIndex,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage,
+                    assetCategory, assetName, assetVariant, assetStage,
                     withProduct=isWithProduct,
                     description=description, notes=note
                 )

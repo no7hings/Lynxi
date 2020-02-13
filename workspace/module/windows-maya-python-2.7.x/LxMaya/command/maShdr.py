@@ -2,13 +2,13 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscCore, bscObjects, bscMethods
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsVariants
 #
 from LxCore.preset.prod import projectPr, assetPr
 #
@@ -30,7 +30,7 @@ MaDefShadingEngineLis = [
 
 #
 def materialNodeTypeConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     majorTypes = [
         'texture',
@@ -149,7 +149,7 @@ def getTextureNodeLisByObject(objectLis):
 
 #
 def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetStage):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
@@ -209,7 +209,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
 
 #
 def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
@@ -314,7 +314,7 @@ def getNodeAttrDataReduce(attrDatas):
             if attrName in MaTexture_AttrNameLis:
                 isTexture = maTxtr.isOsTextureExist(data)
                 if isTexture:
-                    data = bscCommands.getOsFileBasename(data)
+                    data = bscMethods.OsFile.basename(data)
                 if not isTexture:
                     data = none
             attrDataArray.append((attrName, data))
@@ -323,7 +323,7 @@ def getNodeAttrDataReduce(attrDatas):
 
 # Nde_Node Data
 def getMaterialsNodeData(materials):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -357,7 +357,7 @@ def getMaterialRelationData(material):
 
 # Nde_Node Data
 def getMaterialsRelationData(materials):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -398,7 +398,7 @@ def getNodeConnectionDataReduce(connections):
 
 #
 def getMaterialsInformationData(materials):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if materials:
         for material in materials:
             uniqueId = maUuid.getNodeUniqueId(material)
@@ -499,7 +499,7 @@ def getMaterialEvaluateData(objectLis):
         'defaultColorMgtGlobals'
     ]
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     totalMaterials = []
     totalNodes = []
     totalConnections = []
@@ -534,7 +534,7 @@ def getMaterialEvaluateData(objectLis):
 #
 def getObjectsMaterialRelinkData(objectLis):
     shaderObjectTypes = ['mesh', 'pgYetiMaya', 'nurbsHair']
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     for objectString in objectLis:
         linkDatumLis = []
         shape = maUtils.getNodeShape(objectString, fullPath=1)
@@ -581,7 +581,7 @@ def getShadingEngineMaterialUniqueId(shadingEngine):
 
 #
 def getShaderObjectsObjSetDic(objectLis):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     for objectString in objectLis:
         compIndex = maUuid.getNodeUniqueId(objectString)
         linkDatumLis = getShaderObjectObjSetSub(objectString)
@@ -819,7 +819,7 @@ def getRedshiftAovNodes():
 
 #
 def getAovNodesData(renderer):
-    aovNodesData = bscCommands.orderedDict()
+    aovNodesData = bscCore.orderedDict()
     if renderer == 'Arnold':
         aovNodesData = getArnoldAovNodesData()
     if renderer == 'Redshift':
@@ -829,7 +829,7 @@ def getAovNodesData(renderer):
 
 #
 def getArnoldAovNodesData():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     aovNodes = getArnoldAovNodeLis()
     if aovNodes:
         for aovNode in aovNodes:
@@ -840,7 +840,7 @@ def getArnoldAovNodesData():
 
 #
 def getRedshiftAovNodesData():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     aovNodes = getRedshiftAovNodes()
     if aovNodes:
         for aovNode in aovNodes:
@@ -919,7 +919,7 @@ def setRepairArnoldAov(aovNodes=None):
 
 #
 def getObjectsAttrData(objectLis):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if objectLis:
         for objectString in objectLis:

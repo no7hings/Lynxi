@@ -1,7 +1,7 @@
 # coding:utf-8
 import chardet
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore import lxScheme
 #

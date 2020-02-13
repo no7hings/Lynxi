@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 #
 from LxCore import lxConfigure
 #
@@ -10,23 +10,23 @@ none = ''
 
 
 #
-def setOutProxy(osFile, renderer, exportMode=0):
-    temporaryFile = bscMethods.OsFile.temporaryFilename(osFile)
+def setOutProxy(fileString_, renderer, exportMode=0):
+    temporaryFile = bscMethods.OsFile.temporaryName(fileString_)
     # Export
     if renderer == lxConfigure.LynxiArnoldRendererValue:
         setOutArnoldProxy(temporaryFile, exportMode)
     elif renderer == lxConfigure.LynxiRedshiftRendererValue:
         setOutRedshiftProxy(temporaryFile, exportMode)
     #
-    bscMethods.OsFile.copyTo(temporaryFile, osFile)
+    bscMethods.OsFile.copyTo(temporaryFile, fileString_)
 
 
 #
-def setOutArnoldProxy(osFile, exportMode=0):
+def setOutArnoldProxy(fileString_, exportMode=0):
     option = '-mask 255;-lightLinks 1;-shadowLinks 1;'
     if exportMode == 0:
         cmds.file(
-            osFile,
+            fileString_,
             force=1,
             options=option,
             type='ASS Export',
@@ -37,7 +37,7 @@ def setOutArnoldProxy(osFile, exportMode=0):
     #
     elif exportMode == 1:
         cmds.file(
-            osFile,
+            fileString_,
             force=1,
             options=option,
             type='ASS Export',
@@ -48,11 +48,11 @@ def setOutArnoldProxy(osFile, exportMode=0):
 
 
 #
-def setOutRedshiftProxy(osFile, exportMode=0):
+def setOutRedshiftProxy(fileString_, exportMode=0):
     option = 'exportConnectivity=1;enableCompression=1;'
     if exportMode == 0:
         cmds.file(
-            osFile,
+            fileString_,
             force=1,
             options=option,
             type='Redshift Proxy',
@@ -63,7 +63,7 @@ def setOutRedshiftProxy(osFile, exportMode=0):
     #
     elif exportMode == 1:
         cmds.file(
-            osFile,
+            fileString_,
             force=1,
             options=option,
             type='Redshift Proxy',

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 from LxScheme import shmCore
 
@@ -114,19 +114,19 @@ class Abc_PthRoot(Abc_Path):
         pass
 
     def _developPath(self):
-        return self.method_os_environ.getAsPath(
+        return bscMethods.OsEnviron.getAsPath(
             self.environ_key_develop,
             self.path_default_develop
         )
 
     def _productPath(self):
-        return self.method_os_environ.getAsPath(
+        return bscMethods.OsEnviron.getAsPath(
             self.environ_key_product,
             self.path_default_product
         )
 
     def _localPath(self):
-        return self.method_os_environ.getAsPath(
+        return bscMethods.OsEnviron.getAsPath(
             self.environ_key_local,
             self.path_default_local
         )
@@ -232,7 +232,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.activeFile(), raw)
 
     def isActiveExist(self):
-        return self.MTD_os_path.isExist(self.activeFile())
+        return bscMethods.OsPath.isExist(self.activeFile())
 
     def activeFileRaw(self):
         if self.isActiveExist():
@@ -246,7 +246,7 @@ class Abc_File(shmCore.Basic):
         self._writeMethod(self.serverFile(), raw)
 
     def isServerExist(self):
-        return self.MTD_os_path.isExist(self.serverFile())
+        return bscMethods.OsPath.isExist(self.serverFile())
 
     def serverFileRaw(self):
         if self.isServerExist():
@@ -257,19 +257,19 @@ class Abc_File(shmCore.Basic):
         return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
 
     def isLocalExist(self):
-        return self.MTD_os_path.isExist(self.localFile())
+        return bscMethods.OsPath.isExist(self.localFile())
 
     def developFile(self):
         return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
 
     def isDevelopExist(self):
-        return self.MTD_os_path.isExist(self.developFile())
+        return bscMethods.OsPath.isExist(self.developFile())
 
     def productFile(self):
         return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
 
     def isProductExist(self):
-        return self.MTD_os_path.isExist(self.productFile())
+        return bscMethods.OsPath.isExist(self.productFile())
 
     def _formatDict(self):
         return {
@@ -744,8 +744,8 @@ class Abc_Operate(shmCore.Basic):
             self.developSetupFile(),
             self.CLS_dic_order(
                 [
-                    (self.Key_User, self.method_os_system.username()),
-                    (self.Key_Timestamp, self.method_os_system.activeTimestamp()),
+                    (self.Key_User, bscMethods.OsSystem.username()),
+                    (self.Key_Timestamp, bscMethods.OsSystem.activeTimestamp()),
                     (self.Key_Environ, self.dependentEnvirons()),
                     (self.Key_Module, self.dependentModules()),
                     (self.Key_Plug, self.dependentPlugs())
@@ -754,10 +754,10 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def createDevelopDirectory(self):
-        self.MTD_os_path.setDirectoryCreate(self._developPath())
+        bscMethods.OsDirectory.create(self._developPath())
 
     def createDevelopSourceDirectory(self):
-        self.MTD_os_path.setDirectoryCreate(self.developSourceDirectory())
+        bscMethods.OsDirectory.create(self.developSourceDirectory())
 
     def serverTimestampFile(self):
         return u'{}/source.timestamp.json'.format(
@@ -770,9 +770,9 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def serverTimestampDatum(self):
-        if self.MTD_os_path.isExist(self.serverTimestampFile()) is False:
+        if bscMethods.OsPath.isExist(self.serverTimestampFile()) is False:
             self.createServerTimestamp()
-        return self.mtd_os_json.read(self.serverTimestampFile()) or {}
+        return bscMethods.OsJson.read(self.serverTimestampFile()) or {}
 
     def localTimestampFile(self):
         return u'{}/source.timestamp.json'.format(
@@ -785,9 +785,9 @@ class Abc_Operate(shmCore.Basic):
         )
 
     def localTimestampDatum(self):
-        if self.MTD_os_path.isExist(self.localTimestampFile()) is False:
+        if bscMethods.OsPath.isExist(self.localTimestampFile()) is False:
             self.createLocalTimestamp()
-        return self.mtd_os_json.read(self.localTimestampFile()) or {}
+        return bscMethods.OsJson.read(self.localTimestampFile()) or {}
 
     def localizationSource(self):
         changedFileLis = self._getChangedSourceFiles()
@@ -796,14 +796,14 @@ class Abc_Operate(shmCore.Basic):
                 sourceFile = self.serverSourceDirectory() + relativeOsFile
                 targetFile = self.localSourceDirectory() + relativeOsFile
 
-                self.mtd_os_file.copyTo(sourceFile, targetFile, force=False)
+                bscMethods.OsFile.copyTo(sourceFile, targetFile, force=False)
 
                 traceMessage = u'Localization Resource "{}" : "{}" > "{}"'.format(
                     self.name, sourceFile, targetFile
                 )
                 bscMethods.PyMessage.traceResult(traceMessage)
 
-                self.mtd_os_file.copyTo(self.serverTimestampFile(), self.localTimestampFile())
+                bscMethods.OsFile.copyTo(self.serverTimestampFile(), self.localTimestampFile())
         else:
             traceMessage = u'Resource "{}"  is "Non - Changed"'.format(self.name)
             bscMethods.PyMessage.traceResult(traceMessage)
@@ -934,7 +934,7 @@ class Abc_Operate(shmCore.Basic):
         workspaceSourcePath = self.resource.workspaceSourceDirectory()
         developSourceDirectory = self.developSourceDirectory()
 
-        relativeOsFileLis = self.MTD_os_path.getAllChildFileRelativeNames(workspaceSourcePath, extString='.py')
+        relativeOsFileLis = bscMethods.OsDirectory.allFileRelativenames(workspaceSourcePath, extString='.py')
         if relativeOsFileLis:
             bscMethods.OsDirectory.remove(developSourceDirectory)
             for i in relativeOsFileLis:

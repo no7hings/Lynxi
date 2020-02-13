@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract
+from LxMaterial import mtlObjAbstract
 
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet
 
 
-class Channel(mtlAbstract.Abc_Input):
+class Channel(mtlObjAbstract.Abc_Input):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -14,7 +14,7 @@ class Channel(mtlAbstract.Abc_Input):
 
 
 # maya: shader engine
-class ShadersetInput(mtlAbstract.Abc_Input):
+class ShadersetInput(mtlObjAbstract.Abc_Input):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -26,7 +26,7 @@ class ShadersetInput(mtlAbstract.Abc_Input):
         self._initAbcInput(*args)
 
 
-class ShaderInput(mtlAbstract.Abc_ShaderInput):
+class ShaderInput(mtlObjAbstract.Abc_ShaderInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -38,7 +38,7 @@ class ShaderInput(mtlAbstract.Abc_ShaderInput):
         self._initAbcShaderInput(*args)
 
 
-class NodeInput(mtlAbstract.Abc_NodeInput):
+class NodeInput(mtlObjAbstract.Abc_NodeInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -50,7 +50,7 @@ class NodeInput(mtlAbstract.Abc_NodeInput):
         self._initAbcNodeInput(*args)
 
 
-class GeometryProperty(mtlAbstract.Abc_GeometryProperty):
+class GeometryProperty(mtlObjAbstract.Abc_GeometryProperty):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -62,7 +62,7 @@ class GeometryProperty(mtlAbstract.Abc_GeometryProperty):
         self._initAbcGeometryProperty(*args)
 
 
-class GeometryVisibility(mtlAbstract.Abc_GeometryVisibility):
+class GeometryVisibility(mtlObjAbstract.Abc_GeometryVisibility):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -74,7 +74,7 @@ class GeometryVisibility(mtlAbstract.Abc_GeometryVisibility):
         self._initAbcVisibility(*args)
 
 
-class GeometryOutput(mtlAbstract.Abc_ShaderOutput):
+class GeometryOutput(mtlObjAbstract.Abc_ShaderOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -85,7 +85,7 @@ class GeometryOutput(mtlAbstract.Abc_ShaderOutput):
         self._initAbcShaderOutput(*args)
 
 
-class ShaderOutput(mtlAbstract.Abc_ShaderOutput):
+class ShaderOutput(mtlObjAbstract.Abc_ShaderOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -96,7 +96,7 @@ class ShaderOutput(mtlAbstract.Abc_ShaderOutput):
         self._initAbcShaderOutput(*args)
 
 
-class NodeOutput(mtlAbstract.Abc_NodeOutput):
+class NodeOutput(mtlObjAbstract.Abc_NodeOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
@@ -107,7 +107,7 @@ class NodeOutput(mtlAbstract.Abc_NodeOutput):
         self._initAbcNodeOutput(*args)
 
 
-class NodeGraphOutput(mtlAbstract.Abc_NodeGraphOutput):
+class NodeGraphOutput(mtlObjAbstract.Abc_NodeGraphOutput):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     STR_mtlx_key_element = u'output'

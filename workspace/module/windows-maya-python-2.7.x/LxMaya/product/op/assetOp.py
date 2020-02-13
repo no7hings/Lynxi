@@ -7,7 +7,7 @@ import maya.mel as mel
 
 from LxBasic import bscMethods, bscObjects
 
-from LxPreset import prsMethods
+from LxPreset import prsConfigure, prsMethods
 
 from LxCore import lxConfigure
 
@@ -59,12 +59,12 @@ def setObjectTransparentRefresh(objectStrings):
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, lxConfigure.LynxiAttrName_Object_RenderVisible, attrDatum
+            objectPath, prsConfigure.PrsBasic.LynxiAttrName_Object_RenderVisible, attrDatum
         )
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'aiOpaque')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, lxConfigure.LynxiAttrName_Object_Transparent, not attrDatum
+            objectPath, prsConfigure.PrsBasic.LynxiAttrName_Object_Transparent, not attrDatum
         )
 
 

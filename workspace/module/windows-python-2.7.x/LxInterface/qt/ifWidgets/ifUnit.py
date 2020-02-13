@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscObjects, bscMethods, bscCommands
+from LxBasic import bscConfigure, bscCore, bscObjects, bscMethods
 
 from LxPreset import prsVariants, prsMethods
 
@@ -172,12 +172,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             osJsonFile = value
             #
             
-            user = bscMethods.OsJson.getValue(osJsonFile, lxConfigure.Lynxi_Key_Info_Artist)
+            user = bscMethods.OsJson.getValue(osJsonFile, lxConfigure.STR_key_info_username)
             personnel = prsMethods.Personnel.userChnname(user)
             #
             treeItem = qtWidgets.QtTreeviewItem()
             activeItem.addChild(treeItem)
-            treeItem.setNameText(u'{} @ {}'.format(bscMethods.OsTime.getCnPrettifyByTimetag(timeTag), personnel))
+            treeItem.setNameText(u'{} @ {}'.format(bscMethods.OsTimetag.toChnPrettify(timeTag), personnel))
             treeItem.setIcon('svg_basic@svg#history')
             #
             treeItem.timeTag = timeTag
@@ -203,19 +203,19 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             ) = self._args
             #
             treeView = self._recordTreeView
             #
             serverSceneIndexFile = scenePr.scUnitIndexFile(
                 lxConfigure.LynxiRootIndex_Server,
-                projectName, sceneClass, sceneName, sceneVariant
+                projectName, sceneCategory, sceneName, sceneVariant
             )[1]
             #
             backupSceneIndexFile = scenePr.scUnitIndexFile(
                 lxConfigure.LynxiRootIndex_Backup,
-                projectName, sceneClass, sceneName, sceneVariant
+                projectName, sceneCategory, sceneName, sceneVariant
             )[1]
             #
             activeItem = qtWidgets.QtTreeviewItem()
@@ -285,12 +285,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         classItemDic = {}
 
-        for productModule in prsMethods.Product.moduleNames():
-            v = prsMethods.Product.moduleShowname(productModule)
-            moduleItem = setModuleBranch(productModule, v)
+        for productModuleString in prsMethods.Product.moduleNames():
+            v = prsMethods.Product.moduleShowname(productModuleString)
+            moduleItem = setModuleBranch(productModuleString, v)
             #
-            classKeyLis = prsMethods.Product.moduleCategoryNames(productModule)
-            classUiDic = prsMethods.Product.moduleClassShownames(productModule)
+            classKeyLis = prsMethods.Product.moduleCategoryNames(productModuleString)
+            classUiDic = prsMethods.Product.moduleClassShownames(productModuleString)
             #
             for unitClass in classKeyLis:
                 iv = classUiDic[unitClass]
@@ -310,7 +310,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         def setVariantCmd():
                             activeVariant = treeItem.assetVariant
                             if not variant == activeVariant:
-                                newViewExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, '{} - {}'.format(assetName, variant))
+                                newViewExplain = assetPr.getAssetViewInfo(assetIndex, assetCategory, '{} - {}'.format(assetName, variant))
                                 treeItem.setNameText(newViewExplain)
                                 #
                                 self._assetDatumLis[seq][4] = variant
@@ -328,18 +328,18 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         [
                             ('Change Variant', ),
                         ],
-                        assetPr.getAssetViewInfo(assetIndex, assetClass)
+                        assetPr.getAssetViewInfo(assetIndex, assetCategory)
                     )
                     for j in assetVariantLis:
                         setActionBranch(j)
                     #
                     treeItem.setActionData(actionDatumLis, actionTitle)
                 #
-                assetIndex, assetClass, assetName, number, assetVariant = value
+                assetIndex, assetCategory, assetName, number, assetVariant = value
                 self._assetIndexLis.append(assetIndex)
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
-                classItem = classItemDic[assetClass]
+                classItem = classItemDic[assetCategory]
                 classItem.addChild(treeItem)
                 #
                 viewName = assetPr.getAssetViewName(assetIndex)
@@ -364,10 +364,10 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         def setSceneryModuleBranch(indexes):
             def setUnitSubBranch(seq, value):
-                sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage = value
-                if prsMethods.Product.isValidSceneryCategoryName(sceneryClass):
+                sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage = value
+                if prsMethods.Product.isValidSceneryCategoryName(sceneryCategory):
                     treeItem = qtWidgets.QtTreeviewItem()
-                    classItem = classItemDic[sceneryClass]
+                    classItem = classItemDic[sceneryCategory]
                     classItem.addChild(treeItem)
                     #
                     viewName = sceneryPr.getSceneryViewName(sceneryIndex)
@@ -441,12 +441,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setAssetModuleBranch():
             def setAssetUnitSubBranch(seq, key, value):
                 assetIndex = key
-                assetClass = assetPr.getAssetClass(assetIndex)
+                assetCategory = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
                 assetVariant = prsVariants.Util.astDefaultVariant
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
-                classItem = classItemDic[assetClass]
+                classItem = classItemDic[assetCategory]
                 classItem.addChild(treeItem)
                 #
                 viewExplain = u'{} ( {} - {} )'.format(assetViewName, assetName, assetVariant)
@@ -460,7 +460,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             #
             def setAssemblyUnitSubBranch(seq, key, value):
                 assetIndex = key
-                assetClass = assetPr.getAssetClass(assetIndex)
+                assetCategory = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
                 assetVariant = prsVariants.Util.astDefaultVariant
                 #
@@ -490,7 +490,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setSceneryModuleBranch():
             def setSceneryUnitBranch(seq, key, value):
                 sceneryIndex = key
-                sceneryClass = assetPr.getAssetClass(sceneryIndex)
+                sceneryCategory = assetPr.getAssetClass(sceneryIndex)
                 sceneryName, sceneryViewName = value
                 sceneryVariant = prsVariants.Util.astDefaultVariant
             #
@@ -519,7 +519,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     #
     def confirmCmd(self):
         if self._assetDatumLis:
-            if bscCommands.isOsExistsFile(self._serverFile):
+            if bscMethods.OsFile.isExist(self._serverFile):
                 serverAssetDatum = bscMethods.OsJson.getValue(
                     self._serverFile,
                     prsMethods.Asset.moduleName()
@@ -528,8 +528,8 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
+                            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
+                            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
                             #
                             prsMethods.Asset.moduleName(): self._assetDatumLis
                         }
@@ -537,7 +537,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     #
                     bscMethods.OsFile.backupTo(
                         self._serverFile, self._backupFile,
-                        bscMethods.OsTime.activeTimetag()
+                        bscMethods.OsTimetag.active()
                     )
                     #
                     bscObjects.If_Message(
@@ -547,7 +547,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         startFrame, endFrame = self._startFrameLabel.datum(), self._endFrameLabel.datum()
         if startFrame is not None and endFrame is not None:
-            if bscCommands.isOsExistsFile(self._serverFile):
+            if bscMethods.OsFile.isExist(self._serverFile):
                 serverStartFrame, serverEndFrame = (
                     bscMethods.OsJson.getValue(self._serverFile, lxConfigure.Lynxi_Key_Info_StartFrame),
                     bscMethods.OsJson.getValue(self._serverFile, lxConfigure.Lynxi_Key_Info_EndFrame)
@@ -556,15 +556,15 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
-                            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
+                            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
+                            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
                             #
                             lxConfigure.Lynxi_Key_Info_StartFrame: startFrame,
                             lxConfigure.Lynxi_Key_Info_EndFrame: endFrame
                         }
                     )
                     #
-                    bscMethods.OsFile.backupTo(self._serverFile, self._backupFile, bscMethods.OsTime.activeTimetag())
+                    bscMethods.OsFile.backupTo(self._serverFile, self._backupFile, bscMethods.OsTimetag.active())
                     #
                     bscObjects.If_Message(
                         u'提示',
@@ -681,7 +681,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 treeItem = selectedItems[0]
                 indexFile = treeItem.indexFile
                 cacheFile = treeItem.cacheFile
-                if bscCommands.isOsExistsFile(cacheFile):
+                if bscMethods.OsFile.isExist(cacheFile):
                     # Index
                     cacheIndex = {
                         lxConfigure.LynxiCacheInfoKey: cacheFile
@@ -706,7 +706,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def setListCache(self):
         def setSubActionData(treeItem, itemWidget, timeTag, indexFile, cacheFile):
             def setCacheImportCmd():
-                if bscCommands.isMayaApp():
+                if bscMethods.MayaApp.isActive():
                     from LxMaya.command import maUtils, maFile
                     #
                     groupName = 'import_{}'.format(timeTag)
@@ -745,14 +745,14 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant,
-                subLabel
+                sceneCategory, sceneName, sceneVariant,
+                subLabelString
             ) = data
             #
             cacheDic = scenePr.getScCameraCacheDic(
                 projectName,
                 sceneName, sceneVariant,
-                subLabel
+                subLabelString
             )
             #
             indexFile = scenePr.scCameraCacheIndexFile(
@@ -764,7 +764,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             activeTimeTag = scenePr.getScCameraCacheActiveTimeTag(
                 projectName,
                 sceneName, sceneVariant,
-                subLabel
+                subLabelString
             )
             #
             timeTags = []
@@ -773,7 +773,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
                     currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-                    if not currentTimeTag == '0000_0000_0000':
+                    if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
             #
@@ -792,7 +792,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     #
                     cacheItemWidget = cacheFileItem_.setItemIconWidget(
                         0, 'svg_basic@svg#file',
-                        bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+                        bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                     )
                     #
                     cacheFileItem_.setItemIcon_(1, 'link#{}'.format(cacheSceneStage))
@@ -801,9 +801,9 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         cacheFileItem_.setSelected(True)
                         cacheFileItem_.setText(2, 'Active')
                     #
-                    infoFile = bscMethods.OsFile.infoJsonFilename(cacheFile)
-                    if bscCommands.isOsExist(infoFile):
-                        osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
+                    infoFile = bscMethods.OsFile.infoJsonName(cacheFile)
+                    if bscMethods.OsFile.isExist(infoFile):
+                        osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.STR_key_info_username)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                             cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
@@ -834,7 +834,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 cacheItemWidget = cacheFileItem_.setItemIconWidget(
                     0, 'svg_basic@svg#file',
-                    bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag),
+                    bscMethods.OsTimetag.toChnPrettify(currentTimeTag),
                     checkResult
                 )
                 #
@@ -848,9 +848,9 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     cacheFileItem_.setSelected(True)
                     cacheFileItem_.setText(2, 'Active')
                 #
-                infoFile = bscMethods.OsFile.infoJsonFilename(cacheFile_)
-                if bscCommands.isOsExist(infoFile):
-                    osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.Lynxi_Key_Info_Artist)
+                infoFile = bscMethods.OsFile.infoJsonName(cacheFile_)
+                if bscMethods.OsFile.isExist(infoFile):
+                    osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.STR_key_info_username)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                         cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
@@ -869,9 +869,9 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant,
+                sceneCategory, sceneName, sceneVariant,
                 startFrame, endFrame,
-                assetIndex, assetClass, assetName, number, assetVariant
+                assetIndex, assetCategory, assetName, number, assetVariant
             ) = data
             #
             cacheDic = scenePr.getScAstModelCacheDic(
@@ -901,7 +901,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
                     currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-                    if not currentTimeTag == '0000_0000_0000':
+                    if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
             #
@@ -981,18 +981,18 @@ class IfProductUnitRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         self._projectName = self.connectObject().getProjectName()
         #
         self._presetViewModel = ifUnitModel.IfProductPresetViewModel(
-            self, self._presetView, self._productModule
+            self, self._presetView, self._productModuleString
         )
         #
-        self._toolGroup.setTitle('{} Unit(s)'.format(self.str_camelcase2prettify(self._productModule)))
+        self._toolGroup.setTitle('{} Unit(s)'.format(bscMethods.StrCamelcase.toPrettify(self._productModuleString)))
         self._presetViewModel.setMainAction(self._toolGroup)
     #
     def refreshMethod(self):
         if self.connectObject():
             pass
     #
-    def setProductModule(self, productModule):
-        self._productModule = productModule
+    def setProductModule(self, productModuleString):
+        self._productModuleString = productModuleString
     #
     def setupCentralWidget(self, layout):
         self._toolGroup = qtWidgets.QtToolboxGroup()
@@ -1028,19 +1028,19 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     w = 80
     dicMain = {
         0: 'Date',
-        lxConfigure.Lynxi_Key_Info_Update: [w, 1, 0, 1, 4, ('Update', u'日期')],
+        lxConfigure.STR_key_info_time: [w, 1, 0, 1, 4, ('Update', u'日期')],
         2: 'Information(s)',
-        lxConfigure.Lynxi_Key_Info_Artist: [w, 3, 0, 1, 4, ('Artist', u'人员')],
-        lxConfigure.Lynxi_Key_Info_HostName: [w, 4, 0, 1, 4, ('PC', u'计算机')],
-        lxConfigure.Lynxi_Key_Info_Host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
+        lxConfigure.STR_key_info_username: [w, 3, 0, 1, 4, ('Artist', u'人员')],
+        lxConfigure.STR_key_info_hostname: [w, 4, 0, 1, 4, ('PC', u'计算机')],
+        lxConfigure.STR_key_info_host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
         lxConfigure.Lynxi_Key_Info_Stage: [w, 6, 0, 1, 4, ('Stage', u'阶段')],
-        lxConfigure.Lynxi_Key_Info_Note: [w, 7, 0, 1, 4, ('Note', u'备注')],
+        lxConfigure.STR_key_info_note: [w, 7, 0, 1, 4, ('Note', u'备注')],
         8: 'Action(s)',
         'sourceFile': [0, 9, 0, 1, 2, None], 'loadSource': [0, 9, 2, 1, 2, 'Load Source File', 'svg_basic@svg#fileOpen'],
         'productFile': [0, 10, 0, 1, 2, None], 'loadProduct': [0, 10, 2, 1, 2, 'Load Product File', 'svg_basic@svg#fileOpen']
     }
     #
-    keywords = [lxConfigure.Lynxi_Key_Info_Artist, lxConfigure.Lynxi_Key_Info_HostName, lxConfigure.Lynxi_Key_Info_Host, lxConfigure.Lynxi_Key_Info_Note]
+    keywords = [lxConfigure.STR_key_info_username, lxConfigure.STR_key_info_hostname, lxConfigure.STR_key_info_host, lxConfigure.STR_key_info_note]
     #
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit, self).__init__(*args, **kwargs)
@@ -1061,7 +1061,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         inData = self.dicMain
         #
         self._timeChooseLabel = qtWidgets.QtEnterlabel()
-        toolBox.setInfo(inData, lxConfigure.Lynxi_Key_Info_Update, self._timeChooseLabel)
+        toolBox.setInfo(inData, lxConfigure.STR_key_info_time, self._timeChooseLabel)
         self._timeChooseLabel.setChooseEnable(True)
         self._timeChooseLabel.setIconKeyword('svg_basic@svg#history')
         #
@@ -1071,9 +1071,9 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         self._uiInfoItemDic = {}
         for k, v in inData.items():
             if k in self.keywords:
-                if k == lxConfigure.Lynxi_Key_Info_Note:
+                if k == lxConfigure.STR_key_info_note:
                     infoLabel = qtWidgets.QtEnterbox()
-                    self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Note] = infoLabel
+                    self._uiInfoItemDic[lxConfigure.STR_key_info_note] = infoLabel
                     self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Notes] = infoLabel
                 else:
                     infoLabel = qtWidgets.QtEnterlabel()
@@ -1110,14 +1110,14 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         uiDatumDic = self._uiInfoItemDic
         if update:
             sourceFile = sourceRecordDic[update]
-            infoFile = bscMethods.OsFile.infoJsonFilename(sourceFile)
+            infoFile = bscMethods.OsFile.infoJsonName(sourceFile)
             infoDatumDic = bscMethods.OsJson.read(infoFile)
             if infoDatumDic:
                 for k, v in uiDatumDic.items():
                     infoLabel = v
                     if k in infoDatumDic:
                         info = infoDatumDic[k]
-                        if k == lxConfigure.Lynxi_Key_Info_Artist:
+                        if k == lxConfigure.STR_key_info_username:
                             cnName = prsMethods.Personnel.userChnname(info)
                             if cnName:
                                 viewInfo = u'{} ( {} )'.format(cnName, info)
@@ -1153,9 +1153,9 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             else:
                 self._productFileLabel.setEnterClear()
             #
-            booleanA = bscCommands.isOsExistsFile(sourceFile)
+            booleanA = bscMethods.OsFile.isExist(sourceFile)
             self._loadSourceButton.setPressable(booleanA)
-            booleanB = bscCommands.isOsExistsFile(productFile)
+            booleanB = bscMethods.OsFile.isExist(productFile)
             self._loadProductButton.setPressable(booleanB)
         else:
             self._sourceFileLabel.setEnterClear()
@@ -1176,8 +1176,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             timeTagLis = []
             if sourceFileDic:
                 for timeTag, sourceFile in sourceFileDic.items():
-                    if not timeTag == '0000_0000_0000':
-                        showUpdate = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag)
+                    if not timeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                        showUpdate = bscMethods.OsTimetag.toChnPrettify(timeTag)
                         if timeTag in productRecordDic:
                             timeTagLis.append(showUpdate)
                             #
@@ -1205,8 +1205,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if update:
             if update in sourceFileDic:
                 sourceFile = sourceFileDic[update]
-                if bscCommands.isOsExistsFile(sourceFile):
-                    if bscCommands.isMayaApp():
+                if bscMethods.OsFile.isExist(sourceFile):
+                    if bscMethods.MayaApp.isActive():
                         print 'Load File : {}'.format(sourceFile)
                         from LxMaya.command import maFile
                         maFile.openFileToTemp(sourceFile)
@@ -1218,8 +1218,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if update:
             if update in productRecordDic:
                 productFile = productRecordDic[update]
-                if bscCommands.isOsExistsFile(productFile):
-                    if bscCommands.isMayaApp():
+                if bscMethods.OsFile.isExist(productFile):
+                    if bscMethods.MayaApp.isActive():
                         print 'Load File : {}'.format(productFile)
                         from LxMaya.command import maFile
                         maFile.openFileToTemp(productFile)
@@ -1295,14 +1295,14 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         def setBranch(seq, key, value):
             def setBranchAction():
                 def loadProjectCmd():
-                    if bscCommands.isMayaApp():
+                    if bscMethods.MayaApp.isActive():
                         from LxCore.setup import appSetup
                         #
                         from LxInterface.qt.ifWidgets import ifProductWindow
                         #
                         from LxCore import lxScheme
                         #
-                        mayaVersion = bscCommands.getMayaAppVersion()
+                        mayaVersion = bscMethods.MayaApp.version()
                         #
                         sourceProjectName = projectPr.getMayaProjectName()
                         targetProjectName = projectName
@@ -1378,7 +1378,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         gridView = self._centralGridview
         #
-        if bscCommands.isMayaApp():
+        if bscMethods.MayaApp.isActive():
             projectNameData = projectPr.getMayaProjectNameDic()
             currentProjectName = projectPr.getMayaProjectName()
         else:
@@ -1449,7 +1449,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                                 subPresetItem.addChild(branchPresetItem)
                                 branchPresetItem.setNameText('{} = {}'.format(jk, jv))
             #
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 setSubBranch('Maya Tool', projectPr.getProjectMayaToolDataDic())
                 setSubBranch('Maya Script', projectPr.getProjectMayaScriptDatumDic())
             return 3
@@ -1471,7 +1471,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             return len(data)
         #
         def setMayaModuleBranch(parentItem):
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 from LxMaya.command import maUtils
                 data = maUtils.getModuleInfo()
                 if data:
@@ -1507,7 +1507,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             mainItem.setNameText('{} ( {} )'.format(mainExplain, count))
     #
     def confirmCmd(self):
-        if bscCommands.isMayaApp():
+        if bscMethods.MayaApp.isActive():
             targetProjectItem = self._centralGridview.currentItem()
             if targetProjectItem is not None:
                 from LxCore.setup import appSetup
@@ -1516,7 +1516,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 from LxCore import lxScheme
                 #
-                mayaVersion = bscCommands.getMayaAppVersion()
+                mayaVersion = bscMethods.MayaApp.version()
                 #
                 sourceProjectName = projectPr.getMayaProjectName()
                 targetProjectName = targetProjectItem.name()
@@ -1709,7 +1709,7 @@ class IfPersonnelRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         if isChecked:
             prsMethods.Personnel.updateUserDatum(user, chName, enName, mail, team, post)
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
                 w = ifProductWindow.QtIf_ToolFloatWindow()
@@ -1862,7 +1862,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         #
         self._initTagFilterVar()
         #
-        if bscCommands.isMayaApp():
+        if bscMethods.MayaApp.isActive():
             buildData = projectPr.getProjectMayaToolDataDic()
             for seq, (k, v) in enumerate(buildData.items()):
                 mainToolSearchDic = {}
@@ -1916,13 +1916,13 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             bscMethods.OsDirectory.open(path1)
         #
         def openPipelineFolderEnable():
-            return bscCommands.isOsExist(path1)
+            return bscMethods.OsDirectory.isExist(path1)
         #
         def openUtilitiesFolderCmd():
             bscMethods.OsDirectory.open(path2)
         #
         def openUtilitiesFolderEnable():
-            return bscCommands.isOsExist(path2)
+            return bscMethods.OsDirectory.isExist(path2)
         #
         actions = [
             ('Basic', ),
@@ -1936,12 +1936,12 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             def openCommandCmd():
                 osCmdExe = 'sublime_text.exe'
                 osCmd = '''"{}" "{}"'''.format(osCmdExe, commandFile)
-                bscCommands.setOsCommandRun_(osCmd)
+                bscMethods.OsSystem.runCommand(osCmd)
             #
             toolName = k
             commandFile, command, toolTip = data[k]
             #
-            viewExplain = self.str_camelcase2prettify(toolName)
+            viewExplain = bscMethods.StrCamelcase.toPrettify(toolName)
             #
             toolItem = qtWidgets.QtTreeviewItem()
             tagItem.addChild(toolItem)
@@ -1982,7 +1982,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             itemData[toolName] = button
         #
         def setMain():
-            dicStep01 = bscCommands.orderedDict(
+            dicStep01 = bscCore.orderedDict(
                 [
                     ('{} - Create'.format(keyword), []),
                     ('{} - Loaded'.format(keyword), []),

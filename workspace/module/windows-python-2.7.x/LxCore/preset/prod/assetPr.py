@@ -1,11 +1,9 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 
 from LxCore import lxConfigure, lxScheme
 #
-from LxCore.config import assetCfg
-#
-from LxPreset import prsCore, prsVariants, prsMethods
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr
 # do not delete and rename
@@ -202,113 +200,113 @@ def solverCollisionFieldGroupName(assetName):
 
 #
 def yetiNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astYetiNodeGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astYetiNodeGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def guideSystemGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astYetiGuideSolverNodeGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astYetiGuideSolverNodeGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def guideFollicleGroupName(assetName):
-    subLabel = prsVariants.Util.astYetiGuideFollicleGroupLabel
-    string = astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astYetiGuideFollicleGroupLabel
+    string = astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def guideLocalCurveGroupName(assetName):
-    subLabel = prsVariants.Util.astPfxHairLocalCurveNodeLabel
-    string = astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astPfxHairLocalCurveNodeLabel
+    string = astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def guideCurveGroupName(assetName):
-    subLabel = prsVariants.Util.astYetiGuideCurveGroupLabel
-    string = astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astYetiGuideCurveGroupLabel
+    string = astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astPfxHairNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astPfxHairGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astPfxHairGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitCfxNhrFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxFurNhrFieldGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxFurNhrFieldGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astCfxNurbsHairNodeGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxFurNhrObjectGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxFurNhrObjectGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astCfxNhrGrowObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxFurNhrGrowGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxFurNhrGrowGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitCfxNhrGuideObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxFurNhrGuideGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxFurNhrGuideGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitRigSolFurFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astRigSolFurFieldGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astRigSolFurFieldGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitRigSolNhrFieldGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astRigSolNhrFieldGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astRigSolNhrFieldGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitRigSolNhrSubGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astRigSolNhrSubGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astRigSolNhrSubGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitSolverGrowFieldSubGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astSolverGrowFieldSubGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astSolverGrowFieldSubGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitRigSolNhrGuideObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astRigSolNhrSolGuideGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astRigSolNhrSolGuideGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitRigSolNhrCurveObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astRigSolNhrSolCurveGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astRigSolNhrSolCurveGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
@@ -324,8 +322,8 @@ def astUnitRigSolNhrSolGuideObjectGroupPath(assetName, namespace=none):
 
 #
 def astUnitSolverGrowSourceObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astSolverGrowSourceGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astSolverGrowSourceGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
@@ -342,8 +340,8 @@ def astUnitSolverGrowSourceObjectGroupPath(assetName, namespace=none):
 
 #
 def astUnitSolverGrowDeformObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astSolverGrowDeformGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astSolverGrowDeformGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
@@ -360,22 +358,22 @@ def astUnitSolverGrowDeformObjectGroupPath(assetName, namespace=none):
 
 #
 def pfxSystemGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astPfxHairSolverNodeGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astPfxHairSolverNodeGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitCfxGrowFieldSubGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxGrowFieldSubGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxGrowFieldSubGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
 #
 def astUnitCfxGrowSourceObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxGrowSourceGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxGrowSourceGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
@@ -392,8 +390,8 @@ def astUnitCfxGroupSourceGroupPath(assetName, namespace=none):
 
 #
 def astUnitCfxGrowDeformObjectGroupName(assetName, namespace=none):
-    subLabel = prsVariants.Util.astCfxGrowDeformGroupLabel
-    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabel)
+    subLabelString = prsVariants.Util.astCfxGrowDeformGroupLabel
+    string = [none, namespace + ':'][namespace is not none] + astBasicGroupNameSet(assetName, subLabelString)
     return string
 
 
@@ -436,14 +434,14 @@ def astSolverContainerName(assetName, namespace=none):
 
 #
 def astRootGroupHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.rootName(assetName)] = []
     return dic
 
 
 # Pro Group Config
 def astModelLinkHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName),
@@ -456,7 +454,7 @@ def astModelLinkHierarchyConfig(assetName):
 
 #
 def astModelCharHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
@@ -580,7 +578,7 @@ def astPropBuildBasicLeafs():
 
 #
 def astPropHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelProductGroupName(assetName)
     ]
@@ -617,7 +615,7 @@ def astSolverHairBasicLeafs():
 
 #
 def astModelSolverHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelSolverGroupName(assetName)
     ]
@@ -640,7 +638,7 @@ def astModelSolverHierarchyConfig(assetName):
 
 #
 def astModelReferenceHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.modelLinkGroupName(assetName)] = [
         astUnitModelReferenceGroupName(assetName)
     ]
@@ -649,7 +647,7 @@ def astModelReferenceHierarchyConfig(assetName):
 
 #
 def astRigLinkHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Main
     dic[prsMethods.Asset.rigLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigControl'),
@@ -697,7 +695,7 @@ def astCfxHierarchyConfig(assetName):
     astCfxGrowDeformGroupLabel = prsVariants.Util.astCfxGrowDeformGroupLabel
     astCfxFurCollisionSubGroupLabel = prsVariants.Util.astCfxFurCollisionSubGroupLabel
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Main
     dic[prsMethods.Asset.groomLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, astFurYetiGroupLabel),
@@ -744,7 +742,7 @@ def astCfxHierarchyConfig(assetName):
 
 #
 def astRigSolverHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.solverLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, '_rigSolControl'),
         astBasicGroupNameSet(assetName, '_rigSolSkin'),
@@ -784,7 +782,7 @@ def astLightBasicLeafs():
 
 #
 def astLightHierarchyConfig(assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[prsMethods.Asset.lightLinkGroupName(assetName)] = [
         astBasicGroupNameSet(assetName, prsVariants.Util.lgtFieldLabel)
     ]
@@ -802,7 +800,7 @@ def astUnitAssemblyReferenceName(assetName):
 #
 def assetSchemeFileConfig():
     string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbAssetRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariants.Util.dbAssetBasicKey)
-    return bscMethods.OsFile.uniqueFilename(string)
+    return bscMethods.OsFile.uniqueName(string)
 
 
 #
@@ -848,8 +846,8 @@ def getUiAssetSetDataLis(projectName, assetIndex, number=0, overrideNumber=False
         return defaultAssetSetConfig(projectName, number)
     #
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDic(defaultLis, customDic):
         lis = []
@@ -892,8 +890,8 @@ def getUiAssetSetDataLis(projectName, assetIndex, number=0, overrideNumber=False
 #
 def getAssetCount():
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(data):
         return len(data)
@@ -904,11 +902,11 @@ def getAssetCount():
 #
 def getAssetViewName(assetIndex):
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getSubDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 scheme, enable, description = i
@@ -927,8 +925,8 @@ def getAssetViewName(assetIndex):
 #
 def getAssetClass(assetIndex):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -940,8 +938,8 @@ def getAssetClass(assetIndex):
 #
 def getAssetName(assetIndex):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -953,8 +951,8 @@ def getAssetName(assetIndex):
 #
 def getAssetPriority(assetIndex):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -966,8 +964,8 @@ def getAssetPriority(assetIndex):
 #
 def getAssetVariantLis(assetIndex):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -979,8 +977,8 @@ def getAssetVariantLis(assetIndex):
 #
 def getAssetIsLinkEnable(assetIndex, assetLink):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -992,8 +990,8 @@ def getAssetIsLinkEnable(assetIndex, assetLink):
 #
 def getAssetIsAssemblyEnabled(assetIndex):
     def getCustomData():
-        osFile = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -1003,15 +1001,15 @@ def getAssetIsAssemblyEnabled(assetIndex):
 
 
 #
-def assetViewInfoSet(assetViewName, assetClass, assetVariant=None):
+def assetViewInfoSet(assetViewName, assetCategory, assetVariant=None):
     if assetVariant is None:
         string = u'{} {}'.format(
-            prsMethods.Asset.classShowname(assetClass)[1],
+            prsMethods.Asset.classShowname(assetCategory)[1],
             assetViewName
         )
     else:
         string = u'{} {} ( {} )'.format(
-            prsMethods.Asset.classShowname(assetClass)[1],
+            prsMethods.Asset.classShowname(assetCategory)[1],
             assetViewName,
             assetVariant
         )
@@ -1019,22 +1017,22 @@ def assetViewInfoSet(assetViewName, assetClass, assetVariant=None):
 
 
 #
-def getAssetViewInfo(assetIndex, assetClass=None, assetVariant=None):
-    if assetClass is None:
-        assetClass = getAssetClass(assetIndex)
+def getAssetViewInfo(assetIndex, assetCategory=None, assetVariant=None):
+    if assetCategory is None:
+        assetCategory = getAssetClass(assetIndex)
     #
-    return assetViewInfoSet(getAssetViewName(assetIndex), assetClass, assetVariant)
+    return assetViewInfoSet(getAssetViewName(assetIndex), assetCategory, assetVariant)
 
 
 #
 def getAssetNamesFilter(projectFilter, assetClassFilters=None):
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(lis, assetIndex):
-        osFile = assetSetFileConfig(assetIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -1066,30 +1064,30 @@ def getAssetNamesFilter(projectFilter, assetClassFilters=None):
 #
 def getUiAssetMultMsgDic(projectFilter, assetClassFilters=None, assetLinkFilter=None):
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getLinks(data):
         lis = []
-        for i in prsMethods.Asset.linknames():
+        for i in prsMethods.Asset.linkNames():
             enable = data[i]
             if enable is True:
                 lis.append(i)
         return lis
     #
     def getBranch(dic, assetIndex, description):
-        osFile = assetSetFileConfig(assetIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
                 isMatch = False
                 #
-                assetClass = data['classify']
+                assetCategory = data['classify']
                 assetName = data['name']
                 assetLinks = getLinks(data)
                 if assetClassFilters is not None:
-                    if assetClass in assetClassFilters:
+                    if assetCategory in assetClassFilters:
                         if assetLinkFilter is not None:
                             if assetLinkFilter in assetLinks:
                                 isMatch = True
@@ -1106,7 +1104,7 @@ def getUiAssetMultMsgDic(projectFilter, assetClassFilters=None, assetLinkFilter=
                     dic[assetIndex] = assetName, description
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1119,18 +1117,18 @@ def getUiAssetMultMsgDic(projectFilter, assetClassFilters=None, assetLinkFilter=
 #
 def getAssetIndexDic():
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(dic, assetIndex):
-        osFile = assetSetFileConfig(assetIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             assetName = data['name']
             dic[assetName] = assetIndex
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1144,16 +1142,16 @@ def getAssetIndexDic():
 #
 def getUiAssetSetDataDic(projectFilter):
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(dic, assetIndex, description):
-        osFile = assetSetFileConfig(assetIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
-                assetClass = data['classify']
+                assetCategory = data['classify']
                 assetName = data['name']
                 assetVariants = data['variant']
                 assetPriority = data['priority']
@@ -1164,10 +1162,10 @@ def getUiAssetSetDataDic(projectFilter):
                 scLightEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Light)
                 assemblyEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
                 for assetVariant in assetVariants:
-                    dic[(assetIndex, assetVariant)] = description, assetClass, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
+                    dic[(assetIndex, assetVariant)] = description, assetCategory, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1180,16 +1178,16 @@ def getUiAssetSetDataDic(projectFilter):
 #
 def getAstUnitAssemblyDic(projectFilter):
     def getCustomData():
-        osFile = assetSchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = assetSchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(dic, assetIndex, description):
-        osFile = assetSetFileConfig(assetIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = assetSetFileConfig(assetIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
-                assetClass = data['classify']
+                assetCategory = data['classify']
                 assetName = data['name']
                 assemblyEnabled = data['assembly']
                 assetVariants = data['variant']
@@ -1198,13 +1196,13 @@ def getAstUnitAssemblyDic(projectFilter):
                         serverAstUnitAsbDefinitionFile = astUnitAssemblyDefinitionFile(
                             lxConfigure.LynxiRootIndex_Server,
                             projectFilter,
-                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
                         )[1]
-                        if bscCommands.isOsExistsFile(serverAstUnitAsbDefinitionFile):
-                            dic[assetIndex] = description, assetClass, assetName, assetVariant
+                        if bscMethods.OsFile.isExist(serverAstUnitAsbDefinitionFile):
+                            dic[assetIndex] = description, assetCategory, assetName, assetVariant
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 assetIndex, enable, description = i
@@ -1280,8 +1278,8 @@ def astBasicMapFolder(assetStage):
     if mainLabel.startswith('_'):
         mainLabel = mainLabel[1:]
     #
-    subLabel = prsVariants.Util.basicMapSubLabel
-    return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
+    subLabelString = prsVariants.Util.basicMapSubLabel
+    return bscMethods.StrUnderline.toLabel(mainLabel, subLabelString)
 
 
 #
@@ -1290,14 +1288,14 @@ def astBasicCacheFolder(assetStage):
     if mainLabel.startswith('_'):
         mainLabel = mainLabel[1:]
     #
-    subLabel = prsVariants.Util.basicCacheSubLabel
-    return bscMethods.StrUnderline.toLabel(mainLabel, subLabel)
+    subLabelString = prsVariants.Util.basicCacheSubLabel
+    return bscMethods.StrUnderline.toLabel(mainLabel, subLabelString)
 
 
 #
 def astBasicSourceFileLabel(assetStage):
-    subLabel = prsVariants.Util.basicSourceSubLabel
-    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    subLabelString = prsVariants.Util.basicSourceSubLabel
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabelString)
 
 
 #
@@ -1305,26 +1303,26 @@ def astBasicProductFileLabel(assetStage):
     if prsMethods.Asset.isRigStageName(assetStage):
         return prsVariants.Util.astAnimationRigFileLabel
     else:
-        subLabel = prsVariants.Util.basicProductSubLabel
-        return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
+        subLabelString = prsVariants.Util.basicProductSubLabel
+        return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabelString)
 
 
 #
 def astBasicAsbDefinitionFileLabel(assetStage):
-    subLabel = prsVariants.Util.basicAssemblyDefinitionSubLabel
-    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    subLabelString = prsVariants.Util.basicAssemblyDefinitionSubLabel
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabelString)
 
 
 #
 def astAssetFurFileLabel(assetStage):
-    subLabel = prsVariants.Util.basicFurSubLabel
-    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    subLabelString = prsVariants.Util.basicFurSubLabel
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabelString)
 
 
 #
 def assetPreviewFileLabel(assetStage):
-    subLabel = prsVariants.Util.basicPreviewSubLabel
-    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabel)
+    subLabelString = prsVariants.Util.basicPreviewSubLabel
+    return bscMethods.StrUnderline.toLabel(astBasicLinkLabel(assetStage), subLabelString)
 
 
 #
@@ -1351,7 +1349,7 @@ def astUnitAssemblyBasicDirectory(rootIndexKey, projectName):
 def basicUnitFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName
+        assetCategory, assetName
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1363,7 +1361,7 @@ def basicUnitFolder(
 
 
 #
-def astUnitAssemblyFolder(rootIndexKey, projectName, assetClass, assetName):
+def astUnitAssemblyFolder(rootIndexKey, projectName, assetCategory, assetName):
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
     osPath = '%s/%s' % (
@@ -1377,7 +1375,7 @@ def astUnitAssemblyFolder(rootIndexKey, projectName, assetClass, assetName):
 def astUnitTextureFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1398,7 +1396,7 @@ def astUnitTextureFolder(
 def astUnitMapFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1418,7 +1416,7 @@ def astUnitMapFolder(
 def astUnitAssemblyTextureFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
@@ -1433,7 +1431,7 @@ def astUnitAssemblyTextureFolder(
 def astUnitAssemblyMapFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
     osFolderName = astBasicMapFolder(assetStage)
@@ -1447,7 +1445,7 @@ def astUnitAssemblyMapFolder(
 def astUnitCacheFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = astBasicLinkFolder(assetStage)
@@ -1466,7 +1464,7 @@ def astUnitCacheFolder(
 def astUnitAssemblyCacheFolder(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
     osFolderName = astBasicCacheFolder(assetStage)
@@ -1480,7 +1478,7 @@ def astUnitAssemblyCacheFolder(
 def astUnitTextureIndexFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     else:
@@ -1497,15 +1495,15 @@ def astUnitTextureIndexFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
 def astUnitLogFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = astBasicLinkFolder(assetStage)
@@ -1519,15 +1517,15 @@ def astUnitLogFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
 def astUnitSourceFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage):
+        assetCategory, assetName, assetVariant, assetStage):
     if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     else:
@@ -1544,15 +1542,15 @@ def astUnitSourceFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
 def astUnitProductFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1567,15 +1565,15 @@ def astUnitProductFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
-def astUnitAssemblyIndexDatum(assetIndex, assetClass, assetName):
+def astUnitAssemblyIndexDatum(assetIndex, assetCategory, assetName):
     return {
         lxConfigure.LynxiInfoKey_Index: assetIndex,
-        lxConfigure.LynxiInfoKey_Class: assetClass,
+        lxConfigure.LynxiInfoKey_Class: assetCategory,
         lxConfigure.LynxiInfoKey_Name: assetName
     }
 
@@ -1591,8 +1589,8 @@ def astUnitAssemblyIndexFile(
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
@@ -1605,12 +1603,12 @@ def astUnitAssemblyProductFile(projectName, assetName, assetVariant):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
-def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetClass, assetName, assetVariant, assetStage):
+def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetCategory, assetName, assetVariant, assetStage):
     basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
     #
     fileLabel = astBasicAsbDefinitionFileLabel(assetStage)
@@ -1622,8 +1620,8 @@ def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetClass, assetNa
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
@@ -1640,8 +1638,8 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
@@ -1658,8 +1656,8 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, assetVariant, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
@@ -1675,8 +1673,8 @@ def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
@@ -1689,15 +1687,15 @@ def astUnitAssemblyBoxCacheFile(projectName, assetName):
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
     keyVars = [basicDirectory, assetName, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
 def astUnitFurFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1712,15 +1710,15 @@ def astUnitFurFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 #
 def astUnitExtraFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     if prsMethods.Asset.isAssemblyStageName(assetStage):
         basicDirectory = astUnitAssemblyBasicDirectory(rootIndexKey, projectName)
@@ -1737,14 +1735,14 @@ def astUnitExtraFile(
         assetVariant = none
     #
     keyVars = [basicDirectory, assetName, assetVariant, linkFolder, osFileName]
-    osFile = bscMethods.OsPath.composeBy(keyVars)
-    return osFileName, osFile
+    fileString_ = bscMethods.OsPath.composeBy(keyVars)
+    return osFileName, fileString_
 
 
 def astUnitBasicPreviewFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName
+        assetCategory, assetName
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1752,19 +1750,19 @@ def astUnitBasicPreviewFile(
     extLabel = prsVariants.Util.dbPreviewUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}'.format(
+    fileString_ = '{0}/{1}/{2}'.format(
         basicDirectory,
         assetName,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
 def astUnitPreviewFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         extLabel=prsVariants.Util.jpgExt
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
@@ -1773,20 +1771,20 @@ def astUnitPreviewFile(
     fileLabel = assetPreviewFileLabel(assetStage)
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         assetName, assetVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
 def astUnitBasicMeshConstantFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName
+        assetCategory, assetName
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1794,19 +1792,19 @@ def astUnitBasicMeshConstantFile(
     extLabel = prsVariants.Util.dbMeshUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}'.format(
+    fileString_ = '{0}/{1}/{2}'.format(
         basicDirectory,
         assetName,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
 def astUnitMeshConstantFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1815,20 +1813,20 @@ def astUnitMeshConstantFile(
     extLabel = prsVariants.Util.dbMeshUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         assetName, assetVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
 def astUnitTextureConstantFile(
         rootIndexKey,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     basicDirectory = astUnitBasicDirectory(rootIndexKey, projectName)
     #
@@ -1837,31 +1835,31 @@ def astUnitTextureConstantFile(
     extLabel = prsVariants.Util.dbTextureUnitKey
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         assetName, assetVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def getAssetMeshConstantDatumDic(projectName, assetClass, assetName, assetStage):
+def getAssetMeshConstantDatumDic(projectName, assetCategory, assetName, assetStage):
     pass
 
 
 #
-def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, assetStage):
+def getAssetUnitProductUpdate(projectName, assetCategory, assetName, assetVariant, assetStage):
     string = prsVariants.Util.infoNonExistsLabel
     #
     serverProductFile = astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
     #
-    if bscCommands.isOsExistsFile(serverProductFile):
+    if bscMethods.OsFile.isExist(serverProductFile):
         data = bscMethods.OsFile.mtimeChnPrettify(serverProductFile)
         if data:
             string = data
@@ -1869,24 +1867,24 @@ def getAssetUnitProductUpdate(projectName, assetClass, assetName, assetVariant, 
 
 
 #
-def getAstUnitProductActiveTimeTag(projectName, assetClass, assetName, assetVariant, assetStage):
+def getAstUnitProductActiveTimeTag(projectName, assetCategory, assetName, assetVariant, assetStage):
     serverProductFile = astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
     return bscMethods.OsFile.mtimetag(serverProductFile)
 
 
 #
-def getAssetUnitExtraData(projectName, assetClass, assetName, assetVariant, assetStage):
-    dic = bscCommands.orderedDict()
+def getAssetUnitExtraData(projectName, assetCategory, assetName, assetVariant, assetStage):
+    dic = bscCore.orderedDict()
     extraFile = astUnitExtraFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
-    if bscCommands.isOsExistsFile(extraFile):
+    if bscMethods.OsFile.isExist(extraFile):
         data = bscMethods.OsJson.read(extraFile)
         if data:
             dic = data
@@ -1903,14 +1901,14 @@ def getAstTdUploadCommand(projectName, link):
                 mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
-                pathCmd = bscCommands.toVariantConvert('var', mayaPackageStr)
+                pathCmd = bscMethods.Variant.covertTo('var', mayaPackageStr)
                 exec pathCmd
                 #
                 if var:
-                    if bscCommands.isOsExist(var):
-                        osFile = var + '/' + lxConfigure.LynxiAssetUploadCommandKey + '.py'
-                        if bscCommands.isOsExist(osFile):
-                            command = bscMethods.OsFile.read(osFile)
+                    if bscMethods.OsDirectory.isExist(var):
+                        fileString_ = var + '/' + lxConfigure.LynxiAssetUploadCommandKey + '.py'
+                        if bscMethods.OsFile.isExist(fileString_):
+                            command = bscMethods.OsFile.read(fileString_)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #
                             return pythonCommand
@@ -1926,14 +1924,14 @@ def getAstTdLoadCommand(projectName, link):
                 mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
                 #
                 var = ''
-                pathCmd = bscCommands.toVariantConvert('var', mayaPackageStr)
+                pathCmd = bscMethods.Variant.covertTo('var', mayaPackageStr)
                 exec pathCmd
                 #
                 if var:
-                    if bscCommands.isOsExist(var):
-                        osFile = var + '/' + lxConfigure.LynxiAssetLoadCommandKey + '.py'
-                        if bscCommands.isOsExist(osFile):
-                            command = bscMethods.OsFile.read(osFile)
+                    if bscMethods.OsDirectory.isExist(var):
+                        fileString_ = var + '/' + lxConfigure.LynxiAssetLoadCommandKey + '.py'
+                        if bscMethods.OsFile.isExist(fileString_):
+                            command = bscMethods.OsFile.read(fileString_)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
                             #
                             return pythonCommand

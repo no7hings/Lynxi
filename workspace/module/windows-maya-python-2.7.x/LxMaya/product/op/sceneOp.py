@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -131,11 +131,11 @@ def setCreateSceneOutputCamera(outputCamera, camera, startFrame, endFrame, frame
 
 #
 def setScUnitCreateCameraOutputPositionSub(
-        cameraObject, subLabel,
-        sceneClass, sceneName, sceneVariant,
+        cameraObject, subLabelString,
+        sceneCategory, sceneName, sceneVariant,
         startFrame, endFrame, frameOffset):
-    outputObject = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant) + subLabel
-    subOutputObject = scenePr.scOutputCameraSubLocatorName(sceneName, sceneVariant) + subLabel
+    outputObject = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant) + subLabelString
+    subOutputObject = scenePr.scOutputCameraSubLocatorName(sceneName, sceneVariant) + subLabelString
     #
     if maUtils.isAppExist(outputObject):
         maUtils.setNodeDelete(outputObject)
@@ -156,10 +156,10 @@ def setScUnitCreateCameraOutputPositionSub(
 
 #
 def setScUnitCreateCameraOutputAttributeSub(
-        cameraObject, subLabel,
-        sceneClass, sceneName, sceneVariant,
+        cameraObject, subLabelString,
+        sceneCategory, sceneName, sceneVariant,
         startFrame, endFrame, frameOffset):
-    outputObject = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabel
+    outputObject = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
     #
     if maUtils.isAppExist(outputObject):
         maUtils.setNodeDelete(outputObject)
@@ -179,18 +179,18 @@ def setScUnitCreateCameraOutputAttributeSub(
 
 #
 def setScCreateOutputCameraMain(
-        cameraObject, subLabel,
-        sceneClass, sceneName, sceneVariant,
+        cameraObject, subLabelString,
+        sceneCategory, sceneName, sceneVariant,
         startFrame, endFrame, frameOffset,
         zAdjust=0.000000):
     outputLocatorObject, subOutputLocatorObject = setScUnitCreateCameraOutputPositionSub(
-        cameraObject, subLabel,
-        sceneClass, sceneName, sceneVariant,
+        cameraObject, subLabelString,
+        sceneCategory, sceneName, sceneVariant,
         startFrame, endFrame, frameOffset
     )
     outputCameraObject = setScUnitCreateCameraOutputAttributeSub(
-        cameraObject, subLabel,
-        sceneClass, sceneName, sceneVariant,
+        cameraObject, subLabelString,
+        sceneCategory, sceneName, sceneVariant,
         startFrame, endFrame, frameOffset
     )
     cmds.parent(outputCameraObject, subOutputLocatorObject)
@@ -201,16 +201,16 @@ def setScCreateOutputCameraMain(
 
 
 # Set Output Camera
-def setSceneOutputCamera(camera, subLabel, sceneClass, sceneName, sceneVariant, startFrame, endFrame, frameOffset, isDeleteOrig=False, zAdjust=0.000000):
+def setSceneOutputCamera(camera, subLabelString, sceneCategory, sceneName, sceneVariant, startFrame, endFrame, frameOffset, isDeleteOrig=False, zAdjust=0.000000):
     # Step 01
-    cameraLocatorObject = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant) + subLabel
+    cameraLocatorObject = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant) + subLabelString
     setCreateSceneCameraLocator(
         cameraLocatorObject,
         camera,
         startFrame, endFrame, frameOffset
     )
     # Step 02
-    outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabel
+    outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
     setCreateSceneOutputCamera(
         outputCamera,
         camera,
@@ -218,7 +218,7 @@ def setSceneOutputCamera(camera, subLabel, sceneClass, sceneName, sceneVariant, 
         isDeleteOrig
     )
     # Step 03
-    cameraSubLocator = scenePr.scOutputCameraSubLocatorName(sceneName, sceneVariant) + subLabel
+    cameraSubLocator = scenePr.scOutputCameraSubLocatorName(sceneName, sceneVariant) + subLabelString
     if cmds.objExists(cameraSubLocator):
         cmds.delete(cameraSubLocator)
     elif not cmds.objExists(cameraSubLocator):
@@ -238,7 +238,7 @@ def setScAstRigRefresh(sceneName, sceneVariant, sceneStage):
     if sceneName and sceneVariant:
         data = datScene.getScAnimAssetRefDic()
         if data:
-            for referenceNode, (assetIndex, assetClass, assetName, number, assetVariant) in data.items():
+            for referenceNode, (assetIndex, assetCategory, assetName, number, assetVariant) in data.items():
                 scAstRigNamespace = scenePr.scAstRigNamespace(sceneName, sceneVariant, assetName, number)
                 scRigReferenceNode = scAstRigNamespace + 'RN'
                 #
@@ -258,11 +258,11 @@ def setScAstRigRefresh(sceneName, sceneVariant, sceneStage):
                     # Create Group
                     maUtils.setAppPathCreate(scAstRootGroup)
                     #
-                    timeTag = bscMethods.OsTime.activeTimetag()
+                    timeTag = bscMethods.OsTimetag.active()
                     maHier.refreshScAstUnitBranch(
                         scAstRootGroup,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant,
+                        assetCategory, assetName, number, assetVariant,
                         timeTag
                     )
                     maUtils.setNodeOutlinerRgb(scAstRootGroup, 0, 1, 1)

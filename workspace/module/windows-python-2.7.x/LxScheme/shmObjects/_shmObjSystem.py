@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxScheme import shmCore, shmAbstract
+from LxScheme import shmCore, shmObjAbstract
 
 
-class Sys_Platform(shmAbstract.Abc_System):
+class Sys_Platform(shmObjAbstract.Abc_System):
     object_category = shmCore.Basic.Category_Platform
     raw_key = shmCore.Basic.Key_Platform
 
@@ -25,7 +25,7 @@ class Sys_Platform(shmAbstract.Abc_System):
         return self
 
 
-class Sys_PltLanguage(shmAbstract.Abc_System):
+class Sys_PltLanguage(shmObjAbstract.Abc_System):
     CLS_system = Sys_Platform
 
     object_category = shmCore.Basic.Category_Plf_Language
@@ -66,7 +66,7 @@ class Sys_PltLanguage(shmAbstract.Abc_System):
         )
 
 
-class Sys_PltApplication(shmAbstract.Abc_System):
+class Sys_PltApplication(shmObjAbstract.Abc_System):
     CLS_system = Sys_Platform
 
     object_category = shmCore.Basic.Category_Plf_Application
@@ -108,7 +108,7 @@ class Sys_PltApplication(shmAbstract.Abc_System):
         )
 
 
-class Sys_PltAppLanguage(shmAbstract.Abc_System):
+class Sys_PltAppLanguage(shmObjAbstract.Abc_System):
     CLS_system = Sys_PltApplication
 
     object_category = shmCore.Basic.Category_Plf_App_Language

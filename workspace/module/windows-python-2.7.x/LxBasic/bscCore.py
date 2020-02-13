@@ -47,8 +47,12 @@ import threading
 
 import uuid
 
+import subprocess
 
-class Basic(object):
+from LxBasic import bscConfigure
+
+
+class BscMtdBasic(bscConfigure.MtdBasic):
     MOD_getpass = getpass
     MOD_socket = socket
     MOD_time = time
@@ -72,74 +76,11 @@ class Basic(object):
     MOD_tarfile = tarfile
     MOD_threading = threading
     MOD_uuid = uuid
+    MOD_subprocess = subprocess
 
     MTD_os_path = os.path
 
     CLS_dic_order = collections.OrderedDict
-
-    def_os_separator_string = '/'
-
-    environ_key_path_develop = 'LYNXI_PATH_DEVELOP'
-    path_default_develop = 'e:/myworkspace/td/lynxi'
-
-    environ_key_path_product = 'LYNXI_PATH_PRODUCT'
-    path_default_product = 'e:/myworkspace/td/lynxi'
-
-    environ_key_path_preset = 'LYNXI_PATH_PRESET'
-    environ_key_path_toolkit = 'LYNXI_PATH_TOOLKIT'
-    path_default_preset = 'e:/myworkspace/td/lynxi'
-
-    environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
-    environ_key_enable_trace = 'LYNXI_ENABLE_TRACE'
-
-    def_time_month_lis = [
-        (u'一月', 'January'),
-        (u'二月', 'February'),
-        (u'三月', 'March'),
-        (u'四月', 'April'),
-        (u'五月', 'May'),
-        (u'六月', 'June'),
-        (u'七月', 'July'),
-        (u'八月', 'August'),
-        (u'九月', 'September'),
-        (u'十月', 'October'),
-        (u'十一月', 'November'),
-        (u'十二月', 'December')
-    ]
-    def_time_day_lis = [
-        (u'一日', '1st'),
-        (u'二日', '2nd'),
-        (u'三日', '3rd'),
-        (u'四日', '4th'),
-        (u'五日', '5th'),
-        (u'六日', '6th'),
-        (u'七日', '7th'),
-        (u'八日', '8th'),
-        (u'九日', '9th'),
-        (u'十日', '10th'),
-    ]
-    def_time_week_lis = [
-        (u'周一', 'Monday'),
-        (u'周二', 'Tuesday'),
-        (u'周三', 'Wednesday'),
-        (u'周四', 'Thursday'),
-        (u'周五', 'Friday'),
-        (u'周六', 'Saturday'),
-        (u'周天', 'Sunday'),
-    ]
-
-    STR_time_tag_format = '%Y_%m%d_%H%M_%S'
-    STR_time_prettify_format = '%Y-%m-%d %H:%M:%S'
-    def_time_tag_search_string = '[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9]'
-
-    STR_key_source = 'source'
-    STR_key_username = 'username'
-    STR_key_hostname = 'hostname'
-    STR_key_host = 'host'
-    STR_key_timestamp = 'timestamp'
-    STR_key_stage = 'stage'
-    STR_key_description = 'description'
-    STR_key_note = 'note'
 
     @classmethod
     def _getSystemUsername(cls):
@@ -176,7 +117,7 @@ class Basic(object):
         return cls._timestampToDatetag(cls._getSystemActiveTimestamp())
 
     @classmethod
-    def _timestampToTimetag(cls, timestamp):
+    def _timestamp2timetag(cls, timestamp):
         return cls.MOD_time.strftime(
             cls.STR_time_tag_format,
             cls.MOD_time.localtime(timestamp)
@@ -184,7 +125,7 @@ class Basic(object):
 
     @classmethod
     def _getActiveTimetag(cls):
-        return cls._timestampToTimetag(cls._getSystemActiveTimestamp())
+        return cls._timestamp2timetag(cls._getSystemActiveTimestamp())
 
     @classmethod
     def _timestampToPrettify(cls, timestamp):
@@ -198,7 +139,7 @@ class Basic(object):
         return cls._timestampToPrettify(cls._getSystemActiveTimestamp())
 
     @classmethod
-    def toStringList(cls, string, includes=None):
+    def string2list(cls, string, includes=None):
         lis = []
         if isinstance(string, str) or isinstance(string, unicode):
             if includes:
@@ -217,7 +158,7 @@ class Basic(object):
     
     @classmethod
     def _isDevelop(cls):
-        return [False, True][cls._getOsEnvironRawWithKey(cls.environ_key_enable_develop, 'FALSE').lower() == 'true']
+        return [False, True][cls._getOsEnvironRawWithKey(cls.STR_key_environ_enable_develop, 'FALSE').lower() == 'true']
 
     @classmethod
     def _isTraceEnable(cls):
@@ -230,7 +171,7 @@ class Basic(object):
     @classmethod
     def _getOsEnvironRawAsPath(cls, key, failobj=None):
         if key in cls.MOD_os.environ:
-            return cls._getOsEnvironRawWithKey(key).replace('\\', '/')
+            return cls._getOsEnvironRawWithKey(key).replace('\\', cls.STR_separator_os)
         elif failobj is not None:
             return failobj
         return ''
@@ -243,13 +184,29 @@ class Basic(object):
             return failobj
         return []
 
-    @staticmethod
-    def _osPathToPythonStyle(pathString):
-        return pathString.replace('\\', '/')
+    @classmethod
+    def _osPathToPythonStyle(cls, pathString):
+        return pathString.replace('\\', cls.STR_separator_os)
+
+    @classmethod
+    def _isOsDirectory(cls, pathString):
+        return cls.MTD_os_path.isdir(pathString)
+
+    @classmethod
+    def _isOsFile(cls, pathString):
+        return cls.MTD_os_path.isfile(pathString)
 
     @classmethod
     def _isOsSameFile(cls, sourceFileString, targetFileString):
         return cls.MTD_os_path.normpath(sourceFileString) == cls.MTD_os_path.normpath(targetFileString)
+
+    @classmethod
+    def _getOsFileBase(cls, fileString):
+        return cls.MTD_os_path.splitext(fileString)[0]
+    
+    @classmethod
+    def _getOsFileName(cls, fileString):
+        return cls.MTD_os_path.splitext(cls.MTD_os_path.basename(fileString))[0]
     
     @classmethod
     def _getOsFileDirname(cls, fileString):
@@ -264,10 +221,10 @@ class Basic(object):
         return cls.MTD_os_path.splitext(fileString)[1]
     
     @classmethod
-    def _toOsFileStringReplaceFileName(cls, fileString, newFileName):
+    def _toOsFileStringReplaceFileName(cls, fileString, newFileBasenameString):
         osPath = cls._getOsFileDirname(fileString)
         osExt = cls._getOsFileExt(fileString)
-        newFileString = u'{0}/{1}{2}'.format(osPath, newFileName, osExt)
+        newFileString = u'{0}/{1}{2}'.format(osPath, newFileBasenameString, osExt)
         return newFileString
 
     @classmethod
@@ -285,17 +242,17 @@ class Basic(object):
     @classmethod
     def _setOsPathOpen(cls, pathString):
         if cls._isOsPathExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace('/', cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _setOsFileOpen(cls, pathString):
         if cls._isOsFileExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace('/', cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _setOsDirectoryOpen(cls, pathString):
-        if cls._isOsFileExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace('/', cls.MOD_os.sep))
+        if cls._isOsPathExist(pathString) is True:
+            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _getOsFileMtimestamp(cls, fileString):
@@ -321,7 +278,7 @@ class Basic(object):
         return False
 
     @classmethod
-    def _textToHash(cls, text):
+    def _stringToHash(cls, text):
         md5Obj = cls.MOD_hashlib.md5()
         md5Obj.update(text)
         return str(md5Obj.hexdigest()).upper()
@@ -330,11 +287,10 @@ class Basic(object):
     def _getOsFileHash(cls, fileString):
         if cls._isOsFileExist(fileString):
             with open(fileString, 'rb') as f:
-                md5Obj = cls.MOD_hashlib.md5()
-                md5Obj.update(f.read())
-
+                raw = f.read()
                 f.close()
-                return cls._textToHash(f.read())
+                if raw:
+                    return cls._stringToHash(raw)
         return u'D41D8CD98F00B204E9800998ECF8427E'
 
     @classmethod
@@ -361,9 +317,9 @@ class Basic(object):
         return False
 
     @classmethod
-    def _setOsFileRename(cls, fileString, newFileName):
+    def _setOsFileRename(cls, fileString, newFileBasenameString):
         if cls._isOsFileExist(fileString):
-            newFileString = cls._toOsFileStringReplaceFileName(fileString, newFileName)
+            newFileString = cls._toOsFileStringReplaceFileName(fileString, newFileBasenameString)
             if cls._isOsSameFile(fileString, newFileString) is False:
                 os.rename(fileString, newFileString)
             
@@ -417,8 +373,8 @@ class Basic(object):
         return fullpathName[len(rootString) + 1:]
     
     @classmethod
-    def _toOsFilename(cls, osPath, osFileBasename):
-        return cls.MTD_os_path.join(osPath, osFileBasename).replace('\\', '/')
+    def _toOsFilename(cls, directoryString, basenameString):
+        return cls.MTD_os_path.join(directoryString, basenameString).replace('\\', cls.STR_separator_os)
 
     @classmethod
     def _getPathnameListByOsDirectory(cls, rootString, extString, isFile, isFullpath, isAll):
@@ -455,7 +411,7 @@ class Basic(object):
         lis = []
 
         if extString is not None:
-            filterExtStringLis = cls.toStringList(extString)
+            filterExtStringLis = cls.string2list(extString)
         else:
             filterExtStringLis = None
 
@@ -469,7 +425,7 @@ class Basic(object):
         if timetag is None:
             timetag = cls._getActiveTimetag()
 
-        temporaryDirectory = u'D:/.lynxi.temporary/{}'.format(timetag)
+        temporaryDirectory = u'{}/{}'.format(cls.STR_path_temporary_local, timetag)
 
         temporaryFileString = cls._toOsFilename(temporaryDirectory, cls._getOsFileBasename(fileString))
         cls._setOsDirectoryCreate(temporaryDirectory)
@@ -481,7 +437,7 @@ class Basic(object):
             timetag = cls._getActiveTimetag()
 
         if useMode == 0:
-            return (u'.{}'.format(timetag)).join(os.path.splitext(fileString))
+            return (u'.{}'.format(timetag)).join(cls.MTD_os_path.splitext(fileString))
         elif useMode == 1:
             return u'{}/{}/{}'.format(cls._getOsFileDirname(fileString), timetag, cls._getOsFileBasename(fileString))
         return fileString
@@ -493,11 +449,11 @@ class Basic(object):
 
     @classmethod
     def _getOsFileMtimetag(cls, fileString):
-        return cls._timestampToTimetag(cls._getOsFileMtimestamp(fileString))
+        return cls._timestamp2timetag(cls._getOsFileMtimestamp(fileString))
 
     @classmethod
     def _toOsFileInfoJsonFileString(cls, fileString):
-        base = cls.MTD_os_path.splitext(fileString)[0]
+        base = cls._getOsFileBase(fileString)
         return base + u'.info.json'
 
     @classmethod
@@ -512,16 +468,16 @@ class Basic(object):
 
     @classmethod
     def _toOsFileResultFileString(cls, fileString):
-        base = cls.MTD_os_path.splitext(fileString)[0]
+        base = cls._getOsFileBase(fileString)
         return base + u'.result.log'
 
     @classmethod
     def _getDevelopRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.environ_key_path_develop, cls.path_default_develop)
+        return cls._getOsEnvironRawAsPath(cls.STR_key_environ_path_develop, cls.path_default_develop)
 
     @classmethod
     def _getProductRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.environ_key_path_product, cls.path_default_product)
+        return cls._getOsEnvironRawAsPath(cls.STR_key_environ_path_product, cls.path_default_product)
 
     @classmethod
     def _getPresetRoot(cls):
@@ -538,12 +494,26 @@ class Basic(object):
         return cls._getProductRoot()
 
     @classmethod
-    def _toPathString(cls, strings, separator):
-        if isinstance(strings, (str, unicode)):
-            strings = cls.toStringList(strings)
+    def _toPathString(cls, separator, *args):
+        if isinstance(args[0], (list, tuple)):
+            pathStringLis = args[0]
+        else:
+            pathStringLis = list(args)
 
-        string = separator.join(strings)
+        string = ''
+        index = 0
+        for i in pathStringLis:
+            if i not in ['', None]:
+                if index is 0:
+                    string = i
+                else:
+                    string += u'{}{}'.format(separator, i)
+                index += 1
         return string
+
+    @classmethod
+    def _toOsPathString(cls, *args):
+        return cls._toPathString(cls.STR_separator_os, *args).replace('\\', cls.STR_separator_os)
 
     @classmethod
     def _setLoadPythonModule(cls, moduleName):
@@ -553,7 +523,7 @@ class Basic(object):
 
     @classmethod
     def _toHtmlLogFileString(cls, fileString):
-        base = cls.MTD_os_path.splitext(fileString)[0]
+        base = cls._getOsFileBase(fileString)
         return u'{}.log.html'.format(base)
 
     @classmethod
@@ -601,11 +571,11 @@ class Basic(object):
         if fileString:
             directoryName = cls._getOsFileDirname(fileString)
             if cls._isOsDirectoryExist(directoryName):
-                backupFilename = cls._toOsFileJoinTimetag(fileString, cls.def_time_tag_search_string)
-                stringLis = glob.glob(backupFilename)
+                backupName = cls._toOsFileJoinTimetag(fileString, cls.def_time_tag_search_string)
+                stringLis = glob.glob(backupName)
                 if stringLis:
                     for i in stringLis:
-                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', '/')
+                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', cls.STR_separator_os)
         return dic
 
     @classmethod
@@ -631,7 +601,7 @@ class Basic(object):
                 if timetuple_[:2] == timetuple[:2]:
                     if monday_ == monday:
                         dateString = ''
-                        weekString = u'{0}'.format(cls.def_time_week_lis[int(week)][0])
+                        weekString = u'{0}'.format(cls.LIS_time_week[int(week)][0])
                         if date_ == date:
                             subString = u'（今天）'
                         elif date_ == date + 1:
@@ -672,13 +642,25 @@ class Basic(object):
         )
 
     @classmethod
+    def _databaseLogFile(cls):
+        return u'{}/{}.database.log'.format(
+            cls._logDirectory(), cls._getActiveDatetag()
+        )
+
+    @classmethod
     def _basicUniqueId(cls):
         return '4908BDB4-911F-3DCE-904E-96E4792E75F1'
 
     @classmethod
-    def _stringToUniqueId(cls, string):
-        basicUuid = cls._basicUniqueId()
-        return str(cls.MOD_uuid.uuid3(cls.MOD_uuid.UUID(basicUuid), str(string))).upper()
+    def _getUniqueId(cls):
+        return str(cls.MOD_uuid.uuid1()).upper()
+
+    @classmethod
+    def _stringToUniqueId(cls, string=None):
+        if string is not None:
+            basicUuid = cls._basicUniqueId()
+            return str(cls.MOD_uuid.uuid3(cls.MOD_uuid.UUID(basicUuid), str(string))).upper()
+        return cls._getUniqueId()
 
     @classmethod
     def _stringsToUniqueId(cls, *args):
@@ -688,17 +670,26 @@ class Basic(object):
         if len(args) > 1:
             strings = list(args)
         else:
-            strings = cls.toStringList(args[0])
+            strings = cls.string2list(args[0])
         #
         subCode = toOrderCodeString_(strings)
         return cls._stringToUniqueId(subCode)
 
     @classmethod
-    def _getUuid(cls):
-        return str(cls.MOD_uuid.uuid1()).upper()
+    def _setOsJsonWrite(cls, fileString, raw, indent=4, ensure_ascii=True):
+        temporaryName = cls._getOsFileTemporaryName(fileString)
+        with open(temporaryName, u'w') as j:
+            cls.MOD_json.dump(
+                raw,
+                j,
+                indent=indent,
+                ensure_ascii=ensure_ascii
+            )
+
+        cls._setOsFileCopy(temporaryName, fileString)
 
 
-class PathBasic(Basic):
+class BscMtdPathBasic(BscMtdBasic):
     @classmethod
     def _toTreeViewPathLis(cls, pathString, pathsep):
         def addItem(item):
@@ -719,7 +710,7 @@ class PathBasic(Basic):
                 addItem(subPathString)
         #
         lis = []
-        pathStringLis = cls.toStringList(pathString)
+        pathStringLis = cls.string2list(pathString)
         for i in pathStringLis:
             # Debug add root
             if not i.startswith(pathsep):
@@ -746,7 +737,7 @@ class PathBasic(Basic):
         #
         def getMain():
             # Get Dict
-            pathStringLis = cls.toStringList(pathString)
+            pathStringLis = cls.string2list(pathString)
             if pathStringLis:
                 for i in pathStringLis:
                     nodeArray = i.split(pathsep)
@@ -793,25 +784,25 @@ class PathBasic(Basic):
         return dic_
 
     @classmethod
-    def _getNamespace(cls, pathString, nodeSep, namespaceSep):
+    def _getNamespaceByPathString(cls, pathString, nodeSep, namespaceSep):
         if namespaceSep in pathString:
             return namespaceSep.join(pathString.split(nodeSep)[-1].split(namespaceSep)[:-1])
         return ''
 
     @classmethod
-    def _getName(cls, pathString, nodeSep, namespaceSep):
+    def _getNameByPathString(cls, pathString, nodeSep, namespaceSep):
         return pathString.split(nodeSep)[-1].split(namespaceSep)[-1]
 
     @classmethod
-    def _getNameWithNamespace(cls, pathString, nodeSep):
+    def _getNameWithNamespaceByPathString(cls, pathString, nodeSep):
         return pathString.split(nodeSep)[-1]
 
     @classmethod
-    def _getAttributeName(cls, attrString, attributeSep):
+    def _getAttributeNameByPathString(cls, attrString, attributeSep):
         return attributeSep.join(attrString.split(attributeSep)[1:])
 
 
-class FileBasic(Basic):
+class BscMtdFileBasic(BscMtdBasic):
     @classmethod
     def isExist(cls, fileString):
         return cls._isOsFileExist(fileString)
@@ -819,6 +810,26 @@ class FileBasic(Basic):
     @classmethod
     def createDirectory(cls, fileString):
         cls._setOsFileDirectoryCreate(fileString)
+        
+    @classmethod
+    def name(cls, fileString):
+        return cls._getOsFileName(fileString)
+        
+    @classmethod
+    def dirname(cls, fileString):
+        return cls._getOsFileDirname(fileString)
+
+    @classmethod
+    def basename(cls, fileString):
+        return cls._getOsFileBasename(fileString)
+    
+    @classmethod
+    def base(cls, fileString):
+        return cls._getOsFileBase(fileString)
+    
+    @classmethod
+    def ext(cls, fileString):
+        return cls.MTD_os_path.splitext(fileString)[1]
 
     @classmethod
     def isSame(cls, fileString, targetFileString):
@@ -835,12 +846,22 @@ class FileBasic(Basic):
             cls._setOsFileBackup(fileString, backupFileString, timetag)
 
     @classmethod
-    def renameTo(cls, fileString, newFileName):
-        cls._setOsFileRename(fileString, newFileName)
+    def renameDirnameTo(cls, fileString, newDirnameString):
+        basenameString = cls.basename(fileString)
+        targetTexture = cls._toOsFilename(newDirnameString, basenameString)
+        return targetTexture
 
     @classmethod
-    def renameTo_(cls, fileString, newFileString):
+    def renameBasenameTo(cls, fileString, newBasenameString):
+        cls._setOsFileRename(fileString, newBasenameString)
+
+    @classmethod
+    def renameTo(cls, fileString, newFileString):
         cls._setOsFileRename_(fileString, newFileString)
+        
+    @classmethod
+    def renameExtTo(cls, fileString, extString):
+        return cls.base(fileString) + extString
 
     @classmethod
     def remove(cls, fileString):
@@ -895,25 +916,31 @@ class FileBasic(Basic):
         return cls._timestampToChnPrettify(cls._getOsFileMtimestamp(fileString), useMode)
 
     @classmethod
-    def temporaryFilename(cls, fileString, timetag=None):
+    def temporaryName(cls, fileString, timetag=None):
         return cls._getOsFileTemporaryName(fileString, timetag)
 
     @classmethod
-    def backupFilename(cls, fileString, timetag=None, useMode=0):
+    def temporaryVedioName(cls, fileString):
+        tempDirectory = u'{}/vedio'.format(cls.STR_path_temporary_local)
+        basenameString = cls._getOsFileBasename(fileString)
+        return cls._toOsFilename(tempDirectory, basenameString)
+
+    @classmethod
+    def backupName(cls, fileString, timetag=None, useMode=0):
         return cls._toOsFileJoinTimetag(fileString, timetag, useMode)
 
     @classmethod
-    def uniqueFilename(cls, fileString):
-        osPath = cls._getOsFileDirname(fileString)
+    def uniqueName(cls, fileString):
+        directoryString = cls._getOsFileDirname(fileString)
         uniqueId = cls._stringToUniqueId(cls._getOsFileBasename(fileString))
-        return cls._toOsFilename(osPath, uniqueId)
+        return cls._toOsFilename(directoryString, uniqueId)
 
     @classmethod
-    def infoJsonFilename(cls, fileString):
+    def infoJsonName(cls, fileString):
         return cls._toOsFileInfoJsonFileString(fileString)
 
     @classmethod
-    def resultFilename(cls, fileString):
+    def resultName(cls, fileString):
         return cls._toOsFileResultFileString(fileString)
 
     @classmethod
@@ -944,6 +971,124 @@ class FileBasic(Basic):
     def size(cls, fileString):
         return cls._getOsFileSize(fileString)
 
+    @classmethod
+    def seqLabel(cls, seq):
+        return ['', '_' + str(seq).zfill(4)][seq > 0]
+
+    @classmethod
+    def subFilename(cls, fileString, labelString):
+        return labelString.join(cls.MTD_os_path.splitext(fileString))
+
+    @classmethod
+    def reduceFilename(cls, fileString):
+        pathsep = cls.STR_separator_os
+        return re.sub('{0}|{1}'.format(pathsep * 2, pathsep * 3), pathsep, fileString)
+    
+    @classmethod
+    def toExtSplit(cls, fileString):
+        return cls.MTD_os_path.splitext(fileString)
+
+    @classmethod
+    def raw2hash(cls, fileString):
+        cls._getOsFileHash(fileString)
+
+    @classmethod
+    def collectionDatum(cls, fileString, targetDirectoryString, ignoreMtimeChanged=False, ignoreExists=False):
+        def getBranch(sourceFileString):
+            targetFileString = cls.renameDirnameTo(sourceFileString, targetDirectoryString)
+            #
+            enable = False
+            if cls.isExist(targetFileString):
+                if ignoreExists is True:
+                    enable = False
+                else:
+                    if ignoreMtimeChanged is True:
+                        enable = True
+                    else:
+                        isMtimeChanged = cls._isOsFileTimeChanged(sourceFileString, targetFileString)
+                        if isMtimeChanged:
+                            enable = True
+            else:
+                enable = True
+            #
+            if enable is True:
+                lis.append((sourceFileString, targetFileString))
+        #
+        lis = []
+        #
+        osFileLis = cls.string2list(fileString)
+        if osFileLis:
+            [getBranch(i) for i in osFileLis]
+        return lis
+    
+    @classmethod
+    def composeBy(cls, directoryString, basenameString):
+        return cls._toOsFilename(directoryString, basenameString)
+
+    @classmethod
+    def _getOsFileInfoDic(cls, osSourceFile, description=None, note=None):
+        return orderedDict(
+            [
+                (cls.STR_key_info_time, cls._getSystemActiveTimestamp()),
+                (cls.STR_key_info_username, cls._getSystemUsername()),
+                #
+                (cls.STR_key_info_host, cls._getSystemHost()),
+                (cls.STR_key_info_hostname, cls._getSystemHostname()),
+                #
+                (cls.STR_key_info_sourcefile, osSourceFile),
+                #
+                (cls.STR_key_info_description, description),
+                (cls.STR_key_info_note, note)
+            ]
+        )
+
+    @classmethod
+    def _getOsFileBackupDatum(cls, fileString):
+        hashKey = cls._getOsFileHash(fileString)
+        dirname, filename, ext = cls._getOsFileDirname(fileString), cls._getOsFileName(fileString), cls._getOsFileExt(fileString)
+        #
+        targetFileString = cls.STR_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + ext, hashKey])
+        osVersionFile = cls.STR_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + cls.LynxiOsExt_Version])
+        return targetFileString, osVersionFile
+
+    @classmethod
+    def _setOsFileBackupTo(cls, sourceFileString, targetFileString):
+        cls._setOsFileCopy(sourceFileString, targetFileString)
+        #
+        info = cls._getOsFileInfoDic(sourceFileString)
+        infoFile = cls._toOsFileInfoJsonFileString(targetFileString)
+        cls._setOsJsonWrite(infoFile, info)
+    
+    @classmethod
+    def backup(cls, fileString):
+        if cls._isOsFileExist(fileString):
+            targetFileString, osVersionFile = cls._getOsFileBackupDatum(fileString)
+            if not cls._isOsFileExist(targetFileString):
+                cls._setOsFileBackupTo(fileString, targetFileString)
+            #
+            cls._setOsJsonWrite(
+                osVersionFile,
+                {
+                    cls._getSystemActiveTimestamp(): cls._getOsFileBasename(targetFileString)
+                }
+            )
+
+
+class ApplicationBasic(BscMtdBasic):
+    STR_name_application = None
+    @classmethod
+    def isActive(cls):
+        return cls._isActiveApplication(cls.STR_name_application)
+
+    @classmethod
+    def _isActiveApplication(cls, applicationString):
+        data = cls.MTD_os_path.basename(cls.MOD_sys.argv[0])
+        if data.lower() == '{}.exe'.format(applicationString):
+            return True
+        elif data.lower() == applicationString:
+            return True
+        return False
+
 
 class _EnvironString(str):
     def __init__(self, value):
@@ -954,25 +1099,25 @@ class _EnvironString(str):
 
     def _add(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(Basic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Basic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(BscMtdBasic.MOD_os.pathsep)]
             if value.lower() not in lowerLis:
                 lis.append(value)
-                self._value = Basic.MOD_os.pathsep.join(lis)
+                self._value = BscMtdBasic.MOD_os.pathsep.join(lis)
         else:
             self._value = value
 
     def _sub(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(Basic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Basic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(BscMtdBasic.MOD_os.pathsep)]
             if value.lower() in lowerLis:
                 i = lowerLis.index(value.lower())
                 lis.remove(lis[i])
-                self._value = Basic.MOD_os.pathsep.join(lis)
+                self._value = BscMtdBasic.MOD_os.pathsep.join(lis)
 
     def _update(self):
-        Basic.MOD_os.environ[self._key] = self._value
+        BscMtdBasic.MOD_os.environ[self._key] = self._value
 
         str_ = _EnvironString(self._value)
         str_.key = self._key
@@ -997,7 +1142,7 @@ class _EnvironString(str):
     def key(self, key):
         self._key = key
 
-        Basic.MOD_os.environ[self._key] = self._value
+        BscMtdBasic.MOD_os.environ[self._key] = self._value
 
     def __iadd__(self, value):
         if isinstance(value, list) or isinstance(value, tuple):
@@ -1023,12 +1168,12 @@ class _EnvironString(str):
 
     def __str__(self):
         # copy list
-        lis = [i.replace('\\', '/') for i in self._value.split(Basic.MOD_os.pathsep)]
+        lis = [i.replace('\\', '/') for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
         lis.sort()
         return '\r\n'.join(lis)
 
 
-class Environ(Basic):
+class Environ(BscMtdBasic):
     def __getattr__(self, key):
         self._get(key)
 
@@ -1062,7 +1207,7 @@ class Environ(Basic):
         return False
 
 
-class SystemPath(Basic):
+class SystemPath(BscMtdBasic):
     def __init__(self):
         pass
     @classmethod
@@ -1103,3 +1248,7 @@ class SystemPath(Basic):
         lis = [i.replace('\\', '/') for i in self.MOD_sys.path]
         lis.sort()
         return '\r\n'.join(lis)
+
+
+def orderedDict(*args):
+    return collections.OrderedDict(*args)

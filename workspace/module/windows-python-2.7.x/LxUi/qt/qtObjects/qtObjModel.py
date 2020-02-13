@@ -3,7 +3,7 @@ import types
 #
 import math
 #
-from LxBasic import bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxUi.qt import qtAbstract, qtAction, qtCore
 
@@ -764,7 +764,7 @@ class _QtPressbuttonModel(QtAbcObj_ItemModel):
                 if percent == 1:
                     r, g, b = 64, 255, 127
                 else:
-                    r, g, b = self.mtd_raw_color.hsv2rgb(45 * percent, 1, 1)
+                    r, g, b = bscMethods.Color.hsv2rgb(45 * percent, 1, 1)
                 #
                 self.widget()._uiPercentValueRgba = [(r * .5, g * .5, b * .5, 255), (r * .75, g * .75, b * .75, 255)][self.isPressHovered()]
         else:
@@ -812,10 +812,11 @@ class _QtPressbuttonModel(QtAbcObj_ItemModel):
                 self.widget()._uiBorderStyle = 'inset'
             #
             self.widget()._uiFontItalic = False
-    # noinspection PyUnresolvedReferences
+
     def acceptPressCommand(self):
         if self._pressCommand is not None:
-            if bscCommands.isMayaApp():
+            if bscMethods.MayaApp.isActive():
+                # noinspection PyUnresolvedReferences
                 import maya.mel as mel
                 mel.eval(self._pressCommand)
             else:
@@ -1221,7 +1222,7 @@ class QtAbcObj_ViewModel(
         width, height = self.width(), self.height()
         # Placeholder
         if self.isPlaceholderEnable():
-            x, y, w, h = self.ui_method._toGeometryRemap(self.placeholderSize(), self.size())
+            x, y, w, h = bscMethods.Size2d.mapToRect(self.placeholderSize(), self.size())
             self.placeholderRect().setRect(
                 x, y, w, h
             )
@@ -3245,7 +3246,7 @@ class _QtWindowModel(qtAbstract.QtAbc_WindowModel):
             )
         # Placeholder
         if self.isPlaceholderEnable():
-            x, y, w, h = self.ui_method._toGeometryRemap(self.placeholderSize(), self.size())
+            x, y, w, h = bscMethods.Size2d.mapToRect(self.placeholderSize(), self.size())
             self.placeholderRect().setRect(
                 x, y, w, h
             )

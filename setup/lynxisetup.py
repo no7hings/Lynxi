@@ -11,10 +11,10 @@ import time
 
 
 class Basic(object):
-    environ_key_path_develop = 'LYNXI_PATH_DEVELOP'
+    STR_key_environ_path_develop = 'LYNXI_PATH_DEVELOP'
     path_default_develop = 'e:/myworkspace/td/lynxi'
 
-    environ_key_path_product = 'LYNXI_PATH_PRODUCT'
+    STR_key_environ_path_product = 'LYNXI_PATH_PRODUCT'
     path_default_product = 'e:/myworkspace/td/lynxi'
 
     environ_key_path_local = 'LYNXI_PATH_LOCAL'
@@ -27,14 +27,14 @@ class Basic(object):
     environ_key_file_scheme = 'LYNXI_FILE_SCHEME'
     environ_key_config_file_scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
-    environ_key_enable_develop = 'LYNXI_ENABLE_DEVELOP'
+    STR_key_environ_enable_develop = 'LYNXI_ENABLE_DEVELOP'
     environ_key_enable_trace = 'LYNXI_ENABLE_TRACE'
 
     enable_default_develop = 'FALSE'
 
     @classmethod
     def _isDevelop(cls):
-        return [False, True][os.environ.get(cls.environ_key_enable_develop, cls.enable_default_develop).lower() == 'true']
+        return [False, True][os.environ.get(cls.STR_key_environ_enable_develop, cls.enable_default_develop).lower() == 'true']
 
     @classmethod
     def isTraceEnable(cls):
@@ -64,13 +64,13 @@ class Method(object):
         return 'python', platform.python_version()
 
     @staticmethod
-    def getOsActiveViewTime():
+    def _getOsActiveViewTime():
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
     @classmethod
     def traceMessage(cls, text):
         if Basic.isTraceEnable():
-            print u'@lynxi <{}>'.format(cls.getOsActiveViewTime())
+            print u'@lynxi <{}>'.format(cls._getOsActiveViewTime())
             print u'    {}'.format(text)
 
     @classmethod
@@ -160,14 +160,14 @@ class Root(Basic):
     @property
     def develop(self):
         return os.environ.get(
-            self.environ_key_path_develop,
+            self.STR_key_environ_path_develop,
             self.path_default_develop
         ).replace('\\', '/')
 
     @property
     def product(self):
         return os.environ.get(
-            self.environ_key_path_product,
+            self.STR_key_environ_path_product,
             self.path_default_product
         ).replace('\\', '/')
 

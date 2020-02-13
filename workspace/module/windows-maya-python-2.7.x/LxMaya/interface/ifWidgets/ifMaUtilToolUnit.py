@@ -1,7 +1,7 @@
 # coding=utf-8
 from itertools import product
 #
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -944,7 +944,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         'placeholder': [0, 8, 0, 1, 4, u'Placeholder']
     }
     #
-    dic_config = bscCommands.orderedDict()
+    dic_config = bscCore.orderedDict()
     dic_config['collection'] = [0, 0, 0, 1, 1, u'Collection']
     dic_config['ignoreExists'] = [0, 1, 0, 1, 1, u'Ignore Exists']
     dic_config['ignoreMtimeChanged'] = [0, 1, 1, 1, 1, u'Ignore Time Changed']
@@ -955,7 +955,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     dic_config['isExistsOnly'] = [0, 4, 0, 1, 1, u'Exists Only']
     dic_config['placeholder'] = [0, 5, 0, 1, 4, u'Placeholder']
     #
-    dicTool = bscCommands.orderedDict()
+    dicTool = bscCore.orderedDict()
     dicTool['ignoreStructure'] = [w, 0, 0, 1, 4, 'Ignore Structure']
     # 1
     dicTool['sourceDirectory'] = [w, 2, 0, 1, 4, 'Source']
@@ -1252,12 +1252,12 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 lis = self.fileLinkDic[osFolder]
             return lis
         #
-        def getTargetFile(sourceOsFile):
+        def getTargetFile(sourceFileString):
             if self.ignoreStructureButton.isChecked():
-                targetOsFile = bscCommands.toOsFile(targetDirectory, bscCommands.getOsFileBasename(sourceOsFile))
+                targetFileString = bscMethods.OsPath.composeBy(targetDirectory, bscMethods.OsFile.basename(sourceFileString))
             else:
-                targetOsFile = targetDirectory + sourceOsFile[len(sourceDirectory):]
-            return targetOsFile
+                targetFileString = targetDirectory + sourceFileString[len(sourceDirectory):]
+            return targetFileString
         #
         self.sourceArray = []
         self.existsSourceArray = []
@@ -1295,7 +1295,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     fileDataArray.extend(subFileDataArray)
         # Step 02
         if fileDataArray:
-            for fileType, osFile, nodes in fileDataArray:
+            for fileType, fileString_, nodes in fileDataArray:
                 osFileCollectionDataLis = []
                 iconKeyword0 = 'svg_basic@svg#file'
                 #
@@ -1305,22 +1305,22 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 checkState = none
                 checkToolTip = none
                 #
-                fileName = bscCommands.getOsFileBasename(osFile)
+                fileName = bscMethods.OsFile.basename(fileString_)
                 nodeCount = len(nodes)
                 fileItem = qtWidgets_.QTreeWidgetItem_()
                 subTreeBox.addItem(fileItem)
                 #
-                fileItem.path = osFile
+                fileItem.path = fileString_
                 fileItem.type = fileType
                 fileItem.name = fileName
                 fileItem.nodes = nodes
                 #
-                sourceFile = osFile
+                sourceFile = fileString_
                 targetFile = getTargetFile(sourceFile)
                 #
                 osFileCollectionDataLis.append((sourceFile, targetFile))
                 #
-                existsSourceFiles = bscCommands.getOsMultFileLis(sourceFile)
+                existsSourceFiles = bscMethods.OsMultifile.existFiles(sourceFile)
                 existsSourceCount = len(existsSourceFiles)
                 #
                 self.sourceArray.append(sourceFile)
@@ -1334,79 +1334,60 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     checkToolTip = 'Source is Non - Exists'
                 #
                 elif existsSourceCount > 0:
-                    # Single File
-                    if existsSourceCount == 1:
-                        textureCount = 1
-                        # Target Exists Check
-                        targetExists = bscCommands.isOsExistsFile(targetFile)
-                        if targetExists:
-                            isChanged = bscMethods.OsFile.isFileTimeChanged(sourceFile, targetFile)
-                            if isChanged:
-                                checkState = 'warning'
-                                checkToolTip = 'Target is Time Changed'
-                            else:
-                                checkState = 'on'
-                                #
-                                self.existsTargetArray.append(targetFile)
-                        else:
-                            checkState = 'error'
-                            checkToolTip = 'Target is Non - Exists'
-                    # Mult File
-                    elif existsSourceCount > 1:
-                        subTargetExistsFiles = []
-                        sourceFile = existsSourceFiles[0]
-                        targetFile = getTargetFile(sourceFile)
+                    subTargetExistsFiles = []
+                    sourceFile = existsSourceFiles[0]
+                    targetFile = getTargetFile(sourceFile)
+                    #
+                    subSourceFiles = existsSourceFiles
+                    textureCount = len(subSourceFiles)
+                    # Sub File
+                    subCheckToolTip = none
+                    for subSourceFile in subSourceFiles:
+                        iconKeyword0 = 'svg_basic@svg#files'
                         #
-                        subSourceFiles = existsSourceFiles[1:]
-                        textureCount = len(subSourceFiles)
-                        # Sub File
-                        subCheckToolTip = none
-                        for subSourceFile in subSourceFiles:
-                            iconKeyword0 = 'svg_basic@svg#files'
-                            #
-                            subIconKeyword = 'svg_basic@svg#file'
-                            #
-                            subFileItem = qtWidgets_.QTreeWidgetItem_()
-                            fileItem.addChild(subFileItem)
-                            #
-                            subTargetFile = getTargetFile(subSourceFile)
-                            #
-                            subTargetExists = bscCommands.isOsExistsFile(subTargetFile)
-                            if subTargetExists:
-                                isSubChanged = bscMethods.OsFile.isFileTimeChanged(subSourceFile, subTargetFile)
-                                if isSubChanged:
-                                    subCheckStateLabel = 'warning'
-                                    subCheckToolTip = 'Target is Time Changed'
-                                else:
-                                    subCheckStateLabel = 'on'
-                                    subTargetExistsFiles.append(subTargetFile)
-                            else:
-                                subCheckStateLabel = 'error'
-                                subCheckToolTip = 'Target is Non - Exists'
-                            #
-                            subFileName = bscCommands.getOsFileBasename(subSourceFile)
-                            subFileItem.setItemIcon_(0, subIconKeyword, stateLabel)
-                            subFileItem.setText(0, subFileName)
-                            #
-                            subFileItem.setItemIcon_(1, iconKeyword1, subCheckStateLabel)
-                            subFileItem.setText(1, bscMethods.StrCamelcase.toPrettify(fileType))
-                            #
-                            subFileItem.setToolTip(1, subCheckToolTip)
-                            #
-                            subFileItem.path = subSourceFile
-                            subFileItem.name = subFileName
-                            #
-                            osFileCollectionDataLis.append((subSourceFile, subTargetFile))
+                        subIconKeyword = 'svg_basic@svg#file'
                         #
-                        subTargetExistsCheck = len(subTargetExistsFiles) == len(subSourceFiles)
-                        if subTargetExistsCheck:
-                            checkState = 'on'
-                            self.existsTargetArray.append(targetFile)
+                        subFileItem = qtWidgets_.QTreeWidgetItem_()
+                        fileItem.addChild(subFileItem)
+                        #
+                        subTargetFile = getTargetFile(subSourceFile)
+                        #
+                        subTargetExists = bscMethods.OsFile.isExist(subTargetFile)
+                        if subTargetExists:
+                            isSubChanged = bscMethods.OsFile.isFileTimeChanged(subSourceFile, subTargetFile)
+                            if isSubChanged:
+                                subCheckStateLabel = 'warning'
+                                subCheckToolTip = 'Target is Time Changed'
+                            else:
+                                subCheckStateLabel = 'on'
+                                subTargetExistsFiles.append(subTargetFile)
                         else:
-                            checkState = 'error'
-                            checkToolTip = 'Sub Target is Non - Exists / Time Changed'
-                            #
-                            fileItem.setExpanded(True)
+                            subCheckStateLabel = 'error'
+                            subCheckToolTip = 'Target is Non - Exists'
+                        #
+                        subFileName = bscMethods.OsFile.basename(subSourceFile)
+                        subFileItem.setItemIcon_(0, subIconKeyword, stateLabel)
+                        subFileItem.setText(0, subFileName)
+                        #
+                        subFileItem.setItemIcon_(1, iconKeyword1, subCheckStateLabel)
+                        subFileItem.setText(1, bscMethods.StrCamelcase.toPrettify(fileType))
+                        #
+                        subFileItem.setToolTip(1, subCheckToolTip)
+                        #
+                        subFileItem.path = subSourceFile
+                        subFileItem.name = subFileName
+                        #
+                        osFileCollectionDataLis.append((subSourceFile, subTargetFile))
+                    #
+                    subTargetExistsCheck = len(subTargetExistsFiles) == len(subSourceFiles)
+                    if subTargetExistsCheck:
+                        checkState = 'on'
+                        self.existsTargetArray.append(targetFile)
+                    else:
+                        checkState = 'error'
+                        checkToolTip = 'Sub Target is Non - Exists / Time Changed'
+                        #
+                        fileItem.setExpanded(True)
                 #
                 text0 = fileName
                 fileItem.setItemIcon_(0, iconKeyword0, stateLabel)
@@ -1549,7 +1530,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     widthSet = 400
     #
     w = 180
-    dicFilter = bscCommands.orderedDict()
+    dicFilter = bscCore.orderedDict()
     dicFilter['enableAll'] = [0, 0, 0, 1, 1, none]
     dicFilter['enableClear'] = [0, 0, 2, 1, 1, none]
     # 1
@@ -1557,7 +1538,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     dicFilter['withCurve'] = [0, 2, 2, 1, 2, 'Curve']
     dicFilter['placeholder'] = [0, 3, 0, 1, 4, 'Placeholder']
     #
-    dic_config = bscCommands.orderedDict()
+    dic_config = bscCore.orderedDict()
     dic_config['withShape'] = [0, 0, 0, 1, 2, 'Shape']
     dic_config['floatRound'] = [0, 0, 2, 1, 2, 'Round']
     #
@@ -1721,7 +1702,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setListObjects(self):
         # Use Order Dic
-        self.pathReduceDic = bscCommands.orderedDict()
+        self.pathReduceDic = bscCore.orderedDict()
         #
         treeBox = self.leftTreeViewBox
         #
@@ -1742,14 +1723,14 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 #
                 treeBox.addItem(sourceObjectItem)
                 #
-                subLabel = 'off'
+                subLabelString = 'off'
                 #
                 if sourceObjectKey in targetObjectKeyData:
                     matchObjects.append(sourceObjectPath)
                     objectDataArray = targetObjectKeyData[sourceObjectKey]
-                    subLabel = none
+                    subLabelString = none
                     if len(objectDataArray) > 1:
-                        subLabel = 'error'
+                        subLabelString = 'error'
                     for targetObjectPath, targetObjectType in objectDataArray:
                         targetObjectName = maUtils._toNodeName(targetObjectPath)
                         targetObjectItem = qtWidgets_.QTreeWidgetItem_([targetObjectName, objectType])
@@ -1757,13 +1738,13 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         #
                         sourceObjectItem.addChild(targetObjectItem)
                         #
-                        targetObjectItem.setItemMayaIcon(0, objectType, subLabel)
+                        targetObjectItem.setItemMayaIcon(0, objectType, subLabelString)
                         #
                         sourceObjectItem.setExpanded(True)
                         #
                         self.pathReduceDic[targetObjectPath] = sourceObjectPath
                 #
-                sourceObjectItem.setItemMayaIcon(0, objectType, subLabel)
+                sourceObjectItem.setItemMayaIcon(0, objectType, subLabelString)
         #
         self.constantButton.setPercent(len(sourceObjects), len(matchObjects))
     #
@@ -1787,7 +1768,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         root = none
         #
         if message:
-            isUuid = maUuid.isUniqueId(message)
+            isUuid = maUuid.isUsable(message)
             if isUuid:
                 root = maUuid.getObject(message, 1)
             if not isUuid:
@@ -2157,13 +2138,13 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     widthSet = 400
     #
-    dicLightManagerTool = bscCommands.orderedDict()
+    dicLightManagerTool = bscCore.orderedDict()
     dicLightManagerTool['placeholder'] = [1, 0, 0, 1, 4, 'Placeholder']
     def __init__(self, *args, **kwargs):
         super(IfLightGroupManagerUnit, self).__init__(*args, **kwargs)
         self._initToolUnitBasic()
         #
-        self.nodeDic = bscCommands.orderedDict()
+        self.nodeDic = bscCore.orderedDict()
         self.lightGroups = []
         #
         self.setupUnit()

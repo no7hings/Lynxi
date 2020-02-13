@@ -2,20 +2,20 @@
 from LxBasic import bscMethods, bscObjects
 #
 from LxPreset import prsMethods
-#
-from LxCore.method import _presetMethod
+
+from LxDatabase import dtbMethods
 #
 from LxUi.qt import qtWidgets, qtCore
 
 
 #
-class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
-    def __init__(self, widget, presetView, productModule):
+class IfProductPresetViewModel(object):
+    def __init__(self, widget, presetView, productModuleString):
         self._initProductPreset()
         #
         self._widget = widget
         self._presetView = presetView
-        self._productModule = productModule
+        self._productModuleString = productModuleString
     #
     def widget(self):
         return self._widget
@@ -41,8 +41,9 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         unitIndexDatum = unitItem.presetIndexDatum()
         unitSetDatum = unitItem.presetSetDatum()
         #
-        self.setDbProductUnitUpdate(
-            self._productModule, dbUnitId,
+        
+        dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+            self._productModuleString, dbUnitId,
             unitIndexDatum, unitSetDatum
         )
         # Server Index
@@ -59,8 +60,8 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         unitIndexDatum = unitItem.presetIndexDatum()
         unitSetDatum = unitItem.presetSetDatum()
         #
-        self.setDbProductUnitUpdate(
-            self._productModule, dbUnitId,
+        dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+            self._productModuleString, dbUnitId,
             unitIndexDatum, unitSetDatum
         )
         #
@@ -85,7 +86,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
     def _initUnitItems(self):
         self._cleanUnitItems()
         #
-        indexDatumLis = self.getDbProductUnitIndexDatumLis(self._productModule)
+        indexDatumLis = dtbMethods.DtbProductUnit.getDbProductUnitIndexDatumLis(self._productModuleString)
         if indexDatumLis:
             maxValue = len(indexDatumLis)
             mainWindow = self.widget().connectObject().mainWindow()
@@ -115,8 +116,8 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
                     unitIndexDatum = unitItem.presetIndexDatum()
                     unitSetDatum = unitItem.presetSetDatum()
                     #
-                    self.setDbProductUnitUpdate(
-                        self._productModule, dbUnitId,
+                    dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+                        self._productModuleString, dbUnitId,
                         unitIndexDatum, unitSetDatum
                     )
                     #
@@ -132,7 +133,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitItem.refreshPresetSet(
-                        self.getDbProductUnitSetDatum(dbUnitId)
+                        dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId)
                     )
         #
         def addCmd():
@@ -157,7 +158,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             self._updateUnit(unitItem)
         #
         def reloadCmd():
-            unitSetDatum = self.getDbProductUnitSetDatum(dbUnitId)
+            unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId)
             unitItem.refreshPresetSet(unitSetDatum)
             # Update Default Set
             self.updateUnitDefaultSet(unitItem, unitSetDatum)
@@ -166,7 +167,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
             copyUnitDescription = unitItem.description() + ' - Copy'
             #
             copyUnitSetDatum = unitItem.presetSetDatum()
-            serverUnitCount = self.getDbProductUnitCount(self._productModule)
+            serverUnitCount = dtbMethods.DtbProductUnit.getDbProductUnitCount(self._productModuleString)
             copyUnitSetDatum['name'] = prsMethods.Product._toProductUnitName(serverUnitCount + 1)
             #
             self.addUnitItem(
@@ -205,14 +206,15 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
                     unitItem.setFilterColor((95, 95, 95, 255))
         #
         if dbUnitId is None:
-            dbUnitId = self.getUniqueId()
+
+            dbUnitId = bscMethods.UniqueId.new()
         #
         unitItem = qtWidgets.QtPresetviewItem()
         self.presetView().addItem(unitItem)
         #
         unitItem.setName(dbUnitId), unitItem.setEnable(enable), unitItem.setDescription(description)
         #
-        unitItem.setDefaultPresetSetDatum(self.getDbProductUnitSetDatum(dbUnitId))
+        unitItem.setDefaultPresetSetDatum(dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId))
         #
         self.updateUnitIndex(unitItem)
         self.updateUnitSet(unitItem, overrideSetDatum)
@@ -220,7 +222,7 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         unitItem.setChanged.connect(updateSetChangedCmd)
     #
     def updateUnitIndex(self, unitItem):
-        serverUnitIndexLis = self.getDbProductUnitIndexLis(self._productModule)
+        serverUnitIndexLis = dtbMethods.DtbProductUnit.getDbProductUnitIndexLis(self._productModuleString)
         serverUnitCount = len(serverUnitIndexLis)
         #
         dbUnitId = unitItem.presetIndex()
@@ -256,8 +258,8 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
         projectName = self.widget().connectObject().getProjectName()
         dbUnitId = unitItem.presetIndex()
         unitNumber = unitItem.presetNumber()
-        unitSetDatum = self.getDbProductUnitSetUiDatum(
-            projectName, self._productModule,
+        unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetUiDatum(
+            projectName, self._productModuleString,
             dbUnitId, unitNumber
         )
         unitItem.setupPresetSet(unitSetDatum)
@@ -293,13 +295,13 @@ class IfProductPresetViewModel(_presetMethod.LxPresetMethod):
 
 
 #
-class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
-    def __init__(self, widget, presetView, productModule):
+class IfProductUnitRegisterModel(object):
+    def __init__(self, widget, presetView, productModuleString):
         self._initProductPreset()
         #
         self._widget = widget
         self._presetView = presetView
-        self._productModule = productModule
+        self._productModuleString = productModuleString
     #
     def widget(self):
         return self._widget
@@ -325,8 +327,8 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         unitIndexDatum = unitItem.presetIndexDatum()
         unitSetDatum = unitItem.presetSetDatum()
         #
-        self.setDbProductUnitUpdate(
-            self._productModule, dbUnitId,
+        dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+            self._productModuleString, dbUnitId,
             unitIndexDatum, unitSetDatum
         )
         # Server Index
@@ -343,8 +345,8 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         unitIndexDatum = unitItem.presetIndexDatum()
         unitSetDatum = unitItem.presetSetDatum()
         #
-        self.setDbProductUnitUpdate(
-            self._productModule, dbUnitId,
+        dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+            self._productModuleString, dbUnitId,
             unitIndexDatum, unitSetDatum
         )
         #
@@ -369,7 +371,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
     def _initUnitItems(self):
         self._cleanUnitItems()
         #
-        indexDatumLis = self.getDbProductUnitIndexDatumLis(self._productModule)
+        indexDatumLis = dtbMethods.DtbProductUnit.getDbProductUnitIndexDatumLis(self._productModuleString)
         if indexDatumLis:
             maxValue = len(indexDatumLis)
             mainWindow = self.widget().connectObject().mainWindow()
@@ -398,8 +400,8 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
                     unitIndexDatum = unitItem.presetIndexDatum()
                     unitSetDatum = unitItem.presetSetDatum()
                     #
-                    self.setDbProductUnitUpdate(
-                        self._productModule, dbUnitId,
+                    dtbMethods.DtbProductUnit.setDbProductUnitUpdate(
+                        self._productModuleString, dbUnitId,
                         unitIndexDatum, unitSetDatum
                     )
                     #
@@ -415,7 +417,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
                     unitItem.refreshPresetSet(
-                        self.getDbProductUnitSetDatum(dbUnitId)
+                        dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId)
                     )
         #
         def addCmd():
@@ -440,7 +442,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             self._updateUnit(unitItem)
         #
         def reloadCmd():
-            unitSetDatum = self.getDbProductUnitSetDatum(dbUnitId)
+            unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId)
             unitItem.refreshPresetSet(unitSetDatum)
             # Update Default Set
             self.updateUnitDefaultSet(unitItem, unitSetDatum)
@@ -449,7 +451,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
             copyUnitDescription = unitItem.description() + ' - Copy'
             #
             copyUnitSetDatum = unitItem.presetSetDatum()
-            serverUnitCount = self.getDbProductUnitCount(self._productModule)
+            serverUnitCount = dtbMethods.DtbProductUnit.getDbProductUnitCount(self._productModuleString)
             copyUnitSetDatum['name'] = prsMethods.Product._toProductUnitName(serverUnitCount + 1)
             #
             self.addUnitItem(
@@ -488,14 +490,14 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
                     unitItem.setFilterColor((95, 95, 95, 255))
         #
         if dbUnitId is None:
-            dbUnitId = self.getUniqueId()
+            dbUnitId = bscMethods.UniqueId.new()
         #
         unitItem = qtWidgets.QtPresetviewItem()
         self.presetView().addItem(unitItem)
         #
         unitItem.setName(dbUnitId), unitItem.setEnable(enable), unitItem.setDescription(description)
         #
-        unitItem.setDefaultPresetSetDatum(self.getDbProductUnitSetDatum(dbUnitId))
+        unitItem.setDefaultPresetSetDatum(dtbMethods.DtbProductUnit.getDbProductUnitSetDatum(dbUnitId))
         #
         self.updateUnitIndex(unitItem)
         self.updateUnitSet(unitItem, overrideSetDatum)
@@ -503,7 +505,7 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         unitItem.setChanged.connect(updateSetChangedCmd)
     #
     def updateUnitIndex(self, unitItem):
-        serverUnitIndexLis = self.getDbProductUnitIndexLis(self._productModule)
+        serverUnitIndexLis = dtbMethods.DtbProductUnit.getDbProductUnitIndexLis(self._productModuleString)
         serverUnitCount = len(serverUnitIndexLis)
         #
         dbUnitId = unitItem.presetIndex()
@@ -539,8 +541,8 @@ class IfProductUnitRegisterModel(_presetMethod.LxPresetMethod):
         projectName = self.widget().connectObject().getProjectName()
         dbUnitId = unitItem.presetIndex()
         unitNumber = unitItem.presetNumber()
-        unitSetDatum = self.getDbProductUnitSetUiDatum(
-            projectName, self._productModule,
+        unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetUiDatum(
+            projectName, self._productModuleString,
             dbUnitId, unitNumber
         )
         unitItem.setupPresetSet(unitSetDatum)

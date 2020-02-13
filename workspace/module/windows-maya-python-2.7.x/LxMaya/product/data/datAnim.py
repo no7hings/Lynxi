@@ -2,10 +2,12 @@
 import os, collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
+
+from LxBasic import bscConfigure
+#
+from LxPreset import prsVariants
 #
 from LxCore import lxConfigure
-#
-from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 #
@@ -33,7 +35,7 @@ def getRigAssetData(referenceNode, projectName):
         #
         assetName = fileName.split(splitKey)[0]
         #
-        assetClass = None
+        assetCategory = None
         #
         rigAssetName = prsVariants.Util.astBasicOsFileNameConfig(assetName, keyword, none)
         if subKeyword in referenceFile:
@@ -51,7 +53,7 @@ def getRigAssetData(referenceNode, projectName):
             if attrData:
                 variant = attrData
             #
-            data = assetClass, assetName, number, variant
+            data = assetCategory, assetName, number, variant
     return data
 
 
@@ -60,7 +62,7 @@ def getReferenceDic(projectName):
     def getBranch():
         assetData = getRigAssetData(referenceNode, projectName)
         if assetData:
-            assetClass, assetName, number, variant = assetData
+            assetCategory, assetName, number, variant = assetData
             isLoaded = cmds.referenceQuery(referenceNode, isLoaded=1)
             isGpu = maUtils.getAttrDatum(referenceNode, prsVariants.Util.showGpuAttrLabel)
             #
@@ -70,7 +72,7 @@ def getReferenceDic(projectName):
             if isGpu:
                 state = 'GPU'
             #
-            dic[referenceNode] = assetClass, assetName, number, variant, state
+            dic[referenceNode] = assetCategory, assetName, number, variant, state
     #
     dic = collections.OrderedDict()
     #
@@ -93,8 +95,8 @@ def getAssetNumberReduceData(projectName):
     if inData:
         for k, v in inData.items():
             referenceNode = k
-            assetClass, assetName, number, assetVariant, state = v
-            filterKey = '%s - %s' % (assetClass, assetName)
+            assetCategory, assetName, number, assetVariant, state = v
+            filterKey = '%s - %s' % (assetCategory, assetName)
             dic.setdefault(filterKey, []).append(referenceNode)
     return dic
 
@@ -107,13 +109,13 @@ def getAssetDirectoryReduceData(projectName):
     if inData:
         for k, v in inData.items():
             referenceNode = k
-            assetClass, assetName, number, assetVariant, state = v
+            assetCategory, assetName, number, assetVariant, state = v
             if state == 'Loaded':
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
                 dic[referenceNode] = currentFile, correctFile
     return dic
@@ -127,7 +129,7 @@ def getAssetNamespaceDic(projectName):
     if inData:
         for k, v in inData.items():
             referenceNode = k
-            assetClass, assetName, number, assetVariant, state = v
+            assetCategory, assetName, number, assetVariant, state = v
             if state == 'Loaded':
                 namespacePath = maUtils.getReferenceNamespace(referenceNode)
                 dic[namespacePath] = referenceNode
@@ -147,7 +149,7 @@ def getAssetNamespaceReduceData(projectName, sceneName, sceneVariant):
     #
     inData = getReferenceDic(projectName)
     if inData:
-        for referenceNode, (assetClass, assetName, number, assetVariant, state) in inData.items():
+        for referenceNode, (assetCategory, assetName, number, assetVariant, state) in inData.items():
             getBranch()
     return dic
 
@@ -170,8 +172,8 @@ def getAssetStatisticsData(projectName):
     if inData:
         for k, v in inData.items():
             referenceNode = k
-            assetClass, assetName, number, assetVariant, state = v
-            dic.setdefault(assetClass, []).append((assetName, number, assetVariant, state, referenceNode))
+            assetCategory, assetName, number, assetVariant, state = v
+            dic.setdefault(assetCategory, []).append((assetName, number, assetVariant, state, referenceNode))
     return dic
 
 
@@ -231,11 +233,11 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
             if progressBar:
                 progressBar.update()
             referenceNode = k
-            assetClass, assetName, number, assetVariant, state = v
+            assetCategory, assetName, number, assetVariant, state = v
             if state == 'Loaded':
                 existNumber = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
                 #
-                numberKey = '%s - %s - %s' % (assetClass, assetName, number)
+                numberKey = '%s - %s - %s' % (assetCategory, assetName, number)
                 if existNumber and not numberKey in numberKeyArray:
                     assetNumCortArray.append(referenceNode)
                 numberKeyArray.append(numberKey)
@@ -244,7 +246,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 correctFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
                 )[1]
                 #
                 if currentFile.lower() == correctFile.lower():
@@ -287,7 +289,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
 
 #
 def getCacheUpdateTag(timeTag):
-    string = '0000_0000_0000'
+    string = bscConfigure.MtdBasic.STR_time_tag_default
     isCacheUseMultLine = projectPr.getIsCacheUseMultLine()
     if isCacheUseMultLine:
         string = timeTag

@@ -37,7 +37,7 @@ class Setup(object):
         #
 
         method.setEnviron(
-            lynxisetup.Basic.environ_key_path_product, scheme_path
+            lynxisetup.Basic.STR_key_environ_path_product, scheme_path
         )
         method.setEnviron(
             lynxisetup.Basic.environ_key_path_toolkit, scheme_toolkit_path

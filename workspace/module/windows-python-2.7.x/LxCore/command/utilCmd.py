@@ -1,7 +1,7 @@
 # coding:utf-8
 import collections
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 
 
 class helpDocument(object):

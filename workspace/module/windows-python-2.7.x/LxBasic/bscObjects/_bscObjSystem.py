@@ -1,7 +1,7 @@
 # coding:utf-8
-from LxBasic import bscAbstract
+from LxBasic import bscCore, bscObjAbstract
 
 
-class System(bscAbstract.Abc_System):
+class System(bscObjAbstract.Abc_System):
     def __init__(self):
         pass

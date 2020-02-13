@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure, lxScheme
 

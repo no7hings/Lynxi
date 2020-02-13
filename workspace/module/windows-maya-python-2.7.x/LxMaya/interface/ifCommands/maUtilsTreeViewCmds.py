@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -88,7 +88,7 @@ def setListDirectory(
             def setOpenFolder():
                 bscMethods.OsDirectory.open(filePath)
             #
-            openFolderEnabled = bscCommands.isOsExist(filePath)
+            openFolderEnabled = bscMethods.OsDirectory.isExist(filePath)
             #
             actionExplain = 'Open Source Folder ( %s )' % folderName
             #
@@ -110,7 +110,7 @@ def setListDirectory(
         if fileDataArray:
             count = len(fileDataArray)
         #
-        if not bscCommands.isOsExist(filePath):
+        if not bscMethods.OsDirectory.isExist(filePath):
             stateLabel = 'off'
         #
         parentItem = treeItem.parent()
@@ -210,7 +210,7 @@ def setListFile(
         count = 0
         fileDataArray = getFileDataArray(filePath)
         #
-        if not bscCommands.isOsExist(filePath):
+        if not bscMethods.OsDirectory.isExist(filePath):
             stateLabel = 'off'
         #
         if fileDataArray:
@@ -278,7 +278,7 @@ def setListFileBranch(
         parentUi,
         fileData
 ):
-    def setBranch(treeItem, parentItem, osFile, iconKeyword_, iconState, explain):
+    def setBranch(treeItem, parentItem, fileString_, iconKeyword_, iconState, explain):
         if type(parentItem) == qtWidgets_.QTreeWidget_:
             parentItem.addItem(treeItem)
         elif type(parentItem) == qtWidgets_.QTreeWidgetItem_:
@@ -286,7 +286,7 @@ def setListFileBranch(
             #
             parentItem.setExpanded(True)
         #
-        treeItem.path = osFile
+        treeItem.path = fileString_
         treeItem.name = fileName
         #
         treeItem.type = fileType
@@ -305,33 +305,40 @@ def setListFileBranch(
     #
     state = none
     #
-    fileName = bscCommands.getOsFileBasename(sourceFile)
+    fileName = bscMethods.OsFile.basename(sourceFile)
     count = len(nodes)
     showExplain = '{0} ( {1} )'.format(fileName, count)
     #
-    existsSourceFiles = bscCommands.getOsMultFileLis(sourceFile)
-    existsSourceCount = len(existsSourceFiles)
+
+    existsSourceFiles = bscMethods.OsMultifile.existFiles(sourceFile)
     #
     fileItem = qtWidgets_.QTreeWidgetItem_()
     #
-    if existsSourceFiles > 0:
-        if existsSourceCount > 1:
-            iconKeyword = 'svg_basic@svg#files'
-            #
-            subIconKeyword = 'svg_basic@svg#file'
-            #
-            subState = none
-            #
-            subSourceFiles = existsSourceFiles[1:]
-            for subSourceFile in subSourceFiles:
-                subFileItem = qtWidgets_.QTreeWidgetItem_()
-                subShowExplain = bscCommands.getOsFileBasename(subSourceFile)
-                setBranch(subFileItem, fileItem, subSourceFile, subIconKeyword, subState, subShowExplain)
+    if existsSourceFiles:
+        iconKeyword = 'svg_basic@svg#files'
+
+        subIconKeyword = 'svg_basic@svg#file'
+
+        subState = none
+
+        subSourceFiles = existsSourceFiles
+        for subSourceFile in subSourceFiles:
+            subFileItem = qtWidgets_.QTreeWidgetItem_()
+
+            subShowExplain = bscMethods.OsFile.basename(subSourceFile)
+            setBranch(
+                subFileItem,
+                fileItem,
+                subSourceFile,
+                subIconKeyword,
+                subState,
+                subShowExplain
+            )
     else:
         state = 'off'
-    #
+
     setBranch(fileItem, parentUi, sourceFile, iconKeyword, state, showExplain)
-    #
+
     return fileItem
 
 
@@ -365,7 +372,7 @@ def setListScMayaComposeCmdMain(
                 scCameraComposeItem,
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 scCameraDatumLis,
                 connectVariants=[
@@ -401,7 +408,7 @@ def setListScMayaComposeCmdMain(
                 scAssetComposeItem,
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 scAssetDatumLis,
                 connectVariants=[
@@ -419,12 +426,12 @@ def setListScMayaComposeCmdMain(
                 ]
             )
         #
-        sceneIndex, sceneClass, sceneName, sceneVariant = key
+        sceneIndex, sceneCategory, sceneName, sceneVariant = key
         scCameraDatumLis, scAssetDatumLis = dataLis
         #
         startFrame, endFrame = scenePr.getScUnitFrameRange(
             projectName,
-            sceneClass, sceneName, sceneVariant
+            sceneCategory, sceneName, sceneVariant
         )
         #
         sceneItem = qtWidgets_.QTreeWidgetItem_()
@@ -435,7 +442,7 @@ def setListScMayaComposeCmdMain(
         itemIcon1 = 'svg_basic@svg#time'
         itemIconState1 = None
         #
-        sceneShowName = scenePr.getSceneViewInfo(sceneIndex, sceneClass, '{} - {}'.format(sceneName, sceneVariant))
+        sceneShowName = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, '{} - {}'.format(sceneName, sceneVariant))
         #
         sceneItem.setItemIconWidget(
             0, itemIcon0, sceneShowName, itemIconState0
@@ -506,7 +513,7 @@ def setListScCameraComposeCmdSub(
         scCameraComposeItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         scCameraDatumLis,
         connectVariants,
@@ -523,7 +530,7 @@ def setListScCameraComposeCmdSub(
             scCameraComposeItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             scCameraBranchInfo, scCameraCacheConnectMethod, scCameraSubLabel
         )
@@ -551,7 +558,7 @@ def setListScAssetComposeCmdSub(
         scAssetComposeItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         scAssetDatumLis,
         connectVariants,
@@ -560,7 +567,7 @@ def setListScAssetComposeCmdSub(
     def setScAstBranch(args):
         (
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             #
             scAstModelProductBranchInfo, scAstModelCacheBranchInfo,
             scAstCfxProductBranchInfo, scAstCfxCacheBranchInfoLis,
@@ -572,10 +579,10 @@ def setListScAssetComposeCmdSub(
             scAssetComposeItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             scAstModelProductConnectMethod
         )
         scAssetUnitItemLis.append(scAssetUnitItem)
@@ -584,10 +591,10 @@ def setListScAssetComposeCmdSub(
             scAssetUnitItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             scAstModelProductBranchInfo, scAstModelProductConnectMethod
         )
         scAstModelProductItemLis.append(scAstModelProductItem)
@@ -596,10 +603,10 @@ def setListScAssetComposeCmdSub(
             scAstModelProductItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             scAstModelCacheBranchInfo, scAstModelCacheConnectMethod
         )
         scAstModelCacheItemLis.append(scAstModelCacheItem)
@@ -610,10 +617,10 @@ def setListScAssetComposeCmdSub(
                 scAssetUnitItem,
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 scAstExtraCacheBranchInfo, scAstExtraCacheConnectMethod
             )
             scAstExtraCacheItemLis.append(scAstExtraCacheItem)
@@ -622,10 +629,10 @@ def setListScAssetComposeCmdSub(
             scAssetUnitItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             scAstCfxProductBranchInfo, scAstCfxProductConnectMethod
         )
         scAstCfxProductItemLis.append(scAstCfxProductItem)
@@ -636,10 +643,10 @@ def setListScAssetComposeCmdSub(
                     scAstCfxProductItem,
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     startFrame, endFrame,
                     assetIndex,
-                    assetClass, assetName, number, assetVariant,
+                    assetCategory, assetName, number, assetVariant,
                     scAstCfxCacheBranchInfo, scAstCfxFurCacheConnectMethod, furObjectLabel
                 )
                 scAstCfxFurCacheItemLis.append(scAstCfxFurCacheItem)
@@ -650,10 +657,10 @@ def setListScAssetComposeCmdSub(
                 scAssetUnitItem,
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 scAstSolverProductBranchInfo, scAstSolverProductConnectMethod
             )
             scAstSolverProductItemLis.append(scAstSolverProductItem)
@@ -662,10 +669,10 @@ def setListScAssetComposeCmdSub(
                 scAstSolverProductItem,
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 scAstSolverCacheBranchInfo, scAstSolverCacheConnectMethod
             )
             scAstSolverCacheItemLis.append(scAstSolverCacheItem)

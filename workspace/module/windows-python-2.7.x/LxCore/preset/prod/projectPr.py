@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscConfigure, bscCore, bscMethods
 
 from LxCore import lxConfigure, lxScheme
 #
@@ -35,7 +35,7 @@ def getProjectMayaShelfDataDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     data = getProjectMayaShelfPresetDic(projectName)
     if data:
         isTd = lxConfigure.isLxPipelineTd()
@@ -72,15 +72,15 @@ def getProjectMayaToolDataDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     data = getProjectMayaToolPresetDic(projectName)
     if data:
         for k, v in data.items():
             if v:
-                subDic = bscCommands.orderedDict()
+                subDic = bscCore.orderedDict()
                 for ik, iv in v.items():
                     var = str
-                    pathCmd = bscCommands.toVariantConvert('var', iv)
+                    pathCmd = bscMethods.Variant.covertTo('var', iv)
                     exec pathCmd
                     subDic[ik] = var
                 dic[k] = subDic
@@ -89,32 +89,32 @@ def getProjectMayaToolDataDic(projectName=none):
 
 #
 def getProjectMayaToolSubDataDic(toolPath):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
-    osFiles = bscMethods.OsDirectory.filenames(toolPath)
+    osFiles = bscMethods.OsDirectory.fileFullpathnames(toolPath)
     if osFiles:
-        for osFile in osFiles:
-            command = bscMethods.OsFile.read(osFile)
+        for fileString_ in osFiles:
+            command = bscMethods.OsFile.read(fileString_)
             if command:
-                commandName = bscCommands.getOsFileName(osFile)
+                commandName = bscMethods.OsFile.name(fileString_)
                 #
                 toolTip = none
                 #
-                toolTipFile = bscCommands.getOsFileReplaceExt(osFile, '.tip')
+                toolTipFile = bscMethods.OsFile.renameExtTo(fileString_, '.tip')
                 tipData = bscMethods.OsFile.readlines(toolTipFile)
                 if tipData:
                     toolTip = [unicode(i, "gbk").replace('\r\n', none) for i in tipData]
                 #
-                if osFile.endswith('.py'):
-                    if bscCommands.isMayaApp():
+                if fileString_.endswith('.py'):
+                    if bscMethods.MayaApp.isActive():
                         commandReduce = 'python({0});'.format(bscMethods.OsJson.dump(command))
                     else:
                         commandReduce = bscMethods.OsJson.dump(command)
 
-                    dic[commandName] = osFile, commandReduce, toolTip
+                    dic[commandName] = fileString_, commandReduce, toolTip
                 #
-                if osFile.endswith('.mel'):
-                    dic[commandName] = osFile, command, toolTip
+                if fileString_.endswith('.mel'):
+                    dic[commandName] = fileString_, command, toolTip
     return dic
 
 
@@ -143,7 +143,7 @@ def getProjectMayaScriptDatumDic(projectName=none):
     if not projectName:
         projectName = getMayaProjectName()
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     data = getProjectMayaScriptPresetDic(projectName)
     if data:
@@ -151,7 +151,7 @@ def getProjectMayaScriptDatumDic(projectName=none):
             if v:
                 for ik, iv in v.items():
                     var = ''
-                    scriptText = bscCommands.toVariantConvert('var', iv)
+                    scriptText = bscMethods.Variant.covertTo('var', iv)
                     exec scriptText
                     if var:
                         dic.setdefault(k, []).append(var)
@@ -169,7 +169,7 @@ def getProjectMayaTdPackagePathLis(projectName):
                 mayaPackageStr = v[lxConfigure.LynxiMayaPackageKey]
                 #
                 var = ''
-                scriptText = bscCommands.toVariantConvert('var', mayaPackageStr)
+                scriptText = bscMethods.Variant.covertTo('var', mayaPackageStr)
                 exec scriptText
                 #
                 if var:
@@ -327,7 +327,7 @@ def getProjectViewInfo(projectName):
 
 #
 def getAppProjectNames():
-    if bscCommands.isMayaApp():
+    if bscMethods.MayaApp.isActive():
         lis = getMayaProjectNames()
     else:
         lis = getProjectNames()
@@ -337,13 +337,13 @@ def getAppProjectNames():
 #
 def getMayaProjectNames(mayaVersion=None):
     lis = []
-    if bscCommands.isMayaApp():
+    if bscMethods.MayaApp.isActive():
         projectNameLis = getProjectNames()
         if projectNameLis:
             for projectName in projectNameLis:
                 projectMayaVersion = getProjectMayaVersion(projectName)
                 if mayaVersion is None:
-                    currentMayaVersion = bscCommands.getMayaAppVersion()
+                    currentMayaVersion = bscMethods.MayaApp.version()
                 else:
                     currentMayaVersion = mayaVersion
                 #
@@ -354,13 +354,13 @@ def getMayaProjectNames(mayaVersion=None):
 
 #
 def getMayaProjectNameDic():
-    dic = bscCommands.orderedDict()
-    if bscCommands.isMayaApp():
+    dic = bscCore.orderedDict()
+    if bscMethods.MayaApp.isActive():
         data = getProjectNameDic()
         if data:
             for projectName, (enabled, description) in data.items():
                 mayaVersion = getProjectMayaVersion(projectName)
-                currentMayaVersion = bscCommands.getMayaAppVersion()
+                currentMayaVersion = bscMethods.MayaApp.version()
                 if str(mayaVersion) == currentMayaVersion:
                     dic[projectName] = enabled, description
     else:
@@ -373,11 +373,11 @@ def getProjectName():
     # String <Project Name>
     string = lxConfigure.LynxiDefaultProjectValue
 
-    osFile = lxScheme.UserPreset().projectConfigFile
-    if not bscCommands.isOsExistsFile(osFile):
+    fileString_ = lxScheme.UserPreset().projectConfigFile
+    if not bscMethods.OsFile.isExist(fileString_):
         setLocalProjectPreset(string)
     else:
-        data = bscMethods.OsJson.read(osFile)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             string = data[guidePresetKey]
     #
@@ -386,7 +386,7 @@ def getProjectName():
 
 #
 def getAppProjectName():
-    if bscCommands.isMayaApp():
+    if bscMethods.MayaApp.isActive():
         string = getMayaProjectName()
     else:
         string = getProjectName()
@@ -395,20 +395,20 @@ def getAppProjectName():
 
 # Get Project's Name
 def getMayaProjectName():
-    if bscCommands.isMayaApp():
-        mayaVersion = bscCommands.getMayaAppVersion()
+    if bscMethods.MayaApp.isActive():
+        mayaVersion = bscMethods.MayaApp.version()
         string = '{}_{}'.format(lxConfigure.Lynxi_Keyword_Project_Default, mayaVersion)
         #
         environValue = getMayaProjectEnviron()
         if environValue is not None:
             string = environValue
         else:
-            currentMayaVersion = bscCommands.getMayaAppVersion()
-            osFile = lxScheme.UserPreset().applicationProjectConfigFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
-            if not bscCommands.isOsExistsFile(osFile):
+            currentMayaVersion = bscMethods.MayaApp.version()
+            fileString_ = lxScheme.UserPreset().applicationProjectConfigFile(bscConfigure.MtdBasic.STR_app_maya, mayaVersion)
+            if not bscMethods.OsFile.isExist(fileString_):
                 setLocalMayaProjectPreset(string, currentMayaVersion)
             #
-            data = bscMethods.OsJson.read(osFile)
+            data = bscMethods.OsJson.read(fileString_)
             if data:
                 string = data[guidePresetKey]
     else:
@@ -420,15 +420,15 @@ def getMayaProjectName():
 
 #
 def getMayaProjectEnviron():
-    environKey = lxConfigure.Lynxi_Environ_Key_Project
-    return bscCommands.getOsEnvironValue(environKey)
+    environKey = bscConfigure.MtdBasic.STR_key_environ_project
+    return bscMethods.OsEnviron.get(environKey)
 
 
 #
 def setMayaProjectEnviron(projectName):
-    if bscCommands.isMayaApp():
-        environKey = lxConfigure.Lynxi_Environ_Key_Project
-        bscCommands.setOsEnvironValue(environKey, projectName)
+    if bscMethods.MayaApp.isActive():
+        environKey = bscConfigure.MtdBasic.STR_key_environ_project
+        bscMethods.OsEnviron.set(environKey, projectName)
 
 
 #
@@ -444,7 +444,7 @@ def getProjectProxyExt(projectName=none):
 
 #
 def setLocalAppProjectPreset(projectName):
-    if bscCommands.isMayaApp():
+    if bscMethods.MayaApp.isActive():
         pass
     else:
         setLocalProjectPreset(projectName)
@@ -452,24 +452,24 @@ def setLocalAppProjectPreset(projectName):
 
 # Set Project Config
 def setLocalProjectPreset(projectName):
-    osFile = lxScheme.UserPreset().projectConfigFile
-    bscMethods.OsFile.createDirectory(osFile)
+    fileString_ = lxScheme.UserPreset().projectConfigFile
+    bscMethods.OsFile.createDirectory(fileString_)
     data = dict(project=projectName)
-    bscMethods.OsJson.write(osFile, data)
+    bscMethods.OsJson.write(fileString_, data)
 
 
 # Set Project Config
 def setLocalMayaProjectPreset(projectName, mayaVersion):
-    if bscCommands.isMayaApp():
-        osFile = lxScheme.UserPreset().applicationProjectConfigFile(lxConfigure.Lynxi_App_Maya, mayaVersion)
-        bscMethods.OsFile.createDirectory(osFile)
+    if bscMethods.MayaApp.isActive():
+        fileString_ = lxScheme.UserPreset().applicationProjectConfigFile(bscConfigure.MtdBasic.STR_app_maya, mayaVersion)
+        bscMethods.OsFile.createDirectory(fileString_)
         data = dict(project=projectName)
-        bscMethods.OsJson.write(osFile, data)
+        bscMethods.OsJson.write(fileString_, data)
 
 
 #
 def getAssetClassifyDic(astBasicClassifications):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     for i in astBasicClassifications:
         dic[i[0].lower()] = i
     return dic
@@ -477,7 +477,7 @@ def getAssetClassifyDic(astBasicClassifications):
 
 #
 def getAssetClassifyAbbLabelDic(astBasicClassifications):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     for i in astBasicClassifications:
         dic[i] = i[0].lower()
     return dic
@@ -537,7 +537,7 @@ def getProjectLocalRootLis(projectName=none):
 
 #
 def getProjectRootDic(projectName=none):
-    outDic = bscCommands.orderedDict()
+    outDic = bscCore.orderedDict()
     #
     if not projectName:
         projectName = getMayaProjectName()
@@ -563,7 +563,7 @@ def getIsCacheUseMultLine():
 
 #
 def getProjectExtendDatumDic(projectNameFilter=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     data = getProjectNameDic()
     if data:
@@ -576,6 +576,6 @@ def getProjectExtendDatumDic(projectNameFilter=None):
                 filterEnable = True
             #
             if filterEnable is True and (enable is True or enable is None):
-                projectIndex = bscMethods.Uuid.str2uuid(projectName)
+                projectIndex = bscMethods.UniqueId.getByString(projectName)
                 dic[projectIndex] = projectName, description
     return dic

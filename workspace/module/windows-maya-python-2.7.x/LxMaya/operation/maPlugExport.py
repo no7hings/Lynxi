@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxCore.method.basic import _methodBasic
+from LxMaBasic import maBscMethods
 
 from LxMaya.method.basic import _maMethodBasic
 
@@ -9,7 +9,7 @@ from LxMaya import method
 
 
 #
-class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
+class MaAlembicCacheExport(object):
     app_method = _maMethodBasic.Mtd_AppMaya
     app_animation_method = method.Mtd_MaAnimation
     app_fle_cache_method = method.Mtd_MaAbcCache
@@ -73,7 +73,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
         return argString
     @classmethod
     def _toAttributeArgString(cls, attrName):
-        lis = cls.app_method.toStringList(attrName)
+        lis = bscMethods.String.toList(attrName)
         #
         if lis:
             argString = ' '.join(['{0} {1}'.format(cls.app_fle_cache_method.AttributeKey, i) for i in lis])
@@ -87,7 +87,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
             return ' '.join(usefulArgLis)
     #
     def export(self):
-        temporaryOsFile = bscMethods.OsFile.temporaryFilename(self._fileString)
+        temporaryOsFile = bscMethods.OsFile.temporaryName(self._fileString)
         argLis = [
             self._toFrameArgString(self._frame),
             self._toStepArgString(self._step),
@@ -108,7 +108,7 @@ class MaAlembicCacheExport(_methodBasic.Mtd_Basic):
 
 
 #
-class MaGpuCacheExport(_methodBasic.Mtd_Basic):
+class MaGpuCacheExport(object):
     app_animation_method = method.Mtd_MaAnimation
     app_fle_cache_method = method.MaGpuCacheMethod
     def __init__(self, fileString, groupString=None, frame=None, optionKwargs=None):
@@ -142,7 +142,7 @@ class MaGpuCacheExport(_methodBasic.Mtd_Basic):
 
 
 #
-class MaProxyCacheExport(_methodBasic.Mtd_Basic):
+class MaProxyCacheExport(object):
     app_animation_method = method.Mtd_MaAnimation
     app_fle_cache_method = method.MaProxyCacheMethod
     def __init__(self, fileString, groupString=None, frame=None, step=None, optionKwargs=None):
@@ -191,28 +191,27 @@ class MaProxyCacheExport(_methodBasic.Mtd_Basic):
 
 #
 class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
-    app_file_method = method.MaFileMethod
 
     def __init__(self, fileString, groupString=None, setString=None):
         self._fileString = fileString
         self._groupString = groupString
         self._setString = setString
         #
-        self._commandOptionKwargs = self.app_file_method.MaDefFileExportKwargs.copy()
+        self._commandOptionKwargs = maBscMethods.MaFile.MaDefFileExportKwargs.copy()
     #
     def _updateObjectOptionKwargs(self):
         objectLis = self._toNodeLis([self._groupString, self._setString])
         if objectLis:
-            self._commandOptionKwargs.pop(self.app_file_method.MaFileExportAllOption)
-            self._commandOptionKwargs[self.app_file_method.MaFileExportSelectedOption] = True
+            self._commandOptionKwargs.pop(maBscMethods.MaFile.MaFileExportAllOption)
+            self._commandOptionKwargs[maBscMethods.MaFile.MaFileExportSelectedOption] = True
             #
             self.setNodeSelect(objectLis, noExpand=True)
     #
     def run(self):
         self._updateObjectOptionKwargs()
         # Export
-        temporaryOsFile = bscMethods.OsFile.temporaryFilename(self._fileString)
-        self.app_file_method.fileExportCommand(temporaryOsFile, self._commandOptionKwargs)
+        temporaryOsFile = bscMethods.OsFile.temporaryName(self._fileString)
+        maBscMethods.MaFile.exportCommand(temporaryOsFile, self._commandOptionKwargs)
         bscMethods.OsFile.copyTo(temporaryOsFile, self._fileString)
 
 

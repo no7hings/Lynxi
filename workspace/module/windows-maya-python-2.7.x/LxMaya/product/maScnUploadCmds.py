@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects
+from LxBasic import bscCore, bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
@@ -28,10 +28,10 @@ none = ''
 def scnUnitAssemblyUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         description, notes
 ):
-    timeTag = bscMethods.OsTime.activeTimetag()
+    timeTag = bscMethods.OsTimetag.active()
     # Set Log Window
     logWin_ = bscObjects.If_Log(title=u'Scenery Upload')
     # Start
@@ -43,7 +43,7 @@ def scnUnitAssemblyUploadCmd(
             'Upload / Update Source', True, scnUnitAssemblySourceUploadCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag,
                 description, notes
             )
@@ -55,7 +55,7 @@ def scnUnitAssemblyUploadCmd(
             'Upload / Update Preview', True, scnUnitAssemblyPreviewUploadCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag
             )
         ),
@@ -63,7 +63,7 @@ def scnUnitAssemblyUploadCmd(
             'Upload / Update Compose Data', True, scnUnitAssemblyComposeUploadCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag
             )
         ),
@@ -71,7 +71,7 @@ def scnUnitAssemblyUploadCmd(
             'Upload / Update Product', True, scnUnitAssemblyProductUploadCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag
             )
         ),
@@ -79,7 +79,7 @@ def scnUnitAssemblyUploadCmd(
             'Upload / Update Assembly Definition', True, scnUnitAssemblyDefinitionUploadCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag
             )
         ),
@@ -87,7 +87,7 @@ def scnUnitAssemblyUploadCmd(
             'Open Source', True, scnUnitAssemblySourceOpenCmd, (
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 timeTag
             )
         ),
@@ -113,7 +113,7 @@ def scnUnitAssemblyUploadCmd(
             htmlLog,
             sceneryIndex,
             projectName,
-            sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+            sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
             description, notes
         )
     # Send Ding Talk
@@ -121,7 +121,7 @@ def scnUnitAssemblyUploadCmd(
         messageOp.sendProductMessageByDingTalk(
             sceneryIndex,
             projectName,
-            sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+            sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
             timeTag,
             description, notes
         )
@@ -131,14 +131,14 @@ def scnUnitAssemblyUploadCmd(
 def scnUnitAssemblySourceUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag,
         description, notes
 ):
     logWin_ = bscObjects.If_Log()
 
     backSourceFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        lxConfigure.LynxiRootIndex_Backup, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
     linkFile = bscMethods.OsFile.toJoinTimetag(backSourceFile, timeTag)
@@ -154,9 +154,9 @@ def scnUnitAssemblySourceUploadCmd(
         description, notes
     )
 
-    infoJsonFilename = bscMethods.OsFile.infoJsonFilename(linkFile)
+    infoJsonName = bscMethods.OsFile.infoJsonName(linkFile)
 
-    bscMethods.OsJson.write(infoJsonFilename, updateData)
+    bscMethods.OsJson.write(infoJsonName, updateData)
 
     logWin_.addResult(linkFile)
 
@@ -165,7 +165,7 @@ def scnUnitAssemblySourceUploadCmd(
 def scnUnitAssemblyComposeUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
@@ -173,12 +173,12 @@ def scnUnitAssemblyComposeUploadCmd(
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
     datumLis = datScenery.getScnAssemblyComposeDatumLis(projectName, sceneryName)
@@ -194,7 +194,7 @@ def scnUnitAssemblyComposeUploadCmd(
 def scnUnitAssemblyProductUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
@@ -202,19 +202,19 @@ def scnUnitAssemblyProductUploadCmd(
     serverFile = sceneryPr.scnUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitProductFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
     maFile.new()
     maScnLoadCmds.scnUnitMaAssemblyLoadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         withAssembly=True
     )
 
@@ -229,7 +229,7 @@ def scnUnitAssemblyProductUploadCmd(
 def scnUnitAssemblyPreviewUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag,
         useDefaultMaterial=0
 ):
@@ -237,11 +237,11 @@ def scnUnitAssemblyPreviewUploadCmd(
 
     serverFile = sceneryPr.scnUnitPreviewFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitPreviewFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     root = sceneryPr.scnAssemblyGroupName(sceneryName)
@@ -262,26 +262,26 @@ def scnUnitAssemblyPreviewUploadCmd(
 def scnUnitAssemblyDefinitionUploadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
 
     serverFile = sceneryPr.scnUnitDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitDefinitionFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     serverProductFile = sceneryPr.scnUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     sceneryAdName = sceneryPr.scnAssemblyAdName(
-        sceneryClass, sceneryName, sceneryVariant
+        sceneryCategory, sceneryName, sceneryVariant
     )
 
     maFile.new()
@@ -299,7 +299,7 @@ def scnUnitAssemblyDefinitionUploadCmd(
 def scnUnitAssemblySourceOpenCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
@@ -307,12 +307,12 @@ def scnUnitAssemblySourceOpenCmd(
     localFile = sceneryPr.scnUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitSourceFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     maFile.openMayaFileToLocal(

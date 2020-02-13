@@ -1,7 +1,7 @@
 # coding:utf-8
 import types
 #
-from LxBasic import bscMethods
+from LxBasic import bscConfigure, bscMethods
 
 from LxPreset import prsMethods
 #
@@ -43,13 +43,13 @@ class IfAbc_ScCameraProductItem(
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
-        branchInfo, connectMethod, subLabel,
+        branchInfo, connectMethod, subLabelString,
     ):
         self._projectName = projectName
         #
-        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage
+        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage
         #
         self._startFrame, self._endFrame = startFrame, endFrame
         self._localStartFrame, self._localEndFrame = None, None
@@ -82,7 +82,7 @@ class IfAbc_ScCameraProductItem(
         else:
             self._connectMethod = None
         #
-        self._subLabel = subLabel
+        self._subLabel = subLabelString
         #
         if parentItem is not None:
             self._parentItem = parentItem
@@ -134,7 +134,7 @@ class IfAbc_ScCameraProductItem(
         )
         self._updateItemAction()
         #
-        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTimetag.toChnPrettify(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
         #
         self._itemWidget.setTooltip(self._itemTooltip)
@@ -152,13 +152,13 @@ class IfAbc_ScCameraProductItem(
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
         #
-        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTimetag.toChnPrettify(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
     #
     def _refreshItemServerState(self):
         self._itemIconState2 = 'off' if self._itemServerTimeTag is None else None
         #
-        self.setText(3, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemServerTimeTag))
+        self.setText(3, bscMethods.OsTimetag.toChnPrettify(self._itemServerTimeTag))
         self.setItemIcon_(3, self._itemIcon2, self._itemIconState2)
     #
     def _refreshItemLocalFrameState(self):
@@ -260,9 +260,9 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
-            branchInfo, connectMethod, subLabel
+            branchInfo, connectMethod, subLabelString
     ):
         self._overrideAttr()
         #
@@ -273,9 +273,9 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
-            branchInfo, connectMethod, subLabel
+            branchInfo, connectMethod, subLabelString
         )
     #
     def _overrideAttr(self):
@@ -300,8 +300,8 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == '0000_0000_0000':
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -393,10 +393,10 @@ class IfScAssetProductItem(
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         connectMethod
     ):
         self.clsSuper = super(IfScAssetProductItem, self)
@@ -406,10 +406,10 @@ class IfScAssetProductItem(
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             connectMethod
         )
     def _initScAssetProductItem(
@@ -417,20 +417,20 @@ class IfScAssetProductItem(
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             connectMethod
     ):
         self._projectName = projectName
         #
-        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage
+        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage
         #
         self._startFrame, self._endFrame = startFrame, endFrame
         self._localStartFrame, self._localEndFrame = None, None
         #
-        self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant = assetIndex, assetClass, assetName, number, assetVariant
+        self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant = assetIndex, assetCategory, assetName, number, assetVariant
         #
         self._vars = None
         #
@@ -444,7 +444,7 @@ class IfScAssetProductItem(
         self._itemIcon0 = 'svg_basic@svg#package_object'
         self._itemIconState0 = None
         self._itemText0 = assetPr.getAssetViewInfo(
-            assetIndex, assetClass
+            assetIndex, assetCategory
         )
         self._itemIcon1 = 'svg_basic@svg#name'
         self._itemIconState1 = None
@@ -572,20 +572,20 @@ class IfAbc_ScAstBranchItem(
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod, objectLabel=None
     ):
         self._projectName = projectName
         #
-        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage
+        self._sceneIndex, self._sceneClass, self._sceneName, self._sceneVariant, self._sceneStage = sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage
         #
         self._startFrame, self._endFrame = startFrame, endFrame
         self._localStartFrame, self._localEndFrame = None, None
         #
-        self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant = assetIndex, assetClass, assetName, number, assetVariant
+        self._assetIndex, self._assetClass, self._assetName, self._number, self._assetVariant = assetIndex, assetCategory, assetName, number, assetVariant
         #
         self._itemWidget = None
         self._itemTooltip = None
@@ -697,13 +697,13 @@ class IfAbc_ScAstBranchItem(
     def _refreshItemLocalState(self):
         self._itemIconState1 = 'off' if self._itemLocalTimeTag is None else None
         #
-        self.setText(2, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemLocalTimeTag))
+        self.setText(2, bscMethods.OsTimetag.toChnPrettify(self._itemLocalTimeTag))
         self.setItemIcon_(2, self._itemIcon1, self._itemIconState1)
     #
     def _refreshItemServerState(self):
         self._itemIconState2 = 'off' if self._itemServerTimeTag is None else None
         #
-        self.setText(3, bscMethods.OsTime.getCnPrettifyByTimetag(self._itemServerTimeTag))
+        self.setText(3, bscMethods.OsTimetag.toChnPrettify(self._itemServerTimeTag))
         self.setItemIcon_(3, self._itemIcon2, self._itemIconState2)
     #
     def _refreshItemLocalFrameState(self):
@@ -816,10 +816,10 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -831,10 +831,10 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -958,10 +958,10 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -973,10 +973,10 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -1003,8 +1003,8 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == '0000_0000_0000':
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1091,10 +1091,10 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -1106,10 +1106,10 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -1136,8 +1136,8 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == '0000_0000_0000':
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1224,10 +1224,10 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -1239,10 +1239,10 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -1341,10 +1341,10 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod, objectLabel
     ):
         self._overrideAttr()
@@ -1356,10 +1356,10 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod, objectLabel
         )
     #
@@ -1387,8 +1387,8 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == '0000_0000_0000':
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #
@@ -1488,10 +1488,10 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -1503,10 +1503,10 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -1587,10 +1587,10 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
         parentItem,
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         branchInfo, connectMethod
     ):
         self._overrideAttr()
@@ -1602,10 +1602,10 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
             parentItem,
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             branchInfo, connectMethod
         )
     #
@@ -1632,8 +1632,8 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == '0000_0000_0000':
-                actionExplain = bscMethods.OsTime.getCnPrettifyByTimetag(currentTimeTag)
+            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
                 #

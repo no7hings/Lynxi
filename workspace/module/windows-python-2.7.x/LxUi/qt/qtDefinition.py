@@ -1,4 +1,6 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxUi import uiCore
 #
 from LxUi.qt import qtCore
@@ -8,8 +10,8 @@ QtCore = qtCore.QtCore
 
 
 # Widget
-class QtDef_Widget(uiCore.Basic):
-    ui_method = uiCore.Basic
+class QtDef_Widget(uiCore.UiMtdBasic):
+    ui_method = uiCore.UiMtdBasic
 
     def _initDefWidget(self):
         self._initDefWidgetAttr()
@@ -249,7 +251,7 @@ class QtDef_Widget(uiCore.Basic):
 
 # Expand
 class QtDef_ExpandWidget(QtDef_Widget):
-    ui_method = uiCore.Basic
+    ui_method = uiCore.UiMtdBasic
     def _initDefExpandWidget(self):
         self._initDefWidget()
         #
@@ -1170,7 +1172,7 @@ class QtDef_GroupWidget(QtDef_Widget):
         return self._uiButtonWidth, self._uiButtonHeight
     #
     def setImage(self, image):
-        if self.isOsExistsFile(image):
+        if bscMethods.OsFile.isExist(image):
             self._uiImage = image
         else:
             self._uiImage = None

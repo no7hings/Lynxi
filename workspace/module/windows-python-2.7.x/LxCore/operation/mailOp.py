@@ -5,7 +5,7 @@ import traceback
 #
 from email.mime.text import MIMEText
 #
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 from LxPreset import prsVariants, prsMethods
 #

@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract, mtlConfigure
+from LxMaterial import mtlObjAbstract, mtlConfigure
 
 from LxMaterial.mtlObjects import _mtlObjRaw
 
 
-class _Dat_Method(mtlAbstract.Abc_RawDatum):
+class _Dat_Method(mtlObjAbstract.Abc_RawDatum):
     def __add__(self, other):
         """
         :param other: object of "Datum"
@@ -42,7 +42,7 @@ class _Dat_Method(mtlAbstract.Abc_RawDatum):
         return self.__class__(self, self.raw() / other.raw())
 
 
-class Dat_Closure(mtlAbstract.Abc_RawDatum):
+class Dat_Closure(mtlObjAbstract.Abc_RawDatum):
     CLS_raw = _mtlObjRaw.Raw_Closure
 
     raw_type = _mtlObjRaw.Raw_Closure
@@ -61,7 +61,7 @@ class Dat_Closure(mtlAbstract.Abc_RawDatum):
         return ''
 
 
-class Dat_Boolean(mtlAbstract.Abc_RawDatum):
+class Dat_Boolean(mtlObjAbstract.Abc_RawDatum):
     CLS_raw = bool
 
     raw_type = bool, int
@@ -101,7 +101,7 @@ class Dat_Integer(_Dat_Method):
         self._initAbcRawDatum(*args)
 
 
-class Dat_IntegerN(mtlAbstract.Abc_RawDatumset):
+class Dat_IntegerN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_Integer
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
@@ -117,7 +117,7 @@ class Dat_IntegerN(mtlAbstract.Abc_RawDatumset):
         self._initAbcRawDatumset(*args)
 
 
-class Dat_IntegerNN(mtlAbstract.Abc_RawDatumset):
+class Dat_IntegerNN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_IntegerN
 
     datum_string_separator = mtlConfigure.Separator_Raw_String_Array
@@ -149,7 +149,7 @@ class Dat_Float(_Dat_Method):
         self._initAbcRawDatum(*args)
 
 
-class Dat_FloatN(mtlAbstract.Abc_RawDatumset):
+class Dat_FloatN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_Float
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
@@ -165,7 +165,7 @@ class Dat_FloatN(mtlAbstract.Abc_RawDatumset):
         self._initAbcRawDatumset(*args)
 
 
-class Dat_FloatNN(mtlAbstract.Abc_RawDatumset):
+class Dat_FloatNN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_FloatN
 
     datum_string_separator = mtlConfigure.Separator_Raw_String_Array
@@ -181,7 +181,7 @@ class Dat_FloatNN(mtlAbstract.Abc_RawDatumset):
         self._initAbcRawDatumset(*args)
 
 
-class Dat_String(mtlAbstract.Abc_RawDatum):
+class Dat_String(mtlObjAbstract.Abc_RawDatum):
     CLS_raw = unicode
 
     raw_type = unicode, str
@@ -197,7 +197,7 @@ class Dat_String(mtlAbstract.Abc_RawDatum):
         self._initAbcRawDatum(*args)
 
 
-class Dat_StringN(mtlAbstract.Abc_RawDatumset):
+class Dat_StringN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_String
 
     datum_string_separator = mtlConfigure.Separator_Raw_String
@@ -213,7 +213,7 @@ class Dat_StringN(mtlAbstract.Abc_RawDatumset):
         self._initAbcRawDatumset(*args)
 
 
-class Dat_FileName(mtlAbstract.Abc_RawDatum):
+class Dat_FileName(mtlObjAbstract.Abc_RawDatum):
     CLS_raw = unicode
 
     raw_type = unicode, str
@@ -229,7 +229,7 @@ class Dat_FileName(mtlAbstract.Abc_RawDatum):
         self._initAbcRawDatum(*args)
 
 
-class Dat_NodeName(mtlAbstract.Abc_RawDatum):
+class Dat_NodeName(mtlObjAbstract.Abc_RawDatum):
     CLS_raw = unicode
 
     raw_type = unicode, str
@@ -245,7 +245,7 @@ class Dat_NodeName(mtlAbstract.Abc_RawDatum):
         self._initAbcRawDatum(*args)
 
 
-class Dat_NodeNameN(mtlAbstract.Abc_RawDatumset):
+class Dat_NodeNameN(mtlObjAbstract.Abc_RawDatumset):
     CLS_set_child = Dat_NodeName
 
     datum_string_separator = mtlConfigure.Separator_Raw_String

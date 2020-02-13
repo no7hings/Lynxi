@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscObjects
+from LxBasic import bscConfigure, bscObjects
 #
 from LxUi.qt import qtWidgets, qtMethod
 #
@@ -96,8 +96,8 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     objectItem.loadNode(objectPath)
                     inspectionItem.addChild(objectItem)
                     #
-                    inspectionItem.setFilterColor(self.LynxiUi_ErrorRgba)
-                    objectItem.setFilterColor(self.LynxiUi_ErrorRgba)
+                    inspectionItem.setFilterColor(bscConfigure.MtdBasic.LynxiUi_ErrorRgba)
+                    objectItem.setFilterColor(bscConfigure.MtdBasic.LynxiUi_ErrorRgba)
                     if compLis:
                         for c in compLis:
                             setCompBranch(c)

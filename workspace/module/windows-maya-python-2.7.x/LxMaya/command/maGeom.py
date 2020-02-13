@@ -4,7 +4,7 @@ import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.api.OpenMaya as OpenMaya
 
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscCore, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -80,7 +80,7 @@ def getHir(groupString):
                     dic.setdefault(objectString, []).append((child, nodeType))
                 getBranch(child)
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     getBranch(groupString)
     return dic
@@ -265,7 +265,7 @@ def getObjectsByGroup(groupString, filterM2Types):
     #
     lis = []
     #
-    filterM2Types = maUtils.toStringList(filterM2Types)
+    filterM2Types = maUtils.string2list(filterM2Types)
     #
     if maUtils.isAppExist(groupString):
         getBranch(groupString)
@@ -508,7 +508,7 @@ def getMeshObjectGeomTopoInfoData(meshObjectString):
 
 # Mesh Map
 def getMeshObjectMapData(meshObjectString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     m2MeshObject = toM2MeshNode(meshObjectString)
     uvSetNames = m2MeshObject.getUVSetNames()
@@ -573,7 +573,7 @@ def getMeshObjectMapShape(meshObjectString):
 
 #
 def getGeometryObjectsPathDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -586,7 +586,7 @@ def getGeometryObjectsPathDic(groupString):
 
 #
 def getMeshObjectsPathData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -598,7 +598,7 @@ def getMeshObjectsPathData(groupString):
 
 #
 def getGeometryObjectsTransformDic(groupString, assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -621,7 +621,7 @@ def getGeometryObjectsTransformDic(groupString, assetName):
 
 #
 def getGeometryObjectsTransformDic_(objectStrings, groupString, assetName=None):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if objectStrings:
         for seq, objectString in enumerate(objectStrings):
@@ -645,7 +645,7 @@ def getGeometryObjectsTransformDic_(objectStrings, groupString, assetName=None):
 
 #
 def getCompMeshesTransformData(groupString, assetName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -667,7 +667,7 @@ def getCompMeshesTransformData(groupString, assetName):
 
 #
 def getNurbsCurveObjectsTransformData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getObjectsByGroup(groupString, appCfg.M2NurbsCurveType)
     if objectStrings:
@@ -688,7 +688,7 @@ def getNurbsCurveObjectsTransformData(groupString):
 
 #
 def getGeometryObjectsGeometryDic(groupString):
-    geomTopoDic, geomShapeDic = bscCommands.orderedDict(), bscCommands.orderedDict()
+    geomTopoDic, geomShapeDic = bscCore.orderedDict(), bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -708,7 +708,7 @@ def getGeometryObjectsGeometryDic(groupString):
 
 #
 def getGeometryObjectsGeometryDic_(objectStrings):
-    geomTopoDic, geomShapeDic = bscCommands.orderedDict(), bscCommands.orderedDict()
+    geomTopoDic, geomShapeDic = bscCore.orderedDict(), bscCore.orderedDict()
     if objectStrings:
         for objectString in objectStrings:
             uniqueId = maUuid.getNodeUniqueId(objectString)
@@ -726,7 +726,7 @@ def getGeometryObjectsGeometryDic_(objectStrings):
 
 #
 def getMeshObjectsGeomData(groupString):
-    geomTopoDic, geomShapeDic = bscCommands.orderedDict(), bscCommands.orderedDict()
+    geomTopoDic, geomShapeDic = bscCore.orderedDict(), bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -739,7 +739,7 @@ def getMeshObjectsGeomData(groupString):
 
 #
 def getNurbsCurveObjectsGeomData(groupString):
-    geomTopoDic, geomShapeDic = bscCommands.orderedDict(), bscCommands.orderedDict()
+    geomTopoDic, geomShapeDic = bscCore.orderedDict(), bscCore.orderedDict()
     #
     objectStrings = getObjectsByGroup(groupString, appCfg.M2NurbsCurveType)
     if objectStrings:
@@ -752,7 +752,7 @@ def getNurbsCurveObjectsGeomData(groupString):
 
 #
 def getGeometryObjectsVertexNormalDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -770,7 +770,7 @@ def getGeometryObjectsVertexNormalDic(groupString):
 
 #
 def getGeometryObjectsVertexNormalDic_(objectStrings):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if objectStrings:
         for objectString in objectStrings:
@@ -787,7 +787,7 @@ def getGeometryObjectsVertexNormalDic_(objectStrings):
 
 #
 def getMeshObjectsVertexNormalData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -800,7 +800,7 @@ def getMeshObjectsVertexNormalData(groupString):
 
 #
 def getGeometryObjectsEdgeSmoothDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -818,7 +818,7 @@ def getGeometryObjectsEdgeSmoothDic(groupString):
 
 #
 def getGeometryObjectsEdgeSmoothDic_(objectStrings):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if objectStrings:
         for objectString in objectStrings:
@@ -835,7 +835,7 @@ def getGeometryObjectsEdgeSmoothDic_(objectStrings):
 
 #
 def getCompMeshesEdgeSmoothData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -848,7 +848,7 @@ def getCompMeshesEdgeSmoothData(groupString):
 
 #
 def getGeometryObjectsMapDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -866,7 +866,7 @@ def getGeometryObjectsMapDic(groupString):
 
 #
 def getGeometryObjectsMapDic_(objectStrings):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if objectStrings:
         for objectString in objectStrings:
@@ -883,7 +883,7 @@ def getGeometryObjectsMapDic_(objectStrings):
 
 #
 def getCompMeshesMapData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -896,7 +896,7 @@ def getCompMeshesMapData(groupString):
 
 #
 def getCompMeshesAttributeData(meshObjStrs):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if meshObjStrs:
         for objectString in meshObjStrs:
@@ -1130,7 +1130,7 @@ def getMeshObjectsInfo(groupString):
 
 #
 def getGeometryObjectsInfoDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -1153,7 +1153,7 @@ def getGeometryObjectsInfoDic(groupString):
 
 #
 def getGeometryObjectsInfoDic_(objectStrings, groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     for objectString in objectStrings:
         uniqueId = maUuid.getNodeUniqueId(objectString)
@@ -1176,7 +1176,7 @@ def getGeometryObjectsInfoDic_(objectStrings, groupString):
 
 #
 def getMeshObjectsInfoDic(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
@@ -1204,7 +1204,7 @@ def getMeshObjectsInfoDic(groupString):
 
 #
 def getNurbsCurveObjectsInfoData(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getObjectsByGroup(groupString, appCfg.M2NurbsCurveType)
     if objectStrings:
@@ -1227,7 +1227,7 @@ def getNurbsCurveObjectsInfoData(groupString):
 
 #
 def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
@@ -1393,7 +1393,7 @@ def setCreateObjectsTransform(transformDataDic, assetName, lockTransform):
     if transformDataDic:
         rowIndexLis = []
         #
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         for uniqueId, data in transformDataDic.items():
             parentObjectPath, objectName, transformationMatrix, customAttrData, rowIndex = data
             #
@@ -1698,7 +1698,7 @@ def setGeometryObjectsDefaultShadingEngine(uniqueIds):
 # Get Poly Mesh Evaluate ( Method )
 def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox, showMode):
     # Dict { <Evaluate Name>: <Evaluate Data> }
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     used = [vertex, edge, face, triangle, uvcoord, area, worldArea, shell, boundingBox]
     # View Progress
     explain = '''Read Mesh Evaluate Data'''
@@ -1747,7 +1747,7 @@ def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, 
 def getMeshObjectsEvaluateDic(objectStrings, showMode=0):
     # Dict { <Poly Mesh> :
     #        List [ <Evaluate Info> ] }
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if objectStrings:
         count = len(objectStrings)
         data = getMeshObjectEvaluate(
@@ -1778,7 +1778,7 @@ def getMeshObjectsEvaluateDic(objectStrings, showMode=0):
 def getGeometryObjectsConstantDic(groupString):
     infoKeyLis = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     info = getGeometryObjectsInfo(groupString)
     for seq, i in enumerate(infoKeyLis):
@@ -1788,7 +1788,7 @@ def getGeometryObjectsConstantDic(groupString):
 
 #
 def getGeometryObjectsConstantDic_(groupString):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     meshObjStrs = getMeshObjectsByGroup(groupString)
     if meshObjStrs:

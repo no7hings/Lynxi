@@ -1,7 +1,7 @@
 # coding:utf-8
 import threading
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 
 from LxCore import lxScheme
 
@@ -16,7 +16,7 @@ Lynxi_Ui_Window_SubSize_Default = 1920 * .75, 1080 * .75
 Lynxi_Ui_Window_Size_Dialog = 1920 * .5, 1080 * .5
 
 
-class Basic(object):
+class UiMtdBasic(object):
     mtd_raw_position_2d = bscMethods.Position2d
 
     mtd_raw_ellipse2d = bscMethods.Ellipse2d
@@ -92,27 +92,27 @@ class Basic(object):
     def _toLxOsIconFile(cls, iconKeyword, ext='.png'):
         isMayaIcon = iconKeyword.startswith('maya')
         #
-        subLabel = 'table'
+        subLabelString = 'table'
         #
         if iconKeyword:
             if '#' in iconKeyword:
-                subLabel = iconKeyword.split('#')[0]
+                subLabelString = iconKeyword.split('#')[0]
                 iconKeyword = iconKeyword.split('#')[-1]
-            if '@' in subLabel:
-                ext = '.' + subLabel.split('@')[-1]
-                subLabel = subLabel.split('@')[0]
+            if '@' in subLabelString:
+                ext = '.' + subLabelString.split('@')[-1]
+                subLabelString = subLabelString.split('@')[0]
         else:
             iconKeyword = ''
         #
-        osFile = cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, iconKeyword, ext)
+        fileString_ = u'{}/{}/{}{}'.format(lxScheme.Directory().icon.server, subLabelString, iconKeyword, ext)
         #
         if isMayaIcon:
-            if bscCommands.isOsExist(osFile):
-                return osFile
+            if bscMethods.OsFile.isExist(fileString_):
+                return fileString_
             else:
-                return cls._lxIconRoot() + '/{}/{}{}'.format(subLabel, 'default', ext)
+                return '{}/{}/{}{}'.format(lxScheme.Directory().icon.server, subLabelString, 'default', ext)
         else:
-            return osFile
+            return fileString_
 
     @staticmethod
     def _toGeometryRemap(size0, size1):
@@ -133,29 +133,6 @@ class Basic(object):
             return x, y, w, h
         else:
             return 0, 0, w0, h0
-
-    @staticmethod
-    def str2rgb(string, maximum=255):
-        a = int(''.join([str(ord(i)).zfill(3) for i in string]))
-        b = a % 3
-        i = int(a / 256) % 3
-        n = int(a % 256)
-        if a % 2:
-            if i == 0:
-                r, g, b = 64 + 64 * b, n, 0
-            elif i == 1:
-                r, g, b = 0, 64 + 64 * b, n
-            else:
-                r, g, b = 0, n, 64 + 64 * b
-        else:
-            if i == 0:
-                r, g, b = 0, n, 64 + 64 * b
-            elif i == 1:
-                r, g, b = 64 + 64 * b, 0, n
-            else:
-                r, g, b = 64 + 64 * b, n, 0
-        #
-        return r / 255.0 * maximum, g / 255.0 * maximum, b / 255.0 * maximum
 
     @staticmethod
     def _lxMayaPngIconKeyword(nodeTypeString):

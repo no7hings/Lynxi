@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxScheme
 
@@ -12,7 +12,7 @@ class Shm_Resource(lxScheme.Shm_Resource):
 
     @property
     def plugNames(self):
-        return self.method_os_environ.getAsList(self.Environ_Key_Loadname_Plug)
+        return bscMethods.OsEnviron.getAsList(self.Environ_Key_Loadname_Plug)
 
     def loadPlugs(self):
         plugNameLis = self.plugNames

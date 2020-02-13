@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscObjects
+from LxBasic import bscCore, bscObjects
 
 from LxUi.qt import qtCommands
 

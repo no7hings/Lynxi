@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore.preset.prod import sceneryPr
 #
@@ -12,10 +12,10 @@ none = ''
 
 
 #
-def setAssemblySceneDefinitionCreate(nodeName, osFile):
+def setAssemblySceneDefinitionCreate(nodeName, fileString_):
     cmds.assembly(name=nodeName, type='assemblyDefinition')
-    cmds.assembly(nodeName, edit=1, createRepresentation='Scene', input=osFile)
-    cmds.assembly(nodeName, edit=1, active=bscCommands.getOsFileBasename(osFile))
+    cmds.assembly(nodeName, edit=1, createRepresentation='Scene', input=fileString_)
+    cmds.assembly(nodeName, edit=1, active=bscMethods.OsFile.basename(fileString_))
 
 
 #

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 method_html = bscMethods.TxtHtml
 

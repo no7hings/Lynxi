@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscModifiers, bscCommands
+from LxBasic import bscCore, bscModifiers
 
 from LxCore import lxConfigure
 #
@@ -22,7 +22,7 @@ def scnBasicClass():
 
 #
 def scnBasicViewLinkDic():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[lxConfigure.LynxiProduct_Scenery_Link_Scenery] = 'Scenery', u'场景布景'
     dic[lxConfigure.LynxiProduct_Scene_Link_layout] = 'Layout', u'场景预览'
     dic[lxConfigure.LynxiProduct_Scene_Link_Animation] = 'Animation', u'场景动画'
@@ -33,7 +33,7 @@ def scnBasicViewLinkDic():
 
 @bscModifiers.fncDictSwitch
 def scnBasicViewClassDic(*args):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[LynxiProduct_Scenery_Class_Scenery] = 'Scenery', u'场景'
     dic[LynxiProduct_Scenery_Class_Group] = 'Group', u'组合'
     return dic

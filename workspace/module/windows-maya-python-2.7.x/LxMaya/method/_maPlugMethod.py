@@ -1,8 +1,10 @@
 # coding:utf-8
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
-#
-from LxCore.method import _osMethod
+
+from LxBasic import bscMethods
+
+from LxMaBasic import maBscMethods
 #
 from LxMaya.method.config import _maConfig
 #
@@ -55,8 +57,6 @@ class Mtd_MaAbcCache(_maMethodBasic.Mtd_MaPlug):
         HDF5DataFormat
     ]
 
-    file_method = _maMethod.MaFileMethod
-
     @classmethod
     def getAbcCacheNodeLis(cls):
         pass
@@ -73,8 +73,8 @@ class Mtd_MaAbcCache(_maMethodBasic.Mtd_MaPlug):
     def abcCacheImport(cls, fileString, namespace=None):
         cls.loadAppPlug(cls.MaPlugName_AlembicExport)
         #
-        if cls.isOsExistsFile(fileString):
-            cls.file_method.setFileImport(fileString, namespace)
+        if bscMethods.OsFile.isExist(fileString):
+            maBscMethods.MaFile.setFileImport(fileString, namespace)
 
 
 #
@@ -88,7 +88,6 @@ class MaGpuCacheMethod(_maMethodBasic.Mtd_MaPlug):
         writeMaterials=True,
     )
 
-    file_method = _osMethod.OsFileMethod
     @classmethod
     def gpuCacheExportCommand(cls, fileString, groupString=None, optionKwargs=None):
         cls.loadAppPlug(cls.MaPlugName_GpuCache)
@@ -96,7 +95,7 @@ class MaGpuCacheMethod(_maMethodBasic.Mtd_MaPlug):
         if optionKwargs is None:
             optionKwargs = cls.MaDefGpuCacheExportKwargs.copy()
         #
-        directory, fileName = cls.file_method.getOsFileDirname(fileString), cls.file_method.getOsFileName(fileString)
+        directory, fileName = bscMethods.OsFile.dirname(fileString), bscMethods.OsFile.name(fileString)
         #
         if groupString is None:
             optionKwargs['allDagObjects'] = True
@@ -116,8 +115,8 @@ class MaGpuCacheMethod(_maMethodBasic.Mtd_MaPlug):
     def gpuCacheImport(cls, fileString, namespace=None):
         cls.loadAppPlug(cls.MaPlugName_GpuCache)
         #
-        if cls.isOsExist(fileString):
-            transformName = cls.file_method.getOsFileName(fileString)
+        if bscMethods.OsFile.isExist(fileString):
+            transformName = bscMethods.OsFile.name(fileString)
             if namespace is not None:
                 pass
             shapeName = transformName + 'Shape'
@@ -139,8 +138,6 @@ class MaProxyCacheMethod(_maMethodBasic.Mtd_MaPlug):
         preserveReferences=False,
         exportAll=True
     )
-
-    file_method = _osMethod.OsFileMethod
 
     @classmethod
     def arnoldProxyExportCommand(cls, fileString, groupString=None, optionKwargs=None):
@@ -165,7 +162,6 @@ class MaProxyCacheMethod(_maMethodBasic.Mtd_MaPlug):
 
 #
 class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.Mtd_MaPlug, _maConfig.MaPlugConfig, _maConfig.MaYetiPlugConfig):
-    file_method = _osMethod.OsMultFileMethod
     @staticmethod
     def getYetiTextureNodeLis(yetiShape):
         return cmds.pgYetiGraph(yetiShape, listNodes=1, type='texture')
@@ -458,7 +454,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
     def setYetiGraphRenameByUniqueId(cls, nameLabel=None, uniqueId=None):
         objectLis = None
         if uniqueId is not None:
-            uniqueIdLis = cls._toUniqueIdLis(uniqueId)
+            uniqueIdLis = bscMethods.UniqueId.toList(uniqueId)
             if uniqueIdLis:
                 objectLis = cls.getObjectLisByUniqueId(uniqueIdLis)
         #
@@ -467,7 +463,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
     def setYetiGraphCollectionByUniqueId(cls, rootGroupPath, uniqueId=None):
         objectLis = None
         if uniqueId is not None:
-            uniqueIdLis = cls._toUniqueIdLis(uniqueId)
+            uniqueIdLis = bscMethods.UniqueId.toList(uniqueId)
             if uniqueIdLis:
                 objectLis = cls.getObjectLisByUniqueId(uniqueIdLis)
         #
@@ -484,7 +480,8 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
             if mapNodeLis:
                 for yetiTextureNode in mapNodeLis:
                     osImageFile = cls.getYetiTextureParam(yetiShape, yetiTextureNode)
-                    subMapFileLis = cls.file_method.getOsUdimFileSubFileLis(osImageFile)
+
+                    subMapFileLis = maBscMethods.Texture.existFiles(osImageFile)
                     if subMapFileLis:
                         for subMapFile in subMapFileLis:
                             if not subMapFile in lis:
@@ -525,42 +522,43 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
             [getBranch(i) for i in yetiObjectPathLis]
         return lis
     @classmethod
-    def setYetiTextureCollection(cls, targetOsPath, yetiObject=None, ignoreMtimeChanged=False, ignoreExists=False, backupExists=False):
-        def setBranch(sourceOsFile, targetOsFile):
+    def setYetiTextureCollection(cls, targetDirectoryString, yetiObject=None, ignoreMtimeChanged=False, ignoreExists=False, backupExists=False):
+        def setBranch(sourceFileString, targetFileString):
             cls.updateProgress()
             #
-            cls.file_method.setOsFileCopy(sourceOsFile, targetOsFile)
-            cls.traceMessage(u'//Result : Copy {} > {}//'.format(sourceOsFile, targetOsFile))
+            bscMethods.OsFile.copyTo(sourceFileString, targetFileString)
+
+            bscMethods.PyMessage.trace(u'//Result : Copy {} > {}//'.format(sourceFileString, targetFileString))
         #
         osFileLis = cls.getYetiTextureLisByYetiObjectForCollection(yetiObject)
         #
         if backupExists is True:
             pass
         #
-        osFileCollectionDatumLis = cls.file_method.getOsFileCollectionDatumLis(osFileLis, targetOsPath, ignoreMtimeChanged, ignoreExists)
+        osFileCollectionDatumLis = bscMethods.OsFile.collectionDatum(osFileLis, targetDirectoryString, ignoreMtimeChanged, ignoreExists)
         if osFileCollectionDatumLis:
             cls.viewProgress(u'Collection Yeti Texture', maxValue=len(osFileCollectionDatumLis))
             [setBranch(i, j) for i, j in osFileCollectionDatumLis]
-            cls.traceMessage(u'//Result : Complete Collection//'.format(targetOsPath))
+            bscMethods.PyMessage.trace(u'//Result : Complete Collection//'.format(targetDirectoryString))
         else:
-            cls.traceMessage(u'//Warning : Nothing to Collection//'.format(targetOsPath))
+            bscMethods.PyMessage.trace(u'//Warning : Nothing to Collection//'.format(targetDirectoryString))
     @classmethod
-    def setYetiTextureRepath(cls, targetOsPath, yetiObject=None, ignoreExists=False):
+    def setYetiTextureRepath(cls, targetDirectoryString, yetiObject=None, ignoreExists=False):
         def getMain(yetiFurMapRepathLis):
             def getBranch(yetiShape, yetiTextureNode, osImageFile):
                 cls.updateProgress()
                 #
-                targetOsImageFile = cls.file_method.getOsTargetFile(osImageFile, targetOsPath)
+                targetOsImageFile = bscMethods.OsFile.renameDirnameTo(osImageFile, targetDirectoryString)
                 #
                 enable = False
                 if ignoreExists is True:
                     enable = True
                 else:
-                    if cls.file_method.isOsExistsMultiFile(targetOsImageFile):
+                    if bscMethods.OsMultifile.isExist(targetOsImageFile):
                         enable = True
                 #
                 if enable is True:
-                    if not cls.file_method.isOsSameFile(osImageFile, targetOsImageFile):
+                    if not bscMethods.OsFile.isSame(osImageFile, targetOsImageFile):
                         lis.append((yetiShape, yetiTextureNode, targetOsImageFile))
             #
             lis = []
@@ -573,13 +571,13 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         def setMain(yetiFurMapRepathLis):
             def setBranch(yetiShape, yetiTextureNode, targetOsImageFile):
                 cls.setYetiTextureParam(yetiShape, yetiTextureNode, targetOsImageFile)
-                cls.traceMessage(u'//Result : Repath {} > {}'.format(cls._toNodeName(yetiShape), targetOsImageFile))
+                bscMethods.PyMessage.trace(u'//Result : Repath {} > {}'.format(cls._toNodeName(yetiShape), targetOsImageFile))
             #
             if yetiFurMapRepathLis:
                 [setBranch(i, j, k) for i, j, k in yetiFurMapRepathLis]
                 #
-                cls.traceMessage(u'//Result : Complete Repath//'.format(targetOsPath))
+                bscMethods.PyMessage.trace(u'//Result : Complete Repath//'.format(targetDirectoryString))
             else:
-                cls.traceMessage(u'//Warning : Nothing to Repath//'.format(targetOsPath))
+                bscMethods.PyMessage.trace(u'//Warning : Nothing to Repath//'.format(targetDirectoryString))
         #
         setMain(getMain(cls.getYetiTextureDatumLis(yetiObject)))

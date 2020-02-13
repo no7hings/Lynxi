@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 from LxPreset import prsCore
 
@@ -43,14 +43,14 @@ class _UtilMethod(object):
 
 
 class Product(
-    prsCore.Product, 
+    prsCore.PrsProductBasic,
     _UtilMethod
 ):
     pass
 
 
 class Asset(
-    prsCore.Asset, 
+    prsCore.PrsAssetBasic,
     _UtilMethod
 ):
     @classmethod
@@ -157,7 +157,7 @@ class Asset(
 
 
 class Scenery(
-    prsCore.Scenery, 
+    prsCore.PrsSceneryBasic,
     _UtilMethod
 ):
     @classmethod
@@ -254,7 +254,7 @@ class Scenery(
 
 
 class Scene(
-    prsCore.Scene,
+    prsCore.PrsSceneBasic,
     _UtilMethod
 ):
     @classmethod

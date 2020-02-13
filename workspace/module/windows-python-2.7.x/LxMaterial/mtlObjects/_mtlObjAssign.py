@@ -1,12 +1,12 @@
 # coding:utf-8
 from LxMaterial import mtlConfigure
 
-from LxMaterial import mtlAbstract
+from LxMaterial import mtlObjAbstract
 
 from LxMaterial.mtlObjects import _mtlObjDefinition, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
 
 
-class ShadersetAssign(mtlAbstract.Abc_ShadersetAssign):
+class ShadersetAssign(mtlObjAbstract.Abc_ShadersetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
@@ -21,7 +21,7 @@ class ShadersetAssign(mtlAbstract.Abc_ShadersetAssign):
         self._initAbcShadersetAssign(*args)
 
 
-class PropertysetAssign(mtlAbstract.Abc_PropertysetAssign):
+class PropertysetAssign(mtlObjAbstract.Abc_PropertysetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
@@ -34,7 +34,7 @@ class PropertysetAssign(mtlAbstract.Abc_PropertysetAssign):
         self._initPropertysetAssign(*args)
 
 
-class VisibilityAssign(mtlAbstract.Abc_VisibilityAssign):
+class VisibilityAssign(mtlObjAbstract.Abc_VisibilityAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_raw_type = _mtlObjRaw.Raw_VisibilityType
     CLS_set_geometry = _mtlObjSet.Set_Geometry

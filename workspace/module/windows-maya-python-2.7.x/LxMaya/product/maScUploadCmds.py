@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
+from LxBasic import bscConfigure, bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
@@ -36,7 +36,7 @@ none = ''
 def scUnitAnimationUploadMainCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         description, notes,
@@ -56,7 +56,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Source', True, scUnitSourceUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 timeTag,
                 description, notes
             )
@@ -65,7 +65,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Product', True, scUnitProductUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 timeTag
             )
         ),
@@ -73,7 +73,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Index', withIndex, scUnitIndexUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame, frameOffset,
                 timeTag,
                 withIndex
@@ -83,7 +83,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Camera(s)', withCamera, scUnitCamerasUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame, frameOffset,
                 timeTag,
                 withCamera
@@ -93,7 +93,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Preview(s)', withPreview, scUnitPreviewsUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame, frameOffset,
                 timeTag,
                 withPreview
@@ -103,7 +103,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Asset(s)', withAsset, scUnitAssetCachesUploadCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame, frameOffset,
                 timeTag,
                 description, notes,
@@ -114,7 +114,7 @@ def scUnitAnimationUploadMainCmd(
             'Upload / Update Scenery(s)', withScenery, scUnitSceneriesUploadCmd,(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 timeTag,
                 withScenery
             )
@@ -123,7 +123,7 @@ def scUnitAnimationUploadMainCmd(
             'Open Source', True, scUnitSourceOpenCmd, (
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 timeTag
             )
         )
@@ -148,7 +148,7 @@ def scUnitAnimationUploadMainCmd(
             htmlLog,
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             description, notes
         )
     # Send Ding Talk
@@ -156,7 +156,7 @@ def scUnitAnimationUploadMainCmd(
         messageOp.sendProductMessageByDingTalk(
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             timeTag,
             description, notes
         )
@@ -166,7 +166,7 @@ def scUnitAnimationUploadMainCmd(
 def scUnitLightUploadMainCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize,
         timeTag,
         description, notes,
@@ -184,7 +184,7 @@ def scUnitLightUploadMainCmd(
     scUnitSourceUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
         description, notes
     )
@@ -192,7 +192,7 @@ def scUnitLightUploadMainCmd(
     scUnitProductUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag
     )
     #
@@ -201,14 +201,14 @@ def scUnitLightUploadMainCmd(
         scUnitRenderUploadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             customize,
             timeTag
         )
         scUnitRenderIndexUploadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
             width, height,
             customize,
@@ -220,7 +220,7 @@ def scUnitLightUploadMainCmd(
             scUnitRenderDeadlineSubmitMainCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 width, height,
                 timeTag,
@@ -234,7 +234,7 @@ def scUnitLightUploadMainCmd(
     scUnitSourceOpenCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag
     )
     # Complete
@@ -246,7 +246,7 @@ def scUnitLightUploadMainCmd(
             htmlLog,
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             description, notes
         )
     # Send Ding Talk
@@ -254,7 +254,7 @@ def scUnitLightUploadMainCmd(
         messageOp.sendProductMessageByDingTalk(
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             timeTag,
             description, notes
         )
@@ -264,7 +264,7 @@ def scUnitLightUploadMainCmd(
 def scUnitAssetsUploadMainCmd_(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         description, notes,
@@ -280,7 +280,7 @@ def scUnitAssetsUploadMainCmd_(
     scUnitAssetCachesUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         description, notes,
@@ -295,7 +295,7 @@ def scUnitAssetsUploadMainCmd_(
             htmlLog,
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             description, notes
         )
     # Send Ding Talk
@@ -303,7 +303,7 @@ def scUnitAssetsUploadMainCmd_(
         messageOp.sendProductMessageByDingTalk(
             sceneIndex,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             timeTag,
             description, notes
         )
@@ -345,13 +345,13 @@ def scUnitAstAlembicCacheUploadCmd(
     )
     # Information
     infoDic = scenePr.alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description, notes)
-    infoFile = bscMethods.OsFile.infoJsonFilename(multLineCacheFile)
+    infoFile = bscMethods.OsFile.infoJsonName(multLineCacheFile)
     bscMethods.OsJson.write(infoFile, infoDic)
     # Index
     if indexKey is not None:
         cacheIndex = {
-            lxConfigure.Lynxi_Key_Info_Update: bscMethods.OsTime.activeTimestamp(),
-            lxConfigure.Lynxi_Key_Info_Artist: bscMethods.OsSystem.username(),
+            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
+            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
             #
             lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
             #
@@ -440,7 +440,7 @@ def uploadScAstMeshData(
 def scUnitSourceUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
         description, notes
 ):
@@ -448,7 +448,7 @@ def scUnitSourceUploadCmd(
     # Source File >>> 01
     backupSourceFile = scenePr.sceneUnitSourceFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     logWin_.addResult(linkFile)
@@ -460,7 +460,7 @@ def scUnitSourceUploadCmd(
         sceneStage,
         description, notes
     )
-    recordFile = bscMethods.OsFile.infoJsonFilename(linkFile)
+    recordFile = bscMethods.OsFile.infoJsonName(linkFile)
     bscMethods.OsJson.write(
         recordFile,
         updateData
@@ -471,18 +471,18 @@ def scUnitSourceUploadCmd(
 def scUnitSourceOpenCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag
 ):
     logWin_ = bscObjects.If_Log()
     # Open Source
     backupFile = scenePr.sceneUnitSourceFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     localFile = scenePr.sceneUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupFile, timeTag)
     maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localFile, timeTag)
@@ -493,18 +493,18 @@ def scUnitSourceOpenCmd(
 def scUnitProductUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
     logWin_ = bscObjects.If_Log()
     # Main Method
     serverProductFile = scenePr.sceneUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupProductFile = scenePr.sceneUnitProductFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     maFile.updateMayaFile(serverProductFile)
     logWin_.addResult(serverProductFile)
@@ -519,7 +519,7 @@ def scUnitProductUploadCmd(
 def scUnitIndexUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         withIndex,
@@ -541,15 +541,15 @@ def scUnitIndexUploadCmd(
         # Main Method
         serverIndexFile = scenePr.scUnitIndexFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant
+            projectName, sceneCategory, sceneName, sceneVariant
         )[1]
         backupIndexFile = scenePr.scUnitIndexFile(
             lxConfigure.LynxiRootIndex_Backup,
-            projectName, sceneClass, sceneName, sceneVariant
+            projectName, sceneCategory, sceneName, sceneVariant
         )[1]
         #
         sceneIndexDic = scenePr.scUnitIndexDic(
-            sceneIndex, projectName, sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame,
         )
         #
@@ -598,7 +598,7 @@ def scUnitIndexUploadCmd(
 def scUnitCamerasUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         withCamera
@@ -613,44 +613,44 @@ def scUnitCamerasUploadCmd(
         #
         return data, config
 
-    def setBranch(cameraObject, subLabel, zAdjust):
+    def setBranch(cameraObject, subLabelString, zAdjust):
         # Camera Locator
         cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
-        subCameraLocator = cameraLocator + subLabel
+        subCameraLocator = cameraLocator + subLabelString
         # Camera Product File
         serverProductFile = scenePr.scUnitCameraProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
-        subServerProductFile = bscCommands.getOsSubFile(serverProductFile, subLabel)
+        subServerProductFile = bscMethods.OsFile.subFilename(serverProductFile, subLabelString)
         # FBX
         serverCameraFbxFile = scenePr.scUnitCameraFbxFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
-        subServerCameraFbxFile = bscCommands.getOsSubFile(serverCameraFbxFile, subLabel)
+        subServerCameraFbxFile = bscMethods.OsFile.subFilename(serverCameraFbxFile, subLabelString)
         # Alembic Cache
         serverCameraAlembicCacheFile = scenePr.scUnitCameraAlembicCacheFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant, sceneStage
         )[1]
-        subServerCameraAlembicCacheFile = bscCommands.getOsSubFile(serverCameraAlembicCacheFile, subLabel)
+        subServerCameraAlembicCacheFile = bscMethods.OsFile.subFilename(serverCameraAlembicCacheFile, subLabelString)
         # Cache Index
         cameraCacheIndexFile = scenePr.scCameraCacheIndexFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
             sceneName, sceneVariant
         )[1]
-        subCameraCacheIndexFile = bscCommands.getOsSubFile(
-            cameraCacheIndexFile, subLabel
+        subCameraCacheIndexFile = bscMethods.OsFile.subFilename(
+            cameraCacheIndexFile, subLabelString
         )
         # Bake Camera
         sceneOp.setScCreateOutputCameraMain(
-            cameraObject, subLabel,
-            sceneClass, sceneName, sceneVariant,
+            cameraObject, subLabelString,
+            sceneCategory, sceneName, sceneVariant,
             startFrame, endFrame, frameOffset,
             zAdjust=zAdjust
         )
@@ -684,8 +684,8 @@ def scUnitCamerasUploadCmd(
                         # Sub Progress
                         progressBar.update()
                         #
-                        subLabel = bscCommands.getSubLabel(seq)
-                        setBranch(cameraObject, subLabel, zAdjust)
+                        subLabelString = bscMethods.OsFile.seqLabel(seq)
+                        setBranch(cameraObject, subLabelString, zAdjust)
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
 
@@ -698,7 +698,7 @@ def scUnitCamerasUploadCmd(
 def scUnitPreviewsUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         withPreview,
@@ -713,38 +713,38 @@ def scUnitPreviewsUploadCmd(
         #
         return data, config
 
-    def setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode):
+    def setBranch(cameraObject, subLabelString, percent, quality, width, height, vedioFormat, displayMode, useMode):
         # Get Camera
-        outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabel
+        outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
         previewCamera = cameraObject
         if maUtils.isAppExist(outputCamera):
             previewCamera = outputCamera
         # Preview File
         servePreviewFile = scenePr.scenePreviewFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
+            projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         backupPreviewFile = scenePr.scenePreviewFile(
             lxConfigure.LynxiRootIndex_Backup,
-            projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
+            projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         if useMode == 1:
             localPreviewFile = scenePr.scenePreviewFile(
                 lxConfigure.LynxiRootIndex_Local,
-                projectName, sceneClass, sceneName, sceneVariant, sceneStage, vedioFormat
+                projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
             )[1]
             servePreviewFile = bscMethods.OsFile.toJoinTimetag(localPreviewFile)
         # Index File
         serverPreviewIndexFile = scenePr.scenePreviewIndexFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant, sceneStage
+            projectName, sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
-        subSeverPreviewFile = bscCommands.getOsSubFile(servePreviewFile, subLabel)
-        subBackupPreviewFile = bscCommands.getOsSubFile(backupPreviewFile, subLabel)
-        subServerPreviewIndexFile = bscCommands.getOsSubFile(serverPreviewIndexFile, subLabel)
+        subSeverPreviewFile = bscMethods.OsFile.subFilename(servePreviewFile, subLabelString)
+        subBackupPreviewFile = bscMethods.OsFile.subFilename(backupPreviewFile, subLabelString)
+        subServerPreviewIndexFile = bscMethods.OsFile.subFilename(serverPreviewIndexFile, subLabelString)
         #
         imagePreviews = maPrv.makePreview(
-            osFile=subSeverPreviewFile,
+            fileString_=subSeverPreviewFile,
             camera=previewCamera,
             useDefaultMaterial=1,
             percent=percent,
@@ -779,8 +779,8 @@ def scUnitPreviewsUploadCmd(
                         # Sub Progress
                         progressBar.update()
                         #
-                        subLabel = bscCommands.getSubLabel(seq)
-                        setBranch(cameraObject, subLabel, percent, quality, width, height, vedioFormat, displayMode, useMode)
+                        subLabelString = bscMethods.OsFile.seqLabel(seq)
+                        setBranch(cameraObject, subLabelString, percent, quality, width, height, vedioFormat, displayMode, useMode)
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
 
@@ -793,17 +793,17 @@ def scUnitPreviewsUploadCmd(
 def scUnitSoundUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
 ):
     logWin_ = bscObjects.If_Log()
 
     serverFile = scenePr.sceneSoundFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupFile = scenePr.sceneSoundFile(
         lxConfigure.LynxiRootIndex_Backup,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     #
     sounds = datScene.getSceneSounds()
@@ -816,7 +816,7 @@ def scUnitSoundUploadCmd(
 def scUnitAssetCachesUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame, frameOffset,
         timeTag,
         description, notes,
@@ -833,7 +833,7 @@ def scUnitAssetCachesUploadCmd(
         return data, config
     #
     def setBranch(value):
-        assetClass, assetName, number, assetVariant, keyNode = value
+        assetCategory, assetName, number, assetVariant, keyNode = value
         #
         if maUtils.getNodeType(keyNode) == appCfg.MaReferenceType:
             namespace = maUtils.getReferenceNamespace(keyNode)
@@ -922,7 +922,7 @@ def scUnitAssetCachesUploadCmd(
                     #
                     alembicAttrs = datScene.getScAstRigAlembicAttrData(
                         projectName,
-                        assetClass, assetName, assetVariant
+                        assetCategory, assetName, assetVariant
                     )
                     scUnitAstAlembicCacheUploadCmd(
                         astExtraSubRoot,
@@ -987,7 +987,7 @@ def scUnitAssetCachesUploadCmd(
 def scUnitSceneriesUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
         withScenery
 ):
@@ -1000,11 +1000,11 @@ def scUnitSceneriesUploadCmd(
             if sceneryExtraData:
                 sceneryExtraFile = scenePr.scUnitSceneryExtraFile(
                     lxConfigure.LynxiRootIndex_Server,
-                    projectName, sceneClass, sceneName, sceneVariant, sceneStage
+                    projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                 )[1]
                 backupExtraFile = scenePr.scUnitSceneryExtraFile(
                     lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, sceneStage
+                    projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                 )[1]
                 bscMethods.OsJson.setValue(
                     sceneryExtraFile,
@@ -1022,7 +1022,7 @@ def scUnitSceneriesUploadCmd(
 def scUnitSceneryComposeUploadCmd_(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
     logWin_ = bscObjects.If_Log()
@@ -1032,12 +1032,12 @@ def scUnitSceneryComposeUploadCmd_(
         serverFile = scenePr.scUnitAssemblyComposeFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         backupFile = scenePr.scUnitAssemblyComposeFile(
             lxConfigure.LynxiRootIndex_Backup,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         #
         bscMethods.OsJson.write(
@@ -1149,7 +1149,7 @@ def uploadScAstCfxFurCache(
 def scUnitRenderUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize,
         timeTag,
 ):
@@ -1158,12 +1158,12 @@ def scUnitRenderUploadCmd(
     serverRenderFile = scenePr.scUnitRenderFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage, customize
+        sceneCategory, sceneName, sceneVariant, sceneStage, customize
     )[1]
     backupRenderFile = scenePr.scUnitRenderFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage, customize
+        sceneCategory, sceneName, sceneVariant, sceneStage, customize
     )[1]
     #
     logWin_.addStartProgress(u'Render Upload')
@@ -1184,7 +1184,7 @@ def scUnitRenderUploadCmd(
 def scUnitRenderIndexUploadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         width, height,
         customize,
@@ -1195,27 +1195,27 @@ def scUnitRenderIndexUploadCmd(
     serverRenderFile = scenePr.scUnitRenderFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderIndexFile = scenePr.sceUnitRenderIndexFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     backupRenderIndexFile = scenePr.sceUnitRenderIndexFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )
     #
@@ -1238,12 +1238,12 @@ def scUnitRenderIndexUploadCmd(
         withTx=True
     )
     composeFileLis.insert(0, serverRenderFile)
-    imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, sceneNameOverride=bscCommands.getOsFileName(serverRenderFile))
+    imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, sceneNameOverride=bscMethods.OsFile.name(serverRenderFile))
     #
     renderData = scenePr.getScRenderIndexData(
         sceneIndex,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         width, height,
         imagePrefix,
@@ -1262,7 +1262,7 @@ def scUnitRenderIndexUploadCmd(
 def scUnitRenderDeadlineSubmitMainCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         width, height,
         timeTag,
@@ -1277,34 +1277,34 @@ def scUnitRenderDeadlineSubmitMainCmd(
     serverRenderFile = scenePr.scUnitRenderFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Info
     serverDeadlineInfoFile = scenePr.scDeadlineInfoFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Job
     serverDeadlineJobFile = scenePr.scDeadlineJobFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )
     serverRenderImagePath = scenePr.scUnitRenderImageFolder(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )
     #
@@ -1360,7 +1360,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
             # Get Camera Override
             renderableCameraLis = maRender.getRenderableCameraLis()
             #
-            subLabel = '.' + currentRenderLayer
+            subLabelString = '.' + currentRenderLayer
             #
             jobName = scenePr.scDeadlineJobName(currentRenderLayer, startFrame, endFrame, width, height, timeTag)
             imageFileLis = maRender.getImageFileLis(sceneRoot=serverRenderPath, renderLayerOverride=currentRenderLayer)
@@ -1383,8 +1383,8 @@ def scUnitRenderDeadlineSubmitMainCmd(
                 arnoldVerbose=ddlJobAbortError,
                 melCommand=melCommand
             )
-            serverSubDeadlineInfoFile = bscCommands.getOsSubFile(serverDeadlineInfoFile, subLabel)
-            serverSubDeadlineJobFile = bscCommands.getOsSubFile(serverDeadlineJobFile, subLabel)
+            serverSubDeadlineInfoFile = bscMethods.OsFile.subFilename(serverDeadlineInfoFile, subLabelString)
+            serverSubDeadlineJobFile = bscMethods.OsFile.subFilename(serverDeadlineJobFile, subLabelString)
             #
             logWin_.addStartProgress(u'Render Layer', currentRenderLayer)
             #
@@ -1409,13 +1409,13 @@ def scUnitDeadlineJobSubmitCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Info
-    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, bscConfigure.MtdBasic.STR_time_tag_default, useMode=1)
     multLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineInfoFile, infoData)
     bscMethods.OsFile.backupTo(multLineInfoFile, mainLineInfoFile)
     logWin_.addResult(multLineInfoFile)
     # Job
-    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, lxConfigure.LynxiMainTimeTag, useMode=1)
+    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, bscConfigure.MtdBasic.STR_time_tag_default, useMode=1)
     multLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineJobFile, jobData)
     bscMethods.OsFile.backupTo(multLineJobFile, mainLineJobFile)
@@ -1432,7 +1432,7 @@ def scUnitDeadlineJobSubmitCmd(
                         logWin_.addResult(i)
             #
             
-            resultFile = bscMethods.OsFile.resultFilename(multLineJobFile)
+            resultFile = bscMethods.OsFile.resultName(multLineJobFile)
             #
             bscMethods.OsFile.write(resultFile, result)
     else:

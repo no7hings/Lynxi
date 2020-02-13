@@ -10,7 +10,7 @@ from LxMaya.method.basic import _maMethodBasic
 
 #
 class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
-    ui_qt_method = uiCore.Basic
+    ui_qt_method = uiCore.UiMtdBasic
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(qtCore.QWidget, self)

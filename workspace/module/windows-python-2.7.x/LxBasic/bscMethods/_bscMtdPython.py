@@ -2,13 +2,13 @@
 from LxBasic import bscCore
 
 
-class PyLoader(bscCore.Basic):
+class PyLoader(bscCore.BscMtdBasic):
     @classmethod
     def loadModule(cls, moduleName):
         return cls._loadPythonModule(moduleName)
 
 
-class PyReloader(bscCore.Basic):
+class PyReloader(bscCore.BscMtdBasic):
     @classmethod
     def _getModuleLis(cls, moduleNames, filterModuleName=None):
         def filterFnc_(moduleName, keyword):
@@ -79,7 +79,7 @@ class PyReloader(bscCore.Basic):
         )
 
 
-class PyMessage(bscCore.Basic):
+class PyMessage(bscCore.BscMtdBasic):
     Enable_Print = True
 
     @classmethod

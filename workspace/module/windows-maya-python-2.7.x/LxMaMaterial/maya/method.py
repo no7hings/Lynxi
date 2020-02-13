@@ -2,8 +2,8 @@
 import os
 # noinspection PyUnresolvedReferences
 from maya import cmds
-#
-from LxCore.method import _osMethod
+
+from LxBasic import bscMethods
 #
 from LxMaya.operation import maPlugExport
 
@@ -122,7 +122,8 @@ class MaMaterialExport(object):
     #
     def _debug(self):
         lis = []
-        data = _osMethod.OsFileMethod.readOsData(self._fileString, readLines=True)
+
+        data = bscMethods.OsFile.readlines(self._fileString)
         if data:
             for i in data:
                 if 'type=""' in i:
@@ -130,7 +131,7 @@ class MaMaterialExport(object):
                 #
                 lis.append(i)
         #
-        _osMethod.OsFileMethod.writeOsData(lis, self._fileString)
+        bscMethods.OsFile.write(self._fileString, lis)
     #
     def export(self):
         cmds.arnoldExportToMaterialX(

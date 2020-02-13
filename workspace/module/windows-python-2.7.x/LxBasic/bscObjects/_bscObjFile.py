@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxBasic import bscAbstract
+from LxBasic import bscCore, bscObjAbstract
 
 
-class File(bscAbstract.Abc_File):
+class File(bscObjAbstract.Abc_File):
     def __init__(self, fileString):
         self._initAbcFile(fileString)
 
@@ -29,7 +29,7 @@ class File(bscAbstract.Abc_File):
                 f.close()
 
 
-class JsonFile(bscAbstract.Abc_File):
+class JsonFile(bscObjAbstract.Abc_File):
     def __init__(self, fileString):
         self._initAbcFile(fileString)
 

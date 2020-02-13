@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
+from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
@@ -25,7 +25,7 @@ none = ''
 def astUnitModelCreateMainCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         isUseExistsHierarchy=False
 ):
     logWin_ = bscObjects.If_Log(title=u'Model Create')
@@ -42,14 +42,14 @@ def astUnitModelCreateMainCmd(
     #
     logWin_.addStartProgress(u'Model Hierarchy Create')
     #
-    maHier.setCreateAstModelHierarchy(assetClass, assetName)
-    maHier.setCreateAstUnitModelSolverHierarchy(assetClass, assetName)
+    maHier.setCreateAstModelHierarchy(assetCategory, assetName)
+    maHier.setCreateAstUnitModelSolverHierarchy(assetCategory, assetName)
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     maHier.refreshHierarchyBranch(
         astUnitModelProductGroup,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     if existsHierarchy:
@@ -57,7 +57,7 @@ def astUnitModelCreateMainCmd(
     #
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     logWin_.addCompleteProgress()
@@ -69,7 +69,7 @@ def astUnitModelCreateMainCmd(
 def astUnitModelLoadMainCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         force=True, lockTransform=True, collectionTexture=True,
 ):
     # Set Log Window
@@ -86,35 +86,35 @@ def astUnitModelLoadMainCmd(
     astUnitModelGeometryLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         lockTransform=lockTransform
     )
     # Material
     astUnitModelMaterialLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=collectionTexture
     )
     # Extra
     astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Create Root
     maHier.setCreateAstRootHierarchy(
-        assetClass, assetName
+        assetCategory, assetName
     )
     # Refresh Root
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Save Source to Local
     astUnitModelSourceSaveCmd(
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -123,14 +123,14 @@ def astUnitModelLoadMainCmd(
 #
 def astUnitModelSourceSaveCmd(
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     logWin_ = bscObjects.If_Log()
     # Local
     localAstModelFile = assetPr.astUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
     maUtils.setVisiblePanelsDelete()
@@ -148,7 +148,7 @@ def astUnitModelSourceSaveCmd(
 def astUnitModelGeometryLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         lockTransform=True
 ):
     logWin_ = bscObjects.If_Log()
@@ -168,7 +168,7 @@ def astUnitModelGeometryLoadCmd(
         astUnitModelCreateMainCmd(
             projectName,
             assetIndex,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
 
 
@@ -176,7 +176,7 @@ def astUnitModelGeometryLoadCmd(
 def astUnitModelMaterialLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -201,14 +201,14 @@ def astUnitModelMaterialLoadCmd(
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage
+                    assetCategory, assetName, assetVariant, assetStage
                 )
                 isBackExists = False
             else:
                 modelTextureDirectory = assetPr.astUnitTextureFolder(
                     lxConfigure.LynxiRootIndex_Local,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage
+                    assetCategory, assetName, assetVariant, assetStage
                 )
                 isBackExists = True
             #
@@ -254,7 +254,7 @@ def astUnitModelMaterialLoadCmd(
 def astUnitLoadModelTexture(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         useServerTexture=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -263,14 +263,14 @@ def astUnitLoadModelTexture(
         modelTextureDirectory = assetPr.astUnitTextureFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         isBackExists = False
     else:
         modelTextureDirectory = assetPr.astUnitTextureFolder(
             lxConfigure.LynxiRootIndex_Local,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         isBackExists = True
     #
@@ -304,7 +304,7 @@ def astUnitLoadModelTexture(
 def astUnitRigCreateMainCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     logWin_ = bscObjects.If_Log(u'Rig Create')
     logWin_.showUi()
@@ -321,14 +321,14 @@ def astUnitRigCreateMainCmd(
     astUnitModelGeometryLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         lockTransform=False
     )
     #
     astUnitModelMaterialLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=True,
         useServerTexture=True
     )
@@ -336,19 +336,19 @@ def astUnitRigCreateMainCmd(
     astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
-    maHier.setCreateAstRigHierarchy(assetClass, assetName)
+    maHier.setCreateAstRigHierarchy(assetCategory, assetName)
     #
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     astUnitRigSaveCmd(
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -359,7 +359,7 @@ def astUnitRigCreateMainCmd(
 @bscModifiers.fncCostTimeCatch
 def astUnitRigLoadMainCmd(
         assetIndex,
-        projectName, assetClass, assetName, assetVariant, assetStage,
+        projectName, assetCategory, assetName, assetVariant, assetStage,
         force=True
 ):
     # Set Log Window
@@ -374,11 +374,11 @@ def astUnitRigLoadMainCmd(
     localSourceFile = assetPr.astUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
     logWin_.addStartProgress(u'Rig Load')
-    if bscCommands.isOsExistsFile(dbRigFile):
+    if bscMethods.OsFile.isExist(dbRigFile):
         if force:
             maFile.openMayaFileAsBack(dbRigFile, localSourceFile)
         elif not force:
@@ -388,16 +388,16 @@ def astUnitRigLoadMainCmd(
         astUnitExtraLoadCmd(
             assetIndex,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         # Create Branch
         rigBranch = prsMethods.Asset.rigLinkGroupName(assetName)
         if not maUtils.isAppExist(rigBranch):
-            maHier.setCreateAstRigHierarchy(assetClass, assetName)
+            maHier.setCreateAstRigHierarchy(assetCategory, assetName)
         #
         maHier.astUnitRefreshRoot(
             assetIndex,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         #
         logWin_.addCompleteProgress()
@@ -410,14 +410,14 @@ def astUnitRigLoadMainCmd(
 #
 def astUnitRigSaveCmd(
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     logWin_ = bscObjects.If_Log()
     # LocalFile
     localFile = assetPr.astUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )[1]
     maUtils.setVisiblePanelsDelete()
     assetOp.setUnknownNodeClear()
@@ -435,7 +435,7 @@ def astUnitRigSaveCmd(
 def astUnitCreateCfxMain(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         withRig=False
 ):
     # Set Log Window
@@ -457,22 +457,22 @@ def astUnitCreateCfxMain(
     astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Create Root
-    maHier.setCreateAstCfxHierarchy(assetClass, assetName)
+    maHier.setCreateAstCfxHierarchy(assetCategory, assetName)
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     maUtils.setObjectReferenceDisplay(astUnitModelProductGroup)
     #
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Save Source
     astUnitSourceSaveCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -484,7 +484,7 @@ def astUnitCreateCfxMain(
 def astUnitCfxLoadMainCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionMap=True, useServerMap=False,
         collectionTexture=True, useServerTexture=False,
 ):
@@ -505,41 +505,41 @@ def astUnitCfxLoadMainCmd(
         astUnitLoadModelTexture(
             projectName,
             assetIndex,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
     # Create Root
-    maHier.setCreateAstRootHierarchy(assetClass, assetName)
+    maHier.setCreateAstRootHierarchy(assetCategory, assetName)
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     maUtils.setObjectReferenceDisplay(astUnitModelProductGroup)
     #
     astUnitCfxFurLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionMap=collectionMap, useServerMap=useServerMap
     )
     astUnitLoadCfxMaterialSub(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=collectionTexture, useServerTexture=useServerTexture
     )
     # Extra >>> 4
     astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Save Source
     astUnitSourceSaveCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -549,7 +549,7 @@ def astUnitCfxLoadMainCmd(
 def astUnitCfxFurLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionMap=False, useServerMap=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -569,13 +569,13 @@ def astUnitCfxFurLoadCmd(
             mapDirectory = assetPr.astUnitMapFolder(
                 lxConfigure.LynxiRootIndex_Local,
                 projectName,
-                assetClass, assetName, assetVariant, assetStage
+                assetCategory, assetName, assetVariant, assetStage
             )
             if useServerMap:
                 mapDirectory = assetPr.astUnitMapFolder(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage
+                    assetCategory, assetName, assetVariant, assetStage
                 )
             #
             logWin_.addStartProgress(u'Map Load')
@@ -596,7 +596,7 @@ def astUnitCfxFurLoadCmd(
 def astUnitLoadCfxMaterialSub(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -620,13 +620,13 @@ def astUnitLoadCfxMaterialSub(
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage
+                    assetCategory, assetName, assetVariant, assetStage
                 )
             else:
                 cfxTextureDirectory = assetPr.astUnitTextureFolder(
                     lxConfigure.LynxiRootIndex_Local,
                     projectName,
-                    assetClass, assetName, assetVariant, assetStage
+                    assetCategory, assetName, assetVariant, assetStage
                 )
             #
             logWin_.addStartProgress(u'Texture Load')
@@ -667,7 +667,7 @@ def astUnitLoadCfxMaterialSub(
 def astUnitSolverCreateMainCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         force=True
 ):
     # Set Log Window
@@ -682,20 +682,20 @@ def astUnitSolverCreateMainCmd(
     astUnitReferenceLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     logWin_.addCompleteProgress()
     #
-    maHier.setCreateAstRigSolverHierarchy(assetClass, assetName)
+    maHier.setCreateAstRigSolverHierarchy(assetCategory, assetName)
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Save Source
     astUnitSourceSaveCmd(
         assetIndex,
-        projectName, assetClass, assetName, assetVariant, assetStage
+        projectName, assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -706,7 +706,7 @@ def astUnitSolverCreateMainCmd(
 def astUnitLightCreateMainCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         force=True
 ):
     # Set Log Window
@@ -727,21 +727,21 @@ def astUnitLightCreateMainCmd(
     astUnitModelGeometryLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         lockTransform=True
     )
     #
     astUnitModelMaterialLoadCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=True, useServerTexture=True
     )
     # Create Root
-    maHier.setCreateAstLightHierarchy(assetClass, assetName)
+    maHier.setCreateAstLightHierarchy(assetCategory, assetName)
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -752,7 +752,7 @@ def astUnitLightCreateMainCmd(
 def astUnitLoadMainCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionTexture=False, useServerTexture=False,
         force=True
 ):
@@ -767,40 +767,40 @@ def astUnitLoadMainCmd(
     astUnitReferenceLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Product >>> 02
     astUnitProductLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Extra >>> 03
     astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Cache >>> 04
     astUnitCacheLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionCache=True, useServerTexture=False
     )
     # Save Source >>> 05
     maHier.setCreateAstRootHierarchy(
-        assetClass, assetName
+        assetCategory, assetName
     )
     maHier.astUnitRefreshRoot(
         assetIndex,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     #
     astUnitSourceSaveCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
     )
     # Complete
     logWin_.addCompleteTask()
@@ -810,7 +810,7 @@ def astUnitLoadMainCmd(
 def astUnitReferenceLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     assetStagePrettify = assetStage.capitalize()
 
@@ -836,7 +836,7 @@ def astUnitReferenceLoadCmd(
         astUnitLoadModelTexture(
             projectName,
             assetIndex,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         # Refresh Root
         astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
@@ -849,7 +849,7 @@ def astUnitReferenceLoadCmd(
 def astUnitProductLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     assetStagePrettify = assetStage.capitalize()
 
@@ -860,11 +860,11 @@ def astUnitProductLoadCmd(
         serverProductFile = assetPr.astUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )[1]
     #
     if serverProductFile is not None:
-        if bscCommands.isOsExistsFile(serverProductFile):
+        if bscMethods.OsFile.isExist(serverProductFile):
             logWin_.addStartProgress(u'Product Load')
             #
             maFile.setFileImport(serverProductFile)
@@ -874,7 +874,7 @@ def astUnitProductLoadCmd(
             astUnitTextureLoadCmd(
                 assetIndex,
                 projectName,
-                assetClass, assetName, assetVariant, assetStage
+                assetCategory, assetName, assetVariant, assetStage
             )
 
 
@@ -882,7 +882,7 @@ def astUnitProductLoadCmd(
 def astUnitTextureLoadSubCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         textureNodes,
         isWithTx
 ):
@@ -894,7 +894,7 @@ def astUnitTextureLoadSubCmd(
         localTextureFolder = assetPr.astUnitTextureFolder(
             lxConfigure.LynxiRootIndex_Local,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         maTxtr.setTexturesCollection(
             localTextureFolder,
@@ -912,7 +912,7 @@ def astUnitTextureLoadSubCmd(
 def astUnitTextureLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     assetStagePrettify = assetStage.capitalize()
 
@@ -938,7 +938,7 @@ def astUnitTextureLoadCmd(
                     astUnitTextureLoadSubCmd(
                         assetIndex,
                         projectName,
-                        assetClass, assetName, assetVariant, assetStage,
+                        assetCategory, assetName, assetVariant, assetStage,
                         textureNodes,
                         isWithTx
                     )
@@ -954,7 +954,7 @@ def astUnitTextureLoadCmd(
 def astUnitCacheLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage,
+        assetCategory, assetName, assetVariant, assetStage,
         collectionCache=True, useServerTexture=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -970,13 +970,13 @@ def astUnitCacheLoadCmd(
 def astUnitExtraLoadCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     logWin_ = bscObjects.If_Log()
     
     serverExtraFile = assetPr.astUnitExtraFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, assetClass, assetName, assetVariant, assetStage
+        projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
     extraData = bscMethods.OsJson.read(serverExtraFile)
     if extraData:
@@ -992,7 +992,7 @@ def astUnitExtraLoadCmd(
 def astUnitSourceSaveCmd(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant, assetStage
+        assetCategory, assetName, assetVariant, assetStage
 ):
     assetStagePrettify = assetStage.capitalize()
 
@@ -1000,7 +1000,7 @@ def astUnitSourceSaveCmd(
     
     localSourceFile = assetPr.astUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
-        projectName, assetClass, assetName, assetVariant, assetStage
+        projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
     # Save to Local
     maUtils.setVisiblePanelsDelete()
@@ -1017,7 +1017,7 @@ def astUnitSourceSaveCmd(
 def astUnitAssemblyLoadForScenery(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant,
+        assetCategory, assetName, assetVariant,
         isWithAnnotation=True, isWithHandle=True
 ):
     logWin_ = bscObjects.If_Log()
@@ -1028,10 +1028,10 @@ def astUnitAssemblyLoadForScenery(
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
-    if bscCommands.isOsExistsFile(serverAstUnitAsbDefinitionFile):
-        assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
+    if bscMethods.OsFile.isExist(serverAstUnitAsbDefinitionFile):
+        assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetCategory, assetVariant)
         maAsb.setAssemblyReferenceCreate(arName, serverAstUnitAsbDefinitionFile)
         #
         if isWithAnnotation:
@@ -1049,25 +1049,25 @@ def astUnitAssemblyLoadForScenery(
 def astUnitRigLoadForAnimationCmd(
         projectName,
         assetIndex,
-        assetClass, assetName, assetVariant
+        assetCategory, assetName, assetVariant
 ):
     logWin_ = bscObjects.If_Log()
     
     serverRigProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )[1]
-    if not bscCommands.isOsExistsFile(serverRigProductFile):
+    if not bscMethods.OsFile.isExist(serverRigProductFile):
         maDbAstCmds.dbAstCopyRigProductTo(assetIndex, serverRigProductFile)
     #
-    timeTag = bscMethods.OsTime.activeTimetag()
+    timeTag = bscMethods.OsTimetag.active()
     namespace = assetPr.astRigNamespaceSet(assetName) + '_' + timeTag
     #
     maFile.setMaFileReference(serverRigProductFile, namespace)
     referenceNode = namespace + 'RN'
     maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTimestamp.active())
     maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)
 
 
@@ -1075,19 +1075,19 @@ def astUnitRigLoadForAnimationCmd(
 def astAssetSolverLoadForAnimation(
         assetIndex,
         projectName,
-        assetClass, assetName, assetVariant
+        assetCategory, assetName, assetVariant
 ):
     logWin_ = bscObjects.If_Log()
     
     serverSolverProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        projectName, assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
     )[1]
-    timeTag = bscMethods.OsTime.activeTimetag()
+    timeTag = bscMethods.OsTimetag.active()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag
     #
     maFile.setMaFileReference(serverSolverProductFile, namespace)
     referenceNode = namespace + 'RN'
     maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTime.activeTimestamp())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTimestamp.active())
     maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)

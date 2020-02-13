@@ -5,7 +5,7 @@ import maya.cmds as cmds
 #
 from random import choice
 #
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils, maAttr, maProxy
 #
@@ -22,11 +22,11 @@ none = ''
 
 
 #
-def setOutActProxy(osFile, frame, renderer):
-    bscMethods.OsFile.createDirectory(osFile)
+def setOutActProxy(fileString_, frame, renderer):
+    bscMethods.OsFile.createDirectory(fileString_)
     # Set Frame
     cmds.currentTime(frame)
-    maProxy.setOutProxy(osFile, renderer, 1)
+    maProxy.setOutProxy(fileString_, renderer, 1)
 
 
 #

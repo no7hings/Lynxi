@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxPreset import prsMethods
 #

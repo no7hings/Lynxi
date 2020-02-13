@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 
 from LxCore import lxConfigure, lxScheme
 #
@@ -142,7 +142,7 @@ def assemblyColorConfig():
 
 #
 def assemblyLodColorConfig():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[17] = 'LOD00'
     dic[14] = 'LOD01'
     dic[6] = 'LOD02'
@@ -150,13 +150,13 @@ def assemblyLodColorConfig():
 
 
 # Scenery AD Name
-def scnAssemblyAdName(sceneryClass, sceneryName, sceneryVariant=none):
+def scnAssemblyAdName(sceneryCategory, sceneryName, sceneryVariant=none):
     string = '%s_%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, prsVariants.Util.scnSceneryDefinitionLabel)
     return string
 
 
 # Scenery AR Name
-def scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant=none):
+def scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant=none):
     string = '%s_%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_Scenery, sceneryName, sceneryVariant, prsVariants.Util.scnSceneryReferenceLabel)
     return string
 
@@ -169,7 +169,7 @@ def assemblyGroupArName(sceneryName):
 
 
 # Scenery Main Locator
-def sceneryMainLocatorName(sceneryClass, sceneryName, sceneryVariant):
+def sceneryMainLocatorName(sceneryCategory, sceneryName, sceneryVariant):
     string = '%s_%s_%s%s' % (
     prsVariants.Util.scnAssemblyPrefix, sceneryName, sceneryVariant, prsVariants.Util.scnSceneryLocatorLabel)
     return string
@@ -191,14 +191,14 @@ def sceneryAssemblySubLocatorName(assetName, number, assetVariant):
 
 #
 def scnRootGroupHierarchyConfig(sceneryName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dic[scnUnitRootGroupName(sceneryName)] = []
     return dic
 
 
 #
 def scnAssemblyHierarchyConfig(sceneryName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Main
     dic[scnAssemblyGroupName(sceneryName)] = [
         scnAssemblyFieldGroupName(sceneryName)
@@ -208,7 +208,7 @@ def scnAssemblyHierarchyConfig(sceneryName):
 
 #
 def scnLightHierarchyConfig(sceneryName):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     # Main
     dic[scnLightGroupName(sceneryName)] = [
         scnGroupNameSet(sceneryName, prsVariants.Util.lgtFieldLabel)
@@ -235,7 +235,7 @@ def isAssemblyStage(sceneryStage):
 #
 def scenerySchemeFileConfig():
     string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbSceneryRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariants.Util.dbSceneryBasicKey)
-    return bscMethods.OsFile.uniqueFilename(string)
+    return bscMethods.OsFile.uniqueName(string)
 
 
 #
@@ -273,11 +273,11 @@ def defaultScenerySetConfig(projectName, number=0):
 # Scheme Data
 def getUiScenerySchemeDataDic():
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 scheme, enabled, description = i
@@ -293,8 +293,8 @@ def getUiScenerySetDataLis(projectName, sceneryIndex, number=0):
         return defaultScenerySetConfig(projectName, number)
     #
     def getCustomData():
-        osFile = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getDic(defaultLis, customDic):
         lis = []
@@ -329,11 +329,11 @@ def getUiScenerySetDataLis(projectName, sceneryIndex, number=0):
 #
 def getSceneryViewName(sceneryIndex):
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getSubDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 scheme, enabled, description = i
@@ -352,8 +352,8 @@ def getSceneryViewName(sceneryIndex):
 #
 def getSceneryClass(sceneryIndex):
     def getCustomData():
-        osFile = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -365,8 +365,8 @@ def getSceneryClass(sceneryIndex):
 #
 def getSceneryName(sceneryIndex):
     def getCustomData():
-        osFile = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -378,8 +378,8 @@ def getSceneryName(sceneryIndex):
 #
 def getSceneryPriority(sceneryIndex):
     def getCustomData():
-        osFile = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -391,8 +391,8 @@ def getSceneryPriority(sceneryIndex):
 #
 def getSceneryVariants(sceneryIndex):
     def getCustomData():
-        osFile = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        return bscMethods.OsJson.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -402,9 +402,9 @@ def getSceneryVariants(sceneryIndex):
 
 
 #
-def sceneryViewInfoSet(sceneryViewName, sceneryClass, sceneryVariant):
+def sceneryViewInfoSet(sceneryViewName, sceneryCategory, sceneryVariant):
     string = u'{} {} ( {} )'.format(
-        sceneryCfg.scnBasicViewClassDic(sceneryClass)[1],
+        sceneryCfg.scnBasicViewClassDic(sceneryCategory)[1],
         sceneryViewName,
         sceneryVariant
     )
@@ -412,23 +412,23 @@ def sceneryViewInfoSet(sceneryViewName, sceneryClass, sceneryVariant):
 
 
 #
-def getSceneryViewInfo(sceneryIndex, sceneryClass=None, sceneryVariant=None):
-    if sceneryClass is None:
-        sceneryClass = getSceneryClass(sceneryIndex)
+def getSceneryViewInfo(sceneryIndex, sceneryCategory=None, sceneryVariant=None):
+    if sceneryCategory is None:
+        sceneryCategory = getSceneryClass(sceneryIndex)
     if sceneryVariant is None:
         sceneryVariant = prsVariants.Util.scnDefaultVariant
-    return sceneryViewInfoSet(getSceneryViewName(sceneryIndex), sceneryClass, sceneryVariant)
+    return sceneryViewInfoSet(getSceneryViewName(sceneryIndex), sceneryCategory, sceneryVariant)
 
 
 #
 def getSceneryIndexesFilter(projectFilter, sceneryClassFilters=None):
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(lis, sceneryIndex):
-        osFile = scenerySetFileConfig(sceneryIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -453,8 +453,8 @@ def getSceneryIndexesFilter(projectFilter, sceneryClassFilters=None):
 #
 def getUiSceneryMultMsgs(projectFilter, sceneryClassFilters=None, sceneryLinkFilter=None):
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getLinks(data):
         lis = []
@@ -465,8 +465,8 @@ def getUiSceneryMultMsgs(projectFilter, sceneryClassFilters=None, sceneryLinkFil
         return lis
     #
     def getBranch(dic, sceneryIndex, description):
-        osFile = scenerySetFileConfig(sceneryIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -493,7 +493,7 @@ def getUiSceneryMultMsgs(projectFilter, sceneryClassFilters=None, sceneryLinkFil
                     dic[sceneryIndex] = dbSceneryName, description
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 sceneryIndex, enabled, description = i
@@ -507,18 +507,18 @@ def getUiSceneryMultMsgs(projectFilter, sceneryClassFilters=None, sceneryLinkFil
 #
 def getSceneryDescriptionDic():
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(dic, sceneryIndex):
-        osFile = scenerySetFileConfig(sceneryIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             sceneryName = data['name']
             dic[sceneryName] = sceneryIndex
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 sceneryIndex, enabled, description = i
@@ -532,16 +532,16 @@ def getSceneryDescriptionDic():
 #
 def getUiScenerySetDataDic(projectFilter):
     def getCustomData():
-        osFile = scenerySchemeFileConfig()
-        return bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySchemeFileConfig()
+        return bscMethods.OsJson.read(fileString_)
     #
     def getBranch(dic, sceneryIndex, description):
-        osFile = scenerySetFileConfig(sceneryIndex)
-        data = bscMethods.OsJson.read(osFile)
+        fileString_ = scenerySetFileConfig(sceneryIndex)
+        data = bscMethods.OsJson.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
-                sceneryClass = data['classify']
+                sceneryCategory = data['classify']
                 sceneryName = data['name']
                 sceneryVariants = data['variant']
                 sceneryPriority = data['priority']
@@ -552,10 +552,10 @@ def getUiScenerySetDataDic(projectFilter):
                 scSimulationEnable = data[lxConfigure.LynxiProduct_Scene_Link_Simulation]
                 scLightEnable = data[lxConfigure.LynxiProduct_Scene_Link_Light]
                 for sceneryVariant in sceneryVariants:
-                    dic[(sceneryIndex, sceneryVariant)] = description, sceneryClass, sceneryName, sceneryPriority, sceneryEnabled, scLayoutEnable, scAnimationEnable, scSimulationEnable, scLightEnable
+                    dic[(sceneryIndex, sceneryVariant)] = description, sceneryCategory, sceneryName, sceneryPriority, sceneryEnabled, scLayoutEnable, scAnimationEnable, scSimulationEnable, scLightEnable
     #
     def getMain(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if data:
             for i in data:
                 sceneryIndex, enabled, description = i
@@ -639,14 +639,14 @@ def scenerySourceFileLabel(sceneryStage):
 
 #
 def scnProductFileLabel(sceneryStage):
-    subLabel = prsVariants.Util.basicProductSubLabel
-    return bscMethods.StrUnderline.toLabel(prsMethods.Scenery.toLinkMainLabelname(sceneryStage), subLabel)
+    subLabelString = prsVariants.Util.basicProductSubLabel
+    return bscMethods.StrUnderline.toLabel(prsMethods.Scenery.toLinkMainLabelname(sceneryStage), subLabelString)
 
 
 #
 def scnAssemblyLabel(sceneryStage):
-    subLabel = prsVariants.Util.basicAssemblySubLabel
-    return bscMethods.StrUnderline.toLabel(prsMethods.Scenery.toLinkMainLabelname(sceneryStage), subLabel)
+    subLabelString = prsVariants.Util.basicAssemblySubLabel
+    return bscMethods.StrUnderline.toLabel(prsMethods.Scenery.toLinkMainLabelname(sceneryStage), subLabelString)
 
 
 #
@@ -694,7 +694,7 @@ def sceneryUnitBasicDirectory(rootIndexKey, projectName):
 
 
 #
-def sceneryUnitFolder(rootIndexKey, projectName, sceneryClass, sceneryName):
+def sceneryUnitFolder(rootIndexKey, projectName, sceneryCategory, sceneryName):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     osPath = '%s/%s' % (
@@ -705,7 +705,7 @@ def sceneryUnitFolder(rootIndexKey, projectName, sceneryClass, sceneryName):
 
 
 #
-def scnUnitSourceFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def scnUnitSourceFile(rootIndexKey, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
@@ -713,17 +713,17 @@ def scnUnitSourceFile(rootIndexKey, projectName, sceneryClass, sceneryName, scen
     extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneryName, sceneryVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def scnUnitProductFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def scnUnitProductFile(rootIndexKey, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
@@ -731,34 +731,34 @@ def scnUnitProductFile(rootIndexKey, projectName, sceneryClass, sceneryName, sce
     extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneryName, sceneryVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def scnUnitPreviewFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage, extLabel=prsVariants.Util.jpgExt):
+def scnUnitPreviewFile(rootIndexKey, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage, extLabel=prsVariants.Util.jpgExt):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
     fileLabel = sceneryPreviewFileLabel(sceneryStage)
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneryName, sceneryVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def scnUnitDefinitionFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def scnUnitDefinitionFile(rootIndexKey, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
@@ -766,17 +766,17 @@ def scnUnitDefinitionFile(rootIndexKey, projectName, sceneryClass, sceneryName, 
     extLabel = prsVariants.Util.mayaAsciiExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneryName, sceneryVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     basicDirectory = sceneryUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneryLinkFolder(sceneryStage)
@@ -784,22 +784,22 @@ def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryClass, sceneryN
     extLabel = prsVariants.Util.assemblyComposeExt
     #
     osFileName = scnSceneryFileNameConfig(sceneryName, fileLabel, extLabel)
-    osFile = '{0}/{1}/{2}/{3}/{4}'.format(
+    fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneryName, sceneryVariant,
         linkFolder,
         osFileName
     )
-    return osFileName, osFile
+    return osFileName, fileString_
 
 
 #
-def getScnAssemblyComposeDatumDic(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def getScnAssemblyComposeDatumDic(projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     dic = {}
     serverFile = scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     datumLis = bscMethods.OsJson.read(serverFile)
     lis = []
@@ -821,14 +821,14 @@ def getScnAssemblyComposeDatumDic(projectName, sceneryClass, sceneryName, scener
 
 
 #
-def getSceneryUnitProductUpdate(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def getSceneryUnitProductUpdate(projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     string = prsVariants.Util.infoNonExistsLabel
     #
     serverProductFile = scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server, projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        lxConfigure.LynxiRootIndex_Server, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
-    if bscCommands.isOsExistsFile(serverProductFile):
+    if bscMethods.OsFile.isExist(serverProductFile):
         data = bscMethods.OsFile.mtimeChnPrettify(serverProductFile)
         if data:
             string = data
@@ -836,19 +836,19 @@ def getSceneryUnitProductUpdate(projectName, sceneryClass, sceneryName, sceneryV
 
 
 #
-def getScnUnitPreviewFile(projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage):
+def getScnUnitPreviewFile(projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     renderPreviewFile = scnUnitPreviewFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         extLabel=prsVariants.Util.pngExt
     )[1]
-    if bscCommands.isOsExistsFile(renderPreviewFile):
+    if bscMethods.OsFile.isExist(renderPreviewFile):
         return renderPreviewFile
     else:
         viewportPreviewFile = scnUnitPreviewFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+            projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
             extLabel=prsVariants.Util.jpgExt
         )[1]
-        if bscCommands.isOsExistsFile(viewportPreviewFile):
+        if bscMethods.OsFile.isExist(viewportPreviewFile):
             return viewportPreviewFile

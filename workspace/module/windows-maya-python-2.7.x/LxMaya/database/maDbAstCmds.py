@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscMethods, bscObjects
 
 from LxUi.qt import qtCommands
 #
@@ -284,7 +284,7 @@ def dbAstCopyRigProductTo(assetIndex, targetFile):
     dbSubIndex = dbGet.getDbAstRigIndex(assetIndex)
     directory = prsVariants.Database.assetRigProduct
     asciiFile = directory + '/' + dbSubIndex
-    if bscCommands.isOsExistsFile(asciiFile):
+    if bscMethods.OsFile.isExist(asciiFile):
         bscMethods.OsFile.copyTo(asciiFile, targetFile)
 
 
@@ -526,7 +526,7 @@ def dbAstLoadModelProduct(assetIndex, assetName, assetVariant):
     directory = prsVariants.Database.assetModelProduct
     # Debug Current Variant Non - Exists
     dbProductFile = directory + '/' + dbModelIndex
-    if not bscCommands.isOsExistsFile(dbProductFile):
+    if not bscMethods.OsFile.isExist(dbProductFile):
         dbModelIndex = dbGet.getDbAstModelIndex(assetIndex, prsVariants.Util.astDefaultVariant)
     #
     dbBasic.importDbMayaAscii(dbModelIndex, directory)

@@ -1,4 +1,6 @@
 # coding:utf-8
+from LxBasic import bscMethods
+
 from LxUi.qt import qtCore, qtDefinition, qtAction
 
 #
@@ -4305,7 +4307,7 @@ class QtAbc_ChartModel(qtDefinition.QtDef_PressWidget):
         return self._drawDatum
     #
     def setImage(self, image):
-        if self.isOsExistsFile(image):
+        if bscMethods.OsFile.isExist(image):
             self._uiImage = image
         else:
             self._uiImage = None

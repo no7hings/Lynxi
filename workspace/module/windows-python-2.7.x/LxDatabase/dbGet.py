@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscConfigure, bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure
 #
@@ -17,8 +17,8 @@ astSceneryClass = prsVariants.Util.astSceneryClass
 #
 astDefaultVariant = prsVariants.Util.astDefaultVersion
 #
-Ma_Separator_Node = bscCommands.Ma_Separator_Node
-Ma_Separator_Namespace = bscCommands.Ma_Separator_Namespace
+Ma_Separator_Node = bscConfigure.Ma_Separator_Node
+Ma_Separator_Namespace = bscConfigure.Ma_Separator_Namespace
 #
 none = ''
 
@@ -35,8 +35,8 @@ def getDbGzFile(assetIndex, directory):
 def isDbExistsGzFile(assetIndex, directory):
     boolean = False
     if assetIndex:
-        osFile = getDbGzFile(assetIndex, directory)
-        boolean = bscCommands.isOsExistsFile(osFile)
+        fileString_ = getDbGzFile(assetIndex, directory)
+        boolean = bscMethods.OsFile.isExist(fileString_)
     return boolean
 
 
@@ -50,8 +50,8 @@ def getDbProductFile(assetIndex, directory):
 def getExistsDbIntegrationFile(assetIndex, directory):
     boolean = False
     if assetIndex:
-        osFile = getDbProductFile(assetIndex, directory)
-        boolean = bscCommands.isOsExistsFile(osFile)
+        fileString_ = getDbProductFile(assetIndex, directory)
+        boolean = bscMethods.OsFile.isExist(fileString_)
     return boolean
 
 
@@ -66,8 +66,8 @@ def getDbCompFile(assetIndex, scCompIndex, directory):
 def getExistsDbCompFile(assetIndex, scCompIndex, directory):
     boolean = False
     if assetIndex and scCompIndex:
-        osFile = getDbCompFile(assetIndex, scCompIndex, directory)
-        boolean = bscCommands.isOsExistsFile(osFile)
+        fileString_ = getDbCompFile(assetIndex, scCompIndex, directory)
+        boolean = bscMethods.OsFile.isExist(fileString_)
     return boolean
 
 
@@ -83,7 +83,7 @@ def getDbAssetIndex(projectName, assetName):
     string = none
     directory = prsVariants.Database.assetNameIndex
     if projectName and assetName:
-        assetIndex = bscMethods.Uuid.covertByString(projectName, assetName)
+        assetIndex = bscMethods.UniqueId.getByStrings(projectName, assetName)
         if isDbExistsGzFile(assetIndex, directory):
             string = assetIndex
     return string
@@ -222,9 +222,9 @@ def dbAstViewportPreviewFile(assetIndex):
     string = none
     if assetIndex:
         directory = prsVariants.Database.assetPreview
-        osFile = directory + '/' + assetIndex + prsVariants.Util.jpgExt
-        if bscCommands.isOsExist(osFile):
-            string = osFile
+        fileString_ = directory + '/' + assetIndex + prsVariants.Util.jpgExt
+        if bscMethods.OsFile.isExist(fileString_):
+            string = fileString_
     return string
 
 
@@ -234,9 +234,9 @@ def dbAstRenderPreviewFile(assetIndex, assetVariant):
     if assetIndex:
         directory = prsVariants.Database.assetPreview
         assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [lxConfigure.LynxiProduct_Asset_Link_Model, assetVariant])
-        osFile = directory + '/' + assetSubIndex + prsVariants.Util.pngExt
-        if bscCommands.isOsExist(osFile):
-            string = osFile
+        fileString_ = directory + '/' + assetSubIndex + prsVariants.Util.pngExt
+        if bscMethods.OsFile.isExist(fileString_):
+            string = fileString_
     return string
 
 
@@ -250,9 +250,9 @@ def getDbAstPreviewFile(assetIndex, assetVariant=none):
             dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
             renderPrv = directory + '/' + dbModelIndex + prsVariants.Util.pngExt
             texturePrv = directory + '/' + dbModelIndex + prsVariants.Util.jpgExt
-            if bscCommands.isOsExistsFile(renderPrv):
+            if bscMethods.OsFile.isExist(renderPrv):
                 string = renderPrv
-            elif bscCommands.isOsExistsFile(texturePrv):
+            elif bscMethods.OsFile.isExist(texturePrv):
                 string = texturePrv
     return string
 
@@ -267,9 +267,9 @@ def getDbSceneryUnitPreviewFile(assetIndex, assetVariant=none):
             dbModelIndex = getDbSceneryUnitIndex(assetIndex, assetVariant)
             renderPrv = directory + '/' + dbModelIndex + prsVariants.Util.pngExt
             texturePrv = directory + '/' + dbModelIndex + prsVariants.Util.jpgExt
-            if bscCommands.isOsExistsFile(renderPrv):
+            if bscMethods.OsFile.isExist(renderPrv):
                 string = renderPrv
-            elif bscCommands.isOsExistsFile(texturePrv):
+            elif bscMethods.OsFile.isExist(texturePrv):
                 string = texturePrv
     return string
 
@@ -324,7 +324,7 @@ def getDbAstUpdate(assetIndex, assetVariant, assetStage):
         assetSubIndex = dbBasic.getDatabaseSubIndex(assetIndex, [assetLink, assetVariant])
         timestamp = dbBasic.readDbAssetHistory(assetSubIndex, prsVariants.Util.infoUpdateLabel)
         if timestamp:
-            string = bscMethods.OsTime.getCnPrettifyByTimestamp(timestamp)
+            string = bscMethods.OsTimestamp.toChnPrettify(timestamp)
     return string
 
 
@@ -350,16 +350,16 @@ def getDbModelUpdate(assetIndex, assetVariant):
         # Mesh
         dbModelIndex = getDbAstModelIndex(assetIndex, assetVariant)
         dbGeometryFile = getDbAstGeometryFile(assetIndex)
-        if bscCommands.isOsExistsFile(dbGeometryFile):
+        if bscMethods.OsFile.isExist(dbGeometryFile):
             dbMeshTimeStamp = bscMethods.OsFile.mtimestamp(dbGeometryFile)
             # Material
             dbMaterialFile = getDbAstMaterialFile(dbModelIndex)
             timestamp = dbMeshTimeStamp
-            if bscCommands.isOsExistsFile(dbMaterialFile):
+            if bscMethods.OsFile.isExist(dbMaterialFile):
                 dbMaterialTimeStamp = bscMethods.OsFile.mtimestamp(dbMaterialFile)
                 timestamp = max([dbMeshTimeStamp, dbMaterialTimeStamp])
             #
-            string = bscMethods.OsTime.getCnPrettifyByTimestamp(timestamp)
+            string = bscMethods.OsTimestamp.toChnPrettify(timestamp)
     return string
 
 
@@ -390,7 +390,7 @@ def getDbModelStage(assetIndex, assetVariant):
 
 #
 def getDbGeometryObjectsIndexDic(assetIndex):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if assetIndex:
         directory = prsVariants.Database.assetGeometryIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
@@ -401,7 +401,7 @@ def getDbGeometryObjectsIndexDic(assetIndex):
 
 #
 def getDbGeometryObjectsInfoDic(assetIndex, dbName, namespace, searchRoot):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if assetIndex:
         directory = prsVariants.Database.assetGeometryIndex
         data = dbBasic.dbCompDatumRead(assetIndex, directory)
@@ -445,7 +445,7 @@ def getDbAstGeometryUnitTransform(assetIndex, objectIndex):
 
 #
 def getDbGeometryUnitsPathDic(assetIndex):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     dbName = assetPr.getAssetName(assetIndex)
     objectIndexes = getDbGeometryObjectsIndexDic(assetIndex)
     if objectIndexes:
@@ -570,11 +570,11 @@ def getNonExistsDbAovComp(dbSubIndex, objectIndexes):
 
 
 #
-def getAstUnitDbAssemblyUpdate(projectName, assetClass, assetName, assetVariant):
+def getAstUnitDbAssemblyUpdate(projectName, assetCategory, assetName, assetVariant):
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
     return bscMethods.OsFile.mtimeChnPrettify(serverAstUnitAsbDefinitionFile)
 
@@ -599,17 +599,17 @@ def getDbCfxUpdate(assetIndex, assetVariant):
         # Mesh
         dbCfxIndex = getDbCfxIndex(assetIndex, assetVariant)
         dbFurFile = getDbFurFile(dbCfxIndex)
-        if bscCommands.isOsExistsFile(dbFurFile):
+        if bscMethods.OsFile.isExist(dbFurFile):
             dbFurTimeStamp = bscMethods.OsFile.mtimestamp(dbFurFile)
             # Material
             dbMaterialFile = getDbAstMaterialFile(dbCfxIndex)
             #
             timestamp = dbFurTimeStamp
-            if bscCommands.isOsExistsFile(dbMaterialFile):
+            if bscMethods.OsFile.isExist(dbMaterialFile):
                 dbMaterialTimeStamp = bscMethods.OsFile.mtimestamp(dbMaterialFile)
                 timestamp = max([dbFurTimeStamp, dbMaterialTimeStamp])
             #
-            string = bscMethods.OsTime.getCnPrettifyByTimestamp(timestamp)
+            string = bscMethods.OsTimestamp.toChnPrettify(timestamp)
     return string
 
 
@@ -690,7 +690,7 @@ def getDbSceneryUnitUpdate(assetIndex, assetVariant):
         sceneryUnitIndex = getDbSceneryUnitIndex(assetIndex, assetVariant)
         data = dbBasic.readDbSceneryHistory(sceneryUnitIndex, prsVariants.Util.infoUpdateLabel)
         if data:
-            string = bscMethods.OsTime.getCnPrettifyByTimestamp(data)
+            string = bscMethods.OsTimestamp.toChnPrettify(data)
     return string
 
 
@@ -735,7 +735,7 @@ def getDbAssetIndexesFilter(projectName, filterClassify=none, tag=none):
     # Lis [ <Index> ]
     lis = []
     assetNameIndex = prsVariants.Database.assetNameIndex
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
+    osFileNames = bscMethods.OsDirectory.fileBasenames(assetNameIndex)
     if osFileNames:
         for subData in osFileNames:
             assetIndex = subData
@@ -768,12 +768,12 @@ def getDbAssetIndexesFilter(projectName, filterClassify=none, tag=none):
 #
 def getDbAssetIndexDic(projectFilter):
     # Lis [ <Index> ]
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     models = []
     cfxs = []
     rigs = []
     assetNameIndex = prsVariants.Database.assetNameIndex
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
+    osFileNames = bscMethods.OsDirectory.fileBasenames(assetNameIndex)
     if osFileNames:
         if osFileNames:
             explain = '''Read Asset Database'''
@@ -789,10 +789,10 @@ def getDbAssetIndexDic(projectFilter):
                 gzData = dbBasic.dbDatumRead(indexFile)
                 if gzData:
                     if projectFilter in gzData:
-                        for assetClass in astBasicClassifications:
+                        for assetCategory in astBasicClassifications:
                             for tag in astBasicPriorities:
-                                key = '%s|%s' % (assetClass, tag)
-                                if dbAssetClassify == assetClass and dbAssetTag == tag:
+                                key = '%s|%s' % (assetCategory, tag)
+                                if dbAssetClassify == assetCategory and dbAssetTag == tag:
                                     dic.setdefault(key, []).append(assetIndex)
                 #
                 if isDbAstExistsGeometry(assetIndex):
@@ -811,7 +811,7 @@ def getDbAssetIndexDicFilter(projectName, filterClassify=none, tag=none):
     # Lis [ <Name> ]
     dic = {}
     assetNameIndex = prsVariants.Database.assetNameIndex
-    osFileNames = bscCommands.getOsFileBasenameLisByPath(assetNameIndex)
+    osFileNames = bscMethods.OsDirectory.fileBasenames(assetNameIndex)
     if osFileNames:
         for osFileName in osFileNames:
             assetIndex = osFileName
@@ -937,9 +937,9 @@ def getDbRigNamesByClassify(projectName, filterClassify=none):
 
 
 #
-def getDbAssetFilterData(assetClass, tag=none):
-    dic = bscCommands.orderedDict()
-    dic['classify'] = assetClass
+def getDbAssetFilterData(assetCategory, tag=none):
+    dic = bscCore.orderedDict()
+    dic['classify'] = assetCategory
     dic['tag'] = tag
     return dic
 
@@ -1020,7 +1020,7 @@ def getScModelCacheMeshCheck(assetIndex, cacheFile):
     #
     sourceData = getDbMeshConstantData(assetIndex)
     #
-    if bscCommands.isOsExist(cacheFile):
+    if bscMethods.OsFile.isExist(cacheFile):
         cacheMeshDataFile = scenePr.getMeshDataFile(cacheFile)
         targetData = bscMethods.OsJson.read(cacheMeshDataFile)
         #

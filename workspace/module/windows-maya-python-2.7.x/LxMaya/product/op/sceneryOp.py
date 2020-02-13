@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
+from LxBasic import bscCore, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -39,11 +39,11 @@ def setAssembliesActiveSwitch(keyword='GPU'):
 
 
 #
-def setAssemblyVariantSwitch(assemblyReferenceString, projectName, assetClass, assetName, assetVariant):
+def setAssemblyVariantSwitch(assemblyReferenceString, projectName, assetCategory, assetName, assetVariant):
     adFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
     )[1]
     #
     maUtils.setAttrStringDatum(assemblyReferenceString, 'definition', adFile)

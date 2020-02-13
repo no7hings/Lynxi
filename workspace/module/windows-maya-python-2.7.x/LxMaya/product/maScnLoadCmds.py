@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
+from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
@@ -17,7 +17,7 @@ none = ''
 def scnUnitCreateMainCmd(
         sceneryIndex,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
 ):
     logWin_ = bscObjects.If_Log(title=u'Scenery Create')
     logWin_.showUi()
@@ -25,7 +25,7 @@ def scnUnitCreateMainCmd(
     logWin_.addStartTask(u'Scenery Hierarchy Create')
     #
     if sceneryPr.isSceneryLinkName(sceneryStage) or sceneryPr.isLayoutLinkName(sceneryStage):
-        maHier.setCreateScnAssemblyHierarchy(sceneryClass, sceneryName, sceneryVariant)
+        maHier.setCreateScnAssemblyHierarchy(sceneryCategory, sceneryName, sceneryVariant)
 
     elif sceneryPr.isAnimationLinkName(sceneryStage):
         pass
@@ -33,7 +33,7 @@ def scnUnitCreateMainCmd(
     elif sceneryPr.isLightLinkName(sceneryStage):
         pass
     #
-    maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
+    maHier.refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
     #
     logWin_.addCompleteTask()
 
@@ -43,7 +43,7 @@ def scnUnitCreateMainCmd(
 def scnUnitLoadMainCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
 ):
     logWin_ = bscObjects.If_Log(title=u'Scenery Load')
     logWin_.showUi()
@@ -53,23 +53,23 @@ def scnUnitLoadMainCmd(
     if sceneryPr.isSceneryLinkName(sceneryStage):
         serverProductFile = sceneryPr.scnUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+            projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
         )[1]
         localSourceFile = sceneryPr.scnUnitSourceFile(
             lxConfigure.LynxiRootIndex_Local,
-            projectName, sceneryClass, sceneryName, sceneryVariant, sceneryStage
+            projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
         )[1]
-        if bscCommands.isOsExistsFile(serverProductFile):
+        if bscMethods.OsFile.isExist(serverProductFile):
             maFile.openMayaFileAsBack(serverProductFile, localSourceFile)
         else:
             scnUnitMaAssemblyLoadCmd(
                 projectName,
                 sceneryIndex,
-                sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 withAssembly=True
             )
             #
-            timeTag = bscMethods.OsTime.activeTimetag()
+            timeTag = bscMethods.OsTimetag.active()
             localFile = bscMethods.OsFile.toJoinTimetag(localSourceFile, timeTag)
             #
             maFile.saveToMayaFile(localFile)
@@ -82,8 +82,8 @@ def scnUnitLoadMainCmd(
     elif sceneryPr.isLightLinkName(sceneryStage):
         pass
 
-    maHier.setCreateScnRootHierarchy(sceneryClass, sceneryName, sceneryVariant)
-    maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
+    maHier.setCreateScnRootHierarchy(sceneryCategory, sceneryName, sceneryVariant)
+    maHier.refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
 
     logWin_.addCompleteTask()
 
@@ -92,7 +92,7 @@ def scnUnitLoadMainCmd(
 def scnUnitMaAssemblyLoadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         parentPath=None,
         withAssembly=False
 ):
@@ -101,7 +101,7 @@ def scnUnitMaAssemblyLoadCmd(
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     datumLis = bscMethods.OsJson.read(serverFile)
     if datumLis:
@@ -158,7 +158,7 @@ def scnUnitMaAssemblyLoadSubCmd(
 def scnUnitComposeLoadCmd_(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         parentPath=None
 ):
     logWin_ = bscObjects.If_Log()
@@ -166,7 +166,7 @@ def scnUnitComposeLoadCmd_(
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     datumLis = bscMethods.OsJson.read(serverFile)
     if datumLis:
@@ -201,7 +201,7 @@ def scnUnitComposeLoadCmd_(
                     worldMatrix, worldBoundingBox
                 )
                 #
-                r, g, b = bscMethods.Color.str2rgb(assetName, maximum=1)
+                r, g, b = bscMethods.String.toRgb(assetName, maximum=1)
                 #
                 maUtils.setNodeOverrideRgb(objectPath, r, g, b)
                 maUtils.setNodeOutlinerRgb(objectPath, r, g, b)
@@ -211,44 +211,44 @@ def scnUnitComposeLoadCmd_(
 def scnUnitAssemblyLoadCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
 ):
     logWin_ = bscObjects.If_Log()
     
     composeFile = sceneryPr.scnUnitAssemblyComposeFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     locator = sceneryOp.setScnUnitLocatorCreate(sceneryName, sceneryVariant, composeFile)
     #
     scnUnitComposeLoadCmd_(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         parentPath=locator
     )
     #
-    maHier.refreshScnRoot(sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
+    maHier.refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
 
 
 #
 def scnUnitAssemblyLoadByReferenceCmd(
         projectName,
         sceneryIndex,
-        sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+        sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         active='GPU'
 ):
     logWin_ = bscObjects.If_Log()
     
-    scnAssemblyReference = sceneryPr.scnAssemblyArName(sceneryClass, sceneryName, sceneryVariant) + '_0'
+    scnAssemblyReference = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant) + '_0'
     serverSceneryAdFile = sceneryPr.scnUnitDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryClass, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
+        projectName, sceneryCategory, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
     )[1]
-    if bscCommands.isOsExistsFile(serverSceneryAdFile):
+    if bscMethods.OsFile.isExist(serverSceneryAdFile):
         maAsb.setAssemblyReferenceCreate(scnAssemblyReference, serverSceneryAdFile)
         sceneryOp.setAssembliesActiveSwitch(active)
         maHier.refreshScnBranch(
-            scnAssemblyReference, sceneryClass, sceneryName, sceneryVariant, sceneryStage, sceneryIndex
+            scnAssemblyReference, sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex
         )

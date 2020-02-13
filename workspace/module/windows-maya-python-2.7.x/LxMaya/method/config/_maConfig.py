@@ -1,9 +1,11 @@
 # coding:utf-8
+from LxBasic import bscCore
+
 from LxCore.config import appConfig
 
 
 #
-class MaConfig(appConfig.Cfg_Basic):
+class MaConfig(object):
     Ma_Separator_Node = '|'
     Ma_Separator_Set = '>'
     Ma_Separator_Namespace = ':'
@@ -30,17 +32,15 @@ class MaConfig(appConfig.Cfg_Basic):
     MaDefaultMatrix = [1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0]
 
 
-class Cfg_M2(appConfig.Cfg_Basic):
+class Cfg_M2(object):
     pass
 
 
-#
-class MaAssemblyConfig(appConfig.Cfg_Basic):
+class MaAssemblyConfig(object):
     pass
 
 
-#
-class MaPlugConfig(appConfig.Cfg_Basic):
+class MaPlugConfig(object):
     MaPlugName_AlembicExport = 'AbcExport'
     MaPlugName_GpuCache = 'gpuCache'
     MaPlugName_Arnold = 'mtoa'
@@ -49,7 +49,6 @@ class MaPlugConfig(appConfig.Cfg_Basic):
     MaNodeType_Plug_Yeti = 'pgYetiMaya'
 
 
-#
 class MaUnitConfig(appConfig.LxUnitConfig):
     # Key
     MaUnit_Key_Time = 'time'
@@ -96,8 +95,7 @@ class MaUnitConfig(appConfig.LxUnitConfig):
         return cls.MaUnit_UiDic_Linear.get(unit, 'N/a')
 
 
-#
-class MaRenderConfig(appConfig.Cfg_Basic):
+class MaRenderConfig(object):
     # Renderer
     MaRenderer_Arnold = 'arnold'
     MaRenderer_Software = 'mayaSoftware'
@@ -150,8 +148,7 @@ class MaRenderConfig(appConfig.Cfg_Basic):
     ]
 
 
-#
-class MaUiConfig(appConfig.LxUiConfig):
+class MaUiConfig(object):
     MaUiName_MainWindow = 'MayaWindow'
     #
     MaUiName_MainControl = 'MainPane'
@@ -159,7 +156,6 @@ class MaUiConfig(appConfig.LxUiConfig):
     MaUiName_AttributeControl = 'AttributeEditor'
 
 
-#
 class MaNodeAttributeConfig(appConfig.LxAttributeConfig):
     MaAttrNameLis_ShaderExcept = [
         'computedFileTextureNamePattern',
@@ -195,13 +191,11 @@ class MaNodeAttributeConfig(appConfig.LxAttributeConfig):
     MaAttrName_Visible = 'visibility'
 
 
-#
 class MaNodeConfig(appConfig.LxNodeConfig):
     pass
 
 
-#
-class MaLightNodeConfig(appConfig.Cfg_Basic):
+class MaLightNodeConfig(object):
     MaNodeTypeLis_LightDefaultSet_Except = [
         'aiLightDecay'
     ]
@@ -224,7 +218,7 @@ class MaLightNodeConfig(appConfig.Cfg_Basic):
     MaAttrPrevNameDic = {}
     @classmethod
     def maAttrPrettifyNameDic_lightLink(cls):
-        return cls.orderedDict(
+        return bscCore.orderedDict(
             [
                 ('light', 'Light(s)'),
                 ('object', 'Object(s)'),
@@ -239,13 +233,11 @@ class MaLightNodeConfig(appConfig.Cfg_Basic):
         )
 
 
-#
 class MaNodeGraphConfig(appConfig.LxNodeGraphConfig):
     pass
 
 
-#
-class MaYetiPlugConfig(appConfig.Cfg_Basic):
+class MaYetiPlugConfig(object):
     MaYetiImportType_Geometry = 'yetiGeometry'
     MaYetiImportType_Groom = 'yetiGroom'
     MaYetiImportType_Guide = 'yetiGuide'
@@ -259,6 +251,5 @@ class MaYetiPlugConfig(appConfig.Cfg_Basic):
     ]
 
 
-#
-class MaArnoldPlugConfig(appConfig.Cfg_Basic):
+class MaArnoldPlugConfig(object):
     pass

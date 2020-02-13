@@ -93,7 +93,7 @@ def setRefreshMayaUniqueId(sourceUniqueId, targetUniqueId):
 
 
 #
-def isUniqueId(string):
+def isUsable(string):
     boolean = False
     if len(string) == 36:
         if string[8] == '-' and string[13] == '-' and string[18] == '-' and string[23] == '-':

@@ -27,9 +27,7 @@ __load__(
 
 __load__(
     Util,
-    projectPr.getProjectPresetVariantDic(
-        projectPr.getAppProjectName()
-    )
+    projectPr.getProjectPresetVariantDic(projectPr.getAppProjectName())
 )
 
 __load__(

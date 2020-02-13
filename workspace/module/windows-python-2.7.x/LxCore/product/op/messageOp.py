@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 from LxPreset import prsMethods
 #
@@ -17,19 +17,19 @@ def getShowInfo(dbUnitId, categoryString, variantString, stageString):
     viewUnit = none
     viewClass = none
     viewName = none
-    if prsMethods.Asset.isValidCategoryName(categoryString):
+    if prsMethods.Asset.isValidCategory(categoryString):
         viewModule = prsMethods.Asset.moduleShowname()
         viewLink = prsMethods.Asset.linkShowname_(stageString)
         viewUnit = assetPr.getAssetViewInfo(dbUnitId, categoryString, variantString)
         viewClass = prsMethods.Asset.classShowname(categoryString)
         viewName = assetPr.getAssetViewName(dbUnitId)
-    elif prsMethods.Scenery.isValidCategoryName(categoryString):
+    elif prsMethods.Scenery.isValidCategory(categoryString):
         viewModule = prsMethods.Scenery.moduleShowname()
         viewLink = prsMethods.Scenery.linkShowname_(stageString)
         viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, categoryString, variantString)
         viewClass = prsMethods.Scenery.classShowname(categoryString)
         viewName = sceneryPr.getSceneryViewName(dbUnitId)
-    elif prsMethods.Scene.isValidCategoryName(categoryString):
+    elif prsMethods.Scene.isValidCategory(categoryString):
         viewModule = prsMethods.Scene.moduleShowname()
         viewLink = prsMethods.Scene.linkShowname_(stageString)
         viewUnit = scenePr.getSceneViewInfo(dbUnitId, categoryString, variantString)
@@ -51,7 +51,7 @@ def sendProductMessageByDingTalk(
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
     #
-    timeString = bscMethods.OsTime.getCnPrettifyByTimetag(timeTag, useMode=1)
+    timeString = bscMethods.OsTimetag.toChnPrettify(timeTag, useMode=1)
     #
     viewModule, viewLink, viewUnit, viewClass, viewName = getShowInfo(dbUnitId, categoryString, variantString, stageString)
     #

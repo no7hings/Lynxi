@@ -1,10 +1,16 @@
 # coding:utf-8
-from LxBasic import bscConfigure, bscCore
+from LxBasic import bscCore, bscConfigure, bscCore
 
 from LxBasic.bscMethods import _bscMtdPath
 
 
-class String(bscCore.Basic):
+class Raw(bscCore.BscMtdBasic):
+    @classmethod
+    def toHash(cls, raw):
+        return cls._stringToHash(unicode(raw))
+
+
+class String(bscCore.BscMtdBasic):
     @classmethod
     def toNumberEmbeddedList(cls, string):
         pieces = cls.MOD_re.compile(r'(\d+)').split(unicode(string))
@@ -42,12 +48,83 @@ class String(bscCore.Basic):
         command = '''{0} = u'{1}' % ({2})'''.format(varName, '%s' * len(strings), ', '.join(varStrings))
         return command
 
+    @classmethod
+    def toList(cls, string, includes=None):
+        lis = []
+        if isinstance(string, str) or isinstance(string, unicode):
+            if includes:
+                if string in includes:
+                    lis = [string]
+            else:
+                lis = [string]
+        elif isinstance(string, tuple) or isinstance(string, list):
+            for i in string:
+                if includes:
+                    if i in includes:
+                        lis.append(i)
+                else:
+                    lis.append(i)
+        return lis
 
-class Variant(object):
-    pass
+    @staticmethod
+    def toRgb(string, maximum=255):
+        a = int(''.join([str(ord(i)).zfill(3) for i in string]))
+        b = a % 3
+        i = int(a / 256) % 3
+        n = int(a % 256)
+        if a % 2:
+            if i == 0:
+                r, g, b = 64 + 64 * b, n, 0
+            elif i == 1:
+                r, g, b = 0, 64 + 64 * b, n
+            else:
+                r, g, b = 0, n, 64 + 64 * b
+        else:
+            if i == 0:
+                r, g, b = 0, n, 64 + 64 * b
+            elif i == 1:
+                r, g, b = 64 + 64 * b, 0, n
+            else:
+                r, g, b = 64 + 64 * b, n, 0
+        #
+        return r / 255.0 * maximum, g / 255.0 * maximum, b / 255.0 * maximum
+
+    @classmethod
+    def toUniqueId(cls, string):
+        return cls._stringToUniqueId(string)
 
 
-class StrUnderline(bscCore.Basic):
+class Variant(bscCore.BscMtdBasic):
+    @classmethod
+    def covertTo(cls, varName, string):
+        def getStringLis():
+            # noinspection RegExpSingleCharAlternation
+            return [i for i in cls.MOD_re.split("<|>", string) if i]
+        #
+        def getVariantLis():
+            varPattern = cls.MOD_re.compile(r'[<](.*?)[>]', cls.MOD_re.S)
+            return cls.MOD_re.findall(varPattern, string)
+        #
+        def getVarStringLis():
+            lis = []
+            for i in strings:
+                if i in variants:
+                    lis.append(i)
+                else:
+                    v = '''"%s"''' % i
+                    lis.append(v)
+            return lis
+        #
+        strings = getStringLis()
+        variants = getVariantLis()
+        #
+        varStrings = getVarStringLis()
+        #
+        command = '''{0} = u'{1}' % ({2})'''.format(varName, '%s'*len(strings), ', '.join(varStrings))
+        return command
+
+
+class StrUnderline(bscCore.BscMtdBasic):
     @classmethod
     def toLabel(cls, *labels):
         return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
@@ -57,7 +134,7 @@ class StrUnderline(bscCore.Basic):
         return cls.MOD_re.sub(r'_(\w)', lambda x: x.group(1).upper(), string)
 
 
-class StrCamelcase(bscCore.Basic):
+class StrCamelcase(bscCore.BscMtdBasic):
     @classmethod
     def toPrettify(cls, string):
         return ' '.join([str(x).capitalize() for x in cls.MOD_re.findall(r'[a-zA-Z][a-z]*[0-9]*', string)])
@@ -65,11 +142,11 @@ class StrCamelcase(bscCore.Basic):
     @classmethod
     def toUiPath(cls, strings, isPrettify=False):
         if isPrettify is True:
-            strings = [cls.toPrettify(i) for i in cls.toStringList(strings)]
+            strings = [cls.toPrettify(i) for i in cls.string2list(strings)]
         return cls._toPathString(strings, '>')
 
 
-class TxtHtml(bscCore.Basic):
+class TxtHtml(bscCore.BscMtdBasic):
     color_html_lis = bscConfigure.Ui().htmlColors
     color_html_dic = bscConfigure.Ui().htmlColorDict
 
@@ -321,13 +398,58 @@ class List(object):
 
     @classmethod
     def cleanupTo(cls, lis):
-        lis_ = []
-        [lis_.append(i) for i in lis if i not in lis_]
+        lis_ = list(set(lis))
+        lis_.sort(key=lis.index)
         return lis_
 
     @classmethod
     def extendFrom(cls, lis, subLis):
         [lis.append(i) for i in subLis if i not in lis]
+
+    @staticmethod
+    def toFrameRange(array):
+        lis = []
+        #
+        maximum, minimum = max(array), min(array)
+        #
+        start, end = None, None
+        count = len(array)
+        index = 0
+        #
+        array.sort()
+        for seq in array:
+            if index > 0:
+                pre = array[index - 1]
+            else:
+                pre = None
+            #
+            if index < (count - 1):
+                nex = array[index + 1]
+            else:
+                nex = None
+            #
+            if pre is None and nex is not None:
+                start = minimum
+                if seq - nex != -1:
+                    lis.append(start)
+            elif pre is not None and nex is None:
+                end = maximum
+                if seq - pre == 1:
+                    lis.append((start, end))
+                else:
+                    lis.append(end)
+            elif pre is not None and nex is not None:
+                if seq - pre != 1 and seq - nex != -1:
+                    lis.append(seq)
+                elif seq - pre == 1 and seq - nex != -1:
+                    end = seq
+                    lis.append((start, end))
+                elif seq - pre != 1 and seq - nex == -1:
+                    start = seq
+            #
+            index += 1
+        #
+        return lis
 
 
 class Dict(object):
@@ -406,7 +528,7 @@ class Array(List):
         return []
 
 
-class Position2d(bscCore.Basic):
+class Position2d(bscCore.BscMtdBasic):
     @classmethod
     def toRegion(cls, position, size):
         x, y = position
@@ -491,7 +613,7 @@ class Position2d(bscCore.Basic):
 
 class Rect2d(object):
     @classmethod
-    def ContainPos(cls, rect, position):
+    def isContainPos(cls, rect, position):
         x0, y0, width, height = rect
         x1, y1 = position
         if rect is not None:
@@ -499,7 +621,39 @@ class Rect2d(object):
         return False
 
 
-class Ellipse2d(bscCore.Basic):
+class Size2d(object):
+    @classmethod
+    def remapTo(cls, width, height, maximum):
+        maxValue = max([width, height])
+        if maxValue > maximum:
+            if width > height:
+                return maximum, maximum*(float(height)/float(width))
+            elif width < height:
+                return maximum*(float(width)/float(height)), maximum
+        return width, height
+
+    @classmethod
+    def mapToRect(cls, size0, size1):
+        w0, h0 = size0
+        w1, h1 = size1
+        if h0 > 0 and h1 > 0:
+            pr0 = float(w0) / float(h0)
+            pr1 = float(w1) / float(h1)
+            smax1 = max(w1, h1)
+            smin1 = min(w1, h1)
+            if pr0 > 1:
+                w, h = smin1, smin1 / pr0
+            elif pr0 < 1:
+                w, h = smin1, smin1 * pr0
+            else:
+                w, h = smin1, smin1
+            x, y = (w1 - w) / 2, (h1 - h) / 2
+            return x, y, w, h
+        else:
+            return 0, 0, w0, h0
+
+
+class Ellipse2d(bscCore.BscMtdBasic):
     @classmethod
     def positionAtAngle(cls, center, radius, angle):
         x, y = center
@@ -508,7 +662,58 @@ class Ellipse2d(bscCore.Basic):
         return xp, yp
 
 
-class Color(object):
+class Frame(object):
+    @classmethod
+    def toTime(cls, frameValue, fpsValue=24):
+        second = int(frameValue) / fpsValue
+        h = second / 3600
+        m = second / 60 - 60 * h
+        s = second - 3600 * h - 60 * m
+        return h, m, s
+
+    @classmethod
+    def toTimeString(cls, frameValue, fpsValue=24):
+        h, m, s = cls.toTime(frameValue, fpsValue)
+        return '%s:%s:%s' % (str(h).zfill(2), str(m).zfill(2), str(s).zfill(2))
+
+
+class Math2D(bscCore.BscMtdBasic):
+    @classmethod
+    def getAngleByCoord(cls, x1, y1, x2, y2):
+        radian = 0.0
+        #
+        r0 = 0.0
+        r90 = cls.MOD_math.pi / 2.0
+        r180 = cls.MOD_math.pi
+        r270 = 3.0 * cls.MOD_math.pi / 2.0
+        #
+        if x1 == x2:
+            if y1 < y2:
+                radian = r0
+            elif y1 > y2:
+                radian = r180
+        elif y1 == y2:
+            if x1 < x2:
+                radian = r90
+            elif x1 > x2:
+                radian = r270
+        elif x1 < x2 and y1 < y2:
+            radian = cls.MOD_math.atan2((-x1 + x2), (-y1 + y2))
+        elif x1 < x2 and y1 > y2:
+            radian = r90 + cls.MOD_math.atan2((y1 - y2), (-x1 + x2))
+        elif x1 > x2 and y1 > y2:
+            radian = r180 + cls.MOD_math.atan2((x1 - x2), (y1 - y2))
+        elif x1 > x2 and y1 < y2:
+            radian = r270 + cls.MOD_math.atan2((-y1 + y2), (x1 - x2))
+        #
+        return radian * 180 / cls.MOD_math.pi
+
+    @classmethod
+    def getLengthByCoord(cls, x1, y1, x2, y2):
+        return cls.MOD_math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2))
+
+
+class Color(bscCore.BscMtdBasic):
     @classmethod
     def mapToFloat(cls, r, g, b):
         def mapFnc_(v):
@@ -550,16 +755,47 @@ class Color(object):
         return r, g, b
 
 
-class Frame(object):
+class UniqueId(bscCore.BscMtdBasic):
     @classmethod
-    def toTime(cls, frameValue, fpsValue=24):
-        second = int(frameValue) / fpsValue
-        h = second / 3600
-        m = second / 60 - 60 * h
-        s = second - 3600 * h - 60 * m
-        return h, m, s
+    def getByString(cls, string):
+        return cls._stringToUniqueId(string)
 
     @classmethod
-    def toTimeString(cls, frameValue, fpsValue=24):
-        h, m, s = cls.toTime(frameValue, fpsValue)
-        return '%s:%s:%s' % (str(h).zfill(2), str(m).zfill(2), str(s).zfill(2))
+    def getByStrings(cls, *args):
+        return cls._stringsToUniqueId(*args)
+
+    @classmethod
+    def new(cls):
+        return cls._getUniqueId()
+
+    @classmethod
+    def isUsable(cls, string):
+        boolean = False
+        if string is not None:
+            pattern = cls.MOD_re.compile(r'[0-9A-F]' * 8 + '-' + (r'[0-9A-F]' * 4 + '-') * 3 + r'[0-9A-F]' * 12)
+            match = pattern.match(string)
+            if match:
+                boolean = True
+        return boolean
+
+    @classmethod
+    def toList(cls, uniqueId):
+        lis = []
+        if isinstance(uniqueId, str) or isinstance(uniqueId, unicode):
+            if cls.isUsable(uniqueId):
+                lis = [uniqueId]
+        elif isinstance(uniqueId, tuple) or isinstance(uniqueId, list):
+            for i in uniqueId:
+                if cls.isUsable(i):
+                    lis.append(i)
+        return lis
+
+
+class IconKeyword(object):
+    @staticmethod
+    def mayaPng(nodeTypeString):
+        return 'maya#out_{}'.format(nodeTypeString)
+
+    @staticmethod
+    def mayaSvg(nodeTypeString):
+        return 'maya@svg#{}'.format(nodeTypeString)

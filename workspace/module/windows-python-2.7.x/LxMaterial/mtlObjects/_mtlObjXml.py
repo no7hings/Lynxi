@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract
+from LxMaterial import mtlObjAbstract
 
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet
 
 
-class XmlDocument(mtlAbstract.Abc_XmlDocument):
+class XmlDocument(mtlObjAbstract.Abc_XmlDocument):
     CLS_raw_file = _mtlObjRaw.Raw_Reference
     CLS_raw_version = _mtlObjRaw.Raw_Version
 

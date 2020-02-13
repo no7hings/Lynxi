@@ -4,14 +4,14 @@
 # model of Value
 ]
 """
-from LxMaterial import mtlAbstract, mtlConfigure
+from LxMaterial import mtlObjAbstract, mtlConfigure
 
 from LxMaterial.mtlObjects import _mtlObjRaw
 from LxMaterial.mtlObjects import _mtlObjDatum
 
 
 # Method for Digit Calculate
-class _Val_DigitMethod(mtlAbstract.Abc_Value):
+class _Val_DigitMethod(mtlObjAbstract.Abc_Value):
     def __add__(self, other):
         """
         :param other: object of Value
@@ -42,7 +42,7 @@ class _Val_DigitMethod(mtlAbstract.Abc_Value):
 
 
 # Value Def
-class Val_Closure(mtlAbstract.Abc_Value):
+class Val_Closure(mtlObjAbstract.Abc_Value):
     """
     boolean Value
     """
@@ -63,7 +63,7 @@ class Val_Closure(mtlAbstract.Abc_Value):
 
 
 # Value Boolean
-class Val_Boolean(mtlAbstract.Abc_Value):
+class Val_Boolean(mtlObjAbstract.Abc_Value):
     """
     boolean Value
     """
@@ -83,7 +83,7 @@ class Val_Boolean(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Visibility(mtlAbstract.Abc_Value):
+class Val_Visibility(mtlObjAbstract.Abc_Value):
     """
     boolean Value
     """
@@ -128,7 +128,7 @@ class Val_Integer(_Val_DigitMethod):
         self._initAbcValue(*args)
 
 
-class Val_IntegerArray(mtlAbstract.Abc_Value):
+class Val_IntegerArray(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_IntegerN
 
@@ -164,7 +164,7 @@ class Val_Float(_Val_DigitMethod):
         self._initAbcValue(*args)
 
 
-class Val_FloatArray(mtlAbstract.Abc_Value):
+class Val_FloatArray(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -183,7 +183,7 @@ class Val_FloatArray(mtlAbstract.Abc_Value):
 
 
 # Value Color
-class Val_Color2(mtlAbstract.Abc_Value):
+class Val_Color2(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -202,7 +202,7 @@ class Val_Color2(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Color2Array(mtlAbstract.Abc_Value):
+class Val_Color2Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -221,7 +221,7 @@ class Val_Color2Array(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Color3(mtlAbstract.Abc_Value):
+class Val_Color3(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -240,7 +240,7 @@ class Val_Color3(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Color3Array(mtlAbstract.Abc_Value):
+class Val_Color3Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -259,7 +259,7 @@ class Val_Color3Array(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Color4(mtlAbstract.Abc_Value):
+class Val_Color4(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -278,7 +278,7 @@ class Val_Color4(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Color4Array(mtlAbstract.Abc_Value):
+class Val_Color4Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -298,7 +298,7 @@ class Val_Color4Array(mtlAbstract.Abc_Value):
 
 
 # Value Vector
-class Val_Vector2(mtlAbstract.Abc_Value):
+class Val_Vector2(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -317,7 +317,7 @@ class Val_Vector2(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Vector2Array(mtlAbstract.Abc_Value):
+class Val_Vector2Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -335,7 +335,7 @@ class Val_Vector2Array(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Vector3(mtlAbstract.Abc_Value):
+class Val_Vector3(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -354,7 +354,7 @@ class Val_Vector3(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Vector3Array(mtlAbstract.Abc_Value):
+class Val_Vector3Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -372,7 +372,7 @@ class Val_Vector3Array(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Vector4(mtlAbstract.Abc_Value):
+class Val_Vector4(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -391,7 +391,7 @@ class Val_Vector4(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Vector4Array(mtlAbstract.Abc_Value):
+class Val_Vector4Array(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -409,7 +409,7 @@ class Val_Vector4Array(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_String(mtlAbstract.Abc_Value):
+class Val_String(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_String
 
@@ -424,7 +424,7 @@ class Val_String(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_StringArray(mtlAbstract.Abc_Value):
+class Val_StringArray(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_StringN
 
@@ -442,7 +442,7 @@ class Val_StringArray(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_FileName(mtlAbstract.Abc_Value):
+class Val_FileName(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FileName
 
@@ -457,7 +457,7 @@ class Val_FileName(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_GeometryName(mtlAbstract.Abc_Value):
+class Val_GeometryName(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_NodeName
 
@@ -472,7 +472,7 @@ class Val_GeometryName(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_GeometryNameArray(mtlAbstract.Abc_Value):
+class Val_GeometryNameArray(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_StringN
 
@@ -490,7 +490,7 @@ class Val_GeometryNameArray(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Matrix33(mtlAbstract.Abc_Value):
+class Val_Matrix33(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -508,7 +508,7 @@ class Val_Matrix33(mtlAbstract.Abc_Value):
         self._initAbcValue(*args)
 
 
-class Val_Matrix44(mtlAbstract.Abc_Value):
+class Val_Matrix44(mtlObjAbstract.Abc_Value):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 

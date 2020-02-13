@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxBasic import bscObjects, bscCommands
+from LxBasic import bscCore, bscObjects, bscMethods
 
 from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsVariants
 
 from LxCore.preset.prod import projectPr, assetPr, scenePr
 
@@ -34,7 +34,7 @@ none = ''
 class IfScLightLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicScLightUtilsTool = bscCommands.orderedDict()
+    dicScLightUtilsTool = bscCore.orderedDict()
     dicScLightUtilsTool['sceneAssetManager'] = [0, 0, 0, 1, 4, 'Scene Compose', 'svg_basic@svg#subWindow']
     def __init__(self, *args, **kwargs):
         super(IfScLightLinkToolUnit, self).__init__(*args, **kwargs)
@@ -382,17 +382,17 @@ class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     (
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        assetIndex, assetClass, assetName, number, assetVariant
+                        assetIndex, assetCategory, assetName, number, assetVariant
                     ) = _vars
                     #
                     maScLoadCmds.scUnitAssetLoadSubCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        assetIndex, assetClass, assetName, number, assetVariant,
+                        assetIndex, assetCategory, assetName, number, assetVariant,
                         withAstModel=True, withModelCache=True,
                         withAstCfx=True, withAstCfxFurCache=True,
                         withExtraCache=True
@@ -409,15 +409,15 @@ class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     (
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        subLabel
+                        subLabelString
                     ) = _vars
                     #
                     maScLoadCmds.scUnitCameraCacheLoadSubCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
+                        sceneCategory, sceneName, sceneVariant, sceneStage, subLabelString,
                         withCameraCache=True
                     )
             #
@@ -432,18 +432,18 @@ class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     (
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        assetIndex, assetClass, assetName, number, assetVariant
+                        assetIndex, assetCategory, assetName, number, assetVariant
                     ) = _vars
                     #
                     maScLoadCmds.scUnitAstModelCacheConnectCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant,
+                        assetCategory, assetName, number, assetVariant,
                         withModelCache=True
                     )
             #
@@ -458,18 +458,18 @@ class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     (
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        assetIndex, assetClass, assetName, number, assetVariant
+                        assetIndex, assetCategory, assetName, number, assetVariant
                     ) = _vars
                     #
                     maScLoadCmds.scUnitAstExtraCacheConnectCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant,
+                        assetCategory, assetName, number, assetVariant,
                         withAstRigExtraCache=True
                     )
             #
@@ -484,19 +484,19 @@ class IfScMayaComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     (
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
-                        assetIndex, assetClass, assetName, number, assetVariant,
+                        assetIndex, assetCategory, assetName, number, assetVariant,
                         furObject
                     ) = _vars
                     #
                     maScLoadCmds.scUnitAstCfxFurCacheConnectSubCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant,
+                        assetCategory, assetName, number, assetVariant,
                         furObject,
                         withAstCfxFurCache=True
                     )
@@ -688,20 +688,20 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         button.setPercent(maxCount, maxCount - errorCount)
     #
     def getCollectionDataLis(self):
-        def getSceneFile(sourceOsFile):
-            targetOsFile = bscCommands.toOsFile(sceneDirectory, bscCommands.getOsFileBasename(sourceOsFile))
-            return targetOsFile
+        def getSceneFile(sourceFileString):
+            targetFileString = bscMethods.OsPath.composeBy(sceneDirectory, bscMethods.OsFile.basename(sourceFileString))
+            return targetFileString
         #
-        def getServerFile(sourceOsFile, localRoot):
-            targetOsFile = None
+        def getServerFile(sourceFileString, localRoot):
+            targetFileString = None
             for i in projectServerRootPathLis:
-                guessFile = i + sourceOsFile[len(localRoot):]
-                if bscCommands.getOsMultFileLis(guessFile, useMode=1):
-                    targetOsFile = guessFile
+                guessFile = i + sourceFileString[len(localRoot):]
+                if bscMethods.OsMultifile.existFiles(guessFile):
+                    targetFileString = guessFile
                     break
-            if targetOsFile is None:
-                targetOsFile = bscCommands.toOsFile(sceneDirectory, bscCommands.getOsFileBasename(sourceOsFile))
-            return targetOsFile
+            if targetFileString is None:
+                targetFileString = bscMethods.OsPath.composeBy(sceneDirectory, bscMethods.OsFile.basename(sourceFileString))
+            return targetFileString
         #
         def getOsFileCollectionDataLis(treeItemLis):
             if treeItemLis:
@@ -715,15 +715,12 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     targetFile = getSceneFile(sourceFile)
                     osFileCollectionDataLis.append((sourceFile, targetFile))
                     #
-                    existsSourceOsFileLis = bscCommands.getOsMultFileLis(sourceFile)
+
+                    existsSourceOsFileLis = bscMethods.OsMultifile.existFiles(sourceFile)
                     if existsSourceOsFileLis:
-                        existsSourceCollectionCount = len(existsSourceOsFileLis)
-                        if existsSourceCollectionCount > 1:
-                            osFileCollectionDataLis.append((sourceFile, targetFile))
-                            subSourceFiles = existsSourceOsFileLis[1:]
-                            for subSourceFile in subSourceFiles:
-                                subTargetFile = getSceneFile(subSourceFile)
-                                osFileCollectionDataLis.append((subSourceFile, subTargetFile))
+                        for subSourceFile in existsSourceOsFileLis:
+                            subTargetFile = getSceneFile(subSourceFile)
+                            osFileCollectionDataLis.append((subSourceFile, subTargetFile))
                     #
                     lis.append((fileType, nodes, osFileCollectionDataLis))
         #
@@ -740,28 +737,25 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     targetFile = getServerFile(sourceFile, localRoot)
                     osFileCollectionDataLis.append((sourceFile, targetFile))
                     #
-                    existsSourceOsFileLis = bscCommands.getOsMultFileLis(sourceFile)
+                    existsSourceOsFileLis = bscMethods.OsMultifile.existFiles(sourceFile)
                     if existsSourceOsFileLis:
-                        existsSourceCollectionCount = len(existsSourceOsFileLis)
-                        if existsSourceCollectionCount > 1:
-                            subSourceFiles = existsSourceOsFileLis[1:]
-                            for subSourceFile in subSourceFiles:
-                                subTargetFile = getServerFile(subSourceFile, localRoot)
-                                osFileCollectionDataLis.append((subSourceFile, subTargetFile))
+                        for subSourceFile in existsSourceOsFileLis:
+                            subTargetFile = getServerFile(subSourceFile, localRoot)
+                            osFileCollectionDataLis.append((subSourceFile, subTargetFile))
                     #
                     lis.append((fileType, nodes, osFileCollectionDataLis))
         #
         lis = []
         #
         projectName = self._connectObject.projectName
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
         sceneDirectory = scenePr.sceneExtraFolder(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant, sceneStage
+            projectName, sceneCategory, sceneName, sceneVariant, sceneStage
         )
         projectServerRootPathLis = projectPr.getProjectServerRootLis(projectName)
         getOsFileCollectionDataLis(self._scNeedCollectionFileItemLis)
@@ -868,12 +862,12 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         def setBranch(key, value, assetNumberKeys):
             keyNode = key
             #
-            assetIndex, assetClass, assetName, number, assetVariant = value
+            assetIndex, assetCategory, assetName, number, assetVariant = value
             #
             gridItem = qtWidgets.QtGridviewItem()
             listBox.addItem(gridItem)
             #
-            showExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, number)
+            showExplain = assetPr.getAssetViewInfo(assetIndex, assetCategory, number)
             gridItem.setName(showExplain)
             gridItem.setIcon('svg_basic@svg#package')
             #
@@ -890,7 +884,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             constantData = datScene.getScAstModelMeshConstantData(
                 sceneName, sceneVariant, sceneStage,
                 assetIndex,
-                assetClass, assetName, number, namespace
+                assetCategory, assetName, number, namespace
             )
             geometryCheck = True
             numberCheck = True
@@ -936,7 +930,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._inspectAssetDatumLis.append((
                 gridItem,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 keyNode
             ))
             #
@@ -996,7 +990,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             assetData.append(i[1:])
                 #
                 if assetData:
-                    timeTag = bscMethods.OsTime.activeTimetag()
+                    timeTag = bscMethods.OsTimetag.active()
                     description = u'镜头 - 资产（模型缓存）上传/更新'
                     notes = self._connectObject._scNoteUiLabel.datum()
                     #
@@ -1005,7 +999,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     maScUploadCmds.scUnitAssetsUploadMainCmd_(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         startFrame, endFrame, frameOffset,
                         timeTag,
                         description, notes,
@@ -1051,7 +1045,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             elif scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
                 inData = datScene.getScAstUnitDic(
                     projectName,
-                    sceneClass, sceneName, sceneVariant, sceneStage
+                    sceneCategory, sceneName, sceneVariant, sceneStage
                 )
             #
             listBox.cleanItems()
@@ -1072,13 +1066,13 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneIndex = self._connectObject.sceneIndex
         #
         projectName = self._connectObject.projectName
-        sceneClass = self._connectObject.sceneClass
+        sceneCategory = self._connectObject.sceneCategory
         sceneName = self._connectObject.sceneName
         sceneVariant = self._connectObject.sceneVariant
         sceneStage = self._connectObject.sceneStage
         #
         startFrame, endFrame = scenePr.getScUnitFrameRange(
-            projectName, sceneClass, sceneName, sceneVariant
+            projectName, sceneCategory, sceneName, sceneVariant
         )
         #
         frameOffset = prsVariants.Util.animKeyFrameOffset

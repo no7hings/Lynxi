@@ -1,7 +1,7 @@
 # coding:utf-8
 
 if __name__ == '__main__':
-    from LxBasic import bscMethods
+    from LxBasic import bscCore, bscMethods
     
     from LxMaterial.materialx import _util
 

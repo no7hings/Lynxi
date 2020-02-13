@@ -1,9 +1,10 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 
 Lynxi_Name_Td_Lis = [
     'dongchangbao',
-    'changbao.dong'
+    'changbao.dong',
+    'nothings'
 ]
 
 LynxiPipelineTdPost = 'Pipeline - TD'
@@ -11,13 +12,6 @@ LynxiPipelineTdLevel = 3
 pipelineTdBasicPaths = [
     'E:/myworkspace/td/lynxi'
 ]
-# Environ Key
-Lynxi_Environ_Key_Project = 'LYNXI_PROJECT'
-
-LynxiUi_Value_TooltipDelayTime = 1000
-
-Folder_Basic = '.lynxi'
-Lynxi_App_Maya = 'maya'
 
 Lynxi_Key_Preset = 'preset'
 Lynxi_Key_Pipeline = 'pipeline'
@@ -198,7 +192,7 @@ LynxiScLightStages = [
     'light',
     'render'
 ]
-Lynxi_Key_Info_SourceFile = 'link'
+STR_key_info_sourcefile = 'link'
 LynxiCacheInfoKey = 'cache'
 LynxiPoseCacheInfoKey = 'poseCache'
 LynxiModelCacheInfoKey = 'modelCache'
@@ -206,15 +200,15 @@ LynxiSolverCacheInfoKey = 'solverCache'
 LynxiExtraCacheInfoKey = 'extraCache'
 
 Lynxi_Key_Info_Stage = 'stage'
-Lynxi_Key_Info_Update = 'update'
+STR_key_info_time = 'update'
 Lynxi_Key_Info_Timestamp = 'timestamp'
 Lynxi_Key_Info_Version = 'version'
 Lynxi_Key_Info_User = 'user'
-Lynxi_Key_Info_Artist = 'artist'
-Lynxi_Key_Info_HostName = 'hostName'
-Lynxi_Key_Info_Host = 'host'
-Lynxi_Key_Info_Description = 'description'
-Lynxi_Key_Info_Note = 'note'
+STR_key_info_username = 'artist'
+STR_key_info_hostname = 'hostName'
+STR_key_info_host = 'host'
+STR_key_info_description = 'description'
+STR_key_info_note = 'note'
 Lynxi_Key_Info_Notes = 'notes'
 Lynxi_Key_Info_Data = 'data'
 Lynxi_Key_Info_StartFrame = 'startFrame'
@@ -237,8 +231,7 @@ LynxiTransformationDataKey = 'transformation'
 LynxiDatumKey_Extra_WorldMatrix = 'worldMatrix'
 LynxiObjectShapeNameAttrName = 'lynxiShapeName'
 LynxiTaskTimestampAttrName = 'lynxiTaskTimeStamp'
-LynxiUpdateExt = '.update'
-LynxiResultExt = '.result'
+
 LynxiScCameraCacheType = 'cameraCache'
 LynxiScAstModelCacheType = 'modelCache'
 LynxiScAstCfxFurCacheType = 'cfxFurCache'
@@ -250,24 +243,6 @@ if bscMethods.OsSystem.username() in Lynxi_Name_Td_Lis:
 else:
     LynxiIsSendMail = True
     LynxiIsSendDingTalk = True
-
-LynxiCharacterClassKey = 'character'
-LynxiPropClassKey = 'prop'
-LynxiAssetClassLis = [
-    LynxiCharacterClassKey,
-    LynxiPropClassKey
-]
-LynxiSceneryClassKey = 'scenery'
-LynxiMainTimeTag = '0000_0000_0000'
-LynxiProduct_Step_Pending = 'pending'
-LynxiProduct_Step_Wip = 'wip'
-LynxiProduct_Step_Delivery = 'delivery'
-LynxiProduct_Step_Refine = 'refine'
-LynxiProduct_Step_Validated = 'validated'
-LynxiAttrName_Object_Transparent = 'lxObjectTransparent'
-LynxiAttrName_Object_RenderVisible = 'lxObjectRenderVisible'
-
-STR_Value_Default = 'default'
 
 varDic = globals()
 

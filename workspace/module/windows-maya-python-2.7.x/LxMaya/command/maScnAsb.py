@@ -3,7 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxMaya.command import maUtils, maAttr, maProxy
 #
@@ -25,11 +25,11 @@ none = ''
 
 
 #
-def setOutAstProxy(osFile, objectString, renderer):
-    bscMethods.OsFile.createDirectory(osFile)
+def setOutAstProxy(fileString_, objectString, renderer):
+    bscMethods.OsFile.createDirectory(fileString_)
     # Export
     cmds.select(objectString)
-    maProxy.setOutProxy(osFile, renderer, 0)
+    maProxy.setOutProxy(fileString_, renderer, 0)
     cmds.select(clear=1)
 
 
@@ -191,7 +191,7 @@ def setCreateProxyAov(aovData):
 
 #
 def getProxyAovData():
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     aovNodes = cmds.ls(type='aiAOV')
     if aovNodes:
         for inAovNode in aovNodes:

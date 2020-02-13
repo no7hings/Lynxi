@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxUi import uiCore
 #
@@ -73,9 +73,9 @@ class QtMessageWidget(qtCore.QWidget):
             # Open Image
             if self._imageOpenArea is not None and self._imageDrawData is not None:
                 if self._imageOpenArea.contains(event.pos()):
-                    osFile, osTempFile, isVedio, image = self._imageDrawData
+                    fileString_, osTempFile, isVedio, image = self._imageDrawData
 
-                    bscMethods.OsFile.openAsTemporary(osFile, osTempFile)
+                    bscMethods.OsFile.openAsTemporary(fileString_, osTempFile)
                     #
                     isPassThrough = False
         #
@@ -181,7 +181,7 @@ class QtMessageWidget(qtCore.QWidget):
             rect = self._imageRect
             imageDrawData = self._imageDrawData
             if imageDrawData:
-                osFile, osTempFile, isVedio, image = imageDrawData
+                fileString_, osTempFile, isVedio, image = imageDrawData
                 if image is not None:
                     painter.drawPixmap(rect, image)
                     # Vedio
@@ -437,10 +437,10 @@ class QtMessageWidget(qtCore.QWidget):
                 # Image
                 elif messageType is self.ImageType:
                     # Image
-                    osFile = uiData
+                    fileString_ = uiData
                     image = None
-                    if bscCommands.isOsExistsFile(osFile):
-                        image = QtGui.QPixmap(osFile)
+                    if bscMethods.OsFile.isExist(fileString_):
+                        image = QtGui.QPixmap(fileString_)
                     #
                     imageRect = QtCore.QRect(
                         xPos, yPos, imageWidth, imageHeight
@@ -450,10 +450,10 @@ class QtMessageWidget(qtCore.QWidget):
                     yPos += imageHeight + gap
                 # Image + Text
                 elif messageType is self.ImageExplainType:
-                    osFile, explain = uiData
+                    fileString_, explain = uiData
                     # Image
-                    if bscCommands.isOsExistsFile(osFile):
-                        image = QtGui.QPixmap(osFile)
+                    if bscMethods.OsFile.isExist(fileString_):
+                        image = QtGui.QPixmap(fileString_)
                     else:
                         image = None
                     #
@@ -496,22 +496,22 @@ class QtMessageWidget(qtCore.QWidget):
                         imageWidth / 2 - imageHeight / 4, messageHeight
                     )
                     for seq, i in enumerate(uiData):
-                        osFile, explain = i
+                        fileString_, explain = i
                         # Temp File
-                        if isinstance(osFile, tuple) or isinstance(osFile, list):
-                            osFile, osTempFile = osFile
+                        if isinstance(fileString_, tuple) or isinstance(fileString_, list):
+                            fileString_, osTempFile = fileString_
                         else:
                             osTempFile = None
                         # Image
-                        isOsExist = bscCommands.isOsExist(osFile)
-                        if isOsExist:
-                            ext = bscCommands.getOsFileExt(osFile)
+                        existBoolean = bscMethods.OsFile.isExist(fileString_)
+                        if existBoolean:
+                            ext = bscMethods.OsFile.ext(fileString_)
                             isVedio = ext in ['.avi', '.mov']
                             if isVedio:
-                                osFileBase = bscCommands.getOsFileBase(osFile)
+                                osFileBase = bscMethods.OsFile.base(fileString_)
                                 osImageFile = osFileBase + '_0000' + '.jpg'
                             else:
-                                osImageFile = osFile
+                                osImageFile = fileString_
                             #
                             image = QtGui.QPixmap(osImageFile)
                         else:
@@ -549,15 +549,15 @@ class QtMessageWidget(qtCore.QWidget):
                         )
                         isSelected = [False, True][seq == self._imageIndex]
                         if isSelected:
-                            self._imageDrawData = osFile, osTempFile, isVedio, image
+                            self._imageDrawData = fileString_, osTempFile, isVedio, image
                             self._topTextDrawData = topTextOption, topExplain, topItalic
                         #
-                        backgroundRgba = [(255, 255, 64, 255), (63, 255, 127, 255)][isOsExist]
+                        backgroundRgba = [(255, 255, 64, 255), (63, 255, 127, 255)][existBoolean]
                         self._imageSwitchData.append((
                             rect,
                             backgroundRgba,
                             isSelected,
-                            (osFile, osTempFile, isVedio, image),
+                            (fileString_, osTempFile, isVedio, image),
                             (topTextOption, topExplain, topItalic)
                         ))
                         #

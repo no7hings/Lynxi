@@ -25,19 +25,19 @@ class Shm_Resource(shmCore.Basic):
 
     @property
     def name(self):
-        return self.method_os_environ.get(
+        return bscMethods.OsEnviron.get(
             self.Environ_Key_Name_Scheme
         )
 
     @property
     def version(self):
-        return self.method_os_environ.get(
+        return bscMethods.OsEnviron.get(
             self.Environ_Key_Version_Scheme
         )
 
     @version.setter
     def version(self, versionString):
-        self.method_os_environ.get(
+        bscMethods.OsEnviron.get(
             self.Environ_Key_Version_Scheme,
             versionString
         )
@@ -47,13 +47,13 @@ class Shm_Resource(shmCore.Basic):
 
     @property
     def configFile(self):
-        return self.method_os_environ.get(
+        return bscMethods.OsEnviron.get(
             self.Environ_Key_Config_File_Scheme
         )
 
     @property
     def setupFile(self):
-        return self.method_os_environ.get(
+        return bscMethods.OsEnviron.get(
             self.Environ_Key_File_Scheme
         )
 
@@ -107,7 +107,7 @@ class Shm_Interface(shmCore.Basic):
 
     @classmethod
     def restMessageCount(cls):
-        cls.method_os_environ.set(cls.Environ_Key_Message_Count, '0')
+        bscMethods.OsEnviron.set(cls.Environ_Key_Message_Count, '0')
 
     @classmethod
     def setMessageCount(cls, delta):
@@ -115,12 +115,12 @@ class Shm_Interface(shmCore.Basic):
         #
         value += delta
         #
-        cls.method_os_environ.set(cls.Environ_Key_Message_Count, str(value))
+        bscMethods.OsEnviron.set(cls.Environ_Key_Message_Count, str(value))
         return value
 
     @classmethod
     def messageCount(cls):
-        data = cls.method_os_environ.get(cls.Environ_Key_Message_Count)
+        data = bscMethods.OsEnviron.get(cls.Environ_Key_Message_Count)
         if data:
             return int(data)
         return 0
@@ -141,12 +141,12 @@ class Shm_Interface(shmCore.Basic):
     @classmethod
     def setTooltipAutoShow(cls, boolean):
         envValue = str(boolean).upper()
-        cls.method_os_environ.set(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
+        bscMethods.OsEnviron.set(cls.Environ_Key_Enable_Tooltip_Auto, envValue)
 
     @classmethod
     def isTooltipAutoShow(cls):
         boolean = False
-        envData = cls.method_os_environ.get(cls.Environ_Key_Enable_Tooltip_Auto)
+        envData = bscMethods.OsEnviron.get(cls.Environ_Key_Enable_Tooltip_Auto)
         if envData:
             if envData == str(True).upper():
                 boolean = True
@@ -189,7 +189,7 @@ class Directory(object):
 
 class UserPreset(object):
     def __init__(self):
-        self._userName = bscCore.Basic()._getSystemUsername()
+        self._userName = bscCore.BscMtdBasic()._getSystemUsername()
         self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
     @property
@@ -206,3 +206,7 @@ class UserPreset(object):
     @property
     def uiFilterConfigFile(self):
         return u'{}/ui/filter.config.json'.format(self._localPathString)
+
+    def tagFilterConfigFile(self, unitName):
+        return u'{}/ui/tag/{}-filter.config.json'.format(self._localPathString, unitName)
+

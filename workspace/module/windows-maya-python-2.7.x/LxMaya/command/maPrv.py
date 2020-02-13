@@ -3,7 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 #
 from LxMaya.command import maUtils, maCam
 #
@@ -56,7 +56,7 @@ def setViewportVp2Renderer(modelPanel, mode=0):
 
 # Make Preview
 def makePreview(
-        osFile, camera,
+        fileString_, camera,
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight,
         showOrnaments=1, displayResolution=0, displaySafeTitle=0,
@@ -78,14 +78,14 @@ def makePreview(
     #
     widthHeightReduce = (widthReduce, heightReduce)
     #
-    bscMethods.OsFile.createDirectory(osFile)
-    fileName = os.path.basename(osFile)
+    bscMethods.OsFile.createDirectory(fileString_)
+    fileName = os.path.basename(fileString_)
     #
     isMov = os.path.splitext(fileName)[-1] == '.mov'
     osFormat = [os.path.splitext(fileName)[-1][1:], u'qt'][isMov]
     compression = [u'IYUV 编码解码器', u'H.264'][isMov]
     #
-    prvName = os.path.splitext(osFile)[0]
+    prvName = os.path.splitext(fileString_)[0]
     #
     prvWindow = previewWindowName
     removeMayaWindow(prvWindow)
@@ -187,10 +187,10 @@ def makePreview(
             quality=quality
         )
         imagePreviewFile = prvName + '_' + frameDic[frame] + '.jpg'
-        if bscCommands.isOsExistsFile(imagePreviewFile):
+        if bscMethods.OsFile.isExist(imagePreviewFile):
             bscMethods.OsFile.remove(imagePreviewFile)
         #
-        bscMethods.OsFile.renameTo_(prvName + '.' + str(frame).zfill(4) + '.jpg', imagePreviewFile)
+        bscMethods.OsFile.renameTo(prvName + '.' + str(frame).zfill(4) + '.jpg', imagePreviewFile)
         imagePreviewFiles.append(imagePreviewFile)
     # Remove Widow
     removeMayaWindow(prvWindow)
@@ -199,12 +199,12 @@ def makePreview(
 
 # Make Snapshot
 def makeSnapshot(
-        osFile, camera,
+        fileString_, camera,
         useDefaultMaterial, percent, quality,
         startFrame, endFrame, widthHeight):
-    bscMethods.OsFile.createDirectory(osFile)
-    filePath = os.path.dirname(osFile)
-    fileName = os.path.basename(osFile)
+    bscMethods.OsFile.createDirectory(fileString_)
+    filePath = os.path.dirname(fileString_)
+    fileName = os.path.basename(fileString_)
     #
     format = fileName.split('.')[1]
     prvName = '%s/%s' % (filePath, fileName.split('.')[0])

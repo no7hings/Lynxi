@@ -25,14 +25,14 @@ for seq, (k, v) in enumerate(setData.items()):
     assetIndex, assetVariant = k
     (
         viewName,
-        assetClass, assetName, assetPriority,
+        assetCategory, assetName, assetPriority,
         astModelEnable, astRigEnable, astCfxEnable, astSolverEnable, astLightEnable, astAssemblyEnable
     ) = v
     #
-    showExplain = assetPr.getAssetViewInfo(assetIndex, assetClass, assetVariant)
+    showExplain = assetPr.getAssetViewInfo(assetIndex, assetCategory, assetVariant)
     worksheet.write(seq + 1, 0, label=showExplain)
     worksheet.write(seq + 1, 1, label=assetName)
-    worksheet.write(seq + 1, 2, label=assetClass)
+    worksheet.write(seq + 1, 2, label=assetCategory)
     worksheet.write(seq + 1, 3, label=assetPriority)
     worksheet.write(seq + 1, 4, label=astModelEnable)
     worksheet.write(seq + 1, 5, label=astRigEnable)

@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscObjects
+from LxBasic import bscCore, bscObjects
 #
 from LxMaya.command import maUtils
 #
@@ -27,7 +27,7 @@ def getControlHir(root):
 #
 def getControls(root):
     typeFilter = 'nurbsCurve'
-    typeFilters = maUtils.toStringList(typeFilter)
+    typeFilters = maUtils.string2list(typeFilter)
     return maUtils.getChildObjectsByRoot(root, typeFilters)
 
 

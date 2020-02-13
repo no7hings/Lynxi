@@ -2,21 +2,13 @@
 import types
 
 from LxBasic import bscMethods
-#
-from LxCore.config import appConfig
-
-from LxCore.method.basic import _methodBasic
 
 from LxUi import uiCore
 
 from LxUi.qt import qtWidgets, qtCore
 
 
-class QtViewMethod(
-    uiCore.Basic,
-    appConfig.LxUiConfig
-):
-    plf_file_method = _methodBasic.Mtd_PlfFile
+class QtViewMethod(uiCore.UiMtdBasic):
     @classmethod
     def setTreeView(cls, treeBox, treeViewBuildDic, branchViewMethod=None, expandedDic=None):
         def setBranch(parentData):
@@ -65,8 +57,9 @@ class QtViewMethod(
             osPath = treeItem.path[1:]
             osName = treeItem.name
             #
-            if cls.plf_file_method.isOsExist(osPath):
-                if cls.plf_file_method.isOsPath(osPath):
+            
+            if bscMethods.OsPath.isExist(osPath):
+                if bscMethods.OsPath.isDirectory(osPath):
                     if ':' in osName:
                         iconKeyword = 'svg_basic@svg#server_root'
                     else:

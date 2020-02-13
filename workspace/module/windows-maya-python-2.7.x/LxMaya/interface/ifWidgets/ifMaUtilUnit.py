@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore.preset.prod import projectPr
 #
@@ -52,7 +52,7 @@ class IfAstModelRadarChartUnit(qtCore.QWidget_):
         self.widthSet = width
     #
     def setBackground(self, image):
-        if bscCommands.isOsExistsFile(image):
+        if bscMethods.OsFile.isExist(image):
             self._radarChart.setImage(image)
         else:
             self._radarChart.setImage(qtCore.iconRoot() + '/panel/defaultPreview.png')

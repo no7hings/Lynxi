@@ -7,6 +7,8 @@
 @desc: 
 """
 import xlwt
+
+from LxPreset import prsMethods
 #
 from LxCore import lxConfigure
 #
@@ -28,7 +30,7 @@ def setBranch(seq, k, v):
     def getAsset():
         assetDataDic = scenePr.getSceneAssetIndexDataDic(
             projectName,
-            sceneClass, sceneName, sceneVariant
+            sceneCategory, sceneName, sceneVariant
         )
         #
         string = 'N/a'
@@ -42,7 +44,7 @@ def setBranch(seq, k, v):
                         _, _,
                         scAstModelCacheFile,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant
+                        assetCategory, assetName, number, assetVariant
                     ) = j
                     #
                     subLis.append(assetPr.getAssetViewInfo(assetIndex))
@@ -53,7 +55,7 @@ def setBranch(seq, k, v):
     def getScenery():
         sceneryDataDic = scenePr.getScSceneryIndexDataDic(
             projectName,
-            sceneClass, sceneName, sceneVariant
+            sceneCategory, sceneName, sceneVariant
         )
         string = 'N/a'
         for ik, iv in sceneryDataDic.items():
@@ -63,12 +65,12 @@ def setBranch(seq, k, v):
                     timestamp,
                     sceneStage,
                     sceneryIndex,
-                    sceneryClass, sceneryName, sceneryVariant, sceneryStage,
+                    sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                     sceneryFile, sceneryExtraFile
                 ) = j
-                if sceneryClass in lxConfigure.LynxiAssetClassLis:
+                if prsMethods.Asset.isValidCategory(sceneryCategory):
                     subLis.append(assetPr.getAssetViewInfo(sceneryIndex))
-                elif sceneryClass == lxConfigure.LynxiSceneryClassKey:
+                elif prsMethods.Scenery.isValidCategory(sceneryCategory):
                     subLis.append(sceneryPr.getSceneryViewInfo(sceneryIndex))
             #
             string = '\n'.join(subLis)
@@ -77,21 +79,21 @@ def setBranch(seq, k, v):
     sceneIndex, sceneVariant = k
     (
         viewName,
-        sceneClass, sceneName, scenePriority,
+        sceneCategory, sceneName, scenePriority,
         scLayoutEnable, scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
     ) = v
     #
     startFrame, endFrame = scenePr.getScUnitFrameRange(
         projectName,
-        sceneClass, sceneName, sceneVariant
+        sceneCategory, sceneName, sceneVariant
     )
     # Frame Count
     frameCount = endFrame - startFrame + 1
     #
-    showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneVariant)
+    showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneVariant)
     worksheet.write(seq + 1, 0, label=showExplain)
     worksheet.write(seq + 1, 1, label=sceneName)
-    worksheet.write(seq + 1, 2, label=sceneClass)
+    worksheet.write(seq + 1, 2, label=sceneCategory)
     worksheet.write(seq + 1, 3, label=scenePriority)
     worksheet.write(seq + 1, 4, label=frameCount)
     worksheet.write(seq + 1, 5, label=scLayoutEnable)

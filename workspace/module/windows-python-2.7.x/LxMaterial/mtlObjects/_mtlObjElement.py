@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract
+from LxMaterial import mtlObjAbstract
 
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjPort, _mtlObjDag, _mtlObjDefinition
 
 
-class Reference(mtlAbstract.Abc_Reference):
+class Reference(mtlObjAbstract.Abc_Reference):
     CLS_raw_file = _mtlObjRaw.Raw_Reference
 
     STR_mtlx_key_element = u'xi:include'
@@ -13,7 +13,7 @@ class Reference(mtlAbstract.Abc_Reference):
         self._initAbcInclude(*args)
 
 
-class Look(mtlAbstract.Abc_Look):
+class Look(mtlObjAbstract.Abc_Look):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_assign = _mtlObjSet.Set_Assign
 
@@ -28,7 +28,7 @@ class Look(mtlAbstract.Abc_Look):
         self._initAbcLook(*args)
 
 
-class Shaderset(mtlAbstract.Abc_Shaderset):
+class Shaderset(mtlObjAbstract.Abc_Shaderset):
     CLS_raw_dagpath = _mtlObjRaw.ShadersetPath
 
     CLS_set_input = _mtlObjSet.Set_Input
@@ -50,7 +50,7 @@ class Shaderset(mtlAbstract.Abc_Shaderset):
         self._initAbcShaderset(*args)
 
 
-class GeometryPortset(mtlAbstract.Abc_Propertyset):
+class GeometryPortset(mtlObjAbstract.Abc_Propertyset):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_port = _mtlObjSet.Set_Port
@@ -65,7 +65,7 @@ class GeometryPortset(mtlAbstract.Abc_Propertyset):
         self._initAbcPropertyset(*args)
 
 
-class NodeGraph(mtlAbstract.Abc_NodeGraph):
+class NodeGraph(mtlObjAbstract.Abc_NodeGraph):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_dag = _mtlObjSet.Set_Dag
@@ -81,7 +81,7 @@ class NodeGraph(mtlAbstract.Abc_NodeGraph):
         self._initAbcNodeGraph(*args)
 
 
-class Collection(mtlAbstract.Abc_GeometryCollection):
+class Collection(mtlObjAbstract.Abc_GeometryCollection):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_geometry = _mtlObjSet.Set_Geometry

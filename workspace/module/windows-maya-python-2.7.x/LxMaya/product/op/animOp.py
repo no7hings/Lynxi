@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsVariants
 #
 from LxCore.preset.prod import assetPr
 #
@@ -23,7 +23,7 @@ def setSwitchAssetRig(projectName, referenceNode, classify, name, subNumber):
     startFrame, endFrame = maUtils.getFrameRange()
     #
     cacheFile = maUtils.getAttrDatum(referenceNode, inGpuAttrLabel)
-    if bscCommands.isOsExistsFile(cacheFile):
+    if bscMethods.OsFile.isExist(cacheFile):
         bscMethods.OsFile.remove(cacheFile)
     #
     gpuName = assetPr.astGpuName(name, subNumber)

@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscObjects
+from LxBasic import bscCore,bscObjects
 #
 from LxCore import lxScheme
 #
@@ -40,7 +40,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         # Scenery Information
         self.projectName = projectPr.getMayaProjectName()
         self.sceneryIndex = None
-        self.sceneryClass = None
+        self.sceneryCategory = None
         self.sceneryName = None
         self.sceneryVariant = None
         self.sceneryStage = None
@@ -200,14 +200,14 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
             self.setPlaceholderEnable(False)
             #
             sceneryInfo = sceneryInfoLis[0]
-            sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage = sceneryInfo
+            sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage = sceneryInfo
             self.sceneryIndex = sceneryIndex
-            self.sceneryClass = sceneryClass
+            self.sceneryCategory = sceneryCategory
             self.sceneryName = sceneryName
             self.sceneryVariant = sceneryVariant
             self.sceneryStage = sceneryStage
             #
-            self.setSceneryInfo(sceneryIndex, sceneryClass, sceneryName, sceneryVariant)
+            self.setSceneryInfo(sceneryIndex, sceneryCategory, sceneryName, sceneryVariant)
             #
             self.leftBottomToolBar.show()
             #
@@ -222,11 +222,11 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
             #
             self.setScnCreateBoxShow()
     #
-    def setSceneryInfo(self, sceneryIndex, sceneryClass, sceneryName, sceneryVariant):
-        message = sceneryPr.getSceneryViewInfo(sceneryIndex, sceneryClass, sceneryVariant)
+    def setSceneryInfo(self, sceneryIndex, sceneryCategory, sceneryName, sceneryVariant):
+        message = sceneryPr.getSceneryViewInfo(sceneryIndex, sceneryCategory, sceneryVariant)
         self._infoLabel.setDatum(message)
         #
-        self.sceneryClass = sceneryClass
+        self.sceneryCategory = sceneryCategory
         self.sceneryName = sceneryName
         self.sceneryVariant = sceneryVariant
     #

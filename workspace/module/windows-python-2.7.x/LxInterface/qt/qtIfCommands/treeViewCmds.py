@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure
 #
@@ -16,18 +16,18 @@ def setListScRenderImageCustomize(
         parentUi,
         customizes,
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame
 ):
     def setBranch(customize):
         def setActionData():
             def openRenderFileToLocalCmd():
-                if bscCommands.isOsExistsFile(serverRenderFile):
+                if bscMethods.OsFile.isExist(serverRenderFile):
                     from LxMaya.command import maFile
                     maFile.openMayaFileToLocal(serverRenderFile, localRenderFile)
             #
             def openRenderFileCmd():
-                if bscCommands.isOsExistsFile(serverRenderFile):
+                if bscMethods.OsFile.isExist(serverRenderFile):
                     from LxMaya.command import maFile
                     maFile.fileOpen(serverRenderFile)
             #
@@ -37,7 +37,7 @@ def setListScRenderImageCustomize(
             renderFolder = scenePr.scUnitRenderFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 customize
             )
             #
@@ -54,7 +54,7 @@ def setListScRenderImageCustomize(
         #
         data = scenePr.getScRenderImageData(
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             customize
         )
         if data:
@@ -70,11 +70,11 @@ def setListScRenderImageCustomize(
             #
             serverRenderFile = scenePr.scUnitRenderFile(
                 lxConfigure.LynxiRootIndex_Server,
-                projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
+                projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize
             )[1]
             localRenderFile = scenePr.scUnitRenderFile(
                 lxConfigure.LynxiRootIndex_Local,
-                projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
+                projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
             imagePrefix, imageFiles = data
@@ -122,7 +122,7 @@ def setListRenderImages(
 ):
     #
     def getDic(data):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         findKey = '<RenderLayer>'
         splitPrefix = imagePrefix.split(pathSep)
         if findKey in splitPrefix:
@@ -161,16 +161,15 @@ def setListRenderImages(
                 bscMethods.OsDirectory.open(imageFolder)
             #
             def openImageFolderEnabled():
-                return bscCommands.isOsExist(imageFolder)
+                return bscMethods.OsDirectory.isExist(imageFolder)
             #
             def openImage():
                 osCmdExe = 'pdplayer64.exe'
-                if bscCommands.isOsExistsFile(osCmdExe):
-                    subOsFiles = bscMethods.OsMultifile.existFiles(imageFile)
-                    if subOsFiles:
-                        subOsFile = subOsFiles[0]
-                        osCmd = '''"{}" "{}"'''.format(osCmdExe, subOsFile)
-                        bscCommands.setOsCommandRun_(osCmd)
+                subOsFiles = bscMethods.OsMultifile.existFiles(imageFile)
+                if subOsFiles:
+                    subOsFile = subOsFiles[0]
+                    osCmd = '''"{}" "{}"'''.format(osCmdExe, subOsFile)
+                    bscMethods.OsSystem.runCommand(osCmd)
             #
             def showSizeHistogramWindow():
                 win = qtWidgets.QtDialogWindow()
@@ -191,7 +190,7 @@ def setListRenderImages(
             def openImageEnabled():
                 pass
             #
-            imageFolder = bscCommands.getOsFileDirname(imageFile)
+            imageFolder = bscMethods.OsFile.dirname(imageFile)
             #
             actions = [
                 ('Basic', ),

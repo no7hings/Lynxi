@@ -6,13 +6,13 @@ import maya.cmds as cmds
 import maya.mel as mel
 
 
-def toLodFile(osFile, lod):
-    if osFile is not None:
+def toLodFile(fileString_, lod):
+    if fileString_ is not None:
         if lod > 0:
-            base, ext = os.path.splitext(osFile)
+            base, ext = os.path.splitext(fileString_)
             return '{}_lod{}{}'.format(base, str(lod).zfill(2), ext)
         else:
-            return osFile
+            return fileString_
 
 
 #
@@ -26,9 +26,9 @@ def toDecomposeMatrixNodeName(nodeName):
 
 
 # Get Maya File Type
-def getMayaFileType(osFile):
+def getMayaFileType(fileString_):
     mayaFileType = 'mayaAscii'
-    fieType = os.path.splitext(osFile)[-1]
+    fieType = os.path.splitext(fileString_)[-1]
     if fieType == '.ma':
         mayaFileType = 'mayaAscii'
     elif fieType == '.mb':
@@ -121,19 +121,19 @@ def setChildVisible(nodePath, boolean):
 def setSelAsbImportAddSubCmd(nodePath):
     nodeName = nodePath.split('|')[-1]
     attrName = 'assetFile'
-    osFile = cmds.getAttr(nodePath + '.' + attrName)
+    fileString_ = cmds.getAttr(nodePath + '.' + attrName)
     #
     namespace = cmds.getAttr(nodePath + '.' + 'namespace')
     importGroupName = toImportAssetGroupName(nodeName)
     #
-    if importGroupName is not None and osFile is not None:
+    if importGroupName is not None and fileString_ is not None:
         if not cmds.objExists(importGroupName):
-            if os.path.isfile(osFile):
+            if os.path.isfile(fileString_):
                 cmds.file(
-                    osFile,
+                    fileString_,
                     i=1,
                     options='v=0;',
-                    type=getMayaFileType(osFile),
+                    type=getMayaFileType(fileString_),
                     ra=1,
                     mergeNamespacesOnClash=1,
                     namespace=namespace,
@@ -160,22 +160,22 @@ def setSelAsbImportAddCmd():
 def setSelAsbRefAddCmd(nodePath):
     nodeName = nodePath.split('|')[-1]
     attrName = 'assetFile'
-    osFile = cmds.getAttr(nodePath + '.' + attrName)
+    fileString_ = cmds.getAttr(nodePath + '.' + attrName)
     #
     namespace = cmds.getAttr(nodePath + '.' + 'namespace')
     importGroupName = toImportAssetGroupName(nodeName)
     #
-    if importGroupName is not None and osFile is not None:
+    if importGroupName is not None and fileString_ is not None:
         if not cmds.objExists(importGroupName):
-            if os.path.isfile(osFile):
+            if os.path.isfile(fileString_):
                 cmds.file(
-                    osFile,
+                    fileString_,
                     ignoreVersion=1,
                     reference=1,
                     mergeNamespacesOnClash=0,
                     namespace=namespace,
                     options='v=0;',
-                    type=getMayaFileType(osFile),
+                    type=getMayaFileType(fileString_),
                     groupReference=True,
                     groupName=importGroupName
                 )

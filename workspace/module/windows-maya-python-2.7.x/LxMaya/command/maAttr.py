@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscObjects
+from LxBasic import bscCore,bscObjects
 #
 from LxMaya.command import maUtils
 #

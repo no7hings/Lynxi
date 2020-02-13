@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxMaterial import mtlConfigure
 
-from LxMaterial import mtlAbstract
+from LxMaterial import mtlObjAbstract
 
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mtlObjPort, _mtlObjValue
 
@@ -40,7 +40,7 @@ DIC_CLS_VALUE = {
 }
 
 
-class Geometry(mtlAbstract.Abc_Geometry):
+class Geometry(mtlObjAbstract.Abc_Geometry):
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
 
     CLS_set_property = _mtlObjSet.Set_Property
@@ -58,7 +58,7 @@ class Geometry(mtlAbstract.Abc_Geometry):
         self._initAbcGeometry(*args)
 
 
-class Shader(mtlAbstract.Abc_Shader):
+class Shader(mtlObjAbstract.Abc_Shader):
     CLS_raw_type = _mtlObjRaw.Raw_Type
     CLS_raw_category = _mtlObjRaw.Raw_ShaderCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath
@@ -82,7 +82,7 @@ class Shader(mtlAbstract.Abc_Shader):
         self._initAbcShader(*args)
 
 
-class Node(mtlAbstract.Abc_Node):
+class Node(mtlObjAbstract.Abc_Node):
     CLS_raw_type = _mtlObjRaw.Raw_Type
     CLS_raw_category = _mtlObjRaw.Raw_NodeCategory
     CLS_raw_dagpath = _mtlObjRaw.Raw_NodePath

@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxScheme import shmAbstract
+from LxScheme import shmObjAbstract
 
 
-class Raw_Version(shmAbstract.Abc_Raw):
+class Raw_Version(shmObjAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -42,7 +42,7 @@ class Raw_Version(shmAbstract.Abc_Raw):
         return self
 
 
-class Raw_Custom(shmAbstract.Abc_Raw):
+class Raw_Custom(shmObjAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -70,7 +70,7 @@ class Raw_Custom(shmAbstract.Abc_Raw):
         return self.get(self.Key_Active)
 
 
-class Raw_Environ(shmAbstract.Abc_Raw):
+class Raw_Environ(shmObjAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -129,7 +129,7 @@ class Raw_Environ(shmAbstract.Abc_Raw):
         return lis
 
 
-class Raw_Dependent(shmAbstract.Abc_Raw):
+class Raw_Dependent(shmObjAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -148,7 +148,7 @@ class Raw_Dependent(shmAbstract.Abc_Raw):
         return self
 
 
-class Raw_Variant(shmAbstract.Abc_Raw):
+class Raw_Variant(shmObjAbstract.Abc_Raw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -159,7 +159,7 @@ class Raw_Variant(shmAbstract.Abc_Raw):
         self._raw[key] = value
 
 
-class Raw_Resource(shmAbstract.Abc_RawResource):
+class Raw_Resource(shmObjAbstract.Abc_RawResource):
     RAW_VERSION_CLS = Raw_Version
     RAW_ENVIRON_CLS = Raw_Environ
     RAW_DEPENDENT_CLS = Raw_Dependent
@@ -211,7 +211,7 @@ class Raw_Resource(shmAbstract.Abc_RawResource):
         return self._dependentObj
 
 
-class Raw_Preset(shmAbstract.Abc_RawResource):
+class Raw_Preset(shmObjAbstract.Abc_RawResource):
     RAW_CUSTOM_CLS = Raw_Custom
     RAW_VARIANT_CLS = Raw_Variant
 

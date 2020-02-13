@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxPreset import prsMethods
 
@@ -7,7 +7,7 @@ from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
-from LxCore.method import _dbMethod
+from LxDatabase import dtbMethods
 #
 from LxMaya.method import _maMethod, _maProductMethod
 #
@@ -19,7 +19,6 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
     mtd_app_rnd_node = _maMethod.MaRenderNodeMethod
     mtd_app_node = _maMethod.MaLightNodeMethod
     mtd_app_prd_unit = _maProductMethod.MaProductUnitMethod
-    mtd_dtb_user = _dbMethod.Mtd_DbUser
 
     UnitTitle = 'Light Rig Upload / Update'
     UnitIcon = 'window#geometryPanel'
@@ -114,7 +113,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         toolBox.addInfo('branchName', self._branchNameLabel)
         self._branchNameLabel.setChooseEnable(True)
         self._branchNameLabel.chooseChanged.connect(self._initInfo)
-        self._branchNameLabel.setDatumLis(self.mtd_dtb_user.dbUserLocalUnitBranchLis())
+        self._branchNameLabel.setDatumLis(dtbMethods.DtbUser.dbUserLocalUnitBranchLis())
         #
         self._versionNameLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('versionName', self._versionNameLabel)
@@ -152,9 +151,9 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self._updateVersionLabel()
     #
     def _updateNameLabel(self):
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         #
-        nameLis = self.mtd_dtb_user.dbGetUserJsonUnitNameLis(dbUnitType)
+        nameLis = dtbMethods.DtbUser.dbGetUserJsonUnitNameLis(dbUnitType)
         if nameLis:
             nameString = self._lightLinkNameLabel.datum()
             #
@@ -169,10 +168,10 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         entryLabel = self._versionNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        versionUiDic, currentIndex = self.mtd_dtb_user.dbGetUserServerJsonUnitIncludeVersionUiDic(
+        versionUiDic, currentIndex = dtbMethods.DtbUser.dbGetUserServerJsonUnitIncludeVersionUiDic(
             nameString, dbUnitType, dbUnitBranch
         )
         if versionUiDic:
@@ -189,7 +188,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
             treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-            treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+            treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
             if self.isAppExist(nodePath):
                 treeItem.path = nodePath
             else:
@@ -206,7 +205,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             nodePath = self.mtd_app_node._toNodePathBySearchDatum(pathDatum, namespaceDatum)
             treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
             treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-            treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+            treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
             #
             subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
             treeItem.setSubIcon(subIconKeyword)
@@ -217,7 +216,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 treeItem._setQtPressStatus(qtCore.OffStatus)
         #
         def setMain():
-            datumDic = self.orderedDict(self._localLightLinkDic)
+            datumDic = bscCore.orderedDict(self._localLightLinkDic)
             #
             treeView.cleanItems()
             if datumDic:
@@ -276,20 +275,20 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             pass
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
-        self._serverLightLinkDic = self.mtd_dtb_user.dbReadUserJsonUnit(
+        self._serverLightLinkDic = dtbMethods.DtbUser.dbReadUserJsonUnit(
             nameString, dbUnitType, dbUnitBranch
         )
     #
     def _updateLightLinkCmd(self):
         nameString = self._lightLinkNameLabel.datum()
         jsonDatum = self._localLightLinkDic
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
         if nameString and jsonDatum:
-            self.mtd_dtb_user.dbWriteUserJsonUnit(
+            dtbMethods.DtbUser.dbWriteUserJsonUnit(
                 nameString, dict(jsonDatum), dbUnitType, dbUnitBranch
             )
             #
@@ -309,7 +308,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
         dbUnitBranch = self._branchNameLabel.datum()
         #
         if nameString and jsonDatum:
-            self.mtd_dtb_user.dbWriteUserJsonUnit(
+            dtbMethods.DtbUser.dbWriteUserJsonUnit(
                 nameString, dict(jsonDatum), dbUnitType, dbUnitBranch
             )
             #
@@ -372,7 +371,6 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
 class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
     mtd_app_node = _maMethod.MaLightNodeMethod
     mtd_app_prd_unit = _maProductMethod.MaProductUnitMethod
-    mtd_dtb_user = _dbMethod.Mtd_DbUser
 
     UnitTitle = 'Scene Light Link Load'
     UnitIcon = 'window#geometryPanel'
@@ -495,9 +493,9 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def _updateNameLabel(self):
         entryLabel = self._lightLinkNameLabel
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         #
-        datumLis = self.mtd_dtb_user.dbGetUserJsonUnitNameLis(dbUnitType)
+        datumLis = dtbMethods.DtbUser.dbGetUserJsonUnitNameLis(dbUnitType)
         if datumLis:
             entryLabel.setDatumLis(datumLis)
     #
@@ -505,9 +503,9 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         entryLabel = self._branchNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         #
-        branchLis = self.mtd_dtb_user.dbGetUserServerJsonUnitBranchLis(nameString, dbUnitType)
+        branchLis = dtbMethods.DtbUser.dbGetUserServerJsonUnitBranchLis(nameString, dbUnitType)
         if branchLis:
             entryLabel.setDatumLis(branchLis)
     #
@@ -515,10 +513,10 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         entryLabel = self._versionNameLabel
         #
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        versionUiDic, currentIndex = self.mtd_dtb_user.dbGetUserServerJsonUnitIncludeVersionUiDic(
+        versionUiDic, currentIndex = dtbMethods.DtbUser.dbGetUserServerJsonUnitIncludeVersionUiDic(
             nameString, dbUnitType, dbUnitBranch
         )
         if versionUiDic:
@@ -526,10 +524,10 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def _updateServerDatum(self):
         nameString = self._lightLinkNameLabel.datum()
-        dbUnitType = self.mtd_dtb_user.LxDb_Unit_Type_LightLink
+        dbUnitType = dtbMethods.DtbUser.LxDb_Unit_Type_LightLink
         dbUnitBranch = self._branchNameLabel.datum()
         #
-        self._serverLightLinkDic = self.mtd_dtb_user.dbReadUserJsonUnit(
+        self._serverLightLinkDic = dtbMethods.DtbUser.dbReadUserJsonUnit(
             nameString, dbUnitType, dbUnitBranch
         )
     #
@@ -563,7 +561,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     treeView.addItem(treeItem)
                     treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
                     treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-                    treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+                    treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
                     treeItem.path = nodePath
                     #
                     if seq > 0:
@@ -582,7 +580,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 treeView.addItem(treeItem)
                 treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
                 treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-                treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+                treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
                 treeItem._setQtPressStatus(qtCore.OffStatus)
                 #
                 lis.append(treeItem)
@@ -604,7 +602,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     parentItem.addChild(treeItem)
                     treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
                     treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-                    treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+                    treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
                     subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
                     treeItem.setSubIcon(subIconKeyword)
                     #
@@ -625,7 +623,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 parentItem.addChild(treeItem)
                 treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
                 treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
-                treeItem.setIcon(self._lxMayaSvgIconKeyword(nodeType))
+                treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
                 subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
                 treeItem.setSubIcon(subIconKeyword)
                 #

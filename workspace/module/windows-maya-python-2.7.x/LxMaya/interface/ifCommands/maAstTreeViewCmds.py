@@ -1,7 +1,7 @@
 # encoding=utf-8
 import os, collections
 
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscCore, bscMethods
 #
 from LxCore import lxConfigure
 #
@@ -324,7 +324,7 @@ def setAstGeometryConstantMain(
         serverPathDic, serverInfoDic
 ):
     def getUniqueDic(inData):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         if inData:
             for k, v in inData.items():
                 if not v.startswith('|'):
@@ -340,20 +340,20 @@ def setAstGeometryConstantMain(
                 if serverPathDic:
                     if compIndexKey in serverPathDic:
                         intersectionObjectIndexLis.append(compIndexKey)
-                        dic.setdefault(categoryNames[0], []).append(compPath)
+                        dic.setdefault(categoryLis[0], []).append(compPath)
                     if not compIndexKey in serverPathDic:
                         additionObjectIndexLis.append(compIndexKey)
-                        dic.setdefault(categoryNames[1], []).append(compPath)
+                        dic.setdefault(categoryLis[1], []).append(compPath)
                 #
                 if not serverPathDic:
                     additionObjectIndexLis.append(compIndexKey)
-                    dic.setdefault(categoryNames[1], []).append(compPath)
+                    dic.setdefault(categoryLis[1], []).append(compPath)
         #
         if serverPathDic:
             for compIndexKey, compPath in serverPathDic.items():
                 if not compIndexKey in localPathDic:
                     deletionObjectIndexLis.append(compIndexKey)
-                    dic.setdefault(categoryNames[2], []).append(compPath)
+                    dic.setdefault(categoryLis[2], []).append(compPath)
         return dic
     #
     def setClassItemBranch(itemWidget, categoryName, classState):
@@ -401,8 +401,8 @@ def setAstGeometryConstantMain(
         #
     #
     def setMain():
-        maxValue = len(categoryNames)
-        for seq, categoryName in enumerate(categoryNames):
+        maxValue = len(categoryLis)
+        for seq, categoryName in enumerate(categoryLis):
             main.setProgressValue(seq + 1, maxValue)
             classItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(classItem)
@@ -433,7 +433,7 @@ def setAstGeometryConstantMain(
             )
             setClassItemBranch(classItemWidget, categoryName, classState)
     #
-    categoryNames = ['intersection', 'addition', 'deletion']
+    categoryLis = ['intersection', 'addition', 'deletion']
     #
     localUniqueDic = getUniqueDic(localPathDic)
     serverUniqueDic = getUniqueDic(serverPathDic)
@@ -724,8 +724,8 @@ def setAstMeshHistCheckView(main, treeBox, inData, inCheck, errorData):
 
 
 #
-def setAstCfxFurCheckTreeView(main, assetClass, assetName, treeBox, checkData, errorData):
-    checkFnDic = bscCommands.orderedDict()
+def setAstCfxFurCheckTreeView(main, assetCategory, assetName, treeBox, checkData, errorData):
+    checkFnDic = bscCore.orderedDict()
     checkFnDic['astYetiCheck'] = setAstCfxFurYetiCheckTreeView
     checkFnDic['astPfxHairCheck'] = setAstCfxFurMayaCheckTreeView
     checkFnDic['astNurbsHairCheck'] = setAstCfxFurNhrCheckTreeView
@@ -738,11 +738,11 @@ def setAstCfxFurCheckTreeView(main, assetClass, assetName, treeBox, checkData, e
             if enable is not False:
                 if k in checkFnDic:
                     fn = checkFnDic[k]
-                    fn(main, assetClass, assetName, treeBox, checkData, errorData)
+                    fn(main, assetCategory, assetName, treeBox, checkData, errorData)
 
 
 #
-def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, checkData, errorData):
     enExplain = 'Yeti Check'
     inspectionItem = qtWidgets_.QTreeWidgetItem_(['%s [ 0000 / 0000 ]' % enExplain])
     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
@@ -981,7 +981,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetClass, assetName, treeBox, checkDat
 
 
 #
-def setAstCfxFurMayaCheckTreeView(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstCfxFurMayaCheckTreeView(main, assetCategory, assetName, treeBox, checkData, errorData):
     # Sub Method
     def setCheckBranch(pfxHairObject, errorArray):
         def setCheckLeaf(mObjects, rootItem, explain, nodeType, objectGroup, subErrorArray, subRootItem=False):
@@ -1115,7 +1115,7 @@ def setAstCfxFurMayaCheckTreeView(main, assetClass, assetName, treeBox, checkDat
 
 
 #
-def setAstCfxFurNhrCheckTreeView(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstCfxFurNhrCheckTreeView(main, assetCategory, assetName, treeBox, checkData, errorData):
     # Sub Method
     def setObjectCheckBranch(objectPath, iconKeyword, parentItem=None):
         objectName = maUtils._toNodeName(objectPath)
@@ -1157,7 +1157,7 @@ def setAstCfxFurNhrCheckTreeView(main, assetClass, assetName, treeBox, checkData
         #
         stateLabel = none
         furMapFile = maFur.getFurMapAttrData(node)
-        if not bscCommands.isOsExistsFile(furMapFile):
+        if not bscMethods.OsFile.isExist(furMapFile):
             stateLabel = 'error'
             nodeItem.setText(2, 'Non - Exists')
             #
@@ -1246,7 +1246,7 @@ def setAstCfxFurNhrCheckTreeView(main, assetClass, assetName, treeBox, checkData
 
 
 #
-def setAstCfxGrowSourceCheckView(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstCfxGrowSourceCheckView(main, assetCategory, assetName, treeBox, checkData, errorData):
     enExplain = 'Grow - Mesh ( Source ) Check'
     inspectionItem = qtWidgets_.QTreeWidgetItem_(['%s [ 0000 / 0000 ]' % enExplain])
     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
@@ -1285,7 +1285,7 @@ def setAstCfxGrowSourceCheckView(main, assetClass, assetName, treeBox, checkData
 
 
 #
-def setAstCfxSolverGuideCheckView(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstCfxSolverGuideCheckView(main, assetCategory, assetName, treeBox, checkData, errorData):
     enExplain = 'Solver - Guide Check'
     inspectionItem = qtWidgets_.QTreeWidgetItem_(['%s [ 0000 / 0000 ]' % enExplain])
     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
@@ -1323,7 +1323,7 @@ def setAstCfxSolverGuideCheckView(main, assetClass, assetName, treeBox, checkDat
 
 
 #
-def setAstSolverGuideCheckSub(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstSolverGuideCheckSub(main, assetCategory, assetName, treeBox, checkData, errorData):
     enExplain = 'Solver - Guide Check'
     inspectionItem = qtWidgets_.QTreeWidgetItem_(['%s [ 0000 / 0000 ]' % enExplain])
     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
@@ -1368,7 +1368,7 @@ def setAstSolverGuideCheckSub(main, assetClass, assetName, treeBox, checkData, e
 
 
 #
-def setAstSolverGrowSourceCheckSub(main, assetClass, assetName, treeBox, checkData, errorData):
+def setAstSolverGrowSourceCheckSub(main, assetCategory, assetName, treeBox, checkData, errorData):
     enExplain = 'Grow - Mesh ( Source ) Check'
     inspectionItem = qtWidgets_.QTreeWidgetItem_(['%s [ 0000 / 0000 ]' % enExplain])
     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check')
@@ -1407,7 +1407,7 @@ def setAstSolverGrowSourceCheckSub(main, assetClass, assetName, treeBox, checkDa
 
 
 #
-def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, assetStage, treeBox, inData, checkData, errorData):
+def setAstTextureCheckView(projectName, assetCategory, assetName, assetVariant, assetStage, treeBox, inData, checkData, errorData):
     isFormatCheck = prsVariants.Util.arTextureFormatCheck
     isArTxCheck = prsVariants.Util.arTextureTxCheck
     isArColorSpaceCheck = prsVariants.Util.arTextureColorSpaceCheck
@@ -1423,7 +1423,7 @@ def setAstTextureCheckView(projectName, assetClass, assetName, assetVariant, ass
         serverTextureDirectory = assetPr.astUnitTextureFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetClass, assetName, assetVariant, assetStage
+            assetCategory, assetName, assetVariant, assetStage
         )
         setAstTextureCheckSubMethod(
             inData,
@@ -1546,7 +1546,7 @@ def setAstTextureCheckSubMethod(
                 subTextureTxMtimestamp = None
                 #
                 subTextureName, subExt = os.path.splitext(subTextureFileBasename)
-                subTextureFile = bscCommands.toOsFile(osPath, subTextureFileBasename)
+                subTextureFile = bscMethods.OsPath.composeBy(osPath, subTextureFileBasename)
                 #
                 subWidth, subHeight = maTxtr.getTextureSize(subTextureFile)
                 subTextureText1 = '%s ( %s*%s )' % (
@@ -1587,8 +1587,8 @@ def setAstTextureCheckSubMethod(
                 #
                 subTextureItem.setText(0, subTextureFileBasename)
                 subTextureItem.setText(1, subTextureText1)
-                subTextureItem.setText(2, bscMethods.OsTime.getCnPrettifyByTimestamp(subTextureMtimestamp))
-                subTextureItem.setText(3, bscMethods.OsTime.getCnPrettifyByTimestamp(subTextureTxMtimestamp))
+                subTextureItem.setText(2, bscMethods.OsTimestamp.toChnPrettify(subTextureMtimestamp))
+                subTextureItem.setText(3, bscMethods.OsTimestamp.toChnPrettify(subTextureTxMtimestamp))
             # Check
             formatCheck = sum([1 for i in suTxCheckLis if i is True]) == count
             txCheck = sum([1 for i in suTxCheckLis if i is True]) == count
@@ -1636,9 +1636,9 @@ def setAstTextureCheckSubMethod(
         #
         textureFileBasename,  textureMtimestampDatum, textureNodeDatumLis = datum
         #
-        textureName, ext = bscCommands.toOsFileSplitByExt(textureFileBasename)
+        textureName, ext = bscMethods.OsFile.toExtSplit(textureFileBasename)
         #
-        textureFile = bscCommands.toOsFile(osPath, textureFileBasename)
+        textureFile = bscMethods.OsPath.composeBy(osPath, textureFileBasename)
         #
         textureFileText0 = textureFileBasename
         textureFileIconState0 = None
@@ -1726,8 +1726,8 @@ def setAstTextureCheckSubMethod(
         textureItem.setItemIcon_(2, 'svg_basic@svg#time')
         textureItem.setItemIcon_(3, 'svg_basic@svg#time')
         textureItem.setText(1, textureText1)
-        textureItem.setText(2, bscMethods.OsTime.getCnPrettifyByTimestamp(textureFileMtimestamp))
-        textureItem.setText(3, bscMethods.OsTime.getCnPrettifyByTimestamp(textureTxFileMtimestamp))
+        textureItem.setText(2, bscMethods.OsTimestamp.toChnPrettify(textureFileMtimestamp))
+        textureItem.setText(3, bscMethods.OsTimestamp.toChnPrettify(textureTxFileMtimestamp))
         #
         setTextureItemAction(textureItemWidget)
     #
@@ -1742,5 +1742,5 @@ def setAstTextureCheckSubMethod(
 
 
 #
-def setAstShaderCheckView(assetClass, assetName, treeBox):
+def setAstShaderCheckView(assetCategory, assetName, treeBox):
     treeBox.setFilterExplainRefresh()

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscCore, bscMethods
 
 from LxCore import lxScheme
 
@@ -167,8 +167,8 @@ class QtTipWindow(qtObjWidget.QtAbcObj_Window):
     def datum(self):
         return self.html()
 
-    def setLogFile(self, osFile):
-        self._logFile = osFile
+    def setLogFile(self, fileString_):
+        self._logFile = fileString_
 
     def logFile(self):
         return self._logFile
@@ -234,8 +234,8 @@ class QtLogWindow(qtObjWidget.QtAbcObj_Window):
     def datum(self):
         return self.html()
 
-    def setLogFile(self, osFile):
-        self._logFile = osFile
+    def setLogFile(self, fileString_):
+        self._logFile = fileString_
 
     def logFile(self):
         return self._logFile

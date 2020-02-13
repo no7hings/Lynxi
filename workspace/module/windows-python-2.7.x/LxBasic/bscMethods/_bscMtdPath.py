@@ -4,25 +4,19 @@ from LxBasic import bscCore
 from LxBasic.bscMethods import _bscMtdPython
 
 
-class OsPath(bscCore.PathBasic):
+class OsPath(bscCore.BscMtdPathBasic):
     separator_path = u'/'
     @classmethod
     def composeBy(cls, *args):
-        if isinstance(args[0], (list, tuple)):
-            pathStringLis = args[0]
-        else:
-            pathStringLis = list(args)
+        return cls._toOsPathString(*args)
 
-        string = ''
-        index = 0
-        for i in pathStringLis:
-            if i not in ['', None]:
-                if index is 0:
-                    string = i
-                else:
-                    string += u'{}{}'.format(cls.separator_path, i)
-                index += 1
-        return string
+    @classmethod
+    def isDirectory(cls, pathString):
+        return cls._isOsDirectory(pathString)
+
+    @classmethod
+    def isFile(cls, pathString):
+        return cls._isOsFile(pathString)
 
     @classmethod
     def treeViewBuildDic(cls, pathStrings):
@@ -31,10 +25,22 @@ class OsPath(bscCore.PathBasic):
             cls.separator_path
         )
 
-
-class OsDirectory(bscCore.Basic):
     @classmethod
-    def allPathnames(cls, directoryString):
+    def isExist(cls, pathString):
+        """
+        :param pathString: str
+        :return: bool
+        """
+        return cls.MTD_os_path.exists(pathString)
+
+
+class OsDirectory(bscCore.BscMtdBasic):
+    @classmethod
+    def create(cls, directoryString):
+        cls._setOsDirectoryCreate(directoryString)
+
+    @classmethod
+    def allFullpathnames(cls, directoryString):
         """
         :param directoryString: str
         :return: list([str, ...])
@@ -48,7 +54,7 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
-    def allFilenames(cls, directoryString):
+    def allFileFullpathnames(cls, directoryString):
         return cls._getPathnameListByOsDirectory(
             directoryString,
             extString=None,
@@ -58,7 +64,7 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
-    def pathnames(cls, directoryString):
+    def fullpathnames(cls, directoryString):
         return cls._getPathnameListByOsDirectory(
             directoryString,
             extString=None,
@@ -68,7 +74,7 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
-    def pathbasenames(cls, directoryString):
+    def basenames(cls, directoryString):
         return cls._getPathnameListByOsDirectory(
             directoryString,
             extString=None,
@@ -78,7 +84,7 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
-    def filenames(cls, directoryString):
+    def fileFullpathnames(cls, directoryString):
         return cls._getPathnameListByOsDirectory(
             directoryString,
             extString=None,
@@ -88,7 +94,7 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
-    def filebasenames(cls, directoryString):
+    def fileBasenames(cls, directoryString):
         return cls._getPathnameListByOsDirectory(
             directoryString,
             extString=None,
@@ -103,7 +109,7 @@ class OsDirectory(bscCore.Basic):
         :param directoryString: str
         :return: bool
         """
-        return cls.MTD_os_path.exists(directoryString)
+        return cls.MTD_os_path.isdir(directoryString)
 
     @classmethod
     def setDirectoryCreate(cls, directoryString):
@@ -114,7 +120,17 @@ class OsDirectory(bscCore.Basic):
         cls._setOsDirectoryCreate(directoryString)
 
     @classmethod
-    def getAllChildFileRelativeNames(cls, directoryString, extString):
+    def allRelativenames(cls, directoryString, extString=None):
+        return cls._getPathnameListByOsDirectory(
+            rootString=directoryString,
+            extString=extString,
+            isFile=False,
+            isFullpath=False,
+            isAll=True
+        )
+
+    @classmethod
+    def allFileRelativenames(cls, directoryString, extString=None):
         return cls._getPathnameListByOsDirectory(
             rootString=directoryString,
             extString=extString,
@@ -124,8 +140,28 @@ class OsDirectory(bscCore.Basic):
         )
 
     @classmethod
+    def relativenames(cls, directoryString, extString=None):
+        return cls._getPathnameListByOsDirectory(
+            rootString=directoryString,
+            extString=extString,
+            isFile=False,
+            isFullpath=False,
+            isAll=False
+        )
+
+    @classmethod
+    def fileRelativenames(cls, directoryString, extString=None):
+        return cls._getPathnameListByOsDirectory(
+            rootString=directoryString,
+            extString=extString,
+            isFile=True,
+            isFullpath=False,
+            isAll=False
+        )
+
+    @classmethod
     def remove(cls, directoryString):
-        children = cls.allPathnames(directoryString)
+        children = cls.allFullpathnames(directoryString)
         if children:
             children.reverse()
             for i in children:
@@ -136,7 +172,7 @@ class OsDirectory(bscCore.Basic):
 
     @classmethod
     def moveTo(cls, directoryString, targetDirectoryString):
-        filenameLis = cls.allFilenames(directoryString)
+        filenameLis = cls.allFileFullpathnames(directoryString)
         if filenameLis:
             for i in filenameLis:
                 _bscMtdPython.PyMessage.traceResult(u'Move: {}'.format(i.decode(u'gbk')))
@@ -149,7 +185,11 @@ class OsDirectory(bscCore.Basic):
         cls._setOsDirectoryOpen(directoryString)
 
 
-class MayaPath(bscCore.PathBasic):
+class AppPath(bscCore.BscMtdPathBasic):
+    pass
+
+
+class MayaPath(bscCore.BscMtdPathBasic):
     separator_namespace = u':'
     separator_node = u'|'
     separator_attribute = u'.'
@@ -168,7 +208,7 @@ class MayaPath(bscCore.PathBasic):
 
     @classmethod
     def namespace(cls, pathString):
-        return cls._getNamespace(
+        return cls._getNamespaceByPathString(
             pathString,
             nodeSep=cls.separator_node,
             namespaceSep=cls.separator_namespace
@@ -176,7 +216,7 @@ class MayaPath(bscCore.PathBasic):
 
     @classmethod
     def name(cls, pathString):
-        return cls._getName(
+        return cls._getNameByPathString(
             pathString,
             nodeSep=cls.separator_node,
             namespaceSep=cls.separator_namespace
@@ -184,14 +224,14 @@ class MayaPath(bscCore.PathBasic):
 
     @classmethod
     def nameWithNamespace(cls, pathString):
-        return cls._getNameWithNamespace(
+        return cls._getNameWithNamespaceByPathString(
             pathString,
             nodeSep=cls.separator_node
         )
 
     @classmethod
     def attributeName(cls, pathString):
-        return cls._getAttributeName(
+        return cls._getAttributeNameByPathString(
             pathString,
             attributeSep=cls.separator_attribute
         )

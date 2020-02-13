@@ -1,11 +1,13 @@
 # coding:utf-8
+from LxBasic import bscConfigure, bscMethods
+
 from LxPreset import prsMethods
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt import qtIfAbstract
-#
-from LxCore.method import _presetMethod
+
+from LxCore import lxScheme
 #
 none = ''
 
@@ -98,8 +100,7 @@ class QtIfAbc_Group(
 #
 class QtIfAbc_Unit_(
     qtCore.QWidget__,
-    qtIfAbstract.IfUnitAbs,
-    _presetMethod.LxPresetMethod
+    qtIfAbstract.IfUnitAbs
 ):
     SideWidth = 320
     def _initIfAbcUnit(self):
@@ -136,9 +137,10 @@ class QtIfAbc_Unit_(
         self._userTagFilterEnableDic = {}
         #
         if self.UnitName is not None:
-            self._userTagFilterFile = self.lxOsTagFilterFile(self.UnitName)
-            if self.isOsExistsFile(self._userTagFilterFile):
-                self._userTagFilterEnableDic = self.readOsJson(self._userTagFilterFile)
+            self._userTagFilterFile = lxScheme.UserPreset().tagFilterConfigFile(self.UnitName)
+
+            if bscMethods.OsFile.isExist(self._userTagFilterFile):
+                self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
     #
     def _initTagFilterAction(self, gridView):
         def loadUserFilter():
@@ -150,7 +152,7 @@ class QtIfAbc_Unit_(
             self._tagFilterEnableDic[tag] = boolean
             #
             if self._userTagFilterFile is not None:
-                self.writeOsJson(self._tagFilterEnableDic, self._userTagFilterFile)
+                bscMethods.OsJson.write(self._userTagFilterFile, self._tagFilterEnableDic)
             #
             indexLis = self._tagFilterIndexDic[tag]
             filterRow = self._tagLis.index(tag)
@@ -257,8 +259,7 @@ class QtIfAbc_Unit_(
 #
 class QtIfAbc_Unit(
     qtCore.QWidget__,
-    qtIfAbstract.IfUnitAbs,
-    _presetMethod.LxPresetMethod
+    qtIfAbstract.IfUnitAbs
 ):
     SideWidth = 320
     def _initIfAbcUnit(self):
@@ -295,9 +296,9 @@ class QtIfAbc_Unit(
         self._userTagFilterEnableDic = {}
         #
         if self.UnitName is not None:
-            self._userTagFilterFile = self.lxOsTagFilterFile(self.UnitName)
-            if self.isOsExistsFile(self._userTagFilterFile):
-                self._userTagFilterEnableDic = self.readOsJson(self._userTagFilterFile)
+            self._userTagFilterFile = lxScheme.UserPreset().tagFilterConfigFile(self.UnitName)
+            if bscMethods.OsFile.isExist(self._userTagFilterFile):
+                self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
     #
     def _initTagFilterAction(self, gridView):
         def loadUserFilter():
@@ -309,7 +310,7 @@ class QtIfAbc_Unit(
             self._tagFilterEnableDic[tag] = boolean
             #
             if self._userTagFilterFile is not None:
-                self.writeOsJson(self._tagFilterEnableDic, self._userTagFilterFile)
+                bscMethods.OsJson.write(self._userTagFilterFile, self._tagFilterEnableDic)
             #
             indexLis = self._tagFilterIndexDic[tag]
             filterRow = self._tagLis.index(tag)
@@ -559,8 +560,8 @@ class IfProductUnitOverviewUnitBasic(
     def setRecordRefresh(self):
         pass
     #
-    def _setupLinkFilter(self, productModule, layout):
-        uiSetDic = prsMethods.Product.moduleLinkShownameDic(productModule)
+    def _setupLinkFilter(self, productModuleString, layout):
+        uiSetDic = prsMethods.Product.moduleLinkShownameDic(productModuleString)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Link Filter')
         toolGroupBox.setExpanded(True)
@@ -576,7 +577,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem = qtWidgets.QtFilterCheckbutton('link#{}'.format(keyword))
             checkView.addWidget(filterItem)
             #
-            filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
+            filterItem.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -584,8 +585,8 @@ class IfProductUnitOverviewUnitBasic(
             #
             self._filterItemDic[keyword] = filterItem
     #
-    def _setupClassFilter(self, productModule, layout):
-        uiSetDic = prsMethods.Product.moduleClassShownames(productModule)
+    def _setupClassFilter(self, productModuleString, layout):
+        uiSetDic = prsMethods.Product.moduleClassShownames(productModuleString)
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Class Filter')
         toolGroupBox.setExpanded(True)
@@ -602,19 +603,19 @@ class IfProductUnitOverviewUnitBasic(
             mainFilterButton = qtWidgets.QtFilterCheckbutton('object#{}'.format(keyword))
             checkView.addWidget(mainFilterButton)
             #
-            mainFilterButton.setNameText(explainLis[self.LynxiUiIndex_Language])
+            mainFilterButton.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
             mainFilterButton.setChecked(True)
             mainFilterButton.setItemFilterColumn(filterColumn)
             mainFilterButton.setItemFilterRow(filterRow)
             #
             filterRow += 1
             #
-            subFilterConfigDic = prsMethods.Product.modulePriorityShownameDic(productModule)
+            subFilterConfigDic = prsMethods.Product.modulePriorityShownameDic(productModuleString)
             for subSeq, (subKeyword, subExplainLis) in enumerate(subFilterConfigDic.items()):
                 subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
                 #
-                subFilterButton.setNameText(subExplainLis[self.LynxiUiIndex_Language])
+                subFilterButton.setNameText(subExplainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
                 #
                 subFilterButton.setChecked(True)
                 subFilterButton.setItemFilterColumn(filterColumn)
@@ -629,8 +630,8 @@ class IfProductUnitOverviewUnitBasic(
                 #
                 filterRow += 1
     #
-    def _setupStageFilter(self, productModule, layout):
-        linkLis = prsMethods.Product._lxProductLinkLis(productModule)
+    def _setupStageFilter(self, productModuleString, layout):
+        linkLis = prsMethods.Product._lxProductLinkLis(productModuleString)
         #
         toolGroupBox = qtWidgets.QtToolboxGroup()
         toolGroupBox.setTitle('Stage Filter')
@@ -649,7 +650,7 @@ class IfProductUnitOverviewUnitBasic(
         #
         checkView = qtWidgets.QtCheckview()
         toolGroupBox.addWidget(checkView)
-        uiSetDic = prsMethods.Product.moduleStepShownameDic(productModule)
+        uiSetDic = prsMethods.Product.moduleStepShownameDic(productModuleString)
         checkView.setMargins(2, 2, 2, 2)
         checkView.setSpacing(2)
         #
@@ -659,7 +660,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem = qtWidgets.QtFilterCheckbutton()
             checkView.addWidget(filterItem)
             #
-            filterItem.setNameText(explainLis[self.LynxiUiIndex_Language])
+            filterItem.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
             r, g, b = qtCore.hsv2rgb(180 + 24 * filterRow, 1, 1)

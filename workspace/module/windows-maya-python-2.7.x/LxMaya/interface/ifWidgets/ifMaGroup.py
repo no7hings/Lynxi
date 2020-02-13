@@ -1,4 +1,6 @@
 # coding:utf-8
+from LxDatabase import dtbMethods
+
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxMaya.method import _maProductMethod
@@ -9,6 +11,7 @@ from LxMaya.interface.ifWidgets import ifMaSceneUnit, ifMaSceneToolUnit
 #
 class IfScLightRigGroup(_qtIfAbcWidget.QtIfAbc_Group):
     app_prd_unt_method = _maProductMethod.MaProductUnitMethod
+
     def __init__(self, mainWindow=None):
         super(IfScLightRigGroup, self).__init__(mainWindow)
         self._initIfAbcGroup()
@@ -23,10 +26,11 @@ class IfScLightRigGroup(_qtIfAbcWidget.QtIfAbc_Group):
         productUnitDatumDic = self.getProductUnitDatumDic()
         if productUnitDatumDic:
             for k, v in productUnitDatumDic.items():
-                productModule = k
+                productModuleString = k
                 for i in v:
                     unitId, unitClass, unitName, unitVariant, unitStage = i
-                    unitViewName = self.getProductUnitViewName(productModule, unitId)
+
+                    unitViewName = dtbMethods.DtbProductUnit.getProductUnitViewName(productModuleString, unitId)
                     extendDatumDic[unitId] = unitName, unitViewName
         #
         self._productUnitTab.setExtendDatumDic(extendDatumDic)
@@ -57,10 +61,10 @@ class IfScComposeGroup(_qtIfAbcWidget.QtIfAbc_Group):
         productUnitDatumDic = self.getProductUnitDatumDic()
         if productUnitDatumDic:
             for k, v in productUnitDatumDic.items():
-                productModule = k
+                productModuleString = k
                 for i in v:
                     unitId, unitClass, unitName, unitVariant, unitStage = i
-                    unitViewName = self.getProductUnitViewName(productModule, unitId)
+                    unitViewName = self.getProductUnitViewName(productModuleString, unitId)
                     extendDatumDic[unitId] = unitName, unitViewName
         #
         self._productUnitTab.setExtendDatumDic(extendDatumDic)

@@ -23,7 +23,7 @@ class IfAbcGroupModel(object):
 
 
 # Unit Basic
-class IfUnitAbs(appConfig.LxUiConfig):
+class IfUnitAbs(object):
     UnitName = None
     UnitTitle = None
     UnitIcon = None

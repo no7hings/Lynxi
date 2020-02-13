@@ -1,9 +1,10 @@
 # coding:utf-8
-from LxCore.method import _osMethod
+from LxBasic import bscMethods
+
+from LxCore import lxScheme
 
 
-#
-class UiSvgMethod(_osMethod.OsFileMethod):
+class SvgFile(object):
     LynxiOsCompPath_SvgIcon = 'icon/svg_basic'
     LynxiOsExt_Svg = '.svg'
     @classmethod
@@ -17,24 +18,25 @@ class UiSvgMethod(_osMethod.OsFileMethod):
             osSvgOffFile = osSvgFile[:-len(cls.LynxiOsExt_Svg)] + 'Off.svg'
             osSvgCurFile = osSvgFile[:-len(cls.LynxiOsExt_Svg)] + 'Cur.svg'
             #
-            if not cls.isOsExistsFile(osSvgOnFile):
+            
+            if not bscMethods.OsPath.isExist(osSvgOnFile):
                 onData = data.replace(defFillString, onFillString)
-                cls.writeOsData(onData, osSvgOnFile)
+                bscMethods.OsFile.write(osSvgOnFile, onData)
             #
-            if not cls.isOsExistsFile(osSvgOffFile):
+            if not bscMethods.OsPath.isExist(osSvgOffFile):
                 offData = data.replace(defFillString, offFillString)
-                cls.writeOsData(offData, osSvgOffFile)
+                bscMethods.OsFile.write(osSvgOffFile, offData)
             #
-            if not cls.isOsExistsFile(osSvgCurFile):
+            if not bscMethods.OsPath.isExist(osSvgCurFile):
                 curData = data.replace(defFillString, curFillString)
-                cls.writeOsData(curData, osSvgCurFile)
+                bscMethods.OsFile.write(osSvgCurFile, curData)
     @classmethod
     def covertSvgSubFile__(cls, osSvgFile, data):
         defFillString = '.st0{fill:#DFDFDF;}'
         _defFillString = '.st0{fill:#BFBFBF;}'
         if defFillString in data:
             _defData = data.replace(defFillString, _defFillString)
-            cls.writeOsData(_defData, osSvgFile)
+            bscMethods.OsFile.write(osSvgFile, _defData)
     @classmethod
     def covertSvgSubFile_(cls, osSvgFile, data):
         defFillString = '.st0{fill:#BFBFBF;}'
@@ -46,61 +48,63 @@ class UiSvgMethod(_osMethod.OsFileMethod):
             osSvgOffFile = osSvgFile[:-len(cls.LynxiOsExt_Svg)] + 'Off.svg'
             osSvgCurFile = osSvgFile[:-len(cls.LynxiOsExt_Svg)] + 'Cur.svg'
             #
-            if not cls.isOsExistsFile(osSvgOnFile):
+            if not bscMethods.OsPath.isExist(osSvgOnFile):
                 onData = data.replace(defFillString, onFillString)
-                cls.writeOsData(onData, osSvgOnFile)
+                bscMethods.OsFile.write(osSvgOnFile, onData)
             #
-            if not cls.isOsExistsFile(osSvgOffFile):
+            if not bscMethods.OsPath.isExist(osSvgOffFile):
                 offData = data.replace(defFillString, offFillString)
-                cls.writeOsData(offData, osSvgOffFile)
+                bscMethods.OsFile.write(osSvgOffFile, offData)
             #
-            if not cls.isOsExistsFile(osSvgCurFile):
+            if not bscMethods.OsPath.isExist(osSvgCurFile):
                 curData = data.replace(defFillString, curFillString)
-                cls.writeOsData(curData, osSvgCurFile)
+                bscMethods.OsFile.write(osSvgCurFile, curData)
     @classmethod
     def getOsSvgFileLis(cls):
-        developPath = cls._lxDevelopRoot()
-        osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
+        developPath = lxScheme.Root().basic.develop
+        
+        osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
-        stringLis = cls.getOsFileBasenameLisByPath(osPath)
+        stringLis = bscMethods.OsDirectory.fileBasenames(osPath)
         if stringLis:
             for i in stringLis:
                 if i.endswith('.svg'):
                     if not i.endswith('On.svg') and not i.endswith('Off.svg') and not i.endswith('Cur.svg'):
-                        osSvgFile = cls._toOsPath([osPath, i])
-                        data = cls.readOsData(osSvgFile)
+                        osSvgFile = bscMethods.OsPath.composeBy([osPath, i])
+                        data = bscMethods.OsFile.read(osSvgFile)
                         if '<!-- Generator: Adobe Illustrator 22.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->' in data:
                             cls.covertSvgSubFile(osSvgFile, data)
                         else:
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis_(cls):
-        developPath = cls._lxDevelopRoot()
-        osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
+        developPath = lxScheme.Root().basic.develop
+        osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
-        stringLis = cls.getOsFileBasenameLisByPath(osPath)
+        stringLis = bscMethods.OsDirectory.fileBasenames(osPath)
         if stringLis:
             for i in stringLis:
                 if i.endswith('.svg'):
                     if not i.endswith('On.svg') and not i.endswith('Off.svg') and not i.endswith('Cur.svg'):
-                        osSvgFile = cls._toOsPath([osPath, i])
-                        data = cls.readOsData(osSvgFile)
+                        osSvgFile = bscMethods.OsPath.composeBy([osPath, i])
+                        data = bscMethods.OsFile.read(osSvgFile)
                         if '<!-- Generator: Adobe Illustrator 22.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->' in data:
                             cls.covertSvgSubFile_(osSvgFile, data)
                         else:
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis__(cls):
-        developPath = cls._lxDevelopRoot()
-        osPath = cls._toOsPath([developPath, cls.LynxiOsCompPath_SvgIcon])
+        developPath = lxScheme.Root().basic.develop
+        osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
-        stringLis = cls.getOsFileBasenameLisByPath(osPath)
+
+        stringLis = bscMethods.OsDirectory.fileBasenames(osPath)
         if stringLis:
             for i in stringLis:
                 if i.endswith('.svg'):
                     if not i.endswith('On.svg') and not i.endswith('Off.svg') and not i.endswith('Cur.svg'):
-                        osSvgFile = cls._toOsPath([osPath, i])
-                        data = cls.readOsData(osSvgFile)
+                        osSvgFile = bscMethods.OsPath.composeBy([osPath, i])
+                        data = bscMethods.OsFile.read(osSvgFile)
                         if '<!-- Generator: Adobe Illustrator 22.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->' in data:
                             cls.covertSvgSubFile__(osSvgFile, data)
                         else:

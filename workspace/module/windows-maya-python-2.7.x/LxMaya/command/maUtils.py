@@ -17,7 +17,7 @@ from random import choice
 #
 from itertools import product
 #
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 #
 from LxCore.config import appCfg
 #
@@ -27,18 +27,18 @@ none = ''
 
 
 #
-def toStringList(string, stringLimits=None):
+def string2list(string, includes=None):
     lis = []
     if isinstance(string, str) or isinstance(string, unicode):
-        if stringLimits:
-            if string in stringLimits:
+        if includes:
+            if string in includes:
                 lis = [string]
         else:
             lis = [string]
     elif isinstance(string, tuple) or isinstance(string, list):
         for i in string:
-            if stringLimits:
-                if i in stringLimits:
+            if includes:
+                if i in includes:
                     lis.append(i)
             else:
                 lis.append(i)
@@ -103,7 +103,7 @@ def getOsTextureSequenceLis(textureFile):
 #
 def isOsTextureExists(textureFile):
     boolean = False
-    textureBasename = bscCommands.getOsFileBasename(textureFile)
+    textureBasename = bscMethods.OsFile.basename(textureFile)
     if '<udim>' in textureBasename.lower():
         subTextureFileLis = getOsTextureUdimLis(textureFile)
         if subTextureFileLis:
@@ -113,7 +113,7 @@ def isOsTextureExists(textureFile):
         if subTextureFileLis:
             boolean = True
     else:
-        if bscCommands.isOsExistsFile(textureFile):
+        if bscMethods.OsFile.isExist(textureFile):
             boolean = True
     return boolean
 
@@ -260,7 +260,7 @@ def setObjectsZeroTransform(objectLis, visible=1):
 
 # Bake Object Transform Channel's Keyframe
 def setObjectBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
-    maObjs = toStringList(maObjs)
+    maObjs = string2list(maObjs)
     if maObjs:
         cmds.bakeResults(
             *maObjs,
@@ -271,7 +271,7 @@ def setObjectBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
 
 # Bake Object Shape Channel's Keyframe
 def setObjectShapeBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
-    maObjs = toStringList(maObjs)
+    maObjs = string2list(maObjs)
     if maObjs:
         objectShapes = [getNodeShape(i) for i in maObjs]
         cmds.bakeResults(
@@ -527,7 +527,7 @@ def getObjectChildObjectLis(objectString, mType=appCfg.MaNodeType_Transform, ful
 #
 def getObjectChildObjects(objectString, filterTypes, fullPath=True):
     lis = []
-    filterTypes = toStringList(filterTypes)
+    filterTypes = string2list(filterTypes)
     children = cmds.listRelatives(objectString, children=1, type=appCfg.MaNodeType_Transform, fullPath=fullPath)
     if children:
         for child in children:
@@ -586,7 +586,7 @@ def getChildObjectsByRoot(root, filterTypes, fullPath=True):
                 getBranch(child)
     #
     lis = []
-    filterTypes = toStringList(filterTypes)
+    filterTypes = string2list(filterTypes)
     if isAppExist(root):
         getBranch(root)
     return lis
@@ -606,7 +606,7 @@ def getChildNodesByRoot(root, filterTypes, fullPath=True):
                 getChild(child)
     lis = []
     #
-    typeLis = toStringList(filterTypes)
+    typeLis = string2list(filterTypes)
     if isAppExist(root):
         getChild(root)
     return lis
@@ -640,7 +640,7 @@ def getChildShapesByRoot(root, filterTypes, fullPath=True):
                     lis.extend(shapes)
                 getChild(child)
     #
-    filterTypes = toStringList(filterTypes)
+    filterTypes = string2list(filterTypes)
     if isAppExist(root):
         getChild(root)
     return lis
@@ -1084,7 +1084,7 @@ def getInputNodesFilterByType(objectString, filterTypes):
     #
     lis = []
     #
-    filterTypes = toStringList(filterTypes)
+    filterTypes = string2list(filterTypes)
     #
     getBranch(objectString)
     #
@@ -1189,7 +1189,7 @@ def getOutputNodeLisByAttr(attr):
 #
 def getInputObjectsByAttrName(objectString, filterAttrNames=None):
     lis = []
-    filterAttrNames = toStringList(filterAttrNames)
+    filterAttrNames = string2list(filterAttrNames)
     #
     if isAppExist(objectString):
         guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
@@ -1227,7 +1227,7 @@ def getOutputNodeLisFilter(objectString, attrNames=none):
 #
 def getInputAttrFilterByAttrName(objectString, filterAttrNames=None):
     lis = []
-    filterAttrNames = toStringList(filterAttrNames)
+    filterAttrNames = string2list(filterAttrNames)
     #
     guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
     if guessData:
@@ -2004,7 +2004,7 @@ def getNodeLisByType(mTypes, fullPath=True, keyword=none):
     #
     lis = []
     # to List
-    mTypes = toStringList(mTypes)
+    mTypes = string2list(mTypes)
     # to Used List
     mTypes = getUsed(mTypes)
     # type Arg != []
@@ -2018,7 +2018,7 @@ def getNodeLisByType(mTypes, fullPath=True, keyword=none):
 def getNodesByNamespace(filterType, filterNamespace, fullPath=True):
     lis = []
     #
-    filterNamespace = toStringList(filterNamespace)
+    filterNamespace = string2list(filterNamespace)
     nodes = getNodeLisByType(filterType, fullPath)
     if filterNamespace and nodes:
         for namespace in filterNamespace:
@@ -2715,7 +2715,7 @@ def getReferenceNodeFilterByNamespace(filterNamespace):
     lis = []
     #
     nodes = getReferenceNodeLis()
-    filterNamespace = toStringList(filterNamespace)
+    filterNamespace = string2list(filterNamespace)
     if nodes and filterNamespace:
         for node in nodes:
             namespace = getReferenceNamespace(node)
@@ -2954,8 +2954,8 @@ def setUnloadReference(referenceNode):
 #
 def setReferenceRemove(referenceNode):
     if isAppExist(referenceNode):
-        osFile = getReferenceFile(referenceNode)
-        cmds.file(osFile, removeReference=1)
+        fileString_ = getReferenceFile(referenceNode)
+        cmds.file(fileString_, removeReference=1)
 
 
 #
@@ -3323,7 +3323,7 @@ def setNodeDelete(objectString):
 
 #
 def setNodesDelete(nodeLis):
-    stringLis = toStringList(nodeLis)
+    stringLis = string2list(nodeLis)
     [setNodeDelete(i) for i in stringLis]
 
 

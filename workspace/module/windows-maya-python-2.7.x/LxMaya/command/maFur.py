@@ -5,7 +5,7 @@ import maya.mel as mel
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -61,10 +61,10 @@ def getFurMapAttrData(furMapNode):
 def setFurMapAttrData(furMapNode, furMapFile):
     nodeType = maUtils.getNodeType(furMapNode)
     if nodeType == appCfg.MaNurbsHairCacheType:
-        if bscCommands.isOsExistsFile(furMapFile):
-            ext = bscCommands.getOsFileExt(furMapFile)
+        if bscMethods.OsFile.isExist(furMapFile):
+            ext = bscMethods.OsFile.ext(furMapFile)
             if ext != '.nhr':
-                base, ext = bscCommands.toOsFileSplitByExt(furMapFile)
+                base, ext = bscMethods.OsFile.toExtSplit(furMapFile)
                 newFurMapFile = base + '.nhr'
                 # Use Copy
                 bscMethods.OsFile.copyTo(furMapFile, newFurMapFile)
@@ -107,14 +107,14 @@ def getYetiGuideHairSystems(yetiObject):
 
 
 #
-def setYetiNodeWriteCache(osFile, yetiNode, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
-    bscMethods.OsFile.createDirectory(osFile)
+def setYetiNodeWriteCache(fileString_, yetiNode, startFrame, endFrame, sample=3, isUpdateViewport=True, isGeneratePreview=True):
+    bscMethods.OsFile.createDirectory(fileString_)
     # Turn off Use Cache
     maUtils.setAttrDatumForce_(yetiNode, 'fileMode', False)
     #
     cmds.pgYetiCommand(
         yetiNode,
-        writeCache=osFile,
+        writeCache=fileString_,
         range=(startFrame, endFrame),
         samples=sample,
         updateViewport=isUpdateViewport,
@@ -171,9 +171,9 @@ def getNurbsHairMapNodes(nurbsHairObject):
 
 
 #
-def setYetiConnectCache(yetiNode, osFile):
+def setYetiConnectCache(yetiNode, fileString_):
     maUtils.setAttrDatumForce_(yetiNode, 'fileMode', 1)
-    maUtils.setAttrStringDatum(yetiNode, 'cacheFileName', osFile)
+    maUtils.setAttrStringDatum(yetiNode, 'cacheFileName', fileString_)
 
 
 #
@@ -196,13 +196,13 @@ def setOutYetisCache(directory, furNodes, startFrame, endFrame, sample=3, isUpda
                 if ':' in yetiNode:
                     subFolder = '_'.join(yetiNode.split('|')[-1].split(':')[:-1])
                 furNodeName = getFurNodeName(yetiNode)
-                osFile = '%s/%s/%s' % (directory, furNodeName, furNodeName)
+                fileString_ = '%s/%s/%s' % (directory, furNodeName, furNodeName)
                 if subFolder:
-                    osFile = '%s/%s/%s/%s' % (directory, subFolder, furNodeName, furNodeName)
+                    fileString_ = '%s/%s/%s/%s' % (directory, subFolder, furNodeName, furNodeName)
                 #
-                usedFile = osFile + '.%04d.fur'
+                usedFile = fileString_ + '.%04d.fur'
                 if endFrame == startFrame:
-                    usedFile = osFile + '.' + str(startFrame).zfill(4) + '.fur'
+                    usedFile = fileString_ + '.' + str(startFrame).zfill(4) + '.fur'
                 #
                 setYetiNodeWriteCache(usedFile, yetiNode, startFrame, endFrame, sample, isUpdateViewport, isGeneratePreview)
                 #
@@ -825,12 +825,12 @@ def setOutExistsGeometryCache(cachePath, cacheName, hairSystem):
     cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
     if cacheFiles:
         xmlFile, cacheFile = cacheFiles
-        if bscCommands.isOsExistsFile(xmlFile):
-            base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
+        if bscMethods.OsFile.isExist(xmlFile):
+            base, ext = bscMethods.OsFile.toExtSplit(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
             bscMethods.OsFile.copyTo(xmlFile, targetXmlFile)
-        if bscCommands.isOsExistsFile(cacheFile):
-            base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
+        if bscMethods.OsFile.isExist(cacheFile):
+            base, ext = bscMethods.OsFile.toExtSplit(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
             bscMethods.OsFile.copyTo(cacheFile, targetCacheFile)
 
@@ -872,13 +872,13 @@ def setUploadExistsGeometryCache(cachePath, cacheName, hairSystem):
     cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
     if cacheFiles:
         xmlFile, cacheFile = cacheFiles
-        if bscCommands.isOsExistsFile(xmlFile):
-            base, ext = bscCommands.toOsFileSplitByExt(xmlFile)
+        if bscMethods.OsFile.isExist(xmlFile):
+            base, ext = bscMethods.OsFile.toExtSplit(xmlFile)
             targetXmlFile = cachePath + '/' + cacheName + ext
             #
             bscMethods.OsFile.copyTo(xmlFile, targetXmlFile)
-        if bscCommands.isOsExistsFile(cacheFile):
-            base, ext = bscCommands.toOsFileSplitByExt(cacheFile)
+        if bscMethods.OsFile.isExist(cacheFile):
+            base, ext = bscMethods.OsFile.toExtSplit(cacheFile)
             targetCacheFile = cachePath + '/' + cacheName + ext
             #
             bscMethods.OsFile.copyTo(cacheFile, targetCacheFile)
@@ -964,7 +964,7 @@ def getHtmlFile(cachePath, cacheName):
 def getChannelName(cachePath, cacheName):
     htmlFile = getHtmlFile(cachePath, cacheName)
     channelArray = []
-    htmlData = maFile.readOsData(htmlFile)
+    htmlData = bscMethods.OsFile.readlines(htmlFile)
     for line in htmlData:
         if 'ChannelName' in line:
             channel = line.split('"')[1]
@@ -1009,7 +1009,7 @@ def setCreateFurObjectsUniqueId(pathData):
 
 #
 def getFurObjectsPathDic(furObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if furObjects:
         for objectString in furObjects:
@@ -1021,7 +1021,7 @@ def getFurObjectsPathDic(furObjects):
 
 #
 def getFurObjectsInfoDic(furObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if furObjects:
         for objectString in furObjects:
@@ -1032,7 +1032,7 @@ def getFurObjectsInfoDic(furObjects):
 
 #
 def getNhrObjectsInfoDic(nurbsHairObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     if nurbsHairObjects:
         # View Progress
@@ -1180,7 +1180,7 @@ def getNhrObjectGraphNodeSub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphNodeDic(nurbsHairObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1257,7 +1257,7 @@ def getNhrObjectGraphGeometrySub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphGeometryDic(nurbsHairObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1317,7 +1317,7 @@ def getNhrObjectGraphRelationSub(nurbsHairObject):
 
 #
 def getNhrObjectsGraphRelationDic(nurbsHairObjects):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     if nurbsHairObjects:
         for seq, i in enumerate(nurbsHairObjects):
             objectPath = i
@@ -1447,7 +1447,7 @@ def getNhrScatterObjects(nurbsHairObject):
 
 #
 def setNurbsHairNodeWriteCache(nurbsHairNode, cacheFile, timeTag=None):
-    tempCacheFile = bscMethods.OsFile.temporaryFilename(cacheFile, timeTag)
+    tempCacheFile = bscMethods.OsFile.temporaryName(cacheFile, timeTag)
     #
     melCommand = '''nurbsHairExport -f "{1}" -hn "{0}"'''.format(nurbsHairNode, tempCacheFile)
     mel.eval(melCommand)
@@ -1476,15 +1476,15 @@ def getNhrSolverGuideCacheObjects(mhrSolverGuideObjects):
 
 
 #
-def setCollectionNhrSolverGuideObjectsCaches(nhrCacheObjects, targetOsPath, collection=True, repath=True):
+def setCollectionNhrSolverGuideObjectsCaches(nhrCacheObjects, targetDirectoryString, collection=True, repath=True):
     def setBranch(mObject):
-        sourceOsFile = maUtils.getAttrDatum(mObject, appCfg.MaNurbsHairCacheFileAttrName)
-        osFileBasename = bscCommands.getOsFileBasename(sourceOsFile)
-        targetOsFile = bscCommands.toOsFile(targetOsPath, osFileBasename)
+        sourceFileString = maUtils.getAttrDatum(mObject, appCfg.MaNurbsHairCacheFileAttrName)
+        osFileBasename = bscMethods.OsFile.basename(sourceFileString)
+        targetFileString = bscMethods.OsPath.composeBy(targetDirectoryString, osFileBasename)
         if collection is True:
-            bscMethods.OsFile.copyTo(sourceOsFile, targetOsFile)
+            bscMethods.OsFile.copyTo(sourceFileString, targetFileString)
         if repath is True:
-            setNhrCacheObjectReadCache(mObject, targetOsFile)
+            setNhrCacheObjectReadCache(mObject, targetFileString)
     #
     [setBranch(i) for i in nhrCacheObjects]
 

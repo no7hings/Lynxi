@@ -1,12 +1,12 @@
 # coding:utf-8
-from LxBasic import bscObjects
+from LxBasic import bscCore, bscObjects
 
-from LxScheme import shmAbstract
+from LxScheme import shmObjAbstract
 
 from LxScheme.shmObjects import _shmObjPath
 
 
-class Fle_RscBin(shmAbstract.Abc_File):
+class Fle_RscBin(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -26,7 +26,7 @@ class Fle_RscBin(shmAbstract.Abc_File):
         }
 
 
-class Fle_RscPackage(shmAbstract.Abc_File):
+class Fle_RscPackage(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -46,7 +46,7 @@ class Fle_RscPackage(shmAbstract.Abc_File):
         }
 
 
-class Fle_RscPlug(shmAbstract.Abc_File):
+class Fle_RscPlug(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -66,7 +66,7 @@ class Fle_RscPlug(shmAbstract.Abc_File):
         }
 
 
-class Fle_RscModule(shmAbstract.Abc_File):
+class Fle_RscModule(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -86,7 +86,7 @@ class Fle_RscModule(shmAbstract.Abc_File):
         }
 
 
-class Fle_RscScheme(shmAbstract.Abc_File):
+class Fle_RscScheme(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -106,7 +106,7 @@ class Fle_RscScheme(shmAbstract.Abc_File):
         }
 
 
-class Fle_RscTool(shmAbstract.Abc_File):
+class Fle_RscTool(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 
@@ -126,7 +126,7 @@ class Fle_RscTool(shmAbstract.Abc_File):
         }
 
 
-class Fle_PrsUser(shmAbstract.Abc_File):
+class Fle_PrsUser(shmObjAbstract.Abc_File):
     CLS_path_directory = _shmObjPath.Pth_Directory
     CLS_file = bscObjects.JsonFile
 

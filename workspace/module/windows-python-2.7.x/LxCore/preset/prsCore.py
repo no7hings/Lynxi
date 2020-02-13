@@ -1,22 +1,4 @@
 # coding=utf-8
-import types
-
-from LxBasic import bscMethods, bscCommands
-#
-from LxCore import lxConfigure, lxScheme
-#
-from LxCore.config import basicCfg, assetCfg
-#
-STR_ROOT_PRESET = lxScheme.Root().preset.product
-#
-IsPresetVariantKey = True
-#
-presetPathsep = bscCommands.Ma_Separator_Node
-guideExt = '.guide'
-#
-configExt = '.config'
-#
-none = ''
 
 
 class Basic(object):

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxConfigure, lxScheme
 #
@@ -98,12 +98,12 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
         scrollLayout.addWidget(self._recordUnit)
     #
     def setArgs(self, *args):
-        sceneIndex, projectName, sceneClass, sceneName, sceneVariant, sceneStage, startFrame, endFrame = args
+        sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, startFrame, endFrame = args
         #
         self.projectName = projectName
         #
         self.sceneIndex = sceneIndex
-        self.sceneClass = sceneClass
+        self.sceneCategory = sceneCategory
         self.sceneName = sceneName
         self.sceneVariant = sceneVariant
         self.sceneStage = sceneStage
@@ -124,7 +124,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
         projectName = self.projectName
         #
         sceneIndex = self.sceneIndex
-        sceneClass = self.sceneClass
+        sceneCategory = self.sceneCategory
         sceneName = self.sceneName
         sceneVariant = self.sceneVariant
         sceneStage = self.sceneStage
@@ -137,11 +137,11 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
         #
         customizes = scenePr.getScRenderCustomizes(
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )
         #
         viewExplain = scenePr.getSceneViewInfo(
-            sceneIndex, sceneClass, '{} - {}'.format(sceneName, sceneVariant)
+            sceneIndex, sceneCategory, '{} - {}'.format(sceneName, sceneVariant)
         )
         #
         sceneItem = qtWidgets_.QTreeWidgetItem_()
@@ -153,7 +153,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
             sceneItem,
             customizes,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             startFrame, endFrame
         )
         #
@@ -168,19 +168,19 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
                 projectName = self.projectName
                 #
                 sceneIndex = self.sceneIndex
-                sceneClass = self.sceneClass
+                sceneCategory = self.sceneCategory
                 sceneName = self.sceneName
                 sceneVariant = self.sceneVariant
                 sceneStage = self.sceneStage
                 #
                 backupSourceFile = scenePr.sceneUnitSourceFile(
                     lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
                 )[1]
                 #
                 backupProductFile = scenePr.scUnitRenderFile(
                     lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
                     customize
                 )[1]
                 #
@@ -318,7 +318,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
             #
             (
                 description,
-                sceneClass, sceneName, scenePriority, scLayoutEnable,
+                sceneCategory, sceneName, scenePriority, scLayoutEnable,
                 scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
             ) = value
             #
@@ -326,12 +326,12 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
             #
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             )
             #
             customizes = scenePr.getScRenderCustomizes(
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage
+                sceneCategory, sceneName, sceneVariant, sceneStage
             )
             sceneItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(sceneItem)
@@ -339,14 +339,14 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
             sceneItem.setItemIcon(0, 'object#scene')
             sceneItemLis.append(sceneItem)
             #
-            showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneName)
+            showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneName)
             sceneItem.setText(0, showExplain)
             #
             subMethods = treeViewCmds.setListScRenderImageCustomize(
                 sceneItem,
                 customizes,
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame
             )
             #
@@ -449,7 +449,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
 #
 class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
     w = 80
-    dicTool = bscCommands.orderedDict()
+    dicTool = bscCore.orderedDict()
     dicTool['sourceDirectory'] = [w, 0, 0, 1, 4, 'Source']
     dicTool['targetDirectory'] = [w, 1, 0, 1, 4, 'Target']
     dicTool['collectionFile'] = [w, 2, 0, 1, 4, 'Collection']
@@ -472,7 +472,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             def setCustomizeBranch(customize):
                 def setActionData():
                     def openRenderFile():
-                        if bscCommands.isOsExistsFile(serverRenderFile):
+                        if bscMethods.OsFile.isExist(serverRenderFile):
                             from LxMaya.command import maFile
                             maFile.fileOpen(serverRenderFile)
                     #
@@ -482,7 +482,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                     renderFolder = scenePr.scUnitRenderFolder(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         customize
                     )
                     #
@@ -495,7 +495,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 #
                 serverRenderFile = scenePr.scUnitRenderFile(
                     lxConfigure.LynxiRootIndex_Server,
-                    projectName, sceneClass, sceneName, sceneVariant, sceneStage, customize
+                    projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize
                 )[1]
                 #
                 customizeItem = qtWidgets_.QTreeWidgetItem_()
@@ -509,7 +509,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 #
                 composeFiles = scenePr.getScRenderCompose(
                     projectName,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     customize
                 )
                 #
@@ -520,7 +520,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             sceneIndex, sceneVariant = key
             #
-            description, sceneClass, sceneName = value[:3]
+            description, sceneCategory, sceneName = value[:3]
             #
             sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
             #
@@ -529,12 +529,12 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             customizes = scenePr.getScRenderCustomizes(
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage
+                sceneCategory, sceneName, sceneVariant, sceneStage
             )
             #
             sceneItem.setItemIcon(0, 'object#scene', ['off', none][customizes != []])
             #
-            showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneName)
+            showExplain = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneName)
             sceneItem.setText(0, showExplain)
             #
             sceneItem.setExpanded(True)
@@ -565,36 +565,36 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             [setSceneBranch(k, v) for k, v in inData.items()]
     #
     def setListRightTreeItem(self):
-        def setBranch(index, osFile):
-            def getTargetFile(sourceOsFile):
-                return targetPath + sourceOsFile[len(sourcePath):]
+        def setBranch(index, fileString_):
+            def getTargetFile(sourceFileString):
+                return targetPath + sourceFileString[len(sourcePath):]
             #
-            ext = bscCommands.getOsFileExt(osFile)
+            ext = bscMethods.OsFile.ext(fileString_)
             #
             self.setProgressValue(index + 1, maxValue)
             #
             treeItem = qtWidgets_.QTreeWidgetItem_()
             treeBox.addItem(treeItem)
             state = none
-            if not bscCommands.isOsExistsFile(osFile):
+            if not bscMethods.OsFile.isExist(fileString_):
                 state = 'off'
             else:
-                if not osFile.startswith(sourcePath):
+                if not fileString_.startswith(sourcePath):
                     state = 'error'
             #
             treeItem.setItemIcon(0, 'treeBox#file', state)
-            treeItem.setText(0, osFile)
+            treeItem.setText(0, fileString_)
             #
-            targetFile = getTargetFile(osFile)
-            if not bscCommands.isOsExistsFile(targetFile):
+            targetFile = getTargetFile(fileString_)
+            if not bscMethods.OsFile.isExist(targetFile):
                 subExplain = 'Target is Non - Exists'
                 subState = 'error'
                 #
-                self._needCollectionFileArray.append((osFile, targetFile))
+                self._needCollectionFileArray.append((fileString_, targetFile))
                 #
-                self._fileConstantStatisticsDic.setdefault('Non - Exists', []).append(osFile)
+                self._fileConstantStatisticsDic.setdefault('Non - Exists', []).append(fileString_)
             else:
-                isMtimeChanged = bscMethods.OsFile.isFileTimeChanged(osFile, targetFile)
+                isMtimeChanged = bscMethods.OsFile.isFileTimeChanged(fileString_, targetFile)
                 if isMtimeChanged:
                     if ext == '.tx':
                         subExplain = 'Collection ( .tx )'
@@ -603,38 +603,38 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                         subExplain = 'Source is Time - Changed'
                         subState = 'warning'
                         #
-                        self._needCollectionFileArray.append((osFile, targetFile))
+                        self._needCollectionFileArray.append((fileString_, targetFile))
                         #
-                        self._fileConstantStatisticsDic.setdefault('Time - Changed', []).append(osFile)
+                        self._fileConstantStatisticsDic.setdefault('Time - Changed', []).append(fileString_)
                 else:
                     subExplain = 'Collection'
                     subState = 'on'
                     #
-                    self._fileConstantStatisticsDic.setdefault('Collection', []).append(osFile)
+                    self._fileConstantStatisticsDic.setdefault('Collection', []).append(fileString_)
             #
             treeItem.setItemIcon(1, 'treeBox#check', subState)
             treeItem.setText(1, subExplain)
             #
-            showExplains = showExplainDic[osFile]
+            showExplains = showExplainDic[fileString_]
             treeItem.setToolTip(0, ','.join(showExplains))
             #
             treeItem.setText(2, str(len(showExplains)))
             #
-            self._fileTypeCountStatisticsDic.setdefault(ext, []).append(osFile)
+            self._fileTypeCountStatisticsDic.setdefault(ext, []).append(fileString_)
             #
-            fileSize = bscMethods.OsFile.size(osFile)
+            fileSize = bscMethods.OsFile.size(fileString_)
             #
             self._fileTypeSizeStatisticsDic.setdefault(ext, []).append(fileSize)
             #
             self._fileSizes.append(fileSize)
             #
-            self._files.append((osFile, targetFile))
+            self._files.append((fileString_, targetFile))
         #
-        def getProxyCompose(osFile, lis, _showExplain):
-            if osFile.endswith('_prx.ass'):
-                filePath = bscCommands.getOsFileDirname(osFile)
+        def getProxyCompose(fileString_, lis, _showExplain):
+            if fileString_.endswith('_prx.ass'):
+                filePath = bscMethods.OsFile.dirname(fileString_)
                 texturePath = filePath + '/' + 'texture'
-                textures = bscMethods.OsDirectory.filenames(texturePath)
+                textures = bscMethods.OsDirectory.fileFullpathnames(texturePath)
                 if textures:
                     for t in textures:
                         if not t.endswith('.mayaSwatches'):

@@ -11,11 +11,11 @@ class Personnel(object):
 
     @classmethod
     def teams(cls):
-        return basicPr.teams()
+        return basicPr._getPersonnelTeamLis()
 
     @classmethod
     def posts(cls):
-        return basicPr.posts()
+        return basicPr._getPersonnelPostLis()
 
     @classmethod
     def usernames(cls):
@@ -201,6 +201,10 @@ class Personnel(object):
         data[lxConfigure.Lynxi_Key_Preset_Post] = post
 
         bscMethods.OsJson.write(userSetFile, data)
+
+
+class Pipeline(object):
+    pass
 
 
 class Project(object):

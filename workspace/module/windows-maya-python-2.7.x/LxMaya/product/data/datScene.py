@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscCore, bscMethods, bscObjects
 #
 from LxCore import lxConfigure
 #
@@ -31,18 +31,18 @@ def getSceneInfo(printEnable=False):
             if maUtils.isAppExist(rootGroup):
                 if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Scene):
                     sceneIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
-                    sceneClass = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
+                    sceneCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     sceneName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
                     sceneVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
                     sceneStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
                     if sceneIndex is not None:
-                        if sceneClass in sceneCfg.scBasicClass()[1:]:
-                            data = sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage
+                        if sceneCategory in sceneCfg.scBasicClass()[1:]:
+                            data = sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage
                             #
                             if printEnable is True:
-                                print '''sceneIndex = '{}'\nsceneClass = '{}'\nsceneName = '{}'\nsceneVariant = '{}'\nsceneStage = '{}'\n'''.format(
+                                print '''sceneIndex = '{}'\nsceneCategory = '{}'\nsceneName = '{}'\nsceneVariant = '{}'\nsceneStage = '{}'\n'''.format(
                                     sceneIndex,
-                                    sceneClass, sceneName, sceneVariant, sceneStage
+                                    sceneCategory, sceneName, sceneVariant, sceneStage
                                 )
                             lis.append(data)
     return lis
@@ -119,8 +119,8 @@ def getSceneCameraIndexData(sceneName):
     #
     inData = getScActiveCameraLis(sceneName)
     for seq, i in enumerate(inData):
-        subLabel = bscCommands.getSubLabel(seq)
-        data = sceneName + subLabel
+        subLabelString = bscMethods.OsFile.seqLabel(seq)
+        data = sceneName + subLabelString
         lis.append(data)
     return lis
 
@@ -132,9 +132,9 @@ def getSceneAssetIndexData():
     inData = getScAnimAssetRefDic()
     if inData:
         for k, v in inData.items():
-            assetIndex, assetClass, assetName, number, assetVariant = v
+            assetIndex, assetCategory, assetName, number, assetVariant = v
             lis.append(
-                (assetIndex, assetClass, assetName, number, assetVariant)
+                (assetIndex, assetCategory, assetName, number, assetVariant)
             )
     return lis
 
@@ -147,9 +147,9 @@ def getSceneAssetUploadData():
     if inData:
         for k, v in inData.items():
             keyNode = k
-            assetIndex, assetClass, assetName, number, assetVariant = v
+            assetIndex, assetCategory, assetName, number, assetVariant = v
             lis.append(
-                (assetClass, assetName, number, assetVariant, keyNode)
+                (assetCategory, assetName, number, assetVariant, keyNode)
             )
     return lis
 
@@ -171,12 +171,12 @@ def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
                 branchGroup = i
                 #
                 sceneryIndex = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicIndexAttrLabel)
-                sceneryClass = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
+                sceneryCategory = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
                 sceneryName = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNameAttrLabel)
                 sceneryVariant = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicVariantAttrLabel)
                 sceneryStage = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicStageAttrLabel)
                 lis.append(
-                    (sceneryIndex, sceneryClass, sceneryName, sceneryVariant, sceneryStage)
+                    (sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage)
                 )
     return lis
 
@@ -185,15 +185,15 @@ def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
 def getScAnimAssetRefData(referenceNode):
     keywords = [prsVariants.Util.astAnimationRigFileLabel, prsVariants.Util.astLayoutRigFileLabel]
     #
-    osFile = cmds.referenceQuery(referenceNode, filename=1)
+    fileString_ = cmds.referenceQuery(referenceNode, filename=1)
     data = ()
     # Filter is Rig
     if keywords:
         for keyword in keywords:
-            if keyword in osFile:
+            if keyword in fileString_:
                 splitKey = keyword
                 #
-                fileName = bscCommands.getOsFileBasename(osFile)
+                fileName = bscMethods.OsFile.basename(fileString_)
                 #
                 assetName = fileName.split(splitKey)[0]
                 namespace = maUtils.getReferenceNamespace(referenceNode)
@@ -203,7 +203,7 @@ def getScAnimAssetRefData(referenceNode):
                 if maUtils.isAppExist(root):
                     assetIndex = maUtils.getAttrDatum(root, prsVariants.Util.basicIndexAttrLabel)
                     if assetIndex:
-                        assetClass = assetPr.getAssetClass(assetIndex)
+                        assetCategory = assetPr.getAssetClass(assetIndex)
                         # Number
                         number = '0000'
                         attrData = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
@@ -215,7 +215,7 @@ def getScAnimAssetRefData(referenceNode):
                         if attrData:
                             assetVariant = attrData
                         #
-                        data = assetIndex, assetClass, assetName, number, assetVariant
+                        data = assetIndex, assetCategory, assetName, number, assetVariant
     return data
 
 
@@ -228,7 +228,7 @@ def getScAnimAssetRefDic():
             if assetData:
                 dic[referenceNode] = assetData
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for i in referenceNodes:
@@ -260,7 +260,7 @@ def getScAnimAssetCfxFurData(referenceNode):
         namespace = maUtils.getReferenceNamespace(referenceNode)
         #
         splitData = referenceNode.split('_')
-        sceneClass = None
+        sceneCategory = None
         sceneName = getSceneName(splitData)
         sceneVariant = getSceneVariant(splitData)
         assetName = getAssetName(splitData)
@@ -268,9 +268,9 @@ def getScAnimAssetCfxFurData(referenceNode):
         #
         cfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
         if maUtils.isAppExist(cfxGroup):
-            assetClass = maUtils.getAttrDatum(cfxGroup, prsVariants.Util.basicClassAttrLabel)
+            assetCategory = maUtils.getAttrDatum(cfxGroup, prsVariants.Util.basicClassAttrLabel)
             assetVariant = maUtils.getAttrDatum(cfxGroup, prsVariants.Util.basicVariantAttrLabel)
-            data = sceneClass, sceneName, sceneVariant, assetClass, assetName, number, assetVariant
+            data = sceneCategory, sceneName, sceneVariant, assetCategory, assetName, number, assetVariant
     return data
 
 
@@ -306,7 +306,7 @@ def getScAstCfxFurDic():
     def getBranch(referenceNode):
         assetData = getScAnimAssetCfxFurData(referenceNode)
         if assetData:
-            sceneClass, sceneName, sceneVariant, assetClass, assetName, number, assetVariant = assetData
+            sceneCategory, sceneName, sceneVariant, assetCategory, assetName, number, assetVariant = assetData
             cfxObjects = []
             #
             isLoaded = cmds.referenceQuery(referenceNode, isLoaded=1)
@@ -317,8 +317,8 @@ def getScAstCfxFurDic():
                 namespace = maUtils.getReferenceNamespace(referenceNode)
                 cfxObjects = getScAstCfxFurObjects(assetName, namespace)
             #
-            dic.setdefault((sceneClass, sceneName, sceneVariant), []).append((referenceNode, assetClass, assetName, number, assetVariant, state, cfxObjects))
-    dic = bscCommands.orderedDict()
+            dic.setdefault((sceneCategory, sceneName, sceneVariant), []).append((referenceNode, assetCategory, assetName, number, assetVariant, state, cfxObjects))
+    dic = bscCore.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for node in referenceNodes:
@@ -333,7 +333,7 @@ def getScAstCfxFurDic_(projectName):
     def getBranch(value):
         (
             _, cacheSceneStage, startFrame, endFrame, scAstModelCache,
-            assetIndex, assetClass, assetName, number, assetVariant
+            assetIndex, assetCategory, assetName, number, assetVariant
          ) = value
         # CFX
         isCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Groom)
@@ -345,26 +345,26 @@ def getScAstCfxFurDic_(projectName):
             cfxFurObjects = getScAstCfxFurObjects(assetName, scAstCfxNamespace)
             #
             assets.append((
-                assetIndex, assetClass, assetName, number, assetVariant, cfxFurObjects
+                assetIndex, assetCategory, assetName, number, assetVariant, cfxFurObjects
             ))
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
-        for sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage in sceneInfoLis:
+        for sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage in sceneInfoLis:
             assets = []
             # Asset
             assetIndexData = scenePr.getSceneAssetIndexDataDic(
                 projectName,
-                sceneClass, sceneName, sceneVariant
+                sceneCategory, sceneName, sceneVariant
             )
             if assetIndexData:
                 for k, v in assetIndexData.items():
                     for i in v:
                         getBranch(i)
             #
-            dic[(sceneIndex, sceneClass, sceneName, sceneVariant)] = assets
+            dic[(sceneIndex, sceneCategory, sceneName, sceneVariant)] = assets
     return dic
 
 
@@ -373,13 +373,13 @@ def getSceneAssetUnitData(branchGroup):
     data = ()
     assetIndex = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicIndexAttrLabel)
     if assetIndex:
-        assetClass = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
+        assetCategory = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
         assetName = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNameAttrLabel)
         number = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNumberAttrLabel)
         assetVariant = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicVariantAttrLabel)
         timeTag = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicTagAttrLabel)
         #
-        data = assetIndex, assetClass, assetName, number, assetVariant, timeTag
+        data = assetIndex, assetCategory, assetName, number, assetVariant, timeTag
     return data
 
 
@@ -393,16 +393,16 @@ def getScComposeInfoDic(projectName):
             activeCacheFile = scenePr.getScCameraCacheActive(
                 projectName,
                 sceneName, sceneVariant,
-                subLabel
+                subLabelString
             )
             #
-            isServerExists = bscCommands.isOsExistsFile(activeCacheFile)
+            isServerExists = bscMethods.OsFile.isExist(activeCacheFile)
             if isServerExists is True:
                 branchInfo = False
                 #
                 namespace = scenePr.scCameraNamespace(
                     sceneName, sceneVariant
-                ) + subLabel
+                ) + subLabelString
                 #
                 localTimeTag = None
                 alembicNode = None
@@ -414,7 +414,7 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodes[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if bscCommands.isOsExistsFile(alembicCache):
+                                if bscMethods.OsFile.isExist(alembicCache):
                                     localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
@@ -422,10 +422,10 @@ def getScComposeInfoDic(projectName):
                     branchInfo = alembicNode, namespace, localTimeTag
             return branchInfo
         #
-        subLabel = bscCommands.getSubLabel(seq)
+        subLabelString = bscMethods.OsFile.seqLabel(seq)
         scCameraCacheBranchInfo = getScCameraCacheBranch()
         cameraCompose.append((
-            subLabel,
+            subLabelString,
             scCameraCacheBranchInfo
         ))
     # Asset
@@ -449,7 +449,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstModelLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
+                            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
                         )
                     #
                     branchInfo = scAstModelGroup, scAstModelNamespace, scAstModelLocalTimeTag
@@ -462,7 +462,7 @@ def getScComposeInfoDic(projectName):
                 projectName,
                 sceneName, sceneVariant, assetName, number
             )
-            isServerExists = bscCommands.isOsExistsFile(scAstModelCacheFile)
+            isServerExists = bscMethods.OsFile.isExist(scAstModelCacheFile)
             if isServerExists:
                 branchInfo = False
                 #
@@ -481,7 +481,7 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if bscCommands.isOsExistsFile(alembicCache):
+                                if bscMethods.OsFile.isExist(alembicCache):
                                     localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
@@ -500,7 +500,7 @@ def getScComposeInfoDic(projectName):
                 assetName, number
             )
             #
-            isServerExists = bscCommands.isOsExistsFile(activeCacheFile)
+            isServerExists = bscMethods.OsFile.isExist(activeCacheFile)
             if isServerExists:
                 branchInfo = False
                 #
@@ -518,7 +518,7 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if bscCommands.isOsExistsFile(alembicCache):
+                                if bscMethods.OsFile.isExist(alembicCache):
                                     localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                         else:
                             localTimeTag = False
@@ -543,7 +543,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstCfxLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+                            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
                         )
                     #
                     branchInfo = scAstCfxGroup, scAstCfxNamespace, scAstCfxLocalTimeTag
@@ -592,7 +592,7 @@ def getScComposeInfoDic(projectName):
                     else:
                         scAstSolverLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
-                            assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+                            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
                         )
                     #
                     branchInfo = scAstSolverGroup, scAstSolverNamespace, scAstSolverLocalTimeTag
@@ -606,7 +606,7 @@ def getScComposeInfoDic(projectName):
                 projectName,
                 sceneName, sceneVariant, assetName, number
             )
-            isScAstSolverCacheEnable = bscCommands.isOsExist(scAstSolverCacheFile)
+            isScAstSolverCacheEnable = bscMethods.OsFile.isExist(scAstSolverCacheFile)
             #
             if isScAstSolverCacheEnable:
                 branchInfo = False
@@ -626,7 +626,7 @@ def getScComposeInfoDic(projectName):
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
                             if alembicCache:
-                                if bscCommands.isOsExistsFile(alembicCache):
+                                if bscMethods.OsFile.isExist(alembicCache):
                                     localTimeTag = bscMethods.OsFile.findTimetag(alembicCache)
                     #
                     branchInfo = alembicNode, namespace, localTimeTag
@@ -637,7 +637,7 @@ def getScComposeInfoDic(projectName):
             startFrame, endFrame,
             scAstModelCache,
             assetIndex,
-            assetClass, assetName, number, assetVariant
+            assetCategory, assetName, number, assetVariant
         ) = value
         # Model Product
         scAstModelProductBranchInfo = getScAstModelProductBranch()
@@ -655,23 +655,23 @@ def getScComposeInfoDic(projectName):
         #
         assetCompose.append((
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             scAstModelProductBranchInfo, scAstModelCacheBranchInfo,
             scAstCfxProductBranchInfo, scAstCfxCacheBranchInfoLis,
             scAstSolverProductBranchInfo, scAstSolverCacheBranchInfo,
             scAstExtraCacheBranchInfo
         ))
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
-        for sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage in sceneInfoLis:
+        for sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage in sceneInfoLis:
             cameraCompose = []
             assetCompose = []
             # Camera
             cameraIndexData = scenePr.getSceneCameraIndexDataDic(
-                projectName, sceneClass, sceneName, sceneVariant
+                projectName, sceneCategory, sceneName, sceneVariant
             )
             if cameraIndexData:
                 for k, v in cameraIndexData.items():
@@ -679,20 +679,20 @@ def getScComposeInfoDic(projectName):
                         getScCameraBranch(camSeq)
             # Asset
             assetIndexData = scenePr.getSceneAssetIndexDataDic(
-                projectName, sceneClass, sceneName, sceneVariant
+                projectName, sceneCategory, sceneName, sceneVariant
             )
             if assetIndexData:
                 for k, v in assetIndexData.items():
                     for i in v:
                         getScAssetBranch(i)
             #
-            dic[(sceneIndex, sceneClass, sceneName, sceneVariant)] = cameraCompose, assetCompose
+            dic[(sceneIndex, sceneCategory, sceneName, sceneVariant)] = cameraCompose, assetCompose
     #
     return dic
 
 
 #
-def getScAstUnitDic(projectName, sceneClass, sceneName, sceneVariant, sceneStage):
+def getScAstUnitDic(projectName, sceneCategory, sceneName, sceneVariant, sceneStage):
     def getBranch(args):
         (
             timestamp,
@@ -700,7 +700,7 @@ def getScAstUnitDic(projectName, sceneClass, sceneName, sceneVariant, sceneStage
             startFrame, endFrame,
             cache,
             assetIndex,
-            assetClass, assetName, number, assetVariant
+            assetCategory, assetName, number, assetVariant
          ) = args
         #
         sceneAssetUnitGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
@@ -715,16 +715,16 @@ def getScAstUnitDic(projectName, sceneClass, sceneName, sceneVariant, sceneStage
             else:
                 key = sceneAssetUnitGroup
             #
-            print '''assetIndex = '{}'\nassetClass = '{}'\nassetName = '{}'\nassetVariant = '{}'\nnumber = '{}'\n'''.format(
+            print '''assetIndex = '{}'\nassetCategory = '{}'\nassetName = '{}'\nassetVariant = '{}'\nnumber = '{}'\n'''.format(
                 assetIndex,
-                assetClass, assetName, assetVariant, number
+                assetCategory, assetName, assetVariant, number
             )
-            dic[key] = assetIndex, assetClass, assetName, number, assetVariant
+            dic[key] = assetIndex, assetCategory, assetName, number, assetVariant
     #
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     #
     sceneAssetData = scenePr.getSceneAssetIndexDataDic(
-        projectName, sceneClass, sceneName, sceneVariant
+        projectName, sceneCategory, sceneName, sceneVariant
     )
     scLinkAssetGroup = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
     if sceneAssetData:
@@ -739,7 +739,7 @@ def getScAstUnitDic(projectName, sceneClass, sceneName, sceneVariant, sceneStage
 def getScAstModelMeshConstantData(
         sceneName, sceneVariant, sceneStage,
         assetIndex,
-        assetClass, assetName, number,
+        assetCategory, assetName, number,
         namespace):
     totalArray = []
     pathChangedArray = []
@@ -795,11 +795,11 @@ def getScAstModelMeshConstantData(
 
 
 #
-def getScAstRigAlembicAttrData(projectName, assetClass, assetName, assetVariant):
+def getScAstRigAlembicAttrData(projectName, assetCategory, assetName, assetVariant):
     lis = []
     rigExtraData = assetPr.getAssetUnitExtraData(
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
     )
     if rigExtraData:
         if lxConfigure.LynxiAlembicAttrDataKey in rigExtraData:
@@ -811,7 +811,7 @@ def getScAstRigAlembicAttrData(projectName, assetClass, assetName, assetVariant)
 
 #
 def getScSceneryExtraData(sceneName, sceneVariant, sceneStage):
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     assemblyReferenceData, transformationData = getScScenery(sceneName, sceneVariant, sceneStage)
     dic[lxConfigure.LynxiAssemblyReferenceDataKey] = assemblyReferenceData
     dic[lxConfigure.LynxiTransformationDataKey] = transformationData
@@ -904,7 +904,7 @@ def getGeometryMeshes(sceneName, sceneVariant, assetName, number, namespace):
 #
 def getMeshObjectsConstantDic(astUnitModelProductGroup):
     infoConfig = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     meshesInformation = maGeom.getGeometryObjectsInfo(astUnitModelProductGroup)
     for seq, i in enumerate(infoConfig):
         dic[i] = meshesInformation[seq]
@@ -914,7 +914,7 @@ def getMeshObjectsConstantDic(astUnitModelProductGroup):
 #
 def getMeshConstantDataByRoot(sceneName, sceneVariant, assetName, number, namespace=none):
     # Dict { <Constant Item>: <Constant Value> }
-    dic = bscCommands.orderedDict()
+    dic = bscCore.orderedDict()
     geometries = []
     if namespace:
         scAstGeometryGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)

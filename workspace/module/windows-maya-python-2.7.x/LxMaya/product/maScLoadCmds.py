@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 
-from LxBasic import bscMethods, bscModifiers, bscObjects, bscCommands
+from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
@@ -10,8 +10,6 @@ from LxCore.config import appCfg
 from LxPreset import prsVariants, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
-
-from LxCore.method._osMethod import OsMultFileMethod
 
 from LxMaya.command import maUtils, maFile, maHier, maPreference, maFur, maCacheConnect, maRender
 
@@ -29,7 +27,7 @@ none = ''
 def scUnitSceneCreateMainCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         withCamera=False, withScenery=False,
         withFrame=False, withSize=False,
         withAstModel=False, withModelCache=False,
@@ -47,42 +45,42 @@ def scUnitSceneCreateMainCmd(
     maPreference.setAnimationTimeUnit(projectName)
     # Layout
     if scenePr.isLayoutLinkName(sceneStage):
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
     # Animation
     elif scenePr.isAnimationLinkName(sceneStage):
         serverProductFile = scenePr.sceneUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+            projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
         )[1]
         localSourceFile = scenePr.sceneUnitSourceFile(
             lxConfigure.LynxiRootIndex_Local,
-            projectName, sceneClass, sceneName, sceneVariant, lxConfigure.LynxiScAnimationStages[0]
+            projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiScAnimationStages[0]
         )[1]
         maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     # Simulation
     elif scenePr.isSimulationLinkName(sceneStage):
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
         # Asset Model Cache
         scUnitAstModelCachesLoadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )
         # Asset Mode Pose Cache
         scUnitAstModelPoseCachesLoadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage
+            sceneCategory, sceneName, sceneVariant, sceneStage
         )
     # Solver
     elif scenePr.isSolverLinkName(sceneStage):
         # Load Animation
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
         #
         scUnitAssetsLoadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             withAstModel=withAstModel, withModelCache=withModelCache,
             withAstCfx=withAstCfx, withAstCfxFurCache=withAstCfxFurCache,
             withAstSolver=withAstSolver, withAstSolverCache=withAstSolverCache,
@@ -90,19 +88,19 @@ def scUnitSceneCreateMainCmd(
         )
     # Light
     elif scenePr.isLightLinkName(sceneStage):
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
         #
         scUnitAssetsLoadCmd(
             projectName,
             sceneIndex,
-            sceneClass, sceneName, sceneVariant, sceneStage,
+            sceneCategory, sceneName, sceneVariant, sceneStage,
             withAstModel=withAstModel, withModelCache=withModelCache,
             withAstCfx=withAstCfx, withAstCfxFurCache=withAstCfxFurCache,
             withAstSolver=withAstSolver, withAstSolverCache=withAstSolverCache,
             withExtraCache=withExtraCache,
         )
     #
-    maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
+    maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
     # is Used Default Camera
     if withCamera:
         logWin_.addStartProgress(u'Camera Create')
@@ -117,12 +115,12 @@ def scUnitSceneCreateMainCmd(
             scUnitCameraCachesLoadCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage
+                sceneCategory, sceneName, sceneVariant, sceneStage
             )
             if scenePr.isLightLinkName(sceneStage):
                 scOutputCameras = scenePr.getOutputCameras(
                     projectName,
-                    sceneClass, sceneName, sceneVariant
+                    sceneCategory, sceneName, sceneVariant
                 )
                 maRender.setRenderCamera(scOutputCameras)
         #
@@ -132,7 +130,7 @@ def scUnitSceneCreateMainCmd(
         if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             scUnitSceneryExtraLoadLoadCmd(
                 projectName,
-                sceneClass, sceneName, sceneVariant, sceneStage
+                sceneCategory, sceneName, sceneVariant, sceneStage
             )
     # Frame
     if withFrame:
@@ -144,7 +142,7 @@ def scUnitSceneCreateMainCmd(
         #
         elif scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             startFrame, endFrame = scenePr.getScUnitFrameRange(
-                projectName, sceneClass, sceneName, sceneVariant
+                projectName, sceneCategory, sceneName, sceneVariant
             )
             if scenePr.isSimulationLinkName(sceneStage) or scenePr.isSolverLinkName(sceneStage):
                 startFrame -= 50
@@ -178,7 +176,7 @@ def scUnitSceneCreateMainCmd(
         workspaceRoot = scenePr.scUnitRenderFolder(
             lxConfigure.LynxiRootIndex_Local,
             projectName,
-            sceneClass, sceneName, sceneVariant, sceneStage, prsVariants.Util.scDefaultCustomizeLabel
+            sceneCategory, sceneName, sceneVariant, sceneStage, prsVariants.Util.scDefaultCustomizeLabel
         )
         maRender.setCreateWorkspace(workspaceRoot)
         #
@@ -194,7 +192,7 @@ def scUnitSceneCreateMainCmd(
     scUnitSourceSaveCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
     )
     logWin_.addCompleteTask()
 
@@ -203,13 +201,13 @@ def scUnitSceneCreateMainCmd(
 def scUnitFrameLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
 ):
     logWin_ = bscObjects.If_Log()
     #
     startFrame, endFrame = scenePr.getScUnitFrameRange(
         projectName,
-        sceneClass, sceneName, sceneVariant
+        sceneCategory, sceneName, sceneVariant
     )
     # Time Unit
     maPreference.setAnimationTimeUnit(projectName)
@@ -229,7 +227,7 @@ def scUnitFrameLoadCmd(
 def scUnitSceneLoadMainCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         withFrame=False, withSize=False
 ):
     sceneStagePrettify = sceneStage.capitalize()
@@ -244,20 +242,20 @@ def scUnitSceneLoadMainCmd(
     #
     serverProductFile = scenePr.sceneUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     localSourceFile = scenePr.sceneUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     logWin_.addStartProgress(u'Source Load')
     #
     maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
     #
     if not scenePr.isAnimationLinkName(sceneStage):
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
     #
-    maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
+    maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
     #
     logWin_.addCompleteProgress()
     #
@@ -284,13 +282,13 @@ def scUnitSceneLoadMainCmd(
 def scUnitSourceSaveCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
 ):
     logWin_ = bscObjects.If_Log()
     
     localSourceFile = scenePr.sceneUnitSourceFile(
         lxConfigure.LynxiRootIndex_Local,
-        projectName, sceneClass, sceneName, sceneVariant, sceneStage
+        projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     #
     maUtils.setVisiblePanelsDelete()
@@ -307,12 +305,12 @@ def scUnitSourceSaveCmd(
 def scUnitCameraCachesLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
 ):
     logWin_ = bscObjects.If_Log()
     
     datumDic = scenePr.getSceneCameraIndexDataDic(
-        projectName, sceneClass, sceneName, sceneVariant
+        projectName, sceneCategory, sceneName, sceneVariant
     )
     if datumDic:
         for k, v in datumDic.items():
@@ -325,11 +323,11 @@ def scUnitCameraCachesLoadCmd(
                 timestamp, cacheStage, startFrame, endFrame, scCameraCache = i
                 #
                 if timestamp is not None:
-                    subLabel = bscCommands.getSubLabel(seq)
+                    subLabelString = bscMethods.OsFile.seqLabel(seq)
                     scUnitCameraCacheLoadSubCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
+                        sceneCategory, sceneName, sceneVariant, sceneStage, subLabelString,
                         withCameraCache=True
                     )
 
@@ -338,7 +336,7 @@ def scUnitCameraCachesLoadCmd(
 def scUnitCameraCacheLoadSubCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage, subLabel,
+        sceneCategory, sceneName, sceneVariant, sceneStage, subLabelString,
         withCameraCache
 ):
     def getFile():
@@ -348,13 +346,13 @@ def scUnitCameraCacheLoadSubCmd(
                 fileString = scenePr.getScCameraCacheActive(
                     projectName,
                     sceneName, sceneVariant,
-                    subLabel
+                    subLabelString
                 )
         elif isinstance(withCameraCache, str) or isinstance(withCameraCache, unicode):
             fileString = withCameraCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     #
     logWin_ = bscObjects.If_Log()
@@ -366,9 +364,9 @@ def scUnitCameraCacheLoadSubCmd(
         linkCameraPath = scenePr.scCameraSubGroupPath(sceneName, sceneVariant, sceneStage)
         scCameraNamespace = scenePr.scCameraNamespace(
             sceneName, sceneVariant
-        ) + subLabel
+        ) + subLabelString
         #
-        scOutputCameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant, scCameraNamespace) + subLabel
+        scOutputCameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant, scCameraNamespace) + subLabelString
         if maUtils.isAppExist(scOutputCameraLocator):
             maUtils.setNodesClearByNamespace(scCameraNamespace)
             #
@@ -383,7 +381,7 @@ def scUnitCameraCacheLoadSubCmd(
         if maUtils.isAppExist(linkCameraPath):
             maUtils.setObjectParent(scOutputCameraLocator, linkCameraPath)
         #
-        scCamera = scenePr.scOutputCameraName(sceneName, sceneVariant, scCameraNamespace) + subLabel
+        scCamera = scenePr.scOutputCameraName(sceneName, sceneVariant, scCameraNamespace) + subLabelString
         if maUtils.isAppExist(scCamera):
             maUtils.setDisplayMode(5)
             maUtils.setCameraView(scCamera)
@@ -397,14 +395,14 @@ def scUnitCameraCacheLoadSubCmd(
 def scUnitAstModelCachesLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         withAstCfx=False, withAstCfxFurCache=False
 ):
     logWin_ = bscObjects.If_Log()
     
     datumDic = scenePr.getSceneAssetIndexDataDic(
         projectName,
-        sceneClass, sceneName, sceneVariant
+        sceneCategory, sceneName, sceneVariant
     )
     if datumDic:
         for k, v in datumDic.items():
@@ -416,16 +414,16 @@ def scUnitAstModelCachesLoadCmd(
                 #
                 (
                     timestamp, cacheStage, startFrame, endFrame, cache,
-                    assetIndex, assetClass, assetName, number, assetVariant
+                    assetIndex, assetCategory, assetName, number, assetVariant
                  ) = i
                 #
                 if timestamp is not None:
                     scUnitAstModelCacheLoadSubCmd(
                         projectName,
                         sceneIndex,
-                        sceneClass, sceneName, sceneVariant, sceneStage,
+                        sceneCategory, sceneName, sceneVariant, sceneStage,
                         assetIndex,
-                        assetClass, assetName, number, assetVariant,
+                        assetCategory, assetName, number, assetVariant,
                         withModelCache=True
                     )
 
@@ -434,9 +432,9 @@ def scUnitAstModelCachesLoadCmd(
 def scUnitAstModelCacheLoadSubCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withModelCache
 ):
     def getFile():
@@ -452,7 +450,7 @@ def scUnitAstModelCacheLoadSubCmd(
             fileString = withModelCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     #
     logWin_ = bscObjects.If_Log()
@@ -462,8 +460,8 @@ def scUnitAstModelCacheLoadSubCmd(
         # Create Scene Root
         scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
         if not maUtils.isAppExist(scUnitRoot):
-            maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
-            maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
+            maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
+            maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
         #
         scAstSubPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
         #
@@ -491,11 +489,11 @@ def scUnitAstModelCacheLoadSubCmd(
         #
         maUtils.setNodeOutlinerRgb(scAstRootGroup, 0, 1, 1)
         #
-        timetag = bscMethods.OsTime.activeTimetag()
+        timetag = bscMethods.OsTimetag.active()
         maHier.refreshScAstUnitBranch(
             scAstRootGroup,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             timetag
         )
         #
@@ -509,12 +507,12 @@ def scUnitAstModelCacheLoadSubCmd(
 def scUnitAstModelPoseCachesLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
 ):
     logWin_ = bscObjects.If_Log()
     
     datumDic = scenePr.getSceneAssetIndexDataDic(
-        projectName, sceneClass, sceneName, sceneVariant
+        projectName, sceneCategory, sceneName, sceneVariant
     )
     if datumDic:
         for k, v in datumDic.items():
@@ -526,7 +524,7 @@ def scUnitAstModelPoseCachesLoadCmd(
                 #
                 (
                     timestamp, cacheStage, startFrame, endFrame, _,
-                    assetIndex, assetClass, assetName, number, assetVariant
+                    assetIndex, assetCategory, assetName, number, assetVariant
                 ) = i
                 #
                 cache = scenePr.getScAstModelPoseCacheActive(
@@ -538,7 +536,7 @@ def scUnitAstModelPoseCachesLoadCmd(
                     sceneIndex,
                     sceneName, sceneVariant, sceneStage,
                     assetIndex,
-                    assetClass, assetName, number, assetVariant,
+                    assetCategory, assetName, number, assetVariant,
                     cache
                 )
 
@@ -549,7 +547,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
         sceneIndex,
         sceneName, sceneVariant, sceneStage,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withModelPoseCache
 ):
     def getFile():
@@ -565,7 +563,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
             fileString = withModelPoseCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -591,7 +589,7 @@ def scUnitAstModelPoseCacheLoadSubCmd(
 def scUnitAssetsLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         withAstModel=False, withModelCache=False,
         withAstCfx=False, withAstCfxFurCache=False,
         withAstSolver=False, withAstSolverCache=False,
@@ -600,7 +598,7 @@ def scUnitAssetsLoadCmd(
     logWin_ = bscObjects.If_Log()
     
     datumDic = scenePr.getSceneAssetIndexDataDic(
-        projectName, sceneClass, sceneName, sceneVariant
+        projectName, sceneCategory, sceneName, sceneVariant
     )
     if datumDic:
         for k, v in datumDic.items():
@@ -614,15 +612,15 @@ def scUnitAssetsLoadCmd(
                     timestamp, cacheStage,
                     startFrame, endFrame, scAstModelCache,
                     assetIndex,
-                    assetClass, assetName, number, assetVariant
+                    assetCategory, assetName, number, assetVariant
                 ) = i
                 #
                 scUnitAssetLoadSubCmd(
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     startFrame, endFrame,
-                    assetIndex, assetClass, assetName, number, assetVariant,
+                    assetIndex, assetCategory, assetName, number, assetVariant,
                     withAstModel=withAstModel, withModelCache=withModelCache,
                     withAstCfx=withAstCfx, withAstCfxFurCache=withAstCfxFurCache,
                     withAstSolver=withAstSolver, withAstSolverCache=withAstSolverCache,
@@ -634,10 +632,10 @@ def scUnitAssetsLoadCmd(
 def scUnitAssetLoadSubCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstModel=False, withModelCache=False,
         withAstCfx=False, withAstCfxFurCache=False,
         withAstSolver=False, withAstSolverCache=False,
@@ -650,8 +648,8 @@ def scUnitAssetLoadSubCmd(
     # Create Scene Root
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
     if not maUtils.isAppExist(scUnitRoot):
-        maHier.setCreateScLinkHierarchy(sceneClass, sceneName, sceneVariant, sceneStage)
-        maHier.refreshScRoot(sceneClass, sceneName, sceneVariant, sceneStage, sceneIndex)
+        maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
+        maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
     #
     scAstSubPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
     #
@@ -660,12 +658,12 @@ def scUnitAssetLoadSubCmd(
         # Create Group
         maUtils.setAppPathCreate(scAstRootPath)
         #
-        timetag = bscMethods.OsTime.activeTimetag()
+        timetag = bscMethods.OsTimetag.active()
         #
         maHier.refreshScAstUnitBranch(
             scAstRootPath,
             assetIndex,
-            assetClass, assetName, number, assetVariant,
+            assetCategory, assetName, number, assetVariant,
             timetag
         )
         #
@@ -677,10 +675,10 @@ def scUnitAssetLoadSubCmd(
             scUnitAstModelProductLoadCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withAstModel=withAstModel, withModelCache=withModelCache,
                 usePoolAsset=usePoolAsset
             )
@@ -689,10 +687,10 @@ def scUnitAssetLoadSubCmd(
             scUnitAstCfxProductLoadCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withAstCfxFurCache=withAstCfxFurCache,
                 usePoolAsset=usePoolAsset
             )
@@ -701,10 +699,10 @@ def scUnitAssetLoadSubCmd(
             scUnitAstSolverProductLoadCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withAstSolverCache=withAstSolverCache
             )
         # Extra
@@ -712,10 +710,10 @@ def scUnitAssetLoadSubCmd(
             scUnitAstExtraCacheConnectCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withAstRigExtraCache=True
             )
         #
@@ -731,10 +729,10 @@ def scUnitAssetLoadSubCmd(
 def scUnitAstModelProductLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstModel=False, withModelCache=False,
         usePoolAsset=False
 ):
@@ -744,13 +742,13 @@ def scUnitAstModelProductLoadCmd(
             if withAstModel is True:
                 fileString = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
-                    projectName, assetClass, assetName, assetVariant, assetStage
+                    projectName, assetCategory, assetName, assetVariant, assetStage
                 )[1]
         elif isinstance(withAstModel, str) or isinstance(withAstModel, unicode):
             fileString = withAstModel
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -790,7 +788,7 @@ def scUnitAstModelProductLoadCmd(
         # Refresh Root
         maHier.scUnitRefreshRoot(
             assetIndex,
-            assetClass, assetName, assetVariant, assetStage,
+            assetCategory, assetName, assetVariant, assetStage,
             timetag,
             scAstModelNamespace
         )
@@ -799,10 +797,10 @@ def scUnitAstModelProductLoadCmd(
             scUnitAstModelCacheConnectCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withModelCache=withModelCache,
                 isOffset=False, isLoop=False
             )
@@ -827,10 +825,10 @@ def scUnitAstModelProductLoadCmd(
 def scUnitAstModelCacheConnectCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withModelCache,
         isOffset=False, isLoop=False
 ):
@@ -847,7 +845,7 @@ def scUnitAstModelCacheConnectCmd(
             fileString = withModelCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     
@@ -897,7 +895,7 @@ def scUnitAstModelCacheConnectCmd(
                 # Offset Act Start Frame to Start Frame
                 currentStartFrame, currentEndFrame = maUtils.getFrameRange()
                 #
-                alembicNode = bscCommands.getOsFileName(cacheFile) + '_AlembicNode'
+                alembicNode = bscMethods.OsFile.name(cacheFile) + '_AlembicNode'
                 # Frame Offset
                 if isOffset:
                     offset = currentStartFrame - startFrame
@@ -916,10 +914,10 @@ def scUnitAstModelCacheConnectCmd(
 def scUnitAstExtraCacheConnectCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstRigExtraCache
 ):
     def getFile():
@@ -935,7 +933,7 @@ def scUnitAstExtraCacheConnectCmd(
             fileString = withAstRigExtraCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -967,10 +965,10 @@ def scUnitAstExtraCacheConnectCmd(
 def scUnitAstCfxProductLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstCfxFurCache=False,
         usePoolAsset=False
 ):
@@ -982,9 +980,9 @@ def scUnitAstCfxProductLoadCmd(
     #
     astCfxProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, assetClass, assetName, assetVariant, assetStage
+        projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
-    if bscCommands.isOsExistsFile(astCfxProductFile):
+    if bscMethods.OsFile.isExist(astCfxProductFile):
         timetag = bscMethods.OsFile.mtimetag(astCfxProductFile)
         #
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
@@ -1005,7 +1003,7 @@ def scUnitAstCfxProductLoadCmd(
             # Refresh Root
             maHier.scUnitRefreshRoot(
                 assetIndex,
-                assetClass, assetName, assetVariant, assetStage,
+                assetCategory, assetName, assetVariant, assetStage,
                 timetag,
                 scAstCfxNamespace
             )
@@ -1025,10 +1023,10 @@ def scUnitAstCfxProductLoadCmd(
                 scUnitAstCfxFurCachesConnectCmd(
                     projectName,
                     sceneIndex,
-                    sceneClass, sceneName, sceneVariant, sceneStage,
+                    sceneCategory, sceneName, sceneVariant, sceneStage,
                     startFrame, endFrame,
                     assetIndex,
-                    assetClass, assetName, number, assetVariant,
+                    assetCategory, assetName, number, assetVariant,
                     withAstCfxFurCache=withAstCfxFurCache
                 )
         #
@@ -1044,10 +1042,10 @@ def scUnitAstCfxProductLoadCmd(
 def scUnitAstSolverProductLoadCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstSolverCache=False
 ):
     logWin_ = bscObjects.If_Log()
@@ -1055,9 +1053,9 @@ def scUnitAstSolverProductLoadCmd(
     astSolverProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
     )[1]
-    if bscCommands.isOsExistsFile(astSolverProductFile):
+    if bscMethods.OsFile.isExist(astSolverProductFile):
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
         #
         scAstCfxNamespace = scenePr.scAstCfxNamespace(sceneName, sceneVariant, assetName, number)
@@ -1080,9 +1078,9 @@ def scUnitAstSolverProductLoadCmd(
             astSolverExtraFile = assetPr.astUnitExtraFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetClass, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
             )[1]
-            if bscCommands.isOsExist(astSolverExtraFile):
+            if bscMethods.OsFile.isExist(astSolverExtraFile):
                 extraDic = bscMethods.OsJson.read(astSolverExtraFile)
                 if extraDic:
                     connectionDic = extraDic.get(lxConfigure.LynxiConnectionDataKey)
@@ -1096,10 +1094,10 @@ def scUnitAstSolverProductLoadCmd(
             scUnitAstSolverCacheConnectCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 withAstSolverCache=withAstSolverCache
             )
         #
@@ -1112,10 +1110,10 @@ def scUnitAstSolverProductLoadCmd(
 def scUnitAstSolverCacheConnectCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstSolverCache
 ):
     def getFile():
@@ -1131,7 +1129,7 @@ def scUnitAstSolverCacheConnectCmd(
             fileString = withAstSolverCache
         #
         if fileString is not None:
-            if bscCommands.isOsExist(fileString):
+            if bscMethods.OsFile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -1162,10 +1160,10 @@ def scUnitAstSolverCacheConnectCmd(
 def scUnitAstCfxFurCachesConnectCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         withAstCfxFurCache
 ):
     logWin_ = bscObjects.If_Log()
@@ -1184,10 +1182,10 @@ def scUnitAstCfxFurCachesConnectCmd(
             scUnitAstCfxFurCacheConnectSubCmd(
                 projectName,
                 sceneIndex,
-                sceneClass, sceneName, sceneVariant, sceneStage,
+                sceneCategory, sceneName, sceneVariant, sceneStage,
                 startFrame, endFrame,
                 assetIndex,
-                assetClass, assetName, number, assetVariant,
+                assetCategory, assetName, number, assetVariant,
                 furObject,
                 withAstCfxFurCache
             )
@@ -1197,10 +1195,10 @@ def scUnitAstCfxFurCachesConnectCmd(
 def scUnitAstCfxFurCacheConnectSubCmd(
         projectName,
         sceneIndex,
-        sceneClass, sceneName, sceneVariant, sceneStage,
+        sceneCategory, sceneName, sceneVariant, sceneStage,
         startFrame, endFrame,
         assetIndex,
-        assetClass, assetName, number, assetVariant,
+        assetCategory, assetName, number, assetVariant,
         furObject,
         withAstCfxFurCache
 ):
@@ -1240,7 +1238,7 @@ def scUnitAstCfxFurCacheConnectSubCmd(
             fileString = withAstCfxFurCache
         #
         if fileString is not None:
-            if OsMultFileMethod.isOsExistsMultiFile(fileString):
+            if bscMethods.OsMultifile.isExist(fileString):
                 return fileString
     logWin_ = bscObjects.If_Log()
     #
@@ -1275,13 +1273,13 @@ def scUnitAstCfxFurCacheConnectSubCmd(
 #
 def scUnitSceneryExtraLoadLoadCmd(
         projectName,
-        sceneClass, sceneName, sceneVariant, sceneStage
+        sceneCategory, sceneName, sceneVariant, sceneStage
 ):
     logWin_ = bscObjects.If_Log()
     #
     extraData = scenePr.getScSceneryExtraData(
         projectName,
-        sceneClass, sceneName, sceneVariant
+        sceneCategory, sceneName, sceneVariant
     )
     scSceneryLinkPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, sceneStage)
     if not maUtils.isAppExist(scSceneryLinkPath):

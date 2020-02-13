@@ -8,8 +8,8 @@ from maya import OpenMaya, OpenMayaUI
 import maya.api.OpenMaya as Om2
 #
 from itertools import product
-#
-from LxCore.method.basic import _methodBasic
+
+from LxBasic import bscMethods
 #
 from LxUi import uiCore
 #
@@ -19,12 +19,71 @@ from LxMaya.method.config import _maConfig
 
 
 #
-class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
+class Mtd_AppMaya(_maConfig.MaConfig):
     _maConfig = _maConfig.MaConfig
     #
     MaProgressBar = None
     MaMaxProgressValue = 1
     MaProgressValue = 0
+
+    @staticmethod
+    def _toNamespaceByPathString(pathString, pathsep, namespacesep):
+        return namespacesep.join(pathString.split(pathsep)[-1].split(namespacesep)[:-1]) + namespacesep
+    @staticmethod
+    def _toNamespaceByNameString(nameString, namespacesep):
+        return namespacesep.join(nameString.split(namespacesep)[:-1]) + namespacesep
+    @staticmethod
+    def _toNameByPathString(pathString, pathsep, namespacesep):
+        return pathString.split(pathsep)[-1].split(namespacesep)[-1]
+    @staticmethod
+    def _toNameByNameString(nameString, namespacesep):
+        return nameString.split(namespacesep)[-1]
+    @classmethod
+    def _isStringMatch(cls, string, keyword):
+        if keyword.startswith('*'):
+            return string.endswith(keyword[1:])
+        elif keyword.endswith('*'):
+            return string.startswith(keyword[:-1])
+        else:
+            return keyword in string
+    @classmethod
+    def _toPathRebuildDatum(cls, pathString, pathsep, namespacesep):
+        if pathString.startswith(pathsep):
+            pathLis = []
+            namespaceLis = []
+            #
+            lis1 = pathString.split(pathsep)
+            if lis1:
+                for i in lis1:
+                    if i:
+                        namespace = cls._toNamespaceByNameString(i, namespacesep)
+                        name = cls._toNameByNameString(i, namespacesep)
+                        if namespace:
+                            if not namespace in namespaceLis:
+                                namespaceLis.append(namespace)
+                            #
+                            index = namespaceLis.index(namespace)
+                            pathLis.append('{{{}}}{}'.format(index, name))
+                        else:
+                            pathLis.append(i)
+
+            return pathLis, namespaceLis
+        else:
+            return cls._toNameByNameString(pathString, namespacesep), cls._toNamespaceByNameString(pathString, namespacesep)
+    # noinspection PyUnusedLocal
+    @classmethod
+    def _toPathByPathRebuildDatum(cls, pathDatum, namespaceDatum, pathsep, namespacesep):
+        if isinstance(pathDatum, list) or isinstance(pathDatum, tuple):
+            return pathsep + pathsep.join(pathDatum).format(*['' if i == namespacesep else i for i in namespaceDatum])
+        else:
+            return ('' if namespaceDatum == namespacesep else namespaceDatum) + pathDatum
+    # noinspection PyUnusedLocal
+    @classmethod
+    def _toNameStringBySearchDatum(cls, pathDatum, namespaceDatum, pathsep, namespacesep):
+        if isinstance(pathDatum, list) or isinstance(pathDatum, tuple):
+            return pathDatum[-1].format(*namespaceDatum)
+        else:
+            return namespaceDatum + pathDatum
     @classmethod
     def _toNodeAttr(cls, stringLis):
         return cls.Ma_Separator_Attribute.join(stringLis)
@@ -150,7 +209,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     @classmethod
     def getNodeLisBySearchKey(cls, searchKey, nodeType, fullPath=True):
         lis = []
-        searchKeyLis = cls.toStringList(searchKey)
+        searchKeyLis = bscMethods.String.toList(searchKey)
         for searchKey in searchKeyLis:
             stringLis = cmds.ls(searchKey, type=nodeType, long=fullPath)
             if stringLis:
@@ -189,7 +248,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
                     return stringLis[0]
     @classmethod
     def getNodeByUniqueId(cls, uniqueId, fullPath=True):
-        if cls.isUniqueId(uniqueId):
+        if bscMethods.UniqueId.isUsable(uniqueId):
             stringLis = cmds.ls(uniqueId, long=fullPath) or []
             if stringLis:
                 if len(stringLis) == 1:
@@ -239,7 +298,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def setAttrStringDatumForce_(cls, nodeString, attrName, data, lockAttr=True):
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), dataType='string')
+            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
         #
         cmds.setAttr(attr, lock=0)
         cmds.setAttr(attr, data, type='string', lock=lockAttr)
@@ -256,7 +315,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
         colorLabelLis = ['R', 'G', 'B']
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), attributeType='float3', usedAsColor=1)
+            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='float3', usedAsColor=1)
             for i in colorLabelLis:
                 cmds.addAttr(nodeString, longName=attrName + i, attributeType='float', parent=attrName)
         #
@@ -266,7 +325,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def setAttrBooleanDatumForce_(cls, nodeString, attrName, boolean):
         attr = cls._toNodeAttr([nodeString, attrName])
         if not cls.isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=cls.str_camelcase2prettify(attrName), attributeType='bool')
+            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
         #
         if cls.isAttrLock(attr) is True:
             cmds.setAttr(attr, lock=0)
@@ -319,7 +378,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     @classmethod
     def getNodeLisByType(cls, nodeTypeString, fullPath=True, exceptStrings=None):
         lis = []
-        filterTypeLis = cls.toStringList(nodeTypeString, cmds.allNodeTypes())
+        filterTypeLis = bscMethods.String.toList(nodeTypeString, cmds.allNodeTypes())
         if filterTypeLis:
             lis = cmds.ls(type=filterTypeLis, long=fullPath) or []
             if exceptStrings is not None:
@@ -342,7 +401,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def getNodeLisByFilter(cls, nodeTypeString, namespace=None, fullPath=True):
         lis = []
         #
-        namespaceLis = cls.toStringList(namespace)
+        namespaceLis = bscMethods.String.toList(namespace)
         nodeLis = cls.getNodeLisByType(nodeTypeString, fullPath)
         if namespaceLis:
             for namespace in namespaceLis:
@@ -453,7 +512,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def _toMeshFaceComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls.lis_frame2range(ids)
+            reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.f[{}]'.format(objectString, i))
@@ -465,7 +524,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def _toMeshEdgeComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls.lis_frame2range(ids)
+            reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.e[{}]'.format(objectString, i))
@@ -477,7 +536,7 @@ class Mtd_AppMaya(_methodBasic.Mtd_Basic, _maConfig.MaConfig):
     def _toMeshVertexComp(cls, objectString, ids):
         lis = []
         if ids:
-            reduceArray = cls.lis_frame2range(ids)
+            reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
                     lis.append('{}.vtx[{}]'.format(objectString, i))
@@ -520,7 +579,7 @@ class Mtd_M2Basic(Mtd_AppMaya, _maConfig.Cfg_M2):
 
 #
 class Mtd_MaUiBasic(
-    uiCore.Basic,
+    uiCore.UiMtdBasic,
     _maConfig.MaUiConfig
 ):
     @staticmethod
@@ -602,7 +661,7 @@ class MaScriptJobMethodBasic(Mtd_AppMaya):
     def setCreateEventScriptJob(cls, windowName, scriptJobEvn, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=bscMethods.StrCamelcase.toPrettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, event=[scriptJobEvn, i]) for i in method]
@@ -613,7 +672,7 @@ class MaScriptJobMethodBasic(Mtd_AppMaya):
     def setCreateNodeDeleteScriptJob(cls, windowName, node, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=bscMethods.StrCamelcase.toPrettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, nodeDeleted=[node, i]) for i in method]
@@ -623,7 +682,7 @@ class MaScriptJobMethodBasic(Mtd_AppMaya):
     def setCreateAttrChangedScriptJob(cls, windowName, attr, method):
         if method:
             if not cmds.window(windowName, exists=1):
-                cmds.window(windowName, title=cls.str_camelcase2prettify(windowName), sizeable=1, resizeToFitChildren=1)
+                cmds.window(windowName, title=bscMethods.StrCamelcase.toPrettify(windowName), sizeable=1, resizeToFitChildren=1)
             #
             if isinstance(method, list):
                 [cmds.scriptJob(parent=windowName, attributeChange=[attr, i]) for i in method]
@@ -864,21 +923,21 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
             if not cmds.isConnected(sourceAttr, targetAttr):
                 cmds.connectAttr(sourceAttr, targetAttr, force=1)
                 #
-                cls.traceResult('Connect {} > {}'.format(sourceAttr, targetAttr))
+                bscMethods.PyMessage.traceResult('Connect {} > {}'.format(sourceAttr, targetAttr))
     @classmethod
     def setAttrDisconnect(cls, sourceAttr, targetAttr):
         if cls.isAppExist(sourceAttr) and cls.isAppExist(targetAttr):
             if cmds.isConnected(sourceAttr, targetAttr):
                 cmds.disconnectAttr(sourceAttr, targetAttr)
                 #
-                cls.traceResult('Disconnect {} > {}'.format(sourceAttr, targetAttr))
+                bscMethods.PyMessage.traceResult('Disconnect {} > {}'.format(sourceAttr, targetAttr))
 
 
 #
 class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _maConfig.MaNodeConfig):
     @classmethod
     def getNodeAttrRgb(cls, nodeString, attrName):
-        if cls.isUniqueId(nodeString):
+        if bscMethods.UniqueId.isUsable(nodeString):
             nodeString = cls.getNodeByUniqueId(nodeString)
         return cls.getAttrRgb(cls._toNodeAttr([nodeString, attrName]))
     @classmethod
@@ -894,7 +953,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         return cmds.listRelatives(objectString, parent=1, fullPath=fullPath) or []
     @classmethod
     def getObjectLisByUniqueId(cls, uniqueId, fullPath=True):
-        uniqueIdLis = cls._toUniqueIdLis(uniqueId)
+        uniqueIdLis = bscMethods.UniqueId.toList(uniqueId)
         lis = []
         if uniqueIdLis:
             for uniqueId in uniqueIdLis:
@@ -958,7 +1017,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if objectPath:
                 cls.setObjectParent(objectPath, parentString)
         #
-        uniqueIdLis = cls._toUniqueIdLis(uniqueId)
+        uniqueIdLis = bscMethods.UniqueId.toList(uniqueId)
         if uniqueIdLis:
             [setBranch(cls.getNodeByUniqueId(i)) for i in uniqueIdLis]
     @classmethod
@@ -989,7 +1048,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             cls.setNodeRenameByUniqueId(shapeUniqueId, shapeName)
     @classmethod
     def setObjectRenameByUniqueId(cls, uniqueId, nameString, withShape=False):
-        if cls.isUniqueId(uniqueId):
+        if bscMethods.UniqueId.isUsable(uniqueId):
             objectString = cls.getNodeByUniqueId(uniqueId)
             cls.setObjectRename(objectString, nameString, withShape)
     @classmethod
@@ -1005,7 +1064,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                     cmds.rename(shapePath, nameString)
     @classmethod
     def setObjectShapeRenameByUniqueId(cls, uniqueId, nameString=None):
-        if cls.isUniqueId(uniqueId):
+        if bscMethods.UniqueId.isUsable(uniqueId):
             objectString = cls.getNodeByUniqueId(uniqueId)
             cls.setObjectShapeRename(objectString, nameString)
     @classmethod
@@ -1023,7 +1082,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     def getObjectLisByType(cls, nodeTypeString, fullPath=True, exceptStrings=None):
         lis = []
         #
-        filterTypeLis = cls.toStringList(nodeTypeString, cmds.allNodeTypes())
+        filterTypeLis = bscMethods.String.toList(nodeTypeString, cmds.allNodeTypes())
         shapeLis = cmds.ls(type=filterTypeLis, long=fullPath) or []
         if shapeLis:
             lis = [cls.getNodeTransform(i) for i in shapeLis]
@@ -1054,7 +1113,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls.toStringList(nodeTypeString)
+        filterTypeLis = bscMethods.String.toList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1088,7 +1147,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls.toStringList(nodeTypeString)
+        filterTypeLis = bscMethods.String.toList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1135,7 +1194,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         lis = []
         #
         groupLis = cls._toNodeLis(groupString)
-        filterTypeLis = cls.toStringList(nodeTypeString)
+        filterTypeLis = bscMethods.String.toList(nodeTypeString)
         if groupLis:
             [branchFn(i) for i in groupLis]
         return lis
@@ -1218,7 +1277,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         #
         lis = []
         #
-        filterTypeLis = cls.toStringList(nodeTypeString)
+        filterTypeLis = bscMethods.String.toList(nodeTypeString)
         stringLis = cmds.ls(type=cls.MaNodeType_Transform, selection=1, dagObjects=1, long=1) or []
         for i in stringLis:
             shapePath = cls.getNodeShape(i)
@@ -1426,7 +1485,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             cls.setNodeOverrideRgb(objectPath, r, g, b, boolean)
     @classmethod
     def isNodeOutlinerColorEnable(cls, nodeString):
-        if cls.isUniqueId(nodeString):
+        if bscMethods.UniqueId.isUsable(nodeString):
             nodeString = cls.getNodeByUniqueId(nodeString)
         return cmds.getAttr(cls._toNodeAttr([nodeString, 'useOutlinerColor'])) or False
     @classmethod
@@ -1446,8 +1505,9 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             cls.setNodeOutlinerRgb(objectPath, r, g, b, boolean)
     @classmethod
     def lynxi_setNodeAttr(cls, nodeString):
-        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Artist, cls.getOsUser())
-        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Update, cls.getOsActiveTimestamp())
+        
+        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Artist, bscMethods.OsSystem.username())
+        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Update, bscMethods.OsSystem.activeTimestamp())
         cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_NodeId, cls.getNodeUniqueId(nodeString))
     @classmethod
     def lynxi_isNodeColorEnable(cls, nodeString):
@@ -1462,7 +1522,7 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         return boolean
     @classmethod
     def lynxi_getNodeColor(cls, nodeString):
-        r, g, b = cls.str2rgb(cls._toNodeName(nodeString), maximum=1.0)
+        r, g, b = bscMethods.String.toRgb(cls._toNodeName(nodeString), maximum=1.0)
         #
         attrName = cls.LynxiAttrName_NodeColor
         attr = cls._toNodeAttr([nodeString, attrName])
@@ -1706,4 +1766,4 @@ class MaHotkeyMethodBasic(Mtd_AppMaya):
             k=key,
             ctrlModifier=ctrlModifier, shiftModifier=shiftModifier, altModifier=altModifier
         )
-        cls.traceResult('Add Hotkey "{}"'.format(annotation))
+        bscMethods.PyMessage.traceResult('Add Hotkey "{}"'.format(annotation))

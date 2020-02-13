@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscObjects
+from LxBasic import bscCore, bscMethods, bscObjects
 
 from LxCore import lxScheme
 #
@@ -47,7 +47,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         self.stage = 'layout'
         #
         self.sceneIndex = None
-        self.sceneClass = None
+        self.sceneCategory = None
         self.sceneName = None
         self.sceneVariant = None
         self.sceneStage = None
@@ -313,11 +313,11 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         self.scMayaComposeViewerToggleButton.setChecked(True)
         self.scMayaComposeViewer.refreshMethod()
     #
-    def setSceneInfo(self, sceneIndex, sceneClass, sceneName, sceneVariant):
-        message = scenePr.getSceneViewInfo(sceneIndex, sceneClass, sceneVariant)
+    def setSceneInfo(self, sceneIndex, sceneCategory, sceneName, sceneVariant):
+        message = scenePr.getSceneViewInfo(sceneIndex, sceneCategory, sceneVariant)
         self._infoLabel.setDatum(message)
         #
-        self.sceneClass = sceneClass
+        self.sceneCategory = sceneCategory
         self.sceneName = sceneName
         self.sceneVariant = sceneVariant
         #
@@ -333,16 +333,16 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
             self.setPlaceholderEnable(False)
             #
             sceneInfo = sceneInfoLis[0]
-            sceneIndex, sceneClass, sceneName, sceneVariant, sceneStage = sceneInfo
+            sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage = sceneInfo
             #
             self.sceneIndex = sceneIndex
-            self.sceneClass = sceneClass
+            self.sceneCategory = sceneCategory
             self.sceneName = sceneName
             self.sceneVariant = sceneVariant
             self.sceneStage = sceneStage
             #
             self.animationCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
-            self.setSceneInfo(sceneIndex, sceneClass, sceneName, sceneVariant)
+            self.setSceneInfo(sceneIndex, sceneCategory, sceneName, sceneVariant)
             #
             self.setScRightToolBox()
             self.setScRightToolBoxShow()

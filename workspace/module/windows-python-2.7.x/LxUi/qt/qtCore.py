@@ -7,7 +7,7 @@ import cgitb
 #
 from ctypes import wintypes
 #
-from LxBasic import bscMethods, bscObjects, bscCommands
+from LxBasic import bscConfigure, bscMethods, bscObjects
 #
 from LxCore import lxConfigure, lxScheme
 #
@@ -349,45 +349,45 @@ def qtFont(size=8, weight=50, italic=False, underline=False, strikeOut=False, fa
 def _toLxOsIconFile(iconKeyword, ext=u'.png'):
     isMayaIcon = iconKeyword.startswith('maya')
     #
-    subLabel = 'table'
+    subLabelString = 'table'
     #
     if iconKeyword:
         if '#' in iconKeyword:
-            subLabel = iconKeyword.split('#')[0]
+            subLabelString = iconKeyword.split('#')[0]
             iconKeyword = iconKeyword.split('#')[-1]
-        if '@' in subLabel:
-            ext = '.' + subLabel.split('@')[-1]
-            subLabel = subLabel.split('@')[0]
+        if '@' in subLabelString:
+            ext = '.' + subLabelString.split('@')[-1]
+            subLabelString = subLabelString.split('@')[0]
     else:
         iconKeyword = none
     #
-    osFile = '{}/{}/{}{}'.format(iconRoot(), subLabel, iconKeyword, ext)
+    fileString_ = '{}/{}/{}{}'.format(iconRoot(), subLabelString, iconKeyword, ext)
     #
     if isMayaIcon:
-        if bscCommands.isOsExistsFile(osFile):
-            return osFile
+        if bscMethods.OsFile.isExist(fileString_):
+            return fileString_
         else:
-            return '{}/{}/{}{}'.format(iconRoot(), subLabel, 'default', ext)
+            return '{}/{}/{}{}'.format(iconRoot(), subLabelString, 'default', ext)
     else:
-        return osFile
+        return fileString_
 
 
 def _toLxMayaOsIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya#out_{}'.format(mayaNodeType))
-    if bscCommands.isOsExistsFile(iconFile):
-        osFile = iconFile
+    if bscMethods.OsFile.isExist(iconFile):
+        fileString_ = iconFile
     else:
-        osFile = _toLxOsIconFile('maya#out_default')
-    return osFile
+        fileString_ = _toLxOsIconFile('maya#out_default')
+    return fileString_
 
 
 def _toLxMayaOsSvgIconFile(mayaNodeType):
     iconFile = _toLxOsIconFile('maya@svg#{}'.format(mayaNodeType))
-    if bscCommands.isOsExistsFile(iconFile):
-        osFile = iconFile
+    if bscMethods.OsFile.isExist(iconFile):
+        fileString_ = iconFile
     else:
-        osFile = _toLxOsIconFile('maya@svg#{}default')
-    return osFile
+        fileString_ = _toLxOsIconFile('maya@svg#{}default')
+    return fileString_
 
 
 def getGradientColor(startPos, endPos, drawDir, isSelected, isHove):
@@ -479,7 +479,7 @@ class QPainterPath_(QtGui.QPainterPath):
         self.addPolygon(CLS_polygonF(points))
 
 
-class QPainter_(QtGui.QPainter, uiCore.Basic):
+class QPainter_(QtGui.QPainter, uiCore.UiMtdBasic):
     def __init__(self, *args, **kwargs):
         super(QPainter_, self).__init__(*args, **kwargs)
         #
@@ -1727,7 +1727,7 @@ class QScrollArea_(QScrollArea):
 # Tool Tip Box
 class QtTooltipWidget_(
     QWidget,
-    uiCore.Basic
+    uiCore.UiMtdBasic
 ):
     def __init__(self, *args, **kwargs):
         self.clsSuper = super(QtTooltipWidget_, self)
@@ -2210,7 +2210,7 @@ def getWidgetMinimumHeight(widget):
 
 def getTooltipDelayTime():
     if lxScheme.Shm_Interface().isTooltipAutoShow() is False:
-        return lxConfigure.LynxiUi_Value_TooltipDelayTime
+        return bscConfigure.MtdBasic.INT_ui_time_tooltip_delay
     else:
         return 250
 

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscMethods, bscCommands
+from LxBasic import bscMethods
 
 from LxCore import lxScheme
 # noinspection PyUnresolvedReferences

@@ -1,69 +1,69 @@
 # coding:utf-8
-from LxMaterial import mtlAbstract, mtlConfigure
+from LxMaterial import mtlObjAbstract, mtlConfigure
 
 
-class Raw_Closure(mtlAbstract.Abc_Raw):
+class Raw_Closure(mtlObjAbstract.Abc_Raw):
     def __init__(self, *args):
         self._initAbcRaw(*args)
 
 
-class Raw_String(mtlAbstract.Abc_RawString):
+class Raw_String(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'string'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_Name(mtlAbstract.Abc_RawString):
+class Raw_Name(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'name'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_Type(mtlAbstract.Abc_RawString):
+class Raw_Type(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'type'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_VisibilityType(mtlAbstract.Abc_RawString):
+class Raw_VisibilityType(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'vistype'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_Version(mtlAbstract.Abc_RawString):
+class Raw_Version(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'version'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_ValueType(mtlAbstract.Abc_RawString):
+class Raw_ValueType(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'type'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_ShaderCategory(mtlAbstract.Abc_RawString):
+class Raw_ShaderCategory(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'node'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_NodeCategory(mtlAbstract.Abc_RawString):
+class Raw_NodeCategory(mtlObjAbstract.Abc_RawString):
     STR_mtlx_key_attribute = u'category'
 
     def __init__(self, *args):
         self._initAbcRawString(*args)
 
 
-class Raw_NamespacePath(mtlAbstract.Abc_Path):
+class Raw_NamespacePath(mtlObjAbstract.Abc_Path):
     CLS_raw = Raw_String
 
     STR_separator = mtlConfigure.Separator_String_Namespace
@@ -72,7 +72,7 @@ class Raw_NamespacePath(mtlAbstract.Abc_Path):
         self._initAbcPath(*args)
 
 
-class Raw_Reference(mtlAbstract.Abc_Path):
+class Raw_Reference(mtlObjAbstract.Abc_Path):
     CLS_raw = Raw_String
 
     STR_separator = mtlConfigure.Separator_String_File
@@ -83,7 +83,7 @@ class Raw_Reference(mtlAbstract.Abc_Path):
         self._initAbcPath(*args)
 
 
-class ShadersetPath(mtlAbstract.Abc_ShadersetPath):
+class ShadersetPath(mtlObjAbstract.Abc_ShadersetPath):
     CLS_raw = Raw_Name
 
     STR_separator = mtlConfigure.Separator_String_Node
@@ -94,7 +94,7 @@ class ShadersetPath(mtlAbstract.Abc_ShadersetPath):
         self._initAbcPath(*args)
 
 
-class Raw_NodePath(mtlAbstract.Abc_Path):
+class Raw_NodePath(mtlObjAbstract.Abc_Path):
     CLS_raw = Raw_Name
 
     STR_separator = mtlConfigure.Separator_String_Node
@@ -105,7 +105,7 @@ class Raw_NodePath(mtlAbstract.Abc_Path):
         self._initAbcPath(*args)
 
 
-class Raw_GeometryPath(mtlAbstract.Abc_Path):
+class Raw_GeometryPath(mtlObjAbstract.Abc_Path):
     CLS_raw = Raw_Name
 
     STR_separator = mtlConfigure.Separator_String_Node
@@ -116,7 +116,7 @@ class Raw_GeometryPath(mtlAbstract.Abc_Path):
         self._initAbcPath(*args)
 
 
-class Raw_PortPath(mtlAbstract.Abc_Path):
+class Raw_PortPath(mtlObjAbstract.Abc_Path):
     CLS_raw = Raw_Name
 
     STR_separator = mtlConfigure.Separator_String_Attribute

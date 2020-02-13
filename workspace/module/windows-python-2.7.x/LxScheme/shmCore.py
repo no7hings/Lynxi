@@ -3,7 +3,7 @@ import copy
 
 import collections
 
-from LxBasic import bscObjects, bscMethods
+from LxBasic import bscConfigure, bscObjects, bscMethods
 
 
 class Basic(object):
@@ -64,10 +64,6 @@ class Basic(object):
 
     Environ_Key_Enable_Develop = 'LYNXI_ENABLE_DEVELOP'
 
-    Environ_Key_Path_Local = 'LYNXI_PATH_LOCAL'
-    Environ_Key_Path_Develop = 'LYNXI_PATH_DEVELOP'
-    Environ_Key_Path_Product = 'LYNXI_PATH_PRODUCT'
-
     Environ_Key_Path_Preset = 'LYNXI_PATH_PRESET'
     Environ_Key_Path_Toolkit = 'LYNXI_PATH_TOOLKIT'
 
@@ -75,8 +71,6 @@ class Basic(object):
 
     Environ_Key_Loadname_Plug = 'LYNXI_LOADNAME_PLUG'
     Environ_Key_Loadname_Module = 'LYNXI_LOADNAME_MODULE'
-
-    Environ_Key_Enable_Usedef = 'LYNXI_ENABLE_USEDEF'
 
     Folder_Source = 'source'
 
@@ -177,16 +171,6 @@ class Basic(object):
 
     MOD_copy = copy
 
-    method_os_environ = bscMethods.OsEnviron
-
-    MTD_os_path = bscMethods.OsDirectory
-
-    method_os_system = bscMethods.OsSystem
-
-    mtd_os_json = bscMethods.OsJson
-
-    mtd_os_file = bscMethods.OsFile
-
     CLS_dic_order = collections.OrderedDict
 
     @staticmethod
@@ -232,15 +216,15 @@ class Basic(object):
 
     @classmethod
     def isDevelop(cls):
-        return [False, True][cls.method_os_environ.get(cls.Environ_Key_Enable_Develop, 'FALSE').lower() == 'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.STR_key_environ_enable_develop, u'FALSE').lower() == u'true']
 
     @classmethod
     def isUsedef(cls):
-        return [False, True][cls.method_os_environ.get(cls.Environ_Key_Enable_Usedef, 'FALSE').lower() == 'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.STR_key_environ_enable_usedef, u'FALSE').lower() == u'true']
 
     @classmethod
     def setUsedef(cls, boolean):
-        cls.method_os_environ.set(cls.Environ_Key_Enable_Usedef, ['FALSE', 'TRUE'][boolean])
+        bscMethods.OsEnviron.set(bscConfigure.MtdBasic.STR_key_environ_enable_usedef, [u'FALSE', u'TRUE'][boolean])
 
     # noinspection PyMethodMayBeStatic
     def _jsonStrRaw(self):

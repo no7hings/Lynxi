@@ -1,5 +1,7 @@
 # coding:utf-8
 import types
+
+from LxBasic import bscCore
 #
 from LxUi.qt.qtCore import *
 #
@@ -1053,7 +1055,7 @@ class xEntryLabel(QFrame):
     def setExtendDatumDic(self, multMsgs):
         if isinstance(multMsgs, dict):
             messages = []
-            self._datumDic = bscCommands.orderedDict()
+            self._datumDic = bscCore.orderedDict()
             for index, (name, description) in multMsgs.items():
                 viewName = unicode(description)
                 if viewName in messages:
@@ -1245,7 +1247,7 @@ class xEntryLabel(QFrame):
         self._datum = None
         self._multMsg = None
         self._multDic = None
-        self._datumDic = bscCommands.orderedDict()
+        self._datumDic = bscCore.orderedDict()
         #
         self._msgTypeRecord = none
         self._defaultMsg = None
@@ -1751,7 +1753,7 @@ class QTreeWidget_(QTreeWidget):
         return lis
     #
     def itemWidgetDatumDic(self, column=(0, 1)):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         for treeItem in self.treeItems():
             for seq in range(*column):
                 itemWidget = self.itemWidget(treeItem, seq)
@@ -1986,7 +1988,7 @@ class QTreeWidget_(QTreeWidget):
         self.headerView.setMinimumHeight(24)
     @classmethod
     def getGraphDatumDic(cls, objectPaths, pathsep, progressBar=None):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         # Get Root
         def getRoot(objectPath, objectNames):
             node = objectNames[-1]
@@ -2058,7 +2060,7 @@ class QTreeWidget_(QTreeWidget):
         return lis
     #
     def getGraphExpandDic(self):
-        dic = bscCommands.orderedDict()
+        dic = bscCore.orderedDict()
         #
         treeItems = self.treeItems()
         if treeItems:
@@ -2542,7 +2544,7 @@ class xPresetItemWidget(QWidget):
                         widget.setChoose(setData)
                     elif isinstance(uiData, dict):
                         widget.setExtendDatumDic(uiData)
-                        dic = bscCommands.orderedDict()
+                        dic = bscCore.orderedDict()
                         for k, (ik, iv) in uiData.items():
                             dic[ik] = iv
                         if setData in dic.keys():

@@ -4,8 +4,6 @@ from maya import cmds
 
 from LxBasic import bscMethods
 
-from LxCore.method.basic import _methodBasic
-
 from LxUi.qt import qtMethod
 
 from LxMaya.method.basic import _maMethodBasic
@@ -74,7 +72,7 @@ class Mtd_MaUiControl(_maMethodBasic.Mtd_MaUiBasic):
         else:
             cmds.workspaceControl(
                 controlName,
-                label=cls.str_camelcase2prettify(controlName),
+                label=bscMethods.StrCamelcase.toPrettify(controlName),
                 dockToMainWindow=['right', False],
                 initialWidth=width, initialHeight=height,
                 widthProperty='free', heightProperty='free'
