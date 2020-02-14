@@ -5,11 +5,11 @@ import maya.cmds as cmds
 
 from LxBasic import bscConfigure
 #
-from LxPreset import prsVariants
+from LxPreset import prsVariants, prsMethods
 #
 from LxCore import lxConfigure
 #
-from LxCore.preset.prod import projectPr, assetPr, scenePr
+from LxCore.preset.prod import assetPr, scenePr
 #
 from LxMaya.command import maUtils
 #
@@ -115,7 +115,7 @@ def getAssetDirectoryReduceData(projectName):
                 correctFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
                 )[1]
                 dic[referenceNode] = currentFile, correctFile
     return dic
@@ -246,7 +246,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 correctFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
                 )[1]
                 #
                 if currentFile.lower() == correctFile.lower():
@@ -289,8 +289,8 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
 
 #
 def getCacheUpdateTag(timeTag):
-    string = bscConfigure.MtdBasic.STR_time_tag_default
-    isCacheUseMultLine = projectPr.getIsCacheUseMultLine()
+    string = bscConfigure.MtdBasic.DEF_time_tag_default
+    isCacheUseMultLine = prsMethods.Project.isCacheUseMultiline()
     if isCacheUseMultLine:
         string = timeTag
     return string

@@ -2,14 +2,14 @@
 import threading
 #
 from LxBasic import bscCore, bscMethods, bscObjects
+
+from LxPreset import prsMethods, prsVariants
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
 #
-from LxPreset import prsVariants
-#
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr
+from LxCore.preset.prod import assetPr, sceneryPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -21,7 +21,7 @@ from LxMaya.command import maUtils, maFile, maHier, maRender
 #
 from LxMaya.product import maAstLoadCmds, maAstUploadCmds, maScnUploadCmds
 # Project Data
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 none = ''
 
@@ -194,7 +194,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             definitionFile = assetPr.astUnitAssemblyDefinitionFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
             )[1]
             #
             if not bscMethods.OsFile.isExist(definitionFile):
@@ -210,7 +210,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
             assetClassFilters=None,
-            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Assembly
+            assetLinkFilter=lxConfigure.VAR_product_asset_link_assembly
         )
         #
         gridView.cleanItems()
@@ -913,7 +913,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 prsVariants.Util.pngExt
             )[1]
-            renderer = projectPr.getProjectMayaRenderer(projectName)
+            renderer = prsMethods.Project.mayaRenderer(projectName)
             #
             maRender.setRenderSnapshot(
                 root, renderPreview, renderer,

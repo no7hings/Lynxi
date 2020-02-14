@@ -2,13 +2,13 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscCore,bscObjects
-#
-from LxCore import lxScheme
+from LxBasic import bscObjects
+
+from LxScheme import shmOutput
 #
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, sceneryPr
+from LxCore.preset.prod import sceneryPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -18,13 +18,13 @@ from LxMaya.product.data import datScenery
 #
 from LxMaya.interface.ifCommands import maAstTreeViewCmds
 #
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scenery Production'
-_version = lxScheme.Shm_Resource().version
+_version = shmOutput.Resource().version
 
 
 #
@@ -38,7 +38,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         self.setNameText(_title)
         self.setIndexText(_version)
         # Scenery Information
-        self.projectName = projectPr.getMayaProjectName()
+        self.projectName = prsMethods.Project.mayaActiveName()
         self.sceneryIndex = None
         self.sceneryCategory = None
         self.sceneryName = None

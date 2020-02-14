@@ -2,10 +2,10 @@
 from itertools import product
 #
 from LxBasic import bscCore, bscMethods, bscObjects
+
+from LxPreset import prsMethods
 #
 from LxCore.config import appCfg
-#
-from LxCore.preset.prod import projectPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -24,7 +24,7 @@ none = ''
 
 #
 class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
-    projectName = projectPr.getMayaProjectName()
+    projectName = prsMethods.Project.mayaActiveName()
     #
     UnitTitle = 'Attribute Manager'
     UnitWidth = 800
@@ -513,7 +513,7 @@ class IfNamespaceManagerUnit(
     _qtIfAbcWidget.IfToolUnitBasic,
     _maUiMethod.Mtd_MaQtView
 ):
-    projectName = projectPr.getMayaProjectName()
+    projectName = prsMethods.Project.mayaActiveName()
     UnitTitle = 'Namespace Manager'
     panelWidth = 800
     panelHeight = 800
@@ -922,7 +922,7 @@ class IfNamespaceManagerUnit(
 
 #
 class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
-    projectName = projectPr.getMayaProjectName()
+    projectName = prsMethods.Project.mayaActiveName()
     #
     UnitTitle = 'Directory Manager'
     panelWidth = 800

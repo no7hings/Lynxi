@@ -10,7 +10,7 @@ from LxCore.config import appCfg
 #
 from LxPreset import prsVariants
 #
-from LxCore.preset.prod import projectPr, assetPr
+from LxCore.preset.prod import assetPr
 #
 from LxDatabase import dtbCore
 #
@@ -851,7 +851,7 @@ def getRedshiftAovNodesData():
 
 # noinspection PyUnresolvedReferences
 def getArnoldOption():
-    if projectPr.isMayaUsedArnoldRenderer():
+    if prsMethods.Project.isMayaUsedArnoldRenderer():
         try:
             import mtoa.core as core
             #

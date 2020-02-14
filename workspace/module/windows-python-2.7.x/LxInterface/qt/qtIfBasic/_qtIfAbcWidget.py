@@ -1,13 +1,13 @@
 # coding:utf-8
 from LxBasic import bscConfigure, bscMethods
 
+from LxScheme import shmOutput
+
 from LxPreset import prsMethods
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxInterface.qt import qtIfAbstract
-
-from LxCore import lxScheme
 #
 none = ''
 
@@ -137,7 +137,7 @@ class QtIfAbc_Unit_(
         self._userTagFilterEnableDic = {}
         #
         if self.UnitName is not None:
-            self._userTagFilterFile = lxScheme.UserPreset().tagFilterConfigFile(self.UnitName)
+            self._userTagFilterFile = shmOutput.UserPreset().tagFilterConfigFile(self.UnitName)
 
             if bscMethods.OsFile.isExist(self._userTagFilterFile):
                 self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
@@ -296,7 +296,7 @@ class QtIfAbc_Unit(
         self._userTagFilterEnableDic = {}
         #
         if self.UnitName is not None:
-            self._userTagFilterFile = lxScheme.UserPreset().tagFilterConfigFile(self.UnitName)
+            self._userTagFilterFile = shmOutput.UserPreset().tagFilterConfigFile(self.UnitName)
             if bscMethods.OsFile.isExist(self._userTagFilterFile):
                 self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
     #

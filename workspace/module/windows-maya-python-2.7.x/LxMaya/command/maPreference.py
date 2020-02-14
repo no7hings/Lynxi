@@ -1,11 +1,9 @@
 # coding=utf-8
 from LxCore import lxConfigure
 #
-from LxCore.config import appCfg
-#
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr
+from LxCore.config import appCfg
 #
 from LxMaya.command import maUtils
 #
@@ -23,7 +21,7 @@ def getMayaTimeUnit(timeUnit):
 
 #
 def setAnimationTimeUnit(projectName=none):
-    timeUnit = projectPr.getProjectMayaTimeUnit(projectName=projectName)
+    timeUnit = prsMethods.Project.mayaTimeUnit(projectName=projectName)
     if not timeUnit == lxConfigure.LynxiValue_Unspecified:
         defineUnit = getMayaTimeUnit(timeUnit)
         currentUnit = maUtils.getTimeUnit()

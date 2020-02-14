@@ -1,11 +1,13 @@
 # coding:utf-8
 from LxBasic import bscConfigure, bscCore, bscObjects, bscMethods
 
+from LxScheme import shmOutput
+
 from LxPreset import prsVariants, prsMethods
 
-from LxCore import lxConfigure, lxScheme
+from LxCore import lxConfigure
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
+from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore, qtCommands
 #
@@ -15,7 +17,7 @@ from LxInterface.qt._qtIfModels import ifUnitModel
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxScheme.Root().basic.server
+serverBasicPath = shmOutput.Root().basic.server
 #
 none = ''
 
@@ -172,7 +174,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             osJsonFile = value
             #
             
-            user = bscMethods.OsJson.getValue(osJsonFile, lxConfigure.STR_key_info_username)
+            user = bscMethods.OsJson.getValue(osJsonFile, lxConfigure.DEF_key_info_username)
             personnel = prsMethods.Personnel.userChnname(user)
             #
             treeItem = qtWidgets.QtTreeviewItem()
@@ -477,12 +479,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 else:
                     treeItem.setFilterColor((71, 71, 71, 255))
             # Rig
-            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Rig)
+            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.VAR_product_asset_link_rig)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setAssetUnitSubBranch(s, k, v)
             # Assembly
-            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Assembly)
+            setDic = assetPr.getUiAssetMultMsgDic(projectName, assetLinkFilter=lxConfigure.VAR_product_asset_link_assembly)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setAssemblyUnitSubBranch(s, k, v)
@@ -494,14 +496,14 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 sceneryName, sceneryViewName = value
                 sceneryVariant = prsVariants.Util.astDefaultVariant
             #
-            setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=lxConfigure.LynxiProduct_Scenery_Link_Scenery)
+            setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=lxConfigure.VAR_product_scenery_link_scenery)
             if setDic:
                 for s, (k, v) in enumerate(setDic.items()):
                     setSceneryUnitBranch(s, k, v)
         #
         treeView = self._rightTreeView
         #
-        projectName = projectPr.getMayaProjectName()
+        projectName = prsMethods.Project.mayaActiveName()
         #
         classItemDic = self._addClassItem(treeView)
         #
@@ -528,8 +530,8 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
-                            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
+                            lxConfigure.DEF_key_info_time: bscMethods.OsTimestamp.active(),
+                            lxConfigure.DEF_key_info_username: bscMethods.OsSystem.username(),
                             #
                             prsMethods.Asset.moduleName(): self._assetDatumLis
                         }
@@ -556,8 +558,8 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     bscMethods.OsJson.setValue(
                         self._serverFile,
                         {
-                            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
-                            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
+                            lxConfigure.DEF_key_info_time: bscMethods.OsTimestamp.active(),
+                            lxConfigure.DEF_key_info_username: bscMethods.OsSystem.username(),
                             #
                             lxConfigure.Lynxi_Key_Info_StartFrame: startFrame,
                             lxConfigure.Lynxi_Key_Info_EndFrame: endFrame
@@ -773,7 +775,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
                     currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-                    if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                    if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
             #
@@ -803,7 +805,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     #
                     infoFile = bscMethods.OsFile.infoJsonName(cacheFile)
                     if bscMethods.OsFile.isExist(infoFile):
-                        osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.STR_key_info_username)
+                        osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.DEF_key_info_username)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                             cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
@@ -850,7 +852,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 infoFile = bscMethods.OsFile.infoJsonName(cacheFile_)
                 if bscMethods.OsFile.isExist(infoFile):
-                    osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.STR_key_info_username)
+                    osUser = bscMethods.OsJson.getValue(infoFile, lxConfigure.DEF_key_info_username)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                         cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
@@ -901,7 +903,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             for seq, (cacheSceneStage, cacheFiles) in enumerate(cacheDic.items()):
                 for cacheFile in cacheFiles:
                     currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-                    if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                    if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                         timeTags.append((currentTimeTag, cacheSceneStage))
                         cacheFileDic[(currentTimeTag, cacheSceneStage)] = cacheFile
             #
@@ -978,7 +980,7 @@ class IfProductUnitRegisterUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def setConnectObject(self, classObject):
         self._connectObject = classObject
         #
-        self._projectName = self.connectObject().getProjectName()
+        self._projectName = self.connectObject().activeName()
         #
         self._presetViewModel = ifUnitModel.IfProductPresetViewModel(
             self, self._presetView, self._productModuleString
@@ -1028,19 +1030,19 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     w = 80
     dicMain = {
         0: 'Date',
-        lxConfigure.STR_key_info_time: [w, 1, 0, 1, 4, ('Update', u'日期')],
+        lxConfigure.DEF_key_info_time: [w, 1, 0, 1, 4, ('Update', u'日期')],
         2: 'Information(s)',
-        lxConfigure.STR_key_info_username: [w, 3, 0, 1, 4, ('Artist', u'人员')],
-        lxConfigure.STR_key_info_hostname: [w, 4, 0, 1, 4, ('PC', u'计算机')],
-        lxConfigure.STR_key_info_host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
+        lxConfigure.DEF_key_info_username: [w, 3, 0, 1, 4, ('Artist', u'人员')],
+        lxConfigure.DEF_key_info_hostname: [w, 4, 0, 1, 4, ('PC', u'计算机')],
+        lxConfigure.DEF_key_info_host: [w, 5, 0, 1, 4, ('IP', u'IP地址')],
         lxConfigure.Lynxi_Key_Info_Stage: [w, 6, 0, 1, 4, ('Stage', u'阶段')],
-        lxConfigure.STR_key_info_note: [w, 7, 0, 1, 4, ('Note', u'备注')],
+        lxConfigure.DEF_key_info_note: [w, 7, 0, 1, 4, ('Note', u'备注')],
         8: 'Action(s)',
         'sourceFile': [0, 9, 0, 1, 2, None], 'loadSource': [0, 9, 2, 1, 2, 'Load Source File', 'svg_basic@svg#fileOpen'],
         'productFile': [0, 10, 0, 1, 2, None], 'loadProduct': [0, 10, 2, 1, 2, 'Load Product File', 'svg_basic@svg#fileOpen']
     }
     #
-    keywords = [lxConfigure.STR_key_info_username, lxConfigure.STR_key_info_hostname, lxConfigure.STR_key_info_host, lxConfigure.STR_key_info_note]
+    keywords = [lxConfigure.DEF_key_info_username, lxConfigure.DEF_key_info_hostname, lxConfigure.DEF_key_info_host, lxConfigure.DEF_key_info_note]
     #
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit, self).__init__(*args, **kwargs)
@@ -1061,7 +1063,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         inData = self.dicMain
         #
         self._timeChooseLabel = qtWidgets.QtEnterlabel()
-        toolBox.setInfo(inData, lxConfigure.STR_key_info_time, self._timeChooseLabel)
+        toolBox.setInfo(inData, lxConfigure.DEF_key_info_time, self._timeChooseLabel)
         self._timeChooseLabel.setChooseEnable(True)
         self._timeChooseLabel.setIconKeyword('svg_basic@svg#history')
         #
@@ -1071,9 +1073,9 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         self._uiInfoItemDic = {}
         for k, v in inData.items():
             if k in self.keywords:
-                if k == lxConfigure.STR_key_info_note:
+                if k == lxConfigure.DEF_key_info_note:
                     infoLabel = qtWidgets.QtEnterbox()
-                    self._uiInfoItemDic[lxConfigure.STR_key_info_note] = infoLabel
+                    self._uiInfoItemDic[lxConfigure.DEF_key_info_note] = infoLabel
                     self._uiInfoItemDic[lxConfigure.Lynxi_Key_Info_Notes] = infoLabel
                 else:
                     infoLabel = qtWidgets.QtEnterlabel()
@@ -1117,7 +1119,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     infoLabel = v
                     if k in infoDatumDic:
                         info = infoDatumDic[k]
-                        if k == lxConfigure.STR_key_info_username:
+                        if k == lxConfigure.DEF_key_info_username:
                             cnName = prsMethods.Personnel.userChnname(info)
                             if cnName:
                                 viewInfo = u'{} ( {} )'.format(cnName, info)
@@ -1176,7 +1178,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             timeTagLis = []
             if sourceFileDic:
                 for timeTag, sourceFile in sourceFileDic.items():
-                    if not timeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+                    if not timeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                         showUpdate = bscMethods.OsTimetag.toChnPrettify(timeTag)
                         if timeTag in productRecordDic:
                             timeTagLis.append(showUpdate)
@@ -1300,22 +1302,22 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         #
                         from LxInterface.qt.ifWidgets import ifProductWindow
                         #
-                        from LxCore import lxScheme
+                        from LxCore import shmOutput
                         #
                         mayaVersion = bscMethods.MayaApp.version()
                         #
-                        sourceProjectName = projectPr.getMayaProjectName()
+                        sourceProjectName = prsMethods.Project.mayaActiveName()
                         targetProjectName = projectName
                         #
-                        projectPr.setLocalMayaProjectPreset(targetProjectName, mayaVersion)
-                        projectPr.setMayaProjectEnviron(targetProjectName)
-                        isCloseMaya = projectPr.getIsCloseMaya(sourceProjectName, targetProjectName)
+                        prsMethods.Project._setMayaLocalConfig(targetProjectName, mayaVersion)
+                        prsMethods.Project._setMayaProjectEnviron(targetProjectName)
+                        isCloseMaya = prsMethods.Project.isMayaPlugPresetSame(sourceProjectName, targetProjectName)
                         # Switch Pipeline
                         appSetup.setLynxiSetup(
                             showProgress=True, isCloseMaya=isCloseMaya
                         )
                         # Update Method
-                        lxScheme.Shm_Resource().loadActive(force=True)
+                        shmOutput.Resource().loadActive(force=True)
                         # Switch Panel
                         w = ifProductWindow.QtIf_ToolFloatWindow()
                         w.windowShow()
@@ -1379,11 +1381,11 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         gridView = self._centralGridview
         #
         if bscMethods.MayaApp.isActive():
-            projectNameData = projectPr.getMayaProjectNameDic()
-            currentProjectName = projectPr.getMayaProjectName()
+            projectNameData = prsMethods.Project.mayaDatumDict()
+            currentProjectName = prsMethods.Project.mayaActiveName()
         else:
-            projectNameData = projectPr.getProjectNameDic()
-            currentProjectName = projectPr.getProjectName()
+            projectNameData = prsMethods.Project.schemeDatumDic()
+            currentProjectName = prsMethods.Project.activeName()
         #
         setMain()
         #
@@ -1403,7 +1405,7 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             )
 
         def setVariantPresetBranch(parentItem):
-            data = projectPr.getProjectPresetVariantDic()
+            data = prsMethods.Project.variantPresetDict()
             if data:
                 for k, v in data.items():
                     mainPresetItem = qtWidgets.QtTreeviewItem()
@@ -1450,8 +1452,8 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                                 branchPresetItem.setNameText('{} = {}'.format(jk, jv))
             #
             if bscMethods.MayaApp.isActive():
-                setSubBranch('Maya Tool', projectPr.getProjectMayaToolDataDic())
-                setSubBranch('Maya Script', projectPr.getProjectMayaScriptDatumDic())
+                setSubBranch('Maya Tool', prsMethods.Project.mayaToolDatumDict())
+                setSubBranch('Maya Script', prsMethods.Project.mayaScriptDatumDict())
             return 3
         #
         def setOsEnvironBranch(parentItem):
@@ -1514,22 +1516,22 @@ class QtIf_ProjectOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 from LxInterface.qt.ifWidgets import ifProductWindow
                 #
-                from LxCore import lxScheme
+                from LxCore import shmOutput
                 #
                 mayaVersion = bscMethods.MayaApp.version()
                 #
-                sourceProjectName = projectPr.getMayaProjectName()
+                sourceProjectName = prsMethods.Project.mayaActiveName()
                 targetProjectName = targetProjectItem.name()
                 #
-                projectPr.setLocalMayaProjectPreset(targetProjectName, mayaVersion)
-                projectPr.setMayaProjectEnviron(targetProjectName)
-                isCloseMaya = projectPr.getIsCloseMaya(sourceProjectName, targetProjectName)
+                prsMethods.Project._setMayaLocalConfig(targetProjectName, mayaVersion)
+                prsMethods.Project._setMayaProjectEnviron(targetProjectName)
+                isCloseMaya = prsMethods.Project.isMayaPlugPresetSame(sourceProjectName, targetProjectName)
                 # Switch Pipeline
                 appSetup.setLynxiSetup(
                     showProgress=True, isCloseMaya=isCloseMaya
                 )
                 # Update Method
-                lxScheme.Shm_Resource().loadActive(force=True)
+                shmOutput.Resource().loadActive(force=True)
                 # Switch Panel
                 w = ifProductWindow.QtIf_ToolFloatWindow()
                 w.windowShow()
@@ -1779,8 +1781,8 @@ class IfPersonnelOverviewUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         chName = userDataDic[lxConfigure.LynxiUserCnNameKey]
                         enName = userDataDic[lxConfigure.LynxiUserEnNameKey]
                         mail = userDataDic[lxConfigure.LynxiUserMailKey]
-                        team = userDataDic[lxConfigure.Lynxi_Key_Preset_Team]
-                        post = userDataDic[lxConfigure.Lynxi_Key_Preset_Post]
+                        team = userDataDic[lxConfigure.DEF_preset_key_Team]
+                        post = userDataDic[lxConfigure.DEF_preset_key_Post]
                         #
                         treeItem = qtWidgets.QtTreeviewItem()
                         treeItem.setName(u'{} ( {} )'.format(chName, userName))
@@ -1854,7 +1856,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         layout.addWidget(self._centralScrollBox)
     #
     def _initMethod(self):
-        currentProjectName = projectPr.getAppProjectName()
+        currentProjectName = prsMethods.Project.appActiveName()
         self._toolGroupDic = {}
         self._toolFilterDic = {}
         #
@@ -1863,16 +1865,16 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         self._initTagFilterVar()
         #
         if bscMethods.MayaApp.isActive():
-            buildData = projectPr.getProjectMayaToolDataDic()
+            buildData = prsMethods.Project.mayaToolDatumDict()
             for seq, (k, v) in enumerate(buildData.items()):
                 mainToolSearchDic = {}
                 subToolSearchDic = {}
                 #
                 showExplain = v['nameText']
                 pipeToolPath = v[lxConfigure.LynxiServerPathKey]
-                mainToolDatumLis = projectPr.getProjectMayaToolSubDataDic(pipeToolPath)
+                mainToolDatumLis = prsMethods.Project._getProjectMayaToolDatumDictByDirectory(pipeToolPath)
                 utilsToolPath = v[lxConfigure.LynxiUtilitiesPathKey]
-                subToolDatumLis = projectPr.getProjectMayaToolSubDataDic(utilsToolPath)
+                subToolDatumLis = prsMethods.Project._getProjectMayaToolDatumDictByDirectory(utilsToolPath)
                 #
                 projectCount, utilitiesCount = len(mainToolDatumLis), len(subToolDatumLis)
                 #

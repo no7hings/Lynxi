@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxBasic import bscMethods
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 
 
 #
@@ -16,7 +16,7 @@ def getMayaAppPresetVariantDic():
                     lis.append(nodeType)
         return lis
     #
-    mayaIconPath = lxScheme.Directory().icon.server + '/' + 'maya'
+    mayaIconPath = shmOutput.Directory().icon.server + '/' + 'maya'
     dic = {
         'mayaApp':
             {'maIconNodeTypes': tuple(getMayaNodeIcons(mayaIconPath))}

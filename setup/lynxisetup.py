@@ -11,34 +11,34 @@ import time
 
 
 class Basic(object):
-    STR_key_environ_path_develop = 'LYNXI_PATH_DEVELOP'
-    path_default_develop = 'e:/myworkspace/td/lynxi'
+    DEF_key_environ_path_develop = 'LYNXI_PATH_DEVELOP'
+    VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
 
-    STR_key_environ_path_product = 'LYNXI_PATH_PRODUCT'
-    path_default_product = 'e:/myworkspace/td/lynxi'
+    DEF_key_environ_path_product = 'LYNXI_PATH_PRODUCT'
+    VAR_path_default_product = 'e:/myworkspace/td/lynxi'
 
-    environ_key_path_local = 'LYNXI_PATH_LOCAL'
-    path_default_local = 'c:/.lynxi'
+    DEF_key_environ_path_local = 'LYNXI_PATH_LOCAL'
+    VAR_path_default_local = 'c:/.lynxi'
 
-    environ_key_path_toolkit = 'LYNXI_PATH_TOOLKIT'
+    DEF_key_environ_path_toolkit = 'LYNXI_PATH_TOOLKIT'
 
     environ_key_name_scheme = 'LYNXI_NAME_SCHEME'
     environ_key_version_scheme = 'LYNXI_VERSION_SCHEME'
     environ_key_file_scheme = 'LYNXI_FILE_SCHEME'
     environ_key_config_file_scheme = 'LYNXI_CONFIG_FILE_SCHEME'
 
-    STR_key_environ_enable_develop = 'LYNXI_ENABLE_DEVELOP'
-    environ_key_enable_trace = 'LYNXI_ENABLE_TRACE'
+    DEF_key_environ_enable_develop = 'LYNXI_ENABLE_DEVELOP'
+    DEF_key_environ_enable_trace = 'LYNXI_ENABLE_TRACE'
 
     enable_default_develop = 'FALSE'
 
     @classmethod
     def _isDevelop(cls):
-        return [False, True][os.environ.get(cls.STR_key_environ_enable_develop, cls.enable_default_develop).lower() == 'true']
+        return [False, True][os.environ.get(cls.DEF_key_environ_enable_develop, cls.enable_default_develop).lower() == 'true']
 
     @classmethod
     def isTraceEnable(cls):
-        return [False, True][os.environ.get(cls.environ_key_enable_trace, cls.enable_default_develop).lower() == 'true']
+        return [False, True][os.environ.get(cls.DEF_key_environ_enable_trace, cls.enable_default_develop).lower() == 'true']
 
 
 class Method(object):
@@ -160,22 +160,22 @@ class Root(Basic):
     @property
     def develop(self):
         return os.environ.get(
-            self.STR_key_environ_path_develop,
-            self.path_default_develop
+            self.DEF_key_environ_path_develop,
+            self.VAR_path_default_develop
         ).replace('\\', '/')
 
     @property
     def product(self):
         return os.environ.get(
-            self.STR_key_environ_path_product,
-            self.path_default_product
+            self.DEF_key_environ_path_product,
+            self.VAR_path_default_product
         ).replace('\\', '/')
 
     @property
     def local(self):
         return os.environ.get(
-            self.environ_key_path_local,
-            self.path_default_local
+            self.DEF_key_environ_path_local,
+            self.VAR_path_default_local
         ).replace('\\', '/')
 
 

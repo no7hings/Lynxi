@@ -5,13 +5,15 @@ import maya.cmds as cmds
 
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 
 from LxCore.config import appCfg, sceneCfg
 
 from LxPreset import prsVariants, prsMethods
 
-from LxCore.preset.prod import projectPr, assetPr, scenePr
+from LxCore.preset.prod import assetPr, scenePr
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
@@ -34,7 +36,7 @@ from LxMaInterface import maIfMethods
 from LxDeadline import ddlCommands
 
 # Project Data
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 # File Label
 astLayoutRigFileLabel = prsVariants.Util.astLayoutRigFileLabel
 astAnimationRigFileLabel = prsVariants.Util.astAnimationRigFileLabel
@@ -150,7 +152,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                     fileString_ = assetPr.astUnitProductFile(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
                     )[1]
 
                     bscMethods.OsFile.openDirectory(fileString_)
@@ -196,7 +198,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             productFile = assetPr.astUnitProductFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
             )[1]
             mtimestamp = bscMethods.OsFile.mtimestamp(productFile)
             exists = mtimestamp is not None
@@ -222,7 +224,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
         #
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
-            assetLinkFilter=lxConfigure.LynxiProduct_Asset_Link_Rig
+            assetLinkFilter=lxConfigure.VAR_product_asset_link_rig
         )
         #
         gridView.cleanItems()
@@ -604,13 +606,13 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 serverCameraFile = scenePr.scUnitCameraProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_layout
                 )[1]
             #
             boolean = bscMethods.OsFile.isExist(serverCameraFile)
@@ -820,13 +822,13 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 serverCameraFile = scenePr.scUnitCameraProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_layout
                 )[1]
             else:
                 serverCameraFile = scenePr.scUnitCameraFbxFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+                    sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_layout
                 )[1]
             if bscMethods.OsFile.isExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
@@ -1044,7 +1046,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     #
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxConfigure.VAR_product_asset_link_model
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -1658,10 +1660,10 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneStage = self._connectObject.sceneStage
         if sceneIndex:
             # Renderer
-            renderer = projectPr.getProjectMayaRenderer(projectName)
+            renderer = prsMethods.Project.mayaRenderer(projectName)
             self._scRendererLabel.setDefaultDatum(maRender.MaRendererDic[renderer])
             # Time Unit
-            timeUnit = projectPr.getProjectMayaTimeUnit(projectName)
+            timeUnit = prsMethods.Project.mayaTimeUnit(projectName)
             self._scTimeUnitLabel.setDefaultDatum(maPreference.getMayaTimeUnit(timeUnit))
             # Image Path
             imagePrefix = maRender.getImagePrefix()
@@ -2128,7 +2130,7 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maRender.setRenderPreMelCommand(data)
         #
         self._melCommandFile = '{}/{}/maya.mel/deadline.mel'.format(
-            lxScheme.UserPreset().renderCommandDirectory, self.projectName
+            shmOutput.UserPreset().renderCommandDirectory, self.projectName
         )
         #
         inData = self.dicMelCommand
@@ -3303,14 +3305,14 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 rigAssetFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
                 )[1]
             else:
                 showLabel = astAnimationRigFileLabel
                 rigAssetFile = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
                 )[1]
             #
             if os.path.isfile(rigAssetFile):

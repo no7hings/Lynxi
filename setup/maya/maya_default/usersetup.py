@@ -19,10 +19,10 @@ class Setup(object):
         # Environ
         method = lynxisetup.Method
         method.setEnviron(
-            lynxisetup.Basic.STR_key_environ_path_product, scheme_basic_path
+            lynxisetup.Basic.DEF_key_environ_path_product, scheme_basic_path
         )
         method.setEnviron(
-            lynxisetup.Basic.environ_key_path_toolkit, scheme_toolkit_path
+            lynxisetup.Basic.DEF_key_environ_path_toolkit, scheme_toolkit_path
         )
         # Scheme
         scheme = lynxisetup.WindowsMayaPython27Scheme(scheme_name, scheme_version)

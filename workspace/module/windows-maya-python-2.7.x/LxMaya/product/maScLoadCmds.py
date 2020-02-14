@@ -50,7 +50,7 @@ def scUnitSceneCreateMainCmd(
     elif scenePr.isAnimationLinkName(sceneStage):
         serverProductFile = scenePr.sceneUnitProductFile(
             lxConfigure.LynxiRootIndex_Server,
-            projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_layout
+            projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_layout
         )[1]
         localSourceFile = scenePr.sceneUnitSourceFile(
             lxConfigure.LynxiRootIndex_Local,
@@ -754,7 +754,7 @@ def scUnitAstModelProductLoadCmd(
     #
     maPreference.setAnimationTimeUnit(projectName)
     #
-    assetStage = lxConfigure.LynxiProduct_Asset_Link_Model
+    assetStage = lxConfigure.VAR_product_asset_link_model
     #
     astModelProductFile = getProductFile()
     if astModelProductFile is not None:
@@ -976,7 +976,7 @@ def scUnitAstCfxProductLoadCmd(
     
     maPreference.setAnimationTimeUnit(projectName)
     #
-    assetStage = lxConfigure.LynxiProduct_Asset_Link_Groom
+    assetStage = lxConfigure.VAR_product_asset_link_groom
     #
     astCfxProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
@@ -1053,7 +1053,7 @@ def scUnitAstSolverProductLoadCmd(
     astSolverProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_solver
     )[1]
     if bscMethods.OsFile.isExist(astSolverProductFile):
         scAstModelNamespace = scenePr.scAstModelNamespace(sceneName, sceneVariant, assetName, number)
@@ -1078,7 +1078,7 @@ def scUnitAstSolverProductLoadCmd(
             astSolverExtraFile = assetPr.astUnitExtraFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_solver
             )[1]
             if bscMethods.OsFile.isExist(astSolverExtraFile):
                 extraDic = bscMethods.OsJson.read(astSolverExtraFile)

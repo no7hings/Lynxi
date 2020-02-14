@@ -7,8 +7,8 @@ astGeomShapeKey = 'geometryShape'
 astMapKey = 'map'
 astMapShapeKey = 'mapShape'
 #
-LynxiProduct_Asset_Class_Character = 'character'
-LynxiProduct_Asset_Class_Prop = 'prop'
+VAR_product_asset_category_character = 'character'
+VAR_product_asset_category_prop = 'prop'
 #
 none = ''
 

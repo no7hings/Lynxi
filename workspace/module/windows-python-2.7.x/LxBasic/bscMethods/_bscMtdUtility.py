@@ -2,7 +2,7 @@
 from LxBasic import bscCore
 
 
-class OsLog(bscCore.BscMtdBasic):
+class OsLog(bscCore.Mtd_BscBasic):
     @classmethod
     def _setOsLogAdd(cls, text, logFileString):
         cls._setOsFileDirectoryCreate(logFileString)

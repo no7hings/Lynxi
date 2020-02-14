@@ -94,7 +94,7 @@ class Val_Visibility(mtlObjAbstract.Abc_Value):
 
     value_size_pattern = 1
 
-    STR_mtlx_key_attribute = 'visible'
+    DEF_mtlx_key_attribute = 'visible'
 
     def __init__(self, *args):
         """

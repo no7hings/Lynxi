@@ -216,15 +216,15 @@ class Basic(object):
 
     @classmethod
     def isDevelop(cls):
-        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.STR_key_environ_enable_develop, u'FALSE').lower() == u'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.DEF_key_environ_enable_develop, u'FALSE').lower() == u'true']
 
     @classmethod
     def isUsedef(cls):
-        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.STR_key_environ_enable_usedef, u'FALSE').lower() == u'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.DEF_key_environ_enable_usedef, u'FALSE').lower() == u'true']
 
     @classmethod
     def setUsedef(cls, boolean):
-        bscMethods.OsEnviron.set(bscConfigure.MtdBasic.STR_key_environ_enable_usedef, [u'FALSE', u'TRUE'][boolean])
+        bscMethods.OsEnviron.set(bscConfigure.MtdBasic.DEF_key_environ_enable_usedef, [u'FALSE', u'TRUE'][boolean])
 
     # noinspection PyMethodMayBeStatic
     def _jsonStrRaw(self):

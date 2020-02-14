@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 #
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr, scenePr
+from LxCore.preset.prod import assetPr, scenePr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -15,7 +15,7 @@ from LxMaya.command import maUtils
 #
 from LxMaya.product.data import datScene, datAnim
 #
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 # Utilities Label
 infoNonExistsLabel = prsVariants.Util.infoNonExistsLabel
 astDefaultVersion = prsVariants.Util.astDefaultVersion
@@ -26,7 +26,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Scene Production'
-_version = lxScheme.Shm_Resource().version
+_version = shmOutput.Resource().version
 
 
 #
@@ -40,7 +40,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         #
         self.setDefaultSize(self.widthSet, 875)
         # Animation Information
-        self.projectName = projectPr.getMayaProjectName()
+        self.projectName = prsMethods.Project.mayaActiveName()
         self.episode = None
         self.sequence = None
         self.shot = None

@@ -255,7 +255,7 @@ class IfProductPresetViewModel(object):
         unitItem.setIndexText(unitNumber)
     #
     def updateUnitSet(self, unitItem, overrideSetDatum=None):
-        projectName = self.widget().connectObject().getProjectName()
+        projectName = self.widget().connectObject().activeName()
         dbUnitId = unitItem.presetIndex()
         unitNumber = unitItem.presetNumber()
         unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetUiDatum(
@@ -538,7 +538,7 @@ class IfProductUnitRegisterModel(object):
         unitItem.setIndexText(unitNumber)
     #
     def updateUnitSet(self, unitItem, overrideSetDatum=None):
-        projectName = self.widget().connectObject().getProjectName()
+        projectName = self.widget().connectObject().activeName()
         dbUnitId = unitItem.presetIndex()
         unitNumber = unitItem.presetNumber()
         unitSetDatum = dtbMethods.DtbProductUnit.getDbProductUnitSetUiDatum(

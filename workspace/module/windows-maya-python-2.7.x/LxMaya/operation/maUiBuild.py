@@ -13,7 +13,7 @@ class MaUiMenuBuild(_maUiMethod.Mtd_MaUiMenu):
 #
 class MaToolKitBuild(_maUiMethod.Mtd_MaUiControl):
     def __init__(self):
-        self._controlName = bscConfigure.MtdBasic.STR_ui_name_toolkit
+        self._controlName = bscConfigure.MtdBasic.DEF_ui_name_toolkit
     #
     def currentControl(self):
         return self._toQtWidget(self._controlName)

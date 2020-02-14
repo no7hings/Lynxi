@@ -59,12 +59,12 @@ def setObjectTransparentRefresh(objectStrings):
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, prsConfigure.PrsBasic.LynxiAttrName_Object_RenderVisible, attrDatum
+            objectPath, prsConfigure.PrsProduct.VAR_product_attribute_object_renderable, attrDatum
         )
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'aiOpaque')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, prsConfigure.PrsBasic.LynxiAttrName_Object_Transparent, not attrDatum
+            objectPath, prsConfigure.PrsProduct.VAR_product_attribute_object_transparent, not attrDatum
         )
 
 

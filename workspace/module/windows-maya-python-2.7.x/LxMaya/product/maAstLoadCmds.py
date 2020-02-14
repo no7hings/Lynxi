@@ -5,7 +5,7 @@ from LxCore import lxConfigure
 
 from LxPreset import prsVariants, prsMethods
 
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr
+from LxCore.preset.prod import assetPr, sceneryPr
 
 from LxDatabase import dbGet
 
@@ -184,7 +184,7 @@ def astUnitModelMaterialLoadCmd(
     assetSubIndexKey = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     isDbExists = dbGet.isDbAstMaterialExists(assetSubIndexKey)
     if isDbExists:
-        renderer = projectPr.getProjectMayaRenderer(projectName)
+        renderer = prsMethods.Project.mayaRenderer(projectName)
         maRender.setLoadRenderer(renderer)
         #
         geometryObjectIndexLis = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
@@ -278,7 +278,7 @@ def astUnitLoadModelTexture(
     # Debug ( Must Back of Rename Scene)
     textureNodeLis = maShdr.getTextureNodeLisByObject(shaderObjectLis)
     #
-    renderer = projectPr.getProjectMayaRenderer(projectName)
+    renderer = prsMethods.Project.mayaRenderer(projectName)
     #
     withTx = maTxtr.getTxTextureIsCollection(renderer)
     #
@@ -601,7 +601,7 @@ def astUnitLoadCfxMaterialSub(
 ):
     logWin_ = bscObjects.If_Log()
     
-    renderer = projectPr.getProjectMayaRenderer(projectName)
+    renderer = prsMethods.Project.mayaRenderer(projectName)
     #
     cfxIndexKey = dbGet.getDbCfxIndex(assetIndex, assetVariant)
     #
@@ -1028,7 +1028,7 @@ def astUnitAssemblyLoadForScenery(
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
     )[1]
     if bscMethods.OsFile.isExist(serverAstUnitAsbDefinitionFile):
         assemblyAnnotation = assetPr.getAssetViewInfo(assetIndex, assetCategory, assetVariant)
@@ -1056,7 +1056,7 @@ def astUnitRigLoadForAnimationCmd(
     serverRigProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
     )[1]
     if not bscMethods.OsFile.isExist(serverRigProductFile):
         maDbAstCmds.dbAstCopyRigProductTo(assetIndex, serverRigProductFile)
@@ -1081,7 +1081,7 @@ def astAssetSolverLoadForAnimation(
     
     serverSolverProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+        projectName, assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_solver
     )[1]
     timeTag = bscMethods.OsTimetag.active()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag

@@ -1,28 +1,28 @@
 # coding=utf-8
 import math
-
-from LxBasic import bscCore, bscMethods
 #
-from LxCore import lxConfigure
+from fractions import Fraction
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # noinspection PyUnresolvedReferences
 import maya.OpenMaya as OpenMaya
 # noinspection PyUnresolvedReferences
 import maya.OpenMayaUI as OpenMayaUI
-#
-from fractions import Fraction
+
+from LxBasic import bscCore, bscMethods
 #
 from LxPreset import prsMethods
 #
-from LxCore.preset.prod import projectPr, scenePr
+from LxCore import lxConfigure
+#
+from LxCore.preset.prod import scenePr
 #
 from LxMaya.command import maUtils, maRender
 #
 from LxMaya.product.data import datScene
 
 #
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 timeConfig = dict(
     game='15 FPS',

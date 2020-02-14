@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore.preset.prod import projectPr
+from LxPreset import prsMethods
 #
 none = ''
 
@@ -8,10 +8,10 @@ none = ''
 def getAutoLoadMayaPlugs():
     lis = []
     # Common Plugs
-    commonPlugLis = projectPr.getProjectMayaCommonPlugLoadNames()
+    commonPlugLis = prsMethods.Project.mayaCommonPlugLoadNames()
     lis.extend(commonPlugLis)
     # Custom Plugs
-    customPlugLis = projectPr.getProjectMayaCustomPlugLoadNames()
+    customPlugLis = prsMethods.Project.mayaCustomPlugLoadNames()
     if customPlugLis:
         lis.extend(customPlugLis)
     return lis

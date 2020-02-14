@@ -2,20 +2,20 @@
 from LxMaterial import mtlConfigure, mtlCore
 
 
-class Def_Xml(mtlCore.Basic):
+class Def_Xml(mtlCore.Mtd_MtlBasic):
     xml_separator_attribute = u' '
 
-    STR_mtlx_key_element = u''
-    STR_mtlx_key_attribute = u''
+    DEF_mtlx_key_element = u''
+    DEF_mtlx_key_attribute = u''
 
     def _initDefXml(self):
         self._xmlIndentStr = ''
 
     def _xmlElementKeyString(self):
-        return self.STR_mtlx_key_element
+        return self.DEF_mtlx_key_element
 
     def _xmlAttributeKeyString(self):
-        return self.STR_mtlx_key_attribute
+        return self.DEF_mtlx_key_attribute
 
     def _xmlAttributeValueString(self):
         pass
@@ -211,13 +211,13 @@ class Abc_Raw(Def_Xml):
 class Abc_Path(Abc_Raw):
     CLS_raw = None
 
-    STR_separator = None
+    DEF_separator = None
 
     def _initAbcPath(self, *args):
         self._initAbcRaw(*args)
 
         if self.hasRaw():
-            self._rawLis = [self.CLS_raw(i) for i in self._raw.split(self.STR_separator)]
+            self._rawLis = [self.CLS_raw(i) for i in self._raw.split(self.DEF_separator)]
         else:
             self._rawLis = None
 
@@ -230,11 +230,11 @@ class Abc_Path(Abc_Raw):
 
     def createByRaw(self, *args):
         raw = args[0]
-        self._rawLis = [self.CLS_raw(i) for i in raw.split(self.STR_separator)]
+        self._rawLis = [self.CLS_raw(i) for i in raw.split(self.DEF_separator)]
 
     def createByString(self, *args):
         raw = args[0]
-        self._rawLis = [self.CLS_raw(i) for i in raw.split(self.STR_separator)]
+        self._rawLis = [self.CLS_raw(i) for i in raw.split(self.DEF_separator)]
 
     def setNameString(self, nameString):
         """
@@ -260,13 +260,13 @@ class Abc_Path(Abc_Raw):
         """
         :return: str
         """
-        return self.STR_separator.join([i.toString() for i in self._rawLis])
+        return self.DEF_separator.join([i.toString() for i in self._rawLis])
 
     def pathsep(self):
         """
         :return: str
         """
-        return self.STR_separator
+        return self.DEF_separator
 
 
 class Abc_ShadersetPath(Abc_Path):
@@ -283,7 +283,7 @@ class Abc_ShadersetPath(Abc_Path):
 
 
 class Abc_Set(Def_Xml):
-    STR_separator_object = ','
+    DEF_separator_object = ','
     # noinspection PyUnusedLocal
     def _initAbcSet(self, *args):
         self._objectLis = []
@@ -369,7 +369,7 @@ class Abc_Set(Def_Xml):
         """
         :return: str
         """
-        return self.STR_separator_object.join([i.toString() for i in self.objects()])
+        return self.DEF_separator_object.join([i.toString() for i in self.objects()])
 
     def _xmlAttributeValueString(self):
         return self.toString()
@@ -1010,7 +1010,7 @@ class Abc_Geometry(Def_Xml):
     CLS_visibility = None
     CLS_def_geometry = None
 
-    DIC_cls_value = {}
+    DEF_cls_value = {}
 
     def _initAbcGeometry(self, *args):
         self._dagpathObj = self.CLS_raw_dagpath(*args)
@@ -1026,7 +1026,7 @@ class Abc_Geometry(Def_Xml):
             valueString = i[self.Key_Value_String]
 
             portObj = self.CLS_property(self, portnameString)
-            valueCls = self.DIC_cls_value[valueTypeString]
+            valueCls = self.DEF_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
             portObj._setDefValueObject(valueCls(valueString))
@@ -1039,7 +1039,7 @@ class Abc_Geometry(Def_Xml):
             valueString = i[self.Key_Value_String]
 
             portObj = self.CLS_visibility(self, portnameString)
-            valueCls = self.DIC_cls_value[valueTypeString]
+            valueCls = self.DEF_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
             portObj._setDefValueObject(valueCls(valueString))
@@ -1129,7 +1129,7 @@ class Abc_Dag(Def_Xml):
     CLS_output = None
     CLS_def_dag = None
 
-    DIC_cls_value = {}
+    DEF_cls_value = {}
 
     def _initAbcDag(self, categoryString, fullpathName):
         self._categoryObj = self.CLS_raw_category(categoryString)
@@ -1149,7 +1149,7 @@ class Abc_Dag(Def_Xml):
             valueString = i[self.Key_Value_String]
 
             portObj = self.CLS_input(self, portnameString)
-            valueCls = self.DIC_cls_value[valueTypeString]
+            valueCls = self.DEF_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
             portObj._setDefValueObject(valueCls(valueString))
@@ -1163,7 +1163,7 @@ class Abc_Dag(Def_Xml):
 
             portObj = self.CLS_output(self, portnameString)
 
-            valueCls = self.DIC_cls_value[valueTypeString]
+            valueCls = self.DEF_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
             portObj._setDefValueObject(valueCls(valueString))
@@ -1408,7 +1408,7 @@ class Abc_Shaderset(Def_Xml):
     CLS_input = None
     CLS_def_dag = None
 
-    DIC_cls_value = None
+    DEF_cls_value = None
 
     def _initAbcShaderset(self, fullpathName):
         self._dagpathObj = self.CLS_raw_dagpath(fullpathName)
@@ -1429,7 +1429,7 @@ class Abc_Shaderset(Def_Xml):
             valueString = i[self.Key_Value_String]
 
             portObj = self.CLS_input(self, portnameString)
-            valueCls = self.DIC_cls_value[valueTypeString]
+            valueCls = self.DEF_cls_value[valueTypeString]
 
             portObj._setValueObject(valueCls(valueString))
             portObj._setDefValueObject(valueCls(valueString))
@@ -1811,7 +1811,7 @@ class Abc_GeometryCollection(Def_Xml):
     CLS_set_geometry = None
     CLS_set_collection = None
 
-    STR_geometry_separator = None
+    DEF_geometry_separator = None
 
     def _initAbcGeometryCollection(self, *args):
         self._nameObj = self.CLS_raw_name(*args)
@@ -1944,7 +1944,7 @@ class Abc_Assign(Def_Xml):
     CLS_raw_name = None
     CLS_set_geometry = None
 
-    STR_geometry_separator = None
+    DEF_geometry_separator = None
 
     def _initAbcAssign(self, *args):
         self._nameObj = self.CLS_raw_name(*args)
@@ -2303,11 +2303,11 @@ class Abc_XmlDocument(Def_Xml):
     CLS_set_reference = None
     CLS_set_look = None
 
-    STR_mtlx_version = None
+    DEF_mtlx_version = None
 
     def _initAbcXmlDocument(self, *args):
         self._fileObj = self.CLS_raw_file(*args)
-        self._versionObj = self.CLS_raw_version(self.STR_mtlx_version)
+        self._versionObj = self.CLS_raw_version(self.DEF_mtlx_version)
 
         self._referenceSetObj = self.CLS_set_reference()
         self._lookSetObj = self.CLS_set_look()
@@ -2354,7 +2354,7 @@ class Abc_XmlDocument(Def_Xml):
         return self.looks()
 
 
-class Abc_Def(mtlCore.Basic):
+class Abc_Def(mtlCore.Mtd_MtlBasic):
     def _initAbcDef(self):
         self._nodeDefsDic = mtlConfigure.Def_Dag_Dic
         self._outputDefDic = mtlConfigure.Def_Output_Dic
@@ -2378,7 +2378,7 @@ class Abc_TypeDef(Abc_Def):
     pass
 
 
-class Abc_GeometryDef(mtlCore.Basic):
+class Abc_GeometryDef(mtlCore.Mtd_MtlBasic):
     def _initAbcGeometryDef(self):
         self._geometryDefDic = mtlConfigure.Def_Geometry_Dic
         self._geometryPropertyDefLis = self._geometryDefDic['property']

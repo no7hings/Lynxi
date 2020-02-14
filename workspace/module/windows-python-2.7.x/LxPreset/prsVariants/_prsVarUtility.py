@@ -1,9 +1,9 @@
 # coding:utf-8
+from LxPreset.prsMethods import _prsMtdUtility
+
 from LxCore import lxConfigure
 #
 from LxCore.preset import appPr, basicPr
-#
-from LxCore.preset.prod import projectPr
 #
 none = ''
 
@@ -27,7 +27,7 @@ __load__(
 
 __load__(
     Util,
-    projectPr.getProjectPresetVariantDic(projectPr.getAppProjectName())
+    _prsMtdUtility.Project.variantPresetDict(_prsMtdUtility.Project.appActiveName())
 )
 
 __load__(

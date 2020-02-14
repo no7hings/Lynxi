@@ -1,14 +1,14 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMethods
 #
-from LxCore.preset.prod import projectPr
+from LxPreset import prsMethods
 #
 #
 from LxUi.qt import qtWidgets, qtCore
 
 #
 # Project Data
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 none = ''
 

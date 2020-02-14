@@ -19,8 +19,8 @@ class ShadersetInput(mtlObjAbstract.Abc_Input):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'bindinput'
-    STR_mtlx_key_attribute = u'context'
+    DEF_mtlx_key_element = u'bindinput'
+    DEF_mtlx_key_attribute = u'context'
 
     def __init__(self, *args):
         self._initAbcInput(*args)
@@ -31,8 +31,8 @@ class ShaderInput(mtlObjAbstract.Abc_ShaderInput):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'bindinput'
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_element = u'bindinput'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcShaderInput(*args)
@@ -43,8 +43,8 @@ class NodeInput(mtlObjAbstract.Abc_NodeInput):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'input'
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_element = u'input'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcNodeInput(*args)
@@ -55,8 +55,8 @@ class GeometryProperty(mtlObjAbstract.Abc_GeometryProperty):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'property'
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_element = u'property'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcGeometryProperty(*args)
@@ -67,8 +67,8 @@ class GeometryVisibility(mtlObjAbstract.Abc_GeometryVisibility):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_element = u'vistype'
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_element = u'vistype'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcVisibility(*args)
@@ -79,7 +79,7 @@ class GeometryOutput(mtlObjAbstract.Abc_ShaderOutput):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcShaderOutput(*args)
@@ -90,7 +90,7 @@ class ShaderOutput(mtlObjAbstract.Abc_ShaderOutput):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcShaderOutput(*args)
@@ -101,7 +101,7 @@ class NodeOutput(mtlObjAbstract.Abc_NodeOutput):
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    STR_mtlx_key_attribute = u'member'
+    DEF_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
         self._initAbcNodeOutput(*args)
@@ -110,8 +110,8 @@ class NodeOutput(mtlObjAbstract.Abc_NodeOutput):
 class NodeGraphOutput(mtlObjAbstract.Abc_NodeGraphOutput):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
-    STR_mtlx_key_element = u'output'
-    STR_mtlx_key_attribute = u'output'
+    DEF_mtlx_key_element = u'output'
+    DEF_mtlx_key_attribute = u'output'
 
     def __init__(self, *args):
         self._initAbcNodeGraphOutput(*args)

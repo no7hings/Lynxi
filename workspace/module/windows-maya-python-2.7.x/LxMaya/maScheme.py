@@ -1,12 +1,12 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 
 from LxMaya.command import maUtils
 
 
-class Shm_Resource(lxScheme.Shm_Resource):
+class Resource(shmOutput.Resource):
     def __init__(self):
         self._initResource()
 

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxCore import lxScheme
+from LxScheme import shmOutput
 #
 from LxUi import uiCore
 #
@@ -11,7 +11,7 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class QtIf_DevelopWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self):
         self._initWindow()
 
@@ -29,7 +29,7 @@ class QtIf_DevelopWindow(qtWidgets.QtWindow):
 
 class QtIf_SystemInformationWindow(qtWidgets.QtWindow):
     _Title = 'Develop Manager'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self):
         self._initWindow()
 

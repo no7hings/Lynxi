@@ -4,31 +4,31 @@ Ma_Separator_Namespace = u':'
 
 
 class MtdBasic(object):
-    STR_separator_os = u'/'
+    DEF_separator_os = u'/'
 
-    STR_key_environ_path_develop = u'LYNXI_PATH_DEVELOP'
-    path_default_develop = u'e:/myworkspace/td/lynxi'
+    DEF_key_environ_path_develop = u'LYNXI_PATH_DEVELOP'
+    VAR_path_default_develop = u'e:/myworkspace/td/lynxi'
 
-    STR_key_environ_path_product = u'LYNXI_PATH_PRODUCT'
-    path_default_product = u'e:/myworkspace/td/lynxi'
+    DEF_key_environ_path_product = u'LYNXI_PATH_PRODUCT'
+    VAR_path_default_product = u'e:/myworkspace/td/lynxi'
 
-    STR_key_environ_path_local = u'LYNXI_PATH_LOCAL'
+    DEF_key_environ_path_local = u'LYNXI_PATH_LOCAL'
 
-    environ_key_path_preset = u'LYNXI_PATH_PRESET'
-    environ_key_path_toolkit = u'LYNXI_PATH_TOOLKIT'
-    path_default_preset = u'e:/myworkspace/td/lynxi'
+    DEF_key_environ_path_preset = u'LYNXI_PATH_PRESET'
+    DEF_key_environ_path_toolkit = u'LYNXI_PATH_TOOLKIT'
+    VAR_path_default_preset = u'e:/myworkspace/td/lynxi'
 
-    STR_key_environ_enable_develop = u'LYNXI_ENABLE_DEVELOP'
-    environ_key_enable_trace = u'LYNXI_ENABLE_TRACE'
+    DEF_key_environ_enable_develop = u'LYNXI_ENABLE_DEVELOP'
+    DEF_key_environ_enable_trace = u'LYNXI_ENABLE_TRACE'
 
-    STR_key_environ_enable_usedef = u'LYNXI_ENABLE_USEDEF'
+    DEF_key_environ_enable_usedef = u'LYNXI_ENABLE_USEDEF'
 
-    STR_path_temporary_local = u'd:/.lynxi.temporary'
-    STR_path_log_local = u'd:/.lynxi.log'
+    DEF_path_temporary_local = u'd:/.lynxi.temporary'
+    DEF_path_log_local = u'd:/.lynxi.log'
 
-    STR_key_environ_project = 'LYNXI_PROJECT'
+    DEF_key_environ_project = 'LYNXI_PROJECT'
 
-    LIS_time_month = [
+    DEF_time_month = [
         (u'一月', 'January'),
         (u'二月', 'February'),
         (u'三月', 'March'),
@@ -42,7 +42,7 @@ class MtdBasic(object):
         (u'十一月', 'November'),
         (u'十二月', 'December')
     ]
-    LIS_time_day = [
+    DEF_time_day = [
         (u'一日', '1st'),
         (u'二日', '2nd'),
         (u'三日', '3rd'),
@@ -54,7 +54,7 @@ class MtdBasic(object):
         (u'九日', '9th'),
         (u'十日', '10th'),
     ]
-    LIS_time_week = [
+    DEF_time_week = [
         (u'周一', 'Monday'),
         (u'周二', 'Tuesday'),
         (u'周三', 'Wednesday'),
@@ -64,20 +64,20 @@ class MtdBasic(object):
         (u'周天', 'Sunday'),
     ]
 
-    STR_time_tag_format = u'%Y_%m%d_%H%M_%S'
-    STR_time_prettify_format = u'%Y-%m-%d %H:%M:%S'
-    def_time_tag_search_string = u'[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9]'
+    DEF_time_tag_format = u'%Y_%m%d_%H%M_%S'
+    DEF_time_prettify_format = u'%Y-%m-%d %H:%M:%S'
+    DEF_time_tag_search_string = u'[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9]'
 
-    STR_time_tag_default = u'0000_0000_0000_00'
+    DEF_time_tag_default = u'0000_0000_0000_00'
 
-    STR_key_source = u'source'
-    STR_key_username = u'username'
-    STR_key_hostname = u'hostname'
-    STR_key_host = u'host'
-    STR_key_timestamp = u'timestamp'
-    STR_key_stage = u'stage'
-    STR_key_description = u'description'
-    STR_key_note = u'note'
+    DEF_key_source = u'source'
+    DEF_key_username = u'username'
+    DEF_key_hostname = u'hostname'
+    DEF_key_host = u'host'
+    DEF_key_timestamp = u'timestamp'
+    DEF_key_stage = u'stage'
+    DEF_key_description = u'description'
+    DEF_key_note = u'note'
 
     Folder_Basic = '.lynxi'
     LynxiOsFolder_Database = '.database'
@@ -106,24 +106,24 @@ class MtdBasic(object):
     #
     LynxiDatabaseKey_Index = '.index'
     LynxiDatabaseKey_Set = '.set'
-    LynxiDatabaseKey_Link = '.link'
+    LynxiDatabaseKey_link = '.link'
     #
     LynxiUniqueId_Basic = '4908BDB4-911F-3DCE-904E-96E4792E75F1'
     #
-    STR_key_info_namespace = 'namespace'
+    DEF_key_info_namespace = 'namespace'
     #
-    STR_key_info_username = 'user'
-    STR_key_info_time = 'time'
+    DEF_key_info_username = 'user'
+    DEF_key_info_time = 'time'
     #
-    STR_key_info_hostname = 'hostname'
-    STR_key_info_host = 'host'
+    DEF_key_info_hostname = 'hostname'
+    DEF_key_info_host = 'host'
     #
-    STR_key_info_sourcefile = 'sourcefile'
+    DEF_key_info_sourcefile = 'sourcefile'
     #
-    STR_key_info_description = 'description'
-    STR_key_info_note = 'note'
+    DEF_key_info_description = 'description'
+    DEF_key_info_note = 'note'
     #
-    STR_ui_name_toolkit = 'lynxiToolKitPanel'
+    DEF_ui_name_toolkit = 'lynxiToolKitPanel'
     # ff0040
     LynxiUi_ErrorRgba = 255, 0, 63, 255
     # fdff42
@@ -139,11 +139,11 @@ class MtdBasic(object):
     # 00dfdf
     LynxiUi_TextHoverRgba_ = 63, 255, 255, 255
 
-    STR_app_maya = u'maya'
+    DEF_app_maya = u'maya'
 
-    INT_ui_time_tooltip_delay = 1000
+    VAR_ui_time_tooltip_delay = 1000
 
-    STR_Value_Default = 'default'
+    DEF_Value_Default = 'default'
 
 
 class HtmlColor(object):

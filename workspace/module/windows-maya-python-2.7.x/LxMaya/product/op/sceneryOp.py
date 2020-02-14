@@ -43,7 +43,7 @@ def setAssemblyVariantSwitch(assemblyReferenceString, projectName, assetCategory
     adFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
     )[1]
     #
     maUtils.setAttrStringDatum(assemblyReferenceString, 'definition', adFile)

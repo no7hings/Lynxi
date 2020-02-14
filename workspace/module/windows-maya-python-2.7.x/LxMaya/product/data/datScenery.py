@@ -3,17 +3,17 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscObjects
 #
 from LxCore.config import appCfg
 #
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr
+from LxCore.preset.prod import assetPr, sceneryPr
 #
 from LxMaya.command import maUtils, maAsb
 #
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 # File Label
 scnSceneryLocatorLabel = prsVariants.Util.scnSceneryLocatorLabel
 astDefaultVersion = prsVariants.Util.astDefaultVersion
@@ -211,7 +211,7 @@ def getSceneryInfo(printEnable=False):
     if rootGroups:
         for rootGroup in rootGroups:
             if maUtils.isAppExist(rootGroup):
-                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Scenery):
+                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_scenery):
                     sceneryCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     sceneryName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
                     sceneryVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)

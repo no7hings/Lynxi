@@ -105,7 +105,7 @@ class ifDevelopOverviewUnit(_qtIfAbcWidget.IfOverviewUnitBasic):
                 def openDatumFileCmd():
                     osCmdExe = 'sublime_text.exe'
 
-                    tempOsFile = '{}/{}/{}/{}'.format(bscMethods.OsFile.STR_path_temporary_local, dbDatumType, dbDatumId, osRelativeFile)
+                    tempOsFile = '{}/{}/{}/{}'.format(bscMethods.OsFile.DEF_path_temporary_local, dbDatumType, dbDatumId, osRelativeFile)
                     if not bscMethods.OsFile.isExist(tempOsFile):
                         bscMethods.OsFile.copyTo(dbDatumFile, tempOsFile)
                     #

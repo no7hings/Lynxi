@@ -2,7 +2,9 @@
   <dictionary name="nothings">
     <words>
       <w>fullpathnames</w>
+      <w>multiline</w>
       <w>relativenames</w>
+      <w>uidatum</w>
     </words>
   </dictionary>
 </component>

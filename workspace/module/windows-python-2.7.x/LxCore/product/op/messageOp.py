@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMethods
 
 from LxPreset import prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr, scenePr
+from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
 from LxCore.operation import mailOp, dingTalkOp
 #
@@ -46,7 +46,7 @@ def sendProductMessageByDingTalk(
         timeTag,
         description, note
 ):
-    projectNameData = projectPr.getMayaProjectNameDic()
+    projectNameData = prsMethods.Project.mayaDatumDict()
     viewProject = projectName
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]
@@ -86,7 +86,7 @@ def sendProductMessageByMail(
         prsMethods.Personnel.usernamesFilterByMailSendEnable()
     )
     #
-    projectNameData = projectPr.getMayaProjectNameDic()
+    projectNameData = prsMethods.Project.mayaDatumDict()
     viewProject = projectName
     if projectName in projectNameData:
         viewProject = projectNameData[projectName][1]

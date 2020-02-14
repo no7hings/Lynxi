@@ -106,9 +106,9 @@ class Abc_PthRoot(Abc_Path):
     environ_key_product = None
     environ_key_local = None
 
-    path_default_develop = None
-    path_default_product = None
-    path_default_local = None
+    VAR_path_default_develop = None
+    VAR_path_default_product = None
+    VAR_path_default_local = None
 
     def _initAbcPthRoot(self):
         pass
@@ -116,19 +116,19 @@ class Abc_PthRoot(Abc_Path):
     def _developPath(self):
         return bscMethods.OsEnviron.getAsPath(
             self.environ_key_develop,
-            self.path_default_develop
+            self.VAR_path_default_develop
         )
 
     def _productPath(self):
         return bscMethods.OsEnviron.getAsPath(
             self.environ_key_product,
-            self.path_default_product
+            self.VAR_path_default_product
         )
 
     def _localPath(self):
         return bscMethods.OsEnviron.getAsPath(
             self.environ_key_local,
-            self.path_default_local
+            self.VAR_path_default_local
         )
 
 

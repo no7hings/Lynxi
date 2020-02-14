@@ -30,5 +30,5 @@ def __load__(cls, dic):
 
 __load__(
     Database,
-    prsConfigure.DIC_path_database
+    prsConfigure.VAR_path_database
 )

@@ -11,7 +11,7 @@ from LxCore import lxConfigure
 #
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr
+from LxCore.preset.prod import assetPr, sceneryPr
 #
 from LxUi.qt import qtModifiers, qtWidgets_, qtWidgets, qtCore
 #
@@ -21,7 +21,7 @@ from LxMaya.product.data import datScenery
 #
 from LxMaya.product.op import sceneryOp
 #
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 icon = '/shelf/productionWin.png'
 title = 'Assembly Manager'
@@ -732,7 +732,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        assetCategory, assetName, i, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                        assetCategory, assetName, i, lxConfigure.VAR_product_asset_link_assembly
                     )[1]
                     #
                     if bscMethods.OsFile.isExist(adFile):
@@ -1193,7 +1193,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         # fileString_ = assetPr.astUnitProductFile(
                         #     lxCore_.LynxiRootIndex_Server,
                         #     projectName,
-                        #     assetCategory, assetName, assetVariant, lxCore_.LynxiProduct_Asset_Link_Model
+                        #     assetCategory, assetName, assetVariant, lxCore_.VAR_product_asset_link_model
                         # )[1]
                     elif keyword == 'Box':
                         fileString_ = assetPr.astUnitAssemblyBoxCacheFile(
@@ -1283,7 +1283,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
                 fileString_ = assetPr.astUnitProductFile(
                     lxConfigure.LynxiRootIndex_Server,
-                    projectName, None, assetName, assetVariant, lxConfigure.LynxiProduct_Scene_Link_Light
+                    projectName, None, assetName, assetVariant, lxConfigure.VAR_product_scene_link_light
                 )[1]
                 #
                 if os.path.isfile(fileString_):

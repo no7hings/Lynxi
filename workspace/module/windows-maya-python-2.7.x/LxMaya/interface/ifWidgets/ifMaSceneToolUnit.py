@@ -5,9 +5,9 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxPreset import prsVariants
+from LxPreset import prsVariants, prsMethods
 
-from LxCore.preset.prod import projectPr, assetPr, scenePr
+from LxCore.preset.prod import assetPr, scenePr
 
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 
@@ -25,7 +25,7 @@ from LxMaya.interface.ifWidgets import ifMaAnimToolUnit
 
 from LxMaya.product import maScLoadCmds, maScUploadCmds
 # Project Data
-currentProjectName = projectPr.getMayaProjectName()
+currentProjectName = prsMethods.Project.mayaActiveName()
 #
 none = ''
 
@@ -657,8 +657,8 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             withFurCache=isWithFurCache,
             withGeomCache=isWithGeomCache
         )
-        projectServerRootPathLis = projectPr.getProjectServerRootLis(projectName)
-        projectLocalRootPathLis = projectPr.getProjectLocalRootLis(projectName)
+        projectServerRootPathLis = prsMethods.Project.serverRoots(projectName)
+        projectLocalRootPathLis = prsMethods.Project.localRoots(projectName)
         #
         if isIgnoreProject:
             osPaths = getPathFilterRoot(osPaths)
@@ -757,7 +757,7 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             lxConfigure.LynxiRootIndex_Server,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage
         )
-        projectServerRootPathLis = projectPr.getProjectServerRootLis(projectName)
+        projectServerRootPathLis = prsMethods.Project.serverRoots(projectName)
         getOsFileCollectionDataLis(self._scNeedCollectionFileItemLis)
         getOsFileRepathDataLis(self._scNeedRepathFileItemLis)
         #

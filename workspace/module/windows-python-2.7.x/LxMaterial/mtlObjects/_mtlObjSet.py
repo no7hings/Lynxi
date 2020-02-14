@@ -13,21 +13,21 @@ class Set_Dag(mtlObjAbstract.Abc_Set):
 
 
 class Set_Geometry(mtlObjAbstract.Abc_Set):
-    STR_mtlx_key_attribute = u'geom'
+    DEF_mtlx_key_attribute = u'geom'
 
     def __init__(self, *args):
         self._initAbcSet(*args)
 
 
 class Set_ViewerGeometry(mtlObjAbstract.Abc_Set):
-    STR_mtlx_key_attribute = u'viewergeom'
+    DEF_mtlx_key_attribute = u'viewergeom'
 
     def __init__(self, *args):
         self._initAbcSet(*args)
 
 
 class Set_Collection(mtlObjAbstract.Abc_Set):
-    STR_mtlx_key_attribute = u'collection'
+    DEF_mtlx_key_attribute = u'collection'
 
     def __init__(self, *args):
         self._initAbcSet(*args)

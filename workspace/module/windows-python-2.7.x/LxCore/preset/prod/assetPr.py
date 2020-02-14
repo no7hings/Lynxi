@@ -1,14 +1,14 @@
 # coding=utf-8
 from LxBasic import bscCore, bscMethods
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 #
 from LxPreset import prsVariants, prsMethods
-#
-from LxCore.preset.prod import projectPr
 # do not delete and rename
-serverBasicPath = lxScheme.Root().basic.server
-localBasicPath = lxScheme.Root().basic.local
+serverBasicPath = shmOutput.Root().basic.server
+localBasicPath = shmOutput.Root().basic.local
 #
 none = ''
 
@@ -829,13 +829,13 @@ def defaultAssetSetConfig(projectName, number=0):
         [('classify', u'类型 ( Classify )'), prsMethods.Asset.classShownameDic()],
         [('priority', u'优先级 ( Priority )'), prsMethods.Asset.priorityNames()],
         #
-        [(lxConfigure.LynxiProduct_Asset_Link_Model, u'模型制作 Model'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Rig, u'绑定制作 ( Rig )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Groom, u'角色特效制作 ( Character FX )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Solver, u'角色模拟制作 ( Solver )'), False],
-        [(lxConfigure.LynxiProduct_Asset_Link_Light, u'资产灯光 ( Light )'), False],
+        [(lxConfigure.VAR_product_asset_link_model, u'模型制作 Model'), False],
+        [(lxConfigure.VAR_product_asset_link_rig, u'绑定制作 ( Rig )'), False],
+        [(lxConfigure.VAR_product_asset_link_groom, u'角色特效制作 ( Character FX )'), False],
+        [(lxConfigure.VAR_product_asset_link_solver, u'角色模拟制作 ( Solver )'), False],
+        [(lxConfigure.VAR_product_asset_link_light, u'资产灯光 ( Light )'), False],
         #
-        [(lxConfigure.LynxiProduct_Asset_Link_Assembly, u'资产组装 ( Assembly )'), False]
+        [(lxConfigure.VAR_product_asset_link_assembly, u'资产组装 ( Assembly )'), False]
     ]
     return lis
 
@@ -1155,12 +1155,12 @@ def getUiAssetSetDataDic(projectFilter):
                 assetName = data['name']
                 assetVariants = data['variant']
                 assetPriority = data['priority']
-                modelEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Model)
-                rigEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Rig)
-                cfxEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Groom)
-                scSolverEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Solver)
-                scLightEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Light)
-                assemblyEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.LynxiProduct_Asset_Link_Assembly)
+                modelEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_model)
+                rigEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_rig)
+                cfxEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_groom)
+                scSolverEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_solver)
+                scLightEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_light)
+                assemblyEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_assembly)
                 for assetVariant in assetVariants:
                     dic[(assetIndex, assetVariant)] = description, assetCategory, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
     #
@@ -1196,7 +1196,7 @@ def getAstUnitAssemblyDic(projectFilter):
                         serverAstUnitAsbDefinitionFile = astUnitAssemblyDefinitionFile(
                             lxConfigure.LynxiRootIndex_Server,
                             projectFilter,
-                            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+                            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
                         )[1]
                         if bscMethods.OsFile.isExist(serverAstUnitAsbDefinitionFile):
                             dic[assetIndex] = description, assetCategory, assetName, assetVariant
@@ -1633,7 +1633,7 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
     else:
         fileLabel = prsVariants.Util.asbProxyFileLabel + '_lod%s' % str(lod).zfill(2)
     #
-    extLabel = projectPr.getProjectProxyExt(projectName)
+    extLabel = prsMethods.Project.mayaProxyExt(projectName)
     #
     osFileName = astBasicOsFileNameConfig(assetName, fileLabel, extLabel)
     #
@@ -1893,7 +1893,7 @@ def getAssetUnitExtraData(projectName, assetCategory, assetName, assetVariant, a
 
 #
 def getAstTdUploadCommand(projectName, link):
-    dataDic = projectPr.getProjectMayaTdPresetDic(projectName)
+    dataDic = prsMethods.Project.mayaTdPresetDict(projectName)
     if dataDic:
         if link in dataDic:
             data = dataDic[link]
@@ -1916,7 +1916,7 @@ def getAstTdUploadCommand(projectName, link):
 
 #
 def getAstTdLoadCommand(projectName, link):
-    dataDic = projectPr.getProjectMayaTdPresetDic(projectName)
+    dataDic = prsMethods.Project.mayaTdPresetDict(projectName)
     if dataDic:
         if link in dataDic:
             data = dataDic[link]

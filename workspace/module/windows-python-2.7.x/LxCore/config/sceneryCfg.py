@@ -3,9 +3,9 @@ from LxBasic import bscCore, bscModifiers
 
 from LxCore import lxConfigure
 #
-LynxiProduct_Scenery_Class_Scenery = 'scenery'
-LynxiProduct_Scenery_Class_Group = 'group'
-LynxiProduct_Scenery_Class_Assembly = 'unit'
+VAR_product_scenery_category_scenery = 'scenery'
+VAR_product_scenery_category_Group = 'group'
+VAR_product_scenery_category_Assembly = 'unit'
 #
 none = ''
 
@@ -14,8 +14,8 @@ none = ''
 def scnBasicClass():
     lis = [
         lxConfigure.LynxiValue_Unspecified,
-        LynxiProduct_Scenery_Class_Scenery,
-        LynxiProduct_Scenery_Class_Group
+        VAR_product_scenery_category_scenery,
+        VAR_product_scenery_category_Group
     ]
     return lis
 
@@ -23,19 +23,19 @@ def scnBasicClass():
 #
 def scnBasicViewLinkDic():
     dic = bscCore.orderedDict()
-    dic[lxConfigure.LynxiProduct_Scenery_Link_Scenery] = 'Scenery', u'场景布景'
-    dic[lxConfigure.LynxiProduct_Scene_Link_layout] = 'Layout', u'场景预览'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Animation] = 'Animation', u'场景动画'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Simulation] = 'Simulation', u'场景解算'
-    dic[lxConfigure.LynxiProduct_Scene_Link_Light] = 'Light', u'场景灯光'
+    dic[lxConfigure.VAR_product_scenery_link_scenery] = 'Scenery', u'场景布景'
+    dic[lxConfigure.VAR_product_scene_link_layout] = 'Layout', u'场景预览'
+    dic[lxConfigure.VAR_product_scene_link_animation] = 'Animation', u'场景动画'
+    dic[lxConfigure.VAR_product_scene_link_simulation] = 'Simulation', u'场景解算'
+    dic[lxConfigure.VAR_product_scene_link_light] = 'Light', u'场景灯光'
     return dic
 
 
 @bscModifiers.fncDictSwitch
 def scnBasicViewClassDic(*args):
     dic = bscCore.orderedDict()
-    dic[LynxiProduct_Scenery_Class_Scenery] = 'Scenery', u'场景'
-    dic[LynxiProduct_Scenery_Class_Group] = 'Group', u'组合'
+    dic[VAR_product_scenery_category_scenery] = 'Scenery', u'场景'
+    dic[VAR_product_scenery_category_Group] = 'Group', u'组合'
     return dic
 
 
@@ -53,10 +53,10 @@ def basicSceneryPriorities():
 #
 def basicSceneryLinks():
     lis = [
-        lxConfigure.LynxiProduct_Scenery_Link_Scenery,
-        lxConfigure.LynxiProduct_Scene_Link_layout,
-        lxConfigure.LynxiProduct_Scene_Link_Animation,
-        lxConfigure.LynxiProduct_Scene_Link_Simulation,
-        lxConfigure.LynxiProduct_Scene_Link_Light,
+        lxConfigure.VAR_product_scenery_link_scenery,
+        lxConfigure.VAR_product_scene_link_layout,
+        lxConfigure.VAR_product_scene_link_animation,
+        lxConfigure.VAR_product_scene_link_simulation,
+        lxConfigure.VAR_product_scene_link_light,
     ]
     return lis

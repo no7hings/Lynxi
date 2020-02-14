@@ -7,8 +7,11 @@
 @desc:
 """
 import xlwt
+
+from LxPreset import prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr
+from LxCore.preset.prod import assetPr
+
 LabelLis = ['Name', 'ID', 'Class', 'Priority', 'Model', 'Rig', 'Character - FX', 'Solver', 'Light', 'Assembly']
 #
 workbook = xlwt.Workbook(encoding = 'utf-8')
@@ -17,7 +20,7 @@ worksheet = workbook.add_sheet('My Worksheet')
 #
 [worksheet.write(0, seq, label=i) for seq, i in enumerate(LabelLis)]
 #
-projectName = projectPr.getMayaProjectName()
+projectName = prsMethods.Project.mayaActiveName()
 #
 setData = assetPr.getUiAssetSetDataDic(projectName)
 #

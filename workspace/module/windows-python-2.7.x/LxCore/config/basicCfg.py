@@ -49,7 +49,7 @@ def basicPersonnelPostConfig():
 def basicAppConfig():
     lis = [
         lxConfigure.LynxiValue_Unspecified,
-        lxConfigure.Lynxi_Key_Preset_Maya
+        lxConfigure.DEF_preset_key_Maya
     ]
     return lis
 

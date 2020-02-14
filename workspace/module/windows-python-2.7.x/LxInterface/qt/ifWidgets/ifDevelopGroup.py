@@ -1,11 +1,9 @@
 # coding=utf-8
 from LxBasic import bscObjects
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 #
 from LxPreset import prsMethods
-#
-from LxDatabase import dtbMethods
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
@@ -40,7 +38,7 @@ class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
         ['.png']
     ]
     #
-    developPath = lxScheme.Root().basic.develop
+    developPath = shmOutput.Root().basic.develop
 
     backupPath = developPath + '/.bck'
     versionPath = backupPath + '/.version'

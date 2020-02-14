@@ -244,7 +244,7 @@ def scnUnitAssemblyLoadByReferenceCmd(
     scnAssemblyReference = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant) + '_0'
     serverSceneryAdFile = sceneryPr.scnUnitDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
-        projectName, sceneryCategory, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
+        projectName, sceneryCategory, sceneryName, sceneryVariant, lxConfigure.VAR_product_scenery_link_scenery
     )[1]
     if bscMethods.OsFile.isExist(serverSceneryAdFile):
         maAsb.setAssemblyReferenceCreate(scnAssemblyReference, serverSceneryAdFile)

@@ -2,7 +2,7 @@
 from LxBasic import bscCore
 
 
-class OsFile(bscCore.BscMtdFileBasic):
+class OsFile(bscCore.Mtd_BscFileBasic):
     @classmethod
     def write(cls, fileString, raw):
         cls._setOsFileDirectoryCreate(fileString)
@@ -31,7 +31,7 @@ class OsFile(bscCore.BscMtdFileBasic):
                 return raw
 
 
-class OsFileGzip(bscCore.BscMtdFileBasic):
+class OsFileGzip(bscCore.Mtd_BscFileBasic):
     @classmethod
     def write(cls, fileString, raw):
         cls._setOsFileDirectoryCreate(fileString)
@@ -70,7 +70,7 @@ class OsFileGzip(bscCore.BscMtdFileBasic):
                 return raw
 
 
-class OsJson(bscCore.BscMtdFileBasic):
+class OsJson(bscCore.Mtd_BscFileBasic):
     @classmethod
     def read(cls, fileString, encoding=None):
         if cls.MTD_os_path.isfile(fileString):
@@ -111,7 +111,7 @@ class OsJson(bscCore.BscMtdFileBasic):
         return cls.MOD_json.dumps(raw)
 
 
-class OsJsonGzip(bscCore.BscMtdFileBasic):
+class OsJsonGzip(bscCore.Mtd_BscFileBasic):
     @classmethod
     def read(cls, fileString, encoding=None):
         if cls._isOsFileExist(fileString):
@@ -144,7 +144,7 @@ class OsJsonGzip(bscCore.BscMtdFileBasic):
         cls._setOsFileCopy(temporaryName, fileString)
 
 
-class OsImage(bscCore.BscMtdFileBasic):
+class OsImage(bscCore.Mtd_BscFileBasic):
     module_fullpath_name = 'PIL.Image'
     @classmethod
     def _toPImage(cls, fileString):
@@ -166,9 +166,9 @@ class OsImage(bscCore.BscMtdFileBasic):
         return size
 
 
-class OsMultifile(bscCore.BscMtdBasic):
+class OsMultifile(bscCore.Mtd_BscBasic):
     LST_placeholder_multifile = ['<udim>', '%04d', '<f>', '####']
-    INT_padding_multifile = 4
+    VAR_padding_multifile = 4
 
     @classmethod
     def _getOsFileFrame(cls, fileString, paddingValue):
@@ -189,7 +189,7 @@ class OsMultifile(bscCore.BscMtdBasic):
             index = fileString.lower().index(placeholderString.lower())
             a, b = fileString[:index], fileString[index + len(placeholderString):]
             for i in xrange(endFrame - startFrame + 1):
-                subFileString = (a + str(i + startFrame).zfill(paddingValue) + b).replace('\\', cls.STR_separator_os)
+                subFileString = (a + str(i + startFrame).zfill(paddingValue) + b).replace('\\', cls.DEF_separator_os)
                 lis.append(subFileString)
         return lis
 
@@ -205,7 +205,7 @@ class OsMultifile(bscCore.BscMtdBasic):
             globData = cls.MOD_glob.glob(globString)
             if globData:
                 for i in globData:
-                    lis.append(i.replace('\\', cls.STR_separator_os))
+                    lis.append(i.replace('\\', cls.DEF_separator_os))
         return lis
 
     @classmethod
@@ -215,7 +215,7 @@ class OsMultifile(bscCore.BscMtdBasic):
         fileStringLis = cls._getOsMultifileExistFileList(fileString, placeholderString, paddingValue)
         if fileStringLis:
             for i in fileStringLis:
-                number = cls._getOsFileFrame(i, cls.INT_padding_multifile)
+                number = cls._getOsFileFrame(i, cls.VAR_padding_multifile)
                 if number is not None:
                     lis.append(number)
         return lis
@@ -235,7 +235,7 @@ class OsMultifile(bscCore.BscMtdBasic):
         else:
             for i in cls.LST_placeholder_multifile:
                 if i in cls._getOsFileBasename(fileString).lower():
-                    if cls._getOsMultifileExistFileList(fileString, i, cls.INT_padding_multifile):
+                    if cls._getOsMultifileExistFileList(fileString, i, cls.VAR_padding_multifile):
                         return True
         return False
 
@@ -243,34 +243,34 @@ class OsMultifile(bscCore.BscMtdBasic):
     def files(cls, fileString, frameRange):
         for i in cls.LST_placeholder_multifile:
             if i in cls._getOsFileBasename(fileString).lower():
-                return cls._getOsMultifileFileList(fileString, frameRange, i, cls.INT_padding_multifile)
+                return cls._getOsMultifileFileList(fileString, frameRange, i, cls.VAR_padding_multifile)
         return []
 
     @classmethod
     def existFiles(cls, fileString):
         if cls._isOsFileExist(fileString):
-            return [fileString.replace('\\', cls.STR_separator_os)]
+            return [fileString.replace('\\', cls.DEF_separator_os)]
         else:
             for i in cls.LST_placeholder_multifile:
                 if i in cls._getOsFileBasename(fileString).lower():
-                    return cls._getOsMultifileExistFileList(fileString, i, cls.INT_padding_multifile)
+                    return cls._getOsMultifileExistFileList(fileString, i, cls.VAR_padding_multifile)
         return []
 
     @classmethod
     def existFrames(cls, fileString):
         if cls._isOsFileExist(fileString):
-            return [cls._getOsFileFrame(fileString, cls.INT_padding_multifile)]
+            return [cls._getOsFileFrame(fileString, cls.VAR_padding_multifile)]
         else:
             for i in cls.LST_placeholder_multifile:
                 if i in cls._getOsFileBasename(fileString).lower():
-                    return cls._getOsMultifileExistFrameList(fileString, i, cls.INT_padding_multifile)
+                    return cls._getOsMultifileExistFrameList(fileString, i, cls.VAR_padding_multifile)
         return []
 
     @classmethod
     def fileSizes(cls, fileString, frameRange):
         for i in cls.LST_placeholder_multifile:
             if i in cls._getOsFileBasename(fileString).lower():
-                return cls._getOsMultifileFileSizeList(fileString, frameRange, i, cls.INT_padding_multifile)
+                return cls._getOsMultifileFileSizeList(fileString, frameRange, i, cls.VAR_padding_multifile)
         return []
     
     @classmethod
@@ -279,6 +279,6 @@ class OsMultifile(bscCore.BscMtdBasic):
             return cls._getOsFileSize(fileString)
         for i in cls.LST_placeholder_multifile:
             if i in cls._getOsFileBasename(fileString).lower():
-                return cls._getOsMultifileExistFileSizeList(fileString, i, cls.INT_padding_multifile)
+                return cls._getOsMultifileExistFileSizeList(fileString, i, cls.VAR_padding_multifile)
 
         return []

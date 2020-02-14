@@ -2,7 +2,7 @@
 import functools
 
 
-class Basic(object):
+class Mtd_MtlBasic(object):
     Key_Type_String = 'typeString'
     Key_Value_String = 'valueString'
     Key_Port = 'port'

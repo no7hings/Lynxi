@@ -8,12 +8,12 @@ import maya.cmds as cmds
 from PIL import Image
 
 from LxBasic import bscCore, bscMethods, bscObjects
+
+from LxPreset import prsMethods
 #
 from LxCore import lxConfigure
 #
 from LxCore.config import appCfg
-#
-from LxCore.preset.prod import projectPr
 #
 from LxDatabase import dtbCore
 #
@@ -727,7 +727,7 @@ def setRefreshTextureColorSpace(force=False):
 
 #
 def setUpdateArnoldTx():
-    if projectPr.isMayaUsedArnoldRenderer():
+    if prsMethods.Project.isMayaUsedArnoldRenderer():
         # noinspection PyUnresolvedReferences
         from mtoa import txManager
         txManager.UpdateAllTx(force=0)

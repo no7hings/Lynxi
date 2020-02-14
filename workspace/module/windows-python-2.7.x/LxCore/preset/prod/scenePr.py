@@ -1,49 +1,51 @@
 # coding=utf-8
 from LxBasic import bscConfigure, bscCore, bscMethods
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 #
 from LxCore.config import appCfg, sceneCfg
 #
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr, sceneryPr
+from LxCore.preset.prod import assetPr, sceneryPr
 # do not delete and rename
-serverBasicPath = lxScheme.Root().basic.server
-localBasicPath = lxScheme.Root().basic.local
+serverBasicPath = shmOutput.Root().basic.server
+localBasicPath = shmOutput.Root().basic.local
 #
 none = ''
 
 
 # Group Name Config
 def scSceneNameSet(sceneName, subLabelString):
-    nameSet = '%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_Scene, sceneName, subLabelString)
+    nameSet = '%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, subLabelString)
     return nameSet
 
 
 # Group Name Config
 def scSceneSubNameSet(sceneName, sceneVariant, subLabelString):
-    nameSet = '%s_%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_Scene, sceneName, sceneVariant, subLabelString)
+    nameSet = '%s_%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, subLabelString)
     return nameSet
 
 
 # Group Name Config
 def scGroupNameSet(sceneName, groupNameLabel):
     nameSet = '%s_%s%s%s' % (
-        prsVariants.Util.Lynxi_Prefix_Product_Scene, sceneName, groupNameLabel, prsVariants.Util.basicGroupLabel)
+        prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, groupNameLabel, prsVariants.Util.basicGroupLabel)
     return nameSet
 
 
 # Group Name Config
 def scSubGroupNameSet(sceneName, sceneVariant, groupNameLabel):
     nameSet = '%s_%s_%s%s%s' % (
-        prsVariants.Util.Lynxi_Prefix_Product_Scene, sceneName, sceneVariant, groupNameLabel, prsVariants.Util.basicGroupLabel)
+        prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, groupNameLabel, prsVariants.Util.basicGroupLabel)
     return nameSet
 
 
 #
 def sceneFullName(sceneName, sceneVariant):
-    nameSet = '%s_%s_%s' % (prsVariants.Util.Lynxi_Prefix_Product_Scene, sceneName, sceneVariant)
+    nameSet = '%s_%s_%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant)
     return nameSet
 
 
@@ -207,8 +209,8 @@ def defaultSceneSetConfig(projectName, number=0):
         #
         [('layout', u'镜头预览 ( Layout )'), False],
         [('animation', u'镜头动画 ( Animation )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_Solver, u'镜头模拟 ( Solver )'), False],
-        [(lxConfigure.LynxiProduct_Scene_Link_Simulation, u'镜头解算 ( Simulation )'), False],
+        [(lxConfigure.VAR_product_scene_link_solver, u'镜头模拟 ( Solver )'), False],
+        [(lxConfigure.VAR_product_scene_link_simulation, u'镜头解算 ( Simulation )'), False],
         [('light', u'镜头灯光 ( Light )'), False]
     ]
     return lis
@@ -497,7 +499,7 @@ def getUiSceneSetDataDic(projectFilter):
                 scenePriority = data['priority']
                 scLayoutEnable = data['layout']
                 scAnimationEnable = data['animation']
-                scSolverEnable = data[lxConfigure.LynxiProduct_Scene_Link_Solver]
+                scSolverEnable = data[lxConfigure.VAR_product_scene_link_solver]
                 scSimulationEnable = data['simulation']
                 scLightEnable = data['light']
                 for sceneVariant in sceneVariants:
@@ -534,20 +536,20 @@ def scEndFrame(endFrame, keyFrameOffset=None):
 #
 def previewIndexData(linkFile):
     dic = bscCore.orderedDict()
-    dic[lxConfigure.STR_key_info_time] = bscMethods.OsTimestamp.active()
-    dic[lxConfigure.STR_key_info_username] = bscMethods.OsSystem.username()
-    dic[lxConfigure.STR_key_info_sourcefile] = linkFile
+    dic[lxConfigure.DEF_key_info_time] = bscMethods.OsTimestamp.active()
+    dic[lxConfigure.DEF_key_info_username] = bscMethods.OsSystem.username()
+    dic[lxConfigure.DEF_key_info_sourcefile] = linkFile
     return dic
 
 
 #
 def alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description=None, notes=None):
     return {
-        lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
-        lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
+        lxConfigure.DEF_key_info_time: bscMethods.OsTimestamp.active(),
+        lxConfigure.DEF_key_info_username: bscMethods.OsSystem.username(),
         #
-        lxConfigure.STR_key_info_description: description,
-        lxConfigure.STR_key_info_note: notes,
+        lxConfigure.DEF_key_info_description: description,
+        lxConfigure.DEF_key_info_note: notes,
         #
         lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
         #
@@ -560,8 +562,8 @@ def alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description=None
 # Get Dict For Animation Camera Cache's Link
 def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeTag):
     dic = bscCore.orderedDict()
-    dic[lxConfigure.STR_key_info_time] = bscMethods.OsTimestamp.active()
-    dic[lxConfigure.STR_key_info_username] = bscMethods.OsSystem.username()
+    dic[lxConfigure.DEF_key_info_time] = bscMethods.OsTimestamp.active()
+    dic[lxConfigure.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
     dic[lxConfigure.Lynxi_Key_Info_Stage] = sceneStage
     dic[lxConfigure.Lynxi_Key_Info_Version] = timeTag
@@ -579,8 +581,8 @@ def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeT
 def furCacheIndexData(nodePath, solverNodeType, cacheFile, startFrame, endFrame, sample, solverMode, timeTag):
     dic = bscCore.orderedDict()
     #
-    dic[lxConfigure.STR_key_info_time] = bscMethods.OsTimestamp.active()
-    dic[lxConfigure.STR_key_info_username] = bscMethods.OsSystem.username()
+    dic[lxConfigure.DEF_key_info_time] = bscMethods.OsTimestamp.active()
+    dic[lxConfigure.DEF_key_info_username] = bscMethods.OsSystem.username()
     dic['version'] = timeTag
     #
     dic['startFrame'] = startFrame
@@ -626,7 +628,7 @@ def scRenderSize():
 #
 def isLayoutLinkName(sceneStage):
     boolean = False
-    if sceneStage in lxConfigure.LynxiScLayoutStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_layout:
+    if sceneStage in lxConfigure.LynxiScLayoutStages or sceneStage == lxConfigure.VAR_product_scene_link_layout:
         boolean = True
     return boolean
 
@@ -634,7 +636,7 @@ def isLayoutLinkName(sceneStage):
 #
 def isAnimationLinkName(sceneStage):
     boolean = False
-    if sceneStage in lxConfigure.LynxiScAnimationStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Animation:
+    if sceneStage in lxConfigure.LynxiScAnimationStages or sceneStage == lxConfigure.VAR_product_scene_link_animation:
         boolean = True
     return boolean
 
@@ -642,7 +644,7 @@ def isAnimationLinkName(sceneStage):
 #
 def isSolverLinkName(sceneStage):
     boolean = False
-    if sceneStage in lxConfigure.LynxiScSolverStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Solver:
+    if sceneStage in lxConfigure.LynxiScSolverStages or sceneStage == lxConfigure.VAR_product_scene_link_solver:
         boolean = True
     return boolean
 
@@ -650,7 +652,7 @@ def isSolverLinkName(sceneStage):
 #
 def isSimulationLinkName(sceneStage):
     boolean = False
-    if sceneStage in lxConfigure.LynxiScSimulationStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Simulation:
+    if sceneStage in lxConfigure.LynxiScSimulationStages or sceneStage == lxConfigure.VAR_product_scene_link_simulation:
         boolean = True
     return boolean
 
@@ -658,7 +660,7 @@ def isSimulationLinkName(sceneStage):
 #
 def isLightLinkName(sceneStage):
     boolean = False
-    if sceneStage in lxConfigure.LynxiScLightStages or sceneStage == lxConfigure.LynxiProduct_Scene_Link_Light:
+    if sceneStage in lxConfigure.LynxiScLightStages or sceneStage == lxConfigure.VAR_product_scene_link_light:
         boolean = True
     return boolean
 
@@ -1431,8 +1433,8 @@ def scAstCfxNurbsHairCacheFile(rootIndexKey, projectName, sceneName, sceneVarian
 def scUnitIndexDic(sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, startFrame, endFrame):
     dic = bscCore.orderedDict()
     #
-    dic[lxConfigure.STR_key_info_time] = bscMethods.OsTimestamp.active()
-    dic[lxConfigure.STR_key_info_username] = bscMethods.OsSystem.username()
+    dic[lxConfigure.DEF_key_info_time] = bscMethods.OsTimestamp.active()
+    dic[lxConfigure.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
     dic[prsVariants.Util.basicIndexAttrLabel] = sceneIndex
     dic[prsVariants.Util.basicProjectAttrLabel] = projectName
@@ -1880,7 +1882,7 @@ def getScAstSolverCacheActive(projectName, sceneName, sceneVariant, assetName, n
 
 #
 def getScAstModelPoseCacheActive(projectName, sceneName, sceneVariant, assetName, number):
-    timeTag = bscConfigure.MtdBasic.STR_time_tag_default
+    timeTag = bscConfigure.MtdBasic.DEF_time_tag_default
     cache = scAstModelPoseAlembicCacheFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
@@ -1909,7 +1911,7 @@ def getScAstRigExtraCacheActive(projectName, sceneName, sceneVariant, assetName,
 def getScCameraCacheDic(projectName, sceneName, sceneVariant, subLabelString):
     dic = bscCore.orderedDict()
     #
-    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation]
+    sceneStages = [lxConfigure.VAR_product_scene_link_layout, lxConfigure.VAR_product_scene_link_animation, lxConfigure.VAR_product_scene_link_simulation]
     for sceneStage in sceneStages:
         cacheFile = scUnitCameraAlembicCacheFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -1971,7 +1973,7 @@ def getScAstCfxFurCache(projectName, sceneName, sceneVariant, assetName, number,
 #
 def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, number):
     dic = bscCore.orderedDict()
-    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation, lxConfigure.LynxiProduct_Scene_Link_Solver]
+    sceneStages = [lxConfigure.VAR_product_scene_link_layout, lxConfigure.VAR_product_scene_link_animation, lxConfigure.VAR_product_scene_link_simulation, lxConfigure.VAR_product_scene_link_solver]
     for sceneStage in sceneStages:
         cacheFile = scAstModelAlembicCacheFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -1994,7 +1996,7 @@ def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
 #
 def getScAstSolverCacheDic(projectName, sceneName, sceneVariant, assetName, number):
     dic = bscCore.orderedDict()
-    sceneStages = [lxConfigure.LynxiProduct_Scene_Link_layout, lxConfigure.LynxiProduct_Scene_Link_Animation, lxConfigure.LynxiProduct_Scene_Link_Simulation, lxConfigure.LynxiProduct_Scene_Link_Solver]
+    sceneStages = [lxConfigure.VAR_product_scene_link_layout, lxConfigure.VAR_product_scene_link_animation, lxConfigure.VAR_product_scene_link_simulation, lxConfigure.VAR_product_scene_link_solver]
     for sceneStage in sceneStages:
         cacheFile = scAstSolverAlembicCacheFile(
             lxConfigure.LynxiRootIndex_Server,
@@ -2031,7 +2033,7 @@ def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
     if osFiles:
         for fileString_ in osFiles:
             fileString_ = fileString_.replace('\\', '/')
-            dic.setdefault(lxConfigure.LynxiProduct_Asset_Link_Rig, []).append(fileString_)
+            dic.setdefault(lxConfigure.VAR_product_asset_link_rig, []).append(fileString_)
     #
     return dic
 
@@ -2070,7 +2072,7 @@ def getScAstCfxFurCacheDic(projectName, sceneName, sceneVariant, assetName, numb
             for fileDirectory in fileDirectorys:
                 fileDirectory = fileDirectory.replace('\\', '/')
                 fileString_ = bscMethods.OsPath.composeBy(fileDirectory, osFileBasename)
-                dic.setdefault(lxConfigure.LynxiProduct_Asset_Link_Groom, []).append(fileString_)
+                dic.setdefault(lxConfigure.VAR_product_asset_link_groom, []).append(fileString_)
     return dic
 
 
@@ -2276,8 +2278,8 @@ def getScRenderIndexData(
 ):
     dic = bscCore.orderedDict()
     #
-    dic[lxConfigure.STR_key_info_time] = bscMethods.OsTimestamp.active()
-    dic[lxConfigure.STR_key_info_username] = bscMethods.OsSystem.username()
+    dic[lxConfigure.DEF_key_info_time] = bscMethods.OsTimestamp.active()
+    dic[lxConfigure.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
     dic[prsVariants.Util.basicIndexAttrLabel] = sceneIndex
     dic[prsVariants.Util.basicProjectAttrLabel] = projectName
@@ -2329,7 +2331,7 @@ def getScRenderCompose(projectName, sceneCategory, sceneName, sceneVariant, scen
 
 #
 def getScTdUploadCommand(projectName, link):
-    dataDic = projectPr.getProjectMayaTdPresetDic(projectName)
+    dataDic = prsMethods.Project.mayaTdPresetDict(projectName)
     if dataDic:
         if link in dataDic:
             data = dataDic[link]
@@ -2352,7 +2354,7 @@ def getScTdUploadCommand(projectName, link):
 
 #
 def getScTdLoadCommand(projectName, link):
-    dataDic = projectPr.getProjectMayaTdPresetDic(projectName)
+    dataDic = prsMethods.Project.mayaTdPresetDict(projectName)
     if dataDic:
         if link in dataDic:
             data = dataDic[link]

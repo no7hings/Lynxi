@@ -2,11 +2,11 @@
 from LxBasic import bscCore
 
 
-class Abc_String(bscCore.BscMtdBasic):
+class Abc_String(bscCore.Mtd_BscBasic):
     pass
 
 
-class Abc_System(bscCore.BscMtdBasic):
+class Abc_System(bscCore.Mtd_BscBasic):
     platform_dic = {
         u'Windows': u'windows',
         u'Linux': u'linux'
@@ -48,7 +48,7 @@ class Abc_System(bscCore.BscMtdBasic):
         return self._getSystemHost()
 
 
-class Abc_Time(bscCore.BscMtdBasic):
+class Abc_Time(bscCore.Mtd_BscBasic):
     def _initAbcTime(self, timestamp):
         self._timestamp = timestamp
 
@@ -69,7 +69,7 @@ class Abc_Time(bscCore.BscMtdBasic):
         return self._timestampToPrettify(self._timestamp)
 
 
-class Abc_Path(bscCore.BscMtdBasic):
+class Abc_Path(bscCore.Mtd_BscBasic):
     pass
 
 
@@ -112,7 +112,7 @@ class Abc_File(Abc_Path):
         return self._fileString
 
 
-class Abc_DccPath(bscCore.BscMtdBasic):
+class Abc_DccPath(bscCore.Mtd_BscBasic):
     separator_namespace = None
     separator_node = None
     separator_attribute = None

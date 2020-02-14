@@ -3,8 +3,6 @@ from LxBasic import bscObjects, bscMethods
 #
 from LxPreset import prsMethods
 #
-from LxCore.preset.prod import projectPr
-#
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit
@@ -24,16 +22,16 @@ class IfAssetProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self.setupGroup()
     #
-    def getProjectName(self):
+    def activeName(self):
         return self._projectChooseTab.datum()
     #
     def setupGroup(self):
         def updateAppProjectName():
             if self.mainWindow():
                 if self.mainWindow().isVisible():
-                    curProjectName = self.getProjectName()
+                    curProjectName = self.activeName()
                     #
-                    projectPr.setLocalAppProjectPreset(curProjectName)
+                    prsMethods.Project._setAppLocalConfig(curProjectName)
         #
         def overviewUnitMethod(*args):
             if self.userLevel > 0:
@@ -62,15 +60,15 @@ class IfAssetProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
                 unit.refreshMethod()
         #
         def setMain():
-            projectName = projectPr.getAppProjectName()
+            projectName = prsMethods.Project.appActiveName()
             #
             if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict()
                 else:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic(projectName)
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict(projectName)
             else:
-                projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                projectExtendDatumDic = prsMethods.Project.uidatumDict()
             #
             self._projectChooseTab.setExtendDatumDic(projectExtendDatumDic)
             self._projectChooseTab.setChoose(projectName)
@@ -104,16 +102,16 @@ class IfSceneryProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self.setupGroup()
     #
-    def getProjectName(self):
+    def activeName(self):
         return self._projectChooseTab.datum()
     #
     def setupGroup(self):
         def updateAppProjectName():
             if self.mainWindow():
                 if self.mainWindow().isVisible():
-                    curProjectName = self.getProjectName()
+                    curProjectName = self.activeName()
                     #
-                    projectPr.setLocalAppProjectPreset(curProjectName)
+                    prsMethods.Project._setAppLocalConfig(curProjectName)
         #
         def overviewUnitMethod(*args):
             if self.userLevel > 0:
@@ -143,15 +141,15 @@ class IfSceneryProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
                 unit.refreshMethod()
         #
         def setMain():
-            projectName = projectPr.getAppProjectName()
+            projectName = prsMethods.Project.appActiveName()
             #
             if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict()
                 else:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic(projectName)
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict(projectName)
             else:
-                projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                projectExtendDatumDic = prsMethods.Project.uidatumDict()
             #
             self._projectChooseTab.setExtendDatumDic(projectExtendDatumDic)
             self._projectChooseTab.setChoose(projectName)
@@ -185,16 +183,16 @@ class IfSceneProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
         #
         self.setupGroup()
     #
-    def getProjectName(self):
+    def activeName(self):
         return self._projectChooseTab.datum()
     #
     def setupGroup(self):
         def updateAppProjectName():
             if self.mainWindow():
                 if self.mainWindow().isVisible():
-                    curProjectName = self.getProjectName()
+                    curProjectName = self.activeName()
                     #
-                    projectPr.setLocalAppProjectPreset(curProjectName)
+                    prsMethods.Project._setAppLocalConfig(curProjectName)
         #
         def overviewUnitMethod(*args):
             if self.userLevel > 0:
@@ -223,14 +221,14 @@ class IfSceneProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
                 unit.refreshMethod()
         #
         def setMain():
-            projectName = projectPr.getAppProjectName()
+            projectName = prsMethods.Project.appActiveName()
             if bscMethods.MayaApp.isActive():
                 if self.userLevel > 1:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict()
                 else:
-                    projectExtendDatumDic = projectPr.getProjectExtendDatumDic(projectName)
+                    projectExtendDatumDic = prsMethods.Project.uidatumDict(projectName)
             else:
-                projectExtendDatumDic = projectPr.getProjectExtendDatumDic()
+                projectExtendDatumDic = prsMethods.Project.uidatumDict()
             #
             self._projectChooseTab.setExtendDatumDic(projectExtendDatumDic)
             self._projectChooseTab.setChoose(projectName)

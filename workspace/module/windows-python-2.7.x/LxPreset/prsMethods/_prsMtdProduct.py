@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMethods
 
 from LxPreset import prsCore
 
@@ -43,14 +43,14 @@ class _UtilMethod(object):
 
 
 class Product(
-    prsCore.PrsProductBasic,
+    prsCore.Mtd_PrsProductBasic,
     _UtilMethod
 ):
     pass
 
 
 class Asset(
-    prsCore.PrsAssetBasic,
+    prsCore.Mtd_PrsAssetBasic,
     _UtilMethod
 ):
     @classmethod
@@ -157,12 +157,12 @@ class Asset(
 
 
 class Scenery(
-    prsCore.PrsSceneryBasic,
+    prsCore.Mtd_PrsSceneryBasic,
     _UtilMethod
 ):
     @classmethod
     def toName(cls, *args):
-        return prsVariants.Util.Lynxi_Prefix_Product_Scenery + cls._setLabelnameCovertToName(*args)
+        return prsVariants.Util.Lynxi_Prefix_Product_scenery + cls._setLabelnameCovertToName(*args)
 
     @classmethod
     def toGroupName(cls, *args):
@@ -254,12 +254,12 @@ class Scenery(
 
 
 class Scene(
-    prsCore.PrsSceneBasic,
+    prsCore.Mtd_PrsSceneBasic,
     _UtilMethod
 ):
     @classmethod
     def toName(cls, *args):
-        return prsVariants.Util.Lynxi_Prefix_Product_Scene + cls._setLabelnameCovertToName(*args)
+        return prsVariants.Util.Lynxi_Prefix_Product_scene + cls._setLabelnameCovertToName(*args)
 
     @classmethod
     def toGroupName(cls, *args):

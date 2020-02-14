@@ -10,9 +10,9 @@ class ShadersetAssign(mtlObjAbstract.Abc_ShadersetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
-    STR_geometry_separator = mtlConfigure.Separator_Raw_Basic
+    DEF_geometry_separator = mtlConfigure.Separator_Raw_Basic
 
-    STR_mtlx_key_element = 'materialassign'
+    DEF_mtlx_key_element = 'materialassign'
 
     def __init__(self, *args):
         """
@@ -25,7 +25,7 @@ class PropertysetAssign(mtlObjAbstract.Abc_PropertysetAssign):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
-    STR_mtlx_key_element = 'propertysetAssign'
+    DEF_mtlx_key_element = 'propertysetAssign'
 
     def __init__(self, *args):
         """
@@ -43,7 +43,7 @@ class VisibilityAssign(mtlObjAbstract.Abc_VisibilityAssign):
     CLS_value_visibility = _mtlObjValue.Val_Visibility
     CLS_def_geometry = _mtlObjDefinition.GeometryDefinition
 
-    STR_mtlx_key_element = 'visibility'
+    DEF_mtlx_key_element = 'visibility'
 
     def __init__(self, *args):
         """

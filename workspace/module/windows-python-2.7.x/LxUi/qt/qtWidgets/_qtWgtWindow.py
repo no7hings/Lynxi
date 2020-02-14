@@ -1,9 +1,7 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMethods
 
-from LxCore import lxScheme
-
-from LxUi import uiCore
+from LxScheme import shmOutput
 
 from LxUi.qt import qtCore
 
@@ -319,14 +317,14 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
 
     @staticmethod
     def _setMessageCount(value):
-        lxScheme.Shm_Interface().setMessageCount(value)
+        shmOutput.Interface().setMessageCount(value)
 
     def uiShow(self, *args):
         self._messageShow()
 
     @staticmethod
     def _messageCount():
-        return lxScheme.Shm_Interface().messageCount()
+        return shmOutput.Interface().messageCount()
 
     def _messageShow(self):
         width, height = self.windowModel().defaultSize()

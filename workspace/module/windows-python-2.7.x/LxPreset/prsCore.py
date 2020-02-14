@@ -6,30 +6,34 @@ from LxPreset import prsConfigure
 from LxCore import lxConfigure
 
 
-class PrsProductBasic(prsConfigure.PrsBasic):
+class Mtd_PrsBasic(prsConfigure.PrsBasic):
+    pass
+
+
+class Mtd_PrsProductBasic(prsConfigure.PrsProduct):
     @classmethod
     def moduleNames(cls):
-        return cls.LynxiProduct_ModuleLis
+        return cls.VAR_product_module_list
 
     @classmethod
     def moduleShowname(cls, moduleString):
-        return cls.LynxiProduct_Module_ShowName_Dic[moduleString][1]
+        return cls.VAR_product_module_showname_dict[moduleString][1]
 
     @classmethod
     def modulePrefixname(cls, moduleString):
-        return cls.LynxiProduct_Module_PrefixDic[moduleString]
+        return cls.VAR_product_module_prefix_dict[moduleString]
 
     @classmethod
     def isValidModuleName(cls, moduleString):
-        return moduleString in cls.LynxiProduct_ModuleLis
+        return moduleString in cls.VAR_product_module_list
 
     @classmethod
     def stepNames(cls):
-        return cls.LynxiProduct_Step_Lis
+        return cls.VAR_product_step_list
 
     @classmethod
     def stepShownamesDic(cls):
-        return cls.LynxiProduct_Step_ShowName_Dic
+        return cls.VAR_product_step_showname_dict
 
     @staticmethod
     def _toProductUnitName(number):
@@ -37,87 +41,87 @@ class PrsProductBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def isValidAssetCategoryName(cls, categoryString):
-        return categoryString in cls.LynxiProduct_Asset_Class_Lis
+        return categoryString in cls.VAR_product_asset_category_list
 
     @classmethod
     def isValidSceneryCategoryName(cls, categoryString):
-        return categoryString in cls.LynxiProduct_Scenery_Class_Lis
+        return categoryString in cls.VAR_product_scenery_category_Lis
 
     @classmethod
     def isValidSceneCategoryName(cls, categoryString):
-        return categoryString in cls.LynxiProduct_Scene_Class_Lis
+        return categoryString in cls.VAR_product_scene_category_list
 
     @classmethod
     def moduleCategoryNames(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Asset_Class_Lis
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Scenery_Class_Lis
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Scene_Class_Lis
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_asset_category_list
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_scenery_category_Lis
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_scene_category_list
 
     @classmethod
     def moduleClassShownames(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Asset_Class_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Scenery_Class_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Scene_Class_ShowName_Dic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_asset_category_showname_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_scenery_category_showname_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_scene_category_showname_dict
 
     @classmethod
     def _lxProductClassUiDatumDic(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Asset_Class_UiDatumDic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Scenery_Class_UiDatumDic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Scene_Class_UiDatumDic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_asset_category_uidatum_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_scenery_category_uidatum_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_scene_category_uidatum_dict
 
     @classmethod
     def _lxProductPriorityUiDatum(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiUnit_Priority_UiDatumDic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiUnit_Priority_UiDatumDic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiUnit_Priority_UiDatumDic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_priority_uidatum_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_priority_uidatum_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_priority_uidatum_dict
 
     @classmethod
     def _lxProductLinkLis(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Asset_Link_Lis
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Scenery_Link_Lis
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Scene_Link_Lis
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_asset_link_list
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_scenery_link_list
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_scene_link_list
 
     @classmethod
     def moduleLinkShownameDic(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Asset_Link_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Scenery_Link_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Scene_Link_ShowName_Dic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_asset_link_showname_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_scenery_link_showname_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_scene_link_showname_dict
 
     @classmethod
     def moduleStepShownameDic(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiProduct_Step_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiProduct_Step_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiProduct_Step_ShowName_Dic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_step_showname_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_step_showname_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_step_showname_dict
 
     @classmethod
     def modulePriorityShownameDic(cls, moduleString):
-        if moduleString == cls.LynxiProduct_Module_Asset:
-            return cls.LynxiUnit_Priority_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scenery:
-            return cls.LynxiUnit_Priority_ShowName_Dic
-        elif moduleString == cls.LynxiProduct_Module_Scene:
-            return cls.LynxiUnit_Priority_ShowName_Dic
+        if moduleString == cls.VAR_product_module_asset:
+            return cls.VAR_product_priority_showname_dict
+        elif moduleString == cls.VAR_product_module_scenery:
+            return cls.VAR_product_priority_showname_dict
+        elif moduleString == cls.VAR_product_Module_scene:
+            return cls.VAR_product_priority_showname_dict
 
     @classmethod
     def lxDbProductUnitDefaultSetConfig(cls, projectString, moduleString, number):
@@ -130,11 +134,11 @@ class PrsProductBasic(prsConfigure.PrsBasic):
                     )
         #
         lis = [
-            [(cls.LynxiProduct_Unit_Key_Project, u'项目 [ Project(s) ]'), (projectString,)],
-            [(cls.LynxiProduct_Unit_Key_Name, u'名字 [ Name ]'), cls._toProductUnitName(number)],
-            [(cls.LynxiProduct_Unit_Key_Variant, u'变体 [ Variant(s) ]'), (bscConfigure.MtdBasic.STR_Value_Default,)],
-            [(cls.LynxiProduct_Unit_Key_Category, u'类型 [ Classify ]'), cls._lxProductClassUiDatumDic(moduleString)],
-            [(cls.LynxiProduct_Unit_Key_Priority, u'优先级 [ Priority ]'), cls._lxProductPriorityUiDatum(moduleString)]
+            [(cls.VAR_product_key_project, u'项目 [ Project(s) ]'), (projectString,)],
+            [(cls.VAR_product_key_Name, u'名字 [ Name ]'), cls._toProductUnitName(number)],
+            [(cls.VAR_product_key_Variant, u'变体 [ Variant(s) ]'), (bscConfigure.MtdBasic.DEF_Value_Default,)],
+            [(cls.VAR_product_key_category, u'类型 [ Category ]'), cls._lxProductClassUiDatumDic(moduleString)],
+            [(cls.VAR_product_key_priority, u'优先级 [ Priority ]'), cls._lxProductPriorityUiDatum(moduleString)]
         ]
         addLinkDatum()
         return lis
@@ -157,7 +161,7 @@ class PrsProductBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def attributeNames(cls):
-        return cls.LynxiProduct_Unit_AttrNameLis
+        return cls.VAR_product_attribute_list
 
     @classmethod
     def isValidAttributeName(cls, attributeName):
@@ -165,79 +169,79 @@ class PrsProductBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def rootLabel(cls):
-        return cls.LynxiUnit_Label_Root
+        return cls.VAR_product_label_root
     
  
-class PrsAssetBasic(prsConfigure.PrsBasic):
+class Mtd_PrsAssetBasic(prsConfigure.PrsProduct):
     @classmethod
     def prefix(cls):
-        return cls.LynxiProduct_Module_Prefix_Asset
+        return cls.VAR_product_module_prefix_asset
 
     @classmethod
     def moduleName(cls):
-        return cls.LynxiProduct_Module_Asset
+        return cls.VAR_product_module_asset
 
     @classmethod
     def moduleShowname(cls):
-        return cls.LynxiProduct_Module_ShowName_Dic[cls.LynxiProduct_Module_Asset][1]
+        return cls.VAR_product_module_showname_dict[cls.VAR_product_module_asset][1]
 
     @classmethod
     def linkNames(cls):
-        return cls.LynxiProduct_Asset_Link_Lis
+        return cls.VAR_product_asset_link_list
 
     @classmethod
     def modelLinkName(cls):
-        return cls.LynxiProduct_Asset_Link_Model
+        return cls.VAR_product_asset_link_model
 
     @classmethod
     def rigLinkName(cls):
-        return cls.LynxiProduct_Asset_Link_Rig
+        return cls.VAR_product_asset_link_rig
 
     @classmethod
     def groomLinkName(cls):
-        return cls.LynxiProduct_Asset_Link_Groom
+        return cls.VAR_product_asset_link_groom
 
     @classmethod
     def solverLinkName(cls):
-        return cls.LynxiProduct_Asset_Link_Solver
+        return cls.VAR_product_asset_link_solver
 
     @classmethod
     def lightLinkName(cls):
-        return cls.LynxiProduct_Asset_Link_Light
+        return cls.VAR_product_asset_link_light
     
     @classmethod
     def isModelStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiAstModelStages or stageString == cls.LynxiProduct_Asset_Link_Model:
+        if stageString in lxConfigure.LynxiAstModelStages or stageString == cls.VAR_product_asset_link_model:
             return True
         return False
 
     @classmethod
     def isRigStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiAstRigStages or stageString == cls.LynxiProduct_Asset_Link_Rig:
+        if stageString in lxConfigure.LynxiAstRigStages or stageString == cls.VAR_product_asset_link_rig:
             return True
         return False
 
     @classmethod
     def isGroomStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiAstCfxStages or stageString == cls.LynxiProduct_Asset_Link_Groom:
+        if stageString in lxConfigure.LynxiAstCfxStages or stageString == cls.VAR_product_asset_link_groom:
             return True
         return False
 
     @classmethod
     def isSolverStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiAstRigSolStages or stageString == cls.LynxiProduct_Asset_Link_Solver:
+        if stageString in lxConfigure.LynxiAstRigSolStages or stageString == cls.VAR_product_asset_link_solver:
             return True
         return False
 
     @classmethod
     def isLightStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiScLightStages or stageString == cls.LynxiProduct_Asset_Link_Light:
+        if stageString in lxConfigure.LynxiScLightStages or stageString == cls.VAR_product_asset_link_light:
             return True
         return False
 
     @classmethod
     def isAssemblyStageName(cls, stageString):
-        if stageString in lxConfigure.LynxiAstAssemblyStages or stageString == cls.LynxiProduct_Asset_Link_Assembly:
+        if stageString in lxConfigure.LynxiAstAssemblyStages or stageString == cls.VAR_product_asset_link_assembly:
             return True
         return False
 
@@ -258,20 +262,20 @@ class PrsAssetBasic(prsConfigure.PrsBasic):
     @classmethod
     def stageName2linkName(cls, stageString):
         if cls.isModelStageName(stageString):
-            return cls.LynxiProduct_Asset_Link_Model
+            return cls.VAR_product_asset_link_model
         elif cls.isRigStageName(stageString):
-            return cls.LynxiProduct_Asset_Link_Rig
+            return cls.VAR_product_asset_link_rig
         elif cls.isGroomStageName(stageString):
-            return cls.LynxiProduct_Asset_Link_Groom
+            return cls.VAR_product_asset_link_groom
         elif cls.isSolverStageName(stageString):
-            return cls.LynxiProduct_Asset_Link_Solver
+            return cls.VAR_product_asset_link_solver
         elif cls.isLightStageName(stageString):
-            return cls.LynxiProduct_Asset_Link_Light
-        return cls.LynxiProduct_Asset_Link_Model
+            return cls.VAR_product_asset_link_light
+        return cls.VAR_product_asset_link_model
     
     @classmethod
     def categories(cls):
-        return cls.LynxiProduct_Asset_Class_Lis
+        return cls.VAR_product_asset_category_list
     
     @classmethod
     def isValidCategory(cls, categoryName):
@@ -279,31 +283,31 @@ class PrsAssetBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def isCharacterCategory(cls, categoryName):
-        return categoryName == cls.LynxiProduct_Asset_Class_Character
+        return categoryName == cls.VAR_product_asset_category_character
 
     @classmethod
     def characterCategory(cls):
-        return cls.LynxiProduct_Asset_Class_Character
+        return cls.VAR_product_asset_category_character
 
     @classmethod
     def isPropCategory(cls, categoryName):
-        return categoryName == cls.LynxiProduct_Asset_Class_Prop
+        return categoryName == cls.VAR_product_asset_category_prop
 
     @classmethod
     def propCategory(cls):
-        return cls.LynxiProduct_Asset_Class_Prop
+        return cls.VAR_product_asset_category_prop
 
     @classmethod
     def assemblyCategoryName(cls):
-        return cls.LynxiProduct_Scenery_Class_Assembly
+        return cls.VAR_product_scenery_category_Assembly
     
     @classmethod
     def classShowname(cls, categoryString):
-        return cls.LynxiProduct_Asset_Class_ShowName_Dic[categoryString][1]
+        return cls.VAR_product_asset_category_showname_dict[categoryString][1]
     
     @classmethod
     def linkShowname(cls, linkString):
-        return cls.LynxiProduct_Asset_Link_ShowName_Dic[linkString][1]
+        return cls.VAR_product_asset_link_showname_dict[linkString][1]
     
     @classmethod
     def linkShowname_(cls, stageString):
@@ -311,113 +315,113 @@ class PrsAssetBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def classShownameDic(cls):
-        return cls.LynxiProduct_Asset_Class_UiDatumDic
+        return cls.VAR_product_asset_category_uidatum_dict
 
     @classmethod
     def priorityNames(cls):
-        return cls.LynxiUnit_Priority_Lis
+        return cls.VAR_product_priority_list
 
 
-class PrsSceneryBasic(prsConfigure.PrsBasic):
+class Mtd_PrsSceneryBasic(prsConfigure.PrsProduct):
     @classmethod
     def prefix(cls):
-        return cls.LynxiProduct_Module_Prefix_Scenery
+        return cls.VAR_product_module_prefix_scenery
 
     @classmethod
     def moduleName(cls):
-        return cls.LynxiProduct_Module_Scenery
+        return cls.VAR_product_module_scenery
 
     @classmethod
     def moduleShowname(cls):
-        return cls.LynxiProduct_Module_ShowName_Dic[cls.LynxiProduct_Module_Scenery][1]
+        return cls.VAR_product_module_showname_dict[cls.VAR_product_module_scenery][1]
 
     @classmethod
     def linkNames(cls):
-        return cls.LynxiProduct_Scenery_Link_Lis
+        return cls.VAR_product_scenery_link_list
 
     @classmethod
     def sceneryLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_Scenery
+        return cls.VAR_product_scenery_link_scenery
 
     @classmethod
     def layoutLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_layout
+        return cls.VAR_product_scenery_link_layout
 
     @classmethod
     def animationLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_Animation
+        return cls.VAR_product_scenery_link_animation
 
     @classmethod
     def solverLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_Solver
+        return cls.VAR_product_scenery_link_solver
 
     @classmethod
     def simulationLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_Simulation
+        return cls.VAR_product_scenery_link_simulation
 
     @classmethod
     def lightLinkName(cls):
-        return cls.LynxiProduct_Scenery_Link_Light
+        return cls.VAR_product_scenery_link_light
 
     @classmethod
     def classShowname(cls, categoryString):
-        return cls.LynxiProduct_Scenery_Class_ShowName_Dic[categoryString][1]
+        return cls.VAR_product_scenery_category_showname_dict[categoryString][1]
 
     @classmethod
     def isSceneryLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScnSceneryStages or stageString == cls.LynxiProduct_Scenery_Link_Scenery:
+        if stageString in lxConfigure.LynxiScnSceneryStages or stageString == cls.VAR_product_scenery_link_scenery:
             return True
         return False
 
     @classmethod
     def isLayoutLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScLayoutStages or stageString == cls.LynxiProduct_Scene_Link_layout:
+        if stageString in lxConfigure.LynxiScLayoutStages or stageString == cls.VAR_product_scene_link_layout:
             return True
         return False
 
     @classmethod
     def isAnimationLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScAnimationStages or stageString == cls.LynxiProduct_Scene_Link_Animation:
+        if stageString in lxConfigure.LynxiScAnimationStages or stageString == cls.VAR_product_scene_link_animation:
             return True
         return False
 
     @classmethod
     def isSolverLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScSolverStages or stageString == cls.LynxiProduct_Scene_Link_Solver:
+        if stageString in lxConfigure.LynxiScSolverStages or stageString == cls.VAR_product_scene_link_solver:
             return True
         return False
 
     @classmethod
     def isSimulationLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScSimulationStages or stageString == cls.LynxiProduct_Scene_Link_Simulation:
+        if stageString in lxConfigure.LynxiScSimulationStages or stageString == cls.VAR_product_scene_link_simulation:
             return True
         return False
 
     @classmethod
     def isLightLinkName(cls, stageString):
-        if stageString in lxConfigure.LynxiScLightStages or stageString == cls.LynxiProduct_Scene_Link_Light:
+        if stageString in lxConfigure.LynxiScLightStages or stageString == cls.VAR_product_scene_link_light:
             return True
         return False
 
     @classmethod
     def stageName2linkName(cls, stageString):
         if cls.isSceneryLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_Scenery
+            return cls.VAR_product_scenery_link_scenery
         elif cls.isLayoutLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_layout
+            return cls.VAR_product_scenery_link_layout
         elif cls.isAnimationLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_Animation
+            return cls.VAR_product_scenery_link_animation
         elif cls.isSolverLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_Solver
+            return cls.VAR_product_scenery_link_solver
         elif cls.isSimulationLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_Simulation
+            return cls.VAR_product_scenery_link_simulation
         elif cls.isLightLinkName(stageString):
-            return cls.LynxiProduct_Scenery_Link_Light
-        return cls.LynxiProduct_Scenery_Link_Scenery
+            return cls.VAR_product_scenery_link_light
+        return cls.VAR_product_scenery_link_scenery
 
     @classmethod
     def categories(cls):
-        return cls.LynxiProduct_Scenery_Class_Lis
+        return cls.VAR_product_scenery_category_Lis
 
     @classmethod
     def isValidCategory(cls, categoryName):
@@ -425,7 +429,7 @@ class PrsSceneryBasic(prsConfigure.PrsBasic):
     
     @classmethod
     def linkShowname(cls, linkString):
-        return cls.LynxiProduct_Scenery_Link_ShowName_Dic[linkString][1]
+        return cls.VAR_product_scenery_link_showname_dict[linkString][1]
     
     @classmethod
     def linkShowname_(cls, stageString):
@@ -433,101 +437,101 @@ class PrsSceneryBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def classShownameDic(cls):
-        return cls.LynxiProduct_Scenery_Class_UiDatumDic
+        return cls.VAR_product_scenery_category_uidatum_dict
 
     @classmethod
     def priorityNames(cls):
-        return cls.LynxiUnit_Priority_Lis
+        return cls.VAR_product_priority_list
     
 
-class PrsSceneBasic(prsConfigure.PrsBasic):
+class Mtd_PrsSceneBasic(prsConfigure.PrsProduct):
     @classmethod
     def prefix(cls):
-        return cls.LynxiProduct_Module_Prefix_Scene
+        return cls.VAR_product_module_prefix_scene
 
     @classmethod
     def moduleName(cls):
-        return cls.LynxiProduct_Module_Scene
+        return cls.VAR_product_Module_scene
 
     @classmethod
     def moduleShowname(cls):
-        return cls.LynxiProduct_Module_ShowName_Dic[cls.LynxiProduct_Module_Scene][1]
+        return cls.VAR_product_module_showname_dict[cls.VAR_product_Module_scene][1]
 
     @classmethod
     def linkNames(cls):
-        return cls.LynxiProduct_Scene_Link_Lis
+        return cls.VAR_product_scene_link_list
 
     @classmethod
     def layoutLinkName(cls):
-        return cls.LynxiProduct_Scene_Link_layout
+        return cls.VAR_product_scene_link_layout
 
     @classmethod
     def animationLinkName(cls):
-        return cls.LynxiProduct_Scene_Link_Animation
+        return cls.VAR_product_scene_link_animation
 
     @classmethod
     def solverLinkName(cls):
-        return cls.LynxiProduct_Scene_Link_Solver
+        return cls.VAR_product_scene_link_solver
 
     @classmethod
     def simulationLinkName(cls):
-        return cls.LynxiProduct_Scene_Link_Simulation
+        return cls.VAR_product_scene_link_simulation
 
     @classmethod
     def lightLinkName(cls):
-        return cls.LynxiProduct_Scene_Link_Light
+        return cls.VAR_product_scene_link_light
     
     @classmethod
     def classShowname(cls, categoryString):
-        return cls.LynxiProduct_Scene_Class_ShowName_Dic[categoryString][1]
+        return cls.VAR_product_scene_category_showname_dict[categoryString][1]
 
     @classmethod
     def isLayoutLinkName(cls, sceneStage):
-        if sceneStage in lxConfigure.LynxiScLayoutStages or sceneStage == cls.LynxiProduct_Scene_Link_layout:
+        if sceneStage in lxConfigure.LynxiScLayoutStages or sceneStage == cls.VAR_product_scene_link_layout:
             return True
         return False
 
     @classmethod
     def isAnimationLinkName(cls, sceneStage):
-        if sceneStage in lxConfigure.LynxiScAnimationStages or sceneStage == cls.LynxiProduct_Scene_Link_Animation:
+        if sceneStage in lxConfigure.LynxiScAnimationStages or sceneStage == cls.VAR_product_scene_link_animation:
             return True
         return False
 
     @classmethod
     def isSolverLinkName(cls, sceneStage):
-        if sceneStage in lxConfigure.LynxiScSolverStages or sceneStage == cls.LynxiProduct_Scene_Link_Solver:
+        if sceneStage in lxConfigure.LynxiScSolverStages or sceneStage == cls.VAR_product_scene_link_solver:
             return True
         return False
 
     @classmethod
     def isSimulationLinkName(cls, sceneStage):
-        if sceneStage in lxConfigure.LynxiScSimulationStages or sceneStage == cls.LynxiProduct_Scene_Link_Simulation:
+        if sceneStage in lxConfigure.LynxiScSimulationStages or sceneStage == cls.VAR_product_scene_link_simulation:
             return True
         return False
 
     @classmethod
     def isLightLinkName(cls, sceneStage):
-        if sceneStage in lxConfigure.LynxiScLightStages or sceneStage == cls.LynxiProduct_Scene_Link_Light:
+        if sceneStage in lxConfigure.LynxiScLightStages or sceneStage == cls.VAR_product_scene_link_light:
             return True
         return False
 
     @classmethod
     def stageName2linkName(cls, sceneStage):
         if cls.isLayoutLinkName(sceneStage):
-            return cls.LynxiProduct_Scene_Link_layout
+            return cls.VAR_product_scene_link_layout
         elif cls.isAnimationLinkName(sceneStage):
-            return cls.LynxiProduct_Scene_Link_Animation
+            return cls.VAR_product_scene_link_animation
         elif cls.isSolverLinkName(sceneStage):
-            return cls.LynxiProduct_Scene_Link_Solver
+            return cls.VAR_product_scene_link_solver
         elif cls.isSimulationLinkName(sceneStage):
-            return cls.LynxiProduct_Scene_Link_Simulation
+            return cls.VAR_product_scene_link_simulation
         elif cls.isLightLinkName(sceneStage):
-            return cls.LynxiProduct_Scene_Link_Light
-        return cls.LynxiProduct_Scene_Link_layout
+            return cls.VAR_product_scene_link_light
+        return cls.VAR_product_scene_link_layout
     
     @classmethod
     def categories(cls):
-        return cls.LynxiProduct_Scene_Class_Lis
+        return cls.VAR_product_scene_category_list
 
     @classmethod
     def isValidCategory(cls, categoryName):
@@ -535,7 +539,7 @@ class PrsSceneBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def linkShowname(cls, linkString):
-        return cls.LynxiProduct_Scene_Link_ShowName_Dic[linkString][1]
+        return cls.VAR_product_scene_link_showname_dict[linkString][1]
 
     @classmethod
     def linkShowname_(cls, stageString):
@@ -543,8 +547,8 @@ class PrsSceneBasic(prsConfigure.PrsBasic):
 
     @classmethod
     def classShownameDic(cls):
-        return cls.LynxiProduct_Scene_Class_UiDatumDic
+        return cls.VAR_product_scene_category_uidatum_dict
 
     @classmethod
     def priorityNames(cls):
-        return cls.LynxiUnit_Priority_Lis
+        return cls.VAR_product_priority_list

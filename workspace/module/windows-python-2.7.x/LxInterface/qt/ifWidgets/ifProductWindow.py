@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 #
 from LxPreset import prsMethods
-#
-from LxCore.preset.prod import projectPr
 #
 from LxUi import uiCore
 #
@@ -19,7 +19,7 @@ from LxInterface.qt.ifWidgets import ifShelf
 #
 class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
     _Title = 'Project'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self):
         super(QtIf_ProjectWindow, self).__init__()
 
@@ -65,7 +65,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
         u"提示：请输入 工作组（ Team ）...",
     ]
     _Title = 'Personnel'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(QtIf_PersonnelWindow, self).__init__(parent)
 
@@ -224,7 +224,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
 #
 class QtIf_ToolFloatWindow(qtWidgets.QtFloatWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(QtIf_ToolFloatWindow, self).__init__(parent)
 
@@ -246,7 +246,7 @@ class QtIf_ToolFloatWindow(qtWidgets.QtFloatWindow):
         self.setActionData(actionDatumLis)
 
     def setupShelf(self):
-        presetDic = projectPr.getProjectMayaShelfDataDic()
+        presetDic = prsMethods.Project.mayaShelfDatumDict()
         if presetDic:
             shelf = qtWidgets.QtVShelfTabgroup()
             self.addWidget(shelf)
@@ -301,9 +301,9 @@ class QtIf_ToolFloatWindow(qtWidgets.QtFloatWindow):
 class QtIf_ToolkitWindow(qtWidgets.QtToolWindow):
     leftBoxWidth = 160
     #
-    projectName = projectPr.getMayaProjectName()
+    projectName = prsMethods.Project.mayaActiveName()
     _Title = 'Toolkit'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(QtIf_ToolkitWindow, self).__init__(parent)
 
@@ -330,7 +330,7 @@ class QtIf_ToolkitWindow(qtWidgets.QtToolWindow):
 #
 class If_QtProductManagerWindow(qtWidgets.QtWindow):
     _Title = 'Lynxi'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self):
         self._initWindow()
         #
@@ -353,7 +353,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
 #
 class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Asset Manager'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtAssetManagerWindow, self).__init__(parent)
 
@@ -384,7 +384,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scenery Manager'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneryManagerWindow, self).__init__(parent)
 
@@ -415,7 +415,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
 #
 class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     _Title = 'Scene Manager'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneManagerWindow, self).__init__(parent)
 

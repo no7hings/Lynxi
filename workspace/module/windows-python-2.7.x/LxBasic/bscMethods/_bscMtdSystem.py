@@ -2,7 +2,7 @@
 from LxBasic import bscCore
 
 
-class OsEnviron(bscCore.BscMtdBasic):
+class OsEnviron(bscCore.Mtd_BscBasic):
     @classmethod
     def get(cls, key, failobj=None):
         return cls._getOsEnvironRawWithKey(key, failobj)
@@ -53,7 +53,7 @@ class OsEnviron(bscCore.BscMtdBasic):
         return dic
 
 
-class OsSystem(bscCore.BscMtdBasic):
+class OsSystem(bscCore.Mtd_BscBasic):
     @classmethod
     def username(cls):
         return cls._getSystemUsername()
@@ -88,12 +88,12 @@ class OsSystem(bscCore.BscMtdBasic):
         return OsEnviron.getAsPath('userprofile') + '/Documents'
 
 
-class MayaApp(bscCore.ApplicationBasic):
-    STR_name_application = 'maya'
+class MayaApp(bscCore.Mtd_BscApplicationBasic):
+    DEF_name_application = 'maya'
 
     @classmethod
     def isActive(cls):
-        return cls._isActiveApplication(cls.STR_name_application)
+        return cls._isActiveApplication(cls.DEF_name_application)
 
     @classmethod
     def fullVersion(cls):
@@ -115,7 +115,7 @@ class MayaApp(bscCore.ApplicationBasic):
 
     @classmethod
     def documentDirectory(cls, versionString=None):
-        basicFolder = cls._toOsPathString([OsSystem.documentDirectory(), cls.STR_name_application])
+        basicFolder = cls._toOsPathString([OsSystem.documentDirectory(), cls.DEF_name_application])
         # Custom Version
         if versionString is None or versionString == 'Unspecified':
             versionString = cls.version()
@@ -132,7 +132,7 @@ class MayaApp(bscCore.ApplicationBasic):
         return cls._toOsPathString([mayaDocPath, 'modules'])
 
 
-class OsTimestamp(bscCore.BscMtdBasic):
+class OsTimestamp(bscCore.Mtd_BscBasic):
     @classmethod
     def active(cls):
         return cls._getSystemActiveTimestamp()
@@ -154,7 +154,7 @@ class OsTimestamp(bscCore.BscMtdBasic):
         return cls._timestampToChnPrettify(timestamp, useMode)
 
 
-class OsTimetag(bscCore.BscMtdBasic):
+class OsTimetag(bscCore.Mtd_BscBasic):
     @classmethod
     def toChnPrettify(cls, timetag, useMode=0):
         return cls._timetagToChnPrettify(timetag, useMode)

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscCore
 
-DIC_path_database = {
+VAR_path_database = {
     'basic': '{dbAssetRoot}/{dbBasicFolderName}/{dbAssetBasicKey}',
     'assetIndexSub': '{dbAssetRoot}/{dbBasicFolderName}/{dbAssetBasicKey}/{dbIndexSubKey}',
     'assetNurbscurveSub': '{dbAssetRoot}/{dbBasicFolderName}/{dbAssetBasicKey}/{dbNurbsCurveSubKey}',
@@ -66,7 +66,7 @@ DIC_path_database = {
     'sceneryPictureSub': '{dbAssetRoot}/{dbBasicFolderName}/{dbSceneryBasicKey}/{dbPictureSubKey}'
 }
 
-DIC_path_asset = {
+VAR_path_asset = {
     'basic': '{basicAssetFolder}/{basicUnitFolder}',
     'model': '{basicAssetFolder}/{basicUnitFolder}/{asset.variant}',
     'rig': '{basicAssetFolder}/{basicUnitFolder}',
@@ -77,253 +77,253 @@ DIC_path_asset = {
 
 
 class PrsBasic(object):
+    pass
+
+
+class PrsProduct(object):
     # Module
-    LynxiProduct_Module_Asset = 'asset'
-    LynxiProduct_Module_Prefix_Asset = 'ast'
-    LynxiProduct_Module_Scenery = 'scenery'
-    LynxiProduct_Module_Prefix_Scenery = 'scn'
-    LynxiProduct_Module_Scene = 'scene'
-    LynxiProduct_Module_Prefix_Scene = 'sc'
+    VAR_product_module_asset = 'asset'
+    VAR_product_module_prefix_asset = 'ast'
+    VAR_product_module_scenery = 'scenery'
+    VAR_product_module_prefix_scenery = 'scn'
+    VAR_product_Module_scene = 'scene'
+    VAR_product_module_prefix_scene = 'sc'
     #
-    LynxiProduct_ModuleLis = [
-        LynxiProduct_Module_Asset,
-        LynxiProduct_Module_Scenery,
-        LynxiProduct_Module_Scene
+    VAR_product_module_list = [
+        VAR_product_module_asset,
+        VAR_product_module_scenery,
+        VAR_product_Module_scene
     ]
     #
-    LynxiProduct_Module_PrefixDic = {
-        LynxiProduct_Module_Asset: LynxiProduct_Module_Prefix_Asset,
-        LynxiProduct_Module_Scenery: LynxiProduct_Module_Prefix_Scenery,
-        LynxiProduct_Module_Scene: LynxiProduct_Module_Prefix_Scene
+    VAR_product_module_prefix_dict = {
+        VAR_product_module_asset: VAR_product_module_prefix_asset,
+        VAR_product_module_scenery: VAR_product_module_prefix_scenery,
+        VAR_product_Module_scene: VAR_product_module_prefix_scene
     }
-    LynxiProduct_Module_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_module_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Module_Asset, ('Asset', u'资产')),
-            (LynxiProduct_Module_Scenery, ('Scenery', u'场景')),
-            (LynxiProduct_Module_Scene, ('Scene', u'镜头'))
+            (VAR_product_module_asset, ('Asset', u'资产')),
+            (VAR_product_module_scenery, ('Scenery', u'场景')),
+            (VAR_product_Module_scene, ('Scene', u'镜头'))
         ]
     )
     # Asset
-    LynxiProduct_Asset_Class_Character = 'character'
-    LynxiProduct_Asset_Class_Prop = 'prop'
+    VAR_product_asset_category_character = 'character'
+    VAR_product_asset_category_prop = 'prop'
     #
-    LynxiProduct_Asset_Class_Lis = [
-        LynxiProduct_Asset_Class_Character,
-        LynxiProduct_Asset_Class_Prop
+    VAR_product_asset_category_list = [
+        VAR_product_asset_category_character,
+        VAR_product_asset_category_prop
     ]
-    LynxiProduct_Asset_Class_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_asset_category_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Asset_Class_Character, ('Character', u'角色')),
-            (LynxiProduct_Asset_Class_Prop, ('Prop', u'道具'))
+            (VAR_product_asset_category_character, ('Character', u'角色')),
+            (VAR_product_asset_category_prop, ('Prop', u'道具'))
         ]
     )
-    LynxiProduct_Asset_Class_UiDatumDic = bscCore.orderedDict(
+    VAR_product_asset_category_uidatum_dict = bscCore.orderedDict(
         [
-            ('ast0', (LynxiProduct_Asset_Class_Character, u'角色')),
-            ('ast1', (LynxiProduct_Asset_Class_Prop, u'道具'))
+            ('ast0', (VAR_product_asset_category_character, u'角色')),
+            ('ast1', (VAR_product_asset_category_prop, u'道具'))
         ]
     )
     # Scenery
-    LynxiProduct_Scenery_Class_Scenery = 'scenery'
-    LynxiProduct_Scenery_Class_Group = 'group'
-    LynxiProduct_Scenery_Class_Assembly = 'assembly'
+    VAR_product_scenery_category_scenery = 'scenery'
+    VAR_product_scenery_category_Group = 'group'
+    VAR_product_scenery_category_Assembly = 'assembly'
     #
-    LynxiProduct_Scenery_Class_Lis = [
-        LynxiProduct_Scenery_Class_Scenery,
-        LynxiProduct_Scenery_Class_Group,
-        LynxiProduct_Scenery_Class_Assembly
+    VAR_product_scenery_category_Lis = [
+        VAR_product_scenery_category_scenery,
+        VAR_product_scenery_category_Group,
+        VAR_product_scenery_category_Assembly
     ]
-    LynxiProduct_Scenery_Class_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_scenery_category_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Scenery_Class_Scenery, ('Scenery', u'场景')),
-            (LynxiProduct_Scenery_Class_Group, ('Group', u'组合')),
-            (LynxiProduct_Scenery_Class_Assembly, ('Assembly', u'组装'))
+            (VAR_product_scenery_category_scenery, ('Scenery', u'场景')),
+            (VAR_product_scenery_category_Group, ('Group', u'组合')),
+            (VAR_product_scenery_category_Assembly, ('Assembly', u'组装'))
         ]
     )
-    LynxiProduct_Scenery_Class_UiDatumDic = bscCore.orderedDict(
+    VAR_product_scenery_category_uidatum_dict = bscCore.orderedDict(
         [
-            ('scn0', (LynxiProduct_Scenery_Class_Scenery, u'场景')),
-            ('scn1', (LynxiProduct_Scenery_Class_Group, u'组合')),
-            ('scn2', (LynxiProduct_Scenery_Class_Assembly, u'组装'))
+            ('scn0', (VAR_product_scenery_category_scenery, u'场景')),
+            ('scn1', (VAR_product_scenery_category_Group, u'组合')),
+            ('scn2', (VAR_product_scenery_category_Assembly, u'组装'))
         ]
     )
     # Scene
-    LynxiProduct_Scene_Class_Scene = 'scene'
-    LynxiProduct_Scene_Class_Act = 'act'
+    VAR_product_scene_category_scene = 'scene'
+    VAR_product_scene_category_act = 'act'
     #
-    LynxiProduct_Scene_Class_Lis = [
-        LynxiProduct_Scene_Class_Scene,
-        LynxiProduct_Scene_Class_Act
+    VAR_product_scene_category_list = [
+        VAR_product_scene_category_scene,
+        VAR_product_scene_category_act
     ]
-    LynxiProduct_Scene_Class_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_scene_category_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Scene_Class_Scene, ('Scene', u'镜头')),
-            (LynxiProduct_Scene_Class_Act, ('Act', u'动作'))
+            (VAR_product_scene_category_scene, ('Scene', u'镜头')),
+            (VAR_product_scene_category_act, ('Act', u'动作'))
         ]
     )
-    LynxiProduct_Scene_Class_UiDatumDic = bscCore.orderedDict(
+    VAR_product_scene_category_uidatum_dict = bscCore.orderedDict(
         [
-            ('sc0', (LynxiProduct_Scene_Class_Scene, u'镜头')),
-            ('sc1', (LynxiProduct_Scene_Class_Act, u'动作'))
+            ('sc0', (VAR_product_scene_category_scene, u'镜头')),
+            ('sc1', (VAR_product_scene_category_act, u'动作'))
         ]
     )
     # Priority
-    LynxiUnit_Priority_Major = 'major'
-    LynxiUnit_Priority_Minor = 'minor'
-    LynxiUnit_Priority_Util = 'util'
+    VAR_product_priority_major = 'major'
+    VAR_product_priority_minor = 'minor'
+    VAR_product_priority_util = 'util'
     #
-    LynxiUnit_Priority_Lis = [
-        LynxiUnit_Priority_Major,
-        LynxiUnit_Priority_Minor,
-        LynxiUnit_Priority_Util
+    VAR_product_priority_list = [
+        VAR_product_priority_major,
+        VAR_product_priority_minor,
+        VAR_product_priority_util
     ]
-    LynxiUnit_Priority_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_priority_showname_dict = bscCore.orderedDict(
         [
-            (LynxiUnit_Priority_Major, ('Major', u'主要')),
-            (LynxiUnit_Priority_Minor, ('Minor', u'次要')),
-            (LynxiUnit_Priority_Util, ('Util', u'龙套'))
+            (VAR_product_priority_major, ('Major', u'主要')),
+            (VAR_product_priority_minor, ('Minor', u'次要')),
+            (VAR_product_priority_util, ('Util', u'龙套'))
         ]
     )
-    LynxiUnit_Priority_UiDatumDic = bscCore.orderedDict(
+    VAR_product_priority_uidatum_dict = bscCore.orderedDict(
         [
-            ('prt0', (LynxiUnit_Priority_Major, u'主要')),
-            ('prt1', (LynxiUnit_Priority_Minor, u'次要')),
-            ('prt2', (LynxiUnit_Priority_Util, u'龙套'))
+            ('prt0', (VAR_product_priority_major, u'主要')),
+            ('prt1', (VAR_product_priority_minor, u'次要')),
+            ('prt2', (VAR_product_priority_util, u'龙套'))
         ]
     )
     # Asset
-    LynxiProduct_Asset_Link_Model = 'model'
-    LynxiProduct_Asset_Link_Rig = 'rig'
-    LynxiProduct_Asset_Link_Groom = 'cfx'
-    LynxiProduct_Asset_Link_Solver = 'solver'
-    LynxiProduct_Asset_Link_Light = 'light'
-    LynxiProduct_Asset_Link_Assembly = 'assembly'
+    VAR_product_asset_link_model = 'model'
+    VAR_product_asset_link_rig = 'rig'
+    VAR_product_asset_link_groom = 'cfx'
+    VAR_product_asset_link_solver = 'solver'
+    VAR_product_asset_link_light = 'light'
+    VAR_product_asset_link_assembly = 'assembly'
     #
-    LynxiProduct_Asset_Link_Lis = [
-        LynxiProduct_Asset_Link_Model,
-        LynxiProduct_Asset_Link_Rig,
-        LynxiProduct_Asset_Link_Groom,
-        LynxiProduct_Asset_Link_Solver,
-        LynxiProduct_Asset_Link_Light,
-        LynxiProduct_Asset_Link_Assembly
+    VAR_product_asset_link_list = [
+        VAR_product_asset_link_model,
+        VAR_product_asset_link_rig,
+        VAR_product_asset_link_groom,
+        VAR_product_asset_link_solver,
+        VAR_product_asset_link_light,
+        VAR_product_asset_link_assembly
     ]
-    LynxiProduct_Asset_Link_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_asset_link_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Asset_Link_Model, ('Model', u'模型')),
-            (LynxiProduct_Asset_Link_Rig, ('Rig', u'绑定')),
-            (LynxiProduct_Asset_Link_Groom, ('Groom', u'毛发塑形')),
-            (LynxiProduct_Asset_Link_Solver, ('Solver Rig', u'毛发绑定')),
-            (LynxiProduct_Asset_Link_Light, ('Light', u'灯光')),
-            (LynxiProduct_Asset_Link_Assembly, ('Assembly', u'组装'))
+            (VAR_product_asset_link_model, ('Model', u'模型')),
+            (VAR_product_asset_link_rig, ('Rig', u'绑定')),
+            (VAR_product_asset_link_groom, ('Groom', u'毛发塑形')),
+            (VAR_product_asset_link_solver, ('Solver Rig', u'毛发绑定')),
+            (VAR_product_asset_link_light, ('Light', u'灯光')),
+            (VAR_product_asset_link_assembly, ('Assembly', u'组装'))
         ]
     )
     # Scenery
-    LynxiProduct_Scenery_Link_Scenery = 'scenery'
-    LynxiProduct_Scenery_Link_layout = 'layout'
-    LynxiProduct_Scenery_Link_Animation = 'animation'
-    LynxiProduct_Scenery_Link_Simulation = 'simulation'
-    LynxiProduct_Scenery_Link_Solver = 'solver'
-    LynxiProduct_Scenery_Link_Light = 'light'
+    VAR_product_scenery_link_scenery = 'scenery'
+    VAR_product_scenery_link_layout = 'layout'
+    VAR_product_scenery_link_animation = 'animation'
+    VAR_product_scenery_link_simulation = 'simulation'
+    VAR_product_scenery_link_solver = 'solver'
+    VAR_product_scenery_link_light = 'light'
 
-    LynxiProduct_Scenery_Link_Lis = [
-        LynxiProduct_Scenery_Link_Scenery,
-        LynxiProduct_Scenery_Link_layout,
-        LynxiProduct_Scenery_Link_Animation,
-        LynxiProduct_Scenery_Link_Simulation,
-        LynxiProduct_Scenery_Link_Solver,
-        LynxiProduct_Scenery_Link_Light
+    VAR_product_scenery_link_list = [
+        VAR_product_scenery_link_scenery,
+        VAR_product_scenery_link_layout,
+        VAR_product_scenery_link_animation,
+        VAR_product_scenery_link_simulation,
+        VAR_product_scenery_link_solver,
+        VAR_product_scenery_link_light
     ]
-    LynxiProduct_Scenery_Link_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_scenery_link_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Scenery_Link_Scenery, ('Scenery', u'场景布景')),
-            (LynxiProduct_Scenery_Link_layout, ('Layout', u'场景预览')),
-            (LynxiProduct_Scenery_Link_Animation, ('Animation', u'场景动画')),
-            (LynxiProduct_Scenery_Link_Simulation, ('Simulation', u'场景解算')),
-            (LynxiProduct_Scenery_Link_Solver, ('Solver', u'场景模拟')),
-            (LynxiProduct_Scenery_Link_Light, ('Light', u'场景灯光'))
+            (VAR_product_scenery_link_scenery, ('Scenery', u'场景布景')),
+            (VAR_product_scenery_link_layout, ('Layout', u'场景预览')),
+            (VAR_product_scenery_link_animation, ('Animation', u'场景动画')),
+            (VAR_product_scenery_link_simulation, ('Simulation', u'场景解算')),
+            (VAR_product_scenery_link_solver, ('Solver', u'场景模拟')),
+            (VAR_product_scenery_link_light, ('Light', u'场景灯光'))
         ]
     )
 
-    LynxiProduct_Scene_Link_layout = 'layout'
-    LynxiProduct_Scene_Link_Animation = 'animation'
-    LynxiProduct_Scene_Link_Simulation = 'simulation'
-    LynxiProduct_Scene_Link_Solver = 'solver'
-    LynxiProduct_Scene_Link_Light = 'light'
+    VAR_product_scene_link_layout = 'layout'
+    VAR_product_scene_link_animation = 'animation'
+    VAR_product_scene_link_simulation = 'simulation'
+    VAR_product_scene_link_solver = 'solver'
+    VAR_product_scene_link_light = 'light'
 
-    LynxiProduct_Scene_Link_Lis = [
-        LynxiProduct_Scene_Link_layout,
-        LynxiProduct_Scene_Link_Animation,
-        LynxiProduct_Scene_Link_Simulation,
-        LynxiProduct_Scene_Link_Solver,
-        LynxiProduct_Scene_Link_Light
+    VAR_product_scene_link_list = [
+        VAR_product_scene_link_layout,
+        VAR_product_scene_link_animation,
+        VAR_product_scene_link_simulation,
+        VAR_product_scene_link_solver,
+        VAR_product_scene_link_light
     ]
-    LynxiProduct_Scene_Link_ShowName_Dic = bscCore.orderedDict(
+    VAR_product_scene_link_showname_dict = bscCore.orderedDict(
         [
-            (LynxiProduct_Scene_Link_layout, ('Layout', u'镜头预览')),
-            (LynxiProduct_Scene_Link_Animation, ('Animation', u'镜头动画')),
-            (LynxiProduct_Scene_Link_Simulation, ('Simulation', u'镜头解算')),
-            (LynxiProduct_Scene_Link_Solver, ('Solver', u'镜头模拟')),
-            (LynxiProduct_Scene_Link_Light, ('Light', u'镜头灯光'))
+            (VAR_product_scene_link_layout, ('Layout', u'镜头预览')),
+            (VAR_product_scene_link_animation, ('Animation', u'镜头动画')),
+            (VAR_product_scene_link_simulation, ('Simulation', u'镜头解算')),
+            (VAR_product_scene_link_solver, ('Solver', u'镜头模拟')),
+            (VAR_product_scene_link_light, ('Light', u'镜头灯光'))
         ]
     )
 
-    LynxiProduct_Module_Class_Dic = {
-        LynxiProduct_Module_Asset: LynxiProduct_Asset_Class_Lis,
-        LynxiProduct_Module_Scenery: LynxiProduct_Scenery_Class_Lis,
-        LynxiProduct_Module_Scene: LynxiProduct_Scene_Class_Lis
+    VAR_product_module_category_dict = {
+        VAR_product_module_asset: VAR_product_asset_category_list,
+        VAR_product_module_scenery: VAR_product_scenery_category_Lis,
+        VAR_product_Module_scene: VAR_product_scene_category_list
     }
 
-    LynxiUnit_Label_Root = 'unitRoot'
+    VAR_product_key_priority = 'priority'
+    VAR_product_key_Name = 'name'
+    VAR_product_key_Variant = 'variant'
 
-    LynxiUnit_AttrName_Id = 'index'
-    LynxiUnit_AttrName_Class = 'classification'
-    LynxiUnit_AttrName_Name = 'name'
-    LynxiUnit_AttrName_Variant = 'variant'
-    LynxiUnit_AttrName_Stage = 'stage'
+    VAR_product_step_pending = 'pending'
+    VAR_product_step_wip = 'wip'
+    VAR_product_step_delivery = 'delivery'
+    VAR_product_step_refine = 'refine'
+    VAR_product_step_validated = 'validated'
 
-    LynxiProduct_Unit_AttrNameLis = [
-        LynxiUnit_AttrName_Id,
-        LynxiUnit_AttrName_Class,
-        LynxiUnit_AttrName_Name,
-        LynxiUnit_AttrName_Variant,
-        LynxiUnit_AttrName_Stage
+    VAR_product_step_list = [
+        VAR_product_step_pending,
+        VAR_product_step_wip,
+        VAR_product_step_delivery,
+        VAR_product_step_refine,
+        VAR_product_step_validated
     ]
 
-    LynxiProduct_Unit_Key_Project = 'project'
-    LynxiProduct_Unit_Key_Category = 'classify'
-    LynxiProduct_Unit_Key_Module = 'module'
-    LynxiProduct_Unit_Key_Link = 'link'
-    LynxiProduct_Unit_Key_Stage = 'stage'
-
-    LynxiProduct_Unit_Key_Priority = 'priority'
-    LynxiProduct_Unit_Key_Name = 'name'
-    LynxiProduct_Unit_Key_Variant = 'variant'
-
-    LynxiProduct_Step_Pending = 'pending'
-    LynxiProduct_Step_Wip = 'wip'
-    LynxiProduct_Step_Delivery = 'delivery'
-    LynxiProduct_Step_Refine = 'refine'
-    LynxiProduct_Step_Validated = 'validated'
-
-    LynxiProduct_Step_Lis = [
-        LynxiProduct_Step_Pending,
-        LynxiProduct_Step_Wip,
-        LynxiProduct_Step_Delivery,
-        LynxiProduct_Step_Refine,
-        LynxiProduct_Step_Validated
-    ]
-
-    LynxiProduct_Step_ShowName_Dic = {
-        LynxiProduct_Step_Pending: ('Pending', u'等待'),
-        LynxiProduct_Step_Wip: ('WIP', u'制作'),
-        LynxiProduct_Step_Delivery: ('Delivery', u'提交'),
-        LynxiProduct_Step_Refine: ('Refine', u'返修'),
-        LynxiProduct_Step_Validated: ('Validated', u'通过')
+    VAR_product_step_showname_dict = {
+        VAR_product_step_pending: ('Pending', u'等待'),
+        VAR_product_step_wip: ('WIP', u'制作'),
+        VAR_product_step_delivery: ('Delivery', u'提交'),
+        VAR_product_step_refine: ('Refine', u'返修'),
+        VAR_product_step_validated: ('Validated', u'通过')
     }
 
-    LynxiAttrName_Object_Transparent = 'lxObjectTransparent'
-    LynxiAttrName_Object_RenderVisible = 'lxObjectRenderVisible'
+    VAR_product_label_root = 'unitRoot'
 
+    VAR_product_key_project = 'project'
+    VAR_product_key_category = 'classify'
+    VAR_product_key_module = 'module'
+    VAR_product_key_link = 'link'
+    VAR_product_key_stage = 'stage'
 
-class PrsPipeline(object):
-    pass
+    VAR_product_attribute_id = 'index'
+    VAR_product_attribute_category = 'classification'
+    VAR_product_attribute_name = 'name'
+    VAR_product_attribute_variant = 'variant'
+    VAR_product_attribute_stage = 'stage'
+
+    VAR_product_attribute_list = [
+        VAR_product_attribute_id,
+        VAR_product_attribute_category,
+        VAR_product_attribute_name,
+        VAR_product_attribute_variant,
+        VAR_product_attribute_stage
+    ]
+
+    VAR_product_attribute_object_transparent = 'lxObjectTransparent'
+    VAR_product_attribute_object_renderable = 'lxObjectRenderVisible'

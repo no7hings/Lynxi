@@ -350,8 +350,8 @@ def scUnitAstAlembicCacheUploadCmd(
     # Index
     if indexKey is not None:
         cacheIndex = {
-            lxConfigure.STR_key_info_time: bscMethods.OsTimestamp.active(),
-            lxConfigure.STR_key_info_username: bscMethods.OsSystem.username(),
+            lxConfigure.DEF_key_info_time: bscMethods.OsTimestamp.active(),
+            lxConfigure.DEF_key_info_username: bscMethods.OsSystem.username(),
             #
             lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
             #
@@ -863,7 +863,7 @@ def scUnitAssetCachesUploadCmd(
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
                             lxConfigure.LynxiRootIndex_Server,
                             projectName,
-                            sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Solver,
+                            sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_solver,
                             assetName, number
                         )[1]
                         scAstModelCacheIndexKey = None
@@ -943,7 +943,7 @@ def scUnitAssetCachesUploadCmd(
                     assetSolverCacheFile = scenePr.scAstSolverAlembicCacheFile(
                         lxConfigure.LynxiRootIndex_Server,
                         projectName,
-                        sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Solver,
+                        sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_solver,
                         assetName, number
                     )[1]
                     # Alembic Cache Sequence
@@ -1409,13 +1409,13 @@ def scUnitDeadlineJobSubmitCmd(
 ):
     logWin_ = bscObjects.If_Log()
     # Info
-    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, bscConfigure.MtdBasic.STR_time_tag_default, useMode=1)
+    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, bscConfigure.MtdBasic.DEF_time_tag_default, useMode=1)
     multLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineInfoFile, infoData)
     bscMethods.OsFile.backupTo(multLineInfoFile, mainLineInfoFile)
     logWin_.addResult(multLineInfoFile)
     # Job
-    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, bscConfigure.MtdBasic.STR_time_tag_default, useMode=1)
+    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, bscConfigure.MtdBasic.DEF_time_tag_default, useMode=1)
     multLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineJobFile, jobData)
     bscMethods.OsFile.backupTo(multLineJobFile, mainLineJobFile)

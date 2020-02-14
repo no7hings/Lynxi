@@ -9,7 +9,7 @@ from LxCore.config import appCfg
 
 from LxPreset import prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr
+from LxCore.preset.prod import assetPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -42,7 +42,7 @@ none = ''
 #
 class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxConfigure.VAR_product_asset_link_model
     ]
     UnitClassLimit = [
         prsMethods.Asset.characterCategory()
@@ -235,7 +235,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model
+        lxConfigure.VAR_product_asset_link_model
     ]
     UnitTitle = 'Model Tool Unit'
     UnitIcon = 'window#modelToolPanel'
@@ -464,7 +464,7 @@ class IfAstModelToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Rig
+        lxConfigure.VAR_product_asset_link_rig
     ]
     UnitTitle = 'Rig Tool Unit'
     UnitIcon = 'window#rigToolPanel'
@@ -498,8 +498,8 @@ class IfAstRigToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Groom,
-        lxConfigure.LynxiProduct_Asset_Link_Solver
+        lxConfigure.VAR_product_asset_link_groom,
+        lxConfigure.VAR_product_asset_link_solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#cfxToolPanel'
@@ -1618,7 +1618,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Solver
+        lxConfigure.VAR_product_asset_link_solver
     ]
     UnitTitle = 'Character FX Tool Unit'
     UnitIcon = 'window#solverToolPanel'
@@ -1873,11 +1873,11 @@ class IfAstSolverToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Groom,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxConfigure.VAR_product_asset_link_model,
+        lxConfigure.VAR_product_asset_link_rig,
+        lxConfigure.VAR_product_asset_link_groom,
+        lxConfigure.VAR_product_asset_link_solver,
+        lxConfigure.VAR_product_asset_link_light
     ]
     UnitTitle = 'General Tool Unit'
     UnitIcon = 'window#utilsToolPanel'
@@ -2341,7 +2341,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         assetVariant = self.connectObject().assetVariant
         assetStage = self.connectObject().assetStage
         #
-        renderer = projectPr.getProjectMayaRenderer(projectName)
+        renderer = prsMethods.Project.mayaRenderer(projectName)
         #
         maAstUploadCmds.astUnitSceneRenameCmd_(
             assetName, assetVariant, assetStage,
@@ -2417,11 +2417,11 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Groom,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxConfigure.VAR_product_asset_link_model,
+        lxConfigure.VAR_product_asset_link_rig,
+        lxConfigure.VAR_product_asset_link_groom,
+        lxConfigure.VAR_product_asset_link_solver,
+        lxConfigure.VAR_product_asset_link_light
     ]
     UnitTitle = 'Information Tool Unit'
     UnitIcon = 'window#infoToolPanel'
@@ -2656,11 +2656,11 @@ class IfAstModelInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 #
 class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     UnitConnectLinks = [
-        lxConfigure.LynxiProduct_Asset_Link_Model,
-        lxConfigure.LynxiProduct_Asset_Link_Rig,
-        lxConfigure.LynxiProduct_Asset_Link_Groom,
-        lxConfigure.LynxiProduct_Asset_Link_Solver,
-        lxConfigure.LynxiProduct_Asset_Link_Light
+        lxConfigure.VAR_product_asset_link_model,
+        lxConfigure.VAR_product_asset_link_rig,
+        lxConfigure.VAR_product_asset_link_groom,
+        lxConfigure.VAR_product_asset_link_solver,
+        lxConfigure.VAR_product_asset_link_light
     ]
     UnitTitle = 'Upload Tool Unit'
     UnitIcon = 'window#uploadToolPanel'
@@ -3298,7 +3298,7 @@ class IfAstUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         directory = prsVariants.Database.assetPreview
         renderPreview = directory + '/' + modelIndex + prsVariants.Util.pngExt
         #
-        renderer = projectPr.getProjectMayaRenderer(projectName)
+        renderer = prsMethods.Project.mayaRenderer(projectName)
         #
         maRender.setRenderSnapshot(
             root, renderPreview, renderer,

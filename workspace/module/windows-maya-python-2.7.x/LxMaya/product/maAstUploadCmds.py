@@ -7,7 +7,7 @@ from LxCore import lxConfigure
 #
 from LxPreset import prsConfigure, prsVariants, prsMethods
 #
-from LxCore.preset.prod import projectPr, assetPr
+from LxCore.preset.prod import assetPr
 #
 from LxCore.product.op import messageOp
 #
@@ -41,7 +41,7 @@ def astUnitModelUploadMainCmd(
         repairMatl, repairTexture, repairAov
 ):
     # Renderer
-    renderer = projectPr.getProjectMayaRenderer(projectName)
+    renderer = prsMethods.Project.mayaRenderer(projectName)
     # Index
     modelIndex = dbGet.getDbAstModelIndex(assetIndex, assetVariant)
     # Updater
@@ -804,13 +804,13 @@ def astUnitUploadAssemblyProductSub(
     serverAstUnitModelProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_model
     )[1]
     # Cfx Product File
     serverAstUnitCfxProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
     )[1]
     # Main
     maFile.new()
@@ -828,7 +828,7 @@ def astUnitUploadAssemblyProductSub(
         serverAstAssemblyModelTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
+            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_model
         )
         #
         shaderObjects = datAsset.getAstMeshObjects(assetName, 1)
@@ -855,7 +855,7 @@ def astUnitUploadAssemblyProductSub(
         serverAssemblyCfxTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
         )
         #
         shaderFurObjects = datAsset.getAstFurShaderObjects(assetName)
@@ -874,7 +874,7 @@ def astUnitUploadAssemblyProductSub(
         serverAssemblyCfxMapDirectory = assetPr.astUnitAssemblyMapFolder(
             lxConfigure.LynxiRootIndex_Server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
         )
         maTxtr.setCollectionMaps(serverAssemblyCfxMapDirectory)
         maTxtr.setRepathMaps(serverAssemblyCfxMapDirectory)
@@ -914,7 +914,7 @@ def astUnitUploadAsbProxyCacheSub(
             serverAstUnitAsbCfxCacheDirectory = assetPr.astUnitAssemblyCacheFolder(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
             )
             # Set Fur Cache
             maFur.setOutYetisCache(serverAstUnitAsbCfxCacheDirectory, furNodes, 1, 1, 3)
@@ -967,8 +967,8 @@ def astUnitUploadAsbGpuCacheSub(
         maUtils.setDefaultShaderColor(r, g, b)
         #
         for meshObject in modelShaderObjects:
-            renderVisible = maUtils.getAttrDatum(meshObject, prsConfigure.PrsBasic.LynxiAttrName_Object_RenderVisible)
-            transparent = maUtils.getAttrDatum(meshObject, prsConfigure.PrsBasic.LynxiAttrName_Object_Transparent)
+            renderVisible = maUtils.getAttrDatum(meshObject, prsConfigure.PrsProduct.VAR_product_attribute_object_renderable)
+            transparent = maUtils.getAttrDatum(meshObject, prsConfigure.PrsProduct.VAR_product_attribute_object_transparent)
             if renderVisible is False:
                 maUtils.setGpuShader(meshObject, r, g, b, 1)
             elif transparent is True:
@@ -1128,7 +1128,7 @@ def astUnitUploadAssemblyDefinitionSub(
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Assembly
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
     )[1]
     # Box Cache
     serverAstUnitAsbBoxCacheFile = assetPr.astUnitAssemblyBoxCacheFile(
@@ -1272,7 +1272,7 @@ def astUnitUploadRigMain(
     # Clean Scene
     astUnitSceneClearCmd()
     # TD Command
-    tdCommand = assetPr.getAstTdUploadCommand(projectName, lxConfigure.LynxiProduct_Asset_Link_Rig)
+    tdCommand = assetPr.getAstTdUploadCommand(projectName, lxConfigure.VAR_product_asset_link_rig)
     if tdCommand:
         maUtils.runMelCommand(tdCommand)
     # Extra >>> 2
@@ -1341,12 +1341,12 @@ def astUnitUploadRigProduct(
     serverRigProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
     )[1]
     backupRigProductFile = assetPr.astUnitProductFile(
         lxConfigure.LynxiRootIndex_Backup,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Rig
+        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
     )[1]
     rigAstTempFile = bscMethods.OsFile.temporaryName(serverRigProductFile, timeTag)
     #
@@ -1409,7 +1409,7 @@ def astUnitCfxUploadMainCmd(
         withProduct, withAssembly, withAov,
         description, notes
 ):
-    renderer = projectPr.getProjectMayaRenderer(projectName)
+    renderer = prsMethods.Project.mayaRenderer(projectName)
     # Index
     assetSubIndex = dbGet.getDbCfxIndex(assetIndex, assetVariant)
     timeTag = bscMethods.OsTimetag.active()

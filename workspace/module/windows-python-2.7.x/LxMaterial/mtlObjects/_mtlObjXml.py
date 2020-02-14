@@ -11,8 +11,8 @@ class XmlDocument(mtlObjAbstract.Abc_XmlDocument):
     CLS_set_reference = _mtlObjSet.Set_Reference
     CLS_set_look = _mtlObjSet.Set_Look
 
-    STR_mtlx_key_element = u'materialx'
-    STR_mtlx_version = u'1.36'
+    DEF_mtlx_key_element = u'materialx'
+    DEF_mtlx_version = u'1.36'
 
     def __init__(self, *args):
         self._initAbcXmlDocument(*args)

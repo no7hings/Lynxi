@@ -2,8 +2,8 @@
 import chardet
 
 from LxBasic import bscCore, bscMethods
-#
-from LxCore import lxScheme
+
+from LxScheme import shmOutput
 #
 from LxUi import uiCore
 #
@@ -2721,13 +2721,13 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
         self._historyButton.setActionData(actionDatumLis)
     #
     def readHistory(self):
-        filterHistoryFile = lxScheme.UserPreset().uiFilterConfigFile
+        filterHistoryFile = shmOutput.UserPreset().uiFilterConfigFile
         data = bscMethods.OsJson.read(filterHistoryFile)
         if data:
             self._historyLis = data
     #
     def writeHistory(self):
-        filterHistoryFile = lxScheme.UserPreset().uiFilterConfigFile
+        filterHistoryFile = shmOutput.UserPreset().uiFilterConfigFile
         data = self._historyLis[-10:]
         bscMethods.OsJson.write(filterHistoryFile, data)
     #

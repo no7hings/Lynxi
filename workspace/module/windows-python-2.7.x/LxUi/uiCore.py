@@ -3,7 +3,7 @@ import threading
 
 from LxBasic import bscMethods
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 
 Lynxi_Ui_Family_Lis = [
     'Arial',
@@ -27,7 +27,7 @@ class UiMtdBasic(object):
 
     @classmethod
     def _lxIconRoot(cls):
-        return lxScheme.Directory().icon.server
+        return shmOutput.Directory().icon.server
 
     @staticmethod
     def _toUiDatum(data):
@@ -104,13 +104,13 @@ class UiMtdBasic(object):
         else:
             iconKeyword = ''
         #
-        fileString_ = u'{}/{}/{}{}'.format(lxScheme.Directory().icon.server, subLabelString, iconKeyword, ext)
+        fileString_ = u'{}/{}/{}{}'.format(shmOutput.Directory().icon.server, subLabelString, iconKeyword, ext)
         #
         if isMayaIcon:
             if bscMethods.OsFile.isExist(fileString_):
                 return fileString_
             else:
-                return '{}/{}/{}{}'.format(lxScheme.Directory().icon.server, subLabelString, 'default', ext)
+                return '{}/{}/{}{}'.format(shmOutput.Directory().icon.server, subLabelString, 'default', ext)
         else:
             return fileString_
 

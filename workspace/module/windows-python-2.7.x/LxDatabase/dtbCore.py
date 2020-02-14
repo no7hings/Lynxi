@@ -44,14 +44,14 @@ class DtbMtdBasic(dtbConfigure.DtbBasic):
     def _lxDbInfoDic(cls, description=None, note=None):
         return bscCore.orderedDict(
             [
-                (cls.STR_key_info_time, bscMethods.OsTimestamp.active()),
-                (cls.STR_key_info_username, bscMethods.OsSystem.username()),
+                (cls.DEF_key_info_time, bscMethods.OsTimestamp.active()),
+                (cls.DEF_key_info_username, bscMethods.OsSystem.username()),
                 #
-                (cls.STR_key_info_host, bscMethods.OsSystem.host()),
-                (cls.STR_key_info_hostname, bscMethods.OsSystem.hostname()),
+                (cls.DEF_key_info_host, bscMethods.OsSystem.host()),
+                (cls.DEF_key_info_hostname, bscMethods.OsSystem.hostname()),
                 #
-                (cls.STR_key_info_description, description),
-                (cls.STR_key_info_note, note)
+                (cls.DEF_key_info_description, description),
+                (cls.DEF_key_info_note, note)
             ]
         )
 

@@ -1,13 +1,13 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 
-from LxPreset import prsCore, prsMethods
+from LxScheme import shmOutput
 
-from LxCore import lxScheme
+from LxPreset import prsMethods
 #
 from LxCore.config import appCfg, assetCfg
 #
-from LxCore.preset.prod import projectPr, assetPr
+from LxCore.preset.prod import assetPr
 #
 from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
@@ -25,7 +25,7 @@ none = ''
 #
 _header = 'window#productionWin'
 _title = 'Asset Production'
-_version = lxScheme.Shm_Resource().version
+_version = shmOutput.Resource().version
 
 
 #
@@ -662,7 +662,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
             pass
     #
     def getAssetInfo(self):
-        projectName = projectPr.getMayaProjectName()
+        projectName = prsMethods.Project.mayaActiveName()
         self.projectName = projectName
         #
         assetInfoLis = datAsset.getAssetInfo()

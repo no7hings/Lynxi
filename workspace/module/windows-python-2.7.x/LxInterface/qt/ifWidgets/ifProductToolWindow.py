@@ -1,11 +1,15 @@
 # coding=utf-8
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxPreset import prsMethods
+
+from LxCore import lxConfigure
 #
 from LxInterface.qt.ifWidgets import ifUnit
 #
-from LxCore.preset.prod import projectPr, scenePr
+from LxCore.preset.prod import scenePr
 #
 from LxDatabase import dtbCore
 #
@@ -54,7 +58,7 @@ class IfScIndexManagerWindow(qtWidgets.QtDialogWindow):
         super(IfScIndexManagerWindow, self).__init__(parent)
 
         self.setDefaultSize(960, 480)
-        self.setIndexText(lxScheme.Shm_Resource().version)
+        self.setIndexText(shmOutput.Resource().version)
         #
         self.setupWindow()
     #
@@ -175,12 +179,12 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
                 #
                 backupSourceFile = scenePr.sceneUnitSourceFile(
                     lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_light,
                 )[1]
                 #
                 backupProductFile = scenePr.scUnitRenderFile(
                     lxConfigure.LynxiRootIndex_Backup,
-                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light,
+                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_light,
                     customize
                 )[1]
                 #
@@ -322,7 +326,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
                 scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
             ) = value
             #
-            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+            sceneStage = lxConfigure.VAR_product_scene_link_light
             #
             startFrame, endFrame = scenePr.getScUnitFrameRange(
                 projectName,
@@ -356,7 +360,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
         #
         sceneItemLis = []
         #
-        projectName = projectPr.getMayaProjectName()
+        projectName = prsMethods.Project.mayaActiveName()
         #
         treeBox = self.treeViewBox
         inData = scenePr.getUiSceneSetDataDic(projectName)
@@ -522,7 +526,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             #
             description, sceneCategory, sceneName = value[:3]
             #
-            sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+            sceneStage = lxConfigure.VAR_product_scene_link_light
             #
             sceneItem = qtWidgets_.QTreeWidgetItem_()
             projectItem.addChild(sceneItem)
@@ -542,7 +546,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         #
         self._methodLis = []
         #
-        projectName = projectPr.getMayaProjectName()
+        projectName = prsMethods.Project.mayaActiveName()
         #
         treeBox = self.leftTreeViewBox
         inData = scenePr.getUiSceneSetDataDic(projectName)
@@ -553,7 +557,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         projectItem.setItemIcon(0, 'svg_basic@svg#project')
         treeBox.addItem(projectItem)
         #
-        projectShowExplain = projectPr.getProjectViewInfo(projectName)
+        projectShowExplain = prsMethods.Project.showinfo(projectName)
         projectItem.setText(0, projectShowExplain)
         #
         projectItem.setExpanded(True)

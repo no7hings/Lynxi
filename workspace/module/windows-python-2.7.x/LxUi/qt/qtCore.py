@@ -8,8 +8,8 @@ import cgitb
 from ctypes import wintypes
 #
 from LxBasic import bscConfigure, bscMethods, bscObjects
-#
-from LxCore import lxConfigure, lxScheme
+
+from LxScheme import shmOutput
 #
 from LxUi import uiCore
 
@@ -168,7 +168,7 @@ misplaced_dic = {
 
 
 def iconRoot():
-    return lxScheme.Directory().icon.server
+    return shmOutput.Directory().icon.server
 
 
 def capitalize(s):
@@ -429,7 +429,7 @@ def mtdTooltipStartModifier(method):
                 self._tooltipWidget.setTooltip(uiTip)
                 self._tooltipWidget.tooltipShow()
                 #
-                lxScheme.Shm_Interface().setTooltipAutoShow(True)
+                shmOutput.Interface().setTooltipAutoShow(True)
             #
             self._tooltipTimer.stop()
         # Class
@@ -2209,15 +2209,15 @@ def getWidgetMinimumHeight(widget):
 
 
 def getTooltipDelayTime():
-    if lxScheme.Shm_Interface().isTooltipAutoShow() is False:
-        return bscConfigure.MtdBasic.INT_ui_time_tooltip_delay
+    if shmOutput.Interface().isTooltipAutoShow() is False:
+        return bscConfigure.MtdBasic.VAR_ui_time_tooltip_delay
     else:
         return 250
 
 
 def closeTooltipAutoShow():
     if TOOLTIP_TIMER.isActive():
-        lxScheme.Shm_Interface().setTooltipAutoShow(False)
+        shmOutput.Interface().setTooltipAutoShow(False)
         TOOLTIP_TIMER.stop()
 
 
@@ -2500,8 +2500,8 @@ def setExistsUiDelete(*args):
 #
 def uiSetupShowMethod(method):
     def subMethod(*args, **kwargs):
-        from LxCore import lxScheme
-        lxScheme.Shm_Resource().loadActive()
+        from LxCore import shmOutput
+        shmOutput.Resource().loadActive()
         #
         from LxCore.setup import plugSetup
         plugSetup.setMayaPlugSetup()
@@ -2515,8 +2515,8 @@ def uiSetupShowMethod(method):
 #
 def uiSetupShowMethod_(method):
     def subMethod(*args, **kwargs):
-        from LxCore import lxScheme
-        lxScheme.Shm_Resource().loadActive()
+        from LxCore import shmOutput
+        shmOutput.Resource().loadActive()
         #
         from LxCore.setup import plugSetup
         plugSetup.setMayaPlugSetup()

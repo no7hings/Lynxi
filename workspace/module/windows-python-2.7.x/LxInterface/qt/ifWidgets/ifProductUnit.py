@@ -1,7 +1,9 @@
 # coding:utf-8
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 #
 from LxCore.config import sceneryCfg, sceneCfg
 #
@@ -19,7 +21,7 @@ from LxUi.qt import qtWidgets_, qtWidgets, qtCore
 #
 from LxDatabase import dbGet
 #
-serverBasicPath = lxScheme.Root().basic.server
+serverBasicPath = shmOutput.Root().basic.server
 #
 none = ''
 
@@ -443,12 +445,12 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             #
             solverUpdate = assetPr.getAssetUnitProductUpdate(
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_solver
             )
             #
             lightUpdate = assetPr.getAssetUnitProductUpdate(
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.LynxiProduct_Asset_Link_Light
+                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_light
             )
             #
             assemblyUpdate = dbGet.getAstUnitDbAssemblyUpdate(projectName, assetCategory, assetName, assetVariant)
@@ -466,32 +468,32 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     (
                         'Model',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Model, 'for Model', astModelEnable, modelUpdate, astModelLoadCmd, astModelCreateCmd)
+                            (lxConfigure.VAR_product_asset_link_model, 'for Model', astModelEnable, modelUpdate, astModelLoadCmd, astModelCreateCmd)
                         ]
                     ),
                     (
                         'Rig',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Rig, 'for Rig', astRigEnable, rigUpdate, loadForRig, createForRig)
+                            (lxConfigure.VAR_product_asset_link_rig, 'for Rig', astRigEnable, rigUpdate, loadForRig, createForRig)
                         ]
                     ),
                     (
                         'FX',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Groom, 'for Groom', astCfxEnable, cfxUpdate, loadForCfx, createForCfx),
-                            (lxConfigure.LynxiProduct_Asset_Link_Solver, 'for Solver Rig', astSolverEnable, solverUpdate, loadForSolver, createForSolver)
+                            (lxConfigure.VAR_product_asset_link_groom, 'for Groom', astCfxEnable, cfxUpdate, loadForCfx, createForCfx),
+                            (lxConfigure.VAR_product_asset_link_solver, 'for Solver Rig', astSolverEnable, solverUpdate, loadForSolver, createForSolver)
                         ]
                     ),
                     (
                         'Light',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Light, 'for Light', astLightEnable, lightUpdate, loadForLight, createForLight)
+                            (lxConfigure.VAR_product_asset_link_light, 'for Light', astLightEnable, lightUpdate, loadForLight, createForLight)
                         ]
                     ),
                     (
                         'Scenery',
                         [
-                            (lxConfigure.LynxiProduct_Asset_Link_Assembly, 'for Scenery', astAssemblyEnable, assemblyUpdate, loadForAssembly, None)
+                            (lxConfigure.VAR_product_asset_link_assembly, 'for Scenery', astAssemblyEnable, assemblyUpdate, loadForAssembly, None)
                         ]
                     )
                 ]
@@ -569,7 +571,7 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._filterIndexDic.clear()
         self._statisticsDic.clear()
         #
-        projectName = self._connectObject.getProjectName()
+        projectName = self._connectObject.activeName()
         #
         gridView = self._centralUpGridview
         #
@@ -841,7 +843,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 maScnLoadCmds.scnUnitAssemblyLoadCmd(
                     projectName,
                     sceneryIndex,
-                    sceneryCategory, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
+                    sceneryCategory, sceneryName, sceneryVariant, lxConfigure.VAR_product_scenery_link_scenery
                 )
             #
             def openSceneryFolder():
@@ -872,13 +874,13 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             viewportPreview = sceneryPr.scnUnitPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                sceneryCategory, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery
+                sceneryCategory, sceneryName, sceneryVariant, lxConfigure.VAR_product_scenery_link_scenery
             )[1]
             #
             renderPreview = sceneryPr.scnUnitPreviewFile(
                 lxConfigure.LynxiRootIndex_Server,
                 projectName,
-                sceneryCategory, sceneryName, sceneryVariant, lxConfigure.LynxiProduct_Scenery_Link_Scenery,
+                sceneryCategory, sceneryName, sceneryVariant, lxConfigure.VAR_product_scenery_link_scenery,
                 prsVariants.Util.pngExt
             )[1]
             #
@@ -944,7 +946,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._filterIndexDic.clear()
         self._statisticsDic.clear()
         #
-        projectName = self._connectObject.getProjectName()
+        projectName = self._connectObject.activeName()
         #
         gridView = self._centralUpGridview
         setMain()
@@ -1238,7 +1240,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     previewFile = scenePr.getScUnitPreviewServerFile(
                         projectName, sceneCategory, sceneName, sceneVariant, sceneLink
                     )
-                    if sceneLink == lxConfigure.LynxiProduct_Scene_Link_Animation:
+                    if sceneLink == lxConfigure.VAR_product_scene_link_animation:
                         if previewFile:
                             index = 1
 
@@ -1288,7 +1290,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         if enable is True:
                             if exists is True:
                                 if loadMethod is not None:
-                                    if sceneLink == lxConfigure.LynxiProduct_Scene_Link_Light:
+                                    if sceneLink == lxConfigure.VAR_product_scene_link_light:
                                         loadExplain = 'Render File'
                                         loadIconKeyword = 'svg_basic@svg#render'
                                     else:
@@ -1429,7 +1431,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 )
             #
             def lightLoadOption():
-                args = sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light, startFrame, endFrame
+                args = sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_light, startFrame, endFrame
                 w = ifProductToolWindow.IfScRenderManagerWindow(parent=self)
                 #
                 w.setArgs(*args)
@@ -1456,7 +1458,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             def openScRenderFolder():
                 osPath = scenePr.scUnitRenderBasicFolder(
                     lxConfigure.LynxiRootIndex_Server,
-                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light
+                    projectName, sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_light
                 )
                 bscMethods.OsDirectory.open(osPath)
             #
@@ -1535,27 +1537,27 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     (
                         'Layout',
                         [
-                            (lxConfigure.LynxiProduct_Scene_Link_layout, scLayoutEnable, 'for Layout', 'link#layout', scCreateForLayoutCmd, None, scLoadForLayoutCmd, None, False)
+                            (lxConfigure.VAR_product_scene_link_layout, scLayoutEnable, 'for Layout', 'link#layout', scCreateForLayoutCmd, None, scLoadForLayoutCmd, None, False)
                         ]
                     ),
                     (
                         'Animation',
                         [
-                            (lxConfigure.LynxiProduct_Scene_Link_Animation, scAnimationEnable, 'for Animation', 'link#animation', scCreateForAnimationCmd, None, scLoadForAnimationCmd, None, True)
+                            (lxConfigure.VAR_product_scene_link_animation, scAnimationEnable, 'for Animation', 'link#animation', scCreateForAnimationCmd, None, scLoadForAnimationCmd, None, True)
                         ]
                     ),
                     (
                         'FX',
                         [
-                            (lxConfigure.LynxiProduct_Scene_Link_Simulation, scSimulationEnable, 'for Cloth Simulation', 'link#simulation', scCreateForSimulationCmd, None, scLoadForSimulationCmd, None, True),
+                            (lxConfigure.VAR_product_scene_link_simulation, scSimulationEnable, 'for Cloth Simulation', 'link#simulation', scCreateForSimulationCmd, None, scLoadForSimulationCmd, None, True),
                             (
-                                lxConfigure.LynxiProduct_Scene_Link_Solver, scSolverEnable, 'for Hair Solver', 'link#solver', scCreateForSolverCmd, None, scLoadForSolverCmd, None, True)
+                                lxConfigure.VAR_product_scene_link_solver, scSolverEnable, 'for Hair Solver', 'link#solver', scCreateForSolverCmd, None, scLoadForSolverCmd, None, True)
                         ]
                     ),
                     (
                         'Light',
                         [
-                            (lxConfigure.LynxiProduct_Scene_Link_Light, scLightEnable, 'for Light', 'svg_basic@svg#lightLink', scCreateForLightCmd, None, lightLoadOption, None, True)
+                            (lxConfigure.VAR_product_scene_link_light, scLightEnable, 'for Light', 'svg_basic@svg#lightLink', scCreateForLightCmd, None, lightLoadOption, None, True)
                         ]
                     )
                 ]
@@ -1628,7 +1630,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                             animationPreviewFile = scenePr.getScUnitPreviewServerFile(
                                 currentProjectName,
                                 sceneCategory, sceneName, sceneVariant,
-                                lxConfigure.LynxiProduct_Scene_Link_Animation
+                                lxConfigure.VAR_product_scene_link_animation
                             )
                             if animationPreviewFile:
                                 lis.append(animationPreviewFile)
@@ -1636,19 +1638,19 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                                 layoutPreviewFile = scenePr.getScUnitPreviewServerFile(
                                     currentProjectName,
                                     sceneCategory, sceneName, sceneVariant,
-                                    lxConfigure.LynxiProduct_Scene_Link_layout
+                                    lxConfigure.VAR_product_scene_link_layout
                                 )
                                 if layoutPreviewFile:
                                     lis.append(layoutPreviewFile)
                 return lis
             #
             def setCheckedLayoutVedioPlayCmd():
-                previewLis = getVedio(lxConfigure.LynxiProduct_Scene_Link_layout)
+                previewLis = getVedio(lxConfigure.VAR_product_scene_link_layout)
                 if previewLis:
                     openVedioCmd(previewLis)
             #
             def setCheckedAnimationVedioPlayCmd():
-                previewLis = getVedio(lxConfigure.LynxiProduct_Scene_Link_Animation)
+                previewLis = getVedio(lxConfigure.VAR_product_scene_link_animation)
                 if previewLis:
                     openVedioCmd(previewLis)
             #
@@ -1702,7 +1704,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._maxIndexCount = 0
         self._maxFrameCount = 0
         #
-        projectName = self._connectObject.getProjectName()
+        projectName = self._connectObject.activeName()
         #
         gridView = self._scGridview
         #
@@ -1811,7 +1813,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         maScLoadCmds.scUnitCameraCacheLoadSubCmd(
                             projectName,
                             sceneIndex,
-                            sceneCategory, sceneName, sceneVariant, lxConfigure.LynxiProduct_Scene_Link_Light, subLabelString,
+                            sceneCategory, sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_light, subLabelString,
                             withCameraCache=i
                         )
             #
@@ -1932,10 +1934,10 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             # gridItem.setTooltip(viewExplain)
             gridView.addItem(gridItem)
             #
-            isAstModelEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Model)
-            isAstRigEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Rig)
-            isAstCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Groom)
-            isAstSolverEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.LynxiProduct_Asset_Link_Solver)
+            isAstModelEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.VAR_product_asset_link_model)
+            isAstRigEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.VAR_product_asset_link_rig)
+            isAstCfxEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.VAR_product_asset_link_groom)
+            isAstSolverEnable = assetPr.getAssetIsLinkEnable(assetIndex, lxConfigure.VAR_product_asset_link_solver)
             #
             viewportPreview = dbGet.dbAstViewportPreviewFile(assetIndex)
             renderPreview = dbGet.dbAstRenderPreviewFile(assetIndex, assetVariant)
@@ -2238,7 +2240,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             def scLoadSceneryForSolver():
                 from LxMaya.product import maScLoadCmds
                 #
-                sceneStage = lxConfigure.LynxiProduct_Scene_Link_Solver
+                sceneStage = lxConfigure.VAR_product_scene_link_solver
                 #
                 maScLoadCmds.scUnitSceneryExtraLoadLoadCmd(
                     projectName,
@@ -2249,7 +2251,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             def scLoadSceneryForLightCmd():
                 from LxMaya.product import maScLoadCmds
                 #
-                sceneStage = lxConfigure.LynxiProduct_Scene_Link_Light
+                sceneStage = lxConfigure.VAR_product_scene_link_light
                 #
                 maScLoadCmds.scUnitSceneryExtraLoadLoadCmd(
                     projectName,

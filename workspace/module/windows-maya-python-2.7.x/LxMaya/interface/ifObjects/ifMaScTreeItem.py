@@ -300,7 +300,7 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+            if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                 actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
@@ -947,7 +947,7 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Model
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.VAR_product_asset_link_model
         )
 
 
@@ -1003,7 +1003,7 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+            if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                 actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
@@ -1136,7 +1136,7 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+            if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                 actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
@@ -1330,7 +1330,7 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Groom
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.VAR_product_asset_link_groom
         )
 
 
@@ -1387,7 +1387,7 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+            if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                 actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage
@@ -1576,7 +1576,7 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
     def _updateServerTimeTag(self):
         self._itemServerTimeTag = assetPr.getAstUnitProductActiveTimeTag(
             self._projectName,
-            self._assetClass, self._assetName, self._assetVariant, lxConfigure.LynxiProduct_Asset_Link_Solver
+            self._assetClass, self._assetName, self._assetVariant, lxConfigure.VAR_product_asset_link_solver
         )
 
 
@@ -1632,7 +1632,7 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
                     self._connectMethod()
             #
             currentTimeTag = bscMethods.OsFile.findTimetag(cacheFile)
-            if not currentTimeTag == bscConfigure.MtdBasic.STR_time_tag_default:
+            if not currentTimeTag == bscConfigure.MtdBasic.DEF_time_tag_default:
                 actionExplain = bscMethods.OsTimetag.toChnPrettify(currentTimeTag)
                 #
                 iconKeyword = 'link#%s' % stage

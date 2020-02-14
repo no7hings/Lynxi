@@ -1,11 +1,11 @@
 # coding=utf-8
-from LxBasic import bscCore, bscObjects, bscMethods
+from LxBasic import bscObjects, bscMethods
+
+from LxPreset import prsMethods
 
 from LxCore import lxConfigure
 
 from LxCore.preset import plugPr
-
-from LxCore.preset.prod import projectPr
 
 IsMayaPlugLoadKey = 'IsMayaPlugLoaded'
 
@@ -36,7 +36,7 @@ def setMayaPlugSetup():
                 #
                 bscObjects.If_Message(u'Plug(s) Load', u'Complete')
             #
-            currentRenderer = projectPr.getProjectMayaRenderer()
+            currentRenderer = prsMethods.Project.mayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)
         #
         lxConfigure.setLxVariantValue(IsMayaPlugLoadKey, True)

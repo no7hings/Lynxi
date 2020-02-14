@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxBasic import bscMethods
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 # Shelf
@@ -16,7 +16,7 @@ _uiBackgroundRgba = (.267, .267, .267)
 shelfWidth = 480
 statusWidth = 480
 #
-_iconRoot = lxScheme.Directory().icon.server
+_iconRoot = shmOutput.Directory().icon.server
 #
 none = ''
 

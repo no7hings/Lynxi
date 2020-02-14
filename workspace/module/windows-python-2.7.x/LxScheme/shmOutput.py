@@ -6,7 +6,7 @@ from LxScheme import shmCore
 from LxScheme.shmObjects import _shmObjPath
 
 
-class Shm_Resource(shmCore.Basic):
+class Resource(shmCore.Basic):
     def __init__(self):
         self._initResource()
 
@@ -74,7 +74,7 @@ class Shm_Resource(shmCore.Basic):
         )
 
     def loadActive(self, force=False):
-        ui = Shm_Interface()
+        ui = Interface()
         ui.restMessageCount()
 
         localVersion = self.version
@@ -99,7 +99,7 @@ class Shm_Resource(shmCore.Basic):
             self.version = serverVersion
 
 
-class Shm_Interface(shmCore.Basic):
+class Interface(shmCore.Basic):
     Environ_Key_Message_Count = 'LYNXI_VALUE_MESSAGE_COUNT'
     Environ_Key_Enable_Tooltip_Auto = 'LYNXI_ENABLE_TOOLTIP_AUTO_SHOW'
     def __init__(self):
@@ -189,7 +189,7 @@ class Directory(object):
 
 class UserPreset(object):
     def __init__(self):
-        self._userName = bscCore.BscMtdBasic()._getSystemUsername()
+        self._userName = bscCore.Mtd_BscBasic()._getSystemUsername()
         self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
     @property

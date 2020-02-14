@@ -68,8 +68,8 @@ def setMayaMenu():
         w.windowShow()
 
     def moduleReloadCmd():
-        from LxCore import lxScheme
-        lxScheme.Shm_Resource().loadActiveModules()
+        from LxScheme import shmOutput
+        shmOutput.Resource().loadActiveModules()
     #
     def setMain():
         mayaMenuBar = getMaMenuBar()
@@ -114,8 +114,8 @@ def setMayaMenu():
                 else:
                     lynxiMenu.addSeparator()
     #
-    from LxCore.preset.prod import projectPr
-    currentProject = projectPr.getMayaProjectName()
+    from LxPreset import prsMethods
+    currentProject = prsMethods.Project.mayaActiveName()
     #
     menuDatumLis = [
         ('Project [ {} ]'.format(currentProject), 'svg_basic@svg#menu', toolShelfCmd),

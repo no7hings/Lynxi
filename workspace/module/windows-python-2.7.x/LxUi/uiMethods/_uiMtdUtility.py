@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
 
 
 class SvgFile(object):
@@ -61,7 +61,7 @@ class SvgFile(object):
                 bscMethods.OsFile.write(osSvgCurFile, curData)
     @classmethod
     def getOsSvgFileLis(cls):
-        developPath = lxScheme.Root().basic.develop
+        developPath = shmOutput.Root().basic.develop
         
         osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
@@ -78,7 +78,7 @@ class SvgFile(object):
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis_(cls):
-        developPath = lxScheme.Root().basic.develop
+        developPath = shmOutput.Root().basic.develop
         osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
         stringLis = bscMethods.OsDirectory.fileBasenames(osPath)
@@ -94,7 +94,7 @@ class SvgFile(object):
                             print 'Error File {}'.format(i)
     @classmethod
     def getOsSvgFileLis__(cls):
-        developPath = lxScheme.Root().basic.develop
+        developPath = shmOutput.Root().basic.develop
         osPath = bscMethods.OsPath.composeBy([developPath, cls.LynxiOsCompPath_SvgIcon])
         #
 

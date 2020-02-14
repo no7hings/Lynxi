@@ -7,7 +7,7 @@ from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjPort, _mtlObjDa
 class Reference(mtlObjAbstract.Abc_Reference):
     CLS_raw_file = _mtlObjRaw.Raw_Reference
 
-    STR_mtlx_key_element = u'xi:include'
+    DEF_mtlx_key_element = u'xi:include'
 
     def __init__(self, *args):
         self._initAbcInclude(*args)
@@ -21,8 +21,8 @@ class Look(mtlObjAbstract.Abc_Look):
     ClS_set_assign_propertyset = _mtlObjSet.Set_Assign
     CLS_set_assign_visibility = _mtlObjSet.Set_Visibility
 
-    STR_mtlx_key_element = u'look'
-    STR_mtlx_key_attribute = u'look'
+    DEF_mtlx_key_element = u'look'
+    DEF_mtlx_key_attribute = u'look'
 
     def __init__(self, *args):
         self._initAbcLook(*args)
@@ -37,10 +37,10 @@ class Shaderset(mtlObjAbstract.Abc_Shaderset):
 
     CLS_def_dag = _mtlObjDefinition.Def_Node
 
-    DIC_cls_value = _mtlObjDag.DIC_CLS_VALUE
+    DEF_cls_value = _mtlObjDag.DEF_CLS_VALUE
 
-    STR_mtlx_key_element = u'material'
-    STR_mtlx_key_attribute = u'material'
+    DEF_mtlx_key_element = u'material'
+    DEF_mtlx_key_attribute = u'material'
 
     def __init__(self, *args):
         """
@@ -55,8 +55,8 @@ class GeometryPortset(mtlObjAbstract.Abc_Propertyset):
 
     CLS_set_port = _mtlObjSet.Set_Port
     
-    STR_mtlx_key_element = u'propertyset'
-    STR_mtlx_key_attribute = u'propertyset'
+    DEF_mtlx_key_element = u'propertyset'
+    DEF_mtlx_key_attribute = u'propertyset'
 
     def __init__(self, *args):
         """
@@ -74,8 +74,8 @@ class NodeGraph(mtlObjAbstract.Abc_NodeGraph):
     CLS_node = _mtlObjDag.Node
     CLS_output = _mtlObjPort.NodeGraphOutput
 
-    STR_mtlx_key_element = u'nodegraph'
-    STR_mtlx_key_attribute = u'nodegraph'
+    DEF_mtlx_key_element = u'nodegraph'
+    DEF_mtlx_key_attribute = u'nodegraph'
 
     def __init__(self, *args):
         self._initAbcNodeGraph(*args)
@@ -87,10 +87,10 @@ class Collection(mtlObjAbstract.Abc_GeometryCollection):
     CLS_set_geometry = _mtlObjSet.Set_Geometry
     CLS_set_collection = _mtlObjSet.Set_Collection
 
-    STR_geometry_separator = u','
+    DEF_geometry_separator = u','
 
-    STR_mtlx_key_element = u'collection'
-    STR_mtlx_key_attribute = u'collection'
+    DEF_mtlx_key_element = u'collection'
+    DEF_mtlx_key_attribute = u'collection'
 
     def __init__(self, *args):
         self._initAbcGeometryCollection(*args)

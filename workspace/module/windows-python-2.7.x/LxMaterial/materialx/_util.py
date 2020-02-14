@@ -25,19 +25,19 @@ class loadVariant(object):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic[mtlCore.Basic.Key_Type_String] = nodeType
+            nodeDic[mtlCore.Mtd_MtlBasic.Key_Type_String] = nodeType
             nodeAttrLis = []
             for j in i.getInputs():
                 attrName = j.name()
                 valueTypeString = j.getType()
                 valueString = j.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[mtlCore.Basic.Key_Name] = attrName
-                attrDic[mtlCore.Basic.Key_Type_String] = valueTypeString
-                attrDic[mtlCore.Basic.Key_Value_String] = valueString
+                attrDic[mtlCore.Mtd_MtlBasic.Key_Name] = attrName
+                attrDic[mtlCore.Mtd_MtlBasic.Key_Type_String] = valueTypeString
+                attrDic[mtlCore.Mtd_MtlBasic.Key_Value_String] = valueString
                 nodeAttrLis.append(attrDic)
 
-            nodeDic[mtlCore.Basic.Key_Port] = nodeAttrLis
+            nodeDic[mtlCore.Mtd_MtlBasic.Key_Port] = nodeAttrLis
             self._nodeDefDic[nodeCategory] = nodeDic
 
     def nodeDefs(self):

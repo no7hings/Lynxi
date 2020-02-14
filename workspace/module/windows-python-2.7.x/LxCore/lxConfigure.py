@@ -15,46 +15,46 @@ pipelineTdBasicPaths = [
 
 Lynxi_Key_Preset = 'preset'
 Lynxi_Key_Pipeline = 'pipeline'
-Lynxi_Key_Preset_Variant = 'variant'
-Lynxi_Key_Preset_Personnel = 'personnel'
-Lynxi_Key_Preset_Software = 'software'
-Lynxi_Key_Preset_Maya = 'maya'
-Lynxi_Key_Preset_Project = 'project'
-Lynxi_Key_Preset_Basic = 'basic'
-Lynxi_Key_Preset_Deployment = 'deployment'
-Lynxi_Key_Preset_Environ = 'environ'
-Lynxi_Key_Preset_Set = 'set'
-Lynxi_Key_Preset_Episode = 'episode'
-Lynxi_Key_Preset_Production = 'production'
-Lynxi_Key_Preset_Inspection = 'Inspection'
-Lynxi_Key_Preset_Preference = 'preference'
-Lynxi_Key_Preset_Option = 'option'
-Lynxi_Key_Preset_Asset = 'asset'
-Lynxi_Key_Preset_Scenery = 'scenery'
-Lynxi_Key_Preset_Scene = 'scene'
-Lynxi_Key_Preset_Definition = 'definition'
-Lynxi_Key_Preset_Team = 'team'
-Lynxi_Key_Preset_Post = 'post'
-Lynxi_Key_Preset_User = 'user'
-Lynxi_Key_Preset_Storage = 'storage'
-Lynxi_Key_Preset_Root = 'root'
-Lynxi_Key_Preset_File = 'file'
-Lynxi_Key_Preset_Name = 'name'
-Lynxi_Key_Preset_Data = 'data'
-Lynxi_Key_Preset_Database = 'database'
-Lynxi_Key_Preset_Directory = 'directory'
-Lynxi_Key_Preset_Node = 'node'
-Lynxi_Key_Preset_Attribute = 'attribute'
-Lynxi_Key_Preset_Customization = 'customization'
-Lynxi_Key_Preset_Shelf = 'shelf'
-Lynxi_Key_Preset_Shelf_Tool = 'shelfTool'
-Lynxi_Key_Preset_Kit = 'kit'
-Lynxi_Key_Preset_App = 'app'
-Lynxi_Key_Preset_Plug = 'plug'
-Lynxi_Key_Preset_Renderer = 'renderer'
-Lynxi_Key_Preset_Version = 'version'
-Lynxi_Key_Preset_Script = 'script'
-Lynxi_Key_Preset_Td = 'td'
+DEF_preset_key_variant = 'variant'
+DEF_preset_key_personnel = 'personnel'
+DEF_preset_key_Software = 'software'
+DEF_preset_key_Maya = 'maya'
+DEF_preset_key_Project = 'project'
+DEF_preset_key_Basic = 'basic'
+DEF_preset_key_Deployment = 'deployment'
+DEF_preset_key_Environ = 'environ'
+DEF_preset_key_Set = 'set'
+DEF_preset_key_Episode = 'episode'
+DEF_preset_key_Production = 'production'
+DEF_preset_key_Inspection = 'Inspection'
+DEF_preset_key_Preference = 'preference'
+DEF_preset_key_Option = 'option'
+DEF_preset_key_Asset = 'asset'
+DEF_preset_key_scenery = 'scenery'
+DEF_preset_key_scene = 'scene'
+DEF_preset_key_Definition = 'definition'
+DEF_preset_key_Team = 'team'
+DEF_preset_key_Post = 'post'
+DEF_preset_key_User = 'user'
+DEF_preset_key_Storage = 'storage'
+DEF_preset_key_Root = 'root'
+DEF_preset_key_File = 'file'
+DEF_preset_key_Name = 'name'
+DEF_preset_key_Data = 'data'
+DEF_preset_key_Database = 'database'
+DEF_preset_key_Directory = 'directory'
+DEF_preset_key_Node = 'node'
+DEF_preset_key_Attribute = 'attribute'
+DEF_preset_key_Customization = 'customization'
+DEF_preset_key_Shelf = 'shelf'
+DEF_preset_key_Shelf_Tool = 'shelfTool'
+DEF_preset_key_Kit = 'kit'
+DEF_preset_key_App = 'app'
+DEF_preset_key_Plug = 'plug'
+DEF_preset_key_Renderer = 'renderer'
+DEF_preset_key_Version = 'version'
+DEF_preset_key_Script = 'script'
+DEF_preset_key_Td = 'td'
 
 LynxiGeneralValue = 'General'
 LynxiValue_Unspecified = 'Unspecified'
@@ -135,64 +135,64 @@ LynxiRootLabelDic = {
     2: 'backupRoot'
 }
 # Module
-LynxiProduct_Asset_Link_Model = 'model'
+VAR_product_asset_link_model = 'model'
 LynxiAstModelStages = [
     'model',
     'texture',
     'mdlShader'
 ]
-LynxiProduct_Asset_Link_Rig = 'rig'
+VAR_product_asset_link_rig = 'rig'
 LynxiAstRigStages = [
     'rigLayout',
     'rigAnimation'
 ]
-LynxiProduct_Asset_Link_Groom = 'cfx'
+VAR_product_asset_link_groom = 'cfx'
 LynxiAstCfxStages = [
     'groom',
     'cfxShader'
 ]
-LynxiProduct_Asset_Link_Solver = 'solver'
+VAR_product_asset_link_solver = 'solver'
 LynxiAstRigSolStages = [
     'solverBind'
 ]
-LynxiProduct_Asset_Link_Light = 'light'
+VAR_product_asset_link_light = 'light'
 LynxiAstLightStages = [
     'light',
     'lgtShader'
 ]
-LynxiProduct_Asset_Link_Assembly = 'assembly'
+VAR_product_asset_link_assembly = 'assembly'
 LynxiAstAssemblyStages = [
     'assembly'
 ]
-LynxiProduct_Scenery_Link_Scenery = 'scenery'
+VAR_product_scenery_link_scenery = 'scenery'
 LynxiScnSceneryStages = [
     'scenery'
 ]
-LynxiProduct_Scene_Link_layout = 'layout'
+VAR_product_scene_link_layout = 'layout'
 LynxiScLayoutStages = [
     'layout'
 ]
-LynxiProduct_Scene_Link_Animation = 'animation'
+VAR_product_scene_link_animation = 'animation'
 LynxiScAnimationStages = [
     'blocking',
     'final',
     'polish'
 ]
-LynxiProduct_Scene_Link_Solver = 'solver'
+VAR_product_scene_link_solver = 'solver'
 LynxiScSolverStages = [
     'solverSimulation'
 ]
-LynxiProduct_Scene_Link_Simulation = 'simulation'
+VAR_product_scene_link_simulation = 'simulation'
 LynxiScSimulationStages = [
     'simulation'
 ]
-LynxiProduct_Scene_Link_Light = 'light'
+VAR_product_scene_link_light = 'light'
 LynxiScLightStages = [
     'shader',
     'light',
     'render'
 ]
-STR_key_info_sourcefile = 'link'
+DEF_key_info_sourcefile = 'link'
 LynxiCacheInfoKey = 'cache'
 LynxiPoseCacheInfoKey = 'poseCache'
 LynxiModelCacheInfoKey = 'modelCache'
@@ -200,15 +200,15 @@ LynxiSolverCacheInfoKey = 'solverCache'
 LynxiExtraCacheInfoKey = 'extraCache'
 
 Lynxi_Key_Info_Stage = 'stage'
-STR_key_info_time = 'update'
+DEF_key_info_time = 'update'
 Lynxi_Key_Info_Timestamp = 'timestamp'
 Lynxi_Key_Info_Version = 'version'
 Lynxi_Key_Info_User = 'user'
-STR_key_info_username = 'artist'
-STR_key_info_hostname = 'hostName'
-STR_key_info_host = 'host'
-STR_key_info_description = 'description'
-STR_key_info_note = 'note'
+DEF_key_info_username = 'artist'
+DEF_key_info_hostname = 'hostName'
+DEF_key_info_host = 'host'
+DEF_key_info_description = 'description'
+DEF_key_info_note = 'note'
 Lynxi_Key_Info_Notes = 'notes'
 Lynxi_Key_Info_Data = 'data'
 Lynxi_Key_Info_StartFrame = 'startFrame'

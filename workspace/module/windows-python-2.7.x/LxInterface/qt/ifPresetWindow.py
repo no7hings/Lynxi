@@ -1,7 +1,9 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 
-from LxCore import lxConfigure, lxScheme
+from LxScheme import shmOutput
+
+from LxCore import lxConfigure
 
 from LxCore.preset import basicPr
 
@@ -17,7 +19,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     SideWidth = 480
     #
     _Title = 'Preset'
-    _Version = lxScheme.Shm_Resource().version
+    _Version = shmOutput.Resource().version
     def __init__(self):
         super(IfPresetWindow, self).__init__()
 
@@ -614,12 +616,12 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         tabView = qtWidgets.QtVShelfTabgroup()
         self.addWidget(tabView)
         buildData = [
-            (lxConfigure.Lynxi_Key_Preset_Project, 'svg_basic@svg#project', u'项目预设'),
-            (lxConfigure.Lynxi_Key_Preset_Personnel, 'svg_basic@svg#personnel', u'人员预设'),
+            (lxConfigure.DEF_preset_key_Project, 'svg_basic@svg#project', u'项目预设'),
+            (lxConfigure.DEF_preset_key_personnel, 'svg_basic@svg#personnel', u'人员预设'),
             (lxConfigure.Lynxi_Key_Pipeline, 'svg_basic@svg#pipeline', u'流程预设'),
-            (lxConfigure.Lynxi_Key_Preset_Maya, 'svg_basic@svg#maya', u'Maya预设'),
-            (lxConfigure.Lynxi_Key_Preset_Software, 'svg_basic@svg#software', u'软件预设'),
-            (lxConfigure.Lynxi_Key_Preset_Variant, 'svg_basic@svg#variant', u'基础预设')
+            (lxConfigure.DEF_preset_key_Maya, 'svg_basic@svg#maya', u'Maya预设'),
+            (lxConfigure.DEF_preset_key_Software, 'svg_basic@svg#software', u'软件预设'),
+            (lxConfigure.DEF_preset_key_variant, 'svg_basic@svg#variant', u'基础预设')
         ]
         explain = '''Build Preset Panel'''
         maxValue = len(buildData)

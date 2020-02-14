@@ -1,11 +1,11 @@
 # coding=utf-8
 from LxBasic import bscMethods
 
-from LxCore import lxScheme
+from LxScheme import shmOutput
+
+from LxPreset import prsMethods
 #
-from LxCore.preset.prod import projectPr
-#
-serverBasicPath = lxScheme.Root().basic.server
+serverBasicPath = shmOutput.Root().basic.server
 #
 none = ''
 
@@ -17,7 +17,7 @@ def setMaScriptSetup(projectName):
         traceMessage = '''Setup Maya Script(s)'''
         bscMethods.PyMessage.trace(traceMessage)
         #
-        data = projectPr.getProjectMayaScriptDatumDic(projectName)
+        data = prsMethods.Project.mayaScriptDatumDict(projectName)
         if data:
             for k, v in data.items():
                 for i in v:
@@ -44,7 +44,7 @@ def setMaTdPackageSetup(projectName):
     traceMessage = '''Setup Maya TD Package(s)'''
     bscMethods.PyMessage.trace(traceMessage)
     #
-    osPathLis = projectPr.getProjectMayaTdPackagePathLis(projectName)
+    osPathLis = prsMethods.Project.mayaTdPackageDirectories(projectName)
     for osPath in osPathLis:
         bscMethods.OsEnviron.addSystemPath(osPath)
 

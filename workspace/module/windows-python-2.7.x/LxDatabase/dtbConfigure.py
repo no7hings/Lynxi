@@ -78,14 +78,14 @@ class DtbBasic(object):
     LxDb_Key_Name = 'name'
     LxDb_Key_Source = 'source'
 
-    STR_key_info_username = 'user'
-    STR_key_info_time = 'time'
+    DEF_key_info_username = 'user'
+    DEF_key_info_time = 'time'
     #
-    STR_key_info_hostname = 'hostName'
-    STR_key_info_host = 'host'
+    DEF_key_info_hostname = 'hostName'
+    DEF_key_info_host = 'host'
 
-    STR_key_info_description = 'description'
-    STR_key_info_note = 'note'
+    DEF_key_info_description = 'description'
+    DEF_key_info_note = 'note'
 
     @classmethod
     def _dbProductUnitIndexFile(cls, productModuleString):

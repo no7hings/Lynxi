@@ -34,8 +34,8 @@ class LxNodeConfig(object):
     LynxiKeyword_Rename = 'rename'
     #
     LynxiNamePrefix_Asset = 'ast'
-    LynxiNamePrefix_Scenery = 'scn'
-    LynxiNamePrefix_Scene = 'sc'
+    LynxiNamePrefix_scenery = 'scn'
+    LynxiNamePrefix_scene = 'sc'
     #
     LynxiNamePostfix_Group = 'grp'
     LynxiNamePostfix_Set = 'set'

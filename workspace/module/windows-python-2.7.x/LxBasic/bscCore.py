@@ -52,7 +52,7 @@ import subprocess
 from LxBasic import bscConfigure
 
 
-class BscMtdBasic(bscConfigure.MtdBasic):
+class Mtd_BscBasic(bscConfigure.MtdBasic):
     MOD_getpass = getpass
     MOD_socket = socket
     MOD_time = time
@@ -119,7 +119,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     @classmethod
     def _timestamp2timetag(cls, timestamp):
         return cls.MOD_time.strftime(
-            cls.STR_time_tag_format,
+            cls.DEF_time_tag_format,
             cls.MOD_time.localtime(timestamp)
         )
 
@@ -130,7 +130,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     @classmethod
     def _timestampToPrettify(cls, timestamp):
         return cls.MOD_time.strftime(
-            cls.STR_time_prettify_format,
+            cls.DEF_time_prettify_format,
             cls.MOD_time.localtime(timestamp)
         )
 
@@ -158,11 +158,11 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     
     @classmethod
     def _isDevelop(cls):
-        return [False, True][cls._getOsEnvironRawWithKey(cls.STR_key_environ_enable_develop, 'FALSE').lower() == 'true']
+        return [False, True][cls._getOsEnvironRawWithKey(cls.DEF_key_environ_enable_develop, 'FALSE').lower() == 'true']
 
     @classmethod
     def _isTraceEnable(cls):
-        return [False, True][cls._getOsEnvironRawWithKey(cls.environ_key_enable_trace, 'FALSE').lower() == 'true']
+        return [False, True][cls._getOsEnvironRawWithKey(cls.DEF_key_environ_enable_trace, 'FALSE').lower() == 'true']
 
     @classmethod
     def _getOsEnvironRawWithKey(cls, key, failobj=None):
@@ -171,7 +171,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     @classmethod
     def _getOsEnvironRawAsPath(cls, key, failobj=None):
         if key in cls.MOD_os.environ:
-            return cls._getOsEnvironRawWithKey(key).replace('\\', cls.STR_separator_os)
+            return cls._getOsEnvironRawWithKey(key).replace('\\', cls.DEF_separator_os)
         elif failobj is not None:
             return failobj
         return ''
@@ -186,7 +186,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
 
     @classmethod
     def _osPathToPythonStyle(cls, pathString):
-        return pathString.replace('\\', cls.STR_separator_os)
+        return pathString.replace('\\', cls.DEF_separator_os)
 
     @classmethod
     def _isOsDirectory(cls, pathString):
@@ -242,17 +242,17 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     @classmethod
     def _setOsPathOpen(cls, pathString):
         if cls._isOsPathExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathString.replace(cls.DEF_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _setOsFileOpen(cls, pathString):
         if cls._isOsFileExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathString.replace(cls.DEF_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _setOsDirectoryOpen(cls, pathString):
         if cls._isOsPathExist(pathString) is True:
-            cls.MOD_os.startfile(pathString.replace(cls.STR_separator_os, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathString.replace(cls.DEF_separator_os, cls.MOD_os.sep))
 
     @classmethod
     def _getOsFileMtimestamp(cls, fileString):
@@ -374,7 +374,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     
     @classmethod
     def _toOsFilename(cls, directoryString, basenameString):
-        return cls.MTD_os_path.join(directoryString, basenameString).replace('\\', cls.STR_separator_os)
+        return cls.MTD_os_path.join(directoryString, basenameString).replace('\\', cls.DEF_separator_os)
 
     @classmethod
     def _getPathnameListByOsDirectory(cls, rootString, extString, isFile, isFullpath, isAll):
@@ -425,7 +425,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
         if timetag is None:
             timetag = cls._getActiveTimetag()
 
-        temporaryDirectory = u'{}/{}'.format(cls.STR_path_temporary_local, timetag)
+        temporaryDirectory = u'{}/{}'.format(cls.DEF_path_temporary_local, timetag)
 
         temporaryFileString = cls._toOsFilename(temporaryDirectory, cls._getOsFileBasename(fileString))
         cls._setOsDirectoryCreate(temporaryDirectory)
@@ -459,11 +459,11 @@ class BscMtdBasic(bscConfigure.MtdBasic):
     @classmethod
     def _infoDict(cls, fileString):
         return {
-            cls.STR_key_source: fileString,
-            cls.STR_key_timestamp: cls._getSystemActiveTimestamp(),
-            cls.STR_key_username: cls._getSystemUsername(),
-            cls.STR_key_hostname: cls._getSystemHostname(),
-            cls.STR_key_host: cls._getSystemHost()
+            cls.DEF_key_source: fileString,
+            cls.DEF_key_timestamp: cls._getSystemActiveTimestamp(),
+            cls.DEF_key_username: cls._getSystemUsername(),
+            cls.DEF_key_hostname: cls._getSystemHostname(),
+            cls.DEF_key_host: cls._getSystemHost()
         }
 
     @classmethod
@@ -473,19 +473,19 @@ class BscMtdBasic(bscConfigure.MtdBasic):
 
     @classmethod
     def _getDevelopRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.STR_key_environ_path_develop, cls.path_default_develop)
+        return cls._getOsEnvironRawAsPath(cls.DEF_key_environ_path_develop, cls.VAR_path_default_develop)
 
     @classmethod
     def _getProductRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.STR_key_environ_path_product, cls.path_default_product)
+        return cls._getOsEnvironRawAsPath(cls.DEF_key_environ_path_product, cls.VAR_path_default_product)
 
     @classmethod
     def _getPresetRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.environ_key_path_preset, cls._getProductRoot())
+        return cls._getOsEnvironRawAsPath(cls.DEF_key_environ_path_preset, cls._getProductRoot())
 
     @classmethod
     def _getToolkitRoot(cls):
-        return cls._getOsEnvironRawAsPath(cls.environ_key_path_toolkit, cls._getProductRoot())
+        return cls._getOsEnvironRawAsPath(cls.DEF_key_environ_path_toolkit, cls._getProductRoot())
 
     @classmethod
     def _getServerPath(cls):
@@ -513,7 +513,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
 
     @classmethod
     def _toOsPathString(cls, *args):
-        return cls._toPathString(cls.STR_separator_os, *args).replace('\\', cls.STR_separator_os)
+        return cls._toPathString(cls.DEF_separator_os, *args).replace('\\', cls.DEF_separator_os)
 
     @classmethod
     def _setLoadPythonModule(cls, moduleName):
@@ -561,7 +561,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
 
     @classmethod
     def _getOsFileTimetag(cls, backupFileString):
-        lis = cls.MOD_re.findall(cls.def_time_tag_search_string, backupFileString)
+        lis = cls.MOD_re.findall(cls.DEF_time_tag_search_string, backupFileString)
         if lis:
             return lis[0]
 
@@ -571,11 +571,11 @@ class BscMtdBasic(bscConfigure.MtdBasic):
         if fileString:
             directoryName = cls._getOsFileDirname(fileString)
             if cls._isOsDirectoryExist(directoryName):
-                backupName = cls._toOsFileJoinTimetag(fileString, cls.def_time_tag_search_string)
+                backupName = cls._toOsFileJoinTimetag(fileString, cls.DEF_time_tag_search_string)
                 stringLis = glob.glob(backupName)
                 if stringLis:
                     for i in stringLis:
-                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', cls.STR_separator_os)
+                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', cls.DEF_separator_os)
         return dic
 
     @classmethod
@@ -601,7 +601,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
                 if timetuple_[:2] == timetuple[:2]:
                     if monday_ == monday:
                         dateString = ''
-                        weekString = u'{0}'.format(cls.LIS_time_week[int(week)][0])
+                        weekString = u'{0}'.format(cls.DEF_time_week[int(week)][0])
                         if date_ == date:
                             subString = u'（今天）'
                         elif date_ == date + 1:
@@ -689,7 +689,7 @@ class BscMtdBasic(bscConfigure.MtdBasic):
         cls._setOsFileCopy(temporaryName, fileString)
 
 
-class BscMtdPathBasic(BscMtdBasic):
+class Mtd_BscPathBasic(Mtd_BscBasic):
     @classmethod
     def _toTreeViewPathLis(cls, pathString, pathsep):
         def addItem(item):
@@ -802,7 +802,7 @@ class BscMtdPathBasic(BscMtdBasic):
         return attributeSep.join(attrString.split(attributeSep)[1:])
 
 
-class BscMtdFileBasic(BscMtdBasic):
+class Mtd_BscFileBasic(Mtd_BscBasic):
     @classmethod
     def isExist(cls, fileString):
         return cls._isOsFileExist(fileString)
@@ -921,7 +921,7 @@ class BscMtdFileBasic(BscMtdBasic):
 
     @classmethod
     def temporaryVedioName(cls, fileString):
-        tempDirectory = u'{}/vedio'.format(cls.STR_path_temporary_local)
+        tempDirectory = u'{}/vedio'.format(cls.DEF_path_temporary_local)
         basenameString = cls._getOsFileBasename(fileString)
         return cls._toOsFilename(tempDirectory, basenameString)
 
@@ -962,9 +962,9 @@ class BscMtdFileBasic(BscMtdBasic):
     @classmethod
     def productInfoDict(cls, fileString, stage=None, description=None, note=None):
         dic = cls._infoDict(fileString)
-        dic[cls.STR_key_stage] = stage
-        dic[cls.STR_key_description] = description
-        dic[cls.STR_key_note] = note
+        dic[cls.DEF_key_stage] = stage
+        dic[cls.DEF_key_description] = description
+        dic[cls.DEF_key_note] = note
         return dic
 
     @classmethod
@@ -981,7 +981,7 @@ class BscMtdFileBasic(BscMtdBasic):
 
     @classmethod
     def reduceFilename(cls, fileString):
-        pathsep = cls.STR_separator_os
+        pathsep = cls.DEF_separator_os
         return re.sub('{0}|{1}'.format(pathsep * 2, pathsep * 3), pathsep, fileString)
     
     @classmethod
@@ -1029,16 +1029,16 @@ class BscMtdFileBasic(BscMtdBasic):
     def _getOsFileInfoDic(cls, osSourceFile, description=None, note=None):
         return orderedDict(
             [
-                (cls.STR_key_info_time, cls._getSystemActiveTimestamp()),
-                (cls.STR_key_info_username, cls._getSystemUsername()),
+                (cls.DEF_key_info_time, cls._getSystemActiveTimestamp()),
+                (cls.DEF_key_info_username, cls._getSystemUsername()),
                 #
-                (cls.STR_key_info_host, cls._getSystemHost()),
-                (cls.STR_key_info_hostname, cls._getSystemHostname()),
+                (cls.DEF_key_info_host, cls._getSystemHost()),
+                (cls.DEF_key_info_hostname, cls._getSystemHostname()),
                 #
-                (cls.STR_key_info_sourcefile, osSourceFile),
+                (cls.DEF_key_info_sourcefile, osSourceFile),
                 #
-                (cls.STR_key_info_description, description),
-                (cls.STR_key_info_note, note)
+                (cls.DEF_key_info_description, description),
+                (cls.DEF_key_info_note, note)
             ]
         )
 
@@ -1047,8 +1047,8 @@ class BscMtdFileBasic(BscMtdBasic):
         hashKey = cls._getOsFileHash(fileString)
         dirname, filename, ext = cls._getOsFileDirname(fileString), cls._getOsFileName(fileString), cls._getOsFileExt(fileString)
         #
-        targetFileString = cls.STR_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + ext, hashKey])
-        osVersionFile = cls.STR_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + cls.LynxiOsExt_Version])
+        targetFileString = cls.DEF_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + ext, hashKey])
+        osVersionFile = cls.DEF_separator_os.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + cls.LynxiOsExt_Version])
         return targetFileString, osVersionFile
 
     @classmethod
@@ -1074,11 +1074,11 @@ class BscMtdFileBasic(BscMtdBasic):
             )
 
 
-class ApplicationBasic(BscMtdBasic):
-    STR_name_application = None
+class Mtd_BscApplicationBasic(Mtd_BscBasic):
+    DEF_name_application = None
     @classmethod
     def isActive(cls):
-        return cls._isActiveApplication(cls.STR_name_application)
+        return cls._isActiveApplication(cls.DEF_name_application)
 
     @classmethod
     def _isActiveApplication(cls, applicationString):
@@ -1099,25 +1099,25 @@ class _EnvironString(str):
 
     def _add(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(BscMtdBasic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Mtd_BscBasic.MOD_os.pathsep)]
             if value.lower() not in lowerLis:
                 lis.append(value)
-                self._value = BscMtdBasic.MOD_os.pathsep.join(lis)
+                self._value = Mtd_BscBasic.MOD_os.pathsep.join(lis)
         else:
             self._value = value
 
     def _sub(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(BscMtdBasic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Mtd_BscBasic.MOD_os.pathsep)]
             if value.lower() in lowerLis:
                 i = lowerLis.index(value.lower())
                 lis.remove(lis[i])
-                self._value = BscMtdBasic.MOD_os.pathsep.join(lis)
+                self._value = Mtd_BscBasic.MOD_os.pathsep.join(lis)
 
     def _update(self):
-        BscMtdBasic.MOD_os.environ[self._key] = self._value
+        Mtd_BscBasic.MOD_os.environ[self._key] = self._value
 
         str_ = _EnvironString(self._value)
         str_.key = self._key
@@ -1142,7 +1142,7 @@ class _EnvironString(str):
     def key(self, key):
         self._key = key
 
-        BscMtdBasic.MOD_os.environ[self._key] = self._value
+        Mtd_BscBasic.MOD_os.environ[self._key] = self._value
 
     def __iadd__(self, value):
         if isinstance(value, list) or isinstance(value, tuple):
@@ -1168,12 +1168,12 @@ class _EnvironString(str):
 
     def __str__(self):
         # copy list
-        lis = [i.replace('\\', '/') for i in self._value.split(BscMtdBasic.MOD_os.pathsep)]
+        lis = [i.replace('\\', '/') for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
         lis.sort()
         return '\r\n'.join(lis)
 
 
-class Environ(BscMtdBasic):
+class Environ(Mtd_BscBasic):
     def __getattr__(self, key):
         self._get(key)
 
@@ -1207,7 +1207,7 @@ class Environ(BscMtdBasic):
         return False
 
 
-class SystemPath(BscMtdBasic):
+class SystemPath(Mtd_BscBasic):
     def __init__(self):
         pass
     @classmethod

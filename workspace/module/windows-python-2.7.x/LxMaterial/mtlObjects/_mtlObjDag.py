@@ -6,7 +6,7 @@ from LxMaterial import mtlObjAbstract
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mtlObjPort, _mtlObjValue
 
 
-DIC_CLS_VALUE = {
+DEF_CLS_VALUE = {
     mtlConfigure.Value_Type_Closure: _mtlObjValue.Val_Closure,
 
     mtlConfigure.Value_Type_Boolean: _mtlObjValue.Val_Boolean,
@@ -50,9 +50,9 @@ class Geometry(mtlObjAbstract.Abc_Geometry):
     CLS_visibility = _mtlObjPort.GeometryVisibility
     CLS_def_geometry = _mtlObjDefinition.GeometryDefinition
 
-    DIC_cls_value = DIC_CLS_VALUE
+    DEF_cls_value = DEF_CLS_VALUE
 
-    STR_mtlx_key_element = 'geom'
+    DEF_mtlx_key_element = 'geom'
 
     def __init__(self, *args):
         self._initAbcGeometry(*args)
@@ -71,9 +71,9 @@ class Shader(mtlObjAbstract.Abc_Shader):
     CLS_output = _mtlObjPort.ShaderOutput
     CLS_def_dag = _mtlObjDefinition.Def_Node
 
-    DIC_cls_value = DIC_CLS_VALUE
+    DEF_cls_value = DEF_CLS_VALUE
 
-    STR_mtlx_key_element = 'shaderref'
+    DEF_mtlx_key_element = 'shaderref'
 
     def __init__(self, *args):
         """
@@ -95,9 +95,9 @@ class Node(mtlObjAbstract.Abc_Node):
     CLS_output = _mtlObjPort.NodeOutput
     CLS_def_dag = _mtlObjDefinition.Def_Node
 
-    DIC_cls_value = DIC_CLS_VALUE
+    DEF_cls_value = DEF_CLS_VALUE
 
-    STR_mtlx_key_attribute = 'nodename'
+    DEF_mtlx_key_attribute = 'nodename'
 
     def __init__(self, *args):
         self._initAbcNode(*args)

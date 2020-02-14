@@ -6,8 +6,8 @@ from LxUi.qt import qtCommands
 
 def mtdInterfaceShowExclusive(mtd):
     def subMtd(*args, **kwargs):
-        from LxCore import lxScheme
-        lxScheme.Shm_Resource().loadActive()
+        from LxScheme import shmOutput
+        shmOutput.Resource().loadActive()
 
         qtCommands.setExistInterfaceQuit(*args)
 
@@ -18,14 +18,14 @@ def mtdInterfaceShowExclusive(mtd):
 
 def mtdAppInterfaceShowExclusive(mtd):
     def subMtd(*args, **kwargs):
-        from LxCore import lxScheme
-        lxScheme.Shm_Resource().loadActive()
+        from LxScheme import shmOutput
+        shmOutput.Resource().loadActive()
 
         system = bscObjects.System()
         if system.isMaya:
             from LxMaya import maScheme
 
-            maScheme.Shm_Resource().loadPlugs()
+            maScheme.Resource().loadPlugs()
 
         qtCommands.setExistInterfaceQuit(*args)
 
