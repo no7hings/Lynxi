@@ -1,11 +1,9 @@
 # coding=utf-8
 from LxBasic import bscCore, bscObjects, bscMethods
 
-from LxCore import lxConfigure
-
 from LxCore.config import appCfg
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsConfigure, prsVariants, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
 
@@ -754,7 +752,7 @@ class IfScOsComposeToolUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         sceneStage = self._connectObject.sceneStage
         #
         sceneDirectory = scenePr.sceneExtraFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage
         )
         projectServerRootPathLis = prsMethods.Project.serverRoots(projectName)
@@ -876,7 +874,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             astModelSectorChart = qtWidgets.QtSectorchart()
             astModelSectorChart.setImage(preview)
             #
-            if maUtils.getNodeType(keyNode) == 'reference':
+            if maUtils._getNodeTypeString(keyNode) == 'reference':
                 namespace = maUtils.getReferenceNamespace(keyNode)
             else:
                 namespace = maUtils._toNamespaceByNodePath(keyNode)
@@ -1006,7 +1004,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         withAsset
                     )
                     #
-                    bscObjects.If_Message('Scene Asset Cache Upload', 'Complete')
+                    bscObjects.MessageWindow('Scene Asset Cache Upload', 'Complete')
             #
             def setRigLoadWindowShowCmd():
                 IfToolWindow = qtWidgets.QtToolWindow(self)
@@ -1054,7 +1052,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 progressExplain = '''Load Asset Unit(s)'''
                 maxValue = len(inData)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for k, v in inData.items():
                     progressBar.update()
                     setBranch(k, v, assetNumberKeys)

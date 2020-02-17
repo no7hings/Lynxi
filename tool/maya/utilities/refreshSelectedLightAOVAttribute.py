@@ -7,8 +7,8 @@ selObj = maUtils.getSelectedObjects()
 attrName = 'ai_aov'
 if selObj:
     for i in selObj:
-        objectName = maUtils._toNodeName(i)
-        if maUtils.isAppExist(objectName + '.' + attrName):
+        objectName = maUtils._getNodeNameString(i)
+        if maUtils._isNodeExist(objectName + '.' + attrName):
             maUtils.setAttrStringDatum(i, attrName, objectName)
 #
-bscObjects.If_Message('Refresh Light AOV Attribute', 'Complete')
+bscObjects.MessageWindow('Refresh Light AOV Attribute', 'Complete')

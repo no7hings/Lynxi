@@ -3,45 +3,43 @@ from LxBasic import bscConfigure, bscCore, bscMethods
 
 from LxScheme import shmOutput
 
-from LxCore.preset import basicPr
-
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsCore
 # do not delete and rename
 serverBasicPath = shmOutput.Root().basic.server
 localBasicPath = shmOutput.Root().basic.local
 
 
-class Personnel(object):
-    VAR_key_preset_guide = lxConfigure.DEF_preset_key_personnel
+class Personnel(prsConfigure.Utility):
+    VAR_key_preset_guide = prsConfigure.Utility.DEF_key_preset_personnel
 
     @classmethod
     def teams(cls):
-        return basicPr._getPersonnelTeamLis()
+        return prsCore.MtdUtilityBasic._getPersonnelTeamLis()
 
     @classmethod
     def posts(cls):
-        return basicPr._getPersonnelPostLis()
+        return prsCore.MtdUtilityBasic._getPersonnelPostLis()
 
     @classmethod
     def usernames(cls):
-        return basicPr.getPresetSchemes(
-            (cls.VAR_key_preset_guide, lxConfigure.DEF_preset_key_User)
+        return prsCore.MtdUtilityBasic._getEnabledSchemes(
+            (cls.VAR_key_preset_guide, cls.DEF_key_preset_user)
         )
 
     @classmethod
     def teamDatumDic(cls, team):
-        mainPresetKey = lxConfigure.DEF_preset_key_Team
+        mainPresetKey = cls.DEF_key_preset_team
         mainSchemeKey = team
-        return basicPr.getPresetSetDic(
+        return prsCore.MtdUtilityBasic.getPresetSetDic(
             (cls.VAR_key_preset_guide, mainPresetKey),
             mainSchemeKey
         )
 
     @classmethod
     def postDatumDic(cls, post):
-        mainPresetKey = lxConfigure.DEF_preset_key_Post
+        mainPresetKey = cls.DEF_key_preset_post
         mainSchemeKey = post
-        return basicPr.getPresetSetDic((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
+        return prsCore.MtdUtilityBasic.getPresetSetDic((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
 
     @classmethod
     def isUserExist(cls, username=None):
@@ -55,66 +53,66 @@ class Personnel(object):
 
     @classmethod
     def usernameDatumDic(cls, username):
-        mainPresetKey = lxConfigure.DEF_preset_key_User
+        mainPresetKey = cls.DEF_key_preset_user
         mainSchemeKey = username
-        return basicPr.getPresetSetDic((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
+        return prsCore.MtdUtilityBasic.getPresetSetDic((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
 
     @classmethod
     def userChnname(cls, username=None):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = cls.DEF_value_preset_unspecified
         if username is None:
             username = bscMethods.OsSystem.username()
         #
         data = cls.usernameDatumDic(username)
         if data:
-            string = data[lxConfigure.LynxiUserCnNameKey]
+            string = data[cls.DEF_key_info_chnname]
         return string
 
     @classmethod
     def userEngname(cls, username=None):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = cls.DEF_value_preset_unspecified
         if username is None:
             username = bscMethods.OsSystem.username()
         #
         data = cls.usernameDatumDic(username)
         if data:
-            string = data[lxConfigure.LynxiUserEnNameKey]
+            string = data[cls.DEF_key_info_engname]
         return string
 
     @classmethod
     def userMail(cls, username=None):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = cls.DEF_value_preset_unspecified
         if username is None:
             username = bscMethods.OsSystem.username()
         #
         data = cls.usernameDatumDic(username)
         if data:
-            string = data[lxConfigure.LynxiUserMailKey]
+            string = data[cls.DEF_key_info_mail]
         return string
 
     @classmethod
     def userTeam(cls, username=None):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = cls.DEF_value_preset_unspecified
         if username is None:
             username = bscMethods.OsSystem.username()
         #
         data = cls.usernameDatumDic(username)
         if data:
-            string = data[lxConfigure.DEF_preset_key_Team]
+            string = data[cls.DEF_key_preset_team]
         return string
 
     @classmethod
     def userPost(cls, username=None):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = cls.DEF_value_preset_unspecified
         if username is None:
             username = bscMethods.OsSystem.username()
         #
-        if username in lxConfigure.Lynxi_Name_Td_Lis:
-            return lxConfigure.LynxiPipelineTdPost
+        if username in cls.Lynxi_Name_Td_Lis:
+            return cls.LynxiPipelineTdPost
         #
         data = cls.usernameDatumDic(username)
         if data:
-            string = data[lxConfigure.DEF_preset_key_Post]
+            string = data[cls.DEF_key_preset_post]
         return string
 
     @classmethod
@@ -125,21 +123,21 @@ class Personnel(object):
         #
         data = cls.usernameDatumDic(username)
         if data:
-            boolean = data[lxConfigure.LynxiUserSendMailEnabledKey]
+            boolean = data[cls.DEF_key_info_sendmail]
         return boolean
 
     @classmethod
     def postLevel(cls, post):
-        mainPresetKey = lxConfigure.DEF_preset_key_Post
+        mainPresetKey = cls.DEF_key_preset_post
         #
-        if post == lxConfigure.LynxiPipelineTdPost:
-            return lxConfigure.LynxiPipelineTdLevel
+        if post == cls.LynxiPipelineTdPost:
+            return cls.LynxiPipelineTdLevel
         #
         mainSchemeKey = post
-        return basicPr.getMainPresetSetValue(
+        return prsCore.MtdUtilityBasic.getMainPresetSetValue(
             cls.VAR_key_preset_guide, mainPresetKey,
             mainSchemeKey,
-            lxConfigure.LynxiPostLevelKey
+            cls.DEF_key_info_level
         )
 
     @classmethod
@@ -180,40 +178,40 @@ class Personnel(object):
         if username is None:
             username = bscMethods.OsSystem.username()
 
-        mainPresetKey = lxConfigure.DEF_preset_key_User
+        mainPresetKey = cls.DEF_key_preset_user
         mainSchemeKey = username
         usernames = cls.usernames()
         if not username in usernames:
-            userIndexFile = basicPr.presetIndexFileMethod((cls.VAR_key_preset_guide, mainPresetKey))
+            userIndexFile = prsCore.MtdUtilityBasic.indexFile((cls.VAR_key_preset_guide, mainPresetKey))
             data = bscMethods.OsJson.read(userIndexFile)
             if data is None:
                 data = []
-            userSchemeData = basicPr.defaultSchemeConfig()
+            userSchemeData = prsCore.MtdUtilityBasic._defaultSchemeDatum()
             userSchemeData.insert(0, username)
             data.append(userSchemeData)
             bscMethods.OsJson.write(userIndexFile, data)
 
-        userSetFile = basicPr.presetSetFileMethod((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
+        userSetFile = prsCore.MtdUtilityBasic.setFile((cls.VAR_key_preset_guide, mainPresetKey), mainSchemeKey)
 
         data = bscMethods.OsJson.read(userSetFile)
         if not data:
             data = {}
 
-        data[lxConfigure.LynxiUserCnNameKey] = userChnname
-        data[lxConfigure.LynxiUserEnNameKey] = userEngname
-        data[lxConfigure.LynxiUserMailKey] = mail
-        data[lxConfigure.DEF_preset_key_Team] = team
-        data[lxConfigure.DEF_preset_key_Post] = post
+        data[cls.DEF_key_info_chnname] = userChnname
+        data[cls.DEF_key_info_engname] = userEngname
+        data[cls.DEF_key_info_mail] = mail
+        data[cls.DEF_key_info_team] = team
+        data[cls.DEF_key_info_post] = post
 
         bscMethods.OsJson.write(userSetFile, data)
 
 
-class Pipeline(object):
+class Pipeline(prsConfigure.Utility):
     pass
 
 
-class Project(object):
-    VAR_key_preset_guide = lxConfigure.DEF_preset_key_Project
+class Project(prsConfigure.Utility):
+    VAR_key_preset_guide = prsConfigure.Utility.DEF_key_preset_project
 
     @classmethod
     def _getProjectMayaToolDatumDictByDirectory(cls, toolPath):
@@ -247,29 +245,32 @@ class Project(object):
 
     @classmethod
     def _getMayaProjectEnviron(cls):
-        environKey = bscConfigure.MtdBasic.DEF_key_environ_project
+        environKey = bscConfigure.Utility.DEF_key_environ_project
         return bscMethods.OsEnviron.get(environKey)
 
     @classmethod
     def _setMayaProjectEnviron(cls, projectName):
         if bscMethods.MayaApp.isActive():
-            environKey = bscConfigure.MtdBasic.DEF_key_environ_project
+            environKey = bscConfigure.Utility.DEF_key_environ_project
             bscMethods.OsEnviron.set(environKey, projectName)
+
+    @classmethod
+    def mayaShelfPresetDict(cls, projectName):
+        mainPresetKey = cls.DEF_key_preset_maya
+        subPresetKey = cls.DEF_key_preset_shelf
+        guideSchemeKey = projectName
+
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
 
     @classmethod
     def variantPresetDict(cls, projectName=None):
         if projectName is None:
-            projectName = cls.mayaActiveName()
-        return basicPr.getGuidePresetVariantDic(cls.VAR_key_preset_guide, projectName)
+            projectName = cls.appActiveName()
 
-    @classmethod
-    def mayaShelfPresetDict(cls, projectName):
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
-        subPresetKey = lxConfigure.DEF_preset_key_Shelf
-        guideSchemeKey = projectName
-        #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        if projectName is not None:
+            return prsCore.MtdUtilityBasic.getGuidePresetVariantDic(cls.VAR_key_preset_guide, projectName)
+        return {}
 
     @classmethod
     def mayaShelfDatumDict(cls, projectName=None):
@@ -279,7 +280,7 @@ class Project(object):
         dic = bscCore.orderedDict()
         data = cls.mayaShelfPresetDict(projectName)
         if data:
-            isTd = lxConfigure.isLxPipelineTd()
+            isTd = cls.isLxPipelineTd()
             if isTd:
                 isAdmin = True
             else:
@@ -299,12 +300,12 @@ class Project(object):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
-        subPresetKey = lxConfigure.DEF_preset_key_Kit
+        mainPresetKey = cls.DEF_key_preset_maya
+        subPresetKey = cls.DEF_key_preset_toolkit
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
 
     @classmethod
     def mayaToolDatumDict(cls, projectName=None):
@@ -327,12 +328,12 @@ class Project(object):
 
     @classmethod
     def mayaScriptPresetDict(cls, projectName):
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
-        subPresetKey = lxConfigure.DEF_preset_key_Script
+        mainPresetKey = cls.DEF_key_preset_maya
+        subPresetKey = cls.DEF_key_preset_script
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
 
     # noinspection PyShadowingNames
     @classmethod
@@ -356,12 +357,12 @@ class Project(object):
 
     @classmethod
     def mayaTdPresetDict(cls, projectName):
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
-        subPresetKey = lxConfigure.DEF_preset_key_Td
+        mainPresetKey = cls.DEF_key_preset_maya
+        subPresetKey = cls.DEF_key_preset_td
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
 
     @classmethod
     def mayaTdPackageDirectories(cls, projectName):
@@ -371,7 +372,7 @@ class Project(object):
         if dataDic:
             for k, v in dataDic.items():
                 if v:
-                    mayaPackageStr = v[lxConfigure.LynxiMayaPackageKey]
+                    mayaPackageStr = v[cls.LynxiMayaPackageKey]
                     #
                     var = ''
                     scriptText = bscMethods.Variant.covertTo('var', mayaPackageStr)
@@ -386,12 +387,12 @@ class Project(object):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
-        subPresetKey = lxConfigure.DEF_preset_key_Plug
+        mainPresetKey = cls.DEF_key_preset_maya
+        subPresetKey = cls.DEF_key_preset_plug
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getSubPresetEnabledSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
 
     @classmethod
     def isMayaPlugPresetSame(cls, sourceProjectName, targetProjectName):
@@ -407,28 +408,28 @@ class Project(object):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Basic
+        mainPresetKey = cls.DEF_key_preset_basic
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaRendererKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, cls.DEF_key_renderer)
 
     @classmethod
     def mayaTimeUnit(cls, projectName=None):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Basic
+        mainPresetKey = cls.DEF_key_preset_basic
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaTimeUnitKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, cls.DEF_key_timeunit)
 
     @classmethod
     def isMayaUsedArnoldRenderer(cls):
         boolean = False
         renderer = cls.mayaRenderer()
-        if renderer == lxConfigure.LynxiArnoldRendererValue:
+        if renderer == cls.DEF_value_renderer_arnold:
             boolean = True
         return boolean
 
@@ -437,36 +438,36 @@ class Project(object):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Basic
+        mainPresetKey = cls.DEF_key_preset_basic
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, lxConfigure.DEF_preset_key_Episode)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, cls.DEF_key_preset_episode)
 
     @classmethod
     def mayaVersion(cls, projectName=None):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        if projectName.startswith(lxConfigure.Lynxi_Keyword_Project_Default):
+        if projectName.startswith(cls.VAR_value_project_default):
             return projectName.split('_')[-1]
         else:
-            mainPresetKey = lxConfigure.DEF_preset_key_Maya
+            mainPresetKey = cls.DEF_key_preset_maya
             guideSchemeKey = projectName
             #
-            mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-            return basicPr.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaVersionKey)
+            mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+            return prsCore.MtdUtilityBasic.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, cls.LynxiMayaVersionKey)
 
     @classmethod
     def mayaCommonPlugLoadNames(cls, projectName=None):
         if not projectName:
             projectName = cls.mayaActiveName()
         #
-        mainPresetKey = lxConfigure.DEF_preset_key_Maya
+        mainPresetKey = cls.DEF_key_preset_maya
         guideSchemeKey = projectName
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        return basicPr.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, lxConfigure.LynxiMayaCommonPlugsKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        return prsCore.MtdUtilityBasic.getMainPresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, mainSchemeKey, cls.LynxiMayaCommonPlugsKey)
 
     @classmethod
     def mayaCustomPlugLoadNames(cls, projectName=None):
@@ -477,24 +478,24 @@ class Project(object):
         data = cls.mayaCustomPlugPresetDict(projectName)
         if data:
             for k, v in data.items():
-                autoLoad = v[lxConfigure.Lynxi_Key_Plug_Load_Enable_Auto]
+                autoLoad = v[cls.DEF_key_plug_autoload]
                 if autoLoad is True:
-                    loadNames = v[lxConfigure.Lynxi_Key_Plug_Load_Names]
+                    loadNames = v[cls.DEF_key_plug_loadname]
                     if loadNames:
                         lis.extend(loadNames)
         return lis
 
     @classmethod
     def names(cls):
-        return basicPr.getPresetSchemes((cls.VAR_key_preset_guide,))
+        return prsCore.MtdUtilityBasic._getEnabledSchemes((cls.VAR_key_preset_guide,))
 
     @classmethod
     def schemeDatumDic(cls):
-        return basicPr.getUiPresetSchemeDataDic((cls.VAR_key_preset_guide,))
+        return prsCore.MtdUtilityBasic._getSchemeUiDatumDic((cls.VAR_key_preset_guide,))
 
     @classmethod
     def showname(cls, projectName):
-        data = basicPr.getUiPresetSchemeDataDic((cls.VAR_key_preset_guide,))
+        data = prsCore.MtdUtilityBasic._getSchemeUiDatumDic((cls.VAR_key_preset_guide,))
         if data:
             if projectName in data:
                 return data[projectName][1]
@@ -569,7 +570,7 @@ class Project(object):
     @classmethod  # Get Project's Name
     def activeName(cls):
         # String <Project Name>
-        string = lxConfigure.LynxiDefaultProjectValue
+        string = cls.VAR_value_project_default
 
         fileString_ = shmOutput.UserPreset().projectConfigFile
         if not bscMethods.OsFile.isExist(fileString_):
@@ -591,14 +592,14 @@ class Project(object):
     def mayaActiveName(cls):
         if bscMethods.MayaApp.isActive():
             mayaVersion = bscMethods.MayaApp.version()
-            string = '{}_{}'.format(lxConfigure.Lynxi_Keyword_Project_Default, mayaVersion)
+            string = '{}_{}'.format(cls.VAR_value_project_default, mayaVersion)
             #
             environValue = cls._getMayaProjectEnviron()
             if environValue is not None:
                 string = environValue
             else:
                 currentMayaVersion = bscMethods.MayaApp.version()
-                fileString_ = shmOutput.UserPreset().applicationProjectConfigFile(bscConfigure.MtdBasic.DEF_app_maya, mayaVersion)
+                fileString_ = shmOutput.UserPreset().applicationProjectConfigFile(bscConfigure.Utility.DEF_app_maya, mayaVersion)
                 if not bscMethods.OsFile.isExist(fileString_):
                     cls._setMayaLocalConfig(string, currentMayaVersion)
                 #
@@ -606,7 +607,7 @@ class Project(object):
                 if data:
                     string = data[cls.VAR_key_preset_guide]
         else:
-            string = lxConfigure.LynxiDefaultProjectValue
+            string = cls.VAR_value_project_default
         #
         cls._setMayaProjectEnviron(string)
         return string
@@ -615,9 +616,9 @@ class Project(object):
     def mayaProxyExt(cls, projectName=None):
         usedRenderer = cls.mayaRenderer(projectName)
         osExt = '.prx'
-        if usedRenderer == lxConfigure.LynxiArnoldRendererValue:
+        if usedRenderer == cls.DEF_value_renderer_arnold:
             osExt = '.ass'
-        if usedRenderer == lxConfigure.LynxiRedshiftRendererValue:
+        if usedRenderer == cls.DEF_value_renderer_redshift:
             osExt = '.rs'
         return osExt
 
@@ -638,7 +639,7 @@ class Project(object):
     @classmethod  # Set Project Config
     def _setMayaLocalConfig(cls, projectName, mayaVersion):
         if bscMethods.MayaApp.isActive():
-            fileString_ = shmOutput.UserPreset().applicationProjectConfigFile(bscConfigure.MtdBasic.DEF_app_maya, mayaVersion)
+            fileString_ = shmOutput.UserPreset().applicationProjectConfigFile(bscConfigure.Utility.DEF_app_maya, mayaVersion)
             bscMethods.OsFile.createDirectory(fileString_)
             data = dict(project=projectName)
             bscMethods.OsJson.write(fileString_, data)
@@ -650,13 +651,13 @@ class Project(object):
             projectName = cls.mayaActiveName()
         #
         guideSchemeKey = projectName
-        mainPresetKey = lxConfigure.DEF_preset_key_Storage
-        subPresetKey = lxConfigure.DEF_preset_key_Root
+        mainPresetKey = cls.DEF_key_preset_storage
+        subPresetKey = cls.DEF_key_preset_root
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        dic = basicPr.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        dic = prsCore.MtdUtilityBasic.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
         #
-        key = lxConfigure.LynxiServerRootKey
+        key = cls.LynxiServerRootKey
         if dic:
             if key in dic:
                 data = dic[key]
@@ -675,13 +676,13 @@ class Project(object):
             projectName = cls.mayaActiveName()
         #
         guideSchemeKey = projectName
-        mainPresetKey = lxConfigure.DEF_preset_key_Storage
-        subPresetKey = lxConfigure.DEF_preset_key_Root
+        mainPresetKey = cls.DEF_key_preset_storage
+        subPresetKey = cls.DEF_key_preset_root
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        dic = basicPr.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        dic = prsCore.MtdUtilityBasic.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
         #
-        key = lxConfigure.LynxiLocalRootKey
+        key = cls.LynxiLocalRootKey
         if dic:
             if key in dic:
                 data = dic[key]
@@ -701,11 +702,11 @@ class Project(object):
             projectName = cls.mayaActiveName()
         #
         guideSchemeKey = projectName
-        mainPresetKey = lxConfigure.DEF_preset_key_Storage
-        subPresetKey = lxConfigure.DEF_preset_key_Root
+        mainPresetKey = cls.DEF_key_preset_storage
+        subPresetKey = cls.DEF_key_preset_root
         #
-        mainSchemeKey = basicPr.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
-        dic = basicPr.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
+        mainSchemeKey = prsCore.MtdUtilityBasic.getGuidePresetSetValue(cls.VAR_key_preset_guide, mainPresetKey, guideSchemeKey)
+        dic = prsCore.MtdUtilityBasic.getSubPresetSetDataDic(cls.VAR_key_preset_guide, mainPresetKey, subPresetKey, mainSchemeKey)
         if dic:
             for k, v in dic.items():
                 for ik, iv in v.items():

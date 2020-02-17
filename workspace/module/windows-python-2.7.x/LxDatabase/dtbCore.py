@@ -44,7 +44,7 @@ class DtbMtdBasic(dtbConfigure.DtbBasic):
     def _lxDbInfoDic(cls, description=None, note=None):
         return bscCore.orderedDict(
             [
-                (cls.DEF_key_info_time, bscMethods.OsTimestamp.active()),
+                (cls.DEF_key_info_timestamp, bscMethods.OsTimestamp.active()),
                 (cls.DEF_key_info_username, bscMethods.OsSystem.username()),
                 #
                 (cls.DEF_key_info_host, bscMethods.OsSystem.host()),

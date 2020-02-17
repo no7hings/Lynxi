@@ -2,10 +2,8 @@
 from LxBasic import bscCore, bscMethods
 
 from LxScheme import shmOutput
-
-from LxCore import lxConfigure
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsConfigure, prsVariants, prsMethods
 # do not delete and rename
 serverBasicPath = shmOutput.Root().basic.server
 localBasicPath = shmOutput.Root().basic.local
@@ -799,14 +797,22 @@ def astUnitAssemblyReferenceName(assetName):
 
 #
 def assetSchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbAssetRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariants.Util.dbAssetBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(
+        prsVariants.Util.dbAssetRoot,
+        prsVariants.Util.dbBasicFolderName,
+        prsConfigure.Utility.LynxiSchemeExt,
+        prsVariants.Util.dbAssetBasicKey
+    )
     return bscMethods.OsFile.uniqueName(string)
 
 
 #
 def assetSetFileConfig(assetIndex):
     string = '{0}/{1}/{2}/{3}'.format(
-        prsVariants.Util.dbAssetRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSetExt, assetIndex
+        prsVariants.Util.dbAssetRoot,
+        prsVariants.Util.dbBasicFolderName,
+        prsConfigure.Utility.LynxiSetExt,
+        assetIndex
     )
     return string
 
@@ -818,73 +824,6 @@ def defaultAssetSchemeConfig():
         u'请输入备注'
     ]
     return lis
-
-
-#
-def defaultAssetSetConfig(projectName, number=0):
-    lis = [
-        [('project', u'项目 ( Project(s) )'), (projectName, )],
-        [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
-        [('variant', u'变体 ( Variant(s) )'), (prsVariants.Util.astDefaultVariant,)],
-        [('classify', u'类型 ( Classify )'), prsMethods.Asset.classShownameDic()],
-        [('priority', u'优先级 ( Priority )'), prsMethods.Asset.priorityNames()],
-        #
-        [(lxConfigure.VAR_product_asset_link_model, u'模型制作 Model'), False],
-        [(lxConfigure.VAR_product_asset_link_rig, u'绑定制作 ( Rig )'), False],
-        [(lxConfigure.VAR_product_asset_link_groom, u'角色特效制作 ( Character FX )'), False],
-        [(lxConfigure.VAR_product_asset_link_solver, u'角色模拟制作 ( Solver )'), False],
-        [(lxConfigure.VAR_product_asset_link_light, u'资产灯光 ( Light )'), False],
-        #
-        [(lxConfigure.VAR_product_asset_link_assembly, u'资产组装 ( Assembly )'), False]
-    ]
-    return lis
-
-
-#
-def getUiAssetSetDataLis(projectName, assetIndex, number=0, overrideNumber=False):
-    def getDefaultData():
-        return defaultAssetSetConfig(projectName, number)
-    #
-    def getCustomData():
-        fileString_ = assetSetFileConfig(assetIndex)
-        return bscMethods.OsJson.read(fileString_)
-    #
-    def getDic(defaultLis, customDic):
-        lis = []
-        if defaultLis:
-            for i in defaultLis:
-                setKey, uiData = i
-                setUiKey = none
-                if isinstance(setKey, str) or isinstance(setKey, unicode):
-                    setUiKey = bscMethods.StrCamelcase.toPrettify(setKey)
-                if isinstance(setKey, tuple):
-                    setKey, setUiKey = setKey
-                #
-                defValue = uiData
-                setValue = uiData
-                if isinstance(uiData, list):
-                    defValue = uiData[0]
-                    setValue = uiData[0]
-                elif isinstance(uiData, dict):
-                    defValue = uiData.values()[0][0]
-                    setValue = uiData.values()[0][0]
-                #
-                if customDic:
-                    if setKey in customDic:
-                        setValue = customDic[setKey]
-                    else:
-                        if setKey == 'name':
-                            setValue = 'ID{}'.format(str(number).zfill(6))
-                    #
-                    if overrideNumber is True:
-                        if setKey == 'name':
-                            setValue = 'ID{}'.format(str(number).zfill(6))
-                lis.append(
-                    (setKey, setUiKey, setValue, defValue, uiData)
-                )
-        return lis
-    #
-    return getDic(getDefaultData(), getCustomData())
 
 
 #
@@ -914,7 +853,7 @@ def getAssetViewName(assetIndex):
         return dic
     #
     def getMain(customDic):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = prsConfigure.Utility.DEF_value_preset_unspecified
         if assetIndex in customDic:
             string = customDic[assetIndex]
         return string
@@ -1004,12 +943,12 @@ def getAssetIsAssemblyEnabled(assetIndex):
 def assetViewInfoSet(assetViewName, assetCategory, assetVariant=None):
     if assetVariant is None:
         string = u'{} {}'.format(
-            prsMethods.Asset.classShowname(assetCategory)[1],
+            prsMethods.Asset.categoryShowname(assetCategory),
             assetViewName
         )
     else:
         string = u'{} {} ( {} )'.format(
-            prsMethods.Asset.classShowname(assetCategory)[1],
+            prsMethods.Asset.categoryShowname(assetCategory),
             assetViewName,
             assetVariant
         )
@@ -1155,12 +1094,12 @@ def getUiAssetSetDataDic(projectFilter):
                 assetName = data['name']
                 assetVariants = data['variant']
                 assetPriority = data['priority']
-                modelEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_model)
-                rigEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_rig)
-                cfxEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_groom)
-                scSolverEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_solver)
-                scLightEnable = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_light)
-                assemblyEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_asset_link_assembly)
+                modelEnabled = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.modelLinkName())
+                rigEnabled = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.rigLinkName())
+                cfxEnabled = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.groomLinkName())
+                scSolverEnable = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.solverLinkName())
+                scLightEnable = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.lightLinkName())
+                assemblyEnabled = bscMethods.Dict.getAsBoolean(data, prsMethods.Asset.assemblyLinkName())
                 for assetVariant in assetVariants:
                     dic[(assetIndex, assetVariant)] = description, assetCategory, assetName, assetPriority, modelEnabled, rigEnabled, cfxEnabled, scSolverEnable, scLightEnable, assemblyEnabled
     #
@@ -1194,9 +1133,9 @@ def getAstUnitAssemblyDic(projectFilter):
                 if assemblyEnabled is True:
                     for assetVariant in assetVariants:
                         serverAstUnitAsbDefinitionFile = astUnitAssemblyDefinitionFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            prsConfigure.Utility.DEF_value_root_server,
                             projectFilter,
-                            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
+                            assetCategory, assetName, assetVariant, prsMethods.Asset.assemblyLinkName()
                         )[1]
                         if bscMethods.OsFile.isExist(serverAstUnitAsbDefinitionFile):
                             dic[assetIndex] = description, assetCategory, assetName, assetVariant
@@ -1572,9 +1511,9 @@ def astUnitProductFile(
 #
 def astUnitAssemblyIndexDatum(assetIndex, assetCategory, assetName):
     return {
-        lxConfigure.LynxiInfoKey_Index: assetIndex,
-        lxConfigure.LynxiInfoKey_Class: assetCategory,
-        lxConfigure.LynxiInfoKey_Name: assetName
+        prsConfigure.Product.DEF_key_info_index: assetIndex,
+        prsConfigure.Product.DEF_key_info_category: assetCategory,
+        prsConfigure.Product.DEF_key_info_name: assetName
     }
 
 
@@ -1583,7 +1522,7 @@ def astUnitAssemblyIndexFile(
         projectName,
         assetName
 ):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     fileLabel = ''
     extLabel = prsVariants.Util.astAssemblyIndexExt
     #
@@ -1595,7 +1534,7 @@ def astUnitAssemblyIndexFile(
 
 #
 def astUnitAssemblyProductFile(projectName, assetName, assetVariant):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     #
     fileLabel = bscMethods.StrUnderline.toLabel(prsVariants.Util.basicAssemblyLinkLabel, prsVariants.Util.basicProductSubLabel)
     extLabel = prsVariants.Util.mayaAsciiExt
@@ -1626,7 +1565,7 @@ def astUnitAssemblyDefinitionFile(rootIndexKey, projectName, assetCategory, asse
 
 #
 def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     #
     if lod == 0:
         fileLabel = prsVariants.Util.asbProxyFileLabel
@@ -1644,7 +1583,7 @@ def astUnitAssemblyProxyCacheFile(projectName, assetName, assetVariant, lod=0):
 
 #
 def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     #
     if lod == 0:
         fileLabel = prsVariants.Util.asbProxyFileLabel
@@ -1662,7 +1601,7 @@ def astUnitAssemblyProxyFile(projectName, assetName, assetVariant, lod=0):
 
 #
 def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     if lod == 0:
         fileLabel = prsVariants.Util.asbGpuFileLabel
     else:
@@ -1679,7 +1618,7 @@ def astUnitAssemblyGpuCacheFile(projectName, assetName, lod=0):
 
 #
 def astUnitAssemblyBoxCacheFile(projectName, assetName):
-    basicDirectory = astUnitAssemblyBasicDirectory(lxConfigure.LynxiRootIndex_Server, projectName)
+    basicDirectory = astUnitAssemblyBasicDirectory(prsConfigure.Utility.DEF_value_root_server, projectName)
     fileLabel = prsVariants.Util.asbBoxFileLabel
     #
     extLabel = prsVariants.Util.gpuCacheExt
@@ -1854,7 +1793,7 @@ def getAssetUnitProductUpdate(projectName, assetCategory, assetName, assetVarian
     string = prsVariants.Util.infoNonExistsLabel
     #
     serverProductFile = astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -1869,7 +1808,7 @@ def getAssetUnitProductUpdate(projectName, assetCategory, assetName, assetVarian
 #
 def getAstUnitProductActiveTimeTag(projectName, assetCategory, assetName, assetVariant, assetStage):
     serverProductFile = astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -1880,7 +1819,7 @@ def getAstUnitProductActiveTimeTag(projectName, assetCategory, assetName, assetV
 def getAssetUnitExtraData(projectName, assetCategory, assetName, assetVariant, assetStage):
     dic = bscCore.orderedDict()
     extraFile = astUnitExtraFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -1898,7 +1837,7 @@ def getAstTdUploadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
+                mayaPackageStr = data[prsConfigure.Utility.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = bscMethods.Variant.covertTo('var', mayaPackageStr)
@@ -1906,7 +1845,7 @@ def getAstTdUploadCommand(projectName, link):
                 #
                 if var:
                     if bscMethods.OsDirectory.isExist(var):
-                        fileString_ = var + '/' + lxConfigure.LynxiAssetUploadCommandKey + '.py'
+                        fileString_ = var + '/' + prsConfigure.Utility.LynxiAssetUploadCommandKey + '.py'
                         if bscMethods.OsFile.isExist(fileString_):
                             command = bscMethods.OsFile.read(fileString_)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
@@ -1921,7 +1860,7 @@ def getAstTdLoadCommand(projectName, link):
         if link in dataDic:
             data = dataDic[link]
             if data:
-                mayaPackageStr = data[lxConfigure.LynxiMayaScriptKey]
+                mayaPackageStr = data[prsConfigure.Utility.LynxiMayaScriptKey]
                 #
                 var = ''
                 pathCmd = bscMethods.Variant.covertTo('var', mayaPackageStr)
@@ -1929,7 +1868,7 @@ def getAstTdLoadCommand(projectName, link):
                 #
                 if var:
                     if bscMethods.OsDirectory.isExist(var):
-                        fileString_ = var + '/' + lxConfigure.LynxiAssetLoadCommandKey + '.py'
+                        fileString_ = var + '/' + prsConfigure.Utility.LynxiAssetLoadCommandKey + '.py'
                         if bscMethods.OsFile.isExist(fileString_):
                             command = bscMethods.OsFile.read(fileString_)
                             pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'

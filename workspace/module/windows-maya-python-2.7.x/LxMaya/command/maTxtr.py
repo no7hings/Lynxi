@@ -9,9 +9,7 @@ from PIL import Image
 
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxPreset import prsMethods
-#
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -73,7 +71,7 @@ def getTextureMode(textureFile, useMode=0):
 
 #
 def isTextureNode(node):
-    nodeType = maUtils.getNodeType(node)
+    nodeType = maUtils._getNodeTypeString(node)
     if nodeType in appCfg.MaTexture_NodeTypeLis:
         boolean = True
     else:
@@ -141,7 +139,7 @@ def isOsTextureExist(textureFile):
 
 #
 def getTargetTextureExists(textureNode, textureFile):
-    if maUtils.getNodeType(textureNode) == 'file':
+    if maUtils._getNodeTypeString(textureNode) == 'file':
         isUdim = True
         if textureFile:
             isSequence = maUtils.getAttrDatum(textureNode, 'useFrameExtension')
@@ -176,7 +174,7 @@ def getTextureNodeLis(filterNamespace=none):
 
 #
 def getTextureNodeAttrName(textureNode):
-    textureNodeType = maUtils.getNodeType(textureNode)
+    textureNodeType = maUtils._getNodeTypeString(textureNode)
     attrName = MaTexture_AttrNameDic[textureNodeType]
     return attrName
 
@@ -252,7 +250,7 @@ def getTxTexture(directory, textureFile):
 #
 def getTextureNodeAttrData(textureNode):
     textureFile = getTextureNodeAttrDatum(textureNode)
-    if maUtils.getNodeType(textureNode) == 'file':
+    if maUtils._getNodeTypeString(textureNode) == 'file':
         isUdim = True
         if textureFile:
             isSequence = maUtils.getAttrDatum(textureNode, 'useFrameExtension')
@@ -329,7 +327,7 @@ def getFurMapDataDic(inData=none):
         # Yeti's Map
         for objectPath in usedData:
             if maUtils.getTransformType(objectPath) == appCfg.MaNodeType_Plug_Yeti:
-                shapePath = maUtils.getNodeShape(objectPath)
+                shapePath = maUtils._getNodeShapeString(objectPath)
                 mapNodes = cmds.pgYetiGraph(shapePath, listNodes=1, type='texture')
                 if mapNodes:
                     for node in mapNodes:
@@ -348,7 +346,7 @@ def getFurMapDataDic(inData=none):
                         if osMaps:
                             dic[node] = osMaps
             # Nurbs Hair's Map
-            elif maUtils.getShapeType(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
+            elif maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
                 mapNodes = maFur.getNurbsHairMapNodes(objectPath)
                 if mapNodes:
                     for node in mapNodes:
@@ -382,7 +380,7 @@ def setMapAttr(furNodePath, furMapFile, force=False):
     elif len(nodeData) == 1:
         furMapNode = furNodePath
         #
-        nodeType = maUtils.getNodeType(furMapNode)
+        nodeType = maUtils._getNodeTypeString(furMapNode)
         # Texture Map
         if nodeType in appCfg.MaTexture_NodeTypeLis:
             setTextureAttr(furNodePath, furMapFile)
@@ -403,7 +401,7 @@ def setTextureAttrToTx(textureDatumDic=none):
         # View Progress
         explain = u'''Repath Texture to Tx ( Arnold )'''
         maxValue = len(textureDatumDic)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for k, v in textureDatumDic.items():
             # In Progress
             progressBar.update()
@@ -500,7 +498,7 @@ def getTextureIsCollection(sourceTextureFile, targetTexture):
 #
 def getTxTextureIsCollection(renderer):
     boolean = False
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == prsConfigure.Utility.DEF_value_renderer_arnold:
         boolean = True
     #
     return boolean
@@ -550,7 +548,7 @@ def setBackupTextures(targetPath, withTx=True, inData=none):
         # View Progress
         explain = u'''Backup Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         splitCollectionDatumLis = bscMethods.List.splitTo(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
             copyThreadLis = []
@@ -597,7 +595,7 @@ def setTexturesCollection(targetPath, inData=none, withTx=True, backupExists=Fal
         # View Progress
         explain = u'''Collection Texture(s)'''
         maxValue = len(collectionDatumLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         #
         splitCollectionDatumLis = bscMethods.List.splitTo(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -632,7 +630,7 @@ def setCollectionMaps(targetPath, inData=none, backupExists=False):
     if collectionDatumLis:
         explain = u'''Collection Character FX's Map'''
         maxValue = len(collectionDatumLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         #
         splitCollectionDatumLis = bscMethods.List.splitTo(collectionDatumLis, 250)
         for subCollectionDatum in splitCollectionDatumLis:
@@ -664,7 +662,7 @@ def setTexturesRepath(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Texture(s)'''
         maxValue = len(textureData)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for k, v in textureData.items():
             # In Progress
             progressBar.update()
@@ -691,7 +689,7 @@ def setRepathMaps(targetPath, inData=none):
         # View Progress
         explain = u'''Repath Map'''
         maxValue = len(mapData)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for k, v in mapData.items():
             # In Progress
             progressBar.update()
@@ -704,7 +702,7 @@ def setRepathMaps(targetPath, inData=none):
             elif not isYetiNode:
                 furMapNode = k
                 #
-                nodeType = maUtils.getNodeType(furMapNode)
+                nodeType = maUtils._getNodeTypeString(furMapNode)
                 if nodeType in appCfg.MaTexture_NodeTypeLis:
                     setTextureRepath(targetPath, sourceMap, furMapNode)
                 else:

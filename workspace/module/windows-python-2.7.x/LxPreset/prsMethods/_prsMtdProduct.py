@@ -43,14 +43,14 @@ class _UtilMethod(object):
 
 
 class Product(
-    prsCore.Mtd_PrsProductBasic,
+    prsCore.MtdProductBasic,
     _UtilMethod
 ):
     pass
 
 
 class Asset(
-    prsCore.Mtd_PrsAssetBasic,
+    prsCore.MtdAssetBasic,
     _UtilMethod
 ):
     @classmethod
@@ -157,7 +157,7 @@ class Asset(
 
 
 class Scenery(
-    prsCore.Mtd_PrsSceneryBasic,
+    prsCore.MtdSceneryBasic,
     _UtilMethod
 ):
     @classmethod
@@ -194,7 +194,7 @@ class Scenery(
 
     @classmethod
     def sceneryLinkGroupName(cls, nameString, namespaceString=None):
-        return cls.toLinkGroupName(nameString, cls.sceneryLinkName(), namespaceString)
+        return cls.toLinkGroupName(nameString, cls.assemblyLinkName(), namespaceString)
 
     @classmethod
     def layoutLinkGroupName(cls, nameString, namespaceString=None):
@@ -254,7 +254,7 @@ class Scenery(
 
 
 class Scene(
-    prsCore.Mtd_PrsSceneBasic,
+    prsCore.MtdSceneBasic,
     _UtilMethod
 ):
     @classmethod

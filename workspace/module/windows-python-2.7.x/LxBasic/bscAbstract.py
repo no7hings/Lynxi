@@ -2,11 +2,7 @@
 from LxBasic import bscCore
 
 
-class Abc_String(bscCore.Mtd_BscBasic):
-    pass
-
-
-class Abc_System(bscCore.Mtd_BscBasic):
+class Abc_System(object):
     platform_dic = {
         u'Windows': u'windows',
         u'Linux': u'linux'
@@ -19,12 +15,12 @@ class Abc_System(bscCore.Mtd_BscBasic):
 
     @property
     def platform(self):
-        return self.platform_dic.get(self.MOD_platform.system())
+        return self.platform_dic.get(bscCore.UtilityBasic.MOD_platform.system())
 
     @property
     def application(self):
         return self.application_dic.get(
-            self.MTD_os_path.basename(self.MOD_sys.argv[0])
+            bscCore.UtilityBasic._getOsFileBasename(bscCore.UtilityBasic.MOD_sys.argv[0])
         )
 
     @property
@@ -37,18 +33,18 @@ class Abc_System(bscCore.Mtd_BscBasic):
 
     @property
     def userName(self):
-        return self._getSystemUsername()
+        return bscCore.UtilityBasic._getSystemUsername()
 
     @property
     def hostName(self):
-        return self._getSystemHostname()
+        return bscCore.UtilityBasic._getSystemHostname()
 
     @property
     def host(self):
-        return self._getSystemHost()
+        return bscCore.UtilityBasic._getSystemHost()
 
 
-class Abc_Time(bscCore.Mtd_BscBasic):
+class Abc_Time(bscCore.UtilityBasic):
     def _initAbcTime(self, timestamp):
         self._timestamp = timestamp
 
@@ -69,7 +65,7 @@ class Abc_Time(bscCore.Mtd_BscBasic):
         return self._timestampToPrettify(self._timestamp)
 
 
-class Abc_Path(bscCore.Mtd_BscBasic):
+class Abc_Path(bscCore.UtilityBasic):
     pass
 
 
@@ -112,7 +108,7 @@ class Abc_File(Abc_Path):
         return self._fileString
 
 
-class Abc_DccPath(bscCore.Mtd_BscBasic):
+class Abc_DccPath(bscCore.UtilityBasic):
     separator_namespace = None
     separator_node = None
     separator_attribute = None
@@ -149,6 +145,9 @@ class Abc_DccPath(bscCore.Mtd_BscBasic):
     @property
     def namespace(self):
         return self._getNamespaceByPathString(self._pathString, self.separator_node, self.separator_namespace)
+
+    def fullpathName(self):
+        return self._pathString
 
     @property
     def name(self):

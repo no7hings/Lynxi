@@ -25,9 +25,9 @@ class Resource(shmOutput.Resource):
         # Load Unload Plugs
         if unloadPlugLis:
             # View Progress
-            progressBar = bscObjects.If_Progress(u'Load Plug(s)', len(unloadPlugLis))
+            progressBar = bscObjects.ProgressWindow(u'Load Plug(s)', len(unloadPlugLis))
             for plug in unloadPlugLis:
                 progressBar.update(plug)
                 maUtils.setPlugLoad(plug)
             #
-            bscObjects.If_Message(u'Plug(s) Load', u'Complete')
+            bscObjects.MessageWindow(u'Plug(s) Load', u'Complete')

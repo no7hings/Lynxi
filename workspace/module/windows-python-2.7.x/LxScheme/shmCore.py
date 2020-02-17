@@ -121,8 +121,8 @@ class Basic(object):
     Key_Resource_Source_Path = 'sourcepath'
     Key_Resource_Compile_Path = 'compilepath'
 
-    Key_Plug_Name = 'plugname'
-    Key_Plug_Version = 'plugversion'
+    DEF_key_plug_name = 'plugname'
+    DEF_key_plug_version = 'plugversion'
     Key_Plug_App = 'plugapp'
     Key_Plug_Source_Path = 'plugpath'
 
@@ -216,15 +216,15 @@ class Basic(object):
 
     @classmethod
     def isDevelop(cls):
-        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.DEF_key_environ_enable_develop, u'FALSE').lower() == u'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.Utility.DEF_key_environ_enable_develop, u'FALSE').lower() == u'true']
 
     @classmethod
     def isUsedef(cls):
-        return [False, True][bscMethods.OsEnviron.get(bscConfigure.MtdBasic.DEF_key_environ_enable_usedef, u'FALSE').lower() == u'true']
+        return [False, True][bscMethods.OsEnviron.get(bscConfigure.Utility.DEF_key_environ_enable_usedef, u'FALSE').lower() == u'true']
 
     @classmethod
     def setUsedef(cls, boolean):
-        bscMethods.OsEnviron.set(bscConfigure.MtdBasic.DEF_key_environ_enable_usedef, [u'FALSE', u'TRUE'][boolean])
+        bscMethods.OsEnviron.set(bscConfigure.Utility.DEF_key_environ_enable_usedef, [u'FALSE', u'TRUE'][boolean])
 
     # noinspection PyMethodMayBeStatic
     def _jsonStrRaw(self):

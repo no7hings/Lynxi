@@ -8,4 +8,4 @@ selObjects = maUtils.getSelectedObjects()
 if selObjects:
     [maUtils.setClearConstraintByRoot(i) for i in selObjects]
 #
-bscObjects.If_Message('Clean Constraint', 'Complete')
+bscObjects.MessageWindow('Clean Constraint', 'Complete')

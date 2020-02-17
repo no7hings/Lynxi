@@ -577,7 +577,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem = qtWidgets.QtFilterCheckbutton('link#{}'.format(keyword))
             checkView.addWidget(filterItem)
             #
-            filterItem.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
+            filterItem.setNameText(explainLis[bscConfigure.Utility.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
             filterItem.setItemFilterColumn(filterColumn)
@@ -603,7 +603,7 @@ class IfProductUnitOverviewUnitBasic(
             mainFilterButton = qtWidgets.QtFilterCheckbutton('object#{}'.format(keyword))
             checkView.addWidget(mainFilterButton)
             #
-            mainFilterButton.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
+            mainFilterButton.setNameText(explainLis[bscConfigure.Utility.LynxiUiIndex_Language])
             mainFilterButton.setChecked(True)
             mainFilterButton.setItemFilterColumn(filterColumn)
             mainFilterButton.setItemFilterRow(filterRow)
@@ -615,7 +615,7 @@ class IfProductUnitOverviewUnitBasic(
                 subFilterButton = qtWidgets.QtFilterCheckbutton('svg_basic@svg#{}'.format(subKeyword))
                 checkView.addWidget(subFilterButton)
                 #
-                subFilterButton.setNameText(subExplainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
+                subFilterButton.setNameText(subExplainLis[bscConfigure.Utility.LynxiUiIndex_Language])
                 #
                 subFilterButton.setChecked(True)
                 subFilterButton.setItemFilterColumn(filterColumn)
@@ -660,7 +660,7 @@ class IfProductUnitOverviewUnitBasic(
             filterItem = qtWidgets.QtFilterCheckbutton()
             checkView.addWidget(filterItem)
             #
-            filterItem.setNameText(explainLis[bscConfigure.MtdBasic.LynxiUiIndex_Language])
+            filterItem.setNameText(explainLis[bscConfigure.Utility.LynxiUiIndex_Language])
             filterItem.setChecked(True)
             #
             r, g, b = qtCore.hsv2rgb(180 + 24 * filterRow, 1, 1)

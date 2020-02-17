@@ -1,9 +1,9 @@
 # coding:utf-8
-Ma_Separator_Node = u'|'
-Ma_Separator_Namespace = u':'
+DEF_separator_node = u'|'
+DEF_separator_namespace = u':'
 
 
-class MtdBasic(object):
+class Utility(object):
     DEF_separator_os = u'/'
 
     DEF_key_environ_path_develop = u'LYNXI_PATH_DEVELOP'
@@ -97,7 +97,7 @@ class MtdBasic(object):
     #
     OsTimeTagFormat = '%Y_%m%d_%H%M%S'
     #
-    LynxiValue_Unspecified = 'Unspecified'
+    DEF_value_preset_unspecified = 'Unspecified'
     #
     LynxiUiIndex_EnName = 0
     LynxiUiIndex_ChName = 1
@@ -111,17 +111,15 @@ class MtdBasic(object):
     LynxiUniqueId_Basic = '4908BDB4-911F-3DCE-904E-96E4792E75F1'
     #
     DEF_key_info_namespace = 'namespace'
-    #
     DEF_key_info_username = 'user'
-    DEF_key_info_time = 'time'
-    #
+    DEF_key_info_timestamp = 'time'
     DEF_key_info_hostname = 'hostname'
     DEF_key_info_host = 'host'
-    #
     DEF_key_info_sourcefile = 'sourcefile'
-    #
     DEF_key_info_description = 'description'
     DEF_key_info_note = 'note'
+    DEF_key_info_stage = 'stage'
+    DEF_key_info_version = 'version'
     #
     DEF_ui_name_toolkit = 'lynxiToolKitPanel'
     # ff0040
@@ -144,6 +142,14 @@ class MtdBasic(object):
     VAR_ui_time_tooltip_delay = 1000
 
     DEF_Value_Default = 'default'
+
+
+class Preset(object):
+    pass
+
+
+class Application(object):
+    pass
 
 
 class HtmlColor(object):

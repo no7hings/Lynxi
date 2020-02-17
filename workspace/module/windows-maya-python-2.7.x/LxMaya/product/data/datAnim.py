@@ -5,9 +5,7 @@ import maya.cmds as cmds
 
 from LxBasic import bscConfigure
 #
-from LxPreset import prsVariants, prsMethods
-#
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -113,9 +111,9 @@ def getAssetDirectoryReduceData(projectName):
             if state == 'Loaded':
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    prsConfigure.Utility.DEF_value_root_server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
+                    assetCategory, assetName, assetVariant, prsMethods.Asset.rigLinkName()
                 )[1]
                 dic[referenceNode] = currentFile, correctFile
     return dic
@@ -244,9 +242,9 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 # Directory and namespace
                 currentFile = maUtils.getReferenceFile(referenceNode, 1)
                 correctFile = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    prsConfigure.Utility.DEF_value_root_server,
                     projectName,
-                    assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
+                    assetCategory, assetName, assetVariant, prsMethods.Asset.rigLinkName()
                 )[1]
                 #
                 if currentFile.lower() == correctFile.lower():
@@ -263,7 +261,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 assetArray.append(referenceNode)
                 namespace = maUtils.getReferenceNamespace(referenceNode)
                 astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
-                if maUtils.isAppExist(astUnitModelProductGroup):
+                if maUtils._isNodeExist(astUnitModelProductGroup):
                     #
                     nonRefObjects = maUtils.getNonRefChildObjectsByRoot(astUnitModelProductGroup, 'mesh', 1)
                     if not nonRefObjects:
@@ -289,7 +287,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
 
 #
 def getCacheUpdateTag(timeTag):
-    string = bscConfigure.MtdBasic.DEF_time_tag_default
+    string = bscConfigure.Utility.DEF_time_tag_default
     isCacheUseMultLine = prsMethods.Project.isCacheUseMultiline()
     if isCacheUseMultLine:
         string = timeTag

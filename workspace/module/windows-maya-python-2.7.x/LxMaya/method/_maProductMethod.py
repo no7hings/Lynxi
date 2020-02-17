@@ -16,11 +16,11 @@ class MaProductUnitMethod(dtbConfigure.DtbBasic):
         lis = []
         if moduleString in prsMethods.Product.moduleNames():
             searchKey = cls.mtd_app_node.lxNodeGroupName('*', prsMethods.Product.rootLabel())
-            nodeLis = cls.mtd_app_node.getNodeLisBySearchKey(searchKey, cls.mtd_app_node.MaNodeType_Transform)
+            nodeLis = cls.mtd_app_node.getNodeLisBySearchKey(searchKey, cls.mtd_app_node.DEF_type_transform)
             if nodeLis:
                 for nodePath in nodeLis:
-                    if cls.mtd_app_node.isAppExist(nodePath):
-                        nodeName = cls.mtd_app_node._toNodeName(nodePath)
+                    if cls.mtd_app_node._isNodeExist(nodePath):
+                        nodeName = cls.mtd_app_node._getNodeNameString(nodePath)
                         if nodeName.startswith(prsMethods.Product.modulePrefixname(moduleString)):
                             unitDatum = []
                             for attrName in prsMethods.Product.attributeNames():

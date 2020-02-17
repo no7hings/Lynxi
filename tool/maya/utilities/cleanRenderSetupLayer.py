@@ -5,7 +5,7 @@ from LxMaya.command import maUtils
 #
 nodes = maUtils.getNodeLisByType(u'renderSetupLayer')
 
-logWin_ = bscObjects.If_Log()
+logWin_ = bscObjects.LogWindow()
 if nodes:
     for node in nodes:
         if not maUtils.isNodeLocked(node):

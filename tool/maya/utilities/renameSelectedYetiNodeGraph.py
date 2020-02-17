@@ -9,4 +9,4 @@ if selObj:
     for i in selObj:
         maFur.setRenameYetiGraph(i)
 #
-bscObjects.If_Message('Rename Yeti - Graph ( Selected )', 'Complete')
+bscObjects.MessageWindow('Rename Yeti - Graph ( Selected )', 'Complete')

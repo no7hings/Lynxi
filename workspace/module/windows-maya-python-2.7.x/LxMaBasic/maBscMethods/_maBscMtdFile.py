@@ -4,7 +4,7 @@ from LxBasic import bscMethods
 from LxMaBasic import maBscCore
 
 
-class MaFile(maBscCore.MaBasic):
+class AppFile(maBscCore.UtilityBasic):
     MayaAsciiType = 'mayaAscii'
     MayaBinaryType = 'mayaBinary'
     AlembicType = 'Alembic'

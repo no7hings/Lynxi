@@ -217,15 +217,15 @@ class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if selectedNodes:
             node = selectedNodes[0]
             if isUseShape:
-                shapePath = maUtils.getNodeShape(node, 1)
-                if maUtils.isAppExist(shapePath):
+                shapePath = maUtils._getNodeShapeString(node, 1)
+                if maUtils._isNodeExist(shapePath):
                     node = shapePath
-            nodeType = maUtils.getNodeType(node)
+            nodeType = maUtils._getNodeTypeString(node)
             chooseLabel.setChoose(nodeType)
     #
     def setListNode(self):
         treeBox = self.nodeTreeViewBox
-        nodeType = self.getNodeType()
+        nodeType = self._getNodeTypeString()
         nodes = maUtils.getNodeLisByType(nodeType, 1)
         #
         self._nodeTreeItemDic = {}
@@ -237,7 +237,7 @@ class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if self._connectObject:
                     self._connectObject.setProgressValue(seq + 1, maxValue)
                 #
-                nodeName = maUtils._toNodeName(node, useMode=1)
+                nodeName = maUtils._getNodeNameString(node, useMode=1)
                 #
                 nodeItem = qtWidgets_.QTreeWidgetItem_([node])
                 treeBox.addItem(nodeItem)
@@ -270,8 +270,8 @@ class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if selectedNodes:
             node = selectedNodes[0]
             if isUseShape:
-                shapePath = maUtils.getNodeShape(node, 1)
-                if maUtils.isAppExist(shapePath):
+                shapePath = maUtils._getNodeShapeString(node, 1)
+                if maUtils._isNodeExist(shapePath):
                     node = shapePath
             #
             datumLis = maUtils.getNodeAttrModifyDatumLis(node)
@@ -410,7 +410,7 @@ class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     #
     def setGetNodeBtnState(self):
         button = self.getNodeButton
-        boolean = self.getNodeType() != none
+        boolean = self._getNodeTypeString() != none
         #
         button.setState(['off', 'normal'][boolean])
     #
@@ -477,7 +477,7 @@ class IfAttributeManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def getSelAttr(self):
         return self._activeAttrTreeView.selectedItemTexts()
     #
-    def getNodeType(self):
+    def _getNodeTypeString(self):
         chooseLabel = self.nodeTypeLabel
         #
         message = chooseLabel.datum()
@@ -756,11 +756,11 @@ class IfNamespaceManagerUnit(
         #
         def setAssemblyNodeCheck(nodeLis):
             for node in nodeLis:
-                if maUtils.getNodeType(node) == 'assemblyReference':
+                if maUtils._getNodeTypeString(node) == 'assemblyReference':
                     return True
                 else:
                     parentNode = maUtils.getObjectParent(node, 1)
-                    if maUtils.getNodeType(parentNode) == 'assemblyReference':
+                    if maUtils._getNodeTypeString(parentNode) == 'assemblyReference':
                         return True
         #
         def updateError():
@@ -814,8 +814,8 @@ class IfNamespaceManagerUnit(
             self.connectObject().updateProgress()
             #
             objectPath = treeItem.path
-            objectName = maUtils._toNodeName(objectPath, useMode=1)
-            nodeType = maUtils.getNodeType(objectPath)
+            objectName = maUtils._getNodeNameString(objectPath, useMode=1)
+            nodeType = maUtils._getNodeTypeString(objectPath)
             treeItem.setNameText(objectName)
             treeItem.setIcon('maya@svg#{}'.format(nodeType))
         #
@@ -833,7 +833,7 @@ class IfNamespaceManagerUnit(
                 subNodeArray = []
                 for node in nodeLis:
 
-                    if node.startswith(appCfg.Ma_Separator_Namespace):
+                    if node.startswith(appCfg.DEF_separator_namespace):
                         objectPathLis.append(node)
                     else:
                         subNodeArray.append(node)
@@ -1285,7 +1285,7 @@ class IfUtilsDirectoryManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             childItemLis.extend(treeItem.childItems())
             progressExplain = u'''Read File(s)'''
             maxValue = len(childItemLis)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for treeItem in childItemLis:
                 progressBar.update()
                 checkBox = treeItem.checkBox
@@ -1716,7 +1716,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if sourceObjectData:
             for seq, (sourceObjectPath, objectType, sourceObjectKey) in enumerate(sourceObjectData):
                 sourceObjects.append(sourceObjectPath)
-                objectName = maUtils._toNodeName(sourceObjectPath)
+                objectName = maUtils._getNodeNameString(sourceObjectPath)
                 #
                 sourceObjectItem = qtWidgets_.QTreeWidgetItem_([objectName, objectType])
                 sourceObjectItem.path = sourceObjectPath
@@ -1732,7 +1732,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     if len(objectDataArray) > 1:
                         subLabelString = 'error'
                     for targetObjectPath, targetObjectType in objectDataArray:
-                        targetObjectName = maUtils._toNodeName(targetObjectPath)
+                        targetObjectName = maUtils._getNodeNameString(targetObjectPath)
                         targetObjectItem = qtWidgets_.QTreeWidgetItem_([targetObjectName, objectType])
                         targetObjectItem.path = targetObjectPath
                         #
@@ -1772,7 +1772,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if isUuid:
                 root = maUuid.getObject(message, 1)
             if not isUuid:
-                if maUtils.isAppExist(message):
+                if maUtils._isNodeExist(message):
                     root = maUtils._getNodePathString(message)
         #
         return root
@@ -1787,14 +1787,14 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         if len(selectedObjects) == 1:
             sourceRootPath = selectedObjects[0]
-            sourceRootName = maUtils._toNodeName(sourceRootPath)
+            sourceRootName = maUtils._getNodeNameString(sourceRootPath)
             sourceRootLabel.setDatum(sourceRootPath)
         #
         elif len(selectedObjects) == 2:
             sourceRootPath, targetRootPath = selectedObjects
-            sourceRootName = maUtils._toNodeName(sourceRootPath)
+            sourceRootName = maUtils._getNodeNameString(sourceRootPath)
             sourceRootLabel.setDatum(sourceRootPath)
-            targetRootName = maUtils._toNodeName(targetRootPath)
+            targetRootName = maUtils._getNodeNameString(targetRootPath)
             targetRootLabel.setDatum(targetRootPath)
         #
         else:
@@ -1826,12 +1826,12 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             cloneRoot = '|clone_grp'
             maUtils.setCloneHierarchy(sourceRoot, cloneRoot)
             for sourcePath, targetPath in pathReduceData.items():
-                sourceName = maUtils._toNodeName(sourcePath)
+                sourceName = maUtils._getNodeNameString(sourcePath)
                 cloneTargetPath = cloneRoot + targetPath
                 cloneTargetParentPath = maUtils._toNodeParentPath(cloneTargetPath)
-                cloneTargetName = maUtils._toNodeName(cloneTargetPath)
-                if maUtils.isAppExist(sourcePath):
-                    if not maUtils.isAppExist(cloneTargetPath):
+                cloneTargetName = maUtils._getNodeNameString(cloneTargetPath)
+                if maUtils._isNodeExist(sourcePath):
+                    if not maUtils._isNodeExist(cloneTargetPath):
                         maUtils.setObjectParent(sourcePath, cloneTargetParentPath)
                         cloneSourcePath = cloneTargetParentPath + '|' + sourceName
                         maUtils.setNodeRename(cloneSourcePath, cloneTargetName)
@@ -2223,7 +2223,7 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if uuid in nodeDic:
                 treeItem = nodeDic[uuid]
                 objectPath = maUuid.getObject(uuid)
-                objectName = maUtils._toNodeName(objectPath)
+                objectName = maUtils._getNodeNameString(objectPath)
                 treeItem.path = objectPath
                 treeItem.name = objectName
                 treeItem.setText(0, objectName)
@@ -2240,8 +2240,8 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 for uuid in selectedUuids:
                     if uuid in nodeDic:
                         objectPath = maUuid.getObject(uuid)
-                        objectName = maUtils._toNodeName(objectPath)
-                        objectShape = maUtils.getNodeShape(objectPath)
+                        objectName = maUtils._getNodeNameString(objectPath)
+                        objectShape = maUtils._getNodeShapeString(objectPath)
                         maUtils.setAttrStringDatum(objectShape, attrName, objectName)
                         self.updateNodeAttrScriptJob(uuid, attrName)
         #
@@ -2251,7 +2251,7 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 for uuid in selectedUuids:
                     if uuid in nodeDic:
                         objectPath = maUuid.getObject(uuid)
-                        objectShape = maUtils.getNodeShape(objectPath)
+                        objectShape = maUtils._getNodeShapeString(objectPath)
                         maUtils.setAttrStringDatum(objectShape, attrName, none)
                         self.updateNodeAttrScriptJob(uuid, attrName)
         #
@@ -2262,7 +2262,7 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     for uuid in selectedUuids:
                         if uuid in nodeDic:
                             objectPath = maUuid.getObject(uuid)
-                            objectShape = maUtils.getNodeShape(objectPath)
+                            objectShape = maUtils._getNodeShapeString(objectPath)
                             maUtils.setAttrStringDatum(objectShape, attrName, lightGroup)
                             self.updateNodeAttrScriptJob(uuid, attrName)
             #
@@ -2303,9 +2303,9 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         nodeDic = self.nodeDic
         #
         objectPath = maUuid.getObject(uuid)
-        objectShape = maUtils.getNodeShape(objectPath)
+        objectShape = maUtils._getNodeShapeString(objectPath)
         attr = '{}.{}'.format(objectShape, attrName)
-        if maUtils.isAppExist(attr):
+        if maUtils._isNodeExist(attr):
             maUtils.setCreateAttrChangedScriptJob(self.UnitScriptJobWindowName, attr, updateLightGroups)
     #
     def updateNodeScriptJob(self, node):
@@ -2319,7 +2319,7 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         nodeDic = self.nodeDic
         for uuid in nodeDic:
             objectPath = maUuid.getObject(uuid)
-            objectShape = maUtils.getNodeShape(objectPath)
+            objectShape = maUtils._getNodeShapeString(objectPath)
             attrData = maUtils.getAttrDatum(objectShape, attrName)
             if attrData:
                 if not attrData in lis:
@@ -2346,8 +2346,8 @@ class IfLightGroupManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def addTreeItem(self, treeViewBox, nodePath, nodeType):
         attrName = 'ai_aov'
         #
-        lightName = maUtils._toNodeName(nodePath)
-        lightUuid = maUuid.getNodeUniqueId(nodePath)
+        lightName = maUtils._getNodeNameString(nodePath)
+        lightUuid = maUuid._getNodeUniqueIdString(nodePath)
         lightGroup = maUtils.getAttrDatum(nodePath, attrName)
         if lightGroup is not None:
             if not lightUuid in self.nodeDic:

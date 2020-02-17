@@ -2,12 +2,12 @@
 import os
 
 from LxBasic import bscConfigure, bscMethods, bscModifiers, bscObjects
+#
+from LxPreset import prsConfigure, prsVariants, prsMethods
 
 from LxCore import lxConfigure
 
 from LxCore.config import appCfg
-#
-from LxPreset import prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -45,7 +45,7 @@ def scUnitAnimationUploadMainCmd(
         withPreview=False, withCamera=False, withAsset=False, withScenery=False,
 ):
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Animation Upload')
+    logWin_ = bscObjects.LogWindow(title=u'Animation Upload')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Animation Upload')
@@ -174,7 +174,7 @@ def scUnitLightUploadMainCmd(
         withRender=False, withDeadline=False
 ):
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Light Upload')
+    logWin_ = bscObjects.LogWindow(title=u'Light Upload')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Light Upload')
@@ -271,7 +271,7 @@ def scUnitAssetsUploadMainCmd_(
         #
         withAsset
 ):
-    logWin_ = bscObjects.If_Log(title=u'Asset Upload')
+    logWin_ = bscObjects.LogWindow(title=u'Asset Upload')
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Asset Upload')
@@ -320,7 +320,7 @@ def scUnitAstAlembicCacheUploadCmd(
         description=None, notes=None,
         alembicAttrs=None
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     startFrame = scenePr.scStartFrame(startFrame)
     endFrame = scenePr.scEndFrame(endFrame)
@@ -350,10 +350,10 @@ def scUnitAstAlembicCacheUploadCmd(
     # Index
     if indexKey is not None:
         cacheIndex = {
-            lxConfigure.DEF_key_info_time: bscMethods.OsTimestamp.active(),
-            lxConfigure.DEF_key_info_username: bscMethods.OsSystem.username(),
+            bscConfigure.Utility.DEF_key_info_timestamp: bscMethods.OsTimestamp.active(),
+            bscConfigure.Utility.DEF_key_info_username: bscMethods.OsSystem.username(),
             #
-            lxConfigure.Lynxi_Key_Info_Stage: sceneStage,
+            bscConfigure.Utility.DEF_key_info_stage: sceneStage,
             #
             indexKey: multLineCacheFile
         }
@@ -375,7 +375,7 @@ def uploadScAlembicCache(
         currentFrame,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     step = prsVariants.Util.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
@@ -409,7 +409,7 @@ def uploadScAstMeshData(
         cache,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     meshDataFile = scenePr.getMeshDataFile(cache)
     #
     mainLineMeshDataFile = bscMethods.OsFile.toJoinTimetag(
@@ -444,10 +444,10 @@ def scUnitSourceUploadCmd(
         timeTag,
         description, notes
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Source File >>> 01
     backupSourceFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
@@ -474,14 +474,14 @@ def scUnitSourceOpenCmd(
         sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Open Source
     backupFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     localFile = scenePr.sceneUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        prsConfigure.Utility.DEF_value_root_local,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupFile, timeTag)
@@ -496,14 +496,14 @@ def scUnitProductUploadCmd(
         sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Main Method
     serverProductFile = scenePr.sceneUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupProductFile = scenePr.sceneUnitProductFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     maFile.updateMayaFile(serverProductFile)
@@ -534,17 +534,17 @@ def scUnitIndexUploadCmd(
         #
         return data, config
 
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     #
     if withIndex is not False:
         withCamera, withAsset, withScenery = withIndex
         # Main Method
         serverIndexFile = scenePr.scUnitIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneCategory, sceneName, sceneVariant
         )[1]
         backupIndexFile = scenePr.scUnitIndexFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName, sceneCategory, sceneName, sceneVariant
         )[1]
         #
@@ -619,28 +619,28 @@ def scUnitCamerasUploadCmd(
         subCameraLocator = cameraLocator + subLabelString
         # Camera Product File
         serverProductFile = scenePr.scUnitCameraProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         subServerProductFile = bscMethods.OsFile.subFilename(serverProductFile, subLabelString)
         # FBX
         serverCameraFbxFile = scenePr.scUnitCameraFbxFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         subServerCameraFbxFile = bscMethods.OsFile.subFilename(serverCameraFbxFile, subLabelString)
         # Alembic Cache
         serverCameraAlembicCacheFile = scenePr.scUnitCameraAlembicCacheFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneName, sceneVariant, sceneStage
         )[1]
         subServerCameraAlembicCacheFile = bscMethods.OsFile.subFilename(serverCameraAlembicCacheFile, subLabelString)
         # Cache Index
         cameraCacheIndexFile = scenePr.scCameraCacheIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneName, sceneVariant
         )[1]
@@ -662,7 +662,7 @@ def scUnitCamerasUploadCmd(
         #
         scUnitAstAlembicCacheUploadCmd(
             subCameraLocator,
-            lxConfigure.LynxiCacheInfoKey,
+            prsConfigure.Product.DEF_key_cache,
             subCameraCacheIndexFile, subServerCameraAlembicCacheFile,
             sceneStage,
             startFrame, endFrame,
@@ -678,7 +678,7 @@ def scUnitCamerasUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Camera(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for seq, cameraObject in enumerate(sceneCameraLis):
                     if cameraObject in usedCameraLis:
                         # Sub Progress
@@ -689,7 +689,7 @@ def scUnitCamerasUploadCmd(
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
 
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     #
     setMain()
 
@@ -717,26 +717,26 @@ def scUnitPreviewsUploadCmd(
         # Get Camera
         outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
         previewCamera = cameraObject
-        if maUtils.isAppExist(outputCamera):
+        if maUtils._isNodeExist(outputCamera):
             previewCamera = outputCamera
         # Preview File
         servePreviewFile = scenePr.scenePreviewFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         backupPreviewFile = scenePr.scenePreviewFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
         )[1]
         if useMode == 1:
             localPreviewFile = scenePr.scenePreviewFile(
-                lxConfigure.LynxiRootIndex_Local,
+                prsConfigure.Utility.DEF_value_root_local,
                 projectName, sceneCategory, sceneName, sceneVariant, sceneStage, vedioFormat
             )[1]
             servePreviewFile = bscMethods.OsFile.toJoinTimetag(localPreviewFile)
         # Index File
         serverPreviewIndexFile = scenePr.scenePreviewIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         subSeverPreviewFile = bscMethods.OsFile.subFilename(servePreviewFile, subLabelString)
@@ -771,7 +771,7 @@ def scUnitPreviewsUploadCmd(
                 # View Progress
                 progressExplain = '''Upload Preview(s)'''
                 maxValue = len(usedCameraLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 #
                 maUtils.setDefaultShaderColor(.5, .5, .5)
                 for seq, cameraObject in enumerate(sceneCameraLis):
@@ -784,7 +784,7 @@ def scUnitPreviewsUploadCmd(
             else:
                 logWin_.addWarning(u'Camera is Non - Exists')
 
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     setMain()
 
@@ -795,14 +795,14 @@ def scUnitSoundUploadCmd(
         sceneIndex,
         sceneCategory, sceneName, sceneVariant, sceneStage,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverFile = scenePr.sceneSoundFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupFile = scenePr.sceneSoundFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     #
@@ -835,7 +835,7 @@ def scUnitAssetCachesUploadCmd(
     def setBranch(value):
         assetCategory, assetName, number, assetVariant, keyNode = value
         #
-        if maUtils.getNodeType(keyNode) == appCfg.MaReferenceType:
+        if maUtils._getNodeTypeString(keyNode) == appCfg.MaReferenceType:
             namespace = maUtils.getReferenceNamespace(keyNode)
         else:
             namespace = maUtils._toNamespaceByNodePath(keyNode)
@@ -850,31 +850,31 @@ def scUnitAssetCachesUploadCmd(
             astModelLinkRoot = scenePr.scAstModelGroupName(sceneName, sceneVariant, assetName, number, namespace)
         #
         astCacheIndexFile = scenePr.scAstCacheIndexFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneName, sceneVariant, assetName, number
         )[1]
         # Model Cache
         if astModelLinkRoot is not None:
             if isWithModelCache is True:
-                if maUtils.isAppExist(astModelLinkRoot):
+                if maUtils._isNodeExist(astModelLinkRoot):
                     # Use for Solver
                     if isModelCacheUseForSolver is True:
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            prsConfigure.Utility.DEF_value_root_server,
                             projectName,
-                            sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_solver,
+                            sceneName, sceneVariant, prsMethods.Scene.solverLinkName(),
                             assetName, number
                         )[1]
                         scAstModelCacheIndexKey = None
                     else:
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
-                            lxConfigure.LynxiRootIndex_Server,
+                            prsConfigure.Utility.DEF_value_root_server,
                             projectName,
                             sceneName, sceneVariant, sceneStage,
                             assetName, number
                         )[1]
-                        scAstModelCacheIndexKey = lxConfigure.LynxiCacheInfoKey
+                        scAstModelCacheIndexKey = prsConfigure.Product.DEF_key_cache
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
                         astModelLinkRoot,
@@ -895,7 +895,7 @@ def scUnitAssetCachesUploadCmd(
                     )
                     #
                     scAstModelPoseCache = scenePr.scAstModelPoseAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        prsConfigure.Utility.DEF_value_root_server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number
@@ -912,9 +912,9 @@ def scUnitAssetCachesUploadCmd(
         # Extra Cache
         if astExtraSubRoot is not None:
             if isWithRigExtraCache is True and isModelCacheUseForSolver is False:
-                if maUtils.isAppExist(astExtraSubRoot):
+                if maUtils._isNodeExist(astExtraSubRoot):
                     astRigExtraCacheFile = scenePr.scAstRigExtraAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        prsConfigure.Utility.DEF_value_root_server,
                         projectName,
                         sceneName, sceneVariant,
                         assetName, number
@@ -926,7 +926,7 @@ def scUnitAssetCachesUploadCmd(
                     )
                     scUnitAstAlembicCacheUploadCmd(
                         astExtraSubRoot,
-                        lxConfigure.LynxiExtraCacheInfoKey,
+                        prsConfigure.Product.DEF_key_rigcache,
                         astCacheIndexFile, astRigExtraCacheFile,
                         sceneStage,
                         startFrame, endFrame,
@@ -939,17 +939,17 @@ def scUnitAssetCachesUploadCmd(
         # Solver Cache
         if astSolverSubRoot is not None:
             if isWithSolverCache is True:
-                if maUtils.isAppExist(astSolverSubRoot):
+                if maUtils._isNodeExist(astSolverSubRoot):
                     assetSolverCacheFile = scenePr.scAstSolverAlembicCacheFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        prsConfigure.Utility.DEF_value_root_server,
                         projectName,
-                        sceneName, sceneVariant, lxConfigure.VAR_product_scene_link_solver,
+                        sceneName, sceneVariant, prsMethods.Scene.solverLinkName(),
                         assetName, number
                     )[1]
                     # Alembic Cache Sequence
                     scUnitAstAlembicCacheUploadCmd(
                         astSolverSubRoot,
-                        lxConfigure.LynxiSolverCacheInfoKey,
+                        prsConfigure.Product.DEF_key_solvercache,
                         astCacheIndexFile, assetSolverCacheFile,
                         sceneStage,
                         startFrame, endFrame,
@@ -959,7 +959,7 @@ def scUnitAssetCachesUploadCmd(
                 else:
                     logWin_.addError(u'Asset Rig ( Solver Root ) is Non - Exists')
     #
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     assetData, uploadConfig = getData(withAsset)
     if assetData:
@@ -973,7 +973,7 @@ def scUnitAssetCachesUploadCmd(
         # View Progress
         progressExplain = '''Upload Asset Cache(s)'''
         maxValue = len(assetData)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for seq, i in enumerate(assetData):
             # Progress
             progressBar.update()
@@ -991,7 +991,7 @@ def scUnitSceneriesUploadCmd(
         timeTag,
         withScenery
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Main Method
     if withScenery is not False:
         withExtra,  = withScenery
@@ -999,11 +999,11 @@ def scUnitSceneriesUploadCmd(
             sceneryExtraData = datScene.getScSceneryExtraData(sceneName, sceneVariant, sceneStage)
             if sceneryExtraData:
                 sceneryExtraFile = scenePr.scUnitSceneryExtraFile(
-                    lxConfigure.LynxiRootIndex_Server,
+                    prsConfigure.Utility.DEF_value_root_server,
                     projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                 )[1]
                 backupExtraFile = scenePr.scUnitSceneryExtraFile(
-                    lxConfigure.LynxiRootIndex_Backup,
+                    prsConfigure.Utility.DEF_value_root_backup,
                     projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                 )[1]
                 bscMethods.OsJson.setValue(
@@ -1025,17 +1025,17 @@ def scUnitSceneryComposeUploadCmd_(
         sceneCategory, sceneName, sceneVariant, sceneStage,
         timeTag,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     data = datScene.getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage)
     if data:
         serverFile = scenePr.scUnitAssemblyComposeFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         backupFile = scenePr.scUnitAssemblyComposeFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
@@ -1055,7 +1055,7 @@ def uploadScAstCfxFurCache(
         furCacheDataArray,
         useExistsCache=True
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     cacheType = 'OneFile'
     cacheFormat = 'mcx'
@@ -1063,7 +1063,7 @@ def uploadScAstCfxFurCache(
         # View Progress
         progressExplain = '''Uploading Asset ( CFX ) Cache'''
         maxValue = len(furCacheDataArray)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         yetiObjects = []
         yetiCaches = []
         yetiStartFrame = None
@@ -1086,7 +1086,7 @@ def uploadScAstCfxFurCache(
                 yetiSample = sample
             # Hair System
             elif furObjectType == appCfg.MaHairSystemType:
-                shapePath = maUtils.getNodeShape(furObject)
+                shapePath = maUtils._getNodeShapeString(furObject)
                 #
                 cachePath = os.path.dirname(furCacheFile)
                 cacheName = furObjectName
@@ -1115,7 +1115,7 @@ def uploadScAstCfxFurCache(
                     )
             # Nurbs Hair Solver
             elif furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
-                shapePath = maUtils.getNodeShape(furObject)
+                shapePath = maUtils._getNodeShapeString(furObject)
                 #
                 cachePath = os.path.dirname(furCacheFile)
                 cacheName = furObjectName
@@ -1153,15 +1153,15 @@ def scUnitRenderUploadCmd(
         customize,
         timeTag,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage, customize
     )[1]
     backupRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage, customize
     )[1]
@@ -1190,30 +1190,30 @@ def scUnitRenderIndexUploadCmd(
         customize,
         timeTag,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderIndexFile = scenePr.sceUnitRenderIndexFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     backupRenderIndexFile = scenePr.sceUnitRenderIndexFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
@@ -1272,37 +1272,37 @@ def scUnitRenderDeadlineSubmitMainCmd(
         frameOverride=False,
         melCommand=None,
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Render File
     serverRenderFile = scenePr.scUnitRenderFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Info
     serverDeadlineInfoFile = scenePr.scDeadlineInfoFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     # Job
     serverDeadlineJobFile = scenePr.scDeadlineJobFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )[1]
     #
     serverRenderPath = scenePr.scUnitRenderFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
     )
     serverRenderImagePath = scenePr.scUnitRenderImageFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneCategory, sceneName, sceneVariant, sceneStage,
         customize
@@ -1349,7 +1349,7 @@ def scUnitRenderDeadlineSubmitMainCmd(
         # View Progress
         progressExplain = u'''Submit Deadline Job(s)'''
         maxValue = len(renderLayerLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for seq, currentRenderLayer in enumerate(renderLayerLis):
             progressBar.update(currentRenderLayer)
             # Switch Render Layer First
@@ -1407,15 +1407,15 @@ def scUnitDeadlineJobSubmitCmd(
         infoFile, jobFile,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Info
-    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, bscConfigure.MtdBasic.DEF_time_tag_default, useMode=1)
+    mainLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, bscConfigure.Utility.DEF_time_tag_default, useMode=1)
     multLineInfoFile = bscMethods.OsFile.toJoinTimetag(infoFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineInfoFile, infoData)
     bscMethods.OsFile.backupTo(multLineInfoFile, mainLineInfoFile)
     logWin_.addResult(multLineInfoFile)
     # Job
-    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, bscConfigure.MtdBasic.DEF_time_tag_default, useMode=1)
+    mainLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, bscConfigure.Utility.DEF_time_tag_default, useMode=1)
     multLineJobFile = bscMethods.OsFile.toJoinTimetag(jobFile, timeTag, useMode=1)
     bscMethods.OsFile.write(multLineJobFile, jobData)
     bscMethods.OsFile.backupTo(multLineJobFile, mainLineJobFile)

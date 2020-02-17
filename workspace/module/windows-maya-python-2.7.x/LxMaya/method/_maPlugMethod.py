@@ -74,7 +74,7 @@ class Mtd_MaAbcCache(_maMethodBasic.Mtd_MaPlug):
         cls.loadAppPlug(cls.MaPlugName_AlembicExport)
         #
         if bscMethods.OsFile.isExist(fileString):
-            maBscMethods.MaFile.setFileImport(fileString, namespace)
+            maBscMethods.AppFile.setFileImport(fileString, namespace)
 
 
 #
@@ -209,7 +209,7 @@ class MaYetiObjectMethod(_maMethod.MaHairNodeGraphMethod, _maMethodBasic.Mtd_MaP
     def getYetiGraphData(cls, yetiObject):
         lis = []
         #
-        yetiShape = cls.getNodeShape(yetiObject)
+        yetiShape = cls._getNodeShapeString(yetiObject)
         graphNodeLis = cmds.pgYetiGraph(yetiShape, listNodes=1)
         #
         if graphNodeLis:
@@ -254,24 +254,24 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
         #
         yetiShapeLis = cls.getYetiShapeLis()
         for yetiShape in yetiShapeLis:
-            yetiShapeUniqueId = cls.getNodeUniqueId(yetiShape)
+            yetiShapeUniqueId = cls._getNodeUniqueIdString(yetiShape)
             importNodes = cmds.pgYetiGraph(yetiShape, listNodes=1, type='import')
             for importNode in importNodes:
                 importParam = cls.getYetiImportShape(yetiShape, importNode)
-                importParamUniqueId = cls.getNodeUniqueId(importParam)
+                importParamUniqueId = cls._getNodeUniqueIdString(importParam)
                 dic.setdefault(importParamUniqueId, []).append((yetiShapeUniqueId, importNode))
         return dic
     @classmethod
     def getYetiImportDatumLis(cls, yetiObject):
         lis = []
-        yetiShape = cls.getNodeShape(yetiObject)
+        yetiShape = cls._getNodeShapeString(yetiObject)
         yetiImportNodeLis = cls.getYetiImportNodeLis(yetiShape)
         if yetiImportNodeLis:
             for importNode in yetiImportNodeLis:
                 importParam = cls.getYetiImportShape(yetiShape, importNode)
                 importType = cls.getYetiImportType(yetiObject, importNode)
                 if importParam != '*':
-                    if cls.isAppExist(importParam):
+                    if cls._isNodeExist(importParam):
                         lis.append((yetiShape, importNode, importType, importParam))
         return lis
     @classmethod
@@ -288,7 +288,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
     def setYetiHairGraphCollection(cls, yetiObjectUniqueId, importType, importGuideUniqueId, rootGroupPath):
         if importType == cls.MaYetiImportType_Guide:
             yetiObjectPath = cls.getNodeByUniqueId(yetiObjectUniqueId)
-            yetiObjectName = cls._toNodeName(yetiObjectPath)
+            yetiObjectName = cls._getNodeNameString(yetiObjectPath)
             importGuide = cls.getNodeByUniqueId(importGuideUniqueId)
             #
             hairOutputCurveObjectLis = cls.set_method.getNodeLisBySet(importGuide)
@@ -297,7 +297,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                 subGuideGroupName = cls.lxGroupName(yetiObjectName)
                 compGuideGroupName = cls.lxGroupName(importGuide)
                 #
-                objectCompGroupPath = cls.Ma_Separator_Node.join(
+                objectCompGroupPath = cls.DEF_separator_node.join(
                     [subGuideGroupName, compGuideGroupName]
                 )
                 for hairOutputCurveObject in hairOutputCurveObjectLis:
@@ -320,9 +320,9 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                         #
                         objSeq = len(importCountDic[countKey]) - 1
                         if importType in [cls.MaYetiImportType_Geometry, cls.MaYetiImportType_Groom]:
-                            importShapeUniqueId = cls.getNodeUniqueId(importParam)
-                            importObjectPath = cls.getNodeTransform(importParam)
-                            importObjectUniqueId = cls.getNodeUniqueId(importObjectPath)
+                            importShapeUniqueId = cls._getNodeUniqueIdString(importParam)
+                            importObjectPath = cls._getNodeTransformString(importParam)
+                            importObjectUniqueId = cls._getNodeUniqueIdString(importObjectPath)
                             newImportObjectName = cls.lxNodeName(nameSet, importType, objSeq)
                             cls.setObjectRenameByUniqueId(importObjectUniqueId, newImportObjectName)
                             cls.setObjectShapeRenameByUniqueId(importObjectUniqueId)
@@ -336,7 +336,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                             cls.setObjectTextureReferenceRenameByUniqueId(importObjectUniqueId)
                         elif importType == cls.MaYetiImportType_Guide:
                             importGuide = importParam
-                            importGuideUniqueId = cls.getNodeUniqueId(importGuide)
+                            importGuideUniqueId = cls._getNodeUniqueIdString(importGuide)
                             #
                             newImportSetName = cls.lxNodeSetName(nameSet, importType, objSeq)
                             cls.setObjectRenameByUniqueId(importGuideUniqueId, newImportSetName)
@@ -349,7 +349,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                             cls.setYetiHairGraphRename(importType, importGuideUniqueId, subNameSet)
             #
             nameLabel_ = None
-            yetiObjectName = cls._toNodeName(yetiObjectPath)
+            yetiObjectName = cls._getNodeNameString(yetiObjectPath)
             if yetiObjectName.startswith(cls.LynxiKeyword_Rename):
                 nameLabel_ = yetiObjectName[len(cls.LynxiKeyword_Rename) + 1:]
             else:
@@ -357,7 +357,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                     nameLabel_ = nameLabel + '_' + str(mainSeq + 1)
             #
             if nameLabel_ is not None:
-                yetiObjectUniqueId = cls.getNodeUniqueId(yetiObjectPath)
+                yetiObjectUniqueId = cls._getNodeUniqueIdString(yetiObjectPath)
                 #
                 isColorEnable = cls.lynxi_isNodeColorEnable(yetiObjectPath)
                 r, g, b = cls.lynxi_getNodeColor(yetiObjectPath)
@@ -378,7 +378,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
             cls.updateProgress()
         #
         if yetiObject is not None:
-            yetiObjectPathLis = cls._toNodeLis(yetiObject)
+            yetiObjectPathLis = cls._toExistNodeList(yetiObject)
         else:
             yetiObjectPathLis = cls.getYetiObjectLis()
         #
@@ -395,34 +395,34 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                 if subObjectLis:
                     for subSeq, (yetiShape, importNode, importType, importParam) in enumerate(subObjectLis):
                         if importType in [cls.MaYetiImportType_Geometry, cls.MaYetiImportType_Groom]:
-                            importObject = cls.getNodeTransform(importParam)
-                            importObjectUniqueId = cls.getNodeUniqueId(importObject)
+                            importObject = cls._getNodeTransformString(importParam)
+                            importObjectUniqueId = cls._getNodeUniqueIdString(importObject)
                             importGroupName = cls.lxGroupName(importType)
                             #
-                            importGroupPath = cls.Ma_Separator_Node.join([yetiFurGroupPath, importGroupName])
+                            importGroupPath = cls.DEF_separator_node.join([yetiFurGroupPath, importGroupName])
                             cls.setAppPathCreate(importGroupPath)
                             cls.setObjectParentByUniqueId(importObjectUniqueId, importGroupPath)
                             #
                             refObject = cls.getObjectTextureReferenceByUniqueId(importObjectUniqueId)
                             if refObject:
                                 refObjectGroupName = cls.lxGroupName(importType + '_reference')
-                                cls.setAppPathCreate(cls.Ma_Separator_Node.join([yetiFurGroupPath, refObjectGroupName]))
+                                cls.setAppPathCreate(cls.DEF_separator_node.join([yetiFurGroupPath, refObjectGroupName]))
                                 cls.setObjectParent(refObject, refObjectGroupName)
                         elif importType == cls.MaYetiImportType_Guide:
                             importGuide = importParam
-                            importGuideUniqueId = cls.getNodeUniqueId(importGuide)
-                            yetiObjectName = cls._toNodeName(yetiObjectPath)
+                            importGuideUniqueId = cls._getNodeUniqueIdString(importGuide)
+                            yetiObjectName = cls._getNodeNameString(yetiObjectPath)
                             #
                             importGuideName = cls.lxSetName(importType)
                             subImportGuideName = cls.lxSetName(yetiObjectName)
-                            cls.set_method.setSetPathCreate(cls.Ma_Separator_Set.join([yetiFurSetName, importGuideName, subImportGuideName, importGuide]))
+                            cls.set_method.setSetPathCreate(cls.DEF_separator_set.join([yetiFurSetName, importGuideName, subImportGuideName, importGuide]))
                             #
                             cls.setYetiHairGraphCollection(yetiObjectUniqueId, importType, importGuideUniqueId, rootGroupPath)
             #
             yetiObjectGroupName = cls.lxGroupName('yetiObject')
-            yetiObjectUniqueId = cls.getNodeUniqueId(yetiObjectPath)
+            yetiObjectUniqueId = cls._getNodeUniqueIdString(yetiObjectPath)
             #
-            yetiObjectGroupPath = cls.Ma_Separator_Node.join([yetiFurGroupPath, yetiObjectGroupName])
+            yetiObjectGroupPath = cls.DEF_separator_node.join([yetiFurGroupPath, yetiObjectGroupName])
             cls.setAppPathCreate(yetiObjectGroupPath)
             #
             importDatumLis = cls.getYetiImportDatumLis(yetiObjectPath)
@@ -434,7 +434,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
             cls.updateProgress()
         #
         if yetiObject is not None:
-            yetiObjectPathLis = cls._toNodeLis(yetiObject)
+            yetiObjectPathLis = cls._toExistNodeList(yetiObject)
         else:
             yetiObjectPathLis = cls.getYetiObjectLis()
         #
@@ -442,7 +442,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
             cls.viewProgress('Collection Yeti Graph', maxValue=len(yetiObjectPathLis))
             #
             furYetiGroupName = cls.lxGroupName(cls.LynxiNameLabel_FurYeti)
-            yetiFurGroupPath = cls.Ma_Separator_Node.join([rootGroupPath, furYetiGroupName])
+            yetiFurGroupPath = cls.DEF_separator_node.join([rootGroupPath, furYetiGroupName])
             #
             yetiFurSetName = cls.lxSetName(cls.LynxiNameLabel_FurYeti)
             #
@@ -475,7 +475,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
     @classmethod
     def getYetiTextureLisByYetiObjectForCollection(cls, yetiObject=None):
         def getBranch(yetiObjectPath):
-            yetiShape = cls.getNodeShape(yetiObjectPath)
+            yetiShape = cls._getNodeShapeString(yetiObjectPath)
             mapNodeLis = cls.getYetiTextureNodeLis(yetiShape)
             if mapNodeLis:
                 for yetiTextureNode in mapNodeLis:
@@ -489,7 +489,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         #
         lis = []
         if yetiObject:
-            yetiObjectPathLis = cls._toNodeLis(yetiObject)
+            yetiObjectPathLis = cls._toExistNodeList(yetiObject)
         else:
             yetiObjectPathLis = cls.getYetiObjectLis()
         #
@@ -503,7 +503,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         :return: None
         """
         def getBranch(yetiObjectPath):
-            yetiShape = cls.getNodeShape(yetiObjectPath)
+            yetiShape = cls._getNodeShapeString(yetiObjectPath)
             furMapNodeLis = cls.getYetiTextureNodeLis(yetiShape)
             if furMapNodeLis:
                 for yetiTextureNode in furMapNodeLis:
@@ -514,7 +514,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         lis = []
         #
         if yetiObject:
-            yetiObjectPathLis = cls._toNodeLis(yetiObject)
+            yetiObjectPathLis = cls._toExistNodeList(yetiObject)
         else:
             yetiObjectPathLis = cls.getYetiObjectLis()
         #
@@ -571,7 +571,7 @@ class MaYetiTextureFileMethod(MaYetiObjectMethod):
         def setMain(yetiFurMapRepathLis):
             def setBranch(yetiShape, yetiTextureNode, targetOsImageFile):
                 cls.setYetiTextureParam(yetiShape, yetiTextureNode, targetOsImageFile)
-                bscMethods.PyMessage.trace(u'//Result : Repath {} > {}'.format(cls._toNodeName(yetiShape), targetOsImageFile))
+                bscMethods.PyMessage.trace(u'//Result : Repath {} > {}'.format(cls._getNodeNameString(yetiShape), targetOsImageFile))
             #
             if yetiFurMapRepathLis:
                 [setBranch(i, j, k) for i, j, k in yetiFurMapRepathLis]

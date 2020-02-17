@@ -4,9 +4,9 @@ from LxScheme import shmCore, shmObjAbstract
 
 
 class Pth_Root(shmObjAbstract.Abc_PthRoot):
-    environ_key_local = bscConfigure.MtdBasic.DEF_key_environ_path_local
-    environ_key_develop = bscConfigure.MtdBasic.DEF_key_environ_path_develop
-    environ_key_product = bscConfigure.MtdBasic.DEF_key_environ_path_product
+    environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
+    environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
+    environ_key_product = bscConfigure.Utility.DEF_key_environ_path_product
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
     VAR_path_default_product = 'e:/myworkspace/td/lynxi'
@@ -28,9 +28,9 @@ class Pth_Root(shmObjAbstract.Abc_PthRoot):
 
 
 class Pth_IconRoot(shmObjAbstract.Abc_PthRoot):
-    environ_key_local = bscConfigure.MtdBasic.DEF_key_environ_path_local
-    environ_key_develop = bscConfigure.MtdBasic.DEF_key_environ_path_develop
-    environ_key_product = bscConfigure.MtdBasic.DEF_key_environ_path_product
+    environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
+    environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
+    environ_key_product = bscConfigure.Utility.DEF_key_environ_path_product
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
     VAR_path_default_product = 'e:/myworkspace/td/lynxi'
@@ -52,8 +52,8 @@ class Pth_IconRoot(shmObjAbstract.Abc_PthRoot):
 
 
 class Pth_PresetRoot(shmObjAbstract.Abc_PthRoot):
-    environ_key_local = bscConfigure.MtdBasic.DEF_key_environ_path_local
-    environ_key_develop = bscConfigure.MtdBasic.DEF_key_environ_path_develop
+    environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
+    environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
     environ_key_product = shmCore.Basic.Environ_Key_Path_Preset
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
@@ -74,8 +74,8 @@ class Pth_PresetRoot(shmObjAbstract.Abc_PthRoot):
 
 
 class Pth_ToolkitRoot(shmObjAbstract.Abc_PthRoot):
-    environ_key_local = bscConfigure.MtdBasic.DEF_key_environ_path_local
-    environ_key_develop = bscConfigure.MtdBasic.DEF_key_environ_path_develop
+    environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
+    environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
     environ_key_product = shmCore.Basic.Environ_Key_Path_Toolkit
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'

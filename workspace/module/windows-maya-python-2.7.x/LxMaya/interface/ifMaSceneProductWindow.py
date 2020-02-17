@@ -201,7 +201,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Tool Unit(s)'''
         maxValue = len(methods)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for i in methods:
             progressBar.update()
             i()
@@ -273,7 +273,7 @@ class IfSceneProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Scene Viewer Unit(s)'''
         maxValue = len(methods)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for i in methods:
             progressBar.update()
             i()

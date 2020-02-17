@@ -48,7 +48,7 @@ def setMeshesReduce(meshObjects, percentage):
     # View Progress
     progressExplain = '''Reducing Mesh'''
     maxValue = len(meshObjects)
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     for mesh in meshObjects:
         progressBar.update()
         try:

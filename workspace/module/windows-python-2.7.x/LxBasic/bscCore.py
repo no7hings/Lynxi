@@ -52,7 +52,7 @@ import subprocess
 from LxBasic import bscConfigure
 
 
-class Mtd_BscBasic(bscConfigure.MtdBasic):
+class UtilityBasic(bscConfigure.Utility):
     MOD_getpass = getpass
     MOD_socket = socket
     MOD_time = time
@@ -689,7 +689,7 @@ class Mtd_BscBasic(bscConfigure.MtdBasic):
         cls._setOsFileCopy(temporaryName, fileString)
 
 
-class Mtd_BscPathBasic(Mtd_BscBasic):
+class PathBasic(UtilityBasic):
     @classmethod
     def _toTreeViewPathLis(cls, pathString, pathsep):
         def addItem(item):
@@ -802,7 +802,7 @@ class Mtd_BscPathBasic(Mtd_BscBasic):
         return attributeSep.join(attrString.split(attributeSep)[1:])
 
 
-class Mtd_BscFileBasic(Mtd_BscBasic):
+class FileBasic(UtilityBasic):
     @classmethod
     def isExist(cls, fileString):
         return cls._isOsFileExist(fileString)
@@ -1029,7 +1029,7 @@ class Mtd_BscFileBasic(Mtd_BscBasic):
     def _getOsFileInfoDic(cls, osSourceFile, description=None, note=None):
         return orderedDict(
             [
-                (cls.DEF_key_info_time, cls._getSystemActiveTimestamp()),
+                (cls.DEF_key_info_timestamp, cls._getSystemActiveTimestamp()),
                 (cls.DEF_key_info_username, cls._getSystemUsername()),
                 #
                 (cls.DEF_key_info_host, cls._getSystemHost()),
@@ -1074,7 +1074,7 @@ class Mtd_BscFileBasic(Mtd_BscBasic):
             )
 
 
-class Mtd_BscApplicationBasic(Mtd_BscBasic):
+class ApplicationBasic(UtilityBasic):
     DEF_name_application = None
     @classmethod
     def isActive(cls):
@@ -1099,25 +1099,25 @@ class _EnvironString(str):
 
     def _add(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Mtd_BscBasic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(UtilityBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(UtilityBasic.MOD_os.pathsep)]
             if value.lower() not in lowerLis:
                 lis.append(value)
-                self._value = Mtd_BscBasic.MOD_os.pathsep.join(lis)
+                self._value = UtilityBasic.MOD_os.pathsep.join(lis)
         else:
             self._value = value
 
     def _sub(self, value):
         if self._value:
-            lis = [i.lstrip().rstrip() for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
-            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(Mtd_BscBasic.MOD_os.pathsep)]
+            lis = [i.lstrip().rstrip() for i in self._value.split(UtilityBasic.MOD_os.pathsep)]
+            lowerLis = [i.lstrip().rstrip().lower() for i in self._value.lower().split(UtilityBasic.MOD_os.pathsep)]
             if value.lower() in lowerLis:
                 i = lowerLis.index(value.lower())
                 lis.remove(lis[i])
-                self._value = Mtd_BscBasic.MOD_os.pathsep.join(lis)
+                self._value = UtilityBasic.MOD_os.pathsep.join(lis)
 
     def _update(self):
-        Mtd_BscBasic.MOD_os.environ[self._key] = self._value
+        UtilityBasic.MOD_os.environ[self._key] = self._value
 
         str_ = _EnvironString(self._value)
         str_.key = self._key
@@ -1142,7 +1142,7 @@ class _EnvironString(str):
     def key(self, key):
         self._key = key
 
-        Mtd_BscBasic.MOD_os.environ[self._key] = self._value
+        UtilityBasic.MOD_os.environ[self._key] = self._value
 
     def __iadd__(self, value):
         if isinstance(value, list) or isinstance(value, tuple):
@@ -1168,12 +1168,12 @@ class _EnvironString(str):
 
     def __str__(self):
         # copy list
-        lis = [i.replace('\\', '/') for i in self._value.split(Mtd_BscBasic.MOD_os.pathsep)]
+        lis = [i.replace('\\', '/') for i in self._value.split(UtilityBasic.MOD_os.pathsep)]
         lis.sort()
         return '\r\n'.join(lis)
 
 
-class Environ(Mtd_BscBasic):
+class Environ(UtilityBasic):
     def __getattr__(self, key):
         self._get(key)
 
@@ -1207,7 +1207,7 @@ class Environ(Mtd_BscBasic):
         return False
 
 
-class SystemPath(Mtd_BscBasic):
+class SystemPath(UtilityBasic):
     def __init__(self):
         pass
     @classmethod

@@ -85,7 +85,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for i in uiDatumLis:
             progressBar.update()
             #

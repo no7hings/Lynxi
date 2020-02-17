@@ -11,9 +11,7 @@ import maya.OpenMayaUI as OpenMayaUI
 
 from LxBasic import bscCore, bscMethods
 #
-from LxPreset import prsMethods
-#
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsMethods
 #
 from LxCore.preset.prod import scenePr
 #
@@ -56,7 +54,7 @@ def getActiveCameraShape():
 
 # Project Information
 def getProjectInfo():
-    projectInfo = lxConfigure.LynxiValue_Unspecified
+    projectInfo = prsConfigure.Utility.DEF_value_preset_unspecified
     projectName = currentProjectName
     #
     infos = datScene.getSceneInfo()
@@ -272,7 +270,7 @@ def setCameraHud(fontSize='large'):
 
 #
 def setCameraLook(cameraObject, objectLis):
-    cameraShape = maUtils.getNodeShape(cameraObject)
+    cameraShape = maUtils._getNodeShapeString(cameraObject)
     #
     cmds.setAttr('{}.rotate'.format(cameraObject), -45, 45, 0)
     sx, sy, xz = cmds.getAttr('{}.rotate'.format(cameraObject))[0]

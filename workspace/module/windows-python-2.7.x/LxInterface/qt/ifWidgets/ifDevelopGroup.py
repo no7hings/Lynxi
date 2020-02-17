@@ -76,7 +76,7 @@ class IfDevelopGroup(_qtIfAbcWidget.QtIfAbc_Group):
         if self.mainWindow:
             explain = u'''Build Develop Unit(s)'''
             maxValue = len(buildMethodLis)
-            progressBar = bscObjects.If_Progress(explain, maxValue)
+            progressBar = bscObjects.ProgressWindow(explain, maxValue)
             for i in buildMethodLis:
                 progressBar.update()
                 i()

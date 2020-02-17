@@ -17,7 +17,7 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
         #
         mayaVersion = bscMethods.MayaApp.version()
         projectName = prsMethods.Project.mayaActiveName()
-        if bscCore.Mtd_BscBasic()._isDevelop():
+        if bscCore.UtilityBasic()._isDevelop():
             isEnable = True
         else:
             mayaProjectNameLis = prsMethods.Project.mayaNames(mayaVersion)

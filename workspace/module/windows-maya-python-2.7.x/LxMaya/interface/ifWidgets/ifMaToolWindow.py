@@ -7,9 +7,7 @@ from random import choice
 
 from LxBasic import bscMethods
 #
-from LxCore import lxConfigure
-#
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsConfigure, prsVariants, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
@@ -584,7 +582,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         treeBox.clear()
         if inData:
             for mSet in inData:
-                showExplain = maUtils._toNodeName(mSet, useMode=1)
+                showExplain = maUtils._getNodeNameString(mSet, useMode=1)
                 setItem = qtWidgets_.QTreeWidgetItem_([showExplain])
                 treeBox.addItem(setItem)
                 setItem.setItemMayaIcon(0, 'set', none)
@@ -606,7 +604,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 treeBox.addItem(layerItem)
     #
     def setAssemblyTreeItem(self, treeItem, objectPath, activeItem, assetName=None):
-        objectName = maUtils._toNodeName(objectPath, useMode=1)
+        objectName = maUtils._getNodeNameString(objectPath, useMode=1)
         #
         visible = maUtils.getAttrDatum(objectPath, 'visibility')
         #
@@ -723,16 +721,18 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
     def getAssetVariantLis(projectName, assetCategory, assetName):
         lis = []
         osPath = assetPr.astUnitAssemblyFolder(
-            lxConfigure.LynxiRootIndex_Server, projectName, assetCategory, assetName
+            prsConfigure.Utility.DEF_value_root_server, 
+            projectName, 
+            assetCategory, assetName
         )
         if bscMethods.OsFile.isExist(osPath):
             textLis = bscMethods.OsDirectory.fileBasenames(osPath)
             if textLis:
                 for i in textLis:
                     adFile = assetPr.astUnitAssemblyDefinitionFile(
-                        lxConfigure.LynxiRootIndex_Server,
+                        prsConfigure.Utility.DEF_value_root_server,
                         projectName,
-                        assetCategory, assetName, i, lxConfigure.VAR_product_asset_link_assembly
+                        assetCategory, assetName, i, prsMethods.Asset.assemblyLinkName()
                     )[1]
                     #
                     if bscMethods.OsFile.isExist(adFile):
@@ -1180,7 +1180,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                     if keyword == 'Current':
                         keyword = maAsb.getAssemblyCurrentItem(assemblyReference)
                     #
-                    asbName = maUtils._toNodeName(assemblyReference, useMode=1)
+                    asbName = maUtils._getNodeNameString(assemblyReference, useMode=1)
                     importObjectName = asbNamespace + ':' + asbName + '_' + 'in' + keyword.capitalize()
                     #
                     assetCategory = None
@@ -1191,7 +1191,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                             projectName, assetName, assetVariant
                         )[1]
                         # fileString_ = assetPr.astUnitProductFile(
-                        #     lxCore_.LynxiRootIndex_Server,
+                        #     lxCore_.DEF_value_root_server,
                         #     projectName,
                         #     assetCategory, assetName, assetVariant, lxCore_.VAR_product_asset_link_model
                         # )[1]
@@ -1214,7 +1214,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         else:
                             importObjectName = asbNamespace + ':' + asbName + '_' + 'in' + keyword.capitalize()
                         #
-                        if not maUtils.isAppExist(importObjectName):
+                        if not maUtils._isNodeExist(importObjectName):
                             if keyword == 'Proxy':
                                 if isRemoveGpu:
                                     maScnAsb.setCreateArnoldProxy(importObjectName, fileString_)
@@ -1230,30 +1230,30 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                             # Asset
                             if keyword == 'Asset':
                                 assetUnitRoot = '|' + prsMethods.Asset.rootName(assetName, asbNamespace)
-                                if maUtils.isAppExist(assetUnitRoot):
+                                if maUtils._isNodeExist(assetUnitRoot):
                                     maUtils.setObjectAddParentGroup(assetUnitRoot, importObjectName)
                                 else:
                                     modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
-                                    if maUtils.isAppExist(modelGroupName):
+                                    if maUtils._isNodeExist(modelGroupName):
                                         maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                             # Box and GPU
                             elif keyword == 'Box' or keyword == 'GPU':
                                 modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
-                                if maUtils.isAppExist(modelGroupName):
+                                if maUtils._isNodeExist(modelGroupName):
                                     maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                                 else:
                                     geometryGroupName = '|' + assetPr.astUnitModelProductGroupName(assetName, asbNamespace)
-                                    if maUtils.isAppExist(geometryGroupName):
+                                    if maUtils._isNodeExist(geometryGroupName):
                                         maUtils.setObjectAddParentGroup(geometryGroupName, importObjectName)
                             # Proxy
                             elif keyword == 'Proxy':
                                 if not isRemoveGpu:
                                     astAssemblyProxyObject = assetPr.astAssemblyProxyObjectName(assetName)
-                                    if maUtils.isAppExist(astAssemblyProxyObject):
+                                    if maUtils._isNodeExist(astAssemblyProxyObject):
                                         maUtils.setNodeRename(astAssemblyProxyObject, importObjectName)
                                         maUtils.setObjectLockTransform(importObjectName, 0)
                             #
-                            if maUtils.isAppExist(importObjectName):
+                            if maUtils._isNodeExist(importObjectName):
                                 maObj = importObjectName
                                 targetObject = assemblyReference
                                 #
@@ -1278,23 +1278,23 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
             for seq, i in enumerate(selectedData):
                 self.setProgressValue(seq + 1, maxValue)
                 assemblyReferencePath = i
-                importObjectName = maUtils._toNodeName(assemblyReferencePath, useMode=1) + '_' + 'inLight'
+                importObjectName = maUtils._getNodeNameString(assemblyReferencePath, useMode=1) + '_' + 'inLight'
                 #
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
                 fileString_ = assetPr.astUnitProductFile(
-                    lxConfigure.LynxiRootIndex_Server,
-                    projectName, None, assetName, assetVariant, lxConfigure.VAR_product_scene_link_light
+                    prsConfigure.Utility.DEF_value_root_server,
+                    projectName, None, assetName, assetVariant, prsMethods.Scene.lightLinkName()
                 )[1]
                 #
                 if os.path.isfile(fileString_):
-                    if not maUtils.isAppExist(importObjectName):
+                    if not maUtils._isNodeExist(importObjectName):
                         maFile.setFileImport(fileString_)
                         lightGroup = prsMethods.Asset.lightLinkGroupName(assetName)
-                        if maUtils.isAppExist(lightGroup):
+                        if maUtils._isNodeExist(lightGroup):
                             maUtils.setObjectLockTransform(lightGroup)
                             maUtils.setObjectAddParentGroup('|' + lightGroup, importObjectName)
                         #
-                        if maUtils.isAppExist(importObjectName):
+                        if maUtils._isNodeExist(importObjectName):
                             targetObject = assemblyReferencePath
                             #
                             # maUtils.getPos_(importObjectName, targetObject)
@@ -1307,7 +1307,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                             lightGroupPath = '|' + importObjectName + '|' + lightGroup
                             lightGroupScaleAttr = lightGroupPath + '.' + 'lightScale'
                             #
-                            if maUtils.isAppExist(lightGroupScaleAttr):
+                            if maUtils._isNodeExist(lightGroupScaleAttr):
                                 sourceAttr = assemblyReferencePath + '.' + 'scaleY'
                                 if not maUtils.isAttrDestination(lightGroupScaleAttr):
                                     maUtils.setAttrConnect(sourceAttr, lightGroupScaleAttr)

@@ -178,7 +178,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
         # View Progress
         explain = '''Contrasting Data - Base'''
         maxValue = len(dic)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for compIndex, data in dic.items():
             progressBar.update()
             dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
@@ -205,7 +205,7 @@ def dbCompDatumDicWrite(dic, dbIndex, directory, dbVersion):
             # View Progress
             explain = '''Write Datum(s)'''
             maxValue = len(lis)
-            progressBar = bscObjects.If_Progress(explain, maxValue)
+            progressBar = bscObjects.ProgressWindow(explain, maxValue)
             for dbCompIndex, data, hashValue, dbFile, dbBackupFile in lis:
                 progressBar.update()
                 dbData = getData(data, hashValue, dbVersion)
@@ -245,7 +245,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
             # View Progress
             explain = '''Read Datum(s)'''
             maxValue = len(compIndexes)
-            progressBar = bscObjects.If_Progress(explain, maxValue)
+            progressBar = bscObjects.ProgressWindow(explain, maxValue)
             for subCompIndexes in splitCompIndexes:
                 readThreadLis = []
                 for compIndex in subCompIndexes:

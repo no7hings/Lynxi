@@ -189,7 +189,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
             treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
             treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
-            if self.isAppExist(nodePath):
+            if self._isNodeExist(nodePath):
                 treeItem.path = nodePath
             else:
                 treeItem._setQtPressStatus(qtCore.OffStatus)
@@ -209,7 +209,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
             treeItem.setSubIcon(subIconKeyword)
-            if self.isAppExist(nodePath):
+            if self._isNodeExist(nodePath):
                 treeItem.path = nodePath
             else:
                 print searchDatum, nodePath
@@ -223,7 +223,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(datumDic)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
+                progressBar = bscObjects.ProgressWindow(explain, maxValue)
                 for k, v in datumDic.items():
                     progressBar.update()
                     #
@@ -294,7 +294,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 'Upload / Update Light Link(s)',
                 'Complete'
             )
@@ -314,7 +314,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             self._updateNameLabel()
             #
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 'Upload / Update Render Option(s)',
                 'Complete'
             )
@@ -328,7 +328,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             for i in selectedItemLis:
                 if hasattr(i, 'path'):
                     lis.append(i.path)
-            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toNodeLis(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toExistNodeList(lis))
         else:
             self.mtd_app_node.setSelectClear()
     #
@@ -637,7 +637,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 # View Progress
                 explain = '''View Light Link(s)'''
                 maxValue = len(dataDic)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
+                progressBar = bscObjects.ProgressWindow(explain, maxValue)
                 #
                 defaultSetLis = self.mtd_app_node.getLightDefaultSetLis()
                 for k, v in dataDic.items():
@@ -696,7 +696,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         defaultSetDatum = self._defaultSetDatumLis
         if defaultSetDatum:
             self.setLightDefaultSet(defaultSetDatum)
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 'Load Light Default Set(s)',
                 'Complete'
             )
@@ -705,7 +705,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if lightLinkDatum:
             self.setLightLink(lightLinkDatum)
             #
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 'Load Light Link(s)',
                 'Complete'
             )
@@ -722,7 +722,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if hasattr(i, 'path'):
                     lis.append(i.path)
             #
-            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toNodeLis(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toExistNodeList(lis))
         else:
             self.setSelectClear()
     #

@@ -109,7 +109,7 @@ class IfProductPresetViewModel(object):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -128,7 +128,7 @@ class IfProductPresetViewModel(object):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -393,7 +393,7 @@ class IfProductUnitRegisterModel(object):
             if self._unitItemLis:
                 progressExplain = '''Update Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()
@@ -412,7 +412,7 @@ class IfProductUnitRegisterModel(object):
             if self._unitItemLis:
                 progressExplain = '''Reload Unit(s)'''
                 maxValue = len(self._unitItemLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for unitItem in self._unitItemLis:
                     progressBar.update()
                     dbUnitId = unitItem.presetIndex()

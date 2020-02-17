@@ -50,13 +50,13 @@ class LxAstModelCacheConnectMethod(object):
         return objectPath.replace(sourceNamespace + ':', targetNamespace + ':')[1:]
     #
     def _setShapeBlendCmd(self, sourceObjectPath, targetObjectPath, visibility):
-        sourceShapePath = maUtils.getNodeShape(sourceObjectPath)
-        sourceShapeName = maUtils._toNodeName(sourceShapePath)
+        sourceShapePath = maUtils._getNodeShapeString(sourceObjectPath)
+        sourceShapeName = maUtils._getNodeNameString(sourceShapePath)
         #
-        targetObjectName = maUtils._toNodeName(targetObjectPath)
+        targetObjectName = maUtils._getNodeNameString(targetObjectPath)
         #
-        targetShapePath = maUtils.getNodeShape(targetObjectPath)
-        targetShapeName = maUtils._toNodeName(targetShapePath, useMode=1)
+        targetShapePath = maUtils._getNodeShapeString(targetObjectPath)
+        targetShapeName = maUtils._getNodeNameString(targetShapePath, useMode=1)
         # Parent Source Shape
         maUtils.setShapeParent(sourceShapePath, targetObjectPath)
         #
@@ -67,9 +67,9 @@ class LxAstModelCacheConnectMethod(object):
         #
         blendShapeNode = self._toBlendShapeNodeName(targetObjectName)
         # Create
-        if not maUtils.isAppExist(blendShapeNode):
+        if not maUtils._isNodeExist(blendShapeNode):
             origShapePath = targetObjectPath + '|' + targetShapeName + appCfg.MaKeyword_ShapeOrig
-            if maUtils.isAppExist(origShapePath):
+            if maUtils._isNodeExist(origShapePath):
                 maUtils.setNodeDelete(origShapePath)
             # Must Use "before" Arg
             # cmds.blendShape(newSourceShapePath, targetShapePath, name=blendShapeNode, weight=(0, 1), before=1)
@@ -92,12 +92,12 @@ class LxAstModelCacheConnectMethod(object):
             cmds.setAttr(targetShapePath + '.visibility', cmds.getAttr(newSourceShapePath + '.visibility'))
     @classmethod
     def _setBlendResultClear(cls, targetObjectPath):
-        shapePath = maUtils.getNodeShape(targetObjectPath)
-        nodeLis = maUtils.getInputNodes(shapePath, 'tweak')
+        shapePath = maUtils._getNodeShapeString(targetObjectPath)
+        nodeLis = maUtils._getNodeSourceStringList(shapePath, 'tweak')
         maUtils.setNodesClear(nodeLis)
     @classmethod
     def _setContainerAddNodes(cls, container, nodes):
-        existsNodeLis = [i for i in nodes if maUtils.isAppExist(i)]
+        existsNodeLis = [i for i in nodes if maUtils._isNodeExist(i)]
         cmds.container(container, edit=1, force=1, addNode=existsNodeLis)
     #
     def _setShapeConnectCmd(self, sourceObjectPath, targetObjectPath, visibility):
@@ -114,8 +114,8 @@ class LxAstModelCacheConnectMethod(object):
         maUtils.setObjectTransferInputConnections(sourceObjectPath, targetObjectPath)
     #
     def _setContainerRefresh(self):
-        if not maUtils.isAppExist(self._scContainerName):
-            if not maUtils.isAppExist(self._scContainerName):
+        if not maUtils._isNodeExist(self._scContainerName):
+            if not maUtils._isNodeExist(self._scContainerName):
                 maUtils.setCreateContainer(self._scContainerName)
             #
             maUtils.setContainerNamespace(self._containerName, self._assetNamespace)
@@ -124,18 +124,18 @@ class LxAstModelCacheConnectMethod(object):
         stringLis = self._cacheObjectLis
         if stringLis:
             maxValue = len(stringLis)
-            progressBar = bscObjects.If_Progress('Rename Cache Shape(s)', maxValue)
+            progressBar = bscObjects.ProgressWindow('Rename Cache Shape(s)', maxValue)
             for objectPath in stringLis:
                 progressBar.update()
                 #
-                objectName = maUtils._toNodeName(objectPath, useMode=1)
+                objectName = maUtils._getNodeNameString(objectPath, useMode=1)
                 #
                 newSourceShapeName = self._toCacheShapeName(objectName, self._assetNamespace)
-                if maUtils.isAppExist(newSourceShapeName):
+                if maUtils._isNodeExist(newSourceShapeName):
                     maUtils.setNodeDelete(newSourceShapeName)
                 #
-                shapePath = maUtils.getNodeShape(objectPath)
-                shapeName = maUtils._toNodeName(shapePath, useMode=1)
+                shapePath = maUtils._getNodeShapeString(objectPath)
+                shapeName = maUtils._getNodeNameString(shapePath, useMode=1)
                 # Clean Nde_ShaderRef
                 if shapeName != newSourceShapeName:
                     maUtils.setNodeRename(shapePath, newSourceShapeName)
@@ -144,25 +144,25 @@ class LxAstModelCacheConnectMethod(object):
         nodeLis = self._cacheGroupLis + self._cacheObjectLis
         if nodeLis:
             maxValue = len(nodeLis)
-            progressBar = bscObjects.If_Progress('Connect Transform(s)', maxValue)
+            progressBar = bscObjects.ProgressWindow('Connect Transform(s)', maxValue)
             for sourcePath in nodeLis:
                 progressBar.update()
                 #
                 targetPath = self._toTargetLocalPath(sourcePath, self._cacheNamespace, self._assetNamespace)
-                if maUtils.isAppExist(targetPath):
+                if maUtils._isNodeExist(targetPath):
                     self._setTransformConnectCmd(sourcePath, targetPath)
     #
     def _setAlembicShapeConnect(self):
         objectLis = self._cacheObjectLis
         if objectLis:
             maxValue = len(objectLis)
-            progressBar = bscObjects.If_Progress('Connect Shape(s)', maxValue)
+            progressBar = bscObjects.ProgressWindow('Connect Shape(s)', maxValue)
             #
             for sourcePath in objectLis:
                 progressBar.update()
                 #
                 targetPath = self._toTargetLocalPath(sourcePath, self._cacheNamespace, self._assetNamespace)
-                if maUtils.isAppExist(targetPath):
+                if maUtils._isNodeExist(targetPath):
                     if maGeom.isMeshGeomTopoMatch(sourcePath, targetPath) is True:
                         self._setShapeConnectCmd(
                             sourcePath, targetPath,
@@ -180,11 +180,11 @@ class LxAstModelCacheConnectMethod(object):
         self._withVisible = True
         #
         self._cacheGroupLis = maUtils.getGroupLisByRoot(self._cacheGroupName)
-        self._cacheObjectLis = maUtils.getChildObjectsByRoot(self._cacheGroupName, filterTypes=appCfg.MaNodeType_Mesh)
+        self._cacheObjectLis = maUtils.getChildObjectsByRoot(self._cacheGroupName, filterTypes=appCfg.DEF_type_shading_mesh)
         #
         self._setContainerRefresh()
         #
-        if maUtils.isAppExist(self._cacheGroupName) and maUtils.isAppExist(self._assetGroupName):
+        if maUtils._isNodeExist(self._cacheGroupName) and maUtils._isNodeExist(self._assetGroupName):
             self._setSourceShapesRename()
             #
             self._setAlembicTransformConnect()
@@ -198,7 +198,7 @@ class LxAstModelCacheConnectMethod(object):
         alembicNodeLis = maUtils.getDependNodesByNamespace(self._cacheNamespace)
         if alembicNodeLis:
             for alembicNode in alembicNodeLis:
-                shapeLis = maUtils.getOutputShapes(alembicNode, appCfg.MaNodeType_Mesh)
+                shapeLis = maUtils.getOutputShapes(alembicNode, appCfg.DEF_type_shading_mesh)
                 if shapeLis:
                     maUtils.setNodesClear(shapeLis)
             #

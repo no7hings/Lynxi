@@ -6,30 +6,30 @@ from LxCore.config import appConfig
 
 #
 class MaConfig(object):
-    Ma_Separator_Node = '|'
-    Ma_Separator_Set = '>'
-    Ma_Separator_Namespace = ':'
-    Ma_Separator_Attribute = '.'
+    DEF_separator_node = '|'
+    DEF_separator_set = '>'
+    DEF_separator_namespace = ':'
+    DEF_separator_attribute = '.'
     # Nde_Node Type
-    MaNodeType_Transform = 'transform'
-    MaNodeType_ShadingEngine = 'shadingEngine'
-    MaNodeType_Mesh = 'mesh'
-    MaNodeType_AssemblyReference = 'assemblyReference'
-    MaNodeType_AssemblyDefinition = 'assemblyDefinition'
+    DEF_type_transform = 'transform'
+    DEF_type_shading_engine = 'shadingEngine'
+    DEF_type_shading_mesh = 'mesh'
+    DEF_type_assembly_reference = 'assemblyReference'
+    DEF_type_assembly_definition = 'assemblyDefinition'
     #
-    MaNodeType_GroupId = 'groupId'
-    MaNodeType_Set = 'set'
+    DEF_type_group_id = 'groupId'
+    DEF_type_set = 'set'
     #
-    MaNodeType_Light = 'light'
+    DEF_type_light = 'light'
     #
-    MaAttrName_Message = 'message'
-    MaAttrName_ObjectGroup = 'instObjGroups'
-    MaAttrName_SetMember = 'dagSetMembers'
+    DEF_attribute_message = 'message'
+    DEF_attribute_inst_obj_groups = 'instObjGroups'
+    DEF_attribute_dag_set_members = 'dagSetMembers'
     #
-    MaCompName_Mesh_Vertex = 'vtx'
-    MaCompName_Mesh_Edge = 'e'
-    MaCompName_Mesh_Face = 'f'
-    MaDefaultMatrix = [1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0]
+    DEF_key_mesh_vertex = 'vtx'
+    DEF_key_mesh_edge = 'e'
+    DEF_key_mesh_face = 'f'
+    DEF_matrix_default = [1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0, .0, .0, .0, .0, 1.0]
 
 
 class Cfg_M2(object):
@@ -49,7 +49,7 @@ class MaPlugConfig(object):
     MaNodeType_Plug_Yeti = 'pgYetiMaya'
 
 
-class MaUnitConfig(appConfig.LxUnitConfig):
+class MaUnitConfig(object):
     # Key
     MaUnit_Key_Time = 'time'
     MaUnit_Key_Angle = 'angle'
@@ -233,7 +233,7 @@ class MaLightNodeConfig(object):
         )
 
 
-class MaNodeGraphConfig(appConfig.LxNodeGraphConfig):
+class MaNodeGraphConfig(object):
     pass
 
 

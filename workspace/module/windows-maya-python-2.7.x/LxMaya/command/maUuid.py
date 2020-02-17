@@ -18,7 +18,7 @@ def getUuid():
 
 #
 def setAttrUniqueId(objectString):
-    uniqueId = getNodeUniqueId(objectString)
+    uniqueId = _getNodeUniqueIdString(objectString)
     attr = objectString + '.' + assetUniqueIdLabel
     if not cmds.objExists(attr):
         cmds.addAttr(objectString, longName=assetUniqueIdLabel, dataType='string')
@@ -41,7 +41,7 @@ def getAttrUniqueId(objectString):
 
 
 #
-def getNodeUniqueId(objectString):
+def _getNodeUniqueIdString(objectString):
     if cmds.objExists(objectString):
         uniqueIds = cmds.ls(objectString, uuid=1)
         if uniqueIds:

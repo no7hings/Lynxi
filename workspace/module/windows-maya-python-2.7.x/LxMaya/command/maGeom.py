@@ -5,8 +5,8 @@ import maya.cmds as cmds
 import maya.api.OpenMaya as OpenMaya
 
 from LxBasic import bscCore, bscObjects
-#
-from LxCore import lxConfigure
+
+from LxPreset import prsConfigure
 #
 from LxCore.config import appCfg
 #
@@ -267,7 +267,7 @@ def getObjectsByGroup(groupString, filterM2Types):
     #
     filterM2Types = maUtils.string2list(filterM2Types)
     #
-    if maUtils.isAppExist(groupString):
+    if maUtils._isNodeExist(groupString):
         getBranch(groupString)
     #
     return lis
@@ -347,8 +347,8 @@ def getNurbsCurveObjectGeomData(nurbsCurveObjStr):
 
 #
 def setNurbsCurveBoxCreate(objectString, worldBoundingBox):
-    if not maUtils.isAppExist(objectString):
-        objectName = maUtils._toNodeName(objectString)
+    if not maUtils._isNodeExist(objectString):
+        objectName = maUtils._getNodeNameString(objectString)
         objectString = cmds.createNode('transform', name=objectName)
     #
     xmin, ymin, zmin, xmax, ymax, zmax = worldBoundingBox
@@ -370,11 +370,11 @@ def setNurbsCurveBoxCreate(objectString, worldBoundingBox):
 
 #
 def setNurbsCurveShapeUpdate(objectString, geomData):
-    shapeName = maUtils._toNodeName(objectString) + shapeLabel
+    shapeName = maUtils._getNodeNameString(objectString) + shapeLabel
     shapePath = objectString + '|' + shapeName
     #
     (knotsArray, degree, form), cvPointArray = geomData
-    if not maUtils.isAppExist(shapePath):
+    if not maUtils._isNodeExist(shapePath):
         m2CurveNode = OpenMaya.MFnNurbsCurve()
         m2CurveNode.create(
             toM2PointArray(cvPointArray),
@@ -579,7 +579,7 @@ def getGeometryObjectsPathDic(groupString):
     if objectStrings:
         for objectString in objectStrings:
             objectString = maUtils.getObjectRelativePath(groupString, objectString)
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = objectString
     return dic
 
@@ -591,7 +591,7 @@ def getMeshObjectsPathData(groupString):
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = objectString
     return dic
 
@@ -607,14 +607,14 @@ def getGeometryObjectsTransformDic(groupString, assetName):
             parentObjectPath = maUtils.getObjectRelativePath(groupString, parentObjectPath)
             parentObjectPath = parentObjectPath.replace(assetName, '<assetName>')
             #
-            objectName = maUtils._toNodeName(objectString)
+            objectName = maUtils._getNodeNameString(objectString)
             objectName = objectName.replace(assetName, '<assetName>')
             #
             transformationMatrix = maObj.getObjectTransformation_(objectString)
             customAttrData = maAttr.getNodeUserDefAttrData(objectString)
             rowIndex = seq
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = parentObjectPath, objectName, transformationMatrix, customAttrData, rowIndex
     return dic
 
@@ -627,7 +627,7 @@ def getGeometryObjectsTransformDic_(objectStrings, groupString, assetName=None):
         for seq, objectString in enumerate(objectStrings):
             parentObjectPath = maUtils._toNodeParentPath(objectString)
             parentObjectPath = maUtils.getObjectRelativePath(groupString, parentObjectPath)
-            objectName = maUtils._toNodeName(objectString)
+            objectName = maUtils._getNodeNameString(objectString)
             #
             if assetName is not None:
                 parentObjectPath = parentObjectPath.replace(assetName, '<assetName>')
@@ -638,7 +638,7 @@ def getGeometryObjectsTransformDic_(objectStrings, groupString, assetName=None):
             #
             rowIndex = seq
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = parentObjectPath, objectName, transformationMatrix, customAttrData + displayAttrData, rowIndex
     return dic
 
@@ -653,14 +653,14 @@ def getCompMeshesTransformData(groupString, assetName):
             parentObjectPath = maUtils._toNodeParentPath(objectString)
             parentObjectPath = parentObjectPath.replace(assetName, '<assetName>')
             #
-            objectName = maUtils._toNodeName(objectString)
+            objectName = maUtils._getNodeNameString(objectString)
             objectName = objectName.replace(assetName, '<assetName>')
             #
             transformationMatrix = maObj.getObjectTransformation_(objectString)
             customAttrData = maAttr.getNodeUserDefAttrData(objectString)
             rowIndex = seq
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = parentObjectPath, objectName, transformationMatrix, customAttrData, rowIndex
     return dic
 
@@ -675,13 +675,13 @@ def getNurbsCurveObjectsTransformData(groupString):
             parentObjectPath = maUtils._toNodeParentPath(objectString)
             parentObjectPath = maUtils.getObjectRelativePath(groupString, parentObjectPath)
             #
-            objectName = maUtils._toNodeName(objectString)
+            objectName = maUtils._getNodeNameString(objectString)
             #
             transformationMatrix = maObj.getObjectTransformation_(objectString)
             customAttrData = maAttr.getNodeUserDefAttrData(objectString)
             rowIndex = seq
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = parentObjectPath, objectName, transformationMatrix, customAttrData, rowIndex
     return dic
 
@@ -693,9 +693,9 @@ def getGeometryObjectsGeometryDic(groupString):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 topologyData, shapeData = getMeshObjectGeomData(objectString)
             elif objectType == appCfg.MaNodeType_NurbsSurface:
                 topologyData, shapeData = getNurbsSurfaceObjectGeomData(objectString)
@@ -711,9 +711,9 @@ def getGeometryObjectsGeometryDic_(objectStrings):
     geomTopoDic, geomShapeDic = bscCore.orderedDict(), bscCore.orderedDict()
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 topologyData, shapeData = getMeshObjectGeomData(objectString)
             elif objectType == appCfg.MaNodeType_NurbsSurface:
                 topologyData, shapeData = getNurbsSurfaceObjectGeomData(objectString)
@@ -731,7 +731,7 @@ def getMeshObjectsGeomData(groupString):
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             topologyData, shapeData = getMeshObjectGeomData(objectString)
             geomTopoDic[uniqueId], geomShapeDic[uniqueId] = topologyData, shapeData
     return geomTopoDic, geomShapeDic
@@ -744,7 +744,7 @@ def getNurbsCurveObjectsGeomData(groupString):
     objectStrings = getObjectsByGroup(groupString, appCfg.M2NurbsCurveType)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             topologyData, shapeData = getNurbsCurveObjectGeomData(objectString)
             geomTopoDic[uniqueId], geomShapeDic[uniqueId] = topologyData, shapeData
     return geomTopoDic, geomShapeDic
@@ -757,9 +757,9 @@ def getGeometryObjectsVertexNormalDic(groupString):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 vertexNormalData = getMeshObjectVertexNormal(objectString)
             else:
                 vertexNormalData = None
@@ -774,9 +774,9 @@ def getGeometryObjectsVertexNormalDic_(objectStrings):
     #
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 vertexNormal = getMeshObjectVertexNormal(objectString)
             else:
                 vertexNormal = None
@@ -792,7 +792,7 @@ def getMeshObjectsVertexNormalData(groupString):
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             vertexNormalData = getMeshObjectVertexNormal(objectString)
             dic[uniqueId] = vertexNormalData
     return dic
@@ -805,9 +805,9 @@ def getGeometryObjectsEdgeSmoothDic(groupString):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 edgeSmoothData = getMeshObjectEdgeSmooth(objectString)
             else:
                 edgeSmoothData = None
@@ -822,9 +822,9 @@ def getGeometryObjectsEdgeSmoothDic_(objectStrings):
     #
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 edgeSmoothData = getMeshObjectEdgeSmooth(objectString)
             else:
                 edgeSmoothData = None
@@ -840,7 +840,7 @@ def getCompMeshesEdgeSmoothData(groupString):
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             edgeSmooth = getMeshObjectEdgeSmooth(objectString)
             dic[uniqueId] = edgeSmooth
     return dic
@@ -853,9 +853,9 @@ def getGeometryObjectsMapDic(groupString):
     objectStrings = getGeometryObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 mapData = getMeshObjectMapData(objectString)
             else:
                 mapData = None
@@ -870,9 +870,9 @@ def getGeometryObjectsMapDic_(objectStrings):
     #
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 mapData = getMeshObjectMapData(objectString)
             else:
                 mapData = None
@@ -888,7 +888,7 @@ def getCompMeshesMapData(groupString):
     objectStrings = getMeshObjectsByGroup(groupString)
     if objectStrings:
         for objectString in objectStrings:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             mapData = getMeshObjectMapData(objectString)
             dic[uniqueId] = mapData
     return dic
@@ -901,7 +901,7 @@ def getCompMeshesAttributeData(meshObjStrs):
     if meshObjStrs:
         for objectString in meshObjStrs:
             meshShape = getMeshShapePath(objectString)
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             renderAttrData = maAttr.getNodeRenderAttrData(meshShape)
             plugAttrData = maAttr.getNodePlugAttrData(meshShape)
             customAttrData = maAttr.getNodeUserDefAttrData(meshShape)
@@ -914,7 +914,7 @@ def getObjectPathInfo(objectPath, groupString):
     if groupString.startswith('|'):
         groupString = groupString[1:]
     #
-    groupName = maUtils._toNodeName(groupString)
+    groupName = maUtils._getNodeNameString(groupString)
     #
     relativePath = '|' + groupName + '|'.join(('|'.join(objectPath.split(groupString)[1:])).split('|'))
     if ':' in relativePath:
@@ -951,8 +951,8 @@ def getMeshObjectsPathInfo(groupString, meshObjStrs=None):
 
 #
 def getGeometryObjectGeomInfo(objectString, roundLimit=8):
-    objectType = maUtils.getShapeType(objectString)
-    if objectType == appCfg.MaNodeType_Mesh:
+    objectType = maUtils._getNodeShapeTypeString(objectString)
+    if objectType == appCfg.DEF_type_shading_mesh:
         return getMeshObjectGeomInfo(objectString, roundLimit)
     elif objectType == appCfg.MaNodeType_NurbsSurface:
         return getNurbsSurfaceObjectGeomInfo(objectString, roundLimit)
@@ -979,8 +979,8 @@ def getNurbsCurveObjectGeomInfo(objectString, roundLimit=8):
 
 #
 def getGeometryObjectMapInfo(objectString, roundLimit=8):
-    objectType = maUtils.getShapeType(objectString)
-    if objectType == appCfg.MaNodeType_Mesh:
+    objectType = maUtils._getNodeShapeTypeString(objectString)
+    if objectType == appCfg.DEF_type_shading_mesh:
         return getMeshObjectMapInfo(objectString, roundLimit)
     elif objectType == appCfg.MaNodeType_NurbsSurface:
         return None, None
@@ -1137,11 +1137,11 @@ def getGeometryObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             #
             dic[uniqueId] = \
                 (getObjectPathInfo(objectString, groupString), ) + \
@@ -1156,7 +1156,7 @@ def getGeometryObjectsInfoDic_(objectStrings, groupString):
     dic = bscCore.orderedDict()
     #
     for objectString in objectStrings:
-        uniqueId = maUuid.getNodeUniqueId(objectString)
+        uniqueId = maUuid._getNodeUniqueIdString(objectString)
         #
         pathInfo = getObjectPathInfo(objectString, groupString)
         geomTopoInfo, geomShapeInfo = getGeometryObjectGeomInfo(objectString)
@@ -1183,11 +1183,11 @@ def getMeshObjectsInfoDic(groupString):
         # View Progress
         progressExplain = u'''Read Mesh Information'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             #
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             #
             dic[uniqueId] = (
                 # Path
@@ -1211,11 +1211,11 @@ def getNurbsCurveObjectsInfoData(groupString):
         # View Progress
         progressExplain = u'''Read Nurbs Curve Information'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         #
         for objectString in objectStrings:
             progressBar.update()
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             #
             dic[uniqueId] = (
                 # Path
@@ -1234,11 +1234,11 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
         # View Progress
         progressExplain = u'''Read Nde_Geometry Information'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             if searchRoot in objectString:
-                key = maUtils._toNodeName(objectString)
+                key = maUtils._getNodeNameString(objectString)
                 #
                 pathInfo = getObjectPathInfo(objectString, pathKey)
                 geomTopoInfo, geomShapeInfo = getGeometryObjectGeomInfo(objectString)
@@ -1257,11 +1257,11 @@ def getScGeometryObjectsInfoDic_(groupString, pathKey, searchRoot):
 #
 def setCreateGeometryObjectShape(objectString, geomData, shapeName=none):
     if geomData:
-        if maUtils.isAppExist(objectString):
+        if maUtils._isNodeExist(objectString):
             if not shapeName:
-                shapeName = maUtils._toNodeName(objectString) + shapeLabel
-            objectShape = maUtils.getNodeShape(objectString)
-            if not maUtils.isAppExist(objectShape):
+                shapeName = maUtils._getNodeNameString(objectString) + shapeLabel
+            objectShape = maUtils._getNodeShapeString(objectString)
+            if not maUtils._isNodeExist(objectShape):
                 geomTopData, geomShapeData = geomData
                 if len(geomTopData) == 2:
                     m2MeshObject = OpenMaya.MFnMesh()
@@ -1309,13 +1309,13 @@ def setCreateGeometryObjectShape(objectString, geomData, shapeName=none):
 #
 def setCreateMeshObjectShape(objectString, geomData, shapeName=none):
     if geomData:
-        if maUtils.isAppExist(objectString):
+        if maUtils._isNodeExist(objectString):
             if not shapeName:
-                shapeName = maUtils._toNodeName(objectString) + shapeLabel
+                shapeName = maUtils._getNodeNameString(objectString) + shapeLabel
             #
             shapePath = objectString + '|' + shapeName
             #
-            if not maUtils.isAppExist(shapePath):
+            if not maUtils._isNodeExist(shapePath):
                 m2MeshObject = OpenMaya.MFnMesh()
                 (nSideArray, vertexIdArray), pointArray = geomData
                 m2MeshObject.create(
@@ -1331,13 +1331,13 @@ def setCreateMeshObjectShape(objectString, geomData, shapeName=none):
 #
 def setCreateNurbsSurfaceObjectShape(objectString, geomData, shapeName=None):
     if geomData:
-        if maUtils.isAppExist(objectString):
+        if maUtils._isNodeExist(objectString):
             if not shapeName:
-                shapeName = maUtils._toNodeName(objectString) + shapeLabel
+                shapeName = maUtils._getNodeNameString(objectString) + shapeLabel
             #
             shapePath = objectString + '|' + shapeName
             #
-            if not maUtils.isAppExist(shapePath):
+            if not maUtils._isNodeExist(shapePath):
                 m2SurfaceObject = OpenMaya.MFnNurbsSurface()
                 ((uKnotsArray, vKnotsArray), (uDegree, vDegree), (uForm, vForm)), cvPointArray = geomData
                 m2SurfaceObject.create(
@@ -1356,7 +1356,7 @@ def setCreateNurbsSurfaceObjectShape(objectString, geomData, shapeName=None):
 def setNurbsCurveShapeCreate(objectString, geomData, shapeName=None):
     if geomData:
         if not shapeName:
-            shapeName = maUtils._toNodeName(objectString) + shapeLabel
+            shapeName = maUtils._getNodeNameString(objectString) + shapeLabel
         #
         m2CurveNode = OpenMaya.MFnNurbsCurve()
         (knotsArray, degree, form), cvPointArray = geomData
@@ -1377,7 +1377,7 @@ def setNurbsCurveShapeCreate(objectString, geomData, shapeName=None):
 def setCreateObjectGraphGeometrySub(objectData, lockTransform=False):
     shapeName, shapeType, transformData, geomData, mapData = objectData
     objectString = maObj.setCreateObjectTransformPath(transformData, lockTransform)
-    if shapeType == appCfg.MaNodeType_Mesh:
+    if shapeType == appCfg.DEF_type_shading_mesh:
         setCreateMeshObjectShape(objectString, geomData, shapeName)
         setCreateMeshObjectMap(objectString, mapData)
         maUtils.setObjectDefaultShadingEngine(objectString)
@@ -1415,8 +1415,8 @@ def setCreateObjectsTransform(transformDataDic, assetName, lockTransform):
                     parentLocalPath = parentObjectPath
                 #
                 objectLocalPath = parentLocalPath + '|' + objectName
-                if not maUtils.isAppExist(objectLocalPath):
-                    if not maUtils.isAppExist(parentLocalPath):
+                if not maUtils._isNodeExist(objectLocalPath):
+                    if not maUtils._isNodeExist(parentLocalPath):
                         maUtils.setAppPathCreate(parentLocalPath, lockTransform)
                     #
                     maObj.setCreateObjectTransform(objectName, transformationMatrix, parentLocalPath)
@@ -1436,7 +1436,7 @@ def setCreateGeometryObjectsShape(dataDics):
             shapeData = geomShapeDic[uniqueId]
             objectPath = maUuid.getObject(uniqueId)
             if objectPath:
-                shapeName = maUtils.getAttrDatum(objectPath, lxConfigure.LynxiObjectShapeNameAttrName)
+                shapeName = maUtils.getAttrDatum(objectPath, prsConfigure.Product.DEF_key_attribute_shapename)
                 setCreateGeometryObjectShape(objectPath, (topologyData, shapeData), shapeName)
 
 
@@ -1482,8 +1482,8 @@ def setCreateGeometryObjectsEdgeSmooth(dataDic):
                 objectStrings = maUuid.getObjects(uniqueId)
                 if objectStrings:
                     objectString = objectStrings[0]
-                    objectType = maUtils.getShapeType(objectString)
-                    if objectType == appCfg.MaNodeType_Mesh:
+                    objectType = maUtils._getNodeShapeTypeString(objectString)
+                    if objectType == appCfg.DEF_type_shading_mesh:
                         setCreateMeshObjectEdgeSmooth(objectString, data)
 
 
@@ -1520,8 +1520,8 @@ def setCreateGeometryObjectMap(dataDic):
             objectStrings = maUuid.getObjects(uniqueId)
             if objectStrings:
                 objectString = objectStrings[0]
-                objectType = maUtils.getShapeType(objectString)
-                if objectType == appCfg.MaNodeType_Mesh:
+                objectType = maUtils._getNodeShapeTypeString(objectString)
+                if objectType == appCfg.DEF_type_shading_mesh:
                     setCreateMeshObjectMap(objectString, mapData)
 
 
@@ -1581,7 +1581,7 @@ def setMeshFaceVertexNormals(meshObjectString, faceVertexNormalsData):
 #
 def getMeshObjectIsNormalLocked(meshObjectString):
     boolean = True
-    if maUtils.isAppExist(meshObjectString):
+    if maUtils._isNodeExist(meshObjectString):
         lis = []
         m2MeshObject = toM2MeshNode(meshObjectString)
         for vertexId in xrange(m2MeshObject.numVertices):
@@ -1634,7 +1634,7 @@ def getMeshesTopoConstantData(groupString, withShape=0, maxRound=8):
         # View Progress
         progressExplain = u'''Read Mesh Topology'''
         maxValue = len(meshObjStrs)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for meshObjectString in meshObjStrs:
             progressBar.update()
             info = getMeshObjectGeomTopoInfo(meshObjectString)
@@ -1688,8 +1688,8 @@ def setGeometryObjectsDefaultShadingEngine(uniqueIds):
     for uniqueId in uniqueIds:
         objectString = maUuid.getObject(uniqueId)
         if objectString:
-            objectType = maUtils.getShapeType(objectString)
-            if objectType == appCfg.MaNodeType_Mesh:
+            objectType = maUtils._getNodeShapeTypeString(objectString)
+            if objectType == appCfg.DEF_type_shading_mesh:
                 maUtils.setObjectDefaultShadingEngine(objectString)
             elif objectType == appCfg.MaNodeType_NurbsSurface:
                 maUtils.setObjectDefaultShadingEngine(objectString)
@@ -1703,7 +1703,7 @@ def getMeshObjectEvaluate(objectStrings, vertex, edge, face, triangle, uvcoord, 
     # View Progress
     explain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = bscObjects.If_Progress(explain, maxValue)
+    progressBar = bscObjects.ProgressWindow(explain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.update('Vertex')
@@ -1804,7 +1804,7 @@ def getGeometryObjectsConstantDic_(groupString):
 
 #
 def getMeshReferenceObject(objectString):
-    shapePath = maUtils.getNodeShape(objectString)
+    shapePath = maUtils._getNodeShapeString(objectString)
     attr = shapePath + '.referenceObject'
     guessData = maUtils.getInputNodeLisByAttr(attr)
     if guessData:

@@ -2,15 +2,11 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMethods, bscObjects
 #
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsVariants, prsMethods
 #
-from LxCore.config import sceneCfg
-#
-from LxPreset import prsVariants, prsMethods
-#
-from LxCore.preset.prod import assetPr, scenePr
+from LxCore.preset.prod import scenePr
 #
 from LxMaya.command import maUtils, maObj, maAttr, maHier, maAsb
 #
@@ -22,14 +18,14 @@ none = ''
 #
 def setSceneCustomizeLabel(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils.isAppExist(scUnitRoot):
+    if maUtils._isNodeExist(scUnitRoot):
         maUtils.setAttrStringDatumForce(scUnitRoot, prsVariants.Util.basicCustomizeAttrLabel, data)
 
 
 #
 def setSceneRootIndex(sceneName, data):
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils.isAppExist(scUnitRoot):
+    if maUtils._isNodeExist(scUnitRoot):
         maUtils.setAttrStringDatumForce(scUnitRoot, prsVariants.Util.basicRootIndexAttrLabel, str(data))
 
 
@@ -45,10 +41,11 @@ def setAddSceneCameras(sceneName, cameras):
     sceneRoot = scenePr.scUnitRootGroupName(sceneName)
     #
     activeCameras = datScene.getScActiveCameraLis(sceneName)
-    [activeCameras.append(i) for i in cameras if i not in activeCameras if maUtils.isAppExist(i)]
+    [activeCameras.append(i) for i in cameras if i not in activeCameras if maUtils._isNodeExist(i)]
     #
-    attrData = sceneCfg.CameraSep.join(activeCameras)
-    maUtils.setAttrStringDatumForce_(sceneRoot, sceneCfg.SceneCameraAttr, attrData)
+
+    attrData = prsConfigure.Product.VAR_product_separator_camera.join(activeCameras)
+    maUtils.setAttrStringDatumForce_(sceneRoot, prsConfigure.Product.VAR_product_attribute_camera, attrData)
 
 
 #
@@ -58,8 +55,8 @@ def setRemoveSceneCameras(sceneName, cameras):
     activeCameras = datScene.getScActiveCameraLis(sceneName)
     [activeCameras.remove(i) for i in cameras if i in activeCameras]
     #
-    attrData = sceneCfg.CameraSep.join(activeCameras)
-    maUtils.setAttrStringDatumForce_(sceneLocator, sceneCfg.SceneCameraAttr, attrData)
+    attrData = prsConfigure.Product.VAR_product_separator_camera.join(activeCameras)
+    maUtils.setAttrStringDatumForce_(sceneLocator, prsConfigure.Product.VAR_product_attribute_camera, attrData)
 
 
 #
@@ -133,14 +130,15 @@ def setCreateSceneOutputCamera(outputCamera, camera, startFrame, endFrame, frame
 def setScUnitCreateCameraOutputPositionSub(
         cameraObject, subLabelString,
         sceneCategory, sceneName, sceneVariant,
-        startFrame, endFrame, frameOffset):
+        startFrame, endFrame, frameOffset
+):
     outputObject = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant) + subLabelString
     subOutputObject = scenePr.scOutputCameraSubLocatorName(sceneName, sceneVariant) + subLabelString
     #
-    if maUtils.isAppExist(outputObject):
+    if maUtils._isNodeExist(outputObject):
         maUtils.setNodeDelete(outputObject)
     #
-    if maUtils.isAppExist(subOutputObject):
+    if maUtils._isNodeExist(subOutputObject):
         maUtils.setNodeDelete(subOutputObject)
     #
     cmds.spaceLocator(name=outputObject, position=(0, 0, 0))
@@ -161,7 +159,7 @@ def setScUnitCreateCameraOutputAttributeSub(
         startFrame, endFrame, frameOffset):
     outputObject = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
     #
-    if maUtils.isAppExist(outputObject):
+    if maUtils._isNodeExist(outputObject):
         maUtils.setNodeDelete(outputObject)
     #
     maObj.setCreateObject('camera', outputObject)
@@ -169,7 +167,7 @@ def setScUnitCreateCameraOutputAttributeSub(
     maObj.setCloneAttributes(cameraObject, outputObject, useShape=True)
     maObj.setCloneConnections(cameraObject, outputObject, useShape=True)
     #
-    outputObjectShape = maUtils.getNodeShape(outputObject)
+    outputObjectShape = maUtils._getNodeShapeString(outputObject)
     maUtils.setObjectBakeKey(
         outputObjectShape,
         startFrame, endFrame, frameOffset
@@ -254,7 +252,7 @@ def setScAstRigRefresh(sceneName, sceneVariant, sceneStage):
                 linkAssetPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
                 scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
                 #
-                if not maUtils.isAppExist(scAstRootGroup):
+                if not maUtils._isNodeExist(scAstRootGroup):
                     # Create Group
                     maUtils.setAppPathCreate(scAstRootGroup)
                     #
@@ -281,8 +279,8 @@ def setCreateScSceneryAssembly(data, root):
             parentPath = maUtils._toNodeParentPath(objectPath)
             if parentPath:
                 maUtils.setAppPathCreate(objectPath)
-            objectName = maUtils._toNodeName(objectPath)
-            if not maUtils.isAppExist(objectPath):
+            objectName = maUtils._getNodeNameString(objectPath)
+            if not maUtils._isNodeExist(objectPath):
                 maAsb.setAssemblyReferenceCreate(objectName, definition)
             #
             maUtils.setObjectParent(objectPath, root)
@@ -294,7 +292,7 @@ def setScSceneryAsbTransformation(data):
         for subData in data:
             explain = '''Load Assembly Transformation(s)'''
             maxValue = len(subData)
-            progressBar = bscObjects.If_Progress(explain, maxValue)
+            progressBar = bscObjects.ProgressWindow(explain, maxValue)
             for i in subData:
                 progressBar.update()
                 objectPath, transAttrData = i
@@ -308,11 +306,11 @@ def setScSceneryAsbTransformation(data):
 #
 def setCreateScAstSolverExtra(extraData, sourceNamespace, targetNamespace):
     if extraData:
-        if lxConfigure.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
+        if prsConfigure.Product.DEF_key_info_attribute in extraData:
+            attributeData = extraData[prsConfigure.Product.DEF_key_info_attribute]
             setCreateScAstSolverAttribute(attributeData, targetNamespace)
-        if lxConfigure.LynxiConnectionDataKey in extraData:
-            connectionData = extraData[lxConfigure.LynxiConnectionDataKey]
+        if prsConfigure.Product.DEF_key_info_connection in extraData:
+            connectionData = extraData[prsConfigure.Product.DEF_key_info_connection]
             setCreateScAstSolverConnection(connectionData, sourceNamespace, targetNamespace)
 
 
@@ -321,11 +319,11 @@ def setCreateScAstSolverAttribute(data, namespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Attribute'''
         maxValue = len(data)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objectPath, (shapeNodeData, shapeCustomAttrData) in data.items():
             progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, namespace)
-            if maUtils.isAppExist(objectPath):
+            if maUtils._isNodeExist(objectPath):
                 maAttr.setNodeDefAttrByData(objectPath, shapeNodeData, lockAttribute=False)
                 maAttr.setObjectUserDefinedAttrs(objectPath, shapeCustomAttrData, lockAttribute=False)
 
@@ -335,11 +333,11 @@ def setCreateScAstSolverConnection(data, sourceNamespace, targetNamespace):
     if data:
         explain = '''Load Scene Asset ( Solver ) Connection'''
         maxValue = len(data)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objectPath, connectionArray in data.items():
             progressBar.update()
             objectPath = maUtils.getObjectPathJoinNamespace(objectPath, targetNamespace)
-            if maUtils.isAppExist(objectPath):
+            if maUtils._isNodeExist(objectPath):
                 for sourceAttr, targetAttr in connectionArray:
                     sourceAttr = maUtils.getNodeJoinNamespace(sourceAttr, sourceNamespace)
                     targetAttr = maUtils.getNodeJoinNamespace(targetAttr, targetNamespace)
@@ -357,13 +355,13 @@ def setScAstModelDisplayLayer(assetName, namespace, displayLater):
     if lis:
         for i in lis:
             attr = i + '.lxVisible'
-            if maUtils.isAppExist(attr):
+            if maUtils._isNodeExist(attr):
                 boolean = maUtils.getAttrDatum(attr)
                 if boolean is False:
                     hideLis.append(i)
     #
     if displayLater:
-        if not maUtils.isAppExist(displayLater):
+        if not maUtils._isNodeExist(displayLater):
             maUtils.setCreateDisplayLayer(displayLater)
         #
         maUtils.setDisplayLayerColor(displayLater, color=(1, 1, .25))

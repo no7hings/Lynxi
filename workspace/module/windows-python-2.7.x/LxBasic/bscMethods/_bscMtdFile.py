@@ -2,7 +2,7 @@
 from LxBasic import bscCore
 
 
-class OsFile(bscCore.Mtd_BscFileBasic):
+class OsFile(bscCore.FileBasic):
     @classmethod
     def write(cls, fileString, raw):
         cls._setOsFileDirectoryCreate(fileString)
@@ -31,7 +31,7 @@ class OsFile(bscCore.Mtd_BscFileBasic):
                 return raw
 
 
-class OsFileGzip(bscCore.Mtd_BscFileBasic):
+class OsFileGzip(bscCore.FileBasic):
     @classmethod
     def write(cls, fileString, raw):
         cls._setOsFileDirectoryCreate(fileString)
@@ -70,7 +70,7 @@ class OsFileGzip(bscCore.Mtd_BscFileBasic):
                 return raw
 
 
-class OsJson(bscCore.Mtd_BscFileBasic):
+class OsJson(bscCore.FileBasic):
     @classmethod
     def read(cls, fileString, encoding=None):
         if cls.MTD_os_path.isfile(fileString):
@@ -111,7 +111,7 @@ class OsJson(bscCore.Mtd_BscFileBasic):
         return cls.MOD_json.dumps(raw)
 
 
-class OsJsonGzip(bscCore.Mtd_BscFileBasic):
+class OsJsonGzip(bscCore.FileBasic):
     @classmethod
     def read(cls, fileString, encoding=None):
         if cls._isOsFileExist(fileString):
@@ -144,7 +144,7 @@ class OsJsonGzip(bscCore.Mtd_BscFileBasic):
         cls._setOsFileCopy(temporaryName, fileString)
 
 
-class OsImage(bscCore.Mtd_BscFileBasic):
+class OsImage(bscCore.FileBasic):
     module_fullpath_name = 'PIL.Image'
     @classmethod
     def _toPImage(cls, fileString):
@@ -166,7 +166,7 @@ class OsImage(bscCore.Mtd_BscFileBasic):
         return size
 
 
-class OsMultifile(bscCore.Mtd_BscBasic):
+class OsMultifile(bscCore.UtilityBasic):
     LST_placeholder_multifile = ['<udim>', '%04d', '<f>', '####']
     VAR_padding_multifile = 4
 

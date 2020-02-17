@@ -183,7 +183,7 @@ def setRedshiftProxyCreate(objectString, box, gpu, proxy):
 #
 def setCreateProxyAov(aovData):
     for aovNode, aovName in aovData.items():
-        if not maUtils.isAppExist(aovNode):
+        if not maUtils._isNodeExist(aovNode):
             inAovNode = aovNode + inAovLabel
             maUtils.setCreateNode('aiAOV', inAovNode)
             maUtils.setAttrStringDatumForce(inAovNode, 'name', aovName)

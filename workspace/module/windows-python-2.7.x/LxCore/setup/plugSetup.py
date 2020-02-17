@@ -29,12 +29,12 @@ def setMayaPlugSetup():
                 # View Progress
                 progressExplain = '''Load Plug(s)'''
                 maxValue = len(unloadPlugLis)
-                progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                 for plug in unloadPlugLis:
                     progressBar.update(plug)
                     maUtils.setPlugLoad(plug)
                 #
-                bscObjects.If_Message(u'Plug(s) Load', u'Complete')
+                bscObjects.MessageWindow(u'Plug(s) Load', u'Complete')
             #
             currentRenderer = prsMethods.Project.mayaRenderer()
             maRender.setCurrentRenderer(currentRenderer)

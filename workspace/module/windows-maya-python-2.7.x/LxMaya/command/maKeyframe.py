@@ -106,7 +106,7 @@ def getKeyData(objectString, namespace=none):
             if animCurve:
                 keyDataArray = getKeyDataArray(objectString, attrName)
                 if keyDataArray:
-                    animCurveType = maUtils.getNodeType(animCurve)
+                    animCurveType = maUtils._getNodeTypeString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
                     postInfinity = maUtils.getAttrDatum(animCurve, 'postInfinity')
                     attrDataArray.append((attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray))
@@ -126,7 +126,7 @@ def getNumAttrKeyFrames(objectString):
             if animCurve:
                 keyDataArray = getKeyDataArray(objectString, attrName)
                 if keyDataArray:
-                    animCurveType = maUtils.getNodeType(animCurve)
+                    animCurveType = maUtils._getNodeTypeString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
                     postInfinity = maUtils.getAttrDatum(animCurve, 'postInfinity')
                     lis.append(
@@ -145,10 +145,10 @@ def getKeyDatas(root):
     # View Progress
     progressExplain = '''Read Key(s)'''
     maxValue = len(maObjs)
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     for objectString in maObjs:
         # In Progress
-        progressBar.update(maUtils._toNodeName(objectString, 1))
+        progressBar.update(maUtils._getNodeNameString(objectString, 1))
         namespace = none
         if ':' in objectString:
             namespace = maUtils._toNamespaceByNodePath(objectString)
@@ -159,7 +159,7 @@ def getKeyDatas(root):
 
 #
 def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
-    if maUtils.isAppExist(objectString):
+    if maUtils._isNodeExist(objectString):
         if attrData:
             if len(attrData) == 5:
                 attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray = attrData
@@ -167,9 +167,9 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
                 inputAnimCurve = objectName + '_' + attrName + '_' + animCurveType + '_' + str(seq).zfill(4)
                 sourceAttr = inputAnimCurve + '.output'
                 targetAttr = objectString + '.' + attrName
-                if maUtils.isAppExist(targetAttr):
+                if maUtils._isNodeExist(targetAttr):
                     #
-                    if not maUtils.isAppExist(inputAnimCurve):
+                    if not maUtils._isNodeExist(inputAnimCurve):
                         cmds.createNode(animCurveType, name=inputAnimCurve)
                     #
                     if not maUtils.isAttrDestination(targetAttr):
@@ -236,14 +236,14 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
 
 #
 def setKeys(root, keyDatas, frameOffset=0):
-    if maUtils.isAppExist(root):
+    if maUtils._isNodeExist(root):
         namespace = none
         if ':' in root:
             namespace = root.split('|')[-1].split(':')[0]
         if keyDatas:
             progressExplain = '''Load Key'''
             maxValue = len(keyDatas)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for seq, keyData in enumerate(keyDatas):
                 # In Progress
                 progressBar.update()
@@ -252,7 +252,7 @@ def setKeys(root, keyDatas, frameOffset=0):
                     objectReduce = objectString
                     if namespace:
                         objectReduce = objectString.replace('|', '|' + namespace + ':')
-                    if maUtils.isAppExist(objectReduce):
+                    if maUtils._isNodeExist(objectReduce):
                         for attrData in attrDataArray:
                             setKey(objectReduce, attrData, seq, namespace, frameOffset)
 

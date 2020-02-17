@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxBasic import bscCore, bscObjAbstract
+from LxBasic import bscConfigure, bscAbstract
 
 
-class Pth_Directory(bscObjAbstract.Abc_Path):
+class Pth_Directory(bscAbstract.Abc_Path):
     def __init__(self, directoryString):
         assert isinstance(directoryString, str) or isinstance(directoryString, unicode), u'Argument: "fileString" must be "str" or "unicode".'
         self._directoryString = self._osPathToPythonStyle(directoryString)
@@ -159,7 +159,7 @@ class Pth_Directory(bscObjAbstract.Abc_Path):
         return self._directoryString
 
 
-class Pth_Maya(bscObjAbstract.Abc_DccPath):
+class Pth_Maya(bscAbstract.Abc_DccPath):
     separator_namespace = ':'
     separator_node = '|'
     separator_attribute = '.'

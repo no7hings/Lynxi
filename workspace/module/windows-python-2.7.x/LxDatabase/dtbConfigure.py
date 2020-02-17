@@ -79,7 +79,7 @@ class DtbBasic(object):
     LxDb_Key_Source = 'source'
 
     DEF_key_info_username = 'user'
-    DEF_key_info_time = 'time'
+    DEF_key_info_timestamp = 'time'
     #
     DEF_key_info_hostname = 'hostName'
     DEF_key_info_host = 'host'
@@ -90,13 +90,13 @@ class DtbBasic(object):
     @classmethod
     def _dbProductUnitIndexFile(cls, productModuleString):
         return u'{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.MtdBasic.LynxiDatabaseKey_Index,
+            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Index,
             bscMethods.String.toUniqueId(productModuleString)
         )
 
     @classmethod
     def _dbProductUnitSetFile(cls, dbUnitId):
         return u'{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.MtdBasic.LynxiDatabaseKey_Set,
+            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Set,
             dbUnitId
         )

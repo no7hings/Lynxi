@@ -509,7 +509,7 @@ def getNodeConnectionsDataArray(nodeString):
 #
 def getObjectConnectionDataArray(maObj):
     if maUtils.isTransform(maObj):
-        nodeString = maUtils.getNodeShape(maObj)
+        nodeString = maUtils._getNodeShapeString(maObj)
     else:
         nodeString = maObj
     return getNodeConnectionsDataArray(nodeString)
@@ -520,7 +520,7 @@ def setCreateConnections(connections):
     if connections:
         for sourceAttr, targetAttr in connections:
             # Filter Exists
-            if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
+            if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
                 # Filter Connected
                 if not maUtils.isAttrConnected(sourceAttr, targetAttr):
                     cmds.connectAttr(sourceAttr, targetAttr, force=1)
@@ -553,11 +553,11 @@ def setConnectionsReconnect(connections):
     if connections:
         explain = '''Connect Attribute(s)'''
         maxValue = len(connections)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for sourceAttr, targetAttr in connections:
             progressBar.update()
             # Filter Exists
-            if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
+            if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
                 # Filter Connected
                 if not maUtils.isAttrConnected(sourceAttr, targetAttr):
                     if not maUtils.isAttrSource(sourceAttr):
@@ -571,7 +571,7 @@ def setDelAttrs(node, attrNames):
     if not maUtils.isNodeLocked(node):
         for attrName in attrNames:
             attr = node + '.' + attrName
-            if maUtils.isAppExist(attr):
+            if maUtils._isNodeExist(attr):
                 if not maUtils.isReferenceNode(attr):
                     cmds.deleteAttr(attr)
 

@@ -22,16 +22,16 @@ def setLisObjects(treeBox, objectPaths, expandedDic):
     def branchView(treeItem):
         path = treeItem.path
         #
-        objectType = maUtils.getShapeType(path)
+        objectType = maUtils._getNodeShapeTypeString(path)
         #
         treeItem.setItemMayaIcon(0, objectType)
         #
-        treeItem.setText(0, maUtils._toNodeName(path, 1))
-        treeItem.setText(1, maUtils.getNodeType(path))
+        treeItem.setText(0, maUtils._getNodeNameString(path, 1))
+        treeItem.setText(1, maUtils._getNodeTypeString(path))
     #
     if objectPaths:
-        subObjectPaths = treeBox.getGraphPaths(objectPaths, appCfg.Ma_Separator_Node)
-        hierDic = treeBox.getGraphDatumDic(subObjectPaths, appCfg.Ma_Separator_Node)
+        subObjectPaths = treeBox.getGraphPaths(objectPaths, appCfg.DEF_separator_node)
+        hierDic = treeBox.getGraphDatumDic(subObjectPaths, appCfg.DEF_separator_node)
         if hierDic:
             treeBox.setupGraph(hierDic, branchView, expandedDic)
 
@@ -39,8 +39,8 @@ def setLisObjects(treeBox, objectPaths, expandedDic):
 #
 def setListNodes(treeBox, nodes):
     def setBranch(node):
-        nodeName = maUtils._toNodeName(node, 1)
-        nodeType = maUtils.getNodeType(node)
+        nodeName = maUtils._getNodeNameString(node, 1)
+        nodeType = maUtils._getNodeTypeString(node)
         #
         treeItem = qtWidgets_.QTreeWidgetItem_()
         treeBox.addItem(treeItem)
@@ -140,7 +140,7 @@ def setListDirectory(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -261,7 +261,7 @@ def setListFile(
         #
         explain = '''Read File'''
         maxValue = len(osPaths)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         #
         hierarchyData = treeBox.getGraphDatumDic(
             osPaths,
@@ -484,7 +484,7 @@ def setListScMayaComposeCmdMain(
     if inData:
         explain = '''List Scene Compose'''
         maxValue = len(inData)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for k, v in inData.items():
             progressBar.update()
             #
@@ -547,7 +547,7 @@ def setListScCameraComposeCmdSub(
     if scCameraDatumLis:
         progressExplain = u'''List Scene Camera(s)'''
         maxValue = len(scCameraDatumLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for scCameraData in scCameraDatumLis:
             progressBar.update()
             setScCameraBranch(scCameraData)
@@ -695,7 +695,7 @@ def setListScAssetComposeCmdSub(
     if scAssetDatumLis:
         progressExplain = u'''List Scene Asset(s)'''
         maxValue = len(scAssetDatumLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for scAssetDatum in scAssetDatumLis:
             progressBar.update()
             setScAstBranch(scAssetDatum)

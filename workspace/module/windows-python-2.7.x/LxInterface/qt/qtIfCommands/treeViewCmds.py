@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxCore import lxConfigure
+from LxPreset import prsConfigure
 #
 from LxCore.preset.prod import scenePr
 #
@@ -35,7 +35,7 @@ def setListScRenderImageCustomize(
                 bscMethods.OsDirectory.open(renderFolder)
             #
             renderFolder = scenePr.scUnitRenderFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
                 sceneCategory, sceneName, sceneVariant, sceneStage,
                 customize
@@ -69,11 +69,11 @@ def setListScRenderImageCustomize(
                 parentUi.setExpanded(True)
             #
             serverRenderFile = scenePr.scUnitRenderFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize
             )[1]
             localRenderFile = scenePr.scUnitRenderFile(
-                lxConfigure.LynxiRootIndex_Local,
+                prsConfigure.Utility.DEF_value_root_local,
                 projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize
             )[1]
             #
@@ -107,7 +107,7 @@ def setListScRenderImageCustomize(
     if customizes:
         explain = '''List Scene Render ( Customizes )'''
         maxValue = len(customizes)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         [setBranch(i) for i in customizes]
     #
     return methods

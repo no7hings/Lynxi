@@ -3,11 +3,9 @@ import os, collections
 
 from LxBasic import bscCore, bscMethods
 #
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsVariants, prsMethods
 #
-from LxCore.config import appCfg, assetCfg
-#
-from LxPreset import prsVariants, prsMethods
+from LxCore.config import appCfg
 #
 from LxCore.preset.prod import assetPr
 #
@@ -50,9 +48,9 @@ txExt = '.tx'
 
 #
 def setObjectBranch(uiData, treeBox, objectPath, parentItem=None):
-    objectName = maUtils._toNodeName(objectPath)
-    objectType = maUtils.getShapeType(objectPath)
-    objectUuid = maUuid.getNodeUniqueId(objectPath)
+    objectName = maUtils._getNodeNameString(objectPath)
+    objectType = maUtils._getNodeShapeTypeString(objectPath)
+    objectUuid = maUuid._getNodeUniqueIdString(objectPath)
     #
     if objectUuid in uiData:
         objectItem = uiData[objectUuid]
@@ -78,10 +76,10 @@ def setObjectBranch(uiData, treeBox, objectPath, parentItem=None):
 
 #
 def setCheckObjectBranch(objectPath, parentItem=None):
-    objectName = maUtils._toNodeName(objectPath)
+    objectName = maUtils._getNodeNameString(objectPath)
     #
-    objectType = maUtils.getShapeType(objectPath)
-    objectUuid = maUuid.getNodeUniqueId(objectPath)
+    objectType = maUtils._getNodeShapeTypeString(objectPath)
+    objectUuid = maUuid._getNodeUniqueIdString(objectPath)
     #
     objectItem = qtWidgets_.QTreeWidgetItem_([objectName, objectType])
     objectItem.name = objectName
@@ -119,8 +117,8 @@ def setAstHierarchyView(treeBox, root, searchDic=none, expandedDic=none):
         objectPath = treeItem.path
         objectName = treeItem.name
         #
-        nodeType = maUtils.getShapeType(objectPath)
-        treeItem.setText(1, maUtils.getNodeType(objectPath))
+        nodeType = maUtils._getNodeShapeTypeString(objectPath)
+        treeItem.setText(1, maUtils._getNodeTypeString(objectPath))
         #
         isParentExpanded = False
         if objectPath in expandedDic:
@@ -130,7 +128,7 @@ def setAstHierarchyView(treeBox, root, searchDic=none, expandedDic=none):
         #
         treeItem.setExpanded(isParentExpanded)
     #
-    pathsep = appCfg.Ma_Separator_Node
+    pathsep = appCfg.DEF_separator_node
     paths = maUtils.getChildrenByRoot(root)
     if not paths:
         rootItem = qtWidgets_.QTreeWidgetItem_([root])
@@ -187,7 +185,7 @@ def setAstGeometryConstantSub(
                 print compIndexKey
         #
         def removeGeometryObject():
-            if maUtils.isAppExist(localObjectPath):
+            if maUtils._isNodeExist(localObjectPath):
                 maUtils.setNodeDelete(localObjectPath)
         #
         def addGeometryObject():
@@ -214,10 +212,10 @@ def setAstGeometryConstantSub(
         treeItem.path = localObjectPath
         #
         if isGeometryObject:
-            if maUtils.isAppExist(localObjectPath):
-                objectType = maUtils.getShapeType(localObjectPath)
+            if maUtils._isNodeExist(localObjectPath):
+                objectType = maUtils._getNodeShapeTypeString(localObjectPath)
             else:
-                objectType = appCfg.MaNodeType_Mesh
+                objectType = appCfg.DEF_type_shading_mesh
             #
             compIndexKey = uniqueIdDic[objectPath]
             #
@@ -273,13 +271,13 @@ def setAstGeometryConstantSub(
             meshItemDic[treeItem] = compIndexKey
         #
         else:
-            treeItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform)
+            treeItem.setItemMayaIcon(0, appCfg.DEF_type_transform)
             #
             treeItem.setExpanded(True)
     #
     def getHierarchyData():
         dic = collections.OrderedDict()
-        pathsep = appCfg.Ma_Separator_Node
+        pathsep = appCfg.DEF_separator_node
         subPaths = treeBox.getGraphPaths(paths, pathsep)
         hierarchyData = treeBox.getGraphDatumDic(subPaths, pathsep)
         for seq, (k, v) in enumerate(hierarchyData.items()):
@@ -479,7 +477,7 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
             setBranchTopoConstant(treeItem, compIndexKey, constantKey)
         #
         elif not isMesh:
-            treeItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform)
+            treeItem.setItemMayaIcon(0, appCfg.DEF_type_transform)
             #
             treeItem.setExpanded(True)
     #
@@ -488,16 +486,16 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
             matchLocalMeshes = localTopoConstantDic[constantKey]
             if matchLocalMeshes:
                 for localMeshPath in matchLocalMeshes:
-                    localMeshName = maUtils._toNodeName(localMeshPath)
+                    localMeshName = maUtils._getNodeNameString(localMeshPath)
                     localMeshItem = qtWidgets_.QTreeWidgetItem_([localMeshName])
                     #
                     treeItem.addChild(localMeshItem)
                     treeItem.setExpanded(True)
                     #
-                    localMeshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+                    localMeshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
                     #
 
-                    localMeshUniqueId = maUuid.getNodeUniqueId(localMeshPath)
+                    localMeshUniqueId = maUuid._getNodeUniqueIdString(localMeshPath)
                     localMeshItem.setText(1, localMeshUniqueId)
                     if localMeshUniqueId == compIndexKey:
                         stateLabel = 'on'
@@ -535,7 +533,7 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
     #
     treeBox.clear()
     if serverMeshes:
-        pathsep = appCfg.Ma_Separator_Node
+        pathsep = appCfg.DEF_separator_node
         subPaths = treeBox.getGraphPaths(serverMeshes, pathsep)
         graphDatumDic = treeBox.getGraphDatumDic(subPaths, pathsep)
         if graphDatumDic:
@@ -547,7 +545,7 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
 #
 def setAstMeshGeomCheckView(main, treeBox, inData, checkData, errorData):
     tempErrorData = []
-    checkConfig = assetCfg.astMeshGeomCheckConfig()
+    checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_model_mesh_dict()
     maxValue = len(checkConfig)
     for seq, (k, v) in enumerate(checkConfig.items()):
         main.setProgressValue(seq + 1, maxValue)
@@ -565,22 +563,22 @@ def setAstMeshGeomCheckView(main, treeBox, inData, checkData, errorData):
                             inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'error')
                             inspectionItem.setExpanded(True)
                             for meshPath, compPaths in subErrorData.items():
-                                meshName = maUtils._toNodeName(meshPath)
+                                meshName = maUtils._getNodeNameString(meshPath)
                                 #
                                 meshItem = qtWidgets_.QTreeWidgetItem_([meshName])
                                 meshItem.path = meshPath
                                 meshItem.name = meshName
                                 inspectionItem.addChild(meshItem)
                                 #
-                                meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+                                meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
                                 #
                                 if compPaths:
                                     tempErrorData.append(meshPath)
                                     #
-                                    meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                                    meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                                     meshItem.setExpanded(True)
                                     for compPath in compPaths:
-                                        compName = maUtils._toNodeName(compPath)
+                                        compName = maUtils._getNodeNameString(compPath)
                                         #
                                         compItem = qtWidgets_.QTreeWidgetItem_([compName])
                                         compItem.path = compPath
@@ -614,12 +612,12 @@ def setAstMeshTransCheckView(main, treeBox, inData, checkData, errorData):
             main.setProgressValue(seq + 1, maxValue)
             #
             meshPath = k
-            meshName = maUtils._toNodeName(meshPath)
+            meshName = maUtils._getNodeNameString(meshPath)
             #
             meshItem = qtWidgets_.QTreeWidgetItem_([meshName])
             meshItem.path = meshPath
             meshItem.name = meshName
-            meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+            meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
             #
             isTransError = False
             for ik, iv in v.items():
@@ -639,7 +637,7 @@ def setAstMeshTransCheckView(main, treeBox, inData, checkData, errorData):
                 tempErrorData.append(meshPath)
                 #
                 inspectionItem.addChild(meshItem)
-                meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                 meshItem.setExpanded(True)
         #
         if tempErrorData:
@@ -671,18 +669,18 @@ def setAstMeshHistCheckView(main, treeBox, inData, inCheck, errorData):
             main.setProgressValue(seq + 1, maxValue)
             #
             meshPath = k
-            meshName = maUtils._toNodeName(meshPath)
+            meshName = maUtils._getNodeNameString(meshPath)
             #
-            meshItem = qtWidgets_.QTreeWidgetItem_([meshName, appCfg.MaNodeType_Transform])
+            meshItem = qtWidgets_.QTreeWidgetItem_([meshName, appCfg.DEF_type_transform])
             meshItem.path = meshPath
             meshItem.name = meshName
-            meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+            meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
             #
             isHistError = False
             if v:
                 for i in v:
                     histNodePath, nodeType = i
-                    histNodeName = maUtils._toNodeName(histNodePath)
+                    histNodeName = maUtils._getNodeNameString(histNodePath)
                     #
                     histNodeItem = qtWidgets_.QTreeWidgetItem_([histNodeName, nodeType])
                     histNodeItem.path = histNodePath
@@ -690,13 +688,13 @@ def setAstMeshHistCheckView(main, treeBox, inData, inCheck, errorData):
                     meshItem.addChild(histNodeItem)
                     histNodeItem.setItemMayaIcon(0, nodeType)
                     if nodeType == 'mesh':
-                        histNodeItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+                        histNodeItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
                         meshItem.addChild(histNodeItem)
                     elif nodeType == 'shadingEngine':
-                        meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'warning')
+                        meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'warning')
                         histNodeItem.setItemMayaIcon(0, nodeType, 'warning')
                     elif nodeType == 'groupId':
-                        meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'warning')
+                        meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'warning')
                         histNodeItem.setItemMayaIcon(0, nodeType, 'warning')
                     else:
                         isHistError = True
@@ -705,7 +703,7 @@ def setAstMeshHistCheckView(main, treeBox, inData, inCheck, errorData):
                 if isHistError is True:
                     tempErrorData.append(meshPath)
                     #
-                    meshItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                    meshItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                     inspectionItem.addChild(meshItem)
                     meshItem.setExpanded(True)
         #
@@ -731,7 +729,7 @@ def setAstCfxFurCheckTreeView(main, assetCategory, assetName, treeBox, checkData
     checkFnDic['astNurbsHairCheck'] = setAstCfxFurNhrCheckTreeView
     checkFnDic['astGrowSourceCheck'] = setAstCfxGrowSourceCheckView
     checkFnDic['astSolverGuideCheck'] = setAstCfxSolverGuideCheckView
-    checkConfig = assetCfg.astCfxGroomCheckConfig()
+    checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_groom_dict()
     if checkConfig:
         for k, v in checkConfig.items():
             enable, enExplain, cnExplain = v
@@ -770,7 +768,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
             groomObjects = maUtils.getYetiGroomDic(yetiObject)
             if groomObjects:
                 for groomObject in groomObjects:
-                    groomItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(groomObject), 'Groom'])
+                    groomItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(groomObject), 'Groom'])
                     groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom)
                     #
                     groomObjectGroup = assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astYetiGroomGroupLabel)
@@ -780,7 +778,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                         groomItem.setText(2, 'Non - Collection')
                         groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom, 'error')
                     #
-                    if not maUtils.isAppExist(groomObject):
+                    if not maUtils._isNodeExist(groomObject):
                         isChecked = False
                         groomItem.setText(2, 'Non - Exists')
                         groomItem.setItemMayaIcon(0, appCfg.MaNodeType_YetiGroom, 'error')
@@ -791,7 +789,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
             if growObjects:
                 growStateLabel = none
                 for growObject in growObjects:
-                    growItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(growObject), 'Grow'])
+                    growItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(growObject), 'Grow'])
                     yetiItem.addChild(growItem)
                     #
                     growObjectGroup = \
@@ -802,7 +800,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                         growStateLabel = 'error'
                         growItem.setText(2, 'Non - Collection')
                     #
-                    if not maUtils.isAppExist(growObject):
+                    if not maUtils._isNodeExist(growObject):
                         isChecked = False
                         growStateLabel = 'error'
                         growItem.setText(2, 'Non - Exists')
@@ -812,20 +810,20 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                         growStateLabel = 'error'
                         growItem.setText(2, 'Locked - Normal')
                     #
-                    growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, growStateLabel)
+                    growItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, growStateLabel)
                     # Reference
                     referenceObjects = maUtils.getYetiRefObject(growObject)
                     if referenceObjects:
                         for referenceObject in referenceObjects:
-                            referenceItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(referenceObject), 'Reference Object'])
-                            referenceItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+                            referenceItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(referenceObject), 'Reference Object'])
+                            referenceItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
                             #
                             referenceObjectGroup = \
                                 assetPr.astBasicGroupNameSet(assetName, prsVariants.Util.astYetiReferenceGroupLabel)
                             if not maUtils.isChild(referenceObjectGroup, referenceObject):
                                 isChecked = False
                                 referenceItem.setText(2, 'Non - Collection')
-                                referenceItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                                referenceItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                             #
                             growItem.addChild(referenceItem)
             # Map
@@ -859,7 +857,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                 guideCurveGroup = \
                     assetPr.guideCurveGroupName(assetName)
                 for guideSet in guideSets:
-                    guideSetItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSet), 'Guide Set'])
+                    guideSetItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(guideSet), 'Guide Set'])
                     guideSetItem.setItemMayaIcon(0, 'list')
                     #
                     yetiItem.addChild(guideSetItem)
@@ -867,7 +865,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                     guideCheck = True
                     guideCheckExplain = none
                     #
-                    if not maUtils.isAppExist(guideSet):
+                    if not maUtils._isNodeExist(guideSet):
                         isChecked = False
                         guideCheck = False
                         guideCheckExplain = 'Non - Exists'
@@ -877,7 +875,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                         for k, v in data.items():
                             guideCurve = k
                             #
-                            guideCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideCurve), 'Guide Curve'])
+                            guideCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(guideCurve), 'Guide Curve'])
                             guideCurveItem.setItemMayaIcon(0, appCfg.MaNodeType_NurbsCurve)
                             #
                             if not maUtils.isChild(guideCurveGroup, guideCurve):
@@ -893,7 +891,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                             follicle, localCurve, hairSystem, nucleus = v
                             #
                             if follicle:
-                                follicleItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(follicle), 'Follicle'])
+                                follicleItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(follicle), 'Follicle'])
                                 follicleItem.setItemMayaIcon(0, appCfg.MaFollicleType)
                                 guideCurveItem.addChild(follicleItem)
                                 #
@@ -908,7 +906,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
                                     guideCurveItem.setExpanded(True)
                             #
                             if localCurve:
-                                localCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(localCurve), 'Local Curve'])
+                                localCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(localCurve), 'Local Curve'])
                                 localCurveItem.setItemMayaIcon(0, appCfg.MaNodeType_NurbsCurve)
                                 guideCurveItem.addChild(localCurveItem)
                                 #
@@ -937,7 +935,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
             if guideSystems:
                 guideSystems = maUtils.getReduceList(guideSystems)
                 for guideSystem in guideSystems:
-                    guideSystemItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideSystem), 'Guide System'])
+                    guideSystemItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(guideSystem), 'Guide System'])
                     guideSystemItem.setItemMayaIcon(0, appCfg.MaHairSystemType)
                     yetiItem.addChild(guideSystemItem)
                     #
@@ -957,7 +955,7 @@ def setAstCfxFurYetiCheckTreeView(main, assetCategory, assetName, treeBox, check
             if guideNuclei:
                 guideNuclei = maUtils.getReduceList(guideNuclei)
                 for guideNucleus in guideNuclei:
-                    guideNucleusItem = qtWidgets_.QTreeWidgetItem_([maUtils._toNodeName(guideNucleus), 'Guide Nucleus'])
+                    guideNucleusItem = qtWidgets_.QTreeWidgetItem_([maUtils._getNodeNameString(guideNucleus), 'Guide Nucleus'])
                     guideNucleusItem.setItemMayaIcon(0, appCfg.MaNucleusType)
                     yetiItem.addChild(guideNucleusItem)
                     #
@@ -993,7 +991,7 @@ def setAstCfxFurMayaCheckTreeView(main, assetCategory, assetName, treeBox, check
                 rootItem.addChild(subRootItem)
             #
             for maObj in mObjects:
-                showObject = maUtils._toNodeName(maObj)
+                showObject = maUtils._getNodeNameString(maObj)
                 objectItem = qtWidgets_.QTreeWidgetItem_([showObject, explain])
                 objectItem.setItemMayaIcon(0, nodeType)
                 #
@@ -1028,7 +1026,7 @@ def setAstCfxFurMayaCheckTreeView(main, assetCategory, assetName, treeBox, check
                 subRootItem.setItemMayaIcon(0, 'list', ['error', none][subRootBoolean])
         # Pfx Hair
         subErrorArray = []
-        showPfxHairObject = maUtils._toNodeName(pfxHairObject)
+        showPfxHairObject = maUtils._getNodeNameString(pfxHairObject)
         pfxHairItem = qtWidgets_.QTreeWidgetItem_([showPfxHairObject, 'Pfx Hair'])
         inspectionItem.addChild(pfxHairItem)
         pfxHairItem.setItemMayaIcon(0, appCfg.MaPfxHairType)
@@ -1118,9 +1116,9 @@ def setAstCfxFurMayaCheckTreeView(main, assetCategory, assetName, treeBox, check
 def setAstCfxFurNhrCheckTreeView(main, assetCategory, assetName, treeBox, checkData, errorData):
     # Sub Method
     def setObjectCheckBranch(objectPath, iconKeyword, parentItem=None):
-        objectName = maUtils._toNodeName(objectPath)
-        objectType = maUtils.getShapeType(objectPath)
-        objectUuid = maUuid.getNodeUniqueId(objectPath)
+        objectName = maUtils._getNodeNameString(objectPath)
+        objectType = maUtils._getNodeShapeTypeString(objectPath)
+        objectUuid = maUuid._getNodeUniqueIdString(objectPath)
         #
         objectItem = qtWidgets_.QTreeWidgetItem_([objectName, objectType])
         if parentItem:
@@ -1147,8 +1145,8 @@ def setAstCfxFurNhrCheckTreeView(main, assetCategory, assetName, treeBox, checkD
     #
     def setMapCheckBranch(node, iconKeyword, parentItem=None):
         nodeName = node
-        nodeType = maUtils.getNodeType(node)
-        nodeUuid = maUuid.getNodeUniqueId(node)
+        nodeType = maUtils._getNodeTypeString(node)
+        nodeUuid = maUuid._getNodeUniqueIdString(node)
         nodeItem = qtWidgets_.QTreeWidgetItem_([nodeName, nodeType])
         if parentItem:
             parentItem.addChild(nodeItem)
@@ -1260,17 +1258,17 @@ def setAstCfxGrowSourceCheckView(main, assetCategory, assetName, treeBox, checkD
         maxValue = len(inData)
         for seq, (sourceMeshObject, targetMeshObject) in enumerate(inData.items()):
             main.setProgressValue(seq + 1, maxValue)
-            targetMeshName = maUtils._toNodeName(targetMeshObject)
+            targetMeshName = maUtils._getNodeNameString(targetMeshObject)
             growItem = qtWidgets_.QTreeWidgetItem_([targetMeshName, 'Grow Source'])
-            growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+            growItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
             #
             inspectionItem.addChild(growItem)
             #
             if not maGeom.isMeshGeomTopoMatch(sourceMeshObject, targetMeshObject):
                 growItem.setText(2, 'Contrast - Error')
-                if not maUtils.isAppExist(sourceMeshObject):
+                if not maUtils._isNodeExist(sourceMeshObject):
                     growItem.setText(2, 'Non - Exists')
-                growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                growItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                 inspectionItem.setExpanded(True)
                 errorData.append(targetMeshObject)
                 subErrorData.append(targetMeshObject)
@@ -1299,15 +1297,15 @@ def setAstCfxSolverGuideCheckView(main, assetCategory, assetName, treeBox, check
         maxValue = len(inData)
         for seq, (objectPath, data) in enumerate(inData.items()):
             main.setProgressValue(seq + 1, maxValue)
-            objectName = maUtils._toNodeName(objectPath)
-            objectItem = qtWidgets_.QTreeWidgetItem_([objectName, maUtils.getShapeType(objectPath)])
-            objectItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform)
+            objectName = maUtils._getNodeNameString(objectPath)
+            objectItem = qtWidgets_.QTreeWidgetItem_([objectName, maUtils._getNodeShapeTypeString(objectPath)])
+            objectItem.setItemMayaIcon(0, appCfg.DEF_type_transform)
             #
             inspectionItem.addChild(objectItem)
             #
             if not data:
                 objectItem.setText(2, 'Non - Exists')
-                objectItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform, 'error')
+                objectItem.setItemMayaIcon(0, appCfg.DEF_type_transform, 'error')
                 #
                 inspectionItem.setExpanded(True)
                 errorData.append(data)
@@ -1382,17 +1380,17 @@ def setAstSolverGrowSourceCheckSub(main, assetCategory, assetName, treeBox, chec
         maxValue = len(inData)
         for seq, (sourceMeshObject, targetMeshObject) in enumerate(inData.items()):
             main.setProgressValue(seq + 1, maxValue)
-            targetMeshName = maUtils._toNodeName(targetMeshObject)
+            targetMeshName = maUtils._getNodeNameString(targetMeshObject)
             growItem = qtWidgets_.QTreeWidgetItem_([targetMeshName, 'Grow Source'])
-            growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh)
+            growItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh)
             #
             inspectionItem.addChild(growItem)
             #
             if not maGeom.isMeshGeomTopoMatch(sourceMeshObject, targetMeshObject):
                 growItem.setText(2, 'Contrast - Error')
-                if not maUtils.isAppExist(sourceMeshObject):
+                if not maUtils._isNodeExist(sourceMeshObject):
                     growItem.setText(2, 'Non - Exists')
-                growItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                growItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                 inspectionItem.setExpanded(True)
                 errorData.append(targetMeshObject)
                 subErrorData.append(targetMeshObject)
@@ -1421,7 +1419,7 @@ def setAstTextureCheckView(projectName, assetCategory, assetName, assetVariant, 
     treeBox.addItem(inspectionItem)
     if inData:
         serverTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )
@@ -1608,7 +1606,7 @@ def setAstTextureCheckSubMethod(
             branchItem.setItemIcon_(0, 'svg_basic@svg#branch_sub')
             parentItem_.addChild(branchItem)
             for textureNode in datumLis:
-                textureNodeType = maUtils.getNodeType(textureNode)
+                textureNodeType = maUtils._getNodeTypeString(textureNode)
                 colorSpace = maUtils.getAttrDatum(textureNode, 'colorSpace')
                 if not colorSpace in colorSpaceLis:
                     colorSpaceLis.append(colorSpace)

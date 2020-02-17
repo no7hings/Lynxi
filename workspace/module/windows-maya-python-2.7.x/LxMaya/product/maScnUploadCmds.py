@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsConfigure, prsVariants
 
 from LxCore.preset.prod import sceneryPr
 
@@ -33,7 +33,7 @@ def scnUnitAssemblyUploadCmd(
 ):
     timeTag = bscMethods.OsTimetag.active()
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Scenery Upload')
+    logWin_ = bscObjects.LogWindow(title=u'Scenery Upload')
     # Start
     maUtils.setDisplayMode(5)
     maUtils.setVisiblePanelsDelete()
@@ -135,10 +135,10 @@ def scnUnitAssemblySourceUploadCmd(
         timeTag,
         description, notes
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     backSourceFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
+        prsConfigure.Utility.DEF_value_root_backup, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
     linkFile = bscMethods.OsFile.toJoinTimetag(backSourceFile, timeTag)
@@ -168,15 +168,15 @@ def scnUnitAssemblyComposeUploadCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -197,15 +197,15 @@ def scnUnitAssemblyProductUploadCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -233,14 +233,14 @@ def scnUnitAssemblyPreviewUploadCmd(
         timeTag,
         useDefaultMaterial=0
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverFile = sceneryPr.scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
@@ -265,19 +265,19 @@ def scnUnitAssemblyDefinitionUploadCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     serverFile = sceneryPr.scnUnitDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitDefinitionFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     serverProductFile = sceneryPr.scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     sceneryAdName = sceneryPr.scnAssemblyAdName(
@@ -302,15 +302,15 @@ def scnUnitAssemblySourceOpenCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     localFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        prsConfigure.Utility.DEF_value_root_local,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     backupFile = sceneryPr.scnUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]

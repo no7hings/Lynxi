@@ -10,8 +10,6 @@ import xlwt
 
 from LxPreset import prsMethods
 #
-from LxCore import lxConfigure
-#
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 LabelLis = ['Name', 'ID', 'Class', 'Priority', 'Frame', 'Layout Enable', 'Animation Enable', 'Simulation Enable', 'Solver Enable', 'Light Enable', 'Asset Enable', 'Scenery']
 #

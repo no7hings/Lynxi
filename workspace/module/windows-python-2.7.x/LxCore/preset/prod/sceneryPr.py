@@ -2,12 +2,8 @@
 from LxBasic import bscCore, bscMethods
 
 from LxScheme import shmOutput
-
-from LxCore import lxConfigure
 #
-from LxCore.config import sceneryCfg
-#
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsConfigure, prsVariants, prsMethods
 
 # do not delete and rename
 serverBasicPath = shmOutput.Root().basic.server
@@ -236,13 +232,23 @@ def isAssemblyStage(sceneryStage):
 
 #
 def scenerySchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbSceneryRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSchemeExt, prsVariants.Util.dbSceneryBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(
+        prsVariants.Util.dbSceneryRoot,
+        prsVariants.Util.dbBasicFolderName,
+        prsConfigure.Utility.LynxiSchemeExt,
+        prsVariants.Util.dbSceneryBasicKey
+    )
     return bscMethods.OsFile.uniqueName(string)
 
 
 #
 def scenerySetFileConfig(sceneryIndex):
-    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbSceneryRoot, prsVariants.Util.dbBasicFolderName, lxConfigure.LynxiSetExt, sceneryIndex)
+    string = '{0}/{1}/{2}/{3}'.format(
+        prsVariants.Util.dbSceneryRoot,
+        prsVariants.Util.dbBasicFolderName,
+        prsConfigure.Utility.LynxiSetExt,
+        sceneryIndex
+    )
     return string
 
 
@@ -251,23 +257,6 @@ def defaultScenerySchemeConfig():
     lis = [
         True,
         u'请输入备注'
-    ]
-    return lis
-
-
-#
-def defaultScenerySetConfig(projectName, number=0):
-    lis = [
-        [('project', u'项目 ( Project(s) )'), (projectName, )],
-        [('classify', u'类型 ( Classify )'), sceneryCfg.scnBasicClass()],
-        [('name', u'名字 ( Name )'), 'ID{}'.format(str(number).zfill(6))],
-        [('variant', u'变体 ( Variant(s) )'), (prsVariants.Util.scnDefaultVariant,)],
-        [('priority', u'优先级 ( Priority )'), sceneryCfg.basicSceneryPriorities()],
-        [(lxConfigure.VAR_product_scenery_link_scenery, u'场景布景 ( Scenery )'), False],
-        [(lxConfigure.VAR_product_scene_link_layout, u'场景预览 ( Layout )'), False],
-        [(lxConfigure.VAR_product_scene_link_animation, u'场景动画 ( Animation )'), False],
-        [(lxConfigure.VAR_product_scene_link_simulation, u'场景解算 ( Simulation )'), False],
-        [(lxConfigure.VAR_product_scene_link_light, u'场景灯光 ( Light )'), False]
     ]
     return lis
 
@@ -290,45 +279,6 @@ def getUiScenerySchemeDataDic():
 
 
 #
-def getUiScenerySetDataLis(projectName, sceneryIndex, number=0):
-    def getDefaultData():
-        return defaultScenerySetConfig(projectName, number)
-    #
-    def getCustomData():
-        fileString_ = scenerySetFileConfig(sceneryIndex)
-        return bscMethods.OsJson.read(fileString_)
-    #
-    def getDic(defaultLis, customDic):
-        lis = []
-        if defaultLis:
-            for i in defaultLis:
-                setKey, uiData = i
-                setUiKey = none
-                if isinstance(setKey, str) or isinstance(setKey, unicode):
-                    setUiKey = bscMethods.StrCamelcase.toPrettify(setKey)
-                if isinstance(setKey, tuple):
-                    setKey, setUiKey = setKey
-                defValue = uiData
-                setValue = uiData
-                if isinstance(uiData, list):
-                    defValue = uiData[0]
-                    setValue = uiData[0]
-                elif isinstance(uiData, dict):
-                    defValue = uiData.values()[0][0]
-                    setValue = uiData.values()[0][0]
-                #
-                if customDic:
-                    if setKey in customDic:
-                        setValue = customDic[setKey]
-                lis.append(
-                    (setKey, setUiKey, setValue, defValue, uiData)
-                )
-        return lis
-    #
-    return getDic(getDefaultData(), getCustomData())
-
-
-#
 def getSceneryViewName(sceneryIndex):
     def getCustomData():
         fileString_ = scenerySchemeFileConfig()
@@ -343,7 +293,7 @@ def getSceneryViewName(sceneryIndex):
         return dic
     #
     def getMain(customDic):
-        string = lxConfigure.LynxiValue_Unspecified
+        string = prsConfigure.Utility.DEF_value_preset_unspecified
         if sceneryIndex in customDic:
             string = customDic[sceneryIndex]
         return string
@@ -406,7 +356,7 @@ def getSceneryVariants(sceneryIndex):
 #
 def sceneryViewInfoSet(sceneryViewName, sceneryCategory, sceneryVariant):
     string = u'{} {} ( {} )'.format(
-        sceneryCfg.scnBasicViewClassDic(sceneryCategory)[1],
+        prsMethods.Scenery.categoryShowname(sceneryCategory),
         sceneryViewName,
         sceneryVariant
     )
@@ -548,11 +498,11 @@ def getUiScenerySetDataDic(projectFilter):
                 sceneryVariants = data['variant']
                 sceneryPriority = data['priority']
                 #
-                sceneryEnabled = bscMethods.Dict.getAsBoolean(data, lxConfigure.VAR_product_scenery_link_scenery)
-                scLayoutEnable = data[lxConfigure.VAR_product_scene_link_layout]
-                scAnimationEnable = data[lxConfigure.VAR_product_scene_link_animation]
-                scSimulationEnable = data[lxConfigure.VAR_product_scene_link_simulation]
-                scLightEnable = data[lxConfigure.VAR_product_scene_link_light]
+                sceneryEnabled = bscMethods.Dict.getAsBoolean(data, prsMethods.Scenery.assemblyLinkName())
+                scLayoutEnable = data[prsMethods.Scene.layoutLinkName()]
+                scAnimationEnable = data[prsMethods.Scene.animationLinkName()]
+                scSimulationEnable = data[prsMethods.Scene.simulationLinkName()]
+                scLightEnable = data[prsMethods.Scene.lightLinkName()]
                 for sceneryVariant in sceneryVariants:
                     dic[(sceneryIndex, sceneryVariant)] = description, sceneryCategory, sceneryName, sceneryPriority, sceneryEnabled, scLayoutEnable, scAnimationEnable, scSimulationEnable, scLightEnable
     #
@@ -570,7 +520,7 @@ def getUiScenerySetDataDic(projectFilter):
 #
 def isSceneryLinkName(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScnSceneryStages or sceneryStage == lxConfigure.VAR_product_scenery_link_scenery:
+    if sceneryStage in prsMethods.Scenery.VAR_product_scenery_assembly_stage_list or sceneryStage == prsMethods.Scenery.assemblyLinkName():
         boolean = True
     return boolean
 
@@ -578,7 +528,7 @@ def isSceneryLinkName(sceneryStage):
 #
 def isLayoutLinkName(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScLayoutStages or sceneryStage == lxConfigure.VAR_product_scene_link_layout:
+    if sceneryStage in prsMethods.Scenery.VAR_product_scenery_layout_stage_list or sceneryStage == prsMethods.Scene.layoutLinkName():
         boolean = True
     return boolean
 
@@ -586,7 +536,7 @@ def isLayoutLinkName(sceneryStage):
 #
 def isAnimationLinkName(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScAnimationStages or sceneryStage == lxConfigure.VAR_product_scene_link_animation:
+    if sceneryStage in prsMethods.Scene.VAR_product_scene_animation_stage_list or sceneryStage == prsMethods.Scene.animationLinkName():
         boolean = True
     return boolean
 
@@ -594,7 +544,7 @@ def isAnimationLinkName(sceneryStage):
 #
 def isSimulationLinkName(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScSimulationStages or sceneryStage == lxConfigure.VAR_product_scene_link_simulation:
+    if sceneryStage in prsMethods.Scene.VAR_product_scene_simulation_stage_list or sceneryStage == prsMethods.Scene.simulationLinkName():
         boolean = True
     return boolean
 
@@ -602,7 +552,7 @@ def isSimulationLinkName(sceneryStage):
 #
 def isLightLinkName(sceneryStage):
     boolean = False
-    if sceneryStage in lxConfigure.LynxiScLightStages or sceneryStage == lxConfigure.VAR_product_scene_link_light:
+    if sceneryStage in prsMethods.Scene.VAR_product_scene_light_stage_list or sceneryStage == prsMethods.Scene.lightLinkName():
         boolean = True
     return boolean
 
@@ -799,7 +749,7 @@ def scnUnitAssemblyComposeFile(rootIndexKey, projectName, sceneryCategory, scene
 def getScnAssemblyComposeDatumDic(projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     dic = {}
     serverFile = scnUnitAssemblyComposeFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
@@ -827,7 +777,7 @@ def getSceneryUnitProductUpdate(projectName, sceneryCategory, sceneryName, scene
     string = prsVariants.Util.infoNonExistsLabel
     #
     serverProductFile = scnUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
+        prsConfigure.Utility.DEF_value_root_server, projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
     if bscMethods.OsFile.isExist(serverProductFile):
@@ -840,7 +790,7 @@ def getSceneryUnitProductUpdate(projectName, sceneryCategory, sceneryName, scene
 #
 def getScnUnitPreviewFile(projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage):
     renderPreviewFile = scnUnitPreviewFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
         extLabel=prsVariants.Util.pngExt
     )[1]
@@ -848,7 +798,7 @@ def getScnUnitPreviewFile(projectName, sceneryCategory, sceneryName, sceneryVari
         return renderPreviewFile
     else:
         viewportPreviewFile = scnUnitPreviewFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
             extLabel=prsVariants.Util.jpgExt
         )[1]

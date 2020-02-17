@@ -4,13 +4,13 @@ from LxBasic import bscCore, bscConfigure, bscCore
 from LxBasic.bscMethods import _bscMtdPath
 
 
-class Raw(bscCore.Mtd_BscBasic):
+class Raw(bscCore.UtilityBasic):
     @classmethod
     def toHash(cls, raw):
         return cls._stringToHash(unicode(raw))
 
 
-class String(bscCore.Mtd_BscBasic):
+class String(bscCore.UtilityBasic):
     @classmethod
     def toNumberEmbeddedList(cls, string):
         pieces = cls.MOD_re.compile(r'(\d+)').split(unicode(string))
@@ -94,7 +94,7 @@ class String(bscCore.Mtd_BscBasic):
         return cls._stringToUniqueId(string)
 
 
-class Variant(bscCore.Mtd_BscBasic):
+class Variant(bscCore.UtilityBasic):
     @classmethod
     def covertTo(cls, varName, string):
         def getStringLis():
@@ -124,7 +124,7 @@ class Variant(bscCore.Mtd_BscBasic):
         return command
 
 
-class StrUnderline(bscCore.Mtd_BscBasic):
+class StrUnderline(bscCore.UtilityBasic):
     @classmethod
     def toLabel(cls, *labels):
         return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
@@ -134,7 +134,7 @@ class StrUnderline(bscCore.Mtd_BscBasic):
         return cls.MOD_re.sub(r'_(\w)', lambda x: x.group(1).upper(), string)
 
 
-class StrCamelcase(bscCore.Mtd_BscBasic):
+class StrCamelcase(bscCore.UtilityBasic):
     @classmethod
     def toPrettify(cls, string):
         return ' '.join([str(x).capitalize() for x in cls.MOD_re.findall(r'[a-zA-Z][a-z]*[0-9]*', string)])
@@ -146,7 +146,7 @@ class StrCamelcase(bscCore.Mtd_BscBasic):
         return cls._toPathString(strings, '>')
 
 
-class TxtHtml(bscCore.Mtd_BscBasic):
+class TxtHtml(bscCore.UtilityBasic):
     color_html_lis = bscConfigure.Ui().htmlColors
     color_html_dic = bscConfigure.Ui().htmlColorDict
 
@@ -528,7 +528,7 @@ class Array(List):
         return []
 
 
-class Position2d(bscCore.Mtd_BscBasic):
+class Position2d(bscCore.UtilityBasic):
     @classmethod
     def toRegion(cls, position, size):
         x, y = position
@@ -653,7 +653,7 @@ class Size2d(object):
             return 0, 0, w0, h0
 
 
-class Ellipse2d(bscCore.Mtd_BscBasic):
+class Ellipse2d(bscCore.UtilityBasic):
     @classmethod
     def positionAtAngle(cls, center, radius, angle):
         x, y = center
@@ -677,7 +677,7 @@ class Frame(object):
         return '%s:%s:%s' % (str(h).zfill(2), str(m).zfill(2), str(s).zfill(2))
 
 
-class Math2D(bscCore.Mtd_BscBasic):
+class Math2D(bscCore.UtilityBasic):
     @classmethod
     def getAngleByCoord(cls, x1, y1, x2, y2):
         radian = 0.0
@@ -713,7 +713,7 @@ class Math2D(bscCore.Mtd_BscBasic):
         return cls.MOD_math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2))
 
 
-class Color(bscCore.Mtd_BscBasic):
+class Color(bscCore.UtilityBasic):
     @classmethod
     def mapToFloat(cls, r, g, b):
         def mapFnc_(v):
@@ -755,7 +755,7 @@ class Color(bscCore.Mtd_BscBasic):
         return r, g, b
 
 
-class UniqueId(bscCore.Mtd_BscBasic):
+class UniqueId(bscCore.UtilityBasic):
     @classmethod
     def getByString(cls, string):
         return cls._stringToUniqueId(string)

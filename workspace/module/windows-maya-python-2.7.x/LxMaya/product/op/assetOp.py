@@ -9,8 +9,6 @@ from LxBasic import bscMethods, bscObjects
 
 from LxPreset import prsConfigure, prsMethods
 
-from LxCore import lxConfigure
-
 from LxCore.preset.prod import assetPr
 
 from LxMaya.command import maUtils, maGeom, maAttr
@@ -24,10 +22,10 @@ none = ''
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
     bscMethods.PyMessage.trace(explain)
-    nodes = [i for i in inData if maUtils.isAppExist(i) and not maUtils.isReferenceNode(i)]
+    nodes = [i for i in inData if maUtils._isNodeExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
-            if maUtils.isAppExist(node):
+            if maUtils._isNodeExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
                 bscMethods.PyMessage.traceResult(node)
@@ -35,7 +33,7 @@ def cleanNode(inData, nodeType):
 
 # Assign Default Shader
 def setRootDefaultShaderCmd(rootString):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     logWin_.addStartProgress(u'Assign Default - Shader')
     cmds.sets(rootString, forceElement='initialShadingGroup')
     logWin_.addCompleteProgress()
@@ -43,13 +41,13 @@ def setRootDefaultShaderCmd(rootString):
 
 # Assign Default Shaders
 def setObjectDefaultShaderCmd(objectStrings):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'''Assign Initial - Shader''')
     for objectString in objectStrings:
         cmds.sets(objectString, forceElement='initialShadingGroup')
-        cmds.sets(maUtils.getNodeShape(objectString), forceElement='initialShadingGroup')
-        logWin_.addResult(maUtils._toNodeName(objectString), 'initialShadingGroup')
+        cmds.sets(maUtils._getNodeShapeString(objectString), forceElement='initialShadingGroup')
+        logWin_.addResult(maUtils._getNodeNameString(objectString), 'initialShadingGroup')
     logWin_.addCompleteProgress()
 
 
@@ -59,12 +57,12 @@ def setObjectTransparentRefresh(objectStrings):
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, prsConfigure.PrsProduct.VAR_product_attribute_object_renderable, attrDatum
+            objectPath, prsConfigure.Product.VAR_product_attribute_object_renderable, attrDatum
         )
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'aiOpaque')
         maUtils.setAttrBooleanDatumForce(
-            objectPath, prsConfigure.PrsProduct.VAR_product_attribute_object_transparent, not attrDatum
+            objectPath, prsConfigure.Product.VAR_product_attribute_object_transparent, not attrDatum
         )
 
 
@@ -87,7 +85,7 @@ def setObjectUnusedShapeClear(objectStrings):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    bscMethods.PyMessage.traceResult(maUtils._toNodeName(shape))
+                    bscMethods.PyMessage.traceResult(maUtils._getNodeNameString(shape))
 
 
 # Clean Unused Shader
@@ -100,7 +98,7 @@ def setMeshVertexNormalUnlockCmd(objectStrings):
     explain = '''Unlock Mesh's Vertex Normal'''
     if objectStrings:
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             maGeom.setMeshVertexNormalUnlock(objectString)
@@ -111,7 +109,7 @@ def setMeshesSmoothNormal(objectStrings):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
     if objectStrings:
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objectString in objectStrings:
             progressBar.update()
             maGeom.setMeshEdgeSmooth(objectString, True)
@@ -127,7 +125,7 @@ def cleanUnusedAov():
     UnusedAov = []
     aovs = cmds.ls(type='aiAOV')
     if aovs and cmds.objExists('defaultArnoldRenderOptions'):
-        aovUsed = maUtils.getInputNodes('defaultArnoldRenderOptions', 'aiAOV')
+        aovUsed = maUtils._getNodeSourceStringList('defaultArnoldRenderOptions', 'aiAOV')
         if aovUsed:
             UnusedAov = [aovs.remove(i) for i in aovUsed]
     cleanNode(UnusedAov, u'Unused Aovs')
@@ -182,7 +180,7 @@ def setCleanReferenceNode():
 
 # Link Component Main Object Group Step01
 def linkComponentMainObjectGroupStep01(objectString, inData):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     dic = collections.OrderedDict()
     for data in inData:
@@ -199,7 +197,7 @@ def linkComponentMainObjectGroupStep01(objectString, inData):
 
 # Link Component Main Object Group Step 02
 def linkComponentMainObjectGroupStep02(objectString, inData):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     dic = collections.OrderedDict()
     for data in inData:
@@ -254,7 +252,7 @@ def setSolverGroupGeometryHide(assetName, namespace=none):
     # Solver Group
     solverGroup = assetPr.astUnitModelSolverGroupName(assetName, namespace)
     forHide = maUtils.getNodeLisByType('mesh', 1, solverGroup)
-    [maUtils.setHide(maUtils.getNodeTransform(i)) for i in forHide]
+    [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
 
 
 #
@@ -268,20 +266,21 @@ def setSolverFurGroup(assetName, namespace=none, hide=0):
     # Set Grow Hide
     if hide:
         forHide = maUtils.getNodeLisByType('mesh', 1, cfxGroup)
-        [maUtils.setHide(maUtils.getNodeTransform(i)) for i in forHide]
+        [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
 
 
 #
 def setCreateAstExtraData(extraData):
     if extraData:
-        if lxConfigure.LynxiAttributeDataKey in extraData:
-            attributeData = extraData[lxConfigure.LynxiAttributeDataKey]
+        
+        if prsConfigure.Product.DEF_key_info_attribute in extraData:
+            attributeData = extraData[prsConfigure.Product.DEF_key_info_attribute]
             setCreateAstAttributeData(attributeData)
-        if lxConfigure.LynxiConnectionDataKey in extraData:
-            connectionDic = extraData[lxConfigure.LynxiConnectionDataKey]
+        if prsConfigure.Product.DEF_key_info_connection in extraData:
+            connectionDic = extraData[prsConfigure.Product.DEF_key_info_connection]
             setCreateAstExtraConnectionSub(connectionDic)
-        if lxConfigure.LynxiNhrConnectionDataKey in extraData:
-            nhrConnectionDic = extraData[lxConfigure.LynxiNhrConnectionDataKey]
+        if prsConfigure.Product.DEF_key_info_nhrconnection in extraData:
+            nhrConnectionDic = extraData[prsConfigure.Product.DEF_key_info_nhrconnection]
             setCreateAstExtraConnectionSub(nhrConnectionDic)
 
 
@@ -289,7 +288,7 @@ def setCreateAstExtraData(extraData):
 def setCreateAstAttributeData(attributeData):
     if attributeData:
         for objectPath, (shapeNodeData, shapeCustomAttrData) in attributeData.items():
-            if maUtils.isAppExist(objectPath):
+            if maUtils._isNodeExist(objectPath):
                 maAttr.setNodeDefAttrByData(objectPath, shapeNodeData, lockAttribute=False)
                 maAttr.setObjectUserDefinedAttrs(objectPath, shapeCustomAttrData, lockAttribute=True)
 
@@ -300,15 +299,15 @@ def setCreateAstExtraConnectionSub(connectionDic):
         # View Progress
         progressExplain = u'''Create Connection'''
         maxValue = len(connectionDic)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for objectPath, connectionArray in connectionDic.items():
             if objectPath.startswith('|'):
                 objectPath = objectPath[1:]
             #
             progressBar.update()
-            if maUtils.isAppExist(objectPath):
+            if maUtils._isNodeExist(objectPath):
                 for sourceAttr, targetAttr in connectionArray:
-                    if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
+                    if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
                         if not cmds.isConnected(sourceAttr, targetAttr):
                             cmds.connectAttr(sourceAttr, targetAttr, force=1)
 
@@ -318,7 +317,7 @@ def setDisconnectNhrGuideObjectsConnection(assetName):
     nhrGuideObjects = datAsset.getAstUnitSolverNhrGuideObjects(assetName)
     if nhrGuideObjects:
         for nhrGuideObject in nhrGuideObjects:
-            shapePath = maUtils.getNodeShape(nhrGuideObject)
+            shapePath = maUtils._getNodeShapeString(nhrGuideObject)
             inputConnections = maUtils.getNodeInputConnectionLis(shapePath)
             if inputConnections:
                 for sourceAttr, targetAttr in inputConnections:

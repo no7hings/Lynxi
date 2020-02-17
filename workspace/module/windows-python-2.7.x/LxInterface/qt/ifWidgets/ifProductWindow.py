@@ -2,10 +2,8 @@
 from LxBasic import bscMethods, bscObjects
 
 from LxScheme import shmOutput
-
-from LxCore import lxConfigure
 #
-from LxPreset import prsMethods
+from LxPreset import prsConfigure, prsMethods
 #
 from LxUi import uiCore
 #
@@ -136,8 +134,8 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
         # Team Data
         teamData = prsMethods.Personnel.teams()
         self._teamLabel.setDatumLis(teamData)
-        self._teamLabel.setChoose(lxConfigure.LynxiValue_Unspecified)
-        self._postLabel.setDatum(lxConfigure.LynxiValue_Unspecified)
+        self._teamLabel.setChoose(prsConfigure.Utility.DEF_value_preset_unspecified)
+        self._postLabel.setDatum(prsConfigure.Utility.DEF_value_preset_unspecified)
 
     def getPersonnelUserInfo(self):
         self._userNameLabel.setDatum(self.user)
@@ -176,7 +174,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
             isChecked = False
             self._tipLabel.setRule(self.subTips03)
         team = self._teamLabel.datum()
-        if team == lxConfigure.LynxiValue_Unspecified:
+        if team == prsConfigure.Utility.DEF_value_preset_unspecified:
             isChecked = False
             self._tipLabel.setRule(self.subTips04)
         post = self._postLabel.datum()
@@ -189,7 +187,7 @@ class QtIf_PersonnelWindow(qtWidgets.QtDialogWindow):
                 w = QtIf_ToolFloatWindow()
                 w.windowShow()
             #
-            bscObjects.If_Message(u'提示：', u'设置用户信息成功')
+            bscObjects.MessageWindow(u'提示：', u'设置用户信息成功')
             self.uiQuit()
     @qtModifiers.mtdInterfaceShowExclusive
     def windowShow(self):

@@ -243,10 +243,10 @@ def setAlembicCacheImport(fileString_, namespace=':'):
     )
     #
     alembicNodeName = namespace + ':' + bscMethods.OsFile.name(fileString_) + '_AlembicNode'
-    if maUtils.isAppExist(alembicNodeName):
+    if maUtils._isNodeExist(alembicNodeName):
         pass
     else:
-        if not maUtils.isAppExist(alembicNodeName):
+        if not maUtils._isNodeExist(alembicNodeName):
             cmds.createNode(appCfg.MaNodeType_Alembic, name=alembicNodeName)
             cmds.setAttr(alembicNodeName + '.abc_File', fileString_, type='string')
 
@@ -454,11 +454,11 @@ def abcExport(objectString, fileString_, startFrame, endFrame, step, attrs=None)
         lis = []
         #
         if isinstance(objectString, str) or isinstance(objectString, unicode):
-            if maUtils.isAppExist(objectString):
+            if maUtils._isNodeExist(objectString):
                 lis = [objectString]
         elif isinstance(objectString, tuple) or isinstance(objectString, list):
             for i in objectString:
-                if maUtils.isAppExist(i):
+                if maUtils._isNodeExist(i):
                     lis.append(i)
         #
         if lis:
@@ -534,7 +534,7 @@ def gpuSeqExport(objectString, startFrame, endFrame, fileString_, withMaterial=0
     # View Progress
     explain = '''Export GPU Sequence'''
     maxValue = endFrame - startFrame + 1
-    progressBar = bscObjects.If_Progress(explain, maxValue)
+    progressBar = bscObjects.ProgressWindow(explain, maxValue)
     for seq in sequenceRange:
         # In Progress
         progressBar.update()
@@ -648,7 +648,7 @@ def assExport(assFile, camera, startFrame, endFrame):
     # View Progress
     explain = '''Upload ASS to Render Pool'''
     maxValue = len(tempSubAssFiles)
-    progressBar = bscObjects.If_Progress(explain, maxValue)
+    progressBar = bscObjects.ProgressWindow(explain, maxValue)
     # Move to Server
     for seq, tempSubAssFile in enumerate(tempSubAssFiles):
         # In Progress

@@ -1,6 +1,4 @@
 # coding=utf-8
-from LxCore import lxConfigure
-
 from LxPreset import prsMethods
 #
 from LxUi.qt import qtWidgets
@@ -17,7 +15,7 @@ class IfToolWindow(qtWidgets.QtToolWindow):
         self.addWidget(self.tool)
         #
         self.projectName = prsMethods.Project.mayaActiveName()
-        self.sceneStage = lxConfigure.VAR_product_scene_link_light
+        self.sceneStage = prsMethods.Scene.lightLinkName()
         #
         self.tool.setConnectObject(self)
         self.setQuitConnect(self.tool.delScriptJob)

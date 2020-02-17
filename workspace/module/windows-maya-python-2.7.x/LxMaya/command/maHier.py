@@ -46,7 +46,7 @@ def setCreateAstRootHierarchy(assetCategory, assetName, isLock=True):
         prsMethods.Asset.solverLinkGroupName(assetName),
         prsMethods.Asset.lightLinkGroupName(assetName)
     ]
-    [maUtils.setObjectParent(i, rootGroup) for i in branches if maUtils.isAppExist(i)]
+    [maUtils.setObjectParent(i, rootGroup) for i in branches if maUtils._isNodeExist(i)]
 
 
 #
@@ -127,13 +127,13 @@ def setCreateScnRootHierarchy(sceneryCategory, sceneryName, sceneryVariant, isLo
     maUtils.setNodeOverrideColor(rootGroup, color=13)
     # Model Group
     scnAssembly = sceneryPr.scnAssemblyGroupName(sceneryName)
-    if maUtils.isAppExist(scnAssembly):
+    if maUtils._isNodeExist(scnAssembly):
         maUtils.setObjectParent(scnAssembly, rootGroup)
     sceneryUnitAr = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant)
-    if maUtils.isAppExist(sceneryUnitAr):
+    if maUtils._isNodeExist(sceneryUnitAr):
         maUtils.setObjectParent(sceneryUnitAr, rootGroup)
     scnLightGroup = sceneryPr.scnLightGroupName(sceneryName)
-    if maUtils.isAppExist(scnLightGroup):
+    if maUtils._isNodeExist(scnLightGroup):
         maUtils.setObjectParent(scnLightGroup, rootGroup)
 
 
@@ -167,7 +167,7 @@ def setCreateScRootHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage,
     maUtils.setNodeOverrideColor(rootGroup, color=13)
     # Scene Group
     scLinkGroup = scenePr.scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)
-    if maUtils.isAppExist(scLinkGroup):
+    if maUtils._isNodeExist(scLinkGroup):
         maUtils.setObjectParent(scLinkGroup, rootGroup)
 
 
@@ -219,7 +219,7 @@ def getGroupNameLabel(group, assetName):
 
 #
 def addHierarchyObject(parentPath, assetName, filterTypes, autoRename=True):
-    parentName = maUtils._toNodeName(parentPath)
+    parentName = maUtils._getNodeNameString(parentPath)
     #
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
@@ -227,10 +227,10 @@ def addHierarchyObject(parentPath, assetName, filterTypes, autoRename=True):
     keyword = getGroupNameLabel(parentName, assetName)
     #
     selObjectStringLis = maUtils.getSelectedObjectsFilterByTypes(filterTypes)
-    if maUtils.isAppExist(parentPath):
+    if maUtils._isNodeExist(parentPath):
         if selObjectStringLis:
             for objectString in selObjectStringLis:
-                meshUuid = maUuid.getNodeUniqueId(objectString)
+                meshUuid = maUuid._getNodeUniqueIdString(objectString)
                 maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicHierarchyAttrLabel, keyword)
                 maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicArtistAttrLabel, username)
                 maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicUpdateAttrLabel, timetag)
@@ -280,7 +280,7 @@ def astUnitRefreshRoot(
     #
     astRoot = prsMethods.Asset.rootName(assetName)
     #
-    if maUtils.isAppExist(astRoot):
+    if maUtils._isNodeExist(astRoot):
         refreshHierarchyBranch(
             astRoot,
             assetIndex,
@@ -290,7 +290,7 @@ def astUnitRefreshRoot(
     if prsMethods.Asset.isValidStageName(assetStage):
         branch = prsMethods.Asset.toLinkGroupName(assetName, assetStage)
         #
-        if maUtils.isAppExist(branch):
+        if maUtils._isNodeExist(branch):
             refreshHierarchyBranch(
                 branch,
                 assetIndex,
@@ -307,7 +307,7 @@ def scUnitRefreshRoot(
 ):
     if prsMethods.Asset.isValidStageName(assetStage):
         branch = prsMethods.Asset.toLinkGroupName(assetName, assetStage, namespace)
-        if maUtils.isAppExist(branch):
+        if maUtils._isNodeExist(branch):
             refreshHierarchyBranch(
                 branch,
                 assetIndex,
@@ -329,7 +329,7 @@ def refreshSceneCacheTag(objectPath, timeTag):
 #
 def refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex):
     root = sceneryPr.scnUnitRootGroupName(sceneryName)
-    if maUtils.isAppExist(root):
+    if maUtils._isNodeExist(root):
         refreshHierarchyBranch(
             root,
             sceneryIndex,
@@ -344,14 +344,14 @@ def refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, s
     elif sceneryPr.isAnimationLinkName(sceneryStage) or sceneryPr.isLightLinkName(sceneryStage):
         branch = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant)
     #
-    if maUtils.isAppExist(branch):
+    if maUtils._isNodeExist(branch):
         refreshScnBranch(branch, sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
 
 
 #
 def refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex):
     root = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils.isAppExist(root):
+    if maUtils._isNodeExist(root):
         refreshHierarchyBranch(
             root,
             sceneIndex,
@@ -360,7 +360,7 @@ def refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex
     #
     branch = scenePr.scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)
     #
-    if maUtils.isAppExist(branch):
+    if maUtils._isNodeExist(branch):
         refreshScnBranch(branch, sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
 
 

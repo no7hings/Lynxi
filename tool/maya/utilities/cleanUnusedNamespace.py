@@ -5,4 +5,4 @@ from LxMaya.command import maUtils
 #
 maUtils.setUnusedNamespacesClean()
 #
-bscObjects.If_Message('Clean Unused - Namespace', 'Complete')
+bscObjects.MessageWindow('Clean Unused - Namespace', 'Complete')

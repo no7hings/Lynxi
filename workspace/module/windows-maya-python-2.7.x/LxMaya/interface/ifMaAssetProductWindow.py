@@ -3,9 +3,9 @@ from LxBasic import bscMethods, bscObjects
 
 from LxScheme import shmOutput
 
-from LxPreset import prsMethods
+from LxPreset import prsConfigure, prsMethods
 #
-from LxCore.config import appCfg, assetCfg
+from LxCore.config import appCfg
 #
 from LxCore.preset.prod import assetPr
 #
@@ -199,15 +199,16 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         
         if prsMethods.Asset.isModelStageName(assetStage):
-            checkConfig = assetCfg.astModelCheckConfig()
+
+            checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_model_dict()
         elif prsMethods.Asset.isGroomStageName(assetStage):
-            checkConfig = assetCfg.astCfxGroomCheckConfig()
+            checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_groom_dict()
         elif prsMethods.Asset.isRigStageName(assetStage):
-            checkConfig = assetCfg.astRigCheckConfig()
+            checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_rig_dict()
         elif prsMethods.Asset.isSolverStageName(assetStage):
-            checkConfig = assetCfg.astSolverCheckConfig()
+            checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_solver_dict()
         elif prsMethods.Asset.isLightStageName(assetStage):
-            checkConfig = assetCfg.astLightCheckConfig()
+            checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_light_dict()
         #
         self.rightToolboxGroup.setTitle('Check List')
         treeBox.setColumns_(
@@ -327,7 +328,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         #
         self.astModelMeshErrorData = []
         tempErrorData = []
-        checkConfig = assetCfg.astModelCheckConfig()
+        checkConfig = prsConfigure.Utility._DEF_project_inspection_asset_model_dict()
         #
         inData = getCheckData()
         inData['meshInstanceCheck'] = datAsset.getInstanceObjectLis(inCheck)
@@ -348,16 +349,16 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                     isError = False
                     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'warning')
                     for i in inCheck:
-                        geomObjectName = maUtils._toNodeName(i)
+                        geomObjectName = maUtils._getNodeNameString(i)
                         if i in errorData:
                             geomItem = qtWidgets_.QTreeWidgetItem_([geomObjectName])
                             inspectionItem.addChild(geomItem)
                             tempErrorData.append(i)
                             if i in outGeo:
                                 isError = True
-                                geomItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'error')
+                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
                             else:
-                                geomItem.setItemMayaIcon(0, appCfg.MaNodeType_Mesh, 'warning')
+                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'warning')
                     #
                     if isError:
                         inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'Error')
@@ -371,9 +372,9 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'error')
                     inspectionItem.setExpanded(True)
                     for i in errorData:
-                        transformName = maUtils._toNodeName(i)
+                        transformName = maUtils._getNodeNameString(i)
                         transformItem = qtWidgets_.QTreeWidgetItem_([transformName])
-                        transformItem.setItemMayaIcon(0, appCfg.MaNodeType_Transform, 'error')
+                        transformItem.setItemMayaIcon(0, appCfg.DEF_type_transform, 'error')
                         inspectionItem.addChild(transformItem)
                 else:
                     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'on')
@@ -528,7 +529,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
         # View Progress
         explain = '''Build Asset Interface Unit(s)'''
         maxValue = len(uiDatumLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for i in uiDatumLis:
             progressBar.update()
             #

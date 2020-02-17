@@ -10,11 +10,6 @@ cgitb.enable(format='text')
 
 
 #
-class LxUnitConfig(object):
-    pass
-
-
-#
 class LxAttributeConfig(object):
     LynxiAttrName_NodeId = 'lxNodeId'
     LynxiAttrName_NodeName = 'lxNodeName'
@@ -122,7 +117,3 @@ class LxNodeConfig(object):
         exec command
         return var
 
-
-#
-class LxNodeGraphConfig(object):
-    pass

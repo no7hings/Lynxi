@@ -21,19 +21,19 @@ def getShowInfo(dbUnitId, categoryString, variantString, stageString):
         viewModule = prsMethods.Asset.moduleShowname()
         viewLink = prsMethods.Asset.linkShowname_(stageString)
         viewUnit = assetPr.getAssetViewInfo(dbUnitId, categoryString, variantString)
-        viewClass = prsMethods.Asset.classShowname(categoryString)
+        viewClass = prsMethods.Asset.categoryShowname(categoryString)
         viewName = assetPr.getAssetViewName(dbUnitId)
     elif prsMethods.Scenery.isValidCategory(categoryString):
         viewModule = prsMethods.Scenery.moduleShowname()
         viewLink = prsMethods.Scenery.linkShowname_(stageString)
         viewUnit = sceneryPr.getSceneryViewInfo(dbUnitId, categoryString, variantString)
-        viewClass = prsMethods.Scenery.classShowname(categoryString)
+        viewClass = prsMethods.Scenery.categoryShowname(categoryString)
         viewName = sceneryPr.getSceneryViewName(dbUnitId)
     elif prsMethods.Scene.isValidCategory(categoryString):
         viewModule = prsMethods.Scene.moduleShowname()
         viewLink = prsMethods.Scene.linkShowname_(stageString)
         viewUnit = scenePr.getSceneViewInfo(dbUnitId, categoryString, variantString)
-        viewClass = prsMethods.Scene.classShowname(categoryString)
+        viewClass = prsMethods.Scene.categoryShowname(categoryString)
         viewName = scenePr.getSceneViewName(dbUnitId)
     return viewModule, viewLink, viewUnit, viewClass, viewName
 

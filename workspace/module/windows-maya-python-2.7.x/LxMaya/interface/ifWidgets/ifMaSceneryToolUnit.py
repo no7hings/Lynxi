@@ -3,9 +3,7 @@ import threading
 #
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxPreset import prsMethods, prsVariants
-#
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsMethods, prsVariants
 #
 from LxCore.config import appCfg
 #
@@ -121,7 +119,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
                 #
                 def assemblyFolderOpenCmd():
                     osPath = assetPr.astUnitAssemblyFolder(
-                        lxConfigure.LynxiRootIndex_Server,
+                        prsConfigure.Utility.DEF_value_root_server,
                         projectName, assetCategory, assetName
                     )
                     if bscMethods.OsFile.isExist(osPath):
@@ -192,9 +190,9 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             gridItem.assetVariant = assetVariant
             #
             definitionFile = assetPr.astUnitAssemblyDefinitionFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
+                assetCategory, assetName, assetVariant, prsMethods.Asset.assemblyLinkName()
             )[1]
             #
             if not bscMethods.OsFile.isExist(definitionFile):
@@ -210,7 +208,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
         uiData = assetPr.getUiAssetMultMsgDic(
             projectName,
             assetClassFilters=None,
-            assetLinkFilter=lxConfigure.VAR_product_asset_link_assembly
+            assetLinkFilter=prsMethods.Asset.assemblyLinkName()
         )
         #
         gridView.cleanItems()
@@ -218,7 +216,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             # View Progress
             explain = '''Build Assembly Unit(s)'''
             maxValue = len(uiData)
-            progressBar = bscObjects.If_Progress(explain, maxValue)
+            progressBar = bscObjects.ProgressWindow(explain, maxValue)
             for s, (k, v) in enumerate(uiData.items()):
                 progressBar.update()
                 setBranch(s, k, v)
@@ -493,7 +491,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._linkGroup = sceneryPr.scnAssemblyGroupName(self.connectObject().sceneryName)
             #
             self.setupScnGraphToolUiBox(self._scnGraphToolUiBox)
-            self.filterTypes = [appCfg.MaNodeType_AssemblyReference]
+            self.filterTypes = [appCfg.DEF_type_assembly_reference]
             #
             self.setupScnUtilToolBox(self._scnUtilTooUiBox)
             #
@@ -527,9 +525,9 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             objectPathLis = maUtils.getSelectedNodeLis()
             if objectPathLis:
                 objectPath = objectPathLis[0]
-                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.Ma_Separator_Node + self._rootGroup):
+                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_separator_node + self._rootGroup):
                     if objectPath.endswith(prsVariants.Util.basicGroupLabel):
-                        objectName = maUtils._toNodeName(objectPath)
+                        objectName = maUtils._getNodeNameString(objectPath)
                         self._parentGroupLabel.setDatum(objectName)
         #
         def setChildGroupName():
@@ -574,7 +572,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             isAutoRename = self._autoRenameCheckbutton.isChecked()
             if parent:
                 parentPath = maUtils._getNodePathString(parent)
-                if maUtils.isAppExist(parentPath):
+                if maUtils._isNodeExist(parentPath):
                     maHier.addHierarchyObject(
                         parentPath, unitName, self.filterTypes, autoRename=isAutoRename
                     )
@@ -875,7 +873,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         if root:
             viewportPreview = sceneryPr.scnUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
             )[1]
             #
@@ -886,7 +884,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView
             )
             #
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 u'Make Snapshot ( View Port )', u'Complete'
             )
     #
@@ -909,7 +907,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         if root:
             renderPreview = sceneryPr.scnUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
                 prsVariants.Util.pngExt
             )[1]
@@ -921,7 +919,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #
-            bscObjects.If_Message(
+            bscObjects.MessageWindow(
                 u'Make Snapshot ( Render )', u'Complete'
             )
     #
@@ -965,7 +963,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
             timeTag
         )
-        bscObjects.If_Message(
+        bscObjects.MessageWindow(
             u'Upload / Update Assembly Compose Data', u'Complete'
         )
     #

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscMethods
 
 from LxUi.qt import qtCommands
 
@@ -21,8 +21,7 @@ def mtdAppInterfaceShowExclusive(mtd):
         from LxScheme import shmOutput
         shmOutput.Resource().loadActive()
 
-        system = bscObjects.System()
-        if system.isMaya:
+        if bscMethods.MayaApp.isActive():
             from LxMaya import maScheme
 
             maScheme.Resource().loadPlugs()

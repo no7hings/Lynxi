@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods
-#
-from LxCore import lxConfigure
+from LxBasic import bscMethods
+
+from LxPreset import prsConfigure
 #
 none = ''
 
@@ -13,9 +13,9 @@ none = ''
 def setOutProxy(fileString_, renderer, exportMode=0):
     temporaryFile = bscMethods.OsFile.temporaryName(fileString_)
     # Export
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == prsConfigure.Utility.DEF_value_renderer_arnold:
         setOutArnoldProxy(temporaryFile, exportMode)
-    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
+    elif renderer == prsConfigure.Utility.DEF_value_renderer_redshift:
         setOutRedshiftProxy(temporaryFile, exportMode)
     #
     bscMethods.OsFile.copyTo(temporaryFile, fileString_)

@@ -1,9 +1,9 @@
 # coding:utf-8
-from LxPreset.prsMethods import _prsMtdUtility
+from LxPreset import prsCore
 
-from LxCore import lxConfigure
+from LxPreset.prsMethods import _prsMtdUtility
 #
-from LxCore.preset import appPr, basicPr
+from LxCore.preset import appPr
 #
 none = ''
 
@@ -17,22 +17,8 @@ def __load__(cls, dic):
             setattr(cls, ik, iv)
 
 
-__load__(
-    Util,
-    basicPr.getGuidePresetVariantDic(
-        lxConfigure.Lynxi_Key_Pipeline,
-        lxConfigure.Lynxi_Def_Value_Pipeline
-    )
-)
+__load__(Util, prsCore.MtdUtilityBasic.getGuidePresetVariantDic(prsCore.MtdUtilityBasic.DEF_key_preset_pipeline, prsCore.MtdUtilityBasic.VAR_value_pipeline_default))
 
-__load__(
-    Util,
-    _prsMtdUtility.Project.variantPresetDict(_prsMtdUtility.Project.appActiveName())
-)
+__load__(Util, _prsMtdUtility.Project.variantPresetDict())
 
-__load__(
-    Util,
-    appPr.getMayaAppPresetVariantDic()
-)
-
-
+__load__(Util, appPr.getMayaAppPresetVariantDic())

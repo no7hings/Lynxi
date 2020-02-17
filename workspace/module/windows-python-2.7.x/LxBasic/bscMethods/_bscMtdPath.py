@@ -4,7 +4,7 @@ from LxBasic import bscCore
 from LxBasic.bscMethods import _bscMtdPython
 
 
-class OsPath(bscCore.Mtd_BscPathBasic):
+class OsPath(bscCore.PathBasic):
     separator_path = u'/'
     @classmethod
     def composeBy(cls, *args):
@@ -34,7 +34,7 @@ class OsPath(bscCore.Mtd_BscPathBasic):
         return cls.MTD_os_path.exists(pathString)
 
 
-class OsDirectory(bscCore.Mtd_BscBasic):
+class OsDirectory(bscCore.UtilityBasic):
     @classmethod
     def create(cls, directoryString):
         cls._setOsDirectoryCreate(directoryString)
@@ -185,11 +185,11 @@ class OsDirectory(bscCore.Mtd_BscBasic):
         cls._setOsDirectoryOpen(directoryString)
 
 
-class AppPath(bscCore.Mtd_BscPathBasic):
+class AppPath(bscCore.PathBasic):
     pass
 
 
-class MayaPath(bscCore.Mtd_BscPathBasic):
+class MayaPath(bscCore.PathBasic):
     separator_namespace = u':'
     separator_node = u'|'
     separator_attribute = u'.'

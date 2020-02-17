@@ -4,11 +4,9 @@ import maya.cmds as cmds
 
 from LxBasic import bscCore, bscObjects, bscMethods
 #
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsVariants
 #
 from LxCore.config import appCfg
-#
-from LxPreset import prsVariants
 #
 from LxCore.preset.prod import assetPr
 #
@@ -20,7 +18,7 @@ from LxMaya.command import maUtils, maAttr, maUuid, maTxtr
 #
 none = ''
 #
-MaDefShadingEngineLis = [
+DEF_shading_engine_default_list = [
     'initialShadingGroup',
     'initialParticleSE',
     'defaultLightSet',
@@ -45,16 +43,16 @@ def materialNodeTypeConfig():
 
 
 #
-def getShadingEngineLisByObject(objectString):
+def _getNodeShadingEngineStringList(objectString):
     lis = []
     #
-    shapePath = maUtils.getNodeShape(objectString, 1)
+    shapePath = maUtils._getNodeShapeString(objectString, 1)
     if not shapePath:
         shapePath = objectString
     #
-    outputNodes = maUtils.getOutputObjectLis(shapePath, appCfg.MaNodeType_ShadingEngine)
+    outputNodes = maUtils._getNodeTargetStringList(shapePath, appCfg.DEF_type_shading_engine)
     if outputNodes:
-        [lis.append(i) for i in outputNodes if i not in MaDefShadingEngineLis]
+        [lis.append(i) for i in outputNodes if i not in DEF_shading_engine_default_list]
     return lis
 
 
@@ -63,7 +61,7 @@ def getObjectsShadingEngineLis(objectLis):
     lis = []
     if objectLis:
         for objectString in objectLis:
-            shadingEngineLis = getShadingEngineLisByObject(objectString)
+            shadingEngineLis = _getNodeShadingEngineStringList(objectString)
             if shadingEngineLis:
                 [lis.append(i) for i in shadingEngineLis if i not in lis]
     return lis
@@ -73,10 +71,10 @@ def getObjectsShadingEngineLis(objectLis):
 def getObjectMaterials(objectString):
     # List [ <Material Info Nde_Node> ]
     materials = []
-    shadingEngineLis = getShadingEngineLisByObject(objectString)
+    shadingEngineLis = _getNodeShadingEngineStringList(objectString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
-            inputNodes = maUtils.getOutputObjectLis(shadingEngine, 'materialInfo')
+            inputNodes = maUtils._getNodeTargetStringList(shadingEngine, 'materialInfo')
             if inputNodes:
                 for inputNode in inputNodes:
                     if not inputNode in materials:
@@ -101,7 +99,7 @@ def getObjectsMaterials(objectLis):
 def getConnectionNodes(material):
     # Sub Method
     def getBranch(node):
-        inputNodes = maUtils.getInputNodes(node)
+        inputNodes = maUtils._getNodeSourceStringList(node)
         if inputNodes:
             for node in inputNodes:
                 if node:
@@ -124,8 +122,8 @@ def getMaterialNodes(material):
     materialNodes = []
     connectionNodes = getConnectionNodes(material)
     for node in connectionNodes:
-        objectType = maUtils.getShapeType(node)
-        nodeType = maUtils.getNodeType(node)
+        objectType = maUtils._getNodeShapeTypeString(node)
+        nodeType = maUtils._getNodeTypeString(node)
         if not objectType in exceptObjectTypes and not nodeType in exceptNodeTypes:
             materialNodes.append(node)
     return materialNodes
@@ -140,7 +138,7 @@ def getTextureNodeLisByObject(objectLis):
             nodes = getConnectionNodes(shadingEngine)
             if nodes:
                 for node in nodes:
-                    nodeType = maUtils.getNodeType(node)
+                    nodeType = maUtils._getNodeTypeString(node)
                     if nodeType in appCfg.MaTexture_NodeTypeLis:
                         if not node in textureNodes:
                             textureNodes.append(node)
@@ -153,10 +151,10 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
     if objectLis:
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objSeq, objectString in enumerate(objectLis):
             progressBar.update()
-            objectType = maUtils.getShapeType(objectString)
+            objectType = maUtils._getNodeShapeTypeString(objectString)
             materials = getObjectMaterials(objectString)
             index = 0
             if materials:
@@ -168,7 +166,7 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
                             hierarchyName = maUtils.getAttrDatum(objectString, prsVariants.Util.basicHierarchyAttrLabel)
                             if hierarchyName is None:
                                 hierarchyName = assetStage + '_' + objectType + '_' + str(objSeq)
-                            nodeType = maUtils.getNodeType(node)
+                            nodeType = maUtils._getNodeTypeString(node)
                             #
                             nodeName = '{0}_{1}_{2}_{3}_{4}_{5}'.format(
                                 prsVariants.Util.Lynxi_Prefix_Product_Asset, assetName, assetVariant,
@@ -190,7 +188,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
     renameDic = getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetStage)
     if renameDic:
         for node, nodeName in renameDic.items():
-            objectType = maUtils.getShapeType(node)
+            objectType = maUtils._getNodeShapeTypeString(node)
             if not objectType in exceptObjectTypes:
                 if not node in exceptNodeLis:
                     if not node == nodeName:
@@ -200,7 +198,7 @@ def setObjectsMaterialNodesRename(objectLis, assetName, assetVariant, assetStage
         # View Progress
         explain = u'''Rename Material - Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.update(nodeName)
             print node, nodeName
@@ -213,7 +211,7 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
     if aovNodes:
         explain = u'''Get AOV's Rename Data'''
         maxValue = len(aovNodes)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for aovSeq, aov in enumerate(aovNodes):
             progressBar.update()
             nodes = getMaterialNodes(aov)
@@ -222,7 +220,7 @@ def getAovNodesRenameDic(aovNodes, assetName, assetVariant):
                     seq = '{0}{1}'.format(
                         str(aovSeq + 1).zfill(3), str(nodSeq + 1).zfill(3)
                     )
-                    nodeType = maUtils.getNodeType(node)
+                    nodeType = maUtils._getNodeTypeString(node)
                     nodeName = '{0}_{1}_{2}_{3}'.format(
                         assetName, assetVariant,
                         nodeType, seq
@@ -246,7 +244,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
     renameDic = getAovNodesRenameDic(aovNodes, assetName, assetVariant)
     if renameDic:
         for node, nodeName in renameDic.items():
-            objectType = maUtils.getShapeType(node)
+            objectType = maUtils._getNodeShapeTypeString(node)
             if not objectType in exceptObjectTypes:
                 if not node in exceptNodeLis:
                     if not node == nodeName:
@@ -256,7 +254,7 @@ def setRenameAovNodes(aovNodes, assetName, assetVariant):
         # View Progress
         explain = u'''Rename AOV Nde_Node'''
         maxValue = len(renameDataArray)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for node, nodeName in renameDataArray:
             progressBar.update(nodeName)
             maUtils.setNodeRename(node, nodeName)
@@ -269,7 +267,7 @@ def getMaterialNodeData(material):
     if nodes:
         for node in nodes:
             # Filter Unused Nde_Node Type
-            nodeType = maUtils.getNodeType(node)
+            nodeType = maUtils._getNodeTypeString(node)
             definedAttrData = maAttr.getNodeDefAttrDatumLis(node)
             customAttrData = maAttr.getNodeUserDefAttrData(node)
             nodesDataArray.append((node, nodeType, definedAttrData, customAttrData))
@@ -283,7 +281,7 @@ def getMaterialComponentData(material):
     if nodes:
         for node in nodes:
             # Filter Unused Nde_Node Type
-            nodeType = maUtils.getNodeType(node)
+            nodeType = maUtils._getNodeTypeString(node)
             composeDataArray.append(nodeType)
     return composeDataArray
 
@@ -295,7 +293,7 @@ def getMaterialAttributeData(material):
     if nodes:
         for node in nodes:
             # Filter Unused Nde_Node Type
-            nodeType = maUtils.getNodeType(node)
+            nodeType = maUtils._getNodeTypeString(node)
             definedAttrData = maAttr.getNodeDefAttrDatumLis(node)
             customAttrData = maAttr.getNodeUserDefAttrData(node)
             attributeDataArray.append(
@@ -326,7 +324,7 @@ def getMaterialsNodeData(materials):
     dic = bscCore.orderedDict()
     if materials:
         for material in materials:
-            uniqueId = maUuid.getNodeUniqueId(material)
+            uniqueId = maUuid._getNodeUniqueIdString(material)
             shaderNodeData = getMaterialNodeData(material)
             if shaderNodeData:
                 dic[uniqueId] = shaderNodeData
@@ -360,7 +358,7 @@ def getMaterialsRelationData(materials):
     dic = bscCore.orderedDict()
     if materials:
         for material in materials:
-            uniqueId = maUuid.getNodeUniqueId(material)
+            uniqueId = maUuid._getNodeUniqueIdString(material)
             nodeConnectionData = getMaterialRelationData(material)
             if nodeConnectionData:
                 dic[uniqueId] = nodeConnectionData
@@ -401,7 +399,7 @@ def getMaterialsInformationData(materials):
     dic = bscCore.orderedDict()
     if materials:
         for material in materials:
-            uniqueId = maUuid.getNodeUniqueId(material)
+            uniqueId = maUuid._getNodeUniqueIdString(material)
             dic[uniqueId] = \
                 getMaterialComponentInfo(material), \
                 getMaterialAttributeInfo(material), \
@@ -505,7 +503,7 @@ def getMaterialEvaluateData(objectLis):
     totalConnections = []
     if objectLis:
         for objectString in objectLis:
-            shadingEngineLis = getShadingEngineLisByObject(objectString)
+            shadingEngineLis = _getNodeShadingEngineStringList(objectString)
             if shadingEngineLis:
                 for shadingEngine in shadingEngineLis:
                     if not shadingEngine in totalMaterials:
@@ -514,7 +512,7 @@ def getMaterialEvaluateData(objectLis):
                     nodes = getMaterialNodes(shadingEngine)
                     if nodes:
                         for node in nodes:
-                            objectType = maUtils.getShapeType(node)
+                            objectType = maUtils._getNodeShapeTypeString(node)
                             if not objectType in exceptObjectTypes:
                                 if not node in exceptNodeLis:
                                     if not node in totalNodes:
@@ -537,8 +535,8 @@ def getObjectsMaterialRelinkData(objectLis):
     dic = bscCore.orderedDict()
     for objectString in objectLis:
         linkDatumLis = []
-        shape = maUtils.getNodeShape(objectString, fullPath=1)
-        shadingEngineLis = maUtils.getOutputObjectLis(shape, appCfg.MaNodeType_ShadingEngine)
+        shape = maUtils._getNodeShapeString(objectString, fullPath=1)
+        shadingEngineLis = maUtils._getNodeTargetStringList(shape, appCfg.DEF_type_shading_engine)
         if shadingEngineLis:
             for shadingEngine in shadingEngineLis:
                 elementSetData = cmds.sets(shadingEngine, query=1)
@@ -566,24 +564,24 @@ def getObjectsMaterialRelinkData(objectLis):
 def getMaterialShadingEngine(uniqueId):
     material = maUuid.getObject(uniqueId)
     if material:
-        shadingEngineLis = maUtils.getInputNodes(material, appCfg.MaNodeType_ShadingEngine)
+        shadingEngineLis = maUtils._getNodeSourceStringList(material, appCfg.DEF_type_shading_engine)
         if shadingEngineLis:
             return shadingEngineLis[0]
 
 
 #
 def getShadingEngineMaterialUniqueId(shadingEngine):
-    materials = maUtils.getOutputObjectLis(shadingEngine, 'materialInfo')
+    materials = maUtils._getNodeTargetStringList(shadingEngine, 'materialInfo')
     if materials:
         material = materials[0]
-        return maUuid.getNodeUniqueId(material)
+        return maUuid._getNodeUniqueIdString(material)
 
 
 #
 def getShaderObjectsObjSetDic(objectLis):
     dic = bscCore.orderedDict()
     for objectString in objectLis:
-        compIndex = maUuid.getNodeUniqueId(objectString)
+        compIndex = maUuid._getNodeUniqueIdString(objectString)
         linkDatumLis = getShaderObjectObjSetSub(objectString)
         dic[compIndex] = linkDatumLis
     return dic
@@ -595,7 +593,7 @@ def getShaderObjectObjSetSub(objectString):
     #
     lis = []
     #
-    shadingEngineLis = getShadingEngineLisByObject(objectString)
+    shadingEngineLis = _getNodeShadingEngineStringList(objectString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
             compMaterialIndex = getShadingEngineMaterialUniqueId(shadingEngine)
@@ -625,7 +623,7 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         # View Progress
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for objectString, linkDatumLis in data.items():
             # In Progress
             progressBar.update()
@@ -657,7 +655,7 @@ def setMaterialsObjectSetsConnect(datumDic):
         # View Progress
         explain = u'''Connect Material's Object Set(s)'''
         maxValue = len(datumDic)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for compIndex, linkDatumLis in datumDic.items():
             progressBar.update()
             #
@@ -694,8 +692,8 @@ def setObjectCleanShadingEngine(objectString):
 
 #
 def setObjectCleanShapeShadingEngine(objectString):
-    shape = maUtils.getNodeShape(objectString)
-    shapeShadingEngines = maUtils.getOutputObjectLis(shape, appCfg.MaNodeType_ShadingEngine)
+    shape = maUtils._getNodeShapeString(objectString)
+    shapeShadingEngines = maUtils._getNodeTargetStringList(shape, appCfg.DEF_type_shading_engine)
     if shapeShadingEngines:
         [cmds.sets(shape, remove=i) for i in shapeShadingEngines]
 
@@ -711,8 +709,8 @@ def setObjectCleanTransformShadingEngine(objectString):
 
 #
 def setObjectDefaultShadingEngine(objectString):
-    shape = maUtils.getNodeShape(objectString)
-    shadingEngineLis = maUtils.getOutputObjectLis(shape, appCfg.MaNodeType_ShadingEngine)
+    shape = maUtils._getNodeShapeString(objectString)
+    shadingEngineLis = maUtils._getNodeTargetStringList(shape, appCfg.DEF_type_shading_engine)
     if not shadingEngineLis:
         cmds.sets(shape, forceElement='initialShadingGroup')
 
@@ -727,12 +725,12 @@ def setObjectsDefaultShadingEngine(componentObjectIndexes):
 #
 def setObjectAssignMaterial(objectString, componentObjectIndex, shadingEngine):
     if componentObjectIndex is None:
-        linkObject = maUtils.getNodeShape(objectString, 1)
+        linkObject = maUtils._getNodeShapeString(objectString, 1)
     else:
         linkObject = objectString + componentObjectIndex
     #
-    if maUtils.isAppExist(linkObject):
-        if maUtils.isAppExist(shadingEngine):
+    if maUtils._isNodeExist(linkObject):
+        if maUtils._isNodeExist(shadingEngine):
             cmds.sets(linkObject, forceElement=shadingEngine)
             setCreateLightLink(shadingEngine)
         else:
@@ -794,9 +792,9 @@ def setCreateLightLink(shadingEngine):
 #
 def getAovNodeLis(renderer):
     aovNodes = []
-    if renderer == lxConfigure.LynxiArnoldRendererValue:
+    if renderer == prsConfigure.Utility.DEF_value_renderer_arnold:
         aovNodes = getArnoldAovNodeLis()
-    elif renderer == lxConfigure.LynxiRedshiftRendererValue:
+    elif renderer == prsConfigure.Utility.DEF_value_renderer_redshift:
         aovNodes = getRedshiftAovNodes()
     return aovNodes
 
@@ -805,7 +803,7 @@ def getAovNodeLis(renderer):
 def getArnoldAovNodeLis():
     lis = []
     if maUtils.isArnoldEnable():
-        lis = maUtils.getInputNodes('defaultArnoldRenderOptions', 'aiAOV')
+        lis = maUtils._getNodeSourceStringList('defaultArnoldRenderOptions', 'aiAOV')
     return lis
 
 
@@ -864,13 +862,13 @@ def setCreateAovNodeLink(aovNode, maxDepth=50):
     def getAovListAttr():
         aovListAttrs = ['%s.aovList[%s]' % ('defaultArnoldRenderOptions', i) for i in range(0, maxDepth)]
         for aovListAttr in aovListAttrs:
-            if maUtils.isAppExist(aovListAttr):
+            if maUtils._isNodeExist(aovListAttr):
                 if not maAttr.isAttrDestination(aovListAttr):
                     return aovListAttr
     #
     def setMain():
         aovMessageAttr = aovNode + '.message'
-        if maUtils.isAppExist(aovMessageAttr):
+        if maUtils._isNodeExist(aovMessageAttr):
             if not maAttr.isAttrSource(aovMessageAttr):
                 aovListAttr = getAovListAttr()
                 if aovListAttr:
@@ -923,8 +921,8 @@ def getObjectsAttrData(objectLis):
     #
     if objectLis:
         for objectString in objectLis:
-            objectShape = maUtils.getNodeShape(objectString)
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            objectShape = maUtils._getNodeShapeString(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             renderAttrData = maAttr.getNodeRenderAttrData(objectShape)
             plugAttrData = maAttr.getNodePlugAttrData(objectShape)
             customAttrData = maAttr.getNodeUserDefAttrData(objectShape)
@@ -938,7 +936,7 @@ def setObjectsAttrsCreate(datumDic):
         # View Progress
         explain = u'''Set Material's Object Attribute(s)'''
         maxValue = len(datumDic)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for uniqueId, attrData in datumDic.items():
             progressBar.update()
             #
@@ -950,7 +948,7 @@ def setObjectsAttrsCreate(datumDic):
 #
 def setObjectAttrsCreate(objectString, attrData):
     if attrData:
-        objectShape = maUtils.getNodeShape(objectString, 1)
+        objectShape = maUtils._getNodeShapeString(objectString, 1)
         renderAttrData, plugAttrData, customAttrData = attrData
         if renderAttrData:
             maAttr.setNodeDefAttrByData(objectShape, renderAttrData)
@@ -974,14 +972,14 @@ def setArnoldShaderCovert(objectString, texturePath):
     nodeTypeLis = [
         'aiStandardSurface'
     ]
-    shadingEngineLis = getShadingEngineLisByObject(objectString)
+    shadingEngineLis = _getNodeShadingEngineStringList(objectString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
             targetAttr0 = maUtils._toNodeAttr([shadingEngine, 'surfaceShader'])
             stringLis = maUtils.getInputNodeLisByAttr(targetAttr0)
             if stringLis:
                 nodeName = stringLis[0]
-                nodeType = maUtils.getNodeType(nodeName)
+                nodeType = maUtils._getNodeTypeString(nodeName)
                 if nodeType in nodeTypeLis:
                     sourceAttr0 = maUtils._toNodeAttr([nodeName, 'outColor'])
                     targetAttr1 = maUtils._toNodeAttr([shadingEngine, 'aiSurfaceShader'])

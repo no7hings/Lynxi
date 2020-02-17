@@ -42,7 +42,7 @@ def getReduceList(lis):
 #
 def getAstAssemblyReferenceLis(sceneryName):
     scnAssemblyGroupName = sceneryPr.scnAssemblyGroupName(sceneryName)
-    return maUtils.getChildNodesByRoot(scnAssemblyGroupName, filterTypes=appCfg.MaNodeType_AssemblyReference)
+    return maUtils.getChildNodesByRoot(scnAssemblyGroupName, filterTypes=appCfg.DEF_type_assembly_reference)
 
 
 #
@@ -80,16 +80,16 @@ def getScnAssemblyComposeDatumDic(projectName, sceneryName):
 def getScnAssemblyComposeDatumLis(projectName, sceneryName):
     lis = []
     groupString = sceneryPr.scnAssemblyGroupName(sceneryName)
-    if maUtils.isAppExist(groupString):
+    if maUtils._isNodeExist(groupString):
         stringLis = maUtils.getChildNodesByRoot(
             groupString,
-            filterTypes=appCfg.MaNodeType_AssemblyReference,
+            filterTypes=appCfg.DEF_type_assembly_reference,
             fullPath=1
         )
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for arPath in stringLis:
                 progressBar.update()
                 #
@@ -210,7 +210,7 @@ def getSceneryInfo(printEnable=False):
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
-            if maUtils.isAppExist(rootGroup):
+            if maUtils._isNodeExist(rootGroup):
                 if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_scenery):
                     sceneryCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     sceneryName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
@@ -365,6 +365,6 @@ def getAssemblyReferenceProxyNode(assemblyReferenceString):
             if cmds.nodeType(object) == 'transform':
                 shapes = maUtils.getMainShapes(object)
                 for shape in shapes:
-                    if cmds.nodeType(shape) == 'aiStandIn' or maUtils.getNodeType(shape) == 'RedshiftProxyMesh':
+                    if cmds.nodeType(shape) == 'aiStandIn' or maUtils._getNodeTypeString(shape) == 'RedshiftProxyMesh':
                         proxyNode = shape
     return proxyNode

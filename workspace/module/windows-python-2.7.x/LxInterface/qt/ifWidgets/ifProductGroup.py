@@ -81,7 +81,7 @@ class IfAssetProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
             if self.mainWindow():
                 explain = '''Build Asset Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
+                progressBar = bscObjects.ProgressWindow(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #
@@ -162,7 +162,7 @@ class IfSceneryProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
             if self.mainWindow():
                 explain = '''Build Scenery Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
+                progressBar = bscObjects.ProgressWindow(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #
@@ -241,7 +241,7 @@ class IfSceneProductGroup(_qtIfAbcWidget.QtIfAbc_Group):
             if self.mainWindow():
                 explain = '''Build Scene Unit(s)'''
                 maxValue = len(buildMethodLis)
-                progressBar = bscObjects.If_Progress(explain, maxValue)
+                progressBar = bscObjects.ProgressWindow(explain, maxValue)
                 for i in buildMethodLis:
                     progressBar.update()
                     #

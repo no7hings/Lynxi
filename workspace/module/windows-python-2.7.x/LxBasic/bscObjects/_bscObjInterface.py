@@ -4,7 +4,7 @@ from LxBasic import bscCore
 from LxBasic.bscMethods import _bscMtdRaw, _bscMtdUtility
 
 
-class If_Progress(bscCore.Mtd_BscBasic):
+class ProgressWindow(bscCore.UtilityBasic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, explain, maxValue):
@@ -21,7 +21,7 @@ class If_Progress(bscCore.Mtd_BscBasic):
             self._progressBar.updateProgress(subExplain)
 
 
-class If_Message(bscCore.Mtd_BscBasic):
+class MessageWindow(bscCore.UtilityBasic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, text, keyword=None):
@@ -38,7 +38,7 @@ class If_Message(bscCore.Mtd_BscBasic):
             return module.setMessageWindowShow(text, keyword)
 
 
-class If_Tip(bscCore.Mtd_BscBasic):
+class TipWindow(bscCore.UtilityBasic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, title, text):
@@ -62,7 +62,7 @@ class If_Tip(bscCore.Mtd_BscBasic):
         pass
 
 
-class If_Log(bscCore.Mtd_BscBasic):
+class LogWindow(bscCore.UtilityBasic):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     method_html = _bscMtdRaw.TxtHtml

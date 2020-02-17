@@ -96,8 +96,8 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     objectItem.loadNode(objectPath)
                     inspectionItem.addChild(objectItem)
                     #
-                    inspectionItem.setFilterColor(bscConfigure.MtdBasic.LynxiUi_ErrorRgba)
-                    objectItem.setFilterColor(bscConfigure.MtdBasic.LynxiUi_ErrorRgba)
+                    inspectionItem.setFilterColor(bscConfigure.Utility.LynxiUi_ErrorRgba)
+                    objectItem.setFilterColor(bscConfigure.Utility.LynxiUi_ErrorRgba)
                     if compLis:
                         for c in compLis:
                             setCompBranch(c)
@@ -147,7 +147,7 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         #
         self.app_check_method.setUndoChunkOpen()
         maxValue = len(checkConfigDic)
-        progressBar = bscObjects.If_Progress(explain, maxValue)
+        progressBar = bscObjects.ProgressWindow(explain, maxValue)
         for s, (k, v) in enumerate(checkConfigDic.items()):
             progressBar.update(k)
             setInspectionBranch(s, k, v)
@@ -163,7 +163,7 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if hasattr(i, 'appPath'):
                     lis.append(i.appPath)
             #
-            self.app_check_method.setNodeSelect(self.app_check_method._toNodeLis(lis), noExpand=True)
+            self.app_check_method.setNodeSelect(self.app_check_method._toExistNodeList(lis), noExpand=True)
         else:
             self.app_check_method.setSelectClear()
     #

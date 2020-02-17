@@ -49,14 +49,14 @@ def astUnitModelUploadMainCmd(
     # Log Target File
     logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1],
         timeTag
     )
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Model Upload', logTargetFile=logTargetFile)
+    logWin_ = bscObjects.LogWindow(title=u'Model Upload', logTargetFile=logTargetFile)
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Model Upload')
@@ -193,13 +193,13 @@ def astUnitSceneRenameCmd_(
         assetName, assetVariant, assetStage,
         renderer
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     logWin_.addStartProgress(u'Rename Maya - Scene')
     # View Progress
     progressExplain = u'''Rename Maya - Scene'''
     maxValue = 2
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     #
     usedObjects = []
     progressBar.update(u'''Rename Material' Nde_Node''')
@@ -236,7 +236,7 @@ def astUnitSceneRefreshCmd_(
         assetName, assetVariant, assetStage,
         renderer
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     #
     logWin_.addStartProgress(u'Refresh Asset')
     #
@@ -293,13 +293,13 @@ def astUnitSceneRefreshCmd_(
 
 # Clean Scene
 def astUnitSceneClearCmd():
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     logWin_.addStartProgress(u'Scene Clean')
     # View Progress
     progressExplain = u'''Scene Clean'''
     maxValue = 8
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     # Remove Reference >>> 01
     progressBar.update(u'''Reference File(s) Clean''')
     assetOp.setCleanReferenceFile()
@@ -335,7 +335,7 @@ def astUnitMeshRepairCmd_(
         repairUnlockNormal=True, repairSoftNormal=True,
         repairUv=True
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'Mesh Repair')
     
@@ -343,7 +343,7 @@ def astUnitMeshRepairCmd_(
     # View Progress
     progressExplain = u'''Mesh Repair'''
     maxValue = 4 + [0, 3][repairTrans] + [0, 1][repairHistory] + [0, 1][repairUnlockNormal] + [0, 1][repairSoftNormal] + [0, 1][repairUv]
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     # Low Quality Display >>> 01
     progressBar.update(u'''Set Mesh's Low Quality Display''')
     [maUtils.setObjectDisplayMode(i) for i in meshObjects]
@@ -388,7 +388,7 @@ def astUnitShaderRepairCmd_(
         assetName,
         repairMatl=True, repairTexture=True, repairAov=True
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'Shader Repair')
     
@@ -396,7 +396,7 @@ def astUnitShaderRepairCmd_(
     # View Progress
     progressExplain = u'''Shader Repair'''
     maxValue = [0, 1][repairMatl] + [0, 2][repairTexture] + [0, 2][repairAov]
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     if repairMatl is True:
         # Relink Model's Material >>> 01
         progressBar.update(u'''Material Object - Set Repair''')
@@ -425,10 +425,10 @@ def astUnitUploadModelSourceSub(
         timeTag,
         description, notes
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Source File >>> 01
     backModelFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -457,15 +457,15 @@ def astUnitOpenModelSource(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Open Source
     backModelFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
     localModelFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        prsConfigure.Utility.DEF_value_root_local,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -485,7 +485,7 @@ def astUnitModelPreviewUploadCmd(
         timeTag,
         withProduct=False, useDefaultMaterial=1
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Group Data
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
     # Model Preview File
@@ -508,13 +508,13 @@ def astUnitModelPreviewUploadCmd(
     if withProduct:
         if assetVariant == prsVariants.Util.astDefaultVariant:
             serverBasicPreviewFile = assetPr.astUnitBasicPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, assetCategory, assetName
             )[1]
             bscMethods.OsFile.copyTo(dbAssetPreviewFile, serverBasicPreviewFile)
         #
         serverModelPreviewFile = assetPr.astUnitPreviewFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         bscMethods.OsFile.copyTo(dbAssetPreviewFile, serverModelPreviewFile)
@@ -527,7 +527,7 @@ def astUnitUploadModelGeometrySub(
         assetIndex,
         modelIndex, assetName, timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Data
     rootGroup = prsMethods.Asset.rootName(assetName)
     astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
@@ -560,7 +560,7 @@ def dbAstUploadIndex(
         assetCategory, assetName, assetVariant,
         percentage, timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     logWin_.addStartProgress(u'Index Upload')
     # Name >>> 01
     dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag)
@@ -628,7 +628,7 @@ def astUnitModelMaterialUploadSubCmd(
         withAov,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Collection Texture >>>> 01
     shaderObjects = datAsset.getAstMeshObjects(assetName, 1)
     # Debug ( Must Back of Rename Scene)
@@ -642,7 +642,7 @@ def astUnitModelMaterialUploadSubCmd(
         serverModelTextureDirectory = assetTexture + '/' + modelIndex
         if prsVariants.Util.isPushModelTextureToDatabase is False:
             serverModelTextureDirectory = assetPr.astUnitTextureFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
                 assetCategory, assetName, assetVariant, assetStage
             )
@@ -686,7 +686,7 @@ def astUnitUploadModelProductSub(
         timeTag,
         withProduct=False
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'Product Upload')
     #
@@ -723,18 +723,18 @@ def astUnitUploadModelProductSub(
     if withProduct:
         # Product
         serverProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
         backupProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
         serverModelTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )
@@ -759,7 +759,7 @@ def astUnitUploadModelProductSub(
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
         serverBasicMeshFile = assetPr.astUnitBasicMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName
         )[1]
@@ -767,7 +767,7 @@ def astUnitUploadModelProductSub(
             bscMethods.OsJson.write(serverBasicMeshFile, meshData)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
@@ -775,7 +775,7 @@ def astUnitUploadModelProductSub(
         bscMethods.OsJson.write(serverModelMeshFile, meshData)
         #
         serverModelTextureDataFile = assetPr.astUnitTextureConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
@@ -795,28 +795,28 @@ def astUnitUploadAssemblyProductSub(
         renderer,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Assembly Product File
     serverAssemblyProductFile = assetPr.astUnitAssemblyProductFile(
         projectName, assetName, assetVariant
     )[1]
     # Model Product File
     serverAstUnitModelProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_model
+        assetCategory, assetName, assetVariant, prsMethods.Asset.modelLinkName()
     )[1]
     # Cfx Product File
     serverAstUnitCfxProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
+        assetCategory, assetName, assetVariant, prsMethods.Asset.groomLinkName()
     )[1]
     # Main
     maFile.new()
     logWin_.addStartProgress(u'Product Upload')
     assetUnitRoot = prsMethods.Asset.rootName(assetName)
-    if not maUtils.isAppExist(assetUnitRoot):
+    if not maUtils._isNodeExist(assetUnitRoot):
         maUtils.setAppPathCreate(assetUnitRoot)
     # Model
     if os.path.isfile(serverAstUnitModelProductFile):
@@ -826,9 +826,9 @@ def astUnitUploadAssemblyProductSub(
         maUtils.setObjectParent(astModelGroup, assetUnitRoot)
         # Collection Model Texture >>> 02
         serverAstAssemblyModelTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_model
+            assetCategory, assetName, assetVariant, prsMethods.Asset.modelLinkName()
         )
         #
         shaderObjects = datAsset.getAstMeshObjects(assetName, 1)
@@ -850,12 +850,12 @@ def astUnitUploadAssemblyProductSub(
         cfxAssetRoot = prsMethods.Asset.groomLinkGroupName(assetName)
         maUtils.setObjectParent(cfxAssetRoot, assetUnitRoot)
         forHide = maUtils.getNodeLisByType('mesh', 1, cfxAssetRoot)
-        [maUtils.setHide(maUtils.getNodeTransform(i)) for i in forHide]
+        [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
         # Collection CFX Texture >>> 03
         serverAssemblyCfxTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
+            assetCategory, assetName, assetVariant, prsMethods.Asset.groomLinkName()
         )
         #
         shaderFurObjects = datAsset.getAstFurShaderObjects(assetName)
@@ -872,9 +872,9 @@ def astUnitUploadAssemblyProductSub(
             )
         # Collection CFX Map >>> 04
         serverAssemblyCfxMapDirectory = assetPr.astUnitAssemblyMapFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
-            assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
+            assetCategory, assetName, assetVariant, prsMethods.Asset.groomLinkName()
         )
         maTxtr.setCollectionMaps(serverAssemblyCfxMapDirectory)
         maTxtr.setRepathMaps(serverAssemblyCfxMapDirectory)
@@ -893,7 +893,7 @@ def astUnitUploadAsbProxyCacheSub(
         assetCategory, assetName, assetVariant,
         renderer, withLod=(50, 50)
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Open File
     serverAssemblyProductFile = assetPr.astUnitAssemblyProductFile(
         projectName, assetName, assetVariant
@@ -912,9 +912,9 @@ def astUnitUploadAsbProxyCacheSub(
         furNodes = datAsset.getYetiObjects(assetName)
         if furNodes:
             serverAstUnitAsbCfxCacheDirectory = assetPr.astUnitAssemblyCacheFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
-                assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_groom
+                assetCategory, assetName, assetVariant, prsMethods.Asset.groomLinkName()
             )
             # Set Fur Cache
             maFur.setOutYetisCache(serverAstUnitAsbCfxCacheDirectory, furNodes, 1, 1, 3)
@@ -946,7 +946,7 @@ def astUnitUploadAsbGpuCacheSub(
         assetCategory, assetName, assetVariant,
         withLod=(50, 50), color=(.5, .5, .5)
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Check is Default Variant
     if assetVariant == prsVariants.Util.astDefaultVariant:
         maFile.new()
@@ -967,8 +967,8 @@ def astUnitUploadAsbGpuCacheSub(
         maUtils.setDefaultShaderColor(r, g, b)
         #
         for meshObject in modelShaderObjects:
-            renderVisible = maUtils.getAttrDatum(meshObject, prsConfigure.PrsProduct.VAR_product_attribute_object_renderable)
-            transparent = maUtils.getAttrDatum(meshObject, prsConfigure.PrsProduct.VAR_product_attribute_object_transparent)
+            renderVisible = maUtils.getAttrDatum(meshObject, prsConfigure.Product.VAR_product_attribute_object_renderable)
+            transparent = maUtils.getAttrDatum(meshObject, prsConfigure.Product.VAR_product_attribute_object_transparent)
             if renderVisible is False:
                 maUtils.setGpuShader(meshObject, r, g, b, 1)
             elif transparent is True:
@@ -1006,7 +1006,7 @@ def astUploadSceneryUnitBoxCacheSub(
         assetCategory, assetName, assetVariant,
         color=(.5, .5, .5)
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Check is Default Variant
     if assetVariant == prsVariants.Util.astDefaultVariant:
         maFile.new()
@@ -1038,7 +1038,7 @@ def astUnitUploadAssemblyProxySub(
         assetCategory, assetName, assetVariant,
         renderer, withLod=(50, 50)
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Proxy
     serverAstUnitAsbProxyFile = assetPr.astUnitAssemblyProxyFile(
         projectName, assetName, assetVariant
@@ -1121,14 +1121,14 @@ def astUnitUploadAssemblyDefinitionSub(
         assetCategory, assetName, assetVariant,
         withLod=(50, 50)
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Scenery AD File
     maFile.new()
     # AD >>> 01
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_assembly
+        assetCategory, assetName, assetVariant, prsMethods.Asset.assemblyLinkName()
     )[1]
     # Box Cache
     serverAstUnitAsbBoxCacheFile = assetPr.astUnitAssemblyBoxCacheFile(
@@ -1243,14 +1243,14 @@ def astUnitUploadRigMain(
     timeTag = bscMethods.OsTimetag.active()
     logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1],
         timeTag
     )
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Rig Upload', logTargetFile=logTargetFile)
+    logWin_ = bscObjects.LogWindow(title=u'Rig Upload', logTargetFile=logTargetFile)
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Rig Upload')
@@ -1272,7 +1272,7 @@ def astUnitUploadRigMain(
     # Clean Scene
     astUnitSceneClearCmd()
     # TD Command
-    tdCommand = assetPr.getAstTdUploadCommand(projectName, lxConfigure.VAR_product_asset_link_rig)
+    tdCommand = assetPr.getAstTdUploadCommand(projectName, prsMethods.Asset.rigLinkName())
     if tdCommand:
         maUtils.runMelCommand(tdCommand)
     # Extra >>> 2
@@ -1334,19 +1334,19 @@ def astUnitUploadRigProduct(
         timeTag,
         withProduct=False
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'Product Upload')
     #
     serverRigProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
+        assetCategory, assetName, assetVariant, prsMethods.Asset.rigLinkName()
     )[1]
     backupRigProductFile = assetPr.astUnitProductFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
-        assetCategory, assetName, assetVariant, lxConfigure.VAR_product_asset_link_rig
+        assetCategory, assetName, assetVariant, prsMethods.Asset.rigLinkName()
     )[1]
     rigAstTempFile = bscMethods.OsFile.temporaryName(serverRigProductFile, timeTag)
     #
@@ -1358,7 +1358,7 @@ def astUnitUploadRigProduct(
     #
     assetVariant = prsVariants.Util.astDefaultVariant
     serverRigTextureDirectory = assetPr.astUnitTextureFolder(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName, assetCategory, assetName, assetVariant, assetStage
     )
     # Collection Texture
@@ -1386,7 +1386,7 @@ def astUnitUploadRigProduct(
         bscMethods.OsFile.backupTo(serverRigProductFile, backupRigProductFile, timeTag)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
@@ -1416,14 +1416,14 @@ def astUnitCfxUploadMainCmd(
     # Log Target File
     logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1],
         timeTag
     )
     # Set Log Window
-    logWin_ = bscObjects.If_Log(title=u'Groom Upload', logTargetFile=logTargetFile)
+    logWin_ = bscObjects.LogWindow(title=u'Groom Upload', logTargetFile=logTargetFile)
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'Groom Upload')
@@ -1534,7 +1534,7 @@ def astUnitUploadCfxFurSub(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     rootGroup = prsMethods.Asset.rootName(assetName)
     cfxAssetRoot = prsMethods.Asset.groomLinkGroupName(assetName)
@@ -1553,7 +1553,7 @@ def astUnitUploadCfxFurSub(
     maUtils.setNodeDelete(rootGroup)
     # Export File
     serverAstUnitFurFile = assetPr.astUnitFurFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -1587,7 +1587,7 @@ def astUnitUploadCfxFurSub(
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
         if prsVariants.Util.isPushCfxMapToDatabase is False:
             serverMapFolder = assetPr.astUnitMapFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
                 assetCategory, assetName, assetVariant, assetStage
             )
@@ -1624,7 +1624,7 @@ def astUnitUploadCfxFurForSolver_(
         timeTag
 ):
     #
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     assetSubIndex = dbBasic.getDatabaseSubIndex(
         assetIndex,
@@ -1647,7 +1647,7 @@ def astUnitCfxMaterialUploadSubCmd(
         withAov,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Collection Texture >>>> 01
     assetTexture = prsVariants.Database.assetTexture
     #
@@ -1663,7 +1663,7 @@ def astUnitCfxMaterialUploadSubCmd(
     if textureNodeLis:
         if prsVariants.Util.isPushCfxTextureToDatabase is False:
             cfxTextureDirectory = assetPr.astUnitTextureFolder(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName,
                 assetCategory, assetName, assetVariant, assetStage
             )
@@ -1711,7 +1711,7 @@ def astUnitUploadCfxProduct(
         renderer,
         withProduct=False
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'Product Upload')
     # New Scene
@@ -1746,23 +1746,23 @@ def astUnitUploadCfxProduct(
         furObjects.extend(pfxHairObjects)
         # Asset File
         serverCfxProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
         backupCfxProductFile = assetPr.astUnitProductFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
         serverCfxTextureDirectory = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )
         serverCfxMapDirectory = assetPr.astUnitMapFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )
@@ -1808,13 +1808,13 @@ def astUnitUploadMain(
 
     logTargetFile = bscMethods.OsFile.toJoinTimetag(
         assetPr.astUnitLogFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName,
             assetCategory, assetName, assetVariant, assetStage
         )[1],
         timeTag
     )
-    logWin_ = bscObjects.If_Log(title=u'{} Upload'.format(assetStagePrettify), logTargetFile=logTargetFile)
+    logWin_ = bscObjects.LogWindow(title=u'{} Upload'.format(assetStagePrettify), logTargetFile=logTargetFile)
     logWin_.showUi()
     # Start
     logWin_.addStartTask(u'{} Upload'.format(assetStagePrettify))
@@ -1902,7 +1902,7 @@ def astUnitUploadSourceSub(
         timeTag,
         description, notes
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Sub Index
     if prsMethods.Asset.isRigStageName(assetStage):
         assetSubIndex = dbGet.getDbAstRigIndex(assetIndex)
@@ -1913,7 +1913,7 @@ def astUnitUploadSourceSub(
         )
     # Source
     backupSourceFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
     logWin_.addStartProgress(u'Source Upload')
@@ -1942,14 +1942,14 @@ def astUnitSourceOpenCmd_(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # Open Source
     backupSourceFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
     localSourceFile = assetPr.astUnitSourceFile(
-        lxConfigure.LynxiRootIndex_Local,
+        prsConfigure.Utility.DEF_value_root_local,
         projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
     logWin_.addStartProgress(u'Source ( Local ) Open')
@@ -1970,17 +1970,17 @@ def astUnitTextureBackupCmd_(
         timeTag
 ):
     backupTextureFolder = assetPr.astUnitTextureFolder(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )
     serverTextureIndexFile = assetPr.astUnitTextureIndexFile(
-        lxConfigure.LynxiRootIndex_Server,
+        prsConfigure.Utility.DEF_value_root_server,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
     backupTextureIndexFile = assetPr.astUnitTextureIndexFile(
-        lxConfigure.LynxiRootIndex_Backup,
+        prsConfigure.Utility.DEF_value_root_backup,
         projectName,
         assetCategory, assetName, assetVariant, assetStage
     )[1]
@@ -2004,7 +2004,7 @@ def astUnitTextureUploadCmd_(
 ):
     if textureNodes:
         serverTextureFolder = assetPr.astUnitTextureFolder(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )
         maTxtr.setTexturesCollection(
@@ -2031,11 +2031,11 @@ def astUnitRemoveReferenceSub(
         referBranchLis.append(modelBranch)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         backupMeshConstantFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
@@ -2054,11 +2054,11 @@ def astUnitRemoveReferenceSub(
         referBranchLis.append(modelBranch)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         backupMeshConstantFile = assetPr.astUnitMeshConstantFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
@@ -2069,7 +2069,7 @@ def astUnitRemoveReferenceSub(
     #
     if referBranchLis is not None:
         for referBranch in referBranchLis:
-            if maUtils.isAppExist(referBranch):
+            if maUtils._isNodeExist(referBranch):
                 maUtils.setNodeDelete(referBranch)
 
 
@@ -2080,7 +2080,7 @@ def astUnitUploadProductSub(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     rootGroup = prsMethods.Asset.rootName(assetName)
     linkBranch = None
@@ -2090,13 +2090,13 @@ def astUnitUploadProductSub(
         linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
     #
     if linkBranch is not None:
-        if maUtils.isAppExist(linkBranch):
+        if maUtils._isNodeExist(linkBranch):
             serverProductFile = assetPr.astUnitProductFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, assetCategory, assetName, assetVariant, assetStage
             )[1]
             backupProductFile = assetPr.astUnitProductFile(
-                lxConfigure.LynxiRootIndex_Backup,
+                prsConfigure.Utility.DEF_value_root_backup,
                 projectName, assetCategory, assetName, assetVariant, assetStage
             )[1]
             #
@@ -2144,7 +2144,7 @@ def astUnitUploadTextureSub(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     linkBranch = None
     isWithTx = False
@@ -2152,7 +2152,7 @@ def astUnitUploadTextureSub(
         linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
         isWithTx = True
     if linkBranch is not None:
-        if maUtils.isAppExist(linkBranch):
+        if maUtils._isNodeExist(linkBranch):
             shaderObjects = maUtils.getChildrenByRoot(linkBranch)
             logWin_.addStartProgress(u'Texture Upload')
             #
@@ -2200,7 +2200,7 @@ def astUnitUploadExtraSub(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     extraData = None
     # Rig
@@ -2213,11 +2213,11 @@ def astUnitUploadExtraSub(
     #
     if extraData:
         serverExtraFile = assetPr.astUnitExtraFile(
-            lxConfigure.LynxiRootIndex_Server,
+            prsConfigure.Utility.DEF_value_root_server,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         backupExtraFile = assetPr.astUnitExtraFile(
-            lxConfigure.LynxiRootIndex_Backup,
+            prsConfigure.Utility.DEF_value_root_backup,
             projectName, assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
@@ -2239,7 +2239,7 @@ def astUnitUploadPreviewSub(
         assetCategory, assetName, assetVariant, assetStage,
         timeTag
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     # GeometryGroup
     linkBranch = None
     if prsMethods.Asset.isLightStageName(assetStage):
@@ -2247,14 +2247,14 @@ def astUnitUploadPreviewSub(
     elif prsMethods.Asset.isSolverStageName(assetStage):
         linkBranch = prsMethods.Asset.solverLinkGroupName(assetName)
     if linkBranch is not None:
-        if maUtils.isAppExist(linkBranch):
+        if maUtils._isNodeExist(linkBranch):
             # Model Preview File
             serverPreviewFile = assetPr.astUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Server,
+                prsConfigure.Utility.DEF_value_root_server,
                 projectName, assetCategory, assetName, assetVariant, assetStage
             )[1]
             backupPreviewFile = assetPr.astUnitPreviewFile(
-                lxConfigure.LynxiRootIndex_Backup,
+                prsConfigure.Utility.DEF_value_root_backup,
                 projectName, assetCategory, assetName, assetVariant, assetStage
             )[1]
             # Main

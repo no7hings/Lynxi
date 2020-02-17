@@ -2210,7 +2210,7 @@ def getWidgetMinimumHeight(widget):
 
 def getTooltipDelayTime():
     if shmOutput.Interface().isTooltipAutoShow() is False:
-        return bscConfigure.MtdBasic.VAR_ui_time_tooltip_delay
+        return bscConfigure.Utility.VAR_ui_time_tooltip_delay
     else:
         return 250
 
@@ -2239,8 +2239,7 @@ def uiTooltipClearMethod(method):
 def getAppWindow():
     # Maya Window
 
-    system = bscObjects.System()
-    if system.isMaya:
+    if bscMethods.MayaApp.isActive():
         # noinspection PyUnresolvedReferences
         import maya.OpenMayaUI as OpenMayaUI
         # noinspection PyUnresolvedReferences
@@ -2500,7 +2499,7 @@ def setExistsUiDelete(*args):
 #
 def uiSetupShowMethod(method):
     def subMethod(*args, **kwargs):
-        from LxCore import shmOutput
+        from LxScheme import shmOutput
         shmOutput.Resource().loadActive()
         #
         from LxCore.setup import plugSetup
@@ -2515,7 +2514,7 @@ def uiSetupShowMethod(method):
 #
 def uiSetupShowMethod_(method):
     def subMethod(*args, **kwargs):
-        from LxCore import shmOutput
+        from LxScheme import shmOutput
         shmOutput.Resource().loadActive()
         #
         from LxCore.setup import plugSetup

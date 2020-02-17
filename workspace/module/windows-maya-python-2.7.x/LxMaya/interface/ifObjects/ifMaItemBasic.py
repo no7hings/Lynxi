@@ -25,20 +25,20 @@ class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
         return self._appName
     #
     def load(self, string):
-        if self.mtd_app_node.Ma_Separator_Attribute in string:
+        if self.mtd_app_node.DEF_separator_attribute in string:
             self.loadComp(string)
         else:
             self.loadNode(string)
     #
     def loadNode(self, nodeString):
         self._appPath = nodeString
-        self._appName = self.mtd_app_node._toNodeName(nodeString)
+        self._appName = self.mtd_app_node._getNodeNameString(nodeString)
         self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(nodeString)
-        self._appNodeType = self.mtd_app_node.getNodeType(nodeString)
-        if self._appNodeType == self.mtd_app_node.MaNodeType_Transform:
-            shapePath = self.mtd_app_node.getNodeShape(self._appPath)
+        self._appNodeType = self.mtd_app_node._getNodeTypeString(nodeString)
+        if self._appNodeType == self.mtd_app_node.DEF_type_transform:
+            shapePath = self.mtd_app_node._getNodeShapeString(self._appPath)
             if shapePath:
-                self._appNodeType = self.mtd_app_node.getNodeType(shapePath)
+                self._appNodeType = self.mtd_app_node._getNodeTypeString(shapePath)
         #
         self.setNameText(self._appName)
         self.setNamespace(self._appNamespace)

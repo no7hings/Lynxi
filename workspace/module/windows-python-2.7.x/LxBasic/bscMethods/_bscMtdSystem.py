@@ -2,7 +2,7 @@
 from LxBasic import bscCore
 
 
-class OsEnviron(bscCore.Mtd_BscBasic):
+class OsEnviron(bscCore.UtilityBasic):
     @classmethod
     def get(cls, key, failobj=None):
         return cls._getOsEnvironRawWithKey(key, failobj)
@@ -53,7 +53,7 @@ class OsEnviron(bscCore.Mtd_BscBasic):
         return dic
 
 
-class OsSystem(bscCore.Mtd_BscBasic):
+class OsSystem(bscCore.UtilityBasic):
     @classmethod
     def username(cls):
         return cls._getSystemUsername()
@@ -88,7 +88,7 @@ class OsSystem(bscCore.Mtd_BscBasic):
         return OsEnviron.getAsPath('userprofile') + '/Documents'
 
 
-class MayaApp(bscCore.Mtd_BscApplicationBasic):
+class MayaApp(bscCore.ApplicationBasic):
     DEF_name_application = 'maya'
 
     @classmethod
@@ -132,7 +132,7 @@ class MayaApp(bscCore.Mtd_BscApplicationBasic):
         return cls._toOsPathString([mayaDocPath, 'modules'])
 
 
-class OsTimestamp(bscCore.Mtd_BscBasic):
+class OsTimestamp(bscCore.UtilityBasic):
     @classmethod
     def active(cls):
         return cls._getSystemActiveTimestamp()
@@ -154,7 +154,7 @@ class OsTimestamp(bscCore.Mtd_BscBasic):
         return cls._timestampToChnPrettify(timestamp, useMode)
 
 
-class OsTimetag(bscCore.Mtd_BscBasic):
+class OsTimetag(bscCore.UtilityBasic):
     @classmethod
     def toChnPrettify(cls, timetag, useMode=0):
         return cls._timetagToChnPrettify(timetag, useMode)

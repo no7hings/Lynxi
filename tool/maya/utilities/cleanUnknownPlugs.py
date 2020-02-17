@@ -5,4 +5,4 @@ from LxMaya.command import maUtils
 #
 maUtils.setCleanUnknownPlugs()
 #
-bscObjects.If_Message('Clean Unknown - Plug', 'Complete')
+bscObjects.MessageWindow('Clean Unknown - Plug', 'Complete')

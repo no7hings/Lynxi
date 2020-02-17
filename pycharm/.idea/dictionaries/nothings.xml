@@ -2,8 +2,10 @@
   <dictionary name="nothings">
     <words>
       <w>fullpathnames</w>
+      <w>keypath</w>
       <w>multiline</w>
       <w>relativenames</w>
+      <w>shelftool</w>
       <w>uidatum</w>
     </words>
   </dictionary>

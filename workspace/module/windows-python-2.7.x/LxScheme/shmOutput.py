@@ -68,7 +68,7 @@ class Resource(shmCore.Basic):
     def loadActiveModules(self):
         bscMethods.PyReloader.loadModule(self.moduleNames)
 
-        bscObjects.If_Message(
+        bscObjects.MessageWindow(
             u'Load Scheme: ',
             u'{} ( {} )'.format(self.name, self.activeVersion)
         )
@@ -189,7 +189,7 @@ class Directory(object):
 
 class UserPreset(object):
     def __init__(self):
-        self._userName = bscCore.Mtd_BscBasic()._getSystemUsername()
+        self._userName = bscCore.UtilityBasic()._getSystemUsername()
         self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
     @property

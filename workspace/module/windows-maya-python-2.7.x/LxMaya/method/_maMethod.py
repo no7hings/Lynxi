@@ -54,12 +54,12 @@ class MaAssemblyMethod(_maMethodBasic.Mtd_AppMaya):
         return cmds.assembly(assemblyReferenceString, query=1, repNamespace=1)
     @classmethod
     def setAssemblySceneDefinitionCreate(cls, assemblyReferenceString, fileString_):
-        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.MaNodeType_AssemblyDefinition)
+        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_type_assembly_definition)
         cmds.assembly(assemblyReferenceString, edit=1, createRepresentation='Scene', input=fileString_)
         cmds.assembly(assemblyReferenceString, edit=1, active=bscMethods.OsFile.basename(fileString_))
     @classmethod
     def setAssemblyReferenceCreate(cls, assemblyReferenceString, osAssemblyDefinitionFile):
-        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.MaNodeType_AssemblyReference)
+        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_type_assembly_reference)
         cmds.setAttr(assemblyReferenceString + '.definition', osAssemblyDefinitionFile, type='string')
 
 
@@ -250,7 +250,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     @classmethod
     def filterGroupEmptyLis(cls, groupString):
         lis = []
-        stringLis = cls._toNodeLis(groupString)
+        stringLis = cls._toExistNodeList(groupString)
         if stringLis:
             for i in stringLis:
                 shapeLis = cls.getChildShapeLisByGroup(i)
@@ -259,37 +259,37 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         return lis
     @classmethod
     def fixGroupEmpty(cls, groupString):
-        stringLis = cls._toNodeLis(groupString)
-        [cls.setNodeDelete(i) for i in stringLis if cls.isAppExist(i)]
+        stringLis = cls._toExistNodeList(groupString)
+        [cls.setNodeDelete(i) for i in stringLis if cls._isNodeExist(i)]
     #
     @classmethod
     def filterNonShapeTransformLis(cls, objectString):
         lis = []
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for transform in stringLis:
-                shapePath = cls.getNodeShape(transform)
+                shapePath = cls._getNodeShapeString(transform)
                 if shapePath is None:
                     lis.append(transform)
         return lis
     @classmethod
     def fixNonShapeTransform(cls, objectString):
-        stringLis = cls._toNodeLis(objectString)
-        [cls.setNodeDelete(i) for i in stringLis if cls.isAppExist(i)]
+        stringLis = cls._toExistNodeList(objectString)
+        [cls.setNodeDelete(i) for i in stringLis if cls._isNodeExist(i)]
     @classmethod
     def filterObjectInstanceLis(cls, objectString):
         lis = []
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for transform in stringLis:
-                shapePath = cls.getNodeShape(transform)
+                shapePath = cls._getNodeShapeString(transform)
                 if cls.isObjectShapeInstanced(shapePath) is True:
                     lis.append(transform)
         return lis
     @classmethod
     def fixObjectInstance(cls, objectString):
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for i in stringLis:
                 cls.setObjectInstanceCovert(i)
@@ -297,17 +297,17 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def filterObjectHistoryNodeDic(cls, objectString):
         dic = {}
         exceptNodeTypeLis = [
-            cls.MaNodeType_ShadingEngine,
-            cls.MaNodeType_GroupId,
-            cls.MaNodeType_Set
+            cls.DEF_type_shading_engine,
+            cls.DEF_type_group_id,
+            cls.DEF_type_set
         ]
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for transform in stringLis:
                 stringLis = cmds.listHistory(transform, pruneDagObjects=1) or []
                 for node in stringLis:
-                    nodeType = cls.getNodeType(node)
+                    nodeType = cls._getNodeTypeString(node)
                     if not nodeType in exceptNodeTypeLis:
                         dic.setdefault(transform, []).append(node)
         return dic
@@ -318,7 +318,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def filterObjectNonDefaultMatrixLis(cls, objectString):
         lis = []
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for i in stringLis:
                 if cls.isDefaultMatrix(i) is False:
@@ -332,7 +332,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         dic = {}
         if errorLis:
             for i in errorLis:
-                meshPath = cls._getNodePathString(i.split(cls.Ma_Separator_Attribute)[0])
+                meshPath = cls._getNodePathString(i.split(cls.DEF_separator_attribute)[0])
                 compPath = i
                 #
                 dic.setdefault(meshPath, []).append(compPath)
@@ -424,10 +424,10 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def filterObjectNameOverlapDic(cls, objectString):
         dic = {}
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for transform in stringLis:
-                nodeName = cls._toNodeName(transform)
+                nodeName = cls._getNodeNameString(transform)
                 data = cmds.ls(nodeName, long=1) or []
                 if len(data) > 1:
                     for i in data:
@@ -438,7 +438,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def getMeshNormalLockVertexDic(cls, objectString):
         dic = {}
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for transform in stringLis:
                 vertexIdLis = cls.getMeshNormalLockVertexLis(transform)
@@ -449,7 +449,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def getMeshOpenEdgeDic(cls, objectString):
         dic = {}
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         if stringLis:
             for i in stringLis:
                 edgeIdLis = cls.getMeshOpenEdgeIdLis(i)
@@ -524,7 +524,7 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
         if objectString is None:
             shapePath = cls.getActiveCameraShape()
         else:
-            shapePath = cls.getNodeShape(objectString)
+            shapePath = cls._getNodeShapeString(objectString)
         #
         if optionKwargs is None:
             optionKwargs = cls.MaDefCameraOptionKwargs.copy()
@@ -551,7 +551,7 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
     @classmethod
     def getActiveCameraObject(cls):
         shapePath = cls.getActiveCameraShape()
-        return cls.getNodeTransform(shapePath)
+        return cls._getNodeTransformString(shapePath)
     @staticmethod
     def setCameraDefPos(objectString):
         cmds.setAttr(objectString + '.translate', 28, 21, 28)
@@ -560,11 +560,11 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
         cmds.setAttr(objectString + '.farClipPlane', 1000000)
     @classmethod
     def setCameraViewFit(cls, objectString):
-        shapePath = cls.getNodeShape(objectString)
+        shapePath = cls._getNodeShapeString(objectString)
         cmds.viewFit(shapePath, fitFactor=0, animate=1)
     @classmethod
     def getCameraFocalLength(cls, objectString):
-        shapePath = cls.getNodeShape(objectString)
+        shapePath = cls._getNodeShapeString(objectString)
         return cmds.camera(shapePath, query=1, focalLength=1)
     @staticmethod
     def setCameraCloseHud():
@@ -591,7 +591,7 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
 
 #
 class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
-    MaDefShadingEngineLis = [
+    DEF_shading_engine_default_list = [
         'initialShadingGroup',
         'initialParticleSE',
         'defaultLightSet',
@@ -599,25 +599,25 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
     ]
     @classmethod
     def getShadingEngineLis(cls):
-        return cls.getNodeLisByType(cls.MaNodeType_ShadingEngine, exceptStrings=cls.MaDefShadingEngineLis)
+        return cls.getNodeLisByType(cls.DEF_type_shading_engine, exceptStrings=cls.DEF_shading_engine_default_list)
     @classmethod
-    def getShadingEngineLisByObject(cls, objectString):
+    def _getNodeShadingEngineStringList(cls, objectString):
         def getBranch(subObjectString):
-            shapePath = cls.getNodeShape(subObjectString)
+            shapePath = cls._getNodeShapeString(subObjectString)
             if not shapePath:
                 shapePath = subObjectString
             #
-            outputObjectLis = cls.getOutputObjectLis(shapePath, cls.MaNodeType_ShadingEngine)
+            outputObjectLis = cls._getNodeTargetStringList(shapePath, cls.DEF_type_shading_engine)
             if outputObjectLis:
-                [lis.append(j) for j in outputObjectLis if not j in lis and not j in cls.MaDefShadingEngineLis]
+                [lis.append(j) for j in outputObjectLis if not j in lis and not j in cls.DEF_shading_engine_default_list]
         #
         lis = []
         #
-        stringLis = cls._toNodeLis(objectString)
+        stringLis = cls._toExistNodeList(objectString)
         [getBranch(i) for i in stringLis]
         return lis
     @classmethod
-    def getShadingEngineObjSet(cls, objectString):
+    def _getShadingEngineObjectSetDatumList(cls, objectString):
         """
         :param objectString: str
         :return: list
@@ -632,12 +632,12 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
                 showType = cmds.ls(shaderObjectPath, showType=1)[1]
                 if showType == 'float3':
                     shaderObjectPath_ = shaderObjectPath.split('.')[0]
-                    shaderObjectUuid = cls.getNodeUniqueId(shaderObjectPath_)
+                    shaderObjectUuid = cls._getNodeUniqueIdString(shaderObjectPath_)
                     objSetData = shaderObjectPath, shaderObjectUuid
                     if not objSetData in lis:
                         lis.append(objSetData)
                 else:
-                    shaderObjectUuid = cls.getNodeUniqueId(shaderObjectPath)
+                    shaderObjectUuid = cls._getNodeUniqueIdString(shaderObjectPath)
                     objSetData = shaderObjectPath, shaderObjectUuid
                     if not objSetData in lis:
                         lis.append(objSetData)
@@ -667,28 +667,28 @@ class MaHairNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
     @classmethod
     def getHairFollicleObjectByOutputCurve(cls, outputCurveObject):
         if outputCurveObject is not None:
-            shapePath = cls.getNodeShape(outputCurveObject)
+            shapePath = cls._getNodeShapeString(outputCurveObject)
             stringLis = cls.getInputNodeLisFilter(shapePath, source='outCurve')
             if stringLis:
-                return cls.getNodeTransform(stringLis[0])
+                return cls._getNodeTransformString(stringLis[0])
     @classmethod
     def getHairLocalObjectByFollicle(cls, follicleObject):
         if follicleObject is not None:
-            shapePath = cls.getNodeShape(follicleObject)
+            shapePath = cls._getNodeShapeString(follicleObject)
             stringLis = cls.getInputNodeLisFilter(shapePath, source='local')
             if stringLis:
-                return cls.getNodeTransform(stringLis[0])
+                return cls._getNodeTransformString(stringLis[0])
     @classmethod
     def getHairSystemObjectByFollicle(cls, follicleObject):
         if follicleObject is not None:
-            shapePath = cls.getNodeShape(follicleObject)
+            shapePath = cls._getNodeShapeString(follicleObject)
             stringLis = cls.getInputNodeLisFilter(shapePath, source='outputHair')
             if stringLis:
-                return cls.getNodeTransform(stringLis[0])
+                return cls._getNodeTransformString(stringLis[0])
     @classmethod
     def getHairNucleusNodeByHairSystem(cls, hairSystemObject):
         if hairSystemObject is not None:
-            shapePath = cls.getNodeShape(hairSystemObject)
+            shapePath = cls._getNodeShapeString(hairSystemObject)
             stringLis = cls.getInputNodeLisFilter(shapePath, source='outputObjects')
             if stringLis:
                 return stringLis[0]
@@ -708,11 +708,11 @@ class MaHairNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
         hairLocalCurveGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairLocalCurve)
         hairSolverGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairSolver)
         #
-        hairOutputCurveGroupPath = cls.Ma_Separator_Node.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
+        hairOutputCurveGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairOutputCurveGroupPath)
-        hairLocalCurveGroupPath = cls.Ma_Separator_Node.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
+        hairLocalCurveGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairLocalCurveGroupPath)
-        hairSolverGroupPath = cls.Ma_Separator_Node.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
+        hairSolverGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
         cls.setAppPathCreate(hairSolverGroupPath)
         #
         hairFollicleObject = cls.getHairFollicleObjectByOutputCurve(hairOutputCurveObject)
@@ -763,13 +763,13 @@ class MaRenderNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maConfig.MaRenderCon
         for camera in stringLis:
             renderable = cmds.getAttr(camera + '.renderable')
             if renderable:
-                transformPath = cls.getNodeTransform(camera, fullPath=fullPath)
+                transformPath = cls._getNodeTransformString(camera, fullPath=fullPath)
                 lis.append(transformPath)
         return lis
     @classmethod
     def getRenderOptionDic(cls):
         def getBranch(nodeString):
-            if cls.isAppExist(nodeString):
+            if cls._isNodeExist(nodeString):
                 attrDatumLis = cls.getNodeDefAttrDatumLis(nodeString)
                 #
                 dic[nodeString] = attrDatumLis
@@ -800,14 +800,14 @@ class MaRenderNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maConfig.MaRenderCon
 class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMethodBasic, _maConfig.MaLightNodeConfig):
     @classmethod
     def getLightTypeLis(cls):
-        return cls.getNodeTypeLisByFilter(cls.MaNodeType_Light)
+        return cls.getNodeTypeLisByFilter(cls.DEF_type_light)
     @classmethod
     def getLightNodeLis(cls, groupString=None):
         typeLis = [i for i in cls.getLightTypeLis() if i not in cls.MaNodeTypeLis_LightDefaultSet_Except]
         stringLis = cls.getNodeLisByType(typeLis)
         if groupString is not None:
             if stringLis:
-                if not cls.Ma_Separator_Node in groupString:
+                if not cls.DEF_separator_node in groupString:
                     groupPath = cls._getNodePathString(groupString)
                     return [i for i in stringLis if i.startswith(groupPath)]
         else:
@@ -815,13 +815,13 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     @classmethod
     def getLightDefaultSetLis(cls):
         transformLis = cls.getNodeLisBySet(cls.MaNodeName_DefaultLightSet)
-        return [cls.getNodeShape(i) for i in transformLis]
+        return [cls._getNodeShapeString(i) for i in transformLis]
     @classmethod
     def getLightLinkDic(cls, groupString=None, ignoreUnused=False):
         def getLightBranch(nodePath, useDefaultSet):
-            sourceAttr = cls._toNodeAttr([nodePath, cls.MaAttrName_Message])
+            sourceAttr = cls._toNodeAttr([nodePath, cls.DEF_attribute_message])
             #
-            nodeType = cls.getNodeType(nodePath)
+            nodeType = cls._getNodeTypeString(nodePath)
             pathDatum, namespaceDatum = cls._toNodePathRebuildDatum(nodePath)
             key = str((nodeType, pathDatum, namespaceDatum))
             #
@@ -851,13 +851,13 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for targetLightAttr in targetLightAttrLis:
                     targetNodeAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
                     nodeLis = cls.getInputNodeLisFilter(
-                        targetNodeAttr, source='*' + cls.MaAttrName_Message
+                        targetNodeAttr, source='*' + cls.DEF_attribute_message
                     )
                     if nodeLis:
                         for node in nodeLis:
                             nodePath = cls._getNodePathString(node)
                             #
-                            nodeType = cls.getNodeType(nodePath)
+                            nodeType = cls._getNodeTypeString(nodePath)
                             pathDatum, namespaceDatum = cls._toNodePathRebuildDatum(nodePath)
                             lis.append(str((nodeType, pathDatum, namespaceDatum)))
             return lis
@@ -889,13 +889,13 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     def setLightLink(cls, lightLinkData):
         def isUsedConnection(attr):
             boolean = False
-            if cls.isAppExist(attr):
+            if cls._isNodeExist(attr):
                 if not cls.isAttrDestination(attr):
                     boolean = True
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.Ma_Separator_Attribute, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_separator_attribute, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]
@@ -912,7 +912,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for mainAttrName, lightNodePath, objectNodePath in lightLinkData:
                     maxIndexDic[mainAttrName] = 0
                     #
-                    sourceLightAttr, sourceObjectAttr = cls._toNodeAttr([lightNodePath, cls.MaAttrName_Message]), cls._toNodeAttr([objectNodePath, cls.MaAttrName_Message])
+                    sourceLightAttr, sourceObjectAttr = cls._toNodeAttr([lightNodePath, cls.DEF_attribute_message]), cls._toNodeAttr([objectNodePath, cls.DEF_attribute_message])
                     subLightAttrName, subObjectAttrName = cls.MaAttrNameDic_LightLink[mainAttrName]
                     targetLightAttr = getTargetAttr(mainAttrName, subLightAttrName)
                     targetObjectAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
@@ -926,13 +926,13 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     def setLightDefaultSet(cls, defaultSetData):
         def isUsedConnection(attr):
             boolean = False
-            if cls.isAppExist(attr):
+            if cls._isNodeExist(attr):
                 if not cls.isAttrDestination(attr):
                     boolean = True
             return boolean
         #
         def toTargetAttr(nodeName, attrName, index):
-            return '{1}{0}{2}[{3}]'.format(cls.Ma_Separator_Attribute, nodeName, attrName, index)
+            return '{1}{0}{2}[{3}]'.format(cls.DEF_separator_attribute, nodeName, attrName, index)
         #
         def getTargetAttr(nodeName, attrName):
             index = maxIndexDic[attrName]
@@ -947,11 +947,11 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
         def setMain():
             if defaultSetData:
                 nodeName = cls.MaNodeName_DefaultLightSet
-                attrName = cls.MaAttrName_SetMember
+                attrName = cls.DEF_attribute_dag_set_members
                 maxIndexDic[attrName] = 0
                 for lightNodePath, boolean in defaultSetData:
-                    transformPath = cls.getNodeTransform(lightNodePath)
-                    sourceAttr = cls._toNodeAttr([transformPath, cls.MaAttrName_ObjectGroup])
+                    transformPath = cls._getNodeTransformString(lightNodePath)
+                    sourceAttr = cls._toNodeAttr([transformPath, cls.DEF_attribute_inst_obj_groups])
                     if boolean is True:
                         targetNodeLis = cls.getOutputNodeLisFilter(transformPath, target=attrName)
                         if not nodeName in targetNodeLis:
@@ -969,7 +969,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     def getLightLinkObjectLis(cls, lightNodeString, subLightAttrName, subObjectAttrName):
         lis = []
         #
-        sourceAttr = cls._toNodeAttr([lightNodeString, cls.MaAttrName_Message])
+        sourceAttr = cls._toNodeAttr([lightNodeString, cls.DEF_attribute_message])
         targetLightAttrLis = cls.getOutputAttrLisFilter(
             sourceAttr,
             target='*' + subLightAttrName
@@ -978,7 +978,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             for targetLightAttr in targetLightAttrLis:
                 targetNodeAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
                 nodeLis = cls.getInputNodeLisFilter(
-                    targetNodeAttr, source='*' + cls.MaAttrName_Message
+                    targetNodeAttr, source='*' + cls.DEF_attribute_message
                 )
                 for node in nodeLis:
                     nodePath = cls._getNodePathString(node)
@@ -988,13 +988,13 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     def setLightLinkConnection(cls, dic):
         def isUsedConnection(attr):
             boolean = False
-            if cls.isAppExist(attr):
+            if cls._isNodeExist(attr):
                 if not cls.isAttrDestination(attr):
                     boolean = True
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.Ma_Separator_Attribute, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_separator_attribute, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]
@@ -1012,12 +1012,12 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for seq, connectionDatum in enumerate(connectionLis):
                     for attrDatum in connectionDatum:
                         namespace, nodeName, subAttrName = attrDatum
-                        if not namespace == cls.Ma_Separator_Namespace:
-                            node = cls.Ma_Separator_Namespace.join([namespace, nodeName])
+                        if not namespace == cls.DEF_separator_namespace:
+                            node = cls.DEF_separator_namespace.join([namespace, nodeName])
                         else:
                             node = nodeName
                         #
-                        sourceAttr = cls._toNodeAttr([node, cls.MaAttrName_Message])
+                        sourceAttr = cls._toNodeAttr([node, cls.DEF_attribute_message])
                         #
                         existsTargetAttrLis = cls.getOutputAttrLisFilter(sourceAttr, target='*' + subAttrName)
                         if not existsTargetAttrLis:

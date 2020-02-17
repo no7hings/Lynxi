@@ -3,10 +3,10 @@
 import maya.cmds as cmds
 
 from LxBasic import bscCore, bscObjects
+
+from LxPreset import prsConfigure
 #
 from LxMaya.command import maUtils
-#
-from LxCore.config import assetCfg
 #
 none = ''
 
@@ -146,12 +146,12 @@ def astMeshGeomDefCheck(meshObjects):
     }
     #
     dic = bscCore.orderedDict()
-    config = assetCfg.astMeshGeomCheckConfig()
+    config = prsConfigure.Utility._DEF_project_inspection_asset_model_mesh_dict()
     if meshObjects:
         # View Progress
         progressExplain = u'''Mesh Nde_Geometry Check'''
         maxValue = len(config)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for k, v in config.items():
             enable = v[0]
             subExplain = v[1]

@@ -56,8 +56,8 @@ def getFurMapLinkDic(nodes=None):
     if usedData:
         for objectPath in usedData:
             # Yeti's Map
-            if maUtils.getShapeType(objectPath) == appCfg.MaNodeType_Plug_Yeti:
-                shapePath = maUtils.getNodeShape(objectPath)
+            if maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaNodeType_Plug_Yeti:
+                shapePath = maUtils._getNodeShapeString(objectPath)
                 mapNodes = cmds.pgYetiGraph(shapePath, listNodes=1, type='texture')
                 if mapNodes:
                     for node in mapNodes:
@@ -66,7 +66,7 @@ def getFurMapLinkDic(nodes=None):
                         #
                         getLinkDicMethod(dic, mapNodePath, furMapFile)
             # Pfx Hair's Map
-            elif maUtils.getShapeType(objectPath) == appCfg.MaPfxHairType:
+            elif maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaPfxHairType:
                 mapNodes = maUtils.getPfxHairMapNodes(objectPath)
                 if mapNodes:
                     for node in mapNodes:
@@ -74,7 +74,7 @@ def getFurMapLinkDic(nodes=None):
                         #
                         getLinkDicMethod(dic, node, furMapFile)
             # Nurbs Hair's Map
-            elif maUtils.getShapeType(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
+            elif maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
                 mapNodes = maFur.getNurbsHairMapNodes(objectPath)
                 if mapNodes:
                     for node in mapNodes:
@@ -122,7 +122,7 @@ def setReferenceRepath(nodeString, fileString_):
 
 # Assembly Reference
 def getAssemblyReferenceNodeLis(filterNamespace=None):
-    filterType = appCfg.MaNodeType_AssemblyReference
+    filterType = appCfg.DEF_type_assembly_reference
     return maUtils.getNodeLisByFilter(filterType, filterNamespace)
 
 
@@ -198,7 +198,7 @@ def getVolumeCacheLinkDic(nodes=None):
         usedData = getVolumeCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils.getNodeType(node) == appCfg.MaNodeType_AiVolume:
+            if maUtils._getNodeTypeString(node) == appCfg.MaNodeType_AiVolume:
                 fileString = maArnold.getVolumeCacheFile(node)
                 if fileString:
                     getLinkDicMethod(dic, node, fileString)
@@ -300,11 +300,11 @@ def getFurCacheLinkDic(nodes=None):
         usedData = getFurCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils.getShapeType(node) == appCfg.MaNodeType_Plug_Yeti:
+            if maUtils._getNodeShapeTypeString(node) == appCfg.MaNodeType_Plug_Yeti:
                 yetiCacheFile = maFur.getYetiCacheFile(node)
                 if yetiCacheFile:
                     getLinkDicMethod(dic, node, yetiCacheFile)
-            elif maUtils.getShapeType(node) == appCfg.MaNodeType_Plug_NurbsHair:
+            elif maUtils._getNodeShapeTypeString(node) == appCfg.MaNodeType_Plug_NurbsHair:
                 nurbsHairCacheFile = maFur.getNurbsHairCacheFile(node)
                 if nurbsHairCacheFile:
                     getLinkDicMethod(dic, node, nurbsHairCacheFile)
@@ -328,7 +328,7 @@ def getGeomCacheLinkDic(nodes=None):
         usedData = getGeomCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils.getNodeType(node) == appCfg.MaNodeType_CacheFile:
+            if maUtils._getNodeTypeString(node) == appCfg.MaNodeType_CacheFile:
                 geomCacheFiles = maGeomCache.getGeomCacheFile(node)
                 if geomCacheFiles:
                     geomCacheXmlFile, geomCacheFile = geomCacheFiles
@@ -340,7 +340,7 @@ def getGeomCacheLinkDic(nodes=None):
 
 #
 def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
-    nodeType = maUtils.getNodeType(nodeString)
+    nodeType = maUtils._getNodeTypeString(nodeString)
     if nodeType == appCfg.MaNodeType_Plug_Yeti:
         setRepathYetiCache(nodeString, sourceFile, targetFile, force)
     elif nodeType == appCfg.MaNodeType_Plug_NurbsHair:
@@ -349,7 +349,7 @@ def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
 
 #
 def setRepathGeomCache(nodeString, fileString_):
-    if maUtils.getNodeType(nodeString) == 'cacheFile':
+    if maUtils._getNodeTypeString(nodeString) == 'cacheFile':
         maGeomCache.setRepathGeometryCache(nodeString, fileString_)
 
 
@@ -586,7 +586,7 @@ def setDirectoryModifyCmd(
         isAutoCache,
         isRepath
 ):
-    logWin_ = bscObjects.If_Log(u'Directory Modify')
+    logWin_ = bscObjects.LogWindow(u'Directory Modify')
     logWin_.addStartTask(u'Directory Modify')
     # Step 01 ( Get Collection and Repath Data )
     logWin_.addStartProgress(u'''Directory Statistical''')
@@ -617,7 +617,7 @@ def setDirectoryModifyCmd(
     if referenceRepathDataArray:
         progressExplain = u'''Repath Reference Node'''
         maxValue = len(referenceRepathDataArray)
-        progress = bscObjects.If_Progress(progressExplain, maxValue)
+        progress = bscObjects.ProgressWindow(progressExplain, maxValue)
         for node, fileString_ in referenceRepathDataArray:
             progress.update()
             setReferenceRepath(node, fileString_)
@@ -639,7 +639,7 @@ def setDirectoryModifyCmd(
         if sceneryArRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Scenery ) Node'''
             maxValue = len(sceneryArRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, fileString_ in sceneryArRepathDataArray:
                 progress.update()
                 setAssemblyReferenceRepath(node, fileString_)
@@ -647,7 +647,7 @@ def setDirectoryModifyCmd(
         if arUnitRepathDataArray:
             progressExplain = u'''Repath Assembly - Reference ( Unit ) Node'''
             maxValue = len(arUnitRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, fileString_ in arUnitRepathDataArray:
                 progress.update()
                 setAssemblyReferenceRepath(node, fileString_)
@@ -661,7 +661,7 @@ def setDirectoryModifyCmd(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, fileString_, fileType in mapRepathDataArray:
                 progress.update()
                 setRepathFurMap(node, fileString_)
@@ -673,7 +673,7 @@ def setDirectoryModifyCmd(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.update()
                 setFurCacheRepath(node, sourceFile, targetFile, force=False)
@@ -683,7 +683,7 @@ def setDirectoryModifyCmd(
         if mapRepathDataArray:
             progressExplain = u'''Repath Fur Map'''
             maxValue = len(mapRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, fileString_, fileType in mapRepathDataArray:
                 progress.update()
                 setRepathFurMap(node, fileString_, force=True)
@@ -693,7 +693,7 @@ def setDirectoryModifyCmd(
         if furCacheRepathDataArray:
             progressExplain = u'''Repath Fur Cache'''
             maxValue = len(furCacheRepathDataArray)
-            progress = bscObjects.If_Progress(progressExplain, maxValue)
+            progress = bscObjects.ProgressWindow(progressExplain, maxValue)
             for node, sourceFile, targetFile, fileType in furCacheRepathDataArray:
                 progress.update()
                 setFurCacheRepath(node, sourceFile, targetFile, force=True)
@@ -704,7 +704,7 @@ def setDirectoryModifyCmd(
     if otherRepathDataArray:
         progressExplain = u'''Repath Other Node ( Texture, DSO...)'''
         maxValue = len(otherRepathDataArray)
-        progress = bscObjects.If_Progress(progressExplain, maxValue)
+        progress = bscObjects.ProgressWindow(progressExplain, maxValue)
         for node, fileString_, fileType in otherRepathDataArray:
             progress.update()
             setRepathGeneral(node, fileString_, fileType)
@@ -723,7 +723,7 @@ def getDirectoryModifyData(
         isCollection,
         isRepath
 ):
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
     
     collectionDataArray = []
 
@@ -737,7 +737,7 @@ def getDirectoryModifyData(
 
         progressExplain = u'''Directory Statistical'''
         maxValue = len(collectionDataLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for fileType, nodes, osFileArray in collectionDataLis:
             progressBar.update(fileType)
             if osFileArray:
@@ -755,7 +755,7 @@ def getDirectoryModifyData(
                 if isRepath:
                     progressExplain = '''Get Repath Data %s''' % bscMethods.StrCamelcase.toPrettify(fileType)
                     maxValue = len(nodes)
-                    subProgressBar = bscObjects.If_Progress(progressExplain, maxValue)
+                    subProgressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
                     for seq, node in enumerate(nodes):
                         subProgressBar.update()
                         logWin_.addStartProgress(u'Statistical Directory', node)
@@ -834,11 +834,11 @@ def setFileCollectionCmd(
         if data:
             progressExplain = u'''Collection File(s)'''
             maxValue = len(data)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for sourceFile, targetFile, fileType in data:
                 progressBar.update(bscMethods.StrCamelcase.toPrettify(fileType))
                 setCollectionBranch(sourceFile, targetFile, fileType)
 
-    logWin_ = bscObjects.If_Log()
+    logWin_ = bscObjects.LogWindow()
 
     setMain(collectionData)

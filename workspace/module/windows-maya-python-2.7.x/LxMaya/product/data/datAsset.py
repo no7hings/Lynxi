@@ -5,9 +5,7 @@ import maya.cmds as cmds
 
 from LxBasic import bscCore, bscMethods, bscObjects
 
-from LxPreset import prsVariants, prsMethods
-#
-from LxCore import lxConfigure
+from LxPreset import prsConfigure, prsVariants, prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -28,7 +26,7 @@ def getMeshObjectEvaluate(objectLis, vertex, edge, face, triangle, uvcoord, area
     # View Progress
     progressExplain = '''Read Mesh Evaluate Data'''
     maxValue = sum(used)
-    progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+    progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     # >>>> 01
     if vertex:
         progressBar.update('Vertex')
@@ -74,7 +72,7 @@ def getAssetIndex(assetName):
     #
     rootGroup = prsMethods.Asset.rootName(assetName)
     #
-    if maUtils.isAppExist(rootGroup):
+    if maUtils._isNodeExist(rootGroup):
         data = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
         if data:
             string = data
@@ -88,7 +86,7 @@ def getAssetInfo():
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
-            if maUtils.isAppExist(rootGroup):
+            if maUtils._isNodeExist(rootGroup):
                 if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_Asset):
                     assetCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
                     assetName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
@@ -114,14 +112,14 @@ def getAstMeshObjects(assetName, key=0, namespace=none):
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     #
     root = none
-    if key == 0 and maUtils.isAppExist(astModelGroup):
+    if key == 0 and maUtils._isNodeExist(astModelGroup):
         root = astModelGroup
-    elif key == 0 and not maUtils.isAppExist(astModelGroup) and maUtils.isAppExist(astUnitModelProductGroup):
+    elif key == 0 and not maUtils._isNodeExist(astModelGroup) and maUtils._isNodeExist(astUnitModelProductGroup):
         root = astUnitModelProductGroup
-    elif key == 1 and maUtils.isAppExist(astUnitModelProductGroup):
+    elif key == 1 and maUtils._isNodeExist(astUnitModelProductGroup):
         root = astUnitModelProductGroup
     #
-    if maUtils.isAppExist(root):
+    if maUtils._isNodeExist(root):
         meshObjects = maGeom.getMeshObjectsByGroup(root)
     return meshObjects
 
@@ -240,7 +238,7 @@ def getArnoldAovNodeLis():
     # List [ <Aov> ]
     arnoldAovs = []
     if maUtils.isRedshiftEnable():
-        arnoldAovs = maUtils.getInputNodes('defaultArnoldRenderOptions', 'aiAOV')
+        arnoldAovs = maUtils._getNodeSourceStringList('defaultArnoldRenderOptions', 'aiAOV')
     return arnoldAovs
 
 
@@ -289,12 +287,12 @@ def getRedshiftAovNodesData():
 def getShadingGroupsByObjects(objectLis):
     # List [ <Shading Engine> ]
     lis = []
-    MaDefShadingEngineLis = ['initialShadingGroup', 'initialParticleSE', 'defaultLightSet', 'defaultObjectSet']
+    DEF_shading_engine_default_list = ['initialShadingGroup', 'initialParticleSE', 'defaultLightSet', 'defaultObjectSet']
     for objectString in objectLis:
-        shape = maUtils.getNodeShape(objectString, 1)
+        shape = maUtils._getNodeShapeString(objectString, 1)
         shadingGroups = getOutputNode(shape, 'shadingEngine')
         if shadingGroups:
-            [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in MaDefShadingEngineLis]
+            [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in DEF_shading_engine_default_list]
 
     lisR = bscMethods.List.cleanupTo(lis)
     lisR.sort()
@@ -304,8 +302,8 @@ def getShadingGroupsByObjects(objectLis):
 #
 def getAstUnitModelExtraData(assetName, namespace=none):
     extraData = {
-        lxConfigure.LynxiAttributeDataKey: getAstUnitModelBridgeAttrData(assetName, namespace),
-        lxConfigure.LynxiConnectionDataKey: getAstUnitModelReferenceConnectionData(assetName, namespace)
+        prsConfigure.Product.DEF_key_info_attribute: getAstUnitModelBridgeAttrData(assetName, namespace),
+        prsConfigure.Product.DEF_key_info_connection: getAstUnitModelReferenceConnectionData(assetName, namespace)
     }
     return extraData
 
@@ -320,7 +318,7 @@ def getAstUnitModelBridgeAttrData(assetName, namespace=none):
     dic = {}
     #
     astUnitModelBridgeGroup = assetPr.astUnitModelBridgeGroupName(assetName, namespace)
-    if maUtils.isAppExist(astUnitModelBridgeGroup):
+    if maUtils._isNodeExist(astUnitModelBridgeGroup):
         getBranch(astUnitModelBridgeGroup)
     return dic
 
@@ -328,27 +326,27 @@ def getAstUnitModelBridgeAttrData(assetName, namespace=none):
 #
 def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
     def getBranch(objectString):
-        objectShape = maUtils.getNodeShape(objectString)
+        objectShape = maUtils._getNodeShapeString(objectString)
         outputConnectLis = maUtils.getNodeOutputConnectionLis(objectShape)
         if outputConnectLis:
             for sourceAttr, targetAttr in outputConnectLis:
                 if sourceAttr.endswith('.message') and targetAttr.endswith('.referenceObject'):
                     dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
         #
-        objectShapeName = maUtils._toNodeName(objectShape)
-        maUtils.setAttrStringDatumForce_(objectString, lxConfigure.LynxiObjectShapeNameAttrName, objectShapeName)
+        objectShapeName = maUtils._getNodeNameString(objectShape)
+        maUtils.setAttrStringDatumForce_(objectString, prsConfigure.Product.DEF_key_attribute_shapename, objectShapeName)
     #
     dic = {}
     #
     astUnitRoot = prsMethods.Asset.rootName(assetName)
     astUnitModelReferenceGroup = assetPr.astUnitModelReferenceGroupName(assetName, namespace)
     #
-    objectLis = maUtils.getChildObjectsByRoot(astUnitModelReferenceGroup, appCfg.MaNodeType_Mesh)
+    objectLis = maUtils.getChildObjectsByRoot(astUnitModelReferenceGroup, appCfg.DEF_type_shading_mesh)
     if objectLis:
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for i in objectLis:
             progressBar.update()
             getBranch(i)
@@ -360,7 +358,7 @@ def getAstUnitRigExtraData(assetName):
     astUnitRigBridgeGroup = assetPr.astUnitRigBridgeGroupName(assetName)
     alembicAttrData = getAstAlembicAttrData(astUnitRigBridgeGroup)
     extraData = {
-        lxConfigure.LynxiAlembicAttrDataKey: alembicAttrData
+        prsConfigure.Product.DEF_key_info_abcattribute: alembicAttrData
     }
     return extraData
 
@@ -503,7 +501,7 @@ def getAstCfxNurbsHairSolverCheckData(assetName, namespace=none):
 #
 def getAstUnitSolverNhrGuideObjects(assetName, namespace=none):
     groupStr = assetPr.astUnitRigSolNhrGuideObjectGroupName(assetName, namespace)
-    if maUtils.isAppExist(groupStr):
+    if maUtils._isNodeExist(groupStr):
         maUtils.setNodeOutlinerRgb(groupStr, 1, .5, 1)
     return maUtils.getChildObjectsByRoot(groupStr, prsVariants.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
 
@@ -511,9 +509,9 @@ def getAstUnitSolverNhrGuideObjects(assetName, namespace=none):
 #
 def getAstUnitCfxNhrGuideObjects(assetName, namespace=none):
     groupStr = assetPr.astUnitCfxNhrGuideObjectGroupName(assetName, namespace)
-    if maUtils.isAppExist(groupStr):
+    if maUtils._isNodeExist(groupStr):
         maUtils.setNodeOutlinerRgb(groupStr, 1, .25, .25)
-    return maUtils.getChildObjectsByRoot(groupStr, [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve], fullPath=True)
+    return maUtils.getChildObjectsByRoot(groupStr, [appCfg.DEF_type_shading_mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve], fullPath=True)
 
 
 #
@@ -535,8 +533,8 @@ def getAstSolverGuideCheckData(assetName, namespace=none):
 #
 def getAstUnitRigSolExtraData(assetName, namespace=none):
     dic = {
-        lxConfigure.LynxiConnectionDataKey: getAstUnitSolverConnectionData(assetName, namespace),
-        lxConfigure.LynxiNhrConnectionDataKey: getAstUnitSolverNhrConnectionData(assetName, namespace)
+        prsConfigure.Product.DEF_key_info_connection: getAstUnitSolverConnectionData(assetName, namespace),
+        prsConfigure.Product.DEF_key_info_nhrconnection: getAstUnitSolverNhrConnectionData(assetName, namespace)
     }
     return dic
 
@@ -544,7 +542,7 @@ def getAstUnitRigSolExtraData(assetName, namespace=none):
 #
 def getAstUnitSolverConnectionData(assetName, namespace=none):
     def getBranch(objectString):
-        objectShape = maUtils.getNodeShape(objectString)
+        objectShape = maUtils._getNodeShapeString(objectString)
         inputConnections = maUtils.getNodeInputConnectionLis(objectShape)
         if inputConnections:
             for sourceAttr, targetAttr in inputConnections:
@@ -564,7 +562,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.update()
             getBranch(i)
@@ -574,7 +572,7 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
 #
 def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
     def getBranch(objectString):
-        objectShape = maUtils.getNodeShape(objectString)
+        objectShape = maUtils._getNodeShapeString(objectString)
         outputConnectLis = maUtils.getNodeOutputConnectionLis(objectShape)
         if outputConnectLis:
             for sourceAttr, targetAttr in outputConnectLis:
@@ -590,7 +588,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
         # View Progress
         progressExplain = u'''Read Connection Data'''
         maxValue = len(objectStrings)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for i in objectStrings:
             progressBar.update()
             getBranch(i)
@@ -601,7 +599,7 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
 #
 def getAstUnitRigSolAttributeData(assetName, namespace=none):
     def getBranch(objectString):
-        shapePath = maUtils.getNodeShape(objectString)
+        shapePath = maUtils._getNodeShapeString(objectString)
         shapeDefinedAttrData = maAttr.getNodeDefAttrDatumLis(shapePath)
         shapeCustomAttrData = maAttr.getNodeUserDefAttrData(objectString)
         dic[rigSolLinkGroup + objectString.split(rigSolLinkGroup)[-1]] = shapeDefinedAttrData, shapeCustomAttrData
@@ -675,7 +673,7 @@ def getTextureStatisticsDic(objectLis):
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(textureNodeLis)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for textureNode in textureNodeLis:
             # In Progress
             progressBar.update()
@@ -734,7 +732,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetCategory, assetName, name
     mapShapeChangedArray = []
     #
     meshRoot = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
-    if maUtils.isAppExist(meshRoot):
+    if maUtils._isNodeExist(meshRoot):
         localInfoDic = maGeom.getGeometryObjectsInfoDic(meshRoot)
         #
         serverInfoDic = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
@@ -745,7 +743,7 @@ def getAstGeometryObjectsConstantData(assetIndex, assetCategory, assetName, name
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.update()
                 #
@@ -775,7 +773,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetCategory, assetName, namespac
     mapShapeChangedArray = []
     #
     meshRoot = prsMethods.Asset.modelLinkGroupName(assetName, namespace)
-    if maUtils.isAppExist(meshRoot):
+    if maUtils._isNodeExist(meshRoot):
         localInfoDic = maGeom.getMeshObjectsInfoDic(meshRoot)
         #
         serverInfoDic = dbGet.getDbGeometryObjectsIndexDic(assetIndex)
@@ -786,7 +784,7 @@ def getAstMeshObjectsConstantData(assetIndex, assetCategory, assetName, namespac
             # View Progress
             progressExplain = '''Read Asset ( Mesh ) Data'''
             maxValue = len(unionUniqueInfoDic)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for uniqueId in unionUniqueInfoDic:
                 progressBar.update()
                 #
@@ -876,7 +874,7 @@ def getMaterialsConstantData(assetIndex, projectName, assetCategory, assetName, 
         # View Progress
         progressExplain = '''Read Data'''
         maxValue = len(unionUniqueInfoData)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for uniqueId in unionUniqueInfoData:
             progressBar.update()
             #
@@ -913,7 +911,7 @@ def getMeshesCompIndexForce(assetIndex, meshObjects):
     uniqueIds = []
     if meshObjects:
         for mesh in meshObjects:
-            uniqueId = maUuid.getNodeUniqueId(mesh)
+            uniqueId = maUuid._getNodeUniqueIdString(mesh)
             uniqueIds.append(uniqueId)
     #
     if uniqueIds:
@@ -930,7 +928,7 @@ def getFurCompIndexForce(dbSubIndex, furObjects):
     uniqueIds = []
     if furObjects:
         for furObject in furObjects:
-            uniqueId = maUuid.getNodeUniqueId(furObject)
+            uniqueId = maUuid._getNodeUniqueIdString(furObject)
             uniqueIds.append(uniqueId)
     #
     if uniqueIds:
@@ -947,7 +945,7 @@ def getMaterialCompIndexesForce(subIndex, materials):
     uniqueIds = []
     if materials:
         for material in materials:
-            uniqueId = maUuid.getNodeUniqueId(material)
+            uniqueId = maUuid._getNodeUniqueIdString(material)
             uniqueIds.append(uniqueId)
     #
     if uniqueIds:
@@ -964,7 +962,7 @@ def getAovCompIndexesForce(subIndex, aovs):
     uniqueIds = []
     if aovs:
         for aov in aovs:
-            uniqueId = maUuid.getNodeUniqueId(aov)
+            uniqueId = maUuid._getNodeUniqueIdString(aov)
             uniqueIds.append(uniqueId)
     #
     if uniqueIds:

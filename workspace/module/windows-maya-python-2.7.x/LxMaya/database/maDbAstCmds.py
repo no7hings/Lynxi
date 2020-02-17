@@ -9,7 +9,7 @@ from LxDatabase import dbBasic, dbGet
 #
 from LxMaya.command import maUtils, maUuid, maGeom, maShdr, maFur
 #
-Ma_Separator_Node = '|'
+DEF_separator_node = '|'
 
 
 # Nde_Geometry
@@ -507,7 +507,7 @@ def dbAstLoadGeometryObjectsIndex(assetIndex, assetName, objectIndexes, mode=0):
             groupString = prsMethods.Asset.modelLinkGroupName(assetName)
             childPaths = maGeom.getGeometryObjectsByGroup(groupString)
             for objectPath in childPaths:
-                objectName = maUtils._toNodeName(objectPath)
+                objectName = maUtils._getNodeNameString(objectPath)
                 if objectName in nodeDic:
                     uniqueId = nodeDic[objectName]
                     maUuid.setUniqueIdForce(objectPath, uniqueId)
@@ -554,8 +554,8 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
             #
             objectLocalPath = parentLocalPath + '|' + objectName
             currentObjectPath = maUuid.getObject(objectIndex)
-            if not maUtils.isAppExist(objectLocalPath):
-                if not maUtils.isAppExist(parentLocalPath):
+            if not maUtils._isNodeExist(objectLocalPath):
+                if not maUtils._isNodeExist(parentLocalPath):
                     maUtils.setAppPathCreate(parentLocalPath, lockTransform)
                 #
                 maUtils.setObjectParent(currentObjectPath, parentLocalPath)
@@ -565,7 +565,7 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
         # View Progress
         progressExplain = u'''Load Database Nde_Geometry Object(s) Path'''
         maxValue = len(objectIndexes)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.update()
             setBranch(i)
@@ -582,7 +582,7 @@ def dbAstRemoveGeometryObjects(objectIndexes):
         # View Progress
         progressExplain = u'''Remove Database Nde_Geometry Object(s)'''
         maxValue = len(objectIndexes)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for i in objectIndexes:
             progressBar.update()
             setBranch(i)

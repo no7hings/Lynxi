@@ -21,7 +21,7 @@ from LxBasic import bscMethods
 #
 from LxCore.config import appCfg
 #
-MaDefaultMatrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+DEF_matrix_default = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 #
 none = ''
 
@@ -119,7 +119,7 @@ def isOsTextureExists(textureFile):
 
 
 #
-def isAppExist(objectString, attrName=none):
+def _isNodeExist(objectString, attrName=none):
     if objectString:
         if attrName:
             objectString = objectString + '.' + attrName
@@ -273,7 +273,7 @@ def setObjectBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
 def setObjectShapeBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
     maObjs = string2list(maObjs)
     if maObjs:
-        objectShapes = [getNodeShape(i) for i in maObjs]
+        objectShapes = [_getNodeShapeString(i) for i in maObjs]
         cmds.bakeResults(
             *objectShapes,
             time=(startFrame - keyframeOffset, endFrame + keyframeOffset),
@@ -290,7 +290,7 @@ def setObjectRandColor(objectString):
 
 #
 def setGpuShader(objectString, r, g, b, a):
-    objectName = _toNodeName(objectString)
+    objectName = _getNodeNameString(objectString)
     shaderName = objectName + '_gpuShader'
     shadingEngineName = shaderName + 'SG'
     if not cmds.objExists(shaderName):
@@ -311,10 +311,10 @@ def setObjectsRandColor(objectLis):
 def setObjectAnnotation(objectString, message):
     annotationName = objectString + '_annotationShape'
     cmds.createNode('annotationShape', name=annotationName, parent=objectString)
-    annotationPath = objectString + appCfg.Ma_Separator_Node + annotationName
+    annotationPath = objectString + appCfg.DEF_separator_node + annotationName
     cmds.setAttr(annotationPath + '.text', message, type='string')
     cmds.setAttr(annotationPath + '.displayArrow', 0)
-    shape = getNodeShape(objectString)
+    shape = _getNodeShapeString(objectString)
     cmds.connectAttr(shape + '.worldMatrix[0]', annotationName + '.dagObjectMatrix[0]')
 
 
@@ -378,7 +378,7 @@ def setAttrDatumForce_(objectString, attrName, data):
 #
 def setAttrAdd(objectString, attrName, attributeType, data):
     attr = objectString + '.' + attrName
-    if not isAppExist(attr):
+    if not _isNodeExist(attr):
         cmds.addAttr(objectString, longName=attrName, attributeType=attributeType)
     #
     setAttrDatumForce_(objectString, attrName, data)
@@ -394,7 +394,7 @@ def setKeyAttr(objectString, attrName, data):
 #
 def setAttrStringDatum(objectString, attrName, data):
     attr = objectString + '.' + attrName
-    if isAppExist(attr):
+    if _isNodeExist(attr):
         cmds.setAttr(attr, data, type='string')
 
 
@@ -437,7 +437,7 @@ def getNodeAttrModifyDatumLis(node):
     if attrNames:
         for attrName in attrNames:
             attr = node + '.' + attrName
-            if isAppExist(attr):
+            if _isNodeExist(attr):
                 value = cmds.getAttr(attr)
                 dataType = str(type(value))[7:-2]
                 lis.append((attrName, value, dataType))
@@ -492,7 +492,7 @@ def getCameras(fullPath=True):
     cameras = []
     data = cmds.ls(type='camera', long=fullPath)
     for i in data:
-        transform = getNodeTransform(i, fullPath)
+        transform = _getNodeTransformString(i, fullPath)
         cameras.append(transform)
     return cameras
 
@@ -507,7 +507,7 @@ def getObjectParent(objectString, fullPath=True):
 # Get Object's Children
 def getNodeChildLis(objectString, fullPath=True):
     lis = []
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         lis = cmds.listRelatives(objectString, children=1, fullPath=fullPath) or []
     return lis
 
@@ -519,7 +519,7 @@ def getObjectChildrenCount(objectString):
 
 
 # Get Object's Children
-def getObjectChildObjectLis(objectString, mType=appCfg.MaNodeType_Transform, fullPath=True):
+def getObjectChildObjectLis(objectString, mType=appCfg.DEF_type_transform, fullPath=True):
     objectLis = cmds.listRelatives(objectString, children=1, type=mType, fullPath=fullPath)
     return objectLis
 
@@ -528,7 +528,7 @@ def getObjectChildObjectLis(objectString, mType=appCfg.MaNodeType_Transform, ful
 def getObjectChildObjects(objectString, filterTypes, fullPath=True):
     lis = []
     filterTypes = string2list(filterTypes)
-    children = cmds.listRelatives(objectString, children=1, type=appCfg.MaNodeType_Transform, fullPath=fullPath)
+    children = cmds.listRelatives(objectString, children=1, type=appCfg.DEF_type_transform, fullPath=fullPath)
     if children:
         for child in children:
             if getTransformType(child) in filterTypes:
@@ -537,13 +537,13 @@ def getObjectChildObjects(objectString, filterTypes, fullPath=True):
 
 
 # Get Object's Transform
-def getNodeTransform(objectString, fullPath=True):
-    if isAppExist(objectString):
-        if getNodeType(objectString) == appCfg.MaNodeType_Transform:
+def _getNodeTransformString(objectString, fullPath=True):
+    if _isNodeExist(objectString):
+        if _getNodeTypeString(objectString) == appCfg.DEF_type_transform:
             if fullPath:
                 return _getNodePathString(objectString)
             if not fullPath:
-                return _toNodeName(objectString)
+                return _getNodeNameString(objectString)
         else:
             transforms = cmds.listRelatives(objectString, parent=1, fullPath=fullPath)
             if transforms:
@@ -552,26 +552,26 @@ def getNodeTransform(objectString, fullPath=True):
 
 #
 def _toTransformByNodePath(nodePath):
-    return appCfg.Ma_Separator_Node.join(nodePath.split(appCfg.Ma_Separator_Node)[:-1])
+    return appCfg.DEF_separator_node.join(nodePath.split(appCfg.DEF_separator_node)[:-1])
 
 
 #
 def _toNamespaceByNodePath(objectPath):
-    return appCfg.Ma_Separator_Namespace.join(objectPath.split(appCfg.Ma_Separator_Node)[-1].split(appCfg.Ma_Separator_Namespace)[:-1])
+    return appCfg.DEF_separator_namespace.join(objectPath.split(appCfg.DEF_separator_node)[-1].split(appCfg.DEF_separator_namespace)[:-1])
 
 
 # Get Object's Shape
-def getNodeShape(objectString, fullPath=True):
-    if isAppExist(objectString):
-        if getNodeType(objectString) == appCfg.MaNodeType_Transform:
+def _getNodeShapeString(objectString, fullPath=True):
+    if _isNodeExist(objectString):
+        if _getNodeTypeString(objectString) == appCfg.DEF_type_transform:
             shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
             if shapes:
                 return shapes[0]
-        if not getNodeType(objectString) == appCfg.MaNodeType_Transform:
+        if not _getNodeTypeString(objectString) == appCfg.DEF_type_transform:
             if fullPath:
                 return _getNodePathString(objectString)
             if not fullPath:
-                return _toNodeName(objectString)
+                return _getNodeNameString(objectString)
 
 
 #
@@ -587,7 +587,7 @@ def getChildObjectsByRoot(root, filterTypes, fullPath=True):
     #
     lis = []
     filterTypes = string2list(filterTypes)
-    if isAppExist(root):
+    if _isNodeExist(root):
         getBranch(root)
     return lis
 
@@ -599,7 +599,7 @@ def getChildNodesByRoot(root, filterTypes, fullPath=True):
         children = getNodeChildLis(parent, fullPath)
         if children:
             for child in children:
-                nodeType = getNodeType(child)
+                nodeType = _getNodeTypeString(child)
                 if nodeType in typeLis:
                     lis.append(child)
                 #
@@ -607,7 +607,7 @@ def getChildNodesByRoot(root, filterTypes, fullPath=True):
     lis = []
     #
     typeLis = string2list(filterTypes)
-    if isAppExist(root):
+    if _isNodeExist(root):
         getChild(root)
     return lis
 
@@ -641,7 +641,7 @@ def getChildShapesByRoot(root, filterTypes, fullPath=True):
                 getChild(child)
     #
     filterTypes = string2list(filterTypes)
-    if isAppExist(root):
+    if _isNodeExist(root):
         getChild(root)
     return lis
 
@@ -659,7 +659,7 @@ def getGroupLisByRoot(root, fullPath=True):
     if fullPath:
         useRoot = _getNodePathString(root)
     lis = [useRoot]
-    if isAppExist(root):
+    if _isNodeExist(root):
         getChild(root)
     return lis
 
@@ -676,14 +676,14 @@ def getChildGroupLisByGroup(root, fullPath=True):
     if fullPath:
         useRoot = _getNodePathString(root)
     lis = []
-    if isAppExist(useRoot):
+    if _isNodeExist(useRoot):
         getChild(useRoot)
     return lis
 
 
 #
 def setEmptyGroupClear(root):
-    if isAppExist(root):
+    if _isNodeExist(root):
         childGroups = getGroupLisByRoot(root)
         childGroups.reverse()
         for i in childGroups:
@@ -703,7 +703,7 @@ def getChildrenByRoot(root, fullPath=True):
                 getChild(child)
     #
     lis = []
-    if isAppExist(root):
+    if _isNodeExist(root):
         getChild(root)
     return lis
 
@@ -720,7 +720,7 @@ def getRootCompose(root, fullPath=True):
 
     #
     lis = []
-    if isAppExist(root):
+    if _isNodeExist(root):
         rootPath = _getNodePathString(root)
         lis = [rootPath]
         getChild(rootPath)
@@ -739,7 +739,7 @@ def getNonRefChildObjectsByRoot(root, nodeType, fullPath=True):
                         lis.append(child)
                 getChild(child)
     #
-    if isAppExist(root):
+    if _isNodeExist(root):
         getChild(root)
     return lis
 
@@ -752,13 +752,13 @@ def setCleanupHierarchy(root, exceptObjectTypes):
     if children:
         for child in children:
             if not isGroup(child):
-                if not getShapeType(child) in exceptObjectTypes:
+                if not _getNodeShapeTypeString(child) in exceptObjectTypes:
                     needCleanNode.append(child)
     #
     if needCleanNode:
         needCleanNode.reverse()
         for node in needCleanNode:
-            if isAppExist(node):
+            if _isNodeExist(node):
                 setNodeDelete(node)
 
 
@@ -769,17 +769,17 @@ def setCleanSceneDirty():
 
 #
 def getObjectPathJoinNamespace(objectPath, namespace):
-    isFullPath = objectPath.startswith(appCfg.Ma_Separator_Node)
+    isFullPath = objectPath.startswith(appCfg.DEF_separator_node)
     if isFullPath:
-        return (appCfg.Ma_Separator_Node + namespace + ':').join(objectPath.split(appCfg.Ma_Separator_Node))
+        return (appCfg.DEF_separator_node + namespace + ':').join(objectPath.split(appCfg.DEF_separator_node))
     elif not isFullPath:
-        return namespace + ':' + (appCfg.Ma_Separator_Node + namespace + ':').join(objectPath.split(appCfg.Ma_Separator_Node))
+        return namespace + ':' + (appCfg.DEF_separator_node + namespace + ':').join(objectPath.split(appCfg.DEF_separator_node))
 
 
 #
 def getObjectPathRemoveNamespace(objectPath):
-    paths = [i.split(appCfg.Ma_Separator_Namespace)[-1] for i in objectPath.split(appCfg.Ma_Separator_Node)]
-    return appCfg.Ma_Separator_Node.join(paths)
+    paths = [i.split(appCfg.DEF_separator_namespace)[-1] for i in objectPath.split(appCfg.DEF_separator_node)]
+    return appCfg.DEF_separator_node.join(paths)
 
 
 #
@@ -789,7 +789,7 @@ def getNodeJoinNamespace(objectString, namespace):
 
 #
 def getObjectStringJoinNamespace(objectString, namespace):
-    if appCfg.Ma_Separator_Node in objectString:
+    if appCfg.DEF_separator_node in objectString:
         return getObjectPathJoinNamespace(objectString, namespace)
     else:
         return getNodeJoinNamespace(objectString, namespace)
@@ -911,7 +911,7 @@ def getAnimationKey(objectString, targetObject, startFrame, endFrame, frameOffse
 #
 def _getNodePathString(objectString):
     string = objectString
-    isPath = objectString.startswith(appCfg.Ma_Separator_Node)
+    isPath = objectString.startswith(appCfg.DEF_separator_node)
     if not isPath:
         data = cmds.ls(objectString, long=1)
         if data:
@@ -921,22 +921,22 @@ def _getNodePathString(objectString):
 
 #
 def isObjectPath(string):
-    return string.startswith(appCfg.Ma_Separator_Node)
+    return string.startswith(appCfg.DEF_separator_node)
 
 
 #
-def _toNodeName(objectPath, useMode=0):
+def _getNodeNameString(objectPath, useMode=0):
     string = none
     if useMode == 0:
-        string = objectPath.split(appCfg.Ma_Separator_Node)[-1]
+        string = objectPath.split(appCfg.DEF_separator_node)[-1]
     elif useMode == 1:
-        string = objectPath.split(appCfg.Ma_Separator_Node)[-1].split(appCfg.Ma_Separator_Namespace)[-1]
+        string = objectPath.split(appCfg.DEF_separator_node)[-1].split(appCfg.DEF_separator_namespace)[-1]
     return string
 
 
 #
 def getObjectRelativePath(rootPath, objectPath):
-    splitKey = _toNodeName(rootPath)
+    splitKey = _getNodeNameString(rootPath)
     string = rootPath + objectPath.split(splitKey)[-1]
     return string
 
@@ -946,7 +946,7 @@ def _toNodeParentPath(objectString):
     string = None
     objectPath = _getNodePathString(objectString)
     if objectPath:
-        data = appCfg.Ma_Separator_Node.join(objectPath.split(appCfg.Ma_Separator_Node)[:-1])
+        data = appCfg.DEF_separator_node.join(objectPath.split(appCfg.DEF_separator_node)[:-1])
         if data:
             string = data
     return string
@@ -965,7 +965,7 @@ def getObjectRowIndex(objectString):
 
 
 # Get Transform's Shape
-def getNodeShapeLis(transform, fullPath=True):
+def _getNodeShapeStringList(transform, fullPath=True):
     shapes = cmds.listRelatives(transform, children=1, shapes=1, noIntermediate=0, fullPath=fullPath)
     return shapes
 
@@ -989,7 +989,7 @@ def setObjectTransferInputConnections(sourceObject, targetObject):
         for outputAttr, inputAttr in inputConnectionLis:
             targetAttrName = getAttrName(inputAttr)
             targetAttr = targetObject + '.' + targetAttrName
-            if isAppExist(targetAttr):
+            if _isNodeExist(targetAttr):
                 if not isAttrLock(targetAttr):
                     setAttrConnect(outputAttr, targetAttr)
 
@@ -1000,7 +1000,7 @@ def setObjectClearInputTransformationConnection(objectString):
     axisLis = ['X', 'Y', 'Z']
     for attrName, axis in product(attrNameLis, axisLis):
         attr = objectString + '.' + attrName + axis
-        if isAppExist(attr):
+        if _isNodeExist(attr):
             inputConnectionLis = getNodeInputConnectionLis(attr)
             for sourceAttr, targetAttr in inputConnectionLis:
                 if isAttrConnected(sourceAttr, targetAttr):
@@ -1013,8 +1013,8 @@ def setObjectClearInputTransformationConnection(objectString):
 
 #
 def setMeshTransfer(sourceObject, targetObject):
-    sourceShape = getNodeShape(sourceObject, True)
-    targetShape = getNodeShape(targetObject, True)
+    sourceShape = _getNodeShapeString(sourceObject, True)
+    targetShape = _getNodeShapeString(targetObject, True)
     sourceAttr = sourceShape + '.worldMesh'
     targetAttr = targetShape + '.inMesh'
     setAttrConnect(sourceAttr, targetAttr)
@@ -1028,7 +1028,7 @@ def setObjectTransferTransformation(sourceObject, targetObject):
             attr, data = attData
             attrName = getAttrName(attr)
             targetAttr = targetObject + '.' + attrName
-            if isAppExist(targetAttr):
+            if _isNodeExist(targetAttr):
                 if not isAttrLock(targetAttr) and not isAttrDestination(targetAttr):
                     cmds.setAttr(targetAttr, data)
 
@@ -1037,7 +1037,7 @@ def setObjectTransferTransformation(sourceObject, targetObject):
 def setObjectTransferVisibility(sourceObject, targetObject):
     sourceAttr = sourceObject + '.visibility'
     targetAttr = targetObject + '.visibility'
-    if isAppExist(targetAttr):
+    if _isNodeExist(targetAttr):
         if not isAttrLock(targetAttr) and not isAttrDestination(targetAttr):
             data = cmds.getAttr(sourceAttr)
             cmds.setAttr(targetAttr, data)
@@ -1057,21 +1057,23 @@ def setObjectClearInputVisibleConnection(objectString):
 
 
 # Get Input Nde_Node ( Method )
-def getInputNodes(objectString, filterType=none):
-    return cmds.listConnections(objectString, destination=0, source=1, type=filterType) or []
+def _getNodeSourceStringList(nodeString, nodeTypeString=None):
+    if nodeTypeString is not None:
+        return cmds.listConnections(nodeString, destination=0, source=1, type=nodeTypeString) or []
+    return cmds.listConnections(nodeString, destination=0, source=1) or []
 
 
 #
 def getInputNodesFilterByType(objectString, filterTypes):
     def getBranch(subObjStr):
-        searchNodes = [subObjStr, getNodeShape(subObjStr)]
+        searchNodes = [subObjStr, _getNodeShapeString(subObjStr)]
         set(searchNodes)
         for subNode in searchNodes:
             inputNodes = cmds.listConnections(subNode, destination=0, source=1, shapes=1)
             if inputNodes:
                 for inputNode in inputNodes:
                     #
-                    nodeType = getNodeType(inputNode)
+                    nodeType = _getNodeTypeString(inputNode)
                     if nodeType in filterTypes:
                         if not inputNode in lis:
                             lis.append(inputNode)
@@ -1147,7 +1149,7 @@ def getInputShapeLis(objectString, filterType=none):
 
 
 # List [ <Output Connection Nde_Node> ]
-def getOutputObjectLis(objectString, filterType=none):
+def _getNodeTargetStringList(objectString, filterType=none):
     return cmds.listConnections(objectString, destination=1, source=0, type=filterType) or []
 
 
@@ -1191,7 +1193,7 @@ def getInputObjectsByAttrName(objectString, filterAttrNames=None):
     lis = []
     filterAttrNames = string2list(filterAttrNames)
     #
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
         if guessData:
             inputAttrs = []
@@ -1213,13 +1215,13 @@ def getInputObjectsByAttrName(objectString, filterAttrNames=None):
 def getOutputNodeLisFilter(objectString, attrNames=none):
     # List [ <Output Nde_Node> ]
     nodes = []
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         guessData = cmds.listConnections(objectString, destination=1, source=0, connections=1)
         if guessData:
             outputConnections = [i for i in guessData if attrNames in i]
             if outputConnections:
                 for outputConnection in outputConnections:
-                    outputNodes = getOutputObjectLis(outputConnection)
+                    outputNodes = _getNodeTargetStringList(outputConnection)
                     nodes.extend(outputNodes)
     return nodes
 
@@ -1303,7 +1305,7 @@ def getObjectTransformation_(objectString):
     axisLis = ['X', 'Y', 'Z']
     for channel, axis in product(attrNameLis, axisLis):
         attr = objectString + '.' + channel + axis
-        if isAppExist(attr):
+        if _isNodeExist(attr):
             data = cmds.getAttr(attr)
             lis.append((attr, data))
     #
@@ -1318,7 +1320,7 @@ def getObjectLocalPath(root, objectPath):
     if not root.startswith('|'):
         root = '|' + root
     #
-    rootName = _toNodeName(root, useMode=1)
+    rootName = _getNodeNameString(root, useMode=1)
     #
     path = '|' + rootName + '|'.join(('|'.join(objectPath.split(root)[1:])).split('|'))
     if ':' in path:
@@ -1339,7 +1341,7 @@ def getObjectTransformation(objectString):
     for channel, axis in product(channelLis, axisLis):
         attrName = channel + axis
         attr = objectString + channel + axis
-        if isAppExist(attr):
+        if _isNodeExist(attr):
             data = cmds.getAttr(attr)
             lis.append((attrName, data))
     #
@@ -1377,7 +1379,7 @@ def setTransAttrByDic(dic):
         #
         attr = relativePath + attrName
         #
-        if isAppExist(attr):
+        if _isNodeExist(attr):
 
             cmds.setAttr(attr, data)
     if dic:
@@ -1386,7 +1388,7 @@ def setTransAttrByDic(dic):
 
 #
 def setObjectTransAttr(objectPath, transAttrData):
-    if isAppExist(objectPath):
+    if _isNodeExist(objectPath):
         if transAttrData:
             for i in transAttrData:
                 attrName, data = i
@@ -1396,7 +1398,7 @@ def setObjectTransAttr(objectPath, transAttrData):
 
 #
 def setAsbAttr(attr, data):
-    if isAppExist(attr):
+    if _isNodeExist(attr):
         if not cmds.getAttr(attr, lock=1):
             cmds.setAttr(attr, data)
 
@@ -1485,7 +1487,7 @@ def setMayaView(modelPanel, mCamera):
         pluginObjects=['gpuCacheDisplayFilter', 1],
         displayAppearance='smoothShaded'
     )
-    cameraShape = getNodeShape(mCamera)
+    cameraShape = _getNodeShapeString(mCamera)
     cmds.camera(
         cameraShape,
         edit=1,
@@ -1573,17 +1575,17 @@ def setNodeOverrideColor(objectString, color=17):
 
 #
 def _toNodeAttr(stringLis):
-    return appCfg.Ma_Separator_Attribute.join(stringLis)
+    return appCfg.DEF_separator_attribute.join(stringLis)
 
 
 #
 def _toNodePathString(stringLis):
-    return appCfg.Ma_Separator_Node.join(stringLis)
+    return appCfg.DEF_separator_node.join(stringLis)
 
 
 #
 def _toNamespace(stringLis):
-    return appCfg.Ma_Separator_Namespace.join(stringLis)
+    return appCfg.DEF_separator_namespace.join(stringLis)
 
 
 #
@@ -1707,10 +1709,10 @@ def setObjectDisplayHandleEnable(objectString, boolean):
 
 #
 def setObjectParent(childPath, parentPath):
-    if isAppExist(parentPath) and isAppExist(childPath):
+    if _isNodeExist(parentPath) and _isNodeExist(childPath):
         origParentPath = getObjectParent(childPath)
         if origParentPath:
-            if parentPath.startswith(appCfg.Ma_Separator_Node):
+            if parentPath.startswith(appCfg.DEF_separator_node):
                 if not parentPath == origParentPath:
                     cmds.parent(childPath, parentPath)
             else:
@@ -1722,8 +1724,8 @@ def setObjectParent(childPath, parentPath):
 
 #
 def setShapeParent(sourceObject, targetObject):
-    if isAppExist(sourceObject) and isAppExist(targetObject):
-        sourceShape = getNodeShape(sourceObject)
+    if _isNodeExist(sourceObject) and _isNodeExist(targetObject):
+        sourceShape = _getNodeShapeString(sourceObject)
         origParentPath = getObjectParent(sourceObject)
         if origParentPath:
             if not targetObject in origParentPath:
@@ -1734,7 +1736,7 @@ def setShapeParent(sourceObject, targetObject):
 
 #
 def setElementSet(element, mSet):
-    if not isAppExist(mSet):
+    if not _isNodeExist(mSet):
         cmds.sets(name=mSet)
     cmds.sets(element, forceElement=mSet, edit=1)
 
@@ -1752,7 +1754,7 @@ def setObjectReorder(objectString, rowIndex):
 
 #
 def setObjectReferenceDisplay(objectString):
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         cmds.setAttr(objectString + '.overrideEnabled', 1)
         cmds.setAttr(objectString + '.overrideDisplayType', 2)
 
@@ -1782,8 +1784,8 @@ def setNodeRename(objectString, newName):
 
 #
 def setObjectShapeRename(objectString, name):
-    shape = getNodeShape(objectString, fullPath=True)
-    shapeName = _toNodeName(shape)
+    shape = _getNodeShapeString(objectString, fullPath=True)
+    shapeName = _getNodeNameString(shape)
     if shape:
         if name != shapeName:
             if not isNodeLocked(shape):
@@ -1792,7 +1794,7 @@ def setObjectShapeRename(objectString, name):
 
 #
 def setObjectRename(objectPath, name):
-    objectName = _toNodeName(objectPath)
+    objectName = _getNodeNameString(objectPath)
     if not name == objectName:
         if not isNodeLocked(objectPath):
             cmds.rename(objectPath, name)
@@ -1801,8 +1803,8 @@ def setObjectRename(objectPath, name):
 #
 def setRenameForce(objectString, name):
     if name != objectString:
-        if isAppExist(objectString):
-            if isAppExist(name):
+        if _isNodeExist(objectString):
+            if _isNodeExist(name):
                 name += '_reduce'
             setNodeUnlock(objectString)
             cmds.rename(objectString, name)
@@ -1811,8 +1813,8 @@ def setRenameForce(objectString, name):
 
 #
 def isPolyMesh(objectString):
-    if cmds.nodeType(objectString) == appCfg.MaNodeType_Transform:
-        shape = getNodeShape(objectString)
+    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+        shape = _getNodeShapeString(objectString)
         if cmds.nodeType(shape) == 'mesh':
             return True
         else:
@@ -1824,7 +1826,7 @@ def isPolyMesh(objectString):
 #
 def isShape(objectString):
     boolean = False
-    if cmds.nodeType(objectString) != appCfg.MaNodeType_Transform:
+    if cmds.nodeType(objectString) != appCfg.DEF_type_transform:
         shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=True)
         if not shapes:
             boolean = True
@@ -1834,8 +1836,8 @@ def isShape(objectString):
 #
 def isTransform(objectString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.MaNodeType_Transform:
-        shapes = getNodeShapeLis(objectString)
+    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+        shapes = _getNodeShapeStringList(objectString)
         if shapes:
             boolean = True
     return boolean
@@ -1844,8 +1846,8 @@ def isTransform(objectString):
 #
 def isGroup(objectString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.MaNodeType_Transform:
-        shapes = getNodeShapeLis(objectString)
+    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+        shapes = _getNodeShapeStringList(objectString)
         if not shapes:
             boolean = True
     return boolean
@@ -1853,7 +1855,7 @@ def isGroup(objectString):
 
 # Check Object is Empty Group
 def isGroupEmpty(objectString):
-    if cmds.nodeType(objectString) == appCfg.MaNodeType_Transform:
+    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
         child = cmds.listRelatives(objectString, children=1)
         if not child:
             return True
@@ -1862,7 +1864,7 @@ def isGroupEmpty(objectString):
 #
 def isChild(parent, child):
     boolean = False
-    if isAppExist(child):
+    if _isNodeExist(child):
         checkData = _getNodePathString(child)
         if checkData:
             if parent in checkData:
@@ -1876,7 +1878,7 @@ def getSelectedObjects(fullPath=True, useShape=0):
     data = cmds.ls(selection=1, long=fullPath)
     if data:
         if useShape:
-            lis = [getNodeShape(i, fullPath) for i in data]
+            lis = [_getNodeShapeString(i, fullPath) for i in data]
         else:
             lis = data
     return lis
@@ -1884,13 +1886,13 @@ def getSelectedObjects(fullPath=True, useShape=0):
 
 #
 def setSelObject(objectString, add=False):
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         cmds.select(objectString, add=add)
 
 
 #
 def setNodeSelect(objectStringLis, noExpand=0):
-    existsObjects = [i for i in objectStringLis if isAppExist(i)]
+    existsObjects = [i for i in objectStringLis if _isNodeExist(i)]
     cmds.select(existsObjects, noExpand=noExpand)
 
 
@@ -1901,7 +1903,7 @@ def setSelClear():
 
 #
 def getObjectExistsFilter(objectPaths):
-    return [i for i in objectPaths if isAppExist(i)]
+    return [i for i in objectPaths if _isNodeExist(i)]
 
 
 #
@@ -1920,7 +1922,7 @@ def setUpdateSel(objectLis):
 
 
 #
-def getNodeType(objectString):
+def _getNodeTypeString(objectString):
     return cmds.nodeType(objectString)
 
 
@@ -1944,20 +1946,20 @@ def getAttrTypes():
 
 #
 def getTransformType(objectString):
-    if getNodeType(objectString) == appCfg.MaNodeType_Transform:
-        shape = getNodeShape(objectString, 1)
+    if _getNodeTypeString(objectString) == appCfg.DEF_type_transform:
+        shape = _getNodeShapeString(objectString, 1)
         if shape:
-            return getNodeType(shape)
+            return _getNodeTypeString(shape)
 
 
 #
-def getShapeType(objectString):
-    nodeType = getNodeType(objectString)
+def _getNodeShapeTypeString(objectString):
+    nodeType = _getNodeTypeString(objectString)
     #
-    if nodeType == appCfg.MaNodeType_Transform:
-        shapePath = getNodeShape(objectString)
+    if nodeType == appCfg.DEF_type_transform:
+        shapePath = _getNodeShapeString(objectString)
         if shapePath:
-            string = getNodeType(shapePath)
+            string = _getNodeTypeString(shapePath)
         else:
             string = nodeType
     else:
@@ -1973,7 +1975,7 @@ def getNodeTransforms(mType, fullPath=True, keyword=none):
             data = cmds.ls(type=mType, long=fullPath)
             if data:
                 for n in data:
-                    transform = getNodeTransform(n)
+                    transform = _getNodeTransformString(n)
                     if transform:
                         if keyword in transform and not transform in lis:
                             lis.append(transform)
@@ -2038,7 +2040,7 @@ def getNodeLisByFilter(filterType, filterNamespace=None, fullPath=True):
 #
 def getSets():
     exceptSets = ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']
-    lis = [i for i in cmds.ls(sets=1) if i not in exceptSets and not isReferenceNode(i) and not getNodeType(i) == 'animLayer']
+    lis = [i for i in cmds.ls(sets=1) if i not in exceptSets and not isReferenceNode(i) and not _getNodeTypeString(i) == 'animLayer']
     return lis
 
 
@@ -2087,7 +2089,7 @@ def getShapeDeforms():
 
 #
 def getUnusedShapeDeforms():
-    lis = [i for i in getShapeDeforms() if not getOutputObjectLis(i)]
+    lis = [i for i in getShapeDeforms() if not _getNodeTargetStringList(i)]
     return lis
 
 
@@ -2158,7 +2160,7 @@ def getYetiShapeLis():
 
 #
 def getYetiObjects():
-    yetiObjects = [getNodeTransform(i, 1) for i in getNodeLisByType('pgYetiMaya', fullPath=True)]
+    yetiObjects = [_getNodeTransformString(i, 1) for i in getNodeLisByType('pgYetiMaya', fullPath=True)]
     return yetiObjects
 
 
@@ -2181,7 +2183,7 @@ def getAnimCurve(objectString, attrName):
     inputNodes = cmds.listConnections(attr, destination=0, source=1)
     if inputNodes:
         inputNode = inputNodes[0]
-        if getNodeType(inputNode).startswith('animCurve'):
+        if _getNodeTypeString(inputNode).startswith('animCurve'):
             return inputNode
 
 
@@ -2199,7 +2201,7 @@ def getObjectTransformsByType(mType, fullPath=True, keyword=none):
     transforms = []
     if mType in getNodeTypes():
         data = cmds.ls(type=mType, dag=1, leaf=1, noIntermediate=1, long=fullPath)
-        transforms = [getNodeTransform(i, 1) for i in data if keyword in i]
+        transforms = [_getNodeTransformString(i, 1) for i in data if keyword in i]
     return transforms
 
 
@@ -2208,14 +2210,14 @@ def getYetiImportConnectionDic():
     dic = collections.OrderedDict()
     yetiObjects = getYetiObjects()
     for yetiObject in yetiObjects:
-        yetiNode = getNodeShape(yetiObject)
+        yetiNode = _getNodeShapeString(yetiObject)
         importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
         for node in importNodes:
             geometryData = cmds.pgYetiGraph(yetiNode, node=node, param='geometry', getParamValue=1)
             if cmds.pgYetiGraph(yetiNode, node=node, param='type', getParamValue=1) == 2:
                 dic.setdefault(geometryData, []).append((yetiNode, node))
             else:
-                dic.setdefault(getNodeTransform(geometryData, 1), []).append((yetiNode, node))
+                dic.setdefault(_getNodeTransformString(geometryData, 1), []).append((yetiNode, node))
     return dic
 
 
@@ -2224,11 +2226,11 @@ def setRepairYetiGrows():
     yetiObjects = getYetiObjects()
     if yetiObjects:
         for yetiObject in yetiObjects:
-            yetiNode = getNodeShape(yetiObject)
-            growMeshes = getInputNodes(yetiNode, 'mesh')
+            yetiNode = _getNodeShapeString(yetiObject)
+            growMeshes = _getNodeSourceStringList(yetiNode, 'mesh')
             if growMeshes:
                 growMesh = growMeshes[0]
-                meshShape = getNodeShape(growMesh)
+                meshShape = _getNodeShapeString(growMesh)
                 #
                 importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
                 for node in importNodes:
@@ -2243,15 +2245,15 @@ def setRepairYetiGrows():
 #
 def getYetiGroomDic(yetiObject):
     dic = collections.OrderedDict()
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
     if importNodes:
         for node in importNodes:
             geometryData = cmds.pgYetiGraph(yetiNode, node=node, param='geometry', getParamValue=1)
             if cmds.pgYetiGraph(yetiNode, node=node, param='type', getParamValue=1) == 1:
-                if isAppExist(geometryData):
-                    dic[getNodeTransform(geometryData, 1)] = node
-                if not isAppExist(geometryData):
+                if _isNodeExist(geometryData):
+                    dic[_getNodeTransformString(geometryData, 1)] = node
+                if not _isNodeExist(geometryData):
                     dic['%s ( Groom - Error )' % node] = node
     return dic
 
@@ -2259,18 +2261,18 @@ def getYetiGroomDic(yetiObject):
 #
 def getYetiGrowDic(yetiObject):
     dic = collections.OrderedDict()
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
     if importNodes:
         for node in importNodes:
             geometryData = cmds.pgYetiGraph(yetiNode, node=node, param='geometry', getParamValue=1)
             if cmds.pgYetiGraph(yetiNode, node=node, param='type', getParamValue=1) == 0:
-                if isAppExist(geometryData):
+                if _isNodeExist(geometryData):
                     if geometryData == '*':
                         dic['%s ( Grow - Error )' % node] = node
                     if geometryData != '*':
-                        dic[getNodeTransform(geometryData, 1)] = node
-                if not isAppExist(geometryData):
+                        dic[_getNodeTransformString(geometryData, 1)] = node
+                if not _isNodeExist(geometryData):
                     dic['%s ( Grow - Error )' % node] = node
     return dic
 
@@ -2283,7 +2285,7 @@ def getErrorYetiObject(yetiObject):
 #
 def getYetiMapDic(yetiObject):
     dic = collections.OrderedDict()
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     mapNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='texture')
     if mapNodes:
         for mapNode in mapNodes:
@@ -2298,15 +2300,15 @@ def getYetiMapDic(yetiObject):
 #
 def getYetiGuideSetDic(yetiObject):
     dic = collections.OrderedDict()
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
     if importNodes:
         for node in importNodes:
             geometryData = cmds.pgYetiGraph(yetiNode, node=node, param='geometry', getParamValue=1)
             if cmds.pgYetiGraph(yetiNode, node=node, param='type', getParamValue=1) == 2:
-                if isAppExist(geometryData):
+                if _isNodeExist(geometryData):
                     dic[geometryData] = node
-                if not isAppExist(geometryData):
+                if not _isNodeExist(geometryData):
                     dic['%s ( Guide - Error )' % node] = node
     return dic
 
@@ -2314,38 +2316,38 @@ def getYetiGuideSetDic(yetiObject):
 #
 def getYetiGuideData(yetiObject):
     dic = collections.OrderedDict()
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     guideSets = getInputObjectsByAttrName(yetiNode, '.guideSets')
     if guideSets:
         for guideSet in guideSets:
             subDic = collections.OrderedDict()
-            if isAppExist(guideSet):
+            if _isNodeExist(guideSet):
                 curves = getInputObjectsByAttrName(guideSet, '.dagSetMembers')
                 for curve in curves:
-                    if isAppExist(curve):
+                    if _isNodeExist(curve):
                         curveLongName = _getNodePathString(curve)
-                        curveShape = getNodeShape(curveLongName, 1)
+                        curveShape = _getNodeShapeString(curveLongName, 1)
                         follicles = getInputObjectsByAttrName(curveShape, '.create')
                         if follicles:
                             follicle = follicles[0]
-                            subDic.setdefault(curveLongName, []).append(getNodeTransform(follicle, 1))
+                            subDic.setdefault(curveLongName, []).append(_getNodeTransformString(follicle, 1))
                             #
-                            follicleShape = getNodeShape(follicle, 1)
+                            follicleShape = _getNodeShapeString(follicle, 1)
                             localCurves = getInputObjectsByAttrName(follicleShape, '.startPosition')
                             localCurvesReduce = getReduceList(localCurves)
                             localCurve = none
                             if localCurvesReduce:
                                 localCurve = localCurvesReduce[0]
-                            subDic.setdefault(curveLongName, []).append(getNodeTransform(localCurve, 1))
+                            subDic.setdefault(curveLongName, []).append(_getNodeTransformString(localCurve, 1))
                             #
                             hairSystems = getInputObjectsByAttrName(follicleShape, '.currentPosition')
                             hairSystemsReduce = getReduceList(hairSystems)
                             hairSystem = none
                             if hairSystemsReduce:
                                 hairSystem = hairSystems[0]
-                            subDic.setdefault(curveLongName, []).append(getNodeTransform(hairSystem, 1))
+                            subDic.setdefault(curveLongName, []).append(_getNodeTransformString(hairSystem, 1))
                             #
-                            hairSystemShape = getNodeShape(hairSystem, 1)
+                            hairSystemShape = _getNodeShapeString(hairSystem, 1)
                             nuclei = getInputObjectsByAttrName(hairSystemShape, '.startFrame')
                             nucleiReduce = getReduceList(nuclei)
                             nucleus = none
@@ -2359,20 +2361,20 @@ def getYetiGuideData(yetiObject):
 #
 def getYetiGuideHairSystems(yetiObject):
     lis = []
-    yetiNode = getNodeShape(yetiObject)
+    yetiNode = _getNodeShapeString(yetiObject)
     guideSets = getInputObjectsByAttrName(yetiNode, '.guideSets')
     if guideSets:
         for guideSet in guideSets:
-            if isAppExist(guideSet):
+            if _isNodeExist(guideSet):
                 curves = getInputObjectsByAttrName(guideSet, '.dagSetMembers')
                 for curve in curves:
-                    if isAppExist(curve):
+                    if _isNodeExist(curve):
                         curvePath = _getNodePathString(curve)
-                        curveShape = getNodeShape(curvePath, 1)
+                        curveShape = _getNodeShapeString(curvePath, 1)
                         follicles = getInputObjectsByAttrName(curveShape, '.create')
                         if follicles:
                             follicle = follicles[0]
-                            follicleShape = getNodeShape(follicle, 1)
+                            follicleShape = _getNodeShapeString(follicle, 1)
                             #
                             hairSystems = getInputObjectsByAttrName(follicleShape, '.currentPosition')
                             for hairSystem in hairSystems:
@@ -2384,11 +2386,11 @@ def getYetiGuideHairSystems(yetiObject):
 #
 def getYetiGuideSets(yetiObject):
     lis = []
-    yetiShapeString = getNodeShape(yetiObject)
+    yetiShapeString = _getNodeShapeString(yetiObject)
     guideSets = getInputObjectsByAttrName(yetiShapeString, '.guideSets')
     if guideSets:
         for guideSet in guideSets:
-            if isAppExist(guideSet):
+            if _isNodeExist(guideSet):
                 lis.append(guideSet)
     return lis
 
@@ -2406,7 +2408,7 @@ def setYetiTextureParam(yetiShapeString, node, mapFile):
 #
 def getYetiRefObject(objectString):
     lis = []
-    shape = getNodeShape(objectString)
+    shape = _getNodeShapeString(objectString)
     referenceObjects = getInputObjectsByAttrName(shape, '.referenceObject')
     if referenceObjects:
         [lis.append(_getNodePathString(i)) for i in referenceObjects]
@@ -2415,20 +2417,20 @@ def getYetiRefObject(objectString):
 
 #
 def getPfxHairObjects():
-    lis = [getNodeTransform(i, 1) for i in getNodeLisByType('pfxHair', fullPath=True) if getInputNodes(i, 'hairSystem')]
+    lis = [_getNodeTransformString(i, 1) for i in getNodeLisByType('pfxHair', fullPath=True) if _getNodeSourceStringList(i, 'hairSystem')]
     return lis
 
 
 #
 def getPfxHairBrushes(pfxHairObject):
-    pfxHairNode = getNodeShape(pfxHairObject, 1)
+    pfxHairNode = _getNodeShapeString(pfxHairObject, 1)
     brushes = getInputObjectsByAttrName(pfxHairNode, '.brush')
     return brushes
 
 
 #
 def getPfxHairSystemObjects(pfxHairObject):
-    pfxHairNode = getNodeShape(pfxHairObject, 1)
+    pfxHairNode = _getNodeShapeString(pfxHairObject, 1)
     systemObjects = getInputObjectsByAttrName(pfxHairNode, '.renderHairs')
     return getReduceList(systemObjects)
 
@@ -2436,11 +2438,11 @@ def getPfxHairSystemObjects(pfxHairObject):
 #
 def getPfxHairOutputCurves(follicleObject):
     outputCurveObjects = []
-    follicleShape = getNodeShape(follicleObject, 1)
+    follicleShape = _getNodeShapeString(follicleObject, 1)
     guessObjects = getOutputNodeLisFilter(follicleShape, '.outCurve')
     if guessObjects:
         for objectString in guessObjects:
-            if getNodeType(objectString) == 'rebuildCurve':
+            if _getNodeTypeString(objectString) == 'rebuildCurve':
                 outputObjects = getOutputNodeLisFilter(objectString, '.outputCurve')
                 outputCurveObjects.extend(outputObjects)
             if getTransformType(objectString) == 'nurbsCurve':
@@ -2454,7 +2456,7 @@ def getPfxHairShaders(pfxHairObject):
     systemObjects = getPfxHairSystemObjects(pfxHairObject)
     if systemObjects:
         for systemObject in systemObjects:
-            systemShape = getNodeShape(systemObject, 1)
+            systemShape = _getNodeShapeString(systemObject, 1)
             inputNodes = getInputObjectsByAttrName(systemShape, '.aiHairShader')
             shaders.extend(inputNodes)
     return getReduceList(shaders)
@@ -2466,8 +2468,8 @@ def getPfxHairTextures(pfxHairObject):
     shaders = getPfxHairShaders(pfxHairObject)
     if shaders:
         for shader in shaders:
-            inputNodes = getInputNodes(shader, 'file')
-            subInputNodes = getInputNodes(shader, 'aiImage')
+            inputNodes = _getNodeSourceStringList(shader, 'file')
+            subInputNodes = _getNodeSourceStringList(shader, 'aiImage')
             textureNodes.extend(inputNodes)
             textureNodes.extend(subInputNodes)
     return textureNodes
@@ -2479,7 +2481,7 @@ def getPfxHairMapNodes(pfxHairObject):
     systemObjects = getPfxHairSystemObjects(pfxHairObject)
     if systemObjects:
         for systemObject in systemObjects:
-            systemShape = getNodeShape(systemObject, 1)
+            systemShape = _getNodeShapeString(systemObject, 1)
             inputNodes = getInputObjectsByAttrName(systemShape, '.baldnessMap')
             maps.extend(inputNodes)
     return getReduceList(maps)
@@ -2493,11 +2495,11 @@ def getPfxHairConnectionData(pfxHairObject):
     follicleData = collections.OrderedDict()
     if systemObjects:
         for systemObject in systemObjects:
-            systemShape = getNodeShape(systemObject, 1)
+            systemShape = _getNodeShapeString(systemObject, 1)
             nucleusObjects = getInputObjectsByAttrName(systemShape, '.startFrame')
             follicleObjects = getInputObjectsByAttrName(systemShape, '.inputHair')
             for follicleObject in follicleObjects:
-                follicleShape = getNodeShape(follicleObject, 1)
+                follicleShape = _getNodeShapeString(follicleObject, 1)
                 localCurveObjects = getInputObjectsByAttrName(follicleShape, '.startPosition')
                 outputCurveObjects = getPfxHairOutputCurves(follicleObject)
                 follicleData[follicleObject] = getReduceList(localCurveObjects), getReduceList(outputCurveObjects)
@@ -2512,7 +2514,7 @@ def getPfxHairConnectionData(pfxHairObject):
 
 #
 def setRepairShape(objectString, useMode=0):
-    shapes = getNodeShapeLis(objectString, 1)
+    shapes = _getNodeShapeStringList(objectString, 1)
     mainShapes = getMainShapes(objectString, 1)
     if not mainShapes:
         if useMode == 0:
@@ -2553,12 +2555,12 @@ def getObjectLinkShader():
 # Assign Default Nde_ShaderRef
 def setNodeDefaultShader(objectString):
     # cmds.sets(objectString, forceElement='initialShadingGroup')
-    cmds.sets(getNodeShape(objectString, 1), forceElement='initialShadingGroup')
+    cmds.sets(_getNodeShapeString(objectString, 1), forceElement='initialShadingGroup')
 
 
 #
 def setObjectCleanShaders(objectString):
-    shadingEngines = getOutputObjectLis(objectString, 'shadingEngine')
+    shadingEngines = _getNodeTargetStringList(objectString, 'shadingEngine')
     if shadingEngines:
         [cmds.sets(objectString, remove=i) for i in shadingEngines]
 
@@ -2585,7 +2587,7 @@ def isHide(objectString):
 
 def isLxNodeVisible(nodeString):
     attr = nodeString + 'lxVisible'
-    if isAppExist(attr):
+    if _isNodeExist(attr):
         return cmds.getAttr(attr)
     else:
         return True
@@ -2617,7 +2619,7 @@ def getObjectHierarchyDic(mType, root):
     if root:
         hierarchyData = getObjectTransformsByType(mType, 1, root)
         for data in hierarchyData:
-            splitData = data.split(appCfg.Ma_Separator_Node)
+            splitData = data.split(appCfg.DEF_separator_node)
             # Check Naming Error( Overlapping Name )
             if len(splitData) == len(set(splitData)):
                 for seq, i in enumerate(splitData):
@@ -2656,7 +2658,7 @@ def setNamespaceRename(namespace, newNamespace, parent=':'):
 
 #
 def setCreateContainer(nodeName):
-    if not isAppExist(nodeName):
+    if not _isNodeExist(nodeName):
         cmds.container(type='dagContainer', name=nodeName)
         cmds.setAttr(nodeName + '.blackBox', 1)
         cmds.setAttr(nodeName + '.iconName', 'toolSettings.png', type='string')
@@ -2669,7 +2671,7 @@ def getContainerNodes(container):
 
 # Set Nde_Node in Container
 def setInContainer(container, nodes):
-    if not isAppExist(container):
+    if not _isNodeExist(container):
         cmds.container(type='dagContainer', name=container)
         cmds.setAttr(container + '.blackBox', 1)
         cmds.setAttr(container + '.iconName', 'toolSettings.png', type='string')
@@ -2689,13 +2691,13 @@ def setRemoveContainer(container):
 
 #
 def setContainerAddNodes(container, nodes):
-    if isAppExist(container):
+    if _isNodeExist(container):
         cmds.container(container, edit=1, force=1, addNode=nodes)
 
 
 #
 def setContainerNamespace(container, namespace):
-    if isAppExist(container):
+    if _isNodeExist(container):
         nodes = getContainerNodes(container)
         if nodes:
             for node in nodes:
@@ -2816,8 +2818,8 @@ def getNodesFilterByTypes(nodes, filterTypes):
     lis = []
     if nodes:
         for i in nodes:
-            if isAppExist(i):
-                nodeType = getNodeType(i)
+            if _isNodeExist(i):
+                nodeType = _getNodeTypeString(i)
                 if nodeType in filterTypes:
                     lis.append(i)
     return lis
@@ -2849,7 +2851,7 @@ def getNamespaceLis():
                 if nodes:
                     for node in nodes:
                         parent = getObjectParent(node, 1)
-                        if getNodeType(parent) == 'assemblyReference':
+                        if _getNodeTypeString(parent) == 'assemblyReference':
                             isAssemble = True
                             break
                 #
@@ -2880,12 +2882,12 @@ def getRoot(objectString, fullPath=True):
     objectFullPath = _getNodePathString(objectString)
     if objectFullPath:
         root = objectString
-        if objectFullPath.startswith(appCfg.Ma_Separator_Node):
-            splitData = objectFullPath.split(appCfg.Ma_Separator_Node)
+        if objectFullPath.startswith(appCfg.DEF_separator_node):
+            splitData = objectFullPath.split(appCfg.DEF_separator_node)
             root = splitData[1]
             #
             if fullPath:
-                root = appCfg.Ma_Separator_Node.join(splitData[:2])
+                root = appCfg.DEF_separator_node.join(splitData[:2])
         return root
 
 
@@ -2894,7 +2896,7 @@ def getObjectParentFilter(objectString, keyword, fullPath=True):
     string = none
     objectFullPath = _getNodePathString(objectString)
     if objectFullPath:
-        splitData = objectFullPath.split(appCfg.Ma_Separator_Node)
+        splitData = objectFullPath.split(appCfg.DEF_separator_node)
         hasParent = False
         loc = 0
         #
@@ -2906,7 +2908,7 @@ def getObjectParentFilter(objectString, keyword, fullPath=True):
         if hasParent:
             parent = splitData[loc]
             if fullPath:
-                parent = appCfg.Ma_Separator_Node.join(splitData[:loc + 1])
+                parent = appCfg.DEF_separator_node.join(splitData[:loc + 1])
             string = parent
     return string
 
@@ -2916,7 +2918,7 @@ def getSelectedObjectsFilter(mType, fullPath=True):
     lis = []
     objectLis = cmds.ls(selection=1, long=fullPath)
     for objectString in objectLis:
-        if getShapeType(objectString) == mType:
+        if _getNodeShapeTypeString(objectString) == mType:
             lis.append(objectString)
     return lis
 
@@ -2926,7 +2928,7 @@ def getSelectedObjectsFilterByTypes(mTypes, fullPath=True):
     lis = []
     objectLis = cmds.ls(selection=1, long=fullPath)
     for objectString in objectLis:
-        if getShapeType(objectString) in mTypes:
+        if _getNodeShapeTypeString(objectString) in mTypes:
             lis.append(objectString)
     return lis
 
@@ -2953,21 +2955,21 @@ def setUnloadReference(referenceNode):
 
 #
 def setReferenceRemove(referenceNode):
-    if isAppExist(referenceNode):
+    if _isNodeExist(referenceNode):
         fileString_ = getReferenceFile(referenceNode)
         cmds.file(fileString_, removeReference=1)
 
 
 #
 def setCleanNodeForce(node):
-    if isAppExist(node) and not isReferenceNode(node):
+    if _isNodeExist(node) and not isReferenceNode(node):
         cmds.lockNode(node, lock=0)
         cmds.delete(node)
 
 
 #
 def setCleanNode(node):
-    if isAppExist(node) and not isReferenceNode(node) and not isNodeLocked(node):
+    if _isNodeExist(node) and not isReferenceNode(node) and not isNodeLocked(node):
         cmds.delete(node)
 
 
@@ -3094,13 +3096,13 @@ def setCreateNode(nodeType, name):
 def _toAppCompPathLis(objectPath):
     lis = []
     #
-    dataArray = objectPath.split(appCfg.Ma_Separator_Node)
+    dataArray = objectPath.split(appCfg.DEF_separator_node)
     #
     dataCount = len(dataArray)
     for seq, data in enumerate(dataArray):
         if data:
             if seq + 1 < dataCount:
-                subPath = appCfg.Ma_Separator_Node.join(dataArray[:seq + 1])
+                subPath = appCfg.DEF_separator_node.join(dataArray[:seq + 1])
                 lis.append(subPath)
     #
     lis.append(objectPath)
@@ -3109,9 +3111,9 @@ def _toAppCompPathLis(objectPath):
 
 #
 def setCompAppPathCreate(objectPath, isLock=False):
-    objectName = _toNodeName(objectPath)
+    objectName = _getNodeNameString(objectPath)
     parentPath = _toNodeParentPath(objectPath)
-    if not isAppExist(objectPath):
+    if not _isNodeExist(objectPath):
         cmds.group(empty=1, name=objectName)
     #
     if parentPath:
@@ -3138,7 +3140,7 @@ def setNodeParentPathCreate(objectPath):
 
 #
 def setCloneHierarchy(root, cloneRoot='|clone_grp'):
-    if not isAppExist(cloneRoot):
+    if not _isNodeExist(cloneRoot):
         cmds.group(empty=1, name=cloneRoot)
     paths = getGroupLisByRoot(root)
     for path in paths:
@@ -3148,8 +3150,8 @@ def setCloneHierarchy(root, cloneRoot='|clone_grp'):
 
 #
 def setGpu(name, mFile):
-    if not isAppExist(name):
-        cmds.createNode(appCfg.MaNodeType_Transform, name=name)
+    if not _isNodeExist(name):
+        cmds.createNode(appCfg.DEF_type_transform, name=name)
         cmds.createNode('gpuCache', name=name + '_inCache', parent=name)
     if os.path.isfile(mFile):
         cmds.setAttr(name + '_inCache' + '.cacheFileName', mFile, type='string')
@@ -3159,7 +3161,7 @@ def setGpu(name, mFile):
 def getConnectAttrData(objectString, attrName):
     lis = []
     attr = objectString + '.' + attrName
-    if isAppExist(attr):
+    if _isNodeExist(attr):
         data = cmds.listConnections(attr)
         if data:
             lis = data
@@ -3168,14 +3170,14 @@ def getConnectAttrData(objectString, attrName):
 
 #
 def setAttrConnect(sourceAttr, targetAttr):
-    if isAppExist(sourceAttr) and isAppExist(targetAttr):
+    if _isNodeExist(sourceAttr) and _isNodeExist(targetAttr):
         if not cmds.isConnected(sourceAttr, targetAttr):
             cmds.connectAttr(sourceAttr, targetAttr, force=1)
 
 
 #
 def isAttrConnected(sourceAttr, targetAttr):
-    if isAppExist(sourceAttr) and isAppExist(targetAttr):
+    if _isNodeExist(sourceAttr) and _isNodeExist(targetAttr):
         return cmds.isConnected(sourceAttr, targetAttr)
     else:
         return False
@@ -3183,7 +3185,7 @@ def isAttrConnected(sourceAttr, targetAttr):
 
 #
 def setAttrDisconnect(sourceAttr, targetAttr):
-    if isAppExist(sourceAttr) and isAppExist(targetAttr):
+    if _isNodeExist(sourceAttr) and _isNodeExist(targetAttr):
         if cmds.isConnected(sourceAttr, targetAttr):
             cmds.disconnectAttr(sourceAttr, targetAttr)
 
@@ -3222,8 +3224,8 @@ def setDefaultShaderRandomColor():
 
 #
 def setObjectDefaultShadingEngine(maObj):
-    shape = getNodeShape(maObj)
-    shadingEngines = getOutputObjectLis(shape, appCfg.MaNodeType_ShadingEngine)
+    shape = _getNodeShapeString(maObj)
+    shadingEngines = _getNodeTargetStringList(shape, appCfg.DEF_type_shading_engine)
     if not shadingEngines:
         cmds.sets(shape, forceElement='initialShadingGroup')
 
@@ -3284,14 +3286,14 @@ def setCleanTurtle():
 
 # Set Blend
 def setNodeBlendCreate(sourceObject, targetObject, nodeName):
-    if isAppExist(sourceObject) and isAppExist(targetObject):
-        sourceShape = getNodeShape(sourceObject, 1)
-        targetShape = getNodeShape(targetObject, 1)
+    if _isNodeExist(sourceObject) and _isNodeExist(targetObject):
+        sourceShape = _getNodeShapeString(sourceObject, 1)
+        targetShape = _getNodeShapeString(targetObject, 1)
         #
         isVisibility = cmds.getAttr(targetShape + '.visibility')
         cmds.setAttr(targetShape + '.visibility', 1)
         # worldMatrix = getNodeWorldMatrix(sourceObject)
-        # if not worldMatrix == MaDefaultMatrix:
+        # if not worldMatrix == DEF_matrix_default:
         #     pass
         # cmds.blendShape(sourceShape, targetShape, name=nodeName, weight=(0, 1), before=1)
         cmds.blendShape(sourceShape, targetShape, name=nodeName, weight=(0, 1), origin='world', before=1)
@@ -3317,7 +3319,7 @@ def getFolder(caption='Open ', okCaption='*', startingDirectory=none):
 
 #
 def setNodeDelete(objectString):
-    if isAppExist(objectString):
+    if _isNodeExist(objectString):
         cmds.delete(objectString)
 
 
@@ -3387,7 +3389,7 @@ def setRebuildMayaUi():
 def getNameOverlappingObjectLis(mObjectPaths):
     lis = []
     for mObjectPath in mObjectPaths:
-        objectName = _toNodeName(mObjectPath)
+        objectName = _getNodeNameString(mObjectPath)
         data = cmds.ls(objectName, long=1)
         if len(data) > 1:
             lis.append(mObjectPath)
@@ -3874,12 +3876,12 @@ def translateAnimationPosition(sourceObject, targetObject, startFrame, endFrame,
 
 #
 def getNodeWorldMatrix(nodeString):
-    return cmds.xform(nodeString, query=1, matrix=1, worldSpace=1) or MaDefaultMatrix
+    return cmds.xform(nodeString, query=1, matrix=1, worldSpace=1) or DEF_matrix_default
 
 
 #
 def isDefaultMatrix(nodeString):
-    return getNodeWorldMatrix(nodeString) == MaDefaultMatrix
+    return getNodeWorldMatrix(nodeString) == DEF_matrix_default
 
 
 #
@@ -3970,10 +3972,10 @@ def getMeshShapeDeformDatumLis(groupString):
             if targetShapePath.endswith(appCfg.MaKeyword_ShapeDeformed):
                 transformPath = _toTransformByNodePath(targetShapePath)
                 namespace = _toNamespaceByNodePath(transformPath)
-                shapeName = _toNodeName(targetShapePath)
+                shapeName = _getNodeNameString(targetShapePath)
                 sourceShapeName = shapeName[:-len(appCfg.MaKeyword_ShapeDeformed)]
                 sourceShapePath = transformPath + '|' + namespace + ':' + sourceShapeName
-                if isAppExist(sourceShapePath):
+                if _isNodeExist(sourceShapePath):
                     lis.append((sourceShapePath, targetShapePath))
     return lis
 

@@ -49,7 +49,7 @@ def getFurNodeName(furObject):
 #
 def getFurMapAttrData(furMapNode):
     string = none
-    nodeType = maUtils.getNodeType(furMapNode)
+    nodeType = maUtils._getNodeTypeString(furMapNode)
     if nodeType == appCfg.MaNurbsHairCacheType:
         attr = furMapNode + '.' + 'cacheFile'
         string = maUtils.getAttrDatum(attr) or none
@@ -59,7 +59,7 @@ def getFurMapAttrData(furMapNode):
 
 #
 def setFurMapAttrData(furMapNode, furMapFile):
-    nodeType = maUtils.getNodeType(furMapNode)
+    nodeType = maUtils._getNodeTypeString(furMapNode)
     if nodeType == appCfg.MaNurbsHairCacheType:
         if bscMethods.OsFile.isExist(furMapFile):
             ext = bscMethods.OsFile.ext(furMapFile)
@@ -84,20 +84,20 @@ def getFurObjectLabel(furObjectPath, assetName):
 #
 def getYetiGuideHairSystems(yetiObject):
     lis = []
-    yetiNode = maUtils.getNodeShape(yetiObject)
+    yetiNode = maUtils._getNodeShapeString(yetiObject)
     guideSets = maUtils.getInputObjectsByAttrName(yetiNode, '.guideSets')
     if guideSets:
         for guideSet in guideSets:
-            if maUtils.isAppExist(guideSet):
+            if maUtils._isNodeExist(guideSet):
                 curves = maUtils.getInputObjectsByAttrName(guideSet, '.dagSetMembers')
                 for curve in curves:
-                    if maUtils.isAppExist(curve):
+                    if maUtils._isNodeExist(curve):
                         curvePath = maUtils._getNodePathString(curve)
-                        curveShape = maUtils.getNodeShape(curvePath, 1)
+                        curveShape = maUtils._getNodeShapeString(curvePath, 1)
                         follicles = maUtils.getInputObjectsByAttrName(curveShape, '.create')
                         if follicles:
                             follicle = follicles[0]
-                            follicleShape = maUtils.getNodeShape(follicle, 1)
+                            follicleShape = maUtils._getNodeShapeString(follicle, 1)
                             #
                             hairSystems = maUtils.getInputObjectsByAttrName(follicleShape, '.currentPosition')
                             for hairSystem in hairSystems:
@@ -129,7 +129,7 @@ def setYetiObjectsWriteCache(yetiObjects, yetiCaches, startFrame, endFrame, samp
     dic = {}
     [bscMethods.OsFile.createDirectory(i) for i in yetiCaches]
     [cmds.setAttr(i + '.' + 'fileMode', 0) for i in yetiObjects]
-    yetiShapePathLis = [maUtils.getNodeShape(i) for i in yetiObjects]
+    yetiShapePathLis = [maUtils._getNodeShapeString(i) for i in yetiObjects]
     cmds.select(yetiShapePathLis)
     dic['nodes'] = ' '.join([i for i in yetiShapePathLis])
     dic['files'] = '"' + '|'.join(yetiCaches) + '"'
@@ -155,17 +155,17 @@ def getNurbsHairSolverCurves(nurbsHairSolverNode):
 def getNurbsHairMapNodes(nurbsHairObject):
     def getConnectionNodes(node):
         attr = node + '.' + 'inHairGrp'
-        if maUtils.isAppExist(attr):
+        if maUtils._isNodeExist(attr):
             inputNodes = cmds.listConnections(attr, destination=0, source=1, shapes=1)
             if inputNodes:
                 for i in inputNodes:
-                    if maUtils.getNodeType(i) == appCfg.MaNurbsHairCacheType:
+                    if maUtils._getNodeTypeString(i) == appCfg.MaNurbsHairCacheType:
                         lis.append(i)
                     #
                     getConnectionNodes(i)
     #
     lis = []
-    shapePath = maUtils.getNodeShape(nurbsHairObject)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject)
     getConnectionNodes(shapePath)
     return lis
 
@@ -187,11 +187,11 @@ def setOutYetisCache(directory, furNodes, startFrame, endFrame, sample=3, isUpda
         # View Progress
         progressExplain = '''Set Fur ( Yeti ) Cache'''
         maxValue = len(furNodes)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for yetiNode in furNodes:
             # In Progress
             progressBar.update()
-            if maUtils.isAppExist(yetiNode):
+            if maUtils._isNodeExist(yetiNode):
                 subFolder = none
                 if ':' in yetiNode:
                     subFolder = '_'.join(yetiNode.split('|')[-1].split(':')[:-1])
@@ -221,7 +221,7 @@ def setYetiRootNode(yetiNode, node):
 
 #
 def getYetiGraphData(yetiObject):
-    yetiNode = maUtils.getNodeShape(yetiObject, fullPath=1)
+    yetiNode = maUtils._getNodeShapeString(yetiObject, fullPath=1)
     graphRootNode = getYetiRootNode(yetiNode)
     #
     graphNodes = cmds.pgYetiGraph(yetiNode, listNodes=1)
@@ -255,7 +255,7 @@ def setCloseYetiGraphPanel():
 #
 def setRenameYetiGraph(yetiObject):
     def setMain(nameSet):
-        yetiNode = maUtils.getNodeShape(yetiObject, fullPath=1)
+        yetiNode = maUtils._getNodeShapeString(yetiObject, fullPath=1)
         #
         graphNodes = cmds.pgYetiGraph(yetiNode, listNodes=1)
         #
@@ -281,7 +281,7 @@ def setRenameYetiGraph(yetiObject):
 
 #
 def setCreateYetiGraph(yetiObject, graphData):
-    yetiNode = maUtils.getNodeShape(yetiObject, fullPath=1)
+    yetiNode = maUtils._getNodeShapeString(yetiObject, fullPath=1)
     if graphData:
         graphRootNode, nodeDataArray = graphData
         # Create Nde_Node
@@ -314,7 +314,7 @@ def setYetiObjectCloseSolver(yetiObject):
     hairSystemObjects = maUtils.getYetiGuideHairSystems(yetiObject)
     if hairSystemObjects:
         for hairSystemObject in hairSystemObjects:
-            hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+            hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
             #
             cmds.setAttr(hairSystem + '.simulationMethod', 1)
             cmds.setAttr(hairSystem + '.displayQuality', 5)
@@ -334,16 +334,16 @@ def setYetisGuideSet(yetiObjects, parentSet):
 def setSolverGroup(assetName, namespace=none):
     solverGroup = assetPr.astUnitModelSolverGroupName(assetName, namespace)
     forHides = maUtils.getNodeLisByType('mesh', 1, solverGroup)
-    [maUtils.setHide(maUtils.getNodeTransform(i)) for i in forHides]
+    [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHides]
 
 
 #
 def setScAstCfxDisplayLayer(assetName, namespace=none, scAstCfxDisplayLayer=None):
     scCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
-    lis = maUtils.getChildObjectsByRoot(scCfxGroup, [appCfg.MaNodeType_Mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve])
+    lis = maUtils.getChildObjectsByRoot(scCfxGroup, [appCfg.DEF_type_shading_mesh, appCfg.MaNodeType_NurbsSurface, appCfg.MaNodeType_NurbsCurve])
     #
     if scAstCfxDisplayLayer:
-        if not maUtils.isAppExist(scAstCfxDisplayLayer):
+        if not maUtils._isNodeExist(scAstCfxDisplayLayer):
             maUtils.setCreateDisplayLayer(scAstCfxDisplayLayer)
         #
         maUtils.setDisplayLayerColor(scAstCfxDisplayLayer, color=(1, 1, .25))
@@ -356,9 +356,9 @@ def setScAstCfxDisplayLayer(assetName, namespace=none, scAstCfxDisplayLayer=None
 #
 def setScAstCfxGrowSourceConnectToModel(assetName, scAstModelNamespace, scAstCfxNamespace):
     scAstCfxContainer = assetPr.astCfxContainerName(assetName, scAstCfxNamespace)
-    if not maUtils.isAppExist(scAstCfxContainer):
+    if not maUtils._isNodeExist(scAstCfxContainer):
         astCfxContainer = assetPr.astCfxContainerName(assetName)
-        if not maUtils.isAppExist(astCfxContainer):
+        if not maUtils._isNodeExist(astCfxContainer):
             maUtils.setCreateContainer(astCfxContainer)
         #
         maUtils.setContainerNamespace(astCfxContainer, scAstCfxNamespace)
@@ -373,32 +373,32 @@ def setScAstCfxGrowSourceConnectToModel(assetName, scAstModelNamespace, scAstCfx
                 attrData = maUtils.getAttrDatum(growSourceObject, astCfxGrowSourceAttrLabel)
                 if attrData:
                     sourceObject = scAstModelNamespace + ':' + attrData
-                    if maUtils.isAppExist(sourceObject):
+                    if maUtils._isNodeExist(sourceObject):
                         blendShapeNode = attrData + astCfxGrowSourceGroupLabel + inShapeLabel
                         # Transform
                         maUtils.setObjectTransferInputConnections(sourceObject, growSourceObject)
                         maUtils.setObjectTransferTransformation(sourceObject, growSourceObject)
                         maUtils.setObjectTransferVisibility(sourceObject, growSourceObject)
                         # Shape
-                        if not maUtils.isAppExist(blendShapeNode):
+                        if not maUtils._isNodeExist(blendShapeNode):
                             maUtils.setNodeBlendCreate(sourceObject, growSourceObject, blendShapeNode)
                             #
                             nodeLis.append(blendShapeNode)
-                            inOrig = growSourceObject + '|' + maUtils.getNodeShape(growSourceObject, 1).split(':')[-1] + origLabel
+                            inOrig = growSourceObject + '|' + maUtils._getNodeShapeString(growSourceObject, 1).split(':')[-1] + origLabel
                             #
-                            if maUtils.isAppExist(inOrig):
+                            if maUtils._isNodeExist(inOrig):
                                 nodeLis.append(inOrig)
                             #
                             inShapeSet = blendShapeNode + basicSetLabel
                             nodeLis.append(inShapeSet)
                         else:
-                            sourceShapePath = maUtils.getNodeShape(sourceObject)
+                            sourceShapePath = maUtils._getNodeShapeString(sourceObject)
                             sourceAttrName0 = '.worldMesh[0]'
                             targetAttrName0 = '.inputTarget[0].inputTargetGroup[0].inputTargetItem[6000].inputGeomTarget'
                             sourceAttr0, targetAttr0 = sourceShapePath + sourceAttrName0, blendShapeNode + targetAttrName0
                             maUtils.setAttrConnect(sourceAttr0, targetAttr0)
                             #
-                            growSourceShapePath = maUtils.getNodeShape(growSourceObject)
+                            growSourceShapePath = maUtils._getNodeShapeString(growSourceObject)
                             sourceAttrName1 = '.outputGeometry[0]'
                             targetAttrName1 = '.inMesh'
                             sourceAttr1, targetAttr1 = blendShapeNode + sourceAttrName1, growSourceShapePath + targetAttrName1
@@ -410,9 +410,9 @@ def setScAstCfxGrowSourceConnectToModel(assetName, scAstModelNamespace, scAstCfx
 #
 def setScAstSolverGrowSourceConnectToModel(assetName, scAstModelNamespace, scAstSolverNamespace):
     scAstSolverContainer = assetPr.astSolverContainerName(assetName, scAstSolverNamespace)
-    if not maUtils.isAppExist(scAstSolverContainer):
+    if not maUtils._isNodeExist(scAstSolverContainer):
         astSolverContainer = assetPr.astSolverContainerName(assetName)
-        if not maUtils.isAppExist(astSolverContainer):
+        if not maUtils._isNodeExist(astSolverContainer):
             maUtils.setCreateContainer(astSolverContainer)
         #
         maUtils.setContainerNamespace(astSolverContainer, scAstSolverNamespace)
@@ -427,7 +427,7 @@ def setScAstSolverGrowSourceConnectToModel(assetName, scAstModelNamespace, scAst
                 attrData = maUtils.getAttrDatum(growSourceObject, astCfxGrowSourceAttrLabel)
                 if attrData:
                     sourceObject = scAstModelNamespace + ':' + attrData
-                    if maUtils.isAppExist(sourceObject):
+                    if maUtils._isNodeExist(sourceObject):
                         inShapeNode = attrData + astCfxGrowSourceGroupLabel + inShapeLabel
                         # Transform
                         maUtils.setObjectTransferInputConnections(sourceObject, growSourceObject)
@@ -437,9 +437,9 @@ def setScAstSolverGrowSourceConnectToModel(assetName, scAstModelNamespace, scAst
                         maUtils.setNodeBlendCreate(sourceObject, growSourceObject, inShapeNode)
                         #
                         nodeLis.append(inShapeNode)
-                        inOrig = growSourceObject + '|' + maUtils.getNodeShape(growSourceObject, 1).split(':')[-1] + origLabel
+                        inOrig = growSourceObject + '|' + maUtils._getNodeShapeString(growSourceObject, 1).split(':')[-1] + origLabel
                         #
-                        if maUtils.isAppExist(inOrig):
+                        if maUtils._isNodeExist(inOrig):
                             nodeLis.append(inOrig)
                         #
                         inShapeSet = inShapeNode + basicSetLabel
@@ -451,11 +451,11 @@ def setScAstSolverGrowSourceConnectToModel(assetName, scAstModelNamespace, scAst
 #
 def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolverNamespace):
     def setBranch(objectString, connectionLis):
-        objectName = maUtils._toNodeName(objectString)
+        objectName = maUtils._getNodeNameString(objectString)
         scObjectName = maUtils.getObjectStringJoinNamespace(objectName, scAstSolverNamespace)
-        if maUtils.isAppExist(scObjectName):
-            scObjectShapePath = maUtils.getNodeShape(scObjectName)
-            scObjectShapeName = maUtils._toNodeName(scObjectShapePath, useMode=1)
+        if maUtils._isNodeExist(scObjectName):
+            scObjectShapePath = maUtils._getNodeShapeString(scObjectName)
+            scObjectShapeName = maUtils._getNodeNameString(scObjectShapePath, useMode=1)
             for sourceAttr, targetAttr in connectionLis:
                 if scObjectShapeName in sourceAttr:
                     sourceAttr = maUtils.getObjectStringJoinNamespace(sourceAttr, scAstSolverNamespace)
@@ -469,14 +469,14 @@ def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolve
                     if targetAttr.endswith('.inHairGrp'):
                         targetAttr = maUtils.getObjectStringJoinNamespace(targetAttr, scAstCfxNamespace)
                 #
-                if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
+                if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
                     if not maUtils.isAttrConnected(sourceAttr, targetAttr):
                         maUtils.setAttrConnect(sourceAttr, targetAttr)
     #
     if connectionDic:
         progressExplain = '''Connect Solver Guide'''
         maxValue = len(connectionDic)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.update()
             setBranch(k, v)
@@ -485,19 +485,19 @@ def setScAstSolverGuideConnectToCfx(connectionDic, scAstCfxNamespace, scAstSolve
 #
 def setScAstCfxConnectToSolver(connectionDic, scAstCfxNamespace, scAstSolverNamespace):
     def setBranch(objectString, connectionLis):
-        objectName = maUtils._toNodeName(objectString)
+        objectName = maUtils._getNodeNameString(objectString)
         scObjectName = maUtils.getObjectStringJoinNamespace(objectName, scAstCfxNamespace)
-        if maUtils.isAppExist(scObjectName):
+        if maUtils._isNodeExist(scObjectName):
             for sourceAttr, targetAttr in connectionLis:
                 sourceAttr = maUtils.getObjectStringJoinNamespace(sourceAttr, scAstCfxNamespace)
                 targetAttr = maUtils.getObjectStringJoinNamespace(targetAttr, scAstSolverNamespace)
-                if maUtils.isAppExist(sourceAttr) and maUtils.isAppExist(targetAttr):
+                if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
                     maUtils.setAttrConnect(sourceAttr, targetAttr)
     #
     if connectionDic:
         progressExplain = '''Connect Nurbs Hair Guide'''
         maxValue = len(connectionDic)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for k, v in connectionDic.items():
             progressBar.update()
             setBranch(k, v)
@@ -506,16 +506,16 @@ def setScAstCfxConnectToSolver(connectionDic, scAstCfxNamespace, scAstSolverName
 #
 def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scAstSolverCacheNamespace):
     def setBranch(objectString):
-        objectName = maUtils._toNodeName(objectString, useMode=1)
+        objectName = maUtils._getNodeNameString(objectString, useMode=1)
         sourceObjectName = maUtils.getObjectStringJoinNamespace(objectName, scAstSolverCacheNamespace)
         targetObjectName = maUtils.getObjectStringJoinNamespace(objectName, scAstSolverNamespace)
-        if maUtils.isAppExist(sourceObjectName):
-            sourceShapePath = maUtils.getNodeShape(sourceObjectName)
+        if maUtils._isNodeExist(sourceObjectName):
+            sourceShapePath = maUtils._getNodeShapeString(sourceObjectName)
             inputConnectionLis = maUtils.getNodeInputConnectionLis(sourceShapePath)
             if inputConnectionLis:
-                if maUtils.isAppExist(targetObjectName):
+                if maUtils._isNodeExist(targetObjectName):
                     blendShapeNode = objectName + '_blendShape'
-                    if not maUtils.isAppExist(blendShapeNode):
+                    if not maUtils._isNodeExist(blendShapeNode):
                         cmds.blendShape(sourceObjectName, targetObjectName, name=blendShapeNode, weight=(0, 1), origin='world', before=1)
                     else:
                         sourceAttrName = '.worldSpace'
@@ -531,14 +531,14 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
     errorLis = []
     #
     scSolverCacheGroup = assetPr.astUnitSolverBridgeGroupName(assetName, scAstSolverCacheNamespace)
-    if maUtils.isAppExist(scSolverCacheGroup):
+    if maUtils._isNodeExist(scSolverCacheGroup):
         maUtils.setNodeOutlinerRgb(scSolverCacheGroup, 0, .5, 1)
         #
         nurbsCurveObjects = maUtils.getChildObjectsByRoot(scSolverCacheGroup, appCfg.MaNodeType_NurbsCurve)
         if nurbsCurveObjects:
             progressExplain = '''Connect Solver Cache'''
             maxValue = len(nurbsCurveObjects)
-            progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+            progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
             for i in nurbsCurveObjects:
                 progressBar.update()
                 #
@@ -563,7 +563,7 @@ def setScAstCfxFurGrowConnect__(assetName, astRootNamespace, astCfxNamespace):
             if growSourceObject.endswith(astCfxGrowSourceGroupLabel):
                 attrData = maUtils.getAttrDatum(growSourceObject, astCfxGrowSourceAttrLabel)
                 sourceObject = astRootNamespace + ':' + attrData
-                if maUtils.isAppExist(sourceObject):
+                if maUtils._isNodeExist(sourceObject):
                     inShapeNode = attrData + astCfxGrowSourceGroupLabel + inShapeLabel
                     # Transform
                     maUtils.setObjectTransferInputConnections(sourceObject, growSourceObject)
@@ -573,12 +573,12 @@ def setScAstCfxFurGrowConnect__(assetName, astRootNamespace, astCfxNamespace):
                     maUtils.setNodeBlendCreate(sourceObject, growSourceObject, inShapeNode)
                     #
                     nodeLis.append(inShapeNode)
-                    inOrig = maUtils.getNodeShape(growSourceObject, 1) + origLabel
+                    inOrig = maUtils._getNodeShapeString(growSourceObject, 1) + origLabel
                     #
                     if int(mayaVersion) >= 2015:
-                        inOrig = growSourceObject + '|' + maUtils.getNodeShape(growSourceObject, 1).split(':')[-1] + origLabel
+                        inOrig = growSourceObject + '|' + maUtils._getNodeShapeString(growSourceObject, 1).split(':')[-1] + origLabel
                     #
-                    if maUtils.isAppExist(inOrig):
+                    if maUtils._isNodeExist(inOrig):
                         nodeLis.append(inOrig)
                     #
                     inShapeSet = inShapeNode + basicSetLabel
@@ -612,7 +612,7 @@ def setScAstNurbsHairSolverConnectToTime(assetName, astCfxNamespace, startFrame)
             maUtils.setAttrConnect(outputTimeAttr, inputTimeAttr)
     #
     astCfxNurbsHairSolverGroup = assetPr.astUnitRigSolNhrSolGuideObjectGroupPath(assetName, astCfxNamespace)
-    if maUtils.isAppExist(astCfxNurbsHairSolverGroup):
+    if maUtils._isNodeExist(astCfxNurbsHairSolverGroup):
         objectPaths = maUtils.getChildObjectsByRoot(astCfxNurbsHairSolverGroup, prsVariants.Util.maNurbsHairInGuideCurvesNode, fullPath=True)
         if objectPaths:
             for i in objectPaths:
@@ -621,35 +621,35 @@ def setScAstNurbsHairSolverConnectToTime(assetName, astCfxNamespace, startFrame)
 
 #
 def getYetiSolverMode(yetiObject):
-    shapePath = maUtils.getNodeShape(yetiObject, 1)
+    shapePath = maUtils._getNodeShapeString(yetiObject, 1)
     data = maUtils.getAttrDatum(shapePath, 'fileMode')
     return appCfg.MaYetiSolverModeLis[data]
 
 
 #
 def getYetiCacheFile(yetiObject):
-    shapePath = maUtils.getNodeShape(yetiObject, 1)
+    shapePath = maUtils._getNodeShapeString(yetiObject, 1)
     string = maUtils.getAttrDatum(shapePath, 'cacheFileName')
     return string
 
 
 #
 def getHairSystemSolverMode(hairSystemObject):
-    shapePath = maUtils.getNodeShape(hairSystemObject, 1)
+    shapePath = maUtils._getNodeShapeString(hairSystemObject, 1)
     data = maUtils.getAttrDatum(shapePath, 'simulationMethod')
     return appCfg.MaHairSystemSolverModeLis[data]
 
 
 #
 def getNurbsHairSolverMode(nurbsHairSolverObject):
-    shapePath = maUtils.getNodeShape(nurbsHairSolverObject, 1)
+    shapePath = maUtils._getNodeShapeString(nurbsHairSolverObject, 1)
     data = maUtils.getAttrDatum(shapePath, appCfg.MaNurbsHairCacheModeAttrName)
     return appCfg.MaNurbsHairSolverModeLis[data]
 
 
 #
 def getNurbsHairCacheFile(nurbsHairObject):
-    shapePath = maUtils.getNodeShape(nurbsHairObject, 1)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject, 1)
     string = maUtils.getAttrDatum(shapePath, appCfg.MaNurbsHairCacheFileAttrName)
     return string
 
@@ -727,7 +727,7 @@ def getGeomCacheExists(hairSystemObject):
     startFrame = 0
     endFrame = 0
     #
-    hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+    hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
     #
     cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
     if cacheFiles:
@@ -802,11 +802,11 @@ def getNhrCacheFrameRange(nurbsHairObject):
 
 #
 def getPfxHairSimMode(pfxHairObject):
-    pfxHairNode = maUtils.getNodeShape(pfxHairObject)
+    pfxHairNode = maUtils._getNodeShapeString(pfxHairObject)
     hairSystemObjects = maUtils.getPfxHairSystemObjects(pfxHairNode)
     if hairSystemObjects:
         hairSystemObject = hairSystemObjects[0]
-        hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+        hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
         solverMode = cmds.getAttr(hairSystem + '.simulationMethod')
         return appCfg.MaHairSystemSolverModeLis[solverMode]
 
@@ -858,11 +858,11 @@ def setOutPfxHairCache(cachePath, cacheName, hairSystem, startFrame, endFrame, s
 
 #
 def getExistsPfxHairCache(pfxHairObject, cacheFormat='mcx'):
-    pfxHairNode = maUtils.getNodeShape(pfxHairObject)
+    pfxHairNode = maUtils._getNodeShapeString(pfxHairObject)
     hairSystemObjects = maUtils.getPfxHairSystemObjects(pfxHairNode)
     if hairSystemObjects:
         hairSystemObject = hairSystemObjects[0]
-        hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+        hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
         cacheFiles = maGeomCache.getGeomCacheFiles(hairSystem)
         return cacheFiles
 
@@ -886,7 +886,7 @@ def setUploadExistsGeometryCache(cachePath, cacheName, hairSystem):
 
 #
 def setNurbsHairConnectCache(nurbsHairObject, cacheFile):
-    shapePath = maUtils.getNodeShape(nurbsHairObject)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject)
     #
     maUtils.setAttrDatumForce_(shapePath, appCfg.MaNurbsHairCacheModeAttrName, 2)
     maUtils.setAttrStringDatum(shapePath, appCfg.MaNurbsHairCacheFileAttrName, cacheFile)
@@ -946,7 +946,7 @@ def setPfxHairObjectCloseSolver(pfxHairObject):
     hairSystemObjects = maUtils.getPfxHairSystemObjects(pfxHairObject)
     if hairSystemObjects:
         for hairSystemObject in hairSystemObjects:
-            hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+            hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
             #
             cmds.setAttr(pfxHairObject + '.visibility', 1)
             #
@@ -989,11 +989,11 @@ def setPfxHairInCache(cachePath, cacheName, hairSystem, simulationMode):
 #
 def getPfxHairCacheEnable(pfxHairObject):
     enable = False
-    pfxHairNode = maUtils.getNodeShape(pfxHairObject)
+    pfxHairNode = maUtils._getNodeShapeString(pfxHairObject)
     hairSystemObjects = maUtils.getPfxHairSystemObjects(pfxHairNode)
     if hairSystemObjects:
         hairSystemObject = hairSystemObjects[0]
-        hairSystem = maUtils.getNodeShape(hairSystemObject, 1)
+        hairSystem = maUtils._getNodeShapeString(hairSystemObject, 1)
         cacheNode = maGeomCache.getGeomCacheNodeLis(hairSystem)
         if cacheNode:
             enable = True
@@ -1014,7 +1014,7 @@ def getFurObjectsPathDic(furObjects):
     if furObjects:
         for objectString in furObjects:
             objectPath = maUtils._getNodePathString(objectString)
-            uniqueId = maUuid.getNodeUniqueId(objectPath)
+            uniqueId = maUuid._getNodeUniqueIdString(objectPath)
             dic[uniqueId] = objectPath
     return dic
 
@@ -1025,7 +1025,7 @@ def getFurObjectsInfoDic(furObjects):
     #
     if furObjects:
         for objectString in furObjects:
-            uniqueId = maUuid.getNodeUniqueId(objectString)
+            uniqueId = maUuid._getNodeUniqueIdString(objectString)
             dic[uniqueId] = ()
     return dic
 
@@ -1038,10 +1038,10 @@ def getNhrObjectsInfoDic(nurbsHairObjects):
         # View Progress
         progressExplain = u'''Read Nurbs Hair Information'''
         maxValue = len(nurbsHairObjects)
-        progressBar = bscObjects.If_Progress(progressExplain, maxValue)
+        progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
         for nurbsHairObject in nurbsHairObjects:
             progressBar.update()
-            uniqueId = maUuid.getNodeUniqueId(nurbsHairObject)
+            uniqueId = maUuid._getNodeUniqueIdString(nurbsHairObject)
             #
             dic[uniqueId] = (
                 datHash.getStrHashKey(getNhrObjectGraphNodeSub(nurbsHairObject)),
@@ -1053,11 +1053,11 @@ def getNhrObjectsInfoDic(nurbsHairObjects):
 
 #
 def setRefreshYetiGrow(growMesh):
-    meshShape = maUtils.getNodeShape(growMesh)
-    connectYetiObjects = maUtils.getOutputObjectLis(meshShape, 'pgYetiMaya')
+    meshShape = maUtils._getNodeShapeString(growMesh)
+    connectYetiObjects = maUtils._getNodeTargetStringList(meshShape, 'pgYetiMaya')
     if connectYetiObjects:
         for yetiObject in connectYetiObjects:
-            yetiNode = maUtils.getNodeShape(yetiObject)
+            yetiNode = maUtils._getNodeShapeString(yetiObject)
             importNodes = cmds.pgYetiGraph(yetiNode, listNodes=1, type='import')
             if importNodes:
                 for node in importNodes:
@@ -1076,7 +1076,7 @@ def getNurbsHairConnectObjectData(nurbsHairObject):
             objectPath = maUtils._getNodePathString(nodeString)
             graphObjectLis.append(objectPath)
             #
-            nodeString = maUtils.getNodeShape(objectPath)
+            nodeString = maUtils._getNodeShapeString(objectPath)
         else:
             graphNodeLis.append(nodeString)
         #
@@ -1105,7 +1105,7 @@ def getNurbsHairConnectObjectData(nurbsHairObject):
 
 #
 def getNurbsHairObjects(used=False):
-    data = [maUtils.getNodeTransform(i, 1) for i in maUtils.getNodeLisByType('nurbsHair', fullPath=True)]
+    data = [maUtils._getNodeTransformString(i, 1) for i in maUtils.getNodeLisByType('nurbsHair', fullPath=True)]
     if used is True:
         subLis = []
         for i in data:
@@ -1124,7 +1124,7 @@ def getNurbsHairGraphNodes(nurbsHairObject):
     def getBranch(mNode):
         if maUtils.isTransform(mNode):
             objectPath = maUtils._getNodePathString(mNode)
-            mNode = maUtils.getNodeShape(objectPath)
+            mNode = maUtils._getNodeShapeString(objectPath)
             #
             graphObjects.append(objectPath)
         else:
@@ -1146,7 +1146,7 @@ def getNhrObjectGraphGeometryObjects(nurbsHairObject):
     def getBranch(mNode):
         if maUtils.isTransform(mNode):
             objectPath = maUtils._getNodePathString(mNode)
-            mNode = maUtils.getNodeShape(objectPath)
+            mNode = maUtils._getNodeShapeString(objectPath)
         #
         nodeLis = maUtils.getInputObjectsByAttrName(mNode, '.inHairGrp')
         if nodeLis:
@@ -1187,7 +1187,7 @@ def getNhrObjectsGraphNodeDic(nurbsHairObjects):
             graphNodeData = getNhrObjectGraphNodeSub(objectPath)
             rowIndex = seq
             #
-            uniqueId = maUuid.getNodeUniqueId(objectPath)
+            uniqueId = maUuid._getNodeUniqueIdString(objectPath)
             dic[uniqueId] = graphNodeData, rowIndex
     return dic
 
@@ -1227,12 +1227,12 @@ def setCreateNurbsHairObjects(dataDic):
 # Sub Method
 def getNhrObjectGraphGeometrySub(nurbsHairObject):
     def getBranch(objectPath):
-        shapePath = maUtils.getNodeShape(objectPath)
+        shapePath = maUtils._getNodeShapeString(objectPath)
         #
-        shapeName = maUtils._toNodeName(shapePath)
-        shapeType = maUtils.getNodeType(shapePath)
+        shapeName = maUtils._getNodeNameString(shapePath)
+        shapeType = maUtils._getNodeTypeString(shapePath)
         transformData = maObj.getObjectTransformCreateData(objectPath)
-        if shapeType == appCfg.MaNodeType_Mesh:
+        if shapeType == appCfg.DEF_type_shading_mesh:
             geomData = maGeom.getMeshObjectGeomData(objectPath)
             mapData = maGeom.getMeshObjectMapData(objectPath)
             lis.append((shapeName, shapeType, transformData, geomData, mapData))
@@ -1263,7 +1263,7 @@ def getNhrObjectsGraphGeometryDic(nurbsHairObjects):
             objectPath = i
             graphObjectsData = getNhrObjectGraphGeometrySub(objectPath)
             rowIndex = seq
-            uniqueId = maUuid.getNodeUniqueId(objectPath)
+            uniqueId = maUuid._getNodeUniqueIdString(objectPath)
             dic[uniqueId] = graphObjectsData, rowIndex
     return dic
 
@@ -1323,7 +1323,7 @@ def getNhrObjectsGraphRelationDic(nurbsHairObjects):
             objectPath = i
             relationData = getNhrObjectGraphRelationSub(i)
             #
-            uniqueId = maUuid.getNodeUniqueId(objectPath)
+            uniqueId = maUuid._getNodeUniqueIdString(objectPath)
             dic[uniqueId] = relationData
     return dic
 
@@ -1348,7 +1348,7 @@ def getNhrGuideObjects(nurbsHairObject):
         nodeStrings = maUtils.getInputObjectsByAttrName(subObjStr, '.inHairGrp')
         if nodeStrings:
             for nodeString in nodeStrings:
-                objectType = maUtils.getShapeType(nodeString)
+                objectType = maUtils._getNodeShapeTypeString(nodeString)
                 if objectType == appCfg.MaNurbsHairInGuideCurvesType:
                     lis.append(nodeString)
                 #
@@ -1356,7 +1356,7 @@ def getNhrGuideObjects(nurbsHairObject):
     #
     lis = []
     #
-    shapePath = maUtils.getNodeShape(nurbsHairObject)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject)
     getBranch(shapePath)
     return lis
 
@@ -1367,7 +1367,7 @@ def getNhrObjectsByGuide(nhrGuideObject):
         nodeStrings = maUtils.getOutputNodeLisFilter(subObjStr, '.outHairGrp')
         if nodeStrings:
             for nodeString in nodeStrings:
-                objectType = maUtils.getShapeType(nodeString)
+                objectType = maUtils._getNodeShapeTypeString(nodeString)
                 if objectType == appCfg.MaNodeType_Plug_NurbsHair:
                     lis.append(nodeString)
                 #
@@ -1375,7 +1375,7 @@ def getNhrObjectsByGuide(nhrGuideObject):
     #
     lis = []
     #
-    shapePath = maUtils.getNodeShape(nhrGuideObject)
+    shapePath = maUtils._getNodeShapeString(nhrGuideObject)
     getBranch(shapePath)
     return lis
 
@@ -1386,7 +1386,7 @@ def isNhrHasSolGuideObject(nurbsHairObject):
         nodeStrings = maUtils.getInputObjectsByAttrName(subObjStr, '.inHairGrp')
         if nodeStrings:
             for nodeString in nodeStrings:
-                objectType = maUtils.getShapeType(nodeString)
+                objectType = maUtils._getNodeShapeTypeString(nodeString)
                 if objectType == appCfg.MaNurbsHairInGuideCurvesType:
                     lis.append(nodeString)
                 #
@@ -1394,7 +1394,7 @@ def isNhrHasSolGuideObject(nurbsHairObject):
     #
     lis = []
     #
-    shapePath = maUtils.getNodeShape(nurbsHairObject)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject)
     getBranch(shapePath)
     return lis != []
 
@@ -1403,8 +1403,8 @@ def isNhrHasSolGuideObject(nurbsHairObject):
 def setConnectNurbsHairSolver(nurbsHairSolverObject, guideGroup):
     outAttrName = '.worldSpace[0]'
     inAttrName = '.inGuideCurves[{}].inStrand'
-    shapePath = maUtils.getNodeShape(nurbsHairSolverObject)
-    if maUtils.isAppExist(shapePath) and maUtils.isAppExist(guideGroup):
+    shapePath = maUtils._getNodeShapeString(nurbsHairSolverObject)
+    if maUtils._isNodeExist(shapePath) and maUtils._isNodeExist(guideGroup):
         guideCurves = maUtils.getChildShapesByRoot(guideGroup, 'nurbsCurve')
         if guideCurves:
             for seq, i in enumerate(guideCurves):
@@ -1416,7 +1416,7 @@ def setConnectNurbsHairSolver(nurbsHairSolverObject, guideGroup):
 
 #
 def getFurCacheExists(furObject):
-    objectType = maUtils.getShapeType(furObject)
+    objectType = maUtils._getNodeShapeTypeString(furObject)
     if objectType == appCfg.MaNodeType_Plug_Yeti:
         return getYetiCacheInfo(furObject)
     elif objectType == appCfg.MaHairSystemType:
@@ -1431,7 +1431,7 @@ def getNhrScatterObjects(nurbsHairObject):
         nodeStrings = maUtils.getInputObjectsByAttrName(subObjStr, '.inHairGrp')
         if nodeStrings:
             for nodeString in nodeStrings:
-                objectType = maUtils.getShapeType(nodeString)
+                objectType = maUtils._getNodeShapeTypeString(nodeString)
                 if objectType == appCfg.MaNurbsHairScatterType:
                     lis.append(nodeString)
                 #
@@ -1439,7 +1439,7 @@ def getNhrScatterObjects(nurbsHairObject):
     #
     lis = []
     #
-    shapePath = maUtils.getNodeShape(nurbsHairObject)
+    shapePath = maUtils._getNodeShapeString(nurbsHairObject)
     getBranch(shapePath)
     #
     return lis
@@ -1464,8 +1464,8 @@ def setNhrCacheObjectReadCache(nhrCacheObject, cacheFile):
 #
 def getNhrSolverGuideCacheObjects(mhrSolverGuideObjects):
     def getBranch(objectString):
-        maShape = maUtils.getNodeShape(objectString)
-        existsCacheObjects = maUtils.getInputNodes(maShape, appCfg.MaNurbsHairCacheType)
+        maShape = maUtils._getNodeShapeString(objectString)
+        existsCacheObjects = maUtils._getNodeSourceStringList(maShape, appCfg.MaNurbsHairCacheType)
         if existsCacheObjects:
             lis.extend(existsCacheObjects)
     #
@@ -1492,9 +1492,9 @@ def setCollectionNhrSolverGuideObjectsCaches(nhrCacheObjects, targetDirectoryStr
 #
 def setNurbsHairCovertToCache(nurbsHairObject, cacheFolder, timeTag=None):
     def setBranch(objectString):
-        objectShape = maUtils.getNodeShape(objectString)
+        objectShape = maUtils._getNodeShapeString(objectString)
         #
-        objectName = maUtils._toNodeName(objectString)
+        objectName = maUtils._getNodeNameString(objectString)
         cacheObjectName = objectName + '_solCache'
         # Cache
         cacheFile = '{}/{}.nhr'.format(cacheFolder, objectName)
@@ -1504,11 +1504,11 @@ def setNurbsHairCovertToCache(nurbsHairObject, cacheFolder, timeTag=None):
         cacheObjectSourceAttr = cacheObjectName + '.outHairGrp'
         cacheObjectTargetAttr = cacheObjectName + '.inHairGrp'
         #
-        if not maUtils.isAppExist(cacheObjectName):
+        if not maUtils._isNodeExist(cacheObjectName):
             maUtils.setCreateNode(appCfg.MaNurbsHairCacheType, cacheObjectName)
             # maUtils.setAttrConnect(inputObjectSourceAttr, cacheObjectTargetAttr)
         #
-        outputObjects = maUtils.getOutputObjectLis(objectShape)
+        outputObjects = maUtils._getNodeTargetStringList(objectShape)
         if outputObjects:
             for outputObject in outputObjects:
                 if not cacheObjectName in outputObject:
@@ -1519,10 +1519,10 @@ def setNurbsHairCovertToCache(nurbsHairObject, cacheFolder, timeTag=None):
         #
         setNhrCacheObjectReadCache(cacheObjectName, cacheFile)
     #
-    nurbsHairShape = maUtils.getNodeShape(nurbsHairObject)
+    nurbsHairShape = maUtils._getNodeShapeString(nurbsHairObject)
     inputObjects = maUtils.getInputObjectsByAttrName(nurbsHairShape, '.inHairGrp')
     if inputObjects:
-        [setBranch(i) for i in inputObjects if not maUtils.getShapeType(i) == appCfg.MaNurbsHairCacheType]
+        [setBranch(i) for i in inputObjects if not maUtils._getNodeShapeTypeString(i) == appCfg.MaNurbsHairCacheType]
 
 
 #
@@ -1535,17 +1535,17 @@ def setNurbsHairObjectCreateSolverGuide(nurbsHairObject, assetName):
         # cmds.setAttr(node + '.ignore', 1)
         maUtils.setNodeOutlinerRgb(node, .25, 1, .5)
     #
-    nhrObjectName = maUtils._toNodeName(nurbsHairObject)
+    nhrObjectName = maUtils._getNodeNameString(nurbsHairObject)
     nhrSolGuideObjectName = nhrObjectName.replace(appCfg.MaNodeType_Plug_NurbsHair, appCfg.MaNurbsHairInGuideCurvesType)
     nhrSolGuideShapeName = nhrSolGuideObjectName + 'Shape'
     #
     boolean = isNhrHasSolGuideObject(nurbsHairObject)
     if not boolean:
         parentGroup = assetPr.astUnitRigSolNhrSolGuideObjectGroupPath(assetName)
-        if not maUtils.isAppExist(parentGroup):
+        if not maUtils._isNodeExist(parentGroup):
             maUtils.setAppPathCreate(parentGroup)
         #
-        if not maUtils.isAppExist(nhrSolGuideObjectName):
+        if not maUtils._isNodeExist(nhrSolGuideObjectName):
             maObj.setCreateTransformObject(nhrSolGuideObjectName, appCfg.MaNurbsHairInGuideCurvesType, parent=parentGroup)
             initNurbsHairInGuideCurves(nhrSolGuideObjectName)
         #
@@ -1555,7 +1555,7 @@ def setNurbsHairObjectCreateSolverGuide(nurbsHairObject, assetName):
         nhrScatterObjects = getNhrScatterObjects(nurbsHairObject)
         if nhrScatterObjects:
             nhrScatterObject = nhrScatterObjects[0]
-            nhrScatterShape = maUtils.getNodeShape(nhrScatterObject)
+            nhrScatterShape = maUtils._getNodeShapeString(nhrScatterObject)
             outputConnections = maUtils.getNodeOutputConnectionLis(nhrScatterShape)
             if outputConnections:
                 for seq, (sourceAttr, targetAttr) in enumerate(outputConnections):

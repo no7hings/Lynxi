@@ -10,7 +10,7 @@ if groupStringLis:
     datumLis = maUtils.getMeshShapeDeformDatumLis(groupString)
     if datumLis:
         maxValue = len(datumLis)
-        progressBar = bscObjects.If_Progress('Transfer Attribute(s)', maxValue)
+        progressBar = bscObjects.ProgressWindow('Transfer Attribute(s)', maxValue)
         for sourceNode, targetNode in datumLis:
             progressBar.update()
             #
