@@ -4,7 +4,7 @@ import maya.cmds as cmds
 
 from LxBasic import bscObjects
 #
-from LxPreset import prsConfigure, prsVariants
+from LxPreset import prsConfigure, prsOutputs
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
@@ -12,8 +12,8 @@ from LxMaya.command import maUtils, maAsb
 #
 from LxMaya.product.data import datScenery
 # Utilities Label
-adFileAttrLabel = prsVariants.Util.adFileAttrLabel
-asbLodLevelAttrLabel = prsVariants.Util.asbLodLevelAttrLabel
+adFileAttrLabel = prsOutputs.Util.adFileAttrLabel
+asbLodLevelAttrLabel = prsOutputs.Util.asbLodLevelAttrLabel
 
 
 #

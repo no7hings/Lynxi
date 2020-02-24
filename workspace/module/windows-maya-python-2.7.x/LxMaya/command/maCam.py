@@ -9,7 +9,7 @@ import maya.OpenMaya as OpenMaya
 # noinspection PyUnresolvedReferences
 import maya.OpenMayaUI as OpenMayaUI
 
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxPreset import prsConfigure, prsMethods
 #
@@ -176,7 +176,7 @@ def setHudColor(labelColor=19, valueColor=16):
 
 #
 def hudConfig(fontSize='large'):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     dic['Time Config Info'] = dict(
         section=0, block=0,
         blockAlignment='center',
@@ -270,7 +270,7 @@ def setCameraHud(fontSize='large'):
 
 #
 def setCameraLook(cameraObject, objectLis):
-    cameraShape = maUtils._getNodeShapeString(cameraObject)
+    cameraShape = maUtils._getNodeShapeNodeString(cameraObject)
     #
     cmds.setAttr('{}.rotate'.format(cameraObject), -45, 45, 0)
     sx, sy, xz = cmds.getAttr('{}.rotate'.format(cameraObject))[0]

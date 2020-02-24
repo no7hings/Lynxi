@@ -5,13 +5,13 @@ import hashlib
 #
 import struct
 
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
-from LxPreset import prsVariants
+from LxPreset import prsOutputs
 
-from LxDatabase import dtbCore
+from LxDatabase import dtbMtdCore
 #
-backupExtLabel = prsVariants.Util.dbHistoryUnitKey
+backupExtLabel = prsOutputs.Util.dbHistoryUnitKey
 mayaAsciiExtLabel = '.ma'
 #
 keyLabel = 'key'
@@ -42,8 +42,8 @@ rigStateLabel = 'rigState'
 #
 noneExistsLabel = 'Non - Exists'
 #
-_defaultVariant = prsVariants.Util.astDefaultVariant
-_defaultVersion = prsVariants.Util.astDefaultVersion
+_defaultVariant = prsOutputs.Util.astDefaultVariant
+_defaultVersion = prsOutputs.Util.astDefaultVersion
 #
 none = ''
 
@@ -101,7 +101,7 @@ def readDbData():
 
 # Get Lock Data
 def getDbInfo(hashValue, dbVersion):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     dic[updateLabel] = bscMethods.OsTimestamp.active()
     dic[userLabel] = bscMethods.OsSystem.username()
     dic[hostNameLabel] = bscMethods.OsSystem.hostname()
@@ -123,7 +123,7 @@ def getDbBackupFile(directory, dbIndex, dbVersion):
 
 #
 def getData(data, hashValue, dbVersion):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     dic[updateLabel] = bscMethods.OsTimestamp.active()
     dic[userLabel] = bscMethods.OsSystem.username()
     dic[hostNameLabel] = bscMethods.OsSystem.hostname()
@@ -223,7 +223,7 @@ def dbCompDatumRead(dbCompIndex, directory):
     return data
 
 
-@dtbCore.fncThreadSemaphoreModifier
+@dtbMtdCore.fncThreadSemaphoreModifier
 def readDbCompDataThreadMethod(dbIndex, directory):
     dbFile = getDbFile(directory, dbIndex)
     data = dbDatumRead(dbFile)
@@ -232,7 +232,7 @@ def readDbCompDataThreadMethod(dbIndex, directory):
 
 # Sub Method
 def dbCompDatumDicRead(compIndexes, dbIndex, directory):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     if compIndexes:
         if isinstance(compIndexes, list):
             splitCompIndexes = bscMethods.List.splitTo(compIndexes, 250)
@@ -250,7 +250,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
                 readThreadLis = []
                 for compIndex in subCompIndexes:
                     dbCompIndex = getDatabaseCompIndex(dbIndex, compIndex)
-                    t = dtbCore.DtbThread(readDbCompDataThreadMethod, dbCompIndex, directory)
+                    t = dtbMtdCore.DtbThread(readDbCompDataThreadMethod, dbCompIndex, directory)
                     readThreadLis.append((compIndex, t))
                     t.start()
                 #
@@ -266,7 +266,7 @@ def dbCompDatumDicRead(compIndexes, dbIndex, directory):
 
 #
 def writeJsonGzipDic(fileString_, dicKey, value):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     gzFile = fileString_
     if bscMethods.OsFile.isExist(gzFile):
@@ -337,28 +337,28 @@ def readDbHistory(dbIndex, directory, dicKey):
 
 #
 def readDbAssetHistory(dbIndex, dicKey):
-    directory = prsVariants.Database.assetHistory
+    directory = prsOutputs.Database.assetHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def readDbSceneryHistory(dbIndex, dicKey):
-    directory = prsVariants.Database.sceneryHistory
+    directory = prsOutputs.Database.sceneryHistory
     return readDbHistory(dbIndex, directory, dicKey)
 
 
 #
 def writeDbAssetHistory(dbIndex, sourceFile):
-    directory = prsVariants.Database.assetHistory
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
+    directory = prsOutputs.Database.assetHistory
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoSourceLabel, sourceFile)
 
 
 #
 def writeDbSceneryUnitHistory(dbIndex, sourceFile):
-    directory = prsVariants.Database.sceneryHistory
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
-    writeDbHistory(dbIndex, directory, prsVariants.Util.infoSourceLabel, sourceFile)
+    directory = prsOutputs.Database.sceneryHistory
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoUpdaterLabel, bscMethods.OsSystem.username())
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoUpdateLabel, bscMethods.OsTimestamp.active())
+    writeDbHistory(dbIndex, directory, prsOutputs.Util.infoSourceLabel, sourceFile)
 

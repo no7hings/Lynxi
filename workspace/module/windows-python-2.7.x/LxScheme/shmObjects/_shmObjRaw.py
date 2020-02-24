@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxScheme import shmObjAbstract
+from LxScheme import shmObjCore
 
 
-class Raw_Version(shmObjAbstract.Abc_Raw):
+class Raw_Version(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -42,7 +42,7 @@ class Raw_Version(shmObjAbstract.Abc_Raw):
         return self
 
 
-class Raw_Custom(shmObjAbstract.Abc_Raw):
+class Raw_Custom(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -70,7 +70,7 @@ class Raw_Custom(shmObjAbstract.Abc_Raw):
         return self.get(self.Key_Active)
 
 
-class Raw_Environ(shmObjAbstract.Abc_Raw):
+class Raw_Environ(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -129,7 +129,7 @@ class Raw_Environ(shmObjAbstract.Abc_Raw):
         return lis
 
 
-class Raw_Dependent(shmObjAbstract.Abc_Raw):
+class Raw_Dependent(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -148,7 +148,7 @@ class Raw_Dependent(shmObjAbstract.Abc_Raw):
         return self
 
 
-class Raw_Variant(shmObjAbstract.Abc_Raw):
+class Raw_Variant(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcRaw(
             raw,
@@ -159,7 +159,7 @@ class Raw_Variant(shmObjAbstract.Abc_Raw):
         self._raw[key] = value
 
 
-class Raw_Resource(shmObjAbstract.Abc_RawResource):
+class Raw_Resource(shmObjCore.Abc_ShmConfigure):
     RAW_VERSION_CLS = Raw_Version
     RAW_ENVIRON_CLS = Raw_Environ
     RAW_DEPENDENT_CLS = Raw_Dependent
@@ -168,7 +168,7 @@ class Raw_Resource(shmObjAbstract.Abc_RawResource):
         self._initRawConfig(enable, category, name, appObj)
 
     def _initRawConfig(self, enable, category, name, appObj):
-        self._initAbcRawResource(enable, category, name)
+        self._initAbcConfigure(enable, category, name)
         # Version
         self._versionObj = self.RAW_VERSION_CLS(
             {
@@ -211,7 +211,7 @@ class Raw_Resource(shmObjAbstract.Abc_RawResource):
         return self._dependentObj
 
 
-class Raw_Preset(shmObjAbstract.Abc_RawResource):
+class Raw_Preset(shmObjCore.Abc_ShmConfigure):
     RAW_CUSTOM_CLS = Raw_Custom
     RAW_VARIANT_CLS = Raw_Variant
 

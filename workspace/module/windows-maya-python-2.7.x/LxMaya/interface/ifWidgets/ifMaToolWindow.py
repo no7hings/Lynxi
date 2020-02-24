@@ -7,11 +7,13 @@ from random import choice
 
 from LxBasic import bscMethods
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
 from LxUi.qt import qtModifiers, qtWidgets_, qtWidgets, qtCore
+
+from LxMaBasic import maBscMethods
 #
 from LxMaya.command import maUtils, maFile, maAsb, maScnAsb
 #
@@ -343,7 +345,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
-        self.variantLabel.setDatumLis([prsVariants.Util.astDefaultVersion])
+        self.variantLabel.setDatumLis([prsOutputs.Util.astDefaultVersion])
         #
         self.switchVariantButton = qtWidgets.QtPressbutton()
         self.switchVariantButton.setPercentEnable(True)
@@ -582,7 +584,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
         treeBox.clear()
         if inData:
             for mSet in inData:
-                showExplain = maUtils._getNodeNameString(mSet, useMode=1)
+                showExplain = maUtils._nodeString2nodename_(mSet, useMode=1)
                 setItem = qtWidgets_.QTreeWidgetItem_([showExplain])
                 treeBox.addItem(setItem)
                 setItem.setItemMayaIcon(0, 'set', none)
@@ -604,7 +606,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 treeBox.addItem(layerItem)
     #
     def setAssemblyTreeItem(self, treeItem, objectPath, activeItem, assetName=None):
-        objectName = maUtils._getNodeNameString(objectPath, useMode=1)
+        objectName = maUtils._nodeString2nodename_(objectPath, useMode=1)
         #
         visible = maUtils.getAttrDatum(objectPath, 'visibility')
         #
@@ -752,7 +754,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
             enable = len(inData) == 1
             if enable:
                 variantLis = []
-                assetVariant = prsVariants.Util.astDefaultVersion
+                assetVariant = prsOutputs.Util.astDefaultVersion
                 count = 0
                 for k, v in inData.items():
                     assetName, assetVariant = k.split(' - ')
@@ -768,7 +770,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 button.setPercent(maxCount, count)
             else:
                 chooseLabel.setChooseClear()
-                chooseLabel.setDatumLis([prsVariants.Util.astDefaultVersion])
+                chooseLabel.setDatumLis([prsOutputs.Util.astDefaultVersion])
                 #
                 button.setPercentRest()
                 button.setPressable(False)
@@ -1180,7 +1182,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                     if keyword == 'Current':
                         keyword = maAsb.getAssemblyCurrentItem(assemblyReference)
                     #
-                    asbName = maUtils._getNodeNameString(assemblyReference, useMode=1)
+                    asbName = maUtils._nodeString2nodename_(assemblyReference, useMode=1)
                     importObjectName = asbNamespace + ':' + asbName + '_' + 'in' + keyword.capitalize()
                     #
                     assetCategory = None
@@ -1214,46 +1216,46 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         else:
                             importObjectName = asbNamespace + ':' + asbName + '_' + 'in' + keyword.capitalize()
                         #
-                        if not maUtils._isNodeExist(importObjectName):
+                        if not maUtils._isAppExist(importObjectName):
                             if keyword == 'Proxy':
                                 if isRemoveGpu:
                                     maScnAsb.setCreateArnoldProxy(importObjectName, fileString_)
                                 else:
-                                    maFile.setFileImport(fileString_)
+                                    maBscMethods.File.importFrom(fileString_)
                             elif keyword == 'Asset':
                                 if isUseReference:
-                                    maFile.setMaFileReference(fileString_, asbNamespace)
+                                    maBscMethods.File.referenceFrom(fileString_, asbNamespace)
                                 else:
-                                    maFile.setFileImport(fileString_, asbNamespace)
+                                    maBscMethods.File.importFrom(fileString_, asbNamespace)
                             else:
-                                maFile.setFileImport(fileString_, asbNamespace)
+                                maBscMethods.File.importFrom(fileString_, asbNamespace)
                             # Asset
                             if keyword == 'Asset':
                                 assetUnitRoot = '|' + prsMethods.Asset.rootName(assetName, asbNamespace)
-                                if maUtils._isNodeExist(assetUnitRoot):
+                                if maUtils._isAppExist(assetUnitRoot):
                                     maUtils.setObjectAddParentGroup(assetUnitRoot, importObjectName)
                                 else:
                                     modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
-                                    if maUtils._isNodeExist(modelGroupName):
+                                    if maUtils._isAppExist(modelGroupName):
                                         maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                             # Box and GPU
                             elif keyword == 'Box' or keyword == 'GPU':
                                 modelGroupName = '|' + prsMethods.Asset.modelLinkGroupName(assetName, asbNamespace)
-                                if maUtils._isNodeExist(modelGroupName):
+                                if maUtils._isAppExist(modelGroupName):
                                     maUtils.setObjectAddParentGroup(modelGroupName, importObjectName)
                                 else:
                                     geometryGroupName = '|' + assetPr.astUnitModelProductGroupName(assetName, asbNamespace)
-                                    if maUtils._isNodeExist(geometryGroupName):
+                                    if maUtils._isAppExist(geometryGroupName):
                                         maUtils.setObjectAddParentGroup(geometryGroupName, importObjectName)
                             # Proxy
                             elif keyword == 'Proxy':
                                 if not isRemoveGpu:
                                     astAssemblyProxyObject = assetPr.astAssemblyProxyObjectName(assetName)
-                                    if maUtils._isNodeExist(astAssemblyProxyObject):
+                                    if maUtils._isAppExist(astAssemblyProxyObject):
                                         maUtils.setNodeRename(astAssemblyProxyObject, importObjectName)
                                         maUtils.setObjectLockTransform(importObjectName, 0)
                             #
-                            if maUtils._isNodeExist(importObjectName):
+                            if maUtils._isAppExist(importObjectName):
                                 maObj = importObjectName
                                 targetObject = assemblyReference
                                 #
@@ -1278,7 +1280,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
             for seq, i in enumerate(selectedData):
                 self.setProgressValue(seq + 1, maxValue)
                 assemblyReferencePath = i
-                importObjectName = maUtils._getNodeNameString(assemblyReferencePath, useMode=1) + '_' + 'inLight'
+                importObjectName = maUtils._nodeString2nodename_(assemblyReferencePath, useMode=1) + '_' + 'inLight'
                 #
                 assetName, assetVariant = datScenery.getAssemblyUnitInfo(assemblyReferencePath)
                 fileString_ = assetPr.astUnitProductFile(
@@ -1287,14 +1289,14 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                 )[1]
                 #
                 if os.path.isfile(fileString_):
-                    if not maUtils._isNodeExist(importObjectName):
-                        maFile.setFileImport(fileString_)
+                    if not maUtils._isAppExist(importObjectName):
+                        maBscMethods.File.importFrom(fileString_)
                         lightGroup = prsMethods.Asset.lightLinkGroupName(assetName)
-                        if maUtils._isNodeExist(lightGroup):
+                        if maUtils._isAppExist(lightGroup):
                             maUtils.setObjectLockTransform(lightGroup)
                             maUtils.setObjectAddParentGroup('|' + lightGroup, importObjectName)
                         #
-                        if maUtils._isNodeExist(importObjectName):
+                        if maUtils._isAppExist(importObjectName):
                             targetObject = assemblyReferencePath
                             #
                             # maUtils.getPos_(importObjectName, targetObject)
@@ -1307,7 +1309,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                             lightGroupPath = '|' + importObjectName + '|' + lightGroup
                             lightGroupScaleAttr = lightGroupPath + '.' + 'lightScale'
                             #
-                            if maUtils._isNodeExist(lightGroupScaleAttr):
+                            if maUtils._isAppExist(lightGroupScaleAttr):
                                 sourceAttr = assemblyReferencePath + '.' + 'scaleY'
                                 if not maUtils.isAttrDestination(lightGroupScaleAttr):
                                     maUtils.setAttrConnect(sourceAttr, lightGroupScaleAttr)
@@ -1383,7 +1385,7 @@ class IfAssemblyManagerWindow(qtWidgets.QtToolWindow):
                         assemblyReferencePath, projectName, assetCategory, assetName, assetVariant
                     )
                     #
-                    assemblyAnnotation = prsVariants.Util.assemblyUnitShowName(assetName, assetVariant)
+                    assemblyAnnotation = prsOutputs.Util.assemblyUnitShowName(assetName, assetVariant)
                     sceneryOp.setAssemblyAnnotationSwitch(assemblyReferencePath, assemblyAnnotation)
     #
     def setVisibilityOn(self):

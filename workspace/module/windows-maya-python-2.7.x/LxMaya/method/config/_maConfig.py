@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 from LxCore.config import appConfig
 
@@ -9,11 +9,11 @@ class MaConfig(object):
     DEF_separator_node = '|'
     DEF_separator_set = '>'
     DEF_separator_namespace = ':'
-    DEF_separator_attribute = '.'
+    DEF_separator_port = '.'
     # Nde_Node Type
     DEF_type_transform = 'transform'
     DEF_type_shading_engine = 'shadingEngine'
-    DEF_type_shading_mesh = 'mesh'
+    DEF_type_mesh = 'mesh'
     DEF_type_assembly_reference = 'assemblyReference'
     DEF_type_assembly_definition = 'assemblyDefinition'
     #
@@ -218,7 +218,7 @@ class MaLightNodeConfig(object):
     MaAttrPrevNameDic = {}
     @classmethod
     def maAttrPrettifyNameDic_lightLink(cls):
-        return bscCore.orderedDict(
+        return bscMtdCore.orderedDict(
             [
                 ('light', 'Light(s)'),
                 ('object', 'Object(s)'),

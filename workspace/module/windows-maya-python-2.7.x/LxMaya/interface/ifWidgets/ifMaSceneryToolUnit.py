@@ -1,9 +1,9 @@
 # coding=utf-8
 import threading
 #
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
-from LxPreset import prsConfigure, prsMethods, prsVariants
+from LxPreset import prsConfigure, prsMethods, prsOutputs
 #
 from LxCore.config import appCfg
 #
@@ -144,7 +144,7 @@ class IfScnAssemblyLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             assetIndex = key
             assetCategory = assetPr.getAssetClass(assetIndex)
             assetName, viewName = value
-            assetVariant = prsVariants.Util.astDefaultVariant
+            assetVariant = prsOutputs.Util.astDefaultVariant
             # Tag
             if ' - ' in viewName:
                 tag, _ = viewName.split(' - ')[:2]
@@ -274,7 +274,7 @@ class IfScnLinkToolUnit(qtCore.QWidget_):
     projectName = currentProjectName
     #
     w = 80
-    dicImport = bscCore.orderedDict()
+    dicImport = bscMtdCore.orderedDict()
     dicImport['episode'] = [w, 0, 0, 1, 4, 'Episode']
     dicImport['sequence'] = [w, 1, 0, 1, 4, 'Sequence']
     dicImport['shot'] = [w, 2, 0, 1, 4, 'Shot']
@@ -404,7 +404,7 @@ class IfScnAssemblyInfoToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         )
         #
         self._scnAssemblyRadarChart.setImage(previewFile)
-        self._scnAssemblyRadarChart.setImageSize(prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight)
+        self._scnAssemblyRadarChart.setImageSize(prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight)
         #
         serverDatumDic = {}
         localDatumDic = {}
@@ -526,8 +526,8 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             if objectPathLis:
                 objectPath = objectPathLis[0]
                 if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_separator_node + self._rootGroup):
-                    if objectPath.endswith(prsVariants.Util.basicGroupLabel):
-                        objectName = maUtils._getNodeNameString(objectPath)
+                    if objectPath.endswith(prsOutputs.Util.basicGroupLabel):
+                        objectName = maUtils._nodeString2nodename_(objectPath)
                         self._parentGroupLabel.setDatum(objectName)
         #
         def setChildGroupName():
@@ -571,8 +571,8 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             parent = getParentGroupName()
             isAutoRename = self._autoRenameCheckbutton.isChecked()
             if parent:
-                parentPath = maUtils._getNodePathString(parent)
-                if maUtils._isNodeExist(parentPath):
+                parentPath = maUtils._getNodeFullpathNameString(parent)
+                if maUtils._isAppExist(parentPath):
                     maHier.addHierarchyObject(
                         parentPath, unitName, self.filterTypes, autoRename=isAutoRename
                     )
@@ -880,7 +880,7 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             maFile.makeSnapshot(
                 root, viewportPreview,
                 useDefaultMaterial=0,
-                width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2,
+                width=prsOutputs.Util.rndrImageWidth / 2, height=prsOutputs.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView
             )
             #
@@ -909,13 +909,13 @@ class IfScnUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             renderPreview = sceneryPr.scnUnitPreviewFile(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage,
-                prsVariants.Util.pngExt
+                prsOutputs.Util.pngExt
             )[1]
             renderer = prsMethods.Project.mayaRenderer(projectName)
             #
             maRender.setRenderSnapshot(
                 root, renderPreview, renderer,
-                width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2,
+                width=prsOutputs.Util.rndrImageWidth / 2, height=prsOutputs.Util.rndrImageHeight / 2,
                 useDefaultView=isUseDefaultView, useDefaultLight=isUseDefaultLight
             )
             #

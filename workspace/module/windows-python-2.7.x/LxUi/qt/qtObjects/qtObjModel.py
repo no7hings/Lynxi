@@ -3,7 +3,7 @@ import types
 #
 import math
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxUi.qt import qtAbstract, qtAction, qtCore
 

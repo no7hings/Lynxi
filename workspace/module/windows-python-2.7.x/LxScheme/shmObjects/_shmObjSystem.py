@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxScheme import shmCore, shmObjAbstract
+from LxScheme import shmConfigure, shmObjCore
 
 
-class Sys_Platform(shmObjAbstract.Abc_System):
-    object_category = shmCore.Basic.Category_Platform
-    raw_key = shmCore.Basic.Key_Platform
+class Sys_Platform(shmObjCore.Abc_ShmSystem):
+    object_category = shmConfigure.Utility.Category_Platform
+    raw_key = shmConfigure.Utility.Key_Platform
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -13,7 +13,7 @@ class Sys_Platform(shmObjAbstract.Abc_System):
             self._initAbcSystem(*args)
 
     def createByRaw(self, raw):
-        platformName = raw[self.Key_Name]
+        platformName = raw[self.DEF_key_name]
         platformVersion = raw[self.Key_Version]
 
         self._initAbcSystem(
@@ -25,10 +25,10 @@ class Sys_Platform(shmObjAbstract.Abc_System):
         return self
 
 
-class Sys_PltLanguage(shmObjAbstract.Abc_System):
+class Sys_PltLanguage(shmObjCore.Abc_ShmSystem):
     CLS_system = Sys_Platform
 
-    object_category = shmCore.Basic.Category_Plf_Language
+    object_category = shmConfigure.Utility.Category_Plf_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -45,9 +45,9 @@ class Sys_PltLanguage(shmObjAbstract.Abc_System):
         return self
 
     def createByRaw(self, raw):
-        platformName = raw[self.Key_Platform][self.Key_Name]
+        platformName = raw[self.Key_Platform][self.DEF_key_name]
         platformVersion = raw[self.Key_Platform][self.Key_Version]
-        languageName = raw[self.Key_Name]
+        languageName = raw[self.DEF_key_name]
         languageVersion = raw[self.Key_Version]
 
         self._initAbcSystem(
@@ -59,18 +59,18 @@ class Sys_PltLanguage(shmObjAbstract.Abc_System):
         return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
-                (self.Key_Name, self.name),
+                (self.DEF_key_name, self.name),
                 (self.Key_Version, self.version),
                 (self.Key_Platform, self.platform.systemraw)
             ]
         )
 
 
-class Sys_PltApplication(shmObjAbstract.Abc_System):
+class Sys_PltApplication(shmObjCore.Abc_ShmSystem):
     CLS_system = Sys_Platform
 
-    object_category = shmCore.Basic.Category_Plf_Application
-    raw_key = shmCore.Basic.Key_Application
+    object_category = shmConfigure.Utility.Category_Plf_Application
+    raw_key = shmConfigure.Utility.Key_Application
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -87,9 +87,9 @@ class Sys_PltApplication(shmObjAbstract.Abc_System):
         return self
 
     def createByRaw(self, raw):
-        platformName = raw[self.Key_Platform][self.Key_Name]
+        platformName = raw[self.Key_Platform][self.DEF_key_name]
         platformVersion = raw[self.Key_Platform][self.Key_Version]
-        applicationName = raw[self.Key_Name]
+        applicationName = raw[self.DEF_key_name]
         applicationVersion = raw[self.Key_Version]
 
         self._initAbcSystem(
@@ -101,17 +101,17 @@ class Sys_PltApplication(shmObjAbstract.Abc_System):
         return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
-                (self.Key_Name, self.name),
+                (self.DEF_key_name, self.name),
                 (self.Key_Version, self.version),
                 (self.Key_Platform, self.platform.systemraw)
             ]
         )
 
 
-class Sys_PltAppLanguage(shmObjAbstract.Abc_System):
+class Sys_PltAppLanguage(shmObjCore.Abc_ShmSystem):
     CLS_system = Sys_PltApplication
 
-    object_category = shmCore.Basic.Category_Plf_App_Language
+    object_category = shmConfigure.Utility.Category_Plf_App_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
@@ -132,11 +132,11 @@ class Sys_PltAppLanguage(shmObjAbstract.Abc_System):
         return self
 
     def createByRaw(self, raw):
-        platformName = raw[self.Key_Platform][self.Key_Name]
+        platformName = raw[self.Key_Platform][self.DEF_key_name]
         platformVersion = raw[self.Key_Platform][self.Key_Version]
-        applicationName = raw[self.Key_Application][self.Key_Name]
+        applicationName = raw[self.Key_Application][self.DEF_key_name]
         applicationVersion = raw[self.Key_Application][self.Key_Version]
-        languageName = raw[self.Key_Name]
+        languageName = raw[self.DEF_key_name]
         languageVersion = raw[self.Key_Version]
 
         self._initAbcSystem(
@@ -149,7 +149,7 @@ class Sys_PltAppLanguage(shmObjAbstract.Abc_System):
         return self.CLS_dic_order(
             [
                 (self.Key_Category, self.category),
-                (self.Key_Name, self.name),
+                (self.DEF_key_name, self.name),
                 (self.Key_Version, self.version),
                 (self.Key_Platform, self.platform.systemraw),
                 (self.Key_Application, self.application.systemraw)

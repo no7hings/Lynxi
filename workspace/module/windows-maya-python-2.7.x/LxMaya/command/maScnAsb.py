@@ -3,7 +3,7 @@ import os
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxMaya.command import maUtils, maAttr, maProxy
 #
@@ -183,7 +183,7 @@ def setRedshiftProxyCreate(objectString, box, gpu, proxy):
 #
 def setCreateProxyAov(aovData):
     for aovNode, aovName in aovData.items():
-        if not maUtils._isNodeExist(aovNode):
+        if not maUtils._isAppExist(aovNode):
             inAovNode = aovNode + inAovLabel
             maUtils.setCreateNode('aiAOV', inAovNode)
             maUtils.setAttrStringDatumForce(inAovNode, 'name', aovName)
@@ -191,7 +191,7 @@ def setCreateProxyAov(aovData):
 
 #
 def getProxyAovData():
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     aovNodes = cmds.ls(type='aiAOV')
     if aovNodes:
         for inAovNode in aovNodes:

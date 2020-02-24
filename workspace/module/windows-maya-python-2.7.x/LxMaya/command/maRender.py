@@ -6,7 +6,7 @@ import maya.mel as mel
 
 from LxBasic import bscMethods, bscObjects
 
-from LxPreset import prsConfigure, prsVariants
+from LxPreset import prsConfigure, prsOutputs
 
 from LxMaya.command import maUtils
 
@@ -550,7 +550,7 @@ def getRenderableCameraLis(fullPath=True):
     for camera in cameras:
         renderable = cmds.getAttr(camera + '.renderable')
         if renderable:
-            transformPath = maUtils._getNodeTransformString(camera, fullPath=fullPath)
+            transformPath = maUtils._getNodeTransformNodeString(camera, fullPath=fullPath)
             lis.append(transformPath)
     return lis
 
@@ -562,7 +562,7 @@ def getRenderableCameraNames(fullPath=True):
     for camera in cameras:
         renderable = cmds.getAttr(camera + '.renderable')
         if renderable:
-            transformPath = maUtils._getNodeTransformString(camera, fullPath=fullPath)
+            transformPath = maUtils._getNodeTransformNodeString(camera, fullPath=fullPath)
             lis.append(transformPath)
     return lis
 
@@ -572,8 +572,8 @@ def setRenderCamera(filterCameras):
     cameraShapes = maUtils.getNodeLisByType('camera')
     for shapePath in cameraShapes:
         renderableAttr = shapePath + '.' + 'renderable'
-        transformPath = maUtils._getNodeTransformString(shapePath)
-        objectName = maUtils._getNodeNameString(transformPath)
+        transformPath = maUtils._getNodeTransformNodeString(shapePath)
+        objectName = maUtils._nodeString2nodename_(transformPath)
         if objectName in filterCameras:
             cmds.setAttr(renderableAttr, 1)
         else:
@@ -582,7 +582,7 @@ def setRenderCamera(filterCameras):
 
 #
 def getRenderCameraName(camera):
-    return bscMethods.MayaPath.nameWithNamespace(camera).replace(bscMethods.MayaPath.namespaceSep(), '_')
+    return bscMethods.MaNodeString.nodenameWithNamespace(camera).replace(bscMethods.MaNodeString.namespacesep(), '_')
 
 
 #
@@ -739,9 +739,9 @@ def setCreateLightWithName(nodeName, nodeType):
 
 #
 def setCreateArnoldLight():
-    nodeName = prsVariants.Util.lxPreviewLight
+    nodeName = prsOutputs.Util.lxPreviewLight
     nodeType = 'aiSkyDomeLight'
-    if not maUtils._isNodeExist(nodeName):
+    if not maUtils._isAppExist(nodeName):
         setCreateLightWithName(nodeName, nodeType)
         #
         attrData = [('camera', .25)]
@@ -765,7 +765,7 @@ def setRenderPreMelCommand(melCommand):
 def setRenderSnapshot(groupString, fileString_, renderer, width, height, useDefaultView, useDefaultLight):
     setLoadArnoldRenderer()
     #
-    imageFormat = prsVariants.Util.pngExt
+    imageFormat = prsOutputs.Util.pngExt
     camera = 'persp'
     cameraShape = 'perspShape'
     cmds.camera(
@@ -816,14 +816,14 @@ def getLightsByRoot(root):
 
 #
 def getAiLightDecays(lightObjectPath):
-    shape = maUtils._getNodeShapeString(lightObjectPath)
-    return maUtils._getNodeSourceStringList(shape, 'aiLightDecay')
+    shape = maUtils._getNodeShapeNodeString(lightObjectPath)
+    return maUtils._getNodeSourceNodeStringList(shape, 'aiLightDecay')
 
 
 #
 def setConnectLightsToScale(root):
     def setBranch(scaleAttr, attr):
-        expressionNode = '_'.join(maUtils._getNodeNameString(attr).split('.')) + '_expression_0'
+        expressionNode = '_'.join(maUtils._nodeString2nodename_(attr).split('.')) + '_expression_0'
         attrData = cmds.getAttr(attr)
         command = '{0} = {1}*{2}*{2}'.format(attr, attrData, scaleAttr)
         #
@@ -836,7 +836,7 @@ def setConnectLightsToScale(root):
         )
     #
     def setMain():
-        if maUtils._isNodeExist(root):
+        if maUtils._isAppExist(root):
             scaleAttr = root + '.' + attrName
             #
             maUtils.setAttrAdd(root, attrName, attributeType='double', data=1)
@@ -850,7 +850,7 @@ def setConnectLightsToScale(root):
                 for i in lightObjectPaths:
                     progressBar.update()
                     attr = i + '.intensity'
-                    if maUtils._isNodeExist(attr):
+                    if maUtils._isAppExist(attr):
                         if not maUtils.isAttrDestination(attr):
                             setBranch(scaleAttr, attr)
                     #
@@ -859,7 +859,7 @@ def setConnectLightsToScale(root):
                 if aiLightDecays:
                     for i in aiLightDecays:
                         attr = i + '.farEnd'
-                        if maUtils._isNodeExist(attr):
+                        if maUtils._isAppExist(attr):
                             if not maUtils.isAttrDestination(attr):
                                 setBranch(scaleAttr, attr)
     #

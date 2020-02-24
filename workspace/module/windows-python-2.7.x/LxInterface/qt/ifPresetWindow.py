@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects
 
 from LxScheme import shmOutput
 
-from LxPreset import prsConfigure, prsCore
+from LxPreset import prsConfigure, prsMtdCore
 
 from LxUi import uiCore
 
@@ -148,7 +148,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
                 parentKey = (guideKeyString,)
                 explainKey = mainPresetKey
                 setTreeItem()
-                if keypath in prsCore.MtdUtilityBasic._mainKeyPathList():
+                if keypath in prsMtdCore.Mtd_PrsUtility._mainKeyPathList():
                     setChooseBox()
                 setToolGroup()
                 self.setBuildMainPreset(treeItem)
@@ -170,7 +170,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         guideTreeBox = self.guideTreeBoxDic[key]
         scrollBox = self.scrollBoxDic[key]
         #
-        basicData = prsCore.MtdUtilityBasic._keyTreeDict(key)
+        basicData = prsMtdCore.Mtd_PrsUtility._keyTreeDict(key)
         setHierarchy(basicData)
         if guideTreeBox.topItems():
             guideTreeBox.topItems()[0].setSelected(True)
@@ -183,7 +183,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     def setGuidePresetChooseBox(self, treeItem):
         def setRefresh():
             guideSchemeKey = chooseBox.datum()
-            mainSchemeData = prsCore.MtdUtilityBasic.getPresetSetDic((guideKeyString, ), guideSchemeKey)
+            mainSchemeData = prsMtdCore.Mtd_PrsUtility.getPresetSetDic((guideKeyString,), guideSchemeKey)
             self.setMaxProgressValue(len(mainSchemeData))
             for k, v in mainSchemeData.items():
                 self.updateProgress()
@@ -199,7 +199,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         guideKeyString = treeItem.keypath[0]
         chooseBox = treeItem.chooseBox
         #
-        messages = prsCore.MtdUtilityBasic._getEnabledSchemes((guideKeyString, ))
+        messages = prsMtdCore.Mtd_PrsUtility._getEnabledSchemes((guideKeyString,))
         chooseBox.setDatumLis(messages)
         #
         self.chooseBoxDic[(guideKeyString, )] = chooseBox
@@ -218,7 +218,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         #
         def refreshMethod():
             getExpandedMethod()
-            schemesData = prsCore.MtdUtilityBasic._getSchemeUiDatumDic((guideKeyString, ))
+            schemesData = prsMtdCore.Mtd_PrsUtility._getSchemeUiDatumDic((guideKeyString,))
             presetBox.clearItems()
             if schemesData:
                 for guideScheme, schemeData in schemesData.items():
@@ -231,16 +231,16 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             presetItems = presetBox.items()
             if presetItems:
                 indexLis = []
-                indexFile = prsCore.MtdUtilityBasic.indexFile((guideKeyString, ))
+                indexFile = prsMtdCore.Mtd_PrsUtility.indexFile((guideKeyString,))
                 for i in presetItems:
                     schemeKey, enable, description = i.getMainData()
                     indexLis.append((schemeKey, enable, description))
                     #
-                    setFile = prsCore.MtdUtilityBasic.setFile((guideKeyString, ), schemeKey)
+                    setFile = prsMtdCore.Mtd_PrsUtility.setFile((guideKeyString,), schemeKey)
                     setData = i.getSubData()
-                    bscMethods.OsJson.write(setFile, setData)
+                    bscMethods.OsJsonFile.write(setFile, setData)
                 #
-                bscMethods.OsJson.write(indexFile, indexLis)
+                bscMethods.OsJsonFile.write(indexFile, indexLis)
             #
             refreshMethod()
             self.setGuidePresetChooseBox(treeItem)
@@ -274,7 +274,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             existsSchemes = presetBox.itemNames()
             schemeKey = entryLabel.datum()
             if schemeKey and not schemeKey in existsSchemes:
-                schemeData = prsCore.MtdUtilityBasic._defaultSchemeDatum()
+                schemeData = prsMtdCore.Mtd_PrsUtility._defaultSchemeDatum()
                 self.addGuidePresetItem(presetBox, guideKeyString, schemeKey, schemeData)
             #
             entryLabel.setEnterClear()
@@ -312,7 +312,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         #
         presetWidget.setMainData(guideSchemeKey, schemeData)
         #
-        setsData = prsCore.MtdUtilityBasic._getSetUiDatumList((guideKeyString, ), guideSchemeKey)
+        setsData = prsMtdCore.Mtd_PrsUtility._getSetUiDatumList((guideKeyString,), guideSchemeKey)
         if setsData:
             presetWidget.setSubData(setsData, isExpanded)
     # Main
@@ -335,7 +335,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         guideKeyString, mainPresetKey = treeItem.keypath
         chooseBox = treeItem.chooseBox
         #
-        messages = prsCore.MtdUtilityBasic._getEnabledSchemes((guideKeyString, mainPresetKey))
+        messages = prsMtdCore.Mtd_PrsUtility._getEnabledSchemes((guideKeyString, mainPresetKey))
         chooseBox.setDatumLis(messages)
         #
         self.chooseBoxDic[(guideKeyString, mainPresetKey)] = chooseBox
@@ -355,7 +355,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         def refreshMethod():
             getExpandedMethod()
             guideScheme = guideChooseBox.datum()
-            indexData = prsCore.MtdUtilityBasic._getSchemeUiDatumDic((guideKeyString, mainPresetKey))
+            indexData = prsMtdCore.Mtd_PrsUtility._getSchemeUiDatumDic((guideKeyString, mainPresetKey))
             presetBox.clearItems()
             if indexData:
                 for index, schemeData in indexData.items():
@@ -368,16 +368,16 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             presetItems = presetBox.items()
             if presetItems:
                 indexLis = []
-                indexFile = prsCore.MtdUtilityBasic.indexFile((guideKeyString, mainPresetKey))
+                indexFile = prsMtdCore.Mtd_PrsUtility.indexFile((guideKeyString, mainPresetKey))
                 for i in presetItems:
                     schemeKey, enable, description = i.getMainData()
                     indexLis.append((schemeKey, enable, description))
                     #
-                    setFile = prsCore.MtdUtilityBasic.setFile((guideKeyString, mainPresetKey), schemeKey)
+                    setFile = prsMtdCore.Mtd_PrsUtility.setFile((guideKeyString, mainPresetKey), schemeKey)
                     setData = i.getSubData()
-                    bscMethods.OsJson.write(setFile, setData)
+                    bscMethods.OsJsonFile.write(setFile, setData)
                 #
-                bscMethods.OsJson.write(indexFile, indexLis)
+                bscMethods.OsJsonFile.write(indexFile, indexLis)
             #
             refreshMethod()
             self.setMainPresetChooseBox(treeItem)
@@ -415,7 +415,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             existsSchemes = presetBox.itemNames()
             schemeKey = entryLabel.datum()
             if schemeKey and not schemeKey in existsSchemes:
-                schemeData = prsCore.MtdUtilityBasic._defaultSchemeDatum()
+                schemeData = prsMtdCore.Mtd_PrsUtility._defaultSchemeDatum()
                 self.addMainPresetItem(presetBox, guideKeyString, mainPresetKey, schemeKey, schemeData)
             #
             entryLabel.setEnterClear()
@@ -453,7 +453,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
         #
         presetWidget.setMainData(mainSchemeKey, schemeData)
         #
-        setsData = prsCore.MtdUtilityBasic._getSetUiDatumList((guideKeyString, mainPresetKey), mainSchemeKey)
+        setsData = prsMtdCore.Mtd_PrsUtility._getSetUiDatumList((guideKeyString, mainPresetKey), mainSchemeKey)
         if setsData:
             presetWidget.setSubData(setsData, isExpanded)
     # Sub
@@ -476,7 +476,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             getExpandedMethod()
             #
             mainScheme = schemeChooseBox.datum()
-            setsData = prsCore.MtdUtilityBasic.getUiSubPresetSetDataDic(guideKeyString, mainPresetKey, subPresetKey, mainScheme)
+            setsData = prsMtdCore.Mtd_PrsUtility.getUiSubPresetSetDataDic(guideKeyString, mainPresetKey, subPresetKey, mainScheme)
             presetBox.clearItems()
             if setsData:
                 for index, setData in setsData.items():
@@ -487,7 +487,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             #
             schemeKey = schemeChooseBox.datum()
             # print (guideKeyString, mainPresetKey, subPresetKey), schemeKey
-            # print prsCore.MtdUtilityBasic.indexFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
+            # print prsCore.Mtd_PrsUtility.indexFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
         #
         def saveMethod():
             schemeKey = schemeChooseBox.datum()
@@ -495,16 +495,16 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             if presetItems:
                 indexLis = []
                 setDic = {}
-                indexFile = prsCore.MtdUtilityBasic.indexFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
-                setFile = prsCore.MtdUtilityBasic.setFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
+                indexFile = prsMtdCore.Mtd_PrsUtility.indexFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
+                setFile = prsMtdCore.Mtd_PrsUtility.setFile((guideKeyString, mainPresetKey, subPresetKey), schemeKey)
                 for i in presetItems:
                     mainSetKey, enable, description = i.getMainData()
                     indexLis.append((mainSetKey, enable, description))
                     setData = i.getSubData()
                     setDic[mainSetKey] = setData
                 #
-                bscMethods.OsJson.write(indexFile, indexLis)
-                bscMethods.OsJson.write(setFile, setDic)
+                bscMethods.OsJsonFile.write(indexFile, indexLis)
+                bscMethods.OsJsonFile.write(setFile, setDic)
             #
             refreshMethod()
             bscObjects.MessageWindow(
@@ -550,14 +550,14 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
             count = len(existsSchemes)
             preset = 'Variant_{}'.format(str(count).zfill(4))
             if preset and not preset in existsSchemes:
-                setData = prsCore.MtdUtilityBasic._defaultSetDatum(subSetDatumList)
+                setData = prsMtdCore.Mtd_PrsUtility._defaultSetDatum(subSetDatumList)
                 self.addSubPresetItem(presetBox, guideKeyString, mainPresetKey, subPresetKey, mainScheme, preset, setData)
         #
         refreshMethod, saveMethod = methods
         filterButton = qtWidgets.QtMenuIconbutton('svg_basic@svg#filter')
         toolLayout.addWidget(filterButton)
         #
-        subSetDatumList = prsCore.MtdUtilityBasic.basicSubPresetSchemeConfig((guideKeyString, mainPresetKey, subPresetKey))
+        subSetDatumList = prsMtdCore.Mtd_PrsUtility.basicSubPresetSchemeConfig((guideKeyString, mainPresetKey, subPresetKey))
         if subSetDatumList is not None:
             entryLabel = qtWidgets.QtEnterlabel()
             entryLabel.setEnterEnable(True)

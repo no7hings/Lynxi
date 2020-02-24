@@ -22,12 +22,12 @@ def setLisObjects(treeBox, objectPaths, expandedDic):
     def branchView(treeItem):
         path = treeItem.path
         #
-        objectType = maUtils._getNodeShapeTypeString(path)
+        objectType = maUtils._getNodeShapeCategoryString(path)
         #
         treeItem.setItemMayaIcon(0, objectType)
         #
-        treeItem.setText(0, maUtils._getNodeNameString(path, 1))
-        treeItem.setText(1, maUtils._getNodeTypeString(path))
+        treeItem.setText(0, maUtils._nodeString2nodename_(path, 1))
+        treeItem.setText(1, maUtils._getNodeCategoryString(path))
     #
     if objectPaths:
         subObjectPaths = treeBox.getGraphPaths(objectPaths, appCfg.DEF_separator_node)
@@ -39,8 +39,8 @@ def setLisObjects(treeBox, objectPaths, expandedDic):
 #
 def setListNodes(treeBox, nodes):
     def setBranch(node):
-        nodeName = maUtils._getNodeNameString(node, 1)
-        nodeType = maUtils._getNodeTypeString(node)
+        nodeName = maUtils._nodeString2nodename_(node, 1)
+        nodeType = maUtils._getNodeCategoryString(node)
         #
         treeItem = qtWidgets_.QTreeWidgetItem_()
         treeBox.addItem(treeItem)

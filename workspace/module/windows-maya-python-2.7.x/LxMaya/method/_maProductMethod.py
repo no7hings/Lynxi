@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 from LxPreset import prsMethods
 
@@ -19,8 +19,8 @@ class MaProductUnitMethod(dtbConfigure.DtbBasic):
             nodeLis = cls.mtd_app_node.getNodeLisBySearchKey(searchKey, cls.mtd_app_node.DEF_type_transform)
             if nodeLis:
                 for nodePath in nodeLis:
-                    if cls.mtd_app_node._isNodeExist(nodePath):
-                        nodeName = cls.mtd_app_node._getNodeNameString(nodePath)
+                    if cls.mtd_app_node._isAppExist(nodePath):
+                        nodeName = cls.mtd_app_node._nodeString2nodename_(nodePath)
                         if nodeName.startswith(prsMethods.Product.modulePrefixname(moduleString)):
                             unitDatum = []
                             for attrName in prsMethods.Product.attributeNames():
@@ -35,7 +35,7 @@ class MaProductUnitMethod(dtbConfigure.DtbBasic):
         return lis
     @classmethod
     def getProductUnitDatumDic(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         for moduleString in prsMethods.Product.moduleNames():
             dic[moduleString] = cls.getProductUnitDatumLis(moduleString)
         return dic

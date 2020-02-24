@@ -1,22 +1,22 @@
 # coding:utf-8
-from LxMaterial import mtlObjAbstract
+from LxMaterial import mtlObjCore
 
 
-class Definition(mtlObjAbstract.Abc_Def):
+class Definition(mtlObjCore.Abc_MtlDef):
     def __init__(self):
-        self._initAbcDef()
+        self._initAbcMtlDef()
 
 
-class Def_Type(mtlObjAbstract.Abc_TypeDef):
+class Def_Type(mtlObjCore.Abc_MtlTypeDef):
     def __init__(self, typeString):
         pass
 
 
-class GeometryDefinition(mtlObjAbstract.Abc_GeometryDef):
+class GeometryDefinition(mtlObjCore.Abc_MtlGeometryDef):
     def __init__(self):
-        self._initAbcGeometryDef()
+        self._initAbcMtlGeometryDef()
 
 
-class Def_Node(mtlObjAbstract.Abc_DagDef):
+class Def_Node(mtlObjCore.Abc_MtlNodeDef):
     def __init__(self, categoryString):
-        self._initAbcDagDef(categoryString)
+        self._initAbcMtlNodeDef(categoryString)

@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscMtdCore, bscObjects
 
 
 #

@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods, bscModifiers, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscModifiers, bscObjects
 #
 from LxCore.config import appCfg
 #
@@ -22,7 +22,7 @@ def getLinkDicMethod(dic, nodeString, fileString_):
 
 #
 def getTextureLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -45,7 +45,7 @@ def getTxTexture(texture):
 
 #
 def getFurMapLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -56,8 +56,8 @@ def getFurMapLinkDic(nodes=None):
     if usedData:
         for objectPath in usedData:
             # Yeti's Map
-            if maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaNodeType_Plug_Yeti:
-                shapePath = maUtils._getNodeShapeString(objectPath)
+            if maUtils._getNodeShapeCategoryString(objectPath) == appCfg.MaNodeType_Plug_Yeti:
+                shapePath = maUtils._getNodeShapeNodeString(objectPath)
                 mapNodes = cmds.pgYetiGraph(shapePath, listNodes=1, type='texture')
                 if mapNodes:
                     for node in mapNodes:
@@ -66,7 +66,7 @@ def getFurMapLinkDic(nodes=None):
                         #
                         getLinkDicMethod(dic, mapNodePath, furMapFile)
             # Pfx Hair's Map
-            elif maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaPfxHairType:
+            elif maUtils._getNodeShapeCategoryString(objectPath) == appCfg.MaPfxHairType:
                 mapNodes = maUtils.getPfxHairMapNodes(objectPath)
                 if mapNodes:
                     for node in mapNodes:
@@ -74,7 +74,7 @@ def getFurMapLinkDic(nodes=None):
                         #
                         getLinkDicMethod(dic, node, furMapFile)
             # Nurbs Hair's Map
-            elif maUtils._getNodeShapeTypeString(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
+            elif maUtils._getNodeShapeCategoryString(objectPath) == appCfg.MaNodeType_Plug_NurbsHair:
                 mapNodes = maFur.getNurbsHairMapNodes(objectPath)
                 if mapNodes:
                     for node in mapNodes:
@@ -94,7 +94,7 @@ def getReferenceNodeLis(filterNamespace=None):
 
 #
 def getReferenceLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -128,7 +128,7 @@ def getAssemblyReferenceNodeLis(filterNamespace=None):
 
 #
 def getAsbRefLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -159,7 +159,7 @@ def getArnoldProxyLis(filterNamespace=None):
 
 #
 def getProxyCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     if nodes:
         usedData = nodes
@@ -189,7 +189,7 @@ def getVolumeCacheNodeLis(filterNamespace=None):
 
 #
 def getVolumeCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -198,7 +198,7 @@ def getVolumeCacheLinkDic(nodes=None):
         usedData = getVolumeCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils._getNodeTypeString(node) == appCfg.MaNodeType_AiVolume:
+            if maUtils._getNodeCategoryString(node) == appCfg.MaNodeType_AiVolume:
                 fileString = maArnold.getVolumeCacheFile(node)
                 if fileString:
                     getLinkDicMethod(dic, node, fileString)
@@ -221,7 +221,7 @@ def getGpuCacheNodeLis(filterNamespace=None):
 
 #
 def getGpuCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -247,13 +247,13 @@ def setGpuCacheRepath(nodeString, fileString_):
 
 # Alembic Cache
 def getAlembicCacheNodeLis(filterNamespace=None):
-    filterType = appCfg.MaNodeType_Alembic
+    filterType = appCfg.DEF_type_alembic
     return maUtils.getNodeLisByFilter(filterType, filterNamespace)
 
 
 #
 def getAlembicCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -291,7 +291,7 @@ def getFurCacheNodeLis(filterNamespace=None):
 
 #
 def getFurCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -300,11 +300,11 @@ def getFurCacheLinkDic(nodes=None):
         usedData = getFurCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils._getNodeShapeTypeString(node) == appCfg.MaNodeType_Plug_Yeti:
+            if maUtils._getNodeShapeCategoryString(node) == appCfg.MaNodeType_Plug_Yeti:
                 yetiCacheFile = maFur.getYetiCacheFile(node)
                 if yetiCacheFile:
                     getLinkDicMethod(dic, node, yetiCacheFile)
-            elif maUtils._getNodeShapeTypeString(node) == appCfg.MaNodeType_Plug_NurbsHair:
+            elif maUtils._getNodeShapeCategoryString(node) == appCfg.MaNodeType_Plug_NurbsHair:
                 nurbsHairCacheFile = maFur.getNurbsHairCacheFile(node)
                 if nurbsHairCacheFile:
                     getLinkDicMethod(dic, node, nurbsHairCacheFile)
@@ -319,7 +319,7 @@ def getGeomCacheNodeLis(filterNamespace=None):
 
 #
 def getGeomCacheLinkDic(nodes=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     usedData = []
     if nodes:
@@ -328,7 +328,7 @@ def getGeomCacheLinkDic(nodes=None):
         usedData = getGeomCacheNodeLis()
     if usedData:
         for node in usedData:
-            if maUtils._getNodeTypeString(node) == appCfg.MaNodeType_CacheFile:
+            if maUtils._getNodeCategoryString(node) == appCfg.MaNodeType_CacheFile:
                 geomCacheFiles = maGeomCache.getGeomCacheFile(node)
                 if geomCacheFiles:
                     geomCacheXmlFile, geomCacheFile = geomCacheFiles
@@ -340,7 +340,7 @@ def getGeomCacheLinkDic(nodes=None):
 
 #
 def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
-    nodeType = maUtils._getNodeTypeString(nodeString)
+    nodeType = maUtils._getNodeCategoryString(nodeString)
     if nodeType == appCfg.MaNodeType_Plug_Yeti:
         setRepathYetiCache(nodeString, sourceFile, targetFile, force)
     elif nodeType == appCfg.MaNodeType_Plug_NurbsHair:
@@ -349,7 +349,7 @@ def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
 
 #
 def setRepathGeomCache(nodeString, fileString_):
-    if maUtils._getNodeTypeString(nodeString) == 'cacheFile':
+    if maUtils._getNodeCategoryString(nodeString) == 'cacheFile':
         maGeomCache.setRepathGeometryCache(nodeString, fileString_)
 
 

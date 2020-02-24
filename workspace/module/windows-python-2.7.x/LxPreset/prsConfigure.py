@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 
 VAR_path_database = {
     'basic': '{dbAssetRoot}/{dbBasicFolderName}/{dbAssetBasicKey}',
@@ -235,7 +235,7 @@ class Utility(object):
 
     @classmethod
     def _keyTreeDict(cls, guideKeyString):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         # Variant
         dic[cls.DEF_key_preset_variant] = [
             (cls.DEF_key_preset_variant,),
@@ -607,7 +607,7 @@ class Utility(object):
 
     @classmethod  # Model Check Config
     def _DEF_project_inspection_asset_model_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['meshInstanceCheck'] = [
             True,
             'Mesh Instance Check',
@@ -647,7 +647,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_model_mesh_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['meshFaceNSidedCheck'] = [
             True,
             'N - Sided Face Check',
@@ -716,7 +716,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_groom_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['astYetiCheck'] = [
             True,
             'Yeti Check',
@@ -746,7 +746,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_solver_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['astSolverGuideCheck'] = [
             True,
             'Solver - Guide Check',
@@ -761,7 +761,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_rig_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['astRigControlCheck'] = [
             False,
             'Rig Control Check',
@@ -771,7 +771,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_light_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['astLightTransformCheck'] = [
             False,
             'Light Transform Check',
@@ -781,7 +781,7 @@ class Utility(object):
 
     @classmethod
     def _DEF_project_inspection_asset_shader_dict(cls):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dic['arTextureFormatCheck'] = [
             False,
             'Arnold Texture Format Check',
@@ -839,7 +839,7 @@ class Product(object):
         VAR_product_module_scenery: VAR_product_module_prefix_scenery,
         VAR_product_Module_scene: VAR_product_module_prefix_scene
     }
-    VAR_product_module_showname_dict = bscCore.orderedDict(
+    VAR_product_module_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_module_asset, ('Asset', u'资产')),
             (VAR_product_module_scenery, ('Scenery', u'场景')),
@@ -854,13 +854,13 @@ class Product(object):
         VAR_product_asset_category_character,
         VAR_product_asset_category_prop
     ]
-    VAR_product_asset_category_showname_dict = bscCore.orderedDict(
+    VAR_product_asset_category_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_asset_category_character, ('Character', u'角色')),
             (VAR_product_asset_category_prop, ('Prop', u'道具'))
         ]
     )
-    VAR_product_asset_category_uidatum_dict = bscCore.orderedDict(
+    VAR_product_asset_category_uidatum_dict = bscMtdCore.orderedDict(
         [
             ('ast0', (VAR_product_asset_category_character, u'角色')),
             ('ast1', (VAR_product_asset_category_prop, u'道具'))
@@ -876,14 +876,14 @@ class Product(object):
         VAR_product_scenery_category_Group,
         VAR_product_scenery_category_Assembly
     ]
-    VAR_product_scenery_category_showname_dict = bscCore.orderedDict(
+    VAR_product_scenery_category_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_scenery_category_scenery, ('Scenery', u'场景')),
             (VAR_product_scenery_category_Group, ('Group', u'组合')),
             (VAR_product_scenery_category_Assembly, ('Assembly', u'组装'))
         ]
     )
-    VAR_product_scenery_category_uidatum_dict = bscCore.orderedDict(
+    VAR_product_scenery_category_uidatum_dict = bscMtdCore.orderedDict(
         [
             ('scn0', (VAR_product_scenery_category_scenery, u'场景')),
             ('scn1', (VAR_product_scenery_category_Group, u'组合')),
@@ -898,13 +898,13 @@ class Product(object):
         VAR_product_scene_category_scene,
         VAR_product_scene_category_act
     ]
-    VAR_product_scene_category_showname_dict = bscCore.orderedDict(
+    VAR_product_scene_category_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_scene_category_scene, ('Scene', u'镜头')),
             (VAR_product_scene_category_act, ('Act', u'动作'))
         ]
     )
-    VAR_product_scene_category_uidatum_dict = bscCore.orderedDict(
+    VAR_product_scene_category_uidatum_dict = bscMtdCore.orderedDict(
         [
             ('sc0', (VAR_product_scene_category_scene, u'镜头')),
             ('sc1', (VAR_product_scene_category_act, u'动作'))
@@ -920,14 +920,14 @@ class Product(object):
         VAR_product_priority_minor,
         VAR_product_priority_util
     ]
-    VAR_product_priority_showname_dict = bscCore.orderedDict(
+    VAR_product_priority_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_priority_major, ('Major', u'主要')),
             (VAR_product_priority_minor, ('Minor', u'次要')),
             (VAR_product_priority_util, ('Util', u'龙套'))
         ]
     )
-    VAR_product_priority_uidatum_dict = bscCore.orderedDict(
+    VAR_product_priority_uidatum_dict = bscMtdCore.orderedDict(
         [
             ('prt0', (VAR_product_priority_major, u'主要')),
             ('prt1', (VAR_product_priority_minor, u'次要')),
@@ -950,7 +950,7 @@ class Product(object):
         VAR_product_asset_link_light,
         VAR_product_asset_link_assembly
     ]
-    VAR_product_asset_link_showname_dict = bscCore.orderedDict(
+    VAR_product_asset_link_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_asset_link_model, ('Model', u'模型')),
             (VAR_product_asset_link_rig, ('Rig', u'绑定')),
@@ -976,7 +976,7 @@ class Product(object):
         VAR_product_scenery_link_solver,
         VAR_product_scenery_link_light
     ]
-    VAR_product_scenery_link_showname_dict = bscCore.orderedDict(
+    VAR_product_scenery_link_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_scenery_link_assembly, ('Scenery', u'场景布景')),
             (VAR_product_scenery_link_layout, ('Layout', u'场景预览')),
@@ -1000,7 +1000,7 @@ class Product(object):
         VAR_product_scene_link_solver,
         VAR_product_scene_link_light
     ]
-    VAR_product_scene_link_showname_dict = bscCore.orderedDict(
+    VAR_product_scene_link_showname_dict = bscMtdCore.orderedDict(
         [
             (VAR_product_scene_link_layout, ('Layout', u'镜头预览')),
             (VAR_product_scene_link_animation, ('Animation', u'镜头动画')),

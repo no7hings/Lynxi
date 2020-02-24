@@ -1,8 +1,6 @@
 # coding=utf-8
 OsFilePathSep = '/'
 #
-MaUdimKey = '<udim>'
-#
 MaKeyword_ShapeOrig = 'Orig'
 MaKeyword_ShapeDeformed = 'Deformed'
 MaKeyword_Shape = 'Shape'
@@ -13,9 +11,9 @@ M2NurbsSurfaceType = 'kNurbsSurface'
 M2NurbsCurveType = 'kNurbsCurve'
 #
 DEF_type_transform = 'transform'
-DEF_type_shading_mesh = 'mesh'
-MaNodeType_NurbsSurface = 'nurbsSurface'
-MaNodeType_NurbsCurve = 'nurbsCurve'
+DEF_type_mesh = 'mesh'
+DEF_type_nurbs_surface = 'nurbsSurface'
+DEF_type_nurbs_curve = 'nurbsCurve'
 #
 MaCameraType = 'camera'
 #
@@ -38,7 +36,7 @@ MaNurbsHairCacheFileAttrName = 'cacheFile'
 MaNodeType_CacheFile = 'cacheFile'
 MaNodeType_AiVolume = 'aiVolume'
 #
-MaNodeType_Alembic = 'AlembicNode'
+DEF_type_alembic = 'AlembicNode'
 MaGpuCache = 'gpuCache'
 #
 MaReferenceType = 'reference'
@@ -48,7 +46,7 @@ DEF_type_assembly_reference = 'assemblyReference'
 #
 DEF_separator_node = '|'
 DEF_separator_namespace = ':'
-DEF_separator_attribute = '.'
+DEF_separator_port = '.'
 #
 MaNodeType_AiStandIn = 'aiStandIn'
 MaArnoldTxExt = '.tx'
@@ -144,5 +142,7 @@ DdlJobs = [
 ]
 #
 MaTransformationAttrLis = [
-    'translate', 'rotate', 'scale'
+    'translate',
+    'rotate',
+    'scale'
 ]

@@ -3,7 +3,7 @@ import os, threading
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
 from LxScheme import shmOutput
 
@@ -13,7 +13,7 @@ from LxCore import lxConfigure
 
 from LxCore.config import appCfg
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
 
@@ -23,7 +23,7 @@ from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 
 from LxDatabase import dbGet
 
-from LxMaBasic import maBscConfigure
+from LxMaBasic import maBscConfigure, maBscMethods
 
 from LxMaya.command import maUtils, maFile, maFur, maKeyframe, maCam, maRender, maPreference
 
@@ -42,9 +42,9 @@ from LxDeadline import ddlCommands
 # Project Data
 currentProjectName = prsMethods.Project.mayaActiveName()
 # File Label
-astLayoutRigFileLabel = prsVariants.Util.astLayoutRigFileLabel
-astAnimationRigFileLabel = prsVariants.Util.astAnimationRigFileLabel
-astSimulationRigFileLabel = prsVariants.Util.astSimulationRigFileLabel
+astLayoutRigFileLabel = prsOutputs.Util.astLayoutRigFileLabel
+astAnimationRigFileLabel = prsOutputs.Util.astAnimationRigFileLabel
+astSimulationRigFileLabel = prsOutputs.Util.astSimulationRigFileLabel
 #
 none = ''
 
@@ -61,11 +61,11 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
     #
     widthSet = 800
     #
-    dicFilter = bscCore.orderedDict()
+    dicFilter = bscMtdCore.orderedDict()
     dicFilter['withCharacter'] = [0, 0, 0, 1, 2, 'Character ( 0000 )']
     dicFilter['withProp'] = [0, 0, 2, 1, 2, 'Prop ( 0000 )']
     #
-    dicTool = bscCore.orderedDict()
+    dicTool = bscMtdCore.orderedDict()
     dicTool['usePoolAsset'] = [0, 0, 0, 1, 3, 'Ignore Asset ( Rig ) Update']
     # 1
     dicTool['multiple'] = [0, 2, 0, 1, 1, none]
@@ -172,7 +172,7 @@ class IfScRigLoadedUnit(_qtIfAbcWidget.QtIfAbc_Unit_):
             assetIndex = key
             assetCategory = None
             assetName, viewName = value
-            assetVariant = prsVariants.Util.astDefaultVariant
+            assetVariant = prsOutputs.Util.astDefaultVariant
             # Tag
             if ' - ' in viewName:
                 tag, _ = viewName.split(' - ')[:2]
@@ -515,7 +515,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if availableCameraLis:
             for cameraPath in availableCameraLis:
                 if not cameraPath in activeCameraLis:
-                    cameraName = maUtils._getNodeNameString(cameraPath)
+                    cameraName = maUtils._nodeString2nodename_(cameraPath)
                     #
                     cameraItem = qtWidgets_.QTreeWidgetItem_([cameraName])
                     availableTreeBox.addItem(cameraItem)
@@ -529,7 +529,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         activeTreeBox.clear()
         if activeCameraLis:
             for cameraPath in activeCameraLis:
-                cameraName = maUtils._getNodeNameString(cameraPath)
+                cameraName = maUtils._nodeString2nodename_(cameraPath)
                 #
                 cameraItem = qtWidgets_.QTreeWidgetItem_([cameraName])
                 activeTreeBox.addItem(cameraItem)
@@ -629,14 +629,14 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             sceneVariant = self._connectObject.sceneVariant
             #
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
-            if maUtils._isNodeExist(sceneCamera):
+            if maUtils._isAppExist(sceneCamera):
                 bscObjects.MessageWindow(
                     u'''Camera : %s''' % sceneCamera, u'''is Exists'''
                 )
-            if not maUtils._isNodeExist(sceneCamera):
+            if not maUtils._isAppExist(sceneCamera):
                 sceneOp.setCreateSceneCamera(sceneName, sceneVariant)
             #
-            sceneOp.setAddSceneCameras(sceneName, [maUtils._getNodePathString(sceneCamera)])
+            sceneOp.setAddSceneCameras(sceneName, [maUtils._getNodeFullpathNameString(sceneCamera)])
     #
     def setAddSceneCameras(self):
         if self._connectObject:
@@ -680,7 +680,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         cameraPaths = getCameraPaths(availableTreeBox)
         if cameraPaths:
             usedCamera = cameraPaths[0]
-            if maUtils._isNodeExist(usedCamera):
+            if maUtils._isAppExist(usedCamera):
                 maUtils.setDisplayMode(5)
                 maUtils.setCameraView(usedCamera)
                 bscObjects.MessageWindow(
@@ -728,7 +728,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     projectName,
                     sceneIndex,
                     sceneCategory, sceneName, sceneVariant, sceneStage,
-                    startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
+                    startFrame, endFrame, prsOutputs.Util.animKeyFrameOffset,
                     timeTag,
                     withCamera
                 )
@@ -754,7 +754,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             quality = self._previewQualityLabel.value()
             percent = self._previewPercentLabel.value()
             #
-            vedioFormat = [prsVariants.Util.aviExt, prsVariants.Util.movExt][self.movFormatButton.isChecked()]
+            vedioFormat = [prsOutputs.Util.aviExt, prsOutputs.Util.movExt][self.movFormatButton.isChecked()]
 
             isOpenFolder = self.openFolderButton.isChecked()
             #
@@ -778,7 +778,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     projectName,
                     sceneIndex,
                     sceneCategory, sceneName, sceneVariant, sceneStage,
-                    startFrame, endFrame, prsVariants.Util.animKeyFrameOffset,
+                    startFrame, endFrame, prsOutputs.Util.animKeyFrameOffset,
                     timeTag,
                     withPreview
                 )
@@ -837,8 +837,8 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 )[1]
             if bscMethods.OsFile.isExist(serverCameraFile):
                 cameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant)
-                if not maUtils._isNodeExist(cameraLocator):
-                    maFile.setFileImport(serverCameraFile)
+                if not maUtils._isAppExist(cameraLocator):
+                    maBscMethods.File.importFrom(serverCameraFile)
                     bscObjects.MessageWindow(
                         'Camera Import', 'Complete'
                     )
@@ -1016,7 +1016,7 @@ class IfScAnimationLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
 class IfScUtilToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicUtils = bscCore.orderedDict()
+    dicUtils = bscMtdCore.orderedDict()
     dicUtils['astUnitClearScene'] = [1, 0, 0, 1, 4, 'Clean Maya Scene']
     dicUtils['placeholder'] = [1, 1, 0, 1, 4, 'Placeholder']
     def __init__(self, *args, **kwargs):
@@ -1326,7 +1326,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 sceneCategory, sceneName, sceneVariant
             )
         self._scFrameValueLabel.setDefaultValue((startFrame, endFrame))
-        self._scRenderValueLabel.setDefaultValue((prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight))
+        self._scRenderValueLabel.setDefaultValue((prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight))
     #
     def _initScUploadConfig(self):
         sceneStage = self._connectObject.sceneStage
@@ -1402,7 +1402,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     sceneCameraLis = datScene.getScOutputCameraLis(sceneName, sceneVariant)
                 cameraData = sceneCameraLis, sceneCameraLis
                 # Preview Config
-                vedioFormat = [prsVariants.Util.aviExt, prsVariants.Util.movExt][self._movFormatSubButton.isChecked()]
+                vedioFormat = [prsOutputs.Util.aviExt, prsOutputs.Util.movExt][self._movFormatSubButton.isChecked()]
                 displayMode = [6, 7][self._withLightSubButton.isChecked()]
                 useMode = 0
                 previewConfig = 100, 100, width, height, vedioFormat, displayMode, useMode
@@ -1438,7 +1438,7 @@ class IfScAnimUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         sceneStage = self._connectObject.sceneStage
         #
         startFrame, endFrame = self._scFrameValueLabel.value()
-        frameOffset = prsVariants.Util.animKeyFrameOffset
+        frameOffset = prsOutputs.Util.animKeyFrameOffset
         #
         width, height = self._scRenderValueLabel.value()
         #
@@ -1688,8 +1688,8 @@ class IfScLightUploadToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             startFrame, endFrame = sceneFrameRange
             self._scRenderFrameLabel.setDefaultValue((startFrame, endFrame))
             # Size
-            width = prsVariants.Util.rndrImageWidth
-            height = prsVariants.Util.rndrImageHeight
+            width = prsOutputs.Util.rndrImageWidth
+            height = prsOutputs.Util.rndrImageHeight
             self._scRenderSizeBox.setDefaultValue((width, height))
     #
     def setupCustomizeToolUiBox(self, toolBox):
@@ -2623,7 +2623,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         self.variantLabel = qtWidgets.QtEnterlabel()
         toolBox.addInfo('variant', self.variantLabel)
         self.variantLabel.setChooseEnable(True)
-        self.variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
+        self.variantLabel.setDatum(prsOutputs.Util.astDefaultVersion)
         #
         self.setVariantButton = qtWidgets.QtPressbutton()
         toolBox.addButton('setVariant', self.setVariantButton)
@@ -2802,7 +2802,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
                     if astAnimationRigFileLabel in fileString_:
                         showLabel = astAnimationRigFileLabel
-                        if maUtils._isNodeExist(astUnitModelProductGroup):
+                        if maUtils._isAppExist(astUnitModelProductGroup):
                             localMeshData = datAsset.getMeshObjectsConstantDic(assetName, namespace)
                             #
                             serverMeshData = {}
@@ -2819,7 +2819,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         state = 'Low - Quality'
                         showLabel = astLayoutRigFileLabel
                     #
-                    existNumber = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
+                    existNumber = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicNumberAttrLabel)
                     if not existNumber:
                         assetSubLabel = 'Error'
                         stateSubLabel = 'Error'
@@ -2831,7 +2831,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     self.assetDataDic[assetItem] = referenceNode, assetCategory, assetName, number, assetVariant
                 #
-                showName = prsVariants.Util.assetTreeViewName(assetName, number, assetVariant)
+                showName = prsOutputs.Util.assetTreeViewName(assetName, number, assetVariant)
                 #
                 assetItem.assetIndex = None
                 assetItem.assetCategory = assetCategory
@@ -2922,12 +2922,12 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     numberLabel.setDefaultValue(int(number))
                     numberLabel.setValue(int(number))
                 else:
-                    variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
+                    variantLabel.setDatum(prsOutputs.Util.astDefaultVersion)
                     #
                     numberLabel.setDefaultValue(0)
                     numberLabel.setValue(0)
             else:
-                variantLabel.setDatum(prsVariants.Util.astDefaultVersion)
+                variantLabel.setDatum(prsOutputs.Util.astDefaultVersion)
                 #
                 numberLabel.setDefaultValue(0)
                 numberLabel.setValue(0)
@@ -2977,14 +2977,14 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     #
                     namespace = maUtils.getReferenceNamespace(referenceNode)
                     tempCfxGroup = assetPr.scAstCfxTempGroupName(assetName, namespace)
-                    if maUtils._isNodeExist(tempCfxGroup):
+                    if maUtils._isAppExist(tempCfxGroup):
                         children = maUtils.getNodeChildLis(tempCfxGroup, 1)
                         if children:
                             self.enableCfxs.append(assetItem)
                         if not children:
                             self.disableCfxs.append(assetItem)
                     #
-                    if not maUtils._isNodeExist(tempCfxGroup):
+                    if not maUtils._isAppExist(tempCfxGroup):
                         self.disableCfxs.append(assetItem)
                 #
                 for button, (explain, statisticalData) in buttonDic.items():
@@ -3127,9 +3127,9 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             referenceNode = assetItem.node
             newVariant = self.variantLabel.datum()
             if not newVariant == assetVariant:
-                maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicVariantAttrLabel, newVariant)
+                maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.basicVariantAttrLabel, newVariant)
                 assetItem.assetVariant = newVariant
-                newShowName = prsVariants.Util.assetTreeViewName(assetName, number, newVariant)
+                newShowName = prsOutputs.Util.assetTreeViewName(assetName, number, newVariant)
                 assetItem.setText(0, newShowName)
                 maUtils.setMessageWindowShow(
                     u'Set Asset Variant', u'is Complete',
@@ -3146,8 +3146,8 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
             referenceNode = assetItem.node
             newNumber = self.numberLabel.value()
             if not newNumber == number:
-                maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicNumberAttrLabel, str(newNumber).zfill(4))
-                newShowName = prsVariants.Util.assetTreeViewName(assetName, str(newNumber).zfill(4), assetVariant)
+                maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.basicNumberAttrLabel, str(newNumber).zfill(4))
+                newShowName = prsOutputs.Util.assetTreeViewName(assetName, str(newNumber).zfill(4), assetVariant)
                 assetItem.setText(0, newShowName)
                 maUtils.setMessageWindowShow(
                     u'Set Asset Number', u'is Complete',
@@ -3158,7 +3158,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         inData = datAnim.getAssetNumberReduceData(projectName)
         if inData:
             isRefresh = False
-            attrName = prsVariants.Util.basicNumberAttrLabel
+            attrName = prsOutputs.Util.basicNumberAttrLabel
             maxValue = len(inData)
             for seq, (k, v) in enumerate(inData.items()):
                 if self._connectObject:
@@ -3407,7 +3407,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if root:
             data = maKeyframe.getKeyDatas(root)
 
-            bscMethods.OsJson.write(fileString_, data)
+            bscMethods.OsJsonFile.write(fileString_, data)
             #
             maUtils.setMessageWindowShow(
                 u'Animation ( Keys ) Export', u'Complete',
@@ -3418,7 +3418,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         fileString_ = 'D:/animTemp/tempAnim.key'
         root = self.root
         if root:
-            data = bscMethods.OsJson.read(fileString_)
+            data = bscMethods.OsJsonFile.read(fileString_)
             maKeyframe.setKeys(root, data)
             #
             maUtils.setMessageWindowShow(
@@ -3454,7 +3454,7 @@ class IfScAnimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
     def getSelRig(self):
         self.selectedAsset = []
         #
-        data = maUtils.getSelObjParentFilter(prsVariants.Util.basicGeometryGroupLabel)
+        data = maUtils.getSelObjParentFilter(prsOutputs.Util.basicGeometryGroupLabel)
         if data:
             for i in data:
                 self.selectedAsset.append(i)
@@ -3804,7 +3804,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         #
                         cfxFurLabel = maFur.getFurObjectLabel(furObjectPath, assetName)
                         cfxFurItem.setText(0, cfxFurLabel)
-                        furObjectType = maUtils._getNodeShapeTypeString(furObjectPath)
+                        furObjectType = maUtils._getNodeShapeCategoryString(furObjectPath)
                         #
                         cacheItemIcon1 = 'svg_basic@svg#local'
                         cacheItemIcon2 = 'svg_basic@svg#server'
@@ -4303,7 +4303,7 @@ class IfSimManagerUnit(_qtIfAbcWidget.IfToolUnitBasic):
         if nodes:
             for furObjectPath in nodes:
                 if furObjectPath in nodeItemDic:
-                    furNodeName = maUtils._getNodeNameString(furObjectPath)
+                    furNodeName = maUtils._nodeString2nodename_(furObjectPath)
                     #
                     cfxFurItem = nodeItemDic[furObjectPath]
                     sceneCategory = cfxFurItem.sceneCategory

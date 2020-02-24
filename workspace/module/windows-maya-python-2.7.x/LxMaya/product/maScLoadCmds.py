@@ -5,9 +5,11 @@ from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore.config import appCfg
 
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
+
+from LxMaBasic import maBscMethods
 
 from LxMaya.command import maUtils, maFile, maHier, maPreference, maFur, maCacheConnect, maRender
 
@@ -15,7 +17,7 @@ from LxMaya.product.data import datScene
 
 from LxMaya.product.op import sceneOp, sceneryOp
 
-astDefaultVersion = prsVariants.Util.astDefaultVersion
+astDefaultVersion = prsOutputs.Util.astDefaultVersion
 
 none = ''
 
@@ -56,7 +58,7 @@ def scUnitSceneCreateMainCmd(
             projectName, 
             sceneCategory, sceneName, sceneVariant, prsMethods.Scene.VAR_product_scene_animation_stage_list[0]
         )[1]
-        maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
+        maBscMethods.File.openAsBackup(serverProductFile, localSourceFile)
     # Simulation
     elif scenePr.isSimulationLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
@@ -106,10 +108,10 @@ def scUnitSceneCreateMainCmd(
         logWin_.addStartProgress(u'Camera Create')
         if scenePr.isLayoutLinkName(sceneStage):
             sceneCamera = scenePr.scSceneCameraName(sceneName, sceneVariant)
-            if not maUtils._isNodeExist(sceneCamera):
+            if not maUtils._isAppExist(sceneCamera):
                 sceneOp.setCreateSceneCamera(sceneName, sceneVariant)
             #
-            sceneOp.setAddSceneCameras(sceneName, [maUtils._getNodePathString(sceneCamera)])
+            sceneOp.setAddSceneCameras(sceneName, [maUtils._getNodeFullpathNameString(sceneCamera)])
         # Simulation and Light
         elif scenePr.isSolverLinkName(sceneStage) or scenePr.isSimulationLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
             scUnitCameraCachesLoadCmd(
@@ -165,8 +167,8 @@ def scUnitSceneCreateMainCmd(
             maUtils.setRenderSize(width, height)
         #
         elif scenePr.isSolverLinkName(sceneStage) or scenePr.isSimulationLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
-            width = prsVariants.Util.rndrImageWidth
-            height = prsVariants.Util.rndrImageHeight
+            width = prsOutputs.Util.rndrImageWidth
+            height = prsOutputs.Util.rndrImageHeight
             #
             maUtils.setRenderSize(width, height)
         #
@@ -176,7 +178,7 @@ def scUnitSceneCreateMainCmd(
         workspaceRoot = scenePr.scUnitRenderFolder(
             prsConfigure.Utility.DEF_value_root_local,
             projectName,
-            sceneCategory, sceneName, sceneVariant, sceneStage, prsVariants.Util.scDefaultCustomizeLabel
+            sceneCategory, sceneName, sceneVariant, sceneStage, prsOutputs.Util.scDefaultCustomizeLabel
         )
         maRender.setCreateWorkspace(workspaceRoot)
         #
@@ -250,7 +252,7 @@ def scUnitSceneLoadMainCmd(
     )[1]
     logWin_.addStartProgress(u'Source Load')
     #
-    maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
+    maBscMethods.File.openAsBackup(serverProductFile, localSourceFile)
     #
     if not scenePr.isAnimationLinkName(sceneStage):
         maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
@@ -296,7 +298,7 @@ def scUnitSourceSaveCmd(
     #
     logWin_.addStartProgress(u'Source ( Local ) Save')
     #
-    maFile.saveMayaFileToLocal(localSourceFile)
+    maBscMethods.File.saveToLocal(localSourceFile)
     #
     logWin_.addCompleteProgress()
 
@@ -367,22 +369,22 @@ def scUnitCameraCacheLoadSubCmd(
         ) + subLabelString
         #
         scOutputCameraLocator = scenePr.scOutputCameraLocatorName(sceneName, sceneVariant, scCameraNamespace) + subLabelString
-        if maUtils._isNodeExist(scOutputCameraLocator):
+        if maUtils._isAppExist(scOutputCameraLocator):
             maUtils.setNodesClearByNamespace(scCameraNamespace)
             #
             logWin_.addResult(u'Remove Exists', )
         #
         logWin_.addStartProgress(u'Camera Cache Load', scCameraCacheFile)
         #
-        maFile.setAlembicCacheImport(scCameraCacheFile, scCameraNamespace)
+        maBscMethods.File.importAlembicFrom(scCameraCacheFile, scCameraNamespace)
         #
         logWin_.addCompleteProgress()
         #
-        if maUtils._isNodeExist(linkCameraPath):
+        if maUtils._isAppExist(linkCameraPath):
             maUtils.setObjectParent(scOutputCameraLocator, linkCameraPath)
         #
         scCamera = scenePr.scOutputCameraName(sceneName, sceneVariant, scCameraNamespace) + subLabelString
-        if maUtils._isNodeExist(scCamera):
+        if maUtils._isAppExist(scCamera):
             maUtils.setDisplayMode(5)
             maUtils.setCameraView(scCamera)
             maUtils.setObjectLockTransform(scCamera, boolean=True)
@@ -459,7 +461,7 @@ def scUnitAstModelCacheLoadSubCmd(
     if scAstModelCacheFile is not None:
         # Create Scene Root
         scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-        if not maUtils._isNodeExist(scUnitRoot):
+        if not maUtils._isAppExist(scUnitRoot):
             maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
             maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
         #
@@ -470,14 +472,14 @@ def scUnitAstModelCacheLoadSubCmd(
         #
         astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         scAstModelGroup = scenePr.scAstModelGroupName(sceneName, sceneVariant, assetName, number)
-        if maUtils._isNodeExist(scAstModelGroup):
+        if maUtils._isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
             #
             logWin_.addWarning(u'Remove Exists',)
         #
         logWin_.addStartProgress(u'Model Cache Load', scAstModelCacheFile)
         #
-        maFile.setAlembicCacheImport(scAstModelCacheFile)
+        maBscMethods.File.importAlembicFrom(scAstModelCacheFile)
         #
         logWin_.addCompleteProgress()
         # Create Group
@@ -497,7 +499,7 @@ def scUnitAstModelCacheLoadSubCmd(
             timetag
         )
         #
-        if maUtils._isNodeExist(scAstSubPath):
+        if maUtils._isAppExist(scAstSubPath):
             maUtils.setObjectParent(scAstRootGroup, scAstSubPath)
     else:
         logWin_.addWarning(u'Scene Model ( Cache ) is Non - Exists')
@@ -571,14 +573,14 @@ def scUnitAstModelPoseCacheLoadSubCmd(
     if scAstModelPoseCacheFile is not None:
         scAstSimNamespace = scenePr.scAstSimulationNamespace(sceneName, sceneVariant, assetName, number)
         scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstSimNamespace)
-        if maUtils._isNodeExist(scAstModelGroup):
+        if maUtils._isAppExist(scAstModelGroup):
             maUtils.setNodeDelete(scAstModelGroup)
             #
             logWin_.addWarning(u'Remove Exists')
         #
         logWin_.addStartProgress(u'Model Pose Cache Load', scAstModelPoseCacheFile)
         #
-        maFile.setAlembicCacheImport(scAstModelPoseCacheFile, scAstSimNamespace)
+        maBscMethods.File.importAlembicFrom(scAstModelPoseCacheFile, scAstSimNamespace)
         #
         logWin_.addCompleteProgress()
     else:
@@ -647,14 +649,14 @@ def scUnitAssetLoadSubCmd(
     
     # Create Scene Root
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if not maUtils._isNodeExist(scUnitRoot):
+    if not maUtils._isAppExist(scUnitRoot):
         maHier.setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage)
         maHier.refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
     #
     scAstSubPath = scenePr.scAssetSubGroupPath(sceneName, sceneVariant, sceneStage)
     #
     scAstRootPath = scenePr.scAstRootGroupPath(sceneName, sceneVariant, assetName, number)
-    if not maUtils._isNodeExist(scAstRootPath):
+    if not maUtils._isAppExist(scAstRootPath):
         # Create Group
         maUtils.setAppPathCreate(scAstRootPath)
         #
@@ -719,7 +721,7 @@ def scUnitAssetLoadSubCmd(
         #
         logWin_.addCompleteProgress()
     else:
-        assetShowName = prsVariants.Util.assetTreeViewName(assetName, number, assetVariant)
+        assetShowName = prsOutputs.Util.assetTreeViewName(assetName, number, assetVariant)
         logWin_.addWarning(assetShowName, u'Asset is Exists')
     #
     maUtils.setObjectParent(scAstRootPath, scAstSubPath)
@@ -766,8 +768,8 @@ def scUnitAstModelProductLoadCmd(
         scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelNamespace)
         scAstModelContainer = assetPr.astModelContainerName(assetName, scAstModelNamespace)
         # Clean Exists
-        if maUtils._isNodeExist(scAstModelGroup):
-            if prsVariants.Util.rndrUseReference is True:
+        if maUtils._isAppExist(scAstModelGroup):
+            if prsOutputs.Util.rndrUseReference is True:
                 scAstModelReferenceNode = scenePr.scAstModelReferenceNode(sceneName, sceneVariant, assetName, number)
                 #
                 maUtils.setReferenceRemove(scAstModelReferenceNode)
@@ -779,10 +781,10 @@ def scUnitAstModelProductLoadCmd(
         # Load Product
         logWin_.addStartProgress(u'Model Product Load', astModelProductFile)
         #
-        if prsVariants.Util.rndrUseReference is True:
-            maFile.setMaFileReference(astModelProductFile, scAstModelNamespace)
+        if prsOutputs.Util.rndrUseReference is True:
+            maBscMethods.File.referenceFrom(astModelProductFile, scAstModelNamespace)
         else:
-            maFile.setAlembicCacheImport(astModelProductFile, scAstModelNamespace)
+            maBscMethods.File.importAlembicFrom(astModelProductFile, scAstModelNamespace)
         #
         logWin_.addCompleteProgress()
         # Refresh Root
@@ -811,7 +813,7 @@ def scUnitAstModelProductLoadCmd(
             assetName, scAstModelNamespace, scAstModelDisplayLayer
         )
         #
-        if maUtils._isNodeExist(scAstRootGroup):
+        if maUtils._isAppExist(scAstRootGroup):
             maUtils.setObjectParent(scAstModelGroup, scAstRootGroup)
             maUtils.setObjectParent(scAstModelContainer, scAstRootGroup)
         #
@@ -856,9 +858,9 @@ def scUnitAstModelCacheConnectCmd(
         scAstModelCacheNamespace = scenePr.scAstModelCacheNamespace(sceneName, sceneVariant, assetName, number)
         #
         scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelNamespace)
-        if maUtils._isNodeExist(scAstModelGroup):
+        if maUtils._isAppExist(scAstModelGroup):
             scAstModelCacheGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelCacheNamespace)
-            if not maUtils._isNodeExist(scAstModelCacheGroup):
+            if not maUtils._isAppExist(scAstModelCacheGroup):
                 # Clear Cache Nde_Node
                 connectMethod = maCacheConnect.LxAstModelCacheConnectMethod(assetName, scAstModelCacheNamespace, scAstModelNamespace)
                 #
@@ -866,7 +868,7 @@ def scUnitAstModelCacheConnectCmd(
                 #
                 logWin_.addStartProgress(u'Model Cache Load', cacheFile)
                 #
-                maFile.setAlembicCacheImport(cacheFile, scAstModelCacheNamespace)
+                maBscMethods.File.importAlembicFrom(cacheFile, scAstModelCacheNamespace)
                 #
                 logWin_.addCompleteProgress()
                 #
@@ -877,7 +879,7 @@ def scUnitAstModelCacheConnectCmd(
                 connectionLis = connectMethod.connectionLis
                 if connectionLis:
                     scAstModelReferenceNode = scenePr.scAstModelReferenceNode(sceneName, sceneVariant, assetName, number)
-                    if maUtils._isNodeExist(scAstModelReferenceNode):
+                    if maUtils._isAppExist(scAstModelReferenceNode):
                         maUtils.setReloadReferenceFile(scAstModelReferenceNode)
                     #
                     for sourceAttr, targetAttr in connectionLis:
@@ -944,18 +946,18 @@ def scUnitAstExtraCacheConnectCmd(
         scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
         astRigBridgeGroup = assetPr.astUnitRigBridgeGroupName(assetName, scAstExtraCacheNamespace)
         #
-        if maUtils._isNodeExist(astRigBridgeGroup):
+        if maUtils._isAppExist(astRigBridgeGroup):
             maUtils.setNodesClearByNamespace(scAstExtraCacheNamespace)
             #
             logWin_.addResult(u'Clean Exists', )
         #
         logWin_.addStartProgress(u'Extra Cache Load', scAstRigExtraCacheFile)
         #
-        maFile.setAlembicCacheImport(scAstRigExtraCacheFile, scAstExtraCacheNamespace)
+        maBscMethods.File.importAlembicFrom(scAstRigExtraCacheFile, scAstExtraCacheNamespace)
         #
         logWin_.addCompleteProgress()
         #
-        if maUtils._isNodeExist(scAstRootGroup):
+        if maUtils._isAppExist(scAstRootGroup):
             maUtils.setObjectParent(astRigBridgeGroup, scAstRootGroup)
     else:
         logWin_.addWarning(scenePr.scAstName(assetName, number, assetVariant), u'Asset Extra Cache is Non - Exists')
@@ -991,13 +993,13 @@ def scUnitAstCfxProductLoadCmd(
         scAstRootGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
         astCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, scAstCfxNamespace)
         scAstCfxContainer = assetPr.astCfxContainerName(assetName, scAstCfxNamespace)
-        if not maUtils._isNodeExist(astCfxGroup):
+        if not maUtils._isAppExist(astCfxGroup):
             logWin_.addStartProgress(u'Groom Product Load', astCfxProductFile)
             #
-            if prsVariants.Util.rndrUseReference is True:
-                maFile.setMaFileReference(astCfxProductFile, scAstCfxNamespace)
+            if prsOutputs.Util.rndrUseReference is True:
+                maBscMethods.File.referenceFrom(astCfxProductFile, scAstCfxNamespace)
             else:
-                maFile.setAlembicCacheImport(astCfxProductFile, scAstCfxNamespace)
+                maBscMethods.File.importAlembicFrom(astCfxProductFile, scAstCfxNamespace)
             #
             logWin_.addCompleteProgress()
             # Refresh Root
@@ -1030,7 +1032,7 @@ def scUnitAstCfxProductLoadCmd(
                     withAstCfxFurCache=withAstCfxFurCache
                 )
         #
-        if maUtils._isNodeExist(scAstRootGroup):
+        if maUtils._isAppExist(scAstRootGroup):
             maUtils.setObjectParent(astCfxGroup, scAstRootGroup)
             maUtils.setObjectParent(scAstCfxContainer, scAstRootGroup)
         #
@@ -1063,10 +1065,10 @@ def scUnitAstSolverProductLoadCmd(
         scAstSolverNamespace = scenePr.scAstSolverNamespace(sceneName, sceneVariant, assetName, number)
         #
         astSolverLinkGroup = prsMethods.Asset.groomLinkGroupName(assetName, scAstSolverNamespace)
-        if not maUtils._isNodeExist(astSolverLinkGroup):
+        if not maUtils._isAppExist(astSolverLinkGroup):
             logWin_.addStartProgress(u'Solver Product Load', astSolverProductFile)
             #
-            maFile.setMaFileReference(astSolverProductFile, scAstSolverNamespace)
+            maBscMethods.File.referenceFrom(astSolverProductFile, scAstSolverNamespace)
             #
             logWin_.addCompleteProgress()
             #
@@ -1081,7 +1083,7 @@ def scUnitAstSolverProductLoadCmd(
                 assetCategory, assetName, assetVariant, prsMethods.Asset.solverLinkName()
             )[1]
             if bscMethods.OsFile.isExist(astSolverExtraFile):
-                extraDic = bscMethods.OsJson.read(astSolverExtraFile)
+                extraDic = bscMethods.OsJsonFile.read(astSolverExtraFile)
                 if extraDic:
                     connectionDic = extraDic.get(prsConfigure.Product.DEF_key_info_connection)
                     if connectionDic:
@@ -1102,7 +1104,7 @@ def scUnitAstSolverProductLoadCmd(
             )
         #
         scAstCfxReferenceNode = scenePr.scAstCfxReferenceNode(sceneName, sceneVariant, assetName, number)
-        if maUtils._isNodeExist(scAstCfxReferenceNode):
+        if maUtils._isAppExist(scAstCfxReferenceNode):
             maUtils.setUnloadReference(scAstCfxReferenceNode)
 
 
@@ -1142,13 +1144,13 @@ def scUnitAstSolverCacheConnectCmd(
         astSolverLinkGroup = prsMethods.Asset.solverLinkGroupName(assetName, scAstSolverNamespace)
         astSolverBridgeGroup = assetPr.astUnitSolverBridgeGroupName(assetName, scAstSolverCacheNamespace)
         # Load
-        if not maUtils._isNodeExist(astSolverBridgeGroup):
-            maFile.setCacheFileReference(scAstSolverCacheFile, scAstSolverCacheNamespace)
+        if not maUtils._isAppExist(astSolverBridgeGroup):
+            maBscMethods.File.referenceCacheFrom(scAstSolverCacheFile, scAstSolverCacheNamespace)
         else:
             scAstSolverCacheReferenceNode = scenePr.scAstSolverCacheReferenceNode(sceneName, sceneVariant, assetName, number)
             maUtils.setLoadReferenceFile(scAstSolverCacheReferenceNode, scAstSolverCacheFile)
         # Connect
-        if maUtils._isNodeExist(astSolverLinkGroup) and maUtils._isNodeExist(astSolverBridgeGroup):
+        if maUtils._isAppExist(astSolverLinkGroup) and maUtils._isAppExist(astSolverBridgeGroup):
             errorLis = maFur.setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scAstSolverCacheNamespace)
             if errorLis:
                 [logWin_.addError(i) for i in errorLis]
@@ -1243,7 +1245,7 @@ def scUnitAstCfxFurCacheConnectSubCmd(
     logWin_ = bscObjects.LogWindow()
     #
     furObjectLabel = maFur.getFurObjectLabel(furObject, assetName)
-    furObjectType = maUtils._getNodeShapeTypeString(furObject)
+    furObjectType = maUtils._getNodeShapeCategoryString(furObject)
     furCacheFile = getFile()
     if furCacheFile:
         logWin_.addStartProgress(u'Fur Cache Load', furCacheFile)
@@ -1282,7 +1284,7 @@ def scUnitSceneryExtraLoadLoadCmd(
         sceneCategory, sceneName, sceneVariant
     )
     scSceneryLinkPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, sceneStage)
-    if not maUtils._isNodeExist(scSceneryLinkPath):
+    if not maUtils._isAppExist(scSceneryLinkPath):
         maUtils.setAppPathCreate(scSceneryLinkPath)
     #
     if extraData:
@@ -1302,6 +1304,6 @@ def scUnitSceneryExtraLoadLoadCmd(
         logWin_.addCompleteProgress()
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils._isNodeExist(scUnitRoot):
+    if maUtils._isAppExist(scUnitRoot):
         scLikGroupName = scenePr.scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)
         maUtils.setObjectParent(scLikGroupName, scUnitRoot)

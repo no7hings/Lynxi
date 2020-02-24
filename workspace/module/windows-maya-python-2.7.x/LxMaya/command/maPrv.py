@@ -108,7 +108,7 @@ def makePreview(
     setViewportVp2Renderer(animationPanel, 1)
     # Open HUD
     maCam.setCameraCloseHud()
-    maCam.setCameraView(maUtils._getNodeShapeString(camera), displayResolution, displaySafeTitle)
+    maCam.setCameraView(maUtils._getNodeShapeNodeString(camera), displayResolution, displaySafeTitle)
     maCam.setCameraHud('large')
     # Set Maye View
     cmds.modelEditor(
@@ -165,7 +165,7 @@ def makePreview(
     )
     # Image Preview
     maCam.setCameraCloseHud()
-    # maCam.setCameraView(maUtils._getNodeShapeString(camera))
+    # maCam.setCameraView(maUtils._getNodeShapeNodeString(camera))
     midFrame = int((endFrame - startFrame) / 2 + startFrame)
     frameRange = [startFrame, midFrame, endFrame]
     frameDic = {startFrame: '0000', midFrame: '0001', endFrame: '0002'}
@@ -229,7 +229,7 @@ def makeSnapshot(
     cmds.displayRGBColor('backgroundBottom', .25, .25, .25)
     cmds.showWindow(prvWindow)
     maCam.setCameraCloseHud()
-    maCam.setCameraView(maUtils._getNodeShapeString(camera))
+    maCam.setCameraView(maUtils._getNodeShapeNodeString(camera))
     # Set Maye View
     cmds.modelEditor(
         animationPanel,

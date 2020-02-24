@@ -1,11 +1,13 @@
 # coding=utf-8
 from LxBasic import bscMethods, bscModifiers, bscObjects
 
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 
 from LxCore.preset.prod import assetPr, sceneryPr
 
 from LxDatabase import dbGet
+
+from LxMaBasic import maBscMethods
 
 from LxMaya.command import maUtils, maFile, maShdr, maTxtr, maHier, maRender, maAsb
 
@@ -79,7 +81,7 @@ def astUnitModelLoadMainCmd(
     maUtils.setDisplayMode(5)
 
     if force is True:
-        maFile.new()
+        maBscMethods.File.new()
     # Geometry
     astUnitModelGeometryLoadCmd(
         projectName,
@@ -136,7 +138,8 @@ def astUnitModelSourceSaveCmd(
     #
     logWin_.addStartProgress(u'Model Source ( Local ) Save')
     #
-    maFile.saveMayaFileToLocal(localAstModelFile)
+    
+    maBscMethods.File.saveToLocal(localAstModelFile)
     logWin_.addResult(localAstModelFile)
     #
     logWin_.addCompleteProgress()
@@ -378,10 +381,10 @@ def astUnitRigLoadMainCmd(
     logWin_.addStartProgress(u'Rig Load')
     if bscMethods.OsFile.isExist(dbRigFile):
         if force:
-            maFile.openMayaFileAsBack(dbRigFile, localSourceFile)
+            maBscMethods.File.openAsBackup(dbRigFile, localSourceFile)
         elif not force:
-            maFile.setFileImport(dbRigFile)
-            maFile.saveMayaFileToLocal(localSourceFile)
+            maBscMethods.File.importFrom(dbRigFile)
+            maBscMethods.File.saveToLocal(localSourceFile)
         # Extra
         astUnitExtraLoadCmd(
             assetIndex,
@@ -390,7 +393,7 @@ def astUnitRigLoadMainCmd(
         )
         # Create Branch
         rigBranch = prsMethods.Asset.rigLinkGroupName(assetName)
-        if not maUtils._isNodeExist(rigBranch):
+        if not maUtils._isAppExist(rigBranch):
             maHier.setCreateAstRigHierarchy(assetCategory, assetName)
         #
         maHier.astUnitRefreshRoot(
@@ -422,7 +425,7 @@ def astUnitRigSaveCmd(
     #
     logWin_.addStartProgress(u'Source ( Local ) Save')
     #
-    maFile.saveMayaFileToLocal(localFile)
+    maBscMethods.File.saveToLocal(localFile)
     #
     logWin_.addCompleteProgress()
 
@@ -584,7 +587,7 @@ def astUnitCfxFurLoadCmd(
             logWin_.addCompleteProgress()
         #
         rootGroup = prsMethods.Asset.rootName(assetName)
-        if maUtils._isNodeExist(rootGroup):
+        if maUtils._isAppExist(rootGroup):
             maUtils.setObjectParent(cfxGroup, rootGroup)
     else:
         logWin_.addWarning(u'Fur is Non - Exists')
@@ -720,7 +723,7 @@ def astUnitLightCreateMainCmd(
     maUtils.setDisplayMode(5)
     #
     if force:
-        maFile.new()
+        maBscMethods.File.new()
     #
     astUnitModelGeometryLoadCmd(
         projectName,
@@ -865,7 +868,7 @@ def astUnitProductLoadCmd(
         if bscMethods.OsFile.isExist(serverProductFile):
             logWin_.addStartProgress(u'Product Load')
             #
-            maFile.setFileImport(serverProductFile)
+            maBscMethods.File.importFrom(serverProductFile)
             #
             logWin_.addCompleteProgress()
             #
@@ -924,7 +927,7 @@ def astUnitTextureLoadCmd(
         isWithTx = True
     #
     if linkGroupName is not None:
-        if maUtils._isNodeExist(linkGroupName):
+        if maUtils._isAppExist(linkGroupName):
             logWin_.addStartProgress(u'Texture Load')
 
             shaderObjectLis = maUtils.getChildrenByRoot(linkGroupName)
@@ -976,12 +979,12 @@ def astUnitExtraLoadCmd(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, assetCategory, assetName, assetVariant, assetStage
     )[1]
-    extraData = bscMethods.OsJson.read(serverExtraFile)
+    extraData = bscMethods.OsJsonFile.read(serverExtraFile)
     if extraData:
         assetOp.setCreateAstExtraData(extraData)
     #
     astUnitModelBridgeGroup = assetPr.astUnitModelBridgeGroupName(assetName)
-    if maUtils._isNodeExist(astUnitModelBridgeGroup):
+    if maUtils._isAppExist(astUnitModelBridgeGroup):
         astUnitModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         maUtils.setObjectParent(astUnitModelBridgeGroup, astUnitModelGroup)
 
@@ -1006,7 +1009,7 @@ def astUnitSourceSaveCmd(
     #
     logWin_.addStartProgress(u'Source ( Local ) Save')
     #
-    maFile.saveMayaFileToLocal(localSourceFile)
+    maBscMethods.File.saveToLocal(localSourceFile)
     #
     logWin_.addCompleteProgress()
 
@@ -1062,11 +1065,11 @@ def astUnitRigLoadForAnimationCmd(
     timeTag = bscMethods.OsTimetag.active()
     namespace = assetPr.astRigNamespaceSet(assetName) + '_' + timeTag
     #
-    maFile.setMaFileReference(serverRigProductFile, namespace)
+    maBscMethods.File.referenceFrom(serverRigProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTimestamp.active())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.updateLabel, bscMethods.OsTimestamp.active())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.basicIndexAttrLabel, assetIndex)
 
 
 #
@@ -1084,8 +1087,8 @@ def astAssetSolverLoadForAnimation(
     timeTag = bscMethods.OsTimetag.active()
     namespace = assetPr.astSolverNamespaceSet(assetName, assetVariant) + '_' + timeTag
     #
-    maFile.setMaFileReference(serverSolverProductFile, namespace)
+    maBscMethods.File.referenceFrom(serverSolverProductFile, namespace)
     referenceNode = namespace + 'RN'
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.artistLabel, bscMethods.OsSystem.username())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.updateLabel, bscMethods.OsTimestamp.active())
-    maUtils.setAttrStringDatumForce_(referenceNode, prsVariants.Util.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.artistLabel, bscMethods.OsSystem.username())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.updateLabel, bscMethods.OsTimestamp.active())
+    maUtils.setAttrStringDatumForce_(referenceNode, prsOutputs.Util.basicIndexAttrLabel, assetIndex)

@@ -1,14 +1,14 @@
 # coding:utf-8
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscMtdCore, bscObjects
 
-from LxScheme import shmObjAbstract
+from LxScheme import shmObjCore
 
 from LxScheme.shmObjects import _shmObjPath
 
 
-class Fle_RscBin(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscBin(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -26,9 +26,9 @@ class Fle_RscBin(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_RscPackage(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscPackage(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -46,9 +46,9 @@ class Fle_RscPackage(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_RscPlug(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscPlug(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -66,9 +66,9 @@ class Fle_RscPlug(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_RscModule(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscModule(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -86,9 +86,9 @@ class Fle_RscModule(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_RscScheme(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscScheme(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -106,9 +106,9 @@ class Fle_RscScheme(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_RscTool(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_RscTool(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')
@@ -126,9 +126,9 @@ class Fle_RscTool(shmObjAbstract.Abc_File):
         }
 
 
-class Fle_PrsUser(shmObjAbstract.Abc_File):
-    CLS_path_directory = _shmObjPath.Pth_Directory
-    CLS_file = bscObjects.JsonFile
+class Fle_PrsUser(shmObjCore.Abc_ShmFile):
+    CLS_path_directory = _shmObjPath.OsDirectory
+    CLS_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
         self._initAbcFile(args, 'config', '.json')

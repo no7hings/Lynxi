@@ -4,14 +4,14 @@
 # model of Value
 ]
 """
-from LxMaterial import mtlObjAbstract, mtlConfigure
+from LxMaterial import mtlObjCore, mtlConfigure
 
 from LxMaterial.mtlObjects import _mtlObjRaw
 from LxMaterial.mtlObjects import _mtlObjDatum
 
 
 # Method for Digit Calculate
-class _Val_DigitMethod(mtlObjAbstract.Abc_Value):
+class _Val_DigitMethod(mtlObjCore.Abc_MtlValue):
     def __add__(self, other):
         """
         :param other: object of Value
@@ -42,7 +42,7 @@ class _Val_DigitMethod(mtlObjAbstract.Abc_Value):
 
 
 # Value Def
-class Val_Closure(mtlObjAbstract.Abc_Value):
+class Val_Closure(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
@@ -59,11 +59,11 @@ class Val_Closure(mtlObjAbstract.Abc_Value):
             1.bool;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
 # Value Boolean
-class Val_Boolean(mtlObjAbstract.Abc_Value):
+class Val_Boolean(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
@@ -80,10 +80,10 @@ class Val_Boolean(mtlObjAbstract.Abc_Value):
             1.bool;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Visibility(mtlObjAbstract.Abc_Value):
+class Val_Visibility(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
@@ -94,7 +94,7 @@ class Val_Visibility(mtlObjAbstract.Abc_Value):
 
     value_size_pattern = 1
 
-    DEF_mtlx_key_attribute = 'visible'
+    VAR_mtlx_key_attribute = 'visible'
 
     def __init__(self, *args):
         """
@@ -102,7 +102,7 @@ class Val_Visibility(mtlObjAbstract.Abc_Value):
             1.bool;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
     def _xmlAttributeRaw(self):
         return [
@@ -125,10 +125,10 @@ class Val_Integer(_Val_DigitMethod):
             1.int;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_IntegerArray(mtlObjAbstract.Abc_Value):
+class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_IntegerN
 
@@ -143,7 +143,7 @@ class Val_IntegerArray(mtlObjAbstract.Abc_Value):
             1-2.int, ...
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
 # Value Float
@@ -161,10 +161,10 @@ class Val_Float(_Val_DigitMethod):
             1.float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_FloatArray(mtlObjAbstract.Abc_Value):
+class Val_FloatArray(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -179,11 +179,11 @@ class Val_FloatArray(mtlObjAbstract.Abc_Value):
             1-2.float, ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
 # Value Color
-class Val_Color2(mtlObjAbstract.Abc_Value):
+class Val_Color2(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -199,10 +199,10 @@ class Val_Color2(mtlObjAbstract.Abc_Value):
             1-2.float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Color2Array(mtlObjAbstract.Abc_Value):
+class Val_Color2Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -218,10 +218,10 @@ class Val_Color2Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Color3(mtlObjAbstract.Abc_Value):
+class Val_Color3(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -237,10 +237,10 @@ class Val_Color3(mtlObjAbstract.Abc_Value):
             1-2.float, float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Color3Array(mtlObjAbstract.Abc_Value):
+class Val_Color3Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -256,10 +256,10 @@ class Val_Color3Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Color4(mtlObjAbstract.Abc_Value):
+class Val_Color4(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -275,10 +275,10 @@ class Val_Color4(mtlObjAbstract.Abc_Value):
             1-2.float, float, float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Color4Array(mtlObjAbstract.Abc_Value):
+class Val_Color4Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -294,11 +294,11 @@ class Val_Color4Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
 # Value Vector
-class Val_Vector2(mtlObjAbstract.Abc_Value):
+class Val_Vector2(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -314,10 +314,10 @@ class Val_Vector2(mtlObjAbstract.Abc_Value):
             1-2.float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Vector2Array(mtlObjAbstract.Abc_Value):
+class Val_Vector2Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -332,10 +332,10 @@ class Val_Vector2Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Vector3(mtlObjAbstract.Abc_Value):
+class Val_Vector3(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -351,10 +351,10 @@ class Val_Vector3(mtlObjAbstract.Abc_Value):
             1-2.float, float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Vector3Array(mtlObjAbstract.Abc_Value):
+class Val_Vector3Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -369,10 +369,10 @@ class Val_Vector3Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Vector4(mtlObjAbstract.Abc_Value):
+class Val_Vector4(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatN
 
@@ -388,10 +388,10 @@ class Val_Vector4(mtlObjAbstract.Abc_Value):
             1-2.float, float, float, float;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Vector4Array(mtlObjAbstract.Abc_Value):
+class Val_Vector4Array(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -406,10 +406,10 @@ class Val_Vector4Array(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float, float), ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_String(mtlObjAbstract.Abc_Value):
+class Val_String(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_String
 
@@ -421,10 +421,10 @@ class Val_String(mtlObjAbstract.Abc_Value):
         """
         :param args: str
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_StringArray(mtlObjAbstract.Abc_Value):
+class Val_StringArray(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_StringN
 
@@ -439,10 +439,10 @@ class Val_StringArray(mtlObjAbstract.Abc_Value):
             1-2.unicode, ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_FileName(mtlObjAbstract.Abc_Value):
+class Val_FileName(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FileName
 
@@ -454,10 +454,10 @@ class Val_FileName(mtlObjAbstract.Abc_Value):
         """
         :param args: str
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_GeometryName(mtlObjAbstract.Abc_Value):
+class Val_GeometryName(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_NodeName
 
@@ -469,10 +469,10 @@ class Val_GeometryName(mtlObjAbstract.Abc_Value):
         """
         :param args: str
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_GeometryNameArray(mtlObjAbstract.Abc_Value):
+class Val_GeometryNameArray(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_StringN
 
@@ -487,10 +487,10 @@ class Val_GeometryNameArray(mtlObjAbstract.Abc_Value):
             1-2.unicode, ...;
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Matrix33(mtlObjAbstract.Abc_Value):
+class Val_Matrix33(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -505,10 +505,10 @@ class Val_Matrix33(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float), list(float, float, float), list(float, float, float);
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)
 
 
-class Val_Matrix44(mtlObjAbstract.Abc_Value):
+class Val_Matrix44(mtlObjCore.Abc_MtlValue):
     CLS_raw_type = _mtlObjRaw.Raw_ValueType
     CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
 
@@ -523,4 +523,4 @@ class Val_Matrix44(mtlObjAbstract.Abc_Value):
             1-2.list(float, float, float, float), list(float, float, float, float), list(float, float, float, float), list(float, float, float, float);
             2.str(valueString).
         """
-        self._initAbcValue(*args)
+        self._initAbcMtlValue(*args)

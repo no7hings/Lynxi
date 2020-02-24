@@ -1,9 +1,9 @@
 # coding:utf-8
-from LxBasic import bscConfigure, bscCore, bscObjects, bscMethods
+from LxBasic import bscConfigure, bscMtdCore, bscObjects, bscMethods
 
 from LxScheme import shmOutput
 
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
@@ -172,7 +172,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             osJsonFile = value
             #
             
-            user = bscMethods.OsJson.getValue(osJsonFile, bscConfigure.Utility.DEF_key_info_username)
+            user = bscMethods.OsJsonFile.getValue(osJsonFile, bscConfigure.Utility.DEF_key_info_username)
             personnel = prsMethods.Personnel.userChnname(user)
             #
             treeItem = qtWidgets.QtTreeviewItem()
@@ -184,17 +184,17 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             #
             setAction()
             #
-            treeItem.startFrame = bscMethods.OsJson.getValue(osJsonFile, prsConfigure.Product.DEF_key_info_startframe)
-            treeItem.endFrame = bscMethods.OsJson.getValue(osJsonFile, prsConfigure.Product.DEF_key_info_endframe)
+            treeItem.startFrame = bscMethods.OsJsonFile.getValue(osJsonFile, prsConfigure.Product.DEF_key_info_startframe)
+            treeItem.endFrame = bscMethods.OsJsonFile.getValue(osJsonFile, prsConfigure.Product.DEF_key_info_endframe)
             #
-            curIndexLis = bscMethods.OsJson.getValue(
+            curIndexLis = bscMethods.OsJsonFile.getValue(
                 osJsonFile,
                 prsMethods.Asset.moduleName()
             )
             if curIndexLis == activeIndexLis:
                 treeItem.setFilterColor((63, 127, 255, 255))
             treeItem.assetIndexLis = curIndexLis
-            treeItem.sceneryIndexLis = bscMethods.OsJson.getValue(
+            treeItem.sceneryIndexLis = bscMethods.OsJsonFile.getValue(
                 serverSceneIndexFile,
                 prsMethods.Scenery.moduleName()
             )
@@ -225,14 +225,14 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             #
             activeItem.isActive = True
             #
-            activeItem.startFrame = bscMethods.OsJson.getValue(serverSceneIndexFile, prsConfigure.Product.DEF_key_info_startframe)
-            activeItem.endFrame = bscMethods.OsJson.getValue(serverSceneIndexFile, prsConfigure.Product.DEF_key_info_endframe)
+            activeItem.startFrame = bscMethods.OsJsonFile.getValue(serverSceneIndexFile, prsConfigure.Product.DEF_key_info_startframe)
+            activeItem.endFrame = bscMethods.OsJsonFile.getValue(serverSceneIndexFile, prsConfigure.Product.DEF_key_info_endframe)
             #
-            activeIndexLis = bscMethods.OsJson.getValue(
+            activeIndexLis = bscMethods.OsJsonFile.getValue(
                 serverSceneIndexFile, prsMethods.Asset.moduleName()
             )
             activeItem.assetIndexLis = activeIndexLis
-            activeItem.sceneryIndexLis = bscMethods.OsJson.getValue(
+            activeItem.sceneryIndexLis = bscMethods.OsJsonFile.getValue(
                 serverSceneIndexFile,
                 prsMethods.Scenery.moduleName()
             )
@@ -443,7 +443,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 assetIndex = key
                 assetCategory = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
-                assetVariant = prsVariants.Util.astDefaultVariant
+                assetVariant = prsOutputs.Util.astDefaultVariant
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[assetCategory]
@@ -462,7 +462,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 assetIndex = key
                 assetCategory = assetPr.getAssetClass(assetIndex)
                 assetName, assetViewName = value
-                assetVariant = prsVariants.Util.astDefaultVariant
+                assetVariant = prsOutputs.Util.astDefaultVariant
                 #
                 treeItem = qtWidgets.QtTreeviewItem()
                 classItem = classItemDic[prsMethods.Asset.assemblyCategoryName()]
@@ -492,7 +492,7 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 sceneryIndex = key
                 sceneryCategory = assetPr.getAssetClass(sceneryIndex)
                 sceneryName, sceneryViewName = value
-                sceneryVariant = prsVariants.Util.astDefaultVariant
+                sceneryVariant = prsOutputs.Util.astDefaultVariant
             #
             setDic = sceneryPr.getUiSceneryMultMsgs(projectName, sceneryClassFilters=prsMethods.Scenery.assemblyLinkName())
             if setDic:
@@ -520,12 +520,12 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
     def confirmCmd(self):
         if self._assetDatumLis:
             if bscMethods.OsFile.isExist(self._serverFile):
-                serverAssetDatum = bscMethods.OsJson.getValue(
+                serverAssetDatum = bscMethods.OsJsonFile.getValue(
                     self._serverFile,
                     prsMethods.Asset.moduleName()
                 )
                 if not self._assetDatumLis == serverAssetDatum:
-                    bscMethods.OsJson.setValue(
+                    bscMethods.OsJsonFile.setValue(
                         self._serverFile,
                         {
                             bscConfigure.Utility.DEF_key_info_timestamp: bscMethods.OsTimestamp.active(),
@@ -549,11 +549,11 @@ class IfScIndexManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if startFrame is not None and endFrame is not None:
             if bscMethods.OsFile.isExist(self._serverFile):
                 serverStartFrame, serverEndFrame = (
-                    bscMethods.OsJson.getValue(self._serverFile, prsConfigure.Product.DEF_key_info_startframe),
-                    bscMethods.OsJson.getValue(self._serverFile, prsConfigure.Product.DEF_key_info_endframe)
+                    bscMethods.OsJsonFile.getValue(self._serverFile, prsConfigure.Product.DEF_key_info_startframe),
+                    bscMethods.OsJsonFile.getValue(self._serverFile, prsConfigure.Product.DEF_key_info_endframe)
                 )
                 if not startFrame == serverStartFrame or not endFrame == serverEndFrame:
-                    bscMethods.OsJson.setValue(
+                    bscMethods.OsJsonFile.setValue(
                         self._serverFile,
                         {
                             bscConfigure.Utility.DEF_key_info_timestamp: bscMethods.OsTimestamp.active(),
@@ -687,7 +687,7 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                         prsConfigure.Product.DEF_key_cache: cacheFile
                     }
                     #
-                    bscMethods.OsJson.setValue(
+                    bscMethods.OsJsonFile.setValue(
                         indexFile,
                         cacheIndex
                     )
@@ -708,17 +708,19 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             def setCacheImportCmd():
                 if bscMethods.MayaApp.isActive():
                     from LxMaya.command import maUtils, maFile
+
+                    from LxMaBasic import maBscMethods
                     #
                     groupName = 'import_{}'.format(timeTag)
-                    if not maUtils._isNodeExist(groupName):
-                        maFile.setFileImportWithGroup(cacheFile, groupName)
+                    if not maUtils._isAppExist(groupName):
+                        maBscMethods.File.importFromWithGroup(cacheFile, groupName)
             #
             def setCacheActiveCmd():
                 cacheIndex = {
                     prsConfigure.Product.DEF_key_cache: cacheFile
                 }
                 #
-                bscMethods.OsJson.setValue(
+                bscMethods.OsJsonFile.setValue(
                     indexFile,
                     cacheIndex
                 )
@@ -803,13 +805,13 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                     #
                     infoFile = bscMethods.OsFile.infoJsonName(cacheFile)
                     if bscMethods.OsFile.isExist(infoFile):
-                        osUser = bscMethods.OsJson.getValue(infoFile, bscConfigure.Utility.DEF_key_info_username)
+                        osUser = bscMethods.OsJsonFile.getValue(infoFile, bscConfigure.Utility.DEF_key_info_username)
                         if osUser:
                             cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                             cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
                         #
-                        startFrame_ = bscMethods.OsJson.getValue(infoFile, prsConfigure.Product.DEF_key_info_startframe)
-                        endFrame_ = bscMethods.OsJson.getValue(infoFile, prsConfigure.Product.DEF_key_info_endframe)
+                        startFrame_ = bscMethods.OsJsonFile.getValue(infoFile, prsConfigure.Product.DEF_key_info_startframe)
+                        endFrame_ = bscMethods.OsJsonFile.getValue(infoFile, prsConfigure.Product.DEF_key_info_endframe)
                         #
                         if startFrame_ is not None and endFrame_ is not None:
                             cacheFileItem_.setText(4, '{} - {}'.format(startFrame_, endFrame_))
@@ -850,13 +852,13 @@ class IfScCacheManagerUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 #
                 infoFile = bscMethods.OsFile.infoJsonName(cacheFile_)
                 if bscMethods.OsFile.isExist(infoFile):
-                    osUser = bscMethods.OsJson.getValue(infoFile, bscConfigure.Utility.DEF_key_info_username)
+                    osUser = bscMethods.OsJsonFile.getValue(infoFile, bscConfigure.Utility.DEF_key_info_username)
                     if osUser:
                         cacheFileItem_.setItemIcon_(3, 'svg_basic@svg#user')
                         cacheFileItem_.setText(3, prsMethods.Personnel.userChnname(osUser))
                     #
-                    startFrame_ = bscMethods.OsJson.getValue(infoFile, prsConfigure.Product.DEF_key_info_startframe)
-                    endFrame_ = bscMethods.OsJson.getValue(infoFile, prsConfigure.Product.DEF_key_info_endframe)
+                    startFrame_ = bscMethods.OsJsonFile.getValue(infoFile, prsConfigure.Product.DEF_key_info_startframe)
+                    endFrame_ = bscMethods.OsJsonFile.getValue(infoFile, prsConfigure.Product.DEF_key_info_endframe)
                     #
                     if startFrame_ is not None and endFrame_ is not None:
                         cacheFileItem_.setText(4, '{} - {}'.format(startFrame_, endFrame_))
@@ -1115,7 +1117,7 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
         if update:
             sourceFile = sourceRecordDic[update]
             infoFile = bscMethods.OsFile.infoJsonName(sourceFile)
-            infoDatumDic = bscMethods.OsJson.read(infoFile)
+            infoDatumDic = bscMethods.OsJsonFile.read(infoFile)
             if infoDatumDic:
                 for k, v in uiDatumDic.items():
                     infoLabel = v
@@ -1212,8 +1214,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 if bscMethods.OsFile.isExist(sourceFile):
                     if bscMethods.MayaApp.isActive():
                         print 'Load File : {}'.format(sourceFile)
-                        from LxMaya.command import maFile
-                        maFile.openFileToTemp(sourceFile)
+                        from LxMaBasic import maBscMethods
+                        maBscMethods.File.openAsTemporary(sourceFile)
     #
     def loadProductFile(self):
         update = self.getUpdate()
@@ -1225,8 +1227,8 @@ class IfProductUnitRecordUnit(_qtIfAbcWidget.QtIfAbc_Unit):
                 if bscMethods.OsFile.isExist(productFile):
                     if bscMethods.MayaApp.isActive():
                         print 'Load File : {}'.format(productFile)
-                        from LxMaya.command import maFile
-                        maFile.openFileToTemp(productFile)
+                        from LxMaBasic import maBscMethods
+                        maBscMethods.File.openAsTemporary(productFile)
     #
     def setupUnit(self):
         self.topToolBar().hide()
@@ -1986,7 +1988,7 @@ class IfToolkitUnit(_qtIfAbcWidget.QtIfAbc_Unit):
             itemData[toolName] = button
         #
         def setMain():
-            dicStep01 = bscCore.orderedDict(
+            dicStep01 = bscMtdCore.orderedDict(
                 [
                     ('{} - Create'.format(keyword), []),
                     ('{} - Loaded'.format(keyword), []),

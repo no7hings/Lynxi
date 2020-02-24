@@ -1,117 +1,117 @@
 # coding:utf-8
-from LxMaterial import mtlObjAbstract
+from LxMaterial import mtlObjCore
 
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet
 
 
-class Channel(mtlObjAbstract.Abc_Input):
+class Channel(mtlObjCore.Abc_MtlInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
     def __init__(self, *args):
-        self._initAbcInput(*args)
+        self._initAbcMtlInput(*args)
 
 
 # maya: shader engine
-class ShadersetInput(mtlObjAbstract.Abc_Input):
+class ShadersetInput(mtlObjCore.Abc_MtlInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_element = u'bindinput'
-    DEF_mtlx_key_attribute = u'context'
+    VAR_mtlx_key_element = u'bindinput'
+    VAR_mtlx_key_attribute = u'context'
 
     def __init__(self, *args):
-        self._initAbcInput(*args)
+        self._initAbcMtlInput(*args)
 
 
-class ShaderInput(mtlObjAbstract.Abc_ShaderInput):
+class ShaderInput(mtlObjCore.Abc_MtlShaderInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_element = u'bindinput'
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_element = u'bindinput'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcShaderInput(*args)
+        self._initAbcMtlShaderInput(*args)
 
 
-class NodeInput(mtlObjAbstract.Abc_NodeInput):
+class NodeInput(mtlObjCore.Abc_MtlNodeInput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_element = u'input'
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_element = u'input'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcNodeInput(*args)
+        self._initAbcMtlNodeInput(*args)
 
 
-class GeometryProperty(mtlObjAbstract.Abc_GeometryProperty):
+class GeometryProperty(mtlObjCore.Abc_MtlGeometryProperty):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_element = u'property'
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_element = u'property'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcGeometryProperty(*args)
+        self._initAbcMtlGeometryProperty(*args)
 
 
-class GeometryVisibility(mtlObjAbstract.Abc_GeometryVisibility):
+class GeometryVisibility(mtlObjCore.Abc_MtlGeometryVisibility):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_element = u'vistype'
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_element = u'vistype'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcVisibility(*args)
+        self._initAbcMtlVisibility(*args)
 
 
-class GeometryOutput(mtlObjAbstract.Abc_ShaderOutput):
+class GeometryOutput(mtlObjCore.Abc_MtlShaderOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcShaderOutput(*args)
+        self._initAbcMtlShaderOutput(*args)
 
 
-class ShaderOutput(mtlObjAbstract.Abc_ShaderOutput):
+class ShaderOutput(mtlObjCore.Abc_MtlShaderOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcShaderOutput(*args)
+        self._initAbcMtlShaderOutput(*args)
 
 
-class NodeOutput(mtlObjAbstract.Abc_NodeOutput):
+class NodeOutput(mtlObjCore.Abc_MtlNodeOutput):
     CLS_portpath = _mtlObjRaw.Raw_PortPath
 
     CLS_set_channel = _mtlObjSet.Set_Port
 
-    DEF_mtlx_key_attribute = u'member'
+    VAR_mtlx_key_attribute = u'member'
 
     def __init__(self, *args):
-        self._initAbcNodeOutput(*args)
+        self._initAbcMtlNodeOutput(*args)
 
 
-class NodeGraphOutput(mtlObjAbstract.Abc_NodeGraphOutput):
+class NodeGraphOutput(mtlObjCore.Abc_MtlNodeGraphOutput):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
-    DEF_mtlx_key_element = u'output'
-    DEF_mtlx_key_attribute = u'output'
+    VAR_mtlx_key_element = u'output'
+    VAR_mtlx_key_attribute = u'output'
 
     def __init__(self, *args):
-        self._initAbcNodeGraphOutput(*args)
+        self._initAbcMtlNodeGraphOutput(*args)

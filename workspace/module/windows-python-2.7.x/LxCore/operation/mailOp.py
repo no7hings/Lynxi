@@ -5,9 +5,9 @@ import traceback
 #
 from email.mime.text import MIMEText
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from email.header import Header
 #
@@ -18,12 +18,12 @@ none = ''
 
 #
 def getPipeMail():
-    mailEnabled = prsVariants.Util.pipeMailEnabled
+    mailEnabled = prsOutputs.Util.pipeMailEnabled
     if mailEnabled:
-        mailServer = prsVariants.Util.pipeMailServer
-        mailPot = prsVariants.Util.pipeMailPort
-        mailAddress = prsVariants.Util.pipeMailAddress
-        mailPassword = prsVariants.Util.pipeMailPassword
+        mailServer = prsOutputs.Util.pipeMailServer
+        mailPot = prsOutputs.Util.pipeMailPort
+        mailAddress = prsOutputs.Util.pipeMailAddress
+        mailPassword = prsOutputs.Util.pipeMailPassword
         return mailServer, int(mailPot), mailAddress, str(mailPassword)
 
 

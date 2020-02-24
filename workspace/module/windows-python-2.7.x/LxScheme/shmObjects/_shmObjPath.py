@@ -1,9 +1,9 @@
 # coding:utf-8
 from LxBasic import bscConfigure
-from LxScheme import shmCore, shmObjAbstract
+from LxScheme import shmConfigure, shmObjCore
 
 
-class Pth_Root(shmObjAbstract.Abc_PthRoot):
+class Pth_Root(shmObjCore.Abc_ShmRoot):
     environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
     environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
     environ_key_product = bscConfigure.Utility.DEF_key_environ_path_product
@@ -27,7 +27,7 @@ class Pth_Root(shmObjAbstract.Abc_PthRoot):
         return self._developPath()
 
 
-class Pth_IconRoot(shmObjAbstract.Abc_PthRoot):
+class Pth_IconRoot(shmObjCore.Abc_ShmRoot):
     environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
     environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
     environ_key_product = bscConfigure.Utility.DEF_key_environ_path_product
@@ -51,10 +51,10 @@ class Pth_IconRoot(shmObjAbstract.Abc_PthRoot):
         return self._developPath()
 
 
-class Pth_PresetRoot(shmObjAbstract.Abc_PthRoot):
+class Pth_PresetRoot(shmObjCore.Abc_ShmRoot):
     environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
     environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
-    environ_key_product = shmCore.Basic.Environ_Key_Path_Preset
+    environ_key_product = shmConfigure.Utility.Environ_Key_Path_Preset
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
     VAR_path_default_product = 'e:/myworkspace/td/lynxi'
@@ -73,10 +73,10 @@ class Pth_PresetRoot(shmObjAbstract.Abc_PthRoot):
         return self._developPath()
 
 
-class Pth_ToolkitRoot(shmObjAbstract.Abc_PthRoot):
+class Pth_ToolkitRoot(shmObjCore.Abc_ShmRoot):
     environ_key_local = bscConfigure.Utility.DEF_key_environ_path_local
     environ_key_develop = bscConfigure.Utility.DEF_key_environ_path_develop
-    environ_key_product = shmCore.Basic.Environ_Key_Path_Toolkit
+    environ_key_product = shmConfigure.Utility.Environ_Key_Path_Toolkit
 
     VAR_path_default_develop = 'e:/myworkspace/td/lynxi'
     VAR_path_default_product = 'e:/myworkspace/td/lynxi'
@@ -95,14 +95,14 @@ class Pth_ToolkitRoot(shmObjAbstract.Abc_PthRoot):
         return self._developPath()
 
 
-class Pth_Directory(shmObjAbstract.Abc_PthDirectory):
+class OsDirectory(shmObjCore.Abc_ShmDirectory):
     CLS_path_root = Pth_Root
 
     def __init__(self, *args):
         self._initAbcPthDirectory(*args)
 
 
-class Pth_IconDirectory(shmObjAbstract.Abc_PthDirectory):
+class Pth_IconDirectory(shmObjCore.Abc_ShmDirectory):
     CLS_path_root = Pth_IconRoot
 
     def __init__(self):

@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
 from LxScheme import shmOutput
 
@@ -9,7 +9,7 @@ from LxInterface.qt.ifWidgets import ifUnit
 #
 from LxCore.preset.prod import scenePr
 #
-from LxDatabase import dtbCore
+from LxDatabase import dtbMtdCore
 #
 from LxUi import uiCore
 #
@@ -451,7 +451,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
 #
 class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
     w = 80
-    dicTool = bscCore.orderedDict()
+    dicTool = bscMtdCore.orderedDict()
     dicTool['sourceDirectory'] = [w, 0, 0, 1, 4, 'Source']
     dicTool['targetDirectory'] = [w, 1, 0, 1, 4, 'Target']
     dicTool['collectionFile'] = [w, 2, 0, 1, 4, 'Collection']
@@ -475,8 +475,8 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
                 def setActionData():
                     def openRenderFile():
                         if bscMethods.OsFile.isExist(serverRenderFile):
-                            from LxMaya.command import maFile
-                            maFile.fileOpen(serverRenderFile)
+                            from LxMaBasic import maBscMethods
+                            maBscMethods.File.openFrom(serverRenderFile)
                     #
                     def openRenderFolder():
                         bscMethods.OsDirectory.open(renderFolder)
@@ -700,7 +700,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
         self.collectionFileButton.setPercent(maxCount, maxCount-needCollectionCount)
     #
     def setCollection(self):
-        @dtbCore.fncThreadSemaphoreModifier
+        @dtbMtdCore.fncThreadSemaphoreModifier
         def copyFileThreadMethod(sourceFile, targetFile):
             bscMethods.OsFile.copyTo(sourceFile, targetFile)
         #

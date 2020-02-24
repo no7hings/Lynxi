@@ -1,14 +1,14 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 
-class PyLoader(bscCore.UtilityBasic):
+class PyLoader(bscMtdCore.Mtd_BscUtility):
     @classmethod
-    def loadModule(cls, moduleName):
+    def reload(cls, moduleName):
         return cls._loadPythonModule(moduleName)
 
 
-class PyReloader(bscCore.UtilityBasic):
+class PyReloader(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def _getModuleLis(cls, moduleNames, filterModuleName=None):
         def filterFnc_(moduleName, keyword):
@@ -58,7 +58,7 @@ class PyReloader(bscCore.UtilityBasic):
     @classmethod
     def _setModulesReload(cls, moduleNames):
         for i in moduleNames:
-            module = PyLoader.loadModule(i)
+            module = PyLoader.reload(i)
             if module:
                 nameString = module.__name__
                 if not nameString == '__main__':
@@ -71,7 +71,7 @@ class PyReloader(bscCore.UtilityBasic):
                             cls.MOD_imp.reload(module)
 
     @classmethod
-    def loadModule(cls, moduleName):
+    def reload(cls, moduleName):
         cls._setModulesReload(
             cls._getModuleLis(
                 cls.MOD_sys.modules, moduleName
@@ -79,7 +79,7 @@ class PyReloader(bscCore.UtilityBasic):
         )
 
 
-class PyMessage(bscCore.UtilityBasic):
+class PyMessage(bscMtdCore.Mtd_BscUtility):
     Enable_Print = True
 
     @classmethod

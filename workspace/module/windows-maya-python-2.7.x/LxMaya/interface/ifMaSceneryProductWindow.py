@@ -6,7 +6,7 @@ from LxBasic import bscObjects
 
 from LxScheme import shmOutput
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from LxCore.preset.prod import sceneryPr
 #
@@ -233,7 +233,7 @@ class IfSceneryProductToolWindow(qtWidgets.QtToolWindow):
     def getSelAsb(self):
         selLis = []
         if self.treeBox.selectedItems():
-            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not prsVariants.Util.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
+            [selLis.append(str(i.text(0))) for i in self.treeBox.selectedItems() if not prsOutputs.Util.basicGroupLabel in str(i.text(0)) and cmds.objExists(str(i.text(0)))]
         return selLis
     #
     def setupPanel(self):

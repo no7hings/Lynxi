@@ -163,7 +163,7 @@ class IfAstModelCheckViewerUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if hasattr(i, 'appPath'):
                     lis.append(i.appPath)
             #
-            self.app_check_method.setNodeSelect(self.app_check_method._toExistNodeList(lis), noExpand=True)
+            self.app_check_method.setNodeSelect(self.app_check_method._toAppExistStringList(lis), noExpand=True)
         else:
             self.app_check_method.setSelectClear()
     #

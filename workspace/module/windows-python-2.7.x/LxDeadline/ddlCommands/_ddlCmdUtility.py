@@ -1,7 +1,7 @@
 # coding=utf-8
 from subprocess import Popen, PIPE
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 #
 none = ''
@@ -29,7 +29,7 @@ def getDdlJobs():
     command = '-JSON -GetJobs'
     result = runDdlCommand(command)
     if result:
-        data = bscMethods.OsJson.load(result[0])
+        data = bscMethods.OsJsonFile.load(result[0])
         if isinstance(data, dict):
             return data['result']
 
@@ -41,7 +41,7 @@ def getDdlSubmitInfo(*keys):
     result = runDdlCommand(command)
     lis = []
     if result:
-        data = bscMethods.OsJson.load(result[0])
+        data = bscMethods.OsJsonFile.load(result[0])
         if isinstance(data, dict):
             for key in keys:
                 if 'result' in data:

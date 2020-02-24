@@ -1,7 +1,4 @@
 # coding:utf-8
-Separator_String_File = u'/'
-Separator_String_Node = u'/'
-Separator_String_Attribute = u'.'
 Separator_Raw_Basic = u','
 Separator_Raw_String = u','
 Separator_Raw_String_Array = u', '
@@ -39,7 +36,7 @@ Value_Type_FileName = u'filename'
 Value_Type_GeometryName = u'geomname'
 Value_Type_GeometryName_Array = u'geomnamearray'
 
-Def_Geometry_Dic = {
+DEF_geometry_dict = {
     'property': [
         {
             "name": "opaque",
@@ -211,7 +208,7 @@ Def_Geometry_Dic = {
     ]
 }
 
-Def_Dag_Dic = {
+DEF_node_dict = {
     "ray_switch_rgba": {
         "typeString": "color4",
         "port": [
@@ -6524,3 +6521,21 @@ Def_Output_Dic = {
         }
     ]
 }
+
+
+class Utility(object):
+    DEF_maya_separator_node = u'|'
+    DEF_separator_node = u'/'
+
+    DEF_separator_file = u'/'
+    DEF_separator_attribute = u'.'
+
+    DEF_key_type = 'typeString'
+    DEF_key_value = 'valueString'
+    DEF_key_port = 'port'
+
+    DEF_key_name = 'name'
+
+    DEF_category_node_covert_dict = {
+        'displacementShader': 'range'
+    }

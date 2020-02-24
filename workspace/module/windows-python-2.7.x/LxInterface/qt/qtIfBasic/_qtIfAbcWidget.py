@@ -140,7 +140,7 @@ class QtIfAbc_Unit_(
             self._userTagFilterFile = shmOutput.UserPreset().tagFilterConfigFile(self.UnitName)
 
             if bscMethods.OsFile.isExist(self._userTagFilterFile):
-                self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
+                self._userTagFilterEnableDic = bscMethods.OsJsonFile.read(self._userTagFilterFile)
     #
     def _initTagFilterAction(self, gridView):
         def loadUserFilter():
@@ -152,7 +152,7 @@ class QtIfAbc_Unit_(
             self._tagFilterEnableDic[tag] = boolean
             #
             if self._userTagFilterFile is not None:
-                bscMethods.OsJson.write(self._userTagFilterFile, self._tagFilterEnableDic)
+                bscMethods.OsJsonFile.write(self._userTagFilterFile, self._tagFilterEnableDic)
             #
             indexLis = self._tagFilterIndexDic[tag]
             filterRow = self._tagLis.index(tag)
@@ -298,7 +298,7 @@ class QtIfAbc_Unit(
         if self.UnitName is not None:
             self._userTagFilterFile = shmOutput.UserPreset().tagFilterConfigFile(self.UnitName)
             if bscMethods.OsFile.isExist(self._userTagFilterFile):
-                self._userTagFilterEnableDic = bscMethods.OsJson.read(self._userTagFilterFile)
+                self._userTagFilterEnableDic = bscMethods.OsJsonFile.read(self._userTagFilterFile)
     #
     def _initTagFilterAction(self, gridView):
         def loadUserFilter():
@@ -310,7 +310,7 @@ class QtIfAbc_Unit(
             self._tagFilterEnableDic[tag] = boolean
             #
             if self._userTagFilterFile is not None:
-                bscMethods.OsJson.write(self._userTagFilterFile, self._tagFilterEnableDic)
+                bscMethods.OsJsonFile.write(self._userTagFilterFile, self._tagFilterEnableDic)
             #
             indexLis = self._tagFilterIndexDic[tag]
             filterRow = self._tagLis.index(tag)

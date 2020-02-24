@@ -3,7 +3,7 @@ import cgitb
 #
 from LxBasic import bscConfigure, bscMethods
 #
-from LxPreset import prsVariants
+from LxPreset import prsOutputs
 
 #
 cgitb.enable(format='text')

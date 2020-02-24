@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxPreset import prsMethods
 #
@@ -17,7 +17,7 @@ def setLynxiSetup(showProgress=False, isCloseMaya=False):
         #
         mayaVersion = bscMethods.MayaApp.version()
         projectName = prsMethods.Project.mayaActiveName()
-        if bscCore.UtilityBasic()._isDevelop():
+        if bscMtdCore.Mtd_BscUtility()._isDevelop():
             isEnable = True
         else:
             mayaProjectNameLis = prsMethods.Project.mayaNames(mayaVersion)

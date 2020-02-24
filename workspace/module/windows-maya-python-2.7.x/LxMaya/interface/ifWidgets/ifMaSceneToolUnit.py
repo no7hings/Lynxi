@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscCore, bscObjects, bscMethods
+from LxBasic import bscMtdCore, bscObjects, bscMethods
 
 from LxCore.config import appCfg
 
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 
 from LxCore.preset.prod import assetPr, scenePr
 
@@ -32,7 +32,7 @@ none = ''
 class IfScLightLinkToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
     projectName = currentProjectName
     # Utilities Tool
-    dicScLightUtilsTool = bscCore.orderedDict()
+    dicScLightUtilsTool = bscMtdCore.orderedDict()
     dicScLightUtilsTool['sceneAssetManager'] = [0, 0, 0, 1, 4, 'Scene Compose', 'svg_basic@svg#subWindow']
     def __init__(self, *args, **kwargs):
         super(IfScLightLinkToolUnit, self).__init__(*args, **kwargs)
@@ -874,7 +874,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             astModelSectorChart = qtWidgets.QtSectorchart()
             astModelSectorChart.setImage(preview)
             #
-            if maUtils._getNodeTypeString(keyNode) == 'reference':
+            if maUtils._getNodeCategoryString(keyNode) == 'reference':
                 namespace = maUtils.getReferenceNamespace(keyNode)
             else:
                 namespace = maUtils._toNamespaceByNodePath(keyNode)
@@ -1073,7 +1073,7 @@ class IfScAssetToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             projectName, sceneCategory, sceneName, sceneVariant
         )
         #
-        frameOffset = prsVariants.Util.animKeyFrameOffset
+        frameOffset = prsOutputs.Util.animKeyFrameOffset
         #
         listBox = self._scAstGridview
         #

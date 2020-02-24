@@ -349,16 +349,16 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                     isError = False
                     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'warning')
                     for i in inCheck:
-                        geomObjectName = maUtils._getNodeNameString(i)
+                        geomObjectName = maUtils._nodeString2nodename_(i)
                         if i in errorData:
                             geomItem = qtWidgets_.QTreeWidgetItem_([geomObjectName])
                             inspectionItem.addChild(geomItem)
                             tempErrorData.append(i)
                             if i in outGeo:
                                 isError = True
-                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'error')
+                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'error')
                             else:
-                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_shading_mesh, 'warning')
+                                geomItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'warning')
                     #
                     if isError:
                         inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'Error')
@@ -372,7 +372,7 @@ class IfAssetProductToolWindow(qtWidgets.QtToolWindow):
                     inspectionItem.setItemCheckIcon(0, 'svg_basic@svg#check', 'error')
                     inspectionItem.setExpanded(True)
                     for i in errorData:
-                        transformName = maUtils._getNodeNameString(i)
+                        transformName = maUtils._nodeString2nodename_(i)
                         transformItem = qtWidgets_.QTreeWidgetItem_([transformName])
                         transformItem.setItemMayaIcon(0, appCfg.DEF_type_transform, 'error')
                         inspectionItem.addChild(transformItem)

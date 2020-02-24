@@ -3,7 +3,7 @@ import collections
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscObjects, bscMethods
 #
 from LxMaya.command import maUtils
 #
@@ -27,7 +27,7 @@ def getControlHir(root):
 #
 def getControls(root):
     typeFilter = 'nurbsCurve'
-    typeFilters = maUtils.string2list(typeFilter)
+    typeFilters = bscMethods.String.toList(typeFilter)
     return maUtils.getChildObjectsByRoot(root, typeFilters)
 
 
@@ -106,7 +106,7 @@ def getKeyData(objectString, namespace=none):
             if animCurve:
                 keyDataArray = getKeyDataArray(objectString, attrName)
                 if keyDataArray:
-                    animCurveType = maUtils._getNodeTypeString(animCurve)
+                    animCurveType = maUtils._getNodeCategoryString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
                     postInfinity = maUtils.getAttrDatum(animCurve, 'postInfinity')
                     attrDataArray.append((attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray))
@@ -126,7 +126,7 @@ def getNumAttrKeyFrames(objectString):
             if animCurve:
                 keyDataArray = getKeyDataArray(objectString, attrName)
                 if keyDataArray:
-                    animCurveType = maUtils._getNodeTypeString(animCurve)
+                    animCurveType = maUtils._getNodeCategoryString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
                     postInfinity = maUtils.getAttrDatum(animCurve, 'postInfinity')
                     lis.append(
@@ -148,7 +148,7 @@ def getKeyDatas(root):
     progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
     for objectString in maObjs:
         # In Progress
-        progressBar.update(maUtils._getNodeNameString(objectString, 1))
+        progressBar.update(maUtils._nodeString2nodename_(objectString, 1))
         namespace = none
         if ':' in objectString:
             namespace = maUtils._toNamespaceByNodePath(objectString)
@@ -159,7 +159,7 @@ def getKeyDatas(root):
 
 #
 def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
-    if maUtils._isNodeExist(objectString):
+    if maUtils._isAppExist(objectString):
         if attrData:
             if len(attrData) == 5:
                 attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray = attrData
@@ -167,9 +167,9 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
                 inputAnimCurve = objectName + '_' + attrName + '_' + animCurveType + '_' + str(seq).zfill(4)
                 sourceAttr = inputAnimCurve + '.output'
                 targetAttr = objectString + '.' + attrName
-                if maUtils._isNodeExist(targetAttr):
+                if maUtils._isAppExist(targetAttr):
                     #
-                    if not maUtils._isNodeExist(inputAnimCurve):
+                    if not maUtils._isAppExist(inputAnimCurve):
                         cmds.createNode(animCurveType, name=inputAnimCurve)
                     #
                     if not maUtils.isAttrDestination(targetAttr):
@@ -236,7 +236,7 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
 
 #
 def setKeys(root, keyDatas, frameOffset=0):
-    if maUtils._isNodeExist(root):
+    if maUtils._isAppExist(root):
         namespace = none
         if ':' in root:
             namespace = root.split('|')[-1].split(':')[0]
@@ -252,7 +252,7 @@ def setKeys(root, keyDatas, frameOffset=0):
                     objectReduce = objectString
                     if namespace:
                         objectReduce = objectString.replace('|', '|' + namespace + ':')
-                    if maUtils._isNodeExist(objectReduce):
+                    if maUtils._isAppExist(objectReduce):
                         for attrData in attrDataArray:
                             setKey(objectReduce, attrData, seq, namespace, frameOffset)
 

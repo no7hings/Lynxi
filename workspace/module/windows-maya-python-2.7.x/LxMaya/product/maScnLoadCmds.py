@@ -5,6 +5,8 @@ from LxPreset import prsConfigure
 
 from LxCore.preset.prod import sceneryPr
 
+from LxMaBasic import maBscMethods
+
 from LxMaya.command import maUtils, maFile, maHier, maAsb
 
 from LxMaya.product.op import sceneryOp
@@ -60,7 +62,7 @@ def scnUnitLoadMainCmd(
             projectName, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
         )[1]
         if bscMethods.OsFile.isExist(serverProductFile):
-            maFile.openMayaFileAsBack(serverProductFile, localSourceFile)
+            maBscMethods.File.openAsBackup(serverProductFile, localSourceFile)
         else:
             scnUnitMaAssemblyLoadCmd(
                 projectName,
@@ -72,7 +74,7 @@ def scnUnitLoadMainCmd(
             timeTag = bscMethods.OsTimetag.active()
             localFile = bscMethods.OsFile.toJoinTimetag(localSourceFile, timeTag)
             #
-            maFile.saveToMayaFile(localFile)
+            maBscMethods.File.saveToServer(localFile)
 
             logWin_.addResult(localFile)
 
@@ -103,7 +105,7 @@ def scnUnitMaAssemblyLoadCmd(
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
-    datumLis = bscMethods.OsJson.read(serverFile)
+    datumLis = bscMethods.OsJsonFile.read(serverFile)
     if datumLis:
         progressExplain = u'''Build Scenery Compose Unit(s)'''
         maxValue = len(datumLis)
@@ -138,8 +140,8 @@ def scnUnitMaAssemblyLoadSubCmd(
         arRelativePath = parentPath + '|' + arRelativePath
     #
     assemblyPath = maUtils._toNodeParentPath(arRelativePath)
-    arName = maUtils._getNodeNameString(arRelativePath)
-    if not maUtils._isNodeExist(arRelativePath):
+    arName = maUtils._nodeString2nodename_(arRelativePath)
+    if not maUtils._isAppExist(arRelativePath):
         if withAssembly is True:
             maUtils.setNodeParentPathCreate(arRelativePath)
             maAsb.setAssemblyReferenceCreate(arName, adFile)
@@ -168,7 +170,7 @@ def scnUnitComposeLoadCmd_(
         projectName,
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
-    datumLis = bscMethods.OsJson.read(serverFile)
+    datumLis = bscMethods.OsJsonFile.read(serverFile)
     if datumLis:
         progressExplain = u'''Build Assembly Compose Unit(s)'''
 

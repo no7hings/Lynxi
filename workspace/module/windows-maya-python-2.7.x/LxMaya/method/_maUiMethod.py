@@ -89,13 +89,13 @@ class Mtd_MaQtView(
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     @classmethod
     def setTreeViewListNamespace(cls, treeView, pathString, branchViewMethod):
-        treeViewBuildDic = bscMethods.MayaPath.namespaceTreeViewBuildDic(pathString)
+        treeViewBuildDic = bscMethods.MaNodeString.namespaceTreeViewBuildDic(pathString)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)
     @classmethod
     def setTreeViewListNode(cls, treeView, pathString, branchViewMethod):
-        treeViewBuildDic = bscMethods.MayaPath.nodeTreeViewBuildDic(pathString)
+        treeViewBuildDic = bscMethods.MaNodeString.nodeTreeViewBuildDic(pathString)
         #
         if treeViewBuildDic:
             cls.setTreeView(treeView, treeViewBuildDic, branchViewMethod)

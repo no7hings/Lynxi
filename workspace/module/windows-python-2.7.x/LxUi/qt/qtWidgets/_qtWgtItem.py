@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxUi import uiCore
 #

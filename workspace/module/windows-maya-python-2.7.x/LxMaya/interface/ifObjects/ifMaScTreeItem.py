@@ -144,7 +144,7 @@ class IfAbc_ScCameraProductItem(
         self._itemServerTimeTag = None
     #
     def _updateLocalFrameRange(self):
-        if self._objectType == appCfg.MaNodeType_Alembic:
+        if self._objectType == appCfg.DEF_type_alembic:
             self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
     #
     def _refreshItemLocalState(self):
@@ -206,7 +206,7 @@ class IfAbc_ScCameraProductItem(
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils._getNodeShapeTypeString(self.CLS_painterPath)
+                self._objectType = maUtils._getNodeShapeCategoryString(self.CLS_painterPath)
                 #
                 self._updateLocalFrameRange()
                 #
@@ -520,7 +520,7 @@ class IfScAssetProductItem(
             self._sceneName, self._sceneVariant,
             self._assetName, self._number
         )
-        if maUtils._isNodeExist(scAssetGroup):
+        if maUtils._isAppExist(scAssetGroup):
             self.CLS_painterPath = scAssetGroup
             #
             self._itemLocalTimeTag = maUtils.getAttrDatum(self.CLS_painterPath, 'tag')
@@ -685,7 +685,7 @@ class IfAbc_ScAstBranchItem(
         self._itemServerTimeTag = None
     #
     def _updateLocalFrameRange(self):
-        if self._objectType == appCfg.MaNodeType_Alembic:
+        if self._objectType == appCfg.DEF_type_alembic:
             self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
         elif self._objectType == appCfg.MaNodeType_Plug_Yeti:
             self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self.CLS_painterPath)
@@ -762,7 +762,7 @@ class IfAbc_ScAstBranchItem(
                 self._namespace = namespace
                 self._itemLocalTimeTag = timeTag
                 #
-                self._objectType = maUtils._getNodeShapeTypeString(self.CLS_painterPath)
+                self._objectType = maUtils._getNodeShapeCategoryString(self.CLS_painterPath)
                 #
                 self._updateLocalFrameRange()
                 #

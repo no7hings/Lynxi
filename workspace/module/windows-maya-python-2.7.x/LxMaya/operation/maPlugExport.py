@@ -64,7 +64,7 @@ class MaAlembicCacheExport(object):
         return argString
     @classmethod
     def _toRootArgString(cls, groupString):
-        lis = cls.app_method._toExistNodeList(groupString)
+        lis = cls.app_method._toAppExistStringList(groupString)
         #
         if lis:
             argString = ' '.join(['{0} {1}'.format(cls.app_fle_cache_method.RootKey, i) for i in lis])
@@ -197,13 +197,13 @@ class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
         self._groupString = groupString
         self._setString = setString
         #
-        self._commandOptionKwargs = maBscMethods.AppFile.MaDefFileExportKwargs.copy()
+        self._commandOptionKwargs = maBscMethods.File.VAR_file_export_kwarg_dic.copy()
     #
     def _updateObjectOptionKwargs(self):
-        objectLis = self._toExistNodeList([self._groupString, self._setString])
+        objectLis = self._toAppExistStringList([self._groupString, self._setString])
         if objectLis:
-            self._commandOptionKwargs.pop(maBscMethods.AppFile.MaFileExportAllOption)
-            self._commandOptionKwargs[maBscMethods.AppFile.MaFileExportSelectedOption] = True
+            self._commandOptionKwargs.pop(maBscMethods.File.MaFileExportAllOption)
+            self._commandOptionKwargs[maBscMethods.File.MaFileExportSelectedOption] = True
             #
             self.setNodeSelect(objectLis, noExpand=True)
     #
@@ -211,7 +211,7 @@ class MaYetiGraphExport(method.MaYetiGraphObjectMethod):
         self._updateObjectOptionKwargs()
         # Export
         temporaryOsFile = bscMethods.OsFile.temporaryName(self._fileString)
-        maBscMethods.AppFile.exportCommand(temporaryOsFile, self._commandOptionKwargs)
+        maBscMethods.File._maFileExportCommand(temporaryOsFile, self._commandOptionKwargs)
         bscMethods.OsFile.copyTo(temporaryOsFile, self._fileString)
 
 

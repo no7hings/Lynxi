@@ -28,7 +28,7 @@ def setMaScriptSetup(projectName):
                         for fileString_ in osFileLis:
                             command = bscMethods.OsFile.read(fileString_)
                             if fileString_.endswith('.py'):
-                                pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
+                                pythonCommand = 'python(' + bscMethods.OsJsonFile.dump(command) + ');'
                                 maUtils.runMelCommand(pythonCommand)
                             elif fileString_.endswith('.mel'):
                                 melCommand = command

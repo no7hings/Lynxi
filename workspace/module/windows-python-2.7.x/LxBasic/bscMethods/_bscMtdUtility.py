@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 
-class OsLog(bscCore.UtilityBasic):
+class OsLog(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def _setOsLogAdd(cls, text, logFileString):
         cls._setOsFileDirectoryCreate(logFileString)

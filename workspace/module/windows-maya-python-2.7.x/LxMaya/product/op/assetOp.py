@@ -22,10 +22,10 @@ none = ''
 def cleanNode(inData, nodeType):
     explain = u'Clean %s' % nodeType
     bscMethods.PyMessage.trace(explain)
-    nodes = [i for i in inData if maUtils._isNodeExist(i) and not maUtils.isReferenceNode(i)]
+    nodes = [i for i in inData if maUtils._isAppExist(i) and not maUtils.isReferenceNode(i)]
     if nodes:
         for node in nodes:
-            if maUtils._isNodeExist(node):
+            if maUtils._isAppExist(node):
                 cmds.lockNode(node, lock=0)
                 cmds.delete(node)
                 bscMethods.PyMessage.traceResult(node)
@@ -46,8 +46,8 @@ def setObjectDefaultShaderCmd(objectStrings):
     logWin_.addStartProgress(u'''Assign Initial - Shader''')
     for objectString in objectStrings:
         cmds.sets(objectString, forceElement='initialShadingGroup')
-        cmds.sets(maUtils._getNodeShapeString(objectString), forceElement='initialShadingGroup')
-        logWin_.addResult(maUtils._getNodeNameString(objectString), 'initialShadingGroup')
+        cmds.sets(maUtils._getNodeShapeNodeString(objectString), forceElement='initialShadingGroup')
+        logWin_.addResult(maUtils._nodeString2nodename_(objectString), 'initialShadingGroup')
     logWin_.addCompleteProgress()
 
 
@@ -85,7 +85,7 @@ def setObjectUnusedShapeClear(objectStrings):
             if unusedShapes:
                 for shape in unusedShapes:
                     cmds.delete(shape)
-                    bscMethods.PyMessage.traceResult(maUtils._getNodeNameString(shape))
+                    bscMethods.PyMessage.traceResult(maUtils._nodeString2nodename_(shape))
 
 
 # Clean Unused Shader
@@ -125,7 +125,7 @@ def cleanUnusedAov():
     UnusedAov = []
     aovs = cmds.ls(type='aiAOV')
     if aovs and cmds.objExists('defaultArnoldRenderOptions'):
-        aovUsed = maUtils._getNodeSourceStringList('defaultArnoldRenderOptions', 'aiAOV')
+        aovUsed = maUtils._getNodeSourceNodeStringList('defaultArnoldRenderOptions', 'aiAOV')
         if aovUsed:
             UnusedAov = [aovs.remove(i) for i in aovUsed]
     cleanNode(UnusedAov, u'Unused Aovs')
@@ -252,7 +252,7 @@ def setSolverGroupGeometryHide(assetName, namespace=none):
     # Solver Group
     solverGroup = assetPr.astUnitModelSolverGroupName(assetName, namespace)
     forHide = maUtils.getNodeLisByType('mesh', 1, solverGroup)
-    [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
+    [maUtils.setHide(maUtils._getNodeTransformNodeString(i)) for i in forHide]
 
 
 #
@@ -266,7 +266,7 @@ def setSolverFurGroup(assetName, namespace=none, hide=0):
     # Set Grow Hide
     if hide:
         forHide = maUtils.getNodeLisByType('mesh', 1, cfxGroup)
-        [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
+        [maUtils.setHide(maUtils._getNodeTransformNodeString(i)) for i in forHide]
 
 
 #
@@ -288,7 +288,7 @@ def setCreateAstExtraData(extraData):
 def setCreateAstAttributeData(attributeData):
     if attributeData:
         for objectPath, (shapeNodeData, shapeCustomAttrData) in attributeData.items():
-            if maUtils._isNodeExist(objectPath):
+            if maUtils._isAppExist(objectPath):
                 maAttr.setNodeDefAttrByData(objectPath, shapeNodeData, lockAttribute=False)
                 maAttr.setObjectUserDefinedAttrs(objectPath, shapeCustomAttrData, lockAttribute=True)
 
@@ -305,9 +305,9 @@ def setCreateAstExtraConnectionSub(connectionDic):
                 objectPath = objectPath[1:]
             #
             progressBar.update()
-            if maUtils._isNodeExist(objectPath):
+            if maUtils._isAppExist(objectPath):
                 for sourceAttr, targetAttr in connectionArray:
-                    if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
+                    if maUtils._isAppExist(sourceAttr) and maUtils._isAppExist(targetAttr):
                         if not cmds.isConnected(sourceAttr, targetAttr):
                             cmds.connectAttr(sourceAttr, targetAttr, force=1)
 
@@ -317,7 +317,7 @@ def setDisconnectNhrGuideObjectsConnection(assetName):
     nhrGuideObjects = datAsset.getAstUnitSolverNhrGuideObjects(assetName)
     if nhrGuideObjects:
         for nhrGuideObject in nhrGuideObjects:
-            shapePath = maUtils._getNodeShapeString(nhrGuideObject)
+            shapePath = maUtils._getNodeShapeNodeString(nhrGuideObject)
             inputConnections = maUtils.getNodeInputConnectionLis(shapePath)
             if inputConnections:
                 for sourceAttr, targetAttr in inputConnections:

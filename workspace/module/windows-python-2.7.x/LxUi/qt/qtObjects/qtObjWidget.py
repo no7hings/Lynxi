@@ -1,7 +1,7 @@
 # coding:utf-8
 import chardet
 
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 
 from LxScheme import shmOutput
 #
@@ -2722,14 +2722,14 @@ class QtAbcObj_FilterEnterlabel(qtCore.QWidget):
     #
     def readHistory(self):
         filterHistoryFile = shmOutput.UserPreset().uiFilterConfigFile
-        data = bscMethods.OsJson.read(filterHistoryFile)
+        data = bscMethods.OsJsonFile.read(filterHistoryFile)
         if data:
             self._historyLis = data
     #
     def writeHistory(self):
         filterHistoryFile = shmOutput.UserPreset().uiFilterConfigFile
         data = self._historyLis[-10:]
-        bscMethods.OsJson.write(filterHistoryFile, data)
+        bscMethods.OsJsonFile.write(filterHistoryFile, data)
     #
     def removeHistory(self):
         string = self._enterWidget.text()

@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxBasic import bscConfigure, bscMethods
 
-from LxPreset import prsVariants
+from LxPreset import prsOutputs
 
 
 class DtbBasic(object):
-    DbAssetRoot = prsVariants.Util.dbAssetRoot
+    DbAssetRoot = prsOutputs.Util.dbAssetRoot
 
     DbRoot_Basic = 'e:/myproject'
     #
@@ -90,13 +90,13 @@ class DtbBasic(object):
     @classmethod
     def _dbProductUnitIndexFile(cls, productModuleString):
         return u'{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Index,
+            cls.DbAssetRoot, prsOutputs.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Index,
             bscMethods.String.toUniqueId(productModuleString)
         )
 
     @classmethod
     def _dbProductUnitSetFile(cls, dbUnitId):
         return u'{0}/{1}/{2}/{3}'.format(
-            cls.DbAssetRoot, prsVariants.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Set,
+            cls.DbAssetRoot, prsOutputs.Util.dbBasicFolderName, bscConfigure.Utility.LynxiDatabaseKey_Set,
             dbUnitId
         )

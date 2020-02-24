@@ -1,23 +1,23 @@
 # coding:utf-8
-from LxBasic import bscCore, bscObjects, bscMethods
+from LxBasic import bscMtdCore, bscObjects, bscMethods
 
-from LxScheme import shmCore
+from LxScheme import shmConfigure
 
 from LxScheme.shmObjects import _shmObjPath
 
 
-class Resource(shmCore.Basic):
+class Resource(shmConfigure.Utility):
     def __init__(self):
         self._initResource()
 
     def _initResource(self):
-        configRaw = bscObjects.JsonFile(self.configFile).read()
+        configRaw = bscObjects.OsJsonFile(self.configFile).read()
         if configRaw:
             self._activeVersion = configRaw[self.Key_Version][self.Key_Active]
         else:
             self._activeVersion = '0.0.0'
 
-        setupRaw = bscObjects.JsonFile(self.setupFile).read()
+        setupRaw = bscObjects.OsJsonFile(self.setupFile).read()
         if setupRaw:
             self._moduleNames = setupRaw[self.Key_Module]
         else:
@@ -66,7 +66,7 @@ class Resource(shmCore.Basic):
         return self._activeVersion
 
     def loadActiveModules(self):
-        bscMethods.PyReloader.loadModule(self.moduleNames)
+        bscMethods.PyReloader.reload(self.moduleNames)
 
         bscObjects.MessageWindow(
             u'Load Scheme: ',
@@ -99,7 +99,7 @@ class Resource(shmCore.Basic):
             self.version = serverVersion
 
 
-class Interface(shmCore.Basic):
+class Interface(shmConfigure.Utility):
     Environ_Key_Message_Count = 'LYNXI_VALUE_MESSAGE_COUNT'
     Environ_Key_Enable_Tooltip_Auto = 'LYNXI_ENABLE_TOOLTIP_AUTO_SHOW'
     def __init__(self):
@@ -189,7 +189,7 @@ class Directory(object):
 
 class UserPreset(object):
     def __init__(self):
-        self._userName = bscCore.UtilityBasic()._getSystemUsername()
+        self._userName = bscMtdCore.Mtd_BscUtility()._getSystemUsername()
         self._localPathString = u'{}/user/{}'.format(Root().basic.local, self._userName)
 
     @property

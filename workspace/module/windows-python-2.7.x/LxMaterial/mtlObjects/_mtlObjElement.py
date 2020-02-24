@@ -1,19 +1,19 @@
 # coding:utf-8
-from LxMaterial import mtlObjAbstract
+from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjPort, _mtlObjDag, _mtlObjDefinition
+from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjPort, _mtlObjObject, _mtlObjDefinition
 
 
-class Reference(mtlObjAbstract.Abc_Reference):
+class Reference(mtlObjCore.Abc_MtlFileReference):
     CLS_raw_file = _mtlObjRaw.Raw_Reference
 
-    DEF_mtlx_key_element = u'xi:include'
+    VAR_mtlx_key_element = u'xi:include'
 
     def __init__(self, *args):
-        self._initAbcInclude(*args)
+        self._initAbcMtlFileReference(*args)
 
 
-class Look(mtlObjAbstract.Abc_Look):
+class Look(mtlObjCore.Abc_MtlLook):
     CLS_raw_name = _mtlObjRaw.Raw_Name
     CLS_set_assign = _mtlObjSet.Set_Assign
 
@@ -21,67 +21,67 @@ class Look(mtlObjAbstract.Abc_Look):
     ClS_set_assign_propertyset = _mtlObjSet.Set_Assign
     CLS_set_assign_visibility = _mtlObjSet.Set_Visibility
 
-    DEF_mtlx_key_element = u'look'
-    DEF_mtlx_key_attribute = u'look'
+    VAR_mtlx_key_element = u'look'
+    VAR_mtlx_key_attribute = u'look'
 
     def __init__(self, *args):
-        self._initAbcLook(*args)
+        self._initAbcMtlLook(*args)
 
 
-class Shaderset(mtlObjAbstract.Abc_Shaderset):
-    CLS_raw_dagpath = _mtlObjRaw.ShadersetPath
+class Material(mtlObjCore.Abc_MtlMaterial):
+    CLS_raw_dag_path = _mtlObjRaw.ShadersetPath
 
     CLS_set_input = _mtlObjSet.Set_Input
 
     CLS_input = _mtlObjPort.ShadersetInput
 
-    CLS_def_dag = _mtlObjDefinition.Def_Node
+    CLS_def_object = _mtlObjDefinition.Def_Node
 
-    DEF_cls_value = _mtlObjDag.DEF_CLS_VALUE
+    DEF_cls_value = _mtlObjObject.DEF_CLS_VALUE
 
-    DEF_mtlx_key_element = u'material'
-    DEF_mtlx_key_attribute = u'material'
+    VAR_mtlx_key_element = u'material'
+    VAR_mtlx_key_attribute = u'material'
 
     def __init__(self, *args):
         """
         * 1.maya: shading engine name
         :param args: str(shader set name)
         """
-        self._initAbcShaderset(*args)
+        self._initAbcMtlMaterial(*args)
 
 
-class GeometryPortset(mtlObjAbstract.Abc_Propertyset):
+class GeometryPortset(mtlObjCore.Abc_MtlPropertyset):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_port = _mtlObjSet.Set_Port
     
-    DEF_mtlx_key_element = u'propertyset'
-    DEF_mtlx_key_attribute = u'propertyset'
+    VAR_mtlx_key_element = u'propertyset'
+    VAR_mtlx_key_attribute = u'propertyset'
 
     def __init__(self, *args):
         """
         :param args: str(geometry path)
         """
-        self._initAbcPropertyset(*args)
+        self._initAbcMtlPropertyset(*args)
 
 
-class NodeGraph(mtlObjAbstract.Abc_NodeGraph):
+class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_dag = _mtlObjSet.Set_Dag
     CLS_set_input = _mtlObjSet.Set_Input
 
-    CLS_node = _mtlObjDag.Node
+    CLS_node = _mtlObjObject.Node
     CLS_output = _mtlObjPort.NodeGraphOutput
 
-    DEF_mtlx_key_element = u'nodegraph'
-    DEF_mtlx_key_attribute = u'nodegraph'
+    VAR_mtlx_key_element = u'nodegraph'
+    VAR_mtlx_key_attribute = u'nodegraph'
 
     def __init__(self, *args):
-        self._initAbcNodeGraph(*args)
+        self._initAbcMtlNodeGraph(*args)
 
 
-class Collection(mtlObjAbstract.Abc_GeometryCollection):
+class Collection(mtlObjCore.Abc_MtlGeometryCollection):
     CLS_raw_name = _mtlObjRaw.Raw_Name
 
     CLS_set_geometry = _mtlObjSet.Set_Geometry
@@ -89,8 +89,8 @@ class Collection(mtlObjAbstract.Abc_GeometryCollection):
 
     DEF_geometry_separator = u','
 
-    DEF_mtlx_key_element = u'collection'
-    DEF_mtlx_key_attribute = u'collection'
+    VAR_mtlx_key_element = u'collection'
+    VAR_mtlx_key_attribute = u'collection'
 
     def __init__(self, *args):
-        self._initAbcGeometryCollection(*args)
+        self._initAbcMtlGeometryCollection(*args)

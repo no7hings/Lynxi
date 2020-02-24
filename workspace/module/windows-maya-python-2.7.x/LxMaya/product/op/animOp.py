@@ -4,15 +4,15 @@ import maya.cmds as cmds
 
 from LxBasic import bscMethods
 #
-from LxPreset import prsVariants
+from LxPreset import prsOutputs
 #
 from LxCore.preset.prod import assetPr
 #
 from LxMaya.command import maUtils
 
 #
-inGpuAttrLabel = prsVariants.Util.inGpuAttrLabel
-showGpuAttrLabel = prsVariants.Util.showGpuAttrLabel
+inGpuAttrLabel = prsOutputs.Util.inGpuAttrLabel
+showGpuAttrLabel = prsOutputs.Util.showGpuAttrLabel
 #
 none = ''
 

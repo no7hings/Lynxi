@@ -21,7 +21,7 @@ def getAlembicCacheFile(nodeSting):
 
 #
 def getConnectAlembicNode(objectPath):
-    return maUtils.getInputNodesFilterByType(objectPath, appCfg.MaNodeType_Alembic)
+    return maUtils.getInputNodesFilterByType(objectPath, appCfg.DEF_type_alembic)
 
 
 #

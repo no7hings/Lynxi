@@ -13,7 +13,7 @@ from LxScheme import shmOutput
 #
 from LxUi import uiCore
 
-mod_pyqt5 = bscMethods.PyLoader.loadModule('PyQt5')
+mod_pyqt5 = bscMethods.PyLoader.reload('PyQt5')
 if mod_pyqt5:
     LOAD_INDEX = 0
     from PyQt5 import QtGui, QtCore, QtSvg
@@ -21,7 +21,7 @@ if mod_pyqt5:
     from PyQt5.QtWidgets import *
 else:
     LOAD_INDEX = 1
-    mod_pyside2 = bscMethods.PyLoader.loadModule('PySide2')
+    mod_pyside2 = bscMethods.PyLoader.reload('PySide2')
     if mod_pyside2:
         # noinspection PyUnresolvedReferences
         from PySide2 import QtGui, QtCore, QtSvg
@@ -314,21 +314,21 @@ def setupApp():
 
 # noinspection PyUnusedLocal
 def qtSignal(*args):
-    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
     categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
     return eval(categoryString)
 
 
 # noinspection PyUnusedLocal
 def qtWrapinstance(*args):
-    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
     categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
     return eval(categoryString)
 
 
 # noinspection PyUnusedLocal
 def qtIsDeleted(*args):
-    module = bscMethods.PyLoader.loadModule(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
+    module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
     categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
     return eval(categoryString)
 

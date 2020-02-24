@@ -1,9 +1,9 @@
 # coding=utf-8
-from LxBasic import bscConfigure, bscCore, bscMethods
+from LxBasic import bscConfigure, bscMtdCore, bscMethods
 
 from LxScheme import shmOutput
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -17,92 +17,92 @@ none = ''
 
 # Group Name Config
 def scSceneNameSet(sceneName, subLabelString):
-    nameSet = '%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, subLabelString)
+    nameSet = '%s_%s%s' % (prsOutputs.Util.Lynxi_Prefix_Product_scene, sceneName, subLabelString)
     return nameSet
 
 
 # Group Name Config
 def scSceneSubNameSet(sceneName, sceneVariant, subLabelString):
-    nameSet = '%s_%s_%s%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, subLabelString)
+    nameSet = '%s_%s_%s%s' % (prsOutputs.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, subLabelString)
     return nameSet
 
 
 # Group Name Config
 def scGroupNameSet(sceneName, groupNameLabel):
     nameSet = '%s_%s%s%s' % (
-        prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, groupNameLabel, prsVariants.Util.basicGroupLabel)
+        prsOutputs.Util.Lynxi_Prefix_Product_scene, sceneName, groupNameLabel, prsOutputs.Util.basicGroupLabel)
     return nameSet
 
 
 # Group Name Config
 def scSubGroupNameSet(sceneName, sceneVariant, groupNameLabel):
     nameSet = '%s_%s_%s%s%s' % (
-        prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, groupNameLabel, prsVariants.Util.basicGroupLabel)
+        prsOutputs.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant, groupNameLabel, prsOutputs.Util.basicGroupLabel)
     return nameSet
 
 
 #
 def sceneFullName(sceneName, sceneVariant):
-    nameSet = '%s_%s_%s' % (prsVariants.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant)
+    nameSet = '%s_%s_%s' % (prsOutputs.Util.Lynxi_Prefix_Product_scene, sceneName, sceneVariant)
     return nameSet
 
 
 #
 def scAstName(assetName, number, assetVariant):
-    nameSet = '%s_%s_%s_%s' % (prsVariants.Util.Lynxi_Prefix_Product_Asset, assetName, number, assetVariant)
+    nameSet = '%s_%s_%s_%s' % (prsOutputs.Util.Lynxi_Prefix_Product_Asset, assetName, number, assetVariant)
     return nameSet
 
 
 #
 def scComposeRootGroupName(sceneName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsVariants.Util.basicComposeRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsOutputs.Util.basicComposeRootGroupLabel)
     return string
 
 
 #
 def scUnitRootGroupName(sceneName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsVariants.Util.basicUnitRootGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsOutputs.Util.basicUnitRootGroupLabel)
     return string
 
 
 #
 def scCameraBranchName(sceneName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsVariants.Util.basicScCameraGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsOutputs.Util.basicScCameraGroupLabel)
     return string
 
 
 #
 def scAstBranchName(sceneName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsVariants.Util.basicScAstGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsOutputs.Util.basicScAstGroupLabel)
     return string
 
 
 #
 def scSceneryBranchName(sceneName, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsVariants.Util.basicScSceneryGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + scGroupNameSet(sceneName, prsOutputs.Util.basicScSceneryGroupLabel)
     return string
 
 
 #
 def scRootGroupHierarchyConfig(sceneName):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     dic[scUnitRootGroupName(sceneName)] = []
     return dic
 
 
 #
 def getScLinkGroupLabel(sceneStage):
-    string = prsVariants.Util.basicLayoutLinkGroupLabel
+    string = prsOutputs.Util.basicLayoutLinkGroupLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.basicLayoutLinkGroupLabel
+        string = prsOutputs.Util.basicLayoutLinkGroupLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.basicAnimationLinkGroupLabel
+        string = prsOutputs.Util.basicAnimationLinkGroupLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.basicSolverLinkGroupLabel
+        string = prsOutputs.Util.basicSolverLinkGroupLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.basicSimulationLinkGroupLabel
+        string = prsOutputs.Util.basicSimulationLinkGroupLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.basicLightLinkGroupLabel
+        string = prsOutputs.Util.basicLightLinkGroupLabel
     return string
 
 
@@ -132,7 +132,7 @@ def scScenerySubGroupPath(sceneName, sceneVariant, sceneStage, namespace=none):
 
 #
 def scAstRootGroupName(sceneName, sceneVariant, assetName, number, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + sceneFullName(sceneName, sceneVariant) + '_%s_%s%s' % (assetName, number, prsVariants.Util.basicGroupLabel)
+    string = [none, namespace + ':'][namespace is not none] + sceneFullName(sceneName, sceneVariant) + '_%s_%s%s' % (assetName, number, prsOutputs.Util.basicGroupLabel)
     return string
 
 
@@ -162,7 +162,7 @@ def scAstGeometryGroupName(sceneName, sceneVariant, assetName, number, namespace
 
 #
 def scLinkHierarchyConfig(sceneName, sceneVariant, sceneStage):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     # Main
     dic[scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)] = [
         scCameraBranchName(sceneName),
@@ -174,13 +174,13 @@ def scLinkHierarchyConfig(sceneName, sceneVariant, sceneStage):
 
 #
 def sceneSchemeFileConfig():
-    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbSceneRoot, prsVariants.Util.dbBasicFolderName, prsConfigure.Utility.LynxiSchemeExt, prsVariants.Util.dbSceneBasicKey)
+    string = '{0}/{1}/{2}/{3}'.format(prsOutputs.Util.dbSceneRoot, prsOutputs.Util.dbBasicFolderName, prsConfigure.Utility.LynxiSchemeExt, prsOutputs.Util.dbSceneBasicKey)
     return bscMethods.OsFile.uniqueName(string)
 
 
 #
 def sceneSetFileConfig(sceneIndex):
-    string = '{0}/{1}/{2}/{3}'.format(prsVariants.Util.dbSceneRoot, prsVariants.Util.dbBasicFolderName, prsConfigure.Utility.LynxiSetExt, sceneIndex)
+    string = '{0}/{1}/{2}/{3}'.format(prsOutputs.Util.dbSceneRoot, prsOutputs.Util.dbBasicFolderName, prsConfigure.Utility.LynxiSetExt, sceneIndex)
     return string
 
 
@@ -197,10 +197,10 @@ def defaultSceneSchemeConfig():
 def getUiSceneSchemeDataDic():
     def getCustomData():
         fileString_ = sceneSchemeFileConfig()
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getDic(data):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         if data:
             for i in data:
                 scheme, enabled, description = i
@@ -214,10 +214,10 @@ def getUiSceneSchemeDataDic():
 def getSceneViewName(sceneIndex):
     def getCustomData():
         fileString_ = sceneSchemeFileConfig()
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getSubDic(data):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         if data:
             for i in data:
                 scheme, enabled, description = i
@@ -237,7 +237,7 @@ def getSceneViewName(sceneIndex):
 def getSceneClass(sceneIndex):
     def getCustomData():
         fileString_ = sceneSetFileConfig(sceneIndex)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -250,7 +250,7 @@ def getSceneClass(sceneIndex):
 def getSceneName(sceneIndex):
     def getCustomData():
         fileString_ = sceneSetFileConfig(sceneIndex)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -263,7 +263,7 @@ def getSceneName(sceneIndex):
 def getScenePriority(sceneIndex):
     def getCustomData():
         fileString_ = sceneSetFileConfig(sceneIndex)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -276,7 +276,7 @@ def getScenePriority(sceneIndex):
 def getSceneVariants(sceneIndex):
     def getCustomData():
         fileString_ = sceneSetFileConfig(sceneIndex)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -289,7 +289,7 @@ def getSceneVariants(sceneIndex):
 def getSceneLinkEnabled(sceneIndex, link):
     def getCustomData():
         fileString_ = sceneSetFileConfig(sceneIndex)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getMain(customDic):
         if customDic:
@@ -332,11 +332,11 @@ def getSceneEnViewInfo(sceneIndex, sceneCategory, sceneVariant):
 def getSceneIndexesFilter(projectFilter, sceneClassFilters=None):
     def getCustomData():
         fileString_ = sceneSchemeFileConfig()
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getBranch(lis, sceneIndex):
         fileString_ = sceneSetFileConfig(sceneIndex)
-        data = bscMethods.OsJson.read(fileString_)
+        data = bscMethods.OsJsonFile.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -363,7 +363,7 @@ def getSceneIndexesFilter(projectFilter, sceneClassFilters=None):
 def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=None):
     def getCustomData():
         fileString_ = sceneSchemeFileConfig()
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getLinks(data):
         lis = []
@@ -375,7 +375,7 @@ def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=No
     #
     def getBranch(dic, sceneIndex, description):
         fileString_ = sceneSetFileConfig(sceneIndex)
-        data = bscMethods.OsJson.read(fileString_)
+        data = bscMethods.OsJsonFile.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -402,7 +402,7 @@ def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=No
                     dic[sceneIndex] = dbSceneName, description
     #
     def getMain(data):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         if data:
             for i in data:
                 sceneIndex, enabled, description = i
@@ -417,11 +417,11 @@ def getUiSceneMultMsgs(projectFilter, sceneClassFilters=None, sceneLinkFilter=No
 def getUiSceneSetDataDic(projectFilter):
     def getCustomData():
         fileString_ = sceneSchemeFileConfig()
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
     #
     def getBranch(dic, sceneIndex, description):
         fileString_ = sceneSetFileConfig(sceneIndex)
-        data = bscMethods.OsJson.read(fileString_)
+        data = bscMethods.OsJsonFile.read(fileString_)
         if data:
             projectNames = data['project']
             if projectFilter in projectNames:
@@ -438,7 +438,7 @@ def getUiSceneSetDataDic(projectFilter):
                     dic[(sceneIndex, sceneVariant)] = description, sceneCategory, sceneName, scenePriority, scLayoutEnable, scAnimationEnable, scSolverEnable, scSimulationEnable, scLightEnable
     #
     def getMain(data):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         if data:
             for i in data:
                 sceneIndex, enabled, description = i
@@ -454,7 +454,7 @@ def scStartFrame(startFrame, keyFrameOffset=None):
     if keyFrameOffset:
         return startFrame - keyFrameOffset
     else:
-        return startFrame - prsVariants.Util.animKeyFrameOffset
+        return startFrame - prsOutputs.Util.animKeyFrameOffset
 
 
 # End Frame Set
@@ -462,7 +462,7 @@ def scEndFrame(endFrame, keyFrameOffset=None):
     if keyFrameOffset:
         return endFrame + keyFrameOffset
     else:
-        return endFrame + prsVariants.Util.animKeyFrameOffset
+        return endFrame + prsOutputs.Util.animKeyFrameOffset
 
 
 #
@@ -484,7 +484,7 @@ def alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description=None
 
 # Get Dict For Animation Camera Cache's Link
 def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeTag):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     dic[bscConfigure.Utility.DEF_key_info_timestamp] = bscMethods.OsTimestamp.active()
     dic[bscConfigure.Utility.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
@@ -502,7 +502,7 @@ def geomCacheIndexData(sceneStage, startFrame, endFrame, step, cacheIndex, timeT
 
 # Get Dict For Fur Animation Cache's Link
 def furCacheIndexData(nodePath, solverNodeType, cacheFile, startFrame, endFrame, sample, solverMode, timeTag):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     dic[bscConfigure.Utility.DEF_key_info_timestamp] = bscMethods.OsTimestamp.active()
     dic[bscConfigure.Utility.DEF_key_info_username] = bscMethods.OsSystem.username()
@@ -521,31 +521,31 @@ def furCacheIndexData(nodePath, solverNodeType, cacheFile, startFrame, endFrame,
 
 #
 def scSceneCameraName(sceneName, sceneVariant):
-    string = scSceneSubNameSet(sceneName, sceneVariant, prsVariants.Util.scCameraNodeLabel)
+    string = scSceneSubNameSet(sceneName, sceneVariant, prsOutputs.Util.scCameraNodeLabel)
     return string
 
 
 #
 def scOutputCameraName(sceneName, sceneVariant, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsVariants.Util.scOutputCameraNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsOutputs.Util.scOutputCameraNodeLabel)
     return string
 
 
 # Camera Locator Name
 def scOutputCameraLocatorName(sceneName, sceneVariant, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsVariants.Util.scCameraLocatorNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsOutputs.Util.scCameraLocatorNodeLabel)
     return string
 
 
 # Adjust Locator Name
 def scOutputCameraSubLocatorName(sceneName, sceneVariant, namespace=none):
-    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsVariants.Util.scCameraSubLocatorNodeLabel)
+    string = [none, namespace + ':'][namespace is not none] + scSceneSubNameSet(sceneName, sceneVariant, prsOutputs.Util.scCameraSubLocatorNodeLabel)
     return string
 
 
 #
 def scRenderSize():
-    return prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
+    return prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight
 
 
 #
@@ -590,156 +590,156 @@ def isLightLinkName(sceneStage):
 
 #
 def sceneLinkFolder(sceneStage):
-    string = prsVariants.Util.scLayoutFolder
+    string = prsOutputs.Util.scLayoutFolder
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutFolder
+        string = prsOutputs.Util.scLayoutFolder
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationFolder
+        string = prsOutputs.Util.scAnimationFolder
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverFolder
+        string = prsOutputs.Util.scSolverFolder
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationFolder
+        string = prsOutputs.Util.scSimulationFolder
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightFolder
+        string = prsOutputs.Util.scLightFolder
     return string
 
 
 #
 def sceneSourceFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutSourceLabel
+    string = prsOutputs.Util.scLayoutSourceLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutSourceLabel
+        string = prsOutputs.Util.scLayoutSourceLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationSourceLabel
+        string = prsOutputs.Util.scAnimationSourceLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverSourceLabel
+        string = prsOutputs.Util.scSolverSourceLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationSourceLabel
+        string = prsOutputs.Util.scSimulationSourceLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightSourceLabel
+        string = prsOutputs.Util.scLightSourceLabel
     return string
 
 
 #
 def sceneProductFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutProductLabel
+    string = prsOutputs.Util.scLayoutProductLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutProductLabel
+        string = prsOutputs.Util.scLayoutProductLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationProductLabel
+        string = prsOutputs.Util.scAnimationProductLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverProductLabel
+        string = prsOutputs.Util.scSolverProductLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationProductLabel
+        string = prsOutputs.Util.scSimulationProductLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightProductLabel
+        string = prsOutputs.Util.scLightProductLabel
     return string
 
 
 #
 def sceneExtraFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutExtraLabel
+    string = prsOutputs.Util.scLayoutExtraLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutExtraLabel
+        string = prsOutputs.Util.scLayoutExtraLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationExtraLabel
+        string = prsOutputs.Util.scAnimationExtraLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverExtraLabel
+        string = prsOutputs.Util.scSolverExtraLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationExtraLabel
+        string = prsOutputs.Util.scSimulationExtraLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightExtraLabel
+        string = prsOutputs.Util.scLightExtraLabel
     return string
 
 
 #
 def sceneRenderFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutRenderLabel
+    string = prsOutputs.Util.scLayoutRenderLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutRenderLabel
+        string = prsOutputs.Util.scLayoutRenderLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationRenderLabel
+        string = prsOutputs.Util.scAnimationRenderLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverRenderLabel
+        string = prsOutputs.Util.scSolverRenderLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationRenderLabel
+        string = prsOutputs.Util.scSimulationRenderLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightRenderLabel
+        string = prsOutputs.Util.scLightRenderLabel
     return string
 
 
 #
 def sceneCameraFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutCameraLabel
+    string = prsOutputs.Util.scLayoutCameraLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutCameraLabel
+        string = prsOutputs.Util.scLayoutCameraLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationCameraLabel
+        string = prsOutputs.Util.scAnimationCameraLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverCameraLabel
+        string = prsOutputs.Util.scSolverCameraLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationCameraLabel
+        string = prsOutputs.Util.scSimulationCameraLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightCameraLabel
+        string = prsOutputs.Util.scLightCameraLabel
     return string
 
 
 #
 def sceneSoundFileLabel(sceneStage):
-    return prsMethods.Scene.toLinkMainLabelname(sceneStage) + prsVariants.Util.scSoundLabel.upper()
+    return prsMethods.Scene.toLinkMainLabelname(sceneStage) + prsOutputs.Util.scSoundLabel.upper()
 
 
 #
 def sceneAssetFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutAssetLabel
+    string = prsOutputs.Util.scLayoutAssetLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutAssetLabel
+        string = prsOutputs.Util.scLayoutAssetLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationAssetLabel
+        string = prsOutputs.Util.scAnimationAssetLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverAssetLabel
+        string = prsOutputs.Util.scSolverAssetLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationAssetLabel
+        string = prsOutputs.Util.scSimulationAssetLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightAssetLabel
+        string = prsOutputs.Util.scLightAssetLabel
     return string
 
 
 #
 def scAstSolverFileLabel(sceneStage):
-    subLabelString = prsVariants.Util.basicSolverSubLabel
+    subLabelString = prsOutputs.Util.basicSolverSubLabel
     return bscMethods.StrUnderline.toLabel(prsMethods.Scene.toLinkMainLabelname(sceneStage), subLabelString)
 
 
 #
 def sceneSceneryFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutSceneryLabel
+    string = prsOutputs.Util.scLayoutSceneryLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutSceneryLabel
+        string = prsOutputs.Util.scLayoutSceneryLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationSceneryLabel
+        string = prsOutputs.Util.scAnimationSceneryLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverSceneryLabel
+        string = prsOutputs.Util.scSolverSceneryLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationSceneryLabel
+        string = prsOutputs.Util.scSimulationSceneryLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightSceneryLabel
+        string = prsOutputs.Util.scLightSceneryLabel
     return string
 
 
 #
 def scenePreviewFileLabel(sceneStage):
-    string = prsVariants.Util.scLayoutPreviewLabel
+    string = prsOutputs.Util.scLayoutPreviewLabel
     if prsMethods.Scene.isLayoutLinkName(sceneStage):
-        string = prsVariants.Util.scLayoutPreviewLabel
+        string = prsOutputs.Util.scLayoutPreviewLabel
     elif prsMethods.Scene.isAnimationLinkName(sceneStage):
-        string = prsVariants.Util.scAnimationPreviewLabel
+        string = prsOutputs.Util.scAnimationPreviewLabel
     elif prsMethods.Scene.isSolverLinkName(sceneStage):
-        string = prsVariants.Util.scSolverPreviewLabel
+        string = prsOutputs.Util.scSolverPreviewLabel
     elif prsMethods.Scene.isSimulationLinkName(sceneStage):
-        string = prsVariants.Util.scSimulationPreviewLabel
+        string = prsOutputs.Util.scSimulationPreviewLabel
     elif prsMethods.Scene.isLightLinkName(sceneStage):
-        string = prsVariants.Util.scLightPreviewLabel
+        string = prsOutputs.Util.scLightPreviewLabel
     return string
 
 
@@ -775,7 +775,7 @@ def scAstNodeFolderNameConfig(assetName, number, assetVariant, nameLabel):
 
 # Camera
 def scCameraNamespace(sceneName, sceneVariant):
-    return scSceneSubNameSet(sceneName, sceneVariant, prsVariants.Util.scCameraNodeLabel)
+    return scSceneSubNameSet(sceneName, sceneVariant, prsOutputs.Util.scCameraNodeLabel)
 
 
 #
@@ -783,18 +783,18 @@ def sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number):
     if sceneName and sceneVariant:
         string = sceneFullName(sceneName, sceneVariant) + '_%s_%s' % (assetName, number)
     else:
-        string = '%s_%s_%s' % (prsVariants.Util.Lynxi_Prefix_Product_Asset, assetName, number)
+        string = '%s_%s_%s' % (prsOutputs.Util.Lynxi_Prefix_Product_Asset, assetName, number)
     return string
 
 
 # Model Product
 def scAstModelNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scModelNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scModelNodeLabel
 
 
 # Model Cache
 def scAstModelCacheNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scCacheNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scCacheNodeLabel
 
 
 # Model
@@ -804,7 +804,7 @@ def scAstModelReferenceNode(sceneName, sceneVariant, assetName, number):
 
 # Rig
 def scAstRigNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scRigNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scRigNodeLabel
 
 
 # Rig Reference Nde_Node
@@ -814,22 +814,22 @@ def scAstRigReferenceNode(sceneName, sceneVariant, assetName, number):
 
 # CFX
 def scAstCfxNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.basicCharacterFxLinkLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.basicCharacterFxLinkLabel
 
 
 #
 def scAstSimulationNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.basicSimulationLinkLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.basicSimulationLinkLabel
 
 
 # Model
 def scAstModelDisplayLayer(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scModelNodeLabel + prsVariants.Util.displayLayerLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scModelNodeLabel + prsOutputs.Util.displayLayerLabel
 
 
 # CFX
 def scAstCfxDisplayLayer(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scCfxNodeLabel + prsVariants.Util.displayLayerLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scCfxNodeLabel + prsOutputs.Util.displayLayerLabel
 
 
 #
@@ -839,12 +839,12 @@ def scAstCfxReferenceNode(sceneName, sceneVariant, assetName, number):
 
 # Solver
 def scAstSolverNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scSolverNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scSolverNodeLabel
 
 
 # Solver Cache
 def scAstSolverCacheNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scSolverCacheNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scSolverCacheNodeLabel
 
 
 # Solver Cache
@@ -854,35 +854,35 @@ def scAstSolverCacheReferenceNode(sceneName, sceneVariant, assetName, number):
 
 # Extra
 def scAstExtraNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scExtraNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scExtraNodeLabel
 
 
 # Extra
 def scAstExtraCacheNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scExtraCacheNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scExtraCacheNodeLabel
 
 
 #
 def sceneAssetCfxUnitNamespace(sceneName, sceneVariant, assetName, number):
-    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsVariants.Util.scCfxNodeLabel
+    return sceneAssetUnitNamespace(sceneName, sceneVariant, assetName, number) + prsOutputs.Util.scCfxNodeLabel
 
 
 #
 def sceneUnitBasicDirectory(rootIndexKey, projectName):
-    root = [prsVariants.Util.serverSceneRoot, prsVariants.Util.localSceneRoot, prsVariants.Util.backupSceneRoot]
-    return '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsVariants.Util.basicSceneFolder, prsVariants.Util.scUnitFolder)
+    root = [prsOutputs.Util.serverSceneRoot, prsOutputs.Util.localSceneRoot, prsOutputs.Util.backupSceneRoot]
+    return '%s/%s/%s/%s' % (root[rootIndexKey], projectName, prsOutputs.Util.basicSceneFolder, prsOutputs.Util.scUnitFolder)
 
 
 #
 def sceneUnitCacheBasicDirectory(rootIndexKey, projectName):
-    root = [prsVariants.Util.serverGeomCacheRoot, prsVariants.Util.localGeomCacheRoot, prsVariants.Util.backupGeomCacheRoot]
-    return '%s/%s/%s' % (root[rootIndexKey], projectName, prsVariants.Util.basicCacheFolder)
+    root = [prsOutputs.Util.serverGeomCacheRoot, prsOutputs.Util.localGeomCacheRoot, prsOutputs.Util.backupGeomCacheRoot]
+    return '%s/%s/%s' % (root[rootIndexKey], projectName, prsOutputs.Util.basicCacheFolder)
 
 
 #
 def sceneUnitRenderBasicDirectory(rootIndexKey, projectName):
-    root = [prsVariants.Util.serverRenderRoot, prsVariants.Util.localRenderRoot, prsVariants.Util.backupRenderRoot]
-    return '%s/%s/%s' % (root[rootIndexKey], projectName, prsVariants.Util.basicRenderFolder)
+    root = [prsOutputs.Util.serverRenderRoot, prsOutputs.Util.localRenderRoot, prsOutputs.Util.backupRenderRoot]
+    return '%s/%s/%s' % (root[rootIndexKey], projectName, prsOutputs.Util.basicRenderFolder)
 
 
 #
@@ -901,7 +901,7 @@ def scUnitIndexFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVa
     basicDirectory = sceneUnitBasicDirectory(rootIndexKey, projectName)
     #
     fileLabel = none
-    extLabel = prsVariants.Util.scSceneIndexExt
+    extLabel = prsOutputs.Util.scSceneIndexExt
     #
     osFileName = scSceneFileNameConfig(sceneName, fileLabel, extLabel)
     fileString_ = '%s/%s/%s/%s' % (
@@ -919,7 +919,7 @@ def sceneUnitSourceFile(rootIndexKey, projectName, sceneCategory, sceneName, sce
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneSourceFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.mayaAsciiExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.mayaAsciiExt)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -936,7 +936,7 @@ def sceneUnitProductFile(rootIndexKey, projectName, sceneCategory, sceneName, sc
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneProductFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.mayaAsciiExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.mayaAsciiExt)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -969,7 +969,7 @@ def scUnitCameraProductFile(rootIndexKey, projectName, sceneCategory, sceneName,
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneCameraFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.mayaAsciiExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.mayaAsciiExt)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -986,7 +986,7 @@ def scUnitCameraFbxFile(rootIndexKey, projectName, sceneCategory, sceneName, sce
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneCameraFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.fbxExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.fbxExt)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -997,7 +997,7 @@ def scUnitCameraFbxFile(rootIndexKey, projectName, sceneCategory, sceneName, sce
 
 
 #
-def scenePreviewFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, extLabel=prsVariants.Util.aviExt):
+def scenePreviewFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, extLabel=prsOutputs.Util.aviExt):
     basicDirectory = sceneUnitBasicDirectory(rootIndexKey, projectName)
     #
     linkFolder = sceneLinkFolder(sceneStage)
@@ -1020,7 +1020,7 @@ def sceneSoundFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVar
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneSoundFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.mayaAsciiExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.mayaAsciiExt)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -1036,7 +1036,7 @@ def scenePreviewIndexFile(rootIndexKey, projectName, sceneCategory, sceneName, s
     #
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = none
-    extLabel = prsVariants.Util.scPreviewIndexExt
+    extLabel = prsOutputs.Util.scPreviewIndexExt
     #
     osFileName = scSceneFileNameConfig(sceneName, fileLabel, extLabel)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -1066,7 +1066,7 @@ def scCameraCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant):
     osFolder = '{0}/{1}/{2}/{3}'.format(
         basicDirectory,
         sceneName, sceneVariant,
-        prsVariants.Util.cacheCameraFolder
+        prsOutputs.Util.cacheCameraFolder
     )
     return osFolder
 
@@ -1078,7 +1078,7 @@ def scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant):
     osFolder = '{0}/{1}/{2}/{3}'.format(
         basicDirectory,
         sceneName, sceneVariant,
-        prsVariants.Util.cacheAssetFolder
+        prsOutputs.Util.cacheAssetFolder
     )
     return osFolder
 
@@ -1090,7 +1090,7 @@ def scUnitSceneryExtraFile(rootIndexKey, projectName, sceneCategory, sceneName, 
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = sceneSceneryFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.dbExtraUnitKey)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.dbExtraUnitKey)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
         basicDirectory,
         sceneName, sceneVariant,
@@ -1102,7 +1102,7 @@ def scUnitSceneryExtraFile(rootIndexKey, projectName, sceneCategory, sceneName, 
 
 #
 def scAssemblyLabel(sceneStage):
-    subLabelString = prsVariants.Util.basicAssemblySubLabel
+    subLabelString = prsOutputs.Util.basicAssemblySubLabel
     return bscMethods.StrUnderline.toLabel(prsMethods.Scene.toLinkMainLabelname(sceneStage), subLabelString)
 
 
@@ -1112,7 +1112,7 @@ def scUnitAssemblyComposeFile(rootIndexKey, projectName, sceneCategory, sceneNam
     #
     linkFolder = sceneLinkFolder(sceneStage)
     fileLabel = scAssemblyLabel(sceneStage)
-    extLabel = prsVariants.Util.assemblyComposeExt
+    extLabel = prsOutputs.Util.assemblyComposeExt
     #
     osFileName = scSceneFileNameConfig(sceneName, fileLabel, extLabel)
     fileString_ = '{0}/{1}/{2}/{3}/{4}'.format(
@@ -1131,7 +1131,7 @@ def scAstSimulationCacheFolder(rootIndexKey, projectName, sceneName, sceneVarian
     osFolder = '{0}/{1}/{2}/{3}'.format(
         basicDirectory,
         sceneName, sceneVariant,
-        prsVariants.Util.cacheSimulationFolder
+        prsOutputs.Util.cacheSimulationFolder
     )
     return osFolder
 
@@ -1139,7 +1139,7 @@ def scAstSimulationCacheFolder(rootIndexKey, projectName, sceneName, sceneVarian
 #
 def scCameraCacheIndexFile(rootIndexKey, projectName, sceneName, sceneVariant):
     fileLabel = none
-    extLabel = prsVariants.Util.scGeomCacheIndexExt
+    extLabel = prsOutputs.Util.scGeomCacheIndexExt
     #
     osFolder = scCameraCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1155,7 +1155,7 @@ def scCameraCacheIndexFile(rootIndexKey, projectName, sceneName, sceneVariant):
 #
 def scUnitCameraAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, sceneStage):
     fileLabel = sceneCameraFileLabel(sceneStage)
-    extLabel = prsVariants.Util.alembicCacheExt
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scCameraCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1171,7 +1171,7 @@ def scUnitCameraAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVari
 #
 def scAstCacheIndexFile(rootIndexKey, projectName, sceneName, sceneVariant, assetName, number):
     fileLabel = none
-    extLabel = prsVariants.Util.scGeomCacheIndexExt
+    extLabel = prsOutputs.Util.scGeomCacheIndexExt
     #
     osFolder = scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1187,7 +1187,7 @@ def scAstCacheIndexFile(rootIndexKey, projectName, sceneName, sceneVariant, asse
 #
 def scAstModelAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, sceneStage, assetName, number):
     fileLabel = sceneAssetFileLabel(sceneStage)
-    extLabel = prsVariants.Util.alembicCacheExt
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1202,8 +1202,8 @@ def scAstModelAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVarian
 
 #
 def scAstRigExtraAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, assetName, number):
-    fileLabel = prsVariants.Util.scAstRigExtraLabel
-    extLabel = prsVariants.Util.alembicCacheExt
+    fileLabel = prsOutputs.Util.scAstRigExtraLabel
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1218,8 +1218,8 @@ def scAstRigExtraAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVar
 
 #
 def scAstModelPoseAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, assetName, number):
-    fileLabel = prsVariants.Util.scAstModelPoseLabel
-    extLabel = prsVariants.Util.alembicCacheExt
+    fileLabel = prsOutputs.Util.scAstModelPoseLabel
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1235,7 +1235,7 @@ def scAstModelPoseAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVa
 #
 def scAstSolverAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, sceneStage, assetName, number):
     fileLabel = scAstSolverFileLabel(sceneStage)
-    extLabel = prsVariants.Util.alembicCacheExt
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scAstAlembicCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1251,7 +1251,7 @@ def scAstSolverAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVaria
 #
 def scAstCfxFurCacheIndexFile(rootIndexKey, projectName, sceneName, sceneVariant, assetName, number, assetVariant, furObjectLabel):
     fileLabel = none
-    extLabel = prsVariants.Util.scFurCacheIndexExt
+    extLabel = prsOutputs.Util.scFurCacheIndexExt
     #
     osFolder = scAstSimulationCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1310,7 +1310,7 @@ def scAstCfxGeomCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, as
 
 #
 def scAstCfxAlembicCacheFile(rootIndexKey, projectName, sceneName, sceneVariant, assetName, number, assetVariant, furObjectLabel, timeTag=None):
-    extLabel = prsVariants.Util.alembicCacheExt
+    extLabel = prsOutputs.Util.alembicCacheExt
     #
     osFolder = scAstSimulationCacheFolder(rootIndexKey, projectName, sceneName, sceneVariant)
     #
@@ -1354,35 +1354,35 @@ def scAstCfxNurbsHairCacheFile(rootIndexKey, projectName, sceneName, sceneVarian
 
 #
 def scUnitIndexDic(sceneIndex, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, startFrame, endFrame):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     dic[bscConfigure.Utility.DEF_key_info_timestamp] = bscMethods.OsTimestamp.active()
     dic[bscConfigure.Utility.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
-    dic[prsVariants.Util.basicIndexAttrLabel] = sceneIndex
-    dic[prsVariants.Util.basicProjectAttrLabel] = projectName
-    dic[prsVariants.Util.basicClassAttrLabel] = sceneCategory
-    dic[prsVariants.Util.basicNameAttrLabel] = sceneName
-    dic[prsVariants.Util.basicVariantAttrLabel] = sceneVariant
-    dic[prsVariants.Util.basicStageAttrLabel] = sceneStage
-    dic[prsVariants.Util.basicStartFrameAttrLabel] = startFrame
-    dic[prsVariants.Util.basicEndFrameAttrLabel] = endFrame
+    dic[prsOutputs.Util.basicIndexAttrLabel] = sceneIndex
+    dic[prsOutputs.Util.basicProjectAttrLabel] = projectName
+    dic[prsOutputs.Util.basicClassAttrLabel] = sceneCategory
+    dic[prsOutputs.Util.basicNameAttrLabel] = sceneName
+    dic[prsOutputs.Util.basicVariantAttrLabel] = sceneVariant
+    dic[prsOutputs.Util.basicStageAttrLabel] = sceneStage
+    dic[prsOutputs.Util.basicStartFrameAttrLabel] = startFrame
+    dic[prsOutputs.Util.basicEndFrameAttrLabel] = endFrame
     return dic
 
 
 #
 def scUnitCameraIndexDic(cameraData):
-    return {prsVariants.Util.basicCameraAttrLabel: cameraData}
+    return {prsOutputs.Util.basicCameraAttrLabel: cameraData}
 
 
 #
 def scUnitAssetIndexDic(assetData):
-    return {prsVariants.Util.basicAssetAttrLabel: assetData}
+    return {prsOutputs.Util.basicAssetAttrLabel: assetData}
 
 
 #
 def scUnitSceneryIndexDic(sceneryData):
-    return {prsVariants.Util.basicSceneryAttrLabel: sceneryData}
+    return {prsOutputs.Util.basicSceneryAttrLabel: sceneryData}
 
 
 #
@@ -1404,7 +1404,7 @@ def scUnitRenderFolder(rootIndexKey, projectName, sceneCategory, sceneName, scen
     basicFolder = scUnitRenderBasicFolder(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage)
     #
     if not customize:
-        customize = prsVariants.Util.scDefaultCustomizeLabel
+        customize = prsOutputs.Util.scDefaultCustomizeLabel
     #
     osFolder = '{0}/{1}'.format(
         basicFolder,
@@ -1418,7 +1418,7 @@ def scUnitRenderImageFolder(rootIndexKey, projectName, sceneCategory, sceneName,
     basicFolder = scUnitRenderBasicFolder(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage)
     #
     if not customize:
-        customize = prsVariants.Util.scDefaultCustomizeLabel
+        customize = prsOutputs.Util.scDefaultCustomizeLabel
         #
     #
     osFolder = '{0}/{1}/{2}'.format(
@@ -1435,7 +1435,7 @@ def scUnitRenderFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneV
     #
     fileLabel = sceneRenderFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.mayaAsciiExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.mayaAsciiExt)
     fileString_ = '{0}/{1}'.format(
         osFolder,
         osFileName
@@ -1449,7 +1449,7 @@ def sceUnitRenderIndexFile(rootIndexKey, projectName, sceneCategory, sceneName, 
     #
     fileLabel = sceneRenderFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.scRenderIndexExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.scRenderIndexExt)
     fileString_ = '{0}/{1}'.format(
         osFolder,
         osFileName
@@ -1480,11 +1480,11 @@ def scDeadlineJobName(renderLayer, startFrame, endFrame, width, height, timeTag)
 # Deadline Info
 def scDeadlineInfoFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize):
     osFolder = scUnitRenderFolder(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize)
-    subFolder = '.'.join([prsVariants.Util.basicDeadlineFolder, prsVariants.Util.basicMayaFolder])
+    subFolder = '.'.join([prsOutputs.Util.basicDeadlineFolder, prsOutputs.Util.basicMayaFolder])
     #
     fileLabel = sceneRenderFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.scDeadlineInfoExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.scDeadlineInfoExt)
     fileString_ = '{0}/{1}/{2}'.format(
         osFolder,
         subFolder,
@@ -1496,11 +1496,11 @@ def scDeadlineInfoFile(rootIndexKey, projectName, sceneCategory, sceneName, scen
 # Deadline Job
 def scDeadlineJobFile(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize):
     osFolder = scUnitRenderFolder(rootIndexKey, projectName, sceneCategory, sceneName, sceneVariant, sceneStage, customize)
-    subFolder = '.'.join([prsVariants.Util.basicDeadlineFolder, prsVariants.Util.basicMayaFolder])
+    subFolder = '.'.join([prsOutputs.Util.basicDeadlineFolder, prsOutputs.Util.basicMayaFolder])
     #
     fileLabel = sceneRenderFileLabel(sceneStage)
     #
-    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsVariants.Util.scDeadlineJobExt)
+    osFileName = scSceneFileNameConfig(sceneName, fileLabel, prsOutputs.Util.scDeadlineJobExt)
     fileString_ = '{0}/{1}/{2}'.format(
         osFolder,
         subFolder,
@@ -1517,23 +1517,23 @@ def getSceneStage(projectName, sceneCategory, sceneName, sceneVariant):
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
-        string = data[prsVariants.Util.basicStageAttrLabel]
+        data = bscMethods.OsJsonFile.read(indexFile)
+        string = data[prsOutputs.Util.basicStageAttrLabel]
     #
     return string
 
 
 #
 def getScUnitFrameRange(projectName, sceneCategory, sceneName, sceneVariant):
-    startFrame, endFrame = prsVariants.Util.animStartFrame, prsVariants.Util.animStartFrame + 20
+    startFrame, endFrame = prsOutputs.Util.animStartFrame, prsOutputs.Util.animStartFrame + 20
     indexFile = scUnitIndexFile(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
-        startFrame = data[prsVariants.Util.basicStartFrameAttrLabel]
-        endFrame = data[prsVariants.Util.basicEndFrameAttrLabel]
+        data = bscMethods.OsJsonFile.read(indexFile)
+        startFrame = data[prsOutputs.Util.basicStartFrameAttrLabel]
+        endFrame = data[prsOutputs.Util.basicEndFrameAttrLabel]
     return startFrame, endFrame
 
 
@@ -1555,7 +1555,7 @@ def getSceneProductFile(projectName, sceneCategory, sceneName, sceneVariant):
 def getScUnitPreviewServerFile(projectName, sceneCategory, sceneName, sceneVariant, sceneStage):
     string = none
     previewTimeStamp = 0
-    for osExt in [prsVariants.Util.aviExt, prsVariants.Util.movExt]:
+    for osExt in [prsOutputs.Util.aviExt, prsOutputs.Util.movExt]:
         previewFile = scenePreviewFile(
             prsConfigure.Utility.DEF_value_root_server,
             projectName, sceneCategory, sceneName, sceneVariant, sceneStage, osExt
@@ -1571,7 +1571,7 @@ def getScUnitPreviewServerFile(projectName, sceneCategory, sceneName, sceneVaria
 
 #
 def getSceneUnitProductUpdate(projectName, sceneCategory, sceneName, sceneVariant, sceneStage):
-    string = prsVariants.Util.infoNonExistsLabel
+    string = prsOutputs.Util.infoNonExistsLabel
     #
     serverProductFile = sceneUnitProductFile(
         prsConfigure.Utility.DEF_value_root_server, projectName, sceneCategory, sceneName, sceneVariant, sceneStage
@@ -1586,14 +1586,14 @@ def getSceneUnitProductUpdate(projectName, sceneCategory, sceneName, sceneVarian
 
 #
 def getSceneCameraIndexDataDic(projectName, sceneCategory, sceneName, sceneVariant):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         cameraData = data['camera']
         if cameraData:
             fileDirectory = scCameraCacheFolder(
@@ -1602,10 +1602,10 @@ def getSceneCameraIndexDataDic(projectName, sceneCategory, sceneName, sceneVaria
                 sceneName, sceneVariant
             )
             for i in cameraData:
-                osFileBasename = i + prsVariants.Util.scGeomCacheIndexExt
+                osFileBasename = i + prsOutputs.Util.scGeomCacheIndexExt
                 fileString_ = bscMethods.OsPath.composeBy(fileDirectory, osFileBasename)
                 if bscMethods.OsFile.isExist(fileString_):
-                    cacheIndexData = bscMethods.OsJson.read(fileString_)
+                    cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
                     dataType = 'camera'
                     timestamp = bscMethods.OsFile.mtimestamp(fileString_)
                     sceneStage = cacheIndexData['stage']
@@ -1628,7 +1628,7 @@ def getOutputCameras(projectName, sceneCategory, sceneName, sceneVariant):
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         cameraData = data['camera']
         if cameraData:
             for seq in range(len(cameraData)):
@@ -1643,14 +1643,14 @@ def getOutputCameras(projectName, sceneCategory, sceneName, sceneVariant):
 
 #
 def getSceneAssetIndexDataDic(projectName, sceneCategory, sceneName, sceneVariant):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         scAstUploadData = data['asset']
         if scAstUploadData:
             fileDirectory = scAstAlembicCacheFolder(
@@ -1659,11 +1659,11 @@ def getSceneAssetIndexDataDic(projectName, sceneCategory, sceneName, sceneVarian
             )
             for i in scAstUploadData:
                 assetIndex, assetCategory, assetName, number, assetVariant = i
-                osFileBasename = scAstFileNameConfig(assetName, number, none, prsVariants.Util.scGeomCacheIndexExt)
+                osFileBasename = scAstFileNameConfig(assetName, number, none, prsOutputs.Util.scGeomCacheIndexExt)
                 fileString_ = bscMethods.OsPath.composeBy(fileDirectory, osFileBasename)
                 dataType = 'asset'
                 if bscMethods.OsFile.isExist(fileString_):
-                    cacheIndexData = bscMethods.OsJson.read(fileString_)
+                    cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
                     timestamp = bscMethods.OsFile.mtimestamp(fileString_)
                     sceneStage = cacheIndexData[bscConfigure.Utility.DEF_key_info_stage]
                     #
@@ -1688,14 +1688,14 @@ def getSceneAssetIndexDataDic(projectName, sceneCategory, sceneName, sceneVarian
 
 #
 def getScSceneryIndexDataDic(projectName, sceneCategory, sceneName, sceneVariant, sceneStage=None):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     # Key File
     indexFile = scUnitIndexFile(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneCategory, sceneName, sceneVariant
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         key = 'scenery'
         if key in data:
             if sceneStage is None:
@@ -1725,7 +1725,7 @@ def getScSceneryIndexDataDic(projectName, sceneCategory, sceneName, sceneVariant
 
 #
 def getScSceneryExtraData(projectName, sceneCategory, sceneName, sceneVariant):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     sceneStage = getSceneStage(
         projectName,
         sceneCategory, sceneName, sceneVariant
@@ -1735,7 +1735,7 @@ def getScSceneryExtraData(projectName, sceneCategory, sceneName, sceneVariant):
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     if bscMethods.OsFile.isExist(extraFile):
-        data = bscMethods.OsJson.read(extraFile)
+        data = bscMethods.OsJsonFile.read(extraFile)
         if data:
             dic = data
     return dic
@@ -1762,9 +1762,9 @@ def getScCameraCacheActive(projectName, sceneName, sceneVariant, subLabelString=
         projectName, sceneName, sceneVariant
     )[1]
     subOsFile = bscMethods.OsFile.subFilename(fileString_, subLabelString)
-    cache = prsVariants.Util.infoNonExistsLabel
+    cache = prsOutputs.Util.infoNonExistsLabel
     if bscMethods.OsFile.isExist(subOsFile):
-        cacheIndexData = bscMethods.OsJson.read(subOsFile)
+        cacheIndexData = bscMethods.OsJsonFile.read(subOsFile)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1778,9 +1778,9 @@ def getScAstModelCacheActive(projectName, sceneName, sceneVariant, assetName, nu
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
-    cache = prsVariants.Util.infoNonExistsLabel
+    cache = prsOutputs.Util.infoNonExistsLabel
     if bscMethods.OsFile.isExist(fileString_):
-        cacheIndexData = bscMethods.OsJson.read(fileString_)
+        cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1795,9 +1795,9 @@ def getScAstSolverCacheActive(projectName, sceneName, sceneVariant, assetName, n
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
     #
-    cache = prsVariants.Util.infoNonExistsLabel
+    cache = prsOutputs.Util.infoNonExistsLabel
     if bscMethods.OsFile.isExist(fileString_):
-        cacheIndexData = bscMethods.OsJson.read(fileString_)
+        cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1822,9 +1822,9 @@ def getScAstRigExtraCacheActive(projectName, sceneName, sceneVariant, assetName,
         prsConfigure.Utility.DEF_value_root_server,
         projectName, sceneName, sceneVariant, assetName, number
     )[1]
-    cache = prsVariants.Util.infoNonExistsLabel
+    cache = prsOutputs.Util.infoNonExistsLabel
     if bscMethods.OsFile.isExist(fileString_):
-        cacheIndexData = bscMethods.OsJson.read(fileString_)
+        cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
         if key in cacheIndexData:
             cache = cacheIndexData[key]
     return cache
@@ -1832,7 +1832,7 @@ def getScAstRigExtraCacheActive(projectName, sceneName, sceneVariant, assetName,
 
 #
 def getScCameraCacheDic(projectName, sceneName, sceneVariant, subLabelString):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     sceneStages = [prsMethods.Scene.layoutLinkName(), prsMethods.Scene.animationLinkName(), prsMethods.Scene.simulationLinkName()]
     for sceneStage in sceneStages:
@@ -1845,7 +1845,7 @@ def getScCameraCacheDic(projectName, sceneName, sceneVariant, subLabelString):
         #
         base, ext = bscMethods.OsFile.toExtSplit(subCacheFile)
         #
-        osFiles = bscCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
+        osFiles = bscMtdCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
         if osFiles:
             for fileString_ in osFiles:
                 fileString_ = fileString_.replace('\\', '/')
@@ -1886,16 +1886,16 @@ def getScAstCfxFurCache(projectName, sceneName, sceneVariant, assetName, number,
         sceneName, sceneVariant, assetName, number, assetVariant,
         furObjectLabel
     )[1]
-    furCache = prsVariants.Util.infoNonExistsLabel
+    furCache = prsOutputs.Util.infoNonExistsLabel
     if bscMethods.OsFile.isExist(fileString_):
-        cacheIndexData = bscMethods.OsJson.read(fileString_)
+        cacheIndexData = bscMethods.OsJsonFile.read(fileString_)
         furCache = cacheIndexData[prsConfigure.Product.DEF_key_cache]
     return furCache
 
 
 #
 def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, number):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     sceneStages = [prsMethods.Scene.layoutLinkName(), prsMethods.Scene.animationLinkName(), prsMethods.Scene.simulationLinkName(), prsMethods.Scene.solverLinkName()]
     for sceneStage in sceneStages:
         cacheFile = scAstModelAlembicCacheFile(
@@ -1907,7 +1907,7 @@ def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
         #
         base, ext = bscMethods.OsFile.toExtSplit(cacheFile)
         #
-        osFiles = bscCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
+        osFiles = bscMtdCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
         if osFiles:
             for fileString_ in osFiles:
                 fileString_ = fileString_.replace('\\', '/')
@@ -1918,7 +1918,7 @@ def getScAstModelCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
 
 #
 def getScAstSolverCacheDic(projectName, sceneName, sceneVariant, assetName, number):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     sceneStages = [prsMethods.Scene.layoutLinkName(), prsMethods.Scene.animationLinkName(), prsMethods.Scene.simulationLinkName(), prsMethods.Scene.solverLinkName()]
     for sceneStage in sceneStages:
         cacheFile = scAstSolverAlembicCacheFile(
@@ -1930,7 +1930,7 @@ def getScAstSolverCacheDic(projectName, sceneName, sceneVariant, assetName, numb
         #
         base, ext = bscMethods.OsFile.toExtSplit(cacheFile)
         #
-        osFiles = bscCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
+        osFiles = bscMtdCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
         if osFiles:
             for fileString_ in osFiles:
                 fileString_ = fileString_.replace('\\', '/')
@@ -1941,7 +1941,7 @@ def getScAstSolverCacheDic(projectName, sceneName, sceneVariant, assetName, numb
 
 #
 def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, number):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     cacheFile = scAstRigExtraAlembicCacheFile(
         prsConfigure.Utility.DEF_value_root_server,
@@ -1952,7 +1952,7 @@ def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
     #
     base, ext = bscMethods.OsFile.toExtSplit(cacheFile)
     #
-    osFiles = bscCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
+    osFiles = bscMtdCore.glob.glob(base + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]' + ext)
     if osFiles:
         for fileString_ in osFiles:
             fileString_ = fileString_.replace('\\', '/')
@@ -1963,7 +1963,7 @@ def getScAstExtraCacheDic(projectName, sceneName, sceneVariant, assetName, numbe
 
 #
 def getScAstCfxFurCacheDic(projectName, sceneName, sceneVariant, assetName, number, assetVariant, furObjectLabel, furObjectType):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     cacheFile = None
     if furObjectType == appCfg.MaNodeType_Plug_Yeti:
@@ -1990,7 +1990,7 @@ def getScAstCfxFurCacheDic(projectName, sceneName, sceneVariant, assetName, numb
     if cacheFile:
         fileDirectory, osFileBasename = bscMethods.OsFile.dirname(cacheFile), bscMethods.OsFile.basename(cacheFile)
         #
-        fileDirectorys = bscCore.glob.glob(fileDirectory + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]')
+        fileDirectorys = bscMtdCore.glob.glob(fileDirectory + '_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9]')
         if fileDirectorys:
             for fileDirectory in fileDirectorys:
                 fileDirectory = fileDirectory.replace('\\', '/')
@@ -2032,7 +2032,7 @@ def getScAstCfxYetiCacheExists(projectName, sceneName, sceneVariant, assetName, 
         if cacheFile.endswith(ext):
             if cacheFile.endswith(keyword):
                 base = cacheFile[:-len(keyword)]
-                caches = bscCore.glob.glob(base + '.[0-9][0-9][0-9][0-9]' + ext)
+                caches = bscMtdCore.glob.glob(base + '.[0-9][0-9][0-9][0-9]' + ext)
                 if caches:
                     cache = cacheFile
                     startCache = caches[0]
@@ -2126,7 +2126,7 @@ def getScAstCfxNurbsHairCacheExists(projectName, sceneName, sceneVariant, assetN
         if cacheFile.endswith(ext):
             if cacheFile.endswith(keyword):
                 base = cacheFile[:-len(keyword)]
-                caches = bscCore.glob.glob(base + '.[0-9][0-9][0-9][0-9]' + ext)
+                caches = bscMtdCore.glob.glob(base + '.[0-9][0-9][0-9][0-9]' + ext)
                 if caches:
                     cache = cacheFile
                     startCache = caches[0]
@@ -2151,7 +2151,7 @@ def getScAstCfxFurCacheExists(projectName, sceneName, sceneVariant, assetName, n
 #
 def getMeshDataFile(fileString_):
     ext = bscMethods.OsFile.ext(fileString_)
-    return fileString_[:-len(ext)] + prsVariants.Util.dbMeshUnitKey
+    return fileString_[:-len(ext)] + prsOutputs.Util.dbMeshUnitKey
 
 
 #
@@ -2190,21 +2190,21 @@ def getScRenderIndexData(
         composeFiles,
         imageFiles
 ):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     dic[bscConfigure.Utility.DEF_key_info_timestamp] = bscMethods.OsTimestamp.active()
     dic[bscConfigure.Utility.DEF_key_info_username] = bscMethods.OsSystem.username()
     #
-    dic[prsVariants.Util.basicIndexAttrLabel] = sceneIndex
-    dic[prsVariants.Util.basicProjectAttrLabel] = projectName
-    dic[prsVariants.Util.basicClassAttrLabel] = sceneCategory
-    dic[prsVariants.Util.basicNameAttrLabel] = sceneName
-    dic[prsVariants.Util.basicVariantAttrLabel] = sceneVariant
-    dic[prsVariants.Util.basicStageAttrLabel] = sceneStage
-    dic[prsVariants.Util.basicStartFrameAttrLabel] = startFrame
-    dic[prsVariants.Util.basicEndFrameAttrLabel] = endFrame
-    dic[prsVariants.Util.basicWidthAttrLabel] = width
-    dic[prsVariants.Util.basicHeightAttrLabel] = height
+    dic[prsOutputs.Util.basicIndexAttrLabel] = sceneIndex
+    dic[prsOutputs.Util.basicProjectAttrLabel] = projectName
+    dic[prsOutputs.Util.basicClassAttrLabel] = sceneCategory
+    dic[prsOutputs.Util.basicNameAttrLabel] = sceneName
+    dic[prsOutputs.Util.basicVariantAttrLabel] = sceneVariant
+    dic[prsOutputs.Util.basicStageAttrLabel] = sceneStage
+    dic[prsOutputs.Util.basicStartFrameAttrLabel] = startFrame
+    dic[prsOutputs.Util.basicEndFrameAttrLabel] = endFrame
+    dic[prsOutputs.Util.basicWidthAttrLabel] = width
+    dic[prsOutputs.Util.basicHeightAttrLabel] = height
     #
     dic['prefix'] = prefix
     dic['compose'] = composeFiles
@@ -2221,7 +2221,7 @@ def getScRenderImageData(projectName, sceneCategory, sceneName, sceneVariant, sc
         customize
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         image = data['image']
         prefix = data['prefix']
         #
@@ -2237,7 +2237,7 @@ def getScRenderCompose(projectName, sceneCategory, sceneName, sceneVariant, scen
         customize
     )[1]
     if bscMethods.OsFile.isExist(indexFile):
-        data = bscMethods.OsJson.read(indexFile)
+        data = bscMethods.OsJsonFile.read(indexFile)
         compose = data['compose']
         #
         return compose
@@ -2261,7 +2261,7 @@ def getScTdUploadCommand(projectName, link):
                         fileString_ = var + '/' + prsConfigure.Utility.LynxiSceneUploadCommandKey + '.py'
                         if bscMethods.OsFile.isExist(fileString_):
                             command = bscMethods.OsFile.read(fileString_)
-                            pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
+                            pythonCommand = 'python(' + bscMethods.OsJsonFile.dump(command) + ');'
                             #
                             return pythonCommand
 
@@ -2284,6 +2284,6 @@ def getScTdLoadCommand(projectName, link):
                         fileString_ = var + '/' + prsConfigure.Utility.LynxiSceneLoadCommandKey + '.py'
                         if bscMethods.OsFile.isExist(fileString_):
                             command = bscMethods.OsFile.read(fileString_)
-                            pythonCommand = 'python(' + bscMethods.OsJson.dump(command) + ');'
+                            pythonCommand = 'python(' + bscMethods.OsJsonFile.dump(command) + ');'
                             #
                             return pythonCommand

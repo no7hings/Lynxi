@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -33,6 +33,6 @@ def setAnimationTimeUnit(projectName=none):
 
 #
 def setAnimationTime():
-    startFrame = prsVariants.Util.animStartFrame
+    startFrame = prsOutputs.Util.animStartFrame
     maUtils.setAnimationFrameRange(startFrame, startFrame + 100)
     maUtils.setCurrentFrame(startFrame)

@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscMtdCore, bscObjects
 
 from LxPreset import prsConfigure
 #
@@ -145,7 +145,7 @@ def astMeshGeomDefCheck(meshObjects):
         'meshVertexNonManifoldCheck': nonManifoldVertex
     }
     #
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     config = prsConfigure.Utility._DEF_project_inspection_asset_model_mesh_dict()
     if meshObjects:
         # View Progress
@@ -177,17 +177,17 @@ def astMeshClean(meshObjects):
 
 # Get Check Data
 def getAstMeshGeomCheckDataDic(meshObjects):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     data = astMeshGeomDefCheck(meshObjects)
     if data:
         for k, v in data.items():
-            subDic = bscCore.orderedDict()
+            subDic = bscMtdCore.orderedDict()
             if v:
                 for i in v:
                     mesh = i.split('.')[0]
-                    meshPath = maUtils._getNodePathString(mesh)
-                    compPath = maUtils._getNodePathString(i)
+                    meshPath = maUtils._getNodeFullpathNameString(mesh)
+                    compPath = maUtils._getNodeFullpathNameString(i)
                     subDic.setdefault(meshPath, []).append(compPath)
             #
             dic[k] = subDic

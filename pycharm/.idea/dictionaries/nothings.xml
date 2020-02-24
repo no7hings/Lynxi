@@ -1,9 +1,16 @@
 <component name="ProjectDictionaryState">
   <dictionary name="nothings">
     <words>
+      <w>attributeset</w>
+      <w>datatype</w>
       <w>fullpathnames</w>
+      <w>functools</w>
       <w>keypath</w>
       <w>multiline</w>
+      <w>nodesep</w>
+      <w>nodetype</w>
+      <w>portnames</w>
+      <w>portsep</w>
       <w>relativenames</w>
       <w>shelftool</w>
       <w>uidatum</w>

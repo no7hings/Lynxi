@@ -3,7 +3,7 @@ from LxBasic import bscMethods, bscObjects
 
 from LxScheme import shmOutput
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -17,10 +17,10 @@ from LxMaya.product.data import datScene, datAnim
 #
 currentProjectName = prsMethods.Project.mayaActiveName()
 # Utilities Label
-infoNonExistsLabel = prsVariants.Util.infoNonExistsLabel
-astDefaultVersion = prsVariants.Util.astDefaultVersion
+infoNonExistsLabel = prsOutputs.Util.infoNonExistsLabel
+astDefaultVersion = prsOutputs.Util.astDefaultVersion
 # Animation Config
-animStages = prsVariants.Util.animStages
+animStages = prsOutputs.Util.animStages
 #
 none = ''
 #

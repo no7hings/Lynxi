@@ -1,16 +1,16 @@
 # coding:utf-8
-from LxBasic import bscCore, bscConfigure, bscCore
+from LxBasic import bscMtdCore, bscConfigure, bscMtdCore
 
 from LxBasic.bscMethods import _bscMtdPath
 
 
-class Raw(bscCore.UtilityBasic):
+class Raw(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toHash(cls, raw):
         return cls._stringToHash(unicode(raw))
 
 
-class String(bscCore.UtilityBasic):
+class String(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toNumberEmbeddedList(cls, string):
         pieces = cls.MOD_re.compile(r'(\d+)').split(unicode(string))
@@ -94,7 +94,7 @@ class String(bscCore.UtilityBasic):
         return cls._stringToUniqueId(string)
 
 
-class Variant(bscCore.UtilityBasic):
+class Variant(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def covertTo(cls, varName, string):
         def getStringLis():
@@ -124,7 +124,7 @@ class Variant(bscCore.UtilityBasic):
         return command
 
 
-class StrUnderline(bscCore.UtilityBasic):
+class StrUnderline(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toLabel(cls, *labels):
         return labels[0] + ''.join([i.capitalize() for i in labels[1:]])
@@ -134,10 +134,14 @@ class StrUnderline(bscCore.UtilityBasic):
         return cls.MOD_re.sub(r'_(\w)', lambda x: x.group(1).upper(), string)
 
 
-class StrCamelcase(bscCore.UtilityBasic):
+class StrCamelcase(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toPrettify(cls, string):
         return ' '.join([str(x).capitalize() for x in cls.MOD_re.findall(r'[a-zA-Z][a-z]*[0-9]*', string)])
+
+    @classmethod
+    def toUnderline(cls, string):
+        return '_'.join([str(x).lower() for x in cls.MOD_re.findall(r'[a-zA-Z][a-z]*[0-9]*', string)])
 
     @classmethod
     def toUiPath(cls, strings, isPrettify=False):
@@ -146,7 +150,7 @@ class StrCamelcase(bscCore.UtilityBasic):
         return cls._toPathString(strings, '>')
 
 
-class TxtHtml(bscCore.UtilityBasic):
+class TxtHtml(bscMtdCore.Mtd_BscUtility):
     color_html_lis = bscConfigure.Ui().htmlColors
     color_html_dic = bscConfigure.Ui().htmlColorDict
 
@@ -229,14 +233,14 @@ class TxtHtml(bscCore.UtilityBasic):
     @classmethod
     def toHtmlMayaConnection(cls, sourceAttr, targetAttr, namespaceFilter):
         def getBranch(attr):
-            namespace = _bscMtdPath.MayaPath.namespace(attr)
-            name = _bscMtdPath.MayaPath.name(attr)
-            attrName = _bscMtdPath.MayaPath.attributeName(attr)
+            namespace = _bscMtdPath.MaNodeString.namespace(attr)
+            name = _bscMtdPath.MaNodeString.nodename(attr)
+            attrName = _bscMtdPath.MaAttributeString.fullpathPortname(attr)
             #
-            namespaceSep = _bscMtdPath.MayaPath.attributeSep()
+            namespacesep = _bscMtdPath.MaAttributeString.portsep()
             #
             if namespace:
-                namespaceHtml = cls.toHtmlSpan(namespace, 7, 10) + cls.toHtmlSpan(namespaceSep, 3, 10)
+                namespaceHtml = cls.toHtmlSpan(namespace, 7, 10) + cls.toHtmlSpan(namespacesep, 3, 10)
             else:
                 namespaceHtml = ''
             #
@@ -398,7 +402,7 @@ class List(object):
 
     @classmethod
     def cleanupTo(cls, lis):
-        lis_ = list(set(lis))
+        lis_ = list(filter(None, set(lis)))
         lis_.sort(key=lis.index)
         return lis_
 
@@ -528,7 +532,7 @@ class Array(List):
         return []
 
 
-class Position2d(bscCore.UtilityBasic):
+class Position2d(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toRegion(cls, position, size):
         x, y = position
@@ -653,7 +657,7 @@ class Size2d(object):
             return 0, 0, w0, h0
 
 
-class Ellipse2d(bscCore.UtilityBasic):
+class Ellipse2d(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def positionAtAngle(cls, center, radius, angle):
         x, y = center
@@ -677,7 +681,7 @@ class Frame(object):
         return '%s:%s:%s' % (str(h).zfill(2), str(m).zfill(2), str(s).zfill(2))
 
 
-class Math2D(bscCore.UtilityBasic):
+class Math2D(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def getAngleByCoord(cls, x1, y1, x2, y2):
         radian = 0.0
@@ -713,7 +717,7 @@ class Math2D(bscCore.UtilityBasic):
         return cls.MOD_math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2))
 
 
-class Color(bscCore.UtilityBasic):
+class Color(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def mapToFloat(cls, r, g, b):
         def mapFnc_(v):
@@ -755,7 +759,7 @@ class Color(bscCore.UtilityBasic):
         return r, g, b
 
 
-class UniqueId(bscCore.UtilityBasic):
+class UniqueId(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def getByString(cls, string):
         return cls._stringToUniqueId(string)

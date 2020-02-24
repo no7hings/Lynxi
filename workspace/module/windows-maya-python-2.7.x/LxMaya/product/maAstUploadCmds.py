@@ -5,13 +5,15 @@ from LxBasic import bscMethods, bscModifiers, bscObjects
 #
 from LxCore import lxConfigure
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr
 #
 from LxCore.product.op import messageOp
 #
 from LxDatabase import dbBasic, dbGet
+
+from LxMaBasic import maBscMethods
 #
 from LxMaya.command import maUtils, maFile, maUuid, maGeom, maShdr, maTxtr, maHier, maFur, maMshReduce, maMshBox, maScnAsb
 #
@@ -241,8 +243,8 @@ def astUnitSceneRefreshCmd_(
     logWin_.addStartProgress(u'Refresh Asset')
     #
     astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariants.Util.basicVariantAttrLabel, assetVariant)
-    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsVariants.Util.basicStageAttrLabel, assetStage)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsOutputs.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(astUnitModelProductGroup, prsOutputs.Util.basicStageAttrLabel, assetStage)
     #
     if prsMethods.Asset.isModelStageName(assetStage):
         # Show All
@@ -436,7 +438,8 @@ def astUnitUploadModelSourceSub(
     logWin_.addStartProgress(u'Source Upload')
     #
     linkFile = bscMethods.OsFile.toJoinTimetag(backModelFile, timeTag)
-    maFile.saveMayaFile(linkFile)
+    
+    maBscMethods.File.saveToServer(linkFile)
     #
     dbBasic.writeDbAssetHistory(modelIndex, linkFile)
     # Update Data >>> 02
@@ -446,7 +449,7 @@ def astUnitUploadModelSourceSub(
         description, notes
     )
     bscMethods.OsFile.infoJsonName = bscMethods.OsFile.infoJsonName(linkFile)
-    bscMethods.OsJson.write(bscMethods.OsFile.infoJsonName, updateData)
+    bscMethods.OsJsonFile.write(bscMethods.OsFile.infoJsonName, updateData)
     #
     logWin_.addCompleteProgress()
 
@@ -472,7 +475,7 @@ def astUnitOpenModelSource(
     logWin_.addStartProgress(u'Source ( Local ) Open')
     #
     backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backModelFile, timeTag)
-    maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localModelFile, timeTag)
+    maBscMethods.File.openAsBackup(backupSourceFileJoinUpdateTag, localModelFile, timeTag)
     #
     logWin_.addCompleteProgress()
 
@@ -506,7 +509,7 @@ def astUnitModelPreviewUploadCmd(
         maUtils.setDisplayMode(5)
     #
     if withProduct:
-        if assetVariant == prsVariants.Util.astDefaultVariant:
+        if assetVariant == prsOutputs.Util.astDefaultVariant:
             serverBasicPreviewFile = assetPr.astUnitBasicPreviewFile(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName, assetCategory, assetName
@@ -578,7 +581,7 @@ def dbAstUploadIndex(
 #
 def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
     # Name File
-    directory = prsVariants.Database.assetNameIndex
+    directory = prsOutputs.Database.assetNameIndex
     data = dbGet.getDbAssetNameData(assetIndex, projectName, assetName)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -586,7 +589,7 @@ def dbAstUploadNameIndex(assetIndex, projectName, assetName, timeTag):
 #
 def dbAstUploadFilter(assetIndex, assetCategory, timeTag):
     # Filter File
-    directory = prsVariants.Database.assetFilterIndex
+    directory = prsOutputs.Database.assetFilterIndex
     data = dbGet.getDbAssetFilterData(assetCategory)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -594,7 +597,7 @@ def dbAstUploadFilter(assetIndex, assetCategory, timeTag):
 #
 def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
     # Variant File
-    directory = prsVariants.Database.assetVariantIndex
+    directory = prsOutputs.Database.assetVariantIndex
     data = dbGet.getDbAssetVariantData(assetIndex, assetVariant)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -602,7 +605,7 @@ def dbAstUploadVariant(assetIndex, assetVariant, timeTag):
 #
 def dbAstUploadAssembly(assetIndex, percentage, timeTag):
     # Assembly File
-    directory = prsVariants.Database.assetAssemblyIndex
+    directory = prsOutputs.Database.assetAssemblyIndex
     data = dbGet.getDbAssetAssemblyData(assetIndex, percentage)
     dbBasic.dbCompDatumWrite(assetIndex, data, directory, timeTag)
 
@@ -614,7 +617,7 @@ def dbAstUploadModelMeshConstant(
         timeTag
 ):
     # Mesh Constant
-    directory = prsVariants.Database.assetGeometryConstantIndex
+    directory = prsOutputs.Database.assetGeometryConstantIndex
     constantData = datAsset.getAstMeshConstantData(assetName)
     dbBasic.dbCompDatumWrite(assetIndex, constantData, directory, timeTag)
 
@@ -634,13 +637,13 @@ def astUnitModelMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     modelTextureNodes = maShdr.getTextureNodeLisByObject(shaderObjects)
     #
-    assetTexture = prsVariants.Database.assetTexture
+    assetTexture = prsOutputs.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
     if modelTextureNodes:
         serverModelTextureDirectory = assetTexture + '/' + modelIndex
-        if prsVariants.Util.isPushModelTextureToDatabase is False:
+        if prsOutputs.Util.isPushModelTextureToDatabase is False:
             serverModelTextureDirectory = assetPr.astUnitTextureFolder(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName,
@@ -690,7 +693,7 @@ def astUnitUploadModelProductSub(
 
     logWin_.addStartProgress(u'Product Upload')
     #
-    maFile.new()
+    maBscMethods.File.new()
     # Mesh
     maAstLoadCmds.astUnitModelGeometryLoadCmd(
         projectName,
@@ -753,7 +756,7 @@ def astUnitUploadModelProductSub(
                 inData=modelTextureNodes
             )
         #
-        maFile.saveMayaFile(serverProductFile)
+        maBscMethods.File.saveToServer(serverProductFile)
         bscMethods.OsFile.backupTo(serverProductFile, backupProductFile, timeTag)
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
@@ -763,8 +766,8 @@ def astUnitUploadModelProductSub(
             projectName,
             assetCategory, assetName
         )[1]
-        if assetVariant == prsVariants.Util.astDefaultVariant:
-            bscMethods.OsJson.write(serverBasicMeshFile, meshData)
+        if assetVariant == prsOutputs.Util.astDefaultVariant:
+            bscMethods.OsJsonFile.write(serverBasicMeshFile, meshData)
         #
         serverModelMeshFile = assetPr.astUnitMeshConstantFile(
             prsConfigure.Utility.DEF_value_root_server,
@@ -772,7 +775,7 @@ def astUnitUploadModelProductSub(
             assetCategory, assetName, assetVariant, assetStage
         )[1]
         #
-        bscMethods.OsJson.write(serverModelMeshFile, meshData)
+        bscMethods.OsJsonFile.write(serverModelMeshFile, meshData)
         #
         serverModelTextureDataFile = assetPr.astUnitTextureConstantFile(
             prsConfigure.Utility.DEF_value_root_server,
@@ -782,7 +785,7 @@ def astUnitUploadModelProductSub(
         #
         textureData = maTxtr.getTextureDatumDic(modelTextureNodes)
         #
-        bscMethods.OsJson.write(serverModelTextureDataFile, textureData)
+        bscMethods.OsJsonFile.write(serverModelTextureDataFile, textureData)
     #
     logWin_.addCompleteProgress()
 
@@ -813,15 +816,15 @@ def astUnitUploadAssemblyProductSub(
         assetCategory, assetName, assetVariant, prsMethods.Asset.groomLinkName()
     )[1]
     # Main
-    maFile.new()
+    maBscMethods.File.new()
     logWin_.addStartProgress(u'Product Upload')
     assetUnitRoot = prsMethods.Asset.rootName(assetName)
-    if not maUtils._isNodeExist(assetUnitRoot):
+    if not maUtils._isAppExist(assetUnitRoot):
         maUtils.setAppPathCreate(assetUnitRoot)
     # Model
     if os.path.isfile(serverAstUnitModelProductFile):
         # Merger Model and Fur >>> 01
-        maFile.setFileImport(serverAstUnitModelProductFile)
+        maBscMethods.File.importFrom(serverAstUnitModelProductFile)
         astModelGroup = prsMethods.Asset.modelLinkGroupName(assetName)
         maUtils.setObjectParent(astModelGroup, assetUnitRoot)
         # Collection Model Texture >>> 02
@@ -845,12 +848,12 @@ def astUnitUploadAssemblyProductSub(
             )
     # CFX
     if os.path.isfile(serverAstUnitCfxProductFile):
-        maFile.setFileImport(serverAstUnitCfxProductFile)
+        maBscMethods.File.importFrom(serverAstUnitCfxProductFile)
         # Connect Solver Fur Group
         cfxAssetRoot = prsMethods.Asset.groomLinkGroupName(assetName)
         maUtils.setObjectParent(cfxAssetRoot, assetUnitRoot)
         forHide = maUtils.getNodeLisByType('mesh', 1, cfxAssetRoot)
-        [maUtils.setHide(maUtils._getNodeTransformString(i)) for i in forHide]
+        [maUtils.setHide(maUtils._getNodeTransformNodeString(i)) for i in forHide]
         # Collection CFX Texture >>> 03
         serverAssemblyCfxTextureDirectory = assetPr.astUnitAssemblyTextureFolder(
             prsConfigure.Utility.DEF_value_root_server,
@@ -882,7 +885,7 @@ def astUnitUploadAssemblyProductSub(
     if renderer == 'Arnold':
         maTxtr.setTextureAttrToTx()
     #
-    maFile.saveMayaFile(serverAssemblyProductFile)
+    maBscMethods.File.saveToServer(serverAssemblyProductFile)
     #
     logWin_.addCompleteProgress()
 
@@ -899,8 +902,8 @@ def astUnitUploadAsbProxyCacheSub(
         projectName, assetName, assetVariant
     )[1]
     if os.path.isfile(serverAssemblyProductFile):
-        maFile.new()
-        maFile.fileOpen(serverAssemblyProductFile)
+        maBscMethods.File.new()
+        maBscMethods.File.openFrom(serverAssemblyProductFile)
         #
         assetUnitRoot = prsMethods.Asset.rootName(assetName)
         modelShaderObjects = datAsset.getAstMeshObjects(assetName, 1)
@@ -948,8 +951,8 @@ def astUnitUploadAsbGpuCacheSub(
 ):
     logWin_ = bscObjects.LogWindow()
     # Check is Default Variant
-    if assetVariant == prsVariants.Util.astDefaultVariant:
-        maFile.new()
+    if assetVariant == prsOutputs.Util.astDefaultVariant:
+        maBscMethods.File.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(
             assetIndex, assetName, lockTransform=False
@@ -1008,8 +1011,8 @@ def astUploadSceneryUnitBoxCacheSub(
 ):
     logWin_ = bscObjects.LogWindow()
     # Check is Default Variant
-    if assetVariant == prsVariants.Util.astDefaultVariant:
-        maFile.new()
+    if assetVariant == prsOutputs.Util.astDefaultVariant:
+        maBscMethods.File.new()
         #
         maDbAstCmds.dbAstGeometryLoadMainCmd(assetIndex, assetName, lockTransform=False)
         #
@@ -1100,7 +1103,7 @@ def astUnitAssemblyProxyUploadCmd(
         serverAstUnitAsbProxyFile, serverAstUnitAsbBoxCacheFile, serverAstUnitAsbGpuCacheFile, serverAstUnitAsbProxyCacheFile,
         renderer
 ):
-    maFile.new()
+    maBscMethods.File.new()
     #
     astAssemblyObject = assetPr.astAssemblyBasicObjectNameSet(assetName)
     #
@@ -1112,7 +1115,7 @@ def astUnitAssemblyProxyUploadCmd(
         renderer
     )
     #
-    maFile.saveMayaFile(serverAstUnitAsbProxyFile)
+    maBscMethods.File.saveToServer(serverAstUnitAsbProxyFile)
 
 
 #
@@ -1123,7 +1126,7 @@ def astUnitUploadAssemblyDefinitionSub(
 ):
     logWin_ = bscObjects.LogWindow()
     # Scenery AD File
-    maFile.new()
+    maBscMethods.File.new()
     # AD >>> 01
     serverAstUnitAsbDefinitionFile = assetPr.astUnitAssemblyDefinitionFile(
         prsConfigure.Utility.DEF_value_root_server,
@@ -1160,7 +1163,7 @@ def astUnitUploadAssemblyDefinitionSub(
             serverAssemblyProductFile
         )
         #
-        maFile.saveMayaFile(serverAstUnitAsbDefinitionFile)
+        maBscMethods.File.saveToServer(serverAstUnitAsbDefinitionFile)
     #
     logWin_.addCompleteProgress()
 
@@ -1179,7 +1182,7 @@ def astUnitUploadAssemblyMain(
     astAssemblyIndexFile = assetPr.astUnitAssemblyIndexFile(projectName, assetName)[1]
     if not bscMethods.OsFile.isExist(astAssemblyIndexFile):
         astAssemblyIndexDatum = assetPr.astUnitAssemblyIndexDatum(assetIndex, assetCategory, assetName)
-        bscMethods.OsJson.write(astAssemblyIndexFile, astAssemblyIndexDatum)
+        bscMethods.OsJsonFile.write(astAssemblyIndexFile, astAssemblyIndexDatum)
     # Upload Sub Asset >>>> 01
     astUnitUploadAssemblyProductSub(
         assetIndex,
@@ -1226,7 +1229,7 @@ def astUnitUploadAssemblyMain(
         withLod=withLod
     )
     #
-    maFile.new()
+    maBscMethods.File.new()
 
 
 # Upload Rig
@@ -1352,11 +1355,11 @@ def astUnitUploadRigProduct(
     #
     rigAstRoot = prsMethods.Asset.rootName(assetName)
     rigAstSetObjects = maUtils.getSets()
-    maFile.exportMayaFileWithSet(rigAstTempFile, rigAstRoot, rigAstSetObjects)
+    maBscMethods.File.exportSelectedWithSetTo(rigAstTempFile, rigAstRoot, rigAstSetObjects)
     # Open and Upload
-    maFile.fileOpen(rigAstTempFile)
+    maBscMethods.File.openFrom(rigAstTempFile)
     #
-    assetVariant = prsVariants.Util.astDefaultVariant
+    assetVariant = prsOutputs.Util.astDefaultVariant
     serverRigTextureDirectory = assetPr.astUnitTextureFolder(
         prsConfigure.Utility.DEF_value_root_server,
         projectName, assetCategory, assetName, assetVariant, assetStage
@@ -1382,7 +1385,7 @@ def astUnitUploadRigProduct(
     )
     maDbAstCmds.dbAstUploadRigAssetIntegration(assetIndex)
     if withProduct:
-        maFile.saveMayaFile(serverRigProductFile)
+        maBscMethods.File.saveToServer(serverRigProductFile)
         bscMethods.OsFile.backupTo(serverRigProductFile, backupRigProductFile, timeTag)
         #
         serverMeshConstantFile = assetPr.astUnitMeshConstantFile(
@@ -1393,7 +1396,7 @@ def astUnitUploadRigProduct(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        bscMethods.OsJson.write(
+        bscMethods.OsJsonFile.write(
             serverMeshConstantFile,
             meshData
         )
@@ -1559,9 +1562,9 @@ def astUnitUploadCfxFurSub(
     )[1]
     #
     tempFurFile = bscMethods.OsFile.temporaryName(serverAstUnitFurFile, timeTag)
-    maFile.exportMayaFileWithSet(tempFurFile, cfxAssetRoot, cfxSet)
+    maBscMethods.File.exportSelectedWithSetTo(tempFurFile, cfxAssetRoot, cfxSet)
     # Open and Upload
-    maFile.fileOpen(tempFurFile)
+    maBscMethods.File.openFrom(tempFurFile)
     #
     assetOp.setUnusedShaderClear()
     # Nde_Node
@@ -1580,12 +1583,12 @@ def astUnitUploadCfxFurSub(
     [maFur.setYetiObjectCloseSolver(i) for i in yetiObjects]
     [maFur.setPfxHairObjectCloseSolver(i) for i in pfxHairObjects]
     # Collection Map
-    dbCfxMapDirectory = prsVariants.Database.assetMap
+    dbCfxMapDirectory = prsOutputs.Database.assetMap
     #
     logWin_.addStartProgress(u'Map Upload')
     if furObjects:
         serverMapFolder = dbCfxMapDirectory + '/' + assetSubIndex
-        if prsVariants.Util.isPushCfxMapToDatabase is False:
+        if prsOutputs.Util.isPushCfxMapToDatabase is False:
             serverMapFolder = assetPr.astUnitMapFolder(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName,
@@ -1600,7 +1603,7 @@ def astUnitUploadCfxFurSub(
     # Progress >>> 02
     logWin_.addStartProgress(u'Fur Upload')
     #
-    maUtils.setAttrStringDatumForce(cfxAssetRoot, prsVariants.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(cfxAssetRoot, prsOutputs.Util.basicVariantAttrLabel, assetVariant)
     # Production
     maDbAstCmds.dbAstUploadFurProduct(assetIndex, assetVariant)
     # HisTory
@@ -1649,7 +1652,7 @@ def astUnitCfxMaterialUploadSubCmd(
 ):
     logWin_ = bscObjects.LogWindow()
     # Collection Texture >>>> 01
-    assetTexture = prsVariants.Database.assetTexture
+    assetTexture = prsOutputs.Database.assetTexture
     #
     logWin_.addStartProgress(u'Texture Upload')
     #
@@ -1661,7 +1664,7 @@ def astUnitCfxMaterialUploadSubCmd(
     # Debug ( Must Back of Rename Scene)
     textureNodeLis = maShdr.getTextureNodeLisByObject(shaderFurNodes)
     if textureNodeLis:
-        if prsVariants.Util.isPushCfxTextureToDatabase is False:
+        if prsOutputs.Util.isPushCfxTextureToDatabase is False:
             cfxTextureDirectory = assetPr.astUnitTextureFolder(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName,
@@ -1715,7 +1718,7 @@ def astUnitUploadCfxProduct(
 
     logWin_.addStartProgress(u'Product Upload')
     # New Scene
-    maFile.new()
+    maBscMethods.File.new()
     # Fur
     maAstLoadCmds.astUnitCfxFurLoadCmd(
         projectName,
@@ -1790,7 +1793,7 @@ def astUnitUploadCfxProduct(
                 inData=furObjects
             )
         #
-        maFile.saveMayaFile(serverCfxProductFile)
+        maBscMethods.File.saveToServer(serverCfxProductFile)
         bscMethods.OsFile.backupTo(serverCfxProductFile, backupCfxProductFile, timeTag)
     #
     logWin_.addCompleteProgress()
@@ -1920,7 +1923,7 @@ def astUnitUploadSourceSub(
     #
     linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     #
-    maFile.saveMayaFile(linkFile)
+    maBscMethods.File.saveToServer(linkFile)
     # Database History
     dbBasic.writeDbAssetHistory(assetSubIndex, linkFile)
     # Update
@@ -1930,7 +1933,7 @@ def astUnitUploadSourceSub(
         description, notes
     )
     bscMethods.OsFile.infoJsonName = bscMethods.OsFile.infoJsonName(linkFile)
-    bscMethods.OsJson.write(bscMethods.OsFile.infoJsonName, updateData)
+    bscMethods.OsJsonFile.write(bscMethods.OsFile.infoJsonName, updateData)
     #
     logWin_.addCompleteProgress()
 
@@ -1955,7 +1958,7 @@ def astUnitSourceOpenCmd_(
     logWin_.addStartProgress(u'Source ( Local ) Open')
     #
     backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
-    maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localSourceFile, timeTag)
+    maBscMethods.File.openAsBackup(backupSourceFileJoinUpdateTag, localSourceFile, timeTag)
     #
     logWin_.addCompleteProgress()
 
@@ -1991,7 +1994,7 @@ def astUnitTextureBackupCmd_(
         inData=textureNodes
     )
     # Texture Index
-    bscMethods.OsJson.write(serverTextureIndexFile, textureIndexData)
+    bscMethods.OsJsonFile.write(serverTextureIndexFile, textureIndexData)
     bscMethods.OsFile.backupTo(serverTextureIndexFile, backupTextureIndexFile, timeTag)
 
 
@@ -2041,7 +2044,7 @@ def astUnitRemoveReferenceSub(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        bscMethods.OsJson.write(serverMeshConstantFile, meshData)
+        bscMethods.OsJsonFile.write(serverMeshConstantFile, meshData)
         bscMethods.OsFile.backupTo(serverMeshConstantFile, backupMeshConstantFile, timeTag)
         #
         cfxBranch = prsMethods.Asset.groomLinkGroupName(assetName)
@@ -2064,12 +2067,12 @@ def astUnitRemoveReferenceSub(
         #
         meshData = datAsset.getAstMeshConstantData(assetName)
         #
-        bscMethods.OsJson.write(serverMeshConstantFile, meshData)
+        bscMethods.OsJsonFile.write(serverMeshConstantFile, meshData)
         bscMethods.OsFile.backupTo(serverMeshConstantFile, backupMeshConstantFile, timeTag)
     #
     if referBranchLis is not None:
         for referBranch in referBranchLis:
-            if maUtils._isNodeExist(referBranch):
+            if maUtils._isAppExist(referBranch):
                 maUtils.setNodeDelete(referBranch)
 
 
@@ -2090,7 +2093,7 @@ def astUnitUploadProductSub(
         linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
     #
     if linkBranch is not None:
-        if maUtils._isNodeExist(linkBranch):
+        if maUtils._isAppExist(linkBranch):
             serverProductFile = assetPr.astUnitProductFile(
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName, assetCategory, assetName, assetVariant, assetStage
@@ -2107,9 +2110,10 @@ def astUnitUploadProductSub(
             maUtils.setParentToWorld(linkBranch)
             maUtils.setNodeDelete(rootGroup)
             #
-            maFile.fileExport(linkBranch, tempFile, history=1)
+            
+            maBscMethods.File.exportSelectedTo(tempFile, linkBranch, withHistory=True)
             # Open and Upload
-            maFile.fileOpen(tempFile)
+            maBscMethods.File.openFrom(tempFile)
             # Refresh Branch Root
             maHier.astUnitRefreshRoot(
                 assetIndex,
@@ -2131,7 +2135,7 @@ def astUnitUploadProductSub(
                 collectionCache=False, useServerTexture=True
             )
             #
-            maFile.saveMayaFile(serverProductFile)
+            maBscMethods.File.saveToServer(serverProductFile)
             bscMethods.OsFile.backupTo(serverProductFile, backupProductFile, timeTag)
             #
             logWin_.addCompleteProgress()
@@ -2152,7 +2156,7 @@ def astUnitUploadTextureSub(
         linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
         isWithTx = True
     if linkBranch is not None:
-        if maUtils._isNodeExist(linkBranch):
+        if maUtils._isAppExist(linkBranch):
             shaderObjects = maUtils.getChildrenByRoot(linkBranch)
             logWin_.addStartProgress(u'Texture Upload')
             #
@@ -2223,7 +2227,7 @@ def astUnitUploadExtraSub(
         #
         logWin_.addStartProgress(u'Extra Upload')
         #
-        bscMethods.OsJson.setValue(
+        bscMethods.OsJsonFile.setValue(
             serverExtraFile,
             extraData
         )
@@ -2240,14 +2244,14 @@ def astUnitUploadPreviewSub(
         timeTag
 ):
     logWin_ = bscObjects.LogWindow()
-    # GeometryGroup
+    # GeometryRoot
     linkBranch = None
     if prsMethods.Asset.isLightStageName(assetStage):
         linkBranch = prsMethods.Asset.lightLinkGroupName(assetName)
     elif prsMethods.Asset.isSolverStageName(assetStage):
         linkBranch = prsMethods.Asset.solverLinkGroupName(assetName)
     if linkBranch is not None:
-        if maUtils._isNodeExist(linkBranch):
+        if maUtils._isAppExist(linkBranch):
             # Model Preview File
             serverPreviewFile = assetPr.astUnitPreviewFile(
                 prsConfigure.Utility.DEF_value_root_server,

@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore,bscObjects
+from LxBasic import bscMtdCore,bscObjects
 #
 from LxMaya.command import maUtils
 #
@@ -149,7 +149,7 @@ none = ''
 
 
 #
-def _toAttrQueryName(attrName):
+def _getAttributeQueryNameString(attrName):
     guessName = attrName.split('.')[-1]
     attrName = guessName
     if guessName.endswith(']'):
@@ -167,7 +167,7 @@ def getAttrType(attr):
 def getAttrDefaultValueLis(node, attrName, attrType):
     defaultValues = []
     if not attrType in MaAttrTypeLis_NonDefaultValue:
-        attrQueryName = _toAttrQueryName(attrName)
+        attrQueryName = _getAttributeQueryNameString(attrName)
         guessData = cmds.attributeQuery(attrQueryName, node=node, listDefault=1)
         if guessData:
             defaultValues = guessData
@@ -181,14 +181,14 @@ def isAttrExists(node, attrQueryName):
 
 #
 def isAttrHasMaximum(node, attrName):
-    attrQueryName = _toAttrQueryName(attrName)
+    attrQueryName = _getAttributeQueryNameString(attrName)
     if isAttrExists(node, attrQueryName):
         return cmds.attributeQuery(attrQueryName, node=node, maxExists=1)
 
 
 #
 def isAttrHasMinimum(node, attrName):
-    attrQueryName = _toAttrQueryName(attrName)
+    attrQueryName = _getAttributeQueryNameString(attrName)
     if isAttrExists(node, attrQueryName):
         return cmds.attributeQuery(attrQueryName, node=node, minExists=1)
 
@@ -196,7 +196,7 @@ def isAttrHasMinimum(node, attrName):
 #
 def getAttrMaximum(node, attrName):
     value = 1
-    attrQueryName = _toAttrQueryName(attrName)
+    attrQueryName = _getAttributeQueryNameString(attrName)
     values = cmds.attributeQuery(attrQueryName, node=node, maximum=1)
     if values:
         value = max(values)
@@ -206,7 +206,7 @@ def getAttrMaximum(node, attrName):
 #
 def getAttrMinimum(node, attrName):
     value = 0
-    attrQueryName = _toAttrQueryName(attrName)
+    attrQueryName = _getAttributeQueryNameString(attrName)
     values = cmds.attributeQuery(attrQueryName, node=node, minimum=1)
     if values:
         value = min(values)
@@ -508,8 +508,8 @@ def getNodeConnectionsDataArray(nodeString):
 
 #
 def getObjectConnectionDataArray(maObj):
-    if maUtils.isTransform(maObj):
-        nodeString = maUtils._getNodeShapeString(maObj)
+    if maUtils._getNodeIsTransform(maObj):
+        nodeString = maUtils._getNodeShapeNodeString(maObj)
     else:
         nodeString = maObj
     return getNodeConnectionsDataArray(nodeString)
@@ -520,7 +520,7 @@ def setCreateConnections(connections):
     if connections:
         for sourceAttr, targetAttr in connections:
             # Filter Exists
-            if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
+            if maUtils._isAppExist(sourceAttr) and maUtils._isAppExist(targetAttr):
                 # Filter Connected
                 if not maUtils.isAttrConnected(sourceAttr, targetAttr):
                     cmds.connectAttr(sourceAttr, targetAttr, force=1)
@@ -557,7 +557,7 @@ def setConnectionsReconnect(connections):
         for sourceAttr, targetAttr in connections:
             progressBar.update()
             # Filter Exists
-            if maUtils._isNodeExist(sourceAttr) and maUtils._isNodeExist(targetAttr):
+            if maUtils._isAppExist(sourceAttr) and maUtils._isAppExist(targetAttr):
                 # Filter Connected
                 if not maUtils.isAttrConnected(sourceAttr, targetAttr):
                     if not maUtils.isAttrSource(sourceAttr):
@@ -571,7 +571,7 @@ def setDelAttrs(node, attrNames):
     if not maUtils.isNodeLocked(node):
         for attrName in attrNames:
             attr = node + '.' + attrName
-            if maUtils._isNodeExist(attr):
+            if maUtils._isAppExist(attr):
                 if not maUtils.isReferenceNode(attr):
                     cmds.deleteAttr(attr)
 

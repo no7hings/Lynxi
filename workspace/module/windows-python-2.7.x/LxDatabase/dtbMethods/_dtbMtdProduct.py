@@ -3,10 +3,10 @@ from LxBasic import bscMethods
 
 from LxPreset import prsMethods
 
-from LxDatabase import dtbCore
+from LxDatabase import dtbMtdCore
 
 
-class DtbProductUnit(dtbCore.DtbMtdBasic):
+class DtbProductUnit(dtbMtdCore.DtbMtdBasic):
     @classmethod
     def dbUpdateProductUnit(cls, jsonDatum, dbUnitType, dbUnitId, dbUnitBranch=None, enable=True, description=None, note=None):
         dbClass = cls.LxDb_Class_Product
@@ -84,7 +84,7 @@ class DtbProductUnit(dtbCore.DtbMtdBasic):
     @classmethod
     def getDbProductUnitIndexDatumLis(cls, productModuleString):
         fileString_ = cls._dbProductUnitIndexFile(productModuleString)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
 
     @classmethod
     def getDbProductUnitIndexLis(cls, productModuleString):
@@ -105,7 +105,7 @@ class DtbProductUnit(dtbCore.DtbMtdBasic):
     @classmethod
     def getDbProductUnitSetDatum(cls, dbUnitId):
         fileString_ = cls._dbProductUnitSetFile(dbUnitId)
-        return bscMethods.OsJson.read(fileString_)
+        return bscMethods.OsJsonFile.read(fileString_)
 
     @classmethod
     def getDbProductUnitSetUiDatum(cls, projectName, productModuleString, dbUnitId, number=0, overrideNumber=False):
@@ -115,7 +115,7 @@ class DtbProductUnit(dtbCore.DtbMtdBasic):
         #
         def getCustomDatum():
             fileString_ = cls._dbProductUnitSetFile(dbUnitId)
-            return bscMethods.OsJson.read(fileString_)
+            return bscMethods.OsJsonFile.read(fileString_)
 
         #
         def getDatum(defaultLis, customDic):
@@ -166,33 +166,33 @@ class DtbProductUnit(dtbCore.DtbMtdBasic):
     def setDbProductUnitIndexUpdate(cls, productModuleString, unitIndexDatum):
         indexFile = cls._dbProductUnitIndexFile(productModuleString)
         if bscMethods.OsFile.isExist(indexFile):
-            data = bscMethods.OsJson.read(indexFile)
+            data = bscMethods.OsJsonFile.read(indexFile)
             unitIndexLis = zip(*data)[0]
             dbUnitId = unitIndexDatum[0]
             if not dbUnitId in unitIndexLis:
                 data += [unitIndexDatum]
                 bscMethods.OsFile.backup(indexFile)
-                bscMethods.OsJson.write(indexFile, data)
+                bscMethods.OsJsonFile.write(indexFile, data)
             else:
                 index = unitIndexLis.index(dbUnitId)
                 serverUnitIndexDatum = data[index]
                 if not unitIndexDatum == serverUnitIndexDatum:
                     data[index] = unitIndexDatum
                     bscMethods.OsFile.backup(indexFile)
-                    bscMethods.OsJson.write(indexFile, data)
+                    bscMethods.OsJsonFile.write(indexFile, data)
         else:
-            bscMethods.OsJson.write(indexFile, [unitIndexDatum])
+            bscMethods.OsJsonFile.write(indexFile, [unitIndexDatum])
 
     @classmethod
     def setDbProductUnitSetUpdate(cls, dbUnitId, unitSetDatum):
         setFile = cls._dbProductUnitSetFile(dbUnitId)
         if bscMethods.OsFile.isExist(setFile):
-            data = bscMethods.OsJson.read(setFile)
+            data = bscMethods.OsJsonFile.read(setFile)
             if not data == unitSetDatum:
                 bscMethods.OsFile.backup(setFile)
-                bscMethods.OsJson.write(setFile, unitSetDatum)
+                bscMethods.OsJsonFile.write(setFile, unitSetDatum)
         else:
-            bscMethods.OsJson.write(setFile, unitSetDatum)
+            bscMethods.OsJsonFile.write(setFile, unitSetDatum)
 
     @classmethod
     def getDbProductUnitViewInfo(cls):

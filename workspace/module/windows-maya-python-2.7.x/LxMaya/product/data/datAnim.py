@@ -5,7 +5,7 @@ import maya.cmds as cmds
 
 from LxBasic import bscConfigure
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, scenePr
 #
@@ -18,8 +18,8 @@ none = ''
 
 #
 def getRigAssetData(referenceNode, projectName):
-    keyword = prsVariants.Util.astAnimationRigFileLabel
-    subKeyword = prsVariants.Util.astLayoutRigFileLabel
+    keyword = prsOutputs.Util.astAnimationRigFileLabel
+    subKeyword = prsOutputs.Util.astLayoutRigFileLabel
     #
     referenceFile = cmds.referenceQuery(referenceNode, filename=1)
     data = ()
@@ -35,19 +35,19 @@ def getRigAssetData(referenceNode, projectName):
         #
         assetCategory = None
         #
-        rigAssetName = prsVariants.Util.astBasicOsFileNameConfig(assetName, keyword, none)
+        rigAssetName = prsOutputs.Util.astBasicOsFileNameConfig(assetName, keyword, none)
         if subKeyword in referenceFile:
-            rigAssetName = prsVariants.Util.astBasicOsFileNameConfig(assetName, subKeyword, none)
+            rigAssetName = prsOutputs.Util.astBasicOsFileNameConfig(assetName, subKeyword, none)
         # Check is Rig File
         if rigAssetName in fileName:
             # Number
             number = '0000'
-            attrData = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
+            attrData = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicNumberAttrLabel)
             if attrData:
                 number = attrData
             # Variant
-            variant = prsVariants.Util.astDefaultVariant
-            attrData = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicVariantAttrLabel)
+            variant = prsOutputs.Util.astDefaultVariant
+            attrData = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicVariantAttrLabel)
             if attrData:
                 variant = attrData
             #
@@ -62,7 +62,7 @@ def getReferenceDic(projectName):
         if assetData:
             assetCategory, assetName, number, variant = assetData
             isLoaded = cmds.referenceQuery(referenceNode, isLoaded=1)
-            isGpu = maUtils.getAttrDatum(referenceNode, prsVariants.Util.showGpuAttrLabel)
+            isGpu = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.showGpuAttrLabel)
             #
             state = 'Unloaded'
             if isLoaded:
@@ -233,7 +233,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
             referenceNode = k
             assetCategory, assetName, number, assetVariant, state = v
             if state == 'Loaded':
-                existNumber = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
+                existNumber = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicNumberAttrLabel)
                 #
                 numberKey = '%s - %s - %s' % (assetCategory, assetName, number)
                 if existNumber and not numberKey in numberKeyArray:
@@ -261,7 +261,7 @@ def getAssetConstantData(projectName, sceneName, sceneVariant, inData, progressB
                 assetArray.append(referenceNode)
                 namespace = maUtils.getReferenceNamespace(referenceNode)
                 astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
-                if maUtils._isNodeExist(astUnitModelProductGroup):
+                if maUtils._isAppExist(astUnitModelProductGroup):
                     #
                     nonRefObjects = maUtils.getNonRefChildObjectsByRoot(astUnitModelProductGroup, 'mesh', 1)
                     if not nonRefObjects:

@@ -7,7 +7,7 @@ from LxBasic import bscObjects
 #
 from LxCore.config import appCfg
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr
 #
@@ -15,18 +15,18 @@ from LxMaya.command import maUtils, maAsb
 #
 currentProjectName = prsMethods.Project.mayaActiveName()
 # File Label
-scnSceneryLocatorLabel = prsVariants.Util.scnSceneryLocatorLabel
-astDefaultVersion = prsVariants.Util.astDefaultVersion
+scnSceneryLocatorLabel = prsOutputs.Util.scnSceneryLocatorLabel
+astDefaultVersion = prsOutputs.Util.astDefaultVersion
 # Type Config
 # Group Config
-basicGroupLabel = prsVariants.Util.basicGroupLabel
-basicModelLinkGroupLabel = prsVariants.Util.basicModelLinkGroupLabel
-basicGeometryGroupLabel = prsVariants.Util.basicGeometryGroupLabel
-basicSolverGeometrySubGroupLabel = prsVariants.Util.basicSolverGeometrySubGroupLabel
-basicCfxLinkGroupLabel = prsVariants.Util.basicCfxLinkGroupLabel
+basicGroupLabel = prsOutputs.Util.basicGroupLabel
+basicModelLinkGroupLabel = prsOutputs.Util.basicModelLinkGroupLabel
+basicGeometryGroupLabel = prsOutputs.Util.basicGeometryGroupLabel
+basicSolverGeometrySubGroupLabel = prsOutputs.Util.basicSolverGeometrySubGroupLabel
+basicCfxLinkGroupLabel = prsOutputs.Util.basicCfxLinkGroupLabel
 #
-basicAssemblyLabel = prsVariants.Util.basicAssemblyLabel
-scnAssemblyPrefix = prsVariants.Util.scnAssemblyPrefix
+basicAssemblyLabel = prsOutputs.Util.basicAssemblyLabel
+scnAssemblyPrefix = prsOutputs.Util.scnAssemblyPrefix
 #
 none = ''
 
@@ -80,7 +80,7 @@ def getScnAssemblyComposeDatumDic(projectName, sceneryName):
 def getScnAssemblyComposeDatumLis(projectName, sceneryName):
     lis = []
     groupString = sceneryPr.scnAssemblyGroupName(sceneryName)
-    if maUtils._isNodeExist(groupString):
+    if maUtils._isAppExist(groupString):
         stringLis = maUtils.getChildNodesByRoot(
             groupString,
             filterTypes=appCfg.DEF_type_assembly_reference,
@@ -206,17 +206,17 @@ def getAssemblyFilterDic():
 #
 def getSceneryInfo(printEnable=False):
     lis = []
-    keyword = prsVariants.Util.basicUnitRootGroupLabel + basicGroupLabel
+    keyword = prsOutputs.Util.basicUnitRootGroupLabel + basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
-            if maUtils._isNodeExist(rootGroup):
-                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_scenery):
-                    sceneryCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
-                    sceneryName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
-                    sceneryVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
-                    sceneryStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
-                    sceneryIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
+            if maUtils._isAppExist(rootGroup):
+                if rootGroup.startswith(prsOutputs.Util.Lynxi_Prefix_Product_scenery):
+                    sceneryCategory = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicClassAttrLabel)
+                    sceneryName = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicNameAttrLabel)
+                    sceneryVariant = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicVariantAttrLabel)
+                    sceneryStage = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicStageAttrLabel)
+                    sceneryIndex = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicIndexAttrLabel)
                     if sceneryIndex is not None:
                         data = sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage
                         if printEnable is True:
@@ -365,6 +365,6 @@ def getAssemblyReferenceProxyNode(assemblyReferenceString):
             if cmds.nodeType(object) == 'transform':
                 shapes = maUtils.getMainShapes(object)
                 for shape in shapes:
-                    if cmds.nodeType(shape) == 'aiStandIn' or maUtils._getNodeTypeString(shape) == 'RedshiftProxyMesh':
+                    if cmds.nodeType(shape) == 'aiStandIn' or maUtils._getNodeCategoryString(shape) == 'RedshiftProxyMesh':
                         proxyNode = shape
     return proxyNode

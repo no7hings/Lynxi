@@ -1,12 +1,12 @@
 # coding:utf-8
-from LxBasic import bscCore, bscAbstract
+from LxBasic import bscMtdCore, bscObjCore
 
 
-class Timestamp(bscAbstract.Abc_Time):
+class Timestamp(bscObjCore.Abc_BscTime):
     def __init__(self, timestamp):
         self._initAbcTime(timestamp)
 
 
-class ActiveTimestamp(bscAbstract.Abc_Time):
+class ActiveTimestamp(bscObjCore.Abc_BscTime):
     def __init__(self):
         self._initAbcTime(self._getSystemActiveTimestamp())

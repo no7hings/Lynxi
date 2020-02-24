@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
 from LxPreset import prsConfigure
 #
@@ -23,13 +23,13 @@ def setListScRenderImageCustomize(
         def setActionData():
             def openRenderFileToLocalCmd():
                 if bscMethods.OsFile.isExist(serverRenderFile):
-                    from LxMaya.command import maFile
-                    maFile.openMayaFileToLocal(serverRenderFile, localRenderFile)
+                    from LxMaBasic import maBscMethods
+                    maBscMethods.File.openAsBackup(serverRenderFile, localRenderFile)
             #
             def openRenderFileCmd():
                 if bscMethods.OsFile.isExist(serverRenderFile):
-                    from LxMaya.command import maFile
-                    maFile.fileOpen(serverRenderFile)
+                    from LxMaBasic import maBscMethods
+                    maBscMethods.File.openFrom(serverRenderFile)
             #
             def openRenderFolder():
                 bscMethods.OsDirectory.open(renderFolder)
@@ -122,7 +122,7 @@ def setListRenderImages(
 ):
     #
     def getDic(data):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         findKey = '<RenderLayer>'
         splitPrefix = imagePrefix.split(pathSep)
         if findKey in splitPrefix:

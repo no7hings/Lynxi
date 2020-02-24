@@ -27,8 +27,8 @@ def setCreateObject(shapeType, objectName):
 #
 def setCloneAttributes(sourceObject, targetObject, useShape=False):
     if useShape is True:
-        sourceObject = maUtils._getNodeShapeString(sourceObject)
-        targetObject = maUtils._getNodeShapeString(targetObject)
+        sourceObject = maUtils._getNodeShapeNodeString(sourceObject)
+        targetObject = maUtils._getNodeShapeNodeString(targetObject)
     #
     sourceAttrData = maAttr.getNodeDefAttrDatumLis(sourceObject)
     if sourceAttrData:
@@ -38,8 +38,8 @@ def setCloneAttributes(sourceObject, targetObject, useShape=False):
 #
 def setCloneConnections(sourceObject, targetObject, useShape=False):
     if useShape is True:
-        sourceObject = maUtils._getNodeShapeString(sourceObject)
-        targetObject = maUtils._getNodeShapeString(targetObject)
+        sourceObject = maUtils._getNodeShapeNodeString(sourceObject)
+        targetObject = maUtils._getNodeShapeNodeString(targetObject)
     #
     sourceInputConnections = maUtils.getNodeInputConnectionLis(sourceObject)
     if sourceInputConnections:
@@ -59,7 +59,7 @@ def getObjectTransformation_(objectPath):
 #
 def getObjectTransformCreateData(objectPath):
     parentPath = maUtils._toNodeParentPath(objectPath)
-    transformName = maUtils._getNodeNameString(objectPath)
+    transformName = maUtils._nodeString2nodename_(objectPath)
     transformNodeData = getObjectTransformation_(objectPath)
     customAttrData = maAttr.getNodeUserDefAttrData(objectPath)
     return parentPath, transformName, transformNodeData, customAttrData
@@ -67,10 +67,10 @@ def getObjectTransformCreateData(objectPath):
 
 #
 def getObjectShapeCreateData(objectPath):
-    shapePath = maUtils._getNodeShapeString(objectPath)
+    shapePath = maUtils._getNodeShapeNodeString(objectPath)
     #
-    shapeName = maUtils._getNodeNameString(shapePath)
-    shapeType = maUtils._getNodeTypeString(shapePath)
+    shapeName = maUtils._nodeString2nodename_(shapePath)
+    shapeType = maUtils._getNodeCategoryString(shapePath)
     definedAttrData = maAttr.getNodeDefAttrDatumLis(shapePath)
     customAttrData = maAttr.getNodeUserDefAttrData(shapePath)
     return shapeName, shapeType, definedAttrData, customAttrData
@@ -81,8 +81,8 @@ def setCreateObjectTransformPath(transformData, lockTransform):
     parentPath, transformName, transformNodeData, transformCustomAttrData = transformData
     parentLocalPath = parentPath[1:]
     objectLocalPath = parentLocalPath + '|' + transformName
-    if not maUtils._isNodeExist(objectLocalPath):
-        if not maUtils._isNodeExist(parentLocalPath):
+    if not maUtils._isAppExist(objectLocalPath):
+        if not maUtils._isAppExist(parentLocalPath):
             maUtils.setAppPathCreate(parentLocalPath, lockTransform)
         #
         setCreateObjectTransform(transformName, transformNodeData, parentLocalPath)
@@ -116,7 +116,7 @@ def setCreateObjectShape(shapeName, shapeType, definedAttrData=None, customAttrD
     else:
         shapePath = shapeName
     #
-    if not maUtils._isNodeExist(shapePath):
+    if not maUtils._isAppExist(shapePath):
         if transform:
             cmds.createNode(shapeType, name=shapeName, parent=transform)
         else:
@@ -135,7 +135,7 @@ def setCreateTransformObject(objectName, shapeType, shapeDefinedAttrData=None, s
     else:
         objectPath = '|' + objectName
     #
-    if not maUtils._isNodeExist(objectPath):
+    if not maUtils._isAppExist(objectPath):
         cmds.createNode(MayaTransformType, name=objectName, parent=parent)
         #
         shapeName = objectName + 'Shape'

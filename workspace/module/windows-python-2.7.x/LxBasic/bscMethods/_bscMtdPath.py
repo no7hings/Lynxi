@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 from LxBasic.bscMethods import _bscMtdPython
 
 
-class OsPath(bscCore.PathBasic):
+class OsPath(bscMtdCore.Mtd_BscPath):
     separator_path = u'/'
     @classmethod
     def composeBy(cls, *args):
@@ -34,7 +34,26 @@ class OsPath(bscCore.PathBasic):
         return cls.MTD_os_path.exists(pathString)
 
 
-class OsDirectory(bscCore.UtilityBasic):
+class OsDirectory(bscMtdCore.Mtd_BscUtility):
+    @classmethod
+    def allFileTimestampDict(cls, directoryString):
+        u"""
+        :return: Key = child file's "relative name", Value = child file's "timestamp".
+        """
+        dic = {}
+        for i in cls._getPathnameListByOsDirectory(
+                directoryString,
+                extString=None,
+                isFile=True,
+                isFullpath=True,
+                isAll=True
+        ):
+            relativeName = cls._osPathString2RelativeName(directoryString, i)
+            timestamp = cls.MOD_os.stat(i).st_mtime
+            dic[relativeName] = timestamp
+
+        return dic
+
     @classmethod
     def create(cls, directoryString):
         cls._setOsDirectoryCreate(directoryString)
@@ -185,71 +204,92 @@ class OsDirectory(bscCore.UtilityBasic):
         cls._setOsDirectoryOpen(directoryString)
 
 
-class AppPath(bscCore.PathBasic):
+class AppPath(bscMtdCore.Mtd_BscPath):
     pass
 
 
-class MayaPath(bscCore.PathBasic):
-    separator_namespace = u':'
-    separator_node = u'|'
-    separator_attribute = u'.'
+class MaNodeString(bscMtdCore.Mtd_BscPath):
+    VAR_separator_namespace = u':'
+    VAR_separator_node = u'|'
 
     @classmethod
-    def namespaceSep(cls):
-        return cls.separator_namespace
+    def namespacesep(cls):
+        return cls.VAR_separator_namespace
 
     @classmethod
-    def nodeSep(cls):
-        return cls.separator_node
+    def nodesep(cls):
+        return cls.VAR_separator_node
 
     @classmethod
-    def attributeSep(cls):
-        return cls.separator_attribute
-
-    @classmethod
-    def namespace(cls, pathString):
-        return cls._getNamespaceByPathString(
-            pathString,
-            nodeSep=cls.separator_node,
-            namespaceSep=cls.separator_namespace
+    def namespace(cls, nodeString):
+        return cls._nodeString2namespace(
+            nodeString,
+            nodesep=cls.VAR_separator_node,
+            namespacesep=cls.VAR_separator_namespace
         )
 
     @classmethod
-    def name(cls, pathString):
-        return cls._getNameByPathString(
-            pathString,
-            nodeSep=cls.separator_node,
-            namespaceSep=cls.separator_namespace
+    def nodename(cls, nodeString):
+        return cls._nodeString2nodename(
+            nodeString,
+            nodesep=cls.VAR_separator_node,
+            namespacesep=cls.VAR_separator_namespace
         )
 
     @classmethod
-    def nameWithNamespace(cls, pathString):
-        return cls._getNameWithNamespaceByPathString(
-            pathString,
-            nodeSep=cls.separator_node
+    def nodenameWithNamespace(cls, nodeString):
+        return cls._nodeString2nodenameWithNamespace(
+            nodeString,
+            nodesep=cls.VAR_separator_node
         )
 
     @classmethod
-    def attributeName(cls, pathString):
-        return cls._getAttributeNameByPathString(
-            pathString,
-            attributeSep=cls.separator_attribute
-        )
-
-    @classmethod
-    def namespaceTreeViewBuildDic(cls, pathString):
+    def namespaceTreeViewBuildDic(cls, nodeString):
         return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(pathString, cls.separator_namespace),
-            cls.separator_namespace
+            cls._toTreeViewPathLis(nodeString, cls.VAR_separator_namespace),
+            cls.VAR_separator_namespace
         )
 
     @classmethod
-    def nodeTreeViewBuildDic(cls, pathString):
+    def nodeTreeViewBuildDic(cls, nodeString):
         return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(pathString, cls.separator_node),
-            cls.separator_node
+            cls._toTreeViewPathLis(nodeString, cls.VAR_separator_node),
+            cls.VAR_separator_node
         )
 
     @classmethod
     def covertToPathCreateDic(cls, dic):
-        return cls._setDicConvertToPathCreateDic(dic, cls.separator_node)
+        return cls._setDicConvertToPathCreateDic(dic, cls.VAR_separator_node)
+
+
+class MaAttributeString(bscMtdCore.Mtd_BscPath):
+    VAR_separator_port = u'.'
+
+    @classmethod
+    def portsep(cls):
+        return cls.VAR_separator_port
+
+    @classmethod
+    def nodeString(cls, attributeString):
+        return cls._portString2nodeString(
+            attributeString,
+            portsep=cls.VAR_separator_port
+        )
+
+    @classmethod
+    def fullpathPortname(cls, attributeString):
+        return cls._portString2fullpathPortname(
+            attributeString,
+            portsep=cls.VAR_separator_port
+        )
+
+    @classmethod
+    def name(cls, attributeString):
+        return cls._portString2portname(
+            attributeString,
+            portsep=cls.VAR_separator_port
+        )
+
+    @classmethod
+    def composeBy(cls, nodeString, portString):
+        return cls.VAR_separator_port.join([nodeString, portString])

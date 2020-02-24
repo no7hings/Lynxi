@@ -26,7 +26,7 @@ def toDecomposeMatrixNodeName(nodeName):
 
 
 # Get Maya File Type
-def getMayaFileType(fileString_):
+def _getMaFileType(fileString_):
     mayaFileType = 'mayaAscii'
     fieType = os.path.splitext(fileString_)[-1]
     if fieType == '.ma':
@@ -133,7 +133,7 @@ def setSelAsbImportAddSubCmd(nodePath):
                     fileString_,
                     i=1,
                     options='v=0;',
-                    type=getMayaFileType(fileString_),
+                    type=_getMaFileType(fileString_),
                     ra=1,
                     mergeNamespacesOnClash=1,
                     namespace=namespace,
@@ -175,7 +175,7 @@ def setSelAsbRefAddCmd(nodePath):
                     mergeNamespacesOnClash=0,
                     namespace=namespace,
                     options='v=0;',
-                    type=getMayaFileType(fileString_),
+                    type=_getMaFileType(fileString_),
                     groupReference=True,
                     groupName=importGroupName
                 )

@@ -2,7 +2,7 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
 from LxCore.preset.prod import sceneryPr
 #
@@ -77,7 +77,7 @@ def setAssemblyReferenceCreate(nodeName, adFile):
 def setScnGpuCacheCreate(objectString, cacheFile, lod=0):
     cmds.loadPlugin('gpuCache', quiet=1)
     #
-    nodeName = maUtils._getNodeNameString(objectString)
+    nodeName = maUtils._nodeString2nodename_(objectString)
     shapeName = nodeName + 'Shape'
     shapePath = objectString + '|' + shapeName
     #
@@ -120,7 +120,7 @@ def setScnProxyCacheCreate(objectString, cacheFile, lod=0):
         cmds.createNode('objectSet', name='ArnoldStandInDefaultLightSet', shared=1)
         cmds.lightlink(object='ArnoldStandInDefaultLightSet', light='defaultLightSet')
     #
-    nodeName = maUtils._getNodeNameString(objectString)
+    nodeName = maUtils._nodeString2nodename_(objectString)
     shapeName = nodeName + 'Shape'
     shapePath = objectString + '|' + shapeName
     #
@@ -162,13 +162,13 @@ def setScnProxyCacheCreate(objectString, cacheFile, lod=0):
 def getAssemblyReferencesTransformationByRoot(rootPath):
     lis = []
     nodeTypeLis = ['assemblyReference', 'transform']
-    if maUtils._isNodeExist(rootPath):
-        rootName = maUtils._getNodeNameString(rootPath)
+    if maUtils._isAppExist(rootPath):
+        rootName = maUtils._nodeString2nodename_(rootPath)
         objectPathLis = maUtils.getChildrenByRoot(rootPath)
         objectPathLis.insert(0, rootName)
         if objectPathLis:
             for objectPath in objectPathLis:
-                if maUtils._getNodeTypeString(objectPath) in nodeTypeLis:
+                if maUtils._getNodeCategoryString(objectPath) in nodeTypeLis:
                     if objectPath == rootName:
                         objectRelativePath = rootName
                     else:
@@ -184,14 +184,14 @@ def getAssemblyReferencesTransformationByRoot(rootPath):
 def getAssemblyReferencesWorldMatrixByRoot(rootPath):
     lis = []
     nodeTypeLis = ['assemblyReference', 'transform']
-    if maUtils._isNodeExist(rootPath):
-        rootName = maUtils._getNodeNameString(rootPath)
+    if maUtils._isAppExist(rootPath):
+        rootName = maUtils._nodeString2nodename_(rootPath)
         objectPathLis = maUtils.getChildrenByRoot(rootPath)
         #
         objectPathLis.insert(0, rootName)
         if objectPathLis:
             for objectPath in objectPathLis:
-                if maUtils._getNodeTypeString(objectPath) in nodeTypeLis:
+                if maUtils._getNodeCategoryString(objectPath) in nodeTypeLis:
                     objectRelativePath = rootName + objectPath.split(rootPath)[-1]
                     #
                     transformationData = maUtils.getNodeWorldMatrix(objectPath)
@@ -259,7 +259,7 @@ class LxAssemblyMethod(object):
         cmds.loadPlugin('lxProductNode', quiet=1)
         #
         self._objectPath = objectString
-        self._objectName = maUtils._getNodeNameString(self._objectPath)
+        self._objectName = maUtils._nodeString2nodename_(self._objectPath)
         #
         self._namespace = self._objectName + '_ns'
         #
@@ -275,13 +275,13 @@ class LxAssemblyMethod(object):
         self._containerNodePath = maUtils._toNodePathString([self._objectPath, self._containerNodeName])
         #
         self._objectParentPath = maUtils._toNodeParentPath(self._objectPath)
-        self._objectName = maUtils._getNodeNameString(self._objectPath)
+        self._objectName = maUtils._nodeString2nodename_(self._objectPath)
     #
     def _setParentPathCreate(self):
         maUtils.setNodeParentPathCreate(self._objectPath)
     #
     def _setObjectCreate(self):
-        if not maUtils._isNodeExist(self._objectPath):
+        if not maUtils._isAppExist(self._objectPath):
             cmds.createNode('asbTransform', name=self._objectName, parent=self._objectParentPath)
         #
         cmds.setAttr(maUtils._toNodeAttr([self._objectPath, self.NamespaceAttrName]), self._namespace, type='string')
@@ -296,7 +296,7 @@ class LxAssemblyMethod(object):
     #
     def _setProxyCacheCreate(self):
         if self._proxyCacheFile is not None:
-            if not maUtils._isNodeExist(self._proxyCacheShapePath):
+            if not maUtils._isAppExist(self._proxyCacheShapePath):
                 self._proxyCacheShapeName = self._objectName + self.ProxyCacheShapeLabel
                 cmds.createNode(
                     self.ProxyCacheNodeType,
@@ -309,7 +309,7 @@ class LxAssemblyMethod(object):
     #
     def _setGpuCacheCreate(self):
         if self._gpuCacheFile is not None:
-            if not maUtils._isNodeExist(self._gpuCacheShapePath):
+            if not maUtils._isAppExist(self._gpuCacheShapePath):
                 cmds.createNode(
                     self.GpuCacheNodeType,
                     name=self._gpuCacheShapeName, parent=self._objectPath
@@ -318,7 +318,7 @@ class LxAssemblyMethod(object):
             maUtils.setNodeTemplate(self._gpuCacheShapePath)
     #
     def _setContainerCreate(self):
-        if not maUtils._isNodeExist(self._containerNodePath):
+        if not maUtils._isAppExist(self._containerNodePath):
             cmds.container(type='dagContainer', name=self._containerNodeName)
             cmds.parent(self._containerNodeName, self._objectPath)
             cmds.setAttr(self._containerNodePath + '.blackBox', 1, lock=1)

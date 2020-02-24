@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscObjects
+from LxBasic import bscMtdCore, bscObjects
 #
 from LxMaya.command import maUtils, maFur
 #

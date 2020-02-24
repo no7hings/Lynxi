@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
@@ -33,7 +33,7 @@ def setCreateHierarchy(root, hierarchyData):
 def setCreateAstRootHierarchy(assetCategory, assetName, isLock=True):
     hierarchyData = assetPr.astRootGroupHierarchyConfig(assetName)
 
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     rootGroup = prsMethods.Asset.rootName(assetName)
@@ -46,13 +46,13 @@ def setCreateAstRootHierarchy(assetCategory, assetName, isLock=True):
         prsMethods.Asset.solverLinkGroupName(assetName),
         prsMethods.Asset.lightLinkGroupName(assetName)
     ]
-    [maUtils.setObjectParent(i, rootGroup) for i in branches if maUtils._isNodeExist(i)]
+    [maUtils.setObjectParent(i, rootGroup) for i in branches if maUtils._isAppExist(i)]
 
 
 #
 def setCreateModelLinkHierarchy(assetCategory, assetName, isLock=True):
     hierarchyData = assetPr.astModelLinkHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
 
 
@@ -66,21 +66,21 @@ def setCreateAstModelHierarchy(assetCategory, assetName, withRoot=True, isLock=T
 #
 def setCreateAstUnitModelSolverHierarchy(assetCategory, assetName, isLock=True):
     hierarchyData = assetPr.astModelSolverHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
 
 
 #
 def setCreateAstUnitModelReferenceHierarchy(assetCategory, assetName, isLock=True):
     hierarchyData = assetPr.astModelReferenceHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
 
 
 #
 def setCreateAstCfxHierarchy(assetCategory, assetName, withRoot=True, isLock=True):
     hierarchyData = assetPr.astCfxHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -90,7 +90,7 @@ def setCreateAstCfxHierarchy(assetCategory, assetName, withRoot=True, isLock=Tru
 #
 def setCreateAstRigHierarchy(assetCategory, assetName, withRoot=True, isLock=True):
     hierarchyData = assetPr.astRigLinkHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -100,7 +100,7 @@ def setCreateAstRigHierarchy(assetCategory, assetName, withRoot=True, isLock=Tru
 #
 def setCreateAstRigSolverHierarchy(assetCategory, assetName, withRoot=True, isLock=True):
     hierarchyData = assetPr.astRigSolverHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -110,7 +110,7 @@ def setCreateAstRigSolverHierarchy(assetCategory, assetName, withRoot=True, isLo
 #
 def setCreateAstLightHierarchy(assetCategory, assetName, withRoot=True, isLock=True):
     hierarchyData = assetPr.astLightHierarchyConfig(assetName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -120,27 +120,27 @@ def setCreateAstLightHierarchy(assetCategory, assetName, withRoot=True, isLock=T
 #
 def setCreateScnRootHierarchy(sceneryCategory, sceneryName, sceneryVariant, isLock=True):
     hierarchyData = sceneryPr.scnRootGroupHierarchyConfig(sceneryName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     rootGroup = sceneryPr.scnUnitRootGroupName(sceneryName)
     maUtils.setNodeOverrideColor(rootGroup, color=13)
     # Model Group
     scnAssembly = sceneryPr.scnAssemblyGroupName(sceneryName)
-    if maUtils._isNodeExist(scnAssembly):
+    if maUtils._isAppExist(scnAssembly):
         maUtils.setObjectParent(scnAssembly, rootGroup)
     sceneryUnitAr = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant)
-    if maUtils._isNodeExist(sceneryUnitAr):
+    if maUtils._isAppExist(sceneryUnitAr):
         maUtils.setObjectParent(sceneryUnitAr, rootGroup)
     scnLightGroup = sceneryPr.scnLightGroupName(sceneryName)
-    if maUtils._isNodeExist(scnLightGroup):
+    if maUtils._isAppExist(scnLightGroup):
         maUtils.setObjectParent(scnLightGroup, rootGroup)
 
 
 #
 def setCreateScnAssemblyHierarchy(sceneryCategory, sceneryName, sceneryVariant, withRoot=True, isLock=True):
     hierarchyData = sceneryPr.scnAssemblyHierarchyConfig(sceneryName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -150,7 +150,7 @@ def setCreateScnAssemblyHierarchy(sceneryCategory, sceneryName, sceneryVariant, 
 #
 def setCreateScnLightHierarchy(sceneryCategory, sceneryName, sceneryVariant, withRoot=True, isLock=True):
     hierarchyData = sceneryPr.scnLightHierarchyConfig(sceneryName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -160,21 +160,21 @@ def setCreateScnLightHierarchy(sceneryCategory, sceneryName, sceneryVariant, wit
 #
 def setCreateScRootHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage, isLock=True):
     hierarchyData = scenePr.scRootGroupHierarchyConfig(sceneName)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     rootGroup = scenePr.scUnitRootGroupName(sceneName)
     maUtils.setNodeOverrideColor(rootGroup, color=13)
     # Scene Group
     scLinkGroup = scenePr.scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)
-    if maUtils._isNodeExist(scLinkGroup):
+    if maUtils._isAppExist(scLinkGroup):
         maUtils.setObjectParent(scLinkGroup, rootGroup)
 
 
 #
 def setCreateScLinkHierarchy(sceneCategory, sceneName, sceneVariant, sceneStage, withRoot=True, isLock=True):
     hierarchyData = scenePr.scLinkHierarchyConfig(sceneName, sceneVariant, sceneStage)
-    pathDic = bscMethods.MayaPath.covertToPathCreateDic(hierarchyData)
+    pathDic = bscMethods.MaNodeString.covertToPathCreateDic(hierarchyData)
     [maUtils.setAppPathCreate(i, isLock) for i in pathDic.values()]
     #
     if withRoot:
@@ -195,9 +195,9 @@ def setCreateBranchGroup(parent, child):
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
     #
-    maUtils.setAttrStringDatumForce(child, prsVariants.Util.basicHierarchyAttrLabel, branchName)
-    maUtils.setAttrStringDatumForce(child, prsVariants.Util.basicArtistAttrLabel, username)
-    maUtils.setAttrStringDatumForce(child, prsVariants.Util.basicUpdateAttrLabel, timetag)
+    maUtils.setAttrStringDatumForce(child, prsOutputs.Util.basicHierarchyAttrLabel, branchName)
+    maUtils.setAttrStringDatumForce(child, prsOutputs.Util.basicArtistAttrLabel, username)
+    maUtils.setAttrStringDatumForce(child, prsOutputs.Util.basicUpdateAttrLabel, timetag)
 
 
 # Create Hierarchy's Branch ( Method )
@@ -219,7 +219,7 @@ def getGroupNameLabel(group, assetName):
 
 #
 def addHierarchyObject(parentPath, assetName, filterTypes, autoRename=True):
-    parentName = maUtils._getNodeNameString(parentPath)
+    parentName = maUtils._nodeString2nodename_(parentPath)
     #
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
@@ -227,13 +227,13 @@ def addHierarchyObject(parentPath, assetName, filterTypes, autoRename=True):
     keyword = getGroupNameLabel(parentName, assetName)
     #
     selObjectStringLis = maUtils.getSelectedObjectsFilterByTypes(filterTypes)
-    if maUtils._isNodeExist(parentPath):
+    if maUtils._isAppExist(parentPath):
         if selObjectStringLis:
             for objectString in selObjectStringLis:
                 meshUuid = maUuid._getNodeUniqueIdString(objectString)
-                maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicHierarchyAttrLabel, keyword)
-                maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicArtistAttrLabel, username)
-                maUtils.setAttrStringDatumForce(objectString, prsVariants.Util.basicUpdateAttrLabel, timetag)
+                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicHierarchyAttrLabel, keyword)
+                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicArtistAttrLabel, username)
+                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicUpdateAttrLabel, timetag)
                 #
                 cmds.setAttr(objectString + '.useOutlinerColor', 1)
                 cmds.setAttr(objectString + '.outlinerColor', 0, 1, 0)
@@ -256,19 +256,19 @@ def refreshHierarchyBranch(
         username = bscMethods.OsSystem.username()
         timetag = bscMethods.OsTimetag.active()
         #
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicHierarchyAttrLabel, branchName)
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicArtistAttrLabel, username)
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicUpdateAttrLabel, timetag)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicHierarchyAttrLabel, branchName)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicArtistAttrLabel, username)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicUpdateAttrLabel, timetag)
         #
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicClassAttrLabel, utilsClass)
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicNameAttrLabel, utilsName)
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicVariantAttrLabel, utilsVariant)
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicStageAttrLabel, utilsStage)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicClassAttrLabel, utilsClass)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicNameAttrLabel, utilsName)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicVariantAttrLabel, utilsVariant)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicStageAttrLabel, utilsStage)
         #
-        maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicIndexAttrLabel, utilsIndex)
+        maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicIndexAttrLabel, utilsIndex)
         #
         if timeTag:
-            maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicTagAttrLabel, timeTag)
+            maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicTagAttrLabel, timeTag)
 
 
 #
@@ -280,7 +280,7 @@ def astUnitRefreshRoot(
     #
     astRoot = prsMethods.Asset.rootName(assetName)
     #
-    if maUtils._isNodeExist(astRoot):
+    if maUtils._isAppExist(astRoot):
         refreshHierarchyBranch(
             astRoot,
             assetIndex,
@@ -290,7 +290,7 @@ def astUnitRefreshRoot(
     if prsMethods.Asset.isValidStageName(assetStage):
         branch = prsMethods.Asset.toLinkGroupName(assetName, assetStage)
         #
-        if maUtils._isNodeExist(branch):
+        if maUtils._isAppExist(branch):
             refreshHierarchyBranch(
                 branch,
                 assetIndex,
@@ -307,7 +307,7 @@ def scUnitRefreshRoot(
 ):
     if prsMethods.Asset.isValidStageName(assetStage):
         branch = prsMethods.Asset.toLinkGroupName(assetName, assetStage, namespace)
-        if maUtils._isNodeExist(branch):
+        if maUtils._isAppExist(branch):
             refreshHierarchyBranch(
                 branch,
                 assetIndex,
@@ -321,15 +321,15 @@ def refreshSceneCacheTag(objectPath, timeTag):
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
     #
-    maUtils.setAttrStringDatumForce(objectPath, prsVariants.Util.basicCacheArtistAttrLabel, username)
-    maUtils.setAttrStringDatumForce(objectPath, prsVariants.Util.basicCacheUpdateAttrLabel, timetag)
-    maUtils.setAttrStringDatumForce(objectPath, prsVariants.Util.basicCacheTagAttrLabel, timeTag)
+    maUtils.setAttrStringDatumForce(objectPath, prsOutputs.Util.basicCacheArtistAttrLabel, username)
+    maUtils.setAttrStringDatumForce(objectPath, prsOutputs.Util.basicCacheUpdateAttrLabel, timetag)
+    maUtils.setAttrStringDatumForce(objectPath, prsOutputs.Util.basicCacheTagAttrLabel, timeTag)
 
 
 #
 def refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex):
     root = sceneryPr.scnUnitRootGroupName(sceneryName)
-    if maUtils._isNodeExist(root):
+    if maUtils._isAppExist(root):
         refreshHierarchyBranch(
             root,
             sceneryIndex,
@@ -344,14 +344,14 @@ def refreshScnRoot(sceneryCategory, sceneryName, sceneryVariant, sceneryStage, s
     elif sceneryPr.isAnimationLinkName(sceneryStage) or sceneryPr.isLightLinkName(sceneryStage):
         branch = sceneryPr.scnAssemblyArName(sceneryCategory, sceneryName, sceneryVariant)
     #
-    if maUtils._isNodeExist(branch):
+    if maUtils._isAppExist(branch):
         refreshScnBranch(branch, sceneryCategory, sceneryName, sceneryVariant, sceneryStage, sceneryIndex)
 
 
 #
 def refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex):
     root = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils._isNodeExist(root):
+    if maUtils._isAppExist(root):
         refreshHierarchyBranch(
             root,
             sceneIndex,
@@ -360,7 +360,7 @@ def refreshScRoot(sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex
     #
     branch = scenePr.scUnitLinkGroupName(sceneName, sceneVariant, sceneStage)
     #
-    if maUtils._isNodeExist(branch):
+    if maUtils._isAppExist(branch):
         refreshScnBranch(branch, sceneCategory, sceneName, sceneVariant, sceneStage, sceneIndex)
 
 
@@ -369,16 +369,16 @@ def refreshScAstUnitBranch(branch, assetIndex, assetCategory, assetName, number,
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
     #
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicArtistAttrLabel, username)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicUpdateAttrLabel, timetag)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicArtistAttrLabel, username)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicUpdateAttrLabel, timetag)
     #
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicIndexAttrLabel, assetIndex)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicClassAttrLabel, assetCategory)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicNameAttrLabel, assetName)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicVariantAttrLabel, assetVariant)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicNumberAttrLabel, number)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicIndexAttrLabel, assetIndex)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicClassAttrLabel, assetCategory)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicNameAttrLabel, assetName)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicVariantAttrLabel, assetVariant)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicNumberAttrLabel, number)
     #
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicTagAttrLabel, timeTag)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicTagAttrLabel, timeTag)
 
 
 #
@@ -387,11 +387,11 @@ def refreshScnBranch(branch, sceneryCategory, sceneryName, sceneryVariant, scene
     username = bscMethods.OsSystem.username()
     timetag = bscMethods.OsTimetag.active()
     #
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicHierarchyAttrLabel, branchName)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicArtistAttrLabel, username)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicUpdateAttrLabel, timetag)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicClassAttrLabel, sceneryCategory)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicNameAttrLabel, sceneryName)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicVariantAttrLabel, sceneryVariant)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicStageAttrLabel, sceneryStage)
-    maUtils.setAttrStringDatumForce(branch, prsVariants.Util.basicIndexAttrLabel, sceneryIndex)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicHierarchyAttrLabel, branchName)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicArtistAttrLabel, username)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicUpdateAttrLabel, timetag)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicClassAttrLabel, sceneryCategory)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicNameAttrLabel, sceneryName)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicVariantAttrLabel, sceneryVariant)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicStageAttrLabel, sceneryStage)
+    maUtils.setAttrStringDatumForce(branch, prsOutputs.Util.basicIndexAttrLabel, sceneryIndex)

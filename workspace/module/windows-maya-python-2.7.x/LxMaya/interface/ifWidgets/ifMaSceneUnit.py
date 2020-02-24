@@ -1,5 +1,5 @@
 # coding=utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
 from LxPreset import prsMethods
 
@@ -189,7 +189,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             treeItem.setNamespaceText(self.mtd_app_node._toNamespaceByNodeName(nodeName))
             treeItem.setNameText(self.mtd_app_node._toNameByNodeName(nodeName))
             treeItem.setIcon(bscMethods.IconKeyword.mayaSvg(nodeType))
-            if self._isNodeExist(nodePath):
+            if self._isAppExist(nodePath):
                 treeItem.path = nodePath
             else:
                 treeItem._setQtPressStatus(qtCore.OffStatus)
@@ -209,14 +209,14 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             subIconKeyword = 'svg_basic@svg#unlink' if mainAttrName.lower().endswith('ignore') else 'svg_basic@svg#link'
             treeItem.setSubIcon(subIconKeyword)
-            if self._isNodeExist(nodePath):
+            if self._isAppExist(nodePath):
                 treeItem.path = nodePath
             else:
                 print searchDatum, nodePath
                 treeItem._setQtPressStatus(qtCore.OffStatus)
         #
         def setMain():
-            datumDic = bscCore.orderedDict(self._localLightLinkDic)
+            datumDic = bscMtdCore.orderedDict(self._localLightLinkDic)
             #
             treeView.cleanItems()
             if datumDic:
@@ -328,7 +328,7 @@ class IfScLightLinkUpdateUnit(_qtIfAbcWidget.IfToolUnitBasic):
             for i in selectedItemLis:
                 if hasattr(i, 'path'):
                     lis.append(i.path)
-            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toExistNodeList(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toAppExistStringList(lis))
         else:
             self.mtd_app_node.setSelectClear()
     #
@@ -722,7 +722,7 @@ class IfScLightLinkLoadUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if hasattr(i, 'path'):
                     lis.append(i.path)
             #
-            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toExistNodeList(lis))
+            self.mtd_app_node.setNodeSelect(self.mtd_app_node._toAppExistStringList(lis))
         else:
             self.setSelectClear()
     #

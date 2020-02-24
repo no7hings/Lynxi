@@ -1,10 +1,10 @@
 # coding:utf-8
-from LxBasic import bscCore
+from LxBasic import bscMtdCore
 
 from LxBasic.bscMethods import _bscMtdRaw, _bscMtdUtility
 
 
-class ProgressWindow(bscCore.UtilityBasic):
+class ProgressWindow(bscMtdCore.Mtd_BscUtility):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, explain, maxValue):
@@ -21,7 +21,7 @@ class ProgressWindow(bscCore.UtilityBasic):
             self._progressBar.updateProgress(subExplain)
 
 
-class MessageWindow(bscCore.UtilityBasic):
+class MessageWindow(bscMtdCore.Mtd_BscUtility):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, text, keyword=None):
@@ -38,7 +38,7 @@ class MessageWindow(bscCore.UtilityBasic):
             return module.setMessageWindowShow(text, keyword)
 
 
-class TipWindow(bscCore.UtilityBasic):
+class TipWindow(bscMtdCore.Mtd_BscUtility):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     def __init__(self, title, text):
@@ -62,7 +62,7 @@ class TipWindow(bscCore.UtilityBasic):
         pass
 
 
-class LogWindow(bscCore.UtilityBasic):
+class LogWindow(bscMtdCore.Mtd_BscUtility):
     module_fullpath_name = 'LxUi.qt.qtCommands'
 
     method_html = _bscMtdRaw.TxtHtml

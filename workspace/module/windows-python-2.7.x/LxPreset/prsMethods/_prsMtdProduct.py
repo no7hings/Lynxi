@@ -1,9 +1,9 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxPreset import prsCore
+from LxPreset import prsMtdCore
 
-from LxPreset import prsVariants
+from LxPreset import prsOutputs
 
 
 class _UtilMethod(object):
@@ -43,57 +43,57 @@ class _UtilMethod(object):
 
 
 class Product(
-    prsCore.MtdProductBasic,
+    prsMtdCore.Mtd_PrsProduct,
     _UtilMethod
 ):
     pass
 
 
 class Asset(
-    prsCore.MtdAssetBasic,
+    prsMtdCore.Mtd_PrsAsset,
     _UtilMethod
 ):
     @classmethod
     def toName(cls, *args):
-        return prsVariants.Util.Lynxi_Prefix_Product_Asset + cls._setLabelnameCovertToName(*args)
+        return prsOutputs.Util.Lynxi_Prefix_Product_Asset + cls._setLabelnameCovertToName(*args)
 
     @classmethod
     def toGroupName(cls, *args):
-        return cls.toName(*args) + prsVariants.Util.basicGroupLabel
+        return cls.toName(*args) + prsOutputs.Util.basicGroupLabel
 
     @classmethod
     def rootName(cls, nameString, namespaceString=None):
-        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsVariants.Util.basicUnitRootGroupLabel)
+        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsOutputs.Util.basicUnitRootGroupLabel)
     
     @classmethod
     def toLinkSubLabelname(cls, stageString):
         if cls.isModelStageName(stageString):
-            return prsVariants.Util.basicModelLinkLabel
+            return prsOutputs.Util.basicModelLinkLabel
         elif cls.isRigStageName(stageString):
-            return prsVariants.Util.basicRigLinkLabel
+            return prsOutputs.Util.basicRigLinkLabel
         elif cls.isGroomStageName(stageString):
-            return prsVariants.Util.basicCharacterFxLinkLabel
+            return prsOutputs.Util.basicCharacterFxLinkLabel
         elif cls.isSolverStageName(stageString):
-            return prsVariants.Util.basicSolverLinkLabel
+            return prsOutputs.Util.basicSolverLinkLabel
         elif cls.isLightStageName(stageString):
-            return prsVariants.Util.basicLightLinkLabel
+            return prsOutputs.Util.basicLightLinkLabel
         elif cls.isAssemblyStageName(stageString):
-            return prsVariants.Util.basicAssemblyLinkLabel
-        return prsVariants.Util.basicModelLinkLabel
+            return prsOutputs.Util.basicAssemblyLinkLabel
+        return prsOutputs.Util.basicModelLinkLabel
     
     @classmethod
     def toLinkMainLabelname(cls, stageString):
         if cls.isModelStageName(stageString):
-            return prsVariants.Util.basicModelLinkGroupLabel
+            return prsOutputs.Util.basicModelLinkGroupLabel
         elif cls.isRigStageName(stageString):
-            return prsVariants.Util.basicRigLinkGroupLabel
+            return prsOutputs.Util.basicRigLinkGroupLabel
         elif cls.isGroomStageName(stageString):
-            return prsVariants.Util.basicCfxLinkGroupLabel
+            return prsOutputs.Util.basicCfxLinkGroupLabel
         elif cls.isSolverStageName(stageString):
-            return prsVariants.Util.basicSolverLinkGroupLabel
+            return prsOutputs.Util.basicSolverLinkGroupLabel
         elif cls.isLightStageName(stageString):
-            return prsVariants.Util.basicLightLinkGroupLabel
-        return prsVariants.Util.basicModelLinkGroupLabel
+            return prsOutputs.Util.basicLightLinkGroupLabel
+        return prsOutputs.Util.basicModelLinkGroupLabel
 
     @classmethod
     def toLinkGroupName(cls, nameString, stageString, namespaceString=None):
@@ -121,72 +121,72 @@ class Asset(
 
     @classmethod
     def serverRoot(cls):
-        return prsVariants.Util.serverAssetRoot
+        return prsOutputs.Util.serverAssetRoot
 
     @classmethod
     def backupRoot(cls):
-        return prsVariants.Util.localAssetRoot
+        return prsOutputs.Util.localAssetRoot
 
     @classmethod
     def localRoot(cls):
-        return prsVariants.Util.backupAssetRoot
+        return prsOutputs.Util.backupAssetRoot
 
     @classmethod
     def serverDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.serverSceneRoot,
-            prsVariants.Util.basicAssetFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.serverSceneRoot,
+            prsOutputs.Util.basicAssetFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def backupDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.backupSceneRoot,
-            prsVariants.Util.basicAssetFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.backupSceneRoot,
+            prsOutputs.Util.basicAssetFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def localDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.localSceneRoot,
-            prsVariants.Util.basicAssetFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.localSceneRoot,
+            prsOutputs.Util.basicAssetFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
 
 class Scenery(
-    prsCore.MtdSceneryBasic,
+    prsMtdCore.Mtd_PrsScenery,
     _UtilMethod
 ):
     @classmethod
     def toName(cls, *args):
-        return prsVariants.Util.Lynxi_Prefix_Product_scenery + cls._setLabelnameCovertToName(*args)
+        return prsOutputs.Util.Lynxi_Prefix_Product_scenery + cls._setLabelnameCovertToName(*args)
 
     @classmethod
     def toGroupName(cls, *args):
-        return cls.toName(*args) + prsVariants.Util.basicGroupLabel
+        return cls.toName(*args) + prsOutputs.Util.basicGroupLabel
 
     @classmethod
     def rootName(cls, nameString, namespaceString=None):
-        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsVariants.Util.basicUnitRootGroupLabel)
+        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsOutputs.Util.basicUnitRootGroupLabel)
     
     @classmethod
     def toLinkMainLabelname(cls, stageString):
         if cls.isSceneryLinkName(stageString):
-            return prsVariants.Util.basicSceneryLinkLabel
+            return prsOutputs.Util.basicSceneryLinkLabel
         elif cls.isLayoutLinkName(stageString):
-            return prsVariants.Util.basicLayoutLinkLabel
+            return prsOutputs.Util.basicLayoutLinkLabel
         elif cls.isAnimationLinkName(stageString):
-            return prsVariants.Util.basicAnimationLinkLabel
+            return prsOutputs.Util.basicAnimationLinkLabel
         elif cls.isSolverLinkName(stageString):
-            return prsVariants.Util.basicSolverLinkLabel
+            return prsOutputs.Util.basicSolverLinkLabel
         elif cls.isSimulationLinkName(stageString):
-            return prsVariants.Util.basicSimulationLinkLabel
+            return prsOutputs.Util.basicSimulationLinkLabel
         elif cls.isLightLinkName(stageString):
-            return prsVariants.Util.basicLightLinkLabel
-        return prsVariants.Util.basicSceneryLinkLabel
+            return prsOutputs.Util.basicLightLinkLabel
+        return prsOutputs.Util.basicSceneryLinkLabel
 
     @classmethod
     def toLinkGroupName(cls, nameString, stageString, namespaceString=None):
@@ -218,70 +218,70 @@ class Scenery(
 
     @classmethod
     def serverRoot(cls):
-        return prsVariants.Util.serverSceneryRoot
+        return prsOutputs.Util.serverSceneryRoot
 
     @classmethod
     def backupRoot(cls):
-        return prsVariants.Util.localSceneryRoot
+        return prsOutputs.Util.localSceneryRoot
 
     @classmethod
     def localRoot(cls):
-        return prsVariants.Util.backupSceneryRoot
+        return prsOutputs.Util.backupSceneryRoot
 
     @classmethod
     def serverDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.serverSceneRoot,
-            prsVariants.Util.basicSceneryFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.serverSceneRoot,
+            prsOutputs.Util.basicSceneryFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def backupDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.backupSceneRoot,
-            prsVariants.Util.basicSceneryFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.backupSceneRoot,
+            prsOutputs.Util.basicSceneryFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def localDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.localSceneRoot,
-            prsVariants.Util.basicSceneryFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.localSceneRoot,
+            prsOutputs.Util.basicSceneryFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
 
 class Scene(
-    prsCore.MtdSceneBasic,
+    prsMtdCore.Mtd_PrsScene,
     _UtilMethod
 ):
     @classmethod
     def toName(cls, *args):
-        return prsVariants.Util.Lynxi_Prefix_Product_scene + cls._setLabelnameCovertToName(*args)
+        return prsOutputs.Util.Lynxi_Prefix_Product_scene + cls._setLabelnameCovertToName(*args)
 
     @classmethod
     def toGroupName(cls, *args):
-        return cls.toName(*args) + prsVariants.Util.basicGroupLabel
+        return cls.toName(*args) + prsOutputs.Util.basicGroupLabel
 
     @classmethod
     def rootName(cls, nameString, namespaceString=None):
-        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsVariants.Util.basicUnitRootGroupLabel)
+        return cls._toNamespace(namespaceString) + cls.toGroupName(nameString, prsOutputs.Util.basicUnitRootGroupLabel)
     
     @classmethod
     def toLinkMainLabelname(cls, stageString):
         if cls.isLayoutLinkName(stageString):
-            return prsVariants.Util.scLayoutLabel
+            return prsOutputs.Util.scLayoutLabel
         elif cls.isAnimationLinkName(stageString):
-            return prsVariants.Util.scAnimationLabel
+            return prsOutputs.Util.scAnimationLabel
         elif cls.isSolverLinkName(stageString):
-            return prsVariants.Util.scSolverLabel
+            return prsOutputs.Util.scSolverLabel
         elif cls.isSimulationLinkName(stageString):
-            return prsVariants.Util.scSimulationLabel
+            return prsOutputs.Util.scSimulationLabel
         elif cls.isLightLinkName(stageString):
-            return prsVariants.Util.scLightLabel
-        return prsVariants.Util.scLayoutLabel
+            return prsOutputs.Util.scLightLabel
+        return prsOutputs.Util.scLayoutLabel
     
     @classmethod
     def toLinkGroupName(cls, nameString, stageString, namespaceString=None):
@@ -309,36 +309,36 @@ class Scene(
 
     @classmethod
     def serverRoot(cls):
-        return prsVariants.Util.serverSceneRoot
+        return prsOutputs.Util.serverSceneRoot
 
     @classmethod
     def backupRoot(cls):
-        return prsVariants.Util.localSceneRoot
+        return prsOutputs.Util.localSceneRoot
 
     @classmethod
     def localRoot(cls):
-        return prsVariants.Util.backupSceneRoot
+        return prsOutputs.Util.backupSceneRoot
 
     @classmethod
     def serverDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.serverSceneRoot,
-            prsVariants.Util.basicSceneFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.serverSceneRoot,
+            prsOutputs.Util.basicSceneFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def backupDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.backupSceneRoot,
-            prsVariants.Util.basicSceneFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.backupSceneRoot,
+            prsOutputs.Util.basicSceneFolder,
+            prsOutputs.Util.basicUnitFolder
         )
 
     @classmethod
     def localDirectory(cls):
         return bscMethods.OsPath.composeBy(
-            prsVariants.Util.localSceneRoot,
-            prsVariants.Util.basicSceneFolder,
-            prsVariants.Util.basicUnitFolder
+            prsOutputs.Util.localSceneRoot,
+            prsOutputs.Util.basicSceneFolder,
+            prsOutputs.Util.basicUnitFolder
         )

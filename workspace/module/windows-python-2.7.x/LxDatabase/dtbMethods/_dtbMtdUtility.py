@@ -1,14 +1,14 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods
+from LxBasic import bscMtdCore, bscMethods
 
-from LxDatabase import dtbCore
+from LxDatabase import dtbMtdCore
 
 
-class DtbData(dtbCore.DtbMtdDataBasic):
+class DtbData(dtbMtdCore.DtbMtdDataBasic):
     pass
 
 
-class DtbUnit(dtbCore.DtbMtdBasic):
+class DtbUnit(dtbMtdCore.DtbMtdBasic):
     @classmethod
     def dbUpdateOsUnit(cls, osPath, extFilter, dbClass, dbUnitType, dbUnitBranch=None, note=None):
         if bscMethods.OsPath.isExist(osPath):
@@ -94,17 +94,17 @@ class DtbUnit(dtbCore.DtbMtdBasic):
 
     @classmethod
     def dbGetOsUnitIncludeFileDic(cls, dbClass, dbUnitType, dbUnitBranch=None):
-        dic = bscCore.orderedDict()
+        dic = bscMtdCore.orderedDict()
         dbUnitIdLis = cls._lxDbGetUnitIdLis(dbClass, dbUnitType)
         if dbUnitIdLis:
             for dbUnitId in dbUnitIdLis:
                 dbUnitDefinitionFile = cls._lxDbUnitDefinitionFile(dbClass, dbUnitType, dbUnitId)
-                osPath = bscMethods.OsJson.getValue(dbUnitDefinitionFile, cls.LxDb_Key_Source)
+                osPath = bscMethods.OsJsonFile.getValue(dbUnitDefinitionFile, cls.LxDb_Key_Source)
                 dic[osPath] = cls._dbGetOsUnitIncludeFileIndexUiDic(dbClass, dbUnitType, dbUnitBranch, dbUnitId)
         return dic
 
 
-class DtbUser(dtbCore.DtbMtdBasic):
+class DtbUser(dtbMtdCore.DtbMtdBasic):
     @classmethod
     def dbWriteUserJsonUnit(cls, nameString, jsonDatum, dbUnitType, dbUnitBranch=None, note=None):
         cls._lxDbUpdateJsonUnit(

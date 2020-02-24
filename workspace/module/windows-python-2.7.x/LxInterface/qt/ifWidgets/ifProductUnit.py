@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 
 from LxScheme import shmOutput
 
@@ -11,7 +11,7 @@ from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
 from LxInterface.qt.ifWidgets import ifUnit, ifProductToolWindow
 #
-from LxPreset import prsVariants, prsMethods
+from LxPreset import prsOutputs, prsMethods
 #
 from LxCore.preset.prod import assetPr, sceneryPr, scenePr
 #
@@ -188,8 +188,8 @@ class IfAssetOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     for linkActionData in linkActionDataLis:
                         unitLink, explain, enable, update, loadMethod, createMethod = linkActionData
                         #
-                        exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
-                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != prsVariants.Util.infoNonExistsLabel]
+                        exists = [False, True][update != prsOutputs.Util.infoNonExistsLabel]
+                        state = ['wait', dbGet.getDbAssetMeshCheck(assetIndex, assetVariant, unitLink)][update != prsOutputs.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(unitLink, []).append(
                             (assetIndex, assetVariant, enable, exists)
@@ -706,7 +706,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._centralUpToolboxGroup.addWidget(self._centralUpGridview)
         self._centralUpGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
+        renderWidth, renderHeight = prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width * (float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -766,8 +766,8 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     update = sceneryPr.getSceneryUnitProductUpdate(
                         projectName, sceneryCategory, sceneryName, sceneryVariant, unitLink
                     )
-                    exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
-                    state = ['wait', None][update != prsVariants.Util.infoNonExistsLabel]
+                    exists = [False, True][update != prsOutputs.Util.infoNonExistsLabel]
+                    state = ['wait', None][update != prsOutputs.Util.infoNonExistsLabel]
                     # Message
                     if enable:
                         rgba = [(255, 255, 64, 255), (63, 255, 127, 255)][exists]
@@ -882,7 +882,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 prsConfigure.Utility.DEF_value_root_server,
                 projectName,
                 sceneryCategory, sceneryName, sceneryVariant, prsMethods.Scenery.assemblyLinkName(),
-                prsVariants.Util.pngExt
+                prsOutputs.Util.pngExt
             )[1]
             #
             messageLis = [
@@ -997,7 +997,7 @@ class IfSceneryOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._uiItemWidth = 200
         self._uiItemHeight = 200
         #
-        self._statisticsDic = bscCore.orderedDict()
+        self._statisticsDic = bscMtdCore.orderedDict()
         #
         self._statisticsUiDic = {}
         #
@@ -1072,7 +1072,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         self._scUpToolboxGroup.addWidget(self._scGridview)
         self._scGridview.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
+        renderWidth, renderHeight = prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight
         width = self.MessageWidth
         height = int(width*(float(renderHeight) / float(renderWidth)))
         self._uiItemWidth = width
@@ -1105,7 +1105,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         tabWidget.addTab(self._cameraListViewBox, 'Camera(s)', 'svg_basic@svg#tab')
         self._cameraListViewBox.setCheckEnable(True)
         #
-        renderWidth, renderHeight = prsVariants.Util.rndrImageWidth, prsVariants.Util.rndrImageHeight
+        renderWidth, renderHeight = prsOutputs.Util.rndrImageWidth, prsOutputs.Util.rndrImageHeight
         height = self.MessageHeight
         width = int(height*(float(renderWidth) / float(renderHeight)))
         self._cameraItemWidth = width
@@ -1269,8 +1269,8 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         update = scenePr.getSceneUnitProductUpdate(
                             projectName, sceneCategory, sceneName, sceneVariant, sceneLink
                         )
-                        exists = [False, True][update != prsVariants.Util.infoNonExistsLabel]
-                        state = ['wait', None][update != prsVariants.Util.infoNonExistsLabel]
+                        exists = [False, True][update != prsOutputs.Util.infoNonExistsLabel]
+                        state = ['wait', None][update != prsOutputs.Util.infoNonExistsLabel]
                         # Statistics
                         self._statisticsDic.setdefault(sceneLink, []).append(
                             (sceneIndex, sceneVariant, enable, exists)
@@ -1320,14 +1320,14 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
             # Layout
             def scCreateForLayoutCmd():
                 from LxMaya.product import maScLoadCmds
-                #
-                from LxMaya.command import maFile
+                
+                from LxMaBasic import maBscMethods
                 #
                 
                 sceneStage = prsMethods.Scenery.VAR_product_scenery_layout_stage_list[0]
                 #
                 if self._isForce:
-                    maFile.new()
+                    maBscMethods.File.new()
                 #
                 maScLoadCmds.scUnitSceneCreateMainCmd(
                     projectName,
@@ -1727,10 +1727,12 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
         def setBranch(seq, key, value):
             def setSubActions():
                 def scSubLoadCameraCacheCmd():
-                    from LxMaya.command import maFile, maPreference
+                    from LxMaya.command import maPreference
+
+                    from LxMaBasic import maBscMethods
                     #
                     maPreference.setAnimationTimeUnit(projectName)
-                    maFile.setAlembicCacheImport(scCameraFile)
+                    maBscMethods.File.importAlembicFrom(scCameraFile)
                 #
                 def scSubShowScCameraCacheManagerWinCmd():
                     from LxInterface.qt.ifWidgets import ifProductToolWindow
@@ -1876,7 +1878,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                         if exists:
                             messageLis.append((5, (rgba, (subIconKeyword, subAstCheckState), bscMethods.OsTimetag.toChnPrettify(subAstTimeTag))))
                         else:
-                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), prsVariants.Util.infoNonExistsLabel)))
+                            messageLis.append((5, (rgba, (subIconKeyword, 'wait'), prsOutputs.Util.infoNonExistsLabel)))
                     else:
                         rgba = 95, 95, 95, 255
                         messageLis.append(
@@ -1888,10 +1890,12 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     return scAstModelCacheTimeTag is not None
                 #
                 def scSubLoadAstModelCacheCmd():
-                    from LxMaya.command import maFile, maPreference
+                    from LxMaBasic import maBscMethods
+
+                    from LxMaya.command import  maPreference
                     #
                     maPreference.setAnimationTimeUnit(projectName)
-                    maFile.setAlembicCacheImport(scAstModelCacheFile)
+                    maBscMethods.File.importAlembicFrom(scAstModelCacheFile)
                 #
                 def scSubShowAstModelCacheManagerWinCmd():
                     from LxInterface.qt.ifWidgets import ifProductToolWindow
@@ -2341,14 +2345,15 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     if bscMethods.OsFile.isExist(serverProductFile):
                         logWin_.addStartProgress(u'Open', serverProductFile)
                         #
-                        maFile.openMayaFileToLocal(serverProductFile, localSourceFile)
+                        
+                        maBscMethods.File.openAsBackup(serverProductFile, localSourceFile)
                         #
                         try:
                             self.runPythonCommand(pythonCommandString)
                         except:
                             logWin_.addError(serverProductFile)
                         #
-                        maFile.new()
+                        maBscMethods.File.new()
                         #
                         logWin_.addCompleteProgress()
             #
@@ -2370,7 +2375,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     logWin_.addStartTask('Complete Batch')
             #
             if bscMethods.MayaApp.isActive():
-                from LxMaya.command import maFile
+                from LxMaBasic import maBscMethods
                 setMain()
         #
         commandEditBox = qtWidgets.QtTextbrower()
@@ -2406,7 +2411,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                     )[1]
                     #
                     if bscMethods.OsFile.isExist(sceneryExtraDataFile):
-                        extraData = bscMethods.OsJson.read(sceneryExtraDataFile)
+                        extraData = bscMethods.OsJsonFile.read(sceneryExtraDataFile)
                         if extraData:
                             asbRefDatas = extraData[prsConfigure.Product.DEF_key_info_asbreference]
                             asbTransDatas = extraData[prsConfigure.Product.DEF_key_info_transformation]
@@ -2435,7 +2440,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                                     #
                                     sourceDic = {}
                                     if bscMethods.OsFile.isExist(sourceExtraFile):
-                                        sourceExtraData = bscMethods.OsJson.read(sourceExtraFile)
+                                        sourceExtraData = bscMethods.OsJsonFile.read(sourceExtraFile)
                                         if sourceExtraData:
                                             sourceTransData = sourceExtraData['transformation'][0]
                                             for i_ in sourceTransData:

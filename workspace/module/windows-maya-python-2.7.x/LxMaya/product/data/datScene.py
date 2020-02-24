@@ -2,9 +2,9 @@
 # noinspection PyUnresolvedReferences
 import maya.cmds as cmds
 #
-from LxBasic import bscCore, bscMethods, bscObjects
+from LxBasic import bscMtdCore, bscMethods, bscObjects
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 #
 from LxCore.config import appCfg
 #
@@ -22,17 +22,17 @@ none = ''
 #
 def getSceneInfo(printEnable=False):
     lis = []
-    keyword = prsVariants.Util.basicUnitRootGroupLabel + prsVariants.Util.basicGroupLabel
+    keyword = prsOutputs.Util.basicUnitRootGroupLabel + prsOutputs.Util.basicGroupLabel
     rootGroups = cmds.ls('*%s' % keyword)
     if rootGroups:
         for rootGroup in rootGroups:
-            if maUtils._isNodeExist(rootGroup):
-                if rootGroup.startswith(prsVariants.Util.Lynxi_Prefix_Product_scene):
-                    sceneIndex = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicIndexAttrLabel)
-                    sceneCategory = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicClassAttrLabel)
-                    sceneName = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicNameAttrLabel)
-                    sceneVariant = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicVariantAttrLabel)
-                    sceneStage = maUtils.getAttrDatum(rootGroup, prsVariants.Util.basicStageAttrLabel)
+            if maUtils._isAppExist(rootGroup):
+                if rootGroup.startswith(prsOutputs.Util.Lynxi_Prefix_Product_scene):
+                    sceneIndex = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicIndexAttrLabel)
+                    sceneCategory = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicClassAttrLabel)
+                    sceneName = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicNameAttrLabel)
+                    sceneVariant = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicVariantAttrLabel)
+                    sceneStage = maUtils.getAttrDatum(rootGroup, prsOutputs.Util.basicStageAttrLabel)
                     if sceneIndex is not None:
                         if prsMethods.Scene.isValidCategory(sceneCategory) is True:
                             data = sceneIndex, sceneCategory, sceneName, sceneVariant, sceneStage
@@ -48,11 +48,11 @@ def getSceneInfo(printEnable=False):
 
 #
 def getSceneCustomizeLabel(sceneName):
-    string = prsVariants.Util.scDefaultCustomizeLabel
+    string = prsOutputs.Util.scDefaultCustomizeLabel
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils._isNodeExist(scUnitRoot):
-        data = maUtils.getAttrDatum(scUnitRoot, prsVariants.Util.basicCustomizeAttrLabel)
+    if maUtils._isAppExist(scUnitRoot):
+        data = maUtils.getAttrDatum(scUnitRoot, prsOutputs.Util.basicCustomizeAttrLabel)
         if data:
             string = data
     #
@@ -64,12 +64,12 @@ def getSceneRootIndex(sceneName):
     intValue = prsConfigure.Utility.DEF_value_root_local
     #
     scUnitRoot = scenePr.scUnitRootGroupName(sceneName)
-    if maUtils._isNodeExist(scUnitRoot):
-        data = maUtils.getAttrDatum(scUnitRoot, prsVariants.Util.basicRootIndexAttrLabel)
+    if maUtils._isAppExist(scUnitRoot):
+        data = maUtils.getAttrDatum(scUnitRoot, prsOutputs.Util.basicRootIndexAttrLabel)
         if data:
             intValue = int(data)
         else:
-            maUtils.setAttrStringDatumForce(scUnitRoot, prsVariants.Util.basicRootIndexAttrLabel, str(intValue))
+            maUtils.setAttrStringDatumForce(scUnitRoot, prsOutputs.Util.basicRootIndexAttrLabel, str(intValue))
     #
     return intValue
 
@@ -98,7 +98,7 @@ def getScActiveCameraLis(sceneName):
             cameras.append(i)
     #
     lis = []
-    [lis.append(i) for i in cameras if i not in lis if maUtils._isNodeExist(i)]
+    [lis.append(i) for i in cameras if i not in lis if maUtils._isAppExist(i)]
     return lis
 
 
@@ -161,18 +161,18 @@ def getSceneSounds():
 def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
     lis = []
     scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, prsMethods.Scene.layoutLinkName())
-    if maUtils._isNodeExist(scSceneryBranchPath):
+    if maUtils._isAppExist(scSceneryBranchPath):
         childGroups = maUtils.getGroupLisByRoot(scSceneryBranchPath)
         for i in childGroups:
-            indexAttr = i + '.' + prsVariants.Util.basicIndexAttrLabel
-            if maUtils._isNodeExist(indexAttr):
+            indexAttr = i + '.' + prsOutputs.Util.basicIndexAttrLabel
+            if maUtils._isAppExist(indexAttr):
                 branchGroup = i
                 #
-                sceneryIndex = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicIndexAttrLabel)
-                sceneryCategory = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
-                sceneryName = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNameAttrLabel)
-                sceneryVariant = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicVariantAttrLabel)
-                sceneryStage = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicStageAttrLabel)
+                sceneryIndex = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicIndexAttrLabel)
+                sceneryCategory = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicClassAttrLabel)
+                sceneryName = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicNameAttrLabel)
+                sceneryVariant = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicVariantAttrLabel)
+                sceneryStage = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicStageAttrLabel)
                 lis.append(
                     (sceneryIndex, sceneryCategory, sceneryName, sceneryVariant, sceneryStage)
                 )
@@ -181,7 +181,7 @@ def getScSceneryIndexLis(sceneName, sceneVariant, sceneStage):
 
 #
 def getScAnimAssetRefData(referenceNode):
-    keywords = [prsVariants.Util.astAnimationRigFileLabel, prsVariants.Util.astLayoutRigFileLabel]
+    keywords = [prsOutputs.Util.astAnimationRigFileLabel, prsOutputs.Util.astLayoutRigFileLabel]
     #
     fileString_ = cmds.referenceQuery(referenceNode, filename=1)
     data = ()
@@ -198,18 +198,18 @@ def getScAnimAssetRefData(referenceNode):
                 #
                 root = prsMethods.Asset.rigLinkGroupName(assetName, namespace)
                 #
-                if maUtils._isNodeExist(root):
-                    assetIndex = maUtils.getAttrDatum(root, prsVariants.Util.basicIndexAttrLabel)
+                if maUtils._isAppExist(root):
+                    assetIndex = maUtils.getAttrDatum(root, prsOutputs.Util.basicIndexAttrLabel)
                     if assetIndex:
                         assetCategory = assetPr.getAssetClass(assetIndex)
                         # Number
                         number = '0000'
-                        attrData = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicNumberAttrLabel)
+                        attrData = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicNumberAttrLabel)
                         if attrData:
                             number = attrData
                         # Variant
-                        assetVariant = prsVariants.Util.astDefaultVariant
-                        attrData = maUtils.getAttrDatum(referenceNode, prsVariants.Util.basicVariantAttrLabel)
+                        assetVariant = prsOutputs.Util.astDefaultVariant
+                        attrData = maUtils.getAttrDatum(referenceNode, prsOutputs.Util.basicVariantAttrLabel)
                         if attrData:
                             assetVariant = attrData
                         #
@@ -226,7 +226,7 @@ def getScAnimAssetRefDic():
             if assetData:
                 dic[referenceNode] = assetData
     #
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for i in referenceNodes:
@@ -253,8 +253,8 @@ def getScAnimAssetCfxFurData(referenceNode):
         return '_'.join(dataArray[-2:-1])
     data = ()
     # Filter is CFX
-    if referenceNode.startswith(prsVariants.Util.Lynxi_Prefix_Product_scene) and referenceNode.endswith(
-            prsVariants.Util.basicCfxLinkGroupLabel + 'RN'):
+    if referenceNode.startswith(prsOutputs.Util.Lynxi_Prefix_Product_scene) and referenceNode.endswith(
+            prsOutputs.Util.basicCfxLinkGroupLabel + 'RN'):
         namespace = maUtils.getReferenceNamespace(referenceNode)
         #
         splitData = referenceNode.split('_')
@@ -265,9 +265,9 @@ def getScAnimAssetCfxFurData(referenceNode):
         number = getNumber(splitData)
         #
         cfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
-        if maUtils._isNodeExist(cfxGroup):
-            assetCategory = maUtils.getAttrDatum(cfxGroup, prsVariants.Util.basicClassAttrLabel)
-            assetVariant = maUtils.getAttrDatum(cfxGroup, prsVariants.Util.basicVariantAttrLabel)
+        if maUtils._isAppExist(cfxGroup):
+            assetCategory = maUtils.getAttrDatum(cfxGroup, prsOutputs.Util.basicClassAttrLabel)
+            assetVariant = maUtils.getAttrDatum(cfxGroup, prsOutputs.Util.basicVariantAttrLabel)
             data = sceneCategory, sceneName, sceneVariant, assetCategory, assetName, number, assetVariant
     return data
 
@@ -277,22 +277,22 @@ def getScAstCfxFurObjects(assetName, namespace):
     lis = []
     # Yeti
     cfxYetiGroup = assetPr.yetiNodeGroupName(assetName, namespace)
-    if maUtils._isNodeExist(cfxYetiGroup):
+    if maUtils._isAppExist(cfxYetiGroup):
         yetiObjects = maUtils.getChildObjectsByRoot(cfxYetiGroup, appCfg.MaNodeType_Plug_Yeti, fullPath=1)
         lis.extend(yetiObjects)
     # Yeti Guide System
     cfxYetiGuideSystemGroup = assetPr.guideSystemGroupName(assetName, namespace)
-    if maUtils._isNodeExist(cfxYetiGuideSystemGroup):
+    if maUtils._isAppExist(cfxYetiGuideSystemGroup):
         yetiGuideSystems = maUtils.getChildObjectsByRoot(cfxYetiGuideSystemGroup, appCfg.MaHairSystemType, fullPath=1)
         lis.extend(yetiGuideSystems)
     # Pfx Hair System
     cfxPfxHairSystemGroup = assetPr.pfxSystemGroupName(assetName, namespace)
-    if maUtils._isNodeExist(cfxPfxHairSystemGroup):
+    if maUtils._isAppExist(cfxPfxHairSystemGroup):
         pfxHairSystems = maUtils.getChildObjectsByRoot(cfxPfxHairSystemGroup, appCfg.MaHairSystemType, fullPath=1)
         lis.extend(pfxHairSystems)
     # Nurbs Hair
     cfxNurbsHairGroup = assetPr.astCfxNurbsHairNodeGroupName(assetName, namespace)
-    if maUtils._isNodeExist(cfxNurbsHairGroup):
+    if maUtils._isAppExist(cfxNurbsHairGroup):
         nurbsHairObjects = maUtils.getChildObjectsByRoot(cfxNurbsHairGroup, appCfg.MaNodeType_Plug_NurbsHair, fullPath=1)
         lis.extend(nurbsHairObjects)
     #
@@ -316,7 +316,7 @@ def getScAstCfxFurDic():
                 cfxObjects = getScAstCfxFurObjects(assetName, namespace)
             #
             dic.setdefault((sceneCategory, sceneName, sceneVariant), []).append((referenceNode, assetCategory, assetName, number, assetVariant, state, cfxObjects))
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     referenceNodes = maUtils.getReferenceNodeLis()
     for node in referenceNodes:
@@ -346,7 +346,7 @@ def getScAstCfxFurDic_(projectName):
                 assetIndex, assetCategory, assetName, number, assetVariant, cfxFurObjects
             ))
     #
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
@@ -369,13 +369,13 @@ def getScAstCfxFurDic_(projectName):
 #
 def getSceneAssetUnitData(branchGroup):
     data = ()
-    assetIndex = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicIndexAttrLabel)
+    assetIndex = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicIndexAttrLabel)
     if assetIndex:
-        assetCategory = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicClassAttrLabel)
-        assetName = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNameAttrLabel)
-        number = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicNumberAttrLabel)
-        assetVariant = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicVariantAttrLabel)
-        timeTag = maUtils.getAttrDatum(branchGroup, prsVariants.Util.basicTagAttrLabel)
+        assetCategory = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicClassAttrLabel)
+        assetName = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicNameAttrLabel)
+        number = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicNumberAttrLabel)
+        assetVariant = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicVariantAttrLabel)
+        timeTag = maUtils.getAttrDatum(branchGroup, prsOutputs.Util.basicTagAttrLabel)
         #
         data = assetIndex, assetCategory, assetName, number, assetVariant, timeTag
     return data
@@ -407,7 +407,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodes = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.MaNodeType_Alembic])
+                        alembicNodes = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
                         if alembicNodes:
                             alembicNode = alembicNodes[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -441,9 +441,9 @@ def getScComposeInfoDic(projectName):
                     assetName, number
                 )
                 scAstModelGroup = prsMethods.Asset.modelLinkGroupName(assetName, scAstModelNamespace)
-                if maUtils._isNodeExist(scAstModelGroup):
+                if maUtils._isAppExist(scAstModelGroup):
                     if not maUtils.isReferenceNode(scAstModelGroup):
-                        scAstModelLocalTimeTag = maUtils.getAttrDatum(scAstModelGroup, prsVariants.Util.basicTagAttrLabel)
+                        scAstModelLocalTimeTag = maUtils.getAttrDatum(scAstModelGroup, prsOutputs.Util.basicTagAttrLabel)
                     else:
                         scAstModelLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
@@ -474,7 +474,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.MaNodeType_Alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -511,7 +511,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.MaNodeType_Alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -535,9 +535,9 @@ def getScComposeInfoDic(projectName):
                     assetName, number
                 )
                 scAstCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, scAstCfxNamespace)
-                if maUtils._isNodeExist(scAstCfxGroup):
+                if maUtils._isAppExist(scAstCfxGroup):
                     if not maUtils.isReferenceNode(scAstCfxGroup):
-                        scAstCfxLocalTimeTag = maUtils.getAttrDatum(scAstCfxGroup, prsVariants.Util.basicTagAttrLabel)
+                        scAstCfxLocalTimeTag = maUtils.getAttrDatum(scAstCfxGroup, prsOutputs.Util.basicTagAttrLabel)
                     else:
                         scAstCfxLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
@@ -557,7 +557,7 @@ def getScComposeInfoDic(projectName):
                     assetName, number
                 )
                 linkGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
-                if maUtils._isNodeExist(linkGroup):
+                if maUtils._isAppExist(linkGroup):
                     furObjectLis = getScAstCfxFurObjects(assetName, namespace)
                     if furObjectLis:
                         for furObject in furObjectLis:
@@ -584,9 +584,9 @@ def getScComposeInfoDic(projectName):
                     assetName, number
                 )
                 scAstSolverGroup = prsMethods.Asset.solverLinkGroupName(assetName, scAstSolverNamespace)
-                if maUtils._isNodeExist(scAstSolverGroup):
+                if maUtils._isAppExist(scAstSolverGroup):
                     if not maUtils.isReferenceNode(scAstSolverGroup):
-                        scAstSolverLocalTimeTag = maUtils.getAttrDatum(scAstSolverGroup, prsVariants.Util.basicTagAttrLabel)
+                        scAstSolverLocalTimeTag = maUtils.getAttrDatum(scAstSolverGroup, prsOutputs.Util.basicTagAttrLabel)
                     else:
                         scAstSolverLocalTimeTag = assetPr.getAstUnitProductActiveTimeTag(
                             projectName,
@@ -619,7 +619,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.MaNodeType_Alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -660,7 +660,7 @@ def getScComposeInfoDic(projectName):
             scAstExtraCacheBranchInfo
         ))
     #
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     sceneInfoLis = getSceneInfo()
     if sceneInfoLis:
@@ -702,7 +702,7 @@ def getScAstUnitDic(projectName, sceneCategory, sceneName, sceneVariant, sceneSt
          ) = args
         #
         sceneAssetUnitGroup = scenePr.scAstRootGroupName(sceneName, sceneVariant, assetName, number)
-        if maUtils._isNodeExist(sceneAssetUnitGroup):
+        if maUtils._isAppExist(sceneAssetUnitGroup):
             maUtils.setObjectParent(sceneAssetUnitGroup, scLinkAssetGroup)
             if scenePr.isSolverLinkName(sceneStage) or scenePr.isLightLinkName(sceneStage):
                 scAstModelNamespace = scenePr.scAstModelNamespace(
@@ -719,7 +719,7 @@ def getScAstUnitDic(projectName, sceneCategory, sceneName, sceneVariant, sceneSt
             )
             dic[key] = assetIndex, assetCategory, assetName, number, assetVariant
     #
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     #
     sceneAssetData = scenePr.getSceneAssetIndexDataDic(
         projectName, sceneCategory, sceneName, sceneVariant
@@ -809,7 +809,7 @@ def getScAstRigAlembicAttrData(projectName, assetCategory, assetName, assetVaria
 
 #
 def getScSceneryExtraData(sceneName, sceneVariant, sceneStage):
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     assemblyReferenceData, transformationData = getScScenery(sceneName, sceneVariant, sceneStage)
     dic[prsConfigure.Product.DEF_key_info_asbreference] = assemblyReferenceData
     dic[prsConfigure.Product.DEF_key_info_transformation] = transformationData
@@ -820,7 +820,7 @@ def getScSceneryExtraData(sceneName, sceneVariant, sceneStage):
 def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
     lis = []
     rootPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, prsMethods.Scene.layoutLinkName())
-    if maUtils._isNodeExist(rootPath):
+    if maUtils._isAppExist(rootPath):
         stringLis = maUtils.getChildNodesByRoot(rootPath, filterTypes=appCfg.DEF_type_assembly_reference)
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
@@ -873,7 +873,7 @@ def getScScenery(sceneName, sceneVariant, sceneStage):
     lis1 = []
     lis2 = []
     scSceneryBranchPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, prsMethods.Scene.layoutLinkName())
-    if maUtils._isNodeExist(scSceneryBranchPath):
+    if maUtils._isAppExist(scSceneryBranchPath):
         objectPathLis = maUtils.getObjectChildObjectLis(scSceneryBranchPath, 'assemblyReference')
         if objectPathLis:
             for objectPath in objectPathLis:
@@ -894,7 +894,7 @@ def getGeometryMeshes(sceneName, sceneVariant, assetName, number, namespace):
         astUnitModelProductGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     else:
         astUnitModelProductGroup = scenePr.scAstGeometryGroupName(sceneName, sceneVariant, assetName, number)
-    if maUtils._isNodeExist(astUnitModelProductGroup):
+    if maUtils._isAppExist(astUnitModelProductGroup):
         lis = maGeom.getMeshObjectsByGroup(astUnitModelProductGroup)
     return lis
 
@@ -902,7 +902,7 @@ def getGeometryMeshes(sceneName, sceneVariant, assetName, number, namespace):
 #
 def getMeshObjectsConstantDic(astUnitModelProductGroup):
     infoConfig = ['hierarchy', 'geometry', 'geometryShape', 'map', 'mapShape']
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     meshesInformation = maGeom.getGeometryObjectsInfo(astUnitModelProductGroup)
     for seq, i in enumerate(infoConfig):
         dic[i] = meshesInformation[seq]
@@ -912,13 +912,13 @@ def getMeshObjectsConstantDic(astUnitModelProductGroup):
 #
 def getMeshConstantDataByRoot(sceneName, sceneVariant, assetName, number, namespace=none):
     # Dict { <Constant Item>: <Constant Value> }
-    dic = bscCore.orderedDict()
+    dic = bscMtdCore.orderedDict()
     geometries = []
     if namespace:
         scAstGeometryGroup = assetPr.astUnitModelProductGroupName(assetName, namespace)
     else:
         scAstGeometryGroup = scenePr.scAstGeometryGroupName(sceneName, sceneVariant, assetName, number)
-    if maUtils._isNodeExist(scAstGeometryGroup):
+    if maUtils._isAppExist(scAstGeometryGroup):
         geometries = maGeom.getMeshObjectsByGroup(scAstGeometryGroup)
     #
     if geometries:

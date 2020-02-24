@@ -3,11 +3,13 @@ from LxBasic import bscMethods, bscModifiers, bscObjects
 
 from LxCore import lxConfigure
 
-from LxPreset import prsConfigure, prsVariants
+from LxPreset import prsConfigure, prsOutputs
 
 from LxCore.preset.prod import sceneryPr
 
 from LxCore.product.op import messageOp
+
+from LxMaBasic import maBscMethods
 
 from LxMaya.command import maUtils, maFile, maAsb
 
@@ -142,7 +144,7 @@ def scnUnitAssemblySourceUploadCmd(
     )[1]
 
     linkFile = bscMethods.OsFile.toJoinTimetag(backSourceFile, timeTag)
-    maFile.saveMayaFile(linkFile)
+    maBscMethods.File.saveToServer(linkFile)
 
     sceneryUnitIndex = dbGet.getDbSceneryUnitIndex(sceneryIndex, sceneryVariant)
 
@@ -156,7 +158,7 @@ def scnUnitAssemblySourceUploadCmd(
 
     infoJsonName = bscMethods.OsFile.infoJsonName(linkFile)
 
-    bscMethods.OsJson.write(infoJsonName, updateData)
+    bscMethods.OsJsonFile.write(infoJsonName, updateData)
 
     logWin_.addResult(linkFile)
 
@@ -183,7 +185,7 @@ def scnUnitAssemblyComposeUploadCmd(
 
     datumLis = datScenery.getScnAssemblyComposeDatumLis(projectName, sceneryName)
 
-    bscMethods.OsJson.write(serverFile, datumLis)
+    bscMethods.OsJsonFile.write(serverFile, datumLis)
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
 
@@ -210,7 +212,7 @@ def scnUnitAssemblyProductUploadCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
 
-    maFile.new()
+    maBscMethods.File.new()
     maScnLoadCmds.scnUnitMaAssemblyLoadCmd(
         projectName,
         sceneryIndex,
@@ -218,7 +220,7 @@ def scnUnitAssemblyProductUploadCmd(
         withAssembly=True
     )
 
-    maFile.saveMayaFile(serverFile)
+    maBscMethods.File.saveToServer(serverFile)
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
 
@@ -250,7 +252,7 @@ def scnUnitAssemblyPreviewUploadCmd(
         root,
         serverFile,
         useDefaultMaterial=useDefaultMaterial,
-        width=prsVariants.Util.rndrImageWidth / 2, height=prsVariants.Util.rndrImageHeight / 2
+        width=prsOutputs.Util.rndrImageWidth / 2, height=prsOutputs.Util.rndrImageHeight / 2
     )
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
@@ -284,13 +286,13 @@ def scnUnitAssemblyDefinitionUploadCmd(
         sceneryCategory, sceneryName, sceneryVariant
     )
 
-    maFile.new()
+    maBscMethods.File.new()
     maAsb.setAssemblySceneDefinitionCreate(sceneryAdName, serverProductFile)
 
-    maFile.saveMayaFile(serverFile)
+    maBscMethods.File.saveToServer(serverFile)
 
     bscMethods.OsFile.backupTo(serverFile, backupFile, timeTag)
-    maFile.new()
+    maBscMethods.File.new()
 
     logWin_.addResult(serverFile)
 
@@ -315,7 +317,7 @@ def scnUnitAssemblySourceOpenCmd(
         sceneryCategory, sceneryName, sceneryVariant, sceneryStage
     )[1]
     #
-    maFile.openMayaFileToLocal(
+    maBscMethods.File.openAsBackup(
         bscMethods.OsFile.toJoinTimetag(backupFile, timeTag),
         localFile,
         timeTag

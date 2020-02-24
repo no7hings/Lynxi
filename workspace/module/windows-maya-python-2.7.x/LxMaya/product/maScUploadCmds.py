@@ -3,7 +3,7 @@ import os
 
 from LxBasic import bscConfigure, bscMethods, bscModifiers, bscObjects
 #
-from LxPreset import prsConfigure, prsVariants, prsMethods
+from LxPreset import prsConfigure, prsOutputs, prsMethods
 
 from LxCore import lxConfigure
 
@@ -12,6 +12,8 @@ from LxCore.config import appCfg
 from LxCore.preset.prod import assetPr, scenePr
 #
 from LxCore.product.op import messageOp
+
+from LxMaBasic import maBscMethods
 #
 from LxMaya.command import maUtils, maFile, maFur, maPrv, maRender, maDir
 #
@@ -22,9 +24,9 @@ from LxMaya.product.op import sceneOp
 from LxDeadline import ddlCommands
 
 #
-astDefaultVersion = prsVariants.Util.astDefaultVersion
+astDefaultVersion = prsOutputs.Util.astDefaultVersion
 #
-animAlembicStep = prsVariants.Util.animAlembicStep
+animAlembicStep = prsOutputs.Util.animAlembicStep
 #
 isSendMail = lxConfigure.LynxiIsSendMail
 isSendDingTalk = lxConfigure.LynxiIsSendDingTalk
@@ -325,7 +327,7 @@ def scUnitAstAlembicCacheUploadCmd(
     startFrame = scenePr.scStartFrame(startFrame)
     endFrame = scenePr.scEndFrame(endFrame)
     #
-    step = prsVariants.Util.animAlembicStep
+    step = prsOutputs.Util.animAlembicStep
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
         cacheFile,
@@ -346,7 +348,7 @@ def scUnitAstAlembicCacheUploadCmd(
     # Information
     infoDic = scenePr.alembicCacheInfoDic(sceneStage, startFrame, endFrame, step, description, notes)
     infoFile = bscMethods.OsFile.infoJsonName(multLineCacheFile)
-    bscMethods.OsJson.write(infoFile, infoDic)
+    bscMethods.OsJsonFile.write(infoFile, infoDic)
     # Index
     if indexKey is not None:
         cacheIndex = {
@@ -358,7 +360,7 @@ def scUnitAstAlembicCacheUploadCmd(
             indexKey: multLineCacheFile
         }
         #
-        bscMethods.OsJson.setValue(
+        bscMethods.OsJsonFile.setValue(
             indexFile,
             cacheIndex
         )
@@ -377,7 +379,7 @@ def uploadScAlembicCache(
 ):
     logWin_ = bscObjects.LogWindow()
 
-    step = prsVariants.Util.animAlembicStep
+    step = prsOutputs.Util.animAlembicStep
     currentFrame = scenePr.scStartFrame(currentFrame)
     #
     mainLineCacheFile = bscMethods.OsFile.toJoinTimetag(
@@ -428,7 +430,7 @@ def uploadScAstMeshData(
         namespace
     )
     #
-    bscMethods.OsJson.write(
+    bscMethods.OsJsonFile.write(
         multLineMeshDataFile,
         constantData
     )
@@ -453,7 +455,8 @@ def scUnitSourceUploadCmd(
     linkFile = bscMethods.OsFile.toJoinTimetag(backupSourceFile, timeTag)
     logWin_.addResult(linkFile)
     #
-    maFile.updateMayaFile(linkFile)
+    
+    maBscMethods.File.updateTo(linkFile)
     # Update File >>> 02
     updateData = bscMethods.OsFile.productInfoDict(
         linkFile,
@@ -461,7 +464,7 @@ def scUnitSourceUploadCmd(
         description, notes
     )
     recordFile = bscMethods.OsFile.infoJsonName(linkFile)
-    bscMethods.OsJson.write(
+    bscMethods.OsJsonFile.write(
         recordFile,
         updateData
     )
@@ -485,7 +488,7 @@ def scUnitSourceOpenCmd(
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
     backupSourceFileJoinUpdateTag = bscMethods.OsFile.toJoinTimetag(backupFile, timeTag)
-    maFile.openMayaFileToLocal(backupSourceFileJoinUpdateTag, localFile, timeTag)
+    maBscMethods.File.openAsBackup(backupSourceFileJoinUpdateTag, localFile, timeTag)
     logWin_.addResult(localFile)
 
 
@@ -506,7 +509,7 @@ def scUnitProductUploadCmd(
         prsConfigure.Utility.DEF_value_root_backup,
         projectName, sceneCategory, sceneName, sceneVariant, sceneStage
     )[1]
-    maFile.updateMayaFile(serverProductFile)
+    maBscMethods.File.updateTo(serverProductFile)
     logWin_.addResult(serverProductFile)
     # Back File
     bscMethods.OsFile.backupTo(
@@ -563,25 +566,25 @@ def scUnitIndexUploadCmd(
             datScene.getScSceneryIndexLis(sceneName, sceneVariant, sceneStage)
         )
         #
-        bscMethods.OsJson.setValue(
+        bscMethods.OsJsonFile.setValue(
             serverIndexFile,
             sceneIndexDic
         )
         #
         if withCamera is True:
-            bscMethods.OsJson.setValue(
+            bscMethods.OsJsonFile.setValue(
                 serverIndexFile,
                 cameraIndexDic
             )
         #
         if withAsset is True:
-            bscMethods.OsJson.setValue(
+            bscMethods.OsJsonFile.setValue(
                 serverIndexFile,
                 assetIndexDic
             )
         #
         if withScenery is True:
-            bscMethods.OsJson.setValue(
+            bscMethods.OsJsonFile.setValue(
                 serverIndexFile,
                 sceneryIndexDic
             )
@@ -654,7 +657,7 @@ def scUnitCamerasUploadCmd(
             startFrame, endFrame, frameOffset,
             zAdjust=zAdjust
         )
-        maFile.fileExport(subCameraLocator, subServerProductFile)
+        maBscMethods.File.exportSelectedTo(subServerProductFile, subCameraLocator)
         logWin_.addResult(subServerProductFile)
         #
         maFile.fbxExport(subCameraLocator, subServerCameraFbxFile)
@@ -717,7 +720,7 @@ def scUnitPreviewsUploadCmd(
         # Get Camera
         outputCamera = scenePr.scOutputCameraName(sceneName, sceneVariant) + subLabelString
         previewCamera = cameraObject
-        if maUtils._isNodeExist(outputCamera):
+        if maUtils._isAppExist(outputCamera):
             previewCamera = outputCamera
         # Preview File
         servePreviewFile = scenePr.scenePreviewFile(
@@ -835,7 +838,7 @@ def scUnitAssetCachesUploadCmd(
     def setBranch(value):
         assetCategory, assetName, number, assetVariant, keyNode = value
         #
-        if maUtils._getNodeTypeString(keyNode) == appCfg.MaReferenceType:
+        if maUtils._getNodeCategoryString(keyNode) == appCfg.MaReferenceType:
             namespace = maUtils.getReferenceNamespace(keyNode)
         else:
             namespace = maUtils._toNamespaceByNodePath(keyNode)
@@ -857,7 +860,7 @@ def scUnitAssetCachesUploadCmd(
         # Model Cache
         if astModelLinkRoot is not None:
             if isWithModelCache is True:
-                if maUtils._isNodeExist(astModelLinkRoot):
+                if maUtils._isAppExist(astModelLinkRoot):
                     # Use for Solver
                     if isModelCacheUseForSolver is True:
                         scAstModelCacheFile = scenePr.scAstModelAlembicCacheFile(
@@ -912,7 +915,7 @@ def scUnitAssetCachesUploadCmd(
         # Extra Cache
         if astExtraSubRoot is not None:
             if isWithRigExtraCache is True and isModelCacheUseForSolver is False:
-                if maUtils._isNodeExist(astExtraSubRoot):
+                if maUtils._isAppExist(astExtraSubRoot):
                     astRigExtraCacheFile = scenePr.scAstRigExtraAlembicCacheFile(
                         prsConfigure.Utility.DEF_value_root_server,
                         projectName,
@@ -939,7 +942,7 @@ def scUnitAssetCachesUploadCmd(
         # Solver Cache
         if astSolverSubRoot is not None:
             if isWithSolverCache is True:
-                if maUtils._isNodeExist(astSolverSubRoot):
+                if maUtils._isAppExist(astSolverSubRoot):
                     assetSolverCacheFile = scenePr.scAstSolverAlembicCacheFile(
                         prsConfigure.Utility.DEF_value_root_server,
                         projectName,
@@ -1006,7 +1009,7 @@ def scUnitSceneriesUploadCmd(
                     prsConfigure.Utility.DEF_value_root_backup,
                     projectName, sceneCategory, sceneName, sceneVariant, sceneStage
                 )[1]
-                bscMethods.OsJson.setValue(
+                bscMethods.OsJsonFile.setValue(
                     sceneryExtraFile,
                     sceneryExtraData
                 )
@@ -1040,7 +1043,7 @@ def scUnitSceneryComposeUploadCmd_(
             sceneCategory, sceneName, sceneVariant, sceneStage
         )[1]
         #
-        bscMethods.OsJson.write(
+        bscMethods.OsJsonFile.write(
             serverFile,
             data
         )
@@ -1086,7 +1089,7 @@ def uploadScAstCfxFurCache(
                 yetiSample = sample
             # Hair System
             elif furObjectType == appCfg.MaHairSystemType:
-                shapePath = maUtils._getNodeShapeString(furObject)
+                shapePath = maUtils._getNodeShapeNodeString(furObject)
                 #
                 cachePath = os.path.dirname(furCacheFile)
                 cacheName = furObjectName
@@ -1115,7 +1118,7 @@ def uploadScAstCfxFurCache(
                     )
             # Nurbs Hair Solver
             elif furObjectType == appCfg.MaNodeType_Plug_NurbsHair:
-                shapePath = maUtils._getNodeShapeString(furObject)
+                shapePath = maUtils._getNodeShapeNodeString(furObject)
                 #
                 cachePath = os.path.dirname(furCacheFile)
                 cacheName = furObjectName
@@ -1128,7 +1131,7 @@ def uploadScAstCfxFurCache(
                         shapePath
                     )
             #
-            bscMethods.OsJson.write(furCacheIndexFile, furCacheIndex)
+            bscMethods.OsJsonFile.write(furCacheIndexFile, furCacheIndex)
         # Concurrent
         if yetiObjects:
             if not useExistsCache:
@@ -1168,7 +1171,7 @@ def scUnitRenderUploadCmd(
     #
     logWin_.addStartProgress(u'Render Upload')
     #
-    maFile.saveMayaFile(serverRenderFile)
+    maBscMethods.File.saveToServer(serverRenderFile)
     # Back File
     bscMethods.OsFile.backupTo(
         serverRenderFile, backupRenderFile,
@@ -1252,7 +1255,7 @@ def scUnitRenderIndexUploadCmd(
     )
     logWin_.addStartProgress(u'Render Index Upload')
     #
-    bscMethods.OsJson.write(serverRenderIndexFile, renderData)
+    bscMethods.OsJsonFile.write(serverRenderIndexFile, renderData)
     bscMethods.OsFile.backupTo(serverRenderIndexFile, backupRenderIndexFile, timeTag)
     #
     logWin_.addCompleteProgress()
