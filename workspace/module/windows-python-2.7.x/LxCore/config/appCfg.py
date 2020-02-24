@@ -10,10 +10,10 @@ M2MeshType = 'kMesh'
 M2NurbsSurfaceType = 'kNurbsSurface'
 M2NurbsCurveType = 'kNurbsCurve'
 #
-DEF_type_transform = 'transform'
-DEF_type_mesh = 'mesh'
-DEF_type_nurbs_surface = 'nurbsSurface'
-DEF_type_nurbs_curve = 'nurbsCurve'
+DEF_mya_type_transform = 'transform'
+DEF_mya_type_mesh = 'mesh'
+DEF_mya_type_nurbs_surface = 'nurbsSurface'
+DEF_mya_type_nurbs_curve = 'nurbsCurve'
 #
 MaCameraType = 'camera'
 #
@@ -36,17 +36,17 @@ MaNurbsHairCacheFileAttrName = 'cacheFile'
 MaNodeType_CacheFile = 'cacheFile'
 MaNodeType_AiVolume = 'aiVolume'
 #
-DEF_type_alembic = 'AlembicNode'
+DEF_mya_type_alembic = 'AlembicNode'
 MaGpuCache = 'gpuCache'
 #
 MaReferenceType = 'reference'
 MaRN = 'RN'
 #
-DEF_type_assembly_reference = 'assemblyReference'
+DEF_mya_type_assembly_reference = 'assemblyReference'
 #
-DEF_separator_node = '|'
-DEF_separator_namespace = ':'
-DEF_separator_port = '.'
+DEF_mya_node_separator = '|'
+DEF_mya_namespace_separator = ':'
+DEF_mya_port_separator = '.'
 #
 MaNodeType_AiStandIn = 'aiStandIn'
 MaArnoldTxExt = '.tx'
@@ -125,13 +125,13 @@ MaUnit_UiDic_Time = {
     '60 fps': 'ntscf'
 }
 #
-DEF_type_shading_engine = 'shadingEngine'
+DEF_mya_type_shading_engine = 'shadingEngine'
 #
 MaRenderPartition = 'renderPartition'
 MaNodeName_LightLink = 'lightLinker1'
 MaNodeName_DefaultLightSet = 'defaultLightSet'
 #
-DEF_type_light = 'light'
+DEF_mya_type_light = 'light'
 #
 DdlMaBatchJob = 'MayaBatch'
 DdlMaCmdJob = 'MayaCmd'

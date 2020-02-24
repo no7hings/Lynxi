@@ -430,7 +430,7 @@ class Utility(object):
         return lis
 
     @classmethod
-    def _DEF_maya_version_list(cls):
+    def _DEF_mya_version_list(cls):
         lis = [
             cls.DEF_value_preset_unspecified,
             cls.VAR_value_preset_general,
@@ -441,7 +441,7 @@ class Utility(object):
         return lis
 
     @classmethod
-    def _DEF_maya_renderer_list(cls):
+    def _DEF_mya_renderer_list(cls):
         lis = [
             cls.DEF_value_preset_unspecified,
             cls.DEF_value_renderer_arnold,

@@ -7,11 +7,11 @@ from LxScheme.shmObjects import _shmObjPath
 
 
 class Fle_RscBin(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -27,11 +27,11 @@ class Fle_RscBin(shmObjCore.Abc_ShmFile):
 
 
 class Fle_RscPackage(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -47,11 +47,11 @@ class Fle_RscPackage(shmObjCore.Abc_ShmFile):
 
 
 class Fle_RscPlug(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -67,11 +67,11 @@ class Fle_RscPlug(shmObjCore.Abc_ShmFile):
 
 
 class Fle_RscModule(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -87,11 +87,11 @@ class Fle_RscModule(shmObjCore.Abc_ShmFile):
 
 
 class Fle_RscScheme(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -107,11 +107,11 @@ class Fle_RscScheme(shmObjCore.Abc_ShmFile):
 
 
 class Fle_RscTool(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])
@@ -127,11 +127,11 @@ class Fle_RscTool(shmObjCore.Abc_ShmFile):
 
 
 class Fle_PrsUser(shmObjCore.Abc_ShmFile):
-    CLS_path_directory = _shmObjPath.OsDirectory
-    CLS_file = bscObjects.OsJsonFile
+    CLS_shm_directory = _shmObjPath.OsDirectory
+    CLS_shm_file = bscObjects.OsJsonFile
 
     def __init__(self, *args):
-        self._initAbcFile(args, 'config', '.json')
+        self._initAbcShmFile(args, 'config', '.json')
 
         baseName = self._toSubNameMethod(*args)
         workspaceBaseName = self._toSubNameMethod(*args[:-1])

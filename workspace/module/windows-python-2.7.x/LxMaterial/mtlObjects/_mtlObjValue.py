@@ -46,12 +46,12 @@ class Val_Closure(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_Closure
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_Closure
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Closure,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_closure,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -67,12 +67,12 @@ class Val_Boolean(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_Boolean
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Boolean,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -87,14 +87,14 @@ class Val_Visibility(mtlObjCore.Abc_MtlValue):
     """
     boolean Value
     """
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_Boolean
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Boolean,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
-    VAR_mtlx_key_attribute = 'visible'
+    VAR_mtl_key_attribute = 'visible'
 
     def __init__(self, *args):
         """
@@ -112,12 +112,12 @@ class Val_Visibility(mtlObjCore.Abc_MtlValue):
 
 # Value Integer
 class Val_Integer(_Val_DigitMethod):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_Integer
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_Integer
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Integer,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_Integer,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -129,12 +129,12 @@ class Val_Integer(_Val_DigitMethod):
 
 
 class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_IntegerN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_IntegerN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Integer_Array, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_integer_array, None
 
-    value_size_pattern = float('inf'), 1
+    VAR_mtl_value_size_pattern = float('inf'), 1
 
     def __init__(self, *args):
         """
@@ -148,12 +148,12 @@ class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
 
 # Value Float
 class Val_Float(_Val_DigitMethod):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_Float
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_Float
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Float,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -165,12 +165,12 @@ class Val_Float(_Val_DigitMethod):
 
 
 class Val_FloatArray(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Float_Array, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float_array, None
 
-    value_size_pattern = float('inf'), 1
+    VAR_mtl_value_size_pattern = float('inf'), 1
 
     def __init__(self, *args):
         """
@@ -184,12 +184,12 @@ class Val_FloatArray(mtlObjCore.Abc_MtlValue):
 
 # Value Color
 class Val_Color2(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color2, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2, None
 
-    value_size_pattern = 2, 1
+    VAR_mtl_value_size_pattern = 2, 1
 
     def __init__(self, *args):
         """
@@ -203,12 +203,12 @@ class Val_Color2(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color2Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color2_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2_array, None, None
 
-    value_size_pattern = float('inf'), 2, 1
+    VAR_mtl_value_size_pattern = float('inf'), 2, 1
 
     def __init__(self, *args):
         """
@@ -222,12 +222,12 @@ class Val_Color2Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color3(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color3, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3, None
 
-    value_size_pattern = 3, 1
+    VAR_mtl_value_size_pattern = 3, 1
 
     def __init__(self, *args):
         """
@@ -241,12 +241,12 @@ class Val_Color3(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color3Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color3_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3_array, None, None
 
-    value_size_pattern = float('inf'), 3, 1
+    VAR_mtl_value_size_pattern = float('inf'), 3, 1
 
     def __init__(self, *args):
         """
@@ -260,12 +260,12 @@ class Val_Color3Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color4(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color4, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4, None
 
-    value_size_pattern = 4, 1
+    VAR_mtl_value_size_pattern = 4, 1
 
     def __init__(self, *args):
         """
@@ -279,12 +279,12 @@ class Val_Color4(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color4Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Color4_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4_array, None, None
 
-    value_size_pattern = float('inf'), 4, 1
+    VAR_mtl_value_size_pattern = float('inf'), 4, 1
 
     def __init__(self, *args):
         """
@@ -298,13 +298,13 @@ class Val_Color4Array(mtlObjCore.Abc_MtlValue):
 
 
 # Value Vector
-class Val_Vector2(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+class Val_vector2(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector2, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2, None
 
-    value_size_pattern = 2, 1
+    VAR_mtl_value_size_pattern = 2, 1
 
     def __init__(self, *args):
         """
@@ -317,13 +317,13 @@ class Val_Vector2(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Vector2Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+class Val_vector2Array(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector2_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2_array, None, None
 
-    value_size_pattern = float('inf'), 2, 1
+    VAR_mtl_value_size_pattern = float('inf'), 2, 1
 
     def __init__(self, *args):
         """
@@ -335,13 +335,13 @@ class Val_Vector2Array(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Vector3(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+class Val_vector3(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector3, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3, None
 
-    value_size_pattern = 3, 1
+    VAR_mtl_value_size_pattern = 3, 1
 
     def __init__(self, *args):
         """
@@ -354,13 +354,13 @@ class Val_Vector3(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Vector3Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+class Val_vector3Array(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector3_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3_array, None, None
 
-    value_size_pattern = float('inf'), 3, 1
+    VAR_mtl_value_size_pattern = float('inf'), 3, 1
 
     def __init__(self, *args):
         """
@@ -372,13 +372,13 @@ class Val_Vector3Array(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Vector4(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatN
+class Val_vector4(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector4, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4, None
 
-    value_size_pattern = 4, 1
+    VAR_mtl_value_size_pattern = 4, 1
 
     def __init__(self, *args):
         """
@@ -391,13 +391,13 @@ class Val_Vector4(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Vector4Array(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+class Val_vector4Array(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Vector4_Array, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4_array, None, None
 
-    value_size_pattern = float('inf'), 4, 1
+    VAR_mtl_value_size_pattern = float('inf'), 4, 1
 
     def __init__(self, *args):
         """
@@ -409,13 +409,13 @@ class Val_Vector4Array(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_String(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_String
+class Val_string(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_string
 
-    value_type_string_pattern = mtlConfigure.Value_Type_String,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string,
 
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -424,13 +424,13 @@ class Val_String(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_StringArray(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_StringN
+class Val_stringArray(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_String_Array, mtlConfigure.Value_Type_String
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string_array, mtlConfigure.Utility.DEF_mtl_datatype_string
 
-    value_size_pattern = float('inf'), 1
+    VAR_mtl_value_size_pattern = float('inf'), 1
 
     def __init__(self, *args):
         """
@@ -442,28 +442,13 @@ class Val_StringArray(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_FileName(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FileName
+class Val_file_name(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_file_name
 
-    value_type_string_pattern = mtlConfigure.Value_Type_FileName,
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_file_name,
 
-    value_size_pattern = 1
-
-    def __init__(self, *args):
-        """
-        :param args: str
-        """
-        self._initAbcMtlValue(*args)
-
-
-class Val_GeometryName(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_NodeName
-
-    value_type_string_pattern = mtlConfigure.Value_Type_GeometryName,
-
-    value_size_pattern = 1
+    VAR_mtl_value_size_pattern = 1
 
     def __init__(self, *args):
         """
@@ -472,13 +457,28 @@ class Val_GeometryName(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_GeometryNameArray(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_StringN
+class Val_geometry_name(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_NodeName
 
-    value_type_string_pattern = mtlConfigure.Value_Type_GeometryName_Array, mtlConfigure.Value_Type_GeometryName
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name,
 
-    value_size_pattern = float('inf'), 1
+    VAR_mtl_value_size_pattern = 1
+
+    def __init__(self, *args):
+        """
+        :param args: str
+        """
+        self._initAbcMtlValue(*args)
+
+
+class Val_geometry_nameArray(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
+
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name_array, mtlConfigure.Utility.DEF_mtl_datatype_geometry_name
+
+    VAR_mtl_value_size_pattern = float('inf'), 1
 
     def __init__(self, *args):
         """
@@ -490,13 +490,13 @@ class Val_GeometryNameArray(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Matrix33(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+class Val_matrix33(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Matrix33, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 
-    value_size_pattern = 3, 3, 1
+    VAR_mtl_value_size_pattern = 3, 3, 1
 
     def __init__(self, *args):
         """
@@ -508,13 +508,13 @@ class Val_Matrix33(mtlObjCore.Abc_MtlValue):
         self._initAbcMtlValue(*args)
 
 
-class Val_Matrix44(mtlObjCore.Abc_MtlValue):
-    CLS_raw_type = _mtlObjRaw.Raw_ValueType
-    CLS_raw_datum = _mtlObjDatum.Dat_FloatNN
+class Val_matrix44(mtlObjCore.Abc_MtlValue):
+    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
-    value_type_string_pattern = mtlConfigure.Value_Type_Matrix33, None, None
+    VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 
-    value_size_pattern = 4, 4, 1
+    VAR_mtl_value_size_pattern = 4, 4, 1
 
     def __init__(self, *args):
         """

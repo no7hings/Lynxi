@@ -6,7 +6,7 @@ from LxScheme.shmObjects import _shmObjResource
 
 class Resource(shmConfigure.Utility):
     def __init__(self):
-        self.def_cls_resource_dic = {
+        self.resource_class_dict = {
             self.Category_Plf_Language: _shmObjResource.Rsc_PltLanguage,
             self.Category_Plf_Application: _shmObjResource.Rsc_PltApplication,
 
@@ -25,7 +25,7 @@ class Resource(shmConfigure.Utility):
             self.Category_Plf_Lan_Scheme: _shmObjResource.Rsc_PltLanScheme,
             self.Category_Plf_App_Lan_Scheme: _shmObjResource.Rsc_PltAppLanScheme
         }
-        self.def_argument_resource_dic = {
+        self.resource_argument_dict = {
             self.Category_Plf_Language: [
                 '{system.platform.name}', '{system.platform.version}'
             ],
@@ -72,7 +72,7 @@ class Resource(shmConfigure.Utility):
             ]
         }
 
-        self.def_resource_dic = {
+        self.resource_system_dict = {
             # Bin
             'windows-python': {
                 self.Key_Category: self.Category_Plf_Language,
@@ -317,7 +317,7 @@ class Resource(shmConfigure.Utility):
                     'windows', 'share', 'maya', 'share', 'python', '2.7.x'
                 ]
             },
-            'windows-maya-2019-scheme_0': {
+            'windows-maya-2019-scheme_arnold_0': {
                 self.Key_Category: self.Category_Plf_App_Lan_Scheme,
                 self.DEF_key_name: 'maya_2019_arnold',
                 self.Key_System: [
@@ -325,7 +325,7 @@ class Resource(shmConfigure.Utility):
                 ]
             }
         }
-        self.def_version_dic = {
+        self.resource_version_dict = {
             # Bin
             'windows-python': {
                 self.Key_Record: ['2.7.13'],
@@ -394,7 +394,7 @@ class Resource(shmConfigure.Utility):
                 self.Key_Active: '3.3.0.1'
             }
         }
-        self.def_environ_dic = {
+        self.resource_environ_dict = {
             # Bin
             'windows-python': {
                 'PATH': {
@@ -516,14 +516,14 @@ class Resource(shmConfigure.Utility):
                     self.Key_Operate: u'+'
                 }
             },
-            'windows-maya-2019-scheme_0': {
+            'windows-maya-2019-scheme_arnold_0': {
                 'SYSTEM_PATH': {
                     self.Key_Value: u'{self.sourcepath}/scripts',
                     self.Key_Operate: u'+'
                 }
             }
         }
-        self.def_dependent_dic = {
+        self.resource_dependent_dict = {
             # Package
             'py-2.7-dingtalkchatbot':
             {
@@ -839,7 +839,7 @@ class Resource(shmConfigure.Utility):
                     self.Key_System: self.Keyword_System_Active
                 }
             },
-            'windows-maya-2019-scheme_0': {
+            'windows-maya-2019-scheme_arnold_0': {
                 # Bin
                 'KMPlayer': {
                     self.Key_Category: self.Category_Plf_Application,
@@ -898,21 +898,21 @@ class Resource(shmConfigure.Utility):
     def resources(self):
         lis = []
 
-        for k, v in self.def_resource_dic.items():
+        for k, v in self.resource_system_dict.items():
             category = v[self.Key_Category]
             name = v[self.DEF_key_name]
             argument = v[self.Key_System]
-            cls = self.def_cls_resource_dic[category]
+            cls = self.resource_class_dict[category]
 
             resource_ = cls(name, *argument)
-            if k in self.def_version_dic:
-                resource_.version.create(self.def_version_dic[k])
+            if k in self.resource_version_dict:
+                resource_.version.create(self.resource_version_dict[k])
 
-            if k in self.def_environ_dic:
-                resource_.environ.create(self.def_environ_dic[k])
+            if k in self.resource_environ_dict:
+                resource_.environ.create(self.resource_environ_dict[k])
 
-            if k in self.def_dependent_dic:
-                resource_.dependent.create(self.def_dependent_dic[k])
+            if k in self.resource_dependent_dict:
+                resource_.dependent.create(self.resource_dependent_dict[k])
 
             lis.append(resource_)
 

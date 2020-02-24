@@ -1,11 +1,12 @@
 # coding:utf-8
 from LxMaBasic import maBscObjCore
 
-from LxMaBasic.maBscObjects import _maBscObjRaw
+from LxMaBasic.maBscObjects import _maBscObjRaw, _maBscObjValue
 
 
 class Attribute(maBscObjCore.Abc_MaAttribute):
-    CLS_maya_string_port = _maBscObjRaw.PortString
+    CLS_mya_port_string = _maBscObjRaw.PortString
+    CLS_mya_value = _maBscObjValue.Value
 
     def __init__(self, nodeObject, name):
         self._initAbcMaAttribute(nodeObject, name)

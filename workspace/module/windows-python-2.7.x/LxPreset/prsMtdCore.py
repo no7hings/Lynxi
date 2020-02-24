@@ -109,7 +109,7 @@ class Mtd_PrsUtility(prsConfigure.Utility):
     @classmethod
     def _VAR_datum_scheme_maya_renderer(cls):
         lis = []
-        for i in cls._DEF_maya_renderer_list():
+        for i in cls._DEF_mya_renderer_list():
             schemeData = [
                 i,
                 None,
@@ -121,7 +121,7 @@ class Mtd_PrsUtility(prsConfigure.Utility):
     @classmethod
     def _VAR_datum_scheme_maya_version(cls):
         lis = []
-        for i in cls._DEF_maya_version_list():
+        for i in cls._DEF_mya_version_list():
             schemeData = [
                 i,
                 None,

@@ -1,6 +1,6 @@
 # coding:utf-8
-DEF_separator_node = u'|'
-DEF_separator_namespace = u':'
+DEF_mya_node_separator = u'|'
+DEF_mya_namespace_separator = u':'
 
 
 class Utility(object):

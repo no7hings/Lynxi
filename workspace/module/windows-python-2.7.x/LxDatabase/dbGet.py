@@ -13,8 +13,8 @@ astSceneryClass = prsOutputs.Util.astSceneryClass
 #
 astDefaultVariant = prsOutputs.Util.astDefaultVersion
 #
-DEF_separator_node = bscConfigure.DEF_separator_node
-DEF_separator_namespace = bscConfigure.DEF_separator_namespace
+DEF_mya_node_separator = bscConfigure.DEF_mya_node_separator
+DEF_mya_namespace_separator = bscConfigure.DEF_mya_namespace_separator
 #
 none = ''
 
@@ -405,7 +405,7 @@ def getDbGeometryObjectsInfoDic(assetIndex, dbName, namespace, searchRoot):
             for objectIndex, info in data.items():
                 meshPath = getDbGeometryObjectPath(assetIndex, dbName, objectIndex)
                 if searchRoot in meshPath:
-                    key = [none, namespace + DEF_separator_namespace][namespace is not none] + bscMethods.MaNodeString.nodename(meshPath)
+                    key = [none, namespace + DEF_mya_namespace_separator][namespace is not none] + bscMethods.MaNodeString.nodename(meshPath)
                     dic[key] = info
     return dic
 
@@ -422,7 +422,7 @@ def getDbGeometryObjectPath(assetIndex, dbName, objectIndex):
             if parentPath.startswith('|'):
                 parentPath = parentPath[1:]
             #
-            string = parentPath + DEF_separator_node + nodeName
+            string = parentPath + DEF_mya_node_separator + nodeName
             string = string.replace('<assetName>', dbName)
     return string
 

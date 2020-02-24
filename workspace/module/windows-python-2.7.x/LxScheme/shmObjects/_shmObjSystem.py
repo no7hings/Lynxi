@@ -3,20 +3,20 @@ from LxScheme import shmConfigure, shmObjCore
 
 
 class Sys_Platform(shmObjCore.Abc_ShmSystem):
-    object_category = shmConfigure.Utility.Category_Platform
-    raw_key = shmConfigure.Utility.Key_Platform
+    VAR_shm_object_category = shmConfigure.Utility.Category_Platform
+    VAR_shm_raw_key = shmConfigure.Utility.Key_Platform
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
             self.createByRaw(args[0])
         else:
-            self._initAbcSystem(*args)
+            self._initAbcShmSystem(*args)
 
     def createByRaw(self, raw):
         platformName = raw[self.DEF_key_name]
         platformVersion = raw[self.Key_Version]
 
-        self._initAbcSystem(
+        self._initAbcShmSystem(
             platformName, platformVersion
         )
 
@@ -26,15 +26,15 @@ class Sys_Platform(shmObjCore.Abc_ShmSystem):
 
 
 class Sys_PltLanguage(shmObjCore.Abc_ShmSystem):
-    CLS_system = Sys_Platform
+    CLS_shm_system = Sys_Platform
 
-    object_category = shmConfigure.Utility.Category_Plf_Language
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
             self.createByRaw(args[0])
         else:
-            self._initAbcSystem(*args)
+            self._initAbcShmSystem(*args)
 
     @property
     def platform(self):
@@ -50,7 +50,7 @@ class Sys_PltLanguage(shmObjCore.Abc_ShmSystem):
         languageName = raw[self.DEF_key_name]
         languageVersion = raw[self.Key_Version]
 
-        self._initAbcSystem(
+        self._initAbcShmSystem(
             platformName, platformVersion,
             languageName, languageVersion
         )
@@ -67,16 +67,16 @@ class Sys_PltLanguage(shmObjCore.Abc_ShmSystem):
 
 
 class Sys_PltApplication(shmObjCore.Abc_ShmSystem):
-    CLS_system = Sys_Platform
+    CLS_shm_system = Sys_Platform
 
-    object_category = shmConfigure.Utility.Category_Plf_Application
-    raw_key = shmConfigure.Utility.Key_Application
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Application
+    VAR_shm_raw_key = shmConfigure.Utility.Key_Application
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
             self.createByRaw(args[0])
         else:
-            self._initAbcSystem(*args)
+            self._initAbcShmSystem(*args)
 
     @property
     def platform(self):
@@ -92,7 +92,7 @@ class Sys_PltApplication(shmObjCore.Abc_ShmSystem):
         applicationName = raw[self.DEF_key_name]
         applicationVersion = raw[self.Key_Version]
 
-        self._initAbcSystem(
+        self._initAbcShmSystem(
             platformName, platformVersion,
             applicationName, applicationVersion
         )
@@ -109,15 +109,15 @@ class Sys_PltApplication(shmObjCore.Abc_ShmSystem):
 
 
 class Sys_PltAppLanguage(shmObjCore.Abc_ShmSystem):
-    CLS_system = Sys_PltApplication
+    CLS_shm_system = Sys_PltApplication
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Language
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Language
 
     def __init__(self, *args):
         if isinstance(args[0], dict):
             self.createByRaw(args[0])
         else:
-            self._initAbcSystem(*args)
+            self._initAbcShmSystem(*args)
 
     @property
     def platform(self):
@@ -139,7 +139,7 @@ class Sys_PltAppLanguage(shmObjCore.Abc_ShmSystem):
         languageName = raw[self.DEF_key_name]
         languageVersion = raw[self.Key_Version]
 
-        self._initAbcSystem(
+        self._initAbcShmSystem(
             platformName, platformVersion,
             applicationName, applicationVersion,
             languageName, languageVersion

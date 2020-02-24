@@ -159,7 +159,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 maHier.addHierarchyObject(
                     parentPath,
                     assetName,
-                    [appCfg.DEF_type_mesh, appCfg.DEF_type_nurbs_surface, appCfg.DEF_type_nurbs_curve]
+                    [appCfg.DEF_mya_type_mesh, appCfg.DEF_mya_type_nurbs_surface, appCfg.DEF_mya_type_nurbs_curve]
                 )
                 #
                 self.connectObject().setAstHierarchyView()
@@ -191,7 +191,7 @@ class IfAstModelCharToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if boolean is True:
                     childObjects = maUtils.getObjectChildObjects(
                         groupName,
-                        [appCfg.DEF_type_mesh, appCfg.DEF_type_nurbs_surface, appCfg.DEF_type_nurbs_curve],
+                        [appCfg.DEF_mya_type_mesh, appCfg.DEF_mya_type_nurbs_surface, appCfg.DEF_mya_type_nurbs_curve],
                         fullPath=1
                     )
                     subBoolean = len(childObjects) > 0
@@ -714,14 +714,14 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                 if growObjects:
                     for growObject in growObjects:
                         growItem = qtWidgets_.QTreeWidgetItem_([maUtils._nodeString2nodename_(growObject), 'Grow'])
-                        growItem.setItemMayaIcon(0, appCfg.DEF_type_mesh)
+                        growItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh)
                         #
                         growObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiGrowGroupLabel)
                         if maUtils.isChild(growObjectGroup, growObject):
-                            growItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'off')
+                            growItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh, 'off')
                         #
                         if not maUtils._isAppExist(growObject):
-                            growItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'error')
+                            growItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh, 'error')
                             yetiItem.setItemMayaIcon(0, appCfg.MaNodeType_Plug_Yeti, 'error')
                             #
                             yetiItem.setExpanded(True)
@@ -732,11 +732,11 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                         if referenceObjects:
                             for referenceObject in referenceObjects:
                                 referenceItem = qtWidgets_.QTreeWidgetItem_([maUtils._nodeString2nodename_(referenceObject), 'Reference'])
-                                referenceItem.setItemMayaIcon(0, appCfg.DEF_type_mesh)
+                                referenceItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh)
                                 #
                                 referenceObjectGroup = assetPr.astBasicGroupNameSet(assetName, astYetiReferenceGroupLabel)
                                 if maUtils.isChild(referenceObjectGroup, referenceObject):
-                                    referenceItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'off')
+                                    referenceItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh, 'off')
                                 #
                                 growItem.addChild(referenceItem)
                 #
@@ -758,10 +758,10 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             guideCurve = k
                             #
                             guideCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._nodeString2nodename_(guideCurve), 'Guide Curve'])
-                            guideCurveItem.setItemMayaIcon(0, appCfg.DEF_type_nurbs_curve)
+                            guideCurveItem.setItemMayaIcon(0, appCfg.DEF_mya_type_nurbs_curve)
                             #
                             if maUtils.isChild(guideCurveGroup, guideCurve):
-                                guideCurveItem.setItemMayaIcon(0, appCfg.DEF_type_nurbs_curve, 'off')
+                                guideCurveItem.setItemMayaIcon(0, appCfg.DEF_mya_type_nurbs_curve, 'off')
                             #
                             if not maUtils.isChild(guideCurveGroup, guideCurve):
                                 setCheck = False
@@ -783,11 +783,11 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                             #
                             if localCurve:
                                 localCurveItem = qtWidgets_.QTreeWidgetItem_([maUtils._nodeString2nodename_(localCurve), 'Local Curve'])
-                                localCurveItem.setItemMayaIcon(0, appCfg.DEF_type_nurbs_curve)
+                                localCurveItem.setItemMayaIcon(0, appCfg.DEF_mya_type_nurbs_curve)
                                 guideCurveItem.addChild(localCurveItem)
                                 #
                                 if maUtils.isChild(follicleGroup, localCurve):
-                                    localCurveItem.setItemMayaIcon(0, appCfg.DEF_type_nurbs_curve, 'Off')
+                                    localCurveItem.setItemMayaIcon(0, appCfg.DEF_mya_type_nurbs_curve, 'Off')
                                 #
                                 if not maUtils.isChild(follicleGroup, localCurve):
                                     setCheck = False
@@ -996,7 +996,7 @@ class IfAstCfxGroomToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     meshName = maUtils._nodeString2nodename_(meshObject)
                     growSourceMesh = meshName + prsOutputs.Util.astCfxGrowSourceGroupLabel
                     if maUtils._isAppExist(growSourceMesh):
-                        meshObjectItem.setItemMayaIcon(0, appCfg.DEF_type_mesh, 'on')
+                        meshObjectItem.setItemMayaIcon(0, appCfg.DEF_mya_type_mesh, 'on')
         #
         assetCategory = self.connectObject().assetCategory
         assetName = self.connectObject().assetName
@@ -1935,7 +1935,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             #
             if prsMethods.Asset.isModelStageName(self.connectObject().assetStage):
                 self._addObjectButton.setNameText('Add Nde_Geometry')
-                self.filterTypes = [appCfg.DEF_type_mesh, appCfg.DEF_type_nurbs_surface, appCfg.DEF_type_nurbs_curve]
+                self.filterTypes = [appCfg.DEF_mya_type_mesh, appCfg.DEF_mya_type_nurbs_surface, appCfg.DEF_mya_type_nurbs_curve]
                 #
                 if prsMethods.Asset.isPropCategory(self.connectObject().assetCategory):
                     self.setupAstPropGraphToolUiBox(self._astModelPropHierToolUiBox)
@@ -1949,7 +1949,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             elif prsMethods.Asset.isLightStageName(self.connectObject().assetStage):
                 self._addObjectButton.setNameText('Add Light')
                 self.filterTypes = maUtils.getNodeTypeLisByFilter('light')
-                self.filterTypes.extend([appCfg.DEF_type_mesh])
+                self.filterTypes.extend([appCfg.DEF_mya_type_mesh])
                 #
                 self.setupAstLightHierToolUiBox(self.astLightHierToolUiBox)
                 self.astLightHierToolUiBox.show()
@@ -1981,7 +1981,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             objectPathLis = maUtils.getSelectedNodeLis()
             if objectPathLis:
                 objectPath = objectPathLis[0]
-                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_separator_node + self._rootGroup):
+                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_mya_node_separator + self._rootGroup):
                     if objectPath.endswith(prsOutputs.Util.basicGroupLabel):
                         objectName = maUtils._nodeString2nodename_(objectPath)
                         self._parentGroupLabel.setDatum(objectName)

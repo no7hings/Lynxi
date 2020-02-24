@@ -8,10 +8,6 @@ class Abc_MaBasic(maBscConfigure.Utility):
     pass
 
 
-class Abc_MaValue(Abc_MaBasic):
-    pass
-
-
 class Abc_MaObjectSet(Abc_MaBasic):
     # noinspection PyUnusedLocal
     def _initAbcMaObjectSet(self, *args):
@@ -94,15 +90,42 @@ class Abc_MaObjectSet(Abc_MaBasic):
         return self.objectCount()
 
 
+class Abc_MaValue(Abc_MaBasic):
+    def _initAbcMaValue(self, typeString, data):
+        self.datatypeString = typeString
+        self._data = data
+
+    def data(self):
+        return self._data
+
+    def datatype(self):
+        return self.datatypeString
+
+    def __str__(self):
+        return u'{}(data={}({}), datatype="{}")'.format(
+            self.__class__.__name__,
+            type(self.data()).__name__,
+            str(self.data()),
+            self.datatype()
+        )
+
+
 class Abc_MaAttribute(Abc_MaBasic):
-    CLS_maya_string_port = None
+    CLS_mya_port_string = None
+    CLS_mya_value = None
 
     def __init__(self, *args):
         pass
 
     def _initAbcMaAttribute(self, nodeObject, portString):
         self._nodeObj = nodeObject
-        self._portStringObj = self.CLS_maya_string_port(portString)
+
+        self._portStringObj = self.CLS_mya_port_string(portString)
+
+        self._valueObj = self.CLS_mya_value(
+            maBscMethods.Attribute.datatype(self.fullpathName()),
+            maBscMethods.Attribute.data(self.fullpathName())
+        )
 
     def _create_(self, nodeString, portString):
         if isinstance(nodeString, (str, unicode)):
@@ -137,7 +160,16 @@ class Abc_MaAttribute(Abc_MaBasic):
         return self._portStringObj.portname()
 
     def porttype(self):
-        return maBscMethods.Attribute.datatype(self.fullpathName())
+        return self.value().datatype()
+
+    def value(self):
+        return self._valueObj
+
+    def data(self):
+        return self.value().data()
+
+    def datatype(self):
+        return self.value().datatype()
 
     def isCompound(self):
         return maBscMethods.Attribute.isCompound(self.fullpathName())
@@ -148,13 +180,6 @@ class Abc_MaAttribute(Abc_MaBasic):
     def isMessage(self):
         return maBscMethods.Attribute.isMessage(self.fullpathName())
 
-    def raw(self):
-        if (
-                self.isCompound() is False
-                and self.isMessage() is False
-        ):
-            return maBscMethods.Attribute.raw(self.fullpathName())
-
     def hasParent(self):
         return maBscMethods.Attribute.parent(self.fullpathName()) is not None
 
@@ -163,8 +188,8 @@ class Abc_MaAttribute(Abc_MaBasic):
         if _:
             return self._create_(self.node(), _)
 
-    def hasChild(self):
-        return maBscMethods.Attribute.hasChild(self.fullpathName())
+    def hasChildren(self):
+        return maBscMethods.Attribute.hasChildren(self.fullpathName())
 
     def children(self):
         _ = maBscMethods.Attribute.children(self.fullpathName())
@@ -244,10 +269,10 @@ class Abc_MaConnection(Abc_MaBasic):
 
 
 class Abc_MaObject(Abc_MaBasic):
-    CLS_maya_string_node = None
-    CLS_maya_attribute = None
+    CLS_mya_node_string = None
+    CLS_mya_attribute = None
 
-    CLS_maya_set_attribute = None
+    CLS_mya_set_attribute = None
 
     def __init__(self, *args):
         pass
@@ -255,21 +280,21 @@ class Abc_MaObject(Abc_MaBasic):
     def _initAbcMaObject(self, nodeString):
         assert maBscMethods.Node.isExist(nodeString), u'{} is Non-Exist'.format(nodeString)
 
-        self._nodeStringObj = self.CLS_maya_string_node(
+        self._nodeStringObj = self.CLS_mya_node_string(
             nodeString
         )
 
-        self._attributeSetObj = self.CLS_maya_set_attribute()
+        self._attributeSetObj = self.CLS_mya_set_attribute()
         for i in maBscMethods.Node.fullpathPortnames(self.fullpathName()):
-            self._attributeSetObj.addObject(i, self.CLS_maya_attribute(self, i))
+            self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
 
-        self._inputSetObj = self.CLS_maya_set_attribute()
+        self._attributeSetObj = self.CLS_mya_set_attribute()
         for i in maBscMethods.Node.inputFullpathPortname(self.fullpathName()):
-            self._inputSetObj.addObject(i, self.CLS_maya_attribute(self, i))
+            self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
 
-        self._outputSetObj = self.CLS_maya_set_attribute()
+        self._outputSetObj = self.CLS_mya_set_attribute()
         for i in maBscMethods.Node.outputFullpathPortname(self.fullpathName()):
-            self._outputSetObj.addObject(i, self.CLS_maya_attribute(self, i))
+            self._outputSetObj.addObject(i, self.CLS_mya_attribute(self, i))
 
     def fullpathName(self):
         return self._nodeStringObj.fullpathName()
@@ -290,10 +315,10 @@ class Abc_MaObject(Abc_MaBasic):
         return self._attributeSetObj.objectWithKey(portString)
 
     def inputs(self):
-        return self._inputSetObj.objects()
+        return self._attributeSetObj.objects()
 
     def input(self, portString):
-        return self._inputSetObj.objectWithKey(portString)
+        return self._attributeSetObj.objectWithKey(portString)
 
     def outputs(self):
         return self._outputSetObj.objects()
@@ -316,15 +341,15 @@ class Abc_MaObject(Abc_MaBasic):
 
 
 class Abc_MaNodeGraph(Abc_MaBasic):
-    CLS_maya_node = None
-    CLS_maya_connection = None
+    CLS_mya_node = None
+    CLS_mya_connection = None
 
     def _initAbcMaNodeGraph(self, shaderObject):
         self._shaderObj = shaderObject
 
     def nodes(self):
         return [
-            self.CLS_maya_node(i)
+            self.CLS_mya_node(i)
             for i in maBscMtdCore.Mtd_MaNodeGraph._getNodeGraphNodeStringList(self._shaderObj.fullpathName())
         ]
 
@@ -340,12 +365,12 @@ class Abc_MaNodeGraph(Abc_MaBasic):
         for i in self.nodes():
             for j in i.attributes():
                 if j.hasSource():
-                    lis.append(self.CLS_maya_connection(j.source(), j))
+                    lis.append(self.CLS_mya_connection(j.source(), j))
         return lis
 
 
 class Abc_MaShader(Abc_MaObject):
-    CLS_maya_node_graph = None
+    CLS_mya_node_graph = None
 
     def __init__(self, *args):
         pass
@@ -361,7 +386,7 @@ class Abc_MaShader(Abc_MaObject):
         return self._contextString
 
     def nodeGraph(self):
-        return self.CLS_maya_node_graph(self)
+        return self.CLS_mya_node_graph(self)
 
     def __str__(self):
         return u'{}(name="{}", category="{}", context="{}")'.format(
@@ -376,11 +401,11 @@ class Abc_MaShader(Abc_MaObject):
 
 
 class Abc_MaMaterial(Abc_MaObject):
-    CLS_maya_shader = None
+    CLS_mya_shader = None
 
-    DEF_attribute_surface_shader = 'surfaceShader'
-    DEF_attribute_displacement_shader = 'displacementShader'
-    DEF_attribute_volume_shader = 'volumeShader'
+    DEF_mya_portname_surface_shader = 'surfaceShader'
+    DEF_mya_portname_displacement_shader = 'displacementShader'
+    DEF_mya_portname_volume_shader = 'volumeShader'
 
     def _initAbcMaMaterial(self, nodeString):
         self._initAbcMaObject(nodeString)
@@ -395,7 +420,7 @@ class Abc_MaMaterial(Abc_MaObject):
         )
 
     def surfaceInput(self):
-        return self._attributeSetObj.objectWithKey(self.DEF_attribute_surface_shader)
+        return self._attributeSetObj.objectWithKey(self.DEF_mya_portname_surface_shader)
 
     def surfaceSource(self):
         return self.surfaceInput().source()
@@ -404,12 +429,12 @@ class Abc_MaMaterial(Abc_MaObject):
         _ = self.surfaceSource()
         if _:
             return _.node(
-                self.CLS_maya_shader,
-                self.DEF_attribute_surface_shader
+                self.CLS_mya_shader,
+                self.DEF_mya_portname_surface_shader
             )
 
     def displacementInput(self):
-        return self._attributeSetObj.objectWithKey(self.DEF_attribute_displacement_shader)
+        return self._attributeSetObj.objectWithKey(self.DEF_mya_portname_displacement_shader)
 
     def displacementSource(self):
         return self.displacementInput().source()
@@ -418,12 +443,12 @@ class Abc_MaMaterial(Abc_MaObject):
         _ = self.displacementSource()
         if _:
             return _.node(
-                self.CLS_maya_shader,
-                self.DEF_attribute_displacement_shader
+                self.CLS_mya_shader,
+                self.DEF_mya_portname_displacement_shader
             )
 
     def volumeInput(self):
-        return self._attributeSetObj.objectWithKey(self.DEF_attribute_volume_shader)
+        return self._attributeSetObj.objectWithKey(self.DEF_mya_portname_volume_shader)
 
     def volumeSource(self):
         return self.volumeInput().source()
@@ -432,14 +457,14 @@ class Abc_MaMaterial(Abc_MaObject):
         _ = self.volumeSource()
         if _:
             return _.node(
-                self.CLS_maya_shader,
-                self.DEF_attribute_volume_shader
+                self.CLS_mya_shader,
+                self.DEF_mya_portname_volume_shader
             )
 
 
 class Abc_MaDag(Abc_MaObject):
-    CLS_maya_dag = None
-    CLS_maya_node = None
+    CLS_mya_dag = None
+    CLS_mya_node = None
 
     def _initAbcMaDag(self, nodeString):
         assert maBscMethods.Node.isExist(nodeString), u'{} is Non-Exist'.format(nodeString)
@@ -449,13 +474,13 @@ class Abc_MaDag(Abc_MaObject):
         )
 
     def parent(self):
-        return self.CLS_maya_dag(
+        return self.CLS_mya_dag(
             maBscMtdCore.Mtd_MaDag._getDagParentString(self.fullpathName())
         )
 
     def children(self):
         return [
-            self.CLS_maya_dag(i)
+            self.CLS_mya_dag(i)
             for i in maBscMtdCore.Mtd_MaDag._getDagChildStringList(self.fullpathName())
         ]
 
@@ -470,20 +495,20 @@ class Abc_MaDag(Abc_MaObject):
         return self.__str__()
 
 
-class Abc_MaCompose(Abc_MaDag):
-    CLS_maya_transform = None
+class Abc_MaCompoundDag(Abc_MaDag):
+    CLS_mya_transform = None
 
-    def _initAbcMaCompose(self, nodeString):
+    def _initAbcMaCompoundDag(self, nodeString):
         # Convert to transform fullpath
         self._initAbcMaDag(
             maBscMethods.Node.transformName(nodeString)
         )
 
-        self._transformObj = self.CLS_maya_transform(
+        self._transformObj = self.CLS_mya_transform(
             maBscMethods.Node.transformName(self.fullpathName())
         )
 
-        self._shapeObj = self.CLS_maya_dag(
+        self._shapeObj = self.CLS_mya_dag(
             maBscMethods.Node.shapeName(self.fullpathName())
         )
 
@@ -498,7 +523,7 @@ class Abc_MaCompose(Abc_MaDag):
 
     def shapes(self):
         return [
-            self.CLS_maya_dag(i)
+            self.CLS_mya_dag(i)
             for i in maBscMtdCore.Mtd_MaNode._getNodeShapeNodeStringList(self.fullpathName())
         ]
 
@@ -518,15 +543,15 @@ class Abc_MaTransform(Abc_MaDag):
         self._initAbcMaDag(nodeString)
 
 
-class Abc_MaGeometry(Abc_MaCompose):
-    CLS_maya_material = None
+class Abc_MaGeometry(Abc_MaCompoundDag):
+    CLS_mya_material = None
 
     def _initAbcMaGeometry(self, nodeString):
-        self._initAbcMaCompose(nodeString)
+        self._initAbcMaCompoundDag(nodeString)
 
     def materials(self):
         return [
-            self.CLS_maya_material(i)
+            self.CLS_mya_material(i)
             for i in maBscMtdCore.Mtd_MaNode._getNodeShadingEngineNodeStringList(self.fullpathName())
         ]
 
@@ -570,7 +595,7 @@ class Abc_MaGeometryRoot(Abc_MaNodeRoot):
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
                 self.root().fullpathName(),
-                includeCategoryString=self.DEF_type_mesh,
+                includeCategoryString=self.DEF_mya_type_mesh,
                 useShapeCategory=True,
                 withShape=False
             )
@@ -581,7 +606,7 @@ class Abc_MaGeometryRoot(Abc_MaNodeRoot):
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
                 self.root().fullpathName(),
-                includeCategoryString=self.DEF_type_nurbs_surface,
+                includeCategoryString=self.DEF_mya_type_nurbs_surface,
                 useShapeCategory=True,
                 withShape=False
             )
@@ -592,7 +617,7 @@ class Abc_MaGeometryRoot(Abc_MaNodeRoot):
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
                 self.root().fullpathName(),
-                includeCategoryString=self.DEF_type_nurbs_curve,
+                includeCategoryString=self.DEF_mya_type_nurbs_curve,
                 useShapeCategory=True,
                 withShape=False
             )
@@ -603,7 +628,7 @@ class Abc_MaGeometryRoot(Abc_MaNodeRoot):
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
                 self.root().fullpathName(),
-                includeCategoryString=self.DEF_type_geometry_list,
+                includeCategoryString=self.DEF_mya_type_geometry_list,
                 useShapeCategory=True,
                 withShape=False
             )

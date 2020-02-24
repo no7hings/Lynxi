@@ -407,7 +407,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodes = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
+                        alembicNodes = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_mya_type_alembic])
                         if alembicNodes:
                             alembicNode = alembicNodes[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -474,7 +474,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_mya_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -511,7 +511,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_mya_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -619,7 +619,7 @@ def getScComposeInfoDic(projectName):
                 if maUtils.isNamespaceExists(namespace):
                     nodeLis = maUtils.getDependNodesByNamespace(namespace)
                     if nodeLis:
-                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_type_alembic])
+                        alembicNodeLis = maUtils.getNodesFilterByTypes(nodeLis, [appCfg.DEF_mya_type_alembic])
                         if alembicNodeLis:
                             alembicNode = alembicNodeLis[0]
                             alembicCache = maAbc.getAlembicCacheFile(alembicNode)
@@ -821,7 +821,7 @@ def getScAssemblyComposeDatumLis(sceneName, sceneVariant, sceneStage):
     lis = []
     rootPath = scenePr.scScenerySubGroupPath(sceneName, sceneVariant, prsMethods.Scene.layoutLinkName())
     if maUtils._isAppExist(rootPath):
-        stringLis = maUtils.getChildNodesByRoot(rootPath, filterTypes=appCfg.DEF_type_assembly_reference)
+        stringLis = maUtils.getChildNodesByRoot(rootPath, filterTypes=appCfg.DEF_mya_type_assembly_reference)
         if stringLis:
             progressExplain = u'''Read Assembly Compose Unit(s)'''
             maxValue = len(stringLis)

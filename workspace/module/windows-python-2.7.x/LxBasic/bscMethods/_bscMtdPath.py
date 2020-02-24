@@ -209,87 +209,87 @@ class AppPath(bscMtdCore.Mtd_BscPath):
 
 
 class MaNodeString(bscMtdCore.Mtd_BscPath):
-    VAR_separator_namespace = u':'
-    VAR_separator_node = u'|'
+    VAR_bsc_namespace_separator = u':'
+    VAR_bsc_node_separator = u'|'
 
     @classmethod
     def namespacesep(cls):
-        return cls.VAR_separator_namespace
+        return cls.VAR_bsc_namespace_separator
 
     @classmethod
     def nodesep(cls):
-        return cls.VAR_separator_node
+        return cls.VAR_bsc_node_separator
 
     @classmethod
     def namespace(cls, nodeString):
         return cls._nodeString2namespace(
             nodeString,
-            nodesep=cls.VAR_separator_node,
-            namespacesep=cls.VAR_separator_namespace
+            nodesep=cls.VAR_bsc_node_separator,
+            namespacesep=cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
     def nodename(cls, nodeString):
         return cls._nodeString2nodename(
             nodeString,
-            nodesep=cls.VAR_separator_node,
-            namespacesep=cls.VAR_separator_namespace
+            nodesep=cls.VAR_bsc_node_separator,
+            namespacesep=cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
     def nodenameWithNamespace(cls, nodeString):
         return cls._nodeString2nodenameWithNamespace(
             nodeString,
-            nodesep=cls.VAR_separator_node
+            nodesep=cls.VAR_bsc_node_separator
         )
 
     @classmethod
     def namespaceTreeViewBuildDic(cls, nodeString):
         return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(nodeString, cls.VAR_separator_namespace),
-            cls.VAR_separator_namespace
+            cls._toTreeViewPathLis(nodeString, cls.VAR_bsc_namespace_separator),
+            cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
     def nodeTreeViewBuildDic(cls, nodeString):
         return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(nodeString, cls.VAR_separator_node),
-            cls.VAR_separator_node
+            cls._toTreeViewPathLis(nodeString, cls.VAR_bsc_node_separator),
+            cls.VAR_bsc_node_separator
         )
 
     @classmethod
     def covertToPathCreateDic(cls, dic):
-        return cls._setDicConvertToPathCreateDic(dic, cls.VAR_separator_node)
+        return cls._setDicConvertToPathCreateDic(dic, cls.VAR_bsc_node_separator)
 
 
 class MaAttributeString(bscMtdCore.Mtd_BscPath):
-    VAR_separator_port = u'.'
+    VAR_bsc_port_separator = u'.'
 
     @classmethod
     def portsep(cls):
-        return cls.VAR_separator_port
+        return cls.VAR_bsc_port_separator
 
     @classmethod
     def nodeString(cls, attributeString):
         return cls._portString2nodeString(
             attributeString,
-            portsep=cls.VAR_separator_port
+            portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
     def fullpathPortname(cls, attributeString):
         return cls._portString2fullpathPortname(
             attributeString,
-            portsep=cls.VAR_separator_port
+            portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
     def name(cls, attributeString):
         return cls._portString2portname(
             attributeString,
-            portsep=cls.VAR_separator_port
+            portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
     def composeBy(cls, nodeString, portString):
-        return cls.VAR_separator_port.join([nodeString, portString])
+        return cls.VAR_bsc_port_separator.join([nodeString, portString])

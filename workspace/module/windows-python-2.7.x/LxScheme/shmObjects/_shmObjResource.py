@@ -85,7 +85,7 @@ class Rsc_Operate(shmObjCore.Abc_ShmOperate):
             ]
         }
 
-        self._initAbcOperate(config, version)
+        self._initAbcShmOperate(config, version)
 
     def addPythonPath(self):
         pass
@@ -103,30 +103,30 @@ class Rsc_Operate(shmObjCore.Abc_ShmOperate):
 
 # Bin
 class Rsc_PltLanguage(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_Platform
-    CLS_path_file = _shmObjFile.Fle_RscBin
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_Platform
+    CLS_shm_file = _shmObjFile.Fle_RscBin
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Language
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Language
 
     def __init__(self, resourceName, platformName, platformVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
         )
 
 
 class Rsc_PltApplication(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_Platform
-    CLS_path_file = _shmObjFile.Fle_RscBin
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_Platform
+    CLS_shm_file = _shmObjFile.Fle_RscBin
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Application
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Application
 
     def __init__(self, resourceName, platformName, platformVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
         )
@@ -134,15 +134,15 @@ class Rsc_PltApplication(shmObjCore.Abc_ShmResource):
 
 # Package
 class Rsc_PltLanPackage(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltLanguage
-    CLS_path_file = _shmObjFile.Fle_RscPackage
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscPackage
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Lan_Package
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Lan_Package
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             languageName, languageVersion
@@ -150,15 +150,15 @@ class Rsc_PltLanPackage(shmObjCore.Abc_ShmResource):
 
 
 class Rsc_PltAppLanPackage(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltAppLanguage
-    CLS_path_file = _shmObjFile.Fle_RscPackage
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscPackage
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Lan_Package
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Lan_Package
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             applicationName, applicationVersion,
@@ -167,15 +167,15 @@ class Rsc_PltAppLanPackage(shmObjCore.Abc_ShmResource):
 
 
 class Rsc_PltAppPackage(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltApplication
-    CLS_path_file = _shmObjFile.Fle_RscPackage
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltApplication
+    CLS_shm_file = _shmObjFile.Fle_RscPackage
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Package
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Package
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             applicationName, applicationVersion
@@ -184,15 +184,15 @@ class Rsc_PltAppPackage(shmObjCore.Abc_ShmResource):
 
 # Plug
 class Rsc_PltLanPlug(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltLanguage
-    CLS_path_file = _shmObjFile.Fle_RscPlug
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscPlug
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Lan_Plug
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Lan_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             languageName, languageVersion
@@ -200,15 +200,15 @@ class Rsc_PltLanPlug(shmObjCore.Abc_ShmResource):
 
 
 class Rsc_PltAppLanPlug(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltAppLanguage
-    CLS_path_file = _shmObjFile.Fle_RscPlug
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscPlug
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Lan_Plug
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Lan_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             applicationName, applicationVersion,
@@ -217,15 +217,15 @@ class Rsc_PltAppLanPlug(shmObjCore.Abc_ShmResource):
 
 
 class Rsc_PltAppPlug(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltApplication
-    CLS_path_file = _shmObjFile.Fle_RscPlug
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltApplication
+    CLS_shm_file = _shmObjFile.Fle_RscPlug
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Plug
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Plug
 
     def __init__(self, resourceName, platformName, platformVersion, applicationName, applicationVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             applicationName, applicationVersion
@@ -234,15 +234,15 @@ class Rsc_PltAppPlug(shmObjCore.Abc_ShmResource):
 
 # Module
 class Rsc_PltLanModule(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltLanguage
-    CLS_path_file = _shmObjFile.Fle_RscModule
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscModule
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Lan_Module
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Lan_Module
 
     def __init__(self, resourceName, platformName, platformVersion, languageName, languageVersion):
-        self._initAbcResource(
+        self._initAbcShmResource(
             resourceName,
             platformName, platformVersion,
             languageName, languageVersion
@@ -250,127 +250,127 @@ class Rsc_PltLanModule(shmObjCore.Abc_ShmResource):
 
 
 class Rsc_PltAppModule(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltApplication
-    CLS_path_file = _shmObjFile.Fle_RscModule
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltApplication
+    CLS_shm_file = _shmObjFile.Fle_RscModule
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Module
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Module
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion
         """
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 class Rsc_PltAppLanModule(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltAppLanguage
-    CLS_path_file = _shmObjFile.Fle_RscModule
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscModule
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Lan_Module
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Lan_Module
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion
         """
 
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 # Scheme
 class Rsc_PltLanScheme(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltLanguage
-    CLS_path_file = _shmObjFile.Fle_RscScheme
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscScheme
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Lan_Scheme
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Lan_Scheme
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, languageName, languageVersion
         """
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 class Rsc_PltAppLanScheme(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltAppLanguage
-    CLS_path_file = _shmObjFile.Fle_RscScheme
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscScheme
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Lan_Scheme
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Lan_Scheme
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion
         """
 
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 class Rsc_PltAppScheme(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltApplication
-    CLS_path_file = _shmObjFile.Fle_RscScheme
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltApplication
+    CLS_shm_file = _shmObjFile.Fle_RscScheme
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Scheme
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Scheme
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion
         """
 
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 # Tool
 class Rsc_PltLanTool(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltLanguage
-    CLS_path_file = _shmObjFile.Fle_RscTool
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscTool
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_Lan_Tool
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_Lan_Tool
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, languageName, languageVersion
         """
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 class Rsc_PltAppLanTool(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltAppLanguage
-    CLS_path_file = _shmObjFile.Fle_RscTool
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltAppLanguage
+    CLS_shm_file = _shmObjFile.Fle_RscTool
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Lan_Tool
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Lan_Tool
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion
         """
 
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)
 
 
 class Rsc_PltAppTool(shmObjCore.Abc_ShmResource):
-    CLS_system = _shmObjSystem.Sys_PltApplication
-    CLS_path_file = _shmObjFile.Fle_RscTool
-    CLS_raw = _shmObjRaw.Raw_Resource
-    CLS_operate = Rsc_Operate
+    CLS_shm_system = _shmObjSystem.Sys_PltApplication
+    CLS_shm_file = _shmObjFile.Fle_RscTool
+    CLS_shm_raw = _shmObjRaw.Raw_Resource
+    CLS_shm_operate = Rsc_Operate
 
-    object_category = shmConfigure.Utility.Category_Plf_App_Tool
+    VAR_shm_object_category = shmConfigure.Utility.Category_Plf_App_Tool
 
     def __init__(self, *args):
         """
         :param args: resourceName, platformName, platformVersion, applicationName, applicationVersion
         """
 
-        self._initAbcResource(*args)
+        self._initAbcShmResource(*args)

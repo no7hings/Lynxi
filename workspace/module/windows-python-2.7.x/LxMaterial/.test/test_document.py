@@ -27,9 +27,9 @@ if __name__ == '__main__':
 
     node0 = mtlObjects.Node(u'matte', 'node_0')
     node1 = mtlObjects.Node(u'matte', 'node_1')
-    node1.output(u'out_color').connectTo(node0.input(u'color'))
-    node0.output(u'out_color').connectTo(surfaceShader0.input(u'color'))
-    node1.output(u'out_transparency').connectTo(displacementShader0.input(u'color'))
+    node1.output(u'out_color').connectTo(node0.attribute(u'color'))
+    node0.output(u'out_color').connectTo(surfaceShader0.attribute(u'color'))
+    node1.output(u'out_transparency').connectTo(displacementShader0.attribute(u'color'))
 
     nodegraph = mtlObjects.NodeGraph('graph_0')
     nodegraph.addNodes(node0, node1)

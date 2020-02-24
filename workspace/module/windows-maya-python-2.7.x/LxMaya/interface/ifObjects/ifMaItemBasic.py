@@ -25,7 +25,7 @@ class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
         return self._appName
     #
     def load(self, string):
-        if self.mtd_app_node.DEF_separator_port in string:
+        if self.mtd_app_node.DEF_mya_port_separator in string:
             self.loadComp(string)
         else:
             self.loadNode(string)
@@ -35,7 +35,7 @@ class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
         self._appName = self.mtd_app_node._nodeString2nodename_(nodeString)
         self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(nodeString)
         self._appNodeType = self.mtd_app_node._getNodeCategoryString(nodeString)
-        if self._appNodeType == self.mtd_app_node.DEF_type_transform:
+        if self._appNodeType == self.mtd_app_node.DEF_mya_type_transform:
             shapePath = self.mtd_app_node._getNodeShapeNodeString(self._appPath)
             if shapePath:
                 self._appNodeType = self.mtd_app_node._getNodeCategoryString(shapePath)

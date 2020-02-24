@@ -54,12 +54,12 @@ class MaAssemblyMethod(_maMethodBasic.Mtd_AppMaya):
         return cmds.assembly(assemblyReferenceString, query=1, repNamespace=1)
     @classmethod
     def setAssemblySceneDefinitionCreate(cls, assemblyReferenceString, fileString_):
-        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_type_assembly_definition)
+        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_mya_type_assembly_definition)
         cmds.assembly(assemblyReferenceString, edit=1, createRepresentation='Scene', input=fileString_)
         cmds.assembly(assemblyReferenceString, edit=1, active=bscMethods.OsFile.basename(fileString_))
     @classmethod
     def setAssemblyReferenceCreate(cls, assemblyReferenceString, osAssemblyDefinitionFile):
-        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_type_assembly_reference)
+        cmds.assembly(name=assemblyReferenceString, type=cls._maConfig.DEF_mya_type_assembly_reference)
         cmds.setAttr(assemblyReferenceString + '.definition', osAssemblyDefinitionFile, type='string')
 
 
@@ -297,9 +297,9 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
     def filterObjectHistoryNodeDic(cls, objectString):
         dic = {}
         exceptNodeTypeLis = [
-            cls.DEF_type_shading_engine,
-            cls.DEF_type_group_id,
-            cls.DEF_type_set
+            cls.DEF_mya_type_shading_engine,
+            cls.DEF_mya_type_group_id,
+            cls.DEF_mya_type_set
         ]
         #
         stringLis = cls._toAppExistStringList(objectString)
@@ -332,7 +332,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         dic = {}
         if errorLis:
             for i in errorLis:
-                meshPath = cls._getNodeFullpathNameString(i.split(cls.DEF_separator_port)[0])
+                meshPath = cls._getNodeFullpathNameString(i.split(cls.DEF_mya_port_separator)[0])
                 compPath = i
                 #
                 dic.setdefault(meshPath, []).append(compPath)
@@ -591,7 +591,7 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
 
 #
 class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
-    DEF_shading_engine_default_list = [
+    DEF_mya_default_shading_engine_list = [
         'initialShadingGroup',
         'initialParticleSE',
         'defaultLightSet',
@@ -599,7 +599,7 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
     ]
     @classmethod
     def getShadingEngineLis(cls):
-        return cls.getNodeLisByType(cls.DEF_type_shading_engine, exceptStrings=cls.DEF_shading_engine_default_list)
+        return cls.getNodeLisByType(cls.DEF_mya_type_shading_engine, exceptStrings=cls.DEF_mya_default_shading_engine_list)
     @classmethod
     def _getNodeShadingEngineNodeStringList(cls, objectString):
         def getBranch(subObjectString):
@@ -607,9 +607,9 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
             if not shapePath:
                 shapePath = subObjectString
             #
-            outputObjectLis = cls._getNodeTargetNodeStringList(shapePath, cls.DEF_type_shading_engine)
+            outputObjectLis = cls._getNodeTargetNodeStringList(shapePath, cls.DEF_mya_type_shading_engine)
             if outputObjectLis:
-                [lis.append(j) for j in outputObjectLis if not j in lis and not j in cls.DEF_shading_engine_default_list]
+                [lis.append(j) for j in outputObjectLis if not j in lis and not j in cls.DEF_mya_default_shading_engine_list]
         #
         lis = []
         #
@@ -708,11 +708,11 @@ class MaHairNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
         hairLocalCurveGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairLocalCurve)
         hairSolverGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairSolver)
         #
-        hairOutputCurveGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
+        hairOutputCurveGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairOutputCurveGroupPath)
-        hairLocalCurveGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
+        hairLocalCurveGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairLocalCurveGroupPath)
-        hairSolverGroupPath = cls.DEF_separator_node.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
+        hairSolverGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
         cls.setAppPathCreate(hairSolverGroupPath)
         #
         hairFollicleObject = cls.getHairFollicleObjectByOutputCurve(hairOutputCurveObject)
@@ -800,14 +800,14 @@ class MaRenderNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maConfig.MaRenderCon
 class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMethodBasic, _maConfig.MaLightNodeConfig):
     @classmethod
     def getLightTypeLis(cls):
-        return cls.getNodeTypeLisByFilter(cls.DEF_type_light)
+        return cls.getNodeTypeLisByFilter(cls.DEF_mya_type_light)
     @classmethod
     def getLightNodeLis(cls, groupString=None):
         typeLis = [i for i in cls.getLightTypeLis() if i not in cls.MaNodeTypeLis_LightDefaultSet_Except]
         stringLis = cls.getNodeLisByType(typeLis)
         if groupString is not None:
             if stringLis:
-                if not cls.DEF_separator_node in groupString:
+                if not cls.DEF_mya_node_separator in groupString:
                     groupPath = cls._getNodeFullpathNameString(groupString)
                     return [i for i in stringLis if i.startswith(groupPath)]
         else:
@@ -819,7 +819,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     @classmethod
     def getLightLinkDic(cls, groupString=None, ignoreUnused=False):
         def getLightBranch(nodePath, useDefaultSet):
-            sourceAttr = cls._toNodeAttr([nodePath, cls.DEF_attribute_message])
+            sourceAttr = cls._toNodeAttr([nodePath, cls.DEF_mya_portname_message])
             #
             nodeType = cls._getNodeCategoryString(nodePath)
             pathDatum, namespaceDatum = cls._toNodePathRebuildDatum(nodePath)
@@ -851,7 +851,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for targetLightAttr in targetLightAttrLis:
                     targetNodeAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
                     nodeLis = cls.getInputNodeLisFilter(
-                        targetNodeAttr, source='*' + cls.DEF_attribute_message
+                        targetNodeAttr, source='*' + cls.DEF_mya_portname_message
                     )
                     if nodeLis:
                         for node in nodeLis:
@@ -895,7 +895,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_separator_port, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_separator, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]
@@ -912,7 +912,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for mainAttrName, lightNodePath, objectNodePath in lightLinkData:
                     maxIndexDic[mainAttrName] = 0
                     #
-                    sourceLightAttr, sourceObjectAttr = cls._toNodeAttr([lightNodePath, cls.DEF_attribute_message]), cls._toNodeAttr([objectNodePath, cls.DEF_attribute_message])
+                    sourceLightAttr, sourceObjectAttr = cls._toNodeAttr([lightNodePath, cls.DEF_mya_portname_message]), cls._toNodeAttr([objectNodePath, cls.DEF_mya_portname_message])
                     subLightAttrName, subObjectAttrName = cls.MaAttrNameDic_LightLink[mainAttrName]
                     targetLightAttr = getTargetAttr(mainAttrName, subLightAttrName)
                     targetObjectAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
@@ -932,7 +932,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(nodeName, attrName, index):
-            return '{1}{0}{2}[{3}]'.format(cls.DEF_separator_port, nodeName, attrName, index)
+            return '{1}{0}{2}[{3}]'.format(cls.DEF_mya_port_separator, nodeName, attrName, index)
         #
         def getTargetAttr(nodeName, attrName):
             index = maxIndexDic[attrName]
@@ -947,11 +947,11 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
         def setMain():
             if defaultSetData:
                 nodeName = cls.MaNodeName_DefaultLightSet
-                attrName = cls.DEF_attribute_dag_set_members
+                attrName = cls.DEF_mya_portname_dag_set_members
                 maxIndexDic[attrName] = 0
                 for lightNodePath, boolean in defaultSetData:
                     transformPath = cls._getNodeTransformNodeString(lightNodePath)
-                    sourceAttr = cls._toNodeAttr([transformPath, cls.DEF_attribute_inst_obj_groups])
+                    sourceAttr = cls._toNodeAttr([transformPath, cls.DEF_mya_portname_inst_obj_groups])
                     if boolean is True:
                         targetNodeLis = cls.getOutputNodeLisFilter(transformPath, target=attrName)
                         if not nodeName in targetNodeLis:
@@ -969,7 +969,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
     def getLightLinkObjectLis(cls, lightNodeString, subLightAttrName, subObjectAttrName):
         lis = []
         #
-        sourceAttr = cls._toNodeAttr([lightNodeString, cls.DEF_attribute_message])
+        sourceAttr = cls._toNodeAttr([lightNodeString, cls.DEF_mya_portname_message])
         targetLightAttrLis = cls.getOutputAttrLisFilter(
             sourceAttr,
             target='*' + subLightAttrName
@@ -978,7 +978,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             for targetLightAttr in targetLightAttrLis:
                 targetNodeAttr = targetLightAttr[:-len(subLightAttrName)] + subObjectAttrName
                 nodeLis = cls.getInputNodeLisFilter(
-                    targetNodeAttr, source='*' + cls.DEF_attribute_message
+                    targetNodeAttr, source='*' + cls.DEF_mya_portname_message
                 )
                 for node in nodeLis:
                     nodePath = cls._getNodeFullpathNameString(node)
@@ -994,7 +994,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_separator_port, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_separator, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]
@@ -1012,12 +1012,12 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for seq, connectionDatum in enumerate(connectionLis):
                     for attrDatum in connectionDatum:
                         namespace, nodeName, subAttrName = attrDatum
-                        if not namespace == cls.DEF_separator_namespace:
-                            node = cls.DEF_separator_namespace.join([namespace, nodeName])
+                        if not namespace == cls.DEF_mya_namespace_separator:
+                            node = cls.DEF_mya_namespace_separator.join([namespace, nodeName])
                         else:
                             node = nodeName
                         #
-                        sourceAttr = cls._toNodeAttr([node, cls.DEF_attribute_message])
+                        sourceAttr = cls._toNodeAttr([node, cls.DEF_mya_portname_message])
                         #
                         existsTargetAttrLis = cls.getOutputAttrLisFilter(sourceAttr, target='*' + subAttrName)
                         if not existsTargetAttrLis:

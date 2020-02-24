@@ -144,7 +144,7 @@ class IfAbc_ScCameraProductItem(
         self._itemServerTimeTag = None
     #
     def _updateLocalFrameRange(self):
-        if self._objectType == appCfg.DEF_type_alembic:
+        if self._objectType == appCfg.DEF_mya_type_alembic:
             self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
     #
     def _refreshItemLocalState(self):
@@ -685,7 +685,7 @@ class IfAbc_ScAstBranchItem(
         self._itemServerTimeTag = None
     #
     def _updateLocalFrameRange(self):
-        if self._objectType == appCfg.DEF_type_alembic:
+        if self._objectType == appCfg.DEF_mya_type_alembic:
             self._localStartFrame, self._localEndFrame = maAbc.getAlembicNodeFrameRange(self.CLS_painterPath)
         elif self._objectType == appCfg.MaNodeType_Plug_Yeti:
             self._localStartFrame, self._localEndFrame = maFur.getYetiCacheFrameRange(self.CLS_painterPath)

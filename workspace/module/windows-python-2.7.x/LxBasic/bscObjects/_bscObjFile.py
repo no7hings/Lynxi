@@ -6,7 +6,7 @@ from LxBasic.bscMethods import _bscMtdFile
 
 class OsFile(bscObjCore.Abc_BscFile):
     def __init__(self, fileString):
-        self._initAbcFile(fileString)
+        self._initAbcBscFile(fileString)
 
     def read(self, readLines=False):
         return _bscMtdFile.OsFile.read(self._fileString)
@@ -17,7 +17,7 @@ class OsFile(bscObjCore.Abc_BscFile):
 
 class OsJsonFile(bscObjCore.Abc_BscFile):
     def __init__(self, fileString):
-        self._initAbcFile(fileString)
+        self._initAbcBscFile(fileString)
 
     def read(self, encoding=None):
         return _bscMtdFile.OsJsonFile.read(self._fileString)

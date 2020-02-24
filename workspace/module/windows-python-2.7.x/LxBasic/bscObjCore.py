@@ -45,7 +45,7 @@ class Abc_BscSystem(object):
 
 
 class Abc_BscTime(object):
-    def _initAbcTime(self, timestamp):
+    def _initAbcBscTime(self, timestamp):
         self._timestamp = timestamp
 
     def timestamp(self):
@@ -66,7 +66,7 @@ class Abc_BscPath(bscMtdCore.Mtd_BscUtility):
 
 
 class Abc_BscFile(object):
-    def _initAbcFile(self, fileString):
+    def _initAbcBscFile(self, fileString):
         assert isinstance(fileString, str) or isinstance(fileString, unicode), 'Argument: "fileString" must be "str" or "unicode"'
         self._fileString = bscMtdCore.Mtd_BscUtility._osPathToPythonStyle(fileString)
 
@@ -104,24 +104,24 @@ class Abc_BscFile(object):
         return self._fileString
 
 
-class Abc_BscDccNodeString(object):
-    VAR_separator_namespace = None
-    VAR_separator_node = None
+class Abc_BscNodeString(object):
+    VAR_bsc_namespace_separator = None
+    VAR_bsc_node_separator = None
 
-    def _initAbcDccNodeString(self, nodeString):
+    def _initAbcBscNodeString(self, nodeString):
         self._nodeString = nodeString
 
     def namespacesep(self):
-        return self.VAR_separator_namespace
+        return self.VAR_bsc_namespace_separator
 
     def nodesep(self):
-        return self.VAR_separator_node
+        return self.VAR_bsc_node_separator
 
     def namespace(self):
         return bscMtdCore.Mtd_BscPath._nodeString2namespace(
             self._nodeString,
-            self.VAR_separator_node,
-            self.VAR_separator_namespace
+            self.VAR_bsc_node_separator,
+            self.VAR_bsc_namespace_separator
         )
 
     def fullpathName(self):
@@ -130,22 +130,22 @@ class Abc_BscDccNodeString(object):
     def name(self):
         return bscMtdCore.Mtd_BscPath._nodeString2nodename(
             self._nodeString,
-            self.VAR_separator_node,
-            self.VAR_separator_namespace
+            self.VAR_bsc_node_separator,
+            self.VAR_bsc_namespace_separator
         )
 
     def __str__(self):
         return self.fullpathName()
 
 
-class Abc_BscDccPortString(object):
-    VAR_separator_port = None
+class Abc_BscBscPortString(object):
+    VAR_bsc_port_separator = None
 
-    def _initAbcDccPortString(self, portString):
+    def _initAbcBscPortString(self, portString):
         self._portString = portString
 
     def portsep(self):
-        return self.VAR_separator_port
+        return self.VAR_bsc_port_separator
 
     def fullpathPortname(self):
         return self._portString
@@ -153,7 +153,7 @@ class Abc_BscDccPortString(object):
     def portname(self):
         return bscMtdCore.Mtd_BscPath._portString2portname(
             self._portString,
-            self.VAR_separator_port
+            self.VAR_bsc_port_separator
         )
 
     def __str__(self):

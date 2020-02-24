@@ -491,7 +491,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             self._linkGroup = sceneryPr.scnAssemblyGroupName(self.connectObject().sceneryName)
             #
             self.setupScnGraphToolUiBox(self._scnGraphToolUiBox)
-            self.filterTypes = [appCfg.DEF_type_assembly_reference]
+            self.filterTypes = [appCfg.DEF_mya_type_assembly_reference]
             #
             self.setupScnUtilToolBox(self._scnUtilTooUiBox)
             #
@@ -525,7 +525,7 @@ class IfScnUtilityToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             objectPathLis = maUtils.getSelectedNodeLis()
             if objectPathLis:
                 objectPath = objectPathLis[0]
-                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_separator_node + self._rootGroup):
+                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_mya_node_separator + self._rootGroup):
                     if objectPath.endswith(prsOutputs.Util.basicGroupLabel):
                         objectName = maUtils._nodeString2nodename_(objectPath)
                         self._parentGroupLabel.setDatum(objectName)

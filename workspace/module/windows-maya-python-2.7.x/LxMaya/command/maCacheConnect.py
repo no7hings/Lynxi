@@ -180,7 +180,7 @@ class LxAstModelCacheConnectMethod(object):
         self._withVisible = True
         #
         self._cacheGroupLis = maUtils.getGroupLisByRoot(self._cacheGroupName)
-        self._cacheObjectLis = maUtils.getChildObjectsByRoot(self._cacheGroupName, filterTypes=appCfg.DEF_type_mesh)
+        self._cacheObjectLis = maUtils.getChildObjectsByRoot(self._cacheGroupName, filterTypes=appCfg.DEF_mya_type_mesh)
         #
         self._setContainerRefresh()
         #
@@ -198,7 +198,7 @@ class LxAstModelCacheConnectMethod(object):
         alembicNodeLis = maUtils.getDependNodesByNamespace(self._cacheNamespace)
         if alembicNodeLis:
             for alembicNode in alembicNodeLis:
-                shapeLis = maUtils.getOutputShapes(alembicNode, appCfg.DEF_type_mesh)
+                shapeLis = maUtils.getOutputShapes(alembicNode, appCfg.DEF_mya_type_mesh)
                 if shapeLis:
                     maUtils.setNodesClear(shapeLis)
             #

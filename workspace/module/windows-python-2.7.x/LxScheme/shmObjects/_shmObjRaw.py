@@ -4,7 +4,7 @@ from LxScheme import shmObjCore
 
 class Raw_Version(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
-        self._initAbcRaw(
+        self._initAbcShmRaw(
             raw,
             self.CLS_dic_order(
                 [
@@ -44,7 +44,7 @@ class Raw_Version(shmObjCore.Abc_ShmRaw):
 
 class Raw_Custom(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
-        self._initAbcRaw(
+        self._initAbcShmRaw(
             raw,
             self.CLS_dic_order(
                 [
@@ -72,7 +72,7 @@ class Raw_Custom(shmObjCore.Abc_ShmRaw):
 
 class Raw_Environ(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
-        self._initAbcRaw(
+        self._initAbcShmRaw(
             raw,
             {}
         )
@@ -131,7 +131,7 @@ class Raw_Environ(shmObjCore.Abc_ShmRaw):
 
 class Raw_Dependent(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
-        self._initAbcRaw(
+        self._initAbcShmRaw(
             raw,
             {}
         )
@@ -150,7 +150,7 @@ class Raw_Dependent(shmObjCore.Abc_ShmRaw):
 
 class Raw_Variant(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
-        self._initAbcRaw(
+        self._initAbcShmRaw(
             raw,
             {}
         )
@@ -168,7 +168,7 @@ class Raw_Resource(shmObjCore.Abc_ShmConfigure):
         self._initRawConfig(enable, category, name, appObj)
 
     def _initRawConfig(self, enable, category, name, appObj):
-        self._initAbcConfigure(enable, category, name)
+        self._initAbcShmConfigure(enable, category, name)
         # Version
         self._versionObj = self.RAW_VERSION_CLS(
             {

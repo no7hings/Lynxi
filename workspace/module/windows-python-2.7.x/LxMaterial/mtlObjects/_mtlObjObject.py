@@ -7,73 +7,72 @@ from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mt
 
 
 DEF_CLS_VALUE = {
-    mtlConfigure.Value_Type_Closure: _mtlObjValue.Val_Closure,
+    mtlConfigure.Utility.DEF_mtl_datatype_closure: _mtlObjValue.Val_Closure,
 
-    mtlConfigure.Value_Type_Boolean: _mtlObjValue.Val_Boolean,
-    mtlConfigure.Value_Type_Integer: _mtlObjValue.Val_Integer,
-    mtlConfigure.Value_Type_Integer_Array: _mtlObjValue.Val_IntegerArray,
-    mtlConfigure.Value_Type_Float: _mtlObjValue.Val_Float,
-    mtlConfigure.Value_Type_Float_Array: _mtlObjValue.Val_FloatArray,
+    mtlConfigure.Utility.DEF_mtl_datatype_boolean: _mtlObjValue.Val_Boolean,
+    mtlConfigure.Utility.DEF_mtl_datatype_Integer: _mtlObjValue.Val_Integer,
+    mtlConfigure.Utility.DEF_mtl_datatype_integer_array: _mtlObjValue.Val_IntegerArray,
+    mtlConfigure.Utility.DEF_mtl_datatype_float: _mtlObjValue.Val_Float,
+    mtlConfigure.Utility.DEF_mtl_datatype_float_array: _mtlObjValue.Val_FloatArray,
 
-    mtlConfigure.Value_Type_Color2: _mtlObjValue.Val_Color2,
-    mtlConfigure.Value_Type_Color2_Array: _mtlObjValue.Val_Color2Array,
-    mtlConfigure.Value_Type_Color3: _mtlObjValue.Val_Color3,
-    mtlConfigure.Value_Type_Color3_Array: _mtlObjValue.Val_Color3Array,
-    mtlConfigure.Value_Type_Color4: _mtlObjValue.Val_Color4,
-    mtlConfigure.Value_Type_Color4_Array: _mtlObjValue.Val_Color4Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_color2: _mtlObjValue.Val_Color2,
+    mtlConfigure.Utility.DEF_mtl_datatype_color2_array: _mtlObjValue.Val_Color2Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_color3: _mtlObjValue.Val_Color3,
+    mtlConfigure.Utility.DEF_mtl_datatype_color3_array: _mtlObjValue.Val_Color3Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_color4: _mtlObjValue.Val_Color4,
+    mtlConfigure.Utility.DEF_mtl_datatype_color4_array: _mtlObjValue.Val_Color4Array,
 
-    mtlConfigure.Value_Type_Vector2: _mtlObjValue.Val_Vector2,
-    mtlConfigure.Value_Type_Vector2_Array: _mtlObjValue.Val_Vector2Array,
-    mtlConfigure.Value_Type_Vector3: _mtlObjValue.Val_Vector3,
-    mtlConfigure.Value_Type_Vector3_Array: _mtlObjValue.Val_Vector3Array,
-    mtlConfigure.Value_Type_Vector4: _mtlObjValue.Val_Vector4,
-    mtlConfigure.Value_Type_Vector4_Array: _mtlObjValue.Val_Vector4Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector2: _mtlObjValue.Val_vector2,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector2_array: _mtlObjValue.Val_vector2Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector3: _mtlObjValue.Val_vector3,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector3_array: _mtlObjValue.Val_vector3Array,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector4: _mtlObjValue.Val_vector4,
+    mtlConfigure.Utility.DEF_mtl_datatype_vector4_array: _mtlObjValue.Val_vector4Array,
 
-    mtlConfigure.Value_Type_Matrix33: _mtlObjValue.Val_Matrix33,
-    mtlConfigure.Value_Type_Matrix44: _mtlObjValue.Val_Matrix44,
+    mtlConfigure.Utility.DEF_mtl_datatype_matrix33: _mtlObjValue.Val_matrix33,
+    mtlConfigure.Utility.DEF_mtl_datatype_matrix44: _mtlObjValue.Val_matrix44,
 
-    mtlConfigure.Value_Type_String: _mtlObjValue.Val_String,
-    mtlConfigure.Value_Type_String_Array: _mtlObjValue.Val_StringArray,
-    mtlConfigure.Value_Type_FileName: _mtlObjValue.Val_FileName,
-    mtlConfigure.Value_Type_GeometryName: _mtlObjValue.Val_GeometryName,
-    mtlConfigure.Value_Type_GeometryName_Array: _mtlObjValue.Val_GeometryNameArray
+    mtlConfigure.Utility.DEF_mtl_datatype_string: _mtlObjValue.Val_string,
+    mtlConfigure.Utility.DEF_mtl_datatype_string_array: _mtlObjValue.Val_stringArray,
+    mtlConfigure.Utility.DEF_mtl_datatype_file_name: _mtlObjValue.Val_file_name,
+    mtlConfigure.Utility.DEF_mtl_datatype_geometry_name: _mtlObjValue.Val_geometry_name,
+    mtlConfigure.Utility.DEF_mtl_datatype_geometry_name_array: _mtlObjValue.Val_geometry_nameArray
 }
 
 
 class Geometry(mtlObjCore.Abc_MtlGeometry):
-    CLS_raw_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
 
-    CLS_set_property = _mtlObjSet.Set_Property
-    CLS_set_assign_visibility = _mtlObjSet.Set_Visibility
+    CLS_mtl_property_set = _mtlObjSet.Set_Property
+    CLS_mtl_visibility_assign = _mtlObjSet.Set_Visibility
 
-    CLS_property = _mtlObjPort.GeometryProperty
-    CLS_visibility = _mtlObjPort.GeometryVisibility
-    CLS_def_geometry = _mtlObjDefinition.GeometryDefinition
+    CLS_mtl_property = _mtlObjPort.GeometryProperty
+    CLS_mtl_visibility = _mtlObjPort.GeometryVisibility
+    CLS_mtl_geometry_def = _mtlObjDefinition.GeometryDef
 
-    DEF_cls_value = DEF_CLS_VALUE
+    VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtlx_key_element = 'geom'
+    VAR_mtl_key_element = 'geom'
 
     def __init__(self, *args):
         self._initAbcMtlGeometry(*args)
 
 
 class Shader(mtlObjCore.Abc_MtlShader):
-    CLS_raw_type = _mtlObjRaw.Raw_Type
-    CLS_raw_category = _mtlObjRaw.Raw_ShaderCategory
-    CLS_raw_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_type = _mtlObjRaw.Raw_Type
+    CLS_mtl_category = _mtlObjRaw.Raw_ShaderCategory
+    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
 
-    CLS_set_input = _mtlObjSet.Set_Input
-    CLS_set_output = _mtlObjSet.Set_Output
-    CLS_set_child = _mtlObjSet.Set_Dag
+    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
+    CLS_mtl_child_set = _mtlObjSet.Set_Dag
 
-    CLS_input = _mtlObjPort.ShaderInput
-    CLS_output = _mtlObjPort.ShaderOutput
-    CLS_def_object = _mtlObjDefinition.Def_Node
+    CLS_mtl_input = _mtlObjPort.ShaderInput
+    CLS_mtl_output = _mtlObjPort.ShaderOutput
+    CLS_mtl_node_def = _mtlObjDefinition.NodeDef
 
-    DEF_cls_value = DEF_CLS_VALUE
+    VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtlx_key_element = 'shaderref'
+    VAR_mtl_key_element = 'shaderref'
 
     def __init__(self, *args):
         """
@@ -83,21 +82,20 @@ class Shader(mtlObjCore.Abc_MtlShader):
 
 
 class Node(mtlObjCore.Abc_MtlNode):
-    CLS_raw_type = _mtlObjRaw.Raw_Type
-    CLS_raw_category = _mtlObjRaw.Raw_NodeCategory
-    CLS_raw_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_type = _mtlObjRaw.Raw_Type
+    CLS_mtl_category = _mtlObjRaw.Raw_NodeCategory
+    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
 
-    CLS_set_input = _mtlObjSet.Set_Input
-    CLS_set_output = _mtlObjSet.Set_Output
-    CLS_set_child = _mtlObjSet.Set_Dag
+    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
+    CLS_mtl_child_set = _mtlObjSet.Set_Dag
 
-    CLS_input = _mtlObjPort.NodeInput
-    CLS_output = _mtlObjPort.NodeOutput
-    CLS_def_object = _mtlObjDefinition.Def_Node
+    CLS_mtl_input = _mtlObjPort.NodeInput
+    CLS_mtl_output = _mtlObjPort.NodeOutput
+    CLS_mtl_node_def = _mtlObjDefinition.NodeDef
 
-    DEF_cls_value = DEF_CLS_VALUE
+    VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtlx_key_attribute = 'nodename'
+    VAR_mtl_key_attribute = 'nodename'
 
     def __init__(self, *args):
         self._initAbcMtlNode(*args)

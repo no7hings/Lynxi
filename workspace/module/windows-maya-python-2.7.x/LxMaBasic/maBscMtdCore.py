@@ -15,7 +15,7 @@ class Mtd_MaUtility(Mtd_MaBasic):
 
     @classmethod
     def _getNodeFullpathNameString(cls, nodeString):
-        if not nodeString.startswith(cls.DEF_separator_node):
+        if not nodeString.startswith(cls.DEF_mya_node_separator):
             return cls.MOD_maya_cmds.ls(nodeString, long=1)[0]
         else:
             return nodeString
@@ -54,14 +54,14 @@ class Mtd_MaUtility(Mtd_MaBasic):
 class Mtd_MaAttribute(Mtd_MaBasic):
     @classmethod
     def _getAttributeQueryNameString(cls, attributeString):
-        _ = attributeString.split(cls.DEF_separator_port)[-1]
+        _ = attributeString.split(cls.DEF_mya_port_separator)[-1]
         if _.endswith(u']'):
             return _.split(u'[')[0]
         return _
 
     @classmethod
     def _getAttributeIsExist(cls, attributeString):
-        return cmds.attributeQuery(
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             exists=1
@@ -69,7 +69,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeIsCompound(cls, attributeString):
-        return cmds.attributeQuery(
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             multi=1
@@ -77,7 +77,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeIsMessage(cls, attributeString):
-        return cmds.attributeQuery(
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             message=1
@@ -89,45 +89,59 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         return datatype in cls.DEF_porttype_multichannel_list
 
     @classmethod
-    def _getAttributeParentPortnameList(cls, attributeString):
-        _ = attributeString.split(cls.DEF_separator_port)
+    def _getAttributeParentFullpathPortname_(cls, attributeString):
+        _ = cls.MOD_maya_cmds.attributeQuery(
+            cls._getAttributeQueryNameString(attributeString),
+            node=cls._getAttributeNodeString(attributeString),
+            listParent=1
+        )
+        if len(_) > 2:
+            return _[-2]
+
+    @classmethod
+    def _getAttributeParentFullpathPortname(cls, attributeString):
+        _ = attributeString.split(cls.DEF_mya_port_separator)
         if len(_) > 2:
             return _[-2]
 
     @classmethod
     def _getAttributeHasChild(cls, attributeString):
-        return cmds.attributeQuery(
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             numberOfChildren=1
         ) > 0
 
     @classmethod
-    def _getAttributeChildPortnameList(cls, attributeString):
-        return cmds.attributeQuery(
+    def _getAttributeChildFullpathPortnameList(cls, attributeString):
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             listChildren=1
         )
 
     @classmethod
-    def _getAttributeRaw(cls, attributeString):
-        datatype = cls._getAttributeDatatype(attributeString)
-        if datatype == 'enum':
-            return cmds.getAttr(attributeString, asString=1)
+    def _getAttributeData(cls, attributeString):
+        if (
+                cls._getAttributeIsCompound(attributeString) is False
+                and cls._getAttributeIsMessage(attributeString) is False
+        ):
+            datatype = cls._getAttributeDatatype(attributeString)
+            if datatype == 'enum':
+                return cls.MOD_maya_cmds.getAttr(attributeString, asString=1)
 
-        _ = cmds.getAttr(attributeString)
-        if cls._getAttributeIsMultichannel(attributeString) is True:
-            return list(_[0])
-        return _
+            _ = cls.MOD_maya_cmds.getAttr(attributeString)
+            if cls._getAttributeIsMultichannel(attributeString) is True:
+                return list(_[0])
+            return _
 
     @classmethod
-    def _getAttributeDefaultRaw(cls, attributeString):
+    def _getAttributeDefaultData(cls, attributeString):
         pass
 
     @classmethod
     def _getAttributePorttype(cls, attributeString):
-        return cmds.attributeQuery(
+        return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
             attributeType=1
@@ -135,15 +149,15 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeDatatype(cls, attributeString):
-        return cmds.getAttr(attributeString, type=1)
+        return cls.MOD_maya_cmds.getAttr(attributeString, type=1)
 
     @classmethod
     def _getAttributeHasSource(cls, attributeString):
-        return cmds.connectionInfo(attributeString, isExactDestination=1)
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, isExactDestination=1)
 
     @classmethod
     def _getAttributeIsSource(cls, attributeString):
-        return cmds.connectionInfo(attributeString, isExactSource=1)
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, isExactSource=1)
 
     @classmethod
     def _getAttributeSource(cls, attributeString):
@@ -153,11 +167,11 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeHasTarget(cls, attributeString):
-        return cmds.connectionInfo(attributeString, isExactSource=1)
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, isExactSource=1)
 
     @classmethod
     def _getAttributeIsTarget(cls, attributeString):
-        return cmds.connectionInfo(attributeString, isExactDestination=1)
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, isExactDestination=1)
 
     @classmethod
     def _getAttributeTarget(cls, attributeString):
@@ -179,13 +193,13 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
 
 class Mtd_MaFile(Mtd_MaBasic):
-    DEF_type_maya_ascii = 'mayaAscii'
-    DEF_type_maya_binary = 'mayaBinary'
+    DEF_mya_type_maya_ascii = 'mayaAscii'
+    DEF_mya_type_maya_binary = 'mayaBinary'
     AlembicType = 'Alembic'
     #
     FileTypeDic = {
-        '.ma': DEF_type_maya_ascii,
-        '.mb': DEF_type_maya_binary,
+        '.ma': DEF_mya_type_maya_ascii,
+        '.mb': DEF_mya_type_maya_binary,
         '.abc': AlembicType
     }
     #
@@ -220,7 +234,7 @@ class Mtd_MaFile(Mtd_MaBasic):
     @classmethod
     def _getMaFileType(cls, fileString):
         ext = bscMethods.OsFile.ext(fileString)
-        return cls.FileTypeDic.get(ext, cls.DEF_type_maya_ascii)
+        return cls.FileTypeDic.get(ext, cls.DEF_mya_type_maya_ascii)
 
     @classmethod
     def _maFileExportCommand(cls, fileString, optionKwargs=None):
@@ -257,7 +271,7 @@ class Mtd_MaFile(Mtd_MaBasic):
     
     @classmethod
     def _setMaFileImportWithGroup(cls, fileString, groupString, namespace=':'):
-        cmds.file(
+        cls.MOD_maya_cmds.file(
             fileString,
             i=1,
             options='v=0;',
@@ -272,9 +286,9 @@ class Mtd_MaFile(Mtd_MaBasic):
         
     @classmethod
     def _setMaAlembicImport(cls, fileString, namespace=':'):
-        cmds.loadPlugin('AbcImport', quiet=1)
+        cls.MOD_maya_cmds.loadPlugin('AbcImport', quiet=1)
 
-        cmds.file(
+        cls.MOD_maya_cmds.file(
             fileString,
             i=1,
             options='v=0;',
@@ -293,31 +307,31 @@ class Mtd_MaFile(Mtd_MaBasic):
         if cls.MOD_maya_cmds.objExists(alembicNodeString):
             pass
         else:
-            cmds.createNode(cls.DEF_type_alembic, name=alembicNodeString)
-            cmds.setAttr(alembicNodeString + '.abc_File', fileString, type='string')
+            cls.MOD_maya_cmds.createNode(cls.DEF_mya_type_alembic, name=alembicNodeString)
+            cls.MOD_maya_cmds.setAttr(alembicNodeString + '.abc_File', fileString, type='string')
 
     @classmethod
     def _setMaMaterialExport(cls, fileString, shadingEngines, aiAovs):
-        cmds.select(clear=1)
+        cls.MOD_maya_cmds.select(clear=1)
         if shadingEngines:
-            cmds.select(shadingEngines, noExpand=1)
+            cls.MOD_maya_cmds.select(shadingEngines, noExpand=1)
             if aiAovs:
-                cmds.select(aiAovs, add=1)
-            cmds.file(rename=fileString)
-            cmds.file(
+                cls.MOD_maya_cmds.select(aiAovs, add=1)
+            cls.MOD_maya_cmds.file(rename=fileString)
+            cls.MOD_maya_cmds.file(
                 force=1,
                 options='v=0',
                 type=cls._getMaFileType(fileString),
                 preserveReferences=0,
                 exportSelected=1
             )
-            cmds.select(clear=1)
+            cls.MOD_maya_cmds.select(clear=1)
         
     @classmethod
     def _setMaFileExportSelected(cls, fileString, objectString, withHistory=False):
         temporaryFile = bscMethods.OsFile.temporaryName(fileString)
-        cmds.select(objectString)
-        cmds.file(
+        cls.MOD_maya_cmds.select(objectString)
+        cls.MOD_maya_cmds.file(
             temporaryFile,
             force=1,
             options='v=0',
@@ -326,24 +340,24 @@ class Mtd_MaFile(Mtd_MaBasic):
             exportSelected=1,
             constructionHistory=withHistory
         )
-        cmds.select(clear=1)
+        cls.MOD_maya_cmds.select(clear=1)
         bscMethods.OsFile.copyTo(temporaryFile, fileString)
         
     @classmethod
     def _setMaFileExportSelectedWithSet(cls, fileString, objectString, setString, withHistory=False):
-        cmds.select(clear=1)
-        cmds.select(objectString)
+        cls.MOD_maya_cmds.select(clear=1)
+        cls.MOD_maya_cmds.select(objectString)
 
         if isinstance(setString, str):
-            if cmds.objExists(setString):
-                cmds.select(setString, add=1, noExpand=1)
+            if cls.MOD_maya_cmds.objExists(setString):
+                cls.MOD_maya_cmds.select(setString, add=1, noExpand=1)
         elif isinstance(setString, list):
             for i in setString:
-                if cmds.objExists(i):
-                    cmds.select(i, add=1, noExpand=1)
+                if cls.MOD_maya_cmds.objExists(i):
+                    cls.MOD_maya_cmds.select(i, add=1, noExpand=1)
         #
         temporaryFile = bscMethods.OsFile.temporaryName(fileString)
-        cmds.file(
+        cls.MOD_maya_cmds.file(
             temporaryFile,
             force=1,
             options='v=0',
@@ -352,7 +366,7 @@ class Mtd_MaFile(Mtd_MaBasic):
             exportSelected=1,
             constructionHistory=withHistory
         )
-        cmds.select(clear=1)
+        cls.MOD_maya_cmds.select(clear=1)
         bscMethods.OsFile.copyTo(temporaryFile, fileString)
 
     @classmethod
@@ -369,7 +383,7 @@ class Mtd_MaFile(Mtd_MaBasic):
     
     @classmethod
     def _setMaCacheReference(cls, fileString, namespace=':'):
-        cmds.file(
+        cls.MOD_maya_cmds.file(
             fileString,
             reference=1,
             mergeNamespacesOnClash=1,
@@ -378,7 +392,7 @@ class Mtd_MaFile(Mtd_MaBasic):
 
     @classmethod
     def _setMaFileOpen(cls, fileString):
-        cmds.file(
+        cls.MOD_maya_cmds.file(
             fileString,
             open=1,
             options='v=0',
@@ -389,8 +403,8 @@ class Mtd_MaFile(Mtd_MaBasic):
     @classmethod
     def _setMaFileSaveToServer(cls, fileString):
         temporaryFile = bscMethods.OsFile.temporaryName(fileString)
-        cmds.file(rename=temporaryFile)
-        cmds.file(save=1, type=cls._getMaFileType(fileString))
+        cls.MOD_maya_cmds.file(rename=temporaryFile)
+        cls.MOD_maya_cmds.file(save=1, type=cls._getMaFileType(fileString))
         bscMethods.OsFile.copyTo(temporaryFile, fileString)
         
     @classmethod
@@ -401,8 +415,8 @@ class Mtd_MaFile(Mtd_MaBasic):
         bscMethods.OsFile.createDirectory(fileString)
         fileString = bscMethods.OsFile.toJoinTimetag(fileString, timetag)
         # Main
-        cmds.file(rename=fileString)
-        cmds.file(
+        cls.MOD_maya_cmds.file(rename=fileString)
+        cls.MOD_maya_cmds.file(
             save=1,
             options='v=0;',
             force=1,
@@ -411,9 +425,9 @@ class Mtd_MaFile(Mtd_MaBasic):
     
     @classmethod
     def _setMaFileUpdate(cls, fileString):
-        origString = cmds.file(query=1, sceneName=1)
+        origString = cls.MOD_maya_cmds.file(query=1, sceneName=1)
         cls._setMaFileSaveToServer(fileString)
-        cmds.file(rename=origString)
+        cls.MOD_maya_cmds.file(rename=origString)
     
     @classmethod
     def _setMaFileOpenAsTemporary(cls, fileString):
@@ -437,7 +451,7 @@ class Mtd_MaFile(Mtd_MaBasic):
     
     @classmethod
     def _setMaFileNew(cls):
-        cmds.file(new=1, force=1)
+        cls.MOD_maya_cmds.file(new=1, force=1)
 
 
 class Mtd_MaNode(Mtd_MaUtility):
@@ -446,8 +460,8 @@ class Mtd_MaNode(Mtd_MaUtility):
     def _getNodeIsGroup(cls, nodeString):
         boolean = False
         # category is "transform" and has no "shape(s)"
-        if cmds.nodeType(nodeString) == cls.DEF_type_transform:
-            _ = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+        if cls.MOD_maya_cmds.nodeType(nodeString) == cls.DEF_mya_type_transform:
+            _ = cls.MOD_maya_cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if _ is None:
                 boolean = True
         return boolean
@@ -456,8 +470,8 @@ class Mtd_MaNode(Mtd_MaUtility):
     def _getNodeIsTransform(cls, nodeString):
         boolean = False
         # category is "transform" and has "shape(s)"
-        if cmds.nodeType(nodeString) == cls.DEF_type_transform:
-            _ = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+        if cls.MOD_maya_cmds.nodeType(nodeString) == cls.DEF_mya_type_transform:
+            _ = cls.MOD_maya_cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if _ is not None:
                 boolean = True
         return boolean
@@ -466,7 +480,7 @@ class Mtd_MaNode(Mtd_MaUtility):
     def _getNodeIsShape(cls, nodeString):
         boolean = False
         # parent is "transform" and has no "shape(s)"
-        if cmds.nodeType(nodeString) != cls.DEF_type_transform:
+        if cls.MOD_maya_cmds.nodeType(nodeString) != cls.DEF_mya_type_transform:
             transformPath = cls._getNodeTransformNodeString(nodeString)
             _ = cls._getNodeShapeNodeStringList(nodeString)
             if transformPath and not _:
@@ -475,7 +489,7 @@ class Mtd_MaNode(Mtd_MaUtility):
 
     @classmethod
     def _isNodeDag(cls, nodeString):
-        return cls.DEF_separator_node in cls._getNodeFullpathNameString(nodeString)
+        return cls.DEF_mya_node_separator in cls._getNodeFullpathNameString(nodeString)
 
     @classmethod
     def _getNodeUniqueIdString(cls, nodeString):
@@ -491,7 +505,7 @@ class Mtd_MaNode(Mtd_MaUtility):
     @classmethod
     def _getNodeShapeCategoryString(cls, nodeString):
         string = cls._getNodeCategoryString(nodeString)
-        if string == cls.DEF_type_transform:
+        if string == cls.DEF_mya_type_transform:
             shapePathString = cls._getNodeShapeNodeString(nodeString)
             if shapePathString:
                 string = cls._getNodeCategoryString(shapePathString)
@@ -500,7 +514,7 @@ class Mtd_MaNode(Mtd_MaUtility):
     @classmethod
     def _getNodeTransformNodeString(cls, nodeString, fullpath=True):
         if cls._isAppExist(nodeString):
-            if cls._getNodeCategoryString(nodeString) == cls.DEF_type_transform:
+            if cls._getNodeCategoryString(nodeString) == cls.DEF_mya_type_transform:
                 if fullpath:
                     return cls._getNodeFullpathNameString(nodeString)
                 else:
@@ -513,7 +527,7 @@ class Mtd_MaNode(Mtd_MaUtility):
     @classmethod
     def _getNodeShapeNodeString(cls, nodeString, fullpath=True):
         string = None
-        if cls._getNodeCategoryString(nodeString) == cls.DEF_type_transform:
+        if cls._getNodeCategoryString(nodeString) == cls.DEF_mya_type_transform:
             stringLis = cls.MOD_maya_cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=1, fullPath=fullpath)
             if stringLis:
                 string = stringLis[0]
@@ -547,7 +561,7 @@ class Mtd_MaNode(Mtd_MaUtility):
             if not shapePathString:
                 shapePathString = subObjectString
             #
-            _ = cls._getNodeTargetNodeStringList(shapePathString, cls.DEF_type_shading_engine)
+            _ = cls._getNodeTargetNodeStringList(shapePathString, cls.DEF_mya_type_shading_engine)
             if _:
                 if excludeNodeString is not None:
                     [lis.append(j) for j in _ if not j in lis and not j in excludeNodeString]
@@ -689,23 +703,23 @@ class Mtd_MaNode(Mtd_MaUtility):
 
     @classmethod
     def _getNodeAttributeFullpathPortnameList(cls, nodeString):
-        _ = cmds.listAttr(nodeString, multi=1)
+        _ = cls.MOD_maya_cmds.listAttr(nodeString, multi=1)
         if _:
-            return [i for i in _ if cls._isAppExist(cls.DEF_separator_port.join([cls._getNodeFullpathNameString(nodeString), i]))]
+            return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
         return []
 
     @classmethod
     def _getNodeInputFullpathPortnameList(cls, nodeString):
-        _ = cmds.listAttr(nodeString, read=1, write=1, multi=1)
+        _ = cls.MOD_maya_cmds.listAttr(nodeString, read=1, write=1, multi=1)
         if _:
-            return [i for i in _ if cls._isAppExist(cls.DEF_separator_port.join([cls._getNodeFullpathNameString(nodeString), i]))]
+            return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
         return []
 
     @classmethod
     def _getNodeOutputFullpathPortnameList(cls, nodeString):
-        _ = cmds.listAttr(nodeString, readOnly=1, multi=1)
+        _ = cls.MOD_maya_cmds.listAttr(nodeString, readOnly=1, multi=1)
         if _:
-            return [i for i in _ if cls._isAppExist(cls.DEF_separator_port.join([cls._getNodeFullpathNameString(nodeString), i]))]
+            return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
         return []
 
 
@@ -728,13 +742,13 @@ class Mtd_MaNodeGraph(Mtd_MaUtility):
 class Mtd_MaDag(Mtd_MaUtility):
     @classmethod
     def _getDagParentString(cls, dagString, fullpath=True):
-        _ = cmds.listRelatives(dagString, parent=1, fullPath=fullpath)
+        _ = cls.MOD_maya_cmds.listRelatives(dagString, parent=1, fullPath=fullpath)
         if _:
             return _[0]
 
     @classmethod
     def _getDagChildStringList(cls, dagString, fullpath=True):
-        return cmds.listRelatives(dagString, children=1, type=cls.DEF_type_transform, fullPath=fullpath) or []
+        return cls.MOD_maya_cmds.listRelatives(dagString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullpath) or []
 
 
 class Mtd_MaShadingEngine(Mtd_MaUtility):

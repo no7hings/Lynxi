@@ -122,7 +122,7 @@ def setReferenceRepath(nodeString, fileString_):
 
 # Assembly Reference
 def getAssemblyReferenceNodeLis(filterNamespace=None):
-    filterType = appCfg.DEF_type_assembly_reference
+    filterType = appCfg.DEF_mya_type_assembly_reference
     return maUtils.getNodeLisByFilter(filterType, filterNamespace)
 
 
@@ -247,7 +247,7 @@ def setGpuCacheRepath(nodeString, fileString_):
 
 # Alembic Cache
 def getAlembicCacheNodeLis(filterNamespace=None):
-    filterType = appCfg.DEF_type_alembic
+    filterType = appCfg.DEF_mya_type_alembic
     return maUtils.getNodeLisByFilter(filterType, filterNamespace)
 
 

@@ -48,8 +48,8 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaAttribute._getAttributePortname(attributeString)
 
     @classmethod
-    def raw(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeRaw(attributeString)
+    def data(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeData(attributeString)
 
     @classmethod
     def isCompound(cls, attributeString):
@@ -65,7 +65,7 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def value(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeRaw(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeData(attributeString)
 
     @classmethod
     def defaultValue(cls, attributeString):
@@ -73,16 +73,16 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def parent(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeParentPortnameList(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeParentFullpathPortname_(attributeString)
 
     @classmethod
-    def hasChild(cls, attributeString):
+    def hasChildren(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeHasChild(attributeString)
 
     @classmethod
     def children(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeChildPortnameList(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeChildFullpathPortnameList(attributeString)
 
     @classmethod
     def composeBy(cls, *args):
-        return cls.DEF_separator_port.join(list(args))
+        return cls.DEF_mya_port_separator.join(list(args))

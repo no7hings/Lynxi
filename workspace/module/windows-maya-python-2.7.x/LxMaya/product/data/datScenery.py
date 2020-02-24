@@ -42,7 +42,7 @@ def getReduceList(lis):
 #
 def getAstAssemblyReferenceLis(sceneryName):
     scnAssemblyGroupName = sceneryPr.scnAssemblyGroupName(sceneryName)
-    return maUtils.getChildNodesByRoot(scnAssemblyGroupName, filterTypes=appCfg.DEF_type_assembly_reference)
+    return maUtils.getChildNodesByRoot(scnAssemblyGroupName, filterTypes=appCfg.DEF_mya_type_assembly_reference)
 
 
 #
@@ -83,7 +83,7 @@ def getScnAssemblyComposeDatumLis(projectName, sceneryName):
     if maUtils._isAppExist(groupString):
         stringLis = maUtils.getChildNodesByRoot(
             groupString,
-            filterTypes=appCfg.DEF_type_assembly_reference,
+            filterTypes=appCfg.DEF_mya_type_assembly_reference,
             fullPath=1
         )
         if stringLis:

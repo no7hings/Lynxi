@@ -340,7 +340,7 @@ def setSolverGroup(assetName, namespace=none):
 #
 def setScAstCfxDisplayLayer(assetName, namespace=none, scAstCfxDisplayLayer=None):
     scCfxGroup = prsMethods.Asset.groomLinkGroupName(assetName, namespace)
-    lis = maUtils.getChildObjectsByRoot(scCfxGroup, [appCfg.DEF_type_mesh, appCfg.DEF_type_nurbs_surface, appCfg.DEF_type_nurbs_curve])
+    lis = maUtils.getChildObjectsByRoot(scCfxGroup, [appCfg.DEF_mya_type_mesh, appCfg.DEF_mya_type_nurbs_surface, appCfg.DEF_mya_type_nurbs_curve])
     #
     if scAstCfxDisplayLayer:
         if not maUtils._isAppExist(scAstCfxDisplayLayer):
@@ -534,7 +534,7 @@ def setScAstSolverCurveConnectToSolverCache(assetName, scAstSolverNamespace, scA
     if maUtils._isAppExist(scSolverCacheGroup):
         maUtils.setNodeOutlinerRgb(scSolverCacheGroup, 0, .5, 1)
         #
-        nurbsCurveObjects = maUtils.getChildObjectsByRoot(scSolverCacheGroup, appCfg.DEF_type_nurbs_curve)
+        nurbsCurveObjects = maUtils.getChildObjectsByRoot(scSolverCacheGroup, appCfg.DEF_mya_type_nurbs_curve)
         if nurbsCurveObjects:
             progressExplain = '''Connect Solver Cache'''
             maxValue = len(nurbsCurveObjects)
@@ -1232,15 +1232,15 @@ def getNhrObjectGraphGeometrySub(nurbsHairObject):
         shapeName = maUtils._nodeString2nodename_(shapePath)
         shapeType = maUtils._getNodeCategoryString(shapePath)
         transformData = maObj.getObjectTransformCreateData(objectPath)
-        if shapeType == appCfg.DEF_type_mesh:
+        if shapeType == appCfg.DEF_mya_type_mesh:
             geomData = maGeom.getMeshObjectGeomData(objectPath)
             mapData = maGeom.getMeshObjectMapData(objectPath)
             lis.append((shapeName, shapeType, transformData, geomData, mapData))
-        elif shapeType == appCfg.DEF_type_nurbs_surface:
+        elif shapeType == appCfg.DEF_mya_type_nurbs_surface:
             geomData = maGeom.getNurbsSurfaceObjectGeomData(objectPath)
             mapData = None
             lis.append((shapeName, shapeType, transformData, geomData, mapData))
-        elif shapeType == appCfg.DEF_type_nurbs_curve:
+        elif shapeType == appCfg.DEF_mya_type_nurbs_curve:
             geomData = maGeom.getNurbsCurveObjectGeomData(objectPath)
             mapData = None
             lis.append((shapeName, shapeType, transformData, geomData, mapData))

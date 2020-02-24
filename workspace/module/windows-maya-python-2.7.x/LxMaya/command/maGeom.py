@@ -695,9 +695,9 @@ def getGeometryObjectsGeometryDic(groupString):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 topologyData, shapeData = getMeshObjectGeomData(objectString)
-            elif objectType == appCfg.DEF_type_nurbs_surface:
+            elif objectType == appCfg.DEF_mya_type_nurbs_surface:
                 topologyData, shapeData = getNurbsSurfaceObjectGeomData(objectString)
             else:
                 topologyData, shapeData = getNurbsCurveObjectGeomData(objectString)
@@ -713,9 +713,9 @@ def getGeometryObjectsGeometryDic_(objectStrings):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 topologyData, shapeData = getMeshObjectGeomData(objectString)
-            elif objectType == appCfg.DEF_type_nurbs_surface:
+            elif objectType == appCfg.DEF_mya_type_nurbs_surface:
                 topologyData, shapeData = getNurbsSurfaceObjectGeomData(objectString)
             else:
                 topologyData, shapeData = getNurbsCurveObjectGeomData(objectString)
@@ -759,7 +759,7 @@ def getGeometryObjectsVertexNormalDic(groupString):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 vertexNormalData = getMeshObjectVertexNormal(objectString)
             else:
                 vertexNormalData = None
@@ -776,7 +776,7 @@ def getGeometryObjectsVertexNormalDic_(objectStrings):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 vertexNormal = getMeshObjectVertexNormal(objectString)
             else:
                 vertexNormal = None
@@ -807,7 +807,7 @@ def getGeometryObjectsEdgeSmoothDic(groupString):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 edgeSmoothData = getMeshObjectEdgeSmooth(objectString)
             else:
                 edgeSmoothData = None
@@ -824,7 +824,7 @@ def getGeometryObjectsEdgeSmoothDic_(objectStrings):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 edgeSmoothData = getMeshObjectEdgeSmooth(objectString)
             else:
                 edgeSmoothData = None
@@ -855,7 +855,7 @@ def getGeometryObjectsMapDic(groupString):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 mapData = getMeshObjectMapData(objectString)
             else:
                 mapData = None
@@ -872,7 +872,7 @@ def getGeometryObjectsMapDic_(objectStrings):
         for objectString in objectStrings:
             uniqueId = maUuid._getNodeUniqueIdString(objectString)
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 mapData = getMeshObjectMapData(objectString)
             else:
                 mapData = None
@@ -952,11 +952,11 @@ def getMeshObjectsPathInfo(groupString, meshObjStrs=None):
 #
 def getGeometryObjectGeomInfo(objectString, roundLimit=8):
     objectType = maUtils._getNodeShapeCategoryString(objectString)
-    if objectType == appCfg.DEF_type_mesh:
+    if objectType == appCfg.DEF_mya_type_mesh:
         return getMeshObjectGeomInfo(objectString, roundLimit)
-    elif objectType == appCfg.DEF_type_nurbs_surface:
+    elif objectType == appCfg.DEF_mya_type_nurbs_surface:
         return getNurbsSurfaceObjectGeomInfo(objectString, roundLimit)
-    elif objectType == appCfg.DEF_type_nurbs_curve:
+    elif objectType == appCfg.DEF_mya_type_nurbs_curve:
         return getNurbsCurveObjectGeomInfo(objectString, roundLimit)
 
 
@@ -980,11 +980,11 @@ def getNurbsCurveObjectGeomInfo(objectString, roundLimit=8):
 #
 def getGeometryObjectMapInfo(objectString, roundLimit=8):
     objectType = maUtils._getNodeShapeCategoryString(objectString)
-    if objectType == appCfg.DEF_type_mesh:
+    if objectType == appCfg.DEF_mya_type_mesh:
         return getMeshObjectMapInfo(objectString, roundLimit)
-    elif objectType == appCfg.DEF_type_nurbs_surface:
+    elif objectType == appCfg.DEF_mya_type_nurbs_surface:
         return None, None
-    elif objectType == appCfg.DEF_type_nurbs_curve:
+    elif objectType == appCfg.DEF_mya_type_nurbs_curve:
         return None, None
 
 
@@ -1377,14 +1377,14 @@ def setNurbsCurveShapeCreate(objectString, geomData, shapeName=None):
 def setCreateObjectGraphGeometrySub(objectData, lockTransform=False):
     shapeName, shapeType, transformData, geomData, mapData = objectData
     objectString = maObj.setCreateObjectTransformPath(transformData, lockTransform)
-    if shapeType == appCfg.DEF_type_mesh:
+    if shapeType == appCfg.DEF_mya_type_mesh:
         setCreateMeshObjectShape(objectString, geomData, shapeName)
         setCreateMeshObjectMap(objectString, mapData)
         maUtils.setObjectDefaultShadingEngine(objectString)
-    elif shapeType == appCfg.DEF_type_nurbs_surface:
+    elif shapeType == appCfg.DEF_mya_type_nurbs_surface:
         setCreateNurbsSurfaceObjectShape(objectString, geomData, shapeName)
         maUtils.setObjectDefaultShadingEngine(objectString)
-    elif shapeType == appCfg.DEF_type_nurbs_curve:
+    elif shapeType == appCfg.DEF_mya_type_nurbs_curve:
         setNurbsCurveShapeCreate(objectString, geomData, shapeName)
 
 
@@ -1483,7 +1483,7 @@ def setCreateGeometryObjectsEdgeSmooth(dataDic):
                 if objectStrings:
                     objectString = objectStrings[0]
                     objectType = maUtils._getNodeShapeCategoryString(objectString)
-                    if objectType == appCfg.DEF_type_mesh:
+                    if objectType == appCfg.DEF_mya_type_mesh:
                         setCreateMeshObjectEdgeSmooth(objectString, data)
 
 
@@ -1521,7 +1521,7 @@ def setCreateGeometryObjectMap(dataDic):
             if objectStrings:
                 objectString = objectStrings[0]
                 objectType = maUtils._getNodeShapeCategoryString(objectString)
-                if objectType == appCfg.DEF_type_mesh:
+                if objectType == appCfg.DEF_mya_type_mesh:
                     setCreateMeshObjectMap(objectString, mapData)
 
 
@@ -1689,9 +1689,9 @@ def setGeometryObjectsDefaultShadingEngine(uniqueIds):
         objectString = maUuid.getObject(uniqueId)
         if objectString:
             objectType = maUtils._getNodeShapeCategoryString(objectString)
-            if objectType == appCfg.DEF_type_mesh:
+            if objectType == appCfg.DEF_mya_type_mesh:
                 maUtils.setObjectDefaultShadingEngine(objectString)
-            elif objectType == appCfg.DEF_type_nurbs_surface:
+            elif objectType == appCfg.DEF_mya_type_nurbs_surface:
                 maUtils.setObjectDefaultShadingEngine(objectString)
 
 

@@ -5,7 +5,7 @@ from LxScheme import shmConfigure
 
 
 class Abc_ShmObject(shmConfigure.Utility):
-    def _initAbcMaObject(self, category, name):
+    def _initAbcShmObject(self, category, name):
         self._category = category
         self._name = name
 
@@ -36,7 +36,7 @@ class Abc_ShmObject(shmConfigure.Utility):
 
 
 class Abc_ShmPath(shmConfigure.Utility):
-    def _initAbcPath(self):
+    def _initAbcShmPath(self):
         pass
 
     @property
@@ -102,40 +102,40 @@ class Abc_ShmPath(shmConfigure.Utility):
 
 
 class Abc_ShmRoot(Abc_ShmPath):
-    environ_key_develop = None
-    environ_key_product = None
-    environ_key_local = None
+    DEF_environ_key_develop = None
+    DEF_environ_key_product = None
+    DEF_environ_key_local = None
 
     VAR_path_default_develop = None
     VAR_path_default_product = None
     VAR_path_default_local = None
 
-    def _initAbcPthRoot(self):
+    def _initAbcShmRoot(self):
         pass
 
     def _developPath(self):
         return bscMethods.OsEnviron.getAsPath(
-            self.environ_key_develop,
+            self.DEF_environ_key_develop,
             self.VAR_path_default_develop
         )
 
     def _productPath(self):
         return bscMethods.OsEnviron.getAsPath(
-            self.environ_key_product,
+            self.DEF_environ_key_product,
             self.VAR_path_default_product
         )
 
     def _localPath(self):
         return bscMethods.OsEnviron.getAsPath(
-            self.environ_key_local,
+            self.DEF_environ_key_local,
             self.VAR_path_default_local
         )
 
 
 class Abc_ShmDirectory(Abc_ShmPath):
-    CLS_path_root = None
+    CLS_shm_root = None
 
-    def _initAbcPthDirectory(self, *args):
+    def _initAbcShmDirectory(self, *args):
         self.pathFormatString = {
             self.Path_Key_Active: u'{self.root.active}/{self.subpath}',
             self.Path_Key_Server: u'{self.root.server}/{self.subpath}',
@@ -145,7 +145,7 @@ class Abc_ShmDirectory(Abc_ShmPath):
             self.Path_Key_Workspace: u'{self.root.workspace}/{self.subpath}'
         }
 
-        self._root = self.CLS_path_root()
+        self._root = self.CLS_shm_root()
 
         self._subPathString = self._toSubPathMethod(*args)
         self._subNameString = self._toSubNameMethod(*args)
@@ -189,10 +189,10 @@ class Abc_ShmDirectory(Abc_ShmPath):
 
 
 class Abc_ShmFile(shmConfigure.Utility):
-    CLS_path_directory = None
-    CLS_file = None
+    CLS_shm_directory = None
+    CLS_shm_file = None
 
-    def _initAbcFile(self, directoryArgs, baseName, ext):
+    def _initAbcShmFile(self, directoryArgs, baseName, ext):
         self.pathFormatString = {
             self.Path_Key_Active: u'{self.directory.active}/{self.basename}',
             self.Path_Key_Server: u'{self.directory.server}/{self.basename}',
@@ -201,17 +201,17 @@ class Abc_ShmFile(shmConfigure.Utility):
             self.Path_Key_Product: u'{self.directory.product}/{self.basename}'
         }
 
-        self._directory = self.CLS_path_directory(*directoryArgs)
+        self._directory = self.CLS_shm_directory(*directoryArgs)
 
         self._baseName = u'{}{}'.format(baseName, ext)
 
     @classmethod
     def _readMethod(cls, fileString):
-        return cls.CLS_file(fileString).read()
+        return cls.CLS_shm_file(fileString).read()
 
     @classmethod
     def _writeMethod(cls, fileString, raw):
-        cls.CLS_file(fileString).write(raw)
+        cls.CLS_shm_file(fileString).write(raw)
 
     @property
     def root(self):
@@ -292,30 +292,27 @@ class Abc_ShmFile(shmConfigure.Utility):
 
 
 class Abc_ShmSystem(Abc_ShmObject):
-    CLS_system = None
+    CLS_shm_system = None
 
-    key_environ_bin_path = None
-    key_bin_default = None
+    VAR_shm_object_category = None
+    VAR_shm_raw_key = None
 
-    object_category = None
-    raw_key = None
-
-    def _initAbcSystem(self, *args):
+    def _initAbcShmSystem(self, *args):
         self._argument = args
 
         systemName, systemVersion = args[-2:]
 
-        self._initAbcMaObject(
-            self.object_category, systemName
+        self._initAbcShmObject(
+            self.VAR_shm_object_category, systemName
         )
         self._version = systemVersion
 
-        if self.CLS_system is not None:
-            self._systemObj = self.CLS_system(*args[:-2])
+        if self.CLS_shm_system is not None:
+            self._systemObj = self.CLS_shm_system(*args[:-2])
 
     def create(self, *args):
         """
-        = self._initAbcSystem(*args)
+        = self._initAbcShmSystem(*args)
         :param args:
             Platform: *(platformName, platformVersion);
             Platform-Language: *(platformName, platformVersion, languageName, languageVersion);
@@ -323,7 +320,7 @@ class Abc_ShmSystem(Abc_ShmObject):
             Platform-Application-Language: *(platformName, platformVersion, applicationName, applicationVersion, languageName, languageVersion).
         :return: None
         """
-        self._initAbcSystem(*args)
+        self._initAbcShmSystem(*args)
 
     def createByRaw(self, raw):
         pass
@@ -365,7 +362,7 @@ class Abc_ShmSystem(Abc_ShmObject):
 
 
 class Abc_ShmRaw(shmConfigure.Utility):
-    def _initAbcRaw(self, raw, defRaw):
+    def _initAbcShmRaw(self, raw, defRaw):
         if raw is not None:
             self._raw = raw
         else:
@@ -395,7 +392,7 @@ class Abc_ShmRaw(shmConfigure.Utility):
 
 
 class Abc_ShmConfigure(Abc_ShmRaw):
-    def _initAbcConfigure(self, enable, category, name):
+    def _initAbcShmConfigure(self, enable, category, name):
         self.create(
             self.CLS_dic_order(
                 [
@@ -419,12 +416,44 @@ class Abc_ShmConfigure(Abc_ShmRaw):
 
 
 class Abc_ShmResource(Abc_ShmObject):
-    CLS_system = None
-    CLS_path_file = None
-    CLS_raw = None
-    CLS_operate = None
+    CLS_shm_system = None
+    CLS_shm_file = None
+    CLS_shm_raw = None
+    CLS_shm_operate = None
 
-    object_category = None
+    VAR_shm_object_category = None
+
+    def _initAbcShmResource(self, *args):
+        """
+        :param args:
+        :return:
+        """
+        # Object
+        resourceName = args[0]
+        self._initAbcShmObject(
+            self.VAR_shm_object_category, resourceName
+        )
+        # Bin
+        self._argument = args[1:]
+        self._systemObj = self.CLS_shm_system(*self._argument)
+
+        self._enable = True
+        # Config
+        self._rawObj = self.CLS_shm_raw(
+            True, self.VAR_shm_object_category, resourceName,
+            self._systemObj
+        )
+        # File
+        args_ = list(self._systemObj.argument())
+        args_.append(resourceName.lower())
+        fileArgs = [i for i in args_ if not i == self.Keyword_Share]
+        self._fileObj = self.CLS_shm_file(*fileArgs)
+        # Raw
+        self._version = self._rawObj.version
+        self._environ = self._rawObj.environ
+        self._dependent = self._rawObj.dependent
+        # init
+        self._loadCache()
 
     def _loadCache(self):
         serverRaw = self.file.serverFileRaw()
@@ -435,38 +464,6 @@ class Abc_ShmResource(Abc_ShmObject):
                 self.dependent.create(serverRaw[self.Key_Dependent])
 
         self._raw = self._rawObj.raw()
-
-    def _initAbcResource(self, *args):
-        """
-        :param args:
-        :return:
-        """
-        # Object
-        resourceName = args[0]
-        self._initAbcMaObject(
-            self.object_category, resourceName
-        )
-        # Bin
-        self._argument = args[1:]
-        self._systemObj = self.CLS_system(*self._argument)
-
-        self._enable = True
-        # Config
-        self._rawObj = self.CLS_raw(
-            True, self.object_category, resourceName,
-            self._systemObj
-        )
-        # File
-        args_ = list(self._systemObj.argument())
-        args_.append(resourceName.lower())
-        fileArgs = [i for i in args_ if not i == self.Keyword_Share]
-        self._fileObj = self.CLS_path_file(*fileArgs)
-        # Raw
-        self._version = self._rawObj.version
-        self._environ = self._rawObj.environ
-        self._dependent = self._rawObj.dependent
-        # init
-        self._loadCache()
 
     def _getModuleVersion(self):
         module = bscMethods.PyLoader.reload(self.name)
@@ -550,7 +547,7 @@ class Abc_ShmResource(Abc_ShmObject):
             if version is None:
                 version = self._getModuleVersion()
 
-        return self.CLS_operate(self, version)
+        return self.CLS_shm_operate(self, version)
 
     def createServerCache(self):
         self.file.createServerFile(self.config.raw())
@@ -579,14 +576,14 @@ class Abc_ShmResource(Abc_ShmObject):
 
 
 class Abc_ShmPreset(shmConfigure.Utility):
-    CLS_system = None
-    CLS_path_file = None
-    CLS_raw = None
-    CLS_operate = None
+    CLS_shm_system = None
+    CLS_shm_file = None
+    CLS_shm_raw = None
+    CLS_shm_operate = None
 
-    object_category = None
+    VAR_shm_object_category = None
 
-    def _initAbcPreset(self, *args):
+    def _initAbcShmPreset(self, *args):
         """
         :param args:
         :return:
@@ -598,11 +595,11 @@ class Abc_ShmPreset(shmConfigure.Utility):
 
         self._enable = True
         # Raw
-        self._rawObj = self.CLS_raw(
-            True, self.object_category, presetName,
+        self._rawObj = self.CLS_shm_raw(
+            True, self.VAR_shm_object_category, presetName,
         )
         # File
-        self._fileObj = self.CLS_path_file(presetName)
+        self._fileObj = self.CLS_shm_file(presetName)
         # init
         self._loadCache()
 
@@ -622,11 +619,7 @@ class Abc_ShmPreset(shmConfigure.Utility):
 
 
 class Abc_ShmOperate(shmConfigure.Utility):
-    def _initOperate(self):
-        self._cls_dic = {}
-        self._argument_dic = {}
-
-    def _initAbcOperate(self, resource, version):
+    def _initAbcShmOperate(self, resource, version):
         self._resourceObj = resource
         self._version = version
 

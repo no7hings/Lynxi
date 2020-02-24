@@ -29,19 +29,19 @@ class Mtd_MtlFile(Mtd_MtlBasic):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic[cls.DEF_key_type] = nodeType
+            nodeDic[cls.DEF_mtl_key_type] = nodeType
             nodeAttrLis = []
             for input_ in i.getInputs():
                 portname = input_.name()
                 valueTypeString = input_.getType()
                 valueString = input_.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[cls.DEF_key_name] = portname
-                attrDic[cls.DEF_key_type] = valueTypeString
-                attrDic[cls.DEF_key_value] = valueString
+                attrDic[cls.DEF_mtl_key_name] = portname
+                attrDic[cls.DEF_mtl_key_type] = valueTypeString
+                attrDic[cls.DEF_mtl_key_value] = valueString
                 nodeAttrLis.append(attrDic)
 
-            nodeDic[cls.DEF_key_port] = nodeAttrLis
+            nodeDic[cls.DEF_mtl_key_port] = nodeAttrLis
             dic[nodeCategory] = nodeDic
         return dic
 
@@ -161,6 +161,10 @@ class Mtd_MtlUtility(Mtd_MtlBasic):
 
 class Mtd_MtlRaw(Mtd_MtlBasic):
     @classmethod
+    def _setMayaDagPathCovert(cls, string):
+        return string.replace(cls.DEF_mya_separator_node, cls.DEF_mtl_node_separator)
+
+    @classmethod
     def _setMayaCategoryCovert(cls, string, covertDict):
         if string.startswith('ai'):
             return bscMethods.StrCamelcase.toUnderline(string[2:])
@@ -170,6 +174,3 @@ class Mtd_MtlRaw(Mtd_MtlBasic):
     def _setMayaAttributeCovert(cls, string):
         return bscMethods.StrCamelcase.toUnderline(string[2:])
 
-    @classmethod
-    def _setMayaDagPathCovert(cls, string):
-        return string.replace(cls.DEF_maya_separator_node, cls.DEF_separator_node)

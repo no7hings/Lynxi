@@ -10,7 +10,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
         :param other: object of "Datum"
         :return: number
         """
-        assert isinstance(other.raw(), self.raw_type), u'Argument Error, "arg" Must "raw_type".'
+        assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
 
         return self.__class__(self, self.raw() + other.raw())
 
@@ -19,7 +19,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
         :param other: object of "Datum"
         :return: number
         """
-        assert isinstance(other.raw(), self.raw_type), u'Argument Error, "arg" Must "raw_type".'
+        assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
 
         return self.__class__(self, self.raw() - other.raw())
 
@@ -28,7 +28,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
         :param other: object of "Datum"
         :return: number
         """
-        assert isinstance(other.raw(), self.raw_type), u'Argument Error, "arg" Must "raw_type".'
+        assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
 
         return self.__class__(self, self.raw() * other.raw())
 
@@ -37,17 +37,17 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
         :param other: object of "Datum"
         :return: number
         """
-        assert isinstance(other.raw(), self.raw_type), u'Argument Error, "arg" Must "raw_type".'
+        assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
 
         return self.__class__(self, self.raw() / other.raw())
 
 
 class Dat_Closure(mtlObjCore.Abc_MtlRawDatum):
-    CLS_raw = _mtlObjRaw.Raw_Closure
+    CLS_mtl_raw = _mtlObjRaw.Raw_Closure
 
-    raw_type = _mtlObjRaw.Raw_Closure
+    VAR_mtl_raw_type = _mtlObjRaw.Raw_Closure
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -62,11 +62,11 @@ class Dat_Closure(mtlObjCore.Abc_MtlRawDatum):
 
 
 class Dat_Boolean(mtlObjCore.Abc_MtlRawDatum):
-    CLS_raw = bool
+    CLS_mtl_raw = bool
 
-    raw_type = bool, int
+    VAR_mtl_raw_type = bool, int
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -86,11 +86,11 @@ class Dat_Boolean(mtlObjCore.Abc_MtlRawDatum):
 
 
 class Dat_Integer(_Dat_Method):
-    CLS_raw = int
+    CLS_mtl_raw = int
 
-    raw_type = int, float
+    VAR_mtl_raw_type = int, float
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -102,11 +102,11 @@ class Dat_Integer(_Dat_Method):
 
 
 class Dat_IntegerN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_Integer
+    CLS_mtl_child_set = Dat_Integer
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -118,11 +118,11 @@ class Dat_IntegerN(mtlObjCore.Abc_MtlRawDatumset):
 
 
 class Dat_IntegerNN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_IntegerN
+    CLS_mtl_child_set = Dat_IntegerN
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String_Array
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -134,11 +134,11 @@ class Dat_IntegerNN(mtlObjCore.Abc_MtlRawDatumset):
 
 
 class Dat_Float(_Dat_Method):
-    CLS_raw = float
+    CLS_mtl_raw = float
 
-    raw_type = float, int
+    VAR_mtl_raw_type = float, int
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -150,11 +150,11 @@ class Dat_Float(_Dat_Method):
 
 
 class Dat_FloatN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_Float
+    CLS_mtl_child_set = Dat_Float
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -166,11 +166,11 @@ class Dat_FloatN(mtlObjCore.Abc_MtlRawDatumset):
 
 
 class Dat_FloatNN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_FloatN
+    CLS_mtl_child_set = Dat_FloatN
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String_Array
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -181,12 +181,12 @@ class Dat_FloatNN(mtlObjCore.Abc_MtlRawDatumset):
         self._initAbcMtlRawDatumset(*args)
 
 
-class Dat_String(mtlObjCore.Abc_MtlRawDatum):
-    CLS_raw = unicode
+class Dat_string(mtlObjCore.Abc_MtlRawDatum):
+    CLS_mtl_raw = unicode
 
-    raw_type = unicode, str
+    VAR_mtl_raw_type = unicode, str
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -197,12 +197,12 @@ class Dat_String(mtlObjCore.Abc_MtlRawDatum):
         self._initAbcMtlRawDatum(*args)
 
 
-class Dat_StringN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_String
+class Dat_stringN(mtlObjCore.Abc_MtlRawDatumset):
+    CLS_mtl_child_set = Dat_string
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -213,12 +213,12 @@ class Dat_StringN(mtlObjCore.Abc_MtlRawDatumset):
         self._initAbcMtlRawDatumset(*args)
 
 
-class Dat_FileName(mtlObjCore.Abc_MtlRawDatum):
-    CLS_raw = unicode
+class Dat_file_name(mtlObjCore.Abc_MtlRawDatum):
+    CLS_mtl_raw = unicode
 
-    raw_type = unicode, str
+    VAR_mtl_raw_type = unicode, str
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -230,11 +230,11 @@ class Dat_FileName(mtlObjCore.Abc_MtlRawDatum):
 
 
 class Dat_NodeName(mtlObjCore.Abc_MtlRawDatum):
-    CLS_raw = unicode
+    CLS_mtl_raw = unicode
 
-    raw_type = unicode, str
+    VAR_mtl_raw_type = unicode, str
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """
@@ -246,11 +246,11 @@ class Dat_NodeName(mtlObjCore.Abc_MtlRawDatum):
 
 
 class Dat_NodeNameN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_set_child = Dat_NodeName
+    CLS_mtl_child_set = Dat_NodeName
 
-    datum_string_separator = mtlConfigure.Separator_Raw_String
+    VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtlx_key_attribute = 'value'
+    VAR_mtl_key_attribute = 'value'
 
     def __init__(self, *args):
         """

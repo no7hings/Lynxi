@@ -18,7 +18,7 @@ from LxMaya.command import maUtils, maAttr, maUuid, maTxtr
 #
 none = ''
 #
-DEF_shading_engine_default_list = [
+DEF_mya_default_shading_engine_list = [
     'initialShadingGroup',
     'initialParticleSE',
     'defaultLightSet',
@@ -50,9 +50,9 @@ def _getNodeShadingEngineNodeStringList(objectString):
     if not shapePath:
         shapePath = objectString
     #
-    outputNodes = maUtils._getNodeTargetNodeStringList(shapePath, appCfg.DEF_type_shading_engine)
+    outputNodes = maUtils._getNodeTargetNodeStringList(shapePath, appCfg.DEF_mya_type_shading_engine)
     if outputNodes:
-        [lis.append(i) for i in outputNodes if i not in DEF_shading_engine_default_list]
+        [lis.append(i) for i in outputNodes if i not in DEF_mya_default_shading_engine_list]
     return lis
 
 
@@ -536,7 +536,7 @@ def getObjectsMaterialRelinkData(objectLis):
     for objectString in objectLis:
         linkDatumLis = []
         shape = maUtils._getNodeShapeNodeString(objectString, fullPath=1)
-        shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_type_shading_engine)
+        shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
         if shadingEngineLis:
             for shadingEngine in shadingEngineLis:
                 elementSetData = cmds.sets(shadingEngine, query=1)
@@ -564,7 +564,7 @@ def getObjectsMaterialRelinkData(objectLis):
 def getMaterialShadingEngine(uniqueId):
     material = maUuid.getObject(uniqueId)
     if material:
-        shadingEngineLis = maUtils._getNodeSourceNodeStringList(material, appCfg.DEF_type_shading_engine)
+        shadingEngineLis = maUtils._getNodeSourceNodeStringList(material, appCfg.DEF_mya_type_shading_engine)
         if shadingEngineLis:
             return shadingEngineLis[0]
 
@@ -693,7 +693,7 @@ def setObjectCleanShadingEngine(objectString):
 #
 def setObjectCleanShapeShadingEngine(objectString):
     shape = maUtils._getNodeShapeNodeString(objectString)
-    shapeShadingEngines = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_type_shading_engine)
+    shapeShadingEngines = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
     if shapeShadingEngines:
         [cmds.sets(shape, remove=i) for i in shapeShadingEngines]
 
@@ -710,7 +710,7 @@ def setObjectCleanTransformShadingEngine(objectString):
 #
 def setObjectDefaultShadingEngine(objectString):
     shape = maUtils._getNodeShapeNodeString(objectString)
-    shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_type_shading_engine)
+    shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
     if not shadingEngineLis:
         cmds.sets(shape, forceElement='initialShadingGroup')
 

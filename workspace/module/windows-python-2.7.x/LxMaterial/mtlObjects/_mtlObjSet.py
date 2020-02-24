@@ -13,32 +13,27 @@ class Set_Dag(mtlObjCore.Abc_MtlObjectSet):
 
 
 class Set_Geometry(mtlObjCore.Abc_MtlObjectSet):
-    VAR_mtlx_key_attribute = u'geom'
+    VAR_mtl_key_attribute = u'geom'
 
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
 class Set_ViewerGeometry(mtlObjCore.Abc_MtlObjectSet):
-    VAR_mtlx_key_attribute = u'viewergeom'
+    VAR_mtl_key_attribute = u'viewergeom'
 
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
 class Set_Collection(mtlObjCore.Abc_MtlObjectSet):
-    VAR_mtlx_key_attribute = u'collection'
+    VAR_mtl_key_attribute = u'collection'
 
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Port(mtlObjCore.Abc_MtlObjectSet):
-    def __init__(self, *args):
-        self._initAbcMtlObjectSet(*args)
-
-
-class Set_Input(mtlObjCore.Abc_MtlObjectSet):
+class Set_Attribute(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 

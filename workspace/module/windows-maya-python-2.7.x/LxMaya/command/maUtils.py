@@ -21,7 +21,7 @@ from LxBasic import bscMethods
 #
 from LxCore.config import appCfg
 #
-DEF_matrix_default = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+DEF_mya_default_matrix = [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 #
 none = ''
 
@@ -312,7 +312,7 @@ def setObjectsRandColor(objectLis):
 def setObjectAnnotation(objectString, message):
     annotationName = objectString + '_annotationShape'
     cmds.createNode('annotationShape', name=annotationName, parent=objectString)
-    annotationPath = objectString + appCfg.DEF_separator_node + annotationName
+    annotationPath = objectString + appCfg.DEF_mya_node_separator + annotationName
     cmds.setAttr(annotationPath + '.text', message, type='string')
     cmds.setAttr(annotationPath + '.displayArrow', 0)
     shape = _getNodeShapeNodeString(objectString)
@@ -520,7 +520,7 @@ def getObjectChildrenCount(objectString):
 
 
 # Get Object's Children
-def getObjectChildObjectLis(objectString, mType=appCfg.DEF_type_transform, fullPath=True):
+def getObjectChildObjectLis(objectString, mType=appCfg.DEF_mya_type_transform, fullPath=True):
     objectLis = cmds.listRelatives(objectString, children=1, type=mType, fullPath=fullPath)
     return objectLis
 
@@ -529,7 +529,7 @@ def getObjectChildObjectLis(objectString, mType=appCfg.DEF_type_transform, fullP
 def getObjectChildObjects(objectString, filterTypes, fullPath=True):
     lis = []
     filterTypes = bscMethods.String.toList(filterTypes)
-    children = cmds.listRelatives(objectString, children=1, type=appCfg.DEF_type_transform, fullPath=fullPath)
+    children = cmds.listRelatives(objectString, children=1, type=appCfg.DEF_mya_type_transform, fullPath=fullPath)
     if children:
         for child in children:
             if getTransformType(child) in filterTypes:
@@ -540,7 +540,7 @@ def getObjectChildObjects(objectString, filterTypes, fullPath=True):
 # Get Object's Transform
 def _getNodeTransformNodeString(objectString, fullPath=True):
     if _isAppExist(objectString):
-        if _getNodeCategoryString(objectString) == appCfg.DEF_type_transform:
+        if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
             if fullPath:
                 return _getNodeFullpathNameString(objectString)
             if not fullPath:
@@ -553,22 +553,22 @@ def _getNodeTransformNodeString(objectString, fullPath=True):
 
 #
 def _toTransformByNodePath(nodePath):
-    return appCfg.DEF_separator_node.join(nodePath.split(appCfg.DEF_separator_node)[:-1])
+    return appCfg.DEF_mya_node_separator.join(nodePath.split(appCfg.DEF_mya_node_separator)[:-1])
 
 
 #
 def _toNamespaceByNodePath(objectPath):
-    return appCfg.DEF_separator_namespace.join(objectPath.split(appCfg.DEF_separator_node)[-1].split(appCfg.DEF_separator_namespace)[:-1])
+    return appCfg.DEF_mya_namespace_separator.join(objectPath.split(appCfg.DEF_mya_node_separator)[-1].split(appCfg.DEF_mya_namespace_separator)[:-1])
 
 
 # Get Object's Shape
 def _getNodeShapeNodeString(objectString, fullPath=True):
     if _isAppExist(objectString):
-        if _getNodeCategoryString(objectString) == appCfg.DEF_type_transform:
+        if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
             shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
             if shapes:
                 return shapes[0]
-        if not _getNodeCategoryString(objectString) == appCfg.DEF_type_transform:
+        if not _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
             if fullPath:
                 return _getNodeFullpathNameString(objectString)
             if not fullPath:
@@ -770,17 +770,17 @@ def setCleanSceneDirty():
 
 #
 def getObjectPathJoinNamespace(objectPath, namespace):
-    isFullPath = objectPath.startswith(appCfg.DEF_separator_node)
+    isFullPath = objectPath.startswith(appCfg.DEF_mya_node_separator)
     if isFullPath:
-        return (appCfg.DEF_separator_node + namespace + ':').join(objectPath.split(appCfg.DEF_separator_node))
+        return (appCfg.DEF_mya_node_separator + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_separator))
     elif not isFullPath:
-        return namespace + ':' + (appCfg.DEF_separator_node + namespace + ':').join(objectPath.split(appCfg.DEF_separator_node))
+        return namespace + ':' + (appCfg.DEF_mya_node_separator + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_separator))
 
 
 #
 def getObjectPathRemoveNamespace(objectPath):
-    paths = [i.split(appCfg.DEF_separator_namespace)[-1] for i in objectPath.split(appCfg.DEF_separator_node)]
-    return appCfg.DEF_separator_node.join(paths)
+    paths = [i.split(appCfg.DEF_mya_namespace_separator)[-1] for i in objectPath.split(appCfg.DEF_mya_node_separator)]
+    return appCfg.DEF_mya_node_separator.join(paths)
 
 
 #
@@ -790,7 +790,7 @@ def getNodeJoinNamespace(objectString, namespace):
 
 #
 def getObjectStringJoinNamespace(objectString, namespace):
-    if appCfg.DEF_separator_node in objectString:
+    if appCfg.DEF_mya_node_separator in objectString:
         return getObjectPathJoinNamespace(objectString, namespace)
     else:
         return getNodeJoinNamespace(objectString, namespace)
@@ -912,7 +912,7 @@ def getAnimationKey(objectString, targetObject, startFrame, endFrame, frameOffse
 #
 def _getNodeFullpathNameString(objectString):
     string = objectString
-    isPath = objectString.startswith(appCfg.DEF_separator_node)
+    isPath = objectString.startswith(appCfg.DEF_mya_node_separator)
     if not isPath:
         data = cmds.ls(objectString, long=1)
         if data:
@@ -922,16 +922,16 @@ def _getNodeFullpathNameString(objectString):
 
 #
 def isObjectPath(string):
-    return string.startswith(appCfg.DEF_separator_node)
+    return string.startswith(appCfg.DEF_mya_node_separator)
 
 
 #
 def _nodeString2nodename_(objectPath, useMode=0):
     string = none
     if useMode == 0:
-        string = objectPath.split(appCfg.DEF_separator_node)[-1]
+        string = objectPath.split(appCfg.DEF_mya_node_separator)[-1]
     elif useMode == 1:
-        string = objectPath.split(appCfg.DEF_separator_node)[-1].split(appCfg.DEF_separator_namespace)[-1]
+        string = objectPath.split(appCfg.DEF_mya_node_separator)[-1].split(appCfg.DEF_mya_namespace_separator)[-1]
     return string
 
 
@@ -947,7 +947,7 @@ def _toNodeParentPath(objectString):
     string = None
     objectPath = _getNodeFullpathNameString(objectString)
     if objectPath:
-        data = appCfg.DEF_separator_node.join(objectPath.split(appCfg.DEF_separator_node)[:-1])
+        data = appCfg.DEF_mya_node_separator.join(objectPath.split(appCfg.DEF_mya_node_separator)[:-1])
         if data:
             string = data
     return string
@@ -1576,17 +1576,17 @@ def setNodeOverrideColor(objectString, color=17):
 
 #
 def _toNodeAttr(stringLis):
-    return appCfg.DEF_separator_port.join(stringLis)
+    return appCfg.DEF_mya_port_separator.join(stringLis)
 
 
 #
 def _toNodePathString(stringLis):
-    return appCfg.DEF_separator_node.join(stringLis)
+    return appCfg.DEF_mya_node_separator.join(stringLis)
 
 
 #
 def _toNamespace(stringLis):
-    return appCfg.DEF_separator_namespace.join(stringLis)
+    return appCfg.DEF_mya_namespace_separator.join(stringLis)
 
 
 #
@@ -1713,7 +1713,7 @@ def setObjectParent(childPath, parentPath):
     if _isAppExist(parentPath) and _isAppExist(childPath):
         origParentPath = getObjectParent(childPath)
         if origParentPath:
-            if parentPath.startswith(appCfg.DEF_separator_node):
+            if parentPath.startswith(appCfg.DEF_mya_node_separator):
                 if not parentPath == origParentPath:
                     cmds.parent(childPath, parentPath)
             else:
@@ -1814,7 +1814,7 @@ def setRenameForce(objectString, name):
 
 #
 def isPolyMesh(objectString):
-    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
         shape = _getNodeShapeNodeString(objectString)
         if cmds.nodeType(shape) == 'mesh':
             return True
@@ -1827,7 +1827,7 @@ def isPolyMesh(objectString):
 #
 def _getNodeIsShape(objectString):
     boolean = False
-    if cmds.nodeType(objectString) != appCfg.DEF_type_transform:
+    if cmds.nodeType(objectString) != appCfg.DEF_mya_type_transform:
         shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=True)
         if not shapes:
             boolean = True
@@ -1837,7 +1837,7 @@ def _getNodeIsShape(objectString):
 #
 def _getNodeIsTransform(objectString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
         shapes = _getNodeShapeNodeStringList(objectString)
         if shapes:
             boolean = True
@@ -1847,7 +1847,7 @@ def _getNodeIsTransform(objectString):
 #
 def _getNodeIsGroup(objectString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
         shapes = _getNodeShapeNodeStringList(objectString)
         if not shapes:
             boolean = True
@@ -1856,7 +1856,7 @@ def _getNodeIsGroup(objectString):
 
 # Check Object is Empty Group
 def isGroupEmpty(objectString):
-    if cmds.nodeType(objectString) == appCfg.DEF_type_transform:
+    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
         child = cmds.listRelatives(objectString, children=1)
         if not child:
             return True
@@ -1947,7 +1947,7 @@ def getAttrTypes():
 
 #
 def getTransformType(objectString):
-    if _getNodeCategoryString(objectString) == appCfg.DEF_type_transform:
+    if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
         shape = _getNodeShapeNodeString(objectString, 1)
         if shape:
             return _getNodeCategoryString(shape)
@@ -1957,7 +1957,7 @@ def getTransformType(objectString):
 def _getNodeShapeCategoryString(objectString):
     nodeType = _getNodeCategoryString(objectString)
     #
-    if nodeType == appCfg.DEF_type_transform:
+    if nodeType == appCfg.DEF_mya_type_transform:
         shapePath = _getNodeShapeNodeString(objectString)
         if shapePath:
             string = _getNodeCategoryString(shapePath)
@@ -2620,7 +2620,7 @@ def getObjectHierarchyDic(mType, root):
     if root:
         hierarchyData = getObjectTransformsByType(mType, 1, root)
         for data in hierarchyData:
-            splitData = data.split(appCfg.DEF_separator_node)
+            splitData = data.split(appCfg.DEF_mya_node_separator)
             # Check Naming Error( Overlapping Name )
             if len(splitData) == len(set(splitData)):
                 for seq, i in enumerate(splitData):
@@ -2883,12 +2883,12 @@ def getRoot(objectString, fullPath=True):
     objectFullPath = _getNodeFullpathNameString(objectString)
     if objectFullPath:
         root = objectString
-        if objectFullPath.startswith(appCfg.DEF_separator_node):
-            splitData = objectFullPath.split(appCfg.DEF_separator_node)
+        if objectFullPath.startswith(appCfg.DEF_mya_node_separator):
+            splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
             root = splitData[1]
             #
             if fullPath:
-                root = appCfg.DEF_separator_node.join(splitData[:2])
+                root = appCfg.DEF_mya_node_separator.join(splitData[:2])
         return root
 
 
@@ -2897,7 +2897,7 @@ def getObjectParentFilter(objectString, keyword, fullPath=True):
     string = none
     objectFullPath = _getNodeFullpathNameString(objectString)
     if objectFullPath:
-        splitData = objectFullPath.split(appCfg.DEF_separator_node)
+        splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
         hasParent = False
         loc = 0
         #
@@ -2909,7 +2909,7 @@ def getObjectParentFilter(objectString, keyword, fullPath=True):
         if hasParent:
             parent = splitData[loc]
             if fullPath:
-                parent = appCfg.DEF_separator_node.join(splitData[:loc + 1])
+                parent = appCfg.DEF_mya_node_separator.join(splitData[:loc + 1])
             string = parent
     return string
 
@@ -3097,13 +3097,13 @@ def setCreateNode(nodeType, name):
 def _toAppCompPathLis(objectPath):
     lis = []
     #
-    dataArray = objectPath.split(appCfg.DEF_separator_node)
+    dataArray = objectPath.split(appCfg.DEF_mya_node_separator)
     #
     dataCount = len(dataArray)
     for seq, data in enumerate(dataArray):
         if data:
             if seq + 1 < dataCount:
-                subPath = appCfg.DEF_separator_node.join(dataArray[:seq + 1])
+                subPath = appCfg.DEF_mya_node_separator.join(dataArray[:seq + 1])
                 lis.append(subPath)
     #
     lis.append(objectPath)
@@ -3152,7 +3152,7 @@ def setCloneHierarchy(root, cloneRoot='|clone_grp'):
 #
 def setGpu(name, mFile):
     if not _isAppExist(name):
-        cmds.createNode(appCfg.DEF_type_transform, name=name)
+        cmds.createNode(appCfg.DEF_mya_type_transform, name=name)
         cmds.createNode('gpuCache', name=name + '_inCache', parent=name)
     if os.path.isfile(mFile):
         cmds.setAttr(name + '_inCache' + '.cacheFileName', mFile, type='string')
@@ -3226,7 +3226,7 @@ def setDefaultShaderRandomColor():
 #
 def setObjectDefaultShadingEngine(maObj):
     shape = _getNodeShapeNodeString(maObj)
-    shadingEngines = _getNodeTargetNodeStringList(shape, appCfg.DEF_type_shading_engine)
+    shadingEngines = _getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
     if not shadingEngines:
         cmds.sets(shape, forceElement='initialShadingGroup')
 
@@ -3294,7 +3294,7 @@ def setNodeBlendCreate(sourceObject, targetObject, nodeName):
         isVisibility = cmds.getAttr(targetShape + '.visibility')
         cmds.setAttr(targetShape + '.visibility', 1)
         # worldMatrix = getNodeWorldMatrix(sourceObject)
-        # if not worldMatrix == DEF_matrix_default:
+        # if not worldMatrix == DEF_mya_default_matrix:
         #     pass
         # cmds.blendShape(sourceShape, targetShape, name=nodeName, weight=(0, 1), before=1)
         cmds.blendShape(sourceShape, targetShape, name=nodeName, weight=(0, 1), origin='world', before=1)
@@ -3877,12 +3877,12 @@ def translateAnimationPosition(sourceObject, targetObject, startFrame, endFrame,
 
 #
 def getNodeWorldMatrix(nodeString):
-    return cmds.xform(nodeString, query=1, matrix=1, worldSpace=1) or DEF_matrix_default
+    return cmds.xform(nodeString, query=1, matrix=1, worldSpace=1) or DEF_mya_default_matrix
 
 
 #
 def isDefaultMatrix(nodeString):
-    return getNodeWorldMatrix(nodeString) == DEF_matrix_default
+    return getNodeWorldMatrix(nodeString) == DEF_mya_default_matrix
 
 
 #

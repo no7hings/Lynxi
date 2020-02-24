@@ -30,8 +30,8 @@ def setLisObjects(treeBox, objectPaths, expandedDic):
         treeItem.setText(1, maUtils._getNodeCategoryString(path))
     #
     if objectPaths:
-        subObjectPaths = treeBox.getGraphPaths(objectPaths, appCfg.DEF_separator_node)
-        hierDic = treeBox.getGraphDatumDic(subObjectPaths, appCfg.DEF_separator_node)
+        subObjectPaths = treeBox.getGraphPaths(objectPaths, appCfg.DEF_mya_node_separator)
+        hierDic = treeBox.getGraphDatumDic(subObjectPaths, appCfg.DEF_mya_node_separator)
         if hierDic:
             treeBox.setupGraph(hierDic, branchView, expandedDic)
 

@@ -141,7 +141,7 @@ portname: "portname_1"
 
 graph TB
 
-meterial_0("[Material, ...]") ---|"materials()"| geometry("Geometry")
+meterial_0["list([Material, ...])"] ---|"materials()"| geometry("Geometry")
 
 surface_shader_0("Shader") ---|"surfaceShader()"| meterial_0
 
@@ -151,11 +151,15 @@ volume_shader_0("Shader") ---|"volumeShader()"| meterial_0
 
 node_graph_0("NodeGraph") ---|"nodeGraph()"| surface_shader_0
 
-node_0("[Node, ...]") ---|"nodes()"| node_graph_0
+node_0["list([Node, ...])"] ---|"nodes()"| node_graph_0
 
-attribute_0("Attribute") ---|"attribute(str(protname))"| node_0
+attribute_0["list([Attribute, ...])"] ---|"attributes()"| node_0
 
-raw_0("boolean/integer/float/string/list") ---|"raw()"| attribute_0
+value_0("Value") ---|"value()"| attribute_0
 
-attribute_1("Attribute") ---|"attribute(str(protname))"| surface_shader_0
+attribute_0 ---|"attributes()"| surface_shader_0
+attribute_0 ---|"attributes()"| displacement_shader_0
+attribute_0 ---|"attributes()"| volume_shader_0
+
+data_0["python: bool/int/float/unicode/list/None"] ---|"data()"| value_0
 ```

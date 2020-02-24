@@ -506,7 +506,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         availableTreeBox = self._availableCameraTreeViewBox
         activeTreeBox = self._activeCameraTreeViewBox
         #
-        defCameras = maBscConfigure.Utility.DEF_camera_default_list
+        defCameras = maBscConfigure.Utility.DEF_mya_default_camera_list
         availableCameraLis = maUtils.getCameras(0)
         #
         activeCameraLis = datScene.getScCameraLis(sceneName, sceneVariant, sceneStage)

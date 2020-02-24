@@ -287,12 +287,12 @@ def getRedshiftAovNodesData():
 def getShadingGroupsByObjects(objectLis):
     # List [ <Shading Engine> ]
     lis = []
-    DEF_shading_engine_default_list = ['initialShadingGroup', 'initialParticleSE', 'defaultLightSet', 'defaultObjectSet']
+    DEF_mya_default_shading_engine_list = ['initialShadingGroup', 'initialParticleSE', 'defaultLightSet', 'defaultObjectSet']
     for objectString in objectLis:
         shape = maUtils._getNodeShapeNodeString(objectString, 1)
         shadingGroups = getOutputNode(shape, 'shadingEngine')
         if shadingGroups:
-            [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in DEF_shading_engine_default_list]
+            [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in DEF_mya_default_shading_engine_list]
 
     lisR = bscMethods.List.cleanupTo(lis)
     lisR.sort()
@@ -341,7 +341,7 @@ def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
     astUnitRoot = prsMethods.Asset.rootName(assetName)
     astUnitModelReferenceGroup = assetPr.astUnitModelReferenceGroupName(assetName, namespace)
     #
-    objectLis = maUtils.getChildObjectsByRoot(astUnitModelReferenceGroup, appCfg.DEF_type_mesh)
+    objectLis = maUtils.getChildObjectsByRoot(astUnitModelReferenceGroup, appCfg.DEF_mya_type_mesh)
     if objectLis:
         # View Progress
         progressExplain = u'''Read Connection Data'''
@@ -511,7 +511,7 @@ def getAstUnitCfxNhrGuideObjects(assetName, namespace=none):
     groupStr = assetPr.astUnitCfxNhrGuideObjectGroupName(assetName, namespace)
     if maUtils._isAppExist(groupStr):
         maUtils.setNodeOutlinerRgb(groupStr, 1, .25, .25)
-    return maUtils.getChildObjectsByRoot(groupStr, [appCfg.DEF_type_mesh, appCfg.DEF_type_nurbs_surface, appCfg.DEF_type_nurbs_curve], fullPath=True)
+    return maUtils.getChildObjectsByRoot(groupStr, [appCfg.DEF_mya_type_mesh, appCfg.DEF_mya_type_nurbs_surface, appCfg.DEF_mya_type_nurbs_curve], fullPath=True)
 
 
 #

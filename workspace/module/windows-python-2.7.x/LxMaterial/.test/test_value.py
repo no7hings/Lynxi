@@ -19,5 +19,5 @@ if __name__ == '__main__':
     color3Array = _mtlObjValue.Val_Color3Array([[1.0, 1.0, 1.0], [1.0, 1.0, 1.0]])
     print color3Array
 
-    matrix33 = _mtlObjValue.Val_Matrix33([[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]])
+    matrix33 = _mtlObjValue.Val_matrix33([[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]])
     print matrix33
