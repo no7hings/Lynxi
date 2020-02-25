@@ -3,7 +3,7 @@ from LxMaterial import mtlObjCore
 
 
 class TypeDef(mtlObjCore.Abc_MtlTypeDef):
-    def __init__(self, typeString):
+    def __init__(self, datatypeString):
         pass
 
 

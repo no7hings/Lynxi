@@ -53,7 +53,7 @@ class Utility(object):
         'defaultObjectSet'
     ]
 
-    DEF_porttype_multichannel_list = [
+    DEF_mya_datatype_multichannel_list = [
         'long2',
         'long3',
         'short2',

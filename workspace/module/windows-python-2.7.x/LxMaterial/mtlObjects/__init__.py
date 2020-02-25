@@ -3,7 +3,7 @@ from ._mtlObjRaw import *
 
 from ._mtlObjDefinition import *
 
-from ._mtlObjPort import *
+from ._mtlObjAttribute import *
 
 from ._mtlObjObject import *
 

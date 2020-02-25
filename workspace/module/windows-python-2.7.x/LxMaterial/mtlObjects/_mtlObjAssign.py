@@ -3,7 +3,7 @@ from LxMaterial import mtlConfigure
 
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjDefinition, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
+from LxMaterial.mtlObjects import _mtlObjDefinition, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjAttribute
 
 
 class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
@@ -12,7 +12,7 @@ class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
 
     DEF_geometry_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_key_element = 'materialassign'
+    VAR_mtl_file_element_key = 'materialassign'
 
     def __init__(self, *args):
         """
@@ -25,7 +25,7 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
     CLS_mtl_name = _mtlObjRaw.Raw_Name
     CLS_set_geometry = _mtlObjSet.Set_Geometry
 
-    VAR_mtl_key_element = 'propertysetAssign'
+    VAR_mtl_file_element_key = 'propertysetAssign'
 
     def __init__(self, *args):
         """
@@ -43,7 +43,7 @@ class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
     CLS_value_visibility = _mtlObjValue.Val_Visibility
     CLS_mtl_geometry_def = _mtlObjDefinition.GeometryDef
 
-    VAR_mtl_key_element = 'visibility'
+    VAR_mtl_file_element_key = 'visibility'
 
     def __init__(self, *args):
         """

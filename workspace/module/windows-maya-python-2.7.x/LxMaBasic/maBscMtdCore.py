@@ -72,8 +72,24 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         return cls.MOD_maya_cmds.attributeQuery(
             cls._getAttributeQueryNameString(attributeString),
             node=cls._getAttributeNodeString(attributeString),
+            usesMultiBuilder=1
+        )
+
+    @classmethod
+    def _getAttributeIsArray(cls, attributeString):
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._getAttributeQueryNameString(attributeString),
+            node=cls._getAttributeNodeString(attributeString),
             multi=1
         )
+
+    @classmethod
+    def _getAttributeArrayIndexes(cls, attributeString):
+        """
+        :param attributeString: etc. aiRampFloat1.ramp
+        :return:
+        """
+        return cls.MOD_maya_cmds.getAttr(attributeString, multiIndices=1) or []
 
     @classmethod
     def _getAttributeIsMessage(cls, attributeString):
@@ -84,9 +100,20 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         )
 
     @classmethod
-    def _getAttributeIsMultichannel(cls, attributeString):
-        datatype = cls._getAttributeDatatype(attributeString)
-        return datatype in cls.DEF_porttype_multichannel_list
+    def _getAttributeIsColor(cls, attributeString):
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._getAttributeQueryNameString(attributeString),
+            node=cls._getAttributeNodeString(attributeString),
+            usedAsColor=1
+        )
+
+    @classmethod
+    def _getAttributeIsFilename(cls, attributeString):
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._getAttributeQueryNameString(attributeString),
+            node=cls._getAttributeNodeString(attributeString),
+            usedAsFilename=1
+        )
 
     @classmethod
     def _getAttributeParentFullpathPortname_(cls, attributeString):
@@ -95,8 +122,8 @@ class Mtd_MaAttribute(Mtd_MaBasic):
             node=cls._getAttributeNodeString(attributeString),
             listParent=1
         )
-        if len(_) > 2:
-            return _[-2]
+        if _:
+            return _[0]
 
     @classmethod
     def _getAttributeParentFullpathPortname(cls, attributeString):
@@ -121,7 +148,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         )
 
     @classmethod
-    def _getAttributeData(cls, attributeString):
+    def _getAttributeRaw(cls, attributeString):
         if (
                 cls._getAttributeIsCompound(attributeString) is False
                 and cls._getAttributeIsMessage(attributeString) is False
@@ -131,7 +158,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
                 return cls.MOD_maya_cmds.getAttr(attributeString, asString=1)
 
             _ = cls.MOD_maya_cmds.getAttr(attributeString)
-            if cls._getAttributeIsMultichannel(attributeString) is True:
+            if datatype in cls.DEF_mya_datatype_multichannel_list:
                 return list(_[0])
             return _
 
@@ -703,16 +730,22 @@ class Mtd_MaNode(Mtd_MaUtility):
 
     @classmethod
     def _getNodeAttributeFullpathPortnameList(cls, nodeString):
-        _ = cls.MOD_maya_cmds.listAttr(nodeString, multi=1)
-        if _:
-            return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
-        return []
+        return cls.MOD_maya_cmds.listAttr(nodeString, multi=1) or []
 
     @classmethod
     def _getNodeInputFullpathPortnameList(cls, nodeString):
         _ = cls.MOD_maya_cmds.listAttr(nodeString, read=1, write=1, multi=1)
         if _:
             return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
+        return []
+
+    @classmethod
+    def _getNodeAttributeTopFullpathPortnameList(cls, nodeString):
+        _ = cls._getNodeInputFullpathPortnameList(nodeString)
+        if _:
+            for i in _:
+                parent = Mtd_MaAttribute._getAttributeParentFullpathPortname(nodeString)
+                print parent
         return []
 
     @classmethod

@@ -1,13 +1,13 @@
 # coding:utf-8
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjPort, _mtlObjObject, _mtlObjDefinition
+from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjAttribute, _mtlObjObject, _mtlObjDefinition
 
 
 class Reference(mtlObjCore.Abc_MtlFileReference):
     CLS_mtl_file = _mtlObjRaw.Raw_Reference
 
-    VAR_mtl_key_element = u'xi:include'
+    VAR_mtl_file_element_key = u'xi:include'
 
     def __init__(self, *args):
         self._initAbcMtlFileReference(*args)
@@ -21,26 +21,26 @@ class Look(mtlObjCore.Abc_MtlLook):
     ClS_set_assign_propertyset = _mtlObjSet.Set_Assign
     CLS_mtl_visibility_assign = _mtlObjSet.Set_Visibility
 
-    VAR_mtl_key_element = u'look'
-    VAR_mtl_key_attribute = u'look'
+    VAR_mtl_file_element_key = u'look'
+    VAR_mtl_file_attribute_key = u'look'
 
     def __init__(self, *args):
         self._initAbcMtlLook(*args)
 
 
 class Material(mtlObjCore.Abc_MtlMaterial):
-    CLS_mtl_dag_path = _mtlObjRaw.ShadersetPath
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_MaterialDagpath
 
     CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
 
-    CLS_mtl_input = _mtlObjPort.ShadersetInput
+    CLS_mtl_input = _mtlObjAttribute.ShadersetInput
 
     CLS_mtl_material_def = _mtlObjDefinition.MaterialDef
 
     VAR_mtl_value_class_dict = _mtlObjObject.DEF_CLS_VALUE
 
-    VAR_mtl_key_element = u'material'
-    VAR_mtl_key_attribute = u'material'
+    VAR_mtl_file_element_key = u'material'
+    VAR_mtl_file_attribute_key = u'material'
 
     def __init__(self, *args):
         """
@@ -55,12 +55,12 @@ class GeometryPortset(mtlObjCore.Abc_MtlPropertyset):
 
     CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
     
-    VAR_mtl_key_element = u'propertyset'
-    VAR_mtl_key_attribute = u'propertyset'
+    VAR_mtl_file_element_key = u'propertyset'
+    VAR_mtl_file_attribute_key = u'propertyset'
 
     def __init__(self, *args):
         """
-        :param args: str(geometry path)
+        :param args: str(geometry dagpath)
         """
         self._initAbcMtlPropertyset(*args)
 
@@ -72,10 +72,10 @@ class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
     CLS_mtl_output_set = _mtlObjSet.Set_Attribute
 
     CLS_mtl_node = _mtlObjObject.Node
-    CLS_mtl_output = _mtlObjPort.NodeGraphOutput
+    CLS_mtl_output = _mtlObjAttribute.NodeGraphOutput
 
-    VAR_mtl_key_element = u'nodegraph'
-    VAR_mtl_key_attribute = u'nodegraph'
+    VAR_mtl_file_element_key = u'nodegraph'
+    VAR_mtl_file_attribute_key = u'nodegraph'
 
     def __init__(self, *args):
         self._initAbcMtlNodeGraph(*args)
@@ -89,8 +89,8 @@ class Collection(mtlObjCore.Abc_MtlGeometryCollection):
 
     DEF_geometry_separator = u','
 
-    VAR_mtl_key_element = u'collection'
-    VAR_mtl_key_attribute = u'collection'
+    VAR_mtl_file_element_key = u'collection'
+    VAR_mtl_file_attribute_key = u'collection'
 
     def __init__(self, *args):
         self._initAbcMtlGeometryCollection(*args)

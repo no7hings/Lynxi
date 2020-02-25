@@ -2,15 +2,19 @@
   <dictionary name="nothings">
     <words>
       <w>attributeset</w>
+      <w>attrstring</w>
       <w>datatype</w>
       <w>fullpathnames</w>
       <w>functools</w>
       <w>keypath</w>
       <w>multiline</w>
       <w>nodesep</w>
+      <w>nodestring</w>
       <w>nodetype</w>
       <w>portnames</w>
       <w>portsep</w>
+      <w>portstring</w>
+      <w>rawtype</w>
       <w>relativenames</w>
       <w>shelftool</w>
       <w>uidatum</w>

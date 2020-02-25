@@ -47,7 +47,7 @@ class Dat_Closure(mtlObjCore.Abc_MtlRawDatum):
 
     VAR_mtl_raw_type = _mtlObjRaw.Raw_Closure
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -66,7 +66,7 @@ class Dat_Boolean(mtlObjCore.Abc_MtlRawDatum):
 
     VAR_mtl_raw_type = bool, int
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -90,7 +90,7 @@ class Dat_Integer(_Dat_Method):
 
     VAR_mtl_raw_type = int, float
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -106,7 +106,7 @@ class Dat_IntegerN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -122,7 +122,7 @@ class Dat_IntegerNN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -138,7 +138,7 @@ class Dat_Float(_Dat_Method):
 
     VAR_mtl_raw_type = float, int
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -154,7 +154,7 @@ class Dat_FloatN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -170,7 +170,7 @@ class Dat_FloatNN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -186,7 +186,7 @@ class Dat_string(mtlObjCore.Abc_MtlRawDatum):
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -202,7 +202,7 @@ class Dat_stringN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -218,7 +218,7 @@ class Dat_file_name(mtlObjCore.Abc_MtlRawDatum):
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -234,7 +234,7 @@ class Dat_NodeName(mtlObjCore.Abc_MtlRawDatum):
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -250,7 +250,7 @@ class Dat_NodeNameN(mtlObjCore.Abc_MtlRawDatumset):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_key_attribute = 'value'
+    VAR_mtl_file_attribute_key = 'datastring'
 
     def __init__(self, *args):
         """

@@ -91,21 +91,24 @@ class Abc_MaObjectSet(Abc_MaBasic):
 
 
 class Abc_MaValue(Abc_MaBasic):
-    def _initAbcMaValue(self, typeString, data):
-        self.datatypeString = typeString
-        self._data = data
+    def _initAbcMaValue(self, datatypeString, raw):
+        self.datatypeString = datatypeString
+        self._data = raw
 
-    def data(self):
+    def raw(self):
         return self._data
+
+    def rawtype(self):
+        return type(self.raw()).__name__
 
     def datatype(self):
         return self.datatypeString
 
     def __str__(self):
-        return u'{}(data={}({}), datatype="{}")'.format(
+        return u'{}(raw="{}", rawtype="{}", datatype="{}")'.format(
             self.__class__.__name__,
-            type(self.data()).__name__,
-            str(self.data()),
+            str(self.raw()),
+            self.rawtype(),
             self.datatype()
         )
 
@@ -122,9 +125,11 @@ class Abc_MaAttribute(Abc_MaBasic):
 
         self._portStringObj = self.CLS_mya_port_string(portString)
 
+        self._portTypeString = maBscMethods.Attribute.porttype(self.fullpathName())
+
         self._valueObj = self.CLS_mya_value(
             maBscMethods.Attribute.datatype(self.fullpathName()),
-            maBscMethods.Attribute.data(self.fullpathName())
+            maBscMethods.Attribute.raw(self.fullpathName())
         )
 
     def _create_(self, nodeString, portString):
@@ -160,25 +165,34 @@ class Abc_MaAttribute(Abc_MaBasic):
         return self._portStringObj.portname()
 
     def porttype(self):
-        return self.value().datatype()
+        return self._portTypeString
 
     def value(self):
         return self._valueObj
 
-    def data(self):
-        return self.value().data()
+    def raw(self):
+        return self.value().raw()
 
     def datatype(self):
         return self.value().datatype()
 
+    def isArray(self):
+        return maBscMethods.Attribute.isArray(self.fullpathName())
+
+    def arrayIndexes(self):
+        return maBscMethods.Attribute.arrayIndexes(self.fullpathName())
+
     def isCompound(self):
         return maBscMethods.Attribute.isCompound(self.fullpathName())
 
-    def isMultichannel(self):
-        return maBscMethods.Attribute.isMultichannel(self.fullpathName())
-
     def isMessage(self):
         return maBscMethods.Attribute.isMessage(self.fullpathName())
+
+    def isColor(self):
+        return maBscMethods.Attribute.isColor(self.fullpathName())
+
+    def isFilename(self):
+        return maBscMethods.Attribute.isFilename(self.fullpathName())
 
     def hasParent(self):
         return maBscMethods.Attribute.parent(self.fullpathName()) is not None
@@ -288,14 +302,6 @@ class Abc_MaObject(Abc_MaBasic):
         for i in maBscMethods.Node.fullpathPortnames(self.fullpathName()):
             self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
 
-        self._attributeSetObj = self.CLS_mya_set_attribute()
-        for i in maBscMethods.Node.inputFullpathPortname(self.fullpathName()):
-            self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
-
-        self._outputSetObj = self.CLS_mya_set_attribute()
-        for i in maBscMethods.Node.outputFullpathPortname(self.fullpathName()):
-            self._outputSetObj.addObject(i, self.CLS_mya_attribute(self, i))
-
     def fullpathName(self):
         return self._nodeStringObj.fullpathName()
 
@@ -311,20 +317,11 @@ class Abc_MaObject(Abc_MaBasic):
     def attributes(self):
         return self._attributeSetObj.objects()
 
+    def hasAttribute(self, portString):
+        return self._attributeSetObj.hasObject(portString)
+
     def attribute(self, portString):
         return self._attributeSetObj.objectWithKey(portString)
-
-    def inputs(self):
-        return self._attributeSetObj.objects()
-
-    def input(self, portString):
-        return self._attributeSetObj.objectWithKey(portString)
-
-    def outputs(self):
-        return self._outputSetObj.objects()
-
-    def output(self, portString):
-        return self._outputSetObj.objectWithKey(portString)
 
     def isDag(self):
         return maBscMethods.Node.isDag(self.fullpathName())

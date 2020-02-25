@@ -3,7 +3,7 @@ from LxMaterial import mtlConfigure
 
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mtlObjPort, _mtlObjValue
+from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mtlObjAttribute, _mtlObjValue
 
 
 DEF_CLS_VALUE = {
@@ -41,18 +41,18 @@ DEF_CLS_VALUE = {
 
 
 class Geometry(mtlObjCore.Abc_MtlGeometry):
-    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
     CLS_mtl_property_set = _mtlObjSet.Set_Property
     CLS_mtl_visibility_assign = _mtlObjSet.Set_Visibility
 
-    CLS_mtl_property = _mtlObjPort.GeometryProperty
-    CLS_mtl_visibility = _mtlObjPort.GeometryVisibility
+    CLS_mtl_property = _mtlObjAttribute.GeometryProperty
+    CLS_mtl_visibility = _mtlObjAttribute.GeometryVisibility
     CLS_mtl_geometry_def = _mtlObjDefinition.GeometryDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtl_key_element = 'geom'
+    VAR_mtl_file_element_key = 'geom'
 
     def __init__(self, *args):
         self._initAbcMtlGeometry(*args)
@@ -61,18 +61,18 @@ class Geometry(mtlObjCore.Abc_MtlGeometry):
 class Shader(mtlObjCore.Abc_MtlShader):
     CLS_mtl_type = _mtlObjRaw.Raw_Type
     CLS_mtl_category = _mtlObjRaw.Raw_ShaderCategory
-    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
     CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
     CLS_mtl_child_set = _mtlObjSet.Set_Dag
 
-    CLS_mtl_input = _mtlObjPort.ShaderInput
-    CLS_mtl_output = _mtlObjPort.ShaderOutput
+    CLS_mtl_input = _mtlObjAttribute.ShaderInput
+    CLS_mtl_output = _mtlObjAttribute.ShaderOutput
     CLS_mtl_node_def = _mtlObjDefinition.NodeDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtl_key_element = 'shaderref'
+    VAR_mtl_file_element_key = 'shaderref'
 
     def __init__(self, *args):
         """
@@ -83,19 +83,19 @@ class Shader(mtlObjCore.Abc_MtlShader):
 
 class Node(mtlObjCore.Abc_MtlNode):
     CLS_mtl_type = _mtlObjRaw.Raw_Type
-    CLS_mtl_category = _mtlObjRaw.Raw_NodeCategory
-    CLS_mtl_dag_path = _mtlObjRaw.Raw_DagPath
+    CLS_mtl_category = _mtlObjRaw.Raw_Category
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
     CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
     CLS_mtl_child_set = _mtlObjSet.Set_Dag
 
-    CLS_mtl_input = _mtlObjPort.NodeInput
-    CLS_mtl_output = _mtlObjPort.NodeOutput
+    CLS_mtl_input = _mtlObjAttribute.NodeInput
+    CLS_mtl_output = _mtlObjAttribute.NodeOutput
     CLS_mtl_node_def = _mtlObjDefinition.NodeDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
-    VAR_mtl_key_attribute = 'nodename'
+    VAR_mtl_file_attribute_key = 'nodename'
 
     def __init__(self, *args):
         self._initAbcMtlNode(*args)

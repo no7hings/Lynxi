@@ -160,15 +160,6 @@ class Mtd_MtlUtility(Mtd_MtlBasic):
 
 
 class Mtd_MtlRaw(Mtd_MtlBasic):
-    @classmethod
-    def _setMayaDagPathCovert(cls, string):
-        return string.replace(cls.DEF_mya_separator_node, cls.DEF_mtl_node_separator)
-
-    @classmethod
-    def _setMayaCategoryCovert(cls, string, covertDict):
-        if string.startswith('ai'):
-            return bscMethods.StrCamelcase.toUnderline(string[2:])
-        return covertDict[string]
 
     @classmethod
     def _setMayaAttributeCovert(cls, string):

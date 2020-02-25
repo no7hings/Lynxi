@@ -43,15 +43,15 @@ class _Val_DigitMethod(mtlObjCore.Abc_MtlValue):
 
 # Value Def
 class Val_Closure(mtlObjCore.Abc_MtlValue):
-    """
-    boolean Value
-    """
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_Closure
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_closure,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -64,15 +64,15 @@ class Val_Closure(mtlObjCore.Abc_MtlValue):
 
 # Value Boolean
 class Val_Boolean(mtlObjCore.Abc_MtlValue):
-    """
-    boolean Value
-    """
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -84,17 +84,15 @@ class Val_Boolean(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Visibility(mtlObjCore.Abc_MtlValue):
-    """
-    boolean Value
-    """
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
     VAR_mtl_value_size_pattern = 1
 
-    VAR_mtl_key_attribute = 'visible'
+    VAR_mtl_file_attribute_key = u'visible'
+    VAR_mtl_file_element_key = u'value'
 
     def __init__(self, *args):
         """
@@ -112,12 +110,15 @@ class Val_Visibility(mtlObjCore.Abc_MtlValue):
 
 # Value Integer
 class Val_Integer(_Val_DigitMethod):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_Integer
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_Integer,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -129,12 +130,15 @@ class Val_Integer(_Val_DigitMethod):
 
 
 class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_IntegerN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_integer_array, None
 
     VAR_mtl_value_size_pattern = float('inf'), 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -148,12 +152,15 @@ class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
 
 # Value Float
 class Val_Float(_Val_DigitMethod):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_Float
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -165,12 +172,15 @@ class Val_Float(_Val_DigitMethod):
 
 
 class Val_FloatArray(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float_array, None
 
     VAR_mtl_value_size_pattern = float('inf'), 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -184,12 +194,15 @@ class Val_FloatArray(mtlObjCore.Abc_MtlValue):
 
 # Value Color
 class Val_Color2(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2, None
 
     VAR_mtl_value_size_pattern = 2, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -203,12 +216,15 @@ class Val_Color2(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color2Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 2, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -222,12 +238,15 @@ class Val_Color2Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color3(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3, None
 
     VAR_mtl_value_size_pattern = 3, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -241,12 +260,15 @@ class Val_Color3(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color3Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 3, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -260,12 +282,15 @@ class Val_Color3Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color4(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4, None
 
     VAR_mtl_value_size_pattern = 4, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -279,12 +304,15 @@ class Val_Color4(mtlObjCore.Abc_MtlValue):
 
 
 class Val_Color4Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 4, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -299,12 +327,15 @@ class Val_Color4Array(mtlObjCore.Abc_MtlValue):
 
 # Value Vector
 class Val_vector2(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2, None
 
     VAR_mtl_value_size_pattern = 2, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -318,12 +349,15 @@ class Val_vector2(mtlObjCore.Abc_MtlValue):
 
 
 class Val_vector2Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 2, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -336,12 +370,15 @@ class Val_vector2Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_vector3(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3, None
 
     VAR_mtl_value_size_pattern = 3, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -355,12 +392,15 @@ class Val_vector3(mtlObjCore.Abc_MtlValue):
 
 
 class Val_vector3Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 3, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -373,12 +413,15 @@ class Val_vector3Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_vector4(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4, None
 
     VAR_mtl_value_size_pattern = 4, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -392,12 +435,15 @@ class Val_vector4(mtlObjCore.Abc_MtlValue):
 
 
 class Val_vector4Array(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4_array, None, None
 
     VAR_mtl_value_size_pattern = float('inf'), 4, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -410,12 +456,15 @@ class Val_vector4Array(mtlObjCore.Abc_MtlValue):
 
 
 class Val_string(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_string
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -425,12 +474,15 @@ class Val_string(mtlObjCore.Abc_MtlValue):
 
 
 class Val_stringArray(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string_array, mtlConfigure.Utility.DEF_mtl_datatype_string
 
     VAR_mtl_value_size_pattern = float('inf'), 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -443,12 +495,15 @@ class Val_stringArray(mtlObjCore.Abc_MtlValue):
 
 
 class Val_file_name(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_file_name
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_file_name,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -458,12 +513,15 @@ class Val_file_name(mtlObjCore.Abc_MtlValue):
 
 
 class Val_geometry_name(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_NodeName
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name,
 
     VAR_mtl_value_size_pattern = 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -473,12 +531,15 @@ class Val_geometry_name(mtlObjCore.Abc_MtlValue):
 
 
 class Val_geometry_nameArray(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name_array, mtlConfigure.Utility.DEF_mtl_datatype_geometry_name
 
     VAR_mtl_value_size_pattern = float('inf'), 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -491,12 +552,15 @@ class Val_geometry_nameArray(mtlObjCore.Abc_MtlValue):
 
 
 class Val_matrix33(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 
     VAR_mtl_value_size_pattern = 3, 3, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """
@@ -509,12 +573,15 @@ class Val_matrix33(mtlObjCore.Abc_MtlValue):
 
 
 class Val_matrix44(mtlObjCore.Abc_MtlValue):
-    CLS_mtl_type = _mtlObjRaw.Raw_ValueType
+    CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
     CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 
     VAR_mtl_value_size_pattern = 4, 4, 1
+
+    VAR_mtl_file_element_key = u'value'
+    VAR_mtl_file_attribute_key = u'value'
 
     def __init__(self, *args):
         """

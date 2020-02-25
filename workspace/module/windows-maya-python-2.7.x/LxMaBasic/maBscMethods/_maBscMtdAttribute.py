@@ -48,24 +48,36 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaAttribute._getAttributePortname(attributeString)
 
     @classmethod
-    def data(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeData(attributeString)
+    def raw(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeRaw(attributeString)
+
+    @classmethod
+    def isArray(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsArray(attributeString)
+
+    @classmethod
+    def arrayIndexes(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeArrayIndexes(attributeString)
 
     @classmethod
     def isCompound(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeIsCompound(attributeString)
 
     @classmethod
-    def isMultichannel(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsMultichannel(attributeString)
-
-    @classmethod
     def isMessage(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeIsMessage(attributeString)
 
     @classmethod
+    def isColor(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsColor(attributeString)
+
+    @classmethod
+    def isFilename(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsFilename(attributeString)
+
+    @classmethod
     def value(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeData(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeRaw(attributeString)
 
     @classmethod
     def defaultValue(cls, attributeString):

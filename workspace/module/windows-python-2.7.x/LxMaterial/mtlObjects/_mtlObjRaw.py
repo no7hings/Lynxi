@@ -7,121 +7,121 @@ class Raw_Closure(mtlObjCore.Abc_MtlRaw):
         self._initAbcMtlRaw(*args)
 
 
-class Raw_string(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'string'
-
-    def __init__(self, *args):
-        self._initAbcMtlRawString(*args)
-
-
 class Raw_Name(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'name'
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'name'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
 class Raw_Type(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'type'
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'type'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
 class Raw_VisibilityType(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'vistype'
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'vistype'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
 class Raw_Version(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'version'
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'version'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
-class Raw_ValueType(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'type'
+class Raw_Datatype(mtlObjCore.Abc_MtlRawString):
+    VAR_mtl_file_element_key = u'datatype'
+    VAR_mtl_file_attribute_key = u'datatype'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
 class Raw_ShaderCategory(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'node'
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'node'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
-class Raw_NodeCategory(mtlObjCore.Abc_MtlRawString):
-    VAR_mtl_key_attribute = u'category'
+class Raw_Category(mtlObjCore.Abc_MtlRawString):
+    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_attribute_key = u'category'
 
     def __init__(self, *args):
         self._initAbcMtlRawString(*args)
 
 
-class Raw_NamespacePath(mtlObjCore.Abc_MtlDagPath):
-    CLS_mtl_raw = Raw_string
+class Raw_NamespacePath(mtlObjCore.Abc_MtlDagpath):
+    CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_namespace_separator
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
 
 
-class Raw_Reference(mtlObjCore.Abc_MtlDagPath):
-    CLS_mtl_raw = Raw_string
+class Raw_Reference(mtlObjCore.Abc_MtlDagpath):
+    CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_file_separator
 
-    VAR_mtl_key_attribute = u'href'
+    VAR_mtl_file_attribute_key = u'href'
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
 
 
-class ShadersetPath(mtlObjCore.Abc_MtlMaterialPath):
+class Raw_MaterialDagpath(mtlObjCore.Abc_MtlMaterialDagpath):
     CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_node_separator
 
-    VAR_mtl_key_attribute = u'name'
+    VAR_mtl_file_attribute_key = u'name'
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
 
 
-class Raw_DagPath(mtlObjCore.Abc_MtlDagPath):
+class Raw_NodeDagpath(mtlObjCore.Abc_MtlDagpath):
     CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_node_separator
 
-    VAR_mtl_key_attribute = u'name'
+    VAR_mtl_file_attribute_key = u'name'
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
 
 
-class Raw_GeometryPath(mtlObjCore.Abc_MtlDagPath):
+class Raw_GeometryDagpath(mtlObjCore.Abc_MtlDagpath):
     CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_node_separator
 
-    VAR_mtl_key_attribute = u'name'
+    VAR_mtl_file_attribute_key = u'name'
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
 
 
-class Raw_PortPath(mtlObjCore.Abc_MtlDagPath):
+class Raw_PortDagpath(mtlObjCore.Abc_MtlDagpath):
     CLS_mtl_raw = Raw_Name
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_attribute_separator
 
-    VAR_mtl_key_attribute = u'name'
+    VAR_mtl_file_attribute_key = u'name'
 
     def __init__(self, *args):
-        self._initAbcMtlDagPath(*args)
+        self._initAbcMtlDagpath(*args)
