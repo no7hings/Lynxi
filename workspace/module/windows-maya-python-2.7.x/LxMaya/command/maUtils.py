@@ -27,7 +27,7 @@ none = ''
 
 
 #
-def string2list(string, includes=None):
+def _string2list(string, includes=None):
     lis = []
     if isinstance(string, str) or isinstance(string, unicode):
         if includes:

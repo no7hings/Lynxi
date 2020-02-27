@@ -20,8 +20,8 @@ class OsPath(bscMtdCore.Mtd_BscPath):
 
     @classmethod
     def treeViewBuildDic(cls, pathStrings):
-        return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(pathStrings, cls.separator_path),
+        return cls._getDagpathRemapDict(
+            cls._toDagpathRemapList(pathStrings, cls.separator_path),
             cls.separator_path
         )
 
@@ -245,15 +245,15 @@ class MaNodeString(bscMtdCore.Mtd_BscPath):
 
     @classmethod
     def namespaceTreeViewBuildDic(cls, nodeString):
-        return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(nodeString, cls.VAR_bsc_namespace_separator),
+        return cls._getDagpathRemapDict(
+            cls._toDagpathRemapList(nodeString, cls.VAR_bsc_namespace_separator),
             cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
     def nodeTreeViewBuildDic(cls, nodeString):
-        return cls._getTreeViewBuildDic(
-            cls._toTreeViewPathLis(nodeString, cls.VAR_bsc_node_separator),
+        return cls._getDagpathRemapDict(
+            cls._toDagpathRemapList(nodeString, cls.VAR_bsc_node_separator),
             cls.VAR_bsc_node_separator
         )
 

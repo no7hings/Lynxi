@@ -119,7 +119,7 @@ class Raw_GeometryDagpath(mtlObjCore.Abc_MtlDagpath):
 class Raw_PortDagpath(mtlObjCore.Abc_MtlDagpath):
     CLS_mtl_raw = Raw_Name
 
-    VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_attribute_separator
+    VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_port_separator
 
     VAR_mtl_file_attribute_key = u'name'
 

@@ -4,6 +4,9 @@ from LxMaBasic import maBscMtdCore
 
 class Attribute(maBscMtdCore.Mtd_MaBasic):
     @classmethod
+    def isAppExist(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsAppExist(attributeString)
+    @classmethod
     def hasSource(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeHasSource(attributeString)
 
@@ -53,11 +56,11 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def isArray(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsArray(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsMultichannel(attributeString)
 
     @classmethod
     def arrayIndexes(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeArrayIndexes(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeIndexes(attributeString)
 
     @classmethod
     def isCompound(cls, attributeString):
@@ -85,7 +88,7 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def parent(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeParentFullpathPortname_(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeParentPortname(attributeString)
 
     @classmethod
     def hasChildren(cls, attributeString):
@@ -93,7 +96,7 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def children(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeChildFullpathPortnameList(attributeString)
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeChildPortnameList(attributeString)
 
     @classmethod
     def composeBy(cls, *args):

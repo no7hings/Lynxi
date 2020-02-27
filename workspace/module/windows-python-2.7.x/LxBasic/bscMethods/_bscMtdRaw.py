@@ -146,7 +146,7 @@ class StrCamelcase(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toUiPath(cls, strings, isPrettify=False):
         if isPrettify is True:
-            strings = [cls.toPrettify(i) for i in cls.string2list(strings)]
+            strings = [cls.toPrettify(i) for i in cls._string2list(strings)]
         return cls._toPathString(strings, '>')
 
 
@@ -467,6 +467,24 @@ class Dict(object):
         if key in dic:
             return dic.get(key, failobj)
         return False
+
+
+class NestedArray(object):
+    @classmethod
+    def restructureTo(cls, nestedArray):
+        def recursionFnc_(index):
+            if index < count:
+                array = nestedArray[index]
+                for i in array:
+                    c[index] = i
+                    recursionFnc_(index + 1)
+            else:
+                lis.append(c)
+        lis = []
+        count = len(nestedArray)
+        c = [None] * count
+        recursionFnc_(0)
+        return lis
 
 
 class Array(List):

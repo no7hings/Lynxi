@@ -120,16 +120,16 @@ class Abc_MaAttribute(Abc_MaBasic):
     def __init__(self, *args):
         pass
 
-    def _initAbcMaAttribute(self, nodeObject, portString):
+    def _initAbcMaAttribute(self, nodeObject, portname):
         self._nodeObj = nodeObject
 
-        self._portStringObj = self.CLS_mya_port_string(portString)
+        self._portStringObj = self.CLS_mya_port_string(portname)
 
         self._portTypeString = maBscMethods.Attribute.porttype(self.fullpathName())
 
         self._valueObj = self.CLS_mya_value(
-            maBscMethods.Attribute.datatype(self.fullpathName()),
-            maBscMethods.Attribute.raw(self.fullpathName())
+            self.datatype(),
+            self.raw()
         )
 
     def _create_(self, nodeString, portString):
@@ -142,6 +142,99 @@ class Abc_MaAttribute(Abc_MaBasic):
             nodeString,
             portString
         )
+
+    @classmethod
+    def _getDatatype_(cls, nodeObject, portString):
+        def getFnc_(portname_):
+            def recursionFnc__(portname__):
+                if portname__ in portDict:
+                    v__ = portDict[portname__]
+                    if isinstance(v__, (tuple, list)):
+                        for j in v__:
+                            recursionFnc__(j)
+                    else:
+                        lis_.append(
+                            maBscMethods.Attribute.datatype((nodeString, v__))
+                        )
+            lis_ = []
+            recursionFnc__(portname_)
+            return lis_
+
+        portDict = nodeObject._portDict
+        nodeString = nodeObject.fullpathName()
+        if portString in portDict:
+            _ = portDict[portString]
+            if isinstance(_, (tuple, list)):
+                return getFnc_(portString)
+            else:
+                return maBscMethods.Attribute.datatype((nodeString, _))
+
+    @classmethod
+    def _getRaw_(cls, nodeObject, portString):
+        def getFnc_(portname_):
+            def recursionFnc__(portname__):
+                if portname__ in portDict:
+                    v__ = portDict[portname__]
+                    if isinstance(v__, (tuple, list)):
+                        lis__ = [[]]*len(v__)
+                        for index, j in enumerate(v__):
+                            raw__ = recursionFnc__(j)
+                            print portString, raw__, index, 'A'
+                            lis__[index] = raw__
+                        return lis__
+                    else:
+                        return maBscMethods.Attribute.raw((nodeString, v__))
+                else:
+                    return maBscMethods.Attribute.raw((nodeString, portname__))
+            return recursionFnc__(portname_)
+
+        portDict = nodeObject._portDict
+        nodeString = nodeObject.fullpathName()
+        if portString in portDict:
+            _ = portDict[portString]
+            if isinstance(_, (tuple, list)):
+                return getFnc_(portString)
+            else:
+                return maBscMethods.Attribute.raw((nodeString, _))
+        else:
+            return maBscMethods.Attribute.raw((nodeString, portString))
+
+    @classmethod
+    def _getRaw__(cls, nodeObject, portString):
+        def getPortnamesFnc_(portString_):
+            lis_ = []
+            def recursionFnc__(portString__, index_, depth_):
+                if portString__ in portDict:
+                    v = portDict[portString__]
+                    if isinstance(v, (tuple, list)):
+                        for seq, i in enumerate(v):
+                            recursionFnc__(i, seq, depth_ + 1)
+                    else:
+                        lis_.append((v, index_, depth_))
+                else:
+                    lis_.append((portString__, index_, depth_))
+
+            recursionFnc__(portString_, 0, 0)
+            return lis_
+
+        def getFnc_(portString_):
+            if portString_ in portDict:
+                v = portDict[portString_]
+                if isinstance(v, (tuple, list)):
+                    portStrings = getPortnamesFnc_(portString_)
+                    print portString_, portStrings
+                else:
+                    print portString_, v
+
+        portDict = nodeObject._portDict
+        nodeString = nodeObject.fullpathName()
+        return getFnc_(portString)
+
+    @classmethod
+    def _getIndexes_(cls, nodeObject, portString):
+        portIndexesDict = nodeObject._portIndexesDict
+        if portString in portIndexesDict:
+            return portIndexesDict[portString]
 
     def node(self, *args):
         if args:
@@ -171,22 +264,22 @@ class Abc_MaAttribute(Abc_MaBasic):
         return self._valueObj
 
     def raw(self):
-        return self.value().raw()
+        return self._getRaw__(
+            self.node(),
+            self.fullpathPortname()
+        )
 
     def datatype(self):
-        return self.value().datatype()
+        return self._getDatatype_(
+                self.node(),
+                self.fullpathPortname()
+            )
 
-    def isArray(self):
-        return maBscMethods.Attribute.isArray(self.fullpathName())
-
-    def arrayIndexes(self):
-        return maBscMethods.Attribute.arrayIndexes(self.fullpathName())
-
-    def isCompound(self):
-        return maBscMethods.Attribute.isCompound(self.fullpathName())
-
-    def isMessage(self):
-        return maBscMethods.Attribute.isMessage(self.fullpathName())
+    def indexes(self):
+        return self._getIndexes_(
+            self.node(),
+            self.fullpathPortname()
+        )
 
     def isColor(self):
         return maBscMethods.Attribute.isColor(self.fullpathName())
@@ -293,14 +386,19 @@ class Abc_MaObject(Abc_MaBasic):
 
     def _initAbcMaObject(self, nodeString):
         assert maBscMethods.Node.isExist(nodeString), u'{} is Non-Exist'.format(nodeString)
-
         self._nodeStringObj = self.CLS_mya_node_string(
             nodeString
         )
 
+        self._portIndexesDict = maBscMethods.Node.portIndexesDict(self.fullpathName())
+        self._portDict = maBscMethods.Node.portDict(self.fullpathName())
+
         self._attributeSetObj = self.CLS_mya_set_attribute()
-        for i in maBscMethods.Node.fullpathPortnames(self.fullpathName()):
+        for i in self._portDict:
             self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
+
+    def _remapAttribute(self):
+        pass
 
     def fullpathName(self):
         return self._nodeStringObj.fullpathName()
@@ -317,11 +415,11 @@ class Abc_MaObject(Abc_MaBasic):
     def attributes(self):
         return self._attributeSetObj.objects()
 
-    def hasAttribute(self, portString):
-        return self._attributeSetObj.hasObject(portString)
+    def hasAttribute(self, portname):
+        return self._attributeSetObj.hasObject(portname)
 
-    def attribute(self, portString):
-        return self._attributeSetObj.objectWithKey(portString)
+    def attribute(self, portname):
+        return self._attributeSetObj.objectWithKey(portname)
 
     def isDag(self):
         return maBscMethods.Node.isDag(self.fullpathName())

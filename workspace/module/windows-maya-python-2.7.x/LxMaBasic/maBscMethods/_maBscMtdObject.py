@@ -12,10 +12,6 @@ class Node(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaNode._getNodeCategoryString(nodeString)
 
     @classmethod
-    def topPortnames(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeAttributeTopFullpathPortnameList(nodeString)
-
-    @classmethod
     def fullpathPortnames(cls, nodeString):
         return maBscMtdCore.Mtd_MaNode._getNodeAttributeFullpathPortnameList(nodeString)
 
@@ -42,3 +38,11 @@ class Node(maBscMtdCore.Mtd_MaBasic):
     @classmethod
     def shapeName(cls, nodeString, fullpath=False):
         return maBscMtdCore.Mtd_MaNode._getNodeShapeNodeString(nodeString, fullpath)
+
+    @classmethod
+    def portDict(cls, nodeString):
+        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortDict_(nodeString)
+
+    @classmethod
+    def portIndexesDict(cls, nodeString):
+        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortIndexesDict(nodeString)

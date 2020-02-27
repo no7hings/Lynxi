@@ -9,7 +9,7 @@ class Utility(object):
     DEF_mtl_namespace_separator = u':'
     DEF_mtl_node_separator = u'/'
     DEF_mtl_file_separator = u'/'
-    DEF_mtl_attribute_separator = u'.'
+    DEF_mtl_port_separator = u'.'
 
     DEF_mtl_key_type = u'datatypeString'
     DEF_mtl_key_value = u'valueString'

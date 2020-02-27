@@ -142,7 +142,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
         return cls._timestampToPrettify(cls._getSystemActiveTimestamp())
 
     @classmethod
-    def string2list(cls, string, includes=None):
+    def _string2list(cls, string, includes=None):
         lis = []
         if isinstance(string, str) or isinstance(string, unicode):
             if includes:
@@ -414,7 +414,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
         lis = []
 
         if extString is not None:
-            filterExtStringLis = cls.string2list(extString)
+            filterExtStringLis = cls._string2list(extString)
         else:
             filterExtStringLis = None
 
@@ -673,7 +673,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
         if len(args) > 1:
             strings = list(args)
         else:
-            strings = cls.string2list(args[0])
+            strings = cls._string2list(args[0])
         #
         subCode = toOrderCodeString_(strings)
         return cls._stringToUniqueId(subCode)
@@ -694,96 +694,98 @@ class Mtd_BscUtility(Mtd_BscBasic):
 
 class Mtd_BscPath(Mtd_BscUtility):
     @classmethod
-    def _toTreeViewPathLis(cls, pathString, pathsep):
-        def addItem(item):
+    def _toDagpathRemapList(cls, pathString, pathsep):
+        def addFnc_(item):
             if not item in lis:
                 lis.append(item)
         #
-        def getBranch(subPathString):
-            if not subPathString in lis:
-                stringLis = subPathString.split(pathsep)
+        def getBranchFnc_(pathString_):
+            if not pathString_ in lis:
+                stringLis = pathString_.split(pathsep)
                 #
                 dataCount = len(stringLis)
                 for seq, data in enumerate(stringLis):
                     if data:
                         if seq + 1 < dataCount:
                             subPath = pathsep.join(stringLis[:seq + 1])
-                            addItem(subPath)
+                            addFnc_(subPath)
                 #
-                addItem(subPathString)
+                addFnc_(pathString_)
         #
         lis = []
-        pathStringLis = cls.string2list(pathString)
+        pathStringLis = cls._string2list(pathString)
         for i in pathStringLis:
             # Debug add root
             if not i.startswith(pathsep):
                 i = pathsep + i
             #
-            getBranch(i)
+            getBranchFnc_(i)
         return lis
 
     @classmethod
-    def _getTreeViewBuildDic(cls, pathString, pathsep):
-        def addItem(item):
+    def _getDagpathRemapDict(cls, pathString, pathsep):
+        def addFnc_(item):
             if not item in lis:
                 lis.append(item)
         #
-        def getRootBranch(subPathString, nodeArray):
-            node = nodeArray[-1]
-            dic.setdefault((None, None), []).append((node, subPathString))
+        def getBranchFnc_(pathString_, pathDatumList):
+            parent = pathDatumList[-2]
+            parentPathString_ = pathsep.join(pathDatumList[:-1])
+            nameString_ = pathDatumList[-1]
+            addFnc_(((parent, parentPathString_), (nameString_, pathString_)))
         #
-        def getBranch(subPathString, nodeArray):
-            parent = nodeArray[-2]
-            parentPath = pathsep.join(nodeArray[:-1])
-            node = nodeArray[-1]
-            addItem(((parent, parentPath), (node, subPathString)))
+        def getRootFnc_(pathString_, pathDatumList):
+            nameString_ = pathDatumList[-1]
+            addFnc_(
+                ((None, None), (nameString_, pathString_))
+            )
         #
-        def getMain():
+        def getMainFnc_():
             # Get Dict
-            pathStringLis = cls.string2list(pathString)
+            pathStringLis = cls._string2list(pathString)
             if pathStringLis:
                 for i in pathStringLis:
-                    nodeArray = i.split(pathsep)
-                    isRoot = len(nodeArray) == 2
+                    pathDatumList = i.split(pathsep)
+                    isRoot = len(pathDatumList) == 2
                     # Filter is Root
                     if isRoot:
-                        getRootBranch(i, nodeArray)
+                        getRootFnc_(i, pathDatumList)
                     else:
-                        getBranch(i, nodeArray)
+                        getBranchFnc_(i, pathDatumList)
             # Reduce Dict
             if lis:
-                covertToDict_(dic, lis)
+                list2dictFnc_(dic, lis)
 
-        def covertToDict_(dic_, lis_):
+        def list2dictFnc_(dic_, lis_):
             [dic_.setdefault(p, []).append(c) for p, c in lis_]
         #
         lis = []
         dic = cls.CLS_dic_order()
         #
-        getMain()
+        getMainFnc_()
         return dic
 
     @classmethod
     def _setDicConvertToPathCreateDic(cls, dic, nodesep):
-        def getBranch(parent):
+        def getBranchFnc_(parent):
             if parent in dic:
-                parentPath = parent
+                parentPathString_ = parent
                 if parent in dic_:
-                    parentPath = dic_[parent]
+                    parentPathString_ = dic_[parent]
                 #
                 children = dic[parent]
                 if children:
                     for child in children:
-                        childPath = parentPath + pathsep + child
+                        childPath = parentPathString_ + pathsep + child
                         dic_[child] = childPath
-                        getBranch(child)
+                        getBranchFnc_(child)
 
         pathsep = nodesep
         #
         dic_ = cls.CLS_dic_order()
         root = dic.keys()[0]
         dic_[root] = root
-        getBranch(root)
+        getBranchFnc_(root)
         return dic_
 
     @classmethod
@@ -811,6 +813,84 @@ class Mtd_BscPath(Mtd_BscUtility):
     @classmethod
     def _portString2nodeString(cls, portString, portsep):
         return portString.split(portsep)[0]
+
+
+class Mtd_BscDagpath(Mtd_BscUtility):
+    @classmethod
+    def _toDagpathRemapList_(cls, pathString, pathsep):
+        def addFnc_(item):
+            if item:
+                if not item in lis:
+                    lis.append(item)
+
+        def getBranchFnc_(pathString_):
+            if not pathString_ in lis:
+                stringLis = pathString_.split(pathsep)
+                #
+                dataCount = len(stringLis)
+                for seq, data in enumerate(stringLis):
+                    if data:
+                        if seq < dataCount:
+                            subPath = pathsep.join(stringLis[:seq])
+                            addFnc_(subPath)
+                #
+                addFnc_(pathString_)
+
+        lis = []
+        _ = cls._string2list(pathString)
+        for i in _:
+            getBranchFnc_(i)
+        return lis
+
+    @classmethod
+    def _getDagpathDict_(cls, pathString, pathsep):
+        def addFnc_(item):
+            if not item in lis:
+                lis.append(item)
+
+        def getBranchFnc_(pathString_, pathDatumList):
+            parentPathString_ = pathsep.join(pathDatumList[:-1])
+            addFnc_(
+                (parentPathString_, pathString_)
+            )
+
+        def getRootFnc_(pathString_):
+            addFnc_(
+                (None, pathString_)
+            )
+
+        def getMainFnc_():
+            # Get Dict
+            pathStringLis = cls._string2list(pathString)
+            if pathStringLis:
+                for i in pathStringLis:
+                    pathDatumList = i.split(pathsep)
+                    isRoot = len(pathDatumList) == 1
+                    # Filter is Root
+                    if isRoot:
+                        getRootFnc_(i)
+                    else:
+                        getBranchFnc_(i, pathDatumList)
+            # Reduce Dict
+            if lis:
+                list2dictFnc_(dic, lis)
+
+        def list2dictFnc_(dic_, lis_):
+            for p, c in lis_:
+                if p is None:
+                    dic[c] = c
+                else:
+                    if p in dic_:
+                        if isinstance(dic_[p], (str, unicode)):
+                            dic_[p] = []
+                        dic_.setdefault(p, []).append(c)
+
+        #
+        lis = []
+        dic = cls.CLS_dic_order()
+        #
+        getMainFnc_()
+        return dic
 
 
 class Mtd_BscFile(Mtd_BscUtility):
@@ -1005,7 +1085,7 @@ class Mtd_BscFile(Mtd_BscUtility):
 
     @classmethod
     def collectionDatum(cls, fileString, targetDirectoryString, ignoreMtimeChanged=False, ignoreExists=False):
-        def getBranch(sourceFileString):
+        def getBranchFnc_(sourceFileString):
             targetFileString = cls.renameDirnameTo(sourceFileString, targetDirectoryString)
             #
             enable = False
@@ -1027,9 +1107,9 @@ class Mtd_BscFile(Mtd_BscUtility):
         #
         lis = []
         #
-        osFileLis = cls.string2list(fileString)
+        osFileLis = cls._string2list(fileString)
         if osFileLis:
-            [getBranch(i) for i in osFileLis]
+            [getBranchFnc_(i) for i in osFileLis]
         return lis
     
     @classmethod

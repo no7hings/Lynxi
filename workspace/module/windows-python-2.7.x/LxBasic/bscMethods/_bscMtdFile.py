@@ -217,7 +217,7 @@ class _FileBasic(bscMtdCore.Mtd_BscBasic):
         #
         lis = []
         #
-        osFileLis = bscMtdCore.Mtd_BscUtility.string2list(fileString)
+        osFileLis = bscMtdCore.Mtd_BscUtility._string2list(fileString)
         if osFileLis:
             [getBranch(i) for i in osFileLis]
         return lis
