@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMtdCore, bscMethods
+from LxBasic import bscMethods
 
 from LxScheme import shmConfigure
 
@@ -619,6 +619,9 @@ class Abc_ShmPreset(shmConfigure.Utility):
 
 
 class Abc_ShmOperate(shmConfigure.Utility):
+    _cls_dic = {}
+    _argument_dic = {}
+
     def _initAbcShmOperate(self, resource, version):
         self._resourceObj = resource
         self._version = version

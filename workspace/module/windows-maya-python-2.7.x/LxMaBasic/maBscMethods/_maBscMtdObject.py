@@ -41,7 +41,7 @@ class Node(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def portDict(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortDict_(nodeString)
+        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortDict(nodeString)
 
     @classmethod
     def portIndexesDict(cls, nodeString):

@@ -15,7 +15,7 @@ class Utility(object):
     DEF_mtl_key_value = u'valueString'
     DEF_mtl_key_port = u'port'
 
-    DEF_mtl_key_name = u'name'
+    DEF_mtl_key_port_string = u'portString'
 
     DEF_mtl_datatype_closure = u'closure'
 
@@ -225,37 +225,37 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "camera",
+                    "portString": "camera",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "shadow",
+                    "portString": "shadow",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "diffuse_reflection",
+                    "portString": "diffuse_reflection",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "diffuse_transmission",
+                    "portString": "diffuse_transmission",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "specular_reflection",
+                    "portString": "specular_reflection",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "specular_transmission",
+                    "portString": "specular_transmission",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "volume",
+                    "portString": "volume",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 }
@@ -265,37 +265,37 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "camera",
+                    "portString": "camera",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "shadow",
+                    "portString": "shadow",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "diffuse_reflection",
+                    "portString": "diffuse_reflection",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "diffuse_transmission",
+                    "portString": "diffuse_transmission",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "specular_reflection",
+                    "portString": "specular_reflection",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "specular_transmission",
+                    "portString": "specular_transmission",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "volume",
+                    "portString": "volume",
                     "datatypeString": "closure",
                     "valueString": ""
                 }
@@ -305,107 +305,107 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "filename",
+                    "portString": "filename",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "color_space",
+                    "portString": "color_space",
                     "datatypeString": "string",
                     "valueString": "auto"
                 },
                 {
-                    "name": "filter",
+                    "portString": "filter",
                     "datatypeString": "string",
                     "valueString": "smart_bicubic"
                 },
                 {
-                    "name": "mipmap_bias",
+                    "portString": "mipmap_bias",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "single_channel",
+                    "portString": "single_channel",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "start_channel",
+                    "portString": "start_channel",
                     "datatypeString": "integer",
                     "valueString": "-401153280"
                 },
                 {
-                    "name": "swrap",
+                    "portString": "swrap",
                     "datatypeString": "string",
                     "valueString": "periodic"
                 },
                 {
-                    "name": "twrap",
+                    "portString": "twrap",
                     "datatypeString": "string",
                     "valueString": "periodic"
                 },
                 {
-                    "name": "sscale",
+                    "portString": "sscale",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "tscale",
+                    "portString": "tscale",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "sflip",
+                    "portString": "sflip",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "tflip",
+                    "portString": "tflip",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "soffset",
+                    "portString": "soffset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "toffset",
+                    "portString": "toffset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "swap_st",
+                    "portString": "swap_st",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "uvcoords",
+                    "portString": "uvcoords",
                     "datatypeString": "vector2",
                     "valueString": "0, 0"
                 },
                 {
-                    "name": "uvset",
+                    "portString": "uvset",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "multiply",
+                    "portString": "multiply",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "offset",
+                    "portString": "offset",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "ignore_missing_textures",
+                    "portString": "ignore_missing_textures",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "missing_texture_color",
+                    "portString": "missing_texture_color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 }
@@ -415,67 +415,67 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "octaves",
+                    "portString": "octaves",
                     "datatypeString": "integer",
                     "valueString": "1"
                 },
                 {
-                    "name": "distortion",
+                    "portString": "distortion",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "lacunarity",
+                    "portString": "lacunarity",
                     "datatypeString": "float",
                     "valueString": "1.92"
                 },
                 {
-                    "name": "amplitude",
+                    "portString": "amplitude",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "offset",
+                    "portString": "offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "object"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "P",
+                    "portString": "P",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "time",
+                    "portString": "time",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "color1",
+                    "portString": "color1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "color2",
+                    "portString": "color2",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "scalar"
                 }
@@ -485,77 +485,77 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "pattern",
+                    "portString": "pattern",
                     "datatypeString": "string",
                     "valueString": "noise1"
                 },
                 {
-                    "name": "additive",
+                    "portString": "additive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "octaves",
+                    "portString": "octaves",
                     "datatypeString": "integer",
                     "valueString": "1"
                 },
                 {
-                    "name": "randomness",
+                    "portString": "randomness",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "lacunarity",
+                    "portString": "lacunarity",
                     "datatypeString": "float",
                     "valueString": "1.92"
                 },
                 {
-                    "name": "amplitude",
+                    "portString": "amplitude",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "offset",
+                    "portString": "offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "object"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "P",
+                    "portString": "P",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "time",
+                    "portString": "time",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "palette",
+                    "portString": "palette",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "density",
+                    "portString": "density",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 }
@@ -565,37 +565,37 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "color_mode",
+                    "portString": "color_mode",
                     "datatypeString": "string",
                     "valueString": "color"
                 },
                 {
-                    "name": "shade_mode",
+                    "portString": "shade_mode",
                     "datatypeString": "string",
                     "valueString": "ndoteye"
                 },
                 {
-                    "name": "overlay_mode",
+                    "portString": "overlay_mode",
                     "datatypeString": "string",
                     "valueString": "none"
                 },
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "ao_distance",
+                    "portString": "ao_distance",
                     "datatypeString": "float",
                     "valueString": "100"
                 },
                 {
-                    "name": "roughness",
+                    "portString": "roughness",
                     "datatypeString": "float",
                     "valueString": "0.2"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -605,27 +605,27 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "line_width",
+                    "portString": "line_width",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "fill_color",
+                    "portString": "fill_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "line_color",
+                    "portString": "line_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "raster_space",
+                    "portString": "raster_space",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "edge_type",
+                    "portString": "edge_type",
                     "datatypeString": "string",
                     "valueString": "triangles"
                 }
@@ -635,22 +635,22 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "raw",
+                    "portString": "raw",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "time0",
+                    "portString": "time0",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "time1",
+                    "portString": "time1",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "max_displace",
+                    "portString": "max_displace",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -660,62 +660,62 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "samples",
+                    "portString": "samples",
                     "datatypeString": "integer",
                     "valueString": "3"
                 },
                 {
-                    "name": "spread",
+                    "portString": "spread",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "near_clip",
+                    "portString": "near_clip",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "far_clip",
+                    "portString": "far_clip",
                     "datatypeString": "float",
                     "valueString": "100"
                 },
                 {
-                    "name": "falloff",
+                    "portString": "falloff",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "black",
+                    "portString": "black",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "white",
+                    "portString": "white",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "invert_normals",
+                    "portString": "invert_normals",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "trace_set",
+                    "portString": "trace_set",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "inclusive",
+                    "portString": "inclusive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "self_only",
+                    "portString": "self_only",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -725,37 +725,37 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "samples",
+                    "portString": "samples",
                     "datatypeString": "integer",
                     "valueString": "6"
                 },
                 {
-                    "name": "radius",
+                    "portString": "radius",
                     "datatypeString": "float",
                     "valueString": "0.01"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "trace_set",
+                    "portString": "trace_set",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "inclusive",
+                    "portString": "inclusive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "self_only",
+                    "portString": "self_only",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "object_space",
+                    "portString": "object_space",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -765,7 +765,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -775,267 +775,267 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "mask_color",
+                    "portString": "mask_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "edge_color",
+                    "portString": "edge_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "edge_tonemap",
+                    "portString": "edge_tonemap",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "edge_opacity",
+                    "portString": "edge_opacity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "edge_width_scale",
+                    "portString": "edge_width_scale",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "silhouette_color",
+                    "portString": "silhouette_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "silhouette_tonemap",
+                    "portString": "silhouette_tonemap",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "silhouette_opacity",
+                    "portString": "silhouette_opacity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "silhouette_width_scale",
+                    "portString": "silhouette_width_scale",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "priority",
+                    "portString": "priority",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable_silhouette",
+                    "portString": "enable_silhouette",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "ignore_throughput",
+                    "portString": "ignore_throughput",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "enable",
+                    "portString": "enable",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "id_difference",
+                    "portString": "id_difference",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "shader_difference",
+                    "portString": "shader_difference",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "uv_threshold",
+                    "portString": "uv_threshold",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "angle_threshold",
+                    "portString": "angle_threshold",
                     "datatypeString": "float",
                     "valueString": "180"
                 },
                 {
-                    "name": "normal_type",
+                    "portString": "normal_type",
                     "datatypeString": "string",
                     "valueString": "shading normal"
                 },
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "float",
                     "valueString": "0.8"
                 },
                 {
-                    "name": "base_color",
+                    "portString": "base_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "base_tonemap",
+                    "portString": "base_tonemap",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular",
+                    "portString": "specular",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_color",
+                    "portString": "specular_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_anisotropy",
+                    "portString": "specular_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_rotation",
+                    "portString": "specular_rotation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_tonemap",
+                    "portString": "specular_tonemap",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "lights",
+                    "portString": "lights",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "highlight_color",
+                    "portString": "highlight_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "highlight_size",
+                    "portString": "highlight_size",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "aov_highlight",
+                    "portString": "aov_highlight",
                     "datatypeString": "string",
                     "valueString": "highlight"
                 },
                 {
-                    "name": "rim_light",
+                    "portString": "rim_light",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "rim_light_color",
+                    "portString": "rim_light_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "rim_light_width",
+                    "portString": "rim_light_width",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "aov_rim_light",
+                    "portString": "aov_rim_light",
                     "datatypeString": "string",
                     "valueString": "rim_light"
                 },
                 {
-                    "name": "transmission",
+                    "portString": "transmission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_color",
+                    "portString": "transmission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transmission_roughness",
+                    "portString": "transmission_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_anisotropy",
+                    "portString": "transmission_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_rotation",
+                    "portString": "transmission_rotation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sheen",
+                    "portString": "sheen",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sheen_color",
+                    "portString": "sheen_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "sheen_roughness",
+                    "portString": "sheen_roughness",
                     "datatypeString": "float",
                     "valueString": "0.3"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "IOR",
+                    "portString": "IOR",
                     "datatypeString": "float",
                     "valueString": "1.52"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "tangent",
+                    "portString": "tangent",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "indirect_diffuse",
+                    "portString": "indirect_diffuse",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "indirect_specular",
+                    "portString": "indirect_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "bump_mode",
+                    "portString": "bump_mode",
                     "datatypeString": "string",
                     "valueString": "both"
                 },
                 {
-                    "name": "energy_conserving",
+                    "portString": "energy_conserving",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "user_id",
+                    "portString": "user_id",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -1045,22 +1045,22 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "Kd",
+                    "portString": "Kd",
                     "datatypeString": "float",
                     "valueString": "0.7"
                 },
                 {
-                    "name": "Kd_color",
+                    "portString": "Kd_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -1070,222 +1070,222 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "Kd",
+                    "portString": "Kd",
                     "datatypeString": "float",
                     "valueString": "0.7"
                 },
                 {
-                    "name": "Kd_color",
+                    "portString": "Kd_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "diffuse_roughness",
+                    "portString": "diffuse_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Ks",
+                    "portString": "Ks",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Ks_color",
+                    "portString": "Ks_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0.466905"
                 },
                 {
-                    "name": "specular_anisotropy",
+                    "portString": "specular_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "specular_rotation",
+                    "portString": "specular_rotation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_distribution",
+                    "portString": "specular_distribution",
                     "datatypeString": "string",
                     "valueString": "ggx"
                 },
                 {
-                    "name": "Kr",
+                    "portString": "Kr",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Kr_color",
+                    "portString": "Kr_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "reflection_exit_color",
+                    "portString": "reflection_exit_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "reflection_exit_use_environment",
+                    "portString": "reflection_exit_use_environment",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "Kt",
+                    "portString": "Kt",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Kt_color",
+                    "portString": "Kt_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transmittance",
+                    "portString": "transmittance",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "refraction_roughness",
+                    "portString": "refraction_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "refraction_exit_color",
+                    "portString": "refraction_exit_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "refraction_exit_use_environment",
+                    "portString": "refraction_exit_use_environment",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "IOR",
+                    "portString": "IOR",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "dispersion_abbe",
+                    "portString": "dispersion_abbe",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Kb",
+                    "portString": "Kb",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Fresnel",
+                    "portString": "Fresnel",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "Krn",
+                    "portString": "Krn",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_Fresnel",
+                    "portString": "specular_Fresnel",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "Ksn",
+                    "portString": "Ksn",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Fresnel_use_IOR",
+                    "portString": "Fresnel_use_IOR",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "Fresnel_affect_diff",
+                    "portString": "Fresnel_affect_diff",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "direct_specular",
+                    "portString": "direct_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "indirect_specular",
+                    "portString": "indirect_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "direct_diffuse",
+                    "portString": "direct_diffuse",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "indirect_diffuse",
+                    "portString": "indirect_diffuse",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable_glossy_caustics",
+                    "portString": "enable_glossy_caustics",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "enable_reflective_caustics",
+                    "portString": "enable_reflective_caustics",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "enable_refractive_caustics",
+                    "portString": "enable_refractive_caustics",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "enable_internal_reflections",
+                    "portString": "enable_internal_reflections",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "Ksss",
+                    "portString": "Ksss",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Ksss_color",
+                    "portString": "Ksss_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "sss_radius",
+                    "portString": "sss_radius",
                     "datatypeString": "color3",
                     "valueString": "0.1, 0.1, 0.1"
                 },
                 {
-                    "name": "bounce_factor",
+                    "portString": "bounce_factor",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -1295,327 +1295,327 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "float",
                     "valueString": "0.8"
                 },
                 {
-                    "name": "base_color",
+                    "portString": "base_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "diffuse_roughness",
+                    "portString": "diffuse_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular",
+                    "portString": "specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "specular_color",
+                    "portString": "specular_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0.2"
                 },
                 {
-                    "name": "specular_IOR",
+                    "portString": "specular_IOR",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "specular_anisotropy",
+                    "portString": "specular_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "specular_rotation",
+                    "portString": "specular_rotation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "metalness",
+                    "portString": "metalness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission",
+                    "portString": "transmission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_color",
+                    "portString": "transmission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transmission_depth",
+                    "portString": "transmission_depth",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_scatter",
+                    "portString": "transmission_scatter",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "transmission_scatter_anisotropy",
+                    "portString": "transmission_scatter_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_dispersion",
+                    "portString": "transmission_dispersion",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_extra_roughness",
+                    "portString": "transmission_extra_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmit_aovs",
+                    "portString": "transmit_aovs",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "subsurface",
+                    "portString": "subsurface",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "subsurface_color",
+                    "portString": "subsurface_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "subsurface_radius",
+                    "portString": "subsurface_radius",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "subsurface_scale",
+                    "portString": "subsurface_scale",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "subsurface_anisotropy",
+                    "portString": "subsurface_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "subsurface_type",
+                    "portString": "subsurface_type",
                     "datatypeString": "string",
                     "valueString": "randomwalk"
                 },
                 {
-                    "name": "sheen",
+                    "portString": "sheen",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sheen_color",
+                    "portString": "sheen_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "sheen_roughness",
+                    "portString": "sheen_roughness",
                     "datatypeString": "float",
                     "valueString": "0.3"
                 },
                 {
-                    "name": "thin_walled",
+                    "portString": "thin_walled",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "tangent",
+                    "portString": "tangent",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "coat",
+                    "portString": "coat",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "coat_color",
+                    "portString": "coat_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "coat_roughness",
+                    "portString": "coat_roughness",
                     "datatypeString": "float",
                     "valueString": "0.1"
                 },
                 {
-                    "name": "coat_IOR",
+                    "portString": "coat_IOR",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "coat_anisotropy",
+                    "portString": "coat_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "coat_rotation",
+                    "portString": "coat_rotation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "coat_normal",
+                    "portString": "coat_normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "coat_affect_color",
+                    "portString": "coat_affect_color",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "coat_affect_roughness",
+                    "portString": "coat_affect_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "thin_film_thickness",
+                    "portString": "thin_film_thickness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "thin_film_IOR",
+                    "portString": "thin_film_IOR",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "caustics",
+                    "portString": "caustics",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "internal_reflections",
+                    "portString": "internal_reflections",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "exit_to_background",
+                    "portString": "exit_to_background",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "indirect_diffuse",
+                    "portString": "indirect_diffuse",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "indirect_specular",
+                    "portString": "indirect_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "aov_id1",
+                    "portString": "aov_id1",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id1",
+                    "portString": "id1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id2",
+                    "portString": "aov_id2",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id2",
+                    "portString": "id2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id3",
+                    "portString": "aov_id3",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id3",
+                    "portString": "id3",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id4",
+                    "portString": "aov_id4",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id4",
+                    "portString": "id4",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id5",
+                    "portString": "aov_id5",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id5",
+                    "portString": "id5",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id6",
+                    "portString": "aov_id6",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id6",
+                    "portString": "id6",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id7",
+                    "portString": "aov_id7",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id7",
+                    "portString": "id7",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id8",
+                    "portString": "aov_id8",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id8",
+                    "portString": "id8",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -1625,82 +1625,82 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "rootcolor",
+                    "portString": "rootcolor",
                     "datatypeString": "color3",
                     "valueString": "0.1, 0.1, 0.1"
                 },
                 {
-                    "name": "tipcolor",
+                    "portString": "tipcolor",
                     "datatypeString": "color3",
                     "valueString": "0.5, 0.5, 0.5"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "ambdiff",
+                    "portString": "ambdiff",
                     "datatypeString": "float",
                     "valueString": "0.6"
                 },
                 {
-                    "name": "spec",
+                    "portString": "spec",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "spec_color",
+                    "portString": "spec_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "spec_shift",
+                    "portString": "spec_shift",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "spec_gloss",
+                    "portString": "spec_gloss",
                     "datatypeString": "float",
                     "valueString": "10"
                 },
                 {
-                    "name": "spec2",
+                    "portString": "spec2",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "spec2_color",
+                    "portString": "spec2_color",
                     "datatypeString": "color3",
                     "valueString": "1, 0.4, 0.1"
                 },
                 {
-                    "name": "spec2_shift",
+                    "portString": "spec2_shift",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "spec2_gloss",
+                    "portString": "spec2_gloss",
                     "datatypeString": "float",
                     "valueString": "7"
                 },
                 {
-                    "name": "transmission",
+                    "portString": "transmission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transmission_color",
+                    "portString": "transmission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 0.4, 0.1"
                 },
                 {
-                    "name": "transmission_spread",
+                    "portString": "transmission_spread",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "kd_ind",
+                    "portString": "kd_ind",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -1710,192 +1710,192 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "base_color",
+                    "portString": "base_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "melanin",
+                    "portString": "melanin",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "melanin_redness",
+                    "portString": "melanin_redness",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "melanin_randomize",
+                    "portString": "melanin_randomize",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "roughness",
+                    "portString": "roughness",
                     "datatypeString": "float",
                     "valueString": "0.2"
                 },
                 {
-                    "name": "roughness_azimuthal",
+                    "portString": "roughness_azimuthal",
                     "datatypeString": "float",
                     "valueString": "0.2"
                 },
                 {
-                    "name": "roughness_anisotropic",
+                    "portString": "roughness_anisotropic",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "ior",
+                    "portString": "ior",
                     "datatypeString": "float",
                     "valueString": "1.55"
                 },
                 {
-                    "name": "shift",
+                    "portString": "shift",
                     "datatypeString": "float",
                     "valueString": "3"
                 },
                 {
-                    "name": "specular_tint",
+                    "portString": "specular_tint",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular2_tint",
+                    "portString": "specular2_tint",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transmission_tint",
+                    "portString": "transmission_tint",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "diffuse",
+                    "portString": "diffuse",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "diffuse_color",
+                    "portString": "diffuse_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "indirect_diffuse",
+                    "portString": "indirect_diffuse",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "indirect_specular",
+                    "portString": "indirect_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "extra_depth",
+                    "portString": "extra_depth",
                     "datatypeString": "integer",
                     "valueString": "16"
                 },
                 {
-                    "name": "extra_samples",
+                    "portString": "extra_samples",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "aov_id1",
+                    "portString": "aov_id1",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id1",
+                    "portString": "id1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id2",
+                    "portString": "aov_id2",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id2",
+                    "portString": "id2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id3",
+                    "portString": "aov_id3",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id3",
+                    "portString": "id3",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id4",
+                    "portString": "aov_id4",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id4",
+                    "portString": "id4",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id5",
+                    "portString": "aov_id5",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id5",
+                    "portString": "id5",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id6",
+                    "portString": "aov_id6",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id6",
+                    "portString": "id6",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id7",
+                    "portString": "aov_id7",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id7",
+                    "portString": "id7",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_id8",
+                    "portString": "aov_id8",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "id8",
+                    "portString": "id8",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -1905,142 +1905,142 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "float",
                     "valueString": "0.8"
                 },
                 {
-                    "name": "base_color",
+                    "portString": "base_color",
                     "datatypeString": "color3",
                     "valueString": "1, 0, 0"
                 },
                 {
-                    "name": "base_roughness",
+                    "portString": "base_roughness",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "specular",
+                    "portString": "specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "specular_color",
+                    "portString": "specular_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_flip_flop",
+                    "portString": "specular_flip_flop",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_light_facing",
+                    "portString": "specular_light_facing",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_falloff",
+                    "portString": "specular_falloff",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0.05"
                 },
                 {
-                    "name": "specular_IOR",
+                    "portString": "specular_IOR",
                     "datatypeString": "float",
                     "valueString": "1.52"
                 },
                 {
-                    "name": "transmission_color",
+                    "portString": "transmission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "flake_color",
+                    "portString": "flake_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "flake_flip_flop",
+                    "portString": "flake_flip_flop",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "flake_light_facing",
+                    "portString": "flake_light_facing",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "flake_falloff",
+                    "portString": "flake_falloff",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "flake_roughness",
+                    "portString": "flake_roughness",
                     "datatypeString": "float",
                     "valueString": "0.4"
                 },
                 {
-                    "name": "flake_IOR",
+                    "portString": "flake_IOR",
                     "datatypeString": "float",
                     "valueString": "100"
                 },
                 {
-                    "name": "flake_scale",
+                    "portString": "flake_scale",
                     "datatypeString": "float",
                     "valueString": "0.001"
                 },
                 {
-                    "name": "flake_density",
+                    "portString": "flake_density",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "flake_layers",
+                    "portString": "flake_layers",
                     "datatypeString": "integer",
                     "valueString": "1"
                 },
                 {
-                    "name": "flake_normal_randomize",
+                    "portString": "flake_normal_randomize",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "flake_coord_space",
+                    "portString": "flake_coord_space",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "coat",
+                    "portString": "coat",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "coat_color",
+                    "portString": "coat_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "coat_roughness",
+                    "portString": "coat_roughness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "coat_IOR",
+                    "portString": "coat_IOR",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "coat_normal",
+                    "portString": "coat_normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -2050,17 +2050,17 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "bump_map",
+                    "portString": "bump_map",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "bump_height",
+                    "portString": "bump_height",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -2070,22 +2070,22 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "bump_map",
+                    "portString": "bump_map",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "bump_height",
+                    "portString": "bump_height",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "epsilon",
+                    "portString": "epsilon",
                     "datatypeString": "float",
                     "valueString": "1e-05"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -2095,22 +2095,22 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "blend"
                 },
                 {
-                    "name": "mix",
+                    "portString": "mix",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "shader1",
+                    "portString": "shader1",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "shader2",
+                    "portString": "shader2",
                     "datatypeString": "closure",
                     "valueString": ""
                 }
@@ -2120,57 +2120,57 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "intensity",
+                    "portString": "intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "visibility",
+                    "portString": "visibility",
                     "datatypeString": "integer",
                     "valueString": "-940211969"
                 },
                 {
-                    "name": "opaque_alpha",
+                    "portString": "opaque_alpha",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "format",
+                    "portString": "format",
                     "datatypeString": "string",
                     "valueString": "angular"
                 },
                 {
-                    "name": "X_angle",
+                    "portString": "X_angle",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Y_angle",
+                    "portString": "Y_angle",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "Z_angle",
+                    "portString": "Z_angle",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "X",
+                    "portString": "X",
                     "datatypeString": "vector3",
                     "valueString": "1, 0, 0"
                 },
                 {
-                    "name": "Y",
+                    "portString": "Y",
                     "datatypeString": "vector3",
                     "valueString": "0, 1, 0"
                 },
                 {
-                    "name": "Z",
+                    "portString": "Z",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 1"
                 }
@@ -2180,72 +2180,72 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "turbidity",
+                    "portString": "turbidity",
                     "datatypeString": "float",
                     "valueString": "3"
                 },
                 {
-                    "name": "ground_albedo",
+                    "portString": "ground_albedo",
                     "datatypeString": "color3",
                     "valueString": "0.1, 0.1, 0.1"
                 },
                 {
-                    "name": "use_degrees",
+                    "portString": "use_degrees",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "elevation",
+                    "portString": "elevation",
                     "datatypeString": "float",
                     "valueString": "45"
                 },
                 {
-                    "name": "azimuth",
+                    "portString": "azimuth",
                     "datatypeString": "float",
                     "valueString": "90"
                 },
                 {
-                    "name": "sun_direction",
+                    "portString": "sun_direction",
                     "datatypeString": "vector3",
                     "valueString": "0, 1, 0"
                 },
                 {
-                    "name": "enable_sun",
+                    "portString": "enable_sun",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "sun_size",
+                    "portString": "sun_size",
                     "datatypeString": "float",
                     "valueString": "0.51"
                 },
                 {
-                    "name": "sun_tint",
+                    "portString": "sun_tint",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "sky_tint",
+                    "portString": "sky_tint",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "intensity",
+                    "portString": "intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "X",
+                    "portString": "X",
                     "datatypeString": "vector3",
                     "valueString": "1, 0, 0"
                 },
                 {
-                    "name": "Y",
+                    "portString": "Y",
                     "datatypeString": "vector3",
                     "valueString": "0, 1, 0"
                 },
                 {
-                    "name": "Z",
+                    "portString": "Z",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 1"
                 }
@@ -2255,47 +2255,47 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "density",
+                    "portString": "density",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "samples",
+                    "portString": "samples",
                     "datatypeString": "integer",
                     "valueString": "5"
                 },
                 {
-                    "name": "eccentricity",
+                    "portString": "eccentricity",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "attenuation",
+                    "portString": "attenuation",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "affect_camera",
+                    "portString": "affect_camera",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "affect_diffuse",
+                    "portString": "affect_diffuse",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "affect_specular",
+                    "portString": "affect_specular",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "rgb_density",
+                    "portString": "rgb_density",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "rgb_attenuation",
+                    "portString": "rgb_attenuation",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -2305,27 +2305,27 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "distance",
+                    "portString": "distance",
                     "datatypeString": "float",
                     "valueString": "0.02"
                 },
                 {
-                    "name": "height",
+                    "portString": "height",
                     "datatypeString": "float",
                     "valueString": "5"
                 },
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "ground_point",
+                    "portString": "ground_point",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "ground_normal",
+                    "portString": "ground_normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 1"
                 }
@@ -2335,97 +2335,97 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "density",
+                    "portString": "density",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "density_channel",
+                    "portString": "density_channel",
                     "datatypeString": "string",
                     "valueString": "density"
                 },
                 {
-                    "name": "scatter",
+                    "portString": "scatter",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "scatter_color",
+                    "portString": "scatter_color",
                     "datatypeString": "color3",
                     "valueString": "0.5, 0.5, 0.5"
                 },
                 {
-                    "name": "scatter_color_channel",
+                    "portString": "scatter_color_channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "scatter_anisotropy",
+                    "portString": "scatter_anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "transparent",
+                    "portString": "transparent",
                     "datatypeString": "color3",
                     "valueString": "0.367879, 0.367879, 0.367879"
                 },
                 {
-                    "name": "transparent_depth",
+                    "portString": "transparent_depth",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "transparent_channel",
+                    "portString": "transparent_channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "emission_mode",
+                    "portString": "emission_mode",
                     "datatypeString": "string",
                     "valueString": "blackbody"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "emission_channel",
+                    "portString": "emission_channel",
                     "datatypeString": "string",
                     "valueString": "heat"
                 },
                 {
-                    "name": "temperature",
+                    "portString": "temperature",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "temperature_channel",
+                    "portString": "temperature_channel",
                     "datatypeString": "string",
                     "valueString": "temperature"
                 },
                 {
-                    "name": "blackbody_kelvin",
+                    "portString": "blackbody_kelvin",
                     "datatypeString": "float",
                     "valueString": "5000"
                 },
                 {
-                    "name": "blackbody_intensity",
+                    "portString": "blackbody_intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "displacement",
+                    "portString": "displacement",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "string",
                     "valueString": "trilinear"
                 }
@@ -2435,7 +2435,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -2445,12 +2445,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -2460,7 +2460,7 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2470,7 +2470,7 @@ class Utility(object):
             "datatypeString": "integer",
             "port": [
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2480,7 +2480,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2490,7 +2490,7 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2500,22 +2500,22 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "aov_input",
+                    "portString": "aov_input",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "blend_opacity",
+                    "portString": "blend_opacity",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -2525,17 +2525,17 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "aov_input",
+                    "portString": "aov_input",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2545,22 +2545,22 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "aov_input",
+                    "portString": "aov_input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "blend_opacity",
+                    "portString": "blend_opacity",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -2570,22 +2570,22 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "aov_input",
+                    "portString": "aov_input",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "aov_name",
+                    "portString": "aov_name",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "blend_opacity",
+                    "portString": "blend_opacity",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -2595,17 +2595,17 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "y",
+                    "portString": "y",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "x",
+                    "portString": "x",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "units",
+                    "portString": "units",
                     "datatypeString": "string",
                     "valueString": "radians"
                 }
@@ -2615,17 +2615,17 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "temperature",
+                    "portString": "temperature",
                     "datatypeString": "float",
                     "valueString": "6500"
                 },
                 {
-                    "name": "normalize",
+                    "portString": "normalize",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "intensity",
+                    "portString": "intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -2635,7 +2635,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -2645,57 +2645,57 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "projection_color",
+                    "portString": "projection_color",
                     "datatypeString": "color4",
                     "valueString": "1, 1, 1, 1"
                 },
                 {
-                    "name": "offscreen_color",
+                    "portString": "offscreen_color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mask",
+                    "portString": "mask",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "camera",
+                    "portString": "camera",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "aspect_ratio",
+                    "portString": "aspect_ratio",
                     "datatypeString": "float",
                     "valueString": "1.333"
                 },
                 {
-                    "name": "front_facing",
+                    "portString": "front_facing",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "back_facing",
+                    "portString": "back_facing",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "use_shading_normal",
+                    "portString": "use_shading_normal",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "world"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "P",
+                    "portString": "P",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -2705,52 +2705,52 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "color1",
+                    "portString": "color1",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "color2",
+                    "portString": "color2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "u_frequency",
+                    "portString": "u_frequency",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "v_frequency",
+                    "portString": "v_frequency",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "u_offset",
+                    "portString": "u_offset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "v_offset",
+                    "portString": "v_offset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "contrast",
+                    "portString": "contrast",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "filter_strength",
+                    "portString": "filter_strength",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "filter_offset",
+                    "portString": "filter_offset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "uvset",
+                    "portString": "uvset",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -2760,32 +2760,32 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "scalar"
                 },
                 {
-                    "name": "min",
+                    "portString": "min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "max",
+                    "portString": "max",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "min_color",
+                    "portString": "min_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "max_color",
+                    "portString": "max_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -2795,17 +2795,17 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "intersection",
+                    "portString": "intersection",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "trace_set",
+                    "portString": "trace_set",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "inclusive",
+                    "portString": "inclusive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -2815,17 +2815,17 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "from",
+                    "portString": "from",
                     "datatypeString": "string",
                     "valueString": "RGB"
                 },
                 {
-                    "name": "to",
+                    "portString": "to",
                     "datatypeString": "string",
                     "valueString": "HSV"
                 }
@@ -2835,77 +2835,77 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "alpha_is_luminance",
+                    "portString": "alpha_is_luminance",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "alpha_multiply",
+                    "portString": "alpha_multiply",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "alpha_add",
+                    "portString": "alpha_add",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "invert",
+                    "portString": "invert",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert_alpha",
+                    "portString": "invert_alpha",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "gamma",
+                    "portString": "gamma",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "hue_shift",
+                    "portString": "hue_shift",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "saturation",
+                    "portString": "saturation",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast",
+                    "portString": "contrast",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast_pivot",
+                    "portString": "contrast_pivot",
                     "datatypeString": "float",
                     "valueString": "0.18"
                 },
                 {
-                    "name": "exposure",
+                    "portString": "exposure",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "multiply",
+                    "portString": "multiply",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "add",
+                    "portString": "add",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mask",
+                    "portString": "mask",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -2915,157 +2915,157 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "data_input",
+                    "portString": "data_input",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_gain_min",
+                    "portString": "data_gain_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_gain_max",
+                    "portString": "data_gain_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_hue_min",
+                    "portString": "data_hue_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_hue_max",
+                    "portString": "data_hue_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_saturation_min",
+                    "portString": "data_saturation_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_saturation_max",
+                    "portString": "data_saturation_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "data_seed",
+                    "portString": "data_seed",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_gain_min",
+                    "portString": "proc_gain_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_gain_max",
+                    "portString": "proc_gain_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_hue_min",
+                    "portString": "proc_hue_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_hue_max",
+                    "portString": "proc_hue_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_saturation_min",
+                    "portString": "proc_saturation_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_saturation_max",
+                    "portString": "proc_saturation_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "proc_seed",
+                    "portString": "proc_seed",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_gain_min",
+                    "portString": "obj_gain_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_gain_max",
+                    "portString": "obj_gain_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_hue_min",
+                    "portString": "obj_hue_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_hue_max",
+                    "portString": "obj_hue_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_saturation_min",
+                    "portString": "obj_saturation_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_saturation_max",
+                    "portString": "obj_saturation_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "obj_seed",
+                    "portString": "obj_seed",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_gain_min",
+                    "portString": "face_gain_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_gain_max",
+                    "portString": "face_gain_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_hue_min",
+                    "portString": "face_hue_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_hue_max",
+                    "portString": "face_hue_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_saturation_min",
+                    "portString": "face_saturation_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_saturation_max",
+                    "portString": "face_saturation_max",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_seed",
+                    "portString": "face_seed",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "face_mode",
+                    "portString": "face_mode",
                     "datatypeString": "string",
                     "valueString": "face id"
                 }
@@ -3075,17 +3075,17 @@ class Utility(object):
             "datatypeString": "boolean",
             "port": [
                 {
-                    "name": "test",
+                    "portString": "test",
                     "datatypeString": "string",
                     "valueString": "=="
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -3095,7 +3095,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -3105,32 +3105,32 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "material",
+                    "portString": "material",
                     "datatypeString": "string",
                     "valueString": "custom"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "artistic"
                 },
                 {
-                    "name": "reflectivity",
+                    "portString": "reflectivity",
                     "datatypeString": "color3",
                     "valueString": "0.925952, 0.720887, 0.504154"
                 },
                 {
-                    "name": "edgetint",
+                    "portString": "edgetint",
                     "datatypeString": "color3",
                     "valueString": "0.995524, 0.957415, 0.822776"
                 },
                 {
-                    "name": "n",
+                    "portString": "n",
                     "datatypeString": "vector3",
                     "valueString": "0.27105, 0.67693, 1.3164"
                 },
                 {
-                    "name": "k",
+                    "portString": "k",
                     "datatypeString": "vector3",
                     "valueString": "3.6092, 2.6247, 2.2921"
                 }
@@ -3140,22 +3140,22 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "A",
+                    "portString": "A",
                     "datatypeString": "color4",
                     "valueString": "1, 0, 0, 1"
                 },
                 {
-                    "name": "B",
+                    "portString": "B",
                     "datatypeString": "color4",
                     "valueString": "0, 1, 0, 1"
                 },
                 {
-                    "name": "operation",
+                    "portString": "operation",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation",
+                    "portString": "alpha_operation",
                     "datatypeString": "string",
                     "valueString": "same"
                 }
@@ -3165,12 +3165,12 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 }
@@ -3180,52 +3180,52 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "output",
+                    "portString": "output",
                     "datatypeString": "string",
                     "valueString": "convex"
                 },
                 {
-                    "name": "samples",
+                    "portString": "samples",
                     "datatypeString": "integer",
                     "valueString": "3"
                 },
                 {
-                    "name": "radius",
+                    "portString": "radius",
                     "datatypeString": "float",
                     "valueString": "0.1"
                 },
                 {
-                    "name": "spread",
+                    "portString": "spread",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "threshold",
+                    "portString": "threshold",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "bias",
+                    "portString": "bias",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "multiply",
+                    "portString": "multiply",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "trace_set",
+                    "portString": "trace_set",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "inclusive",
+                    "portString": "inclusive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "self_only",
+                    "portString": "self_only",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -3235,12 +3235,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -3250,12 +3250,12 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 }
@@ -3265,7 +3265,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -3275,22 +3275,22 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "bias",
+                    "portString": "bias",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "gain",
+                    "portString": "gain",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "linear",
+                    "portString": "linear",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert",
+                    "portString": "invert",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -3300,47 +3300,47 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "float",
                     "valueString": "0.1"
                 },
                 {
-                    "name": "density",
+                    "portString": "density",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "step",
+                    "portString": "step",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "depth",
+                    "portString": "depth",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "IOR",
+                    "portString": "IOR",
                     "datatypeString": "float",
                     "valueString": "1.52"
                 },
                 {
-                    "name": "normal_randomize",
+                    "portString": "normal_randomize",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "output_space",
+                    "portString": "output_space",
                     "datatypeString": "string",
                     "valueString": "world"
                 }
@@ -3350,12 +3350,12 @@ class Utility(object):
             "datatypeString": "integer",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "round"
                 }
@@ -3365,82 +3365,82 @@ class Utility(object):
             "datatypeString": "matrix44",
             "port": [
                 {
-                    "name": "input_00",
+                    "portString": "input_00",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "input_01",
+                    "portString": "input_01",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_02",
+                    "portString": "input_02",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_03",
+                    "portString": "input_03",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_10",
+                    "portString": "input_10",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_11",
+                    "portString": "input_11",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "input_12",
+                    "portString": "input_12",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_13",
+                    "portString": "input_13",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_20",
+                    "portString": "input_20",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_21",
+                    "portString": "input_21",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_22",
+                    "portString": "input_22",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "input_23",
+                    "portString": "input_23",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_30",
+                    "portString": "input_30",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_31",
+                    "portString": "input_31",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_32",
+                    "portString": "input_32",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_33",
+                    "portString": "input_33",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -3450,22 +3450,22 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "r",
+                    "portString": "r",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "g",
+                    "portString": "g",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "b",
+                    "portString": "b",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "a",
+                    "portString": "a",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -3475,17 +3475,17 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "r",
+                    "portString": "r",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "g",
+                    "portString": "g",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "b",
+                    "portString": "b",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -3495,7 +3495,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -3505,7 +3505,7 @@ class Utility(object):
             "datatypeString": "boolean",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -3515,162 +3515,162 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "enable1",
+                    "portString": "enable1",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name1",
+                    "portString": "name1",
                     "datatypeString": "string",
                     "valueString": "layer1"
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix1",
+                    "portString": "mix1",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable2",
+                    "portString": "enable2",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name2",
+                    "portString": "name2",
                     "datatypeString": "string",
                     "valueString": "layer2"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix2",
+                    "portString": "mix2",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable3",
+                    "portString": "enable3",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name3",
+                    "portString": "name3",
                     "datatypeString": "string",
                     "valueString": "layer3"
                 },
                 {
-                    "name": "input3",
+                    "portString": "input3",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix3",
+                    "portString": "mix3",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable4",
+                    "portString": "enable4",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name4",
+                    "portString": "name4",
                     "datatypeString": "string",
                     "valueString": "layer4"
                 },
                 {
-                    "name": "input4",
+                    "portString": "input4",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix4",
+                    "portString": "mix4",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable5",
+                    "portString": "enable5",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name5",
+                    "portString": "name5",
                     "datatypeString": "string",
                     "valueString": "layer5"
                 },
                 {
-                    "name": "input5",
+                    "portString": "input5",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix5",
+                    "portString": "mix5",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable6",
+                    "portString": "enable6",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name6",
+                    "portString": "name6",
                     "datatypeString": "string",
                     "valueString": "layer6"
                 },
                 {
-                    "name": "input6",
+                    "portString": "input6",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix6",
+                    "portString": "mix6",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable7",
+                    "portString": "enable7",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name7",
+                    "portString": "name7",
                     "datatypeString": "string",
                     "valueString": "layer7"
                 },
                 {
-                    "name": "input7",
+                    "portString": "input7",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix7",
+                    "portString": "mix7",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "enable8",
+                    "portString": "enable8",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name8",
+                    "portString": "name8",
                     "datatypeString": "string",
                     "valueString": "layer8"
                 },
                 {
-                    "name": "input8",
+                    "portString": "input8",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "mix8",
+                    "portString": "mix8",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -3680,247 +3680,247 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "enable1",
+                    "portString": "enable1",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name1",
+                    "portString": "name1",
                     "datatypeString": "string",
                     "valueString": "layer1"
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix1",
+                    "portString": "mix1",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation1",
+                    "portString": "operation1",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation1",
+                    "portString": "alpha_operation1",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable2",
+                    "portString": "enable2",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name2",
+                    "portString": "name2",
                     "datatypeString": "string",
                     "valueString": "layer2"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix2",
+                    "portString": "mix2",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation2",
+                    "portString": "operation2",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation2",
+                    "portString": "alpha_operation2",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable3",
+                    "portString": "enable3",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name3",
+                    "portString": "name3",
                     "datatypeString": "string",
                     "valueString": "layer3"
                 },
                 {
-                    "name": "input3",
+                    "portString": "input3",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix3",
+                    "portString": "mix3",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation3",
+                    "portString": "operation3",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation3",
+                    "portString": "alpha_operation3",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable4",
+                    "portString": "enable4",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name4",
+                    "portString": "name4",
                     "datatypeString": "string",
                     "valueString": "layer4"
                 },
                 {
-                    "name": "input4",
+                    "portString": "input4",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix4",
+                    "portString": "mix4",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation4",
+                    "portString": "operation4",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation4",
+                    "portString": "alpha_operation4",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable5",
+                    "portString": "enable5",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name5",
+                    "portString": "name5",
                     "datatypeString": "string",
                     "valueString": "layer5"
                 },
                 {
-                    "name": "input5",
+                    "portString": "input5",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix5",
+                    "portString": "mix5",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation5",
+                    "portString": "operation5",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation5",
+                    "portString": "alpha_operation5",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable6",
+                    "portString": "enable6",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name6",
+                    "portString": "name6",
                     "datatypeString": "string",
                     "valueString": "layer6"
                 },
                 {
-                    "name": "input6",
+                    "portString": "input6",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix6",
+                    "portString": "mix6",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation6",
+                    "portString": "operation6",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation6",
+                    "portString": "alpha_operation6",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable7",
+                    "portString": "enable7",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name7",
+                    "portString": "name7",
                     "datatypeString": "string",
                     "valueString": "layer7"
                 },
                 {
-                    "name": "input7",
+                    "portString": "input7",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix7",
+                    "portString": "mix7",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation7",
+                    "portString": "operation7",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation7",
+                    "portString": "alpha_operation7",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "enable8",
+                    "portString": "enable8",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name8",
+                    "portString": "name8",
                     "datatypeString": "string",
                     "valueString": "layer8"
                 },
                 {
-                    "name": "input8",
+                    "portString": "input8",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "mix8",
+                    "portString": "mix8",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "operation8",
+                    "portString": "operation8",
                     "datatypeString": "string",
                     "valueString": "over"
                 },
                 {
-                    "name": "alpha_operation8",
+                    "portString": "alpha_operation8",
                     "datatypeString": "string",
                     "valueString": "result"
                 },
                 {
-                    "name": "clamp",
+                    "portString": "clamp",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -3930,162 +3930,162 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "enable1",
+                    "portString": "enable1",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name1",
+                    "portString": "name1",
                     "datatypeString": "string",
                     "valueString": "layer1"
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix1",
+                    "portString": "mix1",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable2",
+                    "portString": "enable2",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name2",
+                    "portString": "name2",
                     "datatypeString": "string",
                     "valueString": "layer2"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix2",
+                    "portString": "mix2",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable3",
+                    "portString": "enable3",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name3",
+                    "portString": "name3",
                     "datatypeString": "string",
                     "valueString": "layer3"
                 },
                 {
-                    "name": "input3",
+                    "portString": "input3",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix3",
+                    "portString": "mix3",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable4",
+                    "portString": "enable4",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name4",
+                    "portString": "name4",
                     "datatypeString": "string",
                     "valueString": "layer4"
                 },
                 {
-                    "name": "input4",
+                    "portString": "input4",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix4",
+                    "portString": "mix4",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable5",
+                    "portString": "enable5",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name5",
+                    "portString": "name5",
                     "datatypeString": "string",
                     "valueString": "layer5"
                 },
                 {
-                    "name": "input5",
+                    "portString": "input5",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix5",
+                    "portString": "mix5",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable6",
+                    "portString": "enable6",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name6",
+                    "portString": "name6",
                     "datatypeString": "string",
                     "valueString": "layer6"
                 },
                 {
-                    "name": "input6",
+                    "portString": "input6",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix6",
+                    "portString": "mix6",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable7",
+                    "portString": "enable7",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name7",
+                    "portString": "name7",
                     "datatypeString": "string",
                     "valueString": "layer7"
                 },
                 {
-                    "name": "input7",
+                    "portString": "input7",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix7",
+                    "portString": "mix7",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "enable8",
+                    "portString": "enable8",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "name8",
+                    "portString": "name8",
                     "datatypeString": "string",
                     "valueString": "layer8"
                 },
                 {
-                    "name": "input8",
+                    "portString": "input8",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "mix8",
+                    "portString": "mix8",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -4095,12 +4095,12 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "euclidian"
                 }
@@ -4110,12 +4110,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "color3",
                     "valueString": "2.71828, 2.71828, 2.71828"
                 }
@@ -4125,12 +4125,12 @@ class Utility(object):
             "datatypeString": "matrix44",
             "port": [
                 {
-                    "name": "type",
+                    "portString": "type",
                     "datatypeString": "string",
                     "valueString": "time"
                 },
                 {
-                    "name": "value",
+                    "portString": "value",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 }
@@ -4140,17 +4140,17 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "type",
+                    "portString": "type",
                     "datatypeString": "string",
                     "valueString": "point"
                 },
                 {
-                    "name": "matrix",
+                    "portString": "matrix",
                     "datatypeString": "matrix44",
                     "valueString": ""
                 }
@@ -4160,52 +4160,52 @@ class Utility(object):
             "datatypeString": "matrix44",
             "port": [
                 {
-                    "name": "transform_order",
+                    "portString": "transform_order",
                     "datatypeString": "string",
                     "valueString": "srt"
                 },
                 {
-                    "name": "rotation_type",
+                    "portString": "rotation_type",
                     "datatypeString": "string",
                     "valueString": "euler"
                 },
                 {
-                    "name": "units",
+                    "portString": "units",
                     "datatypeString": "string",
                     "valueString": "degrees"
                 },
                 {
-                    "name": "rotation_order",
+                    "portString": "rotation_order",
                     "datatypeString": "string",
                     "valueString": "xyz"
                 },
                 {
-                    "name": "rotation",
+                    "portString": "rotation",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "axis",
+                    "portString": "axis",
                     "datatypeString": "vector3",
                     "valueString": "1, 0, 0"
                 },
                 {
-                    "name": "angle",
+                    "portString": "angle",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "translate",
+                    "portString": "translate",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "pivot",
+                    "portString": "pivot",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -4215,17 +4215,17 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -4235,12 +4235,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -4250,12 +4250,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -4265,17 +4265,17 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "mix",
+                    "portString": "mix",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 }
@@ -4285,12 +4285,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "divisor",
+                    "portString": "divisor",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -4300,12 +4300,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -4315,7 +4315,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -4325,7 +4325,7 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 }
@@ -4335,52 +4335,52 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "tangent",
+                    "portString": "tangent",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "order",
+                    "portString": "order",
                     "datatypeString": "string",
                     "valueString": "XYZ"
                 },
                 {
-                    "name": "invert_x",
+                    "portString": "invert_x",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert_y",
+                    "portString": "invert_y",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert_z",
+                    "portString": "invert_z",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "color_to_signed",
+                    "portString": "color_to_signed",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "tangent_space",
+                    "portString": "tangent_space",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "strength",
+                    "portString": "strength",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -4390,112 +4390,112 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval1",
+                    "portString": "eval1",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval2",
+                    "portString": "eval2",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval3",
+                    "portString": "eval3",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval4",
+                    "portString": "eval4",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval5",
+                    "portString": "eval5",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval6",
+                    "portString": "eval6",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval7",
+                    "portString": "eval7",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval8",
+                    "portString": "eval8",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval9",
+                    "portString": "eval9",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval10",
+                    "portString": "eval10",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval11",
+                    "portString": "eval11",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval12",
+                    "portString": "eval12",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval13",
+                    "portString": "eval13",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval14",
+                    "portString": "eval14",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval15",
+                    "portString": "eval15",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval16",
+                    "portString": "eval16",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval17",
+                    "portString": "eval17",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval18",
+                    "portString": "eval18",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval19",
+                    "portString": "eval19",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "eval20",
+                    "portString": "eval20",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 }
@@ -4505,12 +4505,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "base",
+                    "portString": "base",
                     "datatypeString": "color3",
                     "valueString": "2.71828, 2.71828, 2.71828"
                 },
                 {
-                    "name": "exponent",
+                    "portString": "exponent",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -4524,42 +4524,42 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "type",
+                    "portString": "type",
                     "datatypeString": "string",
                     "valueString": "custom"
                 },
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "position",
+                    "portString": "position",
                     "datatypeString": "floatarray",
                     "valueString": "0.0, 1.0"
                 },
                 {
-                    "name": "value",
+                    "portString": "value",
                     "datatypeString": "floatarray",
                     "valueString": "0.0, 1.0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "integerarray",
                     "valueString": "2, 2"
                 },
                 {
-                    "name": "uvset",
+                    "portString": "uvset",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "use_implicit_uvs",
+                    "portString": "use_implicit_uvs",
                     "datatypeString": "string",
                     "valueString": "off"
                 },
                 {
-                    "name": "wrap_uvs",
+                    "portString": "wrap_uvs",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -4569,42 +4569,42 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "type",
+                    "portString": "type",
                     "datatypeString": "string",
                     "valueString": "custom"
                 },
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "position",
+                    "portString": "position",
                     "datatypeString": "floatarray",
                     "valueString": "0.0, 1.0"
                 },
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "floatarray",
                     "valueString": "0.0, 0.0, 0.0, 1.0, 1.0, 1.0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "integerarray",
                     "valueString": "2, 2"
                 },
                 {
-                    "name": "uvset",
+                    "portString": "uvset",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "use_implicit_uvs",
+                    "portString": "use_implicit_uvs",
                     "datatypeString": "string",
                     "valueString": "off"
                 },
                 {
-                    "name": "wrap_uvs",
+                    "portString": "wrap_uvs",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -4614,32 +4614,32 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input_type",
+                    "portString": "input_type",
                     "datatypeString": "string",
                     "valueString": "int"
                 },
                 {
-                    "name": "input_int",
+                    "portString": "input_int",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_float",
+                    "portString": "input_float",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_color",
+                    "portString": "input_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "seed",
+                    "portString": "seed",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "grayscale",
+                    "portString": "grayscale",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -4649,52 +4649,52 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "input_min",
+                    "portString": "input_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_max",
+                    "portString": "input_max",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "output_min",
+                    "portString": "output_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "output_max",
+                    "portString": "output_max",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "smoothstep",
+                    "portString": "smoothstep",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "contrast",
+                    "portString": "contrast",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast_pivot",
+                    "portString": "contrast_pivot",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "bias",
+                    "portString": "bias",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "gain",
+                    "portString": "gain",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 }
@@ -4704,7 +4704,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 }
@@ -4714,12 +4714,12 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "average"
                 }
@@ -4729,12 +4729,12 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "average"
                 }
@@ -4744,12 +4744,12 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "raw"
                 }
@@ -4759,97 +4759,97 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "background",
+                    "portString": "background",
                     "datatypeString": "string",
                     "valueString": "scene_background"
                 },
                 {
-                    "name": "shadow_color",
+                    "portString": "shadow_color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "shadow_opacity",
+                    "portString": "shadow_opacity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "background_color",
+                    "portString": "background_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "diffuse_color",
+                    "portString": "diffuse_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "diffuse_use_background",
+                    "portString": "diffuse_use_background",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "diffuse_intensity",
+                    "portString": "diffuse_intensity",
                     "datatypeString": "float",
                     "valueString": "0.7"
                 },
                 {
-                    "name": "backlighting",
+                    "portString": "backlighting",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "indirect_diffuse_enable",
+                    "portString": "indirect_diffuse_enable",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "indirect_specular_enable",
+                    "portString": "indirect_specular_enable",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "specular_color",
+                    "portString": "specular_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_intensity",
+                    "portString": "specular_intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0.2"
                 },
                 {
-                    "name": "specular_IOR",
+                    "portString": "specular_IOR",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "alpha_mask",
+                    "portString": "alpha_mask",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "aov_group",
+                    "portString": "aov_group",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "aov_shadow",
+                    "portString": "aov_shadow",
                     "datatypeString": "string",
                     "valueString": "shadow"
                 },
                 {
-                    "name": "aov_shadow_diff",
+                    "portString": "aov_shadow_diff",
                     "datatypeString": "string",
                     "valueString": "shadow_diff"
                 },
                 {
-                    "name": "aov_shadow_mask",
+                    "portString": "aov_shadow_mask",
                     "datatypeString": "string",
                     "valueString": "shadow_mask"
                 }
@@ -4859,52 +4859,52 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "alpha",
+                    "portString": "alpha",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "channel_r",
+                    "portString": "channel_r",
                     "datatypeString": "string",
                     "valueString": "R"
                 },
                 {
-                    "name": "channel_g",
+                    "portString": "channel_g",
                     "datatypeString": "string",
                     "valueString": "G"
                 },
                 {
-                    "name": "channel_b",
+                    "portString": "channel_b",
                     "datatypeString": "string",
                     "valueString": "B"
                 },
                 {
-                    "name": "channel_a",
+                    "portString": "channel_a",
                     "datatypeString": "string",
                     "valueString": "A"
                 },
                 {
-                    "name": "negate_r",
+                    "portString": "negate_r",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "negate_g",
+                    "portString": "negate_g",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "negate_b",
+                    "portString": "negate_b",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "negate_a",
+                    "portString": "negate_a",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -4914,7 +4914,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -4924,122 +4924,122 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "sss_weight",
+                    "portString": "sss_weight",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "shallow_scatter_color",
+                    "portString": "shallow_scatter_color",
                     "datatypeString": "color3",
                     "valueString": "1, 0.909, 0.769"
                 },
                 {
-                    "name": "shallow_scatter_weight",
+                    "portString": "shallow_scatter_weight",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "shallow_scatter_radius",
+                    "portString": "shallow_scatter_radius",
                     "datatypeString": "float",
                     "valueString": "0.15"
                 },
                 {
-                    "name": "mid_scatter_color",
+                    "portString": "mid_scatter_color",
                     "datatypeString": "color3",
                     "valueString": "0.949, 0.714, 0.56"
                 },
                 {
-                    "name": "mid_scatter_weight",
+                    "portString": "mid_scatter_weight",
                     "datatypeString": "float",
                     "valueString": "0.25"
                 },
                 {
-                    "name": "mid_scatter_radius",
+                    "portString": "mid_scatter_radius",
                     "datatypeString": "float",
                     "valueString": "0.25"
                 },
                 {
-                    "name": "deep_scatter_color",
+                    "portString": "deep_scatter_color",
                     "datatypeString": "color3",
                     "valueString": "0.7, 0.1, 0.1"
                 },
                 {
-                    "name": "deep_scatter_weight",
+                    "portString": "deep_scatter_weight",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "deep_scatter_radius",
+                    "portString": "deep_scatter_radius",
                     "datatypeString": "float",
                     "valueString": "0.6"
                 },
                 {
-                    "name": "specular_color",
+                    "portString": "specular_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "specular_weight",
+                    "portString": "specular_weight",
                     "datatypeString": "float",
                     "valueString": "0.8"
                 },
                 {
-                    "name": "specular_roughness",
+                    "portString": "specular_roughness",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "specular_ior",
+                    "portString": "specular_ior",
                     "datatypeString": "float",
                     "valueString": "1.44"
                 },
                 {
-                    "name": "sheen_color",
+                    "portString": "sheen_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "sheen_weight",
+                    "portString": "sheen_weight",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sheen_roughness",
+                    "portString": "sheen_roughness",
                     "datatypeString": "float",
                     "valueString": "0.35"
                 },
                 {
-                    "name": "sheen_ior",
+                    "portString": "sheen_ior",
                     "datatypeString": "float",
                     "valueString": "1.44"
                 },
                 {
-                    "name": "global_sss_radius_multiplier",
+                    "portString": "global_sss_radius_multiplier",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "specular_in_secondary_rays",
+                    "portString": "specular_in_secondary_rays",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "fresnel_affect_sss",
+                    "portString": "fresnel_affect_sss",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "opacity",
+                    "portString": "opacity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "opacity_color",
+                    "portString": "opacity_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 1, 0"
                 }
@@ -5049,42 +5049,42 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "type",
+                    "portString": "type",
                     "datatypeString": "string",
                     "valueString": "point"
                 },
                 {
-                    "name": "from",
+                    "portString": "from",
                     "datatypeString": "string",
                     "valueString": "world"
                 },
                 {
-                    "name": "to",
+                    "portString": "to",
                     "datatypeString": "string",
                     "valueString": "world"
                 },
                 {
-                    "name": "tangent",
+                    "portString": "tangent",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "normalize",
+                    "portString": "normalize",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -5094,7 +5094,7 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -5104,7 +5104,7 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "variable",
+                    "portString": "variable",
                     "datatypeString": "string",
                     "valueString": "sx"
                 }
@@ -5114,7 +5114,7 @@ class Utility(object):
             "datatypeString": "integer",
             "port": [
                 {
-                    "name": "variable",
+                    "portString": "variable",
                     "datatypeString": "string",
                     "valueString": "x"
                 }
@@ -5124,7 +5124,7 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "variable",
+                    "portString": "variable",
                     "datatypeString": "string",
                     "valueString": "Ro"
                 }
@@ -5134,12 +5134,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -5149,107 +5149,107 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "index",
+                    "portString": "index",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "input0",
+                    "portString": "input0",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input3",
+                    "portString": "input3",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input4",
+                    "portString": "input4",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input5",
+                    "portString": "input5",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input6",
+                    "portString": "input6",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input7",
+                    "portString": "input7",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input8",
+                    "portString": "input8",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input9",
+                    "portString": "input9",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input10",
+                    "portString": "input10",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input11",
+                    "portString": "input11",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input12",
+                    "portString": "input12",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input13",
+                    "portString": "input13",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input14",
+                    "portString": "input14",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input15",
+                    "portString": "input15",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input16",
+                    "portString": "input16",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input17",
+                    "portString": "input17",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input18",
+                    "portString": "input18",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "input19",
+                    "portString": "input19",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 }
@@ -5259,107 +5259,107 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "index",
+                    "portString": "index",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "input0",
+                    "portString": "input0",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input1",
+                    "portString": "input1",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input2",
+                    "portString": "input2",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input3",
+                    "portString": "input3",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input4",
+                    "portString": "input4",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input5",
+                    "portString": "input5",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input6",
+                    "portString": "input6",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input7",
+                    "portString": "input7",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input8",
+                    "portString": "input8",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input9",
+                    "portString": "input9",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input10",
+                    "portString": "input10",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input11",
+                    "portString": "input11",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input12",
+                    "portString": "input12",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input13",
+                    "portString": "input13",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input14",
+                    "portString": "input14",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input15",
+                    "portString": "input15",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input16",
+                    "portString": "input16",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input17",
+                    "portString": "input17",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input18",
+                    "portString": "input18",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "input19",
+                    "portString": "input19",
                     "datatypeString": "closure",
                     "valueString": ""
                 }
@@ -5369,32 +5369,32 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "thickness_min",
+                    "portString": "thickness_min",
                     "datatypeString": "float",
                     "valueString": "250"
                 },
                 {
-                    "name": "thickness_max",
+                    "portString": "thickness_max",
                     "datatypeString": "float",
                     "valueString": "400"
                 },
                 {
-                    "name": "thickness",
+                    "portString": "thickness",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "ior_medium",
+                    "portString": "ior_medium",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "ior_film",
+                    "portString": "ior_film",
                     "datatypeString": "float",
                     "valueString": "1.5"
                 },
                 {
-                    "name": "ior_internal",
+                    "portString": "ior_internal",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -5404,17 +5404,17 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "trace_set",
+                    "portString": "trace_set",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "inclusive",
+                    "portString": "inclusive",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 }
@@ -5424,27 +5424,27 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "function",
+                    "portString": "function",
                     "datatypeString": "string",
                     "valueString": "cos"
                 },
                 {
-                    "name": "units",
+                    "portString": "units",
                     "datatypeString": "string",
                     "valueString": "radians"
                 },
                 {
-                    "name": "frequency",
+                    "portString": "frequency",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "phase",
+                    "portString": "phase",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -5454,52 +5454,52 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "vector3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "rotate",
+                    "portString": "rotate",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "offset",
+                    "portString": "offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "object"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "blend",
+                    "portString": "blend",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "cell",
+                    "portString": "cell",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "cell_rotate",
+                    "portString": "cell_rotate",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "cell_blend",
+                    "portString": "cell_blend",
                     "datatypeString": "float",
                     "valueString": "0.1"
                 }
@@ -5509,12 +5509,12 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "front",
+                    "portString": "front",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "back",
+                    "portString": "back",
                     "datatypeString": "closure",
                     "valueString": ""
                 }
@@ -5524,12 +5524,12 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "port",
+                    "portString": "attribute",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "default",
+                    "portString": "default",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -5539,12 +5539,12 @@ class Utility(object):
             "datatypeString": "integer",
             "port": [
                 {
-                    "name": "port",
+                    "portString": "attribute",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "default",
+                    "portString": "default",
                     "datatypeString": "integer",
                     "valueString": "0"
                 }
@@ -5554,12 +5554,12 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "port",
+                    "portString": "attribute",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "default",
+                    "portString": "default",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 }
@@ -5569,12 +5569,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "port",
+                    "portString": "attribute",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "default",
+                    "portString": "default",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 }
@@ -5584,12 +5584,12 @@ class Utility(object):
             "datatypeString": "string",
             "port": [
                 {
-                    "name": "port",
+                    "portString": "attribute",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "default",
+                    "portString": "default",
                     "datatypeString": "string",
                     "valueString": ""
                 }
@@ -5599,112 +5599,112 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "passthrough",
+                    "portString": "passthrough",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "unit",
+                    "portString": "unit",
                     "datatypeString": "string",
                     "valueString": "degrees"
                 },
                 {
-                    "name": "uvset",
+                    "portString": "uvset",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "coverage",
+                    "portString": "coverage",
                     "datatypeString": "vector2",
                     "valueString": "1, 1"
                 },
                 {
-                    "name": "scale_frame",
+                    "portString": "scale_frame",
                     "datatypeString": "vector2",
                     "valueString": "1, 1"
                 },
                 {
-                    "name": "translate_frame",
+                    "portString": "translate_frame",
                     "datatypeString": "vector2",
                     "valueString": "0, 0"
                 },
                 {
-                    "name": "rotate_frame",
+                    "portString": "rotate_frame",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "pivot_frame",
+                    "portString": "pivot_frame",
                     "datatypeString": "vector2",
                     "valueString": "0.5, 0.5"
                 },
                 {
-                    "name": "wrap_frame_u",
+                    "portString": "wrap_frame_u",
                     "datatypeString": "string",
                     "valueString": "periodic"
                 },
                 {
-                    "name": "wrap_frame_v",
+                    "portString": "wrap_frame_v",
                     "datatypeString": "string",
                     "valueString": "periodic"
                 },
                 {
-                    "name": "wrap_frame_color",
+                    "portString": "wrap_frame_color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "repeat",
+                    "portString": "repeat",
                     "datatypeString": "vector2",
                     "valueString": "1, 1"
                 },
                 {
-                    "name": "offset",
+                    "portString": "offset",
                     "datatypeString": "vector2",
                     "valueString": "0, 0"
                 },
                 {
-                    "name": "rotate",
+                    "portString": "rotate",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "pivot",
+                    "portString": "pivot",
                     "datatypeString": "vector2",
                     "valueString": "0.5, 0.5"
                 },
                 {
-                    "name": "noise",
+                    "portString": "noise",
                     "datatypeString": "vector2",
                     "valueString": "0, 0"
                 },
                 {
-                    "name": "mirror_u",
+                    "portString": "mirror_u",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "mirror_v",
+                    "portString": "mirror_v",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "flip_u",
+                    "portString": "flip_u",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "flip_v",
+                    "portString": "flip_v",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "swap_uv",
+                    "portString": "swap_uv",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "stagger",
+                    "portString": "stagger",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -5714,52 +5714,52 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "projection_color",
+                    "portString": "projection_color",
                     "datatypeString": "color4",
                     "valueString": "1, 1, 1, 1"
                 },
                 {
-                    "name": "projection_type",
+                    "portString": "projection_type",
                     "datatypeString": "string",
                     "valueString": "planar"
                 },
                 {
-                    "name": "coord_space",
+                    "portString": "coord_space",
                     "datatypeString": "string",
                     "valueString": "world"
                 },
                 {
-                    "name": "pref_name",
+                    "portString": "pref_name",
                     "datatypeString": "string",
                     "valueString": "Pref"
                 },
                 {
-                    "name": "P",
+                    "portString": "P",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "u_angle",
+                    "portString": "u_angle",
                     "datatypeString": "float",
                     "valueString": "180"
                 },
                 {
-                    "name": "v_angle",
+                    "portString": "v_angle",
                     "datatypeString": "float",
                     "valueString": "90"
                 },
                 {
-                    "name": "clamp",
+                    "portString": "clamp",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "default_color",
+                    "portString": "default_color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 0"
                 },
                 {
-                    "name": "matrix",
+                    "portString": "matrix",
                     "datatypeString": "matrix44",
                     "valueString": ""
                 }
@@ -5769,52 +5769,52 @@ class Utility(object):
             "datatypeString": "vector3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "tangent",
+                    "portString": "tangent",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "normal",
+                    "portString": "normal",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "order",
+                    "portString": "order",
                     "datatypeString": "string",
                     "valueString": "XYZ"
                 },
                 {
-                    "name": "invert_x",
+                    "portString": "invert_x",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert_y",
+                    "portString": "invert_y",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "invert_z",
+                    "portString": "invert_z",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "color_to_signed",
+                    "portString": "color_to_signed",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "tangent_space",
+                    "portString": "tangent_space",
                     "datatypeString": "boolean",
                     "valueString": "true"
                 },
                 {
-                    "name": "scale",
+                    "portString": "scale",
                     "datatypeString": "float",
                     "valueString": "1"
                 }
@@ -5824,12 +5824,12 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "input",
+                    "portString": "input",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "mode",
+                    "portString": "mode",
                     "datatypeString": "string",
                     "valueString": "raw"
                 }
@@ -5839,97 +5839,97 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "scattering_source",
+                    "portString": "scattering_source",
                     "datatypeString": "string",
                     "valueString": "parameter"
                 },
                 {
-                    "name": "scattering",
+                    "portString": "scattering",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "scattering_channel",
+                    "portString": "scattering_channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "scattering_color",
+                    "portString": "scattering_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "scattering_intensity",
+                    "portString": "scattering_intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "anisotropy",
+                    "portString": "anisotropy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "attenuation_source",
+                    "portString": "attenuation_source",
                     "datatypeString": "string",
                     "valueString": "parameter"
                 },
                 {
-                    "name": "attenuation",
+                    "portString": "attenuation",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "attenuation_channel",
+                    "portString": "attenuation_channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "attenuation_color",
+                    "portString": "attenuation_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "attenuation_intensity",
+                    "portString": "attenuation_intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "attenuation_mode",
+                    "portString": "attenuation_mode",
                     "datatypeString": "string",
                     "valueString": "absorption"
                 },
                 {
-                    "name": "emission_source",
+                    "portString": "emission_source",
                     "datatypeString": "string",
                     "valueString": "parameter"
                 },
                 {
-                    "name": "emission",
+                    "portString": "emission",
                     "datatypeString": "color3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "emission_channel",
+                    "portString": "emission_channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "emission_color",
+                    "portString": "emission_color",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "emission_intensity",
+                    "portString": "emission_intensity",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "position_offset",
+                    "portString": "position_offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "string",
                     "valueString": "trilinear"
                 }
@@ -5939,87 +5939,87 @@ class Utility(object):
             "datatypeString": "float",
             "port": [
                 {
-                    "name": "channel",
+                    "portString": "channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "position_offset",
+                    "portString": "position_offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "string",
                     "valueString": "trilinear"
                 },
                 {
-                    "name": "volume_type",
+                    "portString": "volume_type",
                     "datatypeString": "string",
                     "valueString": "fog"
                 },
                 {
-                    "name": "sdf_offset",
+                    "portString": "sdf_offset",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sdf_blend",
+                    "portString": "sdf_blend",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "sdf_invert",
+                    "portString": "sdf_invert",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "input_min",
+                    "portString": "input_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "input_max",
+                    "portString": "input_max",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast",
+                    "portString": "contrast",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast_pivot",
+                    "portString": "contrast_pivot",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "bias",
+                    "portString": "bias",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "gain",
+                    "portString": "gain",
                     "datatypeString": "float",
                     "valueString": "0.5"
                 },
                 {
-                    "name": "output_min",
+                    "portString": "output_min",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "output_max",
+                    "portString": "output_max",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "clamp_min",
+                    "portString": "clamp_min",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "clamp_max",
+                    "portString": "clamp_max",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -6029,57 +6029,57 @@ class Utility(object):
             "datatypeString": "color3",
             "port": [
                 {
-                    "name": "channel",
+                    "portString": "channel",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "position_offset",
+                    "portString": "position_offset",
                     "datatypeString": "vector3",
                     "valueString": "0, 0, 0"
                 },
                 {
-                    "name": "interpolation",
+                    "portString": "interpolation",
                     "datatypeString": "string",
                     "valueString": "trilinear"
                 },
                 {
-                    "name": "gamma",
+                    "portString": "gamma",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "hue_shift",
+                    "portString": "hue_shift",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "saturation",
+                    "portString": "saturation",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast",
+                    "portString": "contrast",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "contrast_pivot",
+                    "portString": "contrast_pivot",
                     "datatypeString": "float",
                     "valueString": "0.18"
                 },
                 {
-                    "name": "exposure",
+                    "portString": "exposure",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "multiply",
+                    "portString": "multiply",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "add",
+                    "portString": "add",
                     "datatypeString": "float",
                     "valueString": "0"
                 }
@@ -6089,67 +6089,67 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "proj",
+                    "portString": "proj",
                     "datatypeString": "string",
                     "valueString": "spherical"
                 },
                 {
-                    "name": "lenx",
+                    "portString": "lenx",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "leny",
+                    "portString": "leny",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "ox",
+                    "portString": "ox",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "oy",
+                    "portString": "oy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "tilex",
+                    "portString": "tilex",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "tiley",
+                    "portString": "tiley",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "m",
+                    "portString": "m",
                     "datatypeString": "matrix44",
                     "valueString": ""
                 },
                 {
-                    "name": "camera",
+                    "portString": "camera",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "aspect_ratio",
+                    "portString": "aspect_ratio",
                     "datatypeString": "float",
                     "valueString": "1.33333"
                 },
                 {
-                    "name": "use_pref",
+                    "portString": "use_pref",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "side",
+                    "portString": "side",
                     "datatypeString": "integer",
                     "valueString": "0"
                 }
@@ -6159,67 +6159,67 @@ class Utility(object):
             "datatypeString": "color4",
             "port": [
                 {
-                    "name": "color",
+                    "portString": "color",
                     "datatypeString": "color4",
                     "valueString": "0, 0, 0, 1"
                 },
                 {
-                    "name": "proj",
+                    "portString": "proj",
                     "datatypeString": "string",
                     "valueString": "spherical"
                 },
                 {
-                    "name": "lenx",
+                    "portString": "lenx",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "leny",
+                    "portString": "leny",
                     "datatypeString": "float",
                     "valueString": "1"
                 },
                 {
-                    "name": "ox",
+                    "portString": "ox",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "oy",
+                    "portString": "oy",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "tilex",
+                    "portString": "tilex",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "tiley",
+                    "portString": "tiley",
                     "datatypeString": "float",
                     "valueString": "0"
                 },
                 {
-                    "name": "m",
+                    "portString": "m",
                     "datatypeString": "matrix44",
                     "valueString": ""
                 },
                 {
-                    "name": "camera",
+                    "portString": "camera",
                     "datatypeString": "string",
                     "valueString": ""
                 },
                 {
-                    "name": "aspect_ratio",
+                    "portString": "aspect_ratio",
                     "datatypeString": "float",
                     "valueString": "1.33333"
                 },
                 {
-                    "name": "use_pref",
+                    "portString": "use_pref",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "side",
+                    "portString": "side",
                     "datatypeString": "integer",
                     "valueString": "0"
                 }
@@ -6229,252 +6229,252 @@ class Utility(object):
             "datatypeString": "closure",
             "port": [
                 {
-                    "name": "compositingFlag",
+                    "portString": "compositingFlag",
                     "datatypeString": "string",
                     "valueString": "shader"
                 },
                 {
-                    "name": "numInputs",
+                    "portString": "numInputs",
                     "datatypeString": "integer",
                     "valueString": "0"
                 },
                 {
-                    "name": "color0",
+                    "portString": "color0",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color1",
+                    "portString": "color1",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color2",
+                    "portString": "color2",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color3",
+                    "portString": "color3",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color4",
+                    "portString": "color4",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color5",
+                    "portString": "color5",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color6",
+                    "portString": "color6",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color7",
+                    "portString": "color7",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color8",
+                    "portString": "color8",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color9",
+                    "portString": "color9",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color10",
+                    "portString": "color10",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color11",
+                    "portString": "color11",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color12",
+                    "portString": "color12",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color13",
+                    "portString": "color13",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color14",
+                    "portString": "color14",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "color15",
+                    "portString": "color15",
                     "datatypeString": "closure",
                     "valueString": ""
                 },
                 {
-                    "name": "transparency0",
+                    "portString": "transparency0",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency1",
+                    "portString": "transparency1",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency2",
+                    "portString": "transparency2",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency3",
+                    "portString": "transparency3",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency4",
+                    "portString": "transparency4",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency5",
+                    "portString": "transparency5",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency6",
+                    "portString": "transparency6",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency7",
+                    "portString": "transparency7",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency8",
+                    "portString": "transparency8",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency9",
+                    "portString": "transparency9",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency10",
+                    "portString": "transparency10",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency11",
+                    "portString": "transparency11",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency12",
+                    "portString": "transparency12",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency13",
+                    "portString": "transparency13",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency14",
+                    "portString": "transparency14",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "transparency15",
+                    "portString": "transparency15",
                     "datatypeString": "color3",
                     "valueString": "1, 1, 1"
                 },
                 {
-                    "name": "useTransparency0",
+                    "portString": "useTransparency0",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency1",
+                    "portString": "useTransparency1",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency2",
+                    "portString": "useTransparency2",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency3",
+                    "portString": "useTransparency3",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency4",
+                    "portString": "useTransparency4",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency5",
+                    "portString": "useTransparency5",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency6",
+                    "portString": "useTransparency6",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency7",
+                    "portString": "useTransparency7",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency8",
+                    "portString": "useTransparency8",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency9",
+                    "portString": "useTransparency9",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency10",
+                    "portString": "useTransparency10",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency11",
+                    "portString": "useTransparency11",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency12",
+                    "portString": "useTransparency12",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency13",
+                    "portString": "useTransparency13",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency14",
+                    "portString": "useTransparency14",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 },
                 {
-                    "name": "useTransparency15",
+                    "portString": "useTransparency15",
                     "datatypeString": "boolean",
                     "valueString": "false"
                 }
@@ -6544,3 +6544,50 @@ class Utility(object):
             }
         ]
     }
+
+    DEF_mtl_maya_node_transfer_dict = {
+        'sky': {
+            'opaque_alpha': None,
+            'Y_angle': None,
+            'Z_angle': None,
+            'X_angle': None,
+            'Y': None,
+            'X': None,
+            'Z': None
+        },
+        'standard': {
+            'Kd_color': 'color'
+        },
+        'standard_surface': {
+            'coat_affect_roughness': None,
+            'coat_affect_color': None,
+            'normal': 'coatNormal'
+        },
+        'uv_projection': {
+            'matrix': 'placementMatrix'
+        },
+        'ramp_float': {
+            'position': 'ramp.ramp_Position',
+            'value': 'ramp.ramp_FloatValue',
+            'interpolation': 'ramp.ramp_Interp'
+        },
+        'ramp_rgb': {
+            'position': 'ramp.ramp_Position',
+            'color': 'ramp.ramp_Color',
+            'interpolation': 'ramp.ramp_Interp'
+        },
+    }
+
+    DEF_mtl_maya_porttype_transfer_dict = {
+        u'enum': 'string',
+        u'typed': 'string',
+        u'float': 'float',
+        u'long': 'integer',
+        u'bool': 'boolean',
+        u'fltMatrix': 'matrix44',
+        u'byte': 'integer',
+        u'message': 'string',
+        u'float2': 'vector2',
+        u'float3': 'vector3'
+    }
+

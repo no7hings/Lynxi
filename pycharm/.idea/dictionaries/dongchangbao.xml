@@ -17,6 +17,7 @@
       <w>binversion</w>
       <w>brower</w>
       <w>buttontab</w>
+      <w>channelname</w>
       <w>chardet</w>
       <w>checkable</w>
       <w>checkview</w>
@@ -28,6 +29,7 @@
       <w>classnames</w>
       <w>colorable</w>
       <w>colorchart</w>
+      <w>compchannel</w>
       <w>compilepath</w>
       <w>coords</w>
       <w>ctom</w>
@@ -159,8 +161,10 @@
       <w>plugname</w>
       <w>plugpath</w>
       <w>plugversion</w>
+      <w>portdata</w>
       <w>portname</w>
       <w>portpath</w>
+      <w>portraw</w>
       <w>portset</w>
       <w>porttype</w>
       <w>prefixname</w>

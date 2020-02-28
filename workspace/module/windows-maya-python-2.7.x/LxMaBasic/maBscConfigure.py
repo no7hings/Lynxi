@@ -53,7 +53,7 @@ class Utility(object):
         'defaultObjectSet'
     ]
 
-    DEF_mya_datatype_multichannel_list = [
+    DEF_mya_datatype_compchannel_list = [
         'long2',
         'long3',
         'short2',

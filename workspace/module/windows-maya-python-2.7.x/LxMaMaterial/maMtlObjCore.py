@@ -15,7 +15,7 @@ class Abc_MaMtlNodeDef(object):
 
 class Abc_MaMtlMaterialDef(Abc_MaMtlBasic):
     def _initAbcMaMtlMaterial(self, categoryString):
-        print mtlObjects.NodeDef(categoryString).attributeRaw()
+        print mtlObjects.MtlNodeDef(categoryString).attributeRaw()
 
         self._attributeRaw = {}
 

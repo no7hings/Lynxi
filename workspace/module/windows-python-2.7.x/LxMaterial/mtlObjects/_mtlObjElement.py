@@ -35,7 +35,7 @@ class Material(mtlObjCore.Abc_MtlMaterial):
 
     CLS_mtl_input = _mtlObjAttribute.ShadersetInput
 
-    CLS_mtl_material_def = _mtlObjDefinition.MaterialDef
+    CLS_mtl_material_def = _mtlObjDefinition.MtlMaterialDef
 
     VAR_mtl_value_class_dict = _mtlObjObject.DEF_CLS_VALUE
 

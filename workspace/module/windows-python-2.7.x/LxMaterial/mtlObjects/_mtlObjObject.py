@@ -48,7 +48,7 @@ class Geometry(mtlObjCore.Abc_MtlGeometry):
 
     CLS_mtl_property = _mtlObjAttribute.GeometryProperty
     CLS_mtl_visibility = _mtlObjAttribute.GeometryVisibility
-    CLS_mtl_geometry_def = _mtlObjDefinition.GeometryDef
+    CLS_mtl_geometry_def = _mtlObjDefinition.MtlGeometryDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
@@ -68,7 +68,7 @@ class Shader(mtlObjCore.Abc_MtlShader):
 
     CLS_mtl_input = _mtlObjAttribute.ShaderInput
     CLS_mtl_output = _mtlObjAttribute.ShaderOutput
-    CLS_mtl_node_def = _mtlObjDefinition.NodeDef
+    CLS_mtl_node_def = _mtlObjDefinition.MtlNodeDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 
@@ -83,7 +83,7 @@ class Shader(mtlObjCore.Abc_MtlShader):
 
 class Node(mtlObjCore.Abc_MtlNode):
     CLS_mtl_type = _mtlObjRaw.Raw_Type
-    CLS_mtl_category = _mtlObjRaw.Raw_Category
+    CLS_mtl_category = _mtlObjRaw.Raw_NodeCategory
     CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
     CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
@@ -91,7 +91,7 @@ class Node(mtlObjCore.Abc_MtlNode):
 
     CLS_mtl_input = _mtlObjAttribute.NodeInput
     CLS_mtl_output = _mtlObjAttribute.NodeOutput
-    CLS_mtl_node_def = _mtlObjDefinition.NodeDef
+    CLS_mtl_node_def = _mtlObjDefinition.MtlNodeDef
 
     VAR_mtl_value_class_dict = DEF_CLS_VALUE
 

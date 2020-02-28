@@ -469,17 +469,18 @@ class Dict(object):
         return False
 
 
-class NestedArray(object):
+class NestedArray(bscMtdCore.Mtd_BscBasic):
     @classmethod
     def restructureTo(cls, nestedArray):
-        def recursionFnc_(index):
-            if index < count:
-                array = nestedArray[index]
+        def recursionFnc_(index_):
+            if index_ < count:
+                array = nestedArray[index_]
                 for i in array:
-                    c[index] = i
-                    recursionFnc_(index + 1)
+                    c[index_] = i
+                    recursionFnc_(index_ + 1)
             else:
-                lis.append(c)
+                lis.append(cls.MOD_copy.deepcopy(c))
+
         lis = []
         count = len(nestedArray)
         c = [None] * count

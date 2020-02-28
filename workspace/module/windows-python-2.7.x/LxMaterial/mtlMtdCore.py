@@ -32,11 +32,11 @@ class Mtd_MtlFile(Mtd_MtlBasic):
             nodeDic[cls.DEF_mtl_key_type] = nodeType
             nodeAttrLis = []
             for input_ in i.getInputs():
-                portname = input_.name()
+                portname = input_.getName()
                 valueTypeString = input_.getType()
                 valueString = input_.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[cls.DEF_mtl_key_name] = portname
+                attrDic[cls.DEF_mtl_key_port_string] = portname
                 attrDic[cls.DEF_mtl_key_type] = valueTypeString
                 attrDic[cls.DEF_mtl_key_value] = valueString
                 nodeAttrLis.append(attrDic)

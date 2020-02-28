@@ -706,7 +706,7 @@ class Abc_MtlValue(Abc_MtlXml):
         return self.datum() == other.datum()
 
 
-# > Port ( Attribute )
+# Attribute
 class Abc_MtlAttribute(Abc_MtlXml):
     CLS_mtl_port_dagpath = None
     CLS_mtl_attribute_set = None
@@ -1029,7 +1029,7 @@ class Abc_MtlGeometry(Abc_MtlXml):
         self._geometryDefObj = self.CLS_mtl_geometry_def()
 
         for i in self._geometryDefObj.properties():
-            portnameString = i[self.DEF_mtl_key_name]
+            portnameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
 
@@ -1042,7 +1042,7 @@ class Abc_MtlGeometry(Abc_MtlXml):
             self._addPropertyObject(attributeObj)
 
         for i in self._geometryDefObj.visibilities():
-            portnameString = i[self.DEF_mtl_key_name]
+            portnameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
 
@@ -1152,7 +1152,7 @@ class Abc_MtlObject(Abc_MtlXml):
         self._childSetObj = self.CLS_mtl_child_set()
 
         for i in self._nodeDefObj.attributeRaw():
-            portnameString = i[self.DEF_mtl_key_name]
+            portnameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
 
@@ -1165,7 +1165,7 @@ class Abc_MtlObject(Abc_MtlXml):
             self._addAttributeObject(attributeObj)
 
         for i in self._nodeDefObj.outputRaw():
-            portnameString = i[self.DEF_mtl_key_name]
+            portnameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
 
@@ -1468,7 +1468,7 @@ class Abc_MtlMaterial(Abc_MtlXml):
         self._sourceVolumePortObj = None
         
         for i in self.CLS_mtl_material_def().attributeRaw():
-            portnameString = i[self.DEF_mtl_key_name]
+            portnameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
 
@@ -2474,6 +2474,12 @@ class Abc_MtlDef(mtlConfigure.Utility):
     def nodeCategories(self):
         return self._nodeDefsDic.keys()
 
+    def mayaNodeCategories(self):
+        lis = []
+        for i in self._nodeDefsDic:
+            lis.append(bscMethods.StrUnderline.toCamelcase('ai_' + i))
+        return lis
+
 
 class Abc_MtlTypeDef(Abc_MtlDef):
     def _initAbcMtlTypeDef(self):
@@ -2488,7 +2494,7 @@ class Abc_MtlGeometryDef(mtlConfigure.Utility):
 
         self._geometryPropertyDefDic = {}
         for i in self._geometryPropertyDefLis:
-            nameString = i[self.DEF_mtl_key_name]
+            nameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
             self._geometryPropertyDefDic[nameString] = {
@@ -2498,7 +2504,7 @@ class Abc_MtlGeometryDef(mtlConfigure.Utility):
 
         self._geometryVisibilityDefDic = {}
         for i in self._geometryVisibilityDefLis:
-            nameString = i[self.DEF_mtl_key_name]
+            nameString = i[self.DEF_mtl_key_port_string]
             valueTypeString = i[self.DEF_mtl_key_type]
             valueString = i[self.DEF_mtl_key_value]
             self._geometryVisibilityDefDic[nameString] = {

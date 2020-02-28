@@ -2,21 +2,26 @@
 from LxMaterial import mtlObjCore
 
 
-class TypeDef(mtlObjCore.Abc_MtlTypeDef):
-    def __init__(self, datatypeString):
+class MtlDef(mtlObjCore.Abc_MtlDef):
+    def __init__(self):
+        self._initAbcMtlDef()
+
+
+class MtlTypeDef(mtlObjCore.Abc_MtlTypeDef):
+    def __init__(self):
         pass
 
 
-class GeometryDef(mtlObjCore.Abc_MtlGeometryDef):
+class MtlGeometryDef(mtlObjCore.Abc_MtlGeometryDef):
     def __init__(self):
         self._initAbcMtlGeometryDef()
 
 
-class NodeDef(mtlObjCore.Abc_MtlNodeDef):
+class MtlNodeDef(mtlObjCore.Abc_MtlNodeDef):
     def __init__(self, categoryString):
         self._initAbcMtlNodeDef(categoryString)
 
 
-class MaterialDef(mtlObjCore.Abc_MtlMaterialDef):
+class MtlMaterialDef(mtlObjCore.Abc_MtlMaterialDef):
     def __init__(self):
         self._initAbcMtlMaterialDef()

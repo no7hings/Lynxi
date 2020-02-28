@@ -41,7 +41,7 @@ class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
     CLS_set_geometry_viewer = _mtlObjSet.Set_ViewerGeometry
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
-    CLS_mtl_geometry_def = _mtlObjDefinition.GeometryDef
+    CLS_mtl_geometry_def = _mtlObjDefinition.MtlGeometryDef
 
     VAR_mtl_file_element_key = 'visibility'
 

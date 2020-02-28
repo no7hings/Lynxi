@@ -55,7 +55,7 @@ class Raw_ShaderCategory(mtlObjCore.Abc_MtlRawString):
         self._initAbcMtlRawString(*args)
 
 
-class Raw_Category(mtlObjCore.Abc_MtlRawString):
+class Raw_NodeCategory(mtlObjCore.Abc_MtlRawString):
     VAR_mtl_file_element_key = u'string'
     VAR_mtl_file_attribute_key = u'category'
 
