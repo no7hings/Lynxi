@@ -1,4 +1,5 @@
 # coding:utf-8
+import os
 
 
 class Utility(object):
@@ -11,11 +12,12 @@ class Utility(object):
     DEF_mtl_file_separator = u'/'
     DEF_mtl_port_separator = u'.'
 
-    DEF_mtl_key_type = u'datatypeString'
-    DEF_mtl_key_value = u'valueString'
-    DEF_mtl_key_port = u'port'
-
+    DEF_mtl_key_category_string = u'categoryString'
+    DEF_mtl_key_type_string = u'typeString'
+    DEF_mtl_key_datatype_string = u'datatypeString'
     DEF_mtl_key_port_string = u'portString'
+    DEF_mtl_key_value_string = u'valueString'
+    DEF_mtl_key_port = u'port'
 
     DEF_mtl_datatype_closure = u'closure'
 
@@ -48,6546 +50,7579 @@ class Utility(object):
     DEF_mtl_datatype_geometry_name = u'geomname'
     DEF_mtl_datatype_geometry_name_array = u'geomnamearray'
 
+    DEF_mtl_arnold_nodedefs_file = os.path.dirname(__file__) + '/.data/arnold_5.4.0.1-nodedefs.json'
+    DEF_mtl_maya_arnold_nodedefs_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-nodedefs.json'
+
     DEF_mtl_geometry_def_dict = {
-        'property': [
+        u'property': [
             {
-                "name": "opaque",
+                "portString": "opaque",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "matte",
+                "portString": "matte",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "use_shadow_group",
+                "portString": "use_shadow_group",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "motion_start",
+                "portString": "motion_start",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "motion_end",
+                "portString": "motion_end",
                 "datatypeString": "float",
                 "valueString": "1"
             },
             {
-                "name": "id",
+                "portString": "id",
                 "datatypeString": "integer",
                 "valueString": "0"
             },
             {
-                "name": "smoothing",
+                "portString": "smoothing",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "subdiv_type",
+                "portString": "subdiv_type",
                 "datatypeString": "string",
                 "valueString": "none"
             },
             {
-                "name": "subdiv_iterations",
+                "portString": "subdiv_iterations",
                 "datatypeString": "integer",
                 "valueString": "0"
             },
             {
-                "name": "subdiv_adaptive_error",
+                "portString": "subdiv_adaptive_error",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "subdiv_adaptive_metric",
+                "portString": "subdiv_adaptive_metric",
                 "datatypeString": "string",
                 "valueString": "auto"
             },
             {
-                "name": "subdiv_adaptive_space",
+                "portString": "subdiv_adaptive_space",
                 "datatypeString": "string",
                 "valueString": "raster"
             },
             {
-                "name": "subdiv_uv_smoothing",
+                "portString": "subdiv_uv_smoothing",
                 "datatypeString": "string",
                 "valueString": "pin_corners"
             },
             {
-                "name": "subdiv_frustum_ignore",
+                "portString": "subdiv_frustum_ignore",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "subdiv_smooth_derivs",
+                "portString": "subdiv_smooth_derivs",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "disp_padding",
+                "portString": "disp_padding",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "disp_height",
+                "portString": "disp_height",
                 "datatypeString": "float",
                 "valueString": "1"
             },
             {
-                "name": "disp_zero_value",
+                "portString": "disp_zero_value",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "disp_autobump",
+                "portString": "disp_autobump",
                 "datatypeString": "boolean",
                 "valueString": "false"
             },
             {
-                "name": "autobump_visibility",
+                "portString": "autobump_visibility",
                 "datatypeString": "integer",
                 "valueString": "1"
             },
             {
-                "name": "step_size",
+                "portString": "step_size",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "volume_padding",
+                "portString": "volume_padding",
                 "datatypeString": "float",
                 "valueString": "0"
             },
             {
-                "name": "invert_normals",
+                "portString": "invert_normals",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "self_shadows",
+                "portString": "self_shadows",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "receive_shadows",
+                "portString": "receive_shadows",
                 "datatypeString": "boolean",
                 "valueString": "true"
             }
         ],
-        'visibility': [
+        u'visibility': [
             {
-                "name": "camera",
+                "portString": "camera",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "shadow",
+                "portString": "shadow",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "diffuse_transmit",
+                "portString": "diffuse_transmit",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "specular_transmit",
+                "portString": "specular_transmit",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "volume",
+                "portString": "volume",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "diffuse_reflect",
+                "portString": "diffuse_reflect",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "specular_reflect",
+                "portString": "specular_reflect",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
             {
-                "name": "subsurface",
+                "portString": "subsurface",
                 "datatypeString": "boolean",
                 "valueString": "true"
             },
         ]
     }
 
-    DEF_mtl_node_def_dict = {
-        "ray_switch_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "camera",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "shadow",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "diffuse_reflection",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "diffuse_transmission",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "specular_reflection",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "specular_transmission",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "volume",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                }
-            ]
-        },
-        "ray_switch_shader": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "camera",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "shadow",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "diffuse_reflection",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "diffuse_transmission",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "specular_reflection",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "specular_transmission",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "volume",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                }
-            ]
-        },
-        "image": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "filename",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color_space",
-                    "datatypeString": "string",
-                    "valueString": "auto"
-                },
-                {
-                    "portString": "filter",
-                    "datatypeString": "string",
-                    "valueString": "smart_bicubic"
-                },
-                {
-                    "portString": "mipmap_bias",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "single_channel",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "start_channel",
-                    "datatypeString": "integer",
-                    "valueString": "-401153280"
-                },
-                {
-                    "portString": "swrap",
-                    "datatypeString": "string",
-                    "valueString": "periodic"
-                },
-                {
-                    "portString": "twrap",
-                    "datatypeString": "string",
-                    "valueString": "periodic"
-                },
-                {
-                    "portString": "sscale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "tscale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "sflip",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "tflip",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "soffset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "toffset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "swap_st",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "uvcoords",
-                    "datatypeString": "vector2",
-                    "valueString": "0, 0"
-                },
-                {
-                    "portString": "uvset",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "multiply",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "offset",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "ignore_missing_textures",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "missing_texture_color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                }
-            ]
-        },
-        "noise": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "octaves",
-                    "datatypeString": "integer",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "distortion",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "lacunarity",
-                    "datatypeString": "float",
-                    "valueString": "1.92"
-                },
-                {
-                    "portString": "amplitude",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "object"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "P",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "time",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "color1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "color2",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "scalar"
-                }
-            ]
-        },
-        "cell_noise": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "pattern",
-                    "datatypeString": "string",
-                    "valueString": "noise1"
-                },
-                {
-                    "portString": "additive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "octaves",
-                    "datatypeString": "integer",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "randomness",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "lacunarity",
-                    "datatypeString": "float",
-                    "valueString": "1.92"
-                },
-                {
-                    "portString": "amplitude",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "object"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "P",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "time",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "palette",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "density",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                }
-            ]
-        },
-        "utility": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "color_mode",
-                    "datatypeString": "string",
-                    "valueString": "color"
-                },
-                {
-                    "portString": "shade_mode",
-                    "datatypeString": "string",
-                    "valueString": "ndoteye"
-                },
-                {
-                    "portString": "overlay_mode",
-                    "datatypeString": "string",
-                    "valueString": "none"
-                },
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "ao_distance",
-                    "datatypeString": "float",
-                    "valueString": "100"
-                },
-                {
-                    "portString": "roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.2"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "wireframe": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "line_width",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "fill_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "line_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "raster_space",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "edge_type",
-                    "datatypeString": "string",
-                    "valueString": "triangles"
-                }
-            ]
-        },
-        "motion_vector": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "raw",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "time0",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "time1",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "max_displace",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "ambient_occlusion": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "samples",
-                    "datatypeString": "integer",
-                    "valueString": "3"
-                },
-                {
-                    "portString": "spread",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "near_clip",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "far_clip",
-                    "datatypeString": "float",
-                    "valueString": "100"
-                },
-                {
-                    "portString": "falloff",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "black",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "white",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "invert_normals",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "trace_set",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "inclusive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "self_only",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "round_corners": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "samples",
-                    "datatypeString": "integer",
-                    "valueString": "6"
-                },
-                {
-                    "portString": "radius",
-                    "datatypeString": "float",
-                    "valueString": "0.01"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "trace_set",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "inclusive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "self_only",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "object_space",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "flat": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "toon": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "mask_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "edge_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "edge_tonemap",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "edge_opacity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "edge_width_scale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "silhouette_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "silhouette_tonemap",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "silhouette_opacity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "silhouette_width_scale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "priority",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable_silhouette",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "ignore_throughput",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "enable",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "id_difference",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "shader_difference",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "uv_threshold",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "angle_threshold",
-                    "datatypeString": "float",
-                    "valueString": "180"
-                },
-                {
-                    "portString": "normal_type",
-                    "datatypeString": "string",
-                    "valueString": "shading normal"
-                },
-                {
-                    "portString": "base",
-                    "datatypeString": "float",
-                    "valueString": "0.8"
-                },
-                {
-                    "portString": "base_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "base_tonemap",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_rotation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_tonemap",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "lights",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "highlight_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "highlight_size",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "aov_highlight",
-                    "datatypeString": "string",
-                    "valueString": "highlight"
-                },
-                {
-                    "portString": "rim_light",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "rim_light_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "rim_light_width",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "aov_rim_light",
-                    "datatypeString": "string",
-                    "valueString": "rim_light"
-                },
-                {
-                    "portString": "transmission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transmission_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_rotation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sheen",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sheen_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "sheen_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.3"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.52"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "tangent",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "indirect_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "indirect_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "bump_mode",
-                    "datatypeString": "string",
-                    "valueString": "both"
-                },
-                {
-                    "portString": "energy_conserving",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "user_id",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "lambert": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "Kd",
-                    "datatypeString": "float",
-                    "valueString": "0.7"
-                },
-                {
-                    "portString": "Kd_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "standard": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "Kd",
-                    "datatypeString": "float",
-                    "valueString": "0.7"
-                },
-                {
-                    "portString": "Kd_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "diffuse_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Ks",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Ks_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.466905"
-                },
-                {
-                    "portString": "specular_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "specular_rotation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_distribution",
-                    "datatypeString": "string",
-                    "valueString": "ggx"
-                },
-                {
-                    "portString": "Kr",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Kr_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "reflection_exit_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "reflection_exit_use_environment",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "Kt",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Kt_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transmittance",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "refraction_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "refraction_exit_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "refraction_exit_use_environment",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "IOR",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "dispersion_abbe",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Kb",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Fresnel",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "Krn",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_Fresnel",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "Ksn",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Fresnel_use_IOR",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "Fresnel_affect_diff",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "direct_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "indirect_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "direct_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "indirect_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable_glossy_caustics",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "enable_reflective_caustics",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "enable_refractive_caustics",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "enable_internal_reflections",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "Ksss",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Ksss_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "sss_radius",
-                    "datatypeString": "color3",
-                    "valueString": "0.1, 0.1, 0.1"
-                },
-                {
-                    "portString": "bounce_factor",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "standard_surface": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "base",
-                    "datatypeString": "float",
-                    "valueString": "0.8"
-                },
-                {
-                    "portString": "base_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "diffuse_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "specular_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.2"
-                },
-                {
-                    "portString": "specular_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "specular_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "specular_rotation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "metalness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transmission_depth",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_scatter",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "transmission_scatter_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_dispersion",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_extra_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmit_aovs",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "subsurface",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "subsurface_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "subsurface_radius",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "subsurface_scale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "subsurface_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "subsurface_type",
-                    "datatypeString": "string",
-                    "valueString": "randomwalk"
-                },
-                {
-                    "portString": "sheen",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sheen_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "sheen_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.3"
-                },
-                {
-                    "portString": "thin_walled",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "tangent",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "coat",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "coat_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "coat_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.1"
-                },
-                {
-                    "portString": "coat_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "coat_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "coat_rotation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "coat_normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "coat_affect_color",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "coat_affect_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "thin_film_thickness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "thin_film_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "caustics",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "internal_reflections",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "exit_to_background",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "indirect_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "indirect_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "aov_id1",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id2",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id3",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id3",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id4",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id4",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id5",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id5",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id6",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id6",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id7",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id7",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id8",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id8",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "hair": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "rootcolor",
-                    "datatypeString": "color3",
-                    "valueString": "0.1, 0.1, 0.1"
-                },
-                {
-                    "portString": "tipcolor",
-                    "datatypeString": "color3",
-                    "valueString": "0.5, 0.5, 0.5"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "ambdiff",
-                    "datatypeString": "float",
-                    "valueString": "0.6"
-                },
-                {
-                    "portString": "spec",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "spec_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "spec_shift",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "spec_gloss",
-                    "datatypeString": "float",
-                    "valueString": "10"
-                },
-                {
-                    "portString": "spec2",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "spec2_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 0.4, 0.1"
-                },
-                {
-                    "portString": "spec2_shift",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "spec2_gloss",
-                    "datatypeString": "float",
-                    "valueString": "7"
-                },
-                {
-                    "portString": "transmission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transmission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 0.4, 0.1"
-                },
-                {
-                    "portString": "transmission_spread",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "kd_ind",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "standard_hair": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "base",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "base_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "melanin",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "melanin_redness",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "melanin_randomize",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.2"
-                },
-                {
-                    "portString": "roughness_azimuthal",
-                    "datatypeString": "float",
-                    "valueString": "0.2"
-                },
-                {
-                    "portString": "roughness_anisotropic",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "ior",
-                    "datatypeString": "float",
-                    "valueString": "1.55"
-                },
-                {
-                    "portString": "shift",
-                    "datatypeString": "float",
-                    "valueString": "3"
-                },
-                {
-                    "portString": "specular_tint",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular2_tint",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transmission_tint",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "diffuse",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "diffuse_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "indirect_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "indirect_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "extra_depth",
-                    "datatypeString": "integer",
-                    "valueString": "16"
-                },
-                {
-                    "portString": "extra_samples",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "aov_id1",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id2",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id3",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id3",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id4",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id4",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id5",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id5",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id6",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id6",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id7",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id7",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_id8",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "id8",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "car_paint": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "base",
-                    "datatypeString": "float",
-                    "valueString": "0.8"
-                },
-                {
-                    "portString": "base_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 0, 0"
-                },
-                {
-                    "portString": "base_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "specular_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_flip_flop",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_light_facing",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_falloff",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.05"
-                },
-                {
-                    "portString": "specular_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.52"
-                },
-                {
-                    "portString": "transmission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "flake_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "flake_flip_flop",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "flake_light_facing",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "flake_falloff",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "flake_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.4"
-                },
-                {
-                    "portString": "flake_IOR",
-                    "datatypeString": "float",
-                    "valueString": "100"
-                },
-                {
-                    "portString": "flake_scale",
-                    "datatypeString": "float",
-                    "valueString": "0.001"
-                },
-                {
-                    "portString": "flake_density",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "flake_layers",
-                    "datatypeString": "integer",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "flake_normal_randomize",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "flake_coord_space",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "coat",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "coat_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "coat_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "coat_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "coat_normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "bump2d": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "bump_map",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "bump_height",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "bump3d": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "bump_map",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "bump_height",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "epsilon",
-                    "datatypeString": "float",
-                    "valueString": "1e-05"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "mix_shader": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "blend"
-                },
-                {
-                    "portString": "mix",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "shader1",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "shader2",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                }
-            ]
-        },
-        "sky": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "visibility",
-                    "datatypeString": "integer",
-                    "valueString": "-940211969"
-                },
-                {
-                    "portString": "opaque_alpha",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "format",
-                    "datatypeString": "string",
-                    "valueString": "angular"
-                },
-                {
-                    "portString": "X_angle",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Y_angle",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "Z_angle",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "X",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 0, 0"
-                },
-                {
-                    "portString": "Y",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 1, 0"
-                },
-                {
-                    "portString": "Z",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 1"
-                }
-            ]
-        },
-        "physical_sky": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "turbidity",
-                    "datatypeString": "float",
-                    "valueString": "3"
-                },
-                {
-                    "portString": "ground_albedo",
-                    "datatypeString": "color3",
-                    "valueString": "0.1, 0.1, 0.1"
-                },
-                {
-                    "portString": "use_degrees",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "elevation",
-                    "datatypeString": "float",
-                    "valueString": "45"
-                },
-                {
-                    "portString": "azimuth",
-                    "datatypeString": "float",
-                    "valueString": "90"
-                },
-                {
-                    "portString": "sun_direction",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 1, 0"
-                },
-                {
-                    "portString": "enable_sun",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "sun_size",
-                    "datatypeString": "float",
-                    "valueString": "0.51"
-                },
-                {
-                    "portString": "sun_tint",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "sky_tint",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "X",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 0, 0"
-                },
-                {
-                    "portString": "Y",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 1, 0"
-                },
-                {
-                    "portString": "Z",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 1"
-                }
-            ]
-        },
-        "atmosphere_volume": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "density",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "samples",
-                    "datatypeString": "integer",
-                    "valueString": "5"
-                },
-                {
-                    "portString": "eccentricity",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "attenuation",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "affect_camera",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "affect_diffuse",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "affect_specular",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "rgb_density",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "rgb_attenuation",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "fog": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "distance",
-                    "datatypeString": "float",
-                    "valueString": "0.02"
-                },
-                {
-                    "portString": "height",
-                    "datatypeString": "float",
-                    "valueString": "5"
-                },
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "ground_point",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "ground_normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 1"
-                }
-            ]
-        },
-        "standard_volume": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "density",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "density_channel",
-                    "datatypeString": "string",
-                    "valueString": "density"
-                },
-                {
-                    "portString": "scatter",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "scatter_color",
-                    "datatypeString": "color3",
-                    "valueString": "0.5, 0.5, 0.5"
-                },
-                {
-                    "portString": "scatter_color_channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "scatter_anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "transparent",
-                    "datatypeString": "color3",
-                    "valueString": "0.367879, 0.367879, 0.367879"
-                },
-                {
-                    "portString": "transparent_depth",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "transparent_channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "emission_mode",
-                    "datatypeString": "string",
-                    "valueString": "blackbody"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "emission_channel",
-                    "datatypeString": "string",
-                    "valueString": "heat"
-                },
-                {
-                    "portString": "temperature",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "temperature_channel",
-                    "datatypeString": "string",
-                    "valueString": "temperature"
-                },
-                {
-                    "portString": "blackbody_kelvin",
-                    "datatypeString": "float",
-                    "valueString": "5000"
-                },
-                {
-                    "portString": "blackbody_intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "displacement",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "string",
-                    "valueString": "trilinear"
-                }
-            ]
-        },
-        "abs": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "add": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "aov_read_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "aov_read_int": {
-            "datatypeString": "integer",
-            "port": [
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "aov_read_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "aov_read_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "aov_write_float": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aov_input",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "blend_opacity",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "aov_write_int": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aov_input",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "aov_write_rgb": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aov_input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "blend_opacity",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "aov_write_rgba": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aov_input",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "aov_name",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "blend_opacity",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "atan": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "y",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "x",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "units",
-                    "datatypeString": "string",
-                    "valueString": "radians"
-                }
-            ]
-        },
-        "blackbody": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "temperature",
-                    "datatypeString": "float",
-                    "valueString": "6500"
-                },
-                {
-                    "portString": "normalize",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "cache": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "camera_projection": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "projection_color",
-                    "datatypeString": "color4",
-                    "valueString": "1, 1, 1, 1"
-                },
-                {
-                    "portString": "offscreen_color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mask",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "camera",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aspect_ratio",
-                    "datatypeString": "float",
-                    "valueString": "1.333"
-                },
-                {
-                    "portString": "front_facing",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "back_facing",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "use_shading_normal",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "world"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "P",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "checkerboard": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "color1",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "color2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "u_frequency",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "v_frequency",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "u_offset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "v_offset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "contrast",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "filter_strength",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "filter_offset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "uvset",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "clamp": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "scalar"
-                },
-                {
-                    "portString": "min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "max",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "min_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "max_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "clip_geo": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "intersection",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "trace_set",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "inclusive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "color_convert": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "from",
-                    "datatypeString": "string",
-                    "valueString": "RGB"
-                },
-                {
-                    "portString": "to",
-                    "datatypeString": "string",
-                    "valueString": "HSV"
-                }
-            ]
-        },
-        "color_correct": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "alpha_is_luminance",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "alpha_multiply",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "alpha_add",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "invert",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert_alpha",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "gamma",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "hue_shift",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "saturation",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast_pivot",
-                    "datatypeString": "float",
-                    "valueString": "0.18"
-                },
-                {
-                    "portString": "exposure",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "multiply",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "add",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mask",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "color_jitter": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "data_input",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_gain_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_gain_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_hue_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_hue_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_saturation_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_saturation_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "data_seed",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_gain_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_gain_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_hue_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_hue_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_saturation_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_saturation_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "proc_seed",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_gain_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_gain_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_hue_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_hue_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_saturation_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_saturation_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "obj_seed",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_gain_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_gain_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_hue_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_hue_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_saturation_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_saturation_max",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_seed",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "face_mode",
-                    "datatypeString": "string",
-                    "valueString": "face id"
-                }
-            ]
-        },
-        "compare": {
-            "datatypeString": "boolean",
-            "port": [
-                {
-                    "portString": "test",
-                    "datatypeString": "string",
-                    "valueString": "=="
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "complement": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "complex_ior": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "material",
-                    "datatypeString": "string",
-                    "valueString": "custom"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "artistic"
-                },
-                {
-                    "portString": "reflectivity",
-                    "datatypeString": "color3",
-                    "valueString": "0.925952, 0.720887, 0.504154"
-                },
-                {
-                    "portString": "edgetint",
-                    "datatypeString": "color3",
-                    "valueString": "0.995524, 0.957415, 0.822776"
-                },
-                {
-                    "portString": "n",
-                    "datatypeString": "vector3",
-                    "valueString": "0.27105, 0.67693, 1.3164"
-                },
-                {
-                    "portString": "k",
-                    "datatypeString": "vector3",
-                    "valueString": "3.6092, 2.6247, 2.2921"
-                }
-            ]
-        },
-        "composite": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "A",
-                    "datatypeString": "color4",
-                    "valueString": "1, 0, 0, 1"
-                },
-                {
-                    "portString": "B",
-                    "datatypeString": "color4",
-                    "valueString": "0, 1, 0, 1"
-                },
-                {
-                    "portString": "operation",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation",
-                    "datatypeString": "string",
-                    "valueString": "same"
-                }
-            ]
-        },
-        "cross": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "curvature": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "output",
-                    "datatypeString": "string",
-                    "valueString": "convex"
-                },
-                {
-                    "portString": "samples",
-                    "datatypeString": "integer",
-                    "valueString": "3"
-                },
-                {
-                    "portString": "radius",
-                    "datatypeString": "float",
-                    "valueString": "0.1"
-                },
-                {
-                    "portString": "spread",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "threshold",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "bias",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "multiply",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "trace_set",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "inclusive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "self_only",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "divide": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "dot": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "exp": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "facing_ratio": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "bias",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "gain",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "linear",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "flakes": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "scale",
-                    "datatypeString": "float",
-                    "valueString": "0.1"
-                },
-                {
-                    "portString": "density",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "step",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "depth",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.52"
-                },
-                {
-                    "portString": "normal_randomize",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "output_space",
-                    "datatypeString": "string",
-                    "valueString": "world"
-                }
-            ]
-        },
-        "float_to_int": {
-            "datatypeString": "integer",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "round"
-                }
-            ]
-        },
-        "float_to_matrix": {
-            "datatypeString": "matrix44",
-            "port": [
-                {
-                    "portString": "input_00",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "input_01",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_02",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_03",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_10",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_11",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "input_12",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_13",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_20",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_21",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_22",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "input_23",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_30",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_31",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_32",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_33",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "float_to_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "r",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "g",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "b",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "a",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "float_to_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "r",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "g",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "b",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "fraction": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "is_finite": {
-            "datatypeString": "boolean",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "layer_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "enable1",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name1",
-                    "datatypeString": "string",
-                    "valueString": "layer1"
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix1",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable2",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name2",
-                    "datatypeString": "string",
-                    "valueString": "layer2"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix2",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable3",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name3",
-                    "datatypeString": "string",
-                    "valueString": "layer3"
-                },
-                {
-                    "portString": "input3",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix3",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable4",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name4",
-                    "datatypeString": "string",
-                    "valueString": "layer4"
-                },
-                {
-                    "portString": "input4",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix4",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable5",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name5",
-                    "datatypeString": "string",
-                    "valueString": "layer5"
-                },
-                {
-                    "portString": "input5",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix5",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable6",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name6",
-                    "datatypeString": "string",
-                    "valueString": "layer6"
-                },
-                {
-                    "portString": "input6",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix6",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable7",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name7",
-                    "datatypeString": "string",
-                    "valueString": "layer7"
-                },
-                {
-                    "portString": "input7",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix7",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "enable8",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name8",
-                    "datatypeString": "string",
-                    "valueString": "layer8"
-                },
-                {
-                    "portString": "input8",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "mix8",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "layer_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "enable1",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name1",
-                    "datatypeString": "string",
-                    "valueString": "layer1"
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix1",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation1",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation1",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable2",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name2",
-                    "datatypeString": "string",
-                    "valueString": "layer2"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix2",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation2",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation2",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable3",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name3",
-                    "datatypeString": "string",
-                    "valueString": "layer3"
-                },
-                {
-                    "portString": "input3",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix3",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation3",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation3",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable4",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name4",
-                    "datatypeString": "string",
-                    "valueString": "layer4"
-                },
-                {
-                    "portString": "input4",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix4",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation4",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation4",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable5",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name5",
-                    "datatypeString": "string",
-                    "valueString": "layer5"
-                },
-                {
-                    "portString": "input5",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix5",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation5",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation5",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable6",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name6",
-                    "datatypeString": "string",
-                    "valueString": "layer6"
-                },
-                {
-                    "portString": "input6",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix6",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation6",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation6",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable7",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name7",
-                    "datatypeString": "string",
-                    "valueString": "layer7"
-                },
-                {
-                    "portString": "input7",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix7",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation7",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation7",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "enable8",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name8",
-                    "datatypeString": "string",
-                    "valueString": "layer8"
-                },
-                {
-                    "portString": "input8",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "mix8",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "operation8",
-                    "datatypeString": "string",
-                    "valueString": "over"
-                },
-                {
-                    "portString": "alpha_operation8",
-                    "datatypeString": "string",
-                    "valueString": "result"
-                },
-                {
-                    "portString": "clamp",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "layer_shader": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "enable1",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name1",
-                    "datatypeString": "string",
-                    "valueString": "layer1"
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix1",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable2",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name2",
-                    "datatypeString": "string",
-                    "valueString": "layer2"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix2",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable3",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name3",
-                    "datatypeString": "string",
-                    "valueString": "layer3"
-                },
-                {
-                    "portString": "input3",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix3",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable4",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name4",
-                    "datatypeString": "string",
-                    "valueString": "layer4"
-                },
-                {
-                    "portString": "input4",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix4",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable5",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name5",
-                    "datatypeString": "string",
-                    "valueString": "layer5"
-                },
-                {
-                    "portString": "input5",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix5",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable6",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name6",
-                    "datatypeString": "string",
-                    "valueString": "layer6"
-                },
-                {
-                    "portString": "input6",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix6",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable7",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name7",
-                    "datatypeString": "string",
-                    "valueString": "layer7"
-                },
-                {
-                    "portString": "input7",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix7",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "enable8",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "name8",
-                    "datatypeString": "string",
-                    "valueString": "layer8"
-                },
-                {
-                    "portString": "input8",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "mix8",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "length": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "euclidian"
-                }
-            ]
-        },
-        "log": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "base",
-                    "datatypeString": "color3",
-                    "valueString": "2.71828, 2.71828, 2.71828"
-                }
-            ]
-        },
-        "matrix_interpolate": {
-            "datatypeString": "matrix44",
-            "port": [
-                {
-                    "portString": "type",
-                    "datatypeString": "string",
-                    "valueString": "time"
-                },
-                {
-                    "portString": "value",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                }
-            ]
-        },
-        "matrix_multiply_vector": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "type",
-                    "datatypeString": "string",
-                    "valueString": "point"
-                },
-                {
-                    "portString": "matrix",
-                    "datatypeString": "matrix44",
-                    "valueString": ""
-                }
-            ]
-        },
-        "matrix_transform": {
-            "datatypeString": "matrix44",
-            "port": [
-                {
-                    "portString": "transform_order",
-                    "datatypeString": "string",
-                    "valueString": "srt"
-                },
-                {
-                    "portString": "rotation_type",
-                    "datatypeString": "string",
-                    "valueString": "euler"
-                },
-                {
-                    "portString": "units",
-                    "datatypeString": "string",
-                    "valueString": "degrees"
-                },
-                {
-                    "portString": "rotation_order",
-                    "datatypeString": "string",
-                    "valueString": "xyz"
-                },
-                {
-                    "portString": "rotation",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "axis",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 0, 0"
-                },
-                {
-                    "portString": "angle",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "translate",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "pivot",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "matte": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "max": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "min": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "mix_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "mix",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                }
-            ]
-        },
-        "modulo": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "divisor",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "multiply": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "negate": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "normalize": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "normal_map": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "tangent",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "order",
-                    "datatypeString": "string",
-                    "valueString": "XYZ"
-                },
-                {
-                    "portString": "invert_x",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert_y",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert_z",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "color_to_signed",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "tangent_space",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "strength",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "passthrough": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval1",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval2",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval3",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval4",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval5",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval6",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval7",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval8",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval9",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval10",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval11",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval12",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval13",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval14",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval15",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval16",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval17",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval18",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval19",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "eval20",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "pow": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "base",
-                    "datatypeString": "color3",
-                    "valueString": "2.71828, 2.71828, 2.71828"
-                },
-                {
-                    "portString": "exponent",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "query_shape": {
-            "datatypeString": "boolean",
-            "port": []
-        },
-        "ramp_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "type",
-                    "datatypeString": "string",
-                    "valueString": "custom"
-                },
-                {
-                    "portString": "input",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "position",
-                    "datatypeString": "floatarray",
-                    "valueString": "0.0, 1.0"
-                },
-                {
-                    "portString": "value",
-                    "datatypeString": "floatarray",
-                    "valueString": "0.0, 1.0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "integerarray",
-                    "valueString": "2, 2"
-                },
-                {
-                    "portString": "uvset",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "use_implicit_uvs",
-                    "datatypeString": "string",
-                    "valueString": "off"
-                },
-                {
-                    "portString": "wrap_uvs",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "ramp_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "type",
-                    "datatypeString": "string",
-                    "valueString": "custom"
-                },
-                {
-                    "portString": "input",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "position",
-                    "datatypeString": "floatarray",
-                    "valueString": "0.0, 1.0"
-                },
-                {
-                    "portString": "color",
-                    "datatypeString": "floatarray",
-                    "valueString": "0.0, 0.0, 0.0, 1.0, 1.0, 1.0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "integerarray",
-                    "valueString": "2, 2"
-                },
-                {
-                    "portString": "uvset",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "use_implicit_uvs",
-                    "datatypeString": "string",
-                    "valueString": "off"
-                },
-                {
-                    "portString": "wrap_uvs",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "random": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input_type",
-                    "datatypeString": "string",
-                    "valueString": "int"
-                },
-                {
-                    "portString": "input_int",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_float",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "seed",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "grayscale",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "range": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "input_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_max",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "output_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "output_max",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "smoothstep",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "contrast",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast_pivot",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "bias",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "gain",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                }
-            ]
-        },
-        "reciprocal": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                }
-            ]
-        },
-        "rgba_to_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "average"
-                }
-            ]
-        },
-        "rgb_to_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "average"
-                }
-            ]
-        },
-        "rgb_to_vector": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "raw"
-                }
-            ]
-        },
-        "shadow_matte": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "background",
-                    "datatypeString": "string",
-                    "valueString": "scene_background"
-                },
-                {
-                    "portString": "shadow_color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "shadow_opacity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "background_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "diffuse_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "diffuse_use_background",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "diffuse_intensity",
-                    "datatypeString": "float",
-                    "valueString": "0.7"
-                },
-                {
-                    "portString": "backlighting",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "indirect_diffuse_enable",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "indirect_specular_enable",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "specular_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.2"
-                },
-                {
-                    "portString": "specular_IOR",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "alpha_mask",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "aov_group",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aov_shadow",
-                    "datatypeString": "string",
-                    "valueString": "shadow"
-                },
-                {
-                    "portString": "aov_shadow_diff",
-                    "datatypeString": "string",
-                    "valueString": "shadow_diff"
-                },
-                {
-                    "portString": "aov_shadow_mask",
-                    "datatypeString": "string",
-                    "valueString": "shadow_mask"
-                }
-            ]
-        },
-        "shuffle": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "color",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "alpha",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "channel_r",
-                    "datatypeString": "string",
-                    "valueString": "R"
-                },
-                {
-                    "portString": "channel_g",
-                    "datatypeString": "string",
-                    "valueString": "G"
-                },
-                {
-                    "portString": "channel_b",
-                    "datatypeString": "string",
-                    "valueString": "B"
-                },
-                {
-                    "portString": "channel_a",
-                    "datatypeString": "string",
-                    "valueString": "A"
-                },
-                {
-                    "portString": "negate_r",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "negate_g",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "negate_b",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "negate_a",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "sign": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "skin": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "sss_weight",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "shallow_scatter_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 0.909, 0.769"
-                },
-                {
-                    "portString": "shallow_scatter_weight",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "shallow_scatter_radius",
-                    "datatypeString": "float",
-                    "valueString": "0.15"
-                },
-                {
-                    "portString": "mid_scatter_color",
-                    "datatypeString": "color3",
-                    "valueString": "0.949, 0.714, 0.56"
-                },
-                {
-                    "portString": "mid_scatter_weight",
-                    "datatypeString": "float",
-                    "valueString": "0.25"
-                },
-                {
-                    "portString": "mid_scatter_radius",
-                    "datatypeString": "float",
-                    "valueString": "0.25"
-                },
-                {
-                    "portString": "deep_scatter_color",
-                    "datatypeString": "color3",
-                    "valueString": "0.7, 0.1, 0.1"
-                },
-                {
-                    "portString": "deep_scatter_weight",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "deep_scatter_radius",
-                    "datatypeString": "float",
-                    "valueString": "0.6"
-                },
-                {
-                    "portString": "specular_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "specular_weight",
-                    "datatypeString": "float",
-                    "valueString": "0.8"
-                },
-                {
-                    "portString": "specular_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "specular_ior",
-                    "datatypeString": "float",
-                    "valueString": "1.44"
-                },
-                {
-                    "portString": "sheen_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "sheen_weight",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sheen_roughness",
-                    "datatypeString": "float",
-                    "valueString": "0.35"
-                },
-                {
-                    "portString": "sheen_ior",
-                    "datatypeString": "float",
-                    "valueString": "1.44"
-                },
-                {
-                    "portString": "global_sss_radius_multiplier",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "specular_in_secondary_rays",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "fresnel_affect_sss",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "opacity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "opacity_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 1, 0"
-                }
-            ]
-        },
-        "space_transform": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "type",
-                    "datatypeString": "string",
-                    "valueString": "point"
-                },
-                {
-                    "portString": "from",
-                    "datatypeString": "string",
-                    "valueString": "world"
-                },
-                {
-                    "portString": "to",
-                    "datatypeString": "string",
-                    "valueString": "world"
-                },
-                {
-                    "portString": "tangent",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "normalize",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "sqrt": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "state_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "variable",
-                    "datatypeString": "string",
-                    "valueString": "sx"
-                }
-            ]
-        },
-        "state_int": {
-            "datatypeString": "integer",
-            "port": [
-                {
-                    "portString": "variable",
-                    "datatypeString": "string",
-                    "valueString": "x"
-                }
-            ]
-        },
-        "state_vector": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "variable",
-                    "datatypeString": "string",
-                    "valueString": "Ro"
-                }
-            ]
-        },
-        "subtract": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input1",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "switch_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "index",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input0",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input3",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input4",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input5",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input6",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input7",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input8",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input9",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input10",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input11",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input12",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input13",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input14",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input15",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input16",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input17",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input18",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "input19",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                }
-            ]
-        },
-        "switch_shader": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "index",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input0",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input1",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input2",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input3",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input4",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input5",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input6",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input7",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input8",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input9",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input10",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input11",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input12",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input13",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input14",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input15",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input16",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input17",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input18",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "input19",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                }
-            ]
-        },
-        "thin_film": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "thickness_min",
-                    "datatypeString": "float",
-                    "valueString": "250"
-                },
-                {
-                    "portString": "thickness_max",
-                    "datatypeString": "float",
-                    "valueString": "400"
-                },
-                {
-                    "portString": "thickness",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "ior_medium",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "ior_film",
-                    "datatypeString": "float",
-                    "valueString": "1.5"
-                },
-                {
-                    "portString": "ior_internal",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "trace_set": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "trace_set",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "inclusive",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                }
-            ]
-        },
-        "trigo": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "function",
-                    "datatypeString": "string",
-                    "valueString": "cos"
-                },
-                {
-                    "portString": "units",
-                    "datatypeString": "string",
-                    "valueString": "radians"
-                },
-                {
-                    "portString": "frequency",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "phase",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "triplanar": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "vector3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "rotate",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "object"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "blend",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "cell",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "cell_rotate",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "cell_blend",
-                    "datatypeString": "float",
-                    "valueString": "0.1"
-                }
-            ]
-        },
-        "two_sided": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "front",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "back",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                }
-            ]
-        },
-        "user_data_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "attribute",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "default",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "user_data_int": {
-            "datatypeString": "integer",
-            "port": [
-                {
-                    "portString": "attribute",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "default",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "user_data_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "attribute",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "default",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                }
-            ]
-        },
-        "user_data_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "attribute",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "default",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                }
-            ]
-        },
-        "user_data_string": {
-            "datatypeString": "string",
-            "port": [
-                {
-                    "portString": "attribute",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "default",
-                    "datatypeString": "string",
-                    "valueString": ""
-                }
-            ]
-        },
-        "uv_transform": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "passthrough",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "unit",
-                    "datatypeString": "string",
-                    "valueString": "degrees"
-                },
-                {
-                    "portString": "uvset",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "coverage",
-                    "datatypeString": "vector2",
-                    "valueString": "1, 1"
-                },
-                {
-                    "portString": "scale_frame",
-                    "datatypeString": "vector2",
-                    "valueString": "1, 1"
-                },
-                {
-                    "portString": "translate_frame",
-                    "datatypeString": "vector2",
-                    "valueString": "0, 0"
-                },
-                {
-                    "portString": "rotate_frame",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "pivot_frame",
-                    "datatypeString": "vector2",
-                    "valueString": "0.5, 0.5"
-                },
-                {
-                    "portString": "wrap_frame_u",
-                    "datatypeString": "string",
-                    "valueString": "periodic"
-                },
-                {
-                    "portString": "wrap_frame_v",
-                    "datatypeString": "string",
-                    "valueString": "periodic"
-                },
-                {
-                    "portString": "wrap_frame_color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "repeat",
-                    "datatypeString": "vector2",
-                    "valueString": "1, 1"
-                },
-                {
-                    "portString": "offset",
-                    "datatypeString": "vector2",
-                    "valueString": "0, 0"
-                },
-                {
-                    "portString": "rotate",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "pivot",
-                    "datatypeString": "vector2",
-                    "valueString": "0.5, 0.5"
-                },
-                {
-                    "portString": "noise",
-                    "datatypeString": "vector2",
-                    "valueString": "0, 0"
-                },
-                {
-                    "portString": "mirror_u",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "mirror_v",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "flip_u",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "flip_v",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "swap_uv",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "stagger",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "uv_projection": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "projection_color",
-                    "datatypeString": "color4",
-                    "valueString": "1, 1, 1, 1"
-                },
-                {
-                    "portString": "projection_type",
-                    "datatypeString": "string",
-                    "valueString": "planar"
-                },
-                {
-                    "portString": "coord_space",
-                    "datatypeString": "string",
-                    "valueString": "world"
-                },
-                {
-                    "portString": "pref_name",
-                    "datatypeString": "string",
-                    "valueString": "Pref"
-                },
-                {
-                    "portString": "P",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "u_angle",
-                    "datatypeString": "float",
-                    "valueString": "180"
-                },
-                {
-                    "portString": "v_angle",
-                    "datatypeString": "float",
-                    "valueString": "90"
-                },
-                {
-                    "portString": "clamp",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "default_color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 0"
-                },
-                {
-                    "portString": "matrix",
-                    "datatypeString": "matrix44",
-                    "valueString": ""
-                }
-            ]
-        },
-        "vector_map": {
-            "datatypeString": "vector3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "tangent",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "normal",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "order",
-                    "datatypeString": "string",
-                    "valueString": "XYZ"
-                },
-                {
-                    "portString": "invert_x",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert_y",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "invert_z",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "color_to_signed",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "tangent_space",
-                    "datatypeString": "boolean",
-                    "valueString": "true"
-                },
-                {
-                    "portString": "scale",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                }
-            ]
-        },
-        "vector_to_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "input",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "mode",
-                    "datatypeString": "string",
-                    "valueString": "raw"
-                }
-            ]
-        },
-        "volume_collector": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "scattering_source",
-                    "datatypeString": "string",
-                    "valueString": "parameter"
-                },
-                {
-                    "portString": "scattering",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "scattering_channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "scattering_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "scattering_intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "anisotropy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "attenuation_source",
-                    "datatypeString": "string",
-                    "valueString": "parameter"
-                },
-                {
-                    "portString": "attenuation",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "attenuation_channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "attenuation_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "attenuation_intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "attenuation_mode",
-                    "datatypeString": "string",
-                    "valueString": "absorption"
-                },
-                {
-                    "portString": "emission_source",
-                    "datatypeString": "string",
-                    "valueString": "parameter"
-                },
-                {
-                    "portString": "emission",
-                    "datatypeString": "color3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "emission_channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "emission_color",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "emission_intensity",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "position_offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "string",
-                    "valueString": "trilinear"
-                }
-            ]
-        },
-        "volume_sample_float": {
-            "datatypeString": "float",
-            "port": [
-                {
-                    "portString": "channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "position_offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "string",
-                    "valueString": "trilinear"
-                },
-                {
-                    "portString": "volume_type",
-                    "datatypeString": "string",
-                    "valueString": "fog"
-                },
-                {
-                    "portString": "sdf_offset",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sdf_blend",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "sdf_invert",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "input_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "input_max",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast_pivot",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "bias",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "gain",
-                    "datatypeString": "float",
-                    "valueString": "0.5"
-                },
-                {
-                    "portString": "output_min",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "output_max",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "clamp_min",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "clamp_max",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        },
-        "volume_sample_rgb": {
-            "datatypeString": "color3",
-            "port": [
-                {
-                    "portString": "channel",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "position_offset",
-                    "datatypeString": "vector3",
-                    "valueString": "0, 0, 0"
-                },
-                {
-                    "portString": "interpolation",
-                    "datatypeString": "string",
-                    "valueString": "trilinear"
-                },
-                {
-                    "portString": "gamma",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "hue_shift",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "saturation",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "contrast_pivot",
-                    "datatypeString": "float",
-                    "valueString": "0.18"
-                },
-                {
-                    "portString": "exposure",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "multiply",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "add",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "c4d_texture_tag": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "color",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "proj",
-                    "datatypeString": "string",
-                    "valueString": "spherical"
-                },
-                {
-                    "portString": "lenx",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "leny",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "ox",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "oy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "tilex",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "tiley",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "m",
-                    "datatypeString": "matrix44",
-                    "valueString": ""
-                },
-                {
-                    "portString": "camera",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aspect_ratio",
-                    "datatypeString": "float",
-                    "valueString": "1.33333"
-                },
-                {
-                    "portString": "use_pref",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "side",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "c4d_texture_tag_rgba": {
-            "datatypeString": "color4",
-            "port": [
-                {
-                    "portString": "color",
-                    "datatypeString": "color4",
-                    "valueString": "0, 0, 0, 1"
-                },
-                {
-                    "portString": "proj",
-                    "datatypeString": "string",
-                    "valueString": "spherical"
-                },
-                {
-                    "portString": "lenx",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "leny",
-                    "datatypeString": "float",
-                    "valueString": "1"
-                },
-                {
-                    "portString": "ox",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "oy",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "tilex",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "tiley",
-                    "datatypeString": "float",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "m",
-                    "datatypeString": "matrix44",
-                    "valueString": ""
-                },
-                {
-                    "portString": "camera",
-                    "datatypeString": "string",
-                    "valueString": ""
-                },
-                {
-                    "portString": "aspect_ratio",
-                    "datatypeString": "float",
-                    "valueString": "1.33333"
-                },
-                {
-                    "portString": "use_pref",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "side",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                }
-            ]
-        },
-        "maya_layered_shader": {
-            "datatypeString": "closure",
-            "port": [
-                {
-                    "portString": "compositingFlag",
-                    "datatypeString": "string",
-                    "valueString": "shader"
-                },
-                {
-                    "portString": "numInputs",
-                    "datatypeString": "integer",
-                    "valueString": "0"
-                },
-                {
-                    "portString": "color0",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color1",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color2",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color3",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color4",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color5",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color6",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color7",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color8",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color9",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color10",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color11",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color12",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color13",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color14",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "color15",
-                    "datatypeString": "closure",
-                    "valueString": ""
-                },
-                {
-                    "portString": "transparency0",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency1",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency2",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency3",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency4",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency5",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency6",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency7",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency8",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency9",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency10",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency11",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency12",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency13",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency14",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "transparency15",
-                    "datatypeString": "color3",
-                    "valueString": "1, 1, 1"
-                },
-                {
-                    "portString": "useTransparency0",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency1",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency2",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency3",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency4",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency5",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency6",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency7",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency8",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency9",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency10",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency11",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency12",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency13",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency14",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                },
-                {
-                    "portString": "useTransparency15",
-                    "datatypeString": "boolean",
-                    "valueString": "false"
-                }
-            ]
-        }
-    }
-
     DEF_mtl_material_def_list = [
             {
-                u'name': u'surface_shader',
+                u'portString': u'surface_shader',
                 u'datatypeString': u'closure',
                 u'valueString': u''
             },
             {
-                u'name': u'displacement_shader',
+                u'portString': u'displacement_shader',
                 u'datatypeString': u'closure',
                 u'valueString': u''
             },
             {
-                u'name': u'volume_shader',
+                u'portString': u'volume_shader',
                 u'datatypeString': u'closure',
                 u'valueString': u''
             }
         ]
 
     DEF_mtl_output_def_dict = {
-        u'geometry': [],
-        u'closure': [
+        u'integer': [
             {
-                u'name': u'out_color',
-                u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
-            },
+                u'portString': u'out_value',
+                u'datatypeString': u'integer',
+                u'valueString': u'0'
+            }
+        ],
+        u'float': [
             {
-                u'name': u'out_transparency',
-                u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
+                u'portString': u'out_value',
+                u'datatypeString': u'float',
+                u'valueString': u'0.0'
+            }
+        ],
+        u'boolean': [
+            {
+                u'portString': u'out_value',
+                u'datatypeString': u'boolean',
+                u'valueString': u'false'
+            }
+        ],
+        u'string': [
+            {
+                u'portString': u'out_value',
+                u'datatypeString': u'string',
+                u'valueString': u''
             }
         ],
         u'color3': [
             {
-                u'name': u'out_color',
+                u'portString': u'out_color',
                 u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
-            },
-            {
-                u'name': u'out_transparency',
-                u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
+                u'valueString': u'0.0, 0.0, 0.0'
             }
         ],
         u'color4': [
             {
-                u'name': u'out_color',
-                u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
-            },
+                u'portString': u'out_color',
+                u'datatypeString': u'color4',
+                u'valueString': u'0.0, 0.0, 0.0, 0.0'
+            }
+        ],
+        u'vector3': [
             {
-                u'name': u'out_transparency',
-                u'datatypeString': u'color3',
-                u'valueString': u'0, 0, 0'
-            },
+                u'portString': u'out_value',
+                u'datatypeString': u'vector3',
+                u'valueString': u'0.0, 0.0, 0.0'
+            }
+        ],
+        u'matrix44': [
             {
-                u'name': u'out_alpha',
+                u'portString': u'out_value',
+                u'datatypeString': u'matrix44',
+                u'valueString': u''
+            }
+        ],
+        u'closure': [
+            {
+                u'portString': u'out_color',
+                u'datatypeString': u'color3',
+                u'valueString': u'0.0, 0.0, 0.0'
+            }
+        ],
+        u'geometry': []
+    }
+
+    DEF_mtl_channel_def_dict = {
+        u'color3': [
+            {
+                u'portString': u'r',
                 u'datatypeString': u'float',
-                u'valueString': u'0'
+            },
+            {
+                u'portString': u'g',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'b',
+                u'datatypeString': u'float',
+            }
+        ],
+        u'color4': [
+            {
+                u'portString': u'r',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'g',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'b',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'a',
+                u'datatypeString': u'float',
+            }
+        ],
+        u'vector3': [
+            {
+                u'portString': u'x',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'y',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'z',
+                u'datatypeString': u'float',
+            }
+        ],
+        u'closure': [
+            {
+                u'portString': u'r',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'g',
+                u'datatypeString': u'float',
+            },
+            {
+                u'portString': u'b',
+                u'datatypeString': u'float',
             }
         ]
     }
 
-    DEF_mtl_maya_node_transfer_dict = {
-        'sky': {
-            'opaque_alpha': None,
-            'Y_angle': None,
-            'Z_angle': None,
-            'X_angle': None,
-            'Y': None,
-            'X': None,
-            'Z': None
+    DEF_mtl_maya_2019_def_dict = {
+        # aov read
+        "aov_read_int": {
+            "categoryString": u'aiReadInt',
+            "port": {
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                }
+            }
         },
-        'standard': {
-            'Kd_color': 'color'
+        "aov_read_float": {
+            "categoryString": u'aiReadFloat',
+            "port": {
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                }
+            }
         },
-        'standard_surface': {
-            'coat_affect_roughness': None,
-            'coat_affect_color': None,
-            'normal': 'coatNormal'
+        "aov_read_rgb": {
+            "categoryString": u'aiReadRgb',
+            "port": {
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                }
+            }
         },
-        'uv_projection': {
-            'matrix': 'placementMatrix'
+        "aov_read_rgba": {
+            "categoryString": u'aiReadRgba',
+            "port": {
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                }
+            }
         },
-        'ramp_float': {
-            'position': 'ramp.ramp_Position',
-            'value': 'ramp.ramp_FloatValue',
-            'interpolation': 'ramp.ramp_Interp'
+        # aov write
+        "aov_write_int": {
+            "categoryString": u'aiWriteInt',
+            "port": {
+                "passthrough": {
+                    "portString": u'beauty',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "aov_input": {
+                    "portString": u'input',
+                    "datatypeString": {
+                        "integer": u'long'
+                    }
+                },
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                }
+            }
         },
-        'ramp_rgb': {
-            'position': 'ramp.ramp_Position',
-            'color': 'ramp.ramp_Color',
-            'interpolation': 'ramp.ramp_Interp'
+        "aov_write_float": {
+            "categoryString": u'aiWriteFloat',
+            "port": {
+                "passthrough": {
+                    "portString": u'beauty',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "aov_input": {
+                    "portString": u'input',
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                },
+                "blend_opacity": {
+                    "portString": u'blend',
+                    "datatypeString": {
+                        "boolean": u'bool'
+                    }
+                }
+            }
         },
+        "aov_write_rgb": {
+            "categoryString": u'aiWriteColor',
+            "port": {
+                "passthrough": {
+                    "portString": u'beauty',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "aov_input": {
+                    "portString": u'input',
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                },
+                "blend_opacity": {
+                    "portString": u'blend',
+                    "datatypeString": {
+                        "boolean": u'bool'
+                    }
+                }
+            }
+        },
+        "aov_write_rgba": {
+            "categoryString": u'aiWriteRgba',
+            "port": {
+                "passthrough": {
+                    "portString": u'beauty',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "aov_input": {
+                    "portString": u'input',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "aov_name": {
+                    "portString": u'aovName',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                },
+                "blend_opacity": {
+                    "portString": u'blend',
+                    "datatypeString": {
+                        "boolean": u'bool'
+                    }
+                }
+            }
+        },
+        # user data
+        "user_data_string": {
+            "categoryString": "aiUserDataString",
+            "port": {
+                "attribute": {
+                    "portString": "attribute",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "default": {
+                    "portString": "default",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                }
+            }
+        },
+        "user_data_int": {
+            "categoryString": "aiUserDataInt",
+            "port": {
+                "attribute": {
+                    "portString": "attribute",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "default": {
+                    "portString": "default",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                }
+            }
+        },
+        "user_data_float": {
+            "categoryString": "aiUserDataFloat",
+            "port": {
+                "attribute": {
+                    "portString": "attribute",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "default": {
+                    "portString": "default",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "user_data_rgb": {
+            "categoryString": u'aiUserDataColor',
+            "port": {
+                "attribute": {
+                    "portString": u'attribute',
+                    "datatypeString": {
+                        "string": u'typed'
+                    }
+                },
+                "default": {
+                    "portString": u'default',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                }
+            }
+        },
+        "user_data_rgba": {
+            "categoryString": None,
+            "port": {
+                "attribute": {
+                    "portString": None,
+                    "datatypeString": {
+                        "string": None
+                    }
+                },
+                "default": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color4": None
+                    }
+                }
+            }
+        },
+        # convert
+        "float_to_int": {
+            "categoryString": "aiFloatToInt",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "float_to_rgb": {
+            "categoryString": None,
+            "port": {
+                "r": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "g": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "b": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                }
+            }
+        },
+        "float_to_rgba": {
+            "categoryString": "aiFloatToRgba",
+            "port": {
+                "r": {
+                    "portString": "r",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "g": {
+                    "portString": "g",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "b": {
+                    "portString": "b",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "a": {
+                    "portString": "a",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "float_to_matrix": {
+            "categoryString": None,
+            "port": {
+                "input_00": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_01": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_02": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_03": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_10": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_11": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_12": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_13": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_20": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_21": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_22": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_23": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_30": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_31": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_32": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "input_33": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                }
+            }
+        },
+        "rgb_to_float": {
+            "categoryString": u'aiColorToFloat',
+            "port": {
+                "input": {
+                    "portString": u'input',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                },
+                "mode": {
+                    "portString": u'mode',
+                    "datatypeString": {
+                        "string": u'enum'
+                    }
+                }
+            }
+        },
+        "rgba_to_float": {
+            "categoryString": "aiRgbaToFloat",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "rgb_to_vector": {
+            "categoryString": None,
+            "port": {
+                "input": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                },
+                "mode": {
+                    "portString": None,
+                    "datatypeString": {
+                        "string": None
+                    }
+                }
+            }
+        },
+        "vector_to_rgb": {
+            "categoryString": None,
+            "port": {
+                "input": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                },
+                "mode": {
+                    "portString": None,
+                    "datatypeString": {
+                        "string": None
+                    }
+                }
+            }
+        },
+        # shader.surface
+        "ambient_occlusion": {
+            "categoryString": "aiAmbientOcclusion",
+            "port": {
+                "samples": {
+                    "portString": "samples",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "spread": {
+                    "portString": "spread",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "near_clip": {
+                    "portString": "nearClip",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "far_clip": {
+                    "portString": "farClip",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "falloff": {
+                    "portString": "falloff",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "black": {
+                    "portString": "black",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "white": {
+                    "portString": "white",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "invert_normals": {
+                    "portString": "invertNormals",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "trace_set": {
+                    "portString": "traceSet",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "inclusive": {
+                    "portString": "inclusive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "self_only": {
+                    "portString": "selfOnly",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "bump2d": {
+            "categoryString": "aiBump2d",
+            "port": {
+                "bump_map": {
+                    "portString": "bumpMap",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bump_height": {
+                    "portString": "bumpHeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "bump3d": {
+            "categoryString": "aiBump3d",
+            "port": {
+                "bump_map": {
+                    "portString": "bumpMap",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bump_height": {
+                    "portString": "bumpHeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "epsilon": {
+                    "portString": "epsilon",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "car_paint": {
+            "categoryString": "aiCarPaint",
+            "port": {
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "base_color": {
+                    "portString": "baseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "base_roughness": {
+                    "portString": "baseRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular": {
+                    "portString": "specular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_color": {
+                    "portString": "specularColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_flip_flop": {
+                    "portString": "specularFlipFlop",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_light_facing": {
+                    "portString": "specularLightFacing",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_falloff": {
+                    "portString": "specularFalloff",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_IOR": {
+                    "portString": "specularIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_color": {
+                    "portString": "transmissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "flake_color": {
+                    "portString": "flakeColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "flake_flip_flop": {
+                    "portString": "flakeFlipFlop",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "flake_light_facing": {
+                    "portString": "flakeLightFacing",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "flake_falloff": {
+                    "portString": "flakeFalloff",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_roughness": {
+                    "portString": "flakeRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_IOR": {
+                    "portString": "flakeIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_scale": {
+                    "portString": "flakeScale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_density": {
+                    "portString": "flakeDensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_layers": {
+                    "portString": "flakeLayers",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "flake_normal_randomize": {
+                    "portString": "flakeNormalRandomize",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "flake_coord_space": {
+                    "portString": "flakeCoordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "coat": {
+                    "portString": "coat",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_color": {
+                    "portString": "coatColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "coat_roughness": {
+                    "portString": "coatRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_IOR": {
+                    "portString": "coatIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_normal": {
+                    "portString": "coatNormal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "clip_geo": {
+            "categoryString": "aiClipGeo",
+            "port": {
+                "intersection": {
+                    "portString": "intersection",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "trace_set": {
+                    "portString": "traceSet",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "inclusive": {
+                    "portString": "inclusive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "complex_ior": {
+            "categoryString": "aiComplexIor",
+            "port": {
+                "material": {
+                    "portString": "material",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "reflectivity": {
+                    "portString": "reflectivity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "edgetint": {
+                    "portString": "edgetint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "n": {
+                    "portString": "n",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "k": {
+                    "portString": "k",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "lambert": {
+            "categoryString": u'lambert',
+            "port": {
+                "Kd": {
+                    "portString": u'diffuse',
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "Kd_color": {
+                    "portString": 'color',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                },
+                "opacity": {
+                    "portString": u'transparency',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                },
+                "normal": {
+                    "portString": u'normalCamera',
+                    "datatypeString": {
+                        "vector3": u'floatArray'
+                    }
+                }
+            }
+        },
+        "round_corners": {
+            "categoryString": "aiRoundCorners",
+            "port": {
+                "samples": {
+                    "portString": "samples",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "radius": {
+                    "portString": "radius",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "trace_set": {
+                    "portString": "traceSet",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "inclusive": {
+                    "portString": "inclusive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "self_only": {
+                    "portString": "selfOnly",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "object_space": {
+                    "portString": "objectSpace",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "shadow_matte": {
+            "categoryString": "aiShadowMatte",
+            "port": {
+                "background": {
+                    "portString": "background",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "shadow_color": {
+                    "portString": "shadowColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "shadow_opacity": {
+                    "portString": "shadowOpacity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "background_color": {
+                    "portString": "backgroundColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "diffuse_color": {
+                    "portString": "diffuseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "diffuse_use_background": {
+                    "portString": "diffuseUseBackground",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "diffuse_intensity": {
+                    "portString": "diffuseIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "backlighting": {
+                    "portString": "backlighting",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_diffuse_enable": {
+                    "portString": "indirectDiffuseEnable",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "indirect_specular_enable": {
+                    "portString": "indirectSpecularEnable",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "specular_color": {
+                    "portString": "specularColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_intensity": {
+                    "portString": "specularIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_IOR": {
+                    "portString": "specularIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "alpha_mask": {
+                    "portString": "alphaMask",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "aov_group": {
+                    "portString": "aovGroup",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "aov_shadow": {
+                    "portString": "aovShadow",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "aov_shadow_diff": {
+                    "portString": "aovShadowDiff",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "aov_shadow_mask": {
+                    "portString": "aovShadowMask",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                }
+            }
+        },
+        "standard_surface": {
+            "categoryString": "aiStandardSurface",
+            "port": {
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "base_color": {
+                    "portString": "baseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "diffuse_roughness": {
+                    "portString": "diffuseRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular": {
+                    "portString": "specular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_color": {
+                    "portString": "specularColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_IOR": {
+                    "portString": "specularIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_anisotropy": {
+                    "portString": "specularAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_rotation": {
+                    "portString": "specularRotation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "metalness": {
+                    "portString": "metalness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission": {
+                    "portString": "transmission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_color": {
+                    "portString": "transmissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmission_depth": {
+                    "portString": "transmissionDepth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_scatter": {
+                    "portString": "transmissionScatter",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmission_scatter_anisotropy": {
+                    "portString": "transmissionScatterAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_dispersion": {
+                    "portString": "transmissionDispersion",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_extra_roughness": {
+                    "portString": "transmissionExtraRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmit_aovs": {
+                    "portString": "transmitAovs",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "subsurface": {
+                    "portString": "subsurface",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "subsurface_color": {
+                    "portString": "subsurfaceColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "subsurface_radius": {
+                    "portString": "subsurfaceRadius",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "subsurface_scale": {
+                    "portString": "subsurfaceScale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "subsurface_anisotropy": {
+                    "portString": "subsurfaceAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "subsurface_type": {
+                    "portString": "subsurfaceType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "sheen": {
+                    "portString": "sheen",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen_color": {
+                    "portString": "sheenColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "sheen_roughness": {
+                    "portString": "sheenRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "thin_walled": {
+                    "portString": "thinWalled",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "normal": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                },
+                "tangent": {
+                    "portString": "tangent",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "coat": {
+                    "portString": "coat",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_color": {
+                    "portString": "coatColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "coat_roughness": {
+                    "portString": "coatRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_IOR": {
+                    "portString": "coatIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_anisotropy": {
+                    "portString": "coatAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_rotation": {
+                    "portString": "coatRotation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coat_normal": {
+                    "portString": "coatNormal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "coat_affect_color": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "coat_affect_roughness": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "thin_film_thickness": {
+                    "portString": "thinFilmThickness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "thin_film_IOR": {
+                    "portString": "thinFilmIOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "caustics": {
+                    "portString": "caustics",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "internal_reflections": {
+                    "portString": "internalReflections",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "exit_to_background": {
+                    "portString": "exitToBackground",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "indirect_diffuse": {
+                    "portString": "indirectDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_specular": {
+                    "portString": "indirectSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "aov_id1": {
+                    "portString": "aovId1",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id1": {
+                    "portString": "id1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id2": {
+                    "portString": "aovId2",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id2": {
+                    "portString": "id2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id3": {
+                    "portString": "aovId3",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id3": {
+                    "portString": "id3",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id4": {
+                    "portString": "aovId4",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id4": {
+                    "portString": "id4",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id5": {
+                    "portString": "aovId5",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id5": {
+                    "portString": "id5",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id6": {
+                    "portString": "aovId6",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id6": {
+                    "portString": "id6",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id7": {
+                    "portString": "aovId7",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id7": {
+                    "portString": "id7",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id8": {
+                    "portString": "aovId8",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id8": {
+                    "portString": "id8",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "standard_hair": {
+            "categoryString": "aiStandardHair",
+            "port": {
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "base_color": {
+                    "portString": "baseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "melanin": {
+                    "portString": "melanin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "melanin_redness": {
+                    "portString": "melaninRedness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "melanin_randomize": {
+                    "portString": "melaninRandomize",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "roughness": {
+                    "portString": "roughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "roughness_azimuthal": {
+                    "portString": "roughnessAzimuthal",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "roughness_anisotropic": {
+                    "portString": "roughnessAnisotropic",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "ior": {
+                    "portString": "ior",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "shift": {
+                    "portString": "shift",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_tint": {
+                    "portString": "specularTint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular2_tint": {
+                    "portString": "specular2Tint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmission_tint": {
+                    "portString": "transmissionTint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "diffuse": {
+                    "portString": "diffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "diffuse_color": {
+                    "portString": "diffuseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "indirect_diffuse": {
+                    "portString": "indirectDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_specular": {
+                    "portString": "indirectSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "extra_depth": {
+                    "portString": "extraDepth",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "extra_samples": {
+                    "portString": "extraSamples",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "aov_id1": {
+                    "portString": "aovId1",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id1": {
+                    "portString": "id1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id2": {
+                    "portString": "aovId2",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id2": {
+                    "portString": "id2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id3": {
+                    "portString": "aovId3",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id3": {
+                    "portString": "id3",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id4": {
+                    "portString": "aovId4",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id4": {
+                    "portString": "id4",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id5": {
+                    "portString": "aovId5",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id5": {
+                    "portString": "id5",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id6": {
+                    "portString": "aovId6",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id6": {
+                    "portString": "id6",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id7": {
+                    "portString": "aovId7",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id7": {
+                    "portString": "id7",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "aov_id8": {
+                    "portString": "aovId8",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "id8": {
+                    "portString": "id8",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "toon": {
+            "categoryString": "aiToon",
+            "port": {
+                "mask_color": {
+                    "portString": "maskColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "edge_color": {
+                    "portString": "edgeColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "edge_tonemap": {
+                    "portString": "edgeTonemap",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "edge_opacity": {
+                    "portString": "edgeOpacity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "edge_width_scale": {
+                    "portString": "edgeWidthScale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "silhouette_color": {
+                    "portString": "silhouetteColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "silhouette_tonemap": {
+                    "portString": "silhouetteTonemap",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "silhouette_opacity": {
+                    "portString": "silhouetteOpacity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "silhouette_width_scale": {
+                    "portString": "silhouetteWidthScale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "priority": {
+                    "portString": "priority",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "enable_silhouette": {
+                    "portString": "enableSilhouette",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "ignore_throughput": {
+                    "portString": "ignoreThroughput",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "enable": {
+                    "portString": "enable",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "id_difference": {
+                    "portString": "idDifference",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "shader_difference": {
+                    "portString": "shaderDifference",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "uv_threshold": {
+                    "portString": "uvThreshold",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "angle_threshold": {
+                    "portString": "angleThreshold",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal_type": {
+                    "portString": "normalType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "base_color": {
+                    "portString": "baseColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "base_tonemap": {
+                    "portString": "baseTonemap",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular": {
+                    "portString": "specular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_color": {
+                    "portString": "specularColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_anisotropy": {
+                    "portString": "specularAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_rotation": {
+                    "portString": "specularRotation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_tonemap": {
+                    "portString": "specularTonemap",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "lights": {
+                    "portString": "lights",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "highlight_color": {
+                    "portString": "highlightColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "highlight_size": {
+                    "portString": "highlightSize",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "aov_highlight": {
+                    "portString": "aovHighlight",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "rim_light": {
+                    "portString": "rimLight",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "rim_light_color": {
+                    "portString": "rimLightColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "rim_light_width": {
+                    "portString": "rimLightWidth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "aov_rim_light": {
+                    "portString": "aovRimLight",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "transmission": {
+                    "portString": "transmission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_color": {
+                    "portString": "transmissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmission_roughness": {
+                    "portString": "transmissionRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_anisotropy": {
+                    "portString": "transmissionAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_rotation": {
+                    "portString": "transmissionRotation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen": {
+                    "portString": "sheen",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen_color": {
+                    "portString": "sheenColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "sheen_roughness": {
+                    "portString": "sheenRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "IOR": {
+                    "portString": "IOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "tangent": {
+                    "portString": "tangent",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "indirect_diffuse": {
+                    "portString": "indirectDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_specular": {
+                    "portString": "indirectSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bump_mode": {
+                    "portString": "bumpMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "energy_conserving": {
+                    "portString": "energyConserving",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "user_id": {
+                    "portString": "userId",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "two_sided": {
+            "categoryString": "aiTwoSided",
+            "port": {
+                "front": {
+                    "portString": "front",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "back": {
+                    "portString": "back",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                }
+            }
+        },
+        # shader.old
+        "standard": {
+            "categoryString": "aiStandard",
+            "port": {
+                "Kd": {
+                    "portString": "Kd",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Kd_color": {
+                    "portString": u'color',
+                    "datatypeString": {
+                        "color3": 'floatArray'
+                    }
+                },
+                "diffuse_roughness": {
+                    "portString": "diffuseRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Ks": {
+                    "portString": "Ks",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Ks_color": {
+                    "portString": "KsColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_anisotropy": {
+                    "portString": "specularAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_rotation": {
+                    "portString": "specularRotation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_distribution": {
+                    "portString": "specularDistribution",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "Kr": {
+                    "portString": "Kr",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Kr_color": {
+                    "portString": "KrColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "reflection_exit_color": {
+                    "portString": "reflectionExitColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "reflection_exit_use_environment": {
+                    "portString": "reflectionExitUseEnvironment",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "Kt": {
+                    "portString": "Kt",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Kt_color": {
+                    "portString": "KtColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmittance": {
+                    "portString": "transmittance",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "refraction_roughness": {
+                    "portString": "refractionRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "refraction_exit_color": {
+                    "portString": "refractionExitColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "refraction_exit_use_environment": {
+                    "portString": "refractionExitUseEnvironment",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "IOR": {
+                    "portString": "IOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "dispersion_abbe": {
+                    "portString": "dispersionAbbe",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Kb": {
+                    "portString": "Kb",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Fresnel": {
+                    "portString": "Fresnel",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "Krn": {
+                    "portString": "Krn",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_Fresnel": {
+                    "portString": "specularFresnel",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "Ksn": {
+                    "portString": "Ksn",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Fresnel_use_IOR": {
+                    "portString": "FresnelUseIOR",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "Fresnel_affect_diff": {
+                    "portString": "FresnelAffectDiff",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "direct_specular": {
+                    "portString": "directSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_specular": {
+                    "portString": "indirectSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "direct_diffuse": {
+                    "portString": "directDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "indirect_diffuse": {
+                    "portString": "indirectDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable_glossy_caustics": {
+                    "portString": "enableGlossyCaustics",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "enable_reflective_caustics": {
+                    "portString": "enableReflectiveCaustics",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "enable_refractive_caustics": {
+                    "portString": "enableRefractiveCaustics",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "enable_internal_reflections": {
+                    "portString": "enableInternalReflections",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "Ksss": {
+                    "portString": "Ksss",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "Ksss_color": {
+                    "portString": "KsssColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "sss_radius": {
+                    "portString": "sssRadius",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "bounce_factor": {
+                    "portString": "bounceFactor",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "hair": {
+            "categoryString": "aiHair",
+            "port": {
+                "rootcolor": {
+                    "portString": "rootcolor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "tipcolor": {
+                    "portString": "tipcolor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "ambdiff": {
+                    "portString": "ambdiff",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec": {
+                    "portString": "spec",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec_color": {
+                    "portString": "specColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "spec_shift": {
+                    "portString": "specShift",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec_gloss": {
+                    "portString": "specGloss",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec2": {
+                    "portString": "spec2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec2_color": {
+                    "portString": "spec2Color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "spec2_shift": {
+                    "portString": "spec2Shift",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spec2_gloss": {
+                    "portString": "spec2Gloss",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission": {
+                    "portString": "transmission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transmission_color": {
+                    "portString": "transmissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transmission_spread": {
+                    "portString": "transmissionSpread",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "kd_ind": {
+                    "portString": "kdInd",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "skin": {
+            "categoryString": "aiSkin",
+            "port": {
+                "sss_weight": {
+                    "portString": "sssWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "shallow_scatter_color": {
+                    "portString": "shallowScatterColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "shallow_scatter_weight": {
+                    "portString": "shallowScatterWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "shallow_scatter_radius": {
+                    "portString": "shallowScatterRadius",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mid_scatter_color": {
+                    "portString": "midScatterColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "mid_scatter_weight": {
+                    "portString": "midScatterWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mid_scatter_radius": {
+                    "portString": "midScatterRadius",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "deep_scatter_color": {
+                    "portString": "deepScatterColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "deep_scatter_weight": {
+                    "portString": "deepScatterWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "deep_scatter_radius": {
+                    "portString": "deepScatterRadius",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_color": {
+                    "portString": "specularColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "specular_weight": {
+                    "portString": "specularWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_roughness": {
+                    "portString": "specularRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_ior": {
+                    "portString": "specularIor",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen_color": {
+                    "portString": "sheenColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "sheen_weight": {
+                    "portString": "sheenWeight",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen_roughness": {
+                    "portString": "sheenRoughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sheen_ior": {
+                    "portString": "sheenIor",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "global_sss_radius_multiplier": {
+                    "portString": "globalSssRadiusMultiplier",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "specular_in_secondary_rays": {
+                    "portString": "specularInSecondaryRays",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "fresnel_affect_sss": {
+                    "portString": "fresnelAffectSss",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "opacity_color": {
+                    "portString": "opacityColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        # switch
+        "switch_rgba": {
+            "categoryString": None,
+            "port": {
+                "index": {
+                    "portString": u'index',
+                    "datatypeString": {
+                        "integer": u'long'
+                    }
+                },
+                "input0": {
+                    "portString": u'input0',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input1": {
+                    "portString": u'input1',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input2": {
+                    "portString": u'input2',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input3": {
+                    "portString": u'input3',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input4": {
+                    "portString": u'input4',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input5": {
+                    "portString": u'input5',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input6": {
+                    "portString": u'input6',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input7": {
+                    "portString": u'input7',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input8": {
+                    "portString": u'input8',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input9": {
+                    "portString": u'input9',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input10": {
+                    "portString": u'input10',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input11": {
+                    "portString": u'input11',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input12": {
+                    "portString": u'input12',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input13": {
+                    "portString": u'input13',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input14": {
+                    "portString": u'input14',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input15": {
+                    "portString": u'input15',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input16": {
+                    "portString": u'input16',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input17": {
+                    "portString": u'input17',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input18": {
+                    "portString": u'input18',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                },
+                "input19": {
+                    "portString": u'input19',
+                    "datatypeString": {
+                        "color4": u'floatArray'
+                    }
+                }
+            }
+        },
+        "switch_shader": {
+            "categoryString": u'aiSwitch',
+            "port": {
+                "index": {
+                    "portString": u'index',
+                    "datatypeString": {
+                        "integer": u'long'
+                    }
+                },
+                "input0": {
+                    "portString": u'input0',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input1": {
+                    "portString": u'input1',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input2": {
+                    "portString": u'input2',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input3": {
+                    "portString": u'input3',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input4": {
+                    "portString": u'input4',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input5": {
+                    "portString": u'input5',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input6": {
+                    "portString": u'input6',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input7": {
+                    "portString": u'input7',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input8": {
+                    "portString": u'input8',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input9": {
+                    "portString": u'input9',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input10": {
+                    "portString": u'input10',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input11": {
+                    "portString": u'input11',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input12": {
+                    "portString": u'input12',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input13": {
+                    "portString": u'input13',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input14": {
+                    "portString": u'input14',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input15": {
+                    "portString": u'input15',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input16": {
+                    "portString": u'input16',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input17": {
+                    "portString": u'input17',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input18": {
+                    "portString": u'input18',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                },
+                "input19": {
+                    "portString": u'input19',
+                    "datatypeString": {
+                        "closure": u'floatArray'
+                    }
+                }
+            }
+        },
+        # math
+        "abs": {
+            "categoryString": "aiAbs",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "add": {
+            "categoryString": "aiAdd",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "atan": {
+            "categoryString": "aiAtan",
+            "port": {
+                "y": {
+                    "portString": "y",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "x": {
+                    "portString": "x",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "units": {
+                    "portString": "units",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "compare": {
+            "categoryString": "aiCompare",
+            "port": {
+                "test": {
+                    "portString": "test",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "complement": {
+            "categoryString": "aiComplement",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "cross": {
+            "categoryString": "aiCross",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "divide": {
+            "categoryString": "aiDivide",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "dot": {
+            "categoryString": "aiDot",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "exp": {
+            "categoryString": "aiExp",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "fraction": {
+            "categoryString": "aiFraction",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "is_finite": {
+            "categoryString": "aiIsFinite",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "length": {
+            "categoryString": "aiLength",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "log": {
+            "categoryString": "aiLog",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "modulo": {
+            "categoryString": "aiModulo",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "divisor": {
+                    "portString": "divisor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "multiply": {
+            "categoryString": "aiMultiply",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "negate": {
+            "categoryString": "aiNegate",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "normalize": {
+            "categoryString": "aiNormalize",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "pow": {
+            "categoryString": "aiPow",
+            "port": {
+                "base": {
+                    "portString": "base",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "exponent": {
+                    "portString": "exponent",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "reciprocal": {
+            "categoryString": "aiReciprocal",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "sign": {
+            "categoryString": "aiSign",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "sqrt": {
+            "categoryString": "aiSqrt",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "subtract": {
+            "categoryString": "aiSubtract",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "trigo": {
+            "categoryString": "aiTrigo",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "function": {
+                    "portString": "function",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "units": {
+                    "portString": "units",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "frequency": {
+                    "portString": "frequency",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "phase": {
+                    "portString": "phase",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        # matrix
+        "matrix_interpolate": {
+            "categoryString": "aiMatrixInterpolate",
+            "port": {
+                "type": {
+                    "portString": "type",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "value": {
+                    "portString": "value",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "matrix_multiply_vector": {
+            "categoryString": "aiMatrixMultiplyVector",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "type": {
+                    "portString": "type",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "matrix": {
+                    "portString": "matrix",
+                    "datatypeString": {
+                        "matrix44": "fltMatrix"
+                    }
+                }
+            }
+        },
+        "matrix_transform": {
+            "categoryString": "aiMatrixTransform",
+            "port": {
+                "transform_order": {
+                    "portString": "transformOrder",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "rotation_type": {
+                    "portString": "rotationType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "units": {
+                    "portString": "units",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "rotation_order": {
+                    "portString": "rotationOrder",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "rotation": {
+                    "portString": "rotation",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "axis": {
+                    "portString": "axis",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "angle": {
+                    "portString": "angle",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "translate": {
+                    "portString": "translate",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "pivot": {
+                    "portString": "pivot",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        # texture
+        "blackbody": {
+            "categoryString": "aiBlackbody",
+            "port": {
+                "temperature": {
+                    "portString": "temperature",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normalize": {
+                    "portString": "normalize",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "intensity": {
+                    "portString": "intensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "camera_projection": {
+            "categoryString": "aiCameraProjection",
+            "port": {
+                "projection_color": {
+                    "portString": "projectionColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "offscreen_color": {
+                    "portString": "offscreenColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mask": {
+                    "portString": "mask",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "camera": {
+                    "portString": "camera",
+                    "datatypeString": {
+                        "string": "message"
+                    }
+                },
+                "aspect_ratio": {
+                    "portString": "aspectRatio",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "front_facing": {
+                    "portString": "frontFacing",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "back_facing": {
+                    "portString": "backFacing",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "use_shading_normal": {
+                    "portString": "useShadingNormal",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "P": {
+                    "portString": "P",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "checkerboard": {
+            "categoryString": u'checker',
+            "port": {
+                "color1": {
+                    "portString": u'color1',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                },
+                "color2": {
+                    "portString": u'color2',
+                    "datatypeString": {
+                        "color3": u'floatArray'
+                    }
+                },
+                "u_frequency": {
+                    "portString": [
+                        u'place2dTexture',
+                        u'repeatUV.repeatU'
+                    ],
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "v_frequency": {
+                    "portString": [
+                        u'place2dTexture',
+                        u'repeatUV.repeatV'
+                    ],
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "u_offset": {
+                    "portString": [
+                        u'place2dTexture',
+                        u'offset.offsetU'
+                    ],
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "v_offset": {
+                    "portString": [
+                        u'place2dTexture',
+                        u'offset.offsetV'
+                    ],
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "contrast": {
+                    "portString": u'contrast',
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "filter_strength": {
+                    "portString": u'filter',
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "filter_offset": {
+                    "portString": u'filterOffset',
+                    "datatypeString": {
+                        "float": u'float'
+                    }
+                },
+                "uvset": {
+                    "portString": None,
+                    "datatypeString": {
+                        "string": None
+                    }
+                }
+            }
+        },
+        "flakes": {
+            "categoryString": "aiFlakes",
+            "port": {
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "density": {
+                    "portString": "density",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "step": {
+                    "portString": "step",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "depth": {
+                    "portString": "depth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "IOR": {
+                    "portString": "IOR",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal_randomize": {
+                    "portString": "normalRandomize",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "output_space": {
+                    "portString": "outputSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "image": {
+            "categoryString": "aiImage",
+            "port": {
+                "filename": {
+                    "portString": "filename",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "color_space": {
+                    "portString": "colorSpace",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "filter": {
+                    "portString": "filter",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "mipmap_bias": {
+                    "portString": "mipmapBias",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "single_channel": {
+                    "portString": "singleChannel",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "start_channel": {
+                    "portString": "startChannel",
+                    "datatypeString": {
+                        "integer": "byte"
+                    }
+                },
+                "swrap": {
+                    "portString": "swrap",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "twrap": {
+                    "portString": "twrap",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "sscale": {
+                    "portString": "sscale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "tscale": {
+                    "portString": "tscale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sflip": {
+                    "portString": "sflip",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "tflip": {
+                    "portString": "tflip",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "soffset": {
+                    "portString": "soffset",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "toffset": {
+                    "portString": "toffset",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "swap_st": {
+                    "portString": "swapSt",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "uvcoords": {
+                    "portString": "uvcoords",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "uvset": {
+                    "portString": "uvset",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "multiply": {
+                    "portString": "multiply",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "offset": {
+                    "portString": "offset",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "ignore_missing_textures": {
+                    "portString": "ignoreMissingTextures",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "missing_texture_color": {
+                    "portString": "missingTextureColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                }
+            }
+        },
+        "normal_map": {
+            "categoryString": "aiNormalMap",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "tangent": {
+                    "portString": "tangent",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "order": {
+                    "portString": "order",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "invert_x": {
+                    "portString": "invertX",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert_y": {
+                    "portString": "invertY",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert_z": {
+                    "portString": "invertZ",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "color_to_signed": {
+                    "portString": "colorToSigned",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "tangent_space": {
+                    "portString": "tangentSpace",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "strength": {
+                    "portString": "strength",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "ramp_float": {
+            "categoryString": "aiRampFloat",
+            "port": {
+                "type": {
+                    "portString": "type",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "position": {
+                    "portString": u'ramp.ramp_Position',
+                    "datatypeString": {
+                        "floatarray": u'floatArray'
+                    }
+                },
+                "value": {
+                    "portString": u'ramp.ramp_FloatValue',
+                    "datatypeString": {
+                        "floatarray": u'floatArray'
+                    }
+                },
+                "interpolation": {
+                    "portString": u'ramp.ramp_Interp',
+                    "datatypeString": {
+                        "integerarray": u'Int32Array'
+                    }
+                },
+                "uvset": {
+                    "portString": "uvset",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "use_implicit_uvs": {
+                    "portString": "useImplicitUvs",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "wrap_uvs": {
+                    "portString": "wrapUvs",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "ramp_rgb": {
+            "categoryString": "aiRampRgb",
+            "port": {
+                "type": {
+                    "portString": "type",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "position": {
+                    "portString": u'ramp.ramp_Position',
+                    "datatypeString": {
+                        "floatarray": u'floatArray'
+                    }
+                },
+                "color": {
+                    "portString": u'ramp.ramp_Color',
+                    "datatypeString": {
+                        "floatarray": u'floatArray'
+                    }
+                },
+                "interpolation": {
+                    "portString": u'ramp.ramp_Interp',
+                    "datatypeString": {
+                        "integerarray": u'Int32Array'
+                    }
+                },
+                "uvset": {
+                    "portString": "uvset",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "use_implicit_uvs": {
+                    "portString": "useImplicitUvs",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "wrap_uvs": {
+                    "portString": "wrapUvs",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "triplanar": {
+            "categoryString": "aiTriplanar",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "rotate": {
+                    "portString": "rotate",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "offset": {
+                    "portString": "offset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "blend": {
+                    "portString": "blend",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "cell": {
+                    "portString": "cell",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "cell_rotate": {
+                    "portString": "cellRotate",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "cell_blend": {
+                    "portString": "cellBlend",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "uv_projection": {
+            "categoryString": "aiUvProjection",
+            "port": {
+                "projection_color": {
+                    "portString": "projectionColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "projection_type": {
+                    "portString": "projectionType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "P": {
+                    "portString": "P",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "u_angle": {
+                    "portString": "uAngle",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "v_angle": {
+                    "portString": "vAngle",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "clamp": {
+                    "portString": "clamp",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "default_color": {
+                    "portString": "defaultColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "matrix": {
+                    "portString": u'placementMatrix',
+                    "datatypeString": {
+                        "matrix44": u'fltMatrix'
+                    }
+                }
+            }
+        },
+        "uv_transform": {
+            "categoryString": "aiUvTransform",
+            "port": {
+                "passthrough": {
+                    "portString": "passthrough",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "unit": {
+                    "portString": "unit",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "uvset": {
+                    "portString": "uvset",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "coverage": {
+                    "portString": "coverage",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "scale_frame": {
+                    "portString": "scaleFrame",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "translate_frame": {
+                    "portString": "translateFrame",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "rotate_frame": {
+                    "portString": "rotateFrame",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "pivot_frame": {
+                    "portString": "pivotFrame",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "wrap_frame_u": {
+                    "portString": "wrapFrameU",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "wrap_frame_v": {
+                    "portString": "wrapFrameV",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "wrap_frame_color": {
+                    "portString": "wrapFrameColor",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "repeat": {
+                    "portString": "repeat",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "offset": {
+                    "portString": "offset",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "rotate": {
+                    "portString": "rotate",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "pivot": {
+                    "portString": "pivot",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "noise": {
+                    "portString": "noise",
+                    "datatypeString": {
+                        "vector2": "float2"
+                    }
+                },
+                "mirror_u": {
+                    "portString": "mirrorU",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "mirror_v": {
+                    "portString": "mirrorV",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "flip_u": {
+                    "portString": "flipU",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "flip_v": {
+                    "portString": "flipV",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "swap_uv": {
+                    "portString": "swapUv",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "stagger": {
+                    "portString": "stagger",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "vector_map": {
+            "categoryString": "aiVectorMap",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "tangent": {
+                    "portString": "tangent",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "order": {
+                    "portString": "order",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "invert_x": {
+                    "portString": "invertX",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert_y": {
+                    "portString": "invertY",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert_z": {
+                    "portString": "invertZ",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "color_to_signed": {
+                    "portString": "colorToSigned",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "tangent_space": {
+                    "portString": "tangentSpace",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        # texture.environment
+        "sky": {
+            "categoryString": "aiSky",
+            "port": {
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "intensity": {
+                    "portString": "intensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "visibility": {
+                    "portString": "visibility",
+                    "datatypeString": {
+                        "integer": "bool"
+                    }
+                },
+                "opaque_alpha": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "format": {
+                    "portString": "format",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "X_angle": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "Y_angle": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "Z_angle": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                },
+                "X": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                },
+                "Y": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                },
+                "Z": {
+                    "portString": None,
+                    "datatypeString": {
+                        "vector3": None
+                    }
+                }
+            }
+        },
+        "physical_sky": {
+            "categoryString": "aiPhysicalSky",
+            "port": {
+                "turbidity": {
+                    "portString": "turbidity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "ground_albedo": {
+                    "portString": "groundAlbedo",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "use_degrees": {
+                    "portString": "useDegrees",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "elevation": {
+                    "portString": "elevation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "azimuth": {
+                    "portString": "azimuth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sun_direction": {
+                    "portString": "sunDirection",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "enable_sun": {
+                    "portString": "enableSun",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "sun_size": {
+                    "portString": "sunSize",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sun_tint": {
+                    "portString": "sunTint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "sky_tint": {
+                    "portString": "skyTint",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "intensity": {
+                    "portString": "intensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "X": {
+                    "portString": "X",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "Y": {
+                    "portString": "Y",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "Z": {
+                    "portString": "Z",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        # state
+        "state_int": {
+            "categoryString": "aiStateInt",
+            "port": {
+                "variable": {
+                    "portString": "variable",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "state_float": {
+            "categoryString": "aiStateFloat",
+            "port": {
+                "variable": {
+                    "portString": "variable",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "state_vector": {
+            "categoryString": "aiStateVector",
+            "port": {
+                "variable": {
+                    "portString": "variable",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        # atmosphere
+        "atmosphere_volume": {
+            "categoryString": "aiAtmosphereVolume",
+            "port": {
+                "density": {
+                    "portString": "density",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "samples": {
+                    "portString": "samples",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "eccentricity": {
+                    "portString": "eccentricity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "attenuation": {
+                    "portString": "attenuation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "affect_camera": {
+                    "portString": "affectCamera",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "affect_diffuse": {
+                    "portString": "affectDiffuse",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "affect_specular": {
+                    "portString": "affectSpecular",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "rgb_density": {
+                    "portString": "rgbDensity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "rgb_attenuation": {
+                    "portString": "rgbAttenuation",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "fog": {
+            "categoryString": "aiFog",
+            "port": {
+                "distance": {
+                    "portString": "distance",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "height": {
+                    "portString": "height",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "ground_point": {
+                    "portString": "groundPoint",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "ground_normal": {
+                    "portString": "groundNormal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        # color
+        "color_convert": {
+            "categoryString": "aiColorConvert",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "from": {
+                    "portString": "from",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "to": {
+                    "portString": "to",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "color_correct": {
+            "categoryString": "aiColorCorrect",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "alpha_is_luminance": {
+                    "portString": "alphaIsLuminance",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "alpha_multiply": {
+                    "portString": "alphaMultiply",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "alpha_add": {
+                    "portString": "alphaAdd",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "invert": {
+                    "portString": "invert",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert_alpha": {
+                    "portString": "invertAlpha",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "gamma": {
+                    "portString": "gamma",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "hue_shift": {
+                    "portString": "hueShift",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "saturation": {
+                    "portString": "saturation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast": {
+                    "portString": "contrast",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast_pivot": {
+                    "portString": "contrastPivot",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "exposure": {
+                    "portString": "exposure",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "multiply": {
+                    "portString": "multiply",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "add": {
+                    "portString": "add",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "mask": {
+                    "portString": "mask",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "color_jitter": {
+            "categoryString": "aiColorJitter",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "data_input": {
+                    "portString": "dataInput",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "data_gain_min": {
+                    "portString": "dataGainMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_gain_max": {
+                    "portString": "dataGainMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_hue_min": {
+                    "portString": "dataHueMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_hue_max": {
+                    "portString": "dataHueMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_saturation_min": {
+                    "portString": "dataSaturationMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_saturation_max": {
+                    "portString": "dataSaturationMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "data_seed": {
+                    "portString": "dataSeed",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "proc_gain_min": {
+                    "portString": "procGainMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_gain_max": {
+                    "portString": "procGainMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_hue_min": {
+                    "portString": "procHueMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_hue_max": {
+                    "portString": "procHueMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_saturation_min": {
+                    "portString": "procSaturationMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_saturation_max": {
+                    "portString": "procSaturationMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "proc_seed": {
+                    "portString": "procSeed",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "obj_gain_min": {
+                    "portString": "objGainMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_gain_max": {
+                    "portString": "objGainMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_hue_min": {
+                    "portString": "objHueMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_hue_max": {
+                    "portString": "objHueMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_saturation_min": {
+                    "portString": "objSaturationMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_saturation_max": {
+                    "portString": "objSaturationMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "obj_seed": {
+                    "portString": "objSeed",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "face_gain_min": {
+                    "portString": "faceGainMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_gain_max": {
+                    "portString": "faceGainMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_hue_min": {
+                    "portString": "faceHueMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_hue_max": {
+                    "portString": "faceHueMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_saturation_min": {
+                    "portString": "faceSaturationMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_saturation_max": {
+                    "portString": "faceSaturationMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "face_seed": {
+                    "portString": "faceSeed",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "face_mode": {
+                    "portString": "faceMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        # layer
+        "layer_float": {
+            "categoryString": "aiLayerFloat",
+            "port": {
+                "enable1": {
+                    "portString": "enable1",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name1": {
+                    "portString": "name1",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix1": {
+                    "portString": "mix1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable2": {
+                    "portString": "enable2",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name2": {
+                    "portString": "name2",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix2": {
+                    "portString": "mix2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable3": {
+                    "portString": "enable3",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name3": {
+                    "portString": "name3",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input3": {
+                    "portString": "input3",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix3": {
+                    "portString": "mix3",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable4": {
+                    "portString": "enable4",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name4": {
+                    "portString": "name4",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input4": {
+                    "portString": "input4",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix4": {
+                    "portString": "mix4",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable5": {
+                    "portString": "enable5",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name5": {
+                    "portString": "name5",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input5": {
+                    "portString": "input5",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix5": {
+                    "portString": "mix5",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable6": {
+                    "portString": "enable6",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name6": {
+                    "portString": "name6",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input6": {
+                    "portString": "input6",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix6": {
+                    "portString": "mix6",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable7": {
+                    "portString": "enable7",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name7": {
+                    "portString": "name7",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input7": {
+                    "portString": "input7",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix7": {
+                    "portString": "mix7",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable8": {
+                    "portString": "enable8",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name8": {
+                    "portString": "name8",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input8": {
+                    "portString": "input8",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "mix8": {
+                    "portString": "mix8",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "layer_rgba": {
+            "categoryString": "aiLayerRgba",
+            "port": {
+                "enable1": {
+                    "portString": "enable1",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name1": {
+                    "portString": "name1",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix1": {
+                    "portString": "mix1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation1": {
+                    "portString": "operation1",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation1": {
+                    "portString": "alphaOperation1",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable2": {
+                    "portString": "enable2",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name2": {
+                    "portString": "name2",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix2": {
+                    "portString": "mix2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation2": {
+                    "portString": "operation2",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation2": {
+                    "portString": "alphaOperation2",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable3": {
+                    "portString": "enable3",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name3": {
+                    "portString": "name3",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input3": {
+                    "portString": "input3",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix3": {
+                    "portString": "mix3",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation3": {
+                    "portString": "operation3",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation3": {
+                    "portString": "alphaOperation3",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable4": {
+                    "portString": "enable4",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name4": {
+                    "portString": "name4",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input4": {
+                    "portString": "input4",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix4": {
+                    "portString": "mix4",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation4": {
+                    "portString": "operation4",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation4": {
+                    "portString": "alphaOperation4",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable5": {
+                    "portString": "enable5",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name5": {
+                    "portString": "name5",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input5": {
+                    "portString": "input5",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix5": {
+                    "portString": "mix5",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation5": {
+                    "portString": "operation5",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation5": {
+                    "portString": "alphaOperation5",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable6": {
+                    "portString": "enable6",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name6": {
+                    "portString": "name6",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input6": {
+                    "portString": "input6",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix6": {
+                    "portString": "mix6",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation6": {
+                    "portString": "operation6",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation6": {
+                    "portString": "alphaOperation6",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable7": {
+                    "portString": "enable7",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name7": {
+                    "portString": "name7",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input7": {
+                    "portString": "input7",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix7": {
+                    "portString": "mix7",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation7": {
+                    "portString": "operation7",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation7": {
+                    "portString": "alphaOperation7",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "enable8": {
+                    "portString": "enable8",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name8": {
+                    "portString": "name8",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input8": {
+                    "portString": "input8",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "mix8": {
+                    "portString": "mix8",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "operation8": {
+                    "portString": "operation8",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation8": {
+                    "portString": "alphaOperation8",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "clamp": {
+                    "portString": "clamp",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "layer_shader": {
+            "categoryString": "aiLayerShader",
+            "port": {
+                "enable1": {
+                    "portString": "enable1",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name1": {
+                    "portString": "name1",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix1": {
+                    "portString": "mix1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable2": {
+                    "portString": "enable2",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name2": {
+                    "portString": "name2",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix2": {
+                    "portString": "mix2",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable3": {
+                    "portString": "enable3",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name3": {
+                    "portString": "name3",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input3": {
+                    "portString": "input3",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix3": {
+                    "portString": "mix3",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable4": {
+                    "portString": "enable4",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name4": {
+                    "portString": "name4",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input4": {
+                    "portString": "input4",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix4": {
+                    "portString": "mix4",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable5": {
+                    "portString": "enable5",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name5": {
+                    "portString": "name5",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input5": {
+                    "portString": "input5",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix5": {
+                    "portString": "mix5",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable6": {
+                    "portString": "enable6",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name6": {
+                    "portString": "name6",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input6": {
+                    "portString": "input6",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix6": {
+                    "portString": "mix6",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable7": {
+                    "portString": "enable7",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name7": {
+                    "portString": "name7",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input7": {
+                    "portString": "input7",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix7": {
+                    "portString": "mix7",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "enable8": {
+                    "portString": "enable8",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "name8": {
+                    "portString": "name8",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "input8": {
+                    "portString": "input8",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "mix8": {
+                    "portString": "mix8",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        # mix
+        "mix_rgba": {
+            "categoryString": None,
+            "port": {
+                "input1": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "input2": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "mix": {
+                    "portString": None,
+                    "datatypeString": {
+                        "float": None
+                    }
+                }
+            }
+        },
+        "mix_shader": {
+            "categoryString": "aiMixShader",
+            "port": {
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "mix": {
+                    "portString": "mix",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "shader1": {
+                    "portString": "shader1",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "shader2": {
+                    "portString": "shader2",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                }
+            }
+        },
+        # volume
+        "standard_volume": {
+            "categoryString": "aiStandardVolume",
+            "port": {
+                "density": {
+                    "portString": "density",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "density_channel": {
+                    "portString": "densityChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "scatter": {
+                    "portString": "scatter",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "scatter_color": {
+                    "portString": "scatterColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "scatter_color_channel": {
+                    "portString": "scatterColorChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "scatter_anisotropy": {
+                    "portString": "scatterAnisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transparent": {
+                    "portString": "transparent",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "transparent_depth": {
+                    "portString": "transparentDepth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "transparent_channel": {
+                    "portString": "transparentChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "emission_mode": {
+                    "portString": "emissionMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "emission_channel": {
+                    "portString": "emissionChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "temperature": {
+                    "portString": "temperature",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "temperature_channel": {
+                    "portString": "temperatureChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "blackbody_kelvin": {
+                    "portString": "blackbodyKelvin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "blackbody_intensity": {
+                    "portString": "blackbodyIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "displacement": {
+                    "portString": "displacement",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "interpolation": {
+                    "portString": "interpolation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "volume_sample_float": {
+            "categoryString": "aiVolumeSampleFloat",
+            "port": {
+                "channel": {
+                    "portString": "channel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "position_offset": {
+                    "portString": "positionOffset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "interpolation": {
+                    "portString": "interpolation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "volume_type": {
+                    "portString": "volumeType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "sdf_offset": {
+                    "portString": "sdfOffset",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sdf_blend": {
+                    "portString": "sdfBlend",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "sdf_invert": {
+                    "portString": "sdfInvert",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "input_min": {
+                    "portString": "inputMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "input_max": {
+                    "portString": "inputMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast": {
+                    "portString": "contrast",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast_pivot": {
+                    "portString": "contrastPivot",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bias": {
+                    "portString": "bias",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "gain": {
+                    "portString": "gain",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "output_min": {
+                    "portString": "outputMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "output_max": {
+                    "portString": "outputMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "clamp_min": {
+                    "portString": "clampMin",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "clamp_max": {
+                    "portString": "clampMax",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "volume_sample_rgb": {
+            "categoryString": "aiVolumeSampleRgb",
+            "port": {
+                "channel": {
+                    "portString": "channel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "position_offset": {
+                    "portString": "positionOffset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "interpolation": {
+                    "portString": "interpolation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "gamma": {
+                    "portString": "gamma",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "hue_shift": {
+                    "portString": "hueShift",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "saturation": {
+                    "portString": "saturation",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast": {
+                    "portString": "contrast",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast_pivot": {
+                    "portString": "contrastPivot",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "exposure": {
+                    "portString": "exposure",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "multiply": {
+                    "portString": "multiply",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "add": {
+                    "portString": "add",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        # utility
+        "clamp": {
+            "categoryString": "aiClamp",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "min": {
+                    "portString": "min",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "max": {
+                    "portString": "max",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "min_color": {
+                    "portString": "minColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "max_color": {
+                    "portString": "maxColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "cache": {
+            "categoryString": "aiCache",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "curvature": {
+            "categoryString": "aiCurvature",
+            "port": {
+                "output": {
+                    "portString": "output",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "samples": {
+                    "portString": "samples",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "radius": {
+                    "portString": "radius",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "spread": {
+                    "portString": "spread",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "threshold": {
+                    "portString": "threshold",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bias": {
+                    "portString": "bias",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "multiply": {
+                    "portString": "multiply",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "trace_set": {
+                    "portString": "traceSet",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "inclusive": {
+                    "portString": "inclusive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "self_only": {
+                    "portString": "selfOnly",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "facing_ratio": {
+            "categoryString": "aiFacingRatio",
+            "port": {
+                "bias": {
+                    "portString": "bias",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "gain": {
+                    "portString": "gain",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "linear": {
+                    "portString": "linear",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "invert": {
+                    "portString": "invert",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "flat": {
+            "categoryString": "aiFlat",
+            "port": {
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "matte": {
+            "categoryString": "aiMatte",
+            "port": {
+                "passthrough": {
+                    "portString": "passthrough",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "opacity": {
+                    "portString": "opacity",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "max": {
+            "categoryString": "aiMax",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "min": {
+            "categoryString": "aiMin",
+            "port": {
+                "input1": {
+                    "portString": "input1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input2": {
+                    "portString": "input2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                }
+            }
+        },
+        "motion_vector": {
+            "categoryString": "aiMotionVector",
+            "port": {
+                "raw": {
+                    "portString": "raw",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "time0": {
+                    "portString": "time0",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "time1": {
+                    "portString": "time1",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "max_displace": {
+                    "portString": "maxDisplace",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "space_transform": {
+            "categoryString": "aiSpaceTransform",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "type": {
+                    "portString": "type",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "from": {
+                    "portString": "from",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "to": {
+                    "portString": "to",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "tangent": {
+                    "portString": "tangent",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "normalize": {
+                    "portString": "normalize",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "passthrough": {
+            "categoryString": "aiPassthrough",
+            "port": {
+                "passthrough": {
+                    "portString": "passthrough",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval1": {
+                    "portString": "eval1",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval2": {
+                    "portString": "eval2",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval3": {
+                    "portString": "eval3",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval4": {
+                    "portString": "eval4",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval5": {
+                    "portString": "eval5",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval6": {
+                    "portString": "eval6",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval7": {
+                    "portString": "eval7",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval8": {
+                    "portString": "eval8",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval9": {
+                    "portString": "eval9",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval10": {
+                    "portString": "eval10",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval11": {
+                    "portString": "eval11",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval12": {
+                    "portString": "eval12",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval13": {
+                    "portString": "eval13",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval14": {
+                    "portString": "eval14",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval15": {
+                    "portString": "eval15",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval16": {
+                    "portString": "eval16",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval17": {
+                    "portString": "eval17",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval18": {
+                    "portString": "eval18",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval19": {
+                    "portString": "eval19",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "eval20": {
+                    "portString": "eval20",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "random": {
+            "categoryString": "aiRandom",
+            "port": {
+                "input_type": {
+                    "portString": "inputType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "input_int": {
+                    "portString": "inputInt",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "input_float": {
+                    "portString": "inputFloat",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "input_color": {
+                    "portString": "inputColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "seed": {
+                    "portString": "seed",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "grayscale": {
+                    "portString": "grayscale",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "range": {
+            "categoryString": "aiRange",
+            "port": {
+                "input": {
+                    "portString": "input",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "input_min": {
+                    "portString": "inputMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "input_max": {
+                    "portString": "inputMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "output_min": {
+                    "portString": "outputMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "output_max": {
+                    "portString": "outputMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "smoothstep": {
+                    "portString": "smoothstep",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "contrast": {
+                    "portString": "contrast",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "contrast_pivot": {
+                    "portString": "contrastPivot",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "bias": {
+                    "portString": "bias",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "gain": {
+                    "portString": "gain",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "trace_set": {
+            "categoryString": "aiTraceSet",
+            "port": {
+                "passthrough": {
+                    "portString": "passthrough",
+                    "datatypeString": {
+                        "closure": "float3"
+                    }
+                },
+                "trace_set": {
+                    "portString": "traceSet",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "inclusive": {
+                    "portString": "inclusive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "cell_noise": {
+            "categoryString": "aiCellNoise",
+            "port": {
+                "pattern": {
+                    "portString": "pattern",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "additive": {
+                    "portString": "additive",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "octaves": {
+                    "portString": "octaves",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "randomness": {
+                    "portString": "randomness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "lacunarity": {
+                    "portString": "lacunarity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "amplitude": {
+                    "portString": "amplitude",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "offset": {
+                    "portString": "offset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "P": {
+                    "portString": "P",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "time": {
+                    "portString": "time",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "palette": {
+                    "portString": "palette",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "density": {
+                    "portString": "density",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "noise": {
+            "categoryString": "aiNoise",
+            "port": {
+                "octaves": {
+                    "portString": "octaves",
+                    "datatypeString": {
+                        "integer": "long"
+                    }
+                },
+                "distortion": {
+                    "portString": "distortion",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "lacunarity": {
+                    "portString": "lacunarity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "amplitude": {
+                    "portString": "amplitude",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "scale": {
+                    "portString": "scale",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "offset": {
+                    "portString": "offset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "coord_space": {
+                    "portString": "coordSpace",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "pref_name": {
+                    "portString": "prefName",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "P": {
+                    "portString": "P",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "time": {
+                    "portString": "time",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "color1": {
+                    "portString": "color1",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "color2": {
+                    "portString": "color2",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "mode": {
+                    "portString": "mode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        "maya_layered_shader": {
+            "categoryString": u'layeredShader',
+            "port": {
+                "compositingFlag": {
+                    "portString": u'compositingFlag',
+                    "datatypeString": {
+                        "string": u'enum'
+                    }
+                },
+                "numInputs": {
+                    "portString": None,
+                    "datatypeString": {
+                        "integer": None
+                    }
+                },
+                "color0": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color1": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color2": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color3": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color4": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color5": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color6": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color7": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color8": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color9": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color10": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color11": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color12": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color13": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color14": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "color15": {
+                    "portString": None,
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "transparency0": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency1": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency2": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency3": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency4": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency5": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency6": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency7": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency8": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency9": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency10": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency11": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency12": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency13": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency14": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "transparency15": {
+                    "portString": None,
+                    "datatypeString": {
+                        "color3": None
+                    }
+                },
+                "useTransparency0": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency1": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency2": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency3": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency4": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency5": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency6": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency7": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency8": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency9": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency10": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency11": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency12": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency13": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency14": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                },
+                "useTransparency15": {
+                    "portString": None,
+                    "datatypeString": {
+                        "boolean": None
+                    }
+                }
+            }
+        },
+        "shuffle": {
+            "categoryString": "aiShuffle",
+            "port": {
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "alpha": {
+                    "portString": "alpha",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "channel_r": {
+                    "portString": "channelR",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "channel_g": {
+                    "portString": "channelG",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "channel_b": {
+                    "portString": "channelB",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "channel_a": {
+                    "portString": "channelA",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "negate_r": {
+                    "portString": "negateR",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "negate_g": {
+                    "portString": "negateG",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "negate_b": {
+                    "portString": "negateB",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "negate_a": {
+                    "portString": "negateA",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                }
+            }
+        },
+        "volume_collector": {
+            "categoryString": "aiVolumeCollector",
+            "port": {
+                "scattering_source": {
+                    "portString": "scatteringSource",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "scattering": {
+                    "portString": "scattering",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "scattering_channel": {
+                    "portString": "scatteringChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "scattering_color": {
+                    "portString": "scatteringColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "scattering_intensity": {
+                    "portString": "scatteringIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "anisotropy": {
+                    "portString": "anisotropy",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "attenuation_source": {
+                    "portString": "attenuationSource",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "attenuation": {
+                    "portString": "attenuation",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "attenuation_channel": {
+                    "portString": "attenuationChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "attenuation_color": {
+                    "portString": "attenuationColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "attenuation_intensity": {
+                    "portString": "attenuationIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "attenuation_mode": {
+                    "portString": "attenuationMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "emission_source": {
+                    "portString": "emissionSource",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "emission": {
+                    "portString": "emission",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "emission_channel": {
+                    "portString": "emissionChannel",
+                    "datatypeString": {
+                        "string": "typed"
+                    }
+                },
+                "emission_color": {
+                    "portString": "emissionColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "emission_intensity": {
+                    "portString": "emissionIntensity",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "position_offset": {
+                    "portString": "positionOffset",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                },
+                "interpolation": {
+                    "portString": "interpolation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        #
+        "utility": {
+            "categoryString": "aiUtility",
+            "port": {
+                "color_mode": {
+                    "portString": "colorMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "shade_mode": {
+                    "portString": "shadeMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "overlay_mode": {
+                    "portString": "overlayMode",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "color": {
+                    "portString": "color",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "ao_distance": {
+                    "portString": "aoDistance",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "roughness": {
+                    "portString": "roughness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "normal": {
+                    "portString": "normal",
+                    "datatypeString": {
+                        "vector3": "float3"
+                    }
+                }
+            }
+        },
+        "wireframe": {
+            "categoryString": "aiWireframe",
+            "port": {
+                "line_width": {
+                    "portString": "lineWidth",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "fill_color": {
+                    "portString": "fillColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "line_color": {
+                    "portString": "lineColor",
+                    "datatypeString": {
+                        "color3": "float3"
+                    }
+                },
+                "raster_space": {
+                    "portString": "rasterSpace",
+                    "datatypeString": {
+                        "boolean": "bool"
+                    }
+                },
+                "edge_type": {
+                    "portString": "edgeType",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        },
+        # ray switch
+        "ray_switch_rgba": {
+            "categoryString": u'aiRaySwitch',
+            "port": {
+                "camera": {
+                    "portString": u'camera',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "shadow": {
+                    "portString": u'shadow',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "diffuse_reflection": {
+                    "portString": u'diffuseReflection',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "diffuse_transmission": {
+                    "portString": u'diffuseTransmission',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "specular_reflection": {
+                    "portString": u'specularReflection',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "specular_transmission": {
+                    "portString": u'specularTransmission',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                },
+                "volume": {
+                    "portString": 'volume',
+                    "datatypeString": {
+                        "color4": None
+                    }
+                }
+            }
+        },
+        "ray_switch_shader": {
+            "categoryString": u'aiRaySwitch',
+            "port": {
+                "camera": {
+                    "portString": 'camera',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "shadow": {
+                    "portString": u'shadow',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "diffuse_reflection": {
+                    "portString": u'diffuseReflection',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "diffuse_transmission": {
+                    "portString": u'diffuseTransmission',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "specular_reflection": {
+                    "portString": u'specularReflection',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "specular_transmission": {
+                    "portString": u'specularTransmission',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                },
+                "volume": {
+                    "portString": u'volume',
+                    "datatypeString": {
+                        "closure": None
+                    }
+                }
+            }
+        },
+        #
+        "thin_film": {
+            "categoryString": "aiThinFilm",
+            "port": {
+                "thickness_min": {
+                    "portString": "thicknessMin",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "thickness_max": {
+                    "portString": "thicknessMax",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "thickness": {
+                    "portString": "thickness",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "ior_medium": {
+                    "portString": "iorMedium",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "ior_film": {
+                    "portString": "iorFilm",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                },
+                "ior_internal": {
+                    "portString": "iorInternal",
+                    "datatypeString": {
+                        "float": "float"
+                    }
+                }
+            }
+        },
+        "composite": {
+            "categoryString": "aiComposite",
+            "port": {
+                "A": {
+                    "portString": "A",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "B": {
+                    "portString": "B",
+                    "datatypeString": {
+                        "color4": "float3"
+                    }
+                },
+                "operation": {
+                    "portString": "operation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                },
+                "alpha_operation": {
+                    "portString": "alphaOperation",
+                    "datatypeString": {
+                        "string": "enum"
+                    }
+                }
+            }
+        }
     }
-
-    DEF_mtl_maya_porttype_transfer_dict = {
-        u'enum': 'string',
-        u'typed': 'string',
-        u'float': 'float',
-        u'long': 'integer',
-        u'bool': 'boolean',
-        u'fltMatrix': 'matrix44',
-        u'byte': 'integer',
-        u'message': 'string',
-        u'float2': 'vector2',
-        u'float3': 'vector3'
-    }
-

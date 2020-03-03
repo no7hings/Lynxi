@@ -4,22 +4,12 @@ from maya import cmds, OpenMaya, OpenMayaUI
 
 from LxMaterial import mtlConfigure, mtlObjects
 
+from LxMaBasic import maBscObjCore
+
 
 class Abc_MaMtlBasic(object):
     MOD_maya_cmds = cmds
 
 
-class Abc_MaMtlNodeDef(object):
+class Abc_MaMtlNode(maBscObjCore.Abc_MaObject):
     pass
-
-
-class Abc_MaMtlMaterialDef(Abc_MaMtlBasic):
-    def _initAbcMaMtlMaterial(self, categoryString):
-        print mtlObjects.MtlNodeDef(categoryString).attributeRaw()
-
-        self._attributeRaw = {}
-
-    def attributeRaw(self):
-        pass
-
-

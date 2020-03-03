@@ -4,10 +4,10 @@ from LxMaterial import mtlObjCore, mtlConfigure
 from LxMaterial.mtlObjects import _mtlObjRaw
 
 
-class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
+class _Dat_Method(mtlObjCore.Abc_MtlData):
     def __add__(self, other):
         """
-        :param other: object of "Datum"
+        :param other: object of "Data"
         :return: number
         """
         assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
@@ -16,7 +16,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
 
     def __sub__(self, other):
         """
-        :param other: object of "Datum"
+        :param other: object of "Data"
         :return: number
         """
         assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
@@ -25,7 +25,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
 
     def __mul__(self, other):
         """
-        :param other: object of "Datum"
+        :param other: object of "Data"
         :return: number
         """
         assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
@@ -34,7 +34,7 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
 
     def __div__(self, other):
         """
-        :param other: object of "Datum"
+        :param other: object of "Data"
         :return: number
         """
         assert isinstance(other.raw(), self.VAR_mtl_raw_type), u'Argument Error, "arg" Must "VAR_mtl_raw_type".'
@@ -42,10 +42,10 @@ class _Dat_Method(mtlObjCore.Abc_MtlRawDatum):
         return self.__class__(self, self.raw() / other.raw())
 
 
-class Dat_Closure(mtlObjCore.Abc_MtlRawDatum):
+class Dat_Closure(mtlObjCore.Abc_MtlData):
     CLS_mtl_raw = _mtlObjRaw.Raw_Closure
 
-    VAR_mtl_raw_type = _mtlObjRaw.Raw_Closure
+    VAR_mtl_raw_type = None
 
     VAR_mtl_file_attribute_key = 'datastring'
 
@@ -53,15 +53,15 @@ class Dat_Closure(mtlObjCore.Abc_MtlRawDatum):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
     def toString(self):
         return ''
 
 
-class Dat_Boolean(mtlObjCore.Abc_MtlRawDatum):
+class Dat_Boolean(mtlObjCore.Abc_MtlData):
     CLS_mtl_raw = bool
 
     VAR_mtl_raw_type = bool, int
@@ -72,9 +72,9 @@ class Dat_Boolean(mtlObjCore.Abc_MtlRawDatum):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
     def toString(self):
         """
@@ -96,13 +96,13 @@ class Dat_Integer(_Dat_Method):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
 
-class Dat_IntegerN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_Integer
+class Dat_IntegerN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_Integer
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
@@ -112,13 +112,13 @@ class Dat_IntegerN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2.object of datum, raw.
+            1-2.object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)
 
 
-class Dat_IntegerNN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_IntegerN
+class Dat_IntegerNN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_IntegerN
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
@@ -128,9 +128,9 @@ class Dat_IntegerNN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)
 
 
 class Dat_Float(_Dat_Method):
@@ -144,13 +144,13 @@ class Dat_Float(_Dat_Method):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
 
-class Dat_FloatN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_Float
+class Dat_FloatN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_Float
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
@@ -160,13 +160,13 @@ class Dat_FloatN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)
 
 
-class Dat_FloatNN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_FloatN
+class Dat_FloatNN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_FloatN
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
@@ -176,12 +176,12 @@ class Dat_FloatNN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)
 
 
-class Dat_string(mtlObjCore.Abc_MtlRawDatum):
+class Dat_string(mtlObjCore.Abc_MtlData):
     CLS_mtl_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
@@ -192,13 +192,13 @@ class Dat_string(mtlObjCore.Abc_MtlRawDatum):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
 
-class Dat_stringN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_string
+class Dat_stringN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_string
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
@@ -208,12 +208,12 @@ class Dat_stringN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)
 
 
-class Dat_file_name(mtlObjCore.Abc_MtlRawDatum):
+class Dat_file_name(mtlObjCore.Abc_MtlData):
     CLS_mtl_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
@@ -224,12 +224,12 @@ class Dat_file_name(mtlObjCore.Abc_MtlRawDatum):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
 
-class Dat_NodeName(mtlObjCore.Abc_MtlRawDatum):
+class Dat_NodeName(mtlObjCore.Abc_MtlData):
     CLS_mtl_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
@@ -240,13 +240,13 @@ class Dat_NodeName(mtlObjCore.Abc_MtlRawDatum):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatum(*args)
+        self._initAbcMtlData(*args)
 
 
-class Dat_NodeNameN(mtlObjCore.Abc_MtlRawDatumset):
-    CLS_mtl_child_set = Dat_NodeName
+class Dat_NodeNameN(mtlObjCore.Abc_MtlMultidata):
+    CLS_mtl_data = Dat_NodeName
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
@@ -256,6 +256,6 @@ class Dat_NodeNameN(mtlObjCore.Abc_MtlRawDatumset):
         """
         :param args:
             1-1.object of value, raw;
-            1-2..object of datum, raw.
+            1-2..object of data, raw.
         """
-        self._initAbcMtlRawDatumset(*args)
+        self._initAbcMtlMultidata(*args)

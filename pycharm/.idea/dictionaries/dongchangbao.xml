@@ -36,6 +36,7 @@
       <w>ctomcmds</w>
       <w>dagname</w>
       <w>dagpath</w>
+      <w>datastring</w>
       <w>datetag</w>
       <w>datumset</w>
       <w>defs</w>
@@ -125,10 +126,12 @@
       <w>mtoa</w>
       <w>mtos</w>
       <w>mult</w>
+      <w>multidata</w>
       <w>multifile</w>
       <w>myproject</w>
       <w>myworkspace</w>
       <w>namespacesep</w>
+      <w>nodedef</w>
       <w>nodedefs</w>
       <w>nodegraph</w>
       <w>nodeinput</w>
@@ -162,6 +165,7 @@
       <w>plugpath</w>
       <w>plugversion</w>
       <w>portdata</w>
+      <w>portdef</w>
       <w>portname</w>
       <w>portpath</w>
       <w>portraw</w>

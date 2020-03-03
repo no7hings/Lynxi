@@ -485,6 +485,31 @@ class Abc_MaMaterial(Abc_MaObject):
             )
 
 
+class Abc_MaNode(Abc_MaObject):
+    def __init__(self, *args):
+        pass
+
+    def _initAbcMaNode(self, nodeString):
+        self._initAbcMaObject(nodeString)
+
+        self._outputSetObj = self.CLS_mya_set_attribute()
+
+        for i in maBscMethods.Node.outputFullpathPortname(nodeString):
+            self._outputSetObj.addObject(i, self.CLS_mya_attribute(self, i))
+
+    def outputPortStrings(self):
+        return maBscMethods.Node.outputFullpathPortname(self.fullpathName())
+
+    def outputs(self):
+        return self._outputSetObj.objects()
+
+    def hasOutput(self, portname):
+        return self._outputSetObj.hasObject(portname)
+
+    def output(self, portname):
+        return self._outputSetObj.objectWithKey(portname)
+
+
 class Abc_MaDag(Abc_MaObject):
     CLS_mya_dag = None
     CLS_mya_node = None

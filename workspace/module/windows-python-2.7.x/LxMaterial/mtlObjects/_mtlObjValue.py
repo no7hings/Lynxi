@@ -7,7 +7,7 @@
 from LxMaterial import mtlObjCore, mtlConfigure
 
 from LxMaterial.mtlObjects import _mtlObjRaw
-from LxMaterial.mtlObjects import _mtlObjDatum
+from LxMaterial.mtlObjects import _mtlObjData
 
 
 # Method for Digit Calculate
@@ -17,34 +17,34 @@ class _Val_DigitMethod(mtlObjCore.Abc_MtlValue):
         :param other: object of Value
         :return: object of Value
         """
-        return self.__class__((self.datum() + other.datum()).raw())
+        return self.__class__((self.data() + other.data()).raw())
 
     def __sub__(self, other):
         """
         :param other: object of Value
         :return: object of Value
         """
-        return self.__class__((self.datum() - other.datum()).raw())
+        return self.__class__((self.data() - other.data()).raw())
 
     def __mul__(self, other):
         """
         :param other: object of Value
         :return: object of Value
         """
-        return self.__class__((self.datum() * other.datum()).raw())
+        return self.__class__((self.data() * other.data()).raw())
 
     def __div__(self, other):
         """
         :param other: object of Value
         :return: object of Value
         """
-        return self.__class__((self.datum() / other.datum()).raw())
+        return self.__class__((self.data() / other.data()).raw())
 
 
 # Value Def
 class Val_Closure(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_Closure
+    CLS_mtl_raw_data = _mtlObjData.Dat_Closure
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_closure,
 
@@ -65,7 +65,7 @@ class Val_Closure(mtlObjCore.Abc_MtlValue):
 # Value Boolean
 class Val_Boolean(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
+    CLS_mtl_raw_data = _mtlObjData.Dat_Boolean
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
@@ -85,7 +85,7 @@ class Val_Boolean(mtlObjCore.Abc_MtlValue):
 
 class Val_Visibility(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_Boolean
+    CLS_mtl_raw_data = _mtlObjData.Dat_Boolean
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_boolean,
 
@@ -111,7 +111,7 @@ class Val_Visibility(mtlObjCore.Abc_MtlValue):
 # Value Integer
 class Val_Integer(_Val_DigitMethod):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_Integer
+    CLS_mtl_raw_data = _mtlObjData.Dat_Integer
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_Integer,
 
@@ -131,7 +131,7 @@ class Val_Integer(_Val_DigitMethod):
 
 class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_IntegerN
+    CLS_mtl_raw_data = _mtlObjData.Dat_IntegerN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_integer_array, None
 
@@ -153,7 +153,7 @@ class Val_IntegerArray(mtlObjCore.Abc_MtlValue):
 # Value Float
 class Val_Float(_Val_DigitMethod):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_Float
+    CLS_mtl_raw_data = _mtlObjData.Dat_Float
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float,
 
@@ -173,7 +173,7 @@ class Val_Float(_Val_DigitMethod):
 
 class Val_FloatArray(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_float_array, None
 
@@ -195,7 +195,7 @@ class Val_FloatArray(mtlObjCore.Abc_MtlValue):
 # Value Color
 class Val_Color2(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2, None
 
@@ -217,7 +217,7 @@ class Val_Color2(mtlObjCore.Abc_MtlValue):
 
 class Val_Color2Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color2_array, None, None
 
@@ -239,7 +239,7 @@ class Val_Color2Array(mtlObjCore.Abc_MtlValue):
 
 class Val_Color3(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3, None
 
@@ -261,7 +261,7 @@ class Val_Color3(mtlObjCore.Abc_MtlValue):
 
 class Val_Color3Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color3_array, None, None
 
@@ -283,7 +283,7 @@ class Val_Color3Array(mtlObjCore.Abc_MtlValue):
 
 class Val_Color4(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4, None
 
@@ -305,7 +305,7 @@ class Val_Color4(mtlObjCore.Abc_MtlValue):
 
 class Val_Color4Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_color4_array, None, None
 
@@ -328,7 +328,7 @@ class Val_Color4Array(mtlObjCore.Abc_MtlValue):
 # Value Vector
 class Val_vector2(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2, None
 
@@ -350,7 +350,7 @@ class Val_vector2(mtlObjCore.Abc_MtlValue):
 
 class Val_vector2Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector2_array, None, None
 
@@ -371,7 +371,7 @@ class Val_vector2Array(mtlObjCore.Abc_MtlValue):
 
 class Val_vector3(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3, None
 
@@ -393,7 +393,7 @@ class Val_vector3(mtlObjCore.Abc_MtlValue):
 
 class Val_vector3Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector3_array, None, None
 
@@ -414,7 +414,7 @@ class Val_vector3Array(mtlObjCore.Abc_MtlValue):
 
 class Val_vector4(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4, None
 
@@ -436,7 +436,7 @@ class Val_vector4(mtlObjCore.Abc_MtlValue):
 
 class Val_vector4Array(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_vector4_array, None, None
 
@@ -457,7 +457,7 @@ class Val_vector4Array(mtlObjCore.Abc_MtlValue):
 
 class Val_string(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_string
+    CLS_mtl_raw_data = _mtlObjData.Dat_string
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string,
 
@@ -475,7 +475,7 @@ class Val_string(mtlObjCore.Abc_MtlValue):
 
 class Val_stringArray(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
+    CLS_mtl_raw_data = _mtlObjData.Dat_stringN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_string_array, mtlConfigure.Utility.DEF_mtl_datatype_string
 
@@ -496,7 +496,7 @@ class Val_stringArray(mtlObjCore.Abc_MtlValue):
 
 class Val_file_name(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_file_name
+    CLS_mtl_raw_data = _mtlObjData.Dat_file_name
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_file_name,
 
@@ -514,7 +514,7 @@ class Val_file_name(mtlObjCore.Abc_MtlValue):
 
 class Val_geometry_name(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_NodeName
+    CLS_mtl_raw_data = _mtlObjData.Dat_NodeName
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name,
 
@@ -532,7 +532,7 @@ class Val_geometry_name(mtlObjCore.Abc_MtlValue):
 
 class Val_geometry_nameArray(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_stringN
+    CLS_mtl_raw_data = _mtlObjData.Dat_stringN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_geometry_name_array, mtlConfigure.Utility.DEF_mtl_datatype_geometry_name
 
@@ -553,7 +553,7 @@ class Val_geometry_nameArray(mtlObjCore.Abc_MtlValue):
 
 class Val_matrix33(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 
@@ -574,7 +574,7 @@ class Val_matrix33(mtlObjCore.Abc_MtlValue):
 
 class Val_matrix44(mtlObjCore.Abc_MtlValue):
     CLS_mtl_datatype = _mtlObjRaw.Raw_Datatype
-    CLS_mtl_raw_data = _mtlObjDatum.Dat_FloatNN
+    CLS_mtl_raw_data = _mtlObjData.Dat_FloatNN
 
     VAR_mtl_value_type_pattern = mtlConfigure.Utility.DEF_mtl_datatype_matrix33, None, None
 

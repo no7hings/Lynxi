@@ -2,11 +2,6 @@
 from LxMaterial import mtlObjCore
 
 
-class MtlDef(mtlObjCore.Abc_MtlDef):
-    def __init__(self):
-        self._initAbcMtlDef()
-
-
 class MtlTypeDef(mtlObjCore.Abc_MtlTypeDef):
     def __init__(self):
         pass

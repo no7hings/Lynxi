@@ -4,14 +4,14 @@ from LxMaBasic import maBscObjCore
 from LxMaBasic.maBscObjects import _maBscObjRaw, _maBscObjAttribute
 
 
-class Node(maBscObjCore.Abc_MaDag):
+class Node(maBscObjCore.Abc_MaNode):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_attribute = _maBscObjAttribute.Attribute
 
     CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
 
     def __init__(self, nodeString):
-        self._initAbcMaDag(nodeString)
+        self._initAbcMaNode(nodeString)
 
 
 class NodeGraph(maBscObjCore.Abc_MaNodeGraph):
