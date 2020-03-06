@@ -1,0 +1,74 @@
+{
+    "integer": [
+        {
+            "portname": "out_value",
+            "porttype": "integer",
+            "portdata": "0",
+            "assign": "output"
+        }
+    ],
+    "float": [
+        {
+            "portname": "out_value",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "output"
+        }
+    ],
+    "boolean": [
+        {
+            "portname": "out_value",
+            "porttype": "boolean",
+            "portdata": "false",
+            "assign": "output"
+        }
+    ],
+    "string": [
+        {
+            "portname": "out_value",
+            "porttype": "string",
+            "portdata": "",
+            "assign": "output"
+        }
+    ],
+    "color3": [
+        {
+            "portname": "out_color",
+            "porttype": "color3",
+            "portdata": "0.0, 0.0, 0.0",
+            "assign": "output"
+        }
+    ],
+    "color4": [
+        {
+            "portname": "out_color",
+            "porttype": "color4",
+            "portdata": "0.0, 0.0, 0.0, 0.0",
+            "assign": "output"
+        }
+    ],
+    "vector3": [
+        {
+            "portname": "out_value",
+            "porttype": "vector3",
+            "portdata": "0.0, 0.0, 0.0",
+            "assign": "output"
+        }
+    ],
+    "matrix44": [
+        {
+            "portname": "out_value",
+            "porttype": "matrix44",
+            "portdata": "",
+            "assign": "output"
+        }
+    ],
+    "closure": [
+        {
+            "portname": "out_color",
+            "porttype": "color3",
+            "portdata": "0.0, 0.0, 0.0",
+            "assign": "output"
+        }
+    ]
+}

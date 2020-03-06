@@ -7,7 +7,7 @@ class Set_Assign(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Dag(mtlObjCore.Abc_MtlObjectSet):
+class ObjectSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
@@ -33,7 +33,7 @@ class Set_Collection(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Attribute(mtlObjCore.Abc_MtlObjectSet):
+class PortSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 

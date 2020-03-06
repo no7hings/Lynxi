@@ -17,7 +17,10 @@
     <content url="file://$MODULE_DIR$/../workspace/module/windows-python-2.7.x">
       <sourceFolder url="file://$MODULE_DIR$/../workspace/module/windows-python-2.7.x" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../workspace/plug/windows-maya" />
+    <content url="file://$MODULE_DIR$/../workspace/plug/windows-maya">
+      <sourceFolder url="file://$MODULE_DIR$/../workspace/plug/windows-maya/lynxinode/scripts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../workspace/plug/windows-maya/lynxinode/plug-ins" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../workspace/scheme/windows-maya-python-2.7.x" />
     <content url="file://$MODULE_DIR$/../workspace/scheme/windows-python-2.7.x" />
     <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />

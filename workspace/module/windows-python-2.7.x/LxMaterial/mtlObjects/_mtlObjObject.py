@@ -6,7 +6,7 @@ from LxMaterial import mtlObjCore
 from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjDefinition, _mtlObjAttribute, _mtlObjValue
 
 
-DEF_CLS_VALUE = {
+DEF_value_cls_dict = {
     mtlConfigure.Utility.DEF_mtl_datatype_closure: _mtlObjValue.Val_Closure,
 
     mtlConfigure.Utility.DEF_mtl_datatype_boolean: _mtlObjValue.Val_Boolean,
@@ -40,39 +40,48 @@ DEF_CLS_VALUE = {
 }
 
 
-class Geometry(mtlObjCore.Abc_MtlGeometry):
+class Node(mtlObjCore.Abc_MtlNode):
+    CLS_mtl_type = _mtlObjRaw.TypeString
+    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
     CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
-    CLS_mtl_property_set = _mtlObjSet.Set_Property
-    CLS_mtl_visibility_assign = _mtlObjSet.Set_Visibility
+    CLS_mtl_object_def = _mtlObjDefinition.NodeDef
 
-    CLS_mtl_property = _mtlObjAttribute.GeometryProperty
-    CLS_mtl_visibility = _mtlObjAttribute.GeometryVisibility
-    CLS_mtl_geometry_def = _mtlObjDefinition.MtlGeometryDef
+    CLS_mtl_port_set = _mtlObjSet.PortSet
 
-    VAR_mtl_value_class_dict = DEF_CLS_VALUE
+    CLS_mtl_input = _mtlObjAttribute.NodeInput
+    CLS_mtl_input_channel = _mtlObjAttribute.NodeInputChannel
+    CLS_mtl_output = _mtlObjAttribute.NodeOutput
+    CLS_mtl_output_channel = _mtlObjAttribute.NodeOutputChannel
 
-    VAR_mtl_file_element_key = 'geom'
+    CLS_mtl_source_object = None
+
+    VAR_mtl_value_class_dict = DEF_value_cls_dict
+
+    VAR_mtl_file_attribute_key = 'nodename'
 
     def __init__(self, *args):
-        self._initAbcMtlGeometry(*args)
+        self._initAbcMtlNode(*args)
 
 
 class Shader(mtlObjCore.Abc_MtlShader):
-    CLS_mtl_type = _mtlObjRaw.Raw_Type
-    CLS_mtl_category = _mtlObjRaw.ShaderCategory
+    CLS_mtl_type = _mtlObjRaw.TypeString
+    CLS_mtl_category = _mtlObjRaw.ShaderCategoryString
     CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
 
-    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
-    CLS_mtl_child_set = _mtlObjSet.Set_Dag
+    CLS_mtl_object_def = _mtlObjDefinition.NodeDef
 
+    CLS_mtl_port_set = _mtlObjSet.PortSet
     CLS_mtl_input = _mtlObjAttribute.ShaderInput
+    CLS_mtl_input_channel = _mtlObjAttribute.ShaderInputChannel
     CLS_mtl_output = _mtlObjAttribute.ShaderOutput
-    CLS_mtl_channel = _mtlObjAttribute.ShaderInputChannel
+    CLS_mtl_output_channel = _mtlObjAttribute.ShaderOutputChannel
 
-    VAR_mtl_value_class_dict = DEF_CLS_VALUE
+    CLS_mtl_source_object = Node
 
-    VAR_mtl_file_element_key = 'shaderref'
+    VAR_mtl_value_class_dict = DEF_value_cls_dict
+
+    VAR_mtl_file_element_key = u'shaderref'
 
     def __init__(self, *args):
         """
@@ -81,22 +90,54 @@ class Shader(mtlObjCore.Abc_MtlShader):
         self._initAbcMtlShader(*args)
 
 
-class Node(mtlObjCore.Abc_MtlNode):
-    CLS_mtl_type = _mtlObjRaw.Raw_Type
-    CLS_mtl_category = _mtlObjRaw.NodeCategory
-    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
+class Material(mtlObjCore.Abc_MtlMaterial):
+    CLS_mtl_type = _mtlObjRaw.TypeString
+    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_MaterialDagpath
 
-    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
-    CLS_mtl_child_set = _mtlObjSet.Set_Dag
+    CLS_mtl_object_def = _mtlObjDefinition.MaterialDef
 
-    CLS_mtl_input = _mtlObjAttribute.NodeInput
-    CLS_mtl_output = _mtlObjAttribute.NodeOutput
-    CLS_mtl_channel = _mtlObjAttribute.NodeInputChannel
+    CLS_mtl_port_set = _mtlObjSet.PortSet
+    CLS_mtl_input = _mtlObjAttribute.MaterialInput
+    CLS_mtl_input_channel = _mtlObjAttribute.NodeInputChannel
+    CLS_mtl_output = _mtlObjAttribute.MaterialOutput
+    CLS_mtl_output_channel = _mtlObjAttribute.NodeOutputChannel
 
-    VAR_mtl_value_class_dict = DEF_CLS_VALUE
+    CLS_mtl_source_object = Shader
 
-    VAR_mtl_file_attribute_key = 'nodename'
+    VAR_mtl_value_class_dict = DEF_value_cls_dict
+
+    VAR_mtl_file_element_key = u'material'
+    VAR_mtl_file_attribute_key = u'material'
 
     def __init__(self, *args):
-        self._initAbcMtlNode(*args)
+        """
+        * 1.maya: shading engine name
+        :param args: str(shader set name)
+        """
+        self._initAbcMtlMaterial(*args)
 
+
+class Geometry(mtlObjCore.Abc_MtlGeometry):
+    CLS_mtl_type = _mtlObjRaw.TypeString
+    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
+    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_NodeDagpath
+    CLS_mtl_object_def = _mtlObjDefinition.GeometryDef
+
+    CLS_mtl_port_set = _mtlObjSet.Set_Property
+    CLS_mtl_input = _mtlObjAttribute.MaterialInput
+    CLS_mtl_input_channel = _mtlObjAttribute.NodeInputChannel
+    CLS_mtl_output = _mtlObjAttribute.MaterialOutput
+    CLS_mtl_output_channel = _mtlObjAttribute.NodeOutputChannel
+
+    CLS_mtl_property = _mtlObjAttribute.GeometryProperty
+    CLS_mtl_visibility = _mtlObjAttribute.GeometryVisibility
+
+    CLS_mtl_visibility_set = _mtlObjSet.Set_Visibility
+
+    VAR_mtl_value_class_dict = DEF_value_cls_dict
+
+    VAR_mtl_file_element_key = u'geom'
+
+    def __init__(self, *args):
+        self._initAbcMtlGeometry(*args)

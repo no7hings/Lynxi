@@ -4,66 +4,77 @@ from LxBasic import bscMethods
 from LxMaterial import mtlConfigure
 
 
-class ArnoldNodedefs(mtlConfigure.Utility):
+class ArnoldDefs(mtlConfigure.Utility):
     @classmethod
     def raw(cls):
-        return bscMethods.OsJsonFile.read(cls.DEF_mtl_arnold_nodedefs_file) or {}
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_arnold_node_defs_file
+        ) or {}
 
     @classmethod
-    def categoryRaw(cls):
-        return cls.raw().keys()
+    def objectDef(cls, categoryString):
+        raw = cls.raw()
+        assert categoryString in raw, u'Category "{}" is Non-Definition'.format(categoryString)
+        return raw.get(
+            categoryString, {}
+        )
+
+    @classmethod
+    def materialDef(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_arnold_material_def_file
+        ) or {}
+
+    @classmethod
+    def geometryDef(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_arnold_geometry_def_file
+        ) or {}
+
+    @classmethod
+    def outputDefs(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_arnold_output_defs_file
+        ) or {}
+
+    @classmethod
+    def portChildDefs(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_arnold_port_child_defs_file
+        ) or {}
 
 
-class MayaArnoldNodedefs(mtlConfigure.Utility):
+class MayaArnoldDefs(mtlConfigure.Utility):
     @classmethod
     def raw(cls):
-        return bscMethods.OsJsonFile.read(cls.DEF_mtl_maya_arnold_nodedefs_file) or {}
+        return bscMethods.OsJsonFile.read(cls.DEF_mtl_maya_arnold_node_defs_file) or {}
 
     @classmethod
-    def categoryRaw(cls):
-        return cls.raw().keys()
-
-
-class ArnoldNodedef(mtlConfigure.Utility):
-    @classmethod
-    def raw(cls, categoryString):
-        raw = ArnoldNodedefs.raw()
+    def objectDef(cls, categoryString):
+        raw = cls.raw()
         assert categoryString in raw, u'Category "{}" is Non-Definition'.format(categoryString)
-        return raw.get(categoryString, {})
-    
-    @classmethod
-    def typeString(cls, categoryString):
-        return cls.raw(categoryString).get(
-            cls.DEF_mtl_key_type_string,
-            []
+        return raw.get(
+            categoryString, {}
         )
 
     @classmethod
-    def inputRaw(cls, categoryString):
-        return cls.raw(categoryString).get(
-            cls.DEF_mtl_key_port,
-            []
-        )
+    def materialDef(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_maya_arnold_material_def_file
+        ) or {}
 
     @classmethod
-    def outputRaw(cls, categoryString):
-        return mtlConfigure.Utility.DEF_mtl_output_def_dict.get(
-            cls.typeString(categoryString), []
-        )
-
-
-class ArnoldPortdef(mtlConfigure.Utility):
+    def geometryDef(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_maya_arnold_geometry_def_file
+        ) or {}
 
     @classmethod
-    def channelRaw(cls, typeString):
-        return mtlConfigure.Utility.DEF_mtl_channel_def_dict.get(
-            typeString, []
-        )
+    def outputDefs(cls):
+        return {}
 
-
-class MayaArnoldNodedef(mtlConfigure.Utility):
     @classmethod
-    def raw(cls, categoryString):
-        raw = MayaArnoldNodedefs.raw()
-        assert categoryString in raw, u'Category "{}" is Non-Definition'.format(categoryString)
-        return raw.get(categoryString, {})
+    def portChildDefs(cls):
+        return bscMethods.OsJsonFile.read(
+            cls.DEF_mtl_maya_arnold_port_child_defs_file
+        ) or {}

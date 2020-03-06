@@ -4,7 +4,7 @@ from LxBasic import bscMethods
 from LxMaterial import mtlConfigure, mtlMethods
 
 
-class Abc_MtlXml(mtlConfigure.Utility):
+class Abc_MtlBasic(mtlConfigure.Utility):
     DEF_mtl_file_attribute_separator = u' '
 
     VAR_mtl_file_element_key = u''
@@ -44,7 +44,7 @@ class Abc_MtlXml(mtlConfigure.Utility):
 
     def _xmlAttributeRaw(self):
         """
-        :return: list(tuple(key, value)/object instance of Abc_MtlXml, ...)
+        :return: list(tuple(key, value)/object instance of Abc_MtlBasic, ...)
         """
         pass
 
@@ -55,14 +55,14 @@ class Abc_MtlXml(mtlConfigure.Utility):
 
         def addAttributeFnc_(attributeObject_, lString, rString):
             if attributeObject_ is not None:
-                if isinstance(attributeObject_, Abc_MtlXml):
-                    inputRaw = attributeObject_._xmlAttributeRaw()
+                if isinstance(attributeObject_, Abc_MtlBasic):
+                    attributeRaw = attributeObject_._xmlAttributeRaw()
                 else:
-                    inputRaw = attributeObject_
+                    attributeRaw = attributeObject_
 
-                if inputRaw:
-                    for i in inputRaw:
-                        if isinstance(i, Abc_MtlXml):
+                if attributeRaw:
+                    for i in attributeRaw:
+                        if isinstance(i, Abc_MtlBasic):
                             addAttributeFnc_(i, lString, rString)
                         else:
                             k, v = i
@@ -116,7 +116,161 @@ class Abc_MtlXml(mtlConfigure.Utility):
         return self._toXmlString(self)
 
 
-class Abc_MtlRaw(Abc_MtlXml):
+class Abc_MtlTypeDef(mtlConfigure.Utility):
+    def _initAbcMtlTypeDef(self):
+        pass
+
+
+class Abc_MtlBasicDef(mtlConfigure.Utility):
+    VAR_geometry_category_string = None
+    VAR_material_category_string = None
+    # noinspection PyUnusedLocal
+    def _initAbcMtlBasicDef(self, *args):
+        self._nodeRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_node_defs_file
+        ) or {}
+        self._geometryRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_geometry_def_file
+        ) or {}
+        self._materialRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_material_def_file
+        ) or {}
+        self._outputRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_output_defs_file
+        ) or {}
+        self._portChildRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_port_child_defs_file
+        ) or {}
+
+        self._typeStringDict = self.CLS_ordered_dict()
+        self._portDefsDict = self.CLS_ordered_dict()
+
+        self._getData_()
+
+    def getObjectDef(self, categoryString):
+        if categoryString in self._nodeRaw:
+            return self._nodeRaw.get(
+                categoryString, {}
+            )
+        elif categoryString == self.VAR_geometry_category_string:
+            return self._geometryRaw
+        elif categoryString == self.VAR_material_category_string:
+            return self._materialRaw
+        return {}
+
+    def getObjectTypeString(self, categoryString):
+        return self._typeStringDict.get(categoryString)
+
+    def getObjectPortDefs(self, categoryString):
+        return self._portDefsDict.get(categoryString, {})
+
+    def portChildDefs(self):
+        return self._portChildRaw
+
+    def _getData_(self):
+        def getTypeFnc_(categoryString_, typeString_):
+            self._typeStringDict[categoryString_] = typeString_
+
+        def getNodeFnc_():
+            for categoryString, dccNodeDef in self._nodeRaw.items():
+                getNodeSubFnc_(categoryString, dccNodeDef)
+
+        def getNodeSubFnc_(categoryString_, nodeRaw_):
+            typeString = nodeRaw_[self.DEF_mtl_key_type]
+            getTypeFnc_(categoryString_, typeString)
+            self._portDefsDict[categoryString_] = self.CLS_ordered_dict()
+
+            portDefs = nodeRaw_[self.DEF_mtl_key_port]
+            for portDef in portDefs:
+                getPortFnc_(categoryString_, portDef)
+
+            portDefs = self._outputRaw.get(typeString, [])
+            for i in portDefs:
+                getPortFnc_(categoryString_, i)
+
+        def getPortFnc_(categoryString_, portDef_):
+            portnameString = portDef_[self.DEF_mtl_key_portname]
+            porttypeString = portDef_[self.DEF_mtl_key_porttype]
+            portdataString = portDef_[self.DEF_mtl_key_portdata]
+            assignString = portDef_[self.DEF_mtl_key_assign]
+
+            addPortFnc_(categoryString_, portnameString, porttypeString, portdataString, assignString, None)
+            for seq, i in enumerate(self._portChildRaw.get(porttypeString, [])):
+                getChildFnc_(seq, categoryString_, portnameString, portdataString, assignString, i)
+
+        def getChildFnc_(index, categoryString_, parentPortnameString_, parentPortdataString_, parentAssignString_, portDef_):
+            formatString = portDef_[self.DEF_mtl_key_format]
+            portnameString = formatString.format(*[parentPortnameString_])
+            porttypeString = portDef_[self.DEF_mtl_key_porttype]
+
+            if parentPortdataString_:
+                portdataString = parentPortdataString_.split(u',')[index].rstrip().lstrip()
+            else:
+                portdataString = portDef_[self.DEF_mtl_key_portdata]
+
+            assignString = portDef_[self.DEF_mtl_key_assign]
+            addPortFnc_(categoryString_, portnameString, porttypeString, portdataString, (parentAssignString_, assignString), parentPortnameString_)
+
+        def addPortFnc_(categoryString_, portnameString_, porttypeString_, valueString_, assignString_, parentPortnameString_):
+            _dic = self.CLS_ordered_dict()
+            _dic[self.DEF_mtl_key_porttype] = porttypeString_
+            _dic[self.DEF_mtl_key_portdata] = valueString_
+            _dic[self.DEF_mtl_key_assign] = assignString_
+            _dic[self.DEF_mtl_key_parent] = parentPortnameString_
+            self._portDefsDict[categoryString_][portnameString_] = _dic
+
+        getNodeFnc_()
+        getNodeSubFnc_(self.DEF_mtl_category_material, self._materialRaw)
+        getNodeSubFnc_(self.DEF_mtl_category_geometry, self._geometryRaw)
+
+
+class Abc_MtlObjectDef(mtlConfigure.Utility):
+    CLS_mtl_basic_def = None
+
+    # noinspection PyUnusedLocal
+    def _initAbcMtlObjectDef(self, *args):
+        categoryString = args[0]
+
+        self._basicDefObject = self.CLS_mtl_basic_def()
+
+        self._categoryString = categoryString
+        self._typeString = self._basicDefObject.getObjectTypeString(categoryString)
+
+        self._portDefsDict = self._basicDefObject.getObjectPortDefs(self._categoryString)
+
+    def categoryString(self):
+        return self._categoryString
+
+    def typeString(self):
+        return self._typeString
+
+    def portDefs(self):
+        return self._portDefsDict
+
+    def getPortDef(self, portnameString):
+        return self._portDefsDict.get(portnameString)
+
+    def getPorttypeString(self, portnameString):
+        return self._portDefsDict[portnameString][self.DEF_mtl_key_porttype]
+
+
+class Abc_MtlNodeDef(Abc_MtlObjectDef):
+    def _initAbcMtlNodeDef(self, *args):
+        self._initAbcMtlObjectDef(*args)
+
+
+class Abc_MtlMaterialDef(Abc_MtlObjectDef):
+    # noinspection PyUnusedLocal
+    def _initAbcMtlMaterialDef(self, *args):
+        self._initAbcMtlObjectDef(*args)
+
+
+class Abc_MtlGeometryDef(Abc_MtlObjectDef):
+    def _initAbcMtlGeometryDef(self, *args):
+        self._initAbcMtlObjectDef(*args)
+
+
+class Abc_MtlRaw(Abc_MtlBasic):
     def _initAbcMtlRaw(self, *args):
         if args:
             self._raw = args[0]
@@ -299,7 +453,7 @@ class Abc_MtlMaterialDagpath(Abc_MtlDagpath):
         ]
 
 
-class Abc_MtlObjectSet(Abc_MtlXml):
+class Abc_MtlObjectSet(Abc_MtlBasic):
     VAR_mtl_object_separator = ','
     # noinspection PyUnusedLocal
     def _initAbcMtlObjectSet(self, *args):
@@ -321,7 +475,7 @@ class Abc_MtlObjectSet(Abc_MtlXml):
         :return:
         """
         queryString = obj._queryString()
-        assert queryString not in self._objectDic, '''Key is Exist.'''
+        assert queryString not in self._objectDic, u'''Key {} is Exist.'''.format(queryString)
         self._objectLis.append(obj)
         self._objectDic[queryString] = obj
         self._objectCount += 1
@@ -482,8 +636,11 @@ class Abc_MtlData(Abc_MtlRaw):
         """
         assert args is not (), u'argument must not be "empty".'
         assert isinstance(args[0], (str, unicode))
-        if args[0]:
-            self.createByRaw(self.CLS_mtl_raw(args[0]))
+        if args[0] is not None:
+            self.createByRaw(self._stringToRaw_(args[0]))
+
+    def _stringToRaw_(self, string):
+        return self.CLS_mtl_raw(string)
 
     def toString(self):
         if self.CLS_mtl_raw is float:
@@ -655,7 +812,7 @@ class Abc_MtlMultidata(Abc_MtlRaw):
 
 
 # value
-class Abc_MtlValue(Abc_MtlXml):
+class Abc_MtlValue(Abc_MtlBasic):
     CLS_mtl_datatype = None
     CLS_mtl_raw_data = None
 
@@ -674,7 +831,7 @@ class Abc_MtlValue(Abc_MtlXml):
         """
         return self._datatypeObj
 
-    def datatypeString(self):
+    def porttypeString(self):
         """
         :return: str
         """
@@ -736,20 +893,29 @@ class Abc_MtlValue(Abc_MtlXml):
 
 
 # port
-class Abc_MtlPort(Abc_MtlXml):
+class Abc_MtlPort(Abc_MtlBasic):
     CLS_mtl_port_dagpath = None
-    CLS_mtl_attribute_set = None
+    CLS_mtl_port_set = None
 
     def _initAbcMtlPort(self, *args):
         nodeObject, fullpathPortname = args
 
-        self._dagObj = nodeObject
-        self._nodeDagpathObj = nodeObject.dagpath()
+        self._objectObj = nodeObject
+        self._dagpathObj = nodeObject.dagpath()
 
         self._portDagpathObj = self.CLS_mtl_port_dagpath(fullpathPortname)
 
+        # value
         self._valueObj = None
         self._defValueObj = None
+
+        # connect
+        self._sourcePortObj = None
+        self._targetPortObj = None
+
+        # children
+        self._childSetObj = self.CLS_mtl_port_set()
+        self._parentObj = None
 
         self._initAbcMtlXml()
 
@@ -757,7 +923,7 @@ class Abc_MtlPort(Abc_MtlXml):
         pass
 
     def node(self):
-        return self._dagObj
+        return self._objectObj
 
     def dagpath(self):
         """
@@ -770,7 +936,7 @@ class Abc_MtlPort(Abc_MtlXml):
         :return: str
         """
         return self._portDagpathObj.pathsep().join(
-            [self._nodeDagpathObj.fullpathName(), self._portDagpathObj.fullpathName()]
+            [self._dagpathObj.fullpathName(), self._portDagpathObj.fullpathName()]
         )
 
     def portstring(self):
@@ -780,7 +946,7 @@ class Abc_MtlPort(Abc_MtlXml):
         """
         :return: str
         """
-        return self._nodeDagpathObj.fullpathName()
+        return self._dagpathObj.fullpathName()
 
     def fullpathPortname(self):
         """
@@ -791,7 +957,10 @@ class Abc_MtlPort(Abc_MtlXml):
     def portname(self):
         return self._portDagpathObj.name()
 
-    def _setValueObject(self, valueObject):
+    def portnameString(self):
+        return self._portDagpathObj.nameString()
+
+    def _setValue_(self, valueObject):
         """
         :param valueObject: object of Value
         :return: None
@@ -799,14 +968,14 @@ class Abc_MtlPort(Abc_MtlXml):
         self._valueObj = valueObject
 
     def porttype(self):
-        return self._valueObj.datatype()
+        return self.value().datatype()
 
     def setValue(self, valueObject):
         """
         :param valueObject: object of Value
         :return: None
         """
-        self._setValueObject(valueObject)
+        self._setValue_(valueObject)
 
     def value(self):
         """
@@ -821,12 +990,12 @@ class Abc_MtlPort(Abc_MtlXml):
         return self._valueObj is not None
 
     def valueTypeString(self):
-        return self._valueObj.datatypeString()
+        return self._valueObj.porttypeString()
 
     def valueString(self):
         return self._valueObj.toString()
 
-    def _setDefaultValueObject(self, valueObject):
+    def _setDefaultValue_(self, valueObject):
         self._defValueObj = valueObject
 
     def defaultValue(self):
@@ -847,67 +1016,16 @@ class Abc_MtlPort(Abc_MtlXml):
         """
         return not self.value() == self.defaultValue()
 
-    def _queryString(self):
-        return self.fullpathPortname()
+    # source
+    def _setSource_(self, portObject):
+        if self.isConnectedFrom(portObject) is False:
+            self._sourcePortObj = portObject
 
-    def _xmlAttributeValueString(self):
-        return self.portname().toString()
-
-    def _xmlAttributeRaw(self):
-        return [
-            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
-        ]
-
-
-# port.attribute
-class Abc_MtlAttribute(Abc_MtlPort):
-    def _initAbcMtlAttribute(self, *args):
-        self._initAbcMtlPort(*args)
-
-        self._channelSetObj = self.CLS_mtl_attribute_set()
-
-    def _addChannelObject(self, inputObject):
-        """
-        :param inputObject: object of Port
-        :return: None
-        """
-        self._channelSetObj.addObject(inputObject)
-        inputObject._setParentObject(self)
-
-    def channels(self):
-        """
-        :return: list(object of Port, ...)
-        """
-        return self._channelSetObj.objects()
-
-    def hasChannels(self):
-        """
-        :return: bool
-        """
-        return self._channelSetObj.hasObjects()
-
-    def channel(self, channelString):
-        return self._channelSetObj.objectWithKey(channelString)
-
-    def hasChannel(self, channelString):
-        return self._channelSetObj.hasObjectWithKey(channelString)
-
-
-class Abc_MtlInput(Abc_MtlAttribute):
-    def _initAbcMtlInput(self, *args):
-        self._initAbcMtlAttribute(*args)
-
-        self._sourceDagObj = None
-        self._sourcePortObj = None
+            portObject.connectTo(self)
 
     def connectFrom(self, outputObject):
         assert isinstance(outputObject, Abc_MtlOutput), u'''[ Argument Error ] "outputObject" must object of Output'''
-
-        if self.isConnectedFrom(outputObject) is False:
-            self._sourcePortObj = outputObject
-            self._sourceDagObj = self._sourcePortObj.node()
-
-            outputObject.connectTo(self)
+        self._setSource_(outputObject)
 
     def hasSource(self):
         return self._sourcePortObj is not None
@@ -921,10 +1039,83 @@ class Abc_MtlInput(Abc_MtlAttribute):
     def isConnectedFrom(self, outputObject):
         return outputObject is self._sourcePortObj
 
+    # target
+    def _setTarget_(self, portObject):
+        if self.isConnectedTo(portObject) is False:
+            self._targetPortObj = portObject
+
+            portObject.connectFrom(self)
+
+    def connectTo(self, inputObject):
+        assert isinstance(inputObject, Abc_MtlInput), u'''[ Argument Error ] "outputObject" must object of Input'''
+        self._setTarget_(inputObject)
+
+    def hasTarget(self):
+        return self._targetPortObj is not None
+
+    def isConnectedTo(self, inputObject):
+        return self._targetPortObj is inputObject
+
+    def target(self):
+        return self._targetPortObj
+
+    # channel
+    def _setParent_(self, portObject):
+        self._parentObj = portObject
+
+    def parent(self):
+        return self._parentObj
+
+    def hasParent(self):
+        return self._parentObj is not None
+
+    def _addChild_(self, portObject):
+        """
+        :param portObject: object of Port
+        :return: None
+        """
+        self._childSetObj.addObject(portObject)
+        portObject._setParent_(self)
+
+    def children(self):
+        """
+        :return: list(object of Port, ...)
+        """
+        return self._childSetObj.objects()
+
+    def hasChildren(self):
+        """
+        :return: bool
+        """
+        return self._childSetObj.hasObjects()
+
+    def child(self, channelString):
+        return self._childSetObj.objectWithKey(channelString)
+
+    def hasChild(self, channelString):
+        return self._childSetObj.hasObjectWithKey(channelString)
+
+    def _queryString(self):
+        return self.fullpathPortname()
+
+    def _xmlAttributeValueString(self):
+        return self.portname().toString()
+
+    def _xmlAttributeRaw(self):
+        return [
+            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+        ]
+
+
+# port > input
+class Abc_MtlInput(Abc_MtlPort):
+    def _initAbcMtlInput(self, *args):
+        self._initAbcMtlPort(*args)
+
     def _given(self):
         """
         :return:
-            1.object of Dag
+            1.object of Node
             2.object of Value
         """
         if self.hasSource() is True:
@@ -939,20 +1130,27 @@ class Abc_MtlInput(Abc_MtlAttribute):
         ]
 
 
+# port > input > node input
+class Abc_MtlNodeInput(Abc_MtlInput):
+    def _initAbcMtlNodeInput(self, *args):
+        self._initAbcMtlInput(*args)
+
+
+# port > input > shader input
 class Abc_MtlShaderInput(Abc_MtlInput):
     def _initAbcMtlShaderInput(self, *args):
         self._initAbcMtlInput(*args)
 
     def sourceNodeGraphOutput(self):
-        if self.hasSource():
+        if self.hasSource() is True:
             nodeGraph = self.source().node().nodeGraph()
-            if nodeGraph:
+            if nodeGraph is not None:
                 return nodeGraph.getNodeGraphOutput(self)
 
     def _given(self):
         """
         :return:
-            1.object of Dag
+            1.object of Node
             2.object of Value
         """
         if self.hasSource() is True:
@@ -960,58 +1158,37 @@ class Abc_MtlShaderInput(Abc_MtlInput):
         return self.value()
 
 
-class Abc_MtlNodeInput(Abc_MtlInput):
-    def _initAbcMtlNodeInput(self, *args):
-        self._initAbcMtlInput(*args)
-
-
-class Abc_MtlInputChannel(Abc_MtlInput):
-    def _initAbcMtlChannel(self, *args):
-        self._initAbcMtlInput(*args)
-
-        self._parentObj = None
-
-    def _setParentObject(self, portObject):
-        self._parentObj = portObject
-
-    def parent(self):
-        return self._parentObj
-
-
-class Abc_MtlOutput(Abc_MtlAttribute):
+# port > output
+class Abc_MtlOutput(Abc_MtlPort):
     def _initAbcMtlOutput(self, *args):
-        self._initAbcMtlAttribute(*args)
+        self._initAbcMtlPort(*args)
 
-        self._targetPortObj = None
+        self._nodeGraphOutput = None
 
-    def connectTo(self, inputObject):
-        """
-        :param inputObject: object of Input
-        :return:
-        """
-        assert isinstance(inputObject, Abc_MtlInput), u'''[ Argument Error ] "outputObject" must object of Input'''
-
-        if self.isConnectedTo(inputObject) is False:
-            self._targetPortObj = inputObject
-
-            inputObject.connectFrom(self)
-
-    def hasTarget(self):
-        return self._targetPortObj is not None
-
-    def isConnectedTo(self, inputObject):
-        return self._targetPortObj is inputObject
-
-    def target(self):
-        return self._targetPortObj
+    def _setNodeGraphOutput_(self, nodeGraphOutputObject):
+        self._nodeGraphOutput = nodeGraphOutputObject
 
     def _xmlAttributeValueString(self):
         return self.fullpathPortname()
 
     def _xmlAttributeRaw(self):
+        if self.hasParent():
+            return [
+                self.parent(),
+                (self._xmlAttributeKeyString(), self.portnameString())
+            ]
+        else:
+            return [
+                self.node(),
+                (self._xmlAttributeKeyString(), self.portnameString())
+            ]
+
+    def _xmlAttributeObjectLis(self):
         return [
+            self.dagpath(),
             self.node(),
-            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+            self.porttype(),
+            self.value()
         ]
 
 
@@ -1025,207 +1202,183 @@ class Abc_MtlNodeOutput(Abc_MtlOutput):
         self._initAbcMtlOutput(*args)
 
 
+class Abc_MtlOutputChannel(Abc_MtlOutput):
+    def _initAbcMtlOutputChannel(self, *args):
+        self._initAbcMtlOutput(*args)
+
+
 class Abc_MtlGeometryProperty(Abc_MtlPort):
     def _initAbcMtlGeometryProperty(self, *args):
         self._initAbcMtlPort(*args)
+
+    def _xmlAttributeObjectLis(self):
+        return [
+            self.dagpath(),
+            self.porttype(),
+            self.value()
+        ]
 
 
 class Abc_MtlGeometryVisibility(Abc_MtlPort):
     def _initAbcMtlVisibility(self, *args):
         self._initAbcMtlPort(*args)
 
+    def _xmlAttributeObjectLis(self):
+        return [
+            self.dagpath(),
+            self.porttype(),
+            self.value()
+        ]
 
-# geometry
-class Abc_MtlGeometry(Abc_MtlXml):
+
+# object
+class Abc_MtlObject(Abc_MtlBasic):
+    CLS_mtl_type = None
+    CLS_mtl_category = None
+
     CLS_mtl_node_dagpath = None
 
-    CLS_mtl_property_set = None
-    CLS_mtl_visibility_assign = None
+    CLS_mtl_object_def = None
 
-    CLS_mtl_property = None
-    CLS_mtl_visibility = None
-    CLS_mtl_geometry_def = None
+    CLS_mtl_port_set = None
+
+    CLS_mtl_input = None
+    CLS_mtl_input_channel = None
+    CLS_mtl_output = None
+    CLS_mtl_output_channel = None
+
+    CLS_mtl_source_object = None
 
     VAR_mtl_value_class_dict = {}
 
-    def _initAbcMtlGeometry(self, *args):
-        self._nodeDagpathObj = self.CLS_mtl_node_dagpath(*args)
+    def _initAbcMtlObject(self, categoryString, fullpathName):
+        self._objectDefObj = self.CLS_mtl_object_def(categoryString)
 
-        self._propertySetObj = self.CLS_mtl_property_set()
-        self._visibilityAssignSetObj = self.CLS_mtl_visibility_assign()
+        self._categoryObj = self.CLS_mtl_category(categoryString)
+        self._dagpathObj = self.CLS_mtl_node_dagpath(fullpathName)
 
-        self._geometryDefObj = self.CLS_mtl_geometry_def()
+        self._typeObj = self.CLS_mtl_type(self._objectDefObj.typeString())
 
-        for i in self._geometryDefObj.properties():
-            portnameString = i[self.DEF_mtl_key_port_string]
-            valueTypeString = i[self.DEF_mtl_key_datatype_string]
-            valueString = i[self.DEF_mtl_key_value_string]
+        self._attributeSetObj = self.CLS_mtl_port_set()
+        self._inputSetObj = self.CLS_mtl_port_set()
+        self._outputSetObj = self.CLS_mtl_port_set()
 
-            attributeObj = self.CLS_mtl_property(self, portnameString)
-            valueCls = self.VAR_mtl_value_class_dict[valueTypeString]
-
-            attributeObj._setValueObject(valueCls(valueString))
-            attributeObj._setDefaultValueObject(valueCls(valueString))
-
-            self._addPropertyObject(attributeObj)
-
-        for i in self._geometryDefObj.visibilities():
-            portnameString = i[self.DEF_mtl_key_port_string]
-            valueTypeString = i[self.DEF_mtl_key_datatype_string]
-            valueString = i[self.DEF_mtl_key_value_string]
-
-            attributeObj = self.CLS_mtl_visibility(self, portnameString)
-            valueCls = self.VAR_mtl_value_class_dict[valueTypeString]
-
-            attributeObj._setValueObject(valueCls(valueString))
-            attributeObj._setDefaultValueObject(valueCls(valueString))
-
-            self._addVisibilityObject(attributeObj)
+        self._addPorts_()
 
         self._initAbcMtlXml()
+
+    def _typeObject(self):
+        return self._typeObj
+
+    def _setType(self, typeString):
+        self._typeObj = self.CLS_mtl_type(typeString)
+
+    def objectDef(self):
+        return self._objectDefObj
+
+    def type(self):
+        """
+        :return: str
+        """
+        return self._typeObj
+
+    def typeString(self):
+        return self._typeObj.raw()
+
+    def _categoryObject(self):
+        return self._categoryObj
+
+    def category(self):
+        return self._categoryObject()
+
+    def categoryString(self):
+        """
+        :return: str
+        """
+        return self._categoryObject().toString()
 
     def dagpath(self):
         """
         :return: object of Dagpath
         """
-        return self._nodeDagpathObj
-
+        return self._dagpathObj
+    
     def setFullpathName(self, fullpathName):
         """
         :param fullpathName: str
         :return: None
         """
-        self._nodeDagpathObj.setRaw(fullpathName)
+        self._dagpathObj.setRaw(fullpathName)
 
     def fullpathName(self):
         """
         :return: str
         """
-        return self._nodeDagpathObj.fullpathName()
+        return self._dagpathObj.fullpathName()
 
     def setNameString(self, nameString):
         """
         :param nameString: str
         :return: None
         """
-        self._nodeDagpathObj.setNameString(nameString)
+        self._dagpathObj.setNameString(nameString)
 
     def nameString(self):
         """
         :return: str
         """
-        return self._nodeDagpathObj.nameString()
+        return self._dagpathObj.nameString()
 
-    def _addPropertyObject(self, propertyObject):
-        self._propertySetObj.addObject(propertyObject)
+    def _addPorts_(self):
+        def addFnc_(portObject_, assignString_):
+            if assignString_ == self.DEF_mtl_keyword_input or assignString_ == (self.DEF_mtl_keyword_input, self.DEF_mtl_keyword_channel):
+                self._addInput_(portObject_)
+            elif assignString_ == self.DEF_mtl_keyword_output or assignString_ == (self.DEF_mtl_keyword_output, self.DEF_mtl_keyword_channel):
+                self._addOutput_(portObject_)
 
-    def property(self, propertyNameString):
-        return self._propertySetObj.objectWithKey(propertyNameString)
+            self._addAttribute_(portObject_)
 
-    def hasProperty(self, *args):
-        return self._propertySetObj.hasObject(*args)
+        def addPortFnc_(portnameString_, portDef_):
+            _porttypeString = portDef_[self.DEF_mtl_key_porttype]
+            _valueString = portDef_[self.DEF_mtl_key_portdata]
+            _assignString = portDef_[self.DEF_mtl_key_assign]
 
-    def properties(self):
-        return self._propertySetObj.objects()
+            portObject = None
+            if _assignString == self.DEF_mtl_keyword_input:
+                portObject = self.CLS_mtl_input(self, portnameString_)
+            elif _assignString == self.DEF_mtl_keyword_output:
+                portObject = self.CLS_mtl_output(self, portnameString_)
+            elif _assignString == (self.DEF_mtl_keyword_input, self.DEF_mtl_keyword_channel):
+                portObject = self.CLS_mtl_input_channel(self, portnameString_)
+            elif _assignString == (self.DEF_mtl_keyword_output, self.DEF_mtl_keyword_channel):
+                portObject = self.CLS_mtl_output_channel(self, portnameString_)
 
-    def _addVisibilityObject(self, visibilityObject):
-        self._visibilityAssignSetObj.addObject(visibilityObject)
+            if portObject is not None:
+                valueCls = self.VAR_mtl_value_class_dict[_porttypeString]
 
-    def visibility(self, visibilityNameString):
-        return self._visibilityAssignSetObj.objectWithKey(visibilityNameString)
+                portObject._setValue_(valueCls(_valueString))
+                portObject._setDefaultValue_(valueCls(_valueString))
 
-    def hasVisibility(self, *args):
-        return self._visibilityAssignSetObj.hasObject(*args)
+                addFnc_(portObject, _assignString)
 
-    def visibilities(self):
-        return self._visibilityAssignSetObj.objects()
+        def addChildFnc_(portnameString_, portDef_):
+            _parentString = portDef_[self.DEF_mtl_key_parent]
+            if _parentString:
+                parentPortObject = self.attribute(_parentString)
+                portObject = self.attribute(portnameString_)
+                parentPortObject._addChild_(portObject)
 
-    def toString(self):
-        return self.fullpathName()
+        for k, v in self._objectDefObj.portDefs().items():
+            addPortFnc_(k, v)
 
-    def _queryString(self):
-        return self.fullpathName()
+        for k, v in self._objectDefObj.portDefs().items():
+            addChildFnc_(k, v)
 
-    def _xmlChildList(self):
-        return self.properties()
-
-
-# material
-class Abc_MtlMaterial(Abc_MtlXml):
-    CLS_mtl_node_dagpath = None
-    CLS_mtl_attribute_set = None
-
-    CLS_mtl_input = None
-    CLS_mtl_material_def = None
-
-    VAR_mtl_value_class_dict = None
-
-    def _initAbcMtlMaterial(self, fullpathName):
-        self._nodeDagpathObj = self.CLS_mtl_node_dagpath(fullpathName)
-
-        self._attributeSetObj = self.CLS_mtl_attribute_set()
-        self._inputSetObj = self.CLS_mtl_attribute_set()
-
-        self._surfaceDagObj = None
-        self._displacementDagObj = None
-        self._sourceVolumeDagObj = None
-
-        self._surfacePortObj = None
-        self._displacementPortObj = None
-        self._sourceVolumePortObj = None
-
-        for i in self.CLS_mtl_material_def().inputRaw():
-            portnameString = i[self.DEF_mtl_key_port_string]
-            valueTypeString = i[self.DEF_mtl_key_datatype_string]
-            valueString = i[self.DEF_mtl_key_value_string]
-
-            attributeObj = self.CLS_mtl_input(self, portnameString)
-            valueCls = self.VAR_mtl_value_class_dict[valueTypeString]
-
-            attributeObj._setValueObject(valueCls(valueString))
-            attributeObj._setDefaultValueObject(valueCls(valueString))
-
-            self._addAttributeObject(attributeObj)
-            self._addInputObject(attributeObj)
-
-        self._initAbcMtlXml()
-
-        self._suffixString = '__shaderset'
-
-    def dagpath(self):
-        """
-        :return: object of Dagpath
-        """
-        return self._nodeDagpathObj
-
-    def setFullpathName(self, nameString):
-        """
-        :param nameString: str
-        :return: None
-        """
-        self._nodeDagpathObj.setRaw(nameString)
-
-    def fullpathName(self):
-        """
-        :return: str
-        """
-        return self._nodeDagpathObj.fullpathName()
-
-    def setNameString(self, nameString):
-        """
-        :param nameString: str
-        :return: None
-        """
-        self._nodeDagpathObj.setNameString(nameString)
-
-    def nameString(self):
-        """
-        :return: str
-        """
-        return self._nodeDagpathObj.nameString()
-
-    def _addAttributeObject(self, inputObject):
-        self._attributeSetObj.addObject(inputObject)
+    def _addAttribute_(self, portObject):
+        if isinstance(portObject, (tuple, list)):
+            [self._attributeSetObj.addObject(i) for i in portObject]
+        else:
+            self._attributeSetObj.addObject(portObject)
 
     def hasAttributes(self):
         return self._attributeSetObj.hasObjects()
@@ -1239,8 +1392,17 @@ class Abc_MtlMaterial(Abc_MtlXml):
     def attribute(self, fullpathPortname):
         return self._attributeSetObj.objectWithKey(fullpathPortname)
 
-    def _addInputObject(self, inputObject):
-        self._inputSetObj.addObject(inputObject)
+    def _addInput_(self, portObject):
+        if isinstance(portObject, (tuple, list)):
+            [self._inputSetObj.addObject(i) for i in portObject]
+        else:
+            self._inputSetObj.addObject(portObject)
+
+    def hasInputs(self):
+        return self._inputSetObj.hasObjects()
+
+    def hasInput(self, *args):
+        return self._inputSetObj.hasObject(*args)
 
     def inputs(self):
         """
@@ -1256,11 +1418,74 @@ class Abc_MtlMaterial(Abc_MtlXml):
         return self._inputSetObj.objectWithKey(fullpathPortname)
 
     def valueChangedInputs(self):
+        def _addFnc(portObject):
+            if not portObject in lis:
+                lis.append(portObject)
+
         lis = []
         for i in self.inputs():
             if i.isValueChanged() or i.hasSource():
-                lis.append(i)
+                if i.hasParent():
+                    _addFnc(i.parent())
+                _addFnc(i)
         return lis
+
+    def _addOutput_(self, portObject):
+        if isinstance(portObject, (tuple, list)):
+            [self._outputSetObj.addObject(i) for i in portObject]
+        else:
+            self._outputSetObj.addObject(portObject)
+
+    def outputs(self):
+        return self._outputSetObj.objects()
+
+    def output(self, fullpathPortname):
+        return self._outputSetObj.objectWithKey(fullpathPortname)
+
+    def toString(self):
+        return self.fullpathName()
+
+    def sourceDags(self):
+        return [i.source().node() for i in self.inputs() if i.hasSource()]
+
+    def targetDags(self):
+        return [i.target().node() for i in self.outputs() if i.hasTarget()]
+
+    def targetShaders(self):
+        return [i for i in self.targetDags() if isinstance(i, Abc_MtlShader)]
+
+    def _queryString(self):
+        return self.fullpathName()
+
+    def connectedOutputs(self, toShader=False):
+        lis = []
+
+        for outputObject in self.outputs():
+            if outputObject.hasTarget():
+                if toShader is True:
+                    if isinstance(outputObject.target().node(), Abc_MtlShader):
+                        lis.append(outputObject)
+                else:
+                    lis.append(outputObject)
+        return lis
+
+
+# material
+class Abc_MtlMaterial(Abc_MtlObject):
+    def _initAbcMtlMaterial(self, *args):
+        nodeString = args[0]
+        self._initAbcMtlObject(
+            self.DEF_mtl_category_material,
+            nodeString
+        )
+
+        self._surfaceDagObj = None
+        self._displacementDagObj = None
+        self._sourceVolumeDagObj = None
+
+        self._surfacePortObj = None
+        self._displacementPortObj = None
+        self._sourceVolumePortObj = None
 
     def surfaceInput(self):
         return self.input('surface_shader')
@@ -1275,7 +1500,7 @@ class Abc_MtlMaterial(Abc_MtlXml):
         self._surfacePortObj = outputObject
         self._surfacePortObj.connectTo(self.surfaceInput())
         self._surfaceDagObj = self._surfacePortObj.node()
-        self._surfaceDagObj.setTargetShadersetPort(self.surfaceInput())
+        self._surfaceDagObj.setTargetMaterialPort(self.surfaceInput())
 
     def surfaceShader(self):
         return self._surfaceDagObj
@@ -1284,7 +1509,7 @@ class Abc_MtlMaterial(Abc_MtlXml):
         self._displacementPortObj = outputObject
         self._displacementPortObj.connectTo(self.displacementInput())
         self._displacementDagObj = self._displacementPortObj.node()
-        self._displacementDagObj.setTargetShadersetPort(self.displacementInput())
+        self._displacementDagObj.setTargetMaterialPort(self.displacementInput())
 
     def displacementShader(self):
         return self._displacementDagObj
@@ -1293,7 +1518,7 @@ class Abc_MtlMaterial(Abc_MtlXml):
         self._sourceVolumePortObj = outputObject
         self._sourceVolumePortObj.connectTo(self.volumeInput())
         self._sourceVolumeDagObj = self._sourceVolumePortObj.node()
-        self._sourceVolumeDagObj.setTargetShadersetPort(self.volumeInput())
+        self._sourceVolumeDagObj.setTargetMaterialPort(self.volumeInput())
 
     def volumeShader(self):
         return self._sourceVolumeDagObj
@@ -1332,112 +1557,90 @@ class Abc_MtlMaterial(Abc_MtlXml):
         ]
 
 
-# object
-class Abc_MtlObject(Abc_MtlXml):
-    CLS_mtl_type = None
-    CLS_mtl_category = None
+# object > node
+class Abc_MtlNode(Abc_MtlObject):
+    def _initAbcMtlNode(self, *args):
+        self._initAbcMtlObject(*args)
 
-    CLS_mtl_node_dagpath = None
+        self._nodeGraphObj = None
 
-    CLS_mtl_attribute_set = None
+    def _setNodeGraph_(self, nodeGraphObject):
+        self._nodeGraphObj = nodeGraphObject
+
+    def nodeGraph(self):
+        return self._nodeGraphObj
+
+    def _xmlElementKeyString(self):
+        return self.categoryString()
+
+    def _xmlAttributeObjectLis(self):
+        return [
+            self.dagpath()
+        ]
+
+    def _xmlChildList(self):
+        return self.valueChangedInputs()
+
+    def _xmlAttributeValueString(self):
+        return self.fullpathName()
+
+    def _xmlAttributeRaw(self):
+        return [
+            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+        ]
+
+
+# object > shader
+class Abc_MtlShader(Abc_MtlObject):
+    def _initAbcMtlShader(self, *args):
+        self._initAbcMtlObject(*args)
+
+        self._targetMaterialPortObj = None
+
+    def setTargetMaterialPort(self, portObject):
+        self._targetMaterialPortObj = portObject
+
+    def targetMaterialPort(self):
+        return self._targetMaterialPortObj
+
+    def sourceNodeGraphs(self):
+        lis = []
+        for portObject in self.inputs():
+            if portObject.hasSource():
+                node = portObject.source().node()
+                nodeGraph = node.nodeGraph()
+                if nodeGraph is not None:
+                    if not nodeGraph in lis:
+                        lis.append(nodeGraph)
+        return lis
+
+    def outColor(self):
+        return self.output('out_color')
+
+    def outTransparency(self):
+        return self.output('out_transparency')
+
+    def outAlpha(self):
+        return self.output('out_alpha')
+
+    def _xmlAttributeObjectLis(self):
+        return [
+            self.dagpath(),
+            self.category(),
+            self.targetMaterialPort()
+        ]
+
+    def _xmlChildList(self):
+        return self.valueChangedInputs()
+
+
+# object > dag
+class Abc_MtlDag(Abc_MtlObject):
     CLS_mtl_child_set = None
-
-    CLS_mtl_input = None
-    CLS_mtl_output = None
-    CLS_mtl_channel = None
-
-    VAR_mtl_value_class_dict = {}
-
-    def _initAbcMtlObject(self, categoryString, fullpathName):
-        self._categoryObj = self.CLS_mtl_category(categoryString)
-        self._nodeDagpathObj = self.CLS_mtl_node_dagpath(fullpathName)
-
-        self._typeObj = self.CLS_mtl_type(mtlMethods.ArnoldNodedef.typeString(categoryString))
-
-        self._attributeSetObj = self.CLS_mtl_attribute_set()
-        self._inputSetObj = self.CLS_mtl_attribute_set()
-        self._outputSetObj = self.CLS_mtl_attribute_set()
+    def _initAbcMtlDag(self, *args):
+        self._initAbcMtlObject(*args)
 
         self._childSetObj = self.CLS_mtl_child_set()
-
-        for i in mtlMethods.ArnoldNodedef.inputRaw(self.categoryString()):
-            portObj = self._addPort_(i, self.CLS_mtl_input)
-
-            self._addAttributeObject(portObj)
-            self._addInputObject(portObj)
-
-        for i in mtlMethods.ArnoldNodedef.outputRaw(self.categoryString()):
-            portObj = self._addPort_(i, self.CLS_mtl_output)
-
-            self._addAttributeObject(portObj)
-            self._addOutputObject(portObj)
-
-        self._initAbcMtlXml()
-
-    def loadDef(self, *args):
-        pass
-
-    def createByRaw(self, *args):
-        pass
-
-    def _typeObject(self):
-        return self._typeObj
-
-    def _setType(self, typeString):
-        self._typeObj = self.CLS_mtl_type(typeString)
-
-    def type(self):
-        """
-        :return: str
-        """
-        return self._typeObj
-
-    def typeString(self):
-        return self._typeObj.raw()
-
-    def _categoryObject(self):
-        return self._categoryObj
-
-    def category(self):
-        return self._categoryObject()
-
-    def categoryString(self):
-        """
-        :return: str
-        """
-        return self._categoryObject().toString()
-
-    def dagpath(self):
-        """
-        :return: object of Dagpath
-        """
-        return self._nodeDagpathObj
-    
-    def setFullpathName(self, fullpathName):
-        """
-        :param fullpathName: str
-        :return: None
-        """
-        self._nodeDagpathObj.setRaw(fullpathName)
-
-    def fullpathName(self):
-        """
-        :return: str
-        """
-        return self._nodeDagpathObj.fullpathName()
-
-    def setNameString(self, nameString):
-        """
-        :param nameString: str
-        :return: None
-        """
-        self._nodeDagpathObj.setNameString(nameString)
-
-    def nameString(self):
-        """
-        :return: str
-        """
-        return self._nodeDagpathObj.nameString()
 
     def children(self):
         """
@@ -1471,134 +1674,97 @@ class Abc_MtlObject(Abc_MtlXml):
         """
         self._childSetObj.addObject(nodeObject)
 
-    def _addPort_(self, raw, portCls):
-        def addChannelFnc_(portObject_):
-            for i in mtlMethods.ArnoldPortdef.channelRaw(portObject_.value().datatypeString()):
-                portnameString_ = i[self.DEF_mtl_key_port_string]
-                datatypeString_ = i[self.DEF_mtl_key_datatype_string]
-                valueString_ = '0.0'
 
-                channelObj = self.CLS_mtl_channel(self, self.DEF_mtl_port_separator.join(
-                    [portObject_.fullpathPortname(), portnameString_]))
-                valueCls_ = self.VAR_mtl_value_class_dict[datatypeString_]
+# geometry
+class Abc_MtlGeometry(Abc_MtlObject):
+    CLS_mtl_node_dagpath = None
+    CLS_mtl_object_def = None
 
-                channelObj._setValueObject(valueCls_(valueString_))
-                channelObj._setDefaultValueObject(valueCls_(valueString_))
+    CLS_mtl_port_set = None
+    CLS_mtl_visibility_set = None
 
-                portObject_._addChannelObject(channelObj)
+    CLS_mtl_property = None
+    CLS_mtl_visibility = None
 
-        portnameString = raw[self.DEF_mtl_key_port_string]
-        datatypeString = raw[self.DEF_mtl_key_datatype_string]
-        valueString = raw[self.DEF_mtl_key_value_string]
+    VAR_mtl_value_class_dict = {}
 
-        portObject = portCls(self, portnameString)
-        valueCls = self.VAR_mtl_value_class_dict[datatypeString]
+    def _initAbcMtlGeometry(self, *args):
+        nodeString = args[0]
+        self._initAbcMtlObject(
+            self.DEF_mtl_category_geometry,
+            nodeString
+        )
+        self._propertySetObj = self.CLS_mtl_port_set()
+        self._visibilitySetObj = self.CLS_mtl_visibility_set()
 
-        portObject._setValueObject(valueCls(valueString))
-        portObject._setDefaultValueObject(valueCls(valueString))
-        addChannelFnc_(portObject)
-        return portObject
+        self._addGeometryPorts_()
 
-    def _addAttributeObject(self, portObject_):
-        """
-        :param portObject_: object of Port
-        :return: None
-        """
-        self._attributeSetObj.addObject(portObject_)
+        self._initAbcMtlXml()
 
-    def hasAttributes(self):
-        return self._attributeSetObj.hasObjects()
+    def _addGeometryPorts_(self):
+        def addPortFnc_(portnameString_, portDef_):
+            valueTypeString = portDef_[self.DEF_mtl_key_porttype]
+            portdataString = portDef_[self.DEF_mtl_key_portdata]
+            assignString = portDef_[self.DEF_mtl_key_assign]
+            if assignString == self.DEF_mtl_keyword_property:
+                portObj = self.CLS_mtl_property(self, portnameString_)
+                self._addProperty_(portObj)
+            else:
+                portObj = self.CLS_mtl_visibility(self, portnameString_)
+                self._addVisibility_(portObj)
 
-    def hasAttribute(self, *args):
-        return self._attributeSetObj.hasObject(*args)
+            self._addAttribute_(portObj)
 
-    def attributes(self):
-        return self._attributeSetObj.objects()
+            valueCls = self.VAR_mtl_value_class_dict[valueTypeString]
 
-    def attribute(self, fullpathPortname):
-        return self._attributeSetObj.objectWithKey(fullpathPortname)
+            portObj._setValue_(valueCls(portdataString))
+            portObj._setDefaultValue_(valueCls(portdataString))
 
-    def _addInputObject(self, portObject):
-        self._inputSetObj.addObject(portObject)
+        for k, v in self._objectDefObj.portDefs().items():
+            addPortFnc_(k, v)
 
-    def hasInputs(self):
-        return self._inputSetObj.hasObjects()
+    def _addProperty_(self, portObject):
+        self._propertySetObj.addObject(portObject)
 
-    def hasInput(self, *args):
-        return self._inputSetObj.hasObject(*args)
+    def _addVisibility_(self, portObject):
+        self._visibilitySetObj.addObject(portObject)
 
-    def inputs(self):
-        """
-        :return: list(object or attribute, ...)
-        """
-        return self._inputSetObj.objects()
+    def property(self, portnameString):
+        return self._propertySetObj.objectWithKey(portnameString)
 
-    def input(self, fullpathPortname):
-        """
-        :param fullpathPortname: str
-        :return: object of Port
-        """
-        return self._inputSetObj.objectWithKey(fullpathPortname)
+    def hasProperty(self, *args):
+        return self._propertySetObj.hasObject(*args)
+
+    def properties(self):
+        return self._propertySetObj.objects()
+
+    def visibility(self, portnameString):
+        return self._visibilitySetObj.objectWithKey(portnameString)
+
+    def hasVisibility(self, *args):
+        return self._visibilitySetObj.hasObject(*args)
+
+    def visibilities(self):
+        return self._visibilitySetObj.objects()
 
     def valueChangedInputs(self):
+        def _addFnc(portObject):
+            if not portObject in lis:
+                lis.append(portObject)
+
         lis = []
-        for i in self.inputs():
+        for i in self.properties() + self.visibilities():
             if i.isValueChanged() or i.hasSource():
-                lis.append(i)
+                if i.hasParent():
+                    _addFnc(i.parent())
+                _addFnc(i)
         return lis
-
-    def _addOutputObject(self, portObject):
-        self._outputSetObj.addObject(portObject)
-
-    def outputs(self):
-        return self._outputSetObj.objects()
-
-    def output(self, fullpathPortname):
-        return self._outputSetObj.objectWithKey(fullpathPortname)
 
     def toString(self):
         return self.fullpathName()
 
-    def sourceDags(self):
-        return [i.source().node() for i in self.inputs() if i.hasSource()]
-
-    def targetDags(self):
-        return [i.target().node() for i in self.outputs() if i.hasTarget()]
-
-    def targetShaders(self):
-        return [i for i in self.targetDags() if isinstance(i, Abc_MtlShader)]
-
     def _queryString(self):
         return self.fullpathName()
-
-    def connectedOutputs(self, toShader=False):
-        lis = []
-
-        for outputObject in self.outputs():
-            if outputObject.hasTarget():
-                if toShader is True:
-                    if isinstance(outputObject.target().node(), Abc_MtlShader):
-                        lis.append(outputObject)
-                else:
-                    lis.append(outputObject)
-        return lis
-
-
-# object > node
-class Abc_MtlNode(Abc_MtlObject):
-    def _initAbcMtlNode(self, *args):
-        self._initAbcMtlObject(*args)
-
-        self._nodeGraphObj = None
-
-    def setNodeGraph(self, nodeGraphObject):
-        self._nodeGraphObj = nodeGraphObject
-
-    def nodeGraph(self):
-        return self._nodeGraphObj
-
-    def _xmlElementKeyString(self):
-        return self.categoryString()
 
     def _xmlAttributeObjectLis(self):
         return [
@@ -1608,69 +1774,17 @@ class Abc_MtlNode(Abc_MtlObject):
     def _xmlChildList(self):
         return self.valueChangedInputs()
 
-    def _xmlAttributeValueString(self):
-        return self.fullpathName()
 
-    def _xmlAttributeRaw(self):
-        return [
-            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
-        ]
-
-
-# object > shader
-class Abc_MtlShader(Abc_MtlObject):
-    def _initAbcMtlShader(self, *args):
-        self._initAbcMtlObject(*args)
-
-        self._targetShadersetPortObj = None
-
-    def setTargetShadersetPort(self, inputObject):
-        self._targetShadersetPortObj = inputObject
-
-    def targetShadersetPort(self):
-        return self._targetShadersetPortObj
-
-    def sourceNodeGraphs(self):
-        lis = []
-        for inputObject in self.inputs():
-            if inputObject.hasSource():
-                node = inputObject.source().node()
-                nodeGraph = node.nodeGraph()
-                if nodeGraph is not None:
-                    if not nodeGraph in lis:
-                        lis.append(nodeGraph)
-        return lis
-
-    def outColor(self):
-        return self.output('out_color')
-
-    def outTransparency(self):
-        return self.output('out_transparency')
-
-    def outAlpha(self):
-        return self.output('out_alpha')
-
-    def _xmlAttributeObjectLis(self):
-        return [
-            self.dagpath(),
-            self.category(),
-            self.targetShadersetPort()
-        ]
-
-    def _xmlChildList(self):
-        return self.valueChangedInputs()
-
-
-# Attributeset
-class Abc_MtlAttributeset(Abc_MtlXml):
+# portset
+class Abc_MtlPortset(Abc_MtlBasic):
     CLS_mtl_name = None
 
-    CLS_mtl_attribute_set = None
+    CLS_mtl_port_set = None
     
-    def _initAbcMtlAttributeset(self, *args):
+    def _initAbcMtlPortset(self, *args):
         self._nameObj = self.CLS_mtl_name(*args)
 
-        self._inputSetObj = self.CLS_mtl_attribute_set()
+        self._inputSetObj = self.CLS_mtl_port_set()
 
         self._initAbcMtlXml()
 
@@ -1705,9 +1819,10 @@ class Abc_MtlAttributeset(Abc_MtlXml):
         ]
 
 
-class Abc_MtlPropertyset(Abc_MtlAttributeset):
+# portset > propertyset
+class Abc_MtlPropertyset(Abc_MtlPortset):
     def _initAbcMtlPropertyset(self, *args):
-        self._initAbcMtlAttributeset(*args)
+        self._initAbcMtlPortset(*args)
 
     def _xmlAttributeObjectLis(self):
         return [
@@ -1718,8 +1833,8 @@ class Abc_MtlPropertyset(Abc_MtlAttributeset):
         return self.attributes()
 
 
-# Output of Node-Graph
-class Abc_MtlNodeGraphOutput(Abc_MtlXml):
+# node graph output
+class Abc_MtlNodeGraphOutput(Abc_MtlBasic):
     CLS_mtl_name = None
 
     def _initAbcMtlNodeGraphOutput(self, *args):
@@ -1745,8 +1860,9 @@ class Abc_MtlNodeGraphOutput(Abc_MtlXml):
         """
         self._nameObj.setRaw(nameString)
 
-    def setPort(self, outputObject):
+    def _setPort_(self, outputObject):
         self._portObj = outputObject
+        self._portObj._setNodeGraphOutput_(self)
 
     def port(self):
         return self._portObj
@@ -1754,7 +1870,7 @@ class Abc_MtlNodeGraphOutput(Abc_MtlXml):
     def porttype(self):
         return self._portObj.porttype()
 
-    def setNodeGraph(self, nodeGraphObject):
+    def _setNodeGraph_(self, nodeGraphObject):
         self._nodeGraphObj = nodeGraphObject
 
     def nodeGraph(self):
@@ -1780,7 +1896,7 @@ class Abc_MtlNodeGraphOutput(Abc_MtlXml):
         ]
 
 
-class Abc_MtlNodeGraph(Abc_MtlXml):
+class Abc_MtlNodeGraph(Abc_MtlBasic):
     CLS_mtl_name = None
 
     CLS_mtl_node_set = None
@@ -1818,7 +1934,7 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
     def addNode(self, *args):
         """
         :param args:
-            1.object of Dag
+            1.object of Node
             2.str(node category), str(node name)
         :return:
         """
@@ -1827,7 +1943,7 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
         else:
             nodeObject = self.CLS_mtl_node(*args)
 
-        nodeObject.setNodeGraph(self)
+        nodeObject._setNodeGraph_(self)
 
         self._nodeSetObj.addObject(nodeObject)
 
@@ -1836,8 +1952,8 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
             for outputObject in outputObjects:
                 name = u'output{}'.format(self._outputSetObj.objectCount())
                 nodeGraphOutputObject = self.CLS_mtl_output(name)
-                nodeGraphOutputObject.setPort(outputObject)
-                self._addOutputObject(nodeGraphOutputObject)
+                nodeGraphOutputObject._setPort_(outputObject)
+                self._addOutput_(nodeGraphOutputObject)
 
                 key = outputObject.target().fullpathName()
                 self._outputDic[key] = nodeGraphOutputObject
@@ -1868,12 +1984,12 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
         """
         return self._nodeSetObj.hasObjects()
 
-    def _addOutputObject(self, outputObject):
+    def _addOutput_(self, outputObject):
         """
         :param outputObject: object of Output
         :return: None
         """
-        outputObject.setNodeGraph(self)
+        outputObject._setNodeGraph_(self)
 
         self._outputSetObj.addObject(outputObject)
 
@@ -1890,8 +2006,8 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
         """
         return self._outputSetObj.objectWithKey(fullpathPortname)
 
-    def getNodeGraphOutput(self, inputObject):
-        key = inputObject.fullpathName()
+    def getNodeGraphOutput(self, portObject):
+        key = portObject.fullpathName()
         return self._outputDic[key]
 
     def hasOutputs(self):
@@ -1917,8 +2033,8 @@ class Abc_MtlNodeGraph(Abc_MtlXml):
         ]
 
 
-# Collection of Geometry(s)
-class Abc_MtlGeometryCollection(Abc_MtlXml):
+# geometry collection
+class Abc_MtlGeometryCollection(Abc_MtlBasic):
     CLS_mtl_name = None
 
     CLS_set_geometry = None
@@ -1947,7 +2063,7 @@ class Abc_MtlGeometryCollection(Abc_MtlXml):
         :return: None
         """
         self._nameObj.setRaw(nameString)
-    
+
     def geometrySet(self):
         return self._geometrySetObj
 
@@ -2058,7 +2174,7 @@ class Abc_MtlGeometryCollection(Abc_MtlXml):
         ]
 
 
-class Abc_MtlAssign(Abc_MtlXml):
+class Abc_MtlAssign(Abc_MtlBasic):
     CLS_mtl_name = None
     CLS_set_geometry = None
 
@@ -2069,7 +2185,7 @@ class Abc_MtlAssign(Abc_MtlXml):
 
         self._geometrySetObj = self.CLS_set_geometry()
         self._collectionObj = None
-        
+
         self._lookObj = None
 
         self._initAbcMtlXml()
@@ -2156,7 +2272,7 @@ class Abc_MtlAssign(Abc_MtlXml):
         :return: str
         """
         return self._collectionObj.nameString()
-    
+
     def setLook(self, lookObject):
         self._lookObj = lookObject
         self._lookObj.addAssign(self)
@@ -2248,12 +2364,14 @@ class Abc_MtlVisibilityAssign(Abc_MtlAssign):
 
     CLS_set_geometry_viewer = None
 
-    CLS_mtl_geometry_def = None
+    CLS_mtl_object_def = None
 
     def _initAbcMtlVisibilityAssign(self, *args):
         self._initAbcMtlAssign(*args)
 
-        self._geometryDef = self.CLS_mtl_geometry_def()
+        self._objectDefObj = self.CLS_mtl_object_def(
+            self.DEF_mtl_category_geometry
+        )
 
         self._typeObj = None
 
@@ -2262,13 +2380,13 @@ class Abc_MtlVisibilityAssign(Abc_MtlAssign):
 
         self._viewerGeometrySetObj = self.CLS_set_geometry_viewer()
 
-    def setTypeString(self, visibilityTypeString):
-        self._typeObj = self.CLS_mtl_type(visibilityTypeString)
+    def setTypeString(self, portnameString):
+        self._typeObj = self.CLS_mtl_type(portnameString)
 
-        i = self._geometryDef.visibility(visibilityTypeString)
-        valueString = i[self.DEF_mtl_key_value_string]
+        i = self._objectDefObj.getPortDef(portnameString)
+        portdataString = i[self.DEF_mtl_key_portdata]
 
-        self._visibilityValueObj = self.CLS_value_visibility(valueString)
+        self._visibilityValueObj = self.CLS_value_visibility(portdataString)
 
     def type(self):
         return self._typeObj
@@ -2278,10 +2396,10 @@ class Abc_MtlVisibilityAssign(Abc_MtlAssign):
 
     def viewerGeometrySet(self):
         return self._viewerGeometrySetObj
-    
+
     def addViewerGeometry(self, geometryObject):
         self._viewerGeometrySetObj.addObject(geometryObject)
-        
+
     def viewerGeometries(self):
         return self._viewerGeometrySetObj.objsets()
 
@@ -2299,21 +2417,21 @@ class Abc_MtlVisibilityAssign(Abc_MtlAssign):
         ]
 
 
-class Abc_MtlLook(Abc_MtlXml):
+class Abc_MtlLook(Abc_MtlBasic):
     CLS_mtl_name = None
 
     CLS_set_assign = None
 
     CLS_set_assign_shaderset = None
     ClS_set_assign_propertyset = None
-    CLS_mtl_visibility_assign = None
+    CLS_mtl_visibility_set = None
 
     def _initAbcMtlLook(self, *args):
         self._nameObj = self.CLS_mtl_name(*args)
 
         self._shadersetAssignSetObj = self.CLS_set_assign_shaderset()
         self._propertysetAssignSetObj = self.ClS_set_assign_propertyset()
-        self._visibilityAssignSetObj = self.CLS_mtl_visibility_assign()
+        self._visibilitySetObj = self.CLS_mtl_visibility_set()
 
         self._assignSetObj = self.CLS_set_assign()
 
@@ -2332,13 +2450,13 @@ class Abc_MtlLook(Abc_MtlXml):
         """
         assert isinstance(visibilityAssignObject, Abc_MtlVisibilityAssign)
 
-        count = self._visibilityAssignSetObj.objectCount()
+        count = self._visibilitySetObj.objectCount()
         if visibilityAssignObject.hasNameString() is False:
             visibilityAssignObject.setNameString('visibility_assign_{}'.format(count))
-        self._visibilityAssignSetObj.addObject(visibilityAssignObject)
+        self._visibilitySetObj.addObject(visibilityAssignObject)
 
     def visibilityAssigns(self):
-        return self._visibilityAssignSetObj.objects()
+        return self._visibilitySetObj.objects()
 
     def addShadersetAssign(self, shadersetAssignObject):
         """
@@ -2408,7 +2526,7 @@ class Abc_MtlLook(Abc_MtlXml):
         return self._givens()
 
 
-class Abc_MtlFileReference(Abc_MtlXml):
+class Abc_MtlFileReference(Abc_MtlBasic):
     CLS_mtl_file = None
 
     def _initAbcMtlFileReference(self, *args):
@@ -2434,7 +2552,7 @@ class Abc_MtlFileReference(Abc_MtlXml):
         ]
 
 
-class Abc_MtlFile(Abc_MtlXml):
+class Abc_MtlFile(Abc_MtlBasic):
     CLS_mtl_file = None
 
     CLS_mtl_version = None
@@ -2495,74 +2613,296 @@ class Abc_MtlFile(Abc_MtlXml):
         return self.looks()
 
 
-class Abc_MtlTypeDef(mtlConfigure.Utility):
-    def _initAbcMtlTypeDef(self):
-        pass
+class Abc_DccMtlBasicDef(mtlConfigure.Utility):
+    CLS_mtl_basic_def = None
+    # noinspection PyUnusedLocal
+    def _initAbcDccMtlBasicDef(self, *args):
+        self._nodeRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_node_defs_file
+        ) or {}
+        self._geometryRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_geometry_def_file
+        ) or {}
+        self._materialRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_material_def_file
+        ) or {}
+        self._outputRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_output_defs_file
+        ) or {}
 
+        self._portChildRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_arnold_port_child_defs_file
+        ) or {}
+        self._dccNodeRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_maya_arnold_node_defs_file
+        ) or {}
+        self._dccGeometryRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_maya_arnold_geometry_def_file
+        ) or {}
+        self._dccMaterialRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_maya_arnold_material_def_file
+        ) or {}
+        self._dccOutputRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_maya_arnold_output_defs_file
+        ) or {}
 
-class Abc_MtlGeometryDef(mtlConfigure.Utility):
-    def _initAbcMtlGeometryDef(self):
-        self._geometryDefDic = mtlConfigure.Utility.DEF_mtl_geometry_def_dict
-        self._geometryPropertyDefLis = self._geometryDefDic['property']
-        self._geometryVisibilityDefLis = self._geometryDefDic['visibility']
+        self._dccPortChildRaw = bscMethods.OsJsonFile.read(
+            self.DEF_mtl_maya_arnold_port_child_defs_file
+        ) or {}
 
-        self._geometryPropertyDefDic = {}
-        for i in self._geometryPropertyDefLis:
-            nameString = i[self.DEF_mtl_key_port_string]
-            valueTypeString = i[self.DEF_mtl_key_datatype_string]
-            valueString = i[self.DEF_mtl_key_value_string]
-            self._geometryPropertyDefDic[nameString] = {
-                self.DEF_mtl_key_datatype_string: valueTypeString,
-                self.DEF_mtl_key_value_string: valueString
-            }
+        self._basicDefObj = self.CLS_mtl_basic_def()
 
-        self._geometryVisibilityDefDic = {}
-        for i in self._geometryVisibilityDefLis:
-            nameString = i[self.DEF_mtl_key_port_string]
-            valueTypeString = i[self.DEF_mtl_key_datatype_string]
-            valueString = i[self.DEF_mtl_key_value_string]
-            self._geometryVisibilityDefDic[nameString] = {
-                self.DEF_mtl_key_datatype_string: valueTypeString,
-                self.DEF_mtl_key_value_string: valueString
-            }
+        self._dccTypeStringDict = self.CLS_ordered_dict()
+        self._dccCategoryStringDict = self.CLS_ordered_dict()
+        self._dccPortDefsDict = self.CLS_ordered_dict()
 
-    def properties(self):
-        return self._geometryPropertyDefLis
+        self._getData_()
 
-    def property(self, propertyNameString):
-        return self._geometryPropertyDefDic[propertyNameString]
+    def getMtlObjectTypeString(self, dccCategoryString):
+        return self._dccTypeStringDict.get(dccCategoryString)
 
-    def visibilities(self):
-        return self._geometryVisibilityDefLis
+    def getMtlCategoryString(self, dccCategoryString):
+        return self._dccCategoryStringDict.get(dccCategoryString)
 
-    def visibility(self, visibilityNameString):
-        return self._geometryVisibilityDefDic[visibilityNameString]
+    def getMtlObjectPortDefs(self, dccCategoryString):
+        return self._dccPortDefsDict.get(dccCategoryString, {})
 
+    def getMtlPortnameString(self, dccCategoryString, dccPortnameString):
+        return self._dccPortDefsDict[dccCategoryString][dccPortnameString][self.DEF_mtl_key_portname]
 
-class Abc_MtlNodeDef(mtlConfigure.Utility):
-    def _initAbcMtlNodeDef(self, category):
-        self._categoryString = category
-        self._nodeDefDic = mtlMethods.ArnoldNodedef.raw(category)
+    def _getData_(self):
+        def getDccTypeFnc_(dccCategoryString_, typeString_):
+            self._dccTypeStringDict[dccCategoryString_] = typeString_
 
-        self._typeString = self._nodeDefDic.get(self.DEF_mtl_key_datatype_string)
+        def getDccCategoryStringFnc_(dccCategoryString_, categoryString):
+            self._dccCategoryStringDict[dccCategoryString_] = categoryString
 
-    def categoryString(self):
-        return self._categoryString
+        def getDccNodeFnc_():
+            for _dccCategoryString, _dccObjectDef in self._dccNodeRaw.items():
+                _categoryString = _dccObjectDef[self.DEF_mtl_key_target]
+                _objectDef = self._nodeRaw[_categoryString]
 
-    def typeString(self):
-        return self._typeString
+                _typeString = _objectDef[self.DEF_mtl_key_type]
+                getDccTypeFnc_(_dccCategoryString, _typeString)
 
-    def inputRaw(self):
-        return self._nodeDefDic.get(
-            self.DEF_mtl_key_port,
-            []
+                getDccCategoryStringFnc_(_dccCategoryString, _categoryString)
+
+                getDccNodeSubFnc_(_typeString, _dccCategoryString, _categoryString, _dccObjectDef)
+
+        def getDccNodeSubFnc_(typeString_, dccCategoryString_, categoryString_, dccObjectDef_):
+            self._dccPortDefsDict[dccCategoryString_] = self.CLS_ordered_dict()
+
+            portDefs = self._basicDefObj.getObjectPortDefs(categoryString_)
+
+            _dccPortDefs = dccObjectDef_[self.DEF_mtl_key_port]
+            for dccPortnameString, dccPortDef in _dccPortDefs.items():
+                portnameString = dccPortDef[self.DEF_mtl_key_target]
+
+                getDccPortFnc_(dccCategoryString_, dccPortnameString, portnameString, portDefs)
+            #
+            _dccPortDefs = self._dccOutputRaw.get(typeString_, {})
+            for dccPortnameString, dccPortDef in _dccPortDefs.items():
+                portnameString = dccPortDef[self.DEF_mtl_key_target]
+                getDccPortFnc_(dccCategoryString_, dccPortnameString, portnameString, portDefs)
+
+        def getDccPortFnc_(dccCategoryString_, dccPortnameString_, portnameString_, portDefs_):
+            _portDef = portDefs_[portnameString_]
+            _porttypeString = _portDef[self.DEF_mtl_key_porttype]
+            _portdataString = _portDef[self.DEF_mtl_key_portdata]
+            _assignString = _portDef[self.DEF_mtl_key_assign]
+
+            addPortFnc_(dccCategoryString_, dccPortnameString_, portnameString_, _porttypeString, _portdataString, _assignString, None)
+            childDefs = self._dccPortChildRaw.get(_porttypeString, [])
+            for portDef in childDefs:
+                getChildFnc_(dccCategoryString_, dccPortnameString_, portnameString_, portDef, portDefs_)
+
+        def getChildFnc_(dccCategoryString_, dccParentPortnameString_, parentPortnameString_, dccPortDef_, portDefs_):
+            _dccFormatString = dccPortDef_[self.DEF_mtl_key_format]
+            _formatString = dccPortDef_[self.DEF_mtl_key_target][self.DEF_mtl_key_format]
+            _dccPortnameString = _dccFormatString.format(*[dccParentPortnameString_])
+            _portnameString = _formatString.format(*[parentPortnameString_])
+            _portDef = portDefs_[_portnameString]
+            _porttypeString = _portDef[self.DEF_mtl_key_porttype]
+            _portdataString = _portDef[self.DEF_mtl_key_portdata]
+            _assignString = _portDef[self.DEF_mtl_key_assign]
+            addPortFnc_(dccCategoryString_, _dccPortnameString, _portnameString, _porttypeString, _portdataString, _assignString, parentPortnameString_)
+
+        def addPortFnc_(dccCategoryString_, dccPortnameString_, portnameString_, porttypeString_, valueString_, assignString_, parentPortnameString_):
+            _dic = self.CLS_ordered_dict()
+            _dic[self.DEF_mtl_key_portname] = portnameString_
+            _dic[self.DEF_mtl_key_porttype] = porttypeString_
+            _dic[self.DEF_mtl_key_portdata] = valueString_
+            _dic[self.DEF_mtl_key_assign] = assignString_
+            _dic[self.DEF_mtl_key_parent] = parentPortnameString_
+            self._dccPortDefsDict[dccCategoryString_][dccPortnameString_] = _dic
+
+        getDccNodeFnc_()
+        getDccNodeSubFnc_(
+            self.DEF_mtl_category_material,
+            self.DEF_mtl_maya_category_material,
+            self.DEF_mtl_category_material,
+            self._dccMaterialRaw
+        )
+        getDccNodeSubFnc_(
+            self.DEF_mtl_category_geometry,
+            self.DEF_mtl_maya_category_geometry,
+            self.DEF_mtl_category_geometry,
+            self._dccGeometryRaw
         )
 
 
-class Abc_MtlMaterialDef(mtlConfigure.Utility):
-    def _initAbcMtlMaterialDef(self):
-        pass
+# dcc node def
+class Abc_DccMtlObjectDef(mtlConfigure.Utility):
+    CLS_mtl_dcc_basic_def = None
+    CLS_mtl_object_def = None
 
-    def inputRaw(self):
-        return self.DEF_mtl_material_def_list
+    def _initAbcDccMtlObjectDef(self, *args):
+        dccCategoryString = args[0]
 
+        self._dccBasicDefObj = self.CLS_mtl_dcc_basic_def()
+
+        self._dccCategoryString = dccCategoryString
+        self._dccTypeString = None
+
+        self._typeString = self._dccBasicDefObj.getMtlObjectTypeString(dccCategoryString)
+        self._categoryString = self._dccBasicDefObj.getMtlCategoryString(dccCategoryString)
+        self._dccPortDefsDef = self._dccBasicDefObj.getMtlObjectPortDefs(dccCategoryString)
+
+        self._defObjectObj = self.CLS_mtl_object_def(self._categoryString)
+
+    def dccTypeString(self):
+        return self._dccTypeString
+
+    def dccCategoryString(self):
+        return self._dccCategoryString
+
+    def dccPortDefs(self):
+        return self._dccPortDefsDef
+
+    def defObject(self):
+        return self._defObjectObj
+
+
+class Abc_DccMtlNodeDef(Abc_DccMtlObjectDef):
+    def _initAbcDccMtlNodeDef(self, *args):
+        self._initAbcDccMtlObjectDef(*args)
+
+
+class Abc_DccMtlMaterialDef(Abc_DccMtlObjectDef):
+    def _initAbcDccMtlMaterialDef(self, *args):
+        self._initAbcDccMtlObjectDef(*args)
+
+
+class Abc_DccMtlGeometryDef(Abc_DccMtlObjectDef):
+    def _initAbcDccMtlGeometryDef(self, *args):
+        self._initAbcDccMtlObjectDef(*args)
+
+
+# dcc node def
+class Abc_DccMtlObject(mtlConfigure.Utility):
+    CLS_mtl_object = None
+    CLS_mtl_dcc_object = None
+
+    CLS_mtl_dcc_object_def = None
+
+    def _initAbcDccMtlObject(self, *args):
+        dccNodeString = args[0]
+
+        self._dccNodeString = dccNodeString
+        self._dccObjectObj = self.CLS_mtl_dcc_object(dccNodeString)
+        self._nodeString = self._dccObjectObj.fullpathName().replace(self.DEF_mya_node_separator, self.DEF_mtl_node_separator)
+
+        self._dccObjectDefObj = self.CLS_mtl_dcc_object_def(self.dccCategoryString())
+
+        self._getObject_()
+
+        self._getPorts_()
+
+    def _getObject_(self):
+        self._objectObj = self.CLS_mtl_object(
+            self._dccObjectDefObj.defObject().categoryString(),
+            self._dccObjectObj.fullpathName()
+        )
+
+    def _getPorts_(self):
+        def getPortFnc_(_dccPortnameString, dccPortDatum_):
+            _portnameString = dccPortDatum_[self.DEF_mtl_key_portname]
+
+            _dccPort = self._dccObjectObj.attribute(_dccPortnameString)
+            _port = self._objectObj.attribute(_portnameString)
+            _port.value().setRaw(_dccPort.portdata())
+            if _dccPort.hasSource():
+                _dccSource = _dccPort.source()
+                _dccSourceNode = _dccSource.node()
+                _dccSourceCategoryString = _dccSourceNode.category()
+                _dccSourcePortnameString = _dccSource.fullpathPortname()
+
+                print self._dccObjectDefObj._dccBasicDefObj.getMtlPortnameString(_dccSourceCategoryString, _dccSourcePortnameString)
+
+                _sourceNodeCls = self._objectObj.CLS_mtl_source_object
+                if _sourceNodeCls is None:
+                    _sourceNodeCls = self._objectObj.__class__
+
+        def getChildFnc_(dccPortDatum_):
+            _dccPortnameString = dccPortDatum_[self.DEF_mtl_key_dcc_portname]
+            _portnameString = dccPortDatum_[self.DEF_mtl_key_portname]
+
+            _dccPort = self._dccObjectObj.attribute(_dccPortnameString)
+            if _dccPort.hasSource():
+                _dccSource = _dccPort.source()
+                _dccSourceNode = _dccSource.node()
+
+        for dccPortnameString, dccPortDatum in self._dccObjectDefObj.dccPortDefs().items():
+            getPortFnc_(dccPortnameString, dccPortDatum)
+
+    # dcc
+    def dccObjectDef(self):
+        return self._dccObjectDefObj
+
+    def dccObject(self):
+        return self._dccObjectObj
+
+    def dccCategoryString(self):
+        return self.dccObject().category()
+
+    # materialx
+    def objectDef(self):
+        return self.object().objectDef()
+
+    def object(self):
+        return self._objectObj
+
+    def categoryString(self):
+        return self.object().categoryString()
+
+
+# dcc material
+class Abc_DccMtlMaterial(Abc_DccMtlObject):
+    def _initAbcDccMtlMaterial(self, *args):
+        self._initAbcDccMtlObject(*args)
+
+    def _getObject_(self):
+        self._objectObj = self.CLS_mtl_object(
+            self.dccObject().fullpathName()
+        )
+
+
+# dcc geometry
+class Abc_DccMtlGeometry(Abc_DccMtlObject):
+    def _initAbcDccMtlGeometry(self, *args):
+        self._initAbcDccMtlObject(*args)
+
+    def _getObject_(self):
+        self._objectObj = self.CLS_mtl_object(
+            self._nodeString
+        )
+
+
+class Abc_DccMtlShader(Abc_DccMtlObject):
+    pass
+
+
+# dcc node
+class Abc_DccMtlNode(Abc_DccMtlObject):
+    def _initAbcDccMtlNode(self, *args):
+        self._initAbcDccMtlObject(*args)

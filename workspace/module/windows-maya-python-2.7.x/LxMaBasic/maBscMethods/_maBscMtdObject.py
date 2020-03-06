@@ -12,16 +12,16 @@ class Node(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaNode._getNodeCategoryString(nodeString)
 
     @classmethod
-    def fullpathPortnames(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeAttributeFullpathPortnameList(nodeString)
+    def portStrings(cls, nodeString):
+        return maBscMtdCore.Mtd_MaNode._getNodePortStringList(nodeString)
 
     @classmethod
-    def inputFullpathPortname(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeInputFullpathPortnameList(nodeString)
+    def inputPortStrings(cls, nodeString):
+        return maBscMtdCore.Mtd_MaNode._getNodeInputPortStringList(nodeString)
 
     @classmethod
-    def outputFullpathPortname(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeOutputFullpathPortnameList(nodeString)
+    def outputPortStrings(cls, nodeString):
+        return maBscMtdCore.Mtd_MaNode._getNodeOutputPortStringList(nodeString)
 
     @classmethod
     def isDag(cls, nodeString):
@@ -41,8 +41,21 @@ class Node(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def portDict(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortDict_(nodeString)
+        return maBscMtdCore.Mtd_MaNode._getNodePortDict_(
+            nodeString,
+            cls.portStrings(nodeString)
+        )
 
     @classmethod
     def portIndexesDict(cls, nodeString):
-        return maBscMtdCore.Mtd_MaNode._getNodeAttributePortIndexesDict(nodeString)
+        return maBscMtdCore.Mtd_MaNode._getNodePortIndexesDict_(
+            nodeString,
+            cls.portStrings(nodeString)
+        )
+
+    @classmethod
+    def _getPortDict_(cls, nodeString, portStringList):
+        return maBscMtdCore.Mtd_MaNode._getNodePortDict_(
+            nodeString,
+            portStringList
+        )

@@ -76,6 +76,9 @@ class Dat_Boolean(mtlObjCore.Abc_MtlData):
         """
         self._initAbcMtlData(*args)
 
+    def _stringToRaw_(self, string):
+        return {'false': False, 'true': True}[string]
+
     def toString(self):
         """
         "true" / false"

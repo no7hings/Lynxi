@@ -1,0 +1,47 @@
+{
+    "integer": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "float": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "boolean": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "string": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "color3": {
+        "outColor": {
+            "target": "out_color"
+        }
+    },
+    "color4": {
+        "outColor": {
+            "target": "out_color"
+        }
+    },
+    "vector3": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "matrix44": {
+        "outValue": {
+            "target": "out_value"
+        }
+    },
+    "closure": {
+        "outColor": {
+            "target": "out_color"
+        }
+    }
+}

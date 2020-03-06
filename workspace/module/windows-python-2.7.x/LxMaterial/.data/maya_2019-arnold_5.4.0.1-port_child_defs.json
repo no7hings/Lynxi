@@ -1,0 +1,88 @@
+{
+    "color3": [
+        {
+            "target": {
+                "format": "{0}.r"
+            },
+            "format": "{0}R"
+        },
+        {
+            "target": {
+                "format": "{0}.g"
+            },
+            "format": "{0}G"
+        },
+        {
+            "target": {
+                "format": "{0}.b"
+            },
+            "format": "{0}B"
+        }
+    ],
+    "color4": [
+        {
+            "target": {
+                "format": "{0}.r"
+            },
+            "format": "{0}R"
+        },
+        {
+            "target": {
+                "format": "{0}.r"
+            },
+            "format": "{0}G"
+        },
+        {
+            "target": {
+                "format": "{0}.b"
+            },
+            "format": "{0}B"
+        },
+        {
+            "target": {
+                "format": "{0}.a"
+            },
+            "format": "{0}A"
+        }
+    ],
+    "vector3": [
+        {
+            "target": {
+                "format": "{0}.x"
+            },
+            "format": "{0}X"
+        },
+        {
+            "target": {
+                "format": "{0}.y"
+            },
+            "format": "{0}Y"
+        },
+        {
+            "target": {
+                "format": "{0}.z"
+            },
+            "format": "{0}Z"
+        }
+    ],
+    "closure": [
+        {
+            "target": {
+                "format": "{0}.r"
+            },
+            "format": "{0}R"
+        },
+        {
+            "target": {
+                "format": "{0}.g"
+            },
+            "format": "{0}G"
+        },
+        {
+            "target": {
+                "format": "{0}.b"
+            },
+            "format": "{0}B"
+        }
+    ]
+}

@@ -104,11 +104,11 @@ class Abc_BscFile(object):
         return self._fileString
 
 
-class Abc_BscNodeString(object):
+class Abc_BscDccNodeString(object):
     VAR_bsc_namespace_separator = None
     VAR_bsc_node_separator = None
 
-    def _initAbcBscNodeString(self, nodeString):
+    def _initAbcBscDccNodeString(self, nodeString):
         self._nodeString = nodeString
 
     def namespacesep(self):
@@ -138,10 +138,10 @@ class Abc_BscNodeString(object):
         return self.fullpathName()
 
 
-class Abc_BscBscPortString(object):
+class Abc_BscDccPortString(object):
     VAR_bsc_port_separator = None
 
-    def _initAbcBscPortString(self, portString):
+    def _initAbcBscDccPortString(self, portString):
         self._portString = portString
 
     def portsep(self):

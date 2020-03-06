@@ -22,7 +22,7 @@ class Abc_MaObjectSet(Abc_MaBasic):
         pass
 
     def addObject(self, key, obj):
-        assert key not in self._objectDic, '''Key is Exist.'''
+        assert key not in self._objectDic, u'''key "{}" is Exist.'''.format(key)
         self._objectLis.append(obj)
         self._objectDic[key] = obj
         self._objectCount += 1
@@ -68,20 +68,20 @@ class Abc_MaObjectSet(Abc_MaBasic):
         """
         pass
 
-    def objectWithKey(self, keyString):
+    def objectWithKey(self, key):
         """
-        :param keyString: str
+        :param key: str
         :return: bool
         """
-        assert keyString in self._objectDic, u'''Key is Non - Exist.'''
-        return self._objectDic[keyString]
+        assert key in self._objectDic, u'''key "{}" is Exist.'''.format(key)
+        return self._objectDic[key]
 
-    def hasObjectWithKey(self, keyString):
+    def hasObjectWithKey(self, key):
         """
-        :param keyString: str
+        :param key: str
         :return: bool
         """
-        return keyString in self._objectDic
+        return key in self._objectDic
 
     def __len__(self):
         """
@@ -108,27 +108,18 @@ class Abc_MaValue(Abc_MaBasic):
         )
 
 
-class Abc_MaChannel(Abc_MaBasic):
-    def _initAbcMaChannel(self, attributeFullpathName, channelname):
-        pass
-
-    def name(self):
-        pass
-
-
-class Abc_MaAttribute(Abc_MaBasic):
+class Abc_MaPort(Abc_MaBasic):
     CLS_mya_port_string = None
     CLS_mya_channel_set = None
-    CLS_mya_channel = None
     CLS_mya_value = None
 
     def __init__(self, *args):
         pass
 
-    def _initAbcMaAttribute(self, nodeObject, portname):
+    def _initAbcMaPort(self, nodeObject, portString):
         self._nodeObj = nodeObject
 
-        self._portStringObj = self.CLS_mya_port_string(portname)
+        self._portStringObj = self.CLS_mya_port_string(portString)
 
         self._channelSetObj = self.CLS_mya_channel_set()
 
@@ -208,6 +199,9 @@ class Abc_MaAttribute(Abc_MaBasic):
 
     def isFilename(self):
         return maBscMethods.Attribute.isFilename(self.fullpathName())
+
+    def nicename(self):
+        return maBscMethods.Attribute.nicename(self.fullpathName())
 
     def hasParent(self):
         return maBscMethods.Attribute.parent(self.fullpathName()) is not None
@@ -305,9 +299,9 @@ class Abc_MaConnection(Abc_MaBasic):
 
 class Abc_MaObject(Abc_MaBasic):
     CLS_mya_node_string = None
-    CLS_mya_attribute = None
+    CLS_mya_port = None
 
-    CLS_mya_set_attribute = None
+    CLS_mya_port_set = None
 
     def __init__(self, *args):
         pass
@@ -318,15 +312,42 @@ class Abc_MaObject(Abc_MaBasic):
             nodeString
         )
 
+        self._attributePortStringList = maBscMethods.Node.portStrings(self.fullpathName())
+        self._inputPortStringList = maBscMethods.Node.inputPortStrings(self.fullpathName())
+        self._outputPortStringList = maBscMethods.Node.outputPortStrings(self.fullpathName())
+
         self._portIndexesDict = maBscMethods.Node.portIndexesDict(self.fullpathName())
         self._portDict = maBscMethods.Node.portDict(self.fullpathName())
 
-        self._attributeSetObj = self.CLS_mya_set_attribute()
-        for i in self._portDict:
-            self._attributeSetObj.addObject(i, self.CLS_mya_attribute(self, i))
+        self._attributeSetObj = self.CLS_mya_port_set()
+        self._inputSetObj = self.CLS_mya_port_set()
+        self._outputSetObj = self.CLS_mya_port_set()
+        for i in self._attributePortStringList:
+            self._addPort_(i, self.CLS_mya_port)
 
-    def _remapAttribute(self):
-        pass
+    def _addPort_(self, raw, portCls):
+        portString = raw
+        portObject = portCls(self, portString)
+        if portString in self._inputPortStringList:
+            self._addInput_(portObject)
+        elif portString in self._outputPortStringList:
+            self._addOutput_(portObject)
+        self._addAttribute_(portObject)
+
+    def _addAttribute_(self, portObject):
+        self._attributeSetObj.addObject(
+            portObject.fullpathPortname(), portObject
+        )
+
+    def _addInput_(self, portObject):
+        self._inputSetObj.addObject(
+            portObject.fullpathPortname(), portObject
+        )
+
+    def _addOutput_(self, portObject):
+        self._outputSetObj.addObject(
+            portObject.fullpathPortname(), portObject
+        )
 
     def fullpathName(self):
         return self._nodeStringObj.fullpathName()
@@ -340,14 +361,41 @@ class Abc_MaObject(Abc_MaBasic):
     def isExist(self):
         return maBscMethods.Node.isExist(self.fullpathName())
 
+    def attributePortStrings(self):
+        return self._attributePortStringList
+
     def attributes(self):
         return self._attributeSetObj.objects()
 
-    def hasAttribute(self, portname):
-        return self._attributeSetObj.hasObject(portname)
+    def hasAttribute(self, portString):
+        return self._attributeSetObj.hasObject(portString)
 
-    def attribute(self, portname):
-        return self._attributeSetObj.objectWithKey(portname)
+    def attribute(self, portString):
+        return self._attributeSetObj.objectWithKey(portString)
+
+    def inputPortStrings(self):
+        return self._inputPortStringList
+
+    def inputs(self):
+        return self._inputSetObj.objects()
+
+    def hasInput(self, portString):
+        return self._inputSetObj.hasObject(portString)
+
+    def input(self, portString):
+        return self._inputSetObj.objectWithKey(portString)
+
+    def outputPortStrings(self):
+        return self._outputPortStringList
+
+    def outputs(self):
+        return self._outputSetObj.objects()
+
+    def hasOutput(self, portString):
+        return self._outputSetObj.hasObject(portString)
+
+    def output(self, portString):
+        return self._outputSetObj.objectWithKey(portString)
 
     def isDag(self):
         return maBscMethods.Node.isDag(self.fullpathName())
@@ -390,6 +438,9 @@ class Abc_MaNodeGraph(Abc_MaBasic):
                 if j.hasSource():
                     lis.append(self.CLS_mya_connection(j.source(), j))
         return lis
+
+    def __str__(self):
+        return u'{}()'.format(self.__class__.__name__)
 
 
 class Abc_MaShader(Abc_MaObject):
@@ -492,23 +543,6 @@ class Abc_MaNode(Abc_MaObject):
     def _initAbcMaNode(self, nodeString):
         self._initAbcMaObject(nodeString)
 
-        self._outputSetObj = self.CLS_mya_set_attribute()
-
-        for i in maBscMethods.Node.outputFullpathPortname(nodeString):
-            self._outputSetObj.addObject(i, self.CLS_mya_attribute(self, i))
-
-    def outputPortStrings(self):
-        return maBscMethods.Node.outputFullpathPortname(self.fullpathName())
-
-    def outputs(self):
-        return self._outputSetObj.objects()
-
-    def hasOutput(self, portname):
-        return self._outputSetObj.hasObject(portname)
-
-    def output(self, portname):
-        return self._outputSetObj.objectWithKey(portname)
-
 
 class Abc_MaDag(Abc_MaObject):
     CLS_mya_dag = None
@@ -548,17 +582,12 @@ class Abc_MaCompoundDag(Abc_MaDag):
 
     def _initAbcMaCompoundDag(self, nodeString):
         # Convert to transform fullpath
-        self._initAbcMaDag(
-            maBscMethods.Node.transformName(nodeString)
-        )
+        transformString = maBscMethods.Node.transformName(nodeString)
+        shapeString = maBscMethods.Node.shapeName(transformString)
 
-        self._transformObj = self.CLS_mya_transform(
-            maBscMethods.Node.transformName(self.fullpathName())
-        )
-
-        self._shapeObj = self.CLS_mya_dag(
-            maBscMethods.Node.shapeName(self.fullpathName())
-        )
+        self._initAbcMaDag(shapeString)
+        self._transformObj = self.CLS_mya_transform(transformString)
+        self._shapeObj = self.CLS_mya_dag(shapeString)
 
     def transform(self):
         return self._transformObj

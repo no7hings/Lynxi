@@ -69,6 +69,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         'double': 'float',
         'char': 'string',
     }
+
     @classmethod
     def _getPortpathDatum_(cls, pathString):
         def addFnc_(item):
@@ -122,7 +123,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
                 if cls._getAttributeHasSource(attributeString):
                     return bscMethods.MaAttributeString.nodeString(cls._getAttributeSource(attributeString))
             else:
-                return cls.MOD_maya_cmds.getAttr(attributeString)
+                return cls.MOD_maya_cmds.getAttr(attributeString, silent=1)
 
     @classmethod
     def _getAttributePorttype(cls, attributeString):
@@ -142,7 +143,10 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         exclude_datatype_list = [
             'mesh',
             'attributeAlias',
-            'TdataCompound'
+            'TdataCompound',
+        ]
+        exclude_porttype_list = [
+            'polyFaces'
         ]
         if cls._getAttributeIsAppExist(attributeString) is True:
             if cls._getAttributeIsMessage(attributeString):
@@ -150,15 +154,17 @@ class Mtd_MaAttribute(Mtd_MaBasic):
                     return bscMethods.MaAttributeString.nodeString(cls._getAttributeSource(attributeString))
                 return ''
             else:
-                datatype = cls._getAttributeDatatype(attributeString)
-                attributeString = cls._getAttributeString_(attributeString)
-                if datatype == 'enum':
-                    return cls.MOD_maya_cmds.getAttr(attributeString, asString=asString)
-                elif datatype not in exclude_datatype_list:
-                    _ = cls.MOD_maya_cmds.getAttr(attributeString)
-                    if datatype in cls.DEF_mya_datatype_compchannel_list:
-                        return list(_[0])
-                    return _
+                porttype = cls._getAttributePorttype(attributeString)
+                if porttype not in exclude_porttype_list:
+                    datatype = cls._getAttributeDatatype(attributeString)
+                    attributeString = cls._getAttributeString_(attributeString)
+                    if datatype == 'enum':
+                        return cls.MOD_maya_cmds.getAttr(attributeString, asString=asString, silent=1)
+                    elif datatype not in exclude_datatype_list:
+                        _ = cls.MOD_maya_cmds.getAttr(attributeString, silent=1)
+                        if datatype in cls.DEF_mya_datatype_compchannel_list:
+                            return list(_[0])
+                        return _
 
     @classmethod
     def _getAttributeIsAppExist(cls, attributeString):
@@ -199,7 +205,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         :return:
         """
         attributeString = cls._getAttributeString_(attributeString)
-        return cls.MOD_maya_cmds.getAttr(attributeString, multiIndices=1) or []
+        return cls.MOD_maya_cmds.getAttr(attributeString, multiIndices=1, silent=1) or []
 
     @classmethod
     def _getAttributeIsMessage(cls, attributeString):
@@ -235,6 +241,15 @@ class Mtd_MaAttribute(Mtd_MaBasic):
             cls._getAttributeQueryNameString(portString),
             node=nodeString,
             enum=1
+        )
+
+    @classmethod
+    def _getAttributeNicename(cls, attributeString):
+        nodeString, portString = cls._getAttributeQueryString_(attributeString)
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._getAttributeQueryNameString(portString),
+            node=nodeString,
+            niceName=1
         )
 
     @classmethod
@@ -306,7 +321,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
     @classmethod
     def _getAttributeDatatype(cls, attributeString):
         attributeString = cls._getAttributeString_(attributeString)
-        return cls.MOD_maya_cmds.getAttr(attributeString, type=1)
+        return cls.MOD_maya_cmds.getAttr(attributeString, type=1, silent=1)
 
     @classmethod
     def _getAttributeHasSource(cls, attributeString):
@@ -321,9 +336,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
     @classmethod
     def _getAttributeSource(cls, attributeString):
         attributeString = cls._getAttributeString_(attributeString)
-        _ = cls.MOD_maya_cmds.listConnections(attributeString, destination=0, source=1, connections=1, plugs=1)
-        if _:
-            return _[1]
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, sourceFromDestination=1)
 
     @classmethod
     def _getAttributeHasTarget(cls, attributeString):
@@ -335,9 +348,8 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeTarget(cls, attributeString):
-        _ = cls.MOD_maya_cmds.listConnections(attributeString, destination=1, source=0, connections=1, plugs=1)
-        if _:
-            return _[1]
+        attributeString = cls._getAttributeString_(attributeString)
+        return cls.MOD_maya_cmds.connectionInfo(attributeString, destinationFromSource=1)
 
     @classmethod
     def _getAttributeNodeString(cls, attributeString):
@@ -873,7 +885,7 @@ class Mtd_MaNode(Mtd_MaUtility):
         return []
 
     @classmethod
-    def _getNodeAttributePortPathDict_(cls, nodeString):
+    def _getNodePortPathDict_(cls, nodeString, portStringList):
         def getKeyFnc_(portString_):
             varPattern = re.compile(r'[\[](.*?)[\]]', re.S)
             indexes = re.findall(varPattern, portString_)
@@ -891,22 +903,21 @@ class Mtd_MaNode(Mtd_MaUtility):
                     recursionFnc_(portString__)
 
         dic = cls.CLS_ordered_dict()
-        _ = cls.MOD_maya_cmds.attributeInfo(nodeString, allAttributes=1)
-        if _:
-            for k in _:
+        if portStringList:
+            for k in portStringList:
                 hasParent = Mtd_MaAttribute._getAttributeHasParent((nodeString, k))
                 if not hasParent:
                     recursionFnc_(k)
         return dic
 
     @classmethod
-    def _getNodeAttributePortChildDict_(cls, nodeString):
+    def _getNodePortChildDict_(cls, nodeString, portStringList):
         def recursionFnc_(portString_):
             children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
             if children_:
                 for childPortname in children_:
                     portString__ = u'{}.{}'.format(portString_, childPortname)
-                    dic.setdefault(portString_, []).append(portString__)
+                    dic.setdefault(portString_, []).append(childPortname)
                     recursionFnc_(portString__)
 
             if Mtd_MaAttribute._getAttributeIsColor((nodeString, portString_)):
@@ -915,20 +926,60 @@ class Mtd_MaNode(Mtd_MaUtility):
                     dic.setdefault(portString_, []).append(alphaChannel)
 
         dic = cls.CLS_ordered_dict()
-        _ = cls.MOD_maya_cmds.attributeInfo(nodeString, allAttributes=1)
-        if _:
-            _ = bscMethods.List.cleanupTo(_)
-            for k in _:
+        if portStringList:
+            for k in portStringList:
+                if Mtd_MaAttribute._getAttributeHasParent((nodeString, k)) is False:
+                    recursionFnc_(k)
+        return dic
+
+    @classmethod
+    def _getNodePortIndexesDict_(cls, nodeString, portStringList):
+        def getKeyFnc_(portString_):
+            varPattern = re.compile(r'[\[](.*?)[\]]', re.S)
+            indexes = re.findall(varPattern, portString_)
+            for i in indexes:
+                portString_ = portString_.replace(u'[{}]'.format(i), u'')
+            return portString_
+
+        def recursionFnc_(portString_):
+            if Mtd_MaAttribute._getAttributeIsAppExist((nodeString, portString_)):
+                key = getKeyFnc_(portString_)
+                indexes_ = Mtd_MaAttribute._getAttributeIndexes((nodeString, portString_))
+                children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
+                if indexes_:
+                    dic[key] = indexes_
+                if indexes_ and children_:
+                    for index_ in indexes_:
+                        for childPortname in children_:
+                            portString__ = u'{}[{}].{}'.format(portString_, index_, childPortname)
+                            recursionFnc_(portString__)
+                elif indexes_ or children_:
+                    if indexes_:
+                        for index_ in indexes_:
+                            for childPortname in children_:
+                                portString__ = u'{}[{}].{}'.format(portString_, index_, childPortname)
+                                recursionFnc_(portString__)
+                        for index_ in indexes_:
+                            portString__ = u'{}[{}]'.format(portString_, index_)
+                            recursionFnc_(portString__)
+                    else:
+                        for childPortname in children_:
+                            portString__ = u'{}.{}'.format(portString_, childPortname)
+                            recursionFnc_(portString__)
+
+        dic = cls.CLS_ordered_dict()
+        if portStringList:
+            for k in portStringList:
                 hasParent = Mtd_MaAttribute._getAttributeHasParent((nodeString, k))
                 if not hasParent:
                     recursionFnc_(k)
         return dic
 
     @classmethod
-    def _getNodeAttributePortFormatDict_(cls, nodeString):
-        pathDict = cls._getNodeAttributePortPathDict_(nodeString)
-        childDict = cls._getNodeAttributePortChildDict_(nodeString)
-        indexDict = cls._getNodeAttributePortIndexesDict(nodeString)
+    def _getNodePortFormatDict_(cls, nodeString, portStringList):
+        pathDict = cls._getNodePortPathDict_(nodeString, portStringList)
+        childDict = cls._getNodePortChildDict_(nodeString, portStringList)
+        indexDict = cls._getNodePortIndexesDict_(nodeString, portStringList)
 
         formatStringDict = {}
         formatIndexDict = {}
@@ -956,7 +1007,7 @@ class Mtd_MaNode(Mtd_MaUtility):
         return formatStringDict, formatIndexDict
 
     @classmethod
-    def _getNodeAttributePortDict_(cls, nodeString):
+    def _getNodePortDict_(cls, nodeString, portStringList):
         def getSubFnc_(strings):
             lis0 = []
             enable = False
@@ -997,9 +1048,9 @@ class Mtd_MaNode(Mtd_MaUtility):
             recursionFnc_(portString_)
             return getSubFnc_(lis)
 
-        pathDict = cls._getNodeAttributePortPathDict_(nodeString)
-        formatStringDict, formatIndexDict = cls._getNodeAttributePortFormatDict_(nodeString)
-        childDict = cls._getNodeAttributePortChildDict_(nodeString)
+        pathDict = cls._getNodePortPathDict_(nodeString, portStringList)
+        childDict = cls._getNodePortChildDict_(nodeString, portStringList)
+        formatStringDict, formatIndexDict = cls._getNodePortFormatDict_(nodeString, portStringList)
 
         dic = cls.CLS_ordered_dict()
         for portString in pathDict:
@@ -1013,151 +1064,60 @@ class Mtd_MaNode(Mtd_MaUtility):
         return dic
 
     @classmethod
-    def _getNodeAttributePortDict(cls, nodeString):
-        indexDict = cls._getNodeAttributePortIndexesDict(nodeString)
-        pathDict = cls._getNodeAttributePortPathDict(nodeString)
-        childDict = cls._getNodeAttributeChildDict(nodeString)
+    def _toFullpathPortnameList_(cls, nodeString, portStringList):
+        def recursionFnc_(portString_):
+            children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
+            if children_:
+                for childPortname in children_:
+                    portString__ = u'{}.{}'.format(portString_, childPortname)
+                    lis.append(portString__)
+                    recursionFnc_(portString__)
 
-        dic = cls.CLS_ordered_dict()
-        for k, v in pathDict.items():
-            if k not in childDict:
-                portString = ''
-                lis = []
-                for seq, i in enumerate(v):
-                    if i in indexDict:
-                        indexes = indexDict[i]
-                        if seq > 0:
-                            portString += '.' + i + '[{{{}}}]'.format(len(lis))
-                        else:
-                            portString += i + '[{{{}}}]'.format(len(lis))
-                        lis.append(indexes)
-                    else:
-                        if seq > 0:
-                            portString += '.' + i
-                        else:
-                            portString += i
-                if lis:
-                    l_ = bscMethods.NestedArray.restructureTo(lis)
-                    for f in l_:
-                        portString_ = portString.format(*f)
-                        if Mtd_MaAttribute._getAttributeIsAppExist((nodeString, portString_)):
-                            dic.setdefault(k, []).append(portString_)
-                else:
-                    if Mtd_MaAttribute._getAttributeIsAppExist((nodeString, portString)):
-                        dic[k] = portString
+        lis = []
+        portStringList = bscMethods.List.cleanupTo(portStringList)
+        if portStringList:
+            for k in portStringList:
+                if Mtd_MaAttribute._getAttributeHasParent((nodeString, k)) is False:
+                    lis.append(k)
+                    recursionFnc_(k)
+        return lis
+
+    @classmethod
+    def _toPortnameList_(cls, nodeString, portStringList):
+        def getFnc_(fullpathString, string):
+            if string in lis:
+                lis.append(fullpathString)
             else:
-                dic[k] = childDict[k]
-        return dic
-
-    @classmethod
-    def _getNodeAttributePortIndexesDict(cls, nodeString):
-        def getKeyFnc_(portString_):
-            varPattern = re.compile(r'[\[](.*?)[\]]', re.S)
-            indexes = re.findall(varPattern, portString_)
-            for i in indexes:
-                portString_ = portString_.replace(u'[{}]'.format(i), u'')
-            return portString_
+                lis.append(string)
 
         def recursionFnc_(portString_):
-            if Mtd_MaAttribute._getAttributeIsAppExist((nodeString, portString_)):
-                key = getKeyFnc_(portString_)
-                indexes_ = Mtd_MaAttribute._getAttributeIndexes((nodeString, portString_))
-                children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
-                if indexes_:
-                    dic[key] = indexes_
-                if indexes_ and children_:
-                    for index_ in indexes_:
-                        for childPortname in children_:
-                            portString__ = u'{}[{}].{}'.format(portString_, index_, childPortname)
-                            recursionFnc_(portString__)
-                elif indexes_ or children_:
-                    if indexes_:
-                        for index_ in indexes_:
-                            for childPortname in children_:
-                                portString__ = u'{}[{}].{}'.format(portString_, index_, childPortname)
-                                recursionFnc_(portString__)
-                        for index_ in indexes_:
-                            portString__ = u'{}[{}]'.format(portString_, index_)
-                            recursionFnc_(portString__)
-                    else:
-                        for childPortname in children_:
-                            portString__ = u'{}.{}'.format(portString_, childPortname)
-                            recursionFnc_(portString__)
-
-        dic = cls.CLS_ordered_dict()
-        _ = cls.MOD_maya_cmds.attributeInfo(nodeString, allAttributes=1)
-        if _:
-            for k in _:
-                hasParent = Mtd_MaAttribute._getAttributeHasParent((nodeString, k))
-                if not hasParent:
-                    recursionFnc_(k)
-        return dic
-
-    @classmethod
-    def _getNodeAttributePortPathDict(cls, nodeString):
-        def getKeyFnc_(portString_):
-            varPattern = re.compile(r'[\[](.*?)[\]]', re.S)
-            indexes = re.findall(varPattern, portString_)
-            for i in indexes:
-                portString_ = portString_.replace(u'[{}]'.format(i), u'')
-            return portString_
-
-        def channelFnc_(portString_):
-            key = getKeyFnc_(portString_)
             children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
-            dic[key] = [portString_]
-            for childPortname in children_:
-                dic[childPortname] = childPortname.split(cls.DEF_mya_port_separator)
-
-        def recursionFnc_(portString_):
-            key = getKeyFnc_(portString_)
-            porttype_ = Mtd_MaAttribute._getAttributePorttype((nodeString, portString_))
-            children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
-            dic[key] = portString_.split(cls.DEF_mya_port_separator)
-            if children_ and porttype_ not in cls.DEF_mya_datatype_compchannel_list:
+            if children_:
                 for childPortname in children_:
-                    portString__ = u'{}.{}'.format(portString_, childPortname)
-                    recursionFnc_(portString__)
+                    fullpathString = u'{}.{}'.format(portString_, childPortname)
+                    getFnc_(fullpathString, childPortname)
+                    recursionFnc_(fullpathString)
 
-        dic = cls.CLS_ordered_dict()
-        _ = cls.MOD_maya_cmds.attributeInfo(nodeString, allAttributes=1)
-        if _:
-            for k in _:
-                hasParent = Mtd_MaAttribute._getAttributeHasParent((nodeString, k))
-                if not hasParent:
-                    porttype = Mtd_MaAttribute._getAttributePorttype((nodeString, k))
-                    if porttype not in cls.DEF_mya_datatype_compchannel_list:
-                        recursionFnc_(k)
-                    else:
-                        channelFnc_(k)
-        return dic
-
-    @classmethod
-    def _getNodeAttributeChildDict(cls, nodeString):
-        def recursionFnc_(portString_):
-            porttype_ = Mtd_MaAttribute._getAttributePorttype((nodeString, portString_))
-            children_ = Mtd_MaAttribute._getAttributeChildPortnameList((nodeString, portString_))
-            if children_ and porttype_ not in cls.DEF_mya_datatype_compchannel_list:
-                for childPortname in children_:
-                    portString__ = u'{}.{}'.format(portString_, childPortname)
-                    dic.setdefault(portString_, []).append(portString__)
-                    recursionFnc_(portString__)
-
-        dic = cls.CLS_ordered_dict()
-        _ = cls.MOD_maya_cmds.attributeInfo(nodeString, allAttributes=1)
-        if _:
-            for k in _:
-                hasParent = Mtd_MaAttribute._getAttributeHasParent((nodeString, k))
-                if not hasParent:
+        lis = []
+        portStringList = bscMethods.List.cleanupTo(portStringList)
+        if portStringList:
+            for k in portStringList:
+                if Mtd_MaAttribute._getAttributeHasParent((nodeString, k)) is False:
+                    lis.append(k)
                     recursionFnc_(k)
-        return dic
+        return lis
 
     @classmethod
-    def _getNodeOutputFullpathPortnameList(cls, nodeString):
-        _ = cls.MOD_maya_cmds.listAttr(nodeString, readOnly=1)
-        if _:
-            return [i for i in _ if cls._isAppExist(cls.DEF_mya_port_separator.join([cls._getNodeFullpathNameString(nodeString), i]))]
-        return []
+    def _getNodePortStringList(cls, nodeString):
+        return cls._toPortnameList_(nodeString, cls.MOD_maya_cmds.listAttr(nodeString))
+
+    @classmethod
+    def _getNodeInputPortStringList(cls, nodeString):
+        return cls._toPortnameList_(nodeString, cls.MOD_maya_cmds.listAttr(nodeString, write=1, read=1))
+
+    @classmethod
+    def _getNodeOutputPortStringList(cls, nodeString):
+        return cls._toPortnameList_(nodeString, cls.MOD_maya_cmds.listAttr(nodeString, readOnly=1))
 
 
 class Mtd_MaNodeGraph(Mtd_MaUtility):

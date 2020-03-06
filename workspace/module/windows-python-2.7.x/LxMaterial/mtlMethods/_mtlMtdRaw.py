@@ -6,7 +6,7 @@ class NodeFullpathName(object):
     pass
 
 
-class NodeCategory(object):
+class NodeCategoryString(object):
     pass
 
 

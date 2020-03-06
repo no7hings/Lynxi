@@ -14,12 +14,12 @@ class Reference(mtlObjCore.Abc_MtlFileReference):
 
 
 class Look(mtlObjCore.Abc_MtlLook):
-    CLS_mtl_name = _mtlObjRaw.Raw_Name
+    CLS_mtl_name = _mtlObjRaw.NameString
     CLS_set_assign = _mtlObjSet.Set_Assign
 
     CLS_set_assign_shaderset = _mtlObjSet.Set_Assign
     ClS_set_assign_propertyset = _mtlObjSet.Set_Assign
-    CLS_mtl_visibility_assign = _mtlObjSet.Set_Visibility
+    CLS_mtl_visibility_set = _mtlObjSet.Set_Visibility
 
     VAR_mtl_file_element_key = u'look'
     VAR_mtl_file_attribute_key = u'look'
@@ -28,32 +28,10 @@ class Look(mtlObjCore.Abc_MtlLook):
         self._initAbcMtlLook(*args)
 
 
-class Material(mtlObjCore.Abc_MtlMaterial):
-    CLS_mtl_node_dagpath = _mtlObjRaw.Raw_MaterialDagpath
+class GeometryPropertyset(mtlObjCore.Abc_MtlPropertyset):
+    CLS_mtl_name = _mtlObjRaw.NameString
 
-    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
-
-    CLS_mtl_input = _mtlObjAttribute.MaterialInput
-
-    CLS_mtl_material_def = _mtlObjDefinition.MtlMaterialDef
-
-    VAR_mtl_value_class_dict = _mtlObjObject.DEF_CLS_VALUE
-
-    VAR_mtl_file_element_key = u'material'
-    VAR_mtl_file_attribute_key = u'material'
-
-    def __init__(self, *args):
-        """
-        * 1.maya: shading engine name
-        :param args: str(shader set name)
-        """
-        self._initAbcMtlMaterial(*args)
-
-
-class GeometryPortset(mtlObjCore.Abc_MtlPropertyset):
-    CLS_mtl_name = _mtlObjRaw.Raw_Name
-
-    CLS_mtl_attribute_set = _mtlObjSet.Set_Attribute
+    CLS_mtl_port_set = _mtlObjSet.PortSet
     
     VAR_mtl_file_element_key = u'propertyset'
     VAR_mtl_file_attribute_key = u'propertyset'
@@ -66,10 +44,10 @@ class GeometryPortset(mtlObjCore.Abc_MtlPropertyset):
 
 
 class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
-    CLS_mtl_name = _mtlObjRaw.Raw_Name
+    CLS_mtl_name = _mtlObjRaw.NameString
 
-    CLS_mtl_node_set = _mtlObjSet.Set_Dag
-    CLS_mtl_output_set = _mtlObjSet.Set_Attribute
+    CLS_mtl_node_set = _mtlObjSet.ObjectSet
+    CLS_mtl_output_set = _mtlObjSet.PortSet
 
     CLS_mtl_node = _mtlObjObject.Node
     CLS_mtl_output = _mtlObjAttribute.NodeGraphOutput
@@ -82,7 +60,7 @@ class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
 
 
 class Collection(mtlObjCore.Abc_MtlGeometryCollection):
-    CLS_mtl_name = _mtlObjRaw.Raw_Name
+    CLS_mtl_name = _mtlObjRaw.NameString
 
     CLS_set_geometry = _mtlObjSet.Set_Geometry
     CLS_set_collection = _mtlObjSet.Set_Collection

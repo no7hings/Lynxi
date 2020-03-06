@@ -1,0 +1,23 @@
+{
+    "type": "material",
+    "port": [
+        {
+            "portname": "surface_shader",
+            "porttype": "closure",
+            "portdata": "",
+            "assign": "input"
+        },
+        {
+            "portname": "displacement_shader",
+            "porttype": "closure",
+            "portdata": "",
+            "assign": "input"
+        },
+        {
+            "portname": "volume_shader",
+            "porttype": "closure",
+            "portdata": "",
+            "assign": "input"
+        }
+    ]
+}

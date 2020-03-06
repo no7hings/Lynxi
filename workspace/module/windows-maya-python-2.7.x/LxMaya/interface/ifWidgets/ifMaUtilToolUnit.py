@@ -1713,6 +1713,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         targetObjectKeyData = self.getTargetObjectKeyData()
         #
         treeBox.clear()
+        lis = []
         if sourceObjectData:
             for seq, (sourceObjectPath, objectType, sourceObjectKey) in enumerate(sourceObjectData):
                 sourceObjects.append(sourceObjectPath)
@@ -1731,6 +1732,7 @@ class IfTopologyConstantToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
                     subLabelString = none
                     if len(objectDataArray) > 1:
                         subLabelString = 'error'
+                        lis.extend(objectDataArray[1:])
                     for targetObjectPath, targetObjectType in objectDataArray:
                         targetObjectName = maUtils._nodeString2nodename_(targetObjectPath)
                         targetObjectItem = qtWidgets_.QTreeWidgetItem_([targetObjectName, objectType])

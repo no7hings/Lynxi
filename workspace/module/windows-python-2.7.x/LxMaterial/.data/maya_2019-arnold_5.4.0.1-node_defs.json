@@ -1,0 +1,4494 @@
+{
+    "aiAbs": {
+        "target": "abs", 
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiAdd": {
+        "target": "add",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiAmbientOcclusion": {
+        "target": "ambient_occlusion",
+        "port": {
+            "samples": {
+                "target": "samples",
+                "porttype": "integer"
+            },
+            "spread": {
+                "target": "spread",
+                "porttype": "float"
+            },
+            "nearClip": {
+                "target": "near_clip",
+                "porttype": "float"
+            },
+            "farClip": {
+                "target": "far_clip",
+                "porttype": "float"
+            },
+            "falloff": {
+                "target": "falloff",
+                "porttype": "float"
+            },
+            "black": {
+                "target": "black",
+                "porttype": "color3"
+            },
+            "white": {
+                "target": "white",
+                "porttype": "color3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "invertNormals": {
+                "target": "invert_normals",
+                "porttype": "boolean"
+            },
+            "traceSet": {
+                "target": "trace_set",
+                "porttype": "string"
+            },
+            "inclusive": {
+                "target": "inclusive",
+                "porttype": "boolean"
+            },
+            "selfOnly": {
+                "target": "self_only",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiReadFloat": {
+        "target": "aov_read_float",
+        "port": {
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiReadInt": {
+        "target": "aov_read_int",
+        "port": {
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiReadRGB": {
+        "target": "aov_read_rgb",
+        "port": {
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiReadRGBA": {
+        "target": "aov_read_rgba",
+        "port": {
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiWriteFloat": {
+        "target": "aov_write_float",
+        "port": {
+            "beauty": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "input": {
+                "target": "aov_input",
+                "porttype": "float"
+            },
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            },
+            "blendOpacity": {
+                "target": "blend_opacity",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiWriteInt": {
+        "target": "aov_write_int",
+        "port": {
+            "beauty": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "input": {
+                "target": "aov_input",
+                "porttype": "integer"
+            },
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiWriteColor": {
+        "target": "aov_write_rgb",
+        "port": {
+            "beauty": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "input": {
+                "target": "aov_input",
+                "porttype": "color3"
+            },
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            },
+            "blend": {
+                "target": "blend_opacity",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiWriteRgba": {
+        "target": "aov_write_rgba",
+        "port": {
+            "beauty": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "input": {
+                "target": "aov_input",
+                "porttype": "color4"
+            },
+            "aovName": {
+                "target": "aov_name",
+                "porttype": "string"
+            },
+            "blend": {
+                "target": "blend_opacity",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiAtan": {
+        "target": "atan",
+        "port": {
+            "y": {
+                "target": "y",
+                "porttype": "color3"
+            },
+            "x": {
+                "target": "x",
+                "porttype": "color3"
+            },
+            "units": {
+                "target": "units",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiAtmosphereVolume": {
+        "target": "atmosphere_volume",
+        "port": {
+            "density": {
+                "target": "density",
+                "porttype": "float"
+            },
+            "samples": {
+                "target": "samples",
+                "porttype": "integer"
+            },
+            "eccentricity": {
+                "target": "eccentricity",
+                "porttype": "float"
+            },
+            "attenuation": {
+                "target": "attenuation",
+                "porttype": "float"
+            },
+            "affectCamera": {
+                "target": "affect_camera",
+                "porttype": "float"
+            },
+            "affectDiffuse": {
+                "target": "affect_diffuse",
+                "porttype": "float"
+            },
+            "affectSpecular": {
+                "target": "affect_specular",
+                "porttype": "float"
+            },
+            "rgbDensity": {
+                "target": "rgb_density",
+                "porttype": "color3"
+            },
+            "rgbAttenuation": {
+                "target": "rgb_attenuation",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiBlackbody": {
+        "target": "blackbody",
+        "port": {
+            "temperature": {
+                "target": "temperature",
+                "porttype": "float"
+            },
+            "normalize": {
+                "target": "normalize",
+                "porttype": "boolean"
+            },
+            "intensity": {
+                "target": "intensity",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiBump2d": {
+        "target": "bump2d",
+        "port": {
+            "bumpMap": {
+                "target": "bump_map",
+                "porttype": "float"
+            },
+            "bumpHeight": {
+                "target": "bump_height",
+                "porttype": "float"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiBump3d": {
+        "target": "bump3d",
+        "port": {
+            "bumpMap": {
+                "target": "bump_map",
+                "porttype": "float"
+            },
+            "bumpHeight": {
+                "target": "bump_height",
+                "porttype": "float"
+            },
+            "epsilon": {
+                "target": "epsilon",
+                "porttype": "float"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiCache": {
+        "target": "cache",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiCameraProjection": {
+        "target": "camera_projection",
+        "port": {
+            "projectionColor": {
+                "target": "projection_color",
+                "porttype": "color4"
+            },
+            "offscreenColor": {
+                "target": "offscreen_color",
+                "porttype": "color4"
+            },
+            "mask": {
+                "target": "mask",
+                "porttype": "float"
+            },
+            "camera": {
+                "target": "camera",
+                "porttype": "string"
+            },
+            "aspectRatio": {
+                "target": "aspect_ratio",
+                "porttype": "float"
+            },
+            "frontFacing": {
+                "target": "front_facing",
+                "porttype": "boolean"
+            },
+            "backFacing": {
+                "target": "back_facing",
+                "porttype": "boolean"
+            },
+            "useShadingNormal": {
+                "target": "use_shading_normal",
+                "porttype": "boolean"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "P": {
+                "target": "P",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiCarPaint": {
+        "target": "car_paint",
+        "port": {
+            "base": {
+                "target": "base",
+                "porttype": "float"
+            },
+            "baseColor": {
+                "target": "base_color",
+                "porttype": "color3"
+            },
+            "baseRoughness": {
+                "target": "base_roughness",
+                "porttype": "float"
+            },
+            "specular": {
+                "target": "specular",
+                "porttype": "float"
+            },
+            "specularColor": {
+                "target": "specular_color",
+                "porttype": "color3"
+            },
+            "specularFlipFlop": {
+                "target": "specular_flip_flop",
+                "porttype": "color3"
+            },
+            "specularLightFacing": {
+                "target": "specular_light_facing",
+                "porttype": "color3"
+            },
+            "specularFalloff": {
+                "target": "specular_falloff",
+                "porttype": "float"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularIOR": {
+                "target": "specular_IOR",
+                "porttype": "float"
+            },
+            "transmissionColor": {
+                "target": "transmission_color",
+                "porttype": "color3"
+            },
+            "flakeColor": {
+                "target": "flake_color",
+                "porttype": "color3"
+            },
+            "flakeFlipFlop": {
+                "target": "flake_flip_flop",
+                "porttype": "color3"
+            },
+            "flakeLightFacing": {
+                "target": "flake_light_facing",
+                "porttype": "color3"
+            },
+            "flakeFalloff": {
+                "target": "flake_falloff",
+                "porttype": "float"
+            },
+            "flakeRoughness": {
+                "target": "flake_roughness",
+                "porttype": "float"
+            },
+            "flakeIOR": {
+                "target": "flake_IOR",
+                "porttype": "float"
+            },
+            "flakeScale": {
+                "target": "flake_scale",
+                "porttype": "float"
+            },
+            "flakeDensity": {
+                "target": "flake_density",
+                "porttype": "float"
+            },
+            "flakeLayers": {
+                "target": "flake_layers",
+                "porttype": "integer"
+            },
+            "flakeNormalRandomize": {
+                "target": "flake_normal_randomize",
+                "porttype": "float"
+            },
+            "flakeCoordSpace": {
+                "target": "flake_coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "coat": {
+                "target": "coat",
+                "porttype": "float"
+            },
+            "coatColor": {
+                "target": "coat_color",
+                "porttype": "color3"
+            },
+            "coatRoughness": {
+                "target": "coat_roughness",
+                "porttype": "float"
+            },
+            "coatIOR": {
+                "target": "coat_IOR",
+                "porttype": "float"
+            },
+            "coatNormal": {
+                "target": "coat_normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiCellNoise": {
+        "target": "cell_noise",
+        "port": {
+            "pattern": {
+                "target": "pattern",
+                "porttype": "string"
+            },
+            "additive": {
+                "target": "additive",
+                "porttype": "boolean"
+            },
+            "octaves": {
+                "target": "octaves",
+                "porttype": "integer"
+            },
+            "randomness": {
+                "target": "randomness",
+                "porttype": "float"
+            },
+            "lacunarity": {
+                "target": "lacunarity",
+                "porttype": "float"
+            },
+            "amplitude": {
+                "target": "amplitude",
+                "porttype": "float"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "vector3"
+            },
+            "offset": {
+                "target": "offset",
+                "porttype": "vector3"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "P": {
+                "target": "P",
+                "porttype": "vector3"
+            },
+            "time": {
+                "target": "time",
+                "porttype": "float"
+            },
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            },
+            "palette": {
+                "target": "palette",
+                "porttype": "color3"
+            },
+            "density": {
+                "target": "density",
+                "porttype": "float"
+            }
+        }
+    },
+    "checker": {
+        "target": "checkerboard",
+        "port": {
+            "color1": {
+                "target": "color1",
+                "porttype": "color3"
+            },
+            "color2": {
+                "target": "color2",
+                "porttype": "color3"
+            },
+            "contrast": {
+                "target": "contrast",
+                "porttype": "float"
+            },
+            "filter": {
+                "target": "filter_strength",
+                "porttype": "float"
+            },
+            "filterOffset": {
+                "target": "filter_offset",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiClamp": {
+        "target": "clamp",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            },
+            "min": {
+                "target": "min",
+                "porttype": "float"
+            },
+            "max": {
+                "target": "max",
+                "porttype": "float"
+            },
+            "minColor": {
+                "target": "min_color",
+                "porttype": "color3"
+            },
+            "maxColor": {
+                "target": "max_color",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiClipGeo": {
+        "target": "clip_geo",
+        "port": {
+            "intersection": {
+                "target": "intersection",
+                "porttype": "closure"
+            },
+            "traceSet": {
+                "target": "trace_set",
+                "porttype": "string"
+            },
+            "inclusive": {
+                "target": "inclusive",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiColorConvert": {
+        "target": "color_convert",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "from": {
+                "target": "from",
+                "porttype": "string"
+            },
+            "to": {
+                "target": "to",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiColorCorrect": {
+        "target": "color_correct",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color4"
+            },
+            "alphaIsLuminance": {
+                "target": "alpha_is_luminance",
+                "porttype": "boolean"
+            },
+            "alphaMultiply": {
+                "target": "alpha_multiply",
+                "porttype": "float"
+            },
+            "alphaAdd": {
+                "target": "alpha_add",
+                "porttype": "float"
+            },
+            "invert": {
+                "target": "invert",
+                "porttype": "boolean"
+            },
+            "invertAlpha": {
+                "target": "invert_alpha",
+                "porttype": "boolean"
+            },
+            "gamma": {
+                "target": "gamma",
+                "porttype": "float"
+            },
+            "hueShift": {
+                "target": "hue_shift",
+                "porttype": "float"
+            },
+            "saturation": {
+                "target": "saturation",
+                "porttype": "float"
+            },
+            "contrast": {
+                "target": "contrast",
+                "porttype": "float"
+            },
+            "contrastPivot": {
+                "target": "contrast_pivot",
+                "porttype": "float"
+            },
+            "exposure": {
+                "target": "exposure",
+                "porttype": "float"
+            },
+            "multiply": {
+                "target": "multiply",
+                "porttype": "color3"
+            },
+            "add": {
+                "target": "add",
+                "porttype": "color3"
+            },
+            "mask": {
+                "target": "mask",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiColorJitter": {
+        "target": "color_jitter",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "dataInput": {
+                "target": "data_input",
+                "porttype": "integer"
+            },
+            "dataGainMin": {
+                "target": "data_gain_min",
+                "porttype": "float"
+            },
+            "dataGainMax": {
+                "target": "data_gain_max",
+                "porttype": "float"
+            },
+            "dataHueMin": {
+                "target": "data_hue_min",
+                "porttype": "float"
+            },
+            "dataHueMax": {
+                "target": "data_hue_max",
+                "porttype": "float"
+            },
+            "dataSaturationMin": {
+                "target": "data_saturation_min",
+                "porttype": "float"
+            },
+            "dataSaturationMax": {
+                "target": "data_saturation_max",
+                "porttype": "float"
+            },
+            "dataSeed": {
+                "target": "data_seed",
+                "porttype": "integer"
+            },
+            "procGainMin": {
+                "target": "proc_gain_min",
+                "porttype": "float"
+            },
+            "procGainMax": {
+                "target": "proc_gain_max",
+                "porttype": "float"
+            },
+            "procHueMin": {
+                "target": "proc_hue_min",
+                "porttype": "float"
+            },
+            "procHueMax": {
+                "target": "proc_hue_max",
+                "porttype": "float"
+            },
+            "procSaturationMin": {
+                "target": "proc_saturation_min",
+                "porttype": "float"
+            },
+            "procSaturationMax": {
+                "target": "proc_saturation_max",
+                "porttype": "float"
+            },
+            "procSeed": {
+                "target": "proc_seed",
+                "porttype": "integer"
+            },
+            "objGainMin": {
+                "target": "obj_gain_min",
+                "porttype": "float"
+            },
+            "objGainMax": {
+                "target": "obj_gain_max",
+                "porttype": "float"
+            },
+            "objHueMin": {
+                "target": "obj_hue_min",
+                "porttype": "float"
+            },
+            "objHueMax": {
+                "target": "obj_hue_max",
+                "porttype": "float"
+            },
+            "objSaturationMin": {
+                "target": "obj_saturation_min",
+                "porttype": "float"
+            },
+            "objSaturationMax": {
+                "target": "obj_saturation_max",
+                "porttype": "float"
+            },
+            "objSeed": {
+                "target": "obj_seed",
+                "porttype": "integer"
+            },
+            "faceGainMin": {
+                "target": "face_gain_min",
+                "porttype": "float"
+            },
+            "faceGainMax": {
+                "target": "face_gain_max",
+                "porttype": "float"
+            },
+            "faceHueMin": {
+                "target": "face_hue_min",
+                "porttype": "float"
+            },
+            "faceHueMax": {
+                "target": "face_hue_max",
+                "porttype": "float"
+            },
+            "faceSaturationMin": {
+                "target": "face_saturation_min",
+                "porttype": "float"
+            },
+            "faceSaturationMax": {
+                "target": "face_saturation_max",
+                "porttype": "float"
+            },
+            "faceSeed": {
+                "target": "face_seed",
+                "porttype": "integer"
+            },
+            "faceMode": {
+                "target": "face_mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiCompare": {
+        "target": "compare",
+        "port": {
+            "test": {
+                "target": "test",
+                "porttype": "string"
+            },
+            "input1": {
+                "target": "input1",
+                "porttype": "float"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiComplement": {
+        "target": "complement",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiComplexIor": {
+        "target": "complex_ior",
+        "port": {
+            "material": {
+                "target": "material",
+                "porttype": "string"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            },
+            "reflectivity": {
+                "target": "reflectivity",
+                "porttype": "color3"
+            },
+            "edgetint": {
+                "target": "edgetint",
+                "porttype": "color3"
+            },
+            "n": {
+                "target": "n",
+                "porttype": "vector3"
+            },
+            "k": {
+                "target": "k",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiComposite": {
+        "target": "composite",
+        "port": {
+            "A": {
+                "target": "A",
+                "porttype": "color4"
+            },
+            "B": {
+                "target": "B",
+                "porttype": "color4"
+            },
+            "operation": {
+                "target": "operation",
+                "porttype": "string"
+            },
+            "alphaOperation": {
+                "target": "alpha_operation",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiCross": {
+        "target": "cross",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "vector3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiCurvature": {
+        "target": "curvature",
+        "port": {
+            "output": {
+                "target": "output",
+                "porttype": "string"
+            },
+            "samples": {
+                "target": "samples",
+                "porttype": "integer"
+            },
+            "radius": {
+                "target": "radius",
+                "porttype": "float"
+            },
+            "spread": {
+                "target": "spread",
+                "porttype": "float"
+            },
+            "threshold": {
+                "target": "threshold",
+                "porttype": "float"
+            },
+            "bias": {
+                "target": "bias",
+                "porttype": "float"
+            },
+            "multiply": {
+                "target": "multiply",
+                "porttype": "float"
+            },
+            "traceSet": {
+                "target": "trace_set",
+                "porttype": "string"
+            },
+            "inclusive": {
+                "target": "inclusive",
+                "porttype": "boolean"
+            },
+            "selfOnly": {
+                "target": "self_only",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiDivide": {
+        "target": "divide",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiDot": {
+        "target": "dot",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "vector3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiExp": {
+        "target": "exp",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiFacingRatio": {
+        "target": "facing_ratio",
+        "port": {
+            "bias": {
+                "target": "bias",
+                "porttype": "float"
+            },
+            "gain": {
+                "target": "gain",
+                "porttype": "float"
+            },
+            "linear": {
+                "target": "linear",
+                "porttype": "boolean"
+            },
+            "invert": {
+                "target": "invert",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiFlakes": {
+        "target": "flakes",
+        "port": {
+            "scale": {
+                "target": "scale",
+                "porttype": "float"
+            },
+            "density": {
+                "target": "density",
+                "porttype": "float"
+            },
+            "step": {
+                "target": "step",
+                "porttype": "float"
+            },
+            "depth": {
+                "target": "depth",
+                "porttype": "float"
+            },
+            "IOR": {
+                "target": "IOR",
+                "porttype": "float"
+            },
+            "normalRandomize": {
+                "target": "normal_randomize",
+                "porttype": "float"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "outputSpace": {
+                "target": "output_space",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiFlat": {
+        "target": "flat",
+        "port": {
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiFloatToInt": {
+        "target": "float_to_int",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "float"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiFloatToRgba": {
+        "target": "float_to_rgba",
+        "port": {
+            "r": {
+                "target": "r",
+                "porttype": "float"
+            },
+            "g": {
+                "target": "g",
+                "porttype": "float"
+            },
+            "b": {
+                "target": "b",
+                "porttype": "float"
+            },
+            "a": {
+                "target": "a",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiFog": {
+        "target": "fog",
+        "port": {
+            "distance": {
+                "target": "distance",
+                "porttype": "float"
+            },
+            "height": {
+                "target": "height",
+                "porttype": "float"
+            },
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            },
+            "groundPoint": {
+                "target": "ground_point",
+                "porttype": "vector3"
+            },
+            "groundNormal": {
+                "target": "ground_normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiFraction": {
+        "target": "fraction",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiHair": {
+        "target": "hair",
+        "port": {
+            "rootcolor": {
+                "target": "rootcolor",
+                "porttype": "color3"
+            },
+            "tipcolor": {
+                "target": "tipcolor",
+                "porttype": "color3"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "color3"
+            },
+            "ambdiff": {
+                "target": "ambdiff",
+                "porttype": "float"
+            },
+            "spec": {
+                "target": "spec",
+                "porttype": "float"
+            },
+            "specColor": {
+                "target": "spec_color",
+                "porttype": "color3"
+            },
+            "specShift": {
+                "target": "spec_shift",
+                "porttype": "float"
+            },
+            "specGloss": {
+                "target": "spec_gloss",
+                "porttype": "float"
+            },
+            "spec2": {
+                "target": "spec2",
+                "porttype": "float"
+            },
+            "spec2Color": {
+                "target": "spec2_color",
+                "porttype": "color3"
+            },
+            "spec2Shift": {
+                "target": "spec2_shift",
+                "porttype": "float"
+            },
+            "spec2Gloss": {
+                "target": "spec2_gloss",
+                "porttype": "float"
+            },
+            "transmission": {
+                "target": "transmission",
+                "porttype": "float"
+            },
+            "transmissionColor": {
+                "target": "transmission_color",
+                "porttype": "color3"
+            },
+            "transmissionSpread": {
+                "target": "transmission_spread",
+                "porttype": "float"
+            },
+            "kdInd": {
+                "target": "kd_ind",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiImage": {
+        "target": "image",
+        "port": {
+            "filename": {
+                "target": "filename",
+                "porttype": "string"
+            },
+            "colorSpace": {
+                "target": "color_space",
+                "porttype": "string"
+            },
+            "filter": {
+                "target": "filter",
+                "porttype": "string"
+            },
+            "mipmapBias": {
+                "target": "mipmap_bias",
+                "porttype": "integer"
+            },
+            "singleChannel": {
+                "target": "single_channel",
+                "porttype": "boolean"
+            },
+            "startChannel": {
+                "target": "start_channel",
+                "porttype": "integer"
+            },
+            "swrap": {
+                "target": "swrap",
+                "porttype": "string"
+            },
+            "twrap": {
+                "target": "twrap",
+                "porttype": "string"
+            },
+            "sscale": {
+                "target": "sscale",
+                "porttype": "float"
+            },
+            "tscale": {
+                "target": "tscale",
+                "porttype": "float"
+            },
+            "sflip": {
+                "target": "sflip",
+                "porttype": "boolean"
+            },
+            "tflip": {
+                "target": "tflip",
+                "porttype": "boolean"
+            },
+            "soffset": {
+                "target": "soffset",
+                "porttype": "float"
+            },
+            "toffset": {
+                "target": "toffset",
+                "porttype": "float"
+            },
+            "swapSt": {
+                "target": "swap_st",
+                "porttype": "boolean"
+            },
+            "uvcoords": {
+                "target": "uvcoords",
+                "porttype": "vector2"
+            },
+            "uvset": {
+                "target": "uvset",
+                "porttype": "string"
+            },
+            "multiply": {
+                "target": "multiply",
+                "porttype": "color3"
+            },
+            "offset": {
+                "target": "offset",
+                "porttype": "color3"
+            },
+            "ignoreMissingTextures": {
+                "target": "ignore_missing_textures",
+                "porttype": "boolean"
+            },
+            "missingTextureColor": {
+                "target": "missing_texture_color",
+                "porttype": "color4"
+            }
+        }
+    },
+    "aiIsFinite": {
+        "target": "is_finite",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "lambert": {
+        "target": "lambert",
+        "port": {
+            "diffuse": {
+                "target": "Kd",
+                "porttype": "float"
+            },
+            "color": {
+                "target": "Kd_color",
+                "porttype": "color3"
+            },
+            "transparency": {
+                "target": "opacity",
+                "porttype": "color3"
+            },
+            "normalCamera": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiLayerFloat": {
+        "target": "layer_float",
+        "port": {
+            "enable1": {
+                "target": "enable1",
+                "porttype": "boolean"
+            },
+            "name1": {
+                "target": "name1",
+                "porttype": "string"
+            },
+            "input1": {
+                "target": "input1",
+                "porttype": "float"
+            },
+            "mix1": {
+                "target": "mix1",
+                "porttype": "float"
+            },
+            "enable2": {
+                "target": "enable2",
+                "porttype": "boolean"
+            },
+            "name2": {
+                "target": "name2",
+                "porttype": "string"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "float"
+            },
+            "mix2": {
+                "target": "mix2",
+                "porttype": "float"
+            },
+            "enable3": {
+                "target": "enable3",
+                "porttype": "boolean"
+            },
+            "name3": {
+                "target": "name3",
+                "porttype": "string"
+            },
+            "input3": {
+                "target": "input3",
+                "porttype": "float"
+            },
+            "mix3": {
+                "target": "mix3",
+                "porttype": "float"
+            },
+            "enable4": {
+                "target": "enable4",
+                "porttype": "boolean"
+            },
+            "name4": {
+                "target": "name4",
+                "porttype": "string"
+            },
+            "input4": {
+                "target": "input4",
+                "porttype": "float"
+            },
+            "mix4": {
+                "target": "mix4",
+                "porttype": "float"
+            },
+            "enable5": {
+                "target": "enable5",
+                "porttype": "boolean"
+            },
+            "name5": {
+                "target": "name5",
+                "porttype": "string"
+            },
+            "input5": {
+                "target": "input5",
+                "porttype": "float"
+            },
+            "mix5": {
+                "target": "mix5",
+                "porttype": "float"
+            },
+            "enable6": {
+                "target": "enable6",
+                "porttype": "boolean"
+            },
+            "name6": {
+                "target": "name6",
+                "porttype": "string"
+            },
+            "input6": {
+                "target": "input6",
+                "porttype": "float"
+            },
+            "mix6": {
+                "target": "mix6",
+                "porttype": "float"
+            },
+            "enable7": {
+                "target": "enable7",
+                "porttype": "boolean"
+            },
+            "name7": {
+                "target": "name7",
+                "porttype": "string"
+            },
+            "input7": {
+                "target": "input7",
+                "porttype": "float"
+            },
+            "mix7": {
+                "target": "mix7",
+                "porttype": "float"
+            },
+            "enable8": {
+                "target": "enable8",
+                "porttype": "boolean"
+            },
+            "name8": {
+                "target": "name8",
+                "porttype": "string"
+            },
+            "input8": {
+                "target": "input8",
+                "porttype": "float"
+            },
+            "mix8": {
+                "target": "mix8",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiLayerRgba": {
+        "target": "layer_rgba",
+        "port": {
+            "enable1": {
+                "target": "enable1",
+                "porttype": "boolean"
+            },
+            "name1": {
+                "target": "name1",
+                "porttype": "string"
+            },
+            "input1": {
+                "target": "input1",
+                "porttype": "color4"
+            },
+            "mix1": {
+                "target": "mix1",
+                "porttype": "float"
+            },
+            "operation1": {
+                "target": "operation1",
+                "porttype": "string"
+            },
+            "alphaOperation1": {
+                "target": "alpha_operation1",
+                "porttype": "string"
+            },
+            "enable2": {
+                "target": "enable2",
+                "porttype": "boolean"
+            },
+            "name2": {
+                "target": "name2",
+                "porttype": "string"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color4"
+            },
+            "mix2": {
+                "target": "mix2",
+                "porttype": "float"
+            },
+            "operation2": {
+                "target": "operation2",
+                "porttype": "string"
+            },
+            "alphaOperation2": {
+                "target": "alpha_operation2",
+                "porttype": "string"
+            },
+            "enable3": {
+                "target": "enable3",
+                "porttype": "boolean"
+            },
+            "name3": {
+                "target": "name3",
+                "porttype": "string"
+            },
+            "input3": {
+                "target": "input3",
+                "porttype": "color4"
+            },
+            "mix3": {
+                "target": "mix3",
+                "porttype": "float"
+            },
+            "operation3": {
+                "target": "operation3",
+                "porttype": "string"
+            },
+            "alphaOperation3": {
+                "target": "alpha_operation3",
+                "porttype": "string"
+            },
+            "enable4": {
+                "target": "enable4",
+                "porttype": "boolean"
+            },
+            "name4": {
+                "target": "name4",
+                "porttype": "string"
+            },
+            "input4": {
+                "target": "input4",
+                "porttype": "color4"
+            },
+            "mix4": {
+                "target": "mix4",
+                "porttype": "float"
+            },
+            "operation4": {
+                "target": "operation4",
+                "porttype": "string"
+            },
+            "alphaOperation4": {
+                "target": "alpha_operation4",
+                "porttype": "string"
+            },
+            "enable5": {
+                "target": "enable5",
+                "porttype": "boolean"
+            },
+            "name5": {
+                "target": "name5",
+                "porttype": "string"
+            },
+            "input5": {
+                "target": "input5",
+                "porttype": "color4"
+            },
+            "mix5": {
+                "target": "mix5",
+                "porttype": "float"
+            },
+            "operation5": {
+                "target": "operation5",
+                "porttype": "string"
+            },
+            "alphaOperation5": {
+                "target": "alpha_operation5",
+                "porttype": "string"
+            },
+            "enable6": {
+                "target": "enable6",
+                "porttype": "boolean"
+            },
+            "name6": {
+                "target": "name6",
+                "porttype": "string"
+            },
+            "input6": {
+                "target": "input6",
+                "porttype": "color4"
+            },
+            "mix6": {
+                "target": "mix6",
+                "porttype": "float"
+            },
+            "operation6": {
+                "target": "operation6",
+                "porttype": "string"
+            },
+            "alphaOperation6": {
+                "target": "alpha_operation6",
+                "porttype": "string"
+            },
+            "enable7": {
+                "target": "enable7",
+                "porttype": "boolean"
+            },
+            "name7": {
+                "target": "name7",
+                "porttype": "string"
+            },
+            "input7": {
+                "target": "input7",
+                "porttype": "color4"
+            },
+            "mix7": {
+                "target": "mix7",
+                "porttype": "float"
+            },
+            "operation7": {
+                "target": "operation7",
+                "porttype": "string"
+            },
+            "alphaOperation7": {
+                "target": "alpha_operation7",
+                "porttype": "string"
+            },
+            "enable8": {
+                "target": "enable8",
+                "porttype": "boolean"
+            },
+            "name8": {
+                "target": "name8",
+                "porttype": "string"
+            },
+            "input8": {
+                "target": "input8",
+                "porttype": "color4"
+            },
+            "mix8": {
+                "target": "mix8",
+                "porttype": "float"
+            },
+            "operation8": {
+                "target": "operation8",
+                "porttype": "string"
+            },
+            "alphaOperation8": {
+                "target": "alpha_operation8",
+                "porttype": "string"
+            },
+            "clamp": {
+                "target": "clamp",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiLayerShader": {
+        "target": "layer_shader",
+        "port": {
+            "enable1": {
+                "target": "enable1",
+                "porttype": "boolean"
+            },
+            "name1": {
+                "target": "name1",
+                "porttype": "string"
+            },
+            "input1": {
+                "target": "input1",
+                "porttype": "closure"
+            },
+            "mix1": {
+                "target": "mix1",
+                "porttype": "float"
+            },
+            "enable2": {
+                "target": "enable2",
+                "porttype": "boolean"
+            },
+            "name2": {
+                "target": "name2",
+                "porttype": "string"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "closure"
+            },
+            "mix2": {
+                "target": "mix2",
+                "porttype": "float"
+            },
+            "enable3": {
+                "target": "enable3",
+                "porttype": "boolean"
+            },
+            "name3": {
+                "target": "name3",
+                "porttype": "string"
+            },
+            "input3": {
+                "target": "input3",
+                "porttype": "closure"
+            },
+            "mix3": {
+                "target": "mix3",
+                "porttype": "float"
+            },
+            "enable4": {
+                "target": "enable4",
+                "porttype": "boolean"
+            },
+            "name4": {
+                "target": "name4",
+                "porttype": "string"
+            },
+            "input4": {
+                "target": "input4",
+                "porttype": "closure"
+            },
+            "mix4": {
+                "target": "mix4",
+                "porttype": "float"
+            },
+            "enable5": {
+                "target": "enable5",
+                "porttype": "boolean"
+            },
+            "name5": {
+                "target": "name5",
+                "porttype": "string"
+            },
+            "input5": {
+                "target": "input5",
+                "porttype": "closure"
+            },
+            "mix5": {
+                "target": "mix5",
+                "porttype": "float"
+            },
+            "enable6": {
+                "target": "enable6",
+                "porttype": "boolean"
+            },
+            "name6": {
+                "target": "name6",
+                "porttype": "string"
+            },
+            "input6": {
+                "target": "input6",
+                "porttype": "closure"
+            },
+            "mix6": {
+                "target": "mix6",
+                "porttype": "float"
+            },
+            "enable7": {
+                "target": "enable7",
+                "porttype": "boolean"
+            },
+            "name7": {
+                "target": "name7",
+                "porttype": "string"
+            },
+            "input7": {
+                "target": "input7",
+                "porttype": "closure"
+            },
+            "mix7": {
+                "target": "mix7",
+                "porttype": "float"
+            },
+            "enable8": {
+                "target": "enable8",
+                "porttype": "boolean"
+            },
+            "name8": {
+                "target": "name8",
+                "porttype": "string"
+            },
+            "input8": {
+                "target": "input8",
+                "porttype": "closure"
+            },
+            "mix8": {
+                "target": "mix8",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiLength": {
+        "target": "length",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "vector3"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiLog": {
+        "target": "log",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "base": {
+                "target": "base",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiMatrixInterpolate": {
+        "target": "matrix_interpolate",
+        "port": {
+            "type": {
+                "target": "type",
+                "porttype": "string"
+            },
+            "value": {
+                "target": "value",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiMatrixMultiplyVector": {
+        "target": "matrix_multiply_vector",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "type": {
+                "target": "type",
+                "porttype": "string"
+            },
+            "matrix": {
+                "target": "matrix",
+                "porttype": "matrix44"
+            }
+        }
+    },
+    "aiMatrixTransform": {
+        "target": "matrix_transform",
+        "port": {
+            "transformOrder": {
+                "target": "transform_order",
+                "porttype": "string"
+            },
+            "rotationType": {
+                "target": "rotation_type",
+                "porttype": "string"
+            },
+            "units": {
+                "target": "units",
+                "porttype": "string"
+            },
+            "rotationOrder": {
+                "target": "rotation_order",
+                "porttype": "string"
+            },
+            "rotation": {
+                "target": "rotation",
+                "porttype": "vector3"
+            },
+            "axis": {
+                "target": "axis",
+                "porttype": "vector3"
+            },
+            "angle": {
+                "target": "angle",
+                "porttype": "float"
+            },
+            "translate": {
+                "target": "translate",
+                "porttype": "vector3"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "vector3"
+            },
+            "pivot": {
+                "target": "pivot",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiMatte": {
+        "target": "matte",
+        "port": {
+            "passthrough": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "color": {
+                "target": "color",
+                "porttype": "color4"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiMax": {
+        "target": "max",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "layeredShader": {
+        "target": "maya_layered_shader",
+        "port": {
+            "compositingFlag": {
+                "target": "compositingFlag",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiMin": {
+        "target": "min",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiMixShader": {
+        "target": "mix_shader",
+        "port": {
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            },
+            "mix": {
+                "target": "mix",
+                "porttype": "float"
+            },
+            "shader1": {
+                "target": "shader1",
+                "porttype": "closure"
+            },
+            "shader2": {
+                "target": "shader2",
+                "porttype": "closure"
+            }
+        }
+    },
+    "aiModulo": {
+        "target": "modulo",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "divisor": {
+                "target": "divisor",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiMotionVector": {
+        "target": "motion_vector",
+        "port": {
+            "raw": {
+                "target": "raw",
+                "porttype": "boolean"
+            },
+            "time0": {
+                "target": "time0",
+                "porttype": "float"
+            },
+            "time1": {
+                "target": "time1",
+                "porttype": "float"
+            },
+            "maxDisplace": {
+                "target": "max_displace",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiMultiply": {
+        "target": "multiply",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiNegate": {
+        "target": "negate",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiNoise": {
+        "target": "noise",
+        "port": {
+            "octaves": {
+                "target": "octaves",
+                "porttype": "integer"
+            },
+            "distortion": {
+                "target": "distortion",
+                "porttype": "float"
+            },
+            "lacunarity": {
+                "target": "lacunarity",
+                "porttype": "float"
+            },
+            "amplitude": {
+                "target": "amplitude",
+                "porttype": "float"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "vector3"
+            },
+            "offset": {
+                "target": "offset",
+                "porttype": "vector3"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "P": {
+                "target": "P",
+                "porttype": "vector3"
+            },
+            "time": {
+                "target": "time",
+                "porttype": "float"
+            },
+            "color1": {
+                "target": "color1",
+                "porttype": "color3"
+            },
+            "color2": {
+                "target": "color2",
+                "porttype": "color3"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiNormalMap": {
+        "target": "normal_map",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "vector3"
+            },
+            "tangent": {
+                "target": "tangent",
+                "porttype": "vector3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "order": {
+                "target": "order",
+                "porttype": "string"
+            },
+            "invertX": {
+                "target": "invert_x",
+                "porttype": "boolean"
+            },
+            "invertY": {
+                "target": "invert_y",
+                "porttype": "boolean"
+            },
+            "invertZ": {
+                "target": "invert_z",
+                "porttype": "boolean"
+            },
+            "colorToSigned": {
+                "target": "color_to_signed",
+                "porttype": "boolean"
+            },
+            "tangentSpace": {
+                "target": "tangent_space",
+                "porttype": "boolean"
+            },
+            "strength": {
+                "target": "strength",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiNormalize": {
+        "target": "normalize",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiPassthrough": {
+        "target": "passthrough",
+        "port": {
+            "passthrough": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "eval1": {
+                "target": "eval1",
+                "porttype": "closure"
+            },
+            "eval2": {
+                "target": "eval2",
+                "porttype": "closure"
+            },
+            "eval3": {
+                "target": "eval3",
+                "porttype": "closure"
+            },
+            "eval4": {
+                "target": "eval4",
+                "porttype": "closure"
+            },
+            "eval5": {
+                "target": "eval5",
+                "porttype": "closure"
+            },
+            "eval6": {
+                "target": "eval6",
+                "porttype": "closure"
+            },
+            "eval7": {
+                "target": "eval7",
+                "porttype": "closure"
+            },
+            "eval8": {
+                "target": "eval8",
+                "porttype": "closure"
+            },
+            "eval9": {
+                "target": "eval9",
+                "porttype": "closure"
+            },
+            "eval10": {
+                "target": "eval10",
+                "porttype": "closure"
+            },
+            "eval11": {
+                "target": "eval11",
+                "porttype": "closure"
+            },
+            "eval12": {
+                "target": "eval12",
+                "porttype": "closure"
+            },
+            "eval13": {
+                "target": "eval13",
+                "porttype": "closure"
+            },
+            "eval14": {
+                "target": "eval14",
+                "porttype": "closure"
+            },
+            "eval15": {
+                "target": "eval15",
+                "porttype": "closure"
+            },
+            "eval16": {
+                "target": "eval16",
+                "porttype": "closure"
+            },
+            "eval17": {
+                "target": "eval17",
+                "porttype": "closure"
+            },
+            "eval18": {
+                "target": "eval18",
+                "porttype": "closure"
+            },
+            "eval19": {
+                "target": "eval19",
+                "porttype": "closure"
+            },
+            "eval20": {
+                "target": "eval20",
+                "porttype": "closure"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiPhysicalSky": {
+        "target": "physical_sky",
+        "port": {
+            "turbidity": {
+                "target": "turbidity",
+                "porttype": "float"
+            },
+            "groundAlbedo": {
+                "target": "ground_albedo",
+                "porttype": "color3"
+            },
+            "useDegrees": {
+                "target": "use_degrees",
+                "porttype": "boolean"
+            },
+            "elevation": {
+                "target": "elevation",
+                "porttype": "float"
+            },
+            "azimuth": {
+                "target": "azimuth",
+                "porttype": "float"
+            },
+            "sunDirection": {
+                "target": "sun_direction",
+                "porttype": "vector3"
+            },
+            "enableSun": {
+                "target": "enable_sun",
+                "porttype": "boolean"
+            },
+            "sunSize": {
+                "target": "sun_size",
+                "porttype": "float"
+            },
+            "sunTint": {
+                "target": "sun_tint",
+                "porttype": "color3"
+            },
+            "skyTint": {
+                "target": "sky_tint",
+                "porttype": "color3"
+            },
+            "intensity": {
+                "target": "intensity",
+                "porttype": "float"
+            },
+            "X": {
+                "target": "X",
+                "porttype": "vector3"
+            },
+            "Y": {
+                "target": "Y",
+                "porttype": "vector3"
+            },
+            "Z": {
+                "target": "Z",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiPow": {
+        "target": "pow",
+        "port": {
+            "base": {
+                "target": "base",
+                "porttype": "color3"
+            },
+            "exponent": {
+                "target": "exponent",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiRampFloat": {
+        "target": "ramp_float",
+        "port": {
+            "type": {
+                "target": "type",
+                "porttype": "string"
+            },
+            "input": {
+                "target": "input",
+                "porttype": "float"
+            },
+            "ramp_Position": {
+                "target": "position",
+                "porttype": "floatarray"
+            },
+            "ramp_FloatValue": {
+                "target": "value",
+                "porttype": "floatarray"
+            },
+            "ramp_Interp": {
+                "target": "interpolation",
+                "porttype": "integerarray"
+            },
+            "uvset": {
+                "target": "uvset",
+                "porttype": "string"
+            },
+            "useImplicitUvs": {
+                "target": "use_implicit_uvs",
+                "porttype": "string"
+            },
+            "wrapUvs": {
+                "target": "wrap_uvs",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiRampRgb": {
+        "target": "ramp_rgb",
+        "port": {
+            "type": {
+                "target": "type",
+                "porttype": "string"
+            },
+            "input": {
+                "target": "input",
+                "porttype": "float"
+            },
+            "ramp_Position": {
+                "target": "position",
+                "porttype": "floatarray"
+            },
+            "ramp_Color": {
+                "target": "color",
+                "porttype": "floatarray"
+            },
+            "ramp_Interp": {
+                "target": "interpolation",
+                "porttype": "integerarray"
+            },
+            "uvset": {
+                "target": "uvset",
+                "porttype": "string"
+            },
+            "useImplicitUvs": {
+                "target": "use_implicit_uvs",
+                "porttype": "string"
+            },
+            "wrapUvs": {
+                "target": "wrap_uvs",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiRandom": {
+        "target": "random",
+        "port": {
+            "inputType": {
+                "target": "input_type",
+                "porttype": "string"
+            },
+            "inputInt": {
+                "target": "input_int",
+                "porttype": "integer"
+            },
+            "inputFloat": {
+                "target": "input_float",
+                "porttype": "float"
+            },
+            "inputColor": {
+                "target": "input_color",
+                "porttype": "color3"
+            },
+            "seed": {
+                "target": "seed",
+                "porttype": "integer"
+            },
+            "grayscale": {
+                "target": "grayscale",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiRange": {
+        "target": "range",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "inputMin": {
+                "target": "input_min",
+                "porttype": "float"
+            },
+            "inputMax": {
+                "target": "input_max",
+                "porttype": "float"
+            },
+            "outputMin": {
+                "target": "output_min",
+                "porttype": "float"
+            },
+            "outputMax": {
+                "target": "output_max",
+                "porttype": "float"
+            },
+            "smoothstep": {
+                "target": "smoothstep",
+                "porttype": "boolean"
+            },
+            "contrast": {
+                "target": "contrast",
+                "porttype": "float"
+            },
+            "contrastPivot": {
+                "target": "contrast_pivot",
+                "porttype": "float"
+            },
+            "bias": {
+                "target": "bias",
+                "porttype": "float"
+            },
+            "gain": {
+                "target": "gain",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiRaySwitch": {
+        "target": "ray_switch_shader",
+        "port": {
+            "camera": {
+                "target": "camera",
+                "porttype": "closure"
+            },
+            "shadow": {
+                "target": "shadow",
+                "porttype": "closure"
+            },
+            "diffuseReflection": {
+                "target": "diffuse_reflection",
+                "porttype": "closure"
+            },
+            "diffuseTransmission": {
+                "target": "diffuse_transmission",
+                "porttype": "closure"
+            },
+            "specularReflection": {
+                "target": "specular_reflection",
+                "porttype": "closure"
+            },
+            "specularTransmission": {
+                "target": "specular_transmission",
+                "porttype": "closure"
+            },
+            "volume": {
+                "target": "volume",
+                "porttype": "closure"
+            }
+        }
+    },
+    "aiReciprocal": {
+        "target": "reciprocal",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiColorToFloat": {
+        "target": "rgb_to_float",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiRgbaToFloat": {
+        "target": "rgba_to_float",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color4"
+            },
+            "mode": {
+                "target": "mode",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiRoundCorners": {
+        "target": "round_corners",
+        "port": {
+            "samples": {
+                "target": "samples",
+                "porttype": "integer"
+            },
+            "radius": {
+                "target": "radius",
+                "porttype": "float"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "traceSet": {
+                "target": "trace_set",
+                "porttype": "string"
+            },
+            "inclusive": {
+                "target": "inclusive",
+                "porttype": "boolean"
+            },
+            "selfOnly": {
+                "target": "self_only",
+                "porttype": "boolean"
+            },
+            "objectSpace": {
+                "target": "object_space",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiShadowMatte": {
+        "target": "shadow_matte",
+        "port": {
+            "background": {
+                "target": "background",
+                "porttype": "string"
+            },
+            "shadowColor": {
+                "target": "shadow_color",
+                "porttype": "color3"
+            },
+            "shadowOpacity": {
+                "target": "shadow_opacity",
+                "porttype": "float"
+            },
+            "backgroundColor": {
+                "target": "background_color",
+                "porttype": "color3"
+            },
+            "diffuseColor": {
+                "target": "diffuse_color",
+                "porttype": "color3"
+            },
+            "diffuseUseBackground": {
+                "target": "diffuse_use_background",
+                "porttype": "boolean"
+            },
+            "diffuseIntensity": {
+                "target": "diffuse_intensity",
+                "porttype": "float"
+            },
+            "backlighting": {
+                "target": "backlighting",
+                "porttype": "float"
+            },
+            "indirectDiffuseEnable": {
+                "target": "indirect_diffuse_enable",
+                "porttype": "boolean"
+            },
+            "indirectSpecularEnable": {
+                "target": "indirect_specular_enable",
+                "porttype": "boolean"
+            },
+            "specularColor": {
+                "target": "specular_color",
+                "porttype": "color3"
+            },
+            "specularIntensity": {
+                "target": "specular_intensity",
+                "porttype": "float"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularIOR": {
+                "target": "specular_IOR",
+                "porttype": "float"
+            },
+            "alphaMask": {
+                "target": "alpha_mask",
+                "porttype": "boolean"
+            },
+            "aovGroup": {
+                "target": "aov_group",
+                "porttype": "string"
+            },
+            "aovShadow": {
+                "target": "aov_shadow",
+                "porttype": "string"
+            },
+            "aovShadowDiff": {
+                "target": "aov_shadow_diff",
+                "porttype": "string"
+            },
+            "aovShadowMask": {
+                "target": "aov_shadow_mask",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiShuffle": {
+        "target": "shuffle",
+        "port": {
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            },
+            "alpha": {
+                "target": "alpha",
+                "porttype": "float"
+            },
+            "channelR": {
+                "target": "channel_r",
+                "porttype": "string"
+            },
+            "channelG": {
+                "target": "channel_g",
+                "porttype": "string"
+            },
+            "channelB": {
+                "target": "channel_b",
+                "porttype": "string"
+            },
+            "channelA": {
+                "target": "channel_a",
+                "porttype": "string"
+            },
+            "negateR": {
+                "target": "negate_r",
+                "porttype": "boolean"
+            },
+            "negateG": {
+                "target": "negate_g",
+                "porttype": "boolean"
+            },
+            "negateB": {
+                "target": "negate_b",
+                "porttype": "boolean"
+            },
+            "negateA": {
+                "target": "negate_a",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiSign": {
+        "target": "sign",
+        "port": {
+            "port": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiSkin": {
+        "target": "skin",
+        "port": {
+            "sssWeight": {
+                "target": "sss_weight",
+                "porttype": "float"
+            },
+            "shallowScatterColor": {
+                "target": "shallow_scatter_color",
+                "porttype": "color3"
+            },
+            "shallowScatterWeight": {
+                "target": "shallow_scatter_weight",
+                "porttype": "float"
+            },
+            "shallowScatterRadius": {
+                "target": "shallow_scatter_radius",
+                "porttype": "float"
+            },
+            "midScatterColor": {
+                "target": "mid_scatter_color",
+                "porttype": "color3"
+            },
+            "midScatterWeight": {
+                "target": "mid_scatter_weight",
+                "porttype": "float"
+            },
+            "midScatterRadius": {
+                "target": "mid_scatter_radius",
+                "porttype": "float"
+            },
+            "deepScatterColor": {
+                "target": "deep_scatter_color",
+                "porttype": "color3"
+            },
+            "deepScatterWeight": {
+                "target": "deep_scatter_weight",
+                "porttype": "float"
+            },
+            "deepScatterRadius": {
+                "target": "deep_scatter_radius",
+                "porttype": "float"
+            },
+            "specularColor": {
+                "target": "specular_color",
+                "porttype": "color3"
+            },
+            "specularWeight": {
+                "target": "specular_weight",
+                "porttype": "float"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularIor": {
+                "target": "specular_ior",
+                "porttype": "float"
+            },
+            "sheenColor": {
+                "target": "sheen_color",
+                "porttype": "color3"
+            },
+            "sheenWeight": {
+                "target": "sheen_weight",
+                "porttype": "float"
+            },
+            "sheenRoughness": {
+                "target": "sheen_roughness",
+                "porttype": "float"
+            },
+            "sheenIor": {
+                "target": "sheen_ior",
+                "porttype": "float"
+            },
+            "globalSssRadiusMultiplier": {
+                "target": "global_sss_radius_multiplier",
+                "porttype": "float"
+            },
+            "specularInSecondaryRays": {
+                "target": "specular_in_secondary_rays",
+                "porttype": "boolean"
+            },
+            "fresnelAffectSss": {
+                "target": "fresnel_affect_sss",
+                "porttype": "boolean"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "float"
+            },
+            "opacityColor": {
+                "target": "opacity_color",
+                "porttype": "color3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiSky": {
+        "target": "sky",
+        "port": {
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            },
+            "intensity": {
+                "target": "intensity",
+                "porttype": "float"
+            },
+            "visibility": {
+                "target": "visibility",
+                "porttype": "integer"
+            },
+            "format": {
+                "target": "format",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiSpaceTransform": {
+        "target": "space_transform",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "vector3"
+            },
+            "type": {
+                "target": "type",
+                "porttype": "string"
+            },
+            "from": {
+                "target": "from",
+                "porttype": "string"
+            },
+            "to": {
+                "target": "to",
+                "porttype": "string"
+            },
+            "tangent": {
+                "target": "tangent",
+                "porttype": "vector3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "normalize": {
+                "target": "normalize",
+                "porttype": "boolean"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiSqrt": {
+        "target": "sqrt",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiStandard": {
+        "target": "standard",
+        "port": {
+            "Kd": {
+                "target": "Kd",
+                "porttype": "float"
+            },
+            "color": {
+                "target": "Kd_color",
+                "porttype": "color3"
+            },
+            "diffuseRoughness": {
+                "target": "diffuse_roughness",
+                "porttype": "float"
+            },
+            "Ks": {
+                "target": "Ks",
+                "porttype": "float"
+            },
+            "KsColor": {
+                "target": "Ks_color",
+                "porttype": "color3"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularAnisotropy": {
+                "target": "specular_anisotropy",
+                "porttype": "float"
+            },
+            "specularRotation": {
+                "target": "specular_rotation",
+                "porttype": "float"
+            },
+            "specularDistribution": {
+                "target": "specular_distribution",
+                "porttype": "string"
+            },
+            "Kr": {
+                "target": "Kr",
+                "porttype": "float"
+            },
+            "KrColor": {
+                "target": "Kr_color",
+                "porttype": "color3"
+            },
+            "reflectionExitColor": {
+                "target": "reflection_exit_color",
+                "porttype": "color3"
+            },
+            "reflectionExitUseEnvironment": {
+                "target": "reflection_exit_use_environment",
+                "porttype": "boolean"
+            },
+            "Kt": {
+                "target": "Kt",
+                "porttype": "float"
+            },
+            "KtColor": {
+                "target": "Kt_color",
+                "porttype": "color3"
+            },
+            "transmittance": {
+                "target": "transmittance",
+                "porttype": "color3"
+            },
+            "refractionRoughness": {
+                "target": "refraction_roughness",
+                "porttype": "float"
+            },
+            "refractionExitColor": {
+                "target": "refraction_exit_color",
+                "porttype": "color3"
+            },
+            "refractionExitUseEnvironment": {
+                "target": "refraction_exit_use_environment",
+                "porttype": "boolean"
+            },
+            "IOR": {
+                "target": "IOR",
+                "porttype": "float"
+            },
+            "dispersionAbbe": {
+                "target": "dispersion_abbe",
+                "porttype": "float"
+            },
+            "Kb": {
+                "target": "Kb",
+                "porttype": "float"
+            },
+            "Fresnel": {
+                "target": "Fresnel",
+                "porttype": "boolean"
+            },
+            "Krn": {
+                "target": "Krn",
+                "porttype": "float"
+            },
+            "specularFresnel": {
+                "target": "specular_Fresnel",
+                "porttype": "boolean"
+            },
+            "Ksn": {
+                "target": "Ksn",
+                "porttype": "float"
+            },
+            "FresnelUseIOR": {
+                "target": "Fresnel_use_IOR",
+                "porttype": "boolean"
+            },
+            "FresnelAffectDiff": {
+                "target": "Fresnel_affect_diff",
+                "porttype": "boolean"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "float"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "directSpecular": {
+                "target": "direct_specular",
+                "porttype": "float"
+            },
+            "indirectSpecular": {
+                "target": "indirect_specular",
+                "porttype": "float"
+            },
+            "directDiffuse": {
+                "target": "direct_diffuse",
+                "porttype": "float"
+            },
+            "indirectDiffuse": {
+                "target": "indirect_diffuse",
+                "porttype": "float"
+            },
+            "enableGlossyCaustics": {
+                "target": "enable_glossy_caustics",
+                "porttype": "boolean"
+            },
+            "enableReflectiveCaustics": {
+                "target": "enable_reflective_caustics",
+                "porttype": "boolean"
+            },
+            "enableRefractiveCaustics": {
+                "target": "enable_refractive_caustics",
+                "porttype": "boolean"
+            },
+            "enableInternalReflections": {
+                "target": "enable_internal_reflections",
+                "porttype": "boolean"
+            },
+            "Ksss": {
+                "target": "Ksss",
+                "porttype": "float"
+            },
+            "KsssColor": {
+                "target": "Ksss_color",
+                "porttype": "color3"
+            },
+            "sssRadius": {
+                "target": "sss_radius",
+                "porttype": "color3"
+            },
+            "bounceFactor": {
+                "target": "bounce_factor",
+                "porttype": "float"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "color3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiStandardHair": {
+        "target": "standard_hair",
+        "port": {
+            "base": {
+                "target": "base",
+                "porttype": "float"
+            },
+            "baseColor": {
+                "target": "base_color",
+                "porttype": "color3"
+            },
+            "melanin": {
+                "target": "melanin",
+                "porttype": "float"
+            },
+            "melaninRedness": {
+                "target": "melanin_redness",
+                "porttype": "float"
+            },
+            "melaninRandomize": {
+                "target": "melanin_randomize",
+                "porttype": "float"
+            },
+            "roughness": {
+                "target": "roughness",
+                "porttype": "float"
+            },
+            "roughnessAzimuthal": {
+                "target": "roughness_azimuthal",
+                "porttype": "float"
+            },
+            "roughnessAnisotropic": {
+                "target": "roughness_anisotropic",
+                "porttype": "boolean"
+            },
+            "ior": {
+                "target": "ior",
+                "porttype": "float"
+            },
+            "shift": {
+                "target": "shift",
+                "porttype": "float"
+            },
+            "specularTint": {
+                "target": "specular_tint",
+                "porttype": "color3"
+            },
+            "specular2Tint": {
+                "target": "specular2_tint",
+                "porttype": "color3"
+            },
+            "transmissionTint": {
+                "target": "transmission_tint",
+                "porttype": "color3"
+            },
+            "diffuse": {
+                "target": "diffuse",
+                "porttype": "float"
+            },
+            "diffuseColor": {
+                "target": "diffuse_color",
+                "porttype": "color3"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "float"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "color3"
+            },
+            "indirectDiffuse": {
+                "target": "indirect_diffuse",
+                "porttype": "float"
+            },
+            "indirectSpecular": {
+                "target": "indirect_specular",
+                "porttype": "float"
+            },
+            "extraDepth": {
+                "target": "extra_depth",
+                "porttype": "integer"
+            },
+            "extraSamples": {
+                "target": "extra_samples",
+                "porttype": "integer"
+            },
+            "aovId1": {
+                "target": "aov_id1",
+                "porttype": "string"
+            },
+            "id1": {
+                "target": "id1",
+                "porttype": "color3"
+            },
+            "aovId2": {
+                "target": "aov_id2",
+                "porttype": "string"
+            },
+            "id2": {
+                "target": "id2",
+                "porttype": "color3"
+            },
+            "aovId3": {
+                "target": "aov_id3",
+                "porttype": "string"
+            },
+            "id3": {
+                "target": "id3",
+                "porttype": "color3"
+            },
+            "aovId4": {
+                "target": "aov_id4",
+                "porttype": "string"
+            },
+            "id4": {
+                "target": "id4",
+                "porttype": "color3"
+            },
+            "aovId5": {
+                "target": "aov_id5",
+                "porttype": "string"
+            },
+            "id5": {
+                "target": "id5",
+                "porttype": "color3"
+            },
+            "aovId6": {
+                "target": "aov_id6",
+                "porttype": "string"
+            },
+            "id6": {
+                "target": "id6",
+                "porttype": "color3"
+            },
+            "aovId7": {
+                "target": "aov_id7",
+                "porttype": "string"
+            },
+            "id7": {
+                "target": "id7",
+                "porttype": "color3"
+            },
+            "aovId8": {
+                "target": "aov_id8",
+                "porttype": "string"
+            },
+            "id8": {
+                "target": "id8",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiStandardSurface": {
+        "target": "standard_surface",
+        "port": {
+            "base": {
+                "target": "base",
+                "porttype": "float"
+            },
+            "baseColor": {
+                "target": "base_color",
+                "porttype": "color3"
+            },
+            "diffuseRoughness": {
+                "target": "diffuse_roughness",
+                "porttype": "float"
+            },
+            "specular": {
+                "target": "specular",
+                "porttype": "float"
+            },
+            "specularColor": {
+                "target": "specular_color",
+                "porttype": "color3"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularIOR": {
+                "target": "specular_IOR",
+                "porttype": "float"
+            },
+            "specularAnisotropy": {
+                "target": "specular_anisotropy",
+                "porttype": "float"
+            },
+            "specularRotation": {
+                "target": "specular_rotation",
+                "porttype": "float"
+            },
+            "metalness": {
+                "target": "metalness",
+                "porttype": "float"
+            },
+            "transmission": {
+                "target": "transmission",
+                "porttype": "float"
+            },
+            "transmissionColor": {
+                "target": "transmission_color",
+                "porttype": "color3"
+            },
+            "transmissionDepth": {
+                "target": "transmission_depth",
+                "porttype": "float"
+            },
+            "transmissionScatter": {
+                "target": "transmission_scatter",
+                "porttype": "color3"
+            },
+            "transmissionScatterAnisotropy": {
+                "target": "transmission_scatter_anisotropy",
+                "porttype": "float"
+            },
+            "transmissionDispersion": {
+                "target": "transmission_dispersion",
+                "porttype": "float"
+            },
+            "transmissionExtraRoughness": {
+                "target": "transmission_extra_roughness",
+                "porttype": "float"
+            },
+            "transmitAovs": {
+                "target": "transmit_aovs",
+                "porttype": "boolean"
+            },
+            "subsurface": {
+                "target": "subsurface",
+                "porttype": "float"
+            },
+            "subsurfaceColor": {
+                "target": "subsurface_color",
+                "porttype": "color3"
+            },
+            "subsurfaceRadius": {
+                "target": "subsurface_radius",
+                "porttype": "color3"
+            },
+            "subsurfaceScale": {
+                "target": "subsurface_scale",
+                "porttype": "float"
+            },
+            "subsurfaceAnisotropy": {
+                "target": "subsurface_anisotropy",
+                "porttype": "float"
+            },
+            "subsurfaceType": {
+                "target": "subsurface_type",
+                "porttype": "string"
+            },
+            "sheen": {
+                "target": "sheen",
+                "porttype": "float"
+            },
+            "sheenColor": {
+                "target": "sheen_color",
+                "porttype": "color3"
+            },
+            "sheenRoughness": {
+                "target": "sheen_roughness",
+                "porttype": "float"
+            },
+            "thinWalled": {
+                "target": "thin_walled",
+                "porttype": "boolean"
+            },
+            "tangent": {
+                "target": "tangent",
+                "porttype": "vector3"
+            },
+            "coat": {
+                "target": "coat",
+                "porttype": "float"
+            },
+            "coatColor": {
+                "target": "coat_color",
+                "porttype": "color3"
+            },
+            "coatRoughness": {
+                "target": "coat_roughness",
+                "porttype": "float"
+            },
+            "coatIOR": {
+                "target": "coat_IOR",
+                "porttype": "float"
+            },
+            "coatAnisotropy": {
+                "target": "coat_anisotropy",
+                "porttype": "float"
+            },
+            "coatRotation": {
+                "target": "coat_rotation",
+                "porttype": "float"
+            },
+            "coatNormal": {
+                "target": "coat_normal",
+                "porttype": "vector3"
+            },
+            "thinFilmThickness": {
+                "target": "thin_film_thickness",
+                "porttype": "float"
+            },
+            "thinFilmIOR": {
+                "target": "thin_film_IOR",
+                "porttype": "float"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "float"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "opacity": {
+                "target": "opacity",
+                "porttype": "color3"
+            },
+            "caustics": {
+                "target": "caustics",
+                "porttype": "boolean"
+            },
+            "internalReflections": {
+                "target": "internal_reflections",
+                "porttype": "boolean"
+            },
+            "exitToBackground": {
+                "target": "exit_to_background",
+                "porttype": "boolean"
+            },
+            "indirectDiffuse": {
+                "target": "indirect_diffuse",
+                "porttype": "float"
+            },
+            "indirectSpecular": {
+                "target": "indirect_specular",
+                "porttype": "float"
+            },
+            "aovId1": {
+                "target": "aov_id1",
+                "porttype": "string"
+            },
+            "id1": {
+                "target": "id1",
+                "porttype": "color3"
+            },
+            "aovId2": {
+                "target": "aov_id2",
+                "porttype": "string"
+            },
+            "id2": {
+                "target": "id2",
+                "porttype": "color3"
+            },
+            "aovId3": {
+                "target": "aov_id3",
+                "porttype": "string"
+            },
+            "id3": {
+                "target": "id3",
+                "porttype": "color3"
+            },
+            "aovId4": {
+                "target": "aov_id4",
+                "porttype": "string"
+            },
+            "id4": {
+                "target": "id4",
+                "porttype": "color3"
+            },
+            "aovId5": {
+                "target": "aov_id5",
+                "porttype": "string"
+            },
+            "id5": {
+                "target": "id5",
+                "porttype": "color3"
+            },
+            "aovId6": {
+                "target": "aov_id6",
+                "porttype": "string"
+            },
+            "id6": {
+                "target": "id6",
+                "porttype": "color3"
+            },
+            "aovId7": {
+                "target": "aov_id7",
+                "porttype": "string"
+            },
+            "id7": {
+                "target": "id7",
+                "porttype": "color3"
+            },
+            "aovId8": {
+                "target": "aov_id8",
+                "porttype": "string"
+            },
+            "id8": {
+                "target": "id8",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiStandardVolume": {
+        "target": "standard_volume",
+        "port": {
+            "density": {
+                "target": "density",
+                "porttype": "float"
+            },
+            "densityChannel": {
+                "target": "density_channel",
+                "porttype": "string"
+            },
+            "scatter": {
+                "target": "scatter",
+                "porttype": "float"
+            },
+            "scatterColor": {
+                "target": "scatter_color",
+                "porttype": "color3"
+            },
+            "scatterColorChannel": {
+                "target": "scatter_color_channel",
+                "porttype": "string"
+            },
+            "scatterAnisotropy": {
+                "target": "scatter_anisotropy",
+                "porttype": "float"
+            },
+            "transparent": {
+                "target": "transparent",
+                "porttype": "color3"
+            },
+            "transparentDepth": {
+                "target": "transparent_depth",
+                "porttype": "float"
+            },
+            "transparentChannel": {
+                "target": "transparent_channel",
+                "porttype": "string"
+            },
+            "emissionMode": {
+                "target": "emission_mode",
+                "porttype": "string"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "float"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "emissionChannel": {
+                "target": "emission_channel",
+                "porttype": "string"
+            },
+            "temperature": {
+                "target": "temperature",
+                "porttype": "float"
+            },
+            "temperatureChannel": {
+                "target": "temperature_channel",
+                "porttype": "string"
+            },
+            "blackbodyKelvin": {
+                "target": "blackbody_kelvin",
+                "porttype": "float"
+            },
+            "blackbodyIntensity": {
+                "target": "blackbody_intensity",
+                "porttype": "float"
+            },
+            "displacement": {
+                "target": "displacement",
+                "porttype": "vector3"
+            },
+            "interpolation": {
+                "target": "interpolation",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiStateFloat": {
+        "target": "state_float",
+        "port": {
+            "variable": {
+                "target": "variable",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiStateInt": {
+        "target": "state_int",
+        "port": {
+            "variable": {
+                "target": "variable",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiStateVector": {
+        "target": "state_vector",
+        "port": {
+            "variable": {
+                "target": "variable",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiSubtract": {
+        "target": "subtract",
+        "port": {
+            "input1": {
+                "target": "input1",
+                "porttype": "color3"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiSwitch": {
+        "target": "switch_shader",
+        "port": {
+            "index": {
+                "target": "index",
+                "porttype": "integer"
+            },
+            "input0": {
+                "target": "input0",
+                "porttype": "closure"
+            },
+            "input1": {
+                "target": "input1",
+                "porttype": "closure"
+            },
+            "input2": {
+                "target": "input2",
+                "porttype": "closure"
+            },
+            "input3": {
+                "target": "input3",
+                "porttype": "closure"
+            },
+            "input4": {
+                "target": "input4",
+                "porttype": "closure"
+            },
+            "input5": {
+                "target": "input5",
+                "porttype": "closure"
+            },
+            "input6": {
+                "target": "input6",
+                "porttype": "closure"
+            },
+            "input7": {
+                "target": "input7",
+                "porttype": "closure"
+            },
+            "input8": {
+                "target": "input8",
+                "porttype": "closure"
+            },
+            "input9": {
+                "target": "input9",
+                "porttype": "closure"
+            },
+            "input10": {
+                "target": "input10",
+                "porttype": "closure"
+            },
+            "input11": {
+                "target": "input11",
+                "porttype": "closure"
+            },
+            "input12": {
+                "target": "input12",
+                "porttype": "closure"
+            },
+            "input13": {
+                "target": "input13",
+                "porttype": "closure"
+            },
+            "input14": {
+                "target": "input14",
+                "porttype": "closure"
+            },
+            "input15": {
+                "target": "input15",
+                "porttype": "closure"
+            },
+            "input16": {
+                "target": "input16",
+                "porttype": "closure"
+            },
+            "input17": {
+                "target": "input17",
+                "porttype": "closure"
+            },
+            "input18": {
+                "target": "input18",
+                "porttype": "closure"
+            },
+            "input19": {
+                "target": "input19",
+                "porttype": "closure"
+            }
+        }
+    },
+    "aiThinFilm": {
+        "target": "thin_film",
+        "port": {
+            "thicknessMin": {
+                "target": "thickness_min",
+                "porttype": "float"
+            },
+            "thicknessMax": {
+                "target": "thickness_max",
+                "porttype": "float"
+            },
+            "thickness": {
+                "target": "thickness",
+                "porttype": "float"
+            },
+            "iorMedium": {
+                "target": "ior_medium",
+                "porttype": "float"
+            },
+            "iorFilm": {
+                "target": "ior_film",
+                "porttype": "float"
+            },
+            "iorInternal": {
+                "target": "ior_internal",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiToon": {
+        "target": "toon",
+        "port": {
+            "maskColor": {
+                "target": "mask_color",
+                "porttype": "color3"
+            },
+            "edgeColor": {
+                "target": "edge_color",
+                "porttype": "color3"
+            },
+            "edgeTonemap": {
+                "target": "edge_tonemap",
+                "porttype": "color3"
+            },
+            "edgeOpacity": {
+                "target": "edge_opacity",
+                "porttype": "float"
+            },
+            "edgeWidthScale": {
+                "target": "edge_width_scale",
+                "porttype": "float"
+            },
+            "silhouetteColor": {
+                "target": "silhouette_color",
+                "porttype": "color3"
+            },
+            "silhouetteTonemap": {
+                "target": "silhouette_tonemap",
+                "porttype": "color3"
+            },
+            "silhouetteOpacity": {
+                "target": "silhouette_opacity",
+                "porttype": "float"
+            },
+            "silhouetteWidthScale": {
+                "target": "silhouette_width_scale",
+                "porttype": "float"
+            },
+            "priority": {
+                "target": "priority",
+                "porttype": "integer"
+            },
+            "enableSilhouette": {
+                "target": "enable_silhouette",
+                "porttype": "boolean"
+            },
+            "ignoreThroughput": {
+                "target": "ignore_throughput",
+                "porttype": "boolean"
+            },
+            "enable": {
+                "target": "enable",
+                "porttype": "boolean"
+            },
+            "idDifference": {
+                "target": "id_difference",
+                "porttype": "boolean"
+            },
+            "shaderDifference": {
+                "target": "shader_difference",
+                "porttype": "boolean"
+            },
+            "uvThreshold": {
+                "target": "uv_threshold",
+                "porttype": "float"
+            },
+            "angleThreshold": {
+                "target": "angle_threshold",
+                "porttype": "float"
+            },
+            "normalType": {
+                "target": "normal_type",
+                "porttype": "string"
+            },
+            "base": {
+                "target": "base",
+                "porttype": "float"
+            },
+            "baseColor": {
+                "target": "base_color",
+                "porttype": "color3"
+            },
+            "baseTonemap": {
+                "target": "base_tonemap",
+                "porttype": "color3"
+            },
+            "specular": {
+                "target": "specular",
+                "porttype": "float"
+            },
+            "specularColor": {
+                "target": "specular_color",
+                "porttype": "color3"
+            },
+            "specularRoughness": {
+                "target": "specular_roughness",
+                "porttype": "float"
+            },
+            "specularAnisotropy": {
+                "target": "specular_anisotropy",
+                "porttype": "float"
+            },
+            "specularRotation": {
+                "target": "specular_rotation",
+                "porttype": "float"
+            },
+            "specularTonemap": {
+                "target": "specular_tonemap",
+                "porttype": "color3"
+            },
+            "lights": {
+                "target": "lights",
+                "porttype": "string"
+            },
+            "highlightColor": {
+                "target": "highlight_color",
+                "porttype": "color3"
+            },
+            "highlightSize": {
+                "target": "highlight_size",
+                "porttype": "float"
+            },
+            "aovHighlight": {
+                "target": "aov_highlight",
+                "porttype": "string"
+            },
+            "rimLight": {
+                "target": "rim_light",
+                "porttype": "string"
+            },
+            "rimLightColor": {
+                "target": "rim_light_color",
+                "porttype": "color3"
+            },
+            "rimLightWidth": {
+                "target": "rim_light_width",
+                "porttype": "float"
+            },
+            "aovRimLight": {
+                "target": "aov_rim_light",
+                "porttype": "string"
+            },
+            "transmission": {
+                "target": "transmission",
+                "porttype": "float"
+            },
+            "transmissionColor": {
+                "target": "transmission_color",
+                "porttype": "color3"
+            },
+            "transmissionRoughness": {
+                "target": "transmission_roughness",
+                "porttype": "float"
+            },
+            "transmissionAnisotropy": {
+                "target": "transmission_anisotropy",
+                "porttype": "float"
+            },
+            "transmissionRotation": {
+                "target": "transmission_rotation",
+                "porttype": "float"
+            },
+            "sheen": {
+                "target": "sheen",
+                "porttype": "float"
+            },
+            "sheenColor": {
+                "target": "sheen_color",
+                "porttype": "color3"
+            },
+            "sheenRoughness": {
+                "target": "sheen_roughness",
+                "porttype": "float"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "float"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "IOR": {
+                "target": "IOR",
+                "porttype": "float"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "tangent": {
+                "target": "tangent",
+                "porttype": "vector3"
+            },
+            "indirectDiffuse": {
+                "target": "indirect_diffuse",
+                "porttype": "float"
+            },
+            "indirectSpecular": {
+                "target": "indirect_specular",
+                "porttype": "float"
+            },
+            "bumpMode": {
+                "target": "bump_mode",
+                "porttype": "string"
+            },
+            "energyConserving": {
+                "target": "energy_conserving",
+                "porttype": "boolean"
+            },
+            "userId": {
+                "target": "user_id",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiTraceSet": {
+        "target": "trace_set",
+        "port": {
+            "passthrough": {
+                "target": "passthrough",
+                "porttype": "closure"
+            },
+            "traceSet": {
+                "target": "trace_set",
+                "porttype": "string"
+            },
+            "inclusive": {
+                "target": "inclusive",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiTrigo": {
+        "target": "trigo",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "function": {
+                "target": "function",
+                "porttype": "string"
+            },
+            "units": {
+                "target": "units",
+                "porttype": "string"
+            },
+            "frequency": {
+                "target": "frequency",
+                "porttype": "float"
+            },
+            "phase": {
+                "target": "phase",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiTriplanar": {
+        "target": "triplanar",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "color3"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "vector3"
+            },
+            "rotate": {
+                "target": "rotate",
+                "porttype": "vector3"
+            },
+            "offset": {
+                "target": "offset",
+                "porttype": "vector3"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "blend": {
+                "target": "blend",
+                "porttype": "float"
+            },
+            "cell": {
+                "target": "cell",
+                "porttype": "boolean"
+            },
+            "cellRotate": {
+                "target": "cell_rotate",
+                "porttype": "float"
+            },
+            "cellBlend": {
+                "target": "cell_blend",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiTwoSided": {
+        "target": "two_sided",
+        "port": {
+            "front": {
+                "target": "front",
+                "porttype": "closure"
+            },
+            "back": {
+                "target": "back",
+                "porttype": "closure"
+            }
+        }
+    },
+    "aiUserDataFloat": {
+        "target": "user_data_float",
+        "port": {
+            "attribute": {
+                "target": "attribute",
+                "porttype": "string"
+            },
+            "default": {
+                "target": "default",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiUserDataInt": {
+        "target": "user_data_int",
+        "port": {
+            "attribute": {
+                "target": "attribute",
+                "porttype": "string"
+            },
+            "default": {
+                "target": "default",
+                "porttype": "integer"
+            }
+        }
+    },
+    "aiUserDataColor": {
+        "target": "user_data_rgb",
+        "port": {
+            "attribute": {
+                "target": "attribute",
+                "porttype": "string"
+            },
+            "default": {
+                "target": "default",
+                "porttype": "color3"
+            }
+        }
+    },
+    "aiUserDataString": {
+        "target": "user_data_string",
+        "port": {
+            "attribute": {
+                "target": "attribute",
+                "porttype": "string"
+            },
+            "default": {
+                "target": "default",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiUtility": {
+        "target": "utility",
+        "port": {
+            "colorMode": {
+                "target": "color_mode",
+                "porttype": "string"
+            },
+            "shadeMode": {
+                "target": "shade_mode",
+                "porttype": "string"
+            },
+            "overlayMode": {
+                "target": "overlay_mode",
+                "porttype": "string"
+            },
+            "color": {
+                "target": "color",
+                "porttype": "color3"
+            },
+            "aoDistance": {
+                "target": "ao_distance",
+                "porttype": "float"
+            },
+            "roughness": {
+                "target": "roughness",
+                "porttype": "float"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            }
+        }
+    },
+    "aiUvProjection": {
+        "target": "uv_projection",
+        "port": {
+            "projectionColor": {
+                "target": "projection_color",
+                "porttype": "color4"
+            },
+            "projectionType": {
+                "target": "projection_type",
+                "porttype": "string"
+            },
+            "coordSpace": {
+                "target": "coord_space",
+                "porttype": "string"
+            },
+            "prefName": {
+                "target": "pref_name",
+                "porttype": "string"
+            },
+            "P": {
+                "target": "P",
+                "porttype": "vector3"
+            },
+            "uAngle": {
+                "target": "u_angle",
+                "porttype": "float"
+            },
+            "vAngle": {
+                "target": "v_angle",
+                "porttype": "float"
+            },
+            "clamp": {
+                "target": "clamp",
+                "porttype": "boolean"
+            },
+            "defaultColor": {
+                "target": "default_color",
+                "porttype": "color4"
+            },
+            "placementMatrix": {
+                "target": "matrix",
+                "porttype": "matrix44"
+            }
+        }
+    },
+    "aiUvTransform": {
+        "target": "uv_transform",
+        "port": {
+            "passthrough": {
+                "target": "passthrough",
+                "porttype": "color4"
+            },
+            "unit": {
+                "target": "unit",
+                "porttype": "string"
+            },
+            "uvset": {
+                "target": "uvset",
+                "porttype": "string"
+            },
+            "coverage": {
+                "target": "coverage",
+                "porttype": "vector2"
+            },
+            "scaleFrame": {
+                "target": "scale_frame",
+                "porttype": "vector2"
+            },
+            "translateFrame": {
+                "target": "translate_frame",
+                "porttype": "vector2"
+            },
+            "rotateFrame": {
+                "target": "rotate_frame",
+                "porttype": "float"
+            },
+            "pivotFrame": {
+                "target": "pivot_frame",
+                "porttype": "vector2"
+            },
+            "wrapFrameU": {
+                "target": "wrap_frame_u",
+                "porttype": "string"
+            },
+            "wrapFrameV": {
+                "target": "wrap_frame_v",
+                "porttype": "string"
+            },
+            "wrapFrameColor": {
+                "target": "wrap_frame_color",
+                "porttype": "color4"
+            },
+            "repeat": {
+                "target": "repeat",
+                "porttype": "vector2"
+            },
+            "offset": {
+                "target": "offset",
+                "porttype": "vector2"
+            },
+            "rotate": {
+                "target": "rotate",
+                "porttype": "float"
+            },
+            "pivot": {
+                "target": "pivot",
+                "porttype": "vector2"
+            },
+            "noise": {
+                "target": "noise",
+                "porttype": "vector2"
+            },
+            "mirrorU": {
+                "target": "mirror_u",
+                "porttype": "boolean"
+            },
+            "mirrorV": {
+                "target": "mirror_v",
+                "porttype": "boolean"
+            },
+            "flipU": {
+                "target": "flip_u",
+                "porttype": "boolean"
+            },
+            "flipV": {
+                "target": "flip_v",
+                "porttype": "boolean"
+            },
+            "swapUv": {
+                "target": "swap_uv",
+                "porttype": "boolean"
+            },
+            "stagger": {
+                "target": "stagger",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiVectorMap": {
+        "target": "vector_map",
+        "port": {
+            "input": {
+                "target": "input",
+                "porttype": "vector3"
+            },
+            "tangent": {
+                "target": "tangent",
+                "porttype": "vector3"
+            },
+            "normal": {
+                "target": "normal",
+                "porttype": "vector3"
+            },
+            "order": {
+                "target": "order",
+                "porttype": "string"
+            },
+            "invertX": {
+                "target": "invert_x",
+                "porttype": "boolean"
+            },
+            "invertY": {
+                "target": "invert_y",
+                "porttype": "boolean"
+            },
+            "invertZ": {
+                "target": "invert_z",
+                "porttype": "boolean"
+            },
+            "colorToSigned": {
+                "target": "color_to_signed",
+                "porttype": "boolean"
+            },
+            "tangentSpace": {
+                "target": "tangent_space",
+                "porttype": "boolean"
+            },
+            "scale": {
+                "target": "scale",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiVolumeCollector": {
+        "target": "volume_collector",
+        "port": {
+            "scatteringSource": {
+                "target": "scattering_source",
+                "porttype": "string"
+            },
+            "scattering": {
+                "target": "scattering",
+                "porttype": "color3"
+            },
+            "scatteringChannel": {
+                "target": "scattering_channel",
+                "porttype": "string"
+            },
+            "scatteringColor": {
+                "target": "scattering_color",
+                "porttype": "color3"
+            },
+            "scatteringIntensity": {
+                "target": "scattering_intensity",
+                "porttype": "float"
+            },
+            "anisotropy": {
+                "target": "anisotropy",
+                "porttype": "float"
+            },
+            "attenuationSource": {
+                "target": "attenuation_source",
+                "porttype": "string"
+            },
+            "attenuation": {
+                "target": "attenuation",
+                "porttype": "color3"
+            },
+            "attenuationChannel": {
+                "target": "attenuation_channel",
+                "porttype": "string"
+            },
+            "attenuationColor": {
+                "target": "attenuation_color",
+                "porttype": "color3"
+            },
+            "attenuationIntensity": {
+                "target": "attenuation_intensity",
+                "porttype": "float"
+            },
+            "attenuationMode": {
+                "target": "attenuation_mode",
+                "porttype": "string"
+            },
+            "emissionSource": {
+                "target": "emission_source",
+                "porttype": "string"
+            },
+            "emission": {
+                "target": "emission",
+                "porttype": "color3"
+            },
+            "emissionChannel": {
+                "target": "emission_channel",
+                "porttype": "string"
+            },
+            "emissionColor": {
+                "target": "emission_color",
+                "porttype": "color3"
+            },
+            "emissionIntensity": {
+                "target": "emission_intensity",
+                "porttype": "float"
+            },
+            "positionOffset": {
+                "target": "position_offset",
+                "porttype": "vector3"
+            },
+            "interpolation": {
+                "target": "interpolation",
+                "porttype": "string"
+            }
+        }
+    },
+    "aiVolumeSampleFloat": {
+        "target": "volume_sample_float",
+        "port": {
+            "channel": {
+                "target": "channel",
+                "porttype": "string"
+            },
+            "positionOffset": {
+                "target": "position_offset",
+                "porttype": "vector3"
+            },
+            "interpolation": {
+                "target": "interpolation",
+                "porttype": "string"
+            },
+            "volumeType": {
+                "target": "volume_type",
+                "porttype": "string"
+            },
+            "sdfOffset": {
+                "target": "sdf_offset",
+                "porttype": "float"
+            },
+            "sdfBlend": {
+                "target": "sdf_blend",
+                "porttype": "float"
+            },
+            "sdfInvert": {
+                "target": "sdf_invert",
+                "porttype": "boolean"
+            },
+            "inputMin": {
+                "target": "input_min",
+                "porttype": "float"
+            },
+            "inputMax": {
+                "target": "input_max",
+                "porttype": "float"
+            },
+            "contrast": {
+                "target": "contrast",
+                "porttype": "float"
+            },
+            "contrastPivot": {
+                "target": "contrast_pivot",
+                "porttype": "float"
+            },
+            "bias": {
+                "target": "bias",
+                "porttype": "float"
+            },
+            "gain": {
+                "target": "gain",
+                "porttype": "float"
+            },
+            "outputMin": {
+                "target": "output_min",
+                "porttype": "float"
+            },
+            "outputMax": {
+                "target": "output_max",
+                "porttype": "float"
+            },
+            "clampMin": {
+                "target": "clamp_min",
+                "porttype": "boolean"
+            },
+            "clampMax": {
+                "target": "clamp_max",
+                "porttype": "boolean"
+            }
+        }
+    },
+    "aiVolumeSampleRgb": {
+        "target": "volume_sample_rgb",
+        "port": {
+            "channel": {
+                "target": "channel",
+                "porttype": "string"
+            },
+            "positionOffset": {
+                "target": "position_offset",
+                "porttype": "vector3"
+            },
+            "interpolation": {
+                "target": "interpolation",
+                "porttype": "string"
+            },
+            "gamma": {
+                "target": "gamma",
+                "porttype": "float"
+            },
+            "hueShift": {
+                "target": "hue_shift",
+                "porttype": "float"
+            },
+            "saturation": {
+                "target": "saturation",
+                "porttype": "float"
+            },
+            "contrast": {
+                "target": "contrast",
+                "porttype": "float"
+            },
+            "contrastPivot": {
+                "target": "contrast_pivot",
+                "porttype": "float"
+            },
+            "exposure": {
+                "target": "exposure",
+                "porttype": "float"
+            },
+            "multiply": {
+                "target": "multiply",
+                "porttype": "float"
+            },
+            "add": {
+                "target": "add",
+                "porttype": "float"
+            }
+        }
+    },
+    "aiWireframe": {
+        "target": "wireframe",
+        "port": {
+            "lineWidth": {
+                "target": "line_width", 
+                "porttype": "float"
+            }, 
+            "fillColor": {
+                "target": "fill_color", 
+                "porttype": "color3"
+            }, 
+            "lineColor": {
+                "target": "line_color", 
+                "porttype": "color3"
+            }, 
+            "rasterSpace": {
+                "target": "raster_space", 
+                "porttype": "boolean"
+            }, 
+            "edgeType": {
+                "target": "edge_type", 
+                "porttype": "string"
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ import cgitb
 #
 from ctypes import wintypes
 #
-from LxBasic import bscConfigure, bscMethods, bscObjects
+from LxBasic import bscConfigure, bscMethods
 
 from LxScheme import shmOutput
 #

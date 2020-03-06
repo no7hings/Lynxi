@@ -84,6 +84,10 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeIsFilename(attributeString)
 
     @classmethod
+    def nicename(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeNicename(attributeString)
+
+    @classmethod
     def defaultValue(cls, attributeString):
         pass
 

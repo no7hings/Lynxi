@@ -2,7 +2,7 @@
 from LxScheme import shmObjCore
 
 
-class Raw_Version(shmObjCore.Abc_ShmRaw):
+class VersionString(shmObjCore.Abc_ShmRaw):
     def __init__(self, raw=None):
         self._initAbcShmRaw(
             raw,
@@ -160,7 +160,7 @@ class Raw_Variant(shmObjCore.Abc_ShmRaw):
 
 
 class Raw_Resource(shmObjCore.Abc_ShmConfigure):
-    RAW_VERSION_CLS = Raw_Version
+    RAW_VERSION_CLS = VersionString
     RAW_ENVIRON_CLS = Raw_Environ
     RAW_DEPENDENT_CLS = Raw_Dependent
 

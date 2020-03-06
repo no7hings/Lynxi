@@ -6,9 +6,9 @@ from LxMaBasic.maBscObjects import _maBscObjRaw, _maBscObjAttribute
 
 class Node(maBscObjCore.Abc_MaNode):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     def __init__(self, nodeString):
         self._initAbcMaNode(nodeString)
@@ -24,9 +24,9 @@ class NodeGraph(maBscObjCore.Abc_MaNodeGraph):
 
 class Shader(maBscObjCore.Abc_MaShader):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     CLS_mya_node_graph = NodeGraph
 
@@ -36,9 +36,9 @@ class Shader(maBscObjCore.Abc_MaShader):
 
 class Material(maBscObjCore.Abc_MaMaterial):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     CLS_mya_shader = Shader
 
@@ -48,9 +48,9 @@ class Material(maBscObjCore.Abc_MaMaterial):
 
 class Dag(maBscObjCore.Abc_MaDag):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     def __init__(self, nodeString):
         self._initAbcMaDag(nodeString)
@@ -58,9 +58,9 @@ class Dag(maBscObjCore.Abc_MaDag):
 
 class Transform(maBscObjCore.Abc_MaTransform):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     def __init__(self, nodeString):
         self._initAbcMaTransform(nodeString)
@@ -68,9 +68,9 @@ class Transform(maBscObjCore.Abc_MaTransform):
 
 class Compose(maBscObjCore.Abc_MaCompoundDag):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     CLS_mya_transform = Transform
     CLS_mya_dag = Dag
@@ -82,9 +82,9 @@ class Compose(maBscObjCore.Abc_MaCompoundDag):
 
 class Geometry(maBscObjCore.Abc_MaGeometry):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     CLS_mya_transform = Transform
     CLS_mya_dag = Dag
@@ -98,9 +98,9 @@ class Geometry(maBscObjCore.Abc_MaGeometry):
 
 class Mesh(maBscObjCore.Abc_MaGeometry):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     CLS_mya_transform = Transform
     CLS_mya_dag = Dag
@@ -114,9 +114,9 @@ class Mesh(maBscObjCore.Abc_MaGeometry):
 
 class Group(maBscObjCore.Abc_MaGroup):
     CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_attribute = _maBscObjAttribute.Attribute
+    CLS_mya_port = _maBscObjAttribute.Attribute
 
-    CLS_mya_set_attribute = _maBscObjRaw.ObjectSet
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
     def __init__(self, nodeString):
         self._initAbcMaGroup(nodeString)

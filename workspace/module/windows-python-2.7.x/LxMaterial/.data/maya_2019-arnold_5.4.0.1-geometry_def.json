@@ -1,0 +1,75 @@
+{
+    "target": "geometry",
+    "port": {
+        "aiDispHeight": {
+            "target": "disp_height"
+        },
+        "aiDispPadding": {
+            "target": "disp_padding"
+        },
+        "aiDispZeroValue": {
+            "target": "disp_zero_value"
+        },
+        "aiDispAutobump": {
+            "target": "disp_autobump",
+            "connect": {
+                "source": [
+                    "aiAutobumpCamera",
+                    "aiAutobumpDiffuseReflection",
+                    "aiAutobumpDiffuseTransmission",
+                    "aiAutobumpSpecularReflection",
+                    "aiAutobumpSpecularTransmission",
+                    "aiAutobumpVolumeScattering"
+                ],
+                "target": "autobump_visibility"
+            }
+        },
+
+        "aiSubdivType": {
+            "target": "subdiv_type"
+        },
+        "aiSubdivIterations": {
+            "target": "subdiv_iterations"
+        },
+        "aiSubdivPixelError": {
+            "target": "subdiv_adaptive_error"
+        },
+        "aiSubdivAdaptiveMetric": {
+            "target": "subdiv_adaptive_metric"
+        },
+        "aiSubdivAdaptiveSpace": {
+            "target": "subdiv_adaptive_space"
+        },
+        "aiSubdivUvSmoothing": {
+            "target": "subdiv_uv_smoothing"
+        },
+        "aiSubdivFrustumIgnore": {
+            "target": "subdiv_frustum_ignore"
+        },
+        "aiSubdivSmoothDerivs": {
+            "target": "subdiv_smooth_derivs"
+        },
+
+        "primaryVisibility": {
+            "target": "camera"
+        },
+        "castsShadows": {
+            "target": "shadow"
+        },
+        "aiVisibleInDiffuseTransmission": {
+            "target": "diffuse_transmit"
+        },
+        "aiVisibleInSpecularTransmission": {
+            "target": "specular_transmit"
+        },
+        "aiVisibleInDiffuseReflection": {
+            "target": "diffuse_reflect"
+        },
+        "aiVisibleInSpecularReflection": {
+            "target": "specular_reflect"
+        },
+        "aiVisibleInVolume": {
+            "target": "volume"
+        }
+    }
+}
