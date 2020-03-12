@@ -3,16 +3,16 @@ from LxMaterial import mtlConfigure
 
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjDefinition, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjAttribute
+from LxMaterial.mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet
 
 
 class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_geometry = _mtlObjSet.Set_Geometry
+    CLS_set_geometry = _mtlObjSet.GeometrySet
 
     DEF_geometry_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_element_key = 'materialassign'
+    VAR_mtl_file_element_key = u'materialassign'
 
     def __init__(self, *args):
         """
@@ -23,9 +23,9 @@ class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
 
 class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_geometry = _mtlObjSet.Set_Geometry
+    CLS_set_geometry = _mtlObjSet.GeometrySet
 
-    VAR_mtl_file_element_key = 'propertysetAssign'
+    VAR_mtl_file_element_key = u'propertysetAssign'
 
     def __init__(self, *args):
         """
@@ -37,13 +37,14 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
 class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
     CLS_mtl_type = _mtlObjRaw.VistypeString
-    CLS_set_geometry = _mtlObjSet.Set_Geometry
-    CLS_set_geometry_viewer = _mtlObjSet.Set_ViewerGeometry
+    CLS_set_geometry = _mtlObjSet.GeometrySet
+    CLS_set_geometry_viewer = _mtlObjSet.ViewerGeometrySet
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
-    CLS_mtl_object_def = _mtlObjDefinition.GeometryDef
 
-    VAR_mtl_file_element_key = 'visibility'
+    OBJ_mtl_def_cache = _mtlObjCache.OBJ_mtl_def_cache
+
+    VAR_mtl_file_element_key = u'visibility'
 
     def __init__(self, *args):
         """

@@ -1,28 +1,30 @@
 # coding:utf-8
 from LxMaBasic import maBscObjCore
 
-from LxMaBasic.maBscObjects import _maBscObjRaw, _maBscObjAttribute
+from LxMaBasic.maBscObjects import _maBscObjCache, _maBscObjRaw, _maBscObjAttribute
 
 
-class Node(maBscObjCore.Abc_MaNode):
+class Node(maBscObjCore.Abc_MyaNode):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
     CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaNode(nodeString)
+        self._initAbcMyaNode(nodeString)
 
 
-class NodeGraph(maBscObjCore.Abc_MaNodeGraph):
+class NodeGraph(maBscObjCore.Abc_MyaNodeGraph):
     CLS_mya_node = Node
     CLS_mya_connection = _maBscObjAttribute.Connection
 
     def __init__(self, shaderObject):
-        self._initAbcMaNodeGraph(shaderObject)
+        self._initAbcMyaNodeGraph(shaderObject)
 
 
-class Shader(maBscObjCore.Abc_MaShader):
+class Shader(maBscObjCore.Abc_MyaShader):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
@@ -30,11 +32,13 @@ class Shader(maBscObjCore.Abc_MaShader):
 
     CLS_mya_node_graph = NodeGraph
 
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaShader(nodeString)
+        self._initAbcMyaShader(nodeString)
 
 
-class Material(maBscObjCore.Abc_MaMaterial):
+class Material(maBscObjCore.Abc_MyaMaterial):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
@@ -42,45 +46,37 @@ class Material(maBscObjCore.Abc_MaMaterial):
 
     CLS_mya_shader = Shader
 
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaMaterial(nodeString)
+        self._initAbcMyaMaterial(nodeString)
 
 
-class Dag(maBscObjCore.Abc_MaDag):
+class Dag(maBscObjCore.Abc_MyaDag):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
     CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaDag(nodeString)
+        self._initAbcMyaDag(nodeString)
 
 
-class Transform(maBscObjCore.Abc_MaTransform):
+class Transform(maBscObjCore.Abc_MyaTransform):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
     CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
-    def __init__(self, nodeString):
-        self._initAbcMaTransform(nodeString)
-
-
-class Compose(maBscObjCore.Abc_MaCompoundDag):
-    CLS_mya_node_string = _maBscObjRaw.NodeName
-    CLS_mya_port = _maBscObjAttribute.Attribute
-
-    CLS_mya_port_set = _maBscObjRaw.ObjectSet
-
-    CLS_mya_transform = Transform
-    CLS_mya_dag = Dag
-    CLS_mya_node = Node
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
 
     def __init__(self, nodeString):
-        self._initAbcMaCompoundDag(nodeString)
+        self._initAbcMyaTransform(nodeString)
 
 
-class Geometry(maBscObjCore.Abc_MaGeometry):
+class Compose(maBscObjCore.Abc_MyaCompoundDag):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
@@ -90,13 +86,13 @@ class Geometry(maBscObjCore.Abc_MaGeometry):
     CLS_mya_dag = Dag
     CLS_mya_node = Node
 
-    CLS_mya_material = Material
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
 
     def __init__(self, nodeString):
-        self._initAbcMaGeometry(nodeString)
+        self._initAbcMyaCompoundDag(nodeString)
 
 
-class Mesh(maBscObjCore.Abc_MaGeometry):
+class Geometry(maBscObjCore.Abc_MyaGeometry):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
@@ -108,33 +104,55 @@ class Mesh(maBscObjCore.Abc_MaGeometry):
 
     CLS_mya_material = Material
 
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaGeometry(nodeString)
+        self._initAbcMyaGeometry(nodeString)
 
 
-class Group(maBscObjCore.Abc_MaGroup):
+class Mesh(maBscObjCore.Abc_MyaGeometry):
     CLS_mya_node_string = _maBscObjRaw.NodeName
     CLS_mya_port = _maBscObjAttribute.Attribute
 
     CLS_mya_port_set = _maBscObjRaw.ObjectSet
 
+    CLS_mya_transform = Transform
+    CLS_mya_dag = Dag
+    CLS_mya_node = Node
+
+    CLS_mya_material = Material
+
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
     def __init__(self, nodeString):
-        self._initAbcMaGroup(nodeString)
+        self._initAbcMyaGeometry(nodeString)
 
 
-class NodeRoot(maBscObjCore.Abc_MaNodeRoot):
+class Group(maBscObjCore.Abc_MyaGroup):
+    CLS_mya_node_string = _maBscObjRaw.NodeName
+    CLS_mya_port = _maBscObjAttribute.Attribute
+
+    CLS_mya_port_set = _maBscObjRaw.ObjectSet
+
+    OBJ_mya_query_cache = _maBscObjCache.OBJ_mya_query_cache
+
+    def __init__(self, nodeString):
+        self._initAbcMyaGroup(nodeString)
+
+
+class NodeRoot(maBscObjCore.Abc_MyaNodeRoot):
     CLS_group = Group
     CLS_node = Node
 
     def __init__(self, groupString):
-        self._initAbcMaNodeRoot(groupString)
+        self._initAbcMyaNodeRoot(groupString)
 
 
-class GeometryRoot(maBscObjCore.Abc_MaGeometryRoot):
+class GeometryRoot(maBscObjCore.Abc_MyaGeometryRoot):
     CLS_group = Group
     CLS_node = Node
 
     CLS_geometry = Geometry
 
     def __init__(self, groupString):
-        self._initAbcMaGeometryRoot(groupString)
+        self._initAbcMyaGeometryRoot(groupString)

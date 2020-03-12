@@ -19,6 +19,6 @@ class PortString(bscObjCore.Abc_BscDccPortString):
         self._initAbcBscDccPortString(portString)
 
 
-class ObjectSet(maBscObjCore.Abc_MaObjectSet):
+class ObjectSet(maBscObjCore.Abc_MyaObjectSet):
     def __init__(self, *args):
-        self._initAbcMaObjectSet(*args)
+        self._initAbcMyaObjectSet(*args)

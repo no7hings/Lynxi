@@ -2307,15 +2307,15 @@
                 "target": "input",
                 "porttype": "float"
             },
-            "ramp_Position": {
+            "ramp.ramp_Position": {
                 "target": "position",
                 "porttype": "floatarray"
             },
-            "ramp_FloatValue": {
+            "ramp.ramp_FloatValue": {
                 "target": "value",
                 "porttype": "floatarray"
             },
-            "ramp_Interp": {
+            "ramp.ramp_Interp": {
                 "target": "interpolation",
                 "porttype": "integerarray"
             },
@@ -2344,15 +2344,15 @@
                 "target": "input",
                 "porttype": "float"
             },
-            "ramp_Position": {
+            "ramp.ramp_Position": {
                 "target": "position",
                 "porttype": "floatarray"
             },
-            "ramp_Color": {
+            "ramp.ramp_Color": {
                 "target": "color",
                 "porttype": "floatarray"
             },
-            "ramp_Interp": {
+            "ramp.ramp_Interp": {
                 "target": "interpolation",
                 "porttype": "integerarray"
             },

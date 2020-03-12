@@ -6,7 +6,7 @@ from LxMaBasic import maBscObjects
 from LxMaMaterial import maMtlObjCore
 
 
-class Asset(maMtlObjCore.Abc_MaMtlBasic):
+class Asset(maMtlObjCore.Abc_MyaMtlBasic):
     DEF_option_dict = {
         '-noNormals': False,
         '-ro': False,
@@ -37,7 +37,7 @@ class Asset(maMtlObjCore.Abc_MaMtlBasic):
         ).export()
     
 
-class _Material(maMtlObjCore.Abc_MaMtlBasic):
+class _Material(maMtlObjCore.Abc_MyaMtlBasic):
     PropertyAttrNameDic = {
         'visibility': True,
         'sidedness': False,

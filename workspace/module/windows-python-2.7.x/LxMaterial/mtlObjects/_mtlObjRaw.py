@@ -72,7 +72,7 @@ class Raw_NamespacePath(mtlObjCore.Abc_MtlDagpath):
         self._initAbcMtlDagpath(*args)
 
 
-class Raw_Reference(mtlObjCore.Abc_MtlDagpath):
+class ReferenceFile(mtlObjCore.Abc_MtlFilePath):
     CLS_mtl_raw = NameString
 
     VAR_mtl_raw_separator = mtlConfigure.Utility.DEF_mtl_file_separator
@@ -80,7 +80,7 @@ class Raw_Reference(mtlObjCore.Abc_MtlDagpath):
     VAR_mtl_file_attribute_key = u'href'
 
     def __init__(self, *args):
-        self._initAbcMtlDagpath(*args)
+        self._initAbcMtlFilePath(*args)
 
 
 class Raw_MaterialDagpath(mtlObjCore.Abc_MtlMaterialDagpath):

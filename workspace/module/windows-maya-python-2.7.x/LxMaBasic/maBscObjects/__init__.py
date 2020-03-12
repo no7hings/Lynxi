@@ -1,4 +1,6 @@
 # coding:utf-8
+from ._maBscObjCache import *
+
 from ._maBscObjAttribute import *
 
 from ._maBscObjRaw import *

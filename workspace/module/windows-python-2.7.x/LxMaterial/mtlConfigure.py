@@ -26,6 +26,7 @@ class Utility(object):
     DEF_mtl_key_portdata = u'portdata'
     DEF_mtl_key_assign = u'assign'
     DEF_mtl_key_parent = u'parent'
+    DEF_mtl_key_children = u'children'
 
     DEF_mtl_key_input = u'input'
     DEF_mtl_key_format = u'format'

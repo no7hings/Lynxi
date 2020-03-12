@@ -9,7 +9,9 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def hasSource(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasSource(attributeString)
+        if cls.isAppExist(attributeString):
+            return maBscMtdCore.Mtd_MaAttribute._getAttributeHasSource(attributeString)
+        return False
 
     @classmethod
     def isSource(cls, attributeString):
@@ -20,12 +22,12 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeSource(attributeString)
 
     @classmethod
-    def hasTarget(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasTarget(attributeString)
+    def hasTargets(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasTargets(attributeString)
 
     @classmethod
-    def target(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeTarget(attributeString)
+    def targets(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeTargetList(attributeString)
 
     @classmethod
     def isTarget(cls, attributeString):
@@ -58,10 +60,6 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
     @classmethod
     def rawAsString(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributePortdata(attributeString, asString=True)
-
-    @classmethod
-    def isArray(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsMultichannel(attributeString)
 
     @classmethod
     def arrayIndexes(cls, attributeString):
@@ -114,41 +112,3 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
     @classmethod
     def composeBy(cls, *args):
         return cls.DEF_mya_port_separator.join(list(args))
-
-    @classmethod
-    def _getPorttype_(cls, nodeString, portString, portDict):
-        if maBscMtdCore.Mtd_MaAttribute._getAttributeIsNodeExist((nodeString, portString)):
-            return maBscMtdCore.Mtd_MaAttribute._getAttributePorttype((nodeString, portString))
-        else:
-            if portString in portDict:
-                _ = portDict[portString]
-                if isinstance(_, (tuple, list)):
-                    lis = []
-                    count = len(_)
-                    for i in _:
-                        lis.append(
-                            maBscMtdCore.Mtd_MaAttribute._getAttributePorttype((nodeString, i))
-                        )
-                    if lis == ['float']*count:
-                        return 'floatArray'
-                    elif lis == ['enum']*count:
-                        return 'Int32Array'
-                    return lis
-                else:
-                    return maBscMtdCore.Mtd_MaAttribute._getAttributePorttype((nodeString, _))
-
-    @classmethod
-    def _getPortdata_(cls, nodeString, portString, portDict):
-        if portString in portDict:
-            _ = portDict[portString]
-            if isinstance(_, (tuple, list)):
-                lis = []
-                for i in _:
-                    lis.append(
-                        maBscMtdCore.Mtd_MaAttribute._getAttributePortdata((nodeString, i), asString=False)
-                    )
-                return lis
-            else:
-                return maBscMtdCore.Mtd_MaAttribute._getAttributePortdata((nodeString, _), asString=True)
-        else:
-            return maBscMtdCore.Mtd_MaAttribute._getAttributePortdata((nodeString, portString), asString=True)

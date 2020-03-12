@@ -102,9 +102,9 @@ class Val_Visibility(mtlObjCore.Abc_MtlValue):
         """
         self._initAbcMtlValue(*args)
 
-    def _xmlAttributeRaw(self):
+    def _xmlAttaches_(self):
         return [
-            (self._xmlAttributeKeyString(), self._xmlAttributeValueString())
+            (self._xmlAttachKey_(), self._xmlAttachValue_())
         ]
 
 

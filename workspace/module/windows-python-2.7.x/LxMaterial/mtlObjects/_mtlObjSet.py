@@ -2,7 +2,7 @@
 from LxMaterial import mtlObjCore
 
 
-class Set_Assign(mtlObjCore.Abc_MtlObjectSet):
+class AssignSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
@@ -12,14 +12,14 @@ class ObjectSet(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Geometry(mtlObjCore.Abc_MtlObjectSet):
+class GeometrySet(mtlObjCore.Abc_MtlObjectSet):
     VAR_mtl_file_attribute_key = u'geom'
 
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_ViewerGeometry(mtlObjCore.Abc_MtlObjectSet):
+class ViewerGeometrySet(mtlObjCore.Abc_MtlObjectSet):
     VAR_mtl_file_attribute_key = u'viewergeom'
 
     def __init__(self, *args):
@@ -38,26 +38,31 @@ class PortSet(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Output(mtlObjCore.Abc_MtlObjectSet):
+class OutputSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Property(mtlObjCore.Abc_MtlObjectSet):
+class PropertySet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Visibility(mtlObjCore.Abc_MtlObjectSet):
+class VisibilitySet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Reference(mtlObjCore.Abc_MtlObjectSet):
+class ReferenceSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Look(mtlObjCore.Abc_MtlObjectSet):
+class LookSet(mtlObjCore.Abc_MtlObjectSet):
+    def __init__(self, *args):
+        self._initAbcMtlObjectSet(*args)
+
+
+class NodeGraphSet(mtlObjCore.Abc_MtlObjectSet):
     def __init__(self, *args):
         self._initAbcMtlObjectSet(*args)

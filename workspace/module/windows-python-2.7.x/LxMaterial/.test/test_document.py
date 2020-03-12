@@ -29,13 +29,10 @@ if __name__ == '__main__':
     node1 = mtlObjects.Node(u'matte', 'node_1')
     node0.output(u'out_color').connectTo(node1.input(u'color'))
     node0.output(u'out_color.g').connectTo(node1.input(u'color.g'))
-    node0.output(u'out_color.b').connectTo(node1.input(u'color.b'))
 
     node0.output(u'out_color').connectTo(surfaceShader0.input(u'color'))
+    node0.output(u'out_color.r').connectTo(surfaceShader0.input(u'color.r'))
     node1.output(u'out_color.r').connectTo(displacementShader0.input(u'color.r'))
-
-    nodegraph = mtlObjects.NodeGraph('graph_0')
-    nodegraph.addNodes(node0, node1)
 
     propertysetAssign0 = mtlObjects.PropertysetAssign()
     look.addAssign(propertysetAssign0)
@@ -50,4 +47,8 @@ if __name__ == '__main__':
     visibilityAssign0.setTypeString(u'camera')
     visibilityAssign0.addGeometries(geometry0, geometry1)
 
+    material1 = mtlObjects.Material('material_0')
+
     print document
+
+    # print mtlObjects.OBJ_mtl_obj_cache.objectNames()

@@ -1,7 +1,18 @@
 # coding:utf-8
+import collections
 
 
 class Utility(object):
+    DEF_mya_key_porttype = u'porttype'
+    DEF_mya_key_assign = u'assign'
+    DEF_mya_key_parent = u'parent'
+    DEF_mya_key_children = u'children'
+    DEF_mya_key_array = u'array'
+    DEF_mya_key_connect = u'connect'
+
+    DEF_mya_keyword_input = u'input'
+    DEF_mya_keyword_output = u'output'
+
     DEF_mya_node_separator = '|'
     DEF_mya_set_separator = '/'
     DEF_mya_namespace_separator = ':'
@@ -246,4 +257,6 @@ class Utility(object):
     MaPlugName_Yeti = 'pgYetiMaya'
     #
     MaNodeType_Plug_Yeti = 'pgYetiMaya'
+
+    CLS_ordered_dict = collections.OrderedDict
 

@@ -1,11 +1,11 @@
 # coding:utf-8
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjAttribute, _mtlObjObject, _mtlObjDefinition
+from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjAttribute, _mtlObjObject, _mtlObjCache
 
 
 class Reference(mtlObjCore.Abc_MtlFileReference):
-    CLS_mtl_file = _mtlObjRaw.Raw_Reference
+    CLS_mtl_file = _mtlObjRaw.ReferenceFile
 
     VAR_mtl_file_element_key = u'xi:include'
 
@@ -15,11 +15,11 @@ class Reference(mtlObjCore.Abc_MtlFileReference):
 
 class Look(mtlObjCore.Abc_MtlLook):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_assign = _mtlObjSet.Set_Assign
+    CLS_set_assign = _mtlObjSet.AssignSet
 
-    CLS_set_assign_shaderset = _mtlObjSet.Set_Assign
-    ClS_set_assign_propertyset = _mtlObjSet.Set_Assign
-    CLS_mtl_visibility_set = _mtlObjSet.Set_Visibility
+    CLS_set_assign_shaderset = _mtlObjSet.AssignSet
+    ClS_set_assign_propertyset = _mtlObjSet.AssignSet
+    CLS_mtl_visibility_set = _mtlObjSet.VisibilitySet
 
     VAR_mtl_file_element_key = u'look'
     VAR_mtl_file_attribute_key = u'look'
@@ -43,26 +43,10 @@ class GeometryPropertyset(mtlObjCore.Abc_MtlPropertyset):
         self._initAbcMtlPropertyset(*args)
 
 
-class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
-    CLS_mtl_name = _mtlObjRaw.NameString
-
-    CLS_mtl_node_set = _mtlObjSet.ObjectSet
-    CLS_mtl_output_set = _mtlObjSet.PortSet
-
-    CLS_mtl_node = _mtlObjObject.Node
-    CLS_mtl_output = _mtlObjAttribute.NodeGraphOutput
-
-    VAR_mtl_file_element_key = u'nodegraph'
-    VAR_mtl_file_attribute_key = u'nodegraph'
-
-    def __init__(self, *args):
-        self._initAbcMtlNodeGraph(*args)
-
-
 class Collection(mtlObjCore.Abc_MtlGeometryCollection):
     CLS_mtl_name = _mtlObjRaw.NameString
 
-    CLS_set_geometry = _mtlObjSet.Set_Geometry
+    CLS_set_geometry = _mtlObjSet.GeometrySet
     CLS_set_collection = _mtlObjSet.Set_Collection
 
     DEF_geometry_separator = u','
