@@ -124,6 +124,9 @@ class Abc_BscDccNodeString(object):
             self.VAR_bsc_namespace_separator
         )
 
+    def nodeString(self):
+        return self._nodeString
+
     def fullpathName(self):
         return self._nodeString
 
@@ -147,6 +150,9 @@ class Abc_BscDccPortString(object):
     def portsep(self):
         return self.VAR_bsc_port_separator
 
+    def portString(self):
+        return self._portString
+
     def fullpathPortname(self):
         return self._portString
 
@@ -157,4 +163,4 @@ class Abc_BscDccPortString(object):
         )
 
     def __str__(self):
-        return self.fullpathPortname()
+        return self.portString()

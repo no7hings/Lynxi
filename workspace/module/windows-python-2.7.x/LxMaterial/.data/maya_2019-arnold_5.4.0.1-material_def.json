@@ -1,14 +1,16 @@
 {
-    "target": "material",
-    "port": {
-        "surfaceShader": {
-            "target": "surface_shader"
-        },
-        "displacementShader":{
-            "target": "displacement_shader"
-        },
-        "volumeShader":{
-            "target": "volume_shader"
+    "shadingEngine": {
+        "target_category": "material",
+        "target_port": {
+            "surfaceShader": {
+                "target_portname": "surfaceshader"
+            },
+            "displacementShader": {
+                "target_portname": "displacementshader"
+            },
+            "volumeShader": {
+                "target_portname": "volumeshader"
+            }
         }
     }
 }

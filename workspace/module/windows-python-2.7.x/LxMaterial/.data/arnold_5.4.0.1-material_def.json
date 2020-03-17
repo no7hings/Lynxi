@@ -1,23 +1,25 @@
 {
-    "type": "material",
-    "port": [
-        {
-            "portname": "surface_shader",
-            "porttype": "closure",
-            "portdata": "",
-            "assign": "input"
-        },
-        {
-            "portname": "displacement_shader",
-            "porttype": "closure",
-            "portdata": "",
-            "assign": "input"
-        },
-        {
-            "portname": "volume_shader",
-            "porttype": "closure",
-            "portdata": "",
-            "assign": "input"
-        }
-    ]
+    "material": {
+        "type": "material",
+        "port": [
+            {
+                "portname": "surfaceshader",
+                "porttype": "shader",
+                "portdata": "",
+                "assign": "input"
+            },
+            {
+                "portname": "displacementshader",
+                "porttype": "shader",
+                "portdata": "",
+                "assign": "input"
+            },
+            {
+                "portname": "volumeshader",
+                "porttype": "shader",
+                "portdata": "",
+                "assign": "input"
+            }
+        ]
+    }
 }

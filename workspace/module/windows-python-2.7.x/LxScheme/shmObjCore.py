@@ -81,7 +81,7 @@ class Abc_ShmPath(shmConfigure.Utility):
     def _workspacePath(self):
         pass
 
-    def _formatDict(self):
+    def _formatDict_(self):
         return {
             self.Attr_Key_Self: self,
         }
@@ -170,22 +170,22 @@ class Abc_ShmDirectory(Abc_ShmPath):
         return self._baseName
 
     def _activePath(self):
-        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict_())
 
     def _serverPath(self):
-        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict_())
 
     def _localPath(self):
-        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict_())
 
     def _developPath(self):
-        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict_())
 
     def _productPath(self):
-        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict_())
 
     def _workspacePath(self):
-        return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict_())
 
 
 class Abc_ShmFile(shmConfigure.Utility):
@@ -226,7 +226,7 @@ class Abc_ShmFile(shmConfigure.Utility):
         return self._baseName
 
     def activeFile(self):
-        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Active].format(**self._formatDict_())
 
     def createActiveFile(self, raw):
         self._writeMethod(self.activeFile(), raw)
@@ -240,7 +240,7 @@ class Abc_ShmFile(shmConfigure.Utility):
         return {}
 
     def serverFile(self):
-        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Server].format(**self._formatDict_())
 
     def createServerFile(self, raw):
         self._writeMethod(self.serverFile(), raw)
@@ -254,24 +254,24 @@ class Abc_ShmFile(shmConfigure.Utility):
         return {}
 
     def localFile(self):
-        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Local].format(**self._formatDict_())
 
     def isLocalExist(self):
         return bscMethods.OsPath.isExist(self.localFile())
 
     def developFile(self):
-        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Develop].format(**self._formatDict_())
 
     def isDevelopExist(self):
         return bscMethods.OsPath.isExist(self.developFile())
 
     def productFile(self):
-        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict())
+        return self.pathFormatString[self.Path_Key_Product].format(**self._formatDict_())
 
     def isProductExist(self):
         return bscMethods.OsPath.isExist(self.productFile())
 
-    def _formatDict(self):
+    def _formatDict_(self):
         return {
             self.Attr_Key_Self: self,
         }
@@ -629,7 +629,7 @@ class Abc_ShmOperate(shmConfigure.Utility):
         self.__covertEnvironRaw()
 
     def __covertEnvironValue(self, value):
-        value = value.format(**self._formatDict())
+        value = value.format(**self._formatDict_())
         value = value.replace(self.root.active, '{root.active}')
         if self.resource.isModule:
             value = '{}|'.format(self._workspacePath().replace(self.root.active, '{root.active}')) + value
@@ -851,7 +851,7 @@ class Abc_ShmOperate(shmConfigure.Utility):
                                 argument_format_lis[index] = iv
 
                     for i in argument_format_lis:
-                        i = i.format(**operate_._formatDict())
+                        i = i.format(**operate_._formatDict_())
                         argument.append(i)
 
                     resource_ = cls(resourceName, *argument)
@@ -920,7 +920,7 @@ class Abc_ShmOperate(shmConfigure.Utility):
             lis.sort()
         return lis
 
-    def _formatDict(self):
+    def _formatDict_(self):
         return {
             self.Attr_Key_Self: self,
             self.Attr_Key_System: self.system

@@ -1,25 +1,24 @@
 # coding:utf-8
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjAttribute, _mtlObjObject, _mtlObjCache
-
-
-class Reference(mtlObjCore.Abc_MtlFileReference):
-    CLS_mtl_file = _mtlObjRaw.ReferenceFile
-
-    VAR_mtl_file_element_key = u'xi:include'
-
-    def __init__(self, *args):
-        self._initAbcMtlFileReference(*args)
+from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjObject, _mtlObjAssign
 
 
 class Look(mtlObjCore.Abc_MtlLook):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_assign = _mtlObjSet.AssignSet
+    CLS_mtl_assign_set = _mtlObjSet.AssignSet
 
-    CLS_set_assign_shaderset = _mtlObjSet.AssignSet
-    ClS_set_assign_propertyset = _mtlObjSet.AssignSet
+    CLS_mtl_visibility = _mtlObjAssign.Visibility
     CLS_mtl_visibility_set = _mtlObjSet.VisibilitySet
+
+    CLS_mtl_material_assign = _mtlObjAssign.MaterialAssign
+    CLS_mtl_material_assign_set = _mtlObjSet.AssignSet
+
+    CLS_mtl_propertyset_assign = _mtlObjAssign.PropertysetAssign
+    CLS_mtl_propertyset_assign_set = _mtlObjSet.AssignSet
+
+    CLS_mtl_geometry = _mtlObjObject.Geometry
+    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     VAR_mtl_file_element_key = u'look'
     VAR_mtl_file_attribute_key = u'look'
@@ -28,26 +27,11 @@ class Look(mtlObjCore.Abc_MtlLook):
         self._initAbcMtlLook(*args)
 
 
-class GeometryPropertyset(mtlObjCore.Abc_MtlPropertyset):
+class Collection(mtlObjCore.Abc_MtlCollection):
     CLS_mtl_name = _mtlObjRaw.NameString
 
-    CLS_mtl_port_set = _mtlObjSet.PortSet
-    
-    VAR_mtl_file_element_key = u'propertyset'
-    VAR_mtl_file_attribute_key = u'propertyset'
-
-    def __init__(self, *args):
-        """
-        :param args: str(geometry dagpath)
-        """
-        self._initAbcMtlPropertyset(*args)
-
-
-class Collection(mtlObjCore.Abc_MtlGeometryCollection):
-    CLS_mtl_name = _mtlObjRaw.NameString
-
-    CLS_set_geometry = _mtlObjSet.GeometrySet
-    CLS_set_collection = _mtlObjSet.Set_Collection
+    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+    CLS_set_collection = _mtlObjSet.CollectionSet
 
     DEF_geometry_separator = u','
 
@@ -55,4 +39,4 @@ class Collection(mtlObjCore.Abc_MtlGeometryCollection):
     VAR_mtl_file_attribute_key = u'collection'
 
     def __init__(self, *args):
-        self._initAbcMtlGeometryCollection(*args)
+        self._initAbcMtlCollection(*args)

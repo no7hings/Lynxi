@@ -1,19 +1,19 @@
 {
     "color3": [
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.r"
             },
             "format": "{0}.{0}R"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.g"
             },
             "format": "{0}.{0}G"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.b"
             },
             "format": "{0}.{0}B"
@@ -21,25 +21,25 @@
     ],
     "color4": [
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.r"
             },
             "format": "{0}.{0}R"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.r"
             },
             "format": "{0}.{0}G"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.b"
             },
             "format": "{0}.{0}B"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.a"
             },
             "format": "{0}A"
@@ -47,19 +47,19 @@
     ],
     "vector3": [
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.x"
             },
             "format": "{0}.{0}X"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.y"
             },
             "format": "{0}.{0}Y"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.z"
             },
             "format": "{0}.{0}Z"
@@ -67,19 +67,19 @@
     ],
     "closure": [
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.r"
             },
             "format": "{0}.{0}R"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.g"
             },
             "format": "{0}.{0}G"
         },
         {
-            "target": {
+            "target_portname": {
                 "format": "{0}.b"
             },
             "format": "{0}.{0}B"

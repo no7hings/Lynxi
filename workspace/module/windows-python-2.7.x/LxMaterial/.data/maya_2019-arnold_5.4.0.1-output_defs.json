@@ -1,47 +1,50 @@
 {
     "integer": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "float": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "boolean": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "string": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "color3": {
         "outColor": {
-            "target": "out_color"
+            "target_portname": "out_color"
         }
     },
     "color4": {
         "outColor": {
-            "target": "out_color"
+            "target_portname": "out_color"
+        },
+        "outAlpha": {
+            "target_portname": "out_color.r"
         }
     },
     "vector3": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "matrix44": {
         "outValue": {
-            "target": "out_value"
+            "target_portname": "out_value"
         }
     },
     "closure": {
         "outColor": {
-            "target": "out_color"
+            "target_portname": "out_color"
         }
     }
 }

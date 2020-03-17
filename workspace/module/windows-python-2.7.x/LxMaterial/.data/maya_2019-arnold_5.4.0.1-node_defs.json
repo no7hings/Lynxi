@@ -1,4493 +1,3510 @@
 {
     "aiAbs": {
-        "target": "abs", 
-        "port": {
+        "target_category": "abs", 
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiAdd": {
-        "target": "add",
-        "port": {
+        "target_category": "add",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "aiAmbientOcclusion": {
-        "target": "ambient_occlusion",
-        "port": {
+        "target_category": "ambient_occlusion",
+        "target_port": {
             "samples": {
-                "target": "samples",
-                "porttype": "integer"
+                "target_portname": "samples"
             },
             "spread": {
-                "target": "spread",
-                "porttype": "float"
+                "target_portname": "spread"
             },
             "nearClip": {
-                "target": "near_clip",
-                "porttype": "float"
+                "target_portname": "near_clip"
             },
             "farClip": {
-                "target": "far_clip",
-                "porttype": "float"
+                "target_portname": "far_clip"
             },
             "falloff": {
-                "target": "falloff",
-                "porttype": "float"
+                "target_portname": "falloff"
             },
             "black": {
-                "target": "black",
-                "porttype": "color3"
+                "target_portname": "black"
             },
             "white": {
-                "target": "white",
-                "porttype": "color3"
+                "target_portname": "white"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "invertNormals": {
-                "target": "invert_normals",
-                "porttype": "boolean"
+                "target_portname": "invert_normals"
             },
             "traceSet": {
-                "target": "trace_set",
-                "porttype": "string"
+                "target_portname": "trace_set"
             },
             "inclusive": {
-                "target": "inclusive",
-                "porttype": "boolean"
+                "target_portname": "inclusive"
             },
             "selfOnly": {
-                "target": "self_only",
-                "porttype": "boolean"
+                "target_portname": "self_only"
             }
         }
     },
     "aiReadFloat": {
-        "target": "aov_read_float",
-        "port": {
+        "target_category": "aov_read_float",
+        "target_port": {
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             }
         }
     },
     "aiReadInt": {
-        "target": "aov_read_int",
-        "port": {
+        "target_category": "aov_read_int",
+        "target_port": {
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             }
         }
     },
     "aiReadRGB": {
-        "target": "aov_read_rgb",
-        "port": {
+        "target_category": "aov_read_rgb",
+        "target_port": {
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             }
         }
     },
     "aiReadRGBA": {
-        "target": "aov_read_rgba",
-        "port": {
+        "target_category": "aov_read_rgba",
+        "target_port": {
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             }
         }
     },
     "aiWriteFloat": {
-        "target": "aov_write_float",
-        "port": {
+        "target_category": "aov_write_float",
+        "target_port": {
             "beauty": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "input": {
-                "target": "aov_input",
-                "porttype": "float"
+                "target_portname": "aov_input"
             },
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             },
             "blendOpacity": {
-                "target": "blend_opacity",
-                "porttype": "boolean"
+                "target_portname": "blend_opacity"
             }
         }
     },
     "aiWriteInt": {
-        "target": "aov_write_int",
-        "port": {
+        "target_category": "aov_write_int",
+        "target_port": {
             "beauty": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "input": {
-                "target": "aov_input",
-                "porttype": "integer"
+                "target_portname": "aov_input"
             },
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             }
         }
     },
     "aiWriteColor": {
-        "target": "aov_write_rgb",
-        "port": {
+        "target_category": "aov_write_rgb",
+        "target_port": {
             "beauty": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "input": {
-                "target": "aov_input",
-                "porttype": "color3"
+                "target_portname": "aov_input"
             },
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             },
             "blend": {
-                "target": "blend_opacity",
-                "porttype": "boolean"
+                "target_portname": "blend_opacity"
             }
         }
     },
     "aiWriteRgba": {
-        "target": "aov_write_rgba",
-        "port": {
+        "target_category": "aov_write_rgba",
+        "target_port": {
             "beauty": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "input": {
-                "target": "aov_input",
-                "porttype": "color4"
+                "target_portname": "aov_input"
             },
             "aovName": {
-                "target": "aov_name",
-                "porttype": "string"
+                "target_portname": "aov_name"
             },
             "blend": {
-                "target": "blend_opacity",
-                "porttype": "boolean"
+                "target_portname": "blend_opacity"
             }
         }
     },
     "aiAtan": {
-        "target": "atan",
-        "port": {
+        "target_category": "atan",
+        "target_port": {
             "y": {
-                "target": "y",
-                "porttype": "color3"
+                "target_portname": "y"
             },
             "x": {
-                "target": "x",
-                "porttype": "color3"
+                "target_portname": "x"
             },
             "units": {
-                "target": "units",
-                "porttype": "string"
+                "target_portname": "units"
             }
         }
     },
     "aiAtmosphereVolume": {
-        "target": "atmosphere_volume",
-        "port": {
+        "target_category": "atmosphere_volume",
+        "target_port": {
             "density": {
-                "target": "density",
-                "porttype": "float"
+                "target_portname": "density"
             },
             "samples": {
-                "target": "samples",
-                "porttype": "integer"
+                "target_portname": "samples"
             },
             "eccentricity": {
-                "target": "eccentricity",
-                "porttype": "float"
+                "target_portname": "eccentricity"
             },
             "attenuation": {
-                "target": "attenuation",
-                "porttype": "float"
+                "target_portname": "attenuation"
             },
             "affectCamera": {
-                "target": "affect_camera",
-                "porttype": "float"
+                "target_portname": "affect_camera"
             },
             "affectDiffuse": {
-                "target": "affect_diffuse",
-                "porttype": "float"
+                "target_portname": "affect_diffuse"
             },
             "affectSpecular": {
-                "target": "affect_specular",
-                "porttype": "float"
+                "target_portname": "affect_specular"
             },
             "rgbDensity": {
-                "target": "rgb_density",
-                "porttype": "color3"
+                "target_portname": "rgb_density"
             },
             "rgbAttenuation": {
-                "target": "rgb_attenuation",
-                "porttype": "color3"
+                "target_portname": "rgb_attenuation"
             }
         }
     },
     "aiBlackbody": {
-        "target": "blackbody",
-        "port": {
+        "target_category": "blackbody",
+        "target_port": {
             "temperature": {
-                "target": "temperature",
-                "porttype": "float"
+                "target_portname": "temperature"
             },
             "normalize": {
-                "target": "normalize",
-                "porttype": "boolean"
+                "target_portname": "normalize"
             },
             "intensity": {
-                "target": "intensity",
-                "porttype": "float"
+                "target_portname": "intensity"
             }
         }
     },
     "aiBump2d": {
-        "target": "bump2d",
-        "port": {
+        "target_category": "bump2d",
+        "target_port": {
             "bumpMap": {
-                "target": "bump_map",
-                "porttype": "float"
+                "target_portname": "bump_map"
             },
             "bumpHeight": {
-                "target": "bump_height",
-                "porttype": "float"
+                "target_portname": "bump_height"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiBump3d": {
-        "target": "bump3d",
-        "port": {
+        "target_category": "bump3d",
+        "target_port": {
             "bumpMap": {
-                "target": "bump_map",
-                "porttype": "float"
+                "target_portname": "bump_map"
             },
             "bumpHeight": {
-                "target": "bump_height",
-                "porttype": "float"
+                "target_portname": "bump_height"
             },
             "epsilon": {
-                "target": "epsilon",
-                "porttype": "float"
+                "target_portname": "epsilon"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiCache": {
-        "target": "cache",
-        "port": {
+        "target_category": "cache",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiCameraProjection": {
-        "target": "camera_projection",
-        "port": {
+        "target_category": "camera_projection",
+        "target_port": {
             "projectionColor": {
-                "target": "projection_color",
-                "porttype": "color4"
+                "target_portname": "projection_color"
             },
             "offscreenColor": {
-                "target": "offscreen_color",
-                "porttype": "color4"
+                "target_portname": "offscreen_color"
             },
             "mask": {
-                "target": "mask",
-                "porttype": "float"
+                "target_portname": "mask"
             },
             "camera": {
-                "target": "camera",
-                "porttype": "string"
+                "target_portname": "camera"
             },
             "aspectRatio": {
-                "target": "aspect_ratio",
-                "porttype": "float"
+                "target_portname": "aspect_ratio"
             },
             "frontFacing": {
-                "target": "front_facing",
-                "porttype": "boolean"
+                "target_portname": "front_facing"
             },
             "backFacing": {
-                "target": "back_facing",
-                "porttype": "boolean"
+                "target_portname": "back_facing"
             },
             "useShadingNormal": {
-                "target": "use_shading_normal",
-                "porttype": "boolean"
+                "target_portname": "use_shading_normal"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "P": {
-                "target": "P",
-                "porttype": "vector3"
+                "target_portname": "P"
             }
         }
     },
     "aiCarPaint": {
-        "target": "car_paint",
-        "port": {
+        "target_category": "car_paint",
+        "target_port": {
             "base": {
-                "target": "base",
-                "porttype": "float"
+                "target_portname": "base"
             },
             "baseColor": {
-                "target": "base_color",
-                "porttype": "color3"
+                "target_portname": "base_color"
             },
             "baseRoughness": {
-                "target": "base_roughness",
-                "porttype": "float"
+                "target_portname": "base_roughness"
             },
             "specular": {
-                "target": "specular",
-                "porttype": "float"
+                "target_portname": "specular"
             },
             "specularColor": {
-                "target": "specular_color",
-                "porttype": "color3"
+                "target_portname": "specular_color"
             },
             "specularFlipFlop": {
-                "target": "specular_flip_flop",
-                "porttype": "color3"
+                "target_portname": "specular_flip_flop"
             },
             "specularLightFacing": {
-                "target": "specular_light_facing",
-                "porttype": "color3"
+                "target_portname": "specular_light_facing"
             },
             "specularFalloff": {
-                "target": "specular_falloff",
-                "porttype": "float"
+                "target_portname": "specular_falloff"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularIOR": {
-                "target": "specular_IOR",
-                "porttype": "float"
+                "target_portname": "specular_IOR"
             },
             "transmissionColor": {
-                "target": "transmission_color",
-                "porttype": "color3"
+                "target_portname": "transmission_color"
             },
             "flakeColor": {
-                "target": "flake_color",
-                "porttype": "color3"
+                "target_portname": "flake_color"
             },
             "flakeFlipFlop": {
-                "target": "flake_flip_flop",
-                "porttype": "color3"
+                "target_portname": "flake_flip_flop"
             },
             "flakeLightFacing": {
-                "target": "flake_light_facing",
-                "porttype": "color3"
+                "target_portname": "flake_light_facing"
             },
             "flakeFalloff": {
-                "target": "flake_falloff",
-                "porttype": "float"
+                "target_portname": "flake_falloff"
             },
             "flakeRoughness": {
-                "target": "flake_roughness",
-                "porttype": "float"
+                "target_portname": "flake_roughness"
             },
             "flakeIOR": {
-                "target": "flake_IOR",
-                "porttype": "float"
+                "target_portname": "flake_IOR"
             },
             "flakeScale": {
-                "target": "flake_scale",
-                "porttype": "float"
+                "target_portname": "flake_scale"
             },
             "flakeDensity": {
-                "target": "flake_density",
-                "porttype": "float"
+                "target_portname": "flake_density"
             },
             "flakeLayers": {
-                "target": "flake_layers",
-                "porttype": "integer"
+                "target_portname": "flake_layers"
             },
             "flakeNormalRandomize": {
-                "target": "flake_normal_randomize",
-                "porttype": "float"
+                "target_portname": "flake_normal_randomize"
             },
             "flakeCoordSpace": {
-                "target": "flake_coord_space",
-                "porttype": "string"
+                "target_portname": "flake_coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "coat": {
-                "target": "coat",
-                "porttype": "float"
+                "target_portname": "coat"
             },
             "coatColor": {
-                "target": "coat_color",
-                "porttype": "color3"
+                "target_portname": "coat_color"
             },
             "coatRoughness": {
-                "target": "coat_roughness",
-                "porttype": "float"
+                "target_portname": "coat_roughness"
             },
             "coatIOR": {
-                "target": "coat_IOR",
-                "porttype": "float"
+                "target_portname": "coat_IOR"
             },
             "coatNormal": {
-                "target": "coat_normal",
-                "porttype": "vector3"
+                "target_portname": "coat_normal"
             }
         }
     },
     "aiCellNoise": {
-        "target": "cell_noise",
-        "port": {
+        "target_category": "cell_noise",
+        "target_port": {
             "pattern": {
-                "target": "pattern",
-                "porttype": "string"
+                "target_portname": "pattern"
             },
             "additive": {
-                "target": "additive",
-                "porttype": "boolean"
+                "target_portname": "additive"
             },
             "octaves": {
-                "target": "octaves",
-                "porttype": "integer"
+                "target_portname": "octaves"
             },
             "randomness": {
-                "target": "randomness",
-                "porttype": "float"
+                "target_portname": "randomness"
             },
             "lacunarity": {
-                "target": "lacunarity",
-                "porttype": "float"
+                "target_portname": "lacunarity"
             },
             "amplitude": {
-                "target": "amplitude",
-                "porttype": "float"
+                "target_portname": "amplitude"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "vector3"
+                "target_portname": "scale"
             },
             "offset": {
-                "target": "offset",
-                "porttype": "vector3"
+                "target_portname": "offset"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "P": {
-                "target": "P",
-                "porttype": "vector3"
+                "target_portname": "P"
             },
             "time": {
-                "target": "time",
-                "porttype": "float"
+                "target_portname": "time"
             },
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             },
             "palette": {
-                "target": "palette",
-                "porttype": "color3"
+                "target_portname": "palette"
             },
             "density": {
-                "target": "density",
-                "porttype": "float"
+                "target_portname": "density"
             }
         }
     },
     "checker": {
-        "target": "checkerboard",
-        "port": {
+        "target_category": "checkerboard",
+        "target_port": {
             "color1": {
-                "target": "color1",
-                "porttype": "color3"
+                "target_portname": "color1"
             },
             "color2": {
-                "target": "color2",
-                "porttype": "color3"
+                "target_portname": "color2"
             },
             "contrast": {
-                "target": "contrast",
-                "porttype": "float"
+                "target_portname": "contrast"
             },
             "filter": {
-                "target": "filter_strength",
-                "porttype": "float"
+                "target_portname": "filter_strength"
             },
             "filterOffset": {
-                "target": "filter_offset",
-                "porttype": "float"
+                "target_portname": "filter_offset"
             }
         }
     },
     "aiClamp": {
-        "target": "clamp",
-        "port": {
+        "target_category": "clamp",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             },
             "min": {
-                "target": "min",
-                "porttype": "float"
+                "target_portname": "min"
             },
             "max": {
-                "target": "max",
-                "porttype": "float"
+                "target_portname": "max"
             },
             "minColor": {
-                "target": "min_color",
-                "porttype": "color3"
+                "target_portname": "min_color"
             },
             "maxColor": {
-                "target": "max_color",
-                "porttype": "color3"
+                "target_portname": "max_color"
             }
         }
     },
     "aiClipGeo": {
-        "target": "clip_geo",
-        "port": {
+        "target_category": "clip_geo",
+        "target_port": {
             "intersection": {
-                "target": "intersection",
-                "porttype": "closure"
+                "target_portname": "intersection"
             },
             "traceSet": {
-                "target": "trace_set",
-                "porttype": "string"
+                "target_portname": "trace_set"
             },
             "inclusive": {
-                "target": "inclusive",
-                "porttype": "boolean"
+                "target_portname": "inclusive"
             }
         }
     },
     "aiColorConvert": {
-        "target": "color_convert",
-        "port": {
+        "target_category": "color_convert",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "from": {
-                "target": "from",
-                "porttype": "string"
+                "target_portname": "from"
             },
             "to": {
-                "target": "to",
-                "porttype": "string"
+                "target_portname": "to"
             }
         }
     },
     "aiColorCorrect": {
-        "target": "color_correct",
-        "port": {
+        "target_category": "color_correct",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color4"
+                "target_portname": "input"
             },
             "alphaIsLuminance": {
-                "target": "alpha_is_luminance",
-                "porttype": "boolean"
+                "target_portname": "alpha_is_luminance"
             },
             "alphaMultiply": {
-                "target": "alpha_multiply",
-                "porttype": "float"
+                "target_portname": "alpha_multiply"
             },
             "alphaAdd": {
-                "target": "alpha_add",
-                "porttype": "float"
+                "target_portname": "alpha_add"
             },
             "invert": {
-                "target": "invert",
-                "porttype": "boolean"
+                "target_portname": "invert"
             },
             "invertAlpha": {
-                "target": "invert_alpha",
-                "porttype": "boolean"
+                "target_portname": "invert_alpha"
             },
             "gamma": {
-                "target": "gamma",
-                "porttype": "float"
+                "target_portname": "gamma"
             },
             "hueShift": {
-                "target": "hue_shift",
-                "porttype": "float"
+                "target_portname": "hue_shift"
             },
             "saturation": {
-                "target": "saturation",
-                "porttype": "float"
+                "target_portname": "saturation"
             },
             "contrast": {
-                "target": "contrast",
-                "porttype": "float"
+                "target_portname": "contrast"
             },
             "contrastPivot": {
-                "target": "contrast_pivot",
-                "porttype": "float"
+                "target_portname": "contrast_pivot"
             },
             "exposure": {
-                "target": "exposure",
-                "porttype": "float"
+                "target_portname": "exposure"
             },
             "multiply": {
-                "target": "multiply",
-                "porttype": "color3"
+                "target_portname": "multiply"
             },
             "add": {
-                "target": "add",
-                "porttype": "color3"
+                "target_portname": "add"
             },
             "mask": {
-                "target": "mask",
-                "porttype": "float"
+                "target_portname": "mask"
             }
         }
     },
     "aiColorJitter": {
-        "target": "color_jitter",
-        "port": {
+        "target_category": "color_jitter",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "dataInput": {
-                "target": "data_input",
-                "porttype": "integer"
+                "target_portname": "data_input"
             },
             "dataGainMin": {
-                "target": "data_gain_min",
-                "porttype": "float"
+                "target_portname": "data_gain_min"
             },
             "dataGainMax": {
-                "target": "data_gain_max",
-                "porttype": "float"
+                "target_portname": "data_gain_max"
             },
             "dataHueMin": {
-                "target": "data_hue_min",
-                "porttype": "float"
+                "target_portname": "data_hue_min"
             },
             "dataHueMax": {
-                "target": "data_hue_max",
-                "porttype": "float"
+                "target_portname": "data_hue_max"
             },
             "dataSaturationMin": {
-                "target": "data_saturation_min",
-                "porttype": "float"
+                "target_portname": "data_saturation_min"
             },
             "dataSaturationMax": {
-                "target": "data_saturation_max",
-                "porttype": "float"
+                "target_portname": "data_saturation_max"
             },
             "dataSeed": {
-                "target": "data_seed",
-                "porttype": "integer"
+                "target_portname": "data_seed"
             },
             "procGainMin": {
-                "target": "proc_gain_min",
-                "porttype": "float"
+                "target_portname": "proc_gain_min"
             },
             "procGainMax": {
-                "target": "proc_gain_max",
-                "porttype": "float"
+                "target_portname": "proc_gain_max"
             },
             "procHueMin": {
-                "target": "proc_hue_min",
-                "porttype": "float"
+                "target_portname": "proc_hue_min"
             },
             "procHueMax": {
-                "target": "proc_hue_max",
-                "porttype": "float"
+                "target_portname": "proc_hue_max"
             },
             "procSaturationMin": {
-                "target": "proc_saturation_min",
-                "porttype": "float"
+                "target_portname": "proc_saturation_min"
             },
             "procSaturationMax": {
-                "target": "proc_saturation_max",
-                "porttype": "float"
+                "target_portname": "proc_saturation_max"
             },
             "procSeed": {
-                "target": "proc_seed",
-                "porttype": "integer"
+                "target_portname": "proc_seed"
             },
             "objGainMin": {
-                "target": "obj_gain_min",
-                "porttype": "float"
+                "target_portname": "obj_gain_min"
             },
             "objGainMax": {
-                "target": "obj_gain_max",
-                "porttype": "float"
+                "target_portname": "obj_gain_max"
             },
             "objHueMin": {
-                "target": "obj_hue_min",
-                "porttype": "float"
+                "target_portname": "obj_hue_min"
             },
             "objHueMax": {
-                "target": "obj_hue_max",
-                "porttype": "float"
+                "target_portname": "obj_hue_max"
             },
             "objSaturationMin": {
-                "target": "obj_saturation_min",
-                "porttype": "float"
+                "target_portname": "obj_saturation_min"
             },
             "objSaturationMax": {
-                "target": "obj_saturation_max",
-                "porttype": "float"
+                "target_portname": "obj_saturation_max"
             },
             "objSeed": {
-                "target": "obj_seed",
-                "porttype": "integer"
+                "target_portname": "obj_seed"
             },
             "faceGainMin": {
-                "target": "face_gain_min",
-                "porttype": "float"
+                "target_portname": "face_gain_min"
             },
             "faceGainMax": {
-                "target": "face_gain_max",
-                "porttype": "float"
+                "target_portname": "face_gain_max"
             },
             "faceHueMin": {
-                "target": "face_hue_min",
-                "porttype": "float"
+                "target_portname": "face_hue_min"
             },
             "faceHueMax": {
-                "target": "face_hue_max",
-                "porttype": "float"
+                "target_portname": "face_hue_max"
             },
             "faceSaturationMin": {
-                "target": "face_saturation_min",
-                "porttype": "float"
+                "target_portname": "face_saturation_min"
             },
             "faceSaturationMax": {
-                "target": "face_saturation_max",
-                "porttype": "float"
+                "target_portname": "face_saturation_max"
             },
             "faceSeed": {
-                "target": "face_seed",
-                "porttype": "integer"
+                "target_portname": "face_seed"
             },
             "faceMode": {
-                "target": "face_mode",
-                "porttype": "string"
+                "target_portname": "face_mode"
             }
         }
     },
     "aiCompare": {
-        "target": "compare",
-        "port": {
+        "target_category": "compare",
+        "target_port": {
             "test": {
-                "target": "test",
-                "porttype": "string"
+                "target_portname": "test"
             },
             "input1": {
-                "target": "input1",
-                "porttype": "float"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "float"
+                "target_portname": "input2"
             }
         }
     },
     "aiComplement": {
-        "target": "complement",
-        "port": {
+        "target_category": "complement",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiComplexIor": {
-        "target": "complex_ior",
-        "port": {
+        "target_category": "complex_ior",
+        "target_port": {
             "material": {
-                "target": "material",
-                "porttype": "string"
+                "target_portname": "material"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             },
             "reflectivity": {
-                "target": "reflectivity",
-                "porttype": "color3"
+                "target_portname": "reflectivity"
             },
             "edgetint": {
-                "target": "edgetint",
-                "porttype": "color3"
+                "target_portname": "edgetint"
             },
             "n": {
-                "target": "n",
-                "porttype": "vector3"
+                "target_portname": "n"
             },
             "k": {
-                "target": "k",
-                "porttype": "vector3"
+                "target_portname": "k"
             }
         }
     },
     "aiComposite": {
-        "target": "composite",
-        "port": {
+        "target_category": "composite",
+        "target_port": {
             "A": {
-                "target": "A",
-                "porttype": "color4"
+                "target_portname": "A"
             },
             "B": {
-                "target": "B",
-                "porttype": "color4"
+                "target_portname": "B"
             },
             "operation": {
-                "target": "operation",
-                "porttype": "string"
+                "target_portname": "operation"
             },
             "alphaOperation": {
-                "target": "alpha_operation",
-                "porttype": "string"
+                "target_portname": "alpha_operation"
             }
         }
     },
     "aiCross": {
-        "target": "cross",
-        "port": {
+        "target_category": "cross",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "vector3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "vector3"
+                "target_portname": "input2"
             }
         }
     },
     "aiCurvature": {
-        "target": "curvature",
-        "port": {
+        "target_category": "curvature",
+        "target_port": {
             "output": {
-                "target": "output",
-                "porttype": "string"
+                "target_portname": "output"
             },
             "samples": {
-                "target": "samples",
-                "porttype": "integer"
+                "target_portname": "samples"
             },
             "radius": {
-                "target": "radius",
-                "porttype": "float"
+                "target_portname": "radius"
             },
             "spread": {
-                "target": "spread",
-                "porttype": "float"
+                "target_portname": "spread"
             },
             "threshold": {
-                "target": "threshold",
-                "porttype": "float"
+                "target_portname": "threshold"
             },
             "bias": {
-                "target": "bias",
-                "porttype": "float"
+                "target_portname": "bias"
             },
             "multiply": {
-                "target": "multiply",
-                "porttype": "float"
+                "target_portname": "multiply"
             },
             "traceSet": {
-                "target": "trace_set",
-                "porttype": "string"
+                "target_portname": "trace_set"
             },
             "inclusive": {
-                "target": "inclusive",
-                "porttype": "boolean"
+                "target_portname": "inclusive"
             },
             "selfOnly": {
-                "target": "self_only",
-                "porttype": "boolean"
+                "target_portname": "self_only"
             }
         }
     },
     "aiDivide": {
-        "target": "divide",
-        "port": {
+        "target_category": "divide",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "aiDot": {
-        "target": "dot",
-        "port": {
+        "target_category": "dot",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "vector3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "vector3"
+                "target_portname": "input2"
             }
         }
     },
     "aiExp": {
-        "target": "exp",
-        "port": {
+        "target_category": "exp",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiFacingRatio": {
-        "target": "facing_ratio",
-        "port": {
+        "target_category": "facing_ratio",
+        "target_port": {
             "bias": {
-                "target": "bias",
-                "porttype": "float"
+                "target_portname": "bias"
             },
             "gain": {
-                "target": "gain",
-                "porttype": "float"
+                "target_portname": "gain"
             },
             "linear": {
-                "target": "linear",
-                "porttype": "boolean"
+                "target_portname": "linear"
             },
             "invert": {
-                "target": "invert",
-                "porttype": "boolean"
+                "target_portname": "invert"
             }
         }
     },
     "aiFlakes": {
-        "target": "flakes",
-        "port": {
+        "target_category": "flakes",
+        "target_port": {
             "scale": {
-                "target": "scale",
-                "porttype": "float"
+                "target_portname": "scale"
             },
             "density": {
-                "target": "density",
-                "porttype": "float"
+                "target_portname": "density"
             },
             "step": {
-                "target": "step",
-                "porttype": "float"
+                "target_portname": "step"
             },
             "depth": {
-                "target": "depth",
-                "porttype": "float"
+                "target_portname": "depth"
             },
             "IOR": {
-                "target": "IOR",
-                "porttype": "float"
+                "target_portname": "IOR"
             },
             "normalRandomize": {
-                "target": "normal_randomize",
-                "porttype": "float"
+                "target_portname": "normal_randomize"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "outputSpace": {
-                "target": "output_space",
-                "porttype": "string"
+                "target_portname": "output_space"
             }
         }
     },
     "aiFlat": {
-        "target": "flat",
-        "port": {
+        "target_category": "flat",
+        "target_port": {
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             }
         }
     },
     "aiFloatToInt": {
-        "target": "float_to_int",
-        "port": {
+        "target_category": "float_to_int",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "float"
+                "target_portname": "input"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             }
         }
     },
     "aiFloatToRgba": {
-        "target": "float_to_rgba",
-        "port": {
+        "target_category": "float_to_rgba",
+        "target_port": {
             "r": {
-                "target": "r",
-                "porttype": "float"
+                "target_portname": "r"
             },
             "g": {
-                "target": "g",
-                "porttype": "float"
+                "target_portname": "g"
             },
             "b": {
-                "target": "b",
-                "porttype": "float"
+                "target_portname": "b"
             },
             "a": {
-                "target": "a",
-                "porttype": "float"
+                "target_portname": "a"
             }
         }
     },
     "aiFog": {
-        "target": "fog",
-        "port": {
+        "target_category": "fog",
+        "target_port": {
             "distance": {
-                "target": "distance",
-                "porttype": "float"
+                "target_portname": "distance"
             },
             "height": {
-                "target": "height",
-                "porttype": "float"
+                "target_portname": "height"
             },
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             },
             "groundPoint": {
-                "target": "ground_point",
-                "porttype": "vector3"
+                "target_portname": "ground_point"
             },
             "groundNormal": {
-                "target": "ground_normal",
-                "porttype": "vector3"
+                "target_portname": "ground_normal"
             }
         }
     },
     "aiFraction": {
-        "target": "fraction",
-        "port": {
+        "target_category": "fraction",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiHair": {
-        "target": "hair",
-        "port": {
+        "target_category": "hair",
+        "target_port": {
             "rootcolor": {
-                "target": "rootcolor",
-                "porttype": "color3"
+                "target_portname": "rootcolor"
             },
             "tipcolor": {
-                "target": "tipcolor",
-                "porttype": "color3"
+                "target_portname": "tipcolor"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             },
             "ambdiff": {
-                "target": "ambdiff",
-                "porttype": "float"
+                "target_portname": "ambdiff"
             },
             "spec": {
-                "target": "spec",
-                "porttype": "float"
+                "target_portname": "spec"
             },
             "specColor": {
-                "target": "spec_color",
-                "porttype": "color3"
+                "target_portname": "spec_color"
             },
             "specShift": {
-                "target": "spec_shift",
-                "porttype": "float"
+                "target_portname": "spec_shift"
             },
             "specGloss": {
-                "target": "spec_gloss",
-                "porttype": "float"
+                "target_portname": "spec_gloss"
             },
             "spec2": {
-                "target": "spec2",
-                "porttype": "float"
+                "target_portname": "spec2"
             },
             "spec2Color": {
-                "target": "spec2_color",
-                "porttype": "color3"
+                "target_portname": "spec2_color"
             },
             "spec2Shift": {
-                "target": "spec2_shift",
-                "porttype": "float"
+                "target_portname": "spec2_shift"
             },
             "spec2Gloss": {
-                "target": "spec2_gloss",
-                "porttype": "float"
+                "target_portname": "spec2_gloss"
             },
             "transmission": {
-                "target": "transmission",
-                "porttype": "float"
+                "target_portname": "transmission"
             },
             "transmissionColor": {
-                "target": "transmission_color",
-                "porttype": "color3"
+                "target_portname": "transmission_color"
             },
             "transmissionSpread": {
-                "target": "transmission_spread",
-                "porttype": "float"
+                "target_portname": "transmission_spread"
             },
             "kdInd": {
-                "target": "kd_ind",
-                "porttype": "float"
+                "target_portname": "kd_ind"
             }
         }
     },
     "aiImage": {
-        "target": "image",
-        "port": {
+        "target_category": "image",
+        "target_port": {
             "filename": {
-                "target": "filename",
-                "porttype": "string"
+                "target_portname": "filename"
             },
             "colorSpace": {
-                "target": "color_space",
-                "porttype": "string"
+                "target_portname": "color_space"
             },
             "filter": {
-                "target": "filter",
-                "porttype": "string"
+                "target_portname": "filter"
             },
             "mipmapBias": {
-                "target": "mipmap_bias",
-                "porttype": "integer"
+                "target_portname": "mipmap_bias"
             },
             "singleChannel": {
-                "target": "single_channel",
-                "porttype": "boolean"
+                "target_portname": "single_channel"
             },
             "startChannel": {
-                "target": "start_channel",
-                "porttype": "integer"
+                "target_portname": "start_channel"
             },
             "swrap": {
-                "target": "swrap",
-                "porttype": "string"
+                "target_portname": "swrap"
             },
             "twrap": {
-                "target": "twrap",
-                "porttype": "string"
+                "target_portname": "twrap"
             },
             "sscale": {
-                "target": "sscale",
-                "porttype": "float"
+                "target_portname": "sscale"
             },
             "tscale": {
-                "target": "tscale",
-                "porttype": "float"
+                "target_portname": "tscale"
             },
             "sflip": {
-                "target": "sflip",
-                "porttype": "boolean"
+                "target_portname": "sflip"
             },
             "tflip": {
-                "target": "tflip",
-                "porttype": "boolean"
+                "target_portname": "tflip"
             },
             "soffset": {
-                "target": "soffset",
-                "porttype": "float"
+                "target_portname": "soffset"
             },
             "toffset": {
-                "target": "toffset",
-                "porttype": "float"
+                "target_portname": "toffset"
             },
             "swapSt": {
-                "target": "swap_st",
-                "porttype": "boolean"
+                "target_portname": "swap_st"
             },
             "uvcoords": {
-                "target": "uvcoords",
-                "porttype": "vector2"
+                "target_portname": "uvcoords"
             },
             "uvset": {
-                "target": "uvset",
-                "porttype": "string"
+                "target_portname": "uvset"
             },
             "multiply": {
-                "target": "multiply",
-                "porttype": "color3"
+                "target_portname": "multiply"
             },
             "offset": {
-                "target": "offset",
-                "porttype": "color3"
+                "target_portname": "offset"
             },
             "ignoreMissingTextures": {
-                "target": "ignore_missing_textures",
-                "porttype": "boolean"
+                "target_portname": "ignore_missing_textures"
             },
             "missingTextureColor": {
-                "target": "missing_texture_color",
-                "porttype": "color4"
+                "target_portname": "missing_texture_color"
             }
         }
     },
     "aiIsFinite": {
-        "target": "is_finite",
-        "port": {
+        "target_category": "is_finite",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "lambert": {
-        "target": "lambert",
-        "port": {
+        "target_category": "lambert",
+        "target_port": {
             "diffuse": {
-                "target": "Kd",
-                "porttype": "float"
+                "target_portname": "Kd"
             },
             "color": {
-                "target": "Kd_color",
-                "porttype": "color3"
+                "target_portname": "Kd_color"
             },
             "transparency": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             },
             "normalCamera": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiLayerFloat": {
-        "target": "layer_float",
-        "port": {
+        "target_category": "layer_float",
+        "target_port": {
             "enable1": {
-                "target": "enable1",
-                "porttype": "boolean"
+                "target_portname": "enable1"
             },
             "name1": {
-                "target": "name1",
-                "porttype": "string"
+                "target_portname": "name1"
             },
             "input1": {
-                "target": "input1",
-                "porttype": "float"
+                "target_portname": "input1"
             },
             "mix1": {
-                "target": "mix1",
-                "porttype": "float"
+                "target_portname": "mix1"
             },
             "enable2": {
-                "target": "enable2",
-                "porttype": "boolean"
+                "target_portname": "enable2"
             },
             "name2": {
-                "target": "name2",
-                "porttype": "string"
+                "target_portname": "name2"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "float"
+                "target_portname": "input2"
             },
             "mix2": {
-                "target": "mix2",
-                "porttype": "float"
+                "target_portname": "mix2"
             },
             "enable3": {
-                "target": "enable3",
-                "porttype": "boolean"
+                "target_portname": "enable3"
             },
             "name3": {
-                "target": "name3",
-                "porttype": "string"
+                "target_portname": "name3"
             },
             "input3": {
-                "target": "input3",
-                "porttype": "float"
+                "target_portname": "input3"
             },
             "mix3": {
-                "target": "mix3",
-                "porttype": "float"
+                "target_portname": "mix3"
             },
             "enable4": {
-                "target": "enable4",
-                "porttype": "boolean"
+                "target_portname": "enable4"
             },
             "name4": {
-                "target": "name4",
-                "porttype": "string"
+                "target_portname": "name4"
             },
             "input4": {
-                "target": "input4",
-                "porttype": "float"
+                "target_portname": "input4"
             },
             "mix4": {
-                "target": "mix4",
-                "porttype": "float"
+                "target_portname": "mix4"
             },
             "enable5": {
-                "target": "enable5",
-                "porttype": "boolean"
+                "target_portname": "enable5"
             },
             "name5": {
-                "target": "name5",
-                "porttype": "string"
+                "target_portname": "name5"
             },
             "input5": {
-                "target": "input5",
-                "porttype": "float"
+                "target_portname": "input5"
             },
             "mix5": {
-                "target": "mix5",
-                "porttype": "float"
+                "target_portname": "mix5"
             },
             "enable6": {
-                "target": "enable6",
-                "porttype": "boolean"
+                "target_portname": "enable6"
             },
             "name6": {
-                "target": "name6",
-                "porttype": "string"
+                "target_portname": "name6"
             },
             "input6": {
-                "target": "input6",
-                "porttype": "float"
+                "target_portname": "input6"
             },
             "mix6": {
-                "target": "mix6",
-                "porttype": "float"
+                "target_portname": "mix6"
             },
             "enable7": {
-                "target": "enable7",
-                "porttype": "boolean"
+                "target_portname": "enable7"
             },
             "name7": {
-                "target": "name7",
-                "porttype": "string"
+                "target_portname": "name7"
             },
             "input7": {
-                "target": "input7",
-                "porttype": "float"
+                "target_portname": "input7"
             },
             "mix7": {
-                "target": "mix7",
-                "porttype": "float"
+                "target_portname": "mix7"
             },
             "enable8": {
-                "target": "enable8",
-                "porttype": "boolean"
+                "target_portname": "enable8"
             },
             "name8": {
-                "target": "name8",
-                "porttype": "string"
+                "target_portname": "name8"
             },
             "input8": {
-                "target": "input8",
-                "porttype": "float"
+                "target_portname": "input8"
             },
             "mix8": {
-                "target": "mix8",
-                "porttype": "float"
+                "target_portname": "mix8"
             }
         }
     },
     "aiLayerRgba": {
-        "target": "layer_rgba",
-        "port": {
+        "target_category": "layer_rgba",
+        "target_port": {
             "enable1": {
-                "target": "enable1",
-                "porttype": "boolean"
+                "target_portname": "enable1"
             },
             "name1": {
-                "target": "name1",
-                "porttype": "string"
+                "target_portname": "name1"
             },
             "input1": {
-                "target": "input1",
-                "porttype": "color4"
+                "target_portname": "input1"
             },
             "mix1": {
-                "target": "mix1",
-                "porttype": "float"
+                "target_portname": "mix1"
             },
             "operation1": {
-                "target": "operation1",
-                "porttype": "string"
+                "target_portname": "operation1"
             },
             "alphaOperation1": {
-                "target": "alpha_operation1",
-                "porttype": "string"
+                "target_portname": "alpha_operation1"
             },
             "enable2": {
-                "target": "enable2",
-                "porttype": "boolean"
+                "target_portname": "enable2"
             },
             "name2": {
-                "target": "name2",
-                "porttype": "string"
+                "target_portname": "name2"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color4"
+                "target_portname": "input2"
             },
             "mix2": {
-                "target": "mix2",
-                "porttype": "float"
+                "target_portname": "mix2"
             },
             "operation2": {
-                "target": "operation2",
-                "porttype": "string"
+                "target_portname": "operation2"
             },
             "alphaOperation2": {
-                "target": "alpha_operation2",
-                "porttype": "string"
+                "target_portname": "alpha_operation2"
             },
             "enable3": {
-                "target": "enable3",
-                "porttype": "boolean"
+                "target_portname": "enable3"
             },
             "name3": {
-                "target": "name3",
-                "porttype": "string"
+                "target_portname": "name3"
             },
             "input3": {
-                "target": "input3",
-                "porttype": "color4"
+                "target_portname": "input3"
             },
             "mix3": {
-                "target": "mix3",
-                "porttype": "float"
+                "target_portname": "mix3"
             },
             "operation3": {
-                "target": "operation3",
-                "porttype": "string"
+                "target_portname": "operation3"
             },
             "alphaOperation3": {
-                "target": "alpha_operation3",
-                "porttype": "string"
+                "target_portname": "alpha_operation3"
             },
             "enable4": {
-                "target": "enable4",
-                "porttype": "boolean"
+                "target_portname": "enable4"
             },
             "name4": {
-                "target": "name4",
-                "porttype": "string"
+                "target_portname": "name4"
             },
             "input4": {
-                "target": "input4",
-                "porttype": "color4"
+                "target_portname": "input4"
             },
             "mix4": {
-                "target": "mix4",
-                "porttype": "float"
+                "target_portname": "mix4"
             },
             "operation4": {
-                "target": "operation4",
-                "porttype": "string"
+                "target_portname": "operation4"
             },
             "alphaOperation4": {
-                "target": "alpha_operation4",
-                "porttype": "string"
+                "target_portname": "alpha_operation4"
             },
             "enable5": {
-                "target": "enable5",
-                "porttype": "boolean"
+                "target_portname": "enable5"
             },
             "name5": {
-                "target": "name5",
-                "porttype": "string"
+                "target_portname": "name5"
             },
             "input5": {
-                "target": "input5",
-                "porttype": "color4"
+                "target_portname": "input5"
             },
             "mix5": {
-                "target": "mix5",
-                "porttype": "float"
+                "target_portname": "mix5"
             },
             "operation5": {
-                "target": "operation5",
-                "porttype": "string"
+                "target_portname": "operation5"
             },
             "alphaOperation5": {
-                "target": "alpha_operation5",
-                "porttype": "string"
+                "target_portname": "alpha_operation5"
             },
             "enable6": {
-                "target": "enable6",
-                "porttype": "boolean"
+                "target_portname": "enable6"
             },
             "name6": {
-                "target": "name6",
-                "porttype": "string"
+                "target_portname": "name6"
             },
             "input6": {
-                "target": "input6",
-                "porttype": "color4"
+                "target_portname": "input6"
             },
             "mix6": {
-                "target": "mix6",
-                "porttype": "float"
+                "target_portname": "mix6"
             },
             "operation6": {
-                "target": "operation6",
-                "porttype": "string"
+                "target_portname": "operation6"
             },
             "alphaOperation6": {
-                "target": "alpha_operation6",
-                "porttype": "string"
+                "target_portname": "alpha_operation6"
             },
             "enable7": {
-                "target": "enable7",
-                "porttype": "boolean"
+                "target_portname": "enable7"
             },
             "name7": {
-                "target": "name7",
-                "porttype": "string"
+                "target_portname": "name7"
             },
             "input7": {
-                "target": "input7",
-                "porttype": "color4"
+                "target_portname": "input7"
             },
             "mix7": {
-                "target": "mix7",
-                "porttype": "float"
+                "target_portname": "mix7"
             },
             "operation7": {
-                "target": "operation7",
-                "porttype": "string"
+                "target_portname": "operation7"
             },
             "alphaOperation7": {
-                "target": "alpha_operation7",
-                "porttype": "string"
+                "target_portname": "alpha_operation7"
             },
             "enable8": {
-                "target": "enable8",
-                "porttype": "boolean"
+                "target_portname": "enable8"
             },
             "name8": {
-                "target": "name8",
-                "porttype": "string"
+                "target_portname": "name8"
             },
             "input8": {
-                "target": "input8",
-                "porttype": "color4"
+                "target_portname": "input8"
             },
             "mix8": {
-                "target": "mix8",
-                "porttype": "float"
+                "target_portname": "mix8"
             },
             "operation8": {
-                "target": "operation8",
-                "porttype": "string"
+                "target_portname": "operation8"
             },
             "alphaOperation8": {
-                "target": "alpha_operation8",
-                "porttype": "string"
+                "target_portname": "alpha_operation8"
             },
             "clamp": {
-                "target": "clamp",
-                "porttype": "boolean"
+                "target_portname": "clamp"
             }
         }
     },
     "aiLayerShader": {
-        "target": "layer_shader",
-        "port": {
+        "target_category": "layer_shader",
+        "target_port": {
             "enable1": {
-                "target": "enable1",
-                "porttype": "boolean"
+                "target_portname": "enable1"
             },
             "name1": {
-                "target": "name1",
-                "porttype": "string"
+                "target_portname": "name1"
             },
             "input1": {
-                "target": "input1",
-                "porttype": "closure"
+                "target_portname": "input1"
             },
             "mix1": {
-                "target": "mix1",
-                "porttype": "float"
+                "target_portname": "mix1"
             },
             "enable2": {
-                "target": "enable2",
-                "porttype": "boolean"
+                "target_portname": "enable2"
             },
             "name2": {
-                "target": "name2",
-                "porttype": "string"
+                "target_portname": "name2"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "closure"
+                "target_portname": "input2"
             },
             "mix2": {
-                "target": "mix2",
-                "porttype": "float"
+                "target_portname": "mix2"
             },
             "enable3": {
-                "target": "enable3",
-                "porttype": "boolean"
+                "target_portname": "enable3"
             },
             "name3": {
-                "target": "name3",
-                "porttype": "string"
+                "target_portname": "name3"
             },
             "input3": {
-                "target": "input3",
-                "porttype": "closure"
+                "target_portname": "input3"
             },
             "mix3": {
-                "target": "mix3",
-                "porttype": "float"
+                "target_portname": "mix3"
             },
             "enable4": {
-                "target": "enable4",
-                "porttype": "boolean"
+                "target_portname": "enable4"
             },
             "name4": {
-                "target": "name4",
-                "porttype": "string"
+                "target_portname": "name4"
             },
             "input4": {
-                "target": "input4",
-                "porttype": "closure"
+                "target_portname": "input4"
             },
             "mix4": {
-                "target": "mix4",
-                "porttype": "float"
+                "target_portname": "mix4"
             },
             "enable5": {
-                "target": "enable5",
-                "porttype": "boolean"
+                "target_portname": "enable5"
             },
             "name5": {
-                "target": "name5",
-                "porttype": "string"
+                "target_portname": "name5"
             },
             "input5": {
-                "target": "input5",
-                "porttype": "closure"
+                "target_portname": "input5"
             },
             "mix5": {
-                "target": "mix5",
-                "porttype": "float"
+                "target_portname": "mix5"
             },
             "enable6": {
-                "target": "enable6",
-                "porttype": "boolean"
+                "target_portname": "enable6"
             },
             "name6": {
-                "target": "name6",
-                "porttype": "string"
+                "target_portname": "name6"
             },
             "input6": {
-                "target": "input6",
-                "porttype": "closure"
+                "target_portname": "input6"
             },
             "mix6": {
-                "target": "mix6",
-                "porttype": "float"
+                "target_portname": "mix6"
             },
             "enable7": {
-                "target": "enable7",
-                "porttype": "boolean"
+                "target_portname": "enable7"
             },
             "name7": {
-                "target": "name7",
-                "porttype": "string"
+                "target_portname": "name7"
             },
             "input7": {
-                "target": "input7",
-                "porttype": "closure"
+                "target_portname": "input7"
             },
             "mix7": {
-                "target": "mix7",
-                "porttype": "float"
+                "target_portname": "mix7"
             },
             "enable8": {
-                "target": "enable8",
-                "porttype": "boolean"
+                "target_portname": "enable8"
             },
             "name8": {
-                "target": "name8",
-                "porttype": "string"
+                "target_portname": "name8"
             },
             "input8": {
-                "target": "input8",
-                "porttype": "closure"
+                "target_portname": "input8"
             },
             "mix8": {
-                "target": "mix8",
-                "porttype": "float"
+                "target_portname": "mix8"
             }
         }
     },
     "aiLength": {
-        "target": "length",
-        "port": {
+        "target_category": "length",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "vector3"
+                "target_portname": "input"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             }
         }
     },
     "aiLog": {
-        "target": "log",
-        "port": {
+        "target_category": "log",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "base": {
-                "target": "base",
-                "porttype": "color3"
+                "target_portname": "base"
             }
         }
     },
     "aiMatrixInterpolate": {
-        "target": "matrix_interpolate",
-        "port": {
+        "target_category": "matrix_interpolate",
+        "target_port": {
             "type": {
-                "target": "type",
-                "porttype": "string"
+                "target_portname": "type"
             },
             "value": {
-                "target": "value",
-                "porttype": "float"
+                "target_portname": "value"
             }
         }
     },
     "aiMatrixMultiplyVector": {
-        "target": "matrix_multiply_vector",
-        "port": {
+        "target_category": "matrix_multiply_vector",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "type": {
-                "target": "type",
-                "porttype": "string"
+                "target_portname": "type"
             },
             "matrix": {
-                "target": "matrix",
-                "porttype": "matrix44"
+                "target_portname": "matrix"
             }
         }
     },
     "aiMatrixTransform": {
-        "target": "matrix_transform",
-        "port": {
+        "target_category": "matrix_transform",
+        "target_port": {
             "transformOrder": {
-                "target": "transform_order",
-                "porttype": "string"
+                "target_portname": "transform_order"
             },
             "rotationType": {
-                "target": "rotation_type",
-                "porttype": "string"
+                "target_portname": "rotation_type"
             },
             "units": {
-                "target": "units",
-                "porttype": "string"
+                "target_portname": "units"
             },
             "rotationOrder": {
-                "target": "rotation_order",
-                "porttype": "string"
+                "target_portname": "rotation_order"
             },
             "rotation": {
-                "target": "rotation",
-                "porttype": "vector3"
+                "target_portname": "rotation"
             },
             "axis": {
-                "target": "axis",
-                "porttype": "vector3"
+                "target_portname": "axis"
             },
             "angle": {
-                "target": "angle",
-                "porttype": "float"
+                "target_portname": "angle"
             },
             "translate": {
-                "target": "translate",
-                "porttype": "vector3"
+                "target_portname": "translate"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "vector3"
+                "target_portname": "scale"
             },
             "pivot": {
-                "target": "pivot",
-                "porttype": "vector3"
+                "target_portname": "pivot"
             }
         }
     },
     "aiMatte": {
-        "target": "matte",
-        "port": {
+        "target_category": "matte",
+        "target_port": {
             "passthrough": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "color": {
-                "target": "color",
-                "porttype": "color4"
+                "target_portname": "color"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             }
         }
     },
     "aiMax": {
-        "target": "max",
-        "port": {
+        "target_category": "max",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "layeredShader": {
-        "target": "maya_layered_shader",
-        "port": {
+        "target_category": "maya_layered_shader",
+        "target_port": {
             "compositingFlag": {
-                "target": "compositingFlag",
-                "porttype": "string"
+                "target_portname": "compositingFlag"
             }
         }
     },
     "aiMin": {
-        "target": "min",
-        "port": {
+        "target_category": "min",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "aiMixShader": {
-        "target": "mix_shader",
-        "port": {
+        "target_category": "mix_shader",
+        "target_port": {
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             },
             "mix": {
-                "target": "mix",
-                "porttype": "float"
+                "target_portname": "mix"
             },
             "shader1": {
-                "target": "shader1",
-                "porttype": "closure"
+                "target_portname": "shader1"
             },
             "shader2": {
-                "target": "shader2",
-                "porttype": "closure"
+                "target_portname": "shader2"
             }
         }
     },
     "aiModulo": {
-        "target": "modulo",
-        "port": {
+        "target_category": "modulo",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "divisor": {
-                "target": "divisor",
-                "porttype": "color3"
+                "target_portname": "divisor"
             }
         }
     },
     "aiMotionVector": {
-        "target": "motion_vector",
-        "port": {
+        "target_category": "motion_vector",
+        "target_port": {
             "raw": {
-                "target": "raw",
-                "porttype": "boolean"
+                "target_portname": "raw"
             },
             "time0": {
-                "target": "time0",
-                "porttype": "float"
+                "target_portname": "time0"
             },
             "time1": {
-                "target": "time1",
-                "porttype": "float"
+                "target_portname": "time1"
             },
             "maxDisplace": {
-                "target": "max_displace",
-                "porttype": "float"
+                "target_portname": "max_displace"
             }
         }
     },
     "aiMultiply": {
-        "target": "multiply",
-        "port": {
+        "target_category": "multiply",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "aiNegate": {
-        "target": "negate",
-        "port": {
+        "target_category": "negate",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiNoise": {
-        "target": "noise",
-        "port": {
+        "target_category": "noise",
+        "target_port": {
             "octaves": {
-                "target": "octaves",
-                "porttype": "integer"
+                "target_portname": "octaves"
             },
             "distortion": {
-                "target": "distortion",
-                "porttype": "float"
+                "target_portname": "distortion"
             },
             "lacunarity": {
-                "target": "lacunarity",
-                "porttype": "float"
+                "target_portname": "lacunarity"
             },
             "amplitude": {
-                "target": "amplitude",
-                "porttype": "float"
+                "target_portname": "amplitude"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "vector3"
+                "target_portname": "scale"
             },
             "offset": {
-                "target": "offset",
-                "porttype": "vector3"
+                "target_portname": "offset"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "P": {
-                "target": "P",
-                "porttype": "vector3"
+                "target_portname": "P"
             },
             "time": {
-                "target": "time",
-                "porttype": "float"
+                "target_portname": "time"
             },
             "color1": {
-                "target": "color1",
-                "porttype": "color3"
+                "target_portname": "color1"
             },
             "color2": {
-                "target": "color2",
-                "porttype": "color3"
+                "target_portname": "color2"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             }
         }
     },
     "aiNormalMap": {
-        "target": "normal_map",
-        "port": {
+        "target_category": "normal_map",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "vector3"
+                "target_portname": "input"
             },
             "tangent": {
-                "target": "tangent",
-                "porttype": "vector3"
+                "target_portname": "tangent"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "order": {
-                "target": "order",
-                "porttype": "string"
+                "target_portname": "order"
             },
             "invertX": {
-                "target": "invert_x",
-                "porttype": "boolean"
+                "target_portname": "invert_x"
             },
             "invertY": {
-                "target": "invert_y",
-                "porttype": "boolean"
+                "target_portname": "invert_y"
             },
             "invertZ": {
-                "target": "invert_z",
-                "porttype": "boolean"
+                "target_portname": "invert_z"
             },
             "colorToSigned": {
-                "target": "color_to_signed",
-                "porttype": "boolean"
+                "target_portname": "color_to_signed"
             },
             "tangentSpace": {
-                "target": "tangent_space",
-                "porttype": "boolean"
+                "target_portname": "tangent_space"
             },
             "strength": {
-                "target": "strength",
-                "porttype": "float"
+                "target_portname": "strength"
             }
         }
     },
     "aiNormalize": {
-        "target": "normalize",
-        "port": {
+        "target_category": "normalize",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "vector3"
+                "target_portname": "input"
             }
         }
     },
     "aiPassthrough": {
-        "target": "passthrough",
-        "port": {
+        "target_category": "passthrough",
+        "target_port": {
             "passthrough": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "eval1": {
-                "target": "eval1",
-                "porttype": "closure"
+                "target_portname": "eval1"
             },
             "eval2": {
-                "target": "eval2",
-                "porttype": "closure"
+                "target_portname": "eval2"
             },
             "eval3": {
-                "target": "eval3",
-                "porttype": "closure"
+                "target_portname": "eval3"
             },
             "eval4": {
-                "target": "eval4",
-                "porttype": "closure"
+                "target_portname": "eval4"
             },
             "eval5": {
-                "target": "eval5",
-                "porttype": "closure"
+                "target_portname": "eval5"
             },
             "eval6": {
-                "target": "eval6",
-                "porttype": "closure"
+                "target_portname": "eval6"
             },
             "eval7": {
-                "target": "eval7",
-                "porttype": "closure"
+                "target_portname": "eval7"
             },
             "eval8": {
-                "target": "eval8",
-                "porttype": "closure"
+                "target_portname": "eval8"
             },
             "eval9": {
-                "target": "eval9",
-                "porttype": "closure"
+                "target_portname": "eval9"
             },
             "eval10": {
-                "target": "eval10",
-                "porttype": "closure"
+                "target_portname": "eval10"
             },
             "eval11": {
-                "target": "eval11",
-                "porttype": "closure"
+                "target_portname": "eval11"
             },
             "eval12": {
-                "target": "eval12",
-                "porttype": "closure"
+                "target_portname": "eval12"
             },
             "eval13": {
-                "target": "eval13",
-                "porttype": "closure"
+                "target_portname": "eval13"
             },
             "eval14": {
-                "target": "eval14",
-                "porttype": "closure"
+                "target_portname": "eval14"
             },
             "eval15": {
-                "target": "eval15",
-                "porttype": "closure"
+                "target_portname": "eval15"
             },
             "eval16": {
-                "target": "eval16",
-                "porttype": "closure"
+                "target_portname": "eval16"
             },
             "eval17": {
-                "target": "eval17",
-                "porttype": "closure"
+                "target_portname": "eval17"
             },
             "eval18": {
-                "target": "eval18",
-                "porttype": "closure"
+                "target_portname": "eval18"
             },
             "eval19": {
-                "target": "eval19",
-                "porttype": "closure"
+                "target_portname": "eval19"
             },
             "eval20": {
-                "target": "eval20",
-                "porttype": "closure"
+                "target_portname": "eval20"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiPhysicalSky": {
-        "target": "physical_sky",
-        "port": {
+        "target_category": "physical_sky",
+        "target_port": {
             "turbidity": {
-                "target": "turbidity",
-                "porttype": "float"
+                "target_portname": "turbidity"
             },
             "groundAlbedo": {
-                "target": "ground_albedo",
-                "porttype": "color3"
+                "target_portname": "ground_albedo"
             },
             "useDegrees": {
-                "target": "use_degrees",
-                "porttype": "boolean"
+                "target_portname": "use_degrees"
             },
             "elevation": {
-                "target": "elevation",
-                "porttype": "float"
+                "target_portname": "elevation"
             },
             "azimuth": {
-                "target": "azimuth",
-                "porttype": "float"
+                "target_portname": "azimuth"
             },
             "sunDirection": {
-                "target": "sun_direction",
-                "porttype": "vector3"
+                "target_portname": "sun_direction"
             },
             "enableSun": {
-                "target": "enable_sun",
-                "porttype": "boolean"
+                "target_portname": "enable_sun"
             },
             "sunSize": {
-                "target": "sun_size",
-                "porttype": "float"
+                "target_portname": "sun_size"
             },
             "sunTint": {
-                "target": "sun_tint",
-                "porttype": "color3"
+                "target_portname": "sun_tint"
             },
             "skyTint": {
-                "target": "sky_tint",
-                "porttype": "color3"
+                "target_portname": "sky_tint"
             },
             "intensity": {
-                "target": "intensity",
-                "porttype": "float"
+                "target_portname": "intensity"
             },
             "X": {
-                "target": "X",
-                "porttype": "vector3"
+                "target_portname": "X"
             },
             "Y": {
-                "target": "Y",
-                "porttype": "vector3"
+                "target_portname": "Y"
             },
             "Z": {
-                "target": "Z",
-                "porttype": "vector3"
+                "target_portname": "Z"
             }
         }
     },
     "aiPow": {
-        "target": "pow",
-        "port": {
+        "target_category": "pow",
+        "target_port": {
             "base": {
-                "target": "base",
-                "porttype": "color3"
+                "target_portname": "base"
             },
             "exponent": {
-                "target": "exponent",
-                "porttype": "color3"
+                "target_portname": "exponent"
             }
         }
     },
     "aiRampFloat": {
-        "target": "ramp_float",
-        "port": {
+        "target_category": "ramp_float",
+        "target_port": {
             "type": {
-                "target": "type",
-                "porttype": "string"
+                "target_portname": "type"
             },
             "input": {
-                "target": "input",
-                "porttype": "float"
+                "target_portname": "input"
             },
             "ramp.ramp_Position": {
-                "target": "position",
-                "porttype": "floatarray"
+                "target_portname": "position"
             },
             "ramp.ramp_FloatValue": {
-                "target": "value",
-                "porttype": "floatarray"
+                "target_portname": "value"
             },
             "ramp.ramp_Interp": {
-                "target": "interpolation",
-                "porttype": "integerarray"
+                "target_portname": "interpolation"
             },
             "uvset": {
-                "target": "uvset",
-                "porttype": "string"
+                "target_portname": "uvset"
             },
             "useImplicitUvs": {
-                "target": "use_implicit_uvs",
-                "porttype": "string"
+                "target_portname": "use_implicit_uvs"
             },
             "wrapUvs": {
-                "target": "wrap_uvs",
-                "porttype": "boolean"
+                "target_portname": "wrap_uvs"
             }
         }
     },
     "aiRampRgb": {
-        "target": "ramp_rgb",
-        "port": {
+        "target_category": "ramp_rgb",
+        "target_port": {
             "type": {
-                "target": "type",
-                "porttype": "string"
+                "target_portname": "type"
             },
             "input": {
-                "target": "input",
-                "porttype": "float"
+                "target_portname": "input"
             },
             "ramp.ramp_Position": {
-                "target": "position",
-                "porttype": "floatarray"
+                "target_portname": "position"
             },
             "ramp.ramp_Color": {
-                "target": "color",
-                "porttype": "floatarray"
+                "target_portname": "color"
             },
             "ramp.ramp_Interp": {
-                "target": "interpolation",
-                "porttype": "integerarray"
+                "target_portname": "interpolation"
             },
             "uvset": {
-                "target": "uvset",
-                "porttype": "string"
+                "target_portname": "uvset"
             },
             "useImplicitUvs": {
-                "target": "use_implicit_uvs",
-                "porttype": "string"
+                "target_portname": "use_implicit_uvs"
             },
             "wrapUvs": {
-                "target": "wrap_uvs",
-                "porttype": "boolean"
+                "target_portname": "wrap_uvs"
             }
         }
     },
     "aiRandom": {
-        "target": "random",
-        "port": {
+        "target_category": "random",
+        "target_port": {
             "inputType": {
-                "target": "input_type",
-                "porttype": "string"
+                "target_portname": "input_type"
             },
             "inputInt": {
-                "target": "input_int",
-                "porttype": "integer"
+                "target_portname": "input_int"
             },
             "inputFloat": {
-                "target": "input_float",
-                "porttype": "float"
+                "target_portname": "input_float"
             },
             "inputColor": {
-                "target": "input_color",
-                "porttype": "color3"
+                "target_portname": "input_color"
             },
             "seed": {
-                "target": "seed",
-                "porttype": "integer"
+                "target_portname": "seed"
             },
             "grayscale": {
-                "target": "grayscale",
-                "porttype": "boolean"
+                "target_portname": "grayscale"
             }
         }
     },
     "aiRange": {
-        "target": "range",
-        "port": {
+        "target_category": "range",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "inputMin": {
-                "target": "input_min",
-                "porttype": "float"
+                "target_portname": "input_min"
             },
             "inputMax": {
-                "target": "input_max",
-                "porttype": "float"
+                "target_portname": "input_max"
             },
             "outputMin": {
-                "target": "output_min",
-                "porttype": "float"
+                "target_portname": "output_min"
             },
             "outputMax": {
-                "target": "output_max",
-                "porttype": "float"
+                "target_portname": "output_max"
             },
             "smoothstep": {
-                "target": "smoothstep",
-                "porttype": "boolean"
+                "target_portname": "smoothstep"
             },
             "contrast": {
-                "target": "contrast",
-                "porttype": "float"
+                "target_portname": "contrast"
             },
             "contrastPivot": {
-                "target": "contrast_pivot",
-                "porttype": "float"
+                "target_portname": "contrast_pivot"
             },
             "bias": {
-                "target": "bias",
-                "porttype": "float"
+                "target_portname": "bias"
             },
             "gain": {
-                "target": "gain",
-                "porttype": "float"
+                "target_portname": "gain"
             }
         }
     },
     "aiRaySwitch": {
-        "target": "ray_switch_shader",
-        "port": {
+        "target_category": "ray_switch_shader",
+        "target_port": {
             "camera": {
-                "target": "camera",
-                "porttype": "closure"
+                "target_portname": "camera"
             },
             "shadow": {
-                "target": "shadow",
-                "porttype": "closure"
+                "target_portname": "shadow"
             },
             "diffuseReflection": {
-                "target": "diffuse_reflection",
-                "porttype": "closure"
+                "target_portname": "diffuse_reflection"
             },
             "diffuseTransmission": {
-                "target": "diffuse_transmission",
-                "porttype": "closure"
+                "target_portname": "diffuse_transmission"
             },
             "specularReflection": {
-                "target": "specular_reflection",
-                "porttype": "closure"
+                "target_portname": "specular_reflection"
             },
             "specularTransmission": {
-                "target": "specular_transmission",
-                "porttype": "closure"
+                "target_portname": "specular_transmission"
             },
             "volume": {
-                "target": "volume",
-                "porttype": "closure"
+                "target_portname": "volume"
             }
         }
     },
     "aiReciprocal": {
-        "target": "reciprocal",
-        "port": {
+        "target_category": "reciprocal",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiColorToFloat": {
-        "target": "rgb_to_float",
-        "port": {
+        "target_category": "rgb_to_float",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             }
         }
     },
     "aiRgbaToFloat": {
-        "target": "rgba_to_float",
-        "port": {
+        "target_category": "rgba_to_float",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color4"
+                "target_portname": "input"
             },
             "mode": {
-                "target": "mode",
-                "porttype": "string"
+                "target_portname": "mode"
             }
         }
     },
     "aiRoundCorners": {
-        "target": "round_corners",
-        "port": {
+        "target_category": "round_corners",
+        "target_port": {
             "samples": {
-                "target": "samples",
-                "porttype": "integer"
+                "target_portname": "samples"
             },
             "radius": {
-                "target": "radius",
-                "porttype": "float"
+                "target_portname": "radius"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "traceSet": {
-                "target": "trace_set",
-                "porttype": "string"
+                "target_portname": "trace_set"
             },
             "inclusive": {
-                "target": "inclusive",
-                "porttype": "boolean"
+                "target_portname": "inclusive"
             },
             "selfOnly": {
-                "target": "self_only",
-                "porttype": "boolean"
+                "target_portname": "self_only"
             },
             "objectSpace": {
-                "target": "object_space",
-                "porttype": "boolean"
+                "target_portname": "object_space"
             }
         }
     },
     "aiShadowMatte": {
-        "target": "shadow_matte",
-        "port": {
+        "target_category": "shadow_matte",
+        "target_port": {
             "background": {
-                "target": "background",
-                "porttype": "string"
+                "target_portname": "background"
             },
             "shadowColor": {
-                "target": "shadow_color",
-                "porttype": "color3"
+                "target_portname": "shadow_color"
             },
             "shadowOpacity": {
-                "target": "shadow_opacity",
-                "porttype": "float"
+                "target_portname": "shadow_opacity"
             },
             "backgroundColor": {
-                "target": "background_color",
-                "porttype": "color3"
+                "target_portname": "background_color"
             },
             "diffuseColor": {
-                "target": "diffuse_color",
-                "porttype": "color3"
+                "target_portname": "diffuse_color"
             },
             "diffuseUseBackground": {
-                "target": "diffuse_use_background",
-                "porttype": "boolean"
+                "target_portname": "diffuse_use_background"
             },
             "diffuseIntensity": {
-                "target": "diffuse_intensity",
-                "porttype": "float"
+                "target_portname": "diffuse_intensity"
             },
             "backlighting": {
-                "target": "backlighting",
-                "porttype": "float"
+                "target_portname": "backlighting"
             },
             "indirectDiffuseEnable": {
-                "target": "indirect_diffuse_enable",
-                "porttype": "boolean"
+                "target_portname": "indirect_diffuse_enable"
             },
             "indirectSpecularEnable": {
-                "target": "indirect_specular_enable",
-                "porttype": "boolean"
+                "target_portname": "indirect_specular_enable"
             },
             "specularColor": {
-                "target": "specular_color",
-                "porttype": "color3"
+                "target_portname": "specular_color"
             },
             "specularIntensity": {
-                "target": "specular_intensity",
-                "porttype": "float"
+                "target_portname": "specular_intensity"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularIOR": {
-                "target": "specular_IOR",
-                "porttype": "float"
+                "target_portname": "specular_IOR"
             },
             "alphaMask": {
-                "target": "alpha_mask",
-                "porttype": "boolean"
+                "target_portname": "alpha_mask"
             },
             "aovGroup": {
-                "target": "aov_group",
-                "porttype": "string"
+                "target_portname": "aov_group"
             },
             "aovShadow": {
-                "target": "aov_shadow",
-                "porttype": "string"
+                "target_portname": "aov_shadow"
             },
             "aovShadowDiff": {
-                "target": "aov_shadow_diff",
-                "porttype": "string"
+                "target_portname": "aov_shadow_diff"
             },
             "aovShadowMask": {
-                "target": "aov_shadow_mask",
-                "porttype": "string"
+                "target_portname": "aov_shadow_mask"
             }
         }
     },
     "aiShuffle": {
-        "target": "shuffle",
-        "port": {
+        "target_category": "shuffle",
+        "target_port": {
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             },
             "alpha": {
-                "target": "alpha",
-                "porttype": "float"
+                "target_portname": "alpha"
             },
             "channelR": {
-                "target": "channel_r",
-                "porttype": "string"
+                "target_portname": "channel_r"
             },
             "channelG": {
-                "target": "channel_g",
-                "porttype": "string"
+                "target_portname": "channel_g"
             },
             "channelB": {
-                "target": "channel_b",
-                "porttype": "string"
+                "target_portname": "channel_b"
             },
             "channelA": {
-                "target": "channel_a",
-                "porttype": "string"
+                "target_portname": "channel_a"
             },
             "negateR": {
-                "target": "negate_r",
-                "porttype": "boolean"
+                "target_portname": "negate_r"
             },
             "negateG": {
-                "target": "negate_g",
-                "porttype": "boolean"
+                "target_portname": "negate_g"
             },
             "negateB": {
-                "target": "negate_b",
-                "porttype": "boolean"
+                "target_portname": "negate_b"
             },
             "negateA": {
-                "target": "negate_a",
-                "porttype": "boolean"
+                "target_portname": "negate_a"
             }
         }
     },
     "aiSign": {
-        "target": "sign",
-        "port": {
-            "port": {
-                "target": "input",
-                "porttype": "color3"
+        "target_category": "sign",
+        "target_port": {
+            "target_port": {
+                "target_portname": "input"
             }
         }
     },
     "aiSkin": {
-        "target": "skin",
-        "port": {
+        "target_category": "skin",
+        "target_port": {
             "sssWeight": {
-                "target": "sss_weight",
-                "porttype": "float"
+                "target_portname": "sss_weight"
             },
             "shallowScatterColor": {
-                "target": "shallow_scatter_color",
-                "porttype": "color3"
+                "target_portname": "shallow_scatter_color"
             },
             "shallowScatterWeight": {
-                "target": "shallow_scatter_weight",
-                "porttype": "float"
+                "target_portname": "shallow_scatter_weight"
             },
             "shallowScatterRadius": {
-                "target": "shallow_scatter_radius",
-                "porttype": "float"
+                "target_portname": "shallow_scatter_radius"
             },
             "midScatterColor": {
-                "target": "mid_scatter_color",
-                "porttype": "color3"
+                "target_portname": "mid_scatter_color"
             },
             "midScatterWeight": {
-                "target": "mid_scatter_weight",
-                "porttype": "float"
+                "target_portname": "mid_scatter_weight"
             },
             "midScatterRadius": {
-                "target": "mid_scatter_radius",
-                "porttype": "float"
+                "target_portname": "mid_scatter_radius"
             },
             "deepScatterColor": {
-                "target": "deep_scatter_color",
-                "porttype": "color3"
+                "target_portname": "deep_scatter_color"
             },
             "deepScatterWeight": {
-                "target": "deep_scatter_weight",
-                "porttype": "float"
+                "target_portname": "deep_scatter_weight"
             },
             "deepScatterRadius": {
-                "target": "deep_scatter_radius",
-                "porttype": "float"
+                "target_portname": "deep_scatter_radius"
             },
             "specularColor": {
-                "target": "specular_color",
-                "porttype": "color3"
+                "target_portname": "specular_color"
             },
             "specularWeight": {
-                "target": "specular_weight",
-                "porttype": "float"
+                "target_portname": "specular_weight"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularIor": {
-                "target": "specular_ior",
-                "porttype": "float"
+                "target_portname": "specular_ior"
             },
             "sheenColor": {
-                "target": "sheen_color",
-                "porttype": "color3"
+                "target_portname": "sheen_color"
             },
             "sheenWeight": {
-                "target": "sheen_weight",
-                "porttype": "float"
+                "target_portname": "sheen_weight"
             },
             "sheenRoughness": {
-                "target": "sheen_roughness",
-                "porttype": "float"
+                "target_portname": "sheen_roughness"
             },
             "sheenIor": {
-                "target": "sheen_ior",
-                "porttype": "float"
+                "target_portname": "sheen_ior"
             },
             "globalSssRadiusMultiplier": {
-                "target": "global_sss_radius_multiplier",
-                "porttype": "float"
+                "target_portname": "global_sss_radius_multiplier"
             },
             "specularInSecondaryRays": {
-                "target": "specular_in_secondary_rays",
-                "porttype": "boolean"
+                "target_portname": "specular_in_secondary_rays"
             },
             "fresnelAffectSss": {
-                "target": "fresnel_affect_sss",
-                "porttype": "boolean"
+                "target_portname": "fresnel_affect_sss"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "float"
+                "target_portname": "opacity"
             },
             "opacityColor": {
-                "target": "opacity_color",
-                "porttype": "color3"
+                "target_portname": "opacity_color"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiSky": {
-        "target": "sky",
-        "port": {
+        "target_category": "sky",
+        "target_port": {
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             },
             "intensity": {
-                "target": "intensity",
-                "porttype": "float"
+                "target_portname": "intensity"
             },
             "visibility": {
-                "target": "visibility",
-                "porttype": "integer"
+                "target_portname": "visibility"
             },
             "format": {
-                "target": "format",
-                "porttype": "string"
+                "target_portname": "format"
             }
         }
     },
     "aiSpaceTransform": {
-        "target": "space_transform",
-        "port": {
+        "target_category": "space_transform",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "vector3"
+                "target_portname": "input"
             },
             "type": {
-                "target": "type",
-                "porttype": "string"
+                "target_portname": "type"
             },
             "from": {
-                "target": "from",
-                "porttype": "string"
+                "target_portname": "from"
             },
             "to": {
-                "target": "to",
-                "porttype": "string"
+                "target_portname": "to"
             },
             "tangent": {
-                "target": "tangent",
-                "porttype": "vector3"
+                "target_portname": "tangent"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "normalize": {
-                "target": "normalize",
-                "porttype": "boolean"
+                "target_portname": "normalize"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "float"
+                "target_portname": "scale"
             }
         }
     },
     "aiSqrt": {
-        "target": "sqrt",
-        "port": {
+        "target_category": "sqrt",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             }
         }
     },
     "aiStandard": {
-        "target": "standard",
-        "port": {
+        "target_category": "standard",
+        "target_port": {
             "Kd": {
-                "target": "Kd",
-                "porttype": "float"
+                "target_portname": "Kd"
             },
             "color": {
-                "target": "Kd_color",
-                "porttype": "color3"
+                "target_portname": "Kd_color"
             },
             "diffuseRoughness": {
-                "target": "diffuse_roughness",
-                "porttype": "float"
+                "target_portname": "diffuse_roughness"
             },
             "Ks": {
-                "target": "Ks",
-                "porttype": "float"
+                "target_portname": "Ks"
             },
             "KsColor": {
-                "target": "Ks_color",
-                "porttype": "color3"
+                "target_portname": "Ks_color"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularAnisotropy": {
-                "target": "specular_anisotropy",
-                "porttype": "float"
+                "target_portname": "specular_anisotropy"
             },
             "specularRotation": {
-                "target": "specular_rotation",
-                "porttype": "float"
+                "target_portname": "specular_rotation"
             },
             "specularDistribution": {
-                "target": "specular_distribution",
-                "porttype": "string"
+                "target_portname": "specular_distribution"
             },
             "Kr": {
-                "target": "Kr",
-                "porttype": "float"
+                "target_portname": "Kr"
             },
             "KrColor": {
-                "target": "Kr_color",
-                "porttype": "color3"
+                "target_portname": "Kr_color"
             },
             "reflectionExitColor": {
-                "target": "reflection_exit_color",
-                "porttype": "color3"
+                "target_portname": "reflection_exit_color"
             },
             "reflectionExitUseEnvironment": {
-                "target": "reflection_exit_use_environment",
-                "porttype": "boolean"
+                "target_portname": "reflection_exit_use_environment"
             },
             "Kt": {
-                "target": "Kt",
-                "porttype": "float"
+                "target_portname": "Kt"
             },
             "KtColor": {
-                "target": "Kt_color",
-                "porttype": "color3"
+                "target_portname": "Kt_color"
             },
             "transmittance": {
-                "target": "transmittance",
-                "porttype": "color3"
+                "target_portname": "transmittance"
             },
             "refractionRoughness": {
-                "target": "refraction_roughness",
-                "porttype": "float"
+                "target_portname": "refraction_roughness"
             },
             "refractionExitColor": {
-                "target": "refraction_exit_color",
-                "porttype": "color3"
+                "target_portname": "refraction_exit_color"
             },
             "refractionExitUseEnvironment": {
-                "target": "refraction_exit_use_environment",
-                "porttype": "boolean"
+                "target_portname": "refraction_exit_use_environment"
             },
             "IOR": {
-                "target": "IOR",
-                "porttype": "float"
+                "target_portname": "IOR"
             },
             "dispersionAbbe": {
-                "target": "dispersion_abbe",
-                "porttype": "float"
+                "target_portname": "dispersion_abbe"
             },
             "Kb": {
-                "target": "Kb",
-                "porttype": "float"
+                "target_portname": "Kb"
             },
             "Fresnel": {
-                "target": "Fresnel",
-                "porttype": "boolean"
+                "target_portname": "Fresnel"
             },
             "Krn": {
-                "target": "Krn",
-                "porttype": "float"
+                "target_portname": "Krn"
             },
             "specularFresnel": {
-                "target": "specular_Fresnel",
-                "porttype": "boolean"
+                "target_portname": "specular_Fresnel"
             },
             "Ksn": {
-                "target": "Ksn",
-                "porttype": "float"
+                "target_portname": "Ksn"
             },
             "FresnelUseIOR": {
-                "target": "Fresnel_use_IOR",
-                "porttype": "boolean"
+                "target_portname": "Fresnel_use_IOR"
             },
             "FresnelAffectDiff": {
-                "target": "Fresnel_affect_diff",
-                "porttype": "boolean"
+                "target_portname": "Fresnel_affect_diff"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "float"
+                "target_portname": "emission"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "directSpecular": {
-                "target": "direct_specular",
-                "porttype": "float"
+                "target_portname": "direct_specular"
             },
             "indirectSpecular": {
-                "target": "indirect_specular",
-                "porttype": "float"
+                "target_portname": "indirect_specular"
             },
             "directDiffuse": {
-                "target": "direct_diffuse",
-                "porttype": "float"
+                "target_portname": "direct_diffuse"
             },
             "indirectDiffuse": {
-                "target": "indirect_diffuse",
-                "porttype": "float"
+                "target_portname": "indirect_diffuse"
             },
             "enableGlossyCaustics": {
-                "target": "enable_glossy_caustics",
-                "porttype": "boolean"
+                "target_portname": "enable_glossy_caustics"
             },
             "enableReflectiveCaustics": {
-                "target": "enable_reflective_caustics",
-                "porttype": "boolean"
+                "target_portname": "enable_reflective_caustics"
             },
             "enableRefractiveCaustics": {
-                "target": "enable_refractive_caustics",
-                "porttype": "boolean"
+                "target_portname": "enable_refractive_caustics"
             },
             "enableInternalReflections": {
-                "target": "enable_internal_reflections",
-                "porttype": "boolean"
+                "target_portname": "enable_internal_reflections"
             },
             "Ksss": {
-                "target": "Ksss",
-                "porttype": "float"
+                "target_portname": "Ksss"
             },
             "KsssColor": {
-                "target": "Ksss_color",
-                "porttype": "color3"
+                "target_portname": "Ksss_color"
             },
             "sssRadius": {
-                "target": "sss_radius",
-                "porttype": "color3"
+                "target_portname": "sss_radius"
             },
             "bounceFactor": {
-                "target": "bounce_factor",
-                "porttype": "float"
+                "target_portname": "bounce_factor"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiStandardHair": {
-        "target": "standard_hair",
-        "port": {
+        "target_category": "standard_hair",
+        "target_port": {
             "base": {
-                "target": "base",
-                "porttype": "float"
+                "target_portname": "base"
             },
             "baseColor": {
-                "target": "base_color",
-                "porttype": "color3"
+                "target_portname": "base_color"
             },
             "melanin": {
-                "target": "melanin",
-                "porttype": "float"
+                "target_portname": "melanin"
             },
             "melaninRedness": {
-                "target": "melanin_redness",
-                "porttype": "float"
+                "target_portname": "melanin_redness"
             },
             "melaninRandomize": {
-                "target": "melanin_randomize",
-                "porttype": "float"
+                "target_portname": "melanin_randomize"
             },
             "roughness": {
-                "target": "roughness",
-                "porttype": "float"
+                "target_portname": "roughness"
             },
             "roughnessAzimuthal": {
-                "target": "roughness_azimuthal",
-                "porttype": "float"
+                "target_portname": "roughness_azimuthal"
             },
             "roughnessAnisotropic": {
-                "target": "roughness_anisotropic",
-                "porttype": "boolean"
+                "target_portname": "roughness_anisotropic"
             },
             "ior": {
-                "target": "ior",
-                "porttype": "float"
+                "target_portname": "ior"
             },
             "shift": {
-                "target": "shift",
-                "porttype": "float"
+                "target_portname": "shift"
             },
             "specularTint": {
-                "target": "specular_tint",
-                "porttype": "color3"
+                "target_portname": "specular_tint"
             },
             "specular2Tint": {
-                "target": "specular2_tint",
-                "porttype": "color3"
+                "target_portname": "specular2_tint"
             },
             "transmissionTint": {
-                "target": "transmission_tint",
-                "porttype": "color3"
+                "target_portname": "transmission_tint"
             },
             "diffuse": {
-                "target": "diffuse",
-                "porttype": "float"
+                "target_portname": "diffuse"
             },
             "diffuseColor": {
-                "target": "diffuse_color",
-                "porttype": "color3"
+                "target_portname": "diffuse_color"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "float"
+                "target_portname": "emission"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             },
             "indirectDiffuse": {
-                "target": "indirect_diffuse",
-                "porttype": "float"
+                "target_portname": "indirect_diffuse"
             },
             "indirectSpecular": {
-                "target": "indirect_specular",
-                "porttype": "float"
+                "target_portname": "indirect_specular"
             },
             "extraDepth": {
-                "target": "extra_depth",
-                "porttype": "integer"
+                "target_portname": "extra_depth"
             },
             "extraSamples": {
-                "target": "extra_samples",
-                "porttype": "integer"
+                "target_portname": "extra_samples"
             },
             "aovId1": {
-                "target": "aov_id1",
-                "porttype": "string"
+                "target_portname": "aov_id1"
             },
             "id1": {
-                "target": "id1",
-                "porttype": "color3"
+                "target_portname": "id1"
             },
             "aovId2": {
-                "target": "aov_id2",
-                "porttype": "string"
+                "target_portname": "aov_id2"
             },
             "id2": {
-                "target": "id2",
-                "porttype": "color3"
+                "target_portname": "id2"
             },
             "aovId3": {
-                "target": "aov_id3",
-                "porttype": "string"
+                "target_portname": "aov_id3"
             },
             "id3": {
-                "target": "id3",
-                "porttype": "color3"
+                "target_portname": "id3"
             },
             "aovId4": {
-                "target": "aov_id4",
-                "porttype": "string"
+                "target_portname": "aov_id4"
             },
             "id4": {
-                "target": "id4",
-                "porttype": "color3"
+                "target_portname": "id4"
             },
             "aovId5": {
-                "target": "aov_id5",
-                "porttype": "string"
+                "target_portname": "aov_id5"
             },
             "id5": {
-                "target": "id5",
-                "porttype": "color3"
+                "target_portname": "id5"
             },
             "aovId6": {
-                "target": "aov_id6",
-                "porttype": "string"
+                "target_portname": "aov_id6"
             },
             "id6": {
-                "target": "id6",
-                "porttype": "color3"
+                "target_portname": "id6"
             },
             "aovId7": {
-                "target": "aov_id7",
-                "porttype": "string"
+                "target_portname": "aov_id7"
             },
             "id7": {
-                "target": "id7",
-                "porttype": "color3"
+                "target_portname": "id7"
             },
             "aovId8": {
-                "target": "aov_id8",
-                "porttype": "string"
+                "target_portname": "aov_id8"
             },
             "id8": {
-                "target": "id8",
-                "porttype": "color3"
+                "target_portname": "id8"
             }
         }
     },
     "aiStandardSurface": {
-        "target": "standard_surface",
-        "port": {
+        "target_category": "standard_surface",
+        "target_port": {
             "base": {
-                "target": "base",
-                "porttype": "float"
+                "target_portname": "base"
             },
             "baseColor": {
-                "target": "base_color",
-                "porttype": "color3"
+                "target_portname": "base_color"
             },
             "diffuseRoughness": {
-                "target": "diffuse_roughness",
-                "porttype": "float"
+                "target_portname": "diffuse_roughness"
             },
             "specular": {
-                "target": "specular",
-                "porttype": "float"
+                "target_portname": "specular"
             },
             "specularColor": {
-                "target": "specular_color",
-                "porttype": "color3"
+                "target_portname": "specular_color"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularIOR": {
-                "target": "specular_IOR",
-                "porttype": "float"
+                "target_portname": "specular_IOR"
             },
             "specularAnisotropy": {
-                "target": "specular_anisotropy",
-                "porttype": "float"
+                "target_portname": "specular_anisotropy"
             },
             "specularRotation": {
-                "target": "specular_rotation",
-                "porttype": "float"
+                "target_portname": "specular_rotation"
             },
             "metalness": {
-                "target": "metalness",
-                "porttype": "float"
+                "target_portname": "metalness"
             },
             "transmission": {
-                "target": "transmission",
-                "porttype": "float"
+                "target_portname": "transmission"
             },
             "transmissionColor": {
-                "target": "transmission_color",
-                "porttype": "color3"
+                "target_portname": "transmission_color"
             },
             "transmissionDepth": {
-                "target": "transmission_depth",
-                "porttype": "float"
+                "target_portname": "transmission_depth"
             },
             "transmissionScatter": {
-                "target": "transmission_scatter",
-                "porttype": "color3"
+                "target_portname": "transmission_scatter"
             },
             "transmissionScatterAnisotropy": {
-                "target": "transmission_scatter_anisotropy",
-                "porttype": "float"
+                "target_portname": "transmission_scatter_anisotropy"
             },
             "transmissionDispersion": {
-                "target": "transmission_dispersion",
-                "porttype": "float"
+                "target_portname": "transmission_dispersion"
             },
             "transmissionExtraRoughness": {
-                "target": "transmission_extra_roughness",
-                "porttype": "float"
+                "target_portname": "transmission_extra_roughness"
             },
             "transmitAovs": {
-                "target": "transmit_aovs",
-                "porttype": "boolean"
+                "target_portname": "transmit_aovs"
             },
             "subsurface": {
-                "target": "subsurface",
-                "porttype": "float"
+                "target_portname": "subsurface"
             },
             "subsurfaceColor": {
-                "target": "subsurface_color",
-                "porttype": "color3"
+                "target_portname": "subsurface_color"
             },
             "subsurfaceRadius": {
-                "target": "subsurface_radius",
-                "porttype": "color3"
+                "target_portname": "subsurface_radius"
             },
             "subsurfaceScale": {
-                "target": "subsurface_scale",
-                "porttype": "float"
+                "target_portname": "subsurface_scale"
             },
             "subsurfaceAnisotropy": {
-                "target": "subsurface_anisotropy",
-                "porttype": "float"
+                "target_portname": "subsurface_anisotropy"
             },
             "subsurfaceType": {
-                "target": "subsurface_type",
-                "porttype": "string"
+                "target_portname": "subsurface_type"
             },
             "sheen": {
-                "target": "sheen",
-                "porttype": "float"
+                "target_portname": "sheen"
             },
             "sheenColor": {
-                "target": "sheen_color",
-                "porttype": "color3"
+                "target_portname": "sheen_color"
             },
             "sheenRoughness": {
-                "target": "sheen_roughness",
-                "porttype": "float"
+                "target_portname": "sheen_roughness"
             },
             "thinWalled": {
-                "target": "thin_walled",
-                "porttype": "boolean"
+                "target_portname": "thin_walled"
             },
             "tangent": {
-                "target": "tangent",
-                "porttype": "vector3"
+                "target_portname": "tangent"
             },
             "coat": {
-                "target": "coat",
-                "porttype": "float"
+                "target_portname": "coat"
             },
             "coatColor": {
-                "target": "coat_color",
-                "porttype": "color3"
+                "target_portname": "coat_color"
             },
             "coatRoughness": {
-                "target": "coat_roughness",
-                "porttype": "float"
+                "target_portname": "coat_roughness"
             },
             "coatIOR": {
-                "target": "coat_IOR",
-                "porttype": "float"
+                "target_portname": "coat_IOR"
             },
             "coatAnisotropy": {
-                "target": "coat_anisotropy",
-                "porttype": "float"
+                "target_portname": "coat_anisotropy"
             },
             "coatRotation": {
-                "target": "coat_rotation",
-                "porttype": "float"
+                "target_portname": "coat_rotation"
             },
             "coatNormal": {
-                "target": "coat_normal",
-                "porttype": "vector3"
+                "target_portname": "coat_normal"
             },
             "thinFilmThickness": {
-                "target": "thin_film_thickness",
-                "porttype": "float"
+                "target_portname": "thin_film_thickness"
             },
             "thinFilmIOR": {
-                "target": "thin_film_IOR",
-                "porttype": "float"
+                "target_portname": "thin_film_IOR"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "float"
+                "target_portname": "emission"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "opacity": {
-                "target": "opacity",
-                "porttype": "color3"
+                "target_portname": "opacity"
             },
             "caustics": {
-                "target": "caustics",
-                "porttype": "boolean"
+                "target_portname": "caustics"
             },
             "internalReflections": {
-                "target": "internal_reflections",
-                "porttype": "boolean"
+                "target_portname": "internal_reflections"
             },
             "exitToBackground": {
-                "target": "exit_to_background",
-                "porttype": "boolean"
+                "target_portname": "exit_to_background"
             },
             "indirectDiffuse": {
-                "target": "indirect_diffuse",
-                "porttype": "float"
+                "target_portname": "indirect_diffuse"
             },
             "indirectSpecular": {
-                "target": "indirect_specular",
-                "porttype": "float"
+                "target_portname": "indirect_specular"
             },
             "aovId1": {
-                "target": "aov_id1",
-                "porttype": "string"
+                "target_portname": "aov_id1"
             },
             "id1": {
-                "target": "id1",
-                "porttype": "color3"
+                "target_portname": "id1"
             },
             "aovId2": {
-                "target": "aov_id2",
-                "porttype": "string"
+                "target_portname": "aov_id2"
             },
             "id2": {
-                "target": "id2",
-                "porttype": "color3"
+                "target_portname": "id2"
             },
             "aovId3": {
-                "target": "aov_id3",
-                "porttype": "string"
+                "target_portname": "aov_id3"
             },
             "id3": {
-                "target": "id3",
-                "porttype": "color3"
+                "target_portname": "id3"
             },
             "aovId4": {
-                "target": "aov_id4",
-                "porttype": "string"
+                "target_portname": "aov_id4"
             },
             "id4": {
-                "target": "id4",
-                "porttype": "color3"
+                "target_portname": "id4"
             },
             "aovId5": {
-                "target": "aov_id5",
-                "porttype": "string"
+                "target_portname": "aov_id5"
             },
             "id5": {
-                "target": "id5",
-                "porttype": "color3"
+                "target_portname": "id5"
             },
             "aovId6": {
-                "target": "aov_id6",
-                "porttype": "string"
+                "target_portname": "aov_id6"
             },
             "id6": {
-                "target": "id6",
-                "porttype": "color3"
+                "target_portname": "id6"
             },
             "aovId7": {
-                "target": "aov_id7",
-                "porttype": "string"
+                "target_portname": "aov_id7"
             },
             "id7": {
-                "target": "id7",
-                "porttype": "color3"
+                "target_portname": "id7"
             },
             "aovId8": {
-                "target": "aov_id8",
-                "porttype": "string"
+                "target_portname": "aov_id8"
             },
             "id8": {
-                "target": "id8",
-                "porttype": "color3"
+                "target_portname": "id8"
             }
         }
     },
     "aiStandardVolume": {
-        "target": "standard_volume",
-        "port": {
+        "target_category": "standard_volume",
+        "target_port": {
             "density": {
-                "target": "density",
-                "porttype": "float"
+                "target_portname": "density"
             },
             "densityChannel": {
-                "target": "density_channel",
-                "porttype": "string"
+                "target_portname": "density_channel"
             },
             "scatter": {
-                "target": "scatter",
-                "porttype": "float"
+                "target_portname": "scatter"
             },
             "scatterColor": {
-                "target": "scatter_color",
-                "porttype": "color3"
+                "target_portname": "scatter_color"
             },
             "scatterColorChannel": {
-                "target": "scatter_color_channel",
-                "porttype": "string"
+                "target_portname": "scatter_color_channel"
             },
             "scatterAnisotropy": {
-                "target": "scatter_anisotropy",
-                "porttype": "float"
+                "target_portname": "scatter_anisotropy"
             },
             "transparent": {
-                "target": "transparent",
-                "porttype": "color3"
+                "target_portname": "transparent"
             },
             "transparentDepth": {
-                "target": "transparent_depth",
-                "porttype": "float"
+                "target_portname": "transparent_depth"
             },
             "transparentChannel": {
-                "target": "transparent_channel",
-                "porttype": "string"
+                "target_portname": "transparent_channel"
             },
             "emissionMode": {
-                "target": "emission_mode",
-                "porttype": "string"
+                "target_portname": "emission_mode"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "float"
+                "target_portname": "emission"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "emissionChannel": {
-                "target": "emission_channel",
-                "porttype": "string"
+                "target_portname": "emission_channel"
             },
             "temperature": {
-                "target": "temperature",
-                "porttype": "float"
+                "target_portname": "temperature"
             },
             "temperatureChannel": {
-                "target": "temperature_channel",
-                "porttype": "string"
+                "target_portname": "temperature_channel"
             },
             "blackbodyKelvin": {
-                "target": "blackbody_kelvin",
-                "porttype": "float"
+                "target_portname": "blackbody_kelvin"
             },
             "blackbodyIntensity": {
-                "target": "blackbody_intensity",
-                "porttype": "float"
+                "target_portname": "blackbody_intensity"
             },
             "displacement": {
-                "target": "displacement",
-                "porttype": "vector3"
+                "target_portname": "displacement"
             },
             "interpolation": {
-                "target": "interpolation",
-                "porttype": "string"
+                "target_portname": "interpolation"
             }
         }
     },
     "aiStateFloat": {
-        "target": "state_float",
-        "port": {
+        "target_category": "state_float",
+        "target_port": {
             "variable": {
-                "target": "variable",
-                "porttype": "string"
+                "target_portname": "variable"
             }
         }
     },
     "aiStateInt": {
-        "target": "state_int",
-        "port": {
+        "target_category": "state_int",
+        "target_port": {
             "variable": {
-                "target": "variable",
-                "porttype": "string"
+                "target_portname": "variable"
             }
         }
     },
     "aiStateVector": {
-        "target": "state_vector",
-        "port": {
+        "target_category": "state_vector",
+        "target_port": {
             "variable": {
-                "target": "variable",
-                "porttype": "string"
+                "target_portname": "variable"
             }
         }
     },
     "aiSubtract": {
-        "target": "subtract",
-        "port": {
+        "target_category": "subtract",
+        "target_port": {
             "input1": {
-                "target": "input1",
-                "porttype": "color3"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "color3"
+                "target_portname": "input2"
             }
         }
     },
     "aiSwitch": {
-        "target": "switch_shader",
-        "port": {
+        "target_category": "switch_shader",
+        "target_port": {
             "index": {
-                "target": "index",
-                "porttype": "integer"
+                "target_portname": "index"
             },
             "input0": {
-                "target": "input0",
-                "porttype": "closure"
+                "target_portname": "input0"
             },
             "input1": {
-                "target": "input1",
-                "porttype": "closure"
+                "target_portname": "input1"
             },
             "input2": {
-                "target": "input2",
-                "porttype": "closure"
+                "target_portname": "input2"
             },
             "input3": {
-                "target": "input3",
-                "porttype": "closure"
+                "target_portname": "input3"
             },
             "input4": {
-                "target": "input4",
-                "porttype": "closure"
+                "target_portname": "input4"
             },
             "input5": {
-                "target": "input5",
-                "porttype": "closure"
+                "target_portname": "input5"
             },
             "input6": {
-                "target": "input6",
-                "porttype": "closure"
+                "target_portname": "input6"
             },
             "input7": {
-                "target": "input7",
-                "porttype": "closure"
+                "target_portname": "input7"
             },
             "input8": {
-                "target": "input8",
-                "porttype": "closure"
+                "target_portname": "input8"
             },
             "input9": {
-                "target": "input9",
-                "porttype": "closure"
+                "target_portname": "input9"
             },
             "input10": {
-                "target": "input10",
-                "porttype": "closure"
+                "target_portname": "input10"
             },
             "input11": {
-                "target": "input11",
-                "porttype": "closure"
+                "target_portname": "input11"
             },
             "input12": {
-                "target": "input12",
-                "porttype": "closure"
+                "target_portname": "input12"
             },
             "input13": {
-                "target": "input13",
-                "porttype": "closure"
+                "target_portname": "input13"
             },
             "input14": {
-                "target": "input14",
-                "porttype": "closure"
+                "target_portname": "input14"
             },
             "input15": {
-                "target": "input15",
-                "porttype": "closure"
+                "target_portname": "input15"
             },
             "input16": {
-                "target": "input16",
-                "porttype": "closure"
+                "target_portname": "input16"
             },
             "input17": {
-                "target": "input17",
-                "porttype": "closure"
+                "target_portname": "input17"
             },
             "input18": {
-                "target": "input18",
-                "porttype": "closure"
+                "target_portname": "input18"
             },
             "input19": {
-                "target": "input19",
-                "porttype": "closure"
+                "target_portname": "input19"
             }
         }
     },
     "aiThinFilm": {
-        "target": "thin_film",
-        "port": {
+        "target_category": "thin_film",
+        "target_port": {
             "thicknessMin": {
-                "target": "thickness_min",
-                "porttype": "float"
+                "target_portname": "thickness_min"
             },
             "thicknessMax": {
-                "target": "thickness_max",
-                "porttype": "float"
+                "target_portname": "thickness_max"
             },
             "thickness": {
-                "target": "thickness",
-                "porttype": "float"
+                "target_portname": "thickness"
             },
             "iorMedium": {
-                "target": "ior_medium",
-                "porttype": "float"
+                "target_portname": "ior_medium"
             },
             "iorFilm": {
-                "target": "ior_film",
-                "porttype": "float"
+                "target_portname": "ior_film"
             },
             "iorInternal": {
-                "target": "ior_internal",
-                "porttype": "float"
+                "target_portname": "ior_internal"
             }
         }
     },
     "aiToon": {
-        "target": "toon",
-        "port": {
+        "target_category": "toon",
+        "target_port": {
             "maskColor": {
-                "target": "mask_color",
-                "porttype": "color3"
+                "target_portname": "mask_color"
             },
             "edgeColor": {
-                "target": "edge_color",
-                "porttype": "color3"
+                "target_portname": "edge_color"
             },
             "edgeTonemap": {
-                "target": "edge_tonemap",
-                "porttype": "color3"
+                "target_portname": "edge_tonemap"
             },
             "edgeOpacity": {
-                "target": "edge_opacity",
-                "porttype": "float"
+                "target_portname": "edge_opacity"
             },
             "edgeWidthScale": {
-                "target": "edge_width_scale",
-                "porttype": "float"
+                "target_portname": "edge_width_scale"
             },
             "silhouetteColor": {
-                "target": "silhouette_color",
-                "porttype": "color3"
+                "target_portname": "silhouette_color"
             },
             "silhouetteTonemap": {
-                "target": "silhouette_tonemap",
-                "porttype": "color3"
+                "target_portname": "silhouette_tonemap"
             },
             "silhouetteOpacity": {
-                "target": "silhouette_opacity",
-                "porttype": "float"
+                "target_portname": "silhouette_opacity"
             },
             "silhouetteWidthScale": {
-                "target": "silhouette_width_scale",
-                "porttype": "float"
+                "target_portname": "silhouette_width_scale"
             },
             "priority": {
-                "target": "priority",
-                "porttype": "integer"
+                "target_portname": "priority"
             },
             "enableSilhouette": {
-                "target": "enable_silhouette",
-                "porttype": "boolean"
+                "target_portname": "enable_silhouette"
             },
             "ignoreThroughput": {
-                "target": "ignore_throughput",
-                "porttype": "boolean"
+                "target_portname": "ignore_throughput"
             },
             "enable": {
-                "target": "enable",
-                "porttype": "boolean"
+                "target_portname": "enable"
             },
             "idDifference": {
-                "target": "id_difference",
-                "porttype": "boolean"
+                "target_portname": "id_difference"
             },
             "shaderDifference": {
-                "target": "shader_difference",
-                "porttype": "boolean"
+                "target_portname": "shader_difference"
             },
             "uvThreshold": {
-                "target": "uv_threshold",
-                "porttype": "float"
+                "target_portname": "uv_threshold"
             },
             "angleThreshold": {
-                "target": "angle_threshold",
-                "porttype": "float"
+                "target_portname": "angle_threshold"
             },
             "normalType": {
-                "target": "normal_type",
-                "porttype": "string"
+                "target_portname": "normal_type"
             },
             "base": {
-                "target": "base",
-                "porttype": "float"
+                "target_portname": "base"
             },
             "baseColor": {
-                "target": "base_color",
-                "porttype": "color3"
+                "target_portname": "base_color"
             },
             "baseTonemap": {
-                "target": "base_tonemap",
-                "porttype": "color3"
+                "target_portname": "base_tonemap"
             },
             "specular": {
-                "target": "specular",
-                "porttype": "float"
+                "target_portname": "specular"
             },
             "specularColor": {
-                "target": "specular_color",
-                "porttype": "color3"
+                "target_portname": "specular_color"
             },
             "specularRoughness": {
-                "target": "specular_roughness",
-                "porttype": "float"
+                "target_portname": "specular_roughness"
             },
             "specularAnisotropy": {
-                "target": "specular_anisotropy",
-                "porttype": "float"
+                "target_portname": "specular_anisotropy"
             },
             "specularRotation": {
-                "target": "specular_rotation",
-                "porttype": "float"
+                "target_portname": "specular_rotation"
             },
             "specularTonemap": {
-                "target": "specular_tonemap",
-                "porttype": "color3"
+                "target_portname": "specular_tonemap"
             },
             "lights": {
-                "target": "lights",
-                "porttype": "string"
+                "target_portname": "lights"
             },
             "highlightColor": {
-                "target": "highlight_color",
-                "porttype": "color3"
+                "target_portname": "highlight_color"
             },
             "highlightSize": {
-                "target": "highlight_size",
-                "porttype": "float"
+                "target_portname": "highlight_size"
             },
             "aovHighlight": {
-                "target": "aov_highlight",
-                "porttype": "string"
+                "target_portname": "aov_highlight"
             },
             "rimLight": {
-                "target": "rim_light",
-                "porttype": "string"
+                "target_portname": "rim_light"
             },
             "rimLightColor": {
-                "target": "rim_light_color",
-                "porttype": "color3"
+                "target_portname": "rim_light_color"
             },
             "rimLightWidth": {
-                "target": "rim_light_width",
-                "porttype": "float"
+                "target_portname": "rim_light_width"
             },
             "aovRimLight": {
-                "target": "aov_rim_light",
-                "porttype": "string"
+                "target_portname": "aov_rim_light"
             },
             "transmission": {
-                "target": "transmission",
-                "porttype": "float"
+                "target_portname": "transmission"
             },
             "transmissionColor": {
-                "target": "transmission_color",
-                "porttype": "color3"
+                "target_portname": "transmission_color"
             },
             "transmissionRoughness": {
-                "target": "transmission_roughness",
-                "porttype": "float"
+                "target_portname": "transmission_roughness"
             },
             "transmissionAnisotropy": {
-                "target": "transmission_anisotropy",
-                "porttype": "float"
+                "target_portname": "transmission_anisotropy"
             },
             "transmissionRotation": {
-                "target": "transmission_rotation",
-                "porttype": "float"
+                "target_portname": "transmission_rotation"
             },
             "sheen": {
-                "target": "sheen",
-                "porttype": "float"
+                "target_portname": "sheen"
             },
             "sheenColor": {
-                "target": "sheen_color",
-                "porttype": "color3"
+                "target_portname": "sheen_color"
             },
             "sheenRoughness": {
-                "target": "sheen_roughness",
-                "porttype": "float"
+                "target_portname": "sheen_roughness"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "float"
+                "target_portname": "emission"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "IOR": {
-                "target": "IOR",
-                "porttype": "float"
+                "target_portname": "IOR"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "tangent": {
-                "target": "tangent",
-                "porttype": "vector3"
+                "target_portname": "tangent"
             },
             "indirectDiffuse": {
-                "target": "indirect_diffuse",
-                "porttype": "float"
+                "target_portname": "indirect_diffuse"
             },
             "indirectSpecular": {
-                "target": "indirect_specular",
-                "porttype": "float"
+                "target_portname": "indirect_specular"
             },
             "bumpMode": {
-                "target": "bump_mode",
-                "porttype": "string"
+                "target_portname": "bump_mode"
             },
             "energyConserving": {
-                "target": "energy_conserving",
-                "porttype": "boolean"
+                "target_portname": "energy_conserving"
             },
             "userId": {
-                "target": "user_id",
-                "porttype": "boolean"
+                "target_portname": "user_id"
             }
         }
     },
     "aiTraceSet": {
-        "target": "trace_set",
-        "port": {
+        "target_category": "trace_set",
+        "target_port": {
             "passthrough": {
-                "target": "passthrough",
-                "porttype": "closure"
+                "target_portname": "passthrough"
             },
             "traceSet": {
-                "target": "trace_set",
-                "porttype": "string"
+                "target_portname": "trace_set"
             },
             "inclusive": {
-                "target": "inclusive",
-                "porttype": "boolean"
+                "target_portname": "inclusive"
             }
         }
     },
     "aiTrigo": {
-        "target": "trigo",
-        "port": {
+        "target_category": "trigo",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "function": {
-                "target": "function",
-                "porttype": "string"
+                "target_portname": "function"
             },
             "units": {
-                "target": "units",
-                "porttype": "string"
+                "target_portname": "units"
             },
             "frequency": {
-                "target": "frequency",
-                "porttype": "float"
+                "target_portname": "frequency"
             },
             "phase": {
-                "target": "phase",
-                "porttype": "float"
+                "target_portname": "phase"
             }
         }
     },
     "aiTriplanar": {
-        "target": "triplanar",
-        "port": {
+        "target_category": "triplanar",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "color3"
+                "target_portname": "input"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "vector3"
+                "target_portname": "scale"
             },
             "rotate": {
-                "target": "rotate",
-                "porttype": "vector3"
+                "target_portname": "rotate"
             },
             "offset": {
-                "target": "offset",
-                "porttype": "vector3"
+                "target_portname": "offset"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "blend": {
-                "target": "blend",
-                "porttype": "float"
+                "target_portname": "blend"
             },
             "cell": {
-                "target": "cell",
-                "porttype": "boolean"
+                "target_portname": "cell"
             },
             "cellRotate": {
-                "target": "cell_rotate",
-                "porttype": "float"
+                "target_portname": "cell_rotate"
             },
             "cellBlend": {
-                "target": "cell_blend",
-                "porttype": "float"
+                "target_portname": "cell_blend"
             }
         }
     },
     "aiTwoSided": {
-        "target": "two_sided",
-        "port": {
+        "target_category": "two_sided",
+        "target_port": {
             "front": {
-                "target": "front",
-                "porttype": "closure"
+                "target_portname": "front"
             },
             "back": {
-                "target": "back",
-                "porttype": "closure"
+                "target_portname": "back"
             }
         }
     },
     "aiUserDataFloat": {
-        "target": "user_data_float",
-        "port": {
+        "target_category": "user_data_float",
+        "target_port": {
             "attribute": {
-                "target": "attribute",
-                "porttype": "string"
+                "target_portname": "attribute"
             },
             "default": {
-                "target": "default",
-                "porttype": "float"
+                "target_portname": "default"
             }
         }
     },
     "aiUserDataInt": {
-        "target": "user_data_int",
-        "port": {
+        "target_category": "user_data_int",
+        "target_port": {
             "attribute": {
-                "target": "attribute",
-                "porttype": "string"
+                "target_portname": "attribute"
             },
             "default": {
-                "target": "default",
-                "porttype": "integer"
+                "target_portname": "default"
             }
         }
     },
     "aiUserDataColor": {
-        "target": "user_data_rgb",
-        "port": {
+        "target_category": "user_data_rgb",
+        "target_port": {
             "attribute": {
-                "target": "attribute",
-                "porttype": "string"
+                "target_portname": "attribute"
             },
             "default": {
-                "target": "default",
-                "porttype": "color3"
+                "target_portname": "default"
             }
         }
     },
     "aiUserDataString": {
-        "target": "user_data_string",
-        "port": {
+        "target_category": "user_data_string",
+        "target_port": {
             "attribute": {
-                "target": "attribute",
-                "porttype": "string"
+                "target_portname": "attribute"
             },
             "default": {
-                "target": "default",
-                "porttype": "string"
+                "target_portname": "default"
             }
         }
     },
     "aiUtility": {
-        "target": "utility",
-        "port": {
+        "target_category": "utility",
+        "target_port": {
             "colorMode": {
-                "target": "color_mode",
-                "porttype": "string"
+                "target_portname": "color_mode"
             },
             "shadeMode": {
-                "target": "shade_mode",
-                "porttype": "string"
+                "target_portname": "shade_mode"
             },
             "overlayMode": {
-                "target": "overlay_mode",
-                "porttype": "string"
+                "target_portname": "overlay_mode"
             },
             "color": {
-                "target": "color",
-                "porttype": "color3"
+                "target_portname": "color"
             },
             "aoDistance": {
-                "target": "ao_distance",
-                "porttype": "float"
+                "target_portname": "ao_distance"
             },
             "roughness": {
-                "target": "roughness",
-                "porttype": "float"
+                "target_portname": "roughness"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             }
         }
     },
     "aiUvProjection": {
-        "target": "uv_projection",
-        "port": {
+        "target_category": "uv_projection",
+        "target_port": {
             "projectionColor": {
-                "target": "projection_color",
-                "porttype": "color4"
+                "target_portname": "projection_color"
             },
             "projectionType": {
-                "target": "projection_type",
-                "porttype": "string"
+                "target_portname": "projection_type"
             },
             "coordSpace": {
-                "target": "coord_space",
-                "porttype": "string"
+                "target_portname": "coord_space"
             },
             "prefName": {
-                "target": "pref_name",
-                "porttype": "string"
+                "target_portname": "pref_name"
             },
             "P": {
-                "target": "P",
-                "porttype": "vector3"
+                "target_portname": "P"
             },
             "uAngle": {
-                "target": "u_angle",
-                "porttype": "float"
+                "target_portname": "u_angle"
             },
             "vAngle": {
-                "target": "v_angle",
-                "porttype": "float"
+                "target_portname": "v_angle"
             },
             "clamp": {
-                "target": "clamp",
-                "porttype": "boolean"
+                "target_portname": "clamp"
             },
             "defaultColor": {
-                "target": "default_color",
-                "porttype": "color4"
+                "target_portname": "default_color"
             },
             "placementMatrix": {
-                "target": "matrix",
-                "porttype": "matrix44"
+                "target_portname": "matrix"
             }
         }
     },
     "aiUvTransform": {
-        "target": "uv_transform",
-        "port": {
+        "target_category": "uv_transform",
+        "target_port": {
             "passthrough": {
-                "target": "passthrough",
-                "porttype": "color4"
+                "target_portname": "passthrough"
             },
             "unit": {
-                "target": "unit",
-                "porttype": "string"
+                "target_portname": "unit"
             },
             "uvset": {
-                "target": "uvset",
-                "porttype": "string"
+                "target_portname": "uvset"
             },
             "coverage": {
-                "target": "coverage",
-                "porttype": "vector2"
+                "target_portname": "coverage"
             },
             "scaleFrame": {
-                "target": "scale_frame",
-                "porttype": "vector2"
+                "target_portname": "scale_frame"
             },
             "translateFrame": {
-                "target": "translate_frame",
-                "porttype": "vector2"
+                "target_portname": "translate_frame"
             },
             "rotateFrame": {
-                "target": "rotate_frame",
-                "porttype": "float"
+                "target_portname": "rotate_frame"
             },
             "pivotFrame": {
-                "target": "pivot_frame",
-                "porttype": "vector2"
+                "target_portname": "pivot_frame"
             },
             "wrapFrameU": {
-                "target": "wrap_frame_u",
-                "porttype": "string"
+                "target_portname": "wrap_frame_u"
             },
             "wrapFrameV": {
-                "target": "wrap_frame_v",
-                "porttype": "string"
+                "target_portname": "wrap_frame_v"
             },
             "wrapFrameColor": {
-                "target": "wrap_frame_color",
-                "porttype": "color4"
+                "target_portname": "wrap_frame_color"
             },
             "repeat": {
-                "target": "repeat",
-                "porttype": "vector2"
+                "target_portname": "repeat"
             },
             "offset": {
-                "target": "offset",
-                "porttype": "vector2"
+                "target_portname": "offset"
             },
             "rotate": {
-                "target": "rotate",
-                "porttype": "float"
+                "target_portname": "rotate"
             },
             "pivot": {
-                "target": "pivot",
-                "porttype": "vector2"
+                "target_portname": "pivot"
             },
             "noise": {
-                "target": "noise",
-                "porttype": "vector2"
+                "target_portname": "noise"
             },
             "mirrorU": {
-                "target": "mirror_u",
-                "porttype": "boolean"
+                "target_portname": "mirror_u"
             },
             "mirrorV": {
-                "target": "mirror_v",
-                "porttype": "boolean"
+                "target_portname": "mirror_v"
             },
             "flipU": {
-                "target": "flip_u",
-                "porttype": "boolean"
+                "target_portname": "flip_u"
             },
             "flipV": {
-                "target": "flip_v",
-                "porttype": "boolean"
+                "target_portname": "flip_v"
             },
             "swapUv": {
-                "target": "swap_uv",
-                "porttype": "boolean"
+                "target_portname": "swap_uv"
             },
             "stagger": {
-                "target": "stagger",
-                "porttype": "boolean"
+                "target_portname": "stagger"
             }
         }
     },
     "aiVectorMap": {
-        "target": "vector_map",
-        "port": {
+        "target_category": "vector_map",
+        "target_port": {
             "input": {
-                "target": "input",
-                "porttype": "vector3"
+                "target_portname": "input"
             },
             "tangent": {
-                "target": "tangent",
-                "porttype": "vector3"
+                "target_portname": "tangent"
             },
             "normal": {
-                "target": "normal",
-                "porttype": "vector3"
+                "target_portname": "normal"
             },
             "order": {
-                "target": "order",
-                "porttype": "string"
+                "target_portname": "order"
             },
             "invertX": {
-                "target": "invert_x",
-                "porttype": "boolean"
+                "target_portname": "invert_x"
             },
             "invertY": {
-                "target": "invert_y",
-                "porttype": "boolean"
+                "target_portname": "invert_y"
             },
             "invertZ": {
-                "target": "invert_z",
-                "porttype": "boolean"
+                "target_portname": "invert_z"
             },
             "colorToSigned": {
-                "target": "color_to_signed",
-                "porttype": "boolean"
+                "target_portname": "color_to_signed"
             },
             "tangentSpace": {
-                "target": "tangent_space",
-                "porttype": "boolean"
+                "target_portname": "tangent_space"
             },
             "scale": {
-                "target": "scale",
-                "porttype": "float"
+                "target_portname": "scale"
             }
         }
     },
     "aiVolumeCollector": {
-        "target": "volume_collector",
-        "port": {
+        "target_category": "volume_collector",
+        "target_port": {
             "scatteringSource": {
-                "target": "scattering_source",
-                "porttype": "string"
+                "target_portname": "scattering_source"
             },
             "scattering": {
-                "target": "scattering",
-                "porttype": "color3"
+                "target_portname": "scattering"
             },
             "scatteringChannel": {
-                "target": "scattering_channel",
-                "porttype": "string"
+                "target_portname": "scattering_channel"
             },
             "scatteringColor": {
-                "target": "scattering_color",
-                "porttype": "color3"
+                "target_portname": "scattering_color"
             },
             "scatteringIntensity": {
-                "target": "scattering_intensity",
-                "porttype": "float"
+                "target_portname": "scattering_intensity"
             },
             "anisotropy": {
-                "target": "anisotropy",
-                "porttype": "float"
+                "target_portname": "anisotropy"
             },
             "attenuationSource": {
-                "target": "attenuation_source",
-                "porttype": "string"
+                "target_portname": "attenuation_source"
             },
             "attenuation": {
-                "target": "attenuation",
-                "porttype": "color3"
+                "target_portname": "attenuation"
             },
             "attenuationChannel": {
-                "target": "attenuation_channel",
-                "porttype": "string"
+                "target_portname": "attenuation_channel"
             },
             "attenuationColor": {
-                "target": "attenuation_color",
-                "porttype": "color3"
+                "target_portname": "attenuation_color"
             },
             "attenuationIntensity": {
-                "target": "attenuation_intensity",
-                "porttype": "float"
+                "target_portname": "attenuation_intensity"
             },
             "attenuationMode": {
-                "target": "attenuation_mode",
-                "porttype": "string"
+                "target_portname": "attenuation_mode"
             },
             "emissionSource": {
-                "target": "emission_source",
-                "porttype": "string"
+                "target_portname": "emission_source"
             },
             "emission": {
-                "target": "emission",
-                "porttype": "color3"
+                "target_portname": "emission"
             },
             "emissionChannel": {
-                "target": "emission_channel",
-                "porttype": "string"
+                "target_portname": "emission_channel"
             },
             "emissionColor": {
-                "target": "emission_color",
-                "porttype": "color3"
+                "target_portname": "emission_color"
             },
             "emissionIntensity": {
-                "target": "emission_intensity",
-                "porttype": "float"
+                "target_portname": "emission_intensity"
             },
             "positionOffset": {
-                "target": "position_offset",
-                "porttype": "vector3"
+                "target_portname": "position_offset"
             },
             "interpolation": {
-                "target": "interpolation",
-                "porttype": "string"
+                "target_portname": "interpolation"
             }
         }
     },
     "aiVolumeSampleFloat": {
-        "target": "volume_sample_float",
-        "port": {
+        "target_category": "volume_sample_float",
+        "target_port": {
             "channel": {
-                "target": "channel",
-                "porttype": "string"
+                "target_portname": "channel"
             },
             "positionOffset": {
-                "target": "position_offset",
-                "porttype": "vector3"
+                "target_portname": "position_offset"
             },
             "interpolation": {
-                "target": "interpolation",
-                "porttype": "string"
+                "target_portname": "interpolation"
             },
             "volumeType": {
-                "target": "volume_type",
-                "porttype": "string"
+                "target_portname": "volume_type"
             },
             "sdfOffset": {
-                "target": "sdf_offset",
-                "porttype": "float"
+                "target_portname": "sdf_offset"
             },
             "sdfBlend": {
-                "target": "sdf_blend",
-                "porttype": "float"
+                "target_portname": "sdf_blend"
             },
             "sdfInvert": {
-                "target": "sdf_invert",
-                "porttype": "boolean"
+                "target_portname": "sdf_invert"
             },
             "inputMin": {
-                "target": "input_min",
-                "porttype": "float"
+                "target_portname": "input_min"
             },
             "inputMax": {
-                "target": "input_max",
-                "porttype": "float"
+                "target_portname": "input_max"
             },
             "contrast": {
-                "target": "contrast",
-                "porttype": "float"
+                "target_portname": "contrast"
             },
             "contrastPivot": {
-                "target": "contrast_pivot",
-                "porttype": "float"
+                "target_portname": "contrast_pivot"
             },
             "bias": {
-                "target": "bias",
-                "porttype": "float"
+                "target_portname": "bias"
             },
             "gain": {
-                "target": "gain",
-                "porttype": "float"
+                "target_portname": "gain"
             },
             "outputMin": {
-                "target": "output_min",
-                "porttype": "float"
+                "target_portname": "output_min"
             },
             "outputMax": {
-                "target": "output_max",
-                "porttype": "float"
+                "target_portname": "output_max"
             },
             "clampMin": {
-                "target": "clamp_min",
-                "porttype": "boolean"
+                "target_portname": "clamp_min"
             },
             "clampMax": {
-                "target": "clamp_max",
-                "porttype": "boolean"
+                "target_portname": "clamp_max"
             }
         }
     },
     "aiVolumeSampleRgb": {
-        "target": "volume_sample_rgb",
-        "port": {
+        "target_category": "volume_sample_rgb",
+        "target_port": {
             "channel": {
-                "target": "channel",
-                "porttype": "string"
+                "target_portname": "channel"
             },
             "positionOffset": {
-                "target": "position_offset",
-                "porttype": "vector3"
+                "target_portname": "position_offset"
             },
             "interpolation": {
-                "target": "interpolation",
-                "porttype": "string"
+                "target_portname": "interpolation"
             },
             "gamma": {
-                "target": "gamma",
-                "porttype": "float"
+                "target_portname": "gamma"
             },
             "hueShift": {
-                "target": "hue_shift",
-                "porttype": "float"
+                "target_portname": "hue_shift"
             },
             "saturation": {
-                "target": "saturation",
-                "porttype": "float"
+                "target_portname": "saturation"
             },
             "contrast": {
-                "target": "contrast",
-                "porttype": "float"
+                "target_portname": "contrast"
             },
             "contrastPivot": {
-                "target": "contrast_pivot",
-                "porttype": "float"
+                "target_portname": "contrast_pivot"
             },
             "exposure": {
-                "target": "exposure",
-                "porttype": "float"
+                "target_portname": "exposure"
             },
             "multiply": {
-                "target": "multiply",
-                "porttype": "float"
+                "target_portname": "multiply"
             },
             "add": {
-                "target": "add",
-                "porttype": "float"
+                "target_portname": "add"
             }
         }
     },
     "aiWireframe": {
-        "target": "wireframe",
-        "port": {
+        "target_category": "wireframe",
+        "target_port": {
             "lineWidth": {
-                "target": "line_width", 
-                "porttype": "float"
-            }, 
+                "target_portname": "line_width"
+            },
             "fillColor": {
-                "target": "fill_color", 
-                "porttype": "color3"
+                "target_portname": "fill_color"
             }, 
             "lineColor": {
-                "target": "line_color", 
-                "porttype": "color3"
+                "target_portname": "line_color"
             }, 
             "rasterSpace": {
-                "target": "raster_space", 
-                "porttype": "boolean"
+                "target_portname": "raster_space"
             }, 
             "edgeType": {
-                "target": "edge_type", 
-                "porttype": "string"
+                "target_portname": "edge_type"
             }
         }
     }

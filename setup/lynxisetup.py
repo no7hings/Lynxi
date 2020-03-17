@@ -76,19 +76,19 @@ class Method(object):
     @classmethod
     def traceResult(cls, text):
         cls.traceMessage(
-            u'''@result {}'''.format(text)
+            u'''@result <{}>'''.format(text)
         )
 
     @classmethod
     def traceWarning(cls, text):
         cls.traceMessage(
-            u'''@warning {}'''.format(text)
+            u'''@warning <{}>'''.format(text)
         )
 
     @classmethod
     def traceError(cls, text):
         cls.traceMessage(
-            u'''@error {}'''.format(text)
+            u'''@error <{}>'''.format(text)
         )
 
     @classmethod

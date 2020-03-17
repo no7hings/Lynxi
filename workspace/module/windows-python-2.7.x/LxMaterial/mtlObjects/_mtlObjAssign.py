@@ -3,12 +3,12 @@ from LxMaterial import mtlConfigure
 
 from LxMaterial import mtlObjCore
 
-from LxMaterial.mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet
+from LxMaterial.mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
 
 
-class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
+class MaterialAssign(mtlObjCore.Abc_MtlMaterialAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_geometry = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     DEF_geometry_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
@@ -18,12 +18,14 @@ class ShadersetAssign(mtlObjCore.Abc_MtlShadersetAssign):
         """
         :param args: nameString
         """
-        self._initAbcMtlShadersetAssign(*args)
+        self._initAbcMtlMaterialAssign(*args)
 
 
 class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_set_geometry = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+
+    CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
     VAR_mtl_file_element_key = u'propertysetAssign'
 
@@ -34,15 +36,15 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
         self._initAbcMtlPropertysetAssign(*args)
 
 
-class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
+class Visibility(mtlObjCore.Abc_MtlVisibility):
     CLS_mtl_name = _mtlObjRaw.NameString
     CLS_mtl_type = _mtlObjRaw.VistypeString
-    CLS_set_geometry = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
     CLS_set_geometry_viewer = _mtlObjSet.ViewerGeometrySet
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
 
-    OBJ_mtl_def_cache = _mtlObjCache.OBJ_mtl_def_cache
+    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
 
     VAR_mtl_file_element_key = u'visibility'
 
@@ -50,4 +52,4 @@ class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
         """
         :param args: nameString
         """
-        self._initAbcMtlVisibilityAssign(*args)
+        self._initAbcMtlVisibility(*args)

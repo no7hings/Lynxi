@@ -1,0 +1,44 @@
+{
+    "displacementShader": {
+        "after_expression": {
+            "command":
+            [
+                "portname_0 = 'output_min'",
+                "portname_1 = 'output_max'",
+                "portname_2 = 'contrast_pivot'",
+                "var_0 = self.dccNode().port('aiDisplacementZeroValue').portdata()",
+                "self.mtlNode().port(portname_0).setPortdata(0-var_0)",
+                "self.mtlNode().port(portname_1).setPortdata(1-var_0)",
+                "self.mtlNode().port(portname_2).setPortdata(0.0)"
+            ]
+        },
+        "target_category": "range",
+        "target_port": {
+            "displacement": {
+                "target_portname": [
+                    "input",
+                    "out_color"
+                ]
+            }
+        }
+    },
+    "file": {
+        "target_category": "image",
+        "target_port": {
+            "fileTextureName": {
+                "target_portname": "filename"
+            },
+            "colorSpace": {
+                "target_portname": "color_space"
+            }
+        },
+        "custom_port": {
+            "ignore_missing_textures": {
+                "portdata": "true"
+            },
+            "missing_texture_color": {
+                "portdata": "0.5, 0.5, 0.5, 0"
+            }
+        }
+    }
+}

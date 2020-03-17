@@ -1,4 +1,7 @@
 # coding:utf-8
-from ._maMtlObjUtility import *
+from ._myaMtlObjUtility import *
 
-from ._maMtlObjObject import *
+from ._myaMtlObjObject import *
+
+from ._myaMtlObjFile import *
+

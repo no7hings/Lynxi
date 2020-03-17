@@ -38,6 +38,10 @@ class Attribute(maBscMtdCore.Mtd_MaBasic):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeNodeString(attributeString)
 
     @classmethod
+    def portString(cls, attributeString):
+        return maBscMtdCore.Mtd_MaAttribute._getAttributeFullpathPortname(attributeString)
+
+    @classmethod
     def fullpathPortname(cls, attributeString):
         return maBscMtdCore.Mtd_MaAttribute._getAttributeFullpathPortname(attributeString)
 

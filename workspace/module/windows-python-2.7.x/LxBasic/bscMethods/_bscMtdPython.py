@@ -84,8 +84,8 @@ class PyMessage(bscMtdCore.Mtd_BscUtility):
 
     @classmethod
     def _setAddMessage(cls, text):
-        print u'@lynxi <{}>'.format(cls._getActivePrettifyTime())
-        print u'    {}'.format(text)
+        print u'        |{}'.format(cls._getActivePrettifyTime())
+        print u'{}'.format(text)
 
     @classmethod
     def setEnable(cls, boolean):
@@ -103,17 +103,17 @@ class PyMessage(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def traceResult(cls, text):
         cls.trace(
-            u'''@result {}'''.format(text)
+            u''' result |{}'''.format(text)
         )
 
     @classmethod
     def traceWarning(cls, text):
         cls.trace(
-            u'''@warning {}'''.format(text)
+            u'''warning |{}'''.format(text)
         )
 
     @classmethod
     def traceError(cls, text):
         cls.trace(
-            u'''@error {}'''.format(text)
+            u''' error |{}'''.format(text)
         )

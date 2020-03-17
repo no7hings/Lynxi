@@ -17,6 +17,6 @@ if __name__ == '__main__':
             print m
             for s in m.shaders():
                 print s
-                for a in s.attributes():
+                for a in s.ports():
                     print a
                     print a.raw()

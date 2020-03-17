@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMethods
+from LxBasic import bscObjCore, bscMethods
 
 from LxMaBasic import maBscConfigure, maBscMtdCore, maBscMethods
 
@@ -58,6 +58,16 @@ class Def_MyaObjCache(object):
 
     def _myaDefCacheKeyString_(self):
         return self._defQueryKeyString
+
+
+class Abc_MyaNodeString(bscObjCore.Abc_BscDccNodeString):
+    def _initAbcMyaNodeString(self, nodeString):
+        self._initAbcBscDccNodeString(nodeString)
+
+
+class Abc_MyaPortString(bscObjCore.Abc_BscDccPortString):
+    def _initAbcMyaPortString(self, nodeString):
+        self._initAbcBscDccPortString(nodeString)
 
 
 class Abc_MyaBasic(maBscConfigure.Utility):
@@ -172,9 +182,9 @@ class Abc_MyaPort(Abc_MyaBasic):
         pass
 
     def _initAbcMyaPort(self, nodeObject, portString):
-        self._objectObj = nodeObject
+        self._mtlNodeObj = nodeObject
 
-        self._portStringObj = self.CLS_mya_port_string(portString)
+        self._portNameObj = self.CLS_mya_port_string(portString)
 
         self._porttypeString = None
 
@@ -197,35 +207,44 @@ class Abc_MyaPort(Abc_MyaBasic):
         self._isArray = boolean
 
     def _getNodeObject_(self, nodeString):
-        return self._objectObj.__class__(nodeString)
+        return self._mtlNodeObj.__class__(nodeString)
 
     def _create_(self, nodeString, portString):
         if isinstance(nodeString, (str, unicode)):
-            nodeObject = self._objectObj.__class__(nodeString)
+            nodeObject = self._mtlNodeObj.__class__(nodeString)
         else:
             nodeObject = nodeString
-        return nodeObject.attribute(portString)
+        return nodeObject.port(portString)
 
     def node(self, *args):
         if args:
             cls = args[0]
-            shaderObject = cls(self._objectObj.fullpathName())
+            shaderObject = cls(self._mtlNodeObj.nodeString())
             if isinstance(shaderObject, Abc_MyaShader):
                 shaderObject._setContext_(args[1])
             return shaderObject
-        return self._objectObj
+        return self._mtlNodeObj
+
+    def attributeString(self):
+        return bscMethods.MaAttributeString.composeBy(
+            self._mtlNodeObj.nodeString(),
+            self.portString()
+        )
 
     def fullpathName(self):
         return bscMethods.MaAttributeString.composeBy(
-            self._objectObj.fullpathName(),
-            self.fullpathPortname()
+            self._mtlNodeObj.nodeString(),
+            self.portString()
         )
 
+    def portString(self):
+        return self._portNameObj.portString()
+
     def fullpathPortname(self):
-        return self._portStringObj.fullpathPortname()
+        return self._portNameObj.portString()
 
     def portname(self):
-        return self._portStringObj.portname()
+        return self._portNameObj.portname()
 
     def value(self):
         return self.CLS_mya_value(
@@ -233,8 +252,8 @@ class Abc_MyaPort(Abc_MyaBasic):
         )
 
     def portdata(self):
-        nodeString = self.node().fullpathName()
-        portString = self.fullpathPortname()
+        nodeString = self.node().nodeString()
+        portString = self.portString()
         return maBscMtdCore.Mtd_MaObjectPort._mtl_getObjectPortdata(
             nodeString, portString
         )
@@ -255,14 +274,14 @@ class Abc_MyaPort(Abc_MyaBasic):
         return self._isArray
 
     def nicename(self):
-        return maBscMethods.Attribute.nicename(self.fullpathName())
+        return maBscMethods.Attribute.nicename(self.attributeString())
 
     def hasParent(self):
         return self._parentPortnameString is not None
 
     def parent(self):
         if self.hasParent():
-            return self._objectObj.attribute(self._parentPortnameString)
+            return self._mtlNodeObj.port(self._parentPortnameString)
 
     def hasChildren(self):
         return self._childPortnameStringList != []
@@ -270,13 +289,13 @@ class Abc_MyaPort(Abc_MyaBasic):
     def children(self):
         if self.hasChildren():
             return [
-                self._objectObj.attribute(i) for i in self._childPortnameStringList
+                self._mtlNodeObj.port(i) for i in self._childPortnameStringList
             ]
         return []
 
     def child(self, portnameString):
         if self.hasChildren():
-            return self._objectObj.attribute(portnameString)
+            return self._mtlNodeObj.port(portnameString)
 
     def hasChild(self, portnameString):
         return portnameString in self._childPortnameStringList
@@ -285,45 +304,45 @@ class Abc_MyaPort(Abc_MyaBasic):
         pass
 
     def hasSource(self):
-        return maBscMethods.Attribute.hasSource(self.fullpathName())
+        return maBscMethods.Attribute.hasSource(self.attributeString())
 
     def isSource(self):
-        return maBscMethods.Attribute.isSource(self.fullpathName())
+        return maBscMethods.Attribute.isSource(self.attributeString())
 
     def source(self):
-        portString = self.fullpathName()
-        if maBscMethods.Attribute.isAppExist(self.fullpathName()):
+        portString = self.attributeString()
+        if maBscMethods.Attribute.isAppExist(portString):
             maBscMethods.Attribute.source(portString)
             sourceAttributeString = maBscMethods.Attribute.source(portString)
             if sourceAttributeString:
                 sourceNodeString = maBscMethods.Attribute.nodeString(sourceAttributeString)
-                sourcePortString = maBscMethods.Attribute.fullpathPortname(sourceAttributeString)
+                sourcePortString = maBscMethods.Attribute.portString(sourceAttributeString)
                 sourceNodeObject = self._getNodeObject_(sourceNodeString)
-                return sourceNodeObject.attribute(sourcePortString)
+                return sourceNodeObject.port(sourcePortString)
 
     def hasTargets(self):
-        return maBscMethods.Attribute.hasTargets(self.fullpathName())
+        return maBscMethods.Attribute.hasTargets(self.attributeString())
 
     def isTarget(self):
-        return maBscMethods.Attribute.isTarget(self.fullpathName())
+        return maBscMethods.Attribute.isTarget(self.attributeString())
 
     def targets(self):
         lis = []
-        for attributeString in maBscMethods.Attribute.targets(self.fullpathName()):
+        for attributeString in maBscMethods.Attribute.targets(self.attributeString()):
             lis.append(
                 self._create_(
                     maBscMethods.Attribute.nodeString(attributeString),
-                    maBscMethods.Attribute.fullpathPortname(attributeString)
+                    maBscMethods.Attribute.portString(attributeString)
                 )
             )
         return lis
 
     def __str__(self):
-        return u'{}(fullpathPortname="{}", porttype="{}", node="{}")'.format(
+        return u'{}(portString="{}", porttype="{}", node="{}")'.format(
             self.__class__.__name__,
-            self.fullpathPortname(),
+            self.portString(),
             self.porttype(),
-            self.node().fullpathName()
+            self.node().nodeString()
         )
 
     def __repr__(self):
@@ -342,12 +361,13 @@ class Abc_MyaConnection(Abc_MyaBasic):
         return self._targetAttributeObj
 
     def __str__(self):
-        return 'connection(source="{}", target="{}")'.format(self.source().fullpathName(), self.target().fullpathName())
+        return 'connection(source="{}", target="{}")'.format(self.source().attributeString(), self.target().attributeString())
 
     def __repr__(self):
         return self.__str__()
 
 
+# object ************************************************************************************************************* #
 class Abc_MyaObject(
     Abc_MyaBasic,
     Def_MyaObjCache
@@ -364,21 +384,21 @@ class Abc_MyaObject(
 
     def _initAbcMyaObject(self, nodeString):
         assert maBscMethods.Node.isExist(nodeString), u'{} is Non-Exist'.format(nodeString)
-        self._nodeStringObj = self.CLS_mya_node_string(
+        self._nodeNameObj = self.CLS_mya_node_string(
             nodeString
         )
 
-        self._categoryString = maBscMethods.Node.category(self.fullpathName())
+        self._categoryString = maBscMethods.Node.category(self.nodeString())
 
         self._initDefMyaObjCache(self._categoryString)
 
         self._portDefQuery = self.OBJ_mya_query_cache._getObjectPortDefQuery_(
             self._categoryString,
-            self.fullpathName()
+            self.nodeString()
         )
         self._portkeyQuery = self.OBJ_mya_query_cache._getObjectPortPortkeyQuery_(
             self._categoryString,
-            self.fullpathName()
+            self.nodeString()
         )
 
         self._portSetObj = self.CLS_mya_port_set()
@@ -416,25 +436,28 @@ class Abc_MyaObject(
         for k, v in self._portDefQuery.items():
             addPortFnc_(k, v, self.CLS_mya_port)
 
+    def nodeString(self):
+        return self._nodeNameObj.name()
+
     def fullpathName(self):
-        return self._nodeStringObj.fullpathName()
+        return self._nodeNameObj.nodeString()
 
     def name(self):
-        return self._nodeStringObj.name()
+        return self._nodeNameObj.name()
 
     def category(self):
         return self._categoryString
 
     def isExist(self):
-        return maBscMethods.Node.isExist(self.fullpathName())
+        return maBscMethods.Node.isExist(self.nodeString())
 
-    def attributes(self):
+    def ports(self):
         return self._portSetObj.objects()
 
-    def hasAttribute(self, portString):
+    def hasPort(self, portString):
         return self._portSetObj._hasObject_(portString)
 
-    def attribute(self, portString):
+    def port(self, portString):
         return self._portSetObj._object_(
             self._toPortkey_(portString)
         )
@@ -462,7 +485,7 @@ class Abc_MyaObject(
         )
 
     def isDag(self):
-        return maBscMethods.Node.isDag(self.fullpathName())
+        return maBscMethods.Node.isDag(self.nodeString())
 
     def __str__(self):
         return u'{}(name="{}", category="{}")'.format(
@@ -482,7 +505,7 @@ class Abc_MyaNodeGraph(Abc_MyaBasic):
     def _initAbcMyaNodeGraph(self, *args):
         self._targetNodeObj = args[0]
 
-        self._nameString = self._targetNodeObj.fullpathName() + '__nodegraph'
+        self._nameString = self._targetNodeObj.nodeString() + '__nodegraph'
 
     def name(self):
         return self._nameString
@@ -493,12 +516,12 @@ class Abc_MyaNodeGraph(Abc_MyaBasic):
     def nodes(self):
         return [
             self.CLS_mya_node(i)
-            for i in maBscMtdCore.Mtd_MaNodeGraph._getNodeGraphNodeStringList(self._targetNodeObj.fullpathName())
+            for i in maBscMtdCore.Mtd_MaNodeGraph._getNodeGraphNodeStringList(self._targetNodeObj.nodeString())
         ]
 
     def outputs(self):
         lis = []
-        for i in self._targetNodeObj.attributes():
+        for i in self._targetNodeObj.ports():
             if i.hasSource():
                 lis.append(i.source())
         return lis
@@ -506,7 +529,7 @@ class Abc_MyaNodeGraph(Abc_MyaBasic):
     def connections(self):
         lis = []
         for i in self.nodes():
-            for j in i.attributes():
+            for j in i.ports():
                 if j.hasSource():
                     lis.append(self.CLS_mya_connection(j.source(), j))
         return lis
@@ -630,21 +653,27 @@ class Abc_MyaDag(Abc_MyaObject):
             maBscMethods.Node.toFullpathName(nodeString)
         )
 
+    def nodeString(self):
+        return self._nodeNameObj.nodeString()
+
+    def fullpathName(self):
+        return self._nodeNameObj.nodeString()
+
     def parent(self):
         return self.CLS_mya_dag(
-            maBscMtdCore.Mtd_MaDag._getDagParentString(self.fullpathName())
+            maBscMtdCore.Mtd_MaDag._getDagParentString(self.nodeString())
         )
 
     def children(self):
         return [
             self.CLS_mya_dag(i)
-            for i in maBscMtdCore.Mtd_MaDag._getDagChildStringList(self.fullpathName())
+            for i in maBscMtdCore.Mtd_MaDag._getDagChildStringList(self.nodeString())
         ]
 
     def __str__(self):
-        return u'{}(fullpathName="{}", category="{}")'.format(
+        return u'{}(nodeString="{}", category="{}")'.format(
             self.__class__.__name__,
-            self.fullpathName(),
+            self.nodeString(),
             self.category()
         )
 
@@ -663,13 +692,13 @@ class Abc_MyaCompoundDag(Abc_MyaDag):
 
     def transform(self):
         return self.CLS_mya_transform(
-            maBscMethods.Node.transformName(self.fullpathName())
+            maBscMethods.Node.transformName(self.nodeString())
         )
 
     def __str__(self):
-        return u'{}(fullpathName="{}", category="{}")'.format(
+        return u'{}(nodeString="{}", category="{}")'.format(
             self.__class__.__name__,
-            self.fullpathName(),
+            self.nodeString(),
             self.category()
         )
 
@@ -683,13 +712,13 @@ class Abc_MyaTransform(Abc_MyaDag):
 
     def shape(self):
         return self.CLS_mya_dag(
-            maBscMethods.Node.shapeName(self.fullpathName())
+            maBscMethods.Node.shapeName(self.nodeString())
         )
 
     def shapes(self):
         return [
             self.CLS_mya_dag(i)
-            for i in maBscMtdCore.Mtd_MaObject._getNodeShapeNodeStringList(self.fullpathName())
+            for i in maBscMtdCore.Mtd_MaObject._getNodeShapeNodeStringList(self.nodeString())
         ]
 
 
@@ -702,7 +731,7 @@ class Abc_MyaGeometry(Abc_MyaCompoundDag):
     def materials(self):
         return [
             self.CLS_mya_material(i)
-            for i in maBscMtdCore.Mtd_MaObject._getNodeShadingEngineNodeStringList(self.fullpathName())
+            for i in maBscMtdCore.Mtd_MaObject._getNodeShadingEngineNodeStringList(self.nodeString())
         ]
 
 
@@ -711,9 +740,9 @@ class Abc_MyaGroup(Abc_MyaDag):
         self._initAbcMyaDag(nodeString)
 
     def __str__(self):
-        return u'{}(fullpathName="{}")'.format(
+        return u'{}(nodeString="{}")'.format(
             self.__class__.__name__,
-            self.fullpathName(),
+            self.nodeString(),
         )
 
     def __repr__(self):
@@ -744,7 +773,7 @@ class Abc_MyaGeometryRoot(Abc_MyaNodeRoot):
         return [
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.root().fullpathName(),
+                self.root().nodeString(),
                 includeCategoryString=self.DEF_mya_type_mesh,
                 useShapeCategory=True,
                 withShape=False
@@ -755,7 +784,7 @@ class Abc_MyaGeometryRoot(Abc_MyaNodeRoot):
         return [
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.root().fullpathName(),
+                self.root().nodeString(),
                 includeCategoryString=self.DEF_mya_type_nurbs_surface,
                 useShapeCategory=True,
                 withShape=False
@@ -766,7 +795,7 @@ class Abc_MyaGeometryRoot(Abc_MyaNodeRoot):
         return [
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.root().fullpathName(),
+                self.root().nodeString(),
                 includeCategoryString=self.DEF_mya_type_nurbs_curve,
                 useShapeCategory=True,
                 withShape=False
@@ -777,7 +806,7 @@ class Abc_MyaGeometryRoot(Abc_MyaNodeRoot):
         return [
             self.CLS_geometry(i)
             for i in maBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.root().fullpathName(),
+                self.root().nodeString(),
                 includeCategoryString=self.DEF_mya_type_geometry_list,
                 useShapeCategory=True,
                 withShape=False

@@ -19,6 +19,13 @@ class GeometrySet(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
+class MaterialSet(mtlObjCore.Abc_MtlObjectSet):
+    VAR_mtl_file_attribute_key = u'material'
+
+    def __init__(self, *args):
+        self._initAbcMtlObjectSet(*args)
+
+
 class ViewerGeometrySet(mtlObjCore.Abc_MtlObjectSet):
     VAR_mtl_file_attribute_key = u'viewergeom'
 
@@ -26,7 +33,7 @@ class ViewerGeometrySet(mtlObjCore.Abc_MtlObjectSet):
         self._initAbcMtlObjectSet(*args)
 
 
-class Set_Collection(mtlObjCore.Abc_MtlObjectSet):
+class CollectionSet(mtlObjCore.Abc_MtlObjectSet):
     VAR_mtl_file_attribute_key = u'collection'
 
     def __init__(self, *args):

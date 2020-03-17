@@ -1,75 +1,81 @@
 {
-    "target": "geometry",
-    "port": {
-        "aiDispHeight": {
-            "target": "disp_height"
+    "mesh": {
+        "after_expression": {
+            "command":
+            [
+                "portname = 'subdiv_iterations'",
+                "condition = self.mtlNode().port('subdiv_type').isValueChanged()",
+                "result = self.dccNode().port('aiSubdivIterations').portdata() if condition is True else 0",
+                "self.mtlNode().port(portname).setPortdata(result)",
+
+                "portname = 'autobump_visibility'",
+                "condition = self.mtlNode().port('disp_autobump').isValueChanged()",
+                "result = self.dccNode().port('aiAutobumpVisibility').portdata() if condition is True else 1",
+                "self.mtlNode().port(portname).setPortdata(result)"
+            ]
         },
-        "aiDispPadding": {
-            "target": "disp_padding"
-        },
-        "aiDispZeroValue": {
-            "target": "disp_zero_value"
-        },
-        "aiDispAutobump": {
-            "target": "disp_autobump",
-            "connect": {
-                "source": [
-                    "aiAutobumpCamera",
-                    "aiAutobumpDiffuseReflection",
-                    "aiAutobumpDiffuseTransmission",
-                    "aiAutobumpSpecularReflection",
-                    "aiAutobumpSpecularTransmission",
-                    "aiAutobumpVolumeScattering"
-                ],
-                "target": "autobump_visibility"
+        "target_category": "geometry",
+        "target_port": {
+            "aiDispHeight": {
+                "target_portname": "disp_height"
+            },
+            "aiDispPadding": {
+                "target_portname": "disp_padding"
+            },
+            "aiDispZeroValue": {
+                "target_portname": "disp_zero_value"
+            },
+            "aiDispAutobump": {
+                "target_portname": "disp_autobump"
+            },
+            "aiAutobumpVisibility": {
+                "target_portname": "autobump_visibility"
+            },
+            "aiSubdivType": {
+                "target_portname": "subdiv_type"
+            },
+            "aiSubdivIterations": {
+                "target_portname": "subdiv_iterations"
+            },
+            "aiSubdivPixelError": {
+                "target_portname": "subdiv_adaptive_error"
+            },
+            "aiSubdivAdaptiveMetric": {
+                "target_portname": "subdiv_adaptive_metric"
+            },
+            "aiSubdivAdaptiveSpace": {
+                "target_portname": "subdiv_adaptive_space"
+            },
+            "aiSubdivUvSmoothing": {
+                "target_portname": "subdiv_uv_smoothing"
+            },
+            "aiSubdivFrustumIgnore": {
+                "target_portname": "subdiv_frustum_ignore"
+            },
+            "aiSubdivSmoothDerivs": {
+                "target_portname": "subdiv_smooth_derivs"
+            },
+            "primaryVisibility": {
+                "target_portname": "camera"
+            },
+            "castsShadows": {
+                "target_portname": "shadow"
+            },
+            "aiVisibleInDiffuseTransmission": {
+                "target_portname": "diffuse_transmit"
+            },
+            "aiVisibleInSpecularTransmission": {
+                "target_portname": "specular_transmit"
+            },
+            "aiVisibleInDiffuseReflection": {
+                "target_portname": "diffuse_reflect"
+            },
+            "aiVisibleInSpecularReflection": {
+                "target_portname": "specular_reflect"
+            },
+            "aiVisibleInVolume": {
+                "target_portname": "volume"
             }
-        },
-
-        "aiSubdivType": {
-            "target": "subdiv_type"
-        },
-        "aiSubdivIterations": {
-            "target": "subdiv_iterations"
-        },
-        "aiSubdivPixelError": {
-            "target": "subdiv_adaptive_error"
-        },
-        "aiSubdivAdaptiveMetric": {
-            "target": "subdiv_adaptive_metric"
-        },
-        "aiSubdivAdaptiveSpace": {
-            "target": "subdiv_adaptive_space"
-        },
-        "aiSubdivUvSmoothing": {
-            "target": "subdiv_uv_smoothing"
-        },
-        "aiSubdivFrustumIgnore": {
-            "target": "subdiv_frustum_ignore"
-        },
-        "aiSubdivSmoothDerivs": {
-            "target": "subdiv_smooth_derivs"
-        },
-
-        "primaryVisibility": {
-            "target": "camera"
-        },
-        "castsShadows": {
-            "target": "shadow"
-        },
-        "aiVisibleInDiffuseTransmission": {
-            "target": "diffuse_transmit"
-        },
-        "aiVisibleInSpecularTransmission": {
-            "target": "specular_transmit"
-        },
-        "aiVisibleInDiffuseReflection": {
-            "target": "diffuse_reflect"
-        },
-        "aiVisibleInSpecularReflection": {
-            "target": "specular_reflect"
-        },
-        "aiVisibleInVolume": {
-            "target": "volume"
         }
     }
 }
