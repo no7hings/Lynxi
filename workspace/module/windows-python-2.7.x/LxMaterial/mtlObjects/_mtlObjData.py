@@ -43,11 +43,11 @@ class _Dat_Method(mtlObjCore.Abc_MtlData):
 
 
 class Dat_Closure(mtlObjCore.Abc_MtlData):
-    CLS_mtl_raw = _mtlObjRaw.Raw_Closure
+    CLS_bsc_raw = _mtlObjRaw.Raw_Closure
 
     VAR_mtl_raw_type = None
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -62,11 +62,11 @@ class Dat_Closure(mtlObjCore.Abc_MtlData):
 
 
 class Dat_Boolean(mtlObjCore.Abc_MtlData):
-    CLS_mtl_raw = bool
+    CLS_bsc_raw = bool
 
     VAR_mtl_raw_type = bool, int
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -89,11 +89,11 @@ class Dat_Boolean(mtlObjCore.Abc_MtlData):
 
 
 class Dat_Integer(_Dat_Method):
-    CLS_mtl_raw = int
+    CLS_bsc_raw = int
 
     VAR_mtl_raw_type = int, float
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -109,7 +109,7 @@ class Dat_IntegerN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -125,7 +125,7 @@ class Dat_IntegerNN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -137,11 +137,11 @@ class Dat_IntegerNN(mtlObjCore.Abc_MtlMultidata):
 
 
 class Dat_Float(_Dat_Method):
-    CLS_mtl_raw = float
+    CLS_bsc_raw = float
 
     VAR_mtl_raw_type = float, int
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -157,7 +157,7 @@ class Dat_FloatN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -173,7 +173,7 @@ class Dat_FloatNN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_array_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -185,11 +185,11 @@ class Dat_FloatNN(mtlObjCore.Abc_MtlMultidata):
 
 
 class Dat_string(mtlObjCore.Abc_MtlData):
-    CLS_mtl_raw = unicode
+    CLS_bsc_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -205,7 +205,7 @@ class Dat_stringN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -217,11 +217,11 @@ class Dat_stringN(mtlObjCore.Abc_MtlMultidata):
 
 
 class Dat_file_name(mtlObjCore.Abc_MtlData):
-    CLS_mtl_raw = unicode
+    CLS_bsc_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -233,11 +233,11 @@ class Dat_file_name(mtlObjCore.Abc_MtlData):
 
 
 class Dat_NodeName(mtlObjCore.Abc_MtlData):
-    CLS_mtl_raw = unicode
+    CLS_bsc_raw = unicode
 
     VAR_mtl_raw_type = unicode, str
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """
@@ -253,7 +253,7 @@ class Dat_NodeNameN(mtlObjCore.Abc_MtlMultidata):
 
     VAR_mtl_data_separator = mtlConfigure.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_attribute_key = 'datastring'
+    VAR_mtl_file_attribute_attach_key = 'datastring'
 
     def __init__(self, *args):
         """

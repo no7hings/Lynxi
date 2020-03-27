@@ -27,7 +27,7 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
-    VAR_mtl_file_element_key = u'propertysetAssign'
+    VAR_mtl_file_element_key = u'propertysetassign'
 
     def __init__(self, *args):
         """
@@ -36,9 +36,9 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
         self._initAbcMtlPropertysetAssign(*args)
 
 
-class Visibility(mtlObjCore.Abc_MtlVisibility):
+class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
     CLS_mtl_name = _mtlObjRaw.NameString
-    CLS_mtl_type = _mtlObjRaw.VistypeString
+    CLS_grh_type = _mtlObjRaw.VistypeString
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
     CLS_set_geometry_viewer = _mtlObjSet.ViewerGeometrySet
 
@@ -52,4 +52,4 @@ class Visibility(mtlObjCore.Abc_MtlVisibility):
         """
         :param args: nameString
         """
-        self._initAbcMtlVisibility(*args)
+        self._initAbcMtlVisibilityAssign(*args)

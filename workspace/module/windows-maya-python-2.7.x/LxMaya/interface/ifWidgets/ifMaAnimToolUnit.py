@@ -23,7 +23,7 @@ from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 
 from LxDatabase import dbGet
 
-from LxMaBasic import maBscConfigure, maBscMethods
+from LxMaBasic import myaBscConfigure, maBscMethods
 
 from LxMaya.command import maUtils, maFile, maFur, maKeyframe, maCam, maRender, maPreference
 
@@ -506,7 +506,7 @@ class IfScLayoutToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
         availableTreeBox = self._availableCameraTreeViewBox
         activeTreeBox = self._activeCameraTreeViewBox
         #
-        defCameras = maBscConfigure.Utility.DEF_mya_default_camera_list
+        defCameras = myaBscConfigure.Utility.DEF_mya_default_camera_list
         availableCameraLis = maUtils.getCameras(0)
         #
         activeCameraLis = datScene.getScCameraLis(sceneName, sceneVariant, sceneStage)

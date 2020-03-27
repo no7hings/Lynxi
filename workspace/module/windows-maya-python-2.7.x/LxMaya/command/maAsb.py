@@ -74,35 +74,35 @@ def setAssemblyReferenceCreate(nodeName, adFile):
 
 
 #
-def setScnGpuCacheCreate(objectString, cacheFile, lod=0):
+def setScnGpuCacheCreate(nodepathString, cacheFile, lod=0):
     cmds.loadPlugin('gpuCache', quiet=1)
     #
-    nodeName = maUtils._nodeString2nodename_(objectString)
+    nodeName = maUtils._nodeString2nodename_(nodepathString)
     shapeName = nodeName + 'Shape'
-    shapePath = objectString + '|' + shapeName
+    shapePath = nodepathString + '|' + shapeName
     #
     cacheFileAttr = shapePath + '.' + 'cacheFileName'
     #
     choiceNodeName = nodeName + 'Choice'
     lodAttrName = 'lod'
-    lodAttr = objectString + '.' + lodAttrName
+    lodAttr = nodepathString + '.' + lodAttrName
     #
     cmds.createNode('transform', name=nodeName)
-    cmds.createNode('gpuCache', name=shapeName, parent=objectString)
+    cmds.createNode('gpuCache', name=shapeName, parent=nodepathString)
     if isinstance(cacheFile, str) or isinstance(cacheFile, unicode):
         cmds.setAttr(cacheFileAttr, cacheFile, type='string')
     elif isinstance(cacheFile, tuple) or isinstance(cacheFile, list):
         cmds.setAttr(cacheFileAttr, cacheFile[lod], type='string')
         #
-        cmds.addAttr(objectString, longName=lodAttrName, attributeType='enum', enumName='lod0:lod1:lod2:', keyable=1)
+        cmds.addAttr(nodepathString, longName=lodAttrName, attributeType='enum', enumName='lod0:lod1:lod2:', keyable=1)
         #
         choiceNode = cmds.createNode('choice', name=choiceNodeName)
         for seq, i in enumerate(cacheFile):
             lodFileAttrName = 'lodCacheFile{}'.format(seq)
-            lodFileAttr = objectString + '.' + lodFileAttrName
+            lodFileAttr = nodepathString + '.' + lodFileAttrName
             targetAttr = choiceNode + '.' + 'input[{}]'.format(seq)
             #
-            cmds.addAttr(objectString, longName=lodFileAttrName, dataType='string', usedAsFilename=1)
+            cmds.addAttr(nodepathString, longName=lodFileAttrName, dataType='string', usedAsFilename=1)
             cmds.setAttr(lodFileAttr, i, type='string')
             #
             cmds.connectAttr(lodFileAttr, targetAttr, force=1)
@@ -114,24 +114,24 @@ def setScnGpuCacheCreate(objectString, cacheFile, lod=0):
 
 
 #
-def setScnProxyCacheCreate(objectString, cacheFile, lod=0):
+def setScnProxyCacheCreate(nodepathString, cacheFile, lod=0):
     cmds.loadPlugin('lxCommand', quiet=1)
     if not cmds.objExists('ArnoldStandInDefaultLightSet'):
         cmds.createNode('objectSet', name='ArnoldStandInDefaultLightSet', shared=1)
         cmds.lightlink(object='ArnoldStandInDefaultLightSet', light='defaultLightSet')
     #
-    nodeName = maUtils._nodeString2nodename_(objectString)
+    nodeName = maUtils._nodeString2nodename_(nodepathString)
     shapeName = nodeName + 'Shape'
-    shapePath = objectString + '|' + shapeName
+    shapePath = nodepathString + '|' + shapeName
     #
     cacheFileAttr = shapePath + '.' + 'dso'
     #
     choiceNodeName = nodeName + 'Choice'
     lodAttrName = 'lod'
-    lodAttr = objectString + '.' + lodAttrName
+    lodAttr = nodepathString + '.' + lodAttrName
     #
     cmds.createNode('transform', name=nodeName)
-    cmds.createNode('aiStandIn', name=shapeName, parent=objectString)
+    cmds.createNode('aiStandIn', name=shapeName, parent=nodepathString)
     #
     cmds.setAttr(shapePath + '.mode', 3)
     if isinstance(cacheFile, str) or isinstance(cacheFile, unicode):
@@ -139,15 +139,15 @@ def setScnProxyCacheCreate(objectString, cacheFile, lod=0):
     elif isinstance(cacheFile, tuple) or isinstance(cacheFile, list):
         cmds.setAttr(cacheFileAttr, cacheFile[lod], type='string')
         #
-        cmds.addAttr(objectString, longName=lodAttrName, attributeType='enum', enumName='lod0:lod1:lod2:', keyable=1)
+        cmds.addAttr(nodepathString, longName=lodAttrName, attributeType='enum', enumName='lod0:lod1:lod2:', keyable=1)
         #
         choiceNode = cmds.createNode('choice', name=choiceNodeName)
         for seq, i in enumerate(cacheFile):
             lodFileAttrName = 'lodCacheFile{}'.format(seq)
-            lodFileAttr = objectString + '.' + lodFileAttrName
+            lodFileAttr = nodepathString + '.' + lodFileAttrName
             targetAttr = choiceNode + '.' + 'input[{}]'.format(seq)
             #
-            cmds.addAttr(objectString, longName=lodFileAttrName, dataType='string', usedAsFilename=1)
+            cmds.addAttr(nodepathString, longName=lodFileAttrName, dataType='string', usedAsFilename=1)
             cmds.setAttr(lodFileAttr, i, type='string')
             #
             cmds.connectAttr(lodFileAttr, targetAttr, force=1)
@@ -255,10 +255,10 @@ class LxAssemblyMethod(object):
     ContainerLabel = 'Container'
     #
     Keyword = 'assemblyObjectEnable'
-    def __init__(self, objectString):
+    def __init__(self, nodepathString):
         cmds.loadPlugin('lxProductNode', quiet=1)
         #
-        self._objectPath = objectString
+        self._objectPath = nodepathString
         self._objectName = maUtils._nodeString2nodename_(self._objectPath)
         #
         self._namespace = self._objectName + '_ns'

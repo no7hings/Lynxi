@@ -124,11 +124,11 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return string
 
     @classmethod
-    def _getNodeFullpathNameString(cls, nodeString):
-        if not nodeString.startswith(cls.DEF_mya_node_separator):
-            return cmds.ls(nodeString, long=1)[0]
+    def _getNodeFullpathNameString(cls, nodepathString):
+        if not nodepathString.startswith(cls.DEF_mya_node_separator):
+            return cmds.ls(nodepathString, long=1)[0]
         else:
-            return nodeString
+            return nodepathString
 
     @classmethod
     def _toShapeTransformString(cls, nodePath):
@@ -174,16 +174,16 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return cls.DEF_mya_port_separator.join(cls._nodeString2nodename_(attr).split(cls.DEF_mya_port_separator)[1:])
 
     @classmethod
-    def _toAppExistStringList(cls, nodeString, fullPath=True):
+    def _toAppExistStringList(cls, nodepathString, fullPath=True):
         lis = []
-        if isinstance(nodeString, str) or isinstance(nodeString, unicode):
-            if cls._isAppExist(nodeString):
+        if isinstance(nodepathString, str) or isinstance(nodepathString, unicode):
+            if cls._isAppExist(nodepathString):
                 if fullPath is True:
-                    lis = [cls._getNodeFullpathNameString(nodeString)]
+                    lis = [cls._getNodeFullpathNameString(nodepathString)]
                 else:
-                    lis = [cls._nodeString2nodename_(nodeString)]
-        elif isinstance(nodeString, tuple) or isinstance(nodeString, list):
-            for i in nodeString:
+                    lis = [cls._nodeString2nodename_(nodepathString)]
+        elif isinstance(nodepathString, tuple) or isinstance(nodepathString, list):
+            for i in nodepathString:
                 if cls._isAppExist(i):
                     if fullPath is True:
                         lis.append(cls._getNodeFullpathNameString(i))
@@ -252,11 +252,11 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return lis
 
     @classmethod
-    def setNodeRename(cls, nodeString, nameString):
-        objectName = cls._nodeString2nodename_(nodeString)
+    def setNodeRename(cls, nodepathString, nameString):
+        objectName = cls._nodeString2nodename_(nodepathString)
         if not nameString == objectName:
-            if not cls.isNodeLocked(nodeString):
-                cmds.rename(nodeString, nameString)
+            if not cls.isNodeLocked(nodepathString):
+                cmds.rename(nodepathString, nameString)
 
     @classmethod
     def setNodeRenameByUniqueId(cls, uniqueId, nameString):
@@ -265,15 +265,15 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             cls.setNodeRename(node, nameString)
 
     @classmethod
-    def _getNodeTransformNodeString(cls, nodeString, fullPath=True):
-        if cls._isAppExist(nodeString):
-            if cls._getNodeCategoryString(nodeString) == cls.DEF_mya_type_transform:
+    def _getNodeTransformNodeString(cls, nodepathString, fullPath=True):
+        if cls._isAppExist(nodepathString):
+            if cls._getNodeCategoryString(nodepathString) == cls.DEF_mya_type_transform:
                 if fullPath:
-                    return cls._getNodeFullpathNameString(nodeString)
+                    return cls._getNodeFullpathNameString(nodepathString)
                 else:
-                    return cls._nodeString2nodename_(nodeString)
+                    return cls._nodeString2nodename_(nodepathString)
             else:
-                stringLis = cmds.listRelatives(nodeString, parent=1, fullPath=fullPath)
+                stringLis = cmds.listRelatives(nodepathString, parent=1, fullPath=fullPath)
                 if stringLis:
                     return stringLis[0]
 
@@ -288,16 +288,16 @@ class Mtd_AppMaya(_maConfig.MaConfig):
                     return stringLis
 
     @classmethod
-    def _getNodeUniqueIdString(cls, nodeString):
-        if cls._isAppExist(nodeString):
-            stringLis = cmds.ls(nodeString, uuid=1)
+    def _getNodeUniqueIdString(cls, nodepathString):
+        if cls._isAppExist(nodepathString):
+            stringLis = cmds.ls(nodepathString, uuid=1)
             if stringLis:
                 return stringLis[0]
 
     @classmethod
-    def getUniqueIdLisByNode(cls, nodeString):
+    def getUniqueIdLisByNode(cls, nodepathString):
         lis = []
-        nodeLis = cls._toAppExistStringList(nodeString)
+        nodeLis = cls._toAppExistStringList(nodepathString)
         if nodeLis:
             for node in nodeLis:
                 uniqueId = cls._getNodeUniqueIdString(node)
@@ -305,15 +305,15 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return lis
 
     @classmethod
-    def getObjectUniqueId(cls, nodeString):
-        transformPath = cls._getNodeTransformNodeString(nodeString)
+    def getObjectUniqueId(cls, nodepathString):
+        transformPath = cls._getNodeTransformNodeString(nodepathString)
         if transformPath:
             return cls._getNodeUniqueIdString(transformPath)
 
     @classmethod
-    def getObjectUniqueIdLisByNode(cls, nodeString):
+    def getObjectUniqueIdLisByNode(cls, nodepathString):
         lis = []
-        nodeLis = cls._toAppExistStringList(nodeString)
+        nodeLis = cls._toAppExistStringList(nodepathString)
         if nodeLis:
             for node in nodeLis:
                 uniqueId = cls.getObjectUniqueId(node)
@@ -321,8 +321,8 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return lis
 
     @classmethod
-    def setNodeAttr(cls, nodeString, attrName, data, lockAttr=False):
-        attr = cls._toNodeAttr([nodeString, attrName])
+    def setNodeAttr(cls, nodepathString, attrName, data, lockAttr=False):
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if cls._isAppExist(attr):
             if cls.isAttrLock(attr) is True:
                 cmds.setAttr(attr, lock=0)
@@ -332,17 +332,17 @@ class Mtd_AppMaya(_maConfig.MaConfig):
                 cmds.setAttr(attr, lock=1)
 
     @classmethod
-    def setAttrStringDatumForce_(cls, nodeString, attrName, data, lockAttr=True):
-        attr = cls._toNodeAttr([nodeString, attrName])
+    def setAttrStringDatumForce_(cls, nodepathString, attrName, data, lockAttr=True):
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if not cls._isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
+            cmds.addAttr(nodepathString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
         #
         cmds.setAttr(attr, lock=0)
         cmds.setAttr(attr, data, type='string', lock=lockAttr)
 
     @classmethod
-    def setNodeColorAttr(cls, nodeString, attrName, r, g, b, dataType='float3'):
-        attr = cls._toNodeAttr([nodeString, attrName])
+    def setNodeColorAttr(cls, nodepathString, attrName, r, g, b, dataType='float3'):
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if cls._isAppExist(attr):
             cmds.setAttr(attr, r, g, b, type=dataType)
 
@@ -351,22 +351,22 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return cmds.connectionInfo(attr, isLocked=1)
 
     @classmethod
-    def setNodeRgbAttrForce(cls, nodeString, attrName, r, g, b):
+    def setNodeRgbAttrForce(cls, nodepathString, attrName, r, g, b):
         colorLabelLis = ['R', 'G', 'B']
-        attr = cls._toNodeAttr([nodeString, attrName])
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if not cls._isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='float3', usedAsColor=1)
+            cmds.addAttr(nodepathString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='float3', usedAsColor=1)
             for i in colorLabelLis:
-                cmds.addAttr(nodeString, longName=attrName + i, attributeType='float', parent=attrName)
+                cmds.addAttr(nodepathString, longName=attrName + i, attributeType='float', parent=attrName)
         #
         cmds.setAttr(attr, lock=0)
         cmds.setAttr(attr, r, g, b, type='float3')
 
     @classmethod
-    def setAttrBooleanDatumForce_(cls, nodeString, attrName, boolean):
-        attr = cls._toNodeAttr([nodeString, attrName])
+    def setAttrBooleanDatumForce_(cls, nodepathString, attrName, boolean):
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if not cls._isAppExist(attr):
-            cmds.addAttr(nodeString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
+            cmds.addAttr(nodepathString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
         #
         if cls.isAttrLock(attr) is True:
             cmds.setAttr(attr, lock=0)
@@ -380,9 +380,9 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         [cmds.setAttr(cls._toNodeAttr([transformPath, attrName + axis]), keyable=0, lock=lockTransformation, channelBox=not hideTransformation) for attrName, axis in product(attrNameLis, axisLis)]
 
     @classmethod
-    def _toNodeParentPath(cls, nodeString):
+    def _toNodeParentPath(cls, nodepathString):
         string = None
-        objectPath = cls._getNodeFullpathNameString(nodeString)
+        objectPath = cls._getNodeFullpathNameString(nodepathString)
         if objectPath:
             data = cls.DEF_mya_node_separator.join(objectPath.split(cls.DEF_mya_node_separator)[:-1])
             if data:
@@ -390,32 +390,32 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         return string
 
     @staticmethod
-    def _getNodeCategoryString(nodeString):
-        return cmds.nodeType(nodeString)
+    def _getNodeCategoryString(nodepathString):
+        return cmds.nodeType(nodepathString)
 
     @staticmethod
-    def getNodeShowType(nodeString):
-        return cmds.ls(nodeString, showType=1)
+    def getNodeShowType(nodepathString):
+        return cmds.ls(nodepathString, showType=1)
 
     @staticmethod
-    def _isAppExist(nodeString, attrName=None):
+    def _isAppExist(nodepathString, attrName=None):
         boolean = False
-        if nodeString:
+        if nodepathString:
             if attrName:
-                nodeString = nodeString + '.' + attrName
-            boolean = cmds.objExists(nodeString)
+                nodepathString = nodepathString + '.' + attrName
+            boolean = cmds.objExists(nodepathString)
         return boolean
 
     @staticmethod
-    def isAppVisible(nodeString):
-        return True if cmds.ls(nodeString, visible=1) else False
+    def isAppVisible(nodepathString):
+        return True if cmds.ls(nodepathString, visible=1) else False
 
     @staticmethod
-    def _getNodeTargetNodeStringList(nodeString, nodeTypeString=None):
+    def _getNodeTargetNodeStringList(nodepathString, nodeTypeString=None):
         if nodeTypeString is not None:
-            return cmds.listConnections(nodeString, destination=1, source=0, type=nodeTypeString) or []
+            return cmds.listConnections(nodepathString, destination=1, source=0, type=nodeTypeString) or []
         else:
-            return cmds.listConnections(nodeString, destination=1, source=0) or []
+            return cmds.listConnections(nodepathString, destination=1, source=0) or []
 
     @classmethod
     def toSetName(cls, setPath, withNamespace=False):
@@ -442,8 +442,8 @@ class Mtd_AppMaya(_maConfig.MaConfig):
     def setSelectClear():
         cmds.select(clear=1)
     @classmethod
-    def setNodeSelect(cls, nodeString, noExpand=False):
-        objectLis = cls._toAppExistStringList(nodeString)
+    def setNodeSelect(cls, nodepathString, noExpand=False):
+        objectLis = cls._toAppExistStringList(nodepathString)
         #
         cls.setSelectClear()
         cmds.select(objectLis, noExpand=noExpand)
@@ -461,17 +461,17 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             lis = nodeLis
         return lis
     @staticmethod
-    def isNodeLocked(nodeString):
-        return cmds.lockNode(nodeString, query=1, lock=1)[0]
+    def isNodeLocked(nodepathString):
+        return cmds.lockNode(nodepathString, query=1, lock=1)[0]
     @staticmethod
     def setNodeShowByGroup(groupString):
         cmds.showHidden(groupString, below=True)
     @classmethod
-    def setElementSet(cls, nodeString, parentString):
+    def setElementSet(cls, nodepathString, parentString):
         if not cls._isAppExist(parentString):
             cmds.sets(name=parentString, empty=1)
         #
-        cmds.sets(nodeString, forceElement=parentString, edit=1)
+        cmds.sets(nodepathString, forceElement=parentString, edit=1)
     @staticmethod
     def getSelectedNodeLis(fullPath=True):
         return cmds.ls(selection=1, long=fullPath) or []
@@ -526,14 +526,14 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             alpha=alpha
         )
     @staticmethod
-    def getNodeWorldMatrix(objectString):
-        return cmds.xform(objectString, query=1, matrix=1, worldSpace=1) or [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+    def getNodeWorldMatrix(nodepathString):
+        return cmds.xform(nodepathString, query=1, matrix=1, worldSpace=1) or [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
     @classmethod
-    def isDefaultMatrix(cls, nodeString):
-        return cls.getNodeWorldMatrix(nodeString) == cls.DEF_mya_default_matrix
+    def isDefaultMatrix(cls, nodepathString):
+        return cls.getNodeWorldMatrix(nodepathString) == cls.DEF_mya_default_matrix
     @staticmethod
-    def setNodeWorldMatrix(objectString, worldMatrix):
-        cmds.xform(objectString, matrix=worldMatrix, worldSpace=1)
+    def setNodeWorldMatrix(nodepathString, worldMatrix):
+        cmds.xform(nodepathString, matrix=worldMatrix, worldSpace=1)
     @staticmethod
     def setUndoChunkOpen():
         cmds.undoInfo(openChunk=1)
@@ -541,57 +541,57 @@ class Mtd_AppMaya(_maConfig.MaConfig):
     def setUndoChunkClose():
         cmds.undoInfo(closeChunk=1)
     @staticmethod
-    def isMeshFaceComp(objectString):
+    def isMeshFaceComp(nodepathString):
         expression = r'(\.f\[.*?\])'
-        search = re.search(expression, objectString)
+        search = re.search(expression, nodepathString)
         if search is not None:
             return search.groups()[0]
     @staticmethod
-    def isMeshEdgeComp(objectString):
+    def isMeshEdgeComp(nodepathString):
         expression = r'(\.e\[.*?\])'
-        search = re.search(expression, objectString)
+        search = re.search(expression, nodepathString)
         if search is not None:
             return search.groups()[0]
     @staticmethod
-    def isMeshVertexComp(objectString):
+    def isMeshVertexComp(nodepathString):
         expression = r'(\.vtx\[.*?\])'
-        search = re.search(expression, objectString)
+        search = re.search(expression, nodepathString)
         if search is not None:
             return search.groups()[0]
     @classmethod
-    def _toMeshFaceComp(cls, objectString, ids):
+    def _toMeshFaceComp(cls, nodepathString, ids):
         lis = []
         if ids:
             reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
-                    lis.append('{}.f[{}]'.format(objectString, i))
+                    lis.append('{}.f[{}]'.format(nodepathString, i))
                 elif isinstance(i, tuple):
-                    lis.append('{}.f[{}:{}]'.format(objectString, *i))
+                    lis.append('{}.f[{}:{}]'.format(nodepathString, *i))
         #
         return lis
     @classmethod
-    def _toMeshEdgeComp(cls, objectString, ids):
+    def _toMeshEdgeComp(cls, nodepathString, ids):
         lis = []
         if ids:
             reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
-                    lis.append('{}.e[{}]'.format(objectString, i))
+                    lis.append('{}.e[{}]'.format(nodepathString, i))
                 elif isinstance(i, tuple):
-                    lis.append('{}.e[{}:{}]'.format(objectString, *i))
+                    lis.append('{}.e[{}:{}]'.format(nodepathString, *i))
         #
         return lis
     @classmethod
-    def _toMeshVertexComp(cls, objectString, ids):
+    def _toMeshVertexComp(cls, nodepathString, ids):
         lis = []
         if ids:
             reduceArray = bscMethods.List.toFrameRange(ids)
             for i in reduceArray:
                 if isinstance(i, int):
-                    lis.append('{}.vtx[{}]'.format(objectString, i))
+                    lis.append('{}.vtx[{}]'.format(nodepathString, i))
                 elif isinstance(i, tuple):
-                    lis.append('{}.vtx[{}:{}]'.format(objectString, *i))
+                    lis.append('{}.vtx[{}:{}]'.format(nodepathString, *i))
         #
         return lis
 
@@ -599,20 +599,20 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 #
 class Mtd_M2Basic(Mtd_AppMaya, _maConfig.Cfg_M2):
     @staticmethod
-    def toM2NodePath(nodeString):
-        return Om2.MGlobal.getSelectionListByName(nodeString).getDagPath(0)
+    def toM2NodePath(nodepathString):
+        return Om2.MGlobal.getSelectionListByName(nodepathString).getDagPath(0)
     @classmethod
-    def toM2TransformNode(cls, nodeString, mode=0):
+    def toM2TransformNode(cls, nodepathString, mode=0):
         if mode == 0:
-            return Om2.MFnTransform(cls.toM2NodePath(nodeString))
+            return Om2.MFnTransform(cls.toM2NodePath(nodepathString))
         elif mode == 1:
-            return Om2.MFnTransform(nodeString)
+            return Om2.MFnTransform(nodepathString)
     @classmethod
-    def toM2DagNode(cls, nodeString, mode=0):
+    def toM2DagNode(cls, nodepathString, mode=0):
         if mode == 0:
-            return Om2.MFnDagNode(cls.toM2NodePath(nodeString))
+            return Om2.MFnDagNode(cls.toM2NodePath(nodepathString))
         elif mode == 1:
-            return Om2.MFnDagNode(nodeString)
+            return Om2.MFnDagNode(nodepathString)
     @staticmethod
     def toM2Point(point):
         m2Point = Om2.MPoint()
@@ -884,10 +884,10 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
                     lis = stringLis
         return lis
     @classmethod
-    def getNodeOutputConnectionLis(cls, nodeString):
+    def getNodeOutputConnectionLis(cls, nodepathString):
         lis = []
-        if cls._isAppExist(nodeString):
-            data = cmds.listConnections(nodeString, destination=1, source=0, connections=1, plugs=1)
+        if cls._isAppExist(nodepathString):
+            data = cmds.listConnections(nodepathString, destination=1, source=0, connections=1, plugs=1)
             if data:
                 for seq, i in enumerate(data):
                     if seq % 2:
@@ -897,10 +897,10 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
                         lis.append((sourceAttr, targetAttr))
         return lis
     @classmethod
-    def getOutputConnectionLisFilter(cls, nodeString, source=None, target=None):
+    def getOutputConnectionLisFilter(cls, nodepathString, source=None, target=None):
         lis = []
-        if cls._isAppExist(nodeString):
-            data = cmds.listConnections(nodeString, destination=1, source=0, connections=1, plugs=1)
+        if cls._isAppExist(nodepathString):
+            data = cmds.listConnections(nodepathString, destination=1, source=0, connections=1, plugs=1)
             if data:
                 for seq, i in enumerate(data):
                     if seq % 2:
@@ -921,9 +921,9 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
                             lis.append((sourceAttr, targetAttr))
         return lis
     @staticmethod
-    def getNodeInputConnectionLis(nodeString):
+    def getNodeInputConnectionLis(nodepathString):
         lis = []
-        data = cmds.listConnections(nodeString, destination=0, source=1, connections=1, plugs=1)
+        data = cmds.listConnections(nodepathString, destination=0, source=1, connections=1, plugs=1)
         if data:
             for seq, i in enumerate(data):
                 if seq % 2:
@@ -934,10 +934,10 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
         return lis
     # noinspection PyUnusedLocal
     @classmethod
-    def getOutputNodeLisFilter(cls, nodeString, source=None, target=None):
+    def getOutputNodeLisFilter(cls, nodepathString, source=None, target=None):
         lis = []
-        if cls._isAppExist(nodeString):
-            stringLis = cmds.listConnections(nodeString, destination=1, source=0, connections=1, plugs=1)
+        if cls._isAppExist(nodepathString):
+            stringLis = cmds.listConnections(nodepathString, destination=1, source=0, connections=1, plugs=1)
             if stringLis:
                 if target is not None:
                     targetAttrLis = [i for seq, i in enumerate(stringLis) if seq % 2 and cls._isStringMatch(i, target)]
@@ -951,11 +951,11 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
         return lis
     # noinspection PyUnusedLocal
     @classmethod
-    def getInputNodeLisFilter(cls, nodeString, source=None, target=None):
+    def getInputNodeLisFilter(cls, nodepathString, source=None, target=None):
         lis = []
         #
-        if cls._isAppExist(nodeString):
-            stringLis = cmds.listConnections(nodeString, destination=0, source=1, connections=1, plugs=1)
+        if cls._isAppExist(nodepathString):
+            stringLis = cmds.listConnections(nodepathString, destination=0, source=1, connections=1, plugs=1)
             if stringLis:
                 if source is not None:
                     sourceAttrLis = [i for seq, i in enumerate(stringLis) if seq % 2 and cls._isStringMatch(i, source)]
@@ -986,21 +986,21 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
 #
 class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _maConfig.MaNodeConfig):
     @classmethod
-    def getNodeAttrRgb(cls, nodeString, attrName):
-        if bscMethods.UniqueId.isUsable(nodeString):
-            nodeString = cls.getNodeByUniqueId(nodeString)
-        return cls.getAttrRgb(cls._toNodeAttr([nodeString, attrName]))
+    def getNodeAttrRgb(cls, nodepathString, attrName):
+        if bscMethods.UniqueId.isUsable(nodepathString):
+            nodepathString = cls.getNodeByUniqueId(nodepathString)
+        return cls.getAttrRgb(cls._toNodeAttr([nodepathString, attrName]))
     @classmethod
-    def getNodeAttrValue(cls, nodeString, attrName):
-        attr = cls._toNodeAttr([nodeString, attrName])
+    def getNodeAttrValue(cls, nodepathString, attrName):
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if cls._isAppExist(attr):
             return cmds.getAttr(attr)
     @classmethod
-    def getNodeAttrBoolean(cls, nodeString, attrName):
-        return cls.getNodeAttrValue(nodeString, attrName) or False
+    def getNodeAttrBoolean(cls, nodepathString, attrName):
+        return cls.getNodeAttrValue(nodepathString, attrName) or False
     @staticmethod
-    def getObjectParentLis(objectString, fullPath=True):
-        return cmds.listRelatives(objectString, parent=1, fullPath=fullPath) or []
+    def getObjectParentLis(nodepathString, fullPath=True):
+        return cmds.listRelatives(nodepathString, parent=1, fullPath=fullPath) or []
     @classmethod
     def getObjectLisByUniqueId(cls, uniqueId, fullPath=True):
         uniqueIdLis = bscMethods.UniqueId.toList(uniqueId)
@@ -1017,17 +1017,17 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     def _getNodeShapeNodeStringList(transform, fullPath=True):
         return cmds.listRelatives(transform, children=1, shapes=1, noIntermediate=0, fullPath=fullPath) or []
     @classmethod
-    def _getNodeShapeNodeString(cls, nodeString, fullPath=True):
+    def _getNodeShapeNodeString(cls, nodepathString, fullPath=True):
         string = None
-        if cls._getNodeCategoryString(nodeString) == cls.DEF_mya_type_transform:
-            stringLis = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
+        if cls._getNodeCategoryString(nodepathString) == cls.DEF_mya_type_transform:
+            stringLis = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
             if stringLis:
                 string = stringLis[0]
         else:
             if fullPath:
-                string = cls._getNodeFullpathNameString(nodeString)
+                string = cls._getNodeFullpathNameString(nodepathString)
             else:
-                string = cls._nodeString2nodename_(nodeString)
+                string = cls._nodeString2nodename_(nodepathString)
         return string
     @classmethod
     def getObjectShapeByUniqueId(cls, uniqueId, fullPath=True):
@@ -1035,10 +1035,10 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         if objectPath:
             return cls._getNodeShapeNodeString(objectPath, fullPath)
     @classmethod
-    def _getNodeShapeCategoryString(cls, objectString):
-        string = cls._getNodeCategoryString(objectString)
+    def _getNodeShapeCategoryString(cls, nodepathString):
+        string = cls._getNodeCategoryString(nodepathString)
         if string == cls.DEF_mya_type_transform:
-            shapePath = cls._getNodeShapeNodeString(objectString)
+            shapePath = cls._getNodeShapeNodeString(nodepathString)
             if shapePath:
                 string = cls._getNodeCategoryString(shapePath)
         return string
@@ -1048,19 +1048,19 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         if objectPath:
             return cls._getNodeShapeCategoryString(objectPath)
     @staticmethod
-    def getObjectParent(objectString, fullPath=True):
-        stringLis = cmds.listRelatives(objectString, parent=1, fullPath=fullPath)
+    def getObjectParent(nodepathString, fullPath=True):
+        stringLis = cmds.listRelatives(nodepathString, parent=1, fullPath=fullPath)
         if stringLis:
             return stringLis[0]
     @classmethod
-    def setObjectParent(cls, objectString, parentString):
-        if cls._isAppExist(parentString) and cls._isAppExist(objectString):
-            origParentPath = cls.getObjectParent(objectString)
+    def setObjectParent(cls, nodepathString, parentString):
+        if cls._isAppExist(parentString) and cls._isAppExist(nodepathString):
+            origParentPath = cls.getObjectParent(nodepathString)
             if origParentPath:
                 if not parentString in origParentPath:
-                    cmds.parent(objectString, parentString)
+                    cmds.parent(nodepathString, parentString)
             else:
-                cmds.parent(objectString, parentString)
+                cmds.parent(nodepathString, parentString)
     @classmethod
     def setObjectParentByUniqueId(cls, uniqueId, parentString):
         def setBranch(objectPath):
@@ -1071,9 +1071,9 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         if uniqueIdLis:
             [setBranch(cls.getNodeByUniqueId(i)) for i in uniqueIdLis]
     @classmethod
-    def getObjectTextureReference(cls, objectString):
-        if cls._isAppExist(objectString):
-            shapePath = cls._getNodeShapeNodeString(objectString)
+    def getObjectTextureReference(cls, nodepathString):
+        if cls._isAppExist(nodepathString):
+            shapePath = cls._getNodeShapeNodeString(nodepathString)
             if shapePath is not None:
                 attr = shapePath + '.referenceObject'
                 if cls._isAppExist(attr):
@@ -1086,12 +1086,12 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         if objectPath:
             return cls.getObjectTextureReference(objectPath)
     @classmethod
-    def setObjectRename(cls, objectString, nameString, withShape=False):
+    def setObjectRename(cls, nodepathString, nameString, withShape=False):
         shapeUniqueId = None
         if withShape is True:
-            shapePath = cls._getNodeShapeNodeString(objectString)
+            shapePath = cls._getNodeShapeNodeString(nodepathString)
             shapeUniqueId = cls._getNodeUniqueIdString(shapePath)
-        cls.setNodeRename(objectString, nameString)
+        cls.setNodeRename(nodepathString, nameString)
         #
         if shapeUniqueId is not None:
             shapeName = nameString + 'Shape'
@@ -1099,15 +1099,15 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     @classmethod
     def setObjectRenameByUniqueId(cls, uniqueId, nameString, withShape=False):
         if bscMethods.UniqueId.isUsable(uniqueId):
-            objectString = cls.getNodeByUniqueId(uniqueId)
-            cls.setObjectRename(objectString, nameString, withShape)
+            nodepathString = cls.getNodeByUniqueId(uniqueId)
+            cls.setObjectRename(nodepathString, nameString, withShape)
     @classmethod
-    def setObjectShapeRename(cls, objectString, nameString=None):
-        shapePath = cls._getNodeShapeNodeString(objectString)
+    def setObjectShapeRename(cls, nodepathString, nameString=None):
+        shapePath = cls._getNodeShapeNodeString(nodepathString)
         shapeName = cls._nodeString2nodename_(shapePath)
         if shapePath:
             if nameString is None:
-                objectName = cls._nodeString2nodename_(objectString)
+                objectName = cls._nodeString2nodename_(nodepathString)
                 nameString = objectName + 'Shape'
             if nameString != shapeName:
                 if not cls.isNodeLocked(shapePath):
@@ -1115,8 +1115,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
     @classmethod
     def setObjectShapeRenameByUniqueId(cls, uniqueId, nameString=None):
         if bscMethods.UniqueId.isUsable(uniqueId):
-            objectString = cls.getNodeByUniqueId(uniqueId)
-            cls.setObjectShapeRename(objectString, nameString)
+            nodepathString = cls.getNodeByUniqueId(uniqueId)
+            cls.setObjectShapeRename(nodepathString, nameString)
     @classmethod
     def setObjectTextureReferenceRenameByUniqueId(cls, uniqueId):
         objectPath = cls.getNodeByUniqueId(uniqueId)
@@ -1147,8 +1147,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, fullPath=1)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, fullPath=1)
             if stringLis:
                 for node in stringLis:
                     if filterTypeLis:
@@ -1168,10 +1168,10 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             [branchFn(i) for i in groupLis]
         return lis
     @classmethod
-    def getNodeChildLis(cls, nodeString, fullPath=True):
+    def getNodeChildLis(cls, nodepathString, fullPath=True):
         lis = []
-        if cls._isAppExist(nodeString):
-            lis = cmds.listRelatives(nodeString, children=1, fullPath=fullPath) or []
+        if cls._isAppExist(nodepathString):
+            lis = cmds.listRelatives(nodepathString, children=1, fullPath=fullPath) or []
         return lis
     @classmethod
     def getNodeTransformLisByGroup(cls, groupString, nodeTypeString, fullPath=True):
@@ -1179,8 +1179,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
             if stringLis:
                 for node in stringLis:
                     shapePath = cmds.listRelatives(node, children=1, shapes=1, noIntermediate=1, fullPath=1)
@@ -1207,8 +1207,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
             if stringLis:
                 for node in stringLis:
                     shapePathLis = cmds.listRelatives(node, children=1, shapes=1, noIntermediate=0, fullPath=1)
@@ -1228,8 +1228,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, fullPath=fullPath)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, fullPath=fullPath)
             if stringLis:
                 for node in stringLis:
                     if filterTypeLis:
@@ -1254,8 +1254,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
             if stringLis:
                 for node in stringLis:
                     shapePath = cls._getNodeShapeNodeString(node)
@@ -1275,8 +1275,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             if not node in lis:
                 lis.append(node)
         #
-        def branchFn(nodeString):
-            stringLis = cmds.listRelatives(nodeString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
+        def branchFn(nodepathString):
+            stringLis = cmds.listRelatives(nodepathString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath)
             if stringLis:
                 for node in stringLis:
                     if cls._getNodeIsGroup(node):
@@ -1341,29 +1341,29 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         #
         return lis
     @classmethod
-    def _getNodeIsGroup(cls, nodeString):
+    def _getNodeIsGroup(cls, nodepathString):
         boolean = False
         # Nde_Node Type is "Transform" and has Non "Shape(s)"
-        if cmds.nodeType(nodeString) == cls.DEF_mya_type_transform:
-            shapePathLis = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+        if cmds.nodeType(nodepathString) == cls.DEF_mya_type_transform:
+            shapePathLis = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if shapePathLis is None:
                 boolean = True
         return boolean
     @classmethod
-    def _getNodeIsTransform(cls, nodeString):
+    def _getNodeIsTransform(cls, nodepathString):
         boolean = False
         # Nde_Node Type is "Transform" and has "Shape(s)"
-        if cmds.nodeType(nodeString) == cls.DEF_mya_type_transform:
-            shapePathLis = cmds.listRelatives(nodeString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+        if cmds.nodeType(nodepathString) == cls.DEF_mya_type_transform:
+            shapePathLis = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if shapePathLis is not None:
                 boolean = True
         return boolean
     @classmethod
-    def _getNodeIsShape(cls, nodeString):
+    def _getNodeIsShape(cls, nodepathString):
         boolean = False
-        if cmds.nodeType(nodeString) != cls.DEF_mya_type_transform:
-            transformPath = cls._getNodeTransformNodeString(nodeString)
-            shapePathLis = cls._getNodeShapeNodeStringList(nodeString)
+        if cmds.nodeType(nodepathString) != cls.DEF_mya_type_transform:
+            transformPath = cls._getNodeTransformNodeString(nodepathString)
+            shapePathLis = cls._getNodeShapeNodeStringList(nodepathString)
             if transformPath and not shapePathLis:
                 boolean = True
         return boolean
@@ -1376,8 +1376,8 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                 boolean = True
         return boolean
     @classmethod
-    def getObjectChildObjectLis(cls, objectString, fullPath=True):
-        return cmds.listRelatives(objectString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath) or []
+    def getObjectChildObjectLis(cls, nodepathString, fullPath=True):
+        return cmds.listRelatives(nodepathString, children=1, type=cls.DEF_mya_type_transform, fullPath=fullPath) or []
     @classmethod
     def getGroupLisByRoot(cls, groupString, fullPath=True):
         def getChild(parent):
@@ -1405,25 +1405,25 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                 if not childNodeLis:
                     cls.setNodeDelete(childGroup)
     @classmethod
-    def setNodeDelete(cls, nodeString):
-        if cls._isAppExist(nodeString):
-            cmds.delete(nodeString)
+    def setNodeDelete(cls, nodepathString):
+        if cls._isAppExist(nodepathString):
+            cmds.delete(nodepathString)
     @classmethod
-    def setNodesDelete(cls, nodeString):
-        nodeLis = cls._toAppExistStringList(nodeString)
+    def setNodesDelete(cls, nodepathString):
+        nodeLis = cls._toAppExistStringList(nodepathString)
         [cls.setNodeDelete(i) for i in nodeLis]
     @classmethod
-    def getAttrDefaultValueLis(cls, nodeString, attrName, attrType):
+    def getAttrDefaultValueLis(cls, nodepathString, attrName, attrType):
         lis = []
         if not attrType in cls.MaAttrTypeLis_NonDefaultValue:
             attrQueryName = cls._getAttributeQueryNameString(attrName)
-            lis = cmds.attributeQuery(attrQueryName, node=nodeString, listDefault=1) or []
+            lis = cmds.attributeQuery(attrQueryName, node=nodepathString, listDefault=1) or []
         return lis
     @classmethod
-    def getNodeAttrDatum(cls, nodeString, attrName):
+    def getNodeAttrDatum(cls, nodepathString, attrName):
         tup = ()
         if not attrName in cls.MaAttrNameLis_ShaderExcept:
-            attr = cls._toNodeAttr([nodeString, attrName])
+            attr = cls._toNodeAttr([nodepathString, attrName])
             # Filter Exists
             if cmds.objExists(attr):
                 attrType = cls.getAttrType(attr)
@@ -1447,33 +1447,33 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                             if attrName.endswith('_Position') or attrName.endswith('_FloatValue') or attrName.endswith('_Interp'):
                                 tup = attrName, value, attrType, lockAttribute
                             else:
-                                defaultValueLis = cls.getAttrDefaultValueLis(nodeString, attrName, attrType)
+                                defaultValueLis = cls.getAttrDefaultValueLis(nodepathString, attrName, attrType)
                                 if not value in defaultValueLis:
                                     tup = attrName, value, attrType, lockAttribute
         return tup
     @classmethod
-    def getNodeAttrDatumLis(cls, nodeString, attrNames):
+    def getNodeAttrDatumLis(cls, nodepathString, attrNames):
         lis = []
         #
         if attrNames:
             for attrName in attrNames:
-                attrData = cls.getNodeAttrDatum(nodeString, attrName)
+                attrData = cls.getNodeAttrDatum(nodepathString, attrName)
                 if attrData:
                     lis.append(attrData)
         return lis
     @staticmethod
-    def getNodeDefAttrNameLis(nodeString):
-        return cmds.listAttr(nodeString, read=1, write=1, inUse=1, multi=1) or []
+    def getNodeDefAttrNameLis(nodepathString):
+        return cmds.listAttr(nodepathString, read=1, write=1, inUse=1, multi=1) or []
     @classmethod
-    def getNodeDefAttrDatumLis(cls, nodeString):
-        attrNameLis = cls.getNodeDefAttrNameLis(nodeString)
-        return cls.getNodeAttrDatumLis(nodeString, attrNameLis)
+    def getNodeDefAttrDatumLis(cls, nodepathString):
+        attrNameLis = cls.getNodeDefAttrNameLis(nodepathString)
+        return cls.getNodeAttrDatumLis(nodepathString, attrNameLis)
     @classmethod
-    def setAttrStringDatum(cls, nodeString, attrName, attrType, data, lockAttribute):
+    def setAttrStringDatum(cls, nodepathString, attrName, attrType, data, lockAttribute):
         if attrName in cls.MaAttrNameDic_Convert:
             attrName = cls.MaAttrNameDic_Convert[attrName]
         #
-        attr = nodeString + '.' + attrName
+        attr = nodepathString + '.' + attrName
         if cls._isAppExist(attr):
             if not cls.isAttrDestination(attr):
                 # Filter String
@@ -1494,26 +1494,26 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
                 # Lock Attr
                 cmds.setAttr(attr, lock=lockAttribute)
     @classmethod
-    def setNodeCompoundAttrClear(cls, nodeString):
-        attrNameLis = cls.getNodeDefAttrNameLis(nodeString)
+    def setNodeCompoundAttrClear(cls, nodepathString):
+        attrNameLis = cls.getNodeDefAttrNameLis(nodepathString)
         if attrNameLis:
             for attrName in attrNameLis:
                 if attrName.endswith('_Position'):
                     mainAttrName = attrName.split('.')[0]
-                    attr = nodeString + '.' + mainAttrName
+                    attr = nodepathString + '.' + mainAttrName
                     if cls._isAppExist(attr):
                         cmds.removeMultiInstance(attr)
     @classmethod
-    def setNodeDefAttrByData(cls, nodeString, attrData):
+    def setNodeDefAttrByData(cls, nodepathString, attrData):
         colorAttrDic = {}
         # Debug Must Clear Compound Attribute First !!!
-        cls.setNodeCompoundAttrClear(nodeString)
+        cls.setNodeCompoundAttrClear(nodepathString)
         #
         for attrDatum in attrData:
             if attrDatum:
                 attrName, value, attrType, isLocked = attrDatum
                 if not attrName in cls.MaAttrNameLis_ShaderExcept:
-                    cls.setAttrStringDatum(nodeString, attrName, attrType, value, isLocked)
+                    cls.setAttrStringDatum(nodepathString, attrName, attrType, value, isLocked)
                 # Debug Color Attribute
                 if attrName.endswith('R') or attrName.endswith('G') or attrName.endswith('B'):
                     mainAttr = attrName[:-1]
@@ -1522,71 +1522,71 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
         if colorAttrDic:
             for k, v in colorAttrDic.items():
                 if len(v) == 3:
-                    cls.setNodeColorAttr(nodeString, k, *v)
+                    cls.setNodeColorAttr(nodepathString, k, *v)
     @classmethod
-    def setNodeOverrideRgb(cls, nodeString, r, g, b, boolean=True):
-        cmds.setAttr(cls._toNodeAttr([nodeString, 'overrideRGBColors']), 1)
-        cmds.setAttr(cls._toNodeAttr([nodeString, 'overrideColorRGB']), r, g, b)
-        cmds.setAttr(cls._toNodeAttr([nodeString, 'overrideEnabled']), boolean)
+    def setNodeOverrideRgb(cls, nodepathString, r, g, b, boolean=True):
+        cmds.setAttr(cls._toNodeAttr([nodepathString, 'overrideRGBColors']), 1)
+        cmds.setAttr(cls._toNodeAttr([nodepathString, 'overrideColorRGB']), r, g, b)
+        cmds.setAttr(cls._toNodeAttr([nodepathString, 'overrideEnabled']), boolean)
     @classmethod
     def setNodeOverrideRgbByUniqueId(cls, uniqueId, r, g, b, boolean=True):
         objectPath = cls.getNodeByUniqueId(uniqueId)
         if objectPath:
             cls.setNodeOverrideRgb(objectPath, r, g, b, boolean)
     @classmethod
-    def isNodeOutlinerColorEnable(cls, nodeString):
-        if bscMethods.UniqueId.isUsable(nodeString):
-            nodeString = cls.getNodeByUniqueId(nodeString)
-        return cmds.getAttr(cls._toNodeAttr([nodeString, 'useOutlinerColor'])) or False
+    def isNodeOutlinerColorEnable(cls, nodepathString):
+        if bscMethods.UniqueId.isUsable(nodepathString):
+            nodepathString = cls.getNodeByUniqueId(nodepathString)
+        return cmds.getAttr(cls._toNodeAttr([nodepathString, 'useOutlinerColor'])) or False
     @classmethod
-    def getNodeOutlinerRgb(cls, nodeString):
-        return cls.getNodeAttrRgb(nodeString, 'outlinerColor')
+    def getNodeOutlinerRgb(cls, nodepathString):
+        return cls.getNodeAttrRgb(nodepathString, 'outlinerColor')
     @classmethod
-    def setNodeOutlinerRgb(cls, nodeString, r, g, b, boolean=True):
-        cmds.setAttr(cls._toNodeAttr([nodeString, 'outlinerColor']), r, g, b)
-        cmds.setAttr(cls._toNodeAttr([nodeString, 'useOutlinerColor']), boolean)
+    def setNodeOutlinerRgb(cls, nodepathString, r, g, b, boolean=True):
+        cmds.setAttr(cls._toNodeAttr([nodepathString, 'outlinerColor']), r, g, b)
+        cmds.setAttr(cls._toNodeAttr([nodepathString, 'useOutlinerColor']), boolean)
     @classmethod
-    def setNodeOutlinerColorEnable(cls, nodeString, boolean):
-        cls.setNodeAttr(nodeString, 'useOutlinerColor', boolean)
+    def setNodeOutlinerColorEnable(cls, nodepathString, boolean):
+        cls.setNodeAttr(nodepathString, 'useOutlinerColor', boolean)
     @classmethod
     def setNodeOutlinerRgbByUniqueId(cls, uniqueId, r, g, b, boolean=True):
         objectPath = cls.getNodeByUniqueId(uniqueId)
         if objectPath:
             cls.setNodeOutlinerRgb(objectPath, r, g, b, boolean)
     @classmethod
-    def lynxi_setNodeAttr(cls, nodeString):
-        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Artist, bscMethods.OsSystem.username())
-        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_Update, bscMethods.OsSystem.activeTimestamp())
-        cls.setAttrStringDatumForce_(nodeString, cls.LynxiAttrName_NodeId, cls._getNodeUniqueIdString(nodeString))
+    def lynxi_setNodeAttr(cls, nodepathString):
+        cls.setAttrStringDatumForce_(nodepathString, cls.LynxiAttrName_Artist, bscMethods.OsSystem.username())
+        cls.setAttrStringDatumForce_(nodepathString, cls.LynxiAttrName_Update, bscMethods.OsSystem.activeTimestamp())
+        cls.setAttrStringDatumForce_(nodepathString, cls.LynxiAttrName_NodeId, cls._getNodeUniqueIdString(nodepathString))
     @classmethod
-    def lynxi_isNodeColorEnable(cls, nodeString):
+    def lynxi_isNodeColorEnable(cls, nodepathString):
         boolean = True
         #
         attrName = cls.LynxiAttrName_NodeColorEnable
-        attr = cls._toNodeAttr([nodeString, attrName])
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if cls._isAppExist(attr):
-            boolean = cls.getNodeAttrValue(nodeString, attrName)
+            boolean = cls.getNodeAttrValue(nodepathString, attrName)
         else:
-            cls.setAttrBooleanDatumForce_(nodeString, attrName, boolean)
+            cls.setAttrBooleanDatumForce_(nodepathString, attrName, boolean)
         return boolean
     @classmethod
-    def lynxi_getNodeColor(cls, nodeString):
-        r, g, b = bscMethods.String.toRgb(cls._nodeString2nodename_(nodeString), maximum=1.0)
+    def lynxi_getNodeColor(cls, nodepathString):
+        r, g, b = bscMethods.String.toRgb(cls._nodeString2nodename_(nodepathString), maximum=1.0)
         #
         attrName = cls.LynxiAttrName_NodeColor
-        attr = cls._toNodeAttr([nodeString, attrName])
+        attr = cls._toNodeAttr([nodepathString, attrName])
         if cls._isAppExist(attr):
             r, g, b = cls.getAttrRgb(attr)
         else:
-            cls.setNodeRgbAttrForce(nodeString, attrName, r, g, b)
+            cls.setNodeRgbAttrForce(nodepathString, attrName, r, g, b)
         return r, g, b
     @classmethod
-    def getAssemblyReferenceNode(cls, nodeString):
+    def getAssemblyReferenceNode(cls, nodepathString):
         node = None
-        if cls._getNodeCategoryString(nodeString) == cls.DEF_mya_type_assembly_reference:
-            node = nodeString
+        if cls._getNodeCategoryString(nodepathString) == cls.DEF_mya_type_assembly_reference:
+            node = nodepathString
         else:
-            parentNode = cls.getObjectParent(nodeString)
+            parentNode = cls.getObjectParent(nodepathString)
             if cls._getNodeCategoryString(parentNode) == cls.DEF_mya_type_assembly_reference:
                 node = parentNode
         return node
@@ -1614,20 +1614,20 @@ class MaNodeMethodBasic(MaNodeAttributeMethodBasic, MaConnectionMethodBasic, _ma
             else:
                 cls.setMessageWindowShow('Selected Nde_Node(s) is', 'Show !!!')
     @classmethod
-    def isObjectShapeInstanced(cls, objectString):
+    def isObjectShapeInstanced(cls, nodepathString):
         boolean = False
-        shapePath = cls._getNodeShapeNodeString(objectString)
+        shapePath = cls._getNodeShapeNodeString(nodepathString)
         if shapePath:
             stringLis = cmds.listRelatives(shapePath, allParents=1, fullPath=1) or []
             if len(stringLis) > 1:
                 boolean = True
         return boolean
     @classmethod
-    def setObjectInstanceCovert(cls, objectString):
-        if cls.isObjectShapeInstanced(objectString):
-            stringLis = cmds.duplicate(objectString)
-            cmds.delete(objectString)
-            cmds.rename(stringLis[0], cls._nodeString2nodename_(objectString))
+    def setObjectInstanceCovert(cls, nodepathString):
+        if cls.isObjectShapeInstanced(nodepathString):
+            stringLis = cmds.duplicate(nodepathString)
+            cmds.delete(nodepathString)
+            cmds.rename(stringLis[0], cls._nodeString2nodename_(nodepathString))
 
 
 #
@@ -1638,11 +1638,11 @@ class M2NodeMethodBasic(Mtd_M2Basic):
 #
 class M2GeometryNodeMethodBasic(MaNodeMethodBasic, Mtd_M2Basic):
     @classmethod
-    def getMeshNormalLockVertexLis(cls, objectString):
+    def getMeshNormalLockVertexLis(cls, nodepathString):
         lis = []
-        if cls._isAppExist(objectString):
+        if cls._isAppExist(nodepathString):
             lis = []
-            m2MeshObject = cls.toM2MeshNode(objectString)
+            m2MeshObject = cls.toM2MeshNode(nodepathString)
             for vertexId in [i for i in xrange(m2MeshObject.numVertices)]:
                 if m2MeshObject.isNormalLocked(vertexId):
                     lis.append(vertexId)
@@ -1704,8 +1704,8 @@ class M2GeometryNodeMethodBasic(MaNodeMethodBasic, Mtd_M2Basic):
 #
 class M2CameraMethodBasic(Mtd_M2Basic):
     @classmethod
-    def toM2Camera(cls, objectString):
-        return Om2.MFnCamera(cls.toM2NodePath(objectString))
+    def toM2Camera(cls, nodepathString):
+        return Om2.MFnCamera(cls.toM2NodePath(nodepathString))
 
 
 #
@@ -1729,12 +1729,12 @@ class MaNodeGraphMethodBasic(MaNodeMethodBasic, _maConfig.MaNodeGraphConfig):
         for compPath in compPathLis:
             cls.setCompAppPathCreate(compPath, lockTransformation, hideTransformation)
     @classmethod
-    def getInputShapeLis(cls, objectString, filterType=None):
+    def getInputShapeLis(cls, nodepathString, filterType=None):
         lis = []
         if filterType is not None:
-            inputConnectionLis = cmds.listConnections(objectString, destination=0, source=1, shapes=1, type=filterType)
+            inputConnectionLis = cmds.listConnections(nodepathString, destination=0, source=1, shapes=1, type=filterType)
         else:
-            inputConnectionLis = cmds.listConnections(objectString, destination=0, source=1, shapes=1)
+            inputConnectionLis = cmds.listConnections(nodepathString, destination=0, source=1, shapes=1)
         if inputConnectionLis:
             for i in inputConnectionLis:
                 if cls._getNodeIsTransform(i) or cls._getNodeIsShape(i):
@@ -1743,7 +1743,7 @@ class MaNodeGraphMethodBasic(MaNodeMethodBasic, _maConfig.MaNodeGraphConfig):
                     lis.append(i)
         return lis
     @classmethod
-    def getObjectGraphData(cls, objectString):
+    def getObjectGraphData(cls, nodepathString):
         def branchFn(string):
             if not string in nodeLis:
                 if cls._getNodeIsTransform(string):
@@ -1774,13 +1774,13 @@ class MaNodeGraphMethodBasic(MaNodeMethodBasic, _maConfig.MaNodeGraphConfig):
         objectLis = []
         nodeLis = []
         #
-        branchFn(cls._getNodeFullpathNameString(objectString))
+        branchFn(cls._getNodeFullpathNameString(nodepathString))
         return objectLis, nodeLis
     @classmethod
-    def getObjectGraphLisForRename(cls, objectString):
+    def getObjectGraphLisForRename(cls, nodepathString):
         pass
     @classmethod
-    def getObjectGraphLisForCollection(cls, objectString):
+    def getObjectGraphLisForCollection(cls, nodepathString):
         pass
 
 

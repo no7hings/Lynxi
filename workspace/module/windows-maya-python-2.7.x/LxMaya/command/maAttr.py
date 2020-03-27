@@ -254,10 +254,10 @@ def setAttrLocked(attr, boolean):
 
 
 #
-def getNodeAttrDatum(nodeString, attrName):
+def getNodeAttrDatum(nodepathString, attrName):
     tup = ()
     if not attrName in MaAttrNameLis_ShaderExcept:
-        attr = nodeString + '.' + attrName
+        attr = nodepathString + '.' + attrName
         attrType = getAttrType(attr)
         if attrType in MaAttrTypeLis_Readable:
             # Filter Exists
@@ -278,7 +278,7 @@ def getNodeAttrDatum(nodeString, attrName):
                         elif lock is False:
                             lock = 0
                         # Filter Default Value
-                        defaultValues = getAttrDefaultValueLis(nodeString, attrName, attrType)
+                        defaultValues = getAttrDefaultValueLis(nodepathString, attrName, attrType)
                         # Debug ( Error Attr )
                         isBugAttrName = attrName in bugAttrNames
                         if isBugAttrName:
@@ -295,22 +295,22 @@ def getNodeAttrDatum(nodeString, attrName):
 
 
 #
-def getNodeAttrDatumLis(nodeString, attrNames):
+def getNodeAttrDatumLis(nodepathString, attrNames):
     lis = []
     #
     if attrNames:
         for attrName in attrNames:
-            attrData = getNodeAttrDatum(nodeString, attrName)
+            attrData = getNodeAttrDatum(nodepathString, attrName)
             if attrData:
                 lis.append(attrData)
     return lis
 
 
 #
-def getAttrDataForce(nodeString, attrName):
+def getAttrDataForce(nodepathString, attrName):
     tup = ()
     if not attrName in MaAttrNameLis_ShaderExcept:
-        attr = nodeString + '.' + attrName
+        attr = nodepathString + '.' + attrName
         attrType = getAttrType(attr)
         if attrType in MaAttrTypeLis_Readable:
             # Filter Exists
@@ -332,61 +332,61 @@ def getAttrDataForce(nodeString, attrName):
 
 
 #
-def getAttrDataLisForce(nodeString, attrNames):
+def getAttrDataLisForce(nodepathString, attrNames):
     lis = []
     #
     if attrNames:
         for attrName in attrNames:
-            attrData = getAttrDataForce(nodeString, attrName)
+            attrData = getAttrDataForce(nodepathString, attrName)
             if attrData:
                 lis.append(attrData)
     return lis
 
 
 #
-def getNodeDefAttrNameLis(nodeString):
-    return cmds.listAttr(nodeString, read=1, write=1, inUse=1, multi=1) or []
+def getNodeDefAttrNameLis(nodepathString):
+    return cmds.listAttr(nodepathString, read=1, write=1, inUse=1, multi=1) or []
 
 
 #
-def getNodeAttrLis(nodeString):
-    return cmds.listAttr(nodeString) or []
+def getNodeAttrLis(nodepathString):
+    return cmds.listAttr(nodepathString) or []
 
 
 #
-def getNodeDefAttrDatumLis(nodeString):
-    attrNameLis = getNodeDefAttrNameLis(nodeString)
-    return getNodeAttrDatumLis(nodeString, attrNameLis)
+def getNodeDefAttrDatumLis(nodepathString):
+    attrNameLis = getNodeDefAttrNameLis(nodepathString)
+    return getNodeAttrDatumLis(nodepathString, attrNameLis)
 
 
 #
-def getNodeUserDefAttrNameLis(nodeString):
-    return cmds.listAttr(nodeString, userDefined=1) or []
+def getNodeUserDefAttrNameLis(nodepathString):
+    return cmds.listAttr(nodepathString, userDefined=1) or []
 
 
 #
-def getNodeUserDefAttrData(nodeString):
-    attrNameLis = getNodeUserDefAttrNameLis(nodeString)
-    return getAttrDataLisForce(nodeString, attrNameLis)
+def getNodeUserDefAttrData(nodepathString):
+    attrNameLis = getNodeUserDefAttrNameLis(nodepathString)
+    return getAttrDataLisForce(nodepathString, attrNameLis)
 
 
 #
-def getObjectDisplayAttrData(objectString):
+def getObjectDisplayAttrData(nodepathString):
     attrNameLis = MaObjectDisplayAttrNameLis
-    return getNodeAttrDatumLis(objectString, attrNameLis)
+    return getNodeAttrDatumLis(nodepathString, attrNameLis)
 
 
 #
-def getNodePlugAttrData(nodeString):
-    attrNameLis = cmds.listAttr(nodeString, read=1, write=1, fromPlugin=1)
-    return getAttrDataLisForce(nodeString, attrNameLis)
+def getNodePlugAttrData(nodepathString):
+    attrNameLis = cmds.listAttr(nodepathString, read=1, write=1, fromPlugin=1)
+    return getAttrDataLisForce(nodepathString, attrNameLis)
 
 
 #
-def setNodeUnrenderable(nodeString):
+def setNodeUnrenderable(nodepathString):
     def setBranch(attrNames):
         for attrName in attrNames:
-            attr = nodeString + '.' + attrName
+            attr = nodepathString + '.' + attrName
             if cmds.objExists(attr):
                 cmds.setAttr(attr, 0)
     #
@@ -395,16 +395,16 @@ def setNodeUnrenderable(nodeString):
 
 
 #
-def getNodeRenderAttrData(nodeString):
-    return getAttrDataLisForce(nodeString, MaCommonRenderAttrNameLis)
+def getNodeRenderAttrData(nodepathString):
+    return getAttrDataLisForce(nodepathString, MaCommonRenderAttrNameLis)
 
 
-# Set nodeString Attribute Main Method
-def setAttrStringDatum(nodeString, attrName, attrType, data, lock, lockAttribute):
+# Set nodepathString Attribute Main Method
+def setAttrStringDatum(nodepathString, attrName, attrType, data, lock, lockAttribute):
     if attrName in MaAttrNameDic_Convert:
         attrName = MaAttrNameDic_Convert[attrName]
     #
-    attr = nodeString + '.' + attrName
+    attr = nodepathString + '.' + attrName
     if cmds.objExists(attr):
         if not isAttrDestination(attr):
             # Filter String
@@ -429,9 +429,9 @@ def setAttrStringDatum(nodeString, attrName, attrType, data, lock, lockAttribute
 
 
 #
-def setNodeCompoundAttrClear(nodeString):
+def setNodeCompoundAttrClear(nodepathString):
     compoundAttrNameLis = []
-    attrNameLis = cmds.listAttr(nodeString)
+    attrNameLis = cmds.listAttr(nodepathString)
     if attrNameLis:
         for attrName in attrNameLis:
             if attrName.endswith('_Position') or attrName.endswith('_FloatValue') or attrName.endswith('_Interp'):
@@ -443,24 +443,24 @@ def setNodeCompoundAttrClear(nodeString):
         for compoundAttrName in compoundAttrNameLis:
             for i in range(5):
                 attrName = '{}[{}]'.format(compoundAttrName, i)
-                attr = nodeString + '.' + attrName
+                attr = nodepathString + '.' + attrName
                 if cmds.objExists(attr):
                     cmds.removeMultiInstance(attr)
                     print '// Result : Remove Attr > {} //'.format(attr)
 
 
 #
-def setNodeDefAttrByData(nodeString, attrDataArray, lockAttribute=True):
+def setNodeDefAttrByData(nodepathString, attrDataArray, lockAttribute=True):
     colorAttrDic = {}
     #
     if attrDataArray:
-        setNodeCompoundAttrClear(nodeString)
+        setNodeCompoundAttrClear(nodepathString)
         #
         for attrData in attrDataArray:
             if attrData:
                 attrName, value, attrType, lock = attrData
                 if not attrName in MaAttrNameLis_ShaderExcept:
-                    setAttrStringDatum(nodeString, attrName, attrType, value, lock, lockAttribute)
+                    setAttrStringDatum(nodepathString, attrName, attrType, value, lock, lockAttribute)
                 # Color
                 if attrName.endswith('R') or attrName.endswith('G') or attrName.endswith('B'):
                     mainAttr = attrName[:-1]
@@ -470,33 +470,33 @@ def setNodeDefAttrByData(nodeString, attrDataArray, lockAttribute=True):
             for k, v in colorAttrDic.items():
                 if len(v) == 3:
                     attrName = k
-                    attr = nodeString + '.' + attrName
+                    attr = nodepathString + '.' + attrName
                     if not isAttrDestination(attr):
                         if cmds.objExists(attr):
                             cmds.setAttr(attr, *v, type='float3')
 
 
 #
-def setObjectUserDefinedAttrs(nodeString, attrDataArray, lockAttribute=True):
+def setObjectUserDefinedAttrs(nodepathString, attrDataArray, lockAttribute=True):
     for attrData in attrDataArray:
         if attrData:
             attrName, data, attrType, lock = attrData
-            attr = nodeString + '.' + attrName
+            attr = nodepathString + '.' + attrName
             # Filter String
             isString = attrType == 'string'
             if not cmds.objExists(attr):
                 if isString:
-                    cmds.addAttr(nodeString, longName=attrName, dataType='string')
+                    cmds.addAttr(nodepathString, longName=attrName, dataType='string')
                 elif not isString:
-                    cmds.addAttr(nodeString, longName=attrName, attributeType=attrType)
+                    cmds.addAttr(nodepathString, longName=attrName, attributeType=attrType)
             #
-            setAttrStringDatum(nodeString, attrName, attrType, data, lock, lockAttribute)
+            setAttrStringDatum(nodepathString, attrName, attrType, data, lock, lockAttribute)
 
 
 #
-def getNodeConnectionsDataArray(nodeString):
+def getNodeConnectionsDataArray(nodepathString):
     connectionArray = []
-    connections = cmds.listConnections(nodeString, destination=0, source=1, connections=1, plugs=1)
+    connections = cmds.listConnections(nodepathString, destination=0, source=1, connections=1, plugs=1)
     if connections:
         for seq, connection in enumerate(connections):
             if seq % 2:
@@ -509,10 +509,10 @@ def getNodeConnectionsDataArray(nodeString):
 #
 def getObjectConnectionDataArray(maObj):
     if maUtils._getNodeIsTransform(maObj):
-        nodeString = maUtils._getNodeShapeNodeString(maObj)
+        nodepathString = maUtils._getNodeShapeNodeString(maObj)
     else:
-        nodeString = maObj
-    return getNodeConnectionsDataArray(nodeString)
+        nodepathString = maObj
+    return getNodeConnectionsDataArray(nodepathString)
 
 
 #

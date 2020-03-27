@@ -209,4 +209,3 @@ class UserPreset(object):
 
     def tagFilterConfigFile(self, unitName):
         return u'{}/ui/tag/{}-filter.config.json'.format(self._localPathString, unitName)
-

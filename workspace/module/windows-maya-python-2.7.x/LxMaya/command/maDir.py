@@ -12,12 +12,12 @@ none = ''
 
 
 #
-def getLinkDicMethod(dic, nodeString, fileString_):
+def getLinkDicMethod(dic, nodepathString, fileString_):
     fileString_ = fileString_.replace('\\', '/')
     fileString_ = bscMethods.OsFile.reduceFilename(fileString_)
     #
     key = fileString_.lower()
-    dic.setdefault(key, []).append((nodeString, fileString_))
+    dic.setdefault(key, []).append((nodepathString, fileString_))
 
 
 #
@@ -113,11 +113,11 @@ def getReferenceLinkDic(nodes=None):
 
 
 #
-def setReferenceRepath(nodeString, fileString_):
-    sourceFile = maUtils.getReferenceFile(nodeString, useMode=1)
+def setReferenceRepath(nodepathString, fileString_):
+    sourceFile = maUtils.getReferenceFile(nodepathString, useMode=1)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setReloadReferenceFile(nodeString)
-        maUtils.setLoadReferenceFile(nodeString, fileString_)
+        maUtils.setReloadReferenceFile(nodepathString)
+        maUtils.setLoadReferenceFile(nodepathString, fileString_)
 
 
 # Assembly Reference
@@ -143,12 +143,12 @@ def getAsbRefLinkDic(nodes=None):
 
 
 #
-def setAssemblyReferenceRepath(nodeString, fileString_):
+def setAssemblyReferenceRepath(nodepathString, fileString_):
     attrName = 'definition'
     #
-    sourceFile = maUtils.getAttrDatum(nodeString, attrName)
+    sourceFile = maUtils.getAttrDatum(nodepathString, attrName)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
+        maUtils.setAttrStringDatum(nodepathString, attrName, fileString_)
 
 
 # Proxy ( Arnold )
@@ -174,11 +174,11 @@ def getProxyCacheLinkDic(nodes=None):
 
 
 #
-def setProxyCacheRepath(nodeString, fileString_):
+def setProxyCacheRepath(nodepathString, fileString_):
     attrName = 'dso'
-    sourceFile = maUtils.getAttrDatum(nodeString, attrName)
+    sourceFile = maUtils.getAttrDatum(nodepathString, attrName)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
+        maUtils.setAttrStringDatum(nodepathString, attrName, fileString_)
 
 
 #
@@ -206,11 +206,11 @@ def getVolumeCacheLinkDic(nodes=None):
 
 
 #
-def setVolumeCacheRepath(nodeString, fileString_):
+def setVolumeCacheRepath(nodepathString, fileString_):
     attrName = 'filename'
-    sourceFile = maUtils.getAttrDatum(nodeString, attrName)
+    sourceFile = maUtils.getAttrDatum(nodepathString, attrName)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
+        maUtils.setAttrStringDatum(nodepathString, attrName, fileString_)
 
 
 # GPU Cache
@@ -237,12 +237,12 @@ def getGpuCacheLinkDic(nodes=None):
 
 
 #
-def setGpuCacheRepath(nodeString, fileString_):
+def setGpuCacheRepath(nodepathString, fileString_):
     attrName = 'cacheFileName'
     #
-    sourceFile = maUtils.getAttrDatum(nodeString, attrName)
+    sourceFile = maUtils.getAttrDatum(nodepathString, attrName)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
+        maUtils.setAttrStringDatum(nodepathString, attrName, fileString_)
 
 
 # Alembic Cache
@@ -270,12 +270,12 @@ def getAlembicCacheLinkDic(nodes=None):
 
 
 #
-def setRepathAlembicCache(nodeString, fileString_):
+def setRepathAlembicCache(nodepathString, fileString_):
     attrName = 'abc_File'
     #
-    sourceFile = maUtils.getAttrDatum(nodeString, attrName)
+    sourceFile = maUtils.getAttrDatum(nodepathString, attrName)
     if not bscMethods.OsFile.isSame(sourceFile, fileString_):
-        maUtils.setAttrStringDatum(nodeString, attrName, fileString_)
+        maUtils.setAttrStringDatum(nodepathString, attrName, fileString_)
 
 
 #
@@ -339,18 +339,18 @@ def getGeomCacheLinkDic(nodes=None):
 
 
 #
-def setFurCacheRepath(nodeString, sourceFile, targetFile, force=False):
-    nodeType = maUtils._getNodeCategoryString(nodeString)
+def setFurCacheRepath(nodepathString, sourceFile, targetFile, force=False):
+    nodeType = maUtils._getNodeCategoryString(nodepathString)
     if nodeType == appCfg.MaNodeType_Plug_Yeti:
-        setRepathYetiCache(nodeString, sourceFile, targetFile, force)
+        setRepathYetiCache(nodepathString, sourceFile, targetFile, force)
     elif nodeType == appCfg.MaNodeType_Plug_NurbsHair:
-        maFur.setNhrCacheObjectReadCache(nodeString, targetFile)
+        maFur.setNhrCacheObjectReadCache(nodepathString, targetFile)
 
 
 #
-def setRepathGeomCache(nodeString, fileString_):
-    if maUtils._getNodeCategoryString(nodeString) == 'cacheFile':
-        maGeomCache.setRepathGeometryCache(nodeString, fileString_)
+def setRepathGeomCache(nodepathString, fileString_):
+    if maUtils._getNodeCategoryString(nodepathString) == 'cacheFile':
+        maGeomCache.setRepathGeometryCache(nodepathString, fileString_)
 
 
 #
@@ -366,50 +366,50 @@ def getYetiCacheRange(fileString_):
 
 
 #
-def setRepathYetiCache(nodeString, sourceFile, targetFile, force=False):
+def setRepathYetiCache(nodepathString, sourceFile, targetFile, force=False):
     if force:
         startFrame, endFrame = getYetiCacheRange(sourceFile)
         sample = 3
         maFur.setYetiNodeWriteCache(
-            targetFile, nodeString,
+            targetFile, nodepathString,
             startFrame, endFrame, sample,
             isUpdateViewport=0,
             isGeneratePreview=0
         )
     #
-    maFur.setYetiConnectCache(nodeString, targetFile)
+    maFur.setYetiConnectCache(nodepathString, targetFile)
 
 
 #
-def setRepathGeneral(nodeString, fileString_, fileType):
+def setRepathGeneral(nodepathString, fileString_, fileType):
     if fileType == 'texture':
-        setTextureRepath(nodeString, fileString_)
+        setTextureRepath(nodepathString, fileString_)
     elif fileType == 'assemblyReference':
-        setAssemblyReferenceRepath(nodeString, fileString_)
+        setAssemblyReferenceRepath(nodepathString, fileString_)
     elif fileType == 'proxyCache':
-        setProxyCacheRepath(nodeString, fileString_)
+        setProxyCacheRepath(nodepathString, fileString_)
     elif fileType == 'volumeCache':
-        setVolumeCacheRepath(nodeString, fileString_)
+        setVolumeCacheRepath(nodepathString, fileString_)
     elif fileType == 'gpuCache':
-        setGpuCacheRepath(nodeString, fileString_)
+        setGpuCacheRepath(nodepathString, fileString_)
     elif fileType == 'alembicCache':
-        setRepathAlembicCache(nodeString, fileString_)
+        setRepathAlembicCache(nodepathString, fileString_)
     elif fileType == 'geometryCache':
-        setRepathGeomCache(nodeString, fileString_)
+        setRepathGeomCache(nodepathString, fileString_)
 
 
 #
-def setTextureRepath(nodeString, fileString_):
+def setTextureRepath(nodepathString, fileString_):
     # Mast Lower
     fileString_ = fileString_.replace('<UDIM>', '<udim>')
-    maTxtr.setTextureAttr(nodeString, fileString_)
+    maTxtr.setTextureAttr(nodepathString, fileString_)
 
 
 #
-def setRepathFurMap(nodeString, fileString_, force=False):
+def setRepathFurMap(nodepathString, fileString_, force=False):
     # Must Upper
     fileString_ = fileString_.replace('<udim>', '<UDIM>')
-    maTxtr.setMapAttr(nodeString, fileString_, force)
+    maTxtr.setMapAttr(nodepathString, fileString_, force)
 
 
 #

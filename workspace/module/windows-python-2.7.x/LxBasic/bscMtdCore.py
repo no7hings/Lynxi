@@ -789,30 +789,30 @@ class Mtd_BscPath(Mtd_BscUtility):
         return dic_
 
     @classmethod
-    def _nodeString2namespace(cls, nodeString, nodesep, namespacesep):
-        if namespacesep in nodeString:
-            return namespacesep.join(nodeString.split(nodesep)[-1].split(namespacesep)[:-1])
+    def _nodeString2namespace(cls, nodepathString, nodesep, namespacesep):
+        if namespacesep in nodepathString:
+            return namespacesep.join(nodepathString.split(nodesep)[-1].split(namespacesep)[:-1])
         return ''
 
     @classmethod
-    def _nodeString2nodename(cls, nodeString, nodesep, namespacesep):
-        return nodeString.split(nodesep)[-1].split(namespacesep)[-1]
+    def _nodepathString2nodenameString(cls, nodepathString, nodesep, namespacesep):
+        return nodepathString.split(nodesep)[-1].split(namespacesep)[-1]
 
     @classmethod
-    def _nodeString2nodenameWithNamespace(cls, nodeString, nodesep):
-        return nodeString.split(nodesep)[-1]
+    def _nodeString2nodenameWithNamespace(cls, nodepathString, nodesep):
+        return nodepathString.split(nodesep)[-1]
 
     @classmethod
-    def _portString2portname(cls, portString, portsep):
-        return portString.split(portsep)[-1]
+    def _portString2portname(cls, portpathString, portsep):
+        return portpathString.split(portsep)[-1]
 
     @classmethod
-    def _portString2fullpathPortname(cls, portString, portsep):
-        return portsep.join(portString.split(portsep)[1:])
+    def _attrpathString2portpathString(cls, portpathString, portsep):
+        return portsep.join(portpathString.split(portsep)[1:])
 
     @classmethod
-    def _portString2nodeString(cls, portString, portsep):
-        return portString.split(portsep)[0]
+    def _portString2nodeString(cls, portpathString, portsep):
+        return portpathString.split(portsep)[0]
 
 
 class Mtd_BscDagpath(Mtd_BscUtility):

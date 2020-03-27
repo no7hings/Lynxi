@@ -260,7 +260,7 @@ class Utility(object):
             elif isinstance(raw_, unicode):
                 addUnicodeFnc_(raw_, lString, rString)
 
-        def addValueFnc_(raw_, lString, rString, rawType=None):
+        def addValueFnc_(raw_, lString, rString, rawtype=None):
             if raw_ is None:
                 addNoneFnc_(lString=lString, rString='\r\n')
 
@@ -273,7 +273,7 @@ class Utility(object):
                 addDictionaryFnc_(raw_, lString=lString, rString=rString)
 
             else:
-                if rawType == dict:
+                if rawtype == dict:
                     addMemberFnc_(raw_, lString='', rString=rString)
                 else:
                     addMemberFnc_(raw_, lString=lString+defIndentString, rString=rString)
@@ -285,9 +285,9 @@ class Utility(object):
                 c = len(raw_)
                 for seq, i in enumerate(raw_):
                     if seq < c - 1:
-                        addValueFnc_(i, lString=lString, rString=',\r\n', rawType=list)
+                        addValueFnc_(i, lString=lString, rString=',\r\n', rawtype=list)
                     else:
-                        addValueFnc_(i, lString=lString, rString='\r\n', rawType=list)
+                        addValueFnc_(i, lString=lString, rString='\r\n', rawtype=list)
 
                 lis.append(u'{lString}]{rString}'.format(lString=lString, rString=rString))
 
@@ -303,9 +303,9 @@ class Utility(object):
                     addMemberFnc_(k, lString=lString + defIndentString, rString=': ')
 
                     if seq < c - 1:
-                        addValueFnc_(v, lString=lString, rString=',\r\n', rawType=dict)
+                        addValueFnc_(v, lString=lString, rString=',\r\n', rawtype=dict)
                     else:
-                        addValueFnc_(v, lString=lString, rString='\r\n', rawType=dict)
+                        addValueFnc_(v, lString=lString, rString='\r\n', rawtype=dict)
 
                 lis.append(u'{lString}}}{rString}'.format(lString=lString, rString=rString))
 

@@ -92,7 +92,7 @@ def setCreateObjectTransformPath(transformData, lockTransform):
 
 
 #
-def setCreateObjectTransform(objectString, transformData, parent=none):
+def setCreateObjectTransform(nodepathString, transformData, parent=none):
     if transformData:
         m2Transform = OpenMaya.MFnTransform()
         if parent:
@@ -100,7 +100,7 @@ def setCreateObjectTransform(objectString, transformData, parent=none):
         else:
             m2Transform.create()
         #
-        m2Transform.setName(objectString)
+        m2Transform.setName(nodepathString)
         m2Transform.setTransformation(maUtils.getMTransformationMatrix(transformData))
         #
         objectPath = maUtils.getM2ObjectPath(m2Transform)

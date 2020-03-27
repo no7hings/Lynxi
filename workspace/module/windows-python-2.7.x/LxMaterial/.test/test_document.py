@@ -11,45 +11,38 @@ if __name__ == '__main__':
 
     look0 = file0.look('test_look')
 
-    geometry0 = mtlObjects.Geometry('/group/geometry_0')
-    geometry1 = mtlObjects.Geometry('/group/geometry_1')
+    geometry0 = mtlObjects.GeometryProxy('/group/geometry_0')
+    geometry1 = mtlObjects.GeometryProxy('/group/geometry_1')
 
-    geometry0.visibility(u'shadow').setRaw(False)
-    geometry0.visibility(u'camera').setRaw(False)
-    geometry1.visibility(u'shadow').setRaw(False)
+    geometry0.node().input(u'shadow').setPortdata(False)
+    geometry0.node().input(u'camera').setPortdata(False)
+    geometry1.node().input(u'shadow').setPortdata(False)
 
-    geometry0.property(u'matte').setRaw(True)
-    geometry1.property(u'matte').setRaw(True)
+    geometry0.node().input(u'matte').setPortdata(True)
+    geometry1.node().input(u'matte').setPortdata(True)
 
     look0.addGeometries(geometry0, geometry1)
 
-    material0 = mtlObjects.Material('material_0')
+    material0 = mtlObjects.MaterialProxy('material_0')
 
-    surfaceShader0 = mtlObjects.Shader(u'matte', 'shader_0')
-    material0.connectSurfaceFrom(surfaceShader0.output(u'out_color'))
-    displacementShader0 = mtlObjects.Shader(u'matte', 'shader_1')
-    material0.connectDisplacementFrom(displacementShader0.output(u'out_color'))
+    shaderRef0 = mtlObjects.ShaderProxy(u'matte', 'shader_0')
+    shaderRef0.node().port(u'opacity').setPortdata([1, 0, 1])
+    material0.connectSurfaceFrom(shaderRef0.node().output(u'shader'))
 
-    geometry0.addMaterial(material0)
-    geometry1.addMaterial(material0)
+    shaderRef1 = mtlObjects.ShaderProxy(u'matte', 'shader_1')
+    shaderRef1.node().port(u'opacity').setPortdata([1, 0, 1])
+    material0.connectDisplacementFrom(shaderRef1.node().output(u'shader'))
 
-    node0 = mtlObjects.Node(u'matte', 'node_0')
-    node1 = mtlObjects.Node(u'matte', 'node_1')
-    node0.output(u'out_color').connectTo(node1.input(u'color'))
-    node0.output(u'out_color.g').connectTo(node1.input(u'color.g'))
+    geometry0.connectMaterial(material0)
+    geometry1.connectMaterial(material0)
 
-    node0.output(u'out_color').connectTo(surfaceShader0.input(u'color'))
-    node0.output(u'out_color.r').connectTo(surfaceShader0.input(u'color.r'))
-    node1.output(u'out_color.r').connectTo(displacementShader0.input(u'color.r'))
+    node0 = mtlObjects.Node(u'utility', 'node_0')
+    node1 = mtlObjects.Node(u'utility', 'node_1')
+    node0.output(u'rgb').connectTo(node1.input(u'color'))
+    node0.output(u'rgb.g').connectTo(node1.input(u'color.g'))
 
-    material1 = mtlObjects.Material('material_0')
+    node0.output(u'rgb').connectTo(shaderRef0.node().input(u'color'))
+    node0.output(u'rgb.r').connectTo(shaderRef0.node().input(u'color.r'))
+    node1.output(u'rgb.r').connectTo(shaderRef1.node().input(u'color.r'))
 
-    # print geometry0
-    look0._updateGeometries_()
-    # print file0
-
-    command = "self.valueString() if self.node().port('{portname}').isValueChanged() else '0'".format(**geometry0.property(u'matte')._conditionDict_())
-    print command
-    # print eval(command)
-
-    # print mtlObjects.OBJ_mtl_obj_cache.objectNames()
+    print file0

@@ -71,8 +71,8 @@ def setAssemblyShapeClear():
     subLis = datScenery.getActAssemblyReferenceLis()
     lis.extend(subLis)
     if lis:
-        for objectString in lis:
-            shapeLis = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+        for nodepathString in lis:
+            shapeLis = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=0, fullPath=1)
             if shapeLis:
                 for shape in shapeLis:
                     try:
@@ -87,8 +87,8 @@ def setAssemblyChildClear():
     subLis = datScenery.getActAssemblyReferenceLis()
     lis.extend(subLis)
     if lis:
-        for objectString in lis:
-            childLis = cmds.listRelatives(objectString, children=1, fullPath=1)
+        for nodepathString in lis:
+            childLis = cmds.listRelatives(nodepathString, children=1, fullPath=1)
             if childLis:
                 for node in childLis:
                     try:

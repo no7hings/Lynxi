@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxBasic import bscMtdCore
+from . import bscObjDef, bscMtdCore
 
 
 class Abc_BscSystem(object):
@@ -108,8 +108,8 @@ class Abc_BscDccNodeString(object):
     VAR_bsc_namespace_separator = None
     VAR_bsc_node_separator = None
 
-    def _initAbcBscDccNodeString(self, nodeString):
-        self._nodeString = nodeString
+    def _initAbcBscDccNodeString(self, nodepathString):
+        self._nodeString = nodepathString
 
     def namespacesep(self):
         return self.VAR_bsc_namespace_separator
@@ -124,36 +124,30 @@ class Abc_BscDccNodeString(object):
             self.VAR_bsc_namespace_separator
         )
 
-    def nodeString(self):
-        return self._nodeString
-
-    def fullpathName(self):
+    def nodepathString(self):
         return self._nodeString
 
     def name(self):
-        return bscMtdCore.Mtd_BscPath._nodeString2nodename(
+        return bscMtdCore.Mtd_BscPath._nodepathString2nodenameString(
             self._nodeString,
             self.VAR_bsc_node_separator,
             self.VAR_bsc_namespace_separator
         )
 
     def __str__(self):
-        return self.fullpathName()
+        return self.nodepathString()
 
 
 class Abc_BscDccPortString(object):
     VAR_bsc_port_separator = None
 
-    def _initAbcBscDccPortString(self, portString):
-        self._portString = portString
+    def _initAbcBscDccPortString(self, portpathString):
+        self._portString = portpathString
 
     def portsep(self):
         return self.VAR_bsc_port_separator
 
-    def portString(self):
-        return self._portString
-
-    def fullpathPortname(self):
+    def portpathString(self):
         return self._portString
 
     def portname(self):
@@ -163,4 +157,57 @@ class Abc_BscDccPortString(object):
         )
 
     def __str__(self):
-        return self.portString()
+        return self.portpathString()
+
+
+# ******************************************************************************************************************** #
+class Abs_BscRaw(bscObjDef.Def_BscRaw):
+    def _initAbsBscRaw(self, *args):
+        self._initDefBscRaw(*args)
+
+
+class Abs_BscName(bscObjDef.Def_BscRaw):
+    def _initAbsBscName(self, *args):
+        self._initDefBscRaw(*args)
+
+    def _get_raw_string_(self):
+        if self.hasRaw():
+            return unicode(self._raw)
+        return ''
+
+
+class Abs_BscNodename(bscObjDef.Def_BscObjname):
+    def _initAbsBscNodename(self, *args):
+        self._initDefBscObjname(*args)
+
+    def _set_raw_(self, *args):
+        if args:
+            raw = args[0]
+            self._raw = unicode(raw)
+            self._rawObjList = [self.CLS_bsc_raw(i) for i in raw.split(self.VAR_bsc_namesep)]
+
+    def _set_raw_string_(self, *args):
+        self._set_raw_(*args)
+
+    def _get_raw_string_(self):
+        return self.VAR_bsc_namesep.join([i._get_raw_string_() for i in self._rawObjList])
+
+    def _get_namespace_string_(self):
+        return self.VAR_bsc_namesep.join([i._get_raw_string_() for i in self._rawObjList[:-1]])
+
+
+class Abs_BscObjpath(bscObjDef.Def_BscObjpath):
+    def _initAbsBscObjpath(self, *args):
+        self._initDefBscObjpath(*args)
+
+    def _set_raw_(self, *args):
+        if args:
+            raw = args[0]
+            self._raw = unicode(raw)
+            self._rawObjList = [self.CLS_bsc_raw(i) for i in raw.split(self.VAR_bsc_pathsep)]
+
+    def _set_raw_string_(self, *args):
+        self._set_raw_(*args)
+
+    def _get_raw_string_(self):
+        return self.VAR_bsc_pathsep.join([i._get_raw_string_() for i in self._rawObjList])

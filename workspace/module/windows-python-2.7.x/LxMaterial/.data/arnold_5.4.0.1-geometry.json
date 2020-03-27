@@ -1,23 +1,29 @@
 {
-    "geometry": {
+    "mesh": {
         "type": "geometry",
         "port": [
             {
+                "portname": "material",
+                "porttype": "closure",
+                "portdata": "",
+                "assign": "input"
+            },
+            {
                 "portname": "disp_height",
                 "porttype": "float",
-                "portdata": "1",
+                "portdata": "1.0",
                 "assign": "property"
             },
             {
                 "portname": "disp_padding",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {
                 "portname": "disp_zero_value",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {
@@ -41,7 +47,7 @@
             {
                 "portname": "step_size",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {
@@ -59,7 +65,7 @@
             {
                 "portname": "subdiv_adaptive_error",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {
@@ -119,13 +125,13 @@
             {
                 "portname": "motion_start",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {
                 "portname": "motion_end",
                 "porttype": "float",
-                "portdata": "1",
+                "portdata": "1.0",
                 "assign": "property"
             },
             {
@@ -137,7 +143,7 @@
             {
                 "portname": "volume_padding",
                 "porttype": "float",
-                "portdata": "0",
+                "portdata": "0.0",
                 "assign": "property"
             },
             {

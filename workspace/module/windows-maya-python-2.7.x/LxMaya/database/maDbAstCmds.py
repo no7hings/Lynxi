@@ -14,70 +14,70 @@ DEF_mya_node_separator = '|'
 
 # Nde_Geometry
 def dbAstGeometryUploadMainCmd(assetIndex, assetName, groupString, timeTag):
-    objectStrings = maGeom.getGeometryObjectsByGroup(groupString)
-    if objectStrings:
-        dbAstGeometryUploadMainCmd_(assetIndex, objectStrings, groupString, assetName, timeTag)
+    nodepathStrings = maGeom.getGeometryObjectsByGroup(groupString)
+    if nodepathStrings:
+        dbAstGeometryUploadMainCmd_(assetIndex, nodepathStrings, groupString, assetName, timeTag)
 
 
 #
-def dbAstGeometryUploadMainCmd_(assetIndex, objectStrings, groupString, assetName, timeTag):
-    if objectStrings:
+def dbAstGeometryUploadMainCmd_(assetIndex, nodepathStrings, groupString, assetName, timeTag):
+    if nodepathStrings:
         progressExplain = u'''Uploading Database Asset Mesh'''
         #
         subProgressDataLis = [
-            (True, u'''Index''', dbAstUploadGeometryObjectsIndexSub, (assetIndex, objectStrings, groupString, timeTag)),
+            (True, u'''Index''', dbAstUploadGeometryObjectsIndexSub, (assetIndex, nodepathStrings, groupString, timeTag)),
             #
-            (True, u'''Transform''', dbAstUploadGeometryObjectsTransformSub, (assetIndex, objectStrings, groupString, assetName, timeTag)),
+            (True, u'''Transform''', dbAstUploadGeometryObjectsTransformSub, (assetIndex, nodepathStrings, groupString, assetName, timeTag)),
             #
-            (True, u'''Nde_Geometry''', dbAstUploadGeometryObjectsGeometrySub, (assetIndex, objectStrings, timeTag)),
-            (True, u'''Map''', dbAstUploadGeometryObjectsMapSub, (assetIndex, objectStrings, timeTag)),
+            (True, u'''Nde_Geometry''', dbAstUploadGeometryObjectsGeometrySub, (assetIndex, nodepathStrings, timeTag)),
+            (True, u'''Map''', dbAstUploadGeometryObjectsMapSub, (assetIndex, nodepathStrings, timeTag)),
             #
-            (True, u'''Vertex - Normal''', dbAstUploadGeometryObjectsVertexNormalSub, (assetIndex, objectStrings, timeTag)),
-            (True, u'''Edge - Smooth''', dbAstUploadGeometryObjectsEdgeSmoothSub, (assetIndex, objectStrings, timeTag))
+            (True, u'''Vertex - Normal''', dbAstUploadGeometryObjectsVertexNormalSub, (assetIndex, nodepathStrings, timeTag)),
+            (True, u'''Edge - Smooth''', dbAstUploadGeometryObjectsEdgeSmoothSub, (assetIndex, nodepathStrings, timeTag))
         ]
         #
         qtCommands.setProgressRun(progressExplain, subProgressDataLis)
 
 
 #
-def dbAstUploadGeometryObjectsIndexSub(assetIndex, objectStrings, groupString, timeTag):
+def dbAstUploadGeometryObjectsIndexSub(assetIndex, nodepathStrings, groupString, timeTag):
     directory = prsOutputs.Database.assetGeometryIndex
-    dataDic = maGeom.getGeometryObjectsInfoDic_(objectStrings, groupString)
+    dataDic = maGeom.getGeometryObjectsInfoDic_(nodepathStrings, groupString)
     dbBasic.dbCompDatumWrite(assetIndex, dataDic, directory, timeTag)
 
 
 #
-def dbAstUploadGeometryObjectsTransformSub(assetIndex, objectStrings, groupString, assetName, timeTag):
+def dbAstUploadGeometryObjectsTransformSub(assetIndex, nodepathStrings, groupString, assetName, timeTag):
     directory = prsOutputs.Database.assetGeometryTransform
-    dataDic = maGeom.getGeometryObjectsTransformDic_(objectStrings, groupString, assetName)
+    dataDic = maGeom.getGeometryObjectsTransformDic_(nodepathStrings, groupString, assetName)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
-def dbAstUploadGeometryObjectsGeometrySub(assetIndex, objectStrings, timeTag):
+def dbAstUploadGeometryObjectsGeometrySub(assetIndex, nodepathStrings, timeTag):
     geomTopoDir, geomShapeDir = prsOutputs.Database.assetGeometryTopology, prsOutputs.Database.assetGeometryShape
-    geomTopoDic, geomShapeDic = maGeom.getGeometryObjectsGeometryDic_(objectStrings)
+    geomTopoDic, geomShapeDic = maGeom.getGeometryObjectsGeometryDic_(nodepathStrings)
     dbBasic.dbCompDatumDicWrite(geomTopoDic, assetIndex, geomTopoDir, timeTag), dbBasic.dbCompDatumDicWrite(geomShapeDic, assetIndex, geomShapeDir, timeTag)
 
 
 #
-def dbAstUploadGeometryObjectsMapSub(assetIndex, objectStrings, timeTag):
+def dbAstUploadGeometryObjectsMapSub(assetIndex, nodepathStrings, timeTag):
     directory = prsOutputs.Database.assetGeometryMap
-    dataDic = maGeom.getGeometryObjectsMapDic_(objectStrings)
+    dataDic = maGeom.getGeometryObjectsMapDic_(nodepathStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
-def dbAstUploadGeometryObjectsVertexNormalSub(assetIndex, objectStrings, timeTag):
+def dbAstUploadGeometryObjectsVertexNormalSub(assetIndex, nodepathStrings, timeTag):
     directory = prsOutputs.Database.assetGeometryVertexNormal
-    dataDic = maGeom.getGeometryObjectsVertexNormalDic_(objectStrings)
+    dataDic = maGeom.getGeometryObjectsVertexNormalDic_(nodepathStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
 #
-def dbAstUploadGeometryObjectsEdgeSmoothSub(assetIndex, objectStrings, timeTag):
+def dbAstUploadGeometryObjectsEdgeSmoothSub(assetIndex, nodepathStrings, timeTag):
     directory = prsOutputs.Database.assetGeometryEdgeSmooth
-    dataDic = maGeom.getGeometryObjectsEdgeSmoothDic_(objectStrings)
+    dataDic = maGeom.getGeometryObjectsEdgeSmoothDic_(nodepathStrings)
     dbBasic.dbCompDatumDicWrite(dataDic, assetIndex, directory, timeTag)
 
 
@@ -574,9 +574,9 @@ def dbAstLoadGeometryUnitsPath(assetIndex, assetName, objectIndexes, lockTransfo
 #
 def dbAstRemoveGeometryObjects(objectIndexes):
     def setBranch(objectIndex):
-        objectStrings = maUuid.getObjects(objectIndex)
-        if objectStrings:
-            [maUtils.setNodeDelete(objectIndex) for objectIndex in objectStrings]
+        nodepathStrings = maUuid.getObjects(objectIndex)
+        if nodepathStrings:
+            [maUtils.setNodeDelete(objectIndex) for objectIndex in nodepathStrings]
     #
     if objectIndexes:
         # View Progress

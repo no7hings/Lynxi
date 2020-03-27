@@ -47,15 +47,15 @@ def getNamingOverlapping(root):
 
 
 #
-def getKeyDataArray(objectString, attrName):
+def getKeyDataArray(nodepathString, attrName):
     indices = cmds.keyframe(
-        objectString, query=True,
+        nodepathString, query=True,
         attribute=attrName,
         keyframeCount=True)
     keyData = []
     for seq in range(indices):
         timeData = cmds.keyframe(
-            objectString,
+            nodepathString,
             query=True,
             attribute=attrName,
             index=(seq, seq),
@@ -63,28 +63,28 @@ def getKeyDataArray(objectString, attrName):
         if timeData:
             time = timeData[0]
             value = cmds.keyframe(
-                objectString,
+                nodepathString,
                 query=True,
                 attribute=attrName,
                 index=(seq, seq),
                 valueChange=True)[0]
             #
-            inAngle = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), inAngle=1)
+            inAngle = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), inAngle=1)
             if inAngle:
                 inAngle = inAngle[0]
-            outAngle = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), outAngle=1)
+            outAngle = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), outAngle=1)
             if outAngle:
                 outAngle = outAngle[0]
-            inWeight = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), inWeight=1)
+            inWeight = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), inWeight=1)
             if inWeight:
                 inWeight = inWeight[0]
-            outWeight = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), outWeight=1)
+            outWeight = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), outWeight=1)
             if outWeight:
                 outWeight = outWeight[0]
-            inTangentType = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), inTangentType=1)
+            inTangentType = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), inTangentType=1)
             if inTangentType:
                 inTangentType = inTangentType[0]
-            outTangentType = cmds.keyTangent(objectString, query=1, attribute=attrName, index=(seq, seq), outTangentType=1)
+            outTangentType = cmds.keyTangent(nodepathString, query=1, attribute=attrName, index=(seq, seq), outTangentType=1)
             if outTangentType:
                 outTangentType = outTangentType[0]
             #
@@ -93,38 +93,38 @@ def getKeyDataArray(objectString, attrName):
 
 
 #
-def getKeyData(objectString, namespace=none):
-    objectReduce = objectString
+def getKeyData(nodepathString, namespace=none):
+    objectReduce = nodepathString
     #
     attrDataArray = []
     if namespace:
-        objectReduce = objectString.replace(namespace + ':', none)
-    keyableAttrs = maUtils.getKeyableAttr(objectString)
+        objectReduce = nodepathString.replace(namespace + ':', none)
+    keyableAttrs = maUtils.getKeyableAttr(nodepathString)
     if keyableAttrs:
         for attrName in keyableAttrs:
-            animCurve = maUtils.getAnimCurve(objectString, attrName)
+            animCurve = maUtils.getAnimCurve(nodepathString, attrName)
             if animCurve:
-                keyDataArray = getKeyDataArray(objectString, attrName)
+                keyDataArray = getKeyDataArray(nodepathString, attrName)
                 if keyDataArray:
                     animCurveType = maUtils._getNodeCategoryString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
                     postInfinity = maUtils.getAttrDatum(animCurve, 'postInfinity')
                     attrDataArray.append((attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray))
             if not animCurve:
-                data = maUtils.getAttrDatum(objectString, attrName)
+                data = maUtils.getAttrDatum(nodepathString, attrName)
                 attrDataArray.append((attrName, data))
     return objectReduce, attrDataArray
 
 
 #
-def getNumAttrKeyFrames(objectString):
+def getNumAttrKeyFrames(nodepathString):
     lis = []
-    keyableAttrs = maUtils.getKeyableAttr(objectString)
+    keyableAttrs = maUtils.getKeyableAttr(nodepathString)
     if keyableAttrs:
         for attrName in keyableAttrs:
-            animCurve = maUtils.getAnimCurve(objectString, attrName)
+            animCurve = maUtils.getAnimCurve(nodepathString, attrName)
             if animCurve:
-                keyDataArray = getKeyDataArray(objectString, attrName)
+                keyDataArray = getKeyDataArray(nodepathString, attrName)
                 if keyDataArray:
                     animCurveType = maUtils._getNodeCategoryString(animCurve)
                     preInfinity = maUtils.getAttrDatum(animCurve, 'preInfinity')
@@ -132,7 +132,7 @@ def getNumAttrKeyFrames(objectString):
                     lis.append(
                         (attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray))
             if not animCurve:
-                data = maUtils.getAttrDatum(objectString, attrName)
+                data = maUtils.getAttrDatum(nodepathString, attrName)
                 lis.append((attrName, data))
     #
     return lis
@@ -146,27 +146,27 @@ def getKeyDatas(root):
     progressExplain = '''Read Key(s)'''
     maxValue = len(maObjs)
     progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
-    for objectString in maObjs:
+    for nodepathString in maObjs:
         # In Progress
-        progressBar.update(maUtils._nodeString2nodename_(objectString, 1))
+        progressBar.update(maUtils._nodeString2nodename_(nodepathString, 1))
         namespace = none
-        if ':' in objectString:
-            namespace = maUtils._toNamespaceByNodePath(objectString)
-        keyData = getKeyData(objectString, namespace)
+        if ':' in nodepathString:
+            namespace = maUtils._toNamespaceByNodePath(nodepathString)
+        keyData = getKeyData(nodepathString, namespace)
         lis.append(keyData)
     return lis
 
 
 #
-def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
-    if maUtils._isAppExist(objectString):
+def setKey(nodepathString, attrData, seq, label='temp', frameOffset=0):
+    if maUtils._isAppExist(nodepathString):
         if attrData:
             if len(attrData) == 5:
                 attrName, animCurve, animCurveType, (preInfinity, postInfinity), keyDataArray = attrData
-                objectName = objectString.split('|')[-1]
+                objectName = nodepathString.split('|')[-1]
                 inputAnimCurve = objectName + '_' + attrName + '_' + animCurveType + '_' + str(seq).zfill(4)
                 sourceAttr = inputAnimCurve + '.output'
-                targetAttr = objectString + '.' + attrName
+                targetAttr = nodepathString + '.' + attrName
                 if maUtils._isAppExist(targetAttr):
                     #
                     if not maUtils._isAppExist(inputAnimCurve):
@@ -184,43 +184,43 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
                             #
                             if value:
                                 cmds.setKeyframe(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     value=value)
                             #
                             if inAngle:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     inAngle=inAngle)
                             #
                             if outAngle:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     outAngle=outAngle)
                             #
                             if inWeight:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     inWeight=inWeight)
                             #
                             if outWeight:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     outWeight=outWeight)
                             #
                             if inTangentType:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     inTangentType=inTangentType)
                             #
                             if outTangentType:
                                 cmds.keyTangent(
-                                    objectString, attribute=attrName,
+                                    nodepathString, attribute=attrName,
                                     time=(time, time),
                                     outTangentType=outTangentType)
                     #
@@ -228,10 +228,10 @@ def setKey(objectString, attrData, seq, label='temp', frameOffset=0):
                     maUtils.setAttrDatumForce_(inputAnimCurve, 'postInfinity', postInfinity)
             if len(attrData) == 2:
                 attrName, data = attrData
-                targetData = maUtils.getAttrDatum(objectString, attrName)
-                if not maUtils.isAttrDestination(objectString, attrName):
+                targetData = maUtils.getAttrDatum(nodepathString, attrName)
+                if not maUtils.isAttrDestination(nodepathString, attrName):
                     if targetData != data:
-                        maUtils.setKeyAttr(objectString, attrName, data)
+                        maUtils.setKeyAttr(nodepathString, attrName, data)
 
 
 #
@@ -248,25 +248,25 @@ def setKeys(root, keyDatas, frameOffset=0):
                 # In Progress
                 progressBar.update()
                 if keyData:
-                    objectString, attrDataArray = keyData
-                    objectReduce = objectString
+                    nodepathString, attrDataArray = keyData
+                    objectReduce = nodepathString
                     if namespace:
-                        objectReduce = objectString.replace('|', '|' + namespace + ':')
+                        objectReduce = nodepathString.replace('|', '|' + namespace + ':')
                     if maUtils._isAppExist(objectReduce):
                         for attrData in attrDataArray:
                             setKey(objectReduce, attrData, seq, namespace, frameOffset)
 
 
 #
-def setKeyframeOffset(objectString, attrName, value):
+def setKeyframeOffset(nodepathString, attrName, value):
     indexCount = cmds.keyframe(
-        objectString, query=True,
+        nodepathString, query=True,
         attribute=attrName, keyframeCount=True
     )
     if indexCount > 0:
         for seq in range(indexCount):
             keyDatum = cmds.keyframe(
-                objectString,
+                nodepathString,
                 query=True,
                 attribute=attrName,
                 index=(seq, seq),
@@ -277,13 +277,13 @@ def setKeyframeOffset(objectString, attrName, value):
                 v_ = v + value
                 #
                 cmds.setKeyframe(
-                    objectString,
+                    nodepathString,
                     attribute=attrName,
                     time=(f, f),
                     value=v_
                 )
     else:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
         v = cmds.getAttr(attr)
         v_ = v + value
         cmds.setAttr(attr, v_)

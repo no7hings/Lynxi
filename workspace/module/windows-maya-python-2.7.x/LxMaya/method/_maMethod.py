@@ -263,10 +263,10 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         [cls.setNodeDelete(i) for i in stringLis if cls._isAppExist(i)]
     #
     @classmethod
-    def filterNonShapeTransformLis(cls, objectString):
+    def filterNonShapeTransformLis(cls, nodepathString):
         lis = []
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for transform in stringLis:
                 shapePath = cls._getNodeShapeNodeString(transform)
@@ -274,13 +274,13 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
                     lis.append(transform)
         return lis
     @classmethod
-    def fixNonShapeTransform(cls, objectString):
-        stringLis = cls._toAppExistStringList(objectString)
+    def fixNonShapeTransform(cls, nodepathString):
+        stringLis = cls._toAppExistStringList(nodepathString)
         [cls.setNodeDelete(i) for i in stringLis if cls._isAppExist(i)]
     @classmethod
-    def filterObjectInstanceLis(cls, objectString):
+    def filterObjectInstanceLis(cls, nodepathString):
         lis = []
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for transform in stringLis:
                 shapePath = cls._getNodeShapeNodeString(transform)
@@ -288,13 +288,13 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
                     lis.append(transform)
         return lis
     @classmethod
-    def fixObjectInstance(cls, objectString):
-        stringLis = cls._toAppExistStringList(objectString)
+    def fixObjectInstance(cls, nodepathString):
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for i in stringLis:
                 cls.setObjectInstanceCovert(i)
     @classmethod
-    def filterObjectHistoryNodeDic(cls, objectString):
+    def filterObjectHistoryNodeDic(cls, nodepathString):
         dic = {}
         exceptNodeTypeLis = [
             cls.DEF_mya_type_shading_engine,
@@ -302,7 +302,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
             cls.DEF_mya_type_set
         ]
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for transform in stringLis:
                 stringLis = cmds.listHistory(transform, pruneDagObjects=1) or []
@@ -312,20 +312,20 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
                         dic.setdefault(transform, []).append(node)
         return dic
     @classmethod
-    def fixObjectHistory(cls, objectString):
+    def fixObjectHistory(cls, nodepathString):
         pass
     @classmethod
-    def filterObjectNonDefaultMatrixLis(cls, objectString):
+    def filterObjectNonDefaultMatrixLis(cls, nodepathString):
         lis = []
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for i in stringLis:
                 if cls.isDefaultMatrix(i) is False:
                     lis.append(i)
         return lis
     @classmethod
-    def fixTransformNonDefaultMatrix(cls, objectString):
+    def fixTransformNonDefaultMatrix(cls, nodepathString):
         pass
     @classmethod
     def _toErrorDic(cls, errorLis):
@@ -421,10 +421,10 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         cmds.select(meshObjectLis)
         return cls._toErrorDic(cmds.polyInfo(nonManifoldEdges=1))
     @classmethod
-    def filterObjectNameOverlapDic(cls, objectString):
+    def filterObjectNameOverlapDic(cls, nodepathString):
         dic = {}
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for transform in stringLis:
                 nodeName = cls._nodeString2nodename_(transform)
@@ -435,10 +435,10 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
                             dic.setdefault(transform, []).append(i)
         return dic
     @classmethod
-    def getMeshNormalLockVertexDic(cls, objectString):
+    def getMeshNormalLockVertexDic(cls, nodepathString):
         dic = {}
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for transform in stringLis:
                 vertexIdLis = cls.getMeshNormalLockVertexLis(transform)
@@ -446,10 +446,10 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
                     dic[transform] = cls._toMeshVertexComp(transform, vertexIdLis)
         return dic
     @classmethod
-    def getMeshOpenEdgeDic(cls, objectString):
+    def getMeshOpenEdgeDic(cls, nodepathString):
         dic = {}
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         if stringLis:
             for i in stringLis:
                 edgeIdLis = cls.getMeshOpenEdgeIdLis(i)
@@ -520,11 +520,11 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
         overscan=1
     )
     @classmethod
-    def setCameraView(cls, objectString=None, optionKwargs=None):
-        if objectString is None:
+    def setCameraView(cls, nodepathString=None, optionKwargs=None):
+        if nodepathString is None:
             shapePath = cls.getActiveCameraShape()
         else:
-            shapePath = cls._getNodeShapeNodeString(objectString)
+            shapePath = cls._getNodeShapeNodeString(nodepathString)
         #
         if optionKwargs is None:
             optionKwargs = cls.MaDefCameraOptionKwargs.copy()
@@ -553,18 +553,18 @@ class MaCameraNodeMethod(_maMethodBasic.MaNodeMethodBasic):
         shapePath = cls.getActiveCameraShape()
         return cls._getNodeTransformNodeString(shapePath)
     @staticmethod
-    def setCameraDefPos(objectString):
-        cmds.setAttr(objectString + '.translate', 28, 21, 28)
-        cmds.setAttr(objectString + '.rotate', -27.9383527296, 45, 0)
-        cmds.setAttr(objectString + '.nearClipPlane', .1)
-        cmds.setAttr(objectString + '.farClipPlane', 1000000)
+    def setCameraDefPos(nodepathString):
+        cmds.setAttr(nodepathString + '.translate', 28, 21, 28)
+        cmds.setAttr(nodepathString + '.rotate', -27.9383527296, 45, 0)
+        cmds.setAttr(nodepathString + '.nearClipPlane', .1)
+        cmds.setAttr(nodepathString + '.farClipPlane', 1000000)
     @classmethod
-    def setCameraViewFit(cls, objectString):
-        shapePath = cls._getNodeShapeNodeString(objectString)
+    def setCameraViewFit(cls, nodepathString):
+        shapePath = cls._getNodeShapeNodeString(nodepathString)
         cmds.viewFit(shapePath, fitFactor=0, animate=1)
     @classmethod
-    def getCameraFocalLength(cls, objectString):
-        shapePath = cls._getNodeShapeNodeString(objectString)
+    def getCameraFocalLength(cls, nodepathString):
+        shapePath = cls._getNodeShapeNodeString(nodepathString)
         return cmds.camera(shapePath, query=1, focalLength=1)
     @staticmethod
     def setCameraCloseHud():
@@ -601,7 +601,7 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
     def getShadingEngineLis(cls):
         return cls.getNodeLisByType(cls.DEF_mya_type_shading_engine, exceptStrings=cls.DEF_mya_default_shading_engine_list)
     @classmethod
-    def _getNodeShadingEngineNodeStringList(cls, objectString):
+    def _getNodeShadingEngineNodeStringList(cls, nodepathString):
         def getBranch(subObjectString):
             shapePath = cls._getNodeShapeNodeString(subObjectString)
             if not shapePath:
@@ -613,18 +613,18 @@ class MaShaderNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
         #
         lis = []
         #
-        stringLis = cls._toAppExistStringList(objectString)
+        stringLis = cls._toAppExistStringList(nodepathString)
         [getBranch(i) for i in stringLis]
         return lis
     @classmethod
-    def _getShadingEngineObjectSetDatumList(cls, objectString):
+    def _getShadingEngineObjectSetDatumList(cls, nodepathString):
         """
-        :param objectString: str
+        :param nodepathString: str
         :return: list
         """
         lis = []
         #
-        objSetLis = cmds.sets(objectString, query=1)
+        objSetLis = cmds.sets(nodepathString, query=1)
         if objSetLis:
             shaderObjectPathLis = [i for i in cmds.ls(objSetLis, leaf=1, noIntermediate=1, long=1)]
             for shaderObjectPath in shaderObjectPathLis:
@@ -768,11 +768,11 @@ class MaRenderNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maConfig.MaRenderCon
         return lis
     @classmethod
     def getRenderOptionDic(cls):
-        def getBranch(nodeString):
-            if cls._isAppExist(nodeString):
-                attrDatumLis = cls.getNodeDefAttrDatumLis(nodeString)
+        def getBranch(nodepathString):
+            if cls._isAppExist(nodepathString):
+                attrDatumLis = cls.getNodeDefAttrDatumLis(nodepathString)
                 #
-                dic[nodeString] = attrDatumLis
+                dic[nodepathString] = attrDatumLis
         #
         dic = {}
         #

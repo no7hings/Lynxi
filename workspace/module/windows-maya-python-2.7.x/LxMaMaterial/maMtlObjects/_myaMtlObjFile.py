@@ -1,16 +1,16 @@
 # coding:utf-8
 from LxMaterial import mtlObjects
 
-from .. import maMtlObjCore
+from .. import myaMtlObjCore
 
-from ..maMtlObjects import _myaMtlObjObject, _myaMtlObjElement
+from ..maMtlObjects import _myaMtlObjElement
 
 
-class File(maMtlObjCore.Abc_MyaMtlFile):
+class File(myaMtlObjCore.Abc_MyaMtlFile):
     CLS_mtl_file = mtlObjects.File
     CLS_trs_look = _myaMtlObjElement.Look
 
-    CLS_trs_geometry = _myaMtlObjObject.Geometry
+    OBJ_mtl_trs_obj_cache = mtlObjects.OBJ_mtl_trs_obj_cache
 
     def __init__(self, *args):
         self._initAbcMyaMtlFile(*args)

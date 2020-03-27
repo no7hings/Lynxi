@@ -1,0 +1,22 @@
+{
+    "shadingEngine": {
+        "mtl_category": "material",
+        "dcc_port": {
+            "surfaceShader": {
+                "mtl_portname": "surfaceshader"
+            },
+            "aiSurfaceShader": {
+                "mtl_portname": "surfaceshader"
+            },
+            "displacementShader": {
+                "mtl_portname": "displacementshader"
+            },
+            "volumeShader": {
+                "mtl_portname": "volumeshader"
+            },
+            "aiVolumeShader": {
+                "mtl_portname": "volumeshader"
+            }
+        }
+    }
+}

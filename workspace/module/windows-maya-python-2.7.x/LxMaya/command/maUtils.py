@@ -119,16 +119,16 @@ def isOsTextureExists(textureFile):
 
 
 #
-def _isAppExist(objectString, attrName=none):
-    if objectString:
+def _isAppExist(nodepathString, attrName=none):
+    if nodepathString:
         if attrName:
-            objectString = objectString + '.' + attrName
-        return cmds.objExists(objectString)
+            nodepathString = nodepathString + '.' + attrName
+        return cmds.objExists(nodepathString)
 
 
 #
-def isNodeLocked(objectString):
-    return cmds.lockNode(objectString, query=1, lock=1)[0]
+def isNodeLocked(nodepathString):
+    return cmds.lockNode(nodepathString, query=1, lock=1)[0]
 
 
 #
@@ -142,13 +142,13 @@ def isReferenceNode(node):
 
 
 #
-def setNodeLock(objectString):
-    cmds.lockNode(objectString, lock=1)
+def setNodeLock(nodepathString):
+    cmds.lockNode(nodepathString, lock=1)
 
 
 #
-def setNodeUnlock(objectString):
-    cmds.lockNode(objectString, lock=0)
+def setNodeUnlock(nodepathString):
+    cmds.lockNode(nodepathString, lock=0)
 
 
 #
@@ -166,40 +166,40 @@ def setObjectTransformationConnect(sourceTransform, targetTransform):
 
 
 #
-def setNodeTemplate(nodeString, boolean=True):
+def setNodeTemplate(nodepathString, boolean=True):
     attrName = 'template'
-    attr = nodeString + '.' + attrName
+    attr = nodepathString + '.' + attrName
     cmds.setAttr(attr, boolean)
 
 
 #
-def setObjectTransformationAttr(objectString, lockTransformation=True, hideTransformation=True):
+def setObjectTransformationAttr(nodepathString, lockTransformation=True, hideTransformation=True):
     attrNameLis = appCfg.MaTransformationAttrLis
     axisLis = ['X', 'Y', 'Z']
-    [cmds.setAttr('{}.{}{}'.format(objectString, attrName, axis), keyable=0, lock=lockTransformation, channelBox=not hideTransformation) for attrName, axis in product(attrNameLis, axisLis)]
+    [cmds.setAttr('{}.{}{}'.format(nodepathString, attrName, axis), keyable=0, lock=lockTransformation, channelBox=not hideTransformation) for attrName, axis in product(attrNameLis, axisLis)]
 
 
 # Make Identity
-def makeIdentity(objectString, mode, translate, rotate, scale):
-    cmds.makeIdentity(objectString, apply=mode, translate=translate, rotate=rotate, scale=scale)
+def makeIdentity(nodepathString, mode, translate, rotate, scale):
+    cmds.makeIdentity(nodepathString, apply=mode, translate=translate, rotate=rotate, scale=scale)
 
 
 #
-def setObjectTransformation(objectString):
-    makeIdentity(objectString, 1, 1, 1, 1)
-    makeIdentity(objectString, 0, 1, 1, 1)
+def setObjectTransformation(nodepathString):
+    makeIdentity(nodepathString, 1, 1, 1, 1)
+    makeIdentity(nodepathString, 0, 1, 1, 1)
 
 
 # Set Transform
 def setObjectsTransformationDefault(objectLis):
-    [setObjectTransformation(objectString) for objectString in objectLis]
+    [setObjectTransformation(nodepathString) for nodepathString in objectLis]
 
 
 #
-def setObjectDisplayMode(objectString, mode=0):
+def setObjectDisplayMode(nodepathString, mode=0):
     if mode == 0:
         cmds.displaySmoothness(
-            objectString,
+            nodepathString,
             divisionsU=0,
             divisionsV=0,
             pointsWire=4,
@@ -208,7 +208,7 @@ def setObjectDisplayMode(objectString, mode=0):
         )
     elif mode == 1:
         cmds.displaySmoothness(
-            objectString,
+            nodepathString,
             divisionsU=3,
             divisionsV=3,
             pointsWire=16,
@@ -218,44 +218,44 @@ def setObjectDisplayMode(objectString, mode=0):
 
 
 #
-def setObjectLockTransform(objectString, boolean=False):
+def setObjectLockTransform(nodepathString, boolean=False):
     channels = ['.translate', '.rotate', '.scale']
     axisLis = ['X', 'Y', 'Z']
-    [cmds.setAttr(objectString + channel + axis, lock=boolean) for channel, axis in product(channels, axisLis)]
-    cmds.setAttr(objectString + '.visibility', lock=0)
+    [cmds.setAttr(nodepathString + channel + axis, lock=boolean) for channel, axis in product(channels, axisLis)]
+    cmds.setAttr(nodepathString + '.visibility', lock=0)
 
 
 # Unlock Transform
 def setObjectsLockTransform(objectLis, boolean=False):
-    [setObjectLockTransform(objectString, boolean) for objectString in objectLis]
+    [setObjectLockTransform(nodepathString, boolean) for nodepathString in objectLis]
 
 
 #
-def setObjectCleanTransformKey(objectString):
+def setObjectCleanTransformKey(nodepathString):
     channels = ['.translate', '.rotate', '.scale']
     axisLis = ['X', 'Y', 'Z']
-    [cmds.cutKey(objectString + channel + axis) for channel, axis in product(channels, axisLis)]
-    cmds.cutKey(objectString + '.visibility')
+    [cmds.cutKey(nodepathString + channel + axis) for channel, axis in product(channels, axisLis)]
+    cmds.cutKey(nodepathString + '.visibility')
 
 
 # Clean Transform Channel Key
 def setObjectsCleanTransformKey(objectLis):
-    [setObjectCleanTransformKey(objectString) for objectString in objectLis]
+    [setObjectCleanTransformKey(nodepathString) for nodepathString in objectLis]
 
 
 #
-def setObjectZeroTransform(objectString, visible=1):
+def setObjectZeroTransform(nodepathString, visible=1):
     channels = ['.translate', '.rotate', '.scale']
-    cmds.setAttr(objectString + channels[0], 0, 0, 0)
-    cmds.setAttr(objectString + channels[1], 0, 0, 0)
-    cmds.setAttr(objectString + channels[2], 1, 1, 1)
+    cmds.setAttr(nodepathString + channels[0], 0, 0, 0)
+    cmds.setAttr(nodepathString + channels[1], 0, 0, 0)
+    cmds.setAttr(nodepathString + channels[2], 1, 1, 1)
     if visible:
-        cmds.setAttr(objectString + '.visibility', 1)
+        cmds.setAttr(nodepathString + '.visibility', 1)
 
 
 # Set Transform Channel's to Zero
 def setObjectsZeroTransform(objectLis, visible=1):
-    [setObjectZeroTransform(objectString, visible) for objectString in objectLis]
+    [setObjectZeroTransform(nodepathString, visible) for nodepathString in objectLis]
 
 
 # Bake Object Transform Channel's Keyframe
@@ -283,15 +283,15 @@ def setObjectShapeBakeKey(maObjs, startFrame, endFrame, keyframeOffset=0):
 
 
 # set Rand Object Color
-def setObjectRandColor(objectString):
+def setObjectRandColor(nodepathString):
     colorRange = range(0, 31)
-    cmds.setAttr(objectString + '.overrideEnabled', 1)
-    cmds.setAttr(objectString + '.overrideColor', choice(colorRange))
+    cmds.setAttr(nodepathString + '.overrideEnabled', 1)
+    cmds.setAttr(nodepathString + '.overrideColor', choice(colorRange))
 
 
 #
-def setGpuShader(objectString, r, g, b, a):
-    objectName = _nodeString2nodename_(objectString)
+def setGpuShader(nodepathString, r, g, b, a):
+    objectName = _nodeString2nodename_(nodepathString)
     shaderName = objectName + '_gpuShader'
     shadingEngineName = shaderName + 'SG'
     if not cmds.objExists(shaderName):
@@ -300,60 +300,60 @@ def setGpuShader(objectString, r, g, b, a):
         cmds.setAttr(shaderName + '.transparency', a, a, a)
         cmds.sets(renderable=1, noSurfaceShader=1, empty=1, n=shadingEngineName)
         cmds.connectAttr(shaderName + '.color', shadingEngineName + '.surfaceShader')
-        cmds.sets(objectString, forceElement=shadingEngineName)
+        cmds.sets(nodepathString, forceElement=shadingEngineName)
 
 
 #
 def setObjectsRandColor(objectLis):
-    [setObjectRandColor(objectString) for objectString in objectLis]
+    [setObjectRandColor(nodepathString) for nodepathString in objectLis]
 
 
 #
-def setObjectAnnotation(objectString, message):
-    annotationName = objectString + '_annotationShape'
-    cmds.createNode('annotationShape', name=annotationName, parent=objectString)
-    annotationPath = objectString + appCfg.DEF_mya_node_separator + annotationName
+def setObjectAnnotation(nodepathString, message):
+    annotationName = nodepathString + '_annotationShape'
+    cmds.createNode('annotationShape', name=annotationName, parent=nodepathString)
+    annotationPath = nodepathString + appCfg.DEF_mya_node_separator + annotationName
     cmds.setAttr(annotationPath + '.text', message, type='string')
     cmds.setAttr(annotationPath + '.displayArrow', 0)
-    shape = _getNodeShapeNodeString(objectString)
+    shape = _getNodeShapeNodeString(nodepathString)
     cmds.connectAttr(shape + '.worldMatrix[0]', annotationName + '.dagObjectMatrix[0]')
 
 
 #
-def isAttrLock(objectString, attrName=None):
+def isAttrLock(nodepathString, attrName=None):
     if attrName:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
     else:
-        attr = objectString
+        attr = nodepathString
     #
     return cmds.connectionInfo(attr, isLocked=1)
 
 
 #
-def setAttrBooleanDatum(objectString, attrName, boolean):
-    attr = objectString + '.' + attrName
+def setAttrBooleanDatum(nodepathString, attrName, boolean):
+    attr = nodepathString + '.' + attrName
     cmds.setAttr(attr, boolean)
 
 
 #
-def setAttrBooleanDatumForce(objectString, attrName, boolean):
-    attr = objectString + '.' + attrName
+def setAttrBooleanDatumForce(nodepathString, attrName, boolean):
+    attr = nodepathString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
+        cmds.addAttr(nodepathString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), attributeType='bool')
     #
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, boolean, lock=1)
 
 
 #
-def setAttrBooleanDatumForce_(objectString, attrName, boolean):
+def setAttrBooleanDatumForce_(nodepathString, attrName, boolean):
     isLock = False
-    if isNodeLocked(objectString):
+    if isNodeLocked(nodepathString):
         isLock = True
-        setNodeUnlock(objectString)
-        setAttrBooleanDatumForce(objectString, attrName, boolean)
+        setNodeUnlock(nodepathString)
+        setAttrBooleanDatumForce(nodepathString, attrName, boolean)
     if isLock:
-        setNodeLock(objectString)
+        setNodeLock(nodepathString)
 
 
 #
@@ -363,8 +363,8 @@ def setAttrLock(attr, boolean):
 
 
 #
-def setAttrDatumForce_(objectString, attrName, data):
-    attr = objectString + '.' + attrName
+def setAttrDatumForce_(nodepathString, attrName, data):
+    attr = nodepathString + '.' + attrName
     #
     isLock = isAttrLock(attr)
     if isLock:
@@ -377,54 +377,54 @@ def setAttrDatumForce_(objectString, attrName, data):
 
 
 #
-def setAttrAdd(objectString, attrName, attributeType, data):
-    attr = objectString + '.' + attrName
+def setAttrAdd(nodepathString, attrName, attributeType, data):
+    attr = nodepathString + '.' + attrName
     if not _isAppExist(attr):
-        cmds.addAttr(objectString, longName=attrName, attributeType=attributeType)
+        cmds.addAttr(nodepathString, longName=attrName, attributeType=attributeType)
     #
-    setAttrDatumForce_(objectString, attrName, data)
+    setAttrDatumForce_(nodepathString, attrName, data)
 
 
 #
-def setKeyAttr(objectString, attrName, data):
-    attr = objectString + '.' + attrName
+def setKeyAttr(nodepathString, attrName, data):
+    attr = nodepathString + '.' + attrName
     if not cmds.getAttr(attr, lock=1):
         cmds.setAttr(attr, data)
 
 
 #
-def setAttrStringDatum(objectString, attrName, data):
-    attr = objectString + '.' + attrName
+def setAttrStringDatum(nodepathString, attrName, data):
+    attr = nodepathString + '.' + attrName
     if _isAppExist(attr):
         cmds.setAttr(attr, data, type='string')
 
 
 #
-def setAttrStringDatumForce(objectString, attrName, data):
-    attr = objectString + '.' + attrName
+def setAttrStringDatumForce(nodepathString, attrName, data):
+    attr = nodepathString + '.' + attrName
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
+        cmds.addAttr(nodepathString, longName=attrName, niceName=bscMethods.StrCamelcase.toPrettify(attrName), dataType='string')
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, data, type='string', lock=1)
 
 
 #
-def setAttrStringDatumForce_(objectString, attrName, data):
+def setAttrStringDatumForce_(nodepathString, attrName, data):
     isLock = False
-    if isNodeLocked(objectString):
+    if isNodeLocked(nodepathString):
         isLock = True
-        setNodeUnlock(objectString)
-    setAttrStringDatumForce(objectString, attrName, data)
+        setNodeUnlock(nodepathString)
+    setAttrStringDatumForce(nodepathString, attrName, data)
     if isLock:
-        setNodeLock(objectString)
+        setNodeLock(nodepathString)
 
 
 #
-def getAttrDatum(objectString, attrName=none):
+def getAttrDatum(nodepathString, attrName=none):
     if attrName:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
     else:
-        attr = objectString
+        attr = nodepathString
     #
     if cmds.objExists(attr):
         return cmds.getAttr(attr)
@@ -499,37 +499,37 @@ def getCameras(fullPath=True):
 
 
 # Get Object's Parent
-def getObjectParent(objectString, fullPath=True):
-    parent = cmds.listRelatives(objectString, parent=1, fullPath=fullPath)
+def getObjectParent(nodepathString, fullPath=True):
+    parent = cmds.listRelatives(nodepathString, parent=1, fullPath=fullPath)
     if parent:
         return parent[0]
 
 
 # Get Object's Children
-def getNodeChildLis(objectString, fullPath=True):
+def getNodeChildLis(nodepathString, fullPath=True):
     lis = []
-    if _isAppExist(objectString):
-        lis = cmds.listRelatives(objectString, children=1, fullPath=fullPath) or []
+    if _isAppExist(nodepathString):
+        lis = cmds.listRelatives(nodepathString, children=1, fullPath=fullPath) or []
     return lis
 
 
 #
-def getObjectChildrenCount(objectString):
-    children = getNodeChildLis(objectString, 1)
+def getObjectChildrenCount(nodepathString):
+    children = getNodeChildLis(nodepathString, 1)
     return len(children)
 
 
 # Get Object's Children
-def getObjectChildObjectLis(objectString, mType=appCfg.DEF_mya_type_transform, fullPath=True):
-    objectLis = cmds.listRelatives(objectString, children=1, type=mType, fullPath=fullPath)
+def getObjectChildObjectLis(nodepathString, mType=appCfg.DEF_mya_type_transform, fullPath=True):
+    objectLis = cmds.listRelatives(nodepathString, children=1, type=mType, fullPath=fullPath)
     return objectLis
 
 
 #
-def getObjectChildObjects(objectString, filterTypes, fullPath=True):
+def getObjectChildObjects(nodepathString, filterTypes, fullPath=True):
     lis = []
     filterTypes = bscMethods.String.toList(filterTypes)
-    children = cmds.listRelatives(objectString, children=1, type=appCfg.DEF_mya_type_transform, fullPath=fullPath)
+    children = cmds.listRelatives(nodepathString, children=1, type=appCfg.DEF_mya_type_transform, fullPath=fullPath)
     if children:
         for child in children:
             if getTransformType(child) in filterTypes:
@@ -538,15 +538,15 @@ def getObjectChildObjects(objectString, filterTypes, fullPath=True):
 
 
 # Get Object's Transform
-def _getNodeTransformNodeString(objectString, fullPath=True):
-    if _isAppExist(objectString):
-        if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
+def _getNodeTransformNodeString(nodepathString, fullPath=True):
+    if _isAppExist(nodepathString):
+        if _getNodeCategoryString(nodepathString) == appCfg.DEF_mya_type_transform:
             if fullPath:
-                return _getNodeFullpathNameString(objectString)
+                return _getNodeFullpathNameString(nodepathString)
             if not fullPath:
-                return _nodeString2nodename_(objectString)
+                return _nodeString2nodename_(nodepathString)
         else:
-            transforms = cmds.listRelatives(objectString, parent=1, fullPath=fullPath)
+            transforms = cmds.listRelatives(nodepathString, parent=1, fullPath=fullPath)
             if transforms:
                 return transforms[0]
 
@@ -562,17 +562,17 @@ def _toNamespaceByNodePath(objectPath):
 
 
 # Get Object's Shape
-def _getNodeShapeNodeString(objectString, fullPath=True):
-    if _isAppExist(objectString):
-        if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
-            shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
+def _getNodeShapeNodeString(nodepathString, fullPath=True):
+    if _isAppExist(nodepathString):
+        if _getNodeCategoryString(nodepathString) == appCfg.DEF_mya_type_transform:
+            shapes = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=1, fullPath=fullPath)
             if shapes:
                 return shapes[0]
-        if not _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
+        if not _getNodeCategoryString(nodepathString) == appCfg.DEF_mya_type_transform:
             if fullPath:
-                return _getNodeFullpathNameString(objectString)
+                return _getNodeFullpathNameString(nodepathString)
             if not fullPath:
-                return _nodeString2nodename_(objectString)
+                return _nodeString2nodename_(nodepathString)
 
 
 #
@@ -784,109 +784,109 @@ def getObjectPathRemoveNamespace(objectPath):
 
 
 #
-def getNodeJoinNamespace(objectString, namespace):
-    return namespace + ':' + objectString
+def getNodeJoinNamespace(nodepathString, namespace):
+    return namespace + ':' + nodepathString
 
 
 #
-def getObjectStringJoinNamespace(objectString, namespace):
-    if appCfg.DEF_mya_node_separator in objectString:
-        return getObjectPathJoinNamespace(objectString, namespace)
+def getObjectStringJoinNamespace(nodepathString, namespace):
+    if appCfg.DEF_mya_node_separator in nodepathString:
+        return getObjectPathJoinNamespace(nodepathString, namespace)
     else:
-        return getNodeJoinNamespace(objectString, namespace)
+        return getNodeJoinNamespace(nodepathString, namespace)
 
 
 #
-def getTranslateVector(objectString):
-    data = cmds.getAttr(objectString + '.translate')
+def getTranslateVector(nodepathString):
+    data = cmds.getAttr(nodepathString + '.translate')
     if data:
         return data[0]
 
 
 #
-def getRotateVector(objectString):
-    data = cmds.getAttr(objectString + '.rotate')
+def getRotateVector(nodepathString):
+    data = cmds.getAttr(nodepathString + '.rotate')
     if data:
         return data[0]
 
 
 #
-def getScaleVector(objectString):
-    data = cmds.getAttr(objectString + '.scale')
+def getScaleVector(nodepathString):
+    data = cmds.getAttr(nodepathString + '.scale')
     if data:
         return data[0]
 
 
 #
-def getLocalPivotVector(objectString):
-    data = cmds.getAttr(objectString + '.rotatePivot')
+def getLocalPivotVector(nodepathString):
+    data = cmds.getAttr(nodepathString + '.rotatePivot')
     if data:
         return data[0]
 
 
 #
-def getLocalScalePivotVector(objectString):
-    data = cmds.getAttr(objectString + '.scalePivot')
+def getLocalScalePivotVector(nodepathString):
+    data = cmds.getAttr(nodepathString + '.scalePivot')
     if data:
         return data[0]
 
 
 #
-def getWorldPivotVector(objectString):
-    _bx, _by, _bz, bx, by, bz = cmds.exactWorldBoundingBox(objectString)
-    px, py, pz = getLocalPivotVector(objectString)
+def getWorldPivotVector(nodepathString):
+    _bx, _by, _bz, bx, by, bz = cmds.exactWorldBoundingBox(nodepathString)
+    px, py, pz = getLocalPivotVector(nodepathString)
     lpx, lpy, lpz = (_bx + bx - px), (_by + by - py), (_bz + bz - pz)
-    tx, ty, tz = getTranslateVector(objectString)
-    px, py, pz = getLocalPivotVector(objectString)
+    tx, ty, tz = getTranslateVector(nodepathString)
+    px, py, pz = getLocalPivotVector(nodepathString)
     wpx, wpy, wpz = lpx - tx, lpy - ty, lpz - tz
     return wpx, wpy, wpz
 
 
 #
-def setRotatePivot(objectString, data):
+def setRotatePivot(nodepathString, data):
     if data:
-        cmds.setAttr(objectString + '.rotatePivot', data[0], data[1], data[2])
+        cmds.setAttr(nodepathString + '.rotatePivot', data[0], data[1], data[2])
 
 
 #
-def setScalePivot(objectString, data):
+def setScalePivot(nodepathString, data):
     if data:
-        cmds.setAttr(objectString + '.scalePivot', data[0], data[1], data[2])
+        cmds.setAttr(nodepathString + '.scalePivot', data[0], data[1], data[2])
 
 
 #
-def getPivot(objectString, targetObject):
+def getPivot(nodepathString, targetObject):
     targetRotatePivotData = getLocalPivotVector(targetObject)
     if targetRotatePivotData:
-        setRotatePivot(objectString, targetRotatePivotData)
+        setRotatePivot(nodepathString, targetRotatePivotData)
     #
     targetScalePivotData = getLocalScalePivotVector(targetObject)
     if targetScalePivotData:
-        setScalePivot(objectString, targetScalePivotData)
+        setScalePivot(nodepathString, targetScalePivotData)
 
 
 # Get Position
-def getPosition(objectString, targetObject, keepConstraint=False):
-    cmds.parentConstraint(targetObject, objectString)
+def getPosition(nodepathString, targetObject, keepConstraint=False):
+    cmds.parentConstraint(targetObject, nodepathString)
     if not keepConstraint:
-        constraint = objectString + '_parentConstraint1'
-        if ':' in objectString:
-            constraint = objectString.split(':')[-1] + '_parentConstraint1'
+        constraint = nodepathString + '_parentConstraint1'
+        if ':' in nodepathString:
+            constraint = nodepathString.split(':')[-1] + '_parentConstraint1'
         cmds.delete(constraint)
 
 
 # Get Scale
-def getScale(objectString, targetObject, keepConstraint=False):
-    cmds.scaleConstraint(targetObject, objectString)
+def getScale(nodepathString, targetObject, keepConstraint=False):
+    cmds.scaleConstraint(targetObject, nodepathString)
     if not keepConstraint:
-        constraint = objectString + '_scaleConstraint1'
-        if ':' in objectString:
-            constraint = objectString.split(':')[-1] + '_scaleConstraint1'
+        constraint = nodepathString + '_scaleConstraint1'
+        if ':' in nodepathString:
+            constraint = nodepathString.split(':')[-1] + '_scaleConstraint1'
         cmds.delete(constraint)
 
 
 #
-def getAnimationKey(objectString, targetObject, startFrame, endFrame, frameOffset=0):
+def getAnimationKey(nodepathString, targetObject, startFrame, endFrame, frameOffset=0):
     tempLocator = 'temp_locator'
     if cmds.objExists(tempLocator):
         cmds.delete(tempLocator)
@@ -894,27 +894,27 @@ def getAnimationKey(objectString, targetObject, startFrame, endFrame, frameOffse
     cmds.parent(tempLocator, targetObject)
     setObjectZeroTransform(tempLocator, visible=0)
     #
-    cmds.parentConstraint(tempLocator, objectString)
-    cmds.scaleConstraint(tempLocator, objectString)
+    cmds.parentConstraint(tempLocator, nodepathString)
+    cmds.scaleConstraint(tempLocator, nodepathString)
     #
-    setObjectBakeKey(objectString, startFrame, endFrame, frameOffset)
+    setObjectBakeKey(nodepathString, startFrame, endFrame, frameOffset)
     #
-    parentConstraint = objectString + '_parentConstraint1'
-    scaleConstraint = objectString + '_scaleConstraint1'
-    if ':' in objectString:
-        parentConstraint = objectString.split(':')[-1] + '_parentConstraint1'
-        scaleConstraint = objectString.split(':')[-1] + '_scaleConstraint1'
+    parentConstraint = nodepathString + '_parentConstraint1'
+    scaleConstraint = nodepathString + '_scaleConstraint1'
+    if ':' in nodepathString:
+        parentConstraint = nodepathString.split(':')[-1] + '_parentConstraint1'
+        scaleConstraint = nodepathString.split(':')[-1] + '_scaleConstraint1'
     cmds.delete(parentConstraint)
     cmds.delete(scaleConstraint)
     cmds.delete(tempLocator)
 
 
 #
-def _getNodeFullpathNameString(objectString):
-    string = objectString
-    isPath = objectString.startswith(appCfg.DEF_mya_node_separator)
+def _getNodeFullpathNameString(nodepathString):
+    string = nodepathString
+    isPath = nodepathString.startswith(appCfg.DEF_mya_node_separator)
     if not isPath:
-        data = cmds.ls(objectString, long=1)
+        data = cmds.ls(nodepathString, long=1)
         if data:
             string = data[0]
     return string
@@ -943,9 +943,9 @@ def getObjectRelativePath(rootPath, objectPath):
 
 
 #
-def _toNodeParentPath(objectString):
+def _toNodeParentPath(nodepathString):
     string = None
-    objectPath = _getNodeFullpathNameString(objectString)
+    objectPath = _getNodeFullpathNameString(nodepathString)
     if objectPath:
         data = appCfg.DEF_mya_node_separator.join(objectPath.split(appCfg.DEF_mya_node_separator)[:-1])
         if data:
@@ -954,12 +954,12 @@ def _toNodeParentPath(objectString):
 
 
 #
-def getObjectRowIndex(objectString):
+def getObjectRowIndex(nodepathString):
     integer = 0
-    parent = _toNodeParentPath(objectString)
+    parent = _toNodeParentPath(nodepathString)
     children = getNodeChildLis(parent, fullPath=True)
     if children:
-        objectPath = _getNodeFullpathNameString(objectString)
+        objectPath = _getNodeFullpathNameString(nodepathString)
         if objectPath in children:
             integer = int(children.index(objectPath))
     return integer
@@ -996,11 +996,11 @@ def setObjectTransferInputConnections(sourceObject, targetObject):
 
 
 #
-def setObjectClearInputTransformationConnection(objectString):
+def setObjectClearInputTransformationConnection(nodepathString):
     attrNameLis = appCfg.MaTransformationAttrLis
     axisLis = ['X', 'Y', 'Z']
     for attrName, axis in product(attrNameLis, axisLis):
-        attr = objectString + '.' + attrName + axis
+        attr = nodepathString + '.' + attrName + axis
         if _isAppExist(attr):
             inputConnectionLis = getNodeInputConnectionLis(attr)
             for sourceAttr, targetAttr in inputConnectionLis:
@@ -1045,8 +1045,8 @@ def setObjectTransferVisibility(sourceObject, targetObject):
 
 
 #
-def setObjectClearInputVisibleConnection(objectString):
-    attr = objectString + '.visibility'
+def setObjectClearInputVisibleConnection(nodepathString):
+    attr = nodepathString + '.visibility'
     #
     inputConnectionLis = getNodeInputConnectionLis(attr)
     if inputConnectionLis:
@@ -1058,14 +1058,14 @@ def setObjectClearInputVisibleConnection(objectString):
 
 
 # Get Input Nde_Node ( Method )
-def _getNodeSourceNodeStringList(nodeString, nodeTypeString=None):
+def _getNodeSourceNodeStringList(nodepathString, nodeTypeString=None):
     if nodeTypeString is not None:
-        return cmds.listConnections(nodeString, destination=0, source=1, type=nodeTypeString) or []
-    return cmds.listConnections(nodeString, destination=0, source=1) or []
+        return cmds.listConnections(nodepathString, destination=0, source=1, type=nodeTypeString) or []
+    return cmds.listConnections(nodepathString, destination=0, source=1) or []
 
 
 #
-def getInputNodesFilterByType(objectString, filterTypes):
+def getInputNodesFilterByType(nodepathString, filterTypes):
     def getBranch(subObjStr):
         searchNodes = [subObjStr, _getNodeShapeNodeString(subObjStr)]
         set(searchNodes)
@@ -1089,13 +1089,13 @@ def getInputNodesFilterByType(objectString, filterTypes):
     #
     filterTypes = bscMethods.String.toList(filterTypes)
     #
-    getBranch(objectString)
+    getBranch(nodepathString)
     #
     return lis
 
 
 #
-def setObjectAddPositionChoice(namespace, objectString):
+def setObjectAddPositionChoice(namespace, nodepathString):
     origLocatorName = namespace + ':' + 'origPosition_locator'
     userLocatorName = namespace + ':' + 'userPosition_locator'
     choiceNodeName = namespace + ':' + 'position_choice'
@@ -1106,10 +1106,10 @@ def setObjectAddPositionChoice(namespace, objectString):
         setObjectClearInputTransformationConnection(origLocatorName)
         setObjectClearInputVisibleConnection(origLocatorName)
         #
-        setObjectTransferTransformation(objectString, origLocatorName)
-        setObjectTransferVisibility(objectString, origLocatorName)
+        setObjectTransferTransformation(nodepathString, origLocatorName)
+        setObjectTransferVisibility(nodepathString, origLocatorName)
         #
-        setObjectTransferInputConnections(objectString, origLocatorName)
+        setObjectTransferInputConnections(nodepathString, origLocatorName)
         #
         setObjectLockTransform(origLocatorName, True)
     #
@@ -1130,16 +1130,16 @@ def setObjectAddPositionChoice(namespace, objectString):
             ('outputRotate', 'rotate'),
             ('outputScale', 'scale')
         ]
-        setObjectClearInputTransformationConnection(objectString)
+        setObjectClearInputTransformationConnection(nodepathString)
         for sourceAttr, targetAttr in connectDatumLis:
-            cmds.connectAttr(decomposeMatrixName + '.' + sourceAttr, objectString + '.' + targetAttr)
+            cmds.connectAttr(decomposeMatrixName + '.' + sourceAttr, nodepathString + '.' + targetAttr)
 
 
 #
-def getInputShapeLis(objectString, filterType=none):
+def getInputShapeLis(nodepathString, filterType=none):
     lis = []
     #
-    guessData = cmds.listConnections(objectString, destination=0, source=1, shapes=1, type=filterType)
+    guessData = cmds.listConnections(nodepathString, destination=0, source=1, shapes=1, type=filterType)
     if guessData:
         for i in guessData:
             if _getNodeIsTransform(i) or _getNodeIsShape(i):
@@ -1150,14 +1150,14 @@ def getInputShapeLis(objectString, filterType=none):
 
 
 # List [ <Output Connection Nde_Node> ]
-def _getNodeTargetNodeStringList(objectString, filterType=none):
-    return cmds.listConnections(objectString, destination=1, source=0, type=filterType) or []
+def _getNodeTargetNodeStringList(nodepathString, filterType=none):
+    return cmds.listConnections(nodepathString, destination=1, source=0, type=filterType) or []
 
 
 #
-def getOutputShapes(objectString, filterType=none):
+def getOutputShapes(nodepathString, filterType=none):
     lis = []
-    guessData = cmds.listConnections(objectString, destination=1, source=0, type=filterType, shapes=1)
+    guessData = cmds.listConnections(nodepathString, destination=1, source=0, type=filterType, shapes=1)
     if guessData:
         for i in guessData:
             if _getNodeIsTransform(i) or _getNodeIsShape(i):
@@ -1190,12 +1190,12 @@ def getOutputNodeLisByAttr(attr):
 
 
 #
-def getInputObjectsByAttrName(objectString, filterAttrNames=None):
+def getInputObjectsByAttrName(nodepathString, filterAttrNames=None):
     lis = []
     filterAttrNames = bscMethods.String.toList(filterAttrNames)
     #
-    if _isAppExist(objectString):
-        guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
+    if _isAppExist(nodepathString):
+        guessData = cmds.listConnections(nodepathString, destination=0, source=1, connections=1)
         if guessData:
             inputAttrs = []
             if filterAttrNames:
@@ -1213,11 +1213,11 @@ def getInputObjectsByAttrName(objectString, filterAttrNames=None):
 
 
 #
-def getOutputNodeLisFilter(objectString, attrNames=none):
+def getOutputNodeLisFilter(nodepathString, attrNames=none):
     # List [ <Output Nde_Node> ]
     nodes = []
-    if _isAppExist(objectString):
-        guessData = cmds.listConnections(objectString, destination=1, source=0, connections=1)
+    if _isAppExist(nodepathString):
+        guessData = cmds.listConnections(nodepathString, destination=1, source=0, connections=1)
         if guessData:
             outputConnections = [i for i in guessData if attrNames in i]
             if outputConnections:
@@ -1228,11 +1228,11 @@ def getOutputNodeLisFilter(objectString, attrNames=none):
 
 
 #
-def getInputAttrFilterByAttrName(objectString, filterAttrNames=None):
+def getInputAttrFilterByAttrName(nodepathString, filterAttrNames=None):
     lis = []
     filterAttrNames = bscMethods.String.toList(filterAttrNames)
     #
-    guessData = cmds.listConnections(objectString, destination=0, source=1, connections=1)
+    guessData = cmds.listConnections(nodepathString, destination=0, source=1, connections=1)
     if guessData:
         if filterAttrNames:
             for attrName in filterAttrNames:
@@ -1244,9 +1244,9 @@ def getInputAttrFilterByAttrName(objectString, filterAttrNames=None):
 
 
 #
-def getNodeInputConnectionLis(objectString):
+def getNodeInputConnectionLis(nodepathString):
     lis = []
-    data = cmds.listConnections(objectString, destination=0, source=1, connections=1, plugs=1)
+    data = cmds.listConnections(nodepathString, destination=0, source=1, connections=1, plugs=1)
     if data:
         for seq, i in enumerate(data):
             if seq % 2:
@@ -1258,9 +1258,9 @@ def getNodeInputConnectionLis(objectString):
 
 
 #
-def getNodeOutputConnectionLis(objectString):
+def getNodeOutputConnectionLis(nodepathString):
     lis = []
-    data = cmds.listConnections(objectString, destination=1, source=0, connections=1, plugs=1)
+    data = cmds.listConnections(nodepathString, destination=1, source=0, connections=1, plugs=1)
     if data:
         for seq, i in enumerate(data):
             if seq % 2:
@@ -1300,17 +1300,17 @@ def getOutputConnectionsFilterByNamespace(node, filterNamespace):
 
 
 #
-def getObjectTransformation_(objectString):
+def getObjectTransformation_(nodepathString):
     lis = []
     attrNameLis = appCfg.MaTransformationAttrLis
     axisLis = ['X', 'Y', 'Z']
     for channel, axis in product(attrNameLis, axisLis):
-        attr = objectString + '.' + channel + axis
+        attr = nodepathString + '.' + channel + axis
         if _isAppExist(attr):
             data = cmds.getAttr(attr)
             lis.append((attr, data))
     #
-    visibilityAttr = objectString + '.' + 'visibility'
+    visibilityAttr = nodepathString + '.' + 'visibility'
     visibilityData = cmds.getAttr(visibilityAttr)
     lis.append((visibilityAttr, visibilityData))
     return lis
@@ -1332,7 +1332,7 @@ def getObjectLocalPath(root, objectPath):
 
 
 #
-def getObjectTransformation(objectString):
+def getObjectTransformation(nodepathString):
     lis = []
     channelLis = [
         '.translate', '.rotate', '.scale',
@@ -1341,13 +1341,13 @@ def getObjectTransformation(objectString):
     axisLis = ['X', 'Y', 'Z']
     for channel, axis in product(channelLis, axisLis):
         attrName = channel + axis
-        attr = objectString + channel + axis
+        attr = nodepathString + channel + axis
         if _isAppExist(attr):
             data = cmds.getAttr(attr)
             lis.append((attrName, data))
     #
     vsbAttrName = '.visibility'
-    visibilityAttr = objectString + vsbAttrName
+    visibilityAttr = nodepathString + vsbAttrName
     visibilityData = cmds.getAttr(visibilityAttr)
     lis.append((vsbAttrName, visibilityData))
     return lis
@@ -1417,36 +1417,36 @@ def getNodeAttrData(node):
 
 
 #
-def isAttrSource(objectString, attrName=none):
+def isAttrSource(nodepathString, attrName=none):
     if attrName:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
     else:
-        attr = objectString
+        attr = nodepathString
     return cmds.connectionInfo(attr, isSource=1)
 
 
 #
-def isAttrDestination(objectString, attrName=none):
+def isAttrDestination(nodepathString, attrName=none):
     if attrName:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
     else:
-        attr = objectString
+        attr = nodepathString
     return cmds.connectionInfo(attr, isDestination=1)
 
 
 #
-def isAttrExactDestination(objectString, attrName=none):
+def isAttrExactDestination(nodepathString, attrName=none):
     if attrName:
-        attr = objectString + '.' + attrName
+        attr = nodepathString + '.' + attrName
     else:
-        attr = objectString
+        attr = nodepathString
     return cmds.connectionInfo(attr, isExactDestination=1)
 
 
 #
-def setNodeOutlinerRgb(objectString, r, g, b):
-    cmds.setAttr(objectString + '.useOutlinerColor', 1)
-    cmds.setAttr(objectString + '.outlinerColor', r, g, b)
+def setNodeOutlinerRgb(nodepathString, r, g, b):
+    cmds.setAttr(nodepathString + '.useOutlinerColor', 1)
+    cmds.setAttr(nodepathString + '.outlinerColor', r, g, b)
 
 
 #
@@ -1510,11 +1510,11 @@ def setMayaView(modelPanel, mCamera):
 
 
 # Set Camera View
-def setCameraView(objectString):
+def setCameraView(nodepathString):
     defaultPanel = 'modelPanel4'
     if cmds.panel(defaultPanel, exists=1):
-        cmds.lookThru(objectString, defaultPanel)
-        setMayaView(defaultPanel, objectString)
+        cmds.lookThru(nodepathString, defaultPanel)
+        setMayaView(defaultPanel, nodepathString)
 
 
 #
@@ -1569,9 +1569,9 @@ def setDisplayMode(displayMode):
 
 
 # set Object Color
-def setNodeOverrideColor(objectString, color=17):
-    cmds.setAttr(objectString + '.overrideEnabled', 1)
-    cmds.setAttr(objectString + '.overrideColor', color)
+def setNodeOverrideColor(nodepathString, color=17):
+    cmds.setAttr(nodepathString + '.overrideEnabled', 1)
+    cmds.setAttr(nodepathString + '.overrideColor', color)
 
 
 #
@@ -1590,10 +1590,10 @@ def _toNamespace(stringLis):
 
 
 #
-def setNodeOverrideRgb(nodeString, r, g, b):
-    cmds.setAttr(_toNodeAttr([nodeString, 'overrideRGBColors']), 1)
-    cmds.setAttr(_toNodeAttr([nodeString, 'overrideColorRGB']), r, g, b)
-    cmds.setAttr(_toNodeAttr([nodeString, 'overrideEnabled']), True)
+def setNodeOverrideRgb(nodepathString, r, g, b):
+    cmds.setAttr(_toNodeAttr([nodepathString, 'overrideRGBColors']), 1)
+    cmds.setAttr(_toNodeAttr([nodepathString, 'overrideColorRGB']), r, g, b)
+    cmds.setAttr(_toNodeAttr([nodepathString, 'overrideEnabled']), True)
 
 
 #
@@ -1675,36 +1675,36 @@ def setCreateAttrChangedScriptJob(windowName, attr, method):
 
 
 #
-def hideHandel(objectString):
-    if cmds.toggle(objectString, query=1, selectHandle=1):
-        cmds.toggle(objectString, selectHandle=1)
-    if cmds.toggle(objectString, query=1, rotatePivot=1):
-        cmds.toggle(objectString, rotatePivot=1)
-    if cmds.toggle(objectString, query=1, scalePivot=1):
-        cmds.toggle(objectString, scalePivot=1)
+def hideHandel(nodepathString):
+    if cmds.toggle(nodepathString, query=1, selectHandle=1):
+        cmds.toggle(nodepathString, selectHandle=1)
+    if cmds.toggle(nodepathString, query=1, rotatePivot=1):
+        cmds.toggle(nodepathString, rotatePivot=1)
+    if cmds.toggle(nodepathString, query=1, scalePivot=1):
+        cmds.toggle(nodepathString, scalePivot=1)
 
 
 #
-def displayHandle(objectString, boolean):
+def displayHandle(nodepathString, boolean):
     if boolean:
-        if not cmds.toggle(objectString, query=1, selectHandle=1):
-            cmds.toggle(objectString, selectHandle=1)
-        if not cmds.toggle(objectString, query=1, rotatePivot=1):
-            cmds.toggle(objectString, rotatePivot=1)
-        if not cmds.toggle(objectString, query=1, scalePivot=1):
-            cmds.toggle(objectString, scalePivot=1)
+        if not cmds.toggle(nodepathString, query=1, selectHandle=1):
+            cmds.toggle(nodepathString, selectHandle=1)
+        if not cmds.toggle(nodepathString, query=1, rotatePivot=1):
+            cmds.toggle(nodepathString, rotatePivot=1)
+        if not cmds.toggle(nodepathString, query=1, scalePivot=1):
+            cmds.toggle(nodepathString, scalePivot=1)
     if not boolean:
-        if cmds.toggle(objectString, query=1, selectHandle=1):
-            cmds.toggle(objectString, selectHandle=1)
-        if cmds.toggle(objectString, query=1, rotatePivot=1):
-            cmds.toggle(objectString, rotatePivot=1)
-        if cmds.toggle(objectString, query=1, scalePivot=1):
-            cmds.toggle(objectString, scalePivot=1)
+        if cmds.toggle(nodepathString, query=1, selectHandle=1):
+            cmds.toggle(nodepathString, selectHandle=1)
+        if cmds.toggle(nodepathString, query=1, rotatePivot=1):
+            cmds.toggle(nodepathString, rotatePivot=1)
+        if cmds.toggle(nodepathString, query=1, scalePivot=1):
+            cmds.toggle(nodepathString, scalePivot=1)
 
 
 #
-def setObjectDisplayHandleEnable(objectString, boolean):
-    attr = objectString + '.' + 'displayHandle'
+def setObjectDisplayHandleEnable(nodepathString, boolean):
+    attr = nodepathString + '.' + 'displayHandle'
     cmds.setAttr(attr, boolean)
 
 
@@ -1749,21 +1749,21 @@ def setParentGroup(child, parent, groupName='null'):
 
 
 # Reorder Object ( dir = 1 / -1 )
-def setObjectReorder(objectString, rowIndex):
-    cmds.reorder(objectString, relative=rowIndex)
+def setObjectReorder(nodepathString, rowIndex):
+    cmds.reorder(nodepathString, relative=rowIndex)
 
 
 #
-def setObjectReferenceDisplay(objectString):
-    if _isAppExist(objectString):
-        cmds.setAttr(objectString + '.overrideEnabled', 1)
-        cmds.setAttr(objectString + '.overrideDisplayType', 2)
+def setObjectReferenceDisplay(nodepathString):
+    if _isAppExist(nodepathString):
+        cmds.setAttr(nodepathString + '.overrideEnabled', 1)
+        cmds.setAttr(nodepathString + '.overrideDisplayType', 2)
 
 
 #
-def setCleanChild(objectString):
-    allChild = cmds.listRelatives(objectString, children=1, fullPath=True)
-    shape = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=True)
+def setCleanChild(nodepathString):
+    allChild = cmds.listRelatives(nodepathString, children=1, fullPath=True)
+    shape = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=1, fullPath=True)
     if allChild:
         for i in allChild:
             if i not in shape:
@@ -1771,21 +1771,21 @@ def setCleanChild(objectString):
 
 
 # Parent To World
-def setParentToWorld(objectString):
-    if cmds.listRelatives(objectString, parent=1):
-        cmds.parent(objectString, world=1)
+def setParentToWorld(nodepathString):
+    if cmds.listRelatives(nodepathString, parent=1):
+        cmds.parent(nodepathString, world=1)
 
 
 #
-def setNodeRename(objectString, newName):
-    if newName != objectString:
-        if not isNodeLocked(objectString):
-            cmds.rename(objectString, newName)
+def setNodeRename(nodepathString, newName):
+    if newName != nodepathString:
+        if not isNodeLocked(nodepathString):
+            cmds.rename(nodepathString, newName)
 
 
 #
-def setObjectShapeRename(objectString, name):
-    shape = _getNodeShapeNodeString(objectString, fullPath=True)
+def setObjectShapeRename(nodepathString, name):
+    shape = _getNodeShapeNodeString(nodepathString, fullPath=True)
     shapeName = _nodeString2nodename_(shape)
     if shape:
         if name != shapeName:
@@ -1802,20 +1802,20 @@ def setObjectRename(objectPath, name):
 
 
 #
-def setRenameForce(objectString, name):
-    if name != objectString:
-        if _isAppExist(objectString):
+def setRenameForce(nodepathString, name):
+    if name != nodepathString:
+        if _isAppExist(nodepathString):
             if _isAppExist(name):
                 name += '_reduce'
-            setNodeUnlock(objectString)
-            cmds.rename(objectString, name)
+            setNodeUnlock(nodepathString)
+            cmds.rename(nodepathString, name)
             setNodeLock(name)
 
 
 #
-def isPolyMesh(objectString):
-    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
-        shape = _getNodeShapeNodeString(objectString)
+def isPolyMesh(nodepathString):
+    if cmds.nodeType(nodepathString) == appCfg.DEF_mya_type_transform:
+        shape = _getNodeShapeNodeString(nodepathString)
         if cmds.nodeType(shape) == 'mesh':
             return True
         else:
@@ -1825,39 +1825,39 @@ def isPolyMesh(objectString):
 
 
 #
-def _getNodeIsShape(objectString):
+def _getNodeIsShape(nodepathString):
     boolean = False
-    if cmds.nodeType(objectString) != appCfg.DEF_mya_type_transform:
-        shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=True)
+    if cmds.nodeType(nodepathString) != appCfg.DEF_mya_type_transform:
+        shapes = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=1, fullPath=True)
         if not shapes:
             boolean = True
     return boolean
 
 
 #
-def _getNodeIsTransform(objectString):
+def _getNodeIsTransform(nodepathString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
-        shapes = _getNodeShapeNodeStringList(objectString)
+    if cmds.nodeType(nodepathString) == appCfg.DEF_mya_type_transform:
+        shapes = _getNodeShapeNodeStringList(nodepathString)
         if shapes:
             boolean = True
     return boolean
 
 
 #
-def _getNodeIsGroup(objectString):
+def _getNodeIsGroup(nodepathString):
     boolean = False
-    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
-        shapes = _getNodeShapeNodeStringList(objectString)
+    if cmds.nodeType(nodepathString) == appCfg.DEF_mya_type_transform:
+        shapes = _getNodeShapeNodeStringList(nodepathString)
         if not shapes:
             boolean = True
     return boolean
 
 
 # Check Object is Empty Group
-def isGroupEmpty(objectString):
-    if cmds.nodeType(objectString) == appCfg.DEF_mya_type_transform:
-        child = cmds.listRelatives(objectString, children=1)
+def isGroupEmpty(nodepathString):
+    if cmds.nodeType(nodepathString) == appCfg.DEF_mya_type_transform:
+        child = cmds.listRelatives(nodepathString, children=1)
         if not child:
             return True
 
@@ -1886,14 +1886,14 @@ def getSelectedObjects(fullPath=True, useShape=0):
 
 
 #
-def setSelObject(objectString, add=False):
-    if _isAppExist(objectString):
-        cmds.select(objectString, add=add)
+def setSelObject(nodepathString, add=False):
+    if _isAppExist(nodepathString):
+        cmds.select(nodepathString, add=add)
 
 
 #
-def setNodeSelect(objectStringLis, noExpand=0):
-    existsObjects = [i for i in objectStringLis if _isAppExist(i)]
+def setNodeSelect(nodepathStringLis, noExpand=0):
+    existsObjects = [i for i in nodepathStringLis if _isAppExist(i)]
     cmds.select(existsObjects, noExpand=noExpand)
 
 
@@ -1923,8 +1923,8 @@ def setUpdateSel(objectLis):
 
 
 #
-def _getNodeCategoryString(objectString):
-    return cmds.nodeType(objectString)
+def _getNodeCategoryString(nodepathString):
+    return cmds.nodeType(nodepathString)
 
 
 #
@@ -1946,19 +1946,19 @@ def getAttrTypes():
 
 
 #
-def getTransformType(objectString):
-    if _getNodeCategoryString(objectString) == appCfg.DEF_mya_type_transform:
-        shape = _getNodeShapeNodeString(objectString, 1)
+def getTransformType(nodepathString):
+    if _getNodeCategoryString(nodepathString) == appCfg.DEF_mya_type_transform:
+        shape = _getNodeShapeNodeString(nodepathString, 1)
         if shape:
             return _getNodeCategoryString(shape)
 
 
 #
-def _getNodeShapeCategoryString(objectString):
-    nodeType = _getNodeCategoryString(objectString)
+def _getNodeShapeCategoryString(nodepathString):
+    nodeType = _getNodeCategoryString(nodepathString)
     #
     if nodeType == appCfg.DEF_mya_type_transform:
-        shapePath = _getNodeShapeNodeString(objectString)
+        shapePath = _getNodeShapeNodeString(nodepathString)
         if shapePath:
             string = _getNodeCategoryString(shapePath)
         else:
@@ -2112,11 +2112,11 @@ def setDisplayLayerVisible(displayLayer, boolean):
 
 
 # set Object Color
-def setDisplayLayerColor(objectString, color=(1, 1, 1)):
-    cmds.setAttr(objectString + '.enabled', 1)
-    cmds.setAttr(objectString + '.color', 1)
-    cmds.setAttr(objectString + '.overrideColorRGB', *color)
-    cmds.setAttr(objectString + '.overrideRGBColors', 1)
+def setDisplayLayerColor(nodepathString, color=(1, 1, 1)):
+    cmds.setAttr(nodepathString + '.enabled', 1)
+    cmds.setAttr(nodepathString + '.color', 1)
+    cmds.setAttr(nodepathString + '.overrideColorRGB', *color)
+    cmds.setAttr(nodepathString + '.overrideRGBColors', 1)
 
 
 #
@@ -2173,14 +2173,14 @@ def isNamingOverlapping(node):
 
 
 #
-def getKeyableAttr(objectString):
-    return cmds.listAttr(objectString, keyable=1)
+def getKeyableAttr(nodepathString):
+    return cmds.listAttr(nodepathString, keyable=1)
 
 
 #
-def getAnimCurve(objectString, attrName):
+def getAnimCurve(nodepathString, attrName):
     # List [ <Input Connection Nde_Node> ]
-    attr = objectString + '.' + attrName
+    attr = nodepathString + '.' + attrName
     inputNodes = cmds.listConnections(attr, destination=0, source=1)
     if inputNodes:
         inputNode = inputNodes[0]
@@ -2407,9 +2407,9 @@ def setYetiTextureParam(yetiShapeString, node, mapFile):
 
 
 #
-def getYetiRefObject(objectString):
+def getYetiRefObject(nodepathString):
     lis = []
-    shape = _getNodeShapeNodeString(objectString)
+    shape = _getNodeShapeNodeString(nodepathString)
     referenceObjects = getInputObjectsByAttrName(shape, '.referenceObject')
     if referenceObjects:
         [lis.append(_getNodeFullpathNameString(i)) for i in referenceObjects]
@@ -2442,12 +2442,12 @@ def getPfxHairOutputCurves(follicleObject):
     follicleShape = _getNodeShapeNodeString(follicleObject, 1)
     guessObjects = getOutputNodeLisFilter(follicleShape, '.outCurve')
     if guessObjects:
-        for objectString in guessObjects:
-            if _getNodeCategoryString(objectString) == 'rebuildCurve':
-                outputObjects = getOutputNodeLisFilter(objectString, '.outputCurve')
+        for nodepathString in guessObjects:
+            if _getNodeCategoryString(nodepathString) == 'rebuildCurve':
+                outputObjects = getOutputNodeLisFilter(nodepathString, '.outputCurve')
                 outputCurveObjects.extend(outputObjects)
-            if getTransformType(objectString) == 'nurbsCurve':
-                outputCurveObjects.append(objectString)
+            if getTransformType(nodepathString) == 'nurbsCurve':
+                outputCurveObjects.append(nodepathString)
     return outputCurveObjects
 
 
@@ -2514,16 +2514,16 @@ def getPfxHairConnectionData(pfxHairObject):
 
 
 #
-def setRepairShape(objectString, useMode=0):
-    shapes = _getNodeShapeNodeStringList(objectString, 1)
-    mainShapes = getMainShapes(objectString, 1)
+def setRepairShape(nodepathString, useMode=0):
+    shapes = _getNodeShapeNodeStringList(nodepathString, 1)
+    mainShapes = getMainShapes(nodepathString, 1)
     if not mainShapes:
         if useMode == 0:
             if shapes:
                 mainShape = shapes[0]
                 cmds.setAttr(mainShape + '.intermediateObject', 0)
         if useMode == 1:
-            cmds.delete(objectString)
+            cmds.delete(nodepathString)
 
 
 #
@@ -2544,8 +2544,8 @@ def setCleanHistory(nodes):
 
 # Assign Default Nde_ShaderRef
 def setObjectDefaultShaderCmd(objectLis):
-    # [cmds.sets(objectString, forceElement='initialShadingGroup') for objectString in objectLis]
-    [setNodeDefaultShader(objectString) for objectString in objectLis]
+    # [cmds.sets(nodepathString, forceElement='initialShadingGroup') for nodepathString in objectLis]
+    [setNodeDefaultShader(nodepathString) for nodepathString in objectLis]
 
 
 #
@@ -2554,40 +2554,40 @@ def getObjectLinkShader():
 
 
 # Assign Default Nde_ShaderRef
-def setNodeDefaultShader(objectString):
-    # cmds.sets(objectString, forceElement='initialShadingGroup')
-    cmds.sets(_getNodeShapeNodeString(objectString, 1), forceElement='initialShadingGroup')
+def setNodeDefaultShader(nodepathString):
+    # cmds.sets(nodepathString, forceElement='initialShadingGroup')
+    cmds.sets(_getNodeShapeNodeString(nodepathString, 1), forceElement='initialShadingGroup')
 
 
 #
-def setObjectCleanShaders(objectString):
-    shadingEngines = _getNodeTargetNodeStringList(objectString, 'shadingEngine')
+def setObjectCleanShaders(nodepathString):
+    shadingEngines = _getNodeTargetNodeStringList(nodepathString, 'shadingEngine')
     if shadingEngines:
-        [cmds.sets(objectString, remove=i) for i in shadingEngines]
+        [cmds.sets(nodepathString, remove=i) for i in shadingEngines]
 
 
 # Set Attr
-def setHide(objectString):
-    attr = objectString + '.' + 'visibility'
+def setHide(nodepathString):
+    attr = nodepathString + '.' + 'visibility'
     if cmds.objExists(attr):
         cmds.setAttr(attr, 0)
 
 
 # Set Attr
-def setShow(objectString):
-    attr = objectString + '.' + 'visibility'
+def setShow(nodepathString):
+    attr = nodepathString + '.' + 'visibility'
     if cmds.objExists(attr):
         cmds.setAttr(attr, 1)
 
 
 # Set Attr
-def isHide(objectString):
-    attr = objectString + '.' + 'visibility'
+def isHide(nodepathString):
+    attr = nodepathString + '.' + 'visibility'
     return cmds.getAttr(attr)
 
 
-def isLxNodeVisible(nodeString):
-    attr = nodeString + 'lxVisible'
+def isLxNodeVisible(nodepathString):
+    attr = nodepathString + 'lxVisible'
     if _isAppExist(attr):
         return cmds.getAttr(attr)
     else:
@@ -2595,19 +2595,19 @@ def isLxNodeVisible(nodeString):
 
 
 #
-def setLocatorCreate(nodeString):
-    return cmds.spaceLocator(name=nodeString, position=(0, 0, 0))
+def setLocatorCreate(nodepathString):
+    return cmds.spaceLocator(name=nodepathString, position=(0, 0, 0))
 
 
 #
-def setNodeVisible(objectString, boolean):
-    attr = objectString + '.' + 'visibility'
+def setNodeVisible(nodepathString, boolean):
+    attr = nodepathString + '.' + 'visibility'
     cmds.setAttr(attr, boolean)
 
 
 #
-def isNodeVisible(nodeString):
-    attr = nodeString + '.' + 'visibility'
+def isNodeVisible(nodepathString):
+    attr = nodepathString + '.' + 'visibility'
     return cmds.getAttr(attr)
 
 
@@ -2639,8 +2639,8 @@ def getObjectHierarchyDic(mType, root):
 
 
 #
-def setCopyNode(objectString, newObject):
-    cmds.duplicate(objectString, name=newObject, returnRootsOnly=1)
+def setCopyNode(nodepathString, newObject):
+    cmds.duplicate(nodepathString, name=newObject, returnRootsOnly=1)
 
 
 #
@@ -2871,18 +2871,18 @@ def getSelObjParentFilter(keyword, fullPath=True):
     lis = []
     objectLis = cmds.ls(selection=1, long=fullPath)
     if objectLis:
-        for objectString in objectLis:
-            parent = getObjectParentFilter(objectString, keyword, fullPath)
+        for nodepathString in objectLis:
+            parent = getObjectParentFilter(nodepathString, keyword, fullPath)
             if parent:
                 lis.append(parent)
     return lis
 
 
 #
-def getRoot(objectString, fullPath=True):
-    objectFullPath = _getNodeFullpathNameString(objectString)
+def getRoot(nodepathString, fullPath=True):
+    objectFullPath = _getNodeFullpathNameString(nodepathString)
     if objectFullPath:
-        root = objectString
+        root = nodepathString
         if objectFullPath.startswith(appCfg.DEF_mya_node_separator):
             splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
             root = splitData[1]
@@ -2893,9 +2893,9 @@ def getRoot(objectString, fullPath=True):
 
 
 #
-def getObjectParentFilter(objectString, keyword, fullPath=True):
+def getObjectParentFilter(nodepathString, keyword, fullPath=True):
     string = none
-    objectFullPath = _getNodeFullpathNameString(objectString)
+    objectFullPath = _getNodeFullpathNameString(nodepathString)
     if objectFullPath:
         splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
         hasParent = False
@@ -2918,9 +2918,9 @@ def getObjectParentFilter(objectString, keyword, fullPath=True):
 def getSelectedObjectsFilter(mType, fullPath=True):
     lis = []
     objectLis = cmds.ls(selection=1, long=fullPath)
-    for objectString in objectLis:
-        if _getNodeShapeCategoryString(objectString) == mType:
-            lis.append(objectString)
+    for nodepathString in objectLis:
+        if _getNodeShapeCategoryString(nodepathString) == mType:
+            lis.append(nodepathString)
     return lis
 
 
@@ -2928,9 +2928,9 @@ def getSelectedObjectsFilter(mType, fullPath=True):
 def getSelectedObjectsFilterByTypes(mTypes, fullPath=True):
     lis = []
     objectLis = cmds.ls(selection=1, long=fullPath)
-    for objectString in objectLis:
-        if _getNodeShapeCategoryString(objectString) in mTypes:
-            lis.append(objectString)
+    for nodepathString in objectLis:
+        if _getNodeShapeCategoryString(nodepathString) in mTypes:
+            lis.append(nodepathString)
     return lis
 
 
@@ -3159,9 +3159,9 @@ def setGpu(name, mFile):
 
 
 #
-def getConnectAttrData(objectString, attrName):
+def getConnectAttrData(nodepathString, attrName):
     lis = []
-    attr = objectString + '.' + attrName
+    attr = nodepathString + '.' + attrName
     if _isAppExist(attr):
         data = cmds.listConnections(attr)
         if data:
@@ -3192,16 +3192,16 @@ def setAttrDisconnect(sourceAttr, targetAttr):
 
 
 #
-def setObjectClearInputConnection(objectString):
-    inputConnectionLis = getNodeInputConnectionLis(objectString)
+def setObjectClearInputConnection(nodepathString):
+    inputConnectionLis = getNodeInputConnectionLis(nodepathString)
     if inputConnectionLis:
         for sourceAttr, targetAttr in inputConnectionLis:
             setAttrDisconnect(sourceAttr, targetAttr)
 
 
 #
-def setObjectClearOutputConnection(objectString):
-    outputConnectionLis = getNodeOutputConnectionLis(objectString)
+def setObjectClearOutputConnection(nodepathString):
+    outputConnectionLis = getNodeOutputConnectionLis(nodepathString)
     if outputConnectionLis:
         for sourceAttr, targetAttr in outputConnectionLis:
             setAttrDisconnect(sourceAttr, targetAttr)
@@ -3319,9 +3319,9 @@ def getFolder(caption='Open ', okCaption='*', startingDirectory=none):
 
 
 #
-def setNodeDelete(objectString):
-    if _isAppExist(objectString):
-        cmds.delete(objectString)
+def setNodeDelete(nodepathString):
+    if _isAppExist(nodepathString):
+        cmds.delete(nodepathString)
 
 
 #
@@ -3371,8 +3371,8 @@ def isRedshiftEnable():
 
 
 #
-def setObjectHiddenInOutline(objectString, boolean=1):
-    cmds.setAttr(objectString + '.hiddenInOutliner', boolean)
+def setObjectHiddenInOutline(nodepathString, boolean=1):
+    cmds.setAttr(nodepathString + '.hiddenInOutliner', boolean)
 
 
 #
@@ -3398,8 +3398,8 @@ def getNameOverlappingObjectLis(mObjectPaths):
 
 
 #
-def setCreateMeshObjectEdgeSmooth(objectString):
-    cmds.polySoftEdge(objectString, a=180, constructionHistory=0)
+def setCreateMeshObjectEdgeSmooth(nodepathString):
+    cmds.polySoftEdge(nodepathString, a=180, constructionHistory=0)
 
 
 #
@@ -3408,8 +3408,8 @@ def getMeshBoundingBox(objectLis):
 
 
 #
-def setObjectMove(objectString, x, y, z):
-    cmds.move(x, y, z, objectString, relative=1)
+def setObjectMove(nodepathString, x, y, z):
+    cmds.move(x, y, z, nodepathString, relative=1)
 
 
 #
@@ -3418,16 +3418,16 @@ def toM2Object(mNode):
 
 
 #
-def toM2NodePath(objectString):
-    return OpenMaya.MGlobal.getSelectionListByName(objectString).getDagPath(0)
+def toM2NodePath(nodepathString):
+    return OpenMaya.MGlobal.getSelectionListByName(nodepathString).getDagPath(0)
 
 
 # noinspection PyArgumentList
-def toM2TransformNode(objectString, mode=0):
+def toM2TransformNode(nodepathString, mode=0):
     if mode == 0:
-        return OpenMaya.MFnTransform(toM2NodePath(objectString))
+        return OpenMaya.MFnTransform(toM2NodePath(nodepathString))
     if mode == 1:
-        return OpenMaya.MFnTransform(objectString)
+        return OpenMaya.MFnTransform(nodepathString)
 
 
 #
@@ -3436,11 +3436,11 @@ def getM2ObjectPath(m2Node):
 
 
 # noinspection PyArgumentList
-def toM2DagNode(objectString, mode=0):
+def toM2DagNode(nodepathString, mode=0):
     if mode == 0:
-        return OpenMaya.MFnDagNode(toM2NodePath(objectString))
+        return OpenMaya.MFnDagNode(toM2NodePath(nodepathString))
     if mode == 1:
-        return OpenMaya.MFnDagNode(objectString)
+        return OpenMaya.MFnDagNode(nodepathString)
 
 
 #
@@ -3552,8 +3552,8 @@ def toM2FloatVectorArray(floatVectorArray):
 
 
 #
-def getObjectBBox(objectString):
-    MObject = toM2DagNode(objectString)
+def getObjectBBox(nodepathString):
+    MObject = toM2DagNode(nodepathString)
     m2BoundingBox = MObject.boundingBox
     bBoxMPointArray = getBBoxMPointArray(m2BoundingBox)
     mini, maxi = getPointArray(bBoxMPointArray)
@@ -3579,21 +3579,21 @@ def setSelMeshesToOrigin(mode=0):
 
 
 #
-def getPivotByBBox(objectString):
-    bBox = getObjectBBox(objectString)
+def getPivotByBBox(nodepathString):
+    bBox = getObjectBBox(nodepathString)
     pivot = []
     for seq, i in enumerate(['X', 'Y', 'Z']):
         p = bBox[seq][1]
         pivot.append(p)
     #
-    cmds.xform(objectString, scalePivot=pivot, worldSpace=1)
-    cmds.xform(objectString, rotatePivot=pivot, worldSpace=1)
+    cmds.xform(nodepathString, scalePivot=pivot, worldSpace=1)
+    cmds.xform(nodepathString, rotatePivot=pivot, worldSpace=1)
 
 
 #
-def getTranslateByBBox(objectString, targetObject):
-    origTranslate = getTranslateVector(objectString)
-    bBox1 = getObjectBBox(objectString)
+def getTranslateByBBox(nodepathString, targetObject):
+    origTranslate = getTranslateVector(nodepathString)
+    bBox1 = getObjectBBox(nodepathString)
     bBox2 = getObjectBBox(targetObject)
     translation = []
     for seq, i in enumerate(['X', 'Y', 'Z']):
@@ -3602,16 +3602,16 @@ def getTranslateByBBox(objectString, targetObject):
         t_t = t_o + t_c
         translation.append(t_t)
     #
-    cmds.xform(objectString, translation=translation)
+    cmds.xform(nodepathString, translation=translation)
 
 
 #
-def getScaleByBBox(objectString, targetObject):
+def getScaleByBBox(nodepathString, targetObject):
     # Debug ( Reset Scale Value)
-    cmds.xform(objectString, scale=[1, 1, 1])
+    cmds.xform(nodepathString, scale=[1, 1, 1])
     #
-    origScale = getScaleVector(objectString)
-    bBox1 = getObjectBBox(objectString)
+    origScale = getScaleVector(nodepathString)
+    bBox1 = getObjectBBox(nodepathString)
     bBox2 = getObjectBBox(targetObject)
     #
     scale = []
@@ -3623,13 +3623,13 @@ def getScaleByBBox(objectString, targetObject):
         #
         scale.append(s_t)
     #
-    cmds.xform(objectString, scale=scale)
+    cmds.xform(nodepathString, scale=scale)
 
 
 #
-def getOrigPivot(objectString):
-    origTranslate = getTranslateVector(objectString)
-    cmds.xform(objectString, pivots=origTranslate, worldSpace=1)
+def getOrigPivot(nodepathString):
+    origTranslate = getTranslateVector(nodepathString)
+    cmds.xform(nodepathString, pivots=origTranslate, worldSpace=1)
 
 
 #
@@ -3653,84 +3653,84 @@ def setClearConstraintByRoot(root):
 
 
 #
-def getTranslateVector_(objectString):
-    return cmds.xform(objectString, query=1, translation=1)
+def getTranslateVector_(nodepathString):
+    return cmds.xform(nodepathString, query=1, translation=1)
 
 
 #
-def setTranslate_(objectString, data):
-    cmds.xform(objectString, translation=data)
+def setTranslate_(nodepathString, data):
+    cmds.xform(nodepathString, translation=data)
 
 
 #
-def getRotateVector_(objectString):
-    return cmds.xform(objectString, query=1, rotation=1)
+def getRotateVector_(nodepathString):
+    return cmds.xform(nodepathString, query=1, rotation=1)
 
 
 #
-def setRotate_(objectString, data):
-    cmds.xform(objectString, rotation=data)
+def setRotate_(nodepathString, data):
+    cmds.xform(nodepathString, rotation=data)
 
 
 #
-def getScaleVector_(objectString):
-    return cmds.xform(objectString, query=1, scale=1)
+def getScaleVector_(nodepathString):
+    return cmds.xform(nodepathString, query=1, scale=1)
 
 
 #
-def setScale_(objectString, data):
-    return cmds.xform(objectString, scale=data)
+def setScale_(nodepathString, data):
+    return cmds.xform(nodepathString, scale=data)
 
 
 #
-def getRotatePivotVector_(objectString, isWorld):
-    return cmds.xform(objectString, query=1, rotatePivot=1, worldSpace=isWorld)
+def getRotatePivotVector_(nodepathString, isWorld):
+    return cmds.xform(nodepathString, query=1, rotatePivot=1, worldSpace=isWorld)
 
 
 #
-def getScalePivotVector_(objectString, isWorld):
-    return cmds.xform(objectString, query=1, scalePivot=1, worldSpace=isWorld)
+def getScalePivotVector_(nodepathString, isWorld):
+    return cmds.xform(nodepathString, query=1, scalePivot=1, worldSpace=isWorld)
 
 
 #
-def setRotatePivot_(objectString, data, isWorld):
-    cmds.xform(objectString, rotatePivot=data, worldSpace=isWorld)
+def setRotatePivot_(nodepathString, data, isWorld):
+    cmds.xform(nodepathString, rotatePivot=data, worldSpace=isWorld)
 
 
 #
-def setScalePivot_(objectString, data, isWorld):
-    cmds.xform(objectString, scalePivot=data, worldSpace=isWorld)
+def setScalePivot_(nodepathString, data, isWorld):
+    cmds.xform(nodepathString, scalePivot=data, worldSpace=isWorld)
 
 
 #
-def getWorldRotatePivotVector_(objectString):
-    worldPivot = getRotatePivotVector_(objectString, isWorld=True)
-    localPivot = getRotatePivotVector_(objectString, isWorld=False)
+def getWorldRotatePivotVector_(nodepathString):
+    worldPivot = getRotatePivotVector_(nodepathString, isWorld=True)
+    localPivot = getRotatePivotVector_(nodepathString, isWorld=False)
     return [i - localPivot[index] for index, i in enumerate(worldPivot)]
 
 
 #
-def getWorldScalePivotVector_(objectString):
-    worldPivot = getScalePivotVector_(objectString, isWorld=True)
-    localPivot = getScalePivotVector_(objectString, isWorld=False)
+def getWorldScalePivotVector_(nodepathString):
+    worldPivot = getScalePivotVector_(nodepathString, isWorld=True)
+    localPivot = getScalePivotVector_(nodepathString, isWorld=False)
     return [i - localPivot[index] for index, i in enumerate(worldPivot)]
 
 
 #
-def getRotate_(objectString, targetObject):
+def getRotate_(nodepathString, targetObject):
     tarRotate = getRotateVector(targetObject)
-    cmds.xform(objectString, rotation=tarRotate)
+    cmds.xform(nodepathString, rotation=tarRotate)
 
 
 #
-def setZeroPos_(objectString):
-    setTranslate_(objectString, [0, 0, 0])
-    setRotate_(objectString, [0, 0, 0])
-    setScale_(objectString, [1, 1, 1])
+def setZeroPos_(nodepathString):
+    setTranslate_(nodepathString, [0, 0, 0])
+    setRotate_(nodepathString, [0, 0, 0])
+    setScale_(nodepathString, [1, 1, 1])
 
 
 #
-def getPos_(objectString, targetObject):
+def getPos_(nodepathString, targetObject):
     # Record Pos
     tarTranslate = getTranslateVector_(targetObject)
     tarRotate = getRotateVector_(targetObject)
@@ -3739,25 +3739,25 @@ def getPos_(objectString, targetObject):
     setZeroPos_(targetObject)
     # Translate with Scale Pivot
     bugOffset = getWorldScalePivotVector_(targetObject)
-    setTranslate_(objectString, bugOffset)
+    setTranslate_(nodepathString, bugOffset)
     # Get World Pivot
     tarWorldRotatePivot = getRotatePivotVector_(targetObject, isWorld=True)
-    setRotatePivot_(objectString, tarWorldRotatePivot, isWorld=True)
+    setRotatePivot_(nodepathString, tarWorldRotatePivot, isWorld=True)
     #
     tarWorldScalePivot = getScalePivotVector_(targetObject, isWorld=True)
-    setScalePivot_(objectString, tarWorldScalePivot, isWorld=True)
+    setScalePivot_(nodepathString, tarWorldScalePivot, isWorld=True)
     # Set Target Orig Pos
     setTranslate_(targetObject, tarTranslate)
     setRotate_(targetObject, tarRotate)
     setScale_(targetObject, tarScale)
     # Set Object Orig Pos
     translateOffset = [i + bugOffset[index] for index, i in enumerate(tarTranslate)]
-    setTranslate_(objectString, translateOffset)
-    setRotate_(objectString, tarRotate)
-    setScale_(objectString, tarScale)
+    setTranslate_(nodepathString, translateOffset)
+    setRotate_(nodepathString, tarRotate)
+    setScale_(nodepathString, tarScale)
     #
-    getPosition(objectString, targetObject)
-    getScale(objectString, targetObject)
+    getPosition(nodepathString, targetObject)
+    getScale(nodepathString, targetObject)
 
 
 #
@@ -3830,14 +3830,14 @@ def translateAnimationPosition(sourceObject, targetObject, startFrame, endFrame,
             print 'Fix {} RotateZ {} > {} '.format(frame, z1, z)
         return [x, y, z]
     #
-    def getWorldTranslation(objectString):
-        return cmds.xform(objectString, query=1, worldSpace=1, translation=1)
+    def getWorldTranslation(nodepathString):
+        return cmds.xform(nodepathString, query=1, worldSpace=1, translation=1)
     #
-    def getWorldRotation(objectString):
-        return cmds.xform(objectString, query=1, worldSpace=1, rotation=1)
+    def getWorldRotation(nodepathString):
+        return cmds.xform(nodepathString, query=1, worldSpace=1, rotation=1)
     #
-    def getWordScale(objectString):
-        return cmds.xform(objectString, query=1, worldSpace=1, scale=1)
+    def getWordScale(nodepathString):
+        return cmds.xform(nodepathString, query=1, worldSpace=1, scale=1)
     #
     def setTranslation(frame):
         worldTranslation = getWorldTranslation(sourceObject)
@@ -3876,40 +3876,40 @@ def translateAnimationPosition(sourceObject, targetObject, startFrame, endFrame,
 
 
 #
-def getNodeWorldMatrix(nodeString):
-    return cmds.xform(nodeString, query=1, matrix=1, worldSpace=1) or DEF_mya_default_matrix
+def getNodeWorldMatrix(nodepathString):
+    return cmds.xform(nodepathString, query=1, matrix=1, worldSpace=1) or DEF_mya_default_matrix
 
 
 #
-def isDefaultMatrix(nodeString):
-    return getNodeWorldMatrix(nodeString) == DEF_mya_default_matrix
+def isDefaultMatrix(nodepathString):
+    return getNodeWorldMatrix(nodepathString) == DEF_mya_default_matrix
 
 
 #
-def getNodeWorldBoundingBox(nodeString):
-    return cmds.xform(nodeString, query=1, boundingBox=1, worldSpace=1) or [0, 0, 0, 0, 0, 0]
+def getNodeWorldBoundingBox(nodepathString):
+    return cmds.xform(nodepathString, query=1, boundingBox=1, worldSpace=1) or [0, 0, 0, 0, 0, 0]
 
 
 #
-def getNodeBoundingBox(nodeString):
+def getNodeBoundingBox(nodepathString):
     lis = []
     mainAttrName = 'boundingBox'
     subAttrNameLis = ['boundingBoxMin', 'boundingBoxMax']
     axisLis = ['X', 'Y', 'Z']
     for subAttrName, axis in product(subAttrNameLis, axisLis):
-        attr = '{}.{}.{}.{}{}'.format(nodeString, mainAttrName, subAttrName, subAttrName, axis)
+        attr = '{}.{}.{}.{}{}'.format(nodepathString, mainAttrName, subAttrName, subAttrName, axis)
         lis.append(cmds.getAttr(attr))
     return lis
 
 
 #
-def setNodeCenterPivots(nodeString):
-    cmds.xform(nodeString, centerPivots=True)
+def setNodeCenterPivots(nodepathString):
+    cmds.xform(nodepathString, centerPivots=True)
 
 
 #
-def setNodeWorldMatrix(nodeString, worldMatrix):
-    cmds.xform(nodeString, matrix=worldMatrix, worldSpace=1)
+def setNodeWorldMatrix(nodepathString, worldMatrix):
+    cmds.xform(nodepathString, matrix=worldMatrix, worldSpace=1)
 
 
 #

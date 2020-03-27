@@ -30,11 +30,11 @@ class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
         else:
             self.loadNode(string)
     #
-    def loadNode(self, nodeString):
-        self._appPath = nodeString
-        self._appName = self.mtd_app_node._nodeString2nodename_(nodeString)
-        self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(nodeString)
-        self._appNodeType = self.mtd_app_node._getNodeCategoryString(nodeString)
+    def loadNode(self, nodepathString):
+        self._appPath = nodepathString
+        self._appName = self.mtd_app_node._nodeString2nodename_(nodepathString)
+        self._appNamespace = self.mtd_app_node._toNamespaceByNodePath(nodepathString)
+        self._appNodeType = self.mtd_app_node._getNodeCategoryString(nodepathString)
         if self._appNodeType == self.mtd_app_node.DEF_mya_type_transform:
             shapePath = self.mtd_app_node._getNodeShapeNodeString(self._appPath)
             if shapePath:

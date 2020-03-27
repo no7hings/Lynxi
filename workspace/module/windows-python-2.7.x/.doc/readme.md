@@ -8,15 +8,15 @@
     - basic
     - scheme
     - preset
-    - material
+    - graphic
 
 - maya project
     - maya basic
-    - maya material
+    - maya graphic
     
  - houdini project
     - houdini basic
-    - houdini material
+    - houdini graphic
 
 ## relation
 
@@ -37,28 +37,28 @@ basic("basic") --> scheme("scheme")
 
 basic("basic") --> preset("preset")
 
-basic("basic") --> material("material")
+basic("basic") --> graphic("graphic")
 
 basic --> maya_basic("maya basic")
 
-maya_basic --> maya_material("maya material")
+maya_basic --> maya_graphic("maya graphic")
 
 scheme --> preset
 
-preset --> material
+preset --> graphic
 
-preset --> maya_material
+preset --> maya_graphic
 
 basic --> houdini_basic("houdini basic")
 
-houdini_basic --> houdini_material("houdini material")
+houdini_basic --> houdini_material("houdini graphic")
 
-material --> maya_material
+graphic --> maya_graphic
 
-material --> houdini_material
+graphic --> houdini_material
 
 class maya_basic red_0
-class maya_material red_0
+class maya_graphic red_0
 
 class houdini_basic green_0
 class houdini_material green_0
@@ -113,11 +113,9 @@ methods --> objects
     
 ## name
 
-nodeString: "|namespace:name_0|namespace:name_1"
+nodepathString: "|namespace:name_0|namespace:name_1"
 
-attributeString: "|namespace:name_0|namespace:name_1.portname_0.portname_1"
-
-fullpathName: "|namespace:name_0|namespace:name_1.portname_0.portname_1"
+attrpathString: "|namespace:name_0|namespace:name_1.portname_0.portname_1"
 
 namespacesep: ":"
 
@@ -127,39 +125,13 @@ portsep: "."
 
 name: "namespace:name_1"
 
-fullpathPortname: "portname_0.portname_1"
+portpathString: "portname_0.portname_1"
 
 portname: "portname_1"
 
-# maya
+# graph
 
 ## object
 
 ### relation
 
-```mermaid
-
-graph TB
-
-meterial_0["list([Material, ...])"] ---|"materials()"| geometry("Geometry")
-
-surface_shader_0("Shader") ---|"surfaceShader()"| meterial_0
-
-displacement_shader_0("Shader") ---|"displacementShader()"| meterial_0
-
-volume_shader_0("Shader") ---|"volumeShader()"| meterial_0
-
-node_graph_0("NodeGraph") ---|"nodeGraph()"| surface_shader_0
-
-node_0["list([Node, ...])"] ---|"nodes()"| node_graph_0
-
-attribute_0["list([Attribute, ...])"] ---|"attributes()"| node_0
-
-value_0("Value") ---|"value()"| attribute_0
-
-attribute_0 ---|"attributes()"| surface_shader_0
-attribute_0 ---|"attributes()"| displacement_shader_0
-attribute_0 ---|"attributes()"| volume_shader_0
-
-data_0["python: bool/int/float/unicode/list/None"] ---|"data()"| value_0
-```

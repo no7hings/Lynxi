@@ -322,7 +322,7 @@ class Abc_ShmSystem(Abc_ShmObject):
         """
         self._initAbcShmSystem(*args)
 
-    def createByRaw(self, raw):
+    def _set_raw_(self, raw):
         pass
 
     def setVersion(self, string):
@@ -549,7 +549,7 @@ class Abc_ShmResource(Abc_ShmObject):
 
         return self.CLS_shm_operate(self, version)
 
-    def createServerCache(self):
+    def createServerConfigFile(self):
         self.file.createServerFile(self.config.raw())
 
     def createDevelopDirectories(self):

@@ -1,0 +1,3497 @@
+{
+    "aiAbs": {
+        "mtl_category": "abs",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiAdd": {
+        "mtl_category": "add",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiAmbientOcclusion": {
+        "mtl_category": "ambient_occlusion",
+        "dcc_port": {
+            "samples": {
+                "mtl_portname": "samples"
+            },
+            "spread": {
+                "mtl_portname": "spread"
+            },
+            "nearClip": {
+                "mtl_portname": "near_clip"
+            },
+            "farClip": {
+                "mtl_portname": "far_clip"
+            },
+            "falloff": {
+                "mtl_portname": "falloff"
+            },
+            "black": {
+                "mtl_portname": "black"
+            },
+            "white": {
+                "mtl_portname": "white"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "invertNormals": {
+                "mtl_portname": "invert_normals"
+            },
+            "traceSet": {
+                "mtl_portname": "trace_set"
+            },
+            "inclusive": {
+                "mtl_portname": "inclusive"
+            },
+            "selfOnly": {
+                "mtl_portname": "self_only"
+            }
+        }
+    },
+    "aiReadFloat": {
+        "mtl_category": "aov_read_float",
+        "dcc_port": {
+            "aovName": {
+                "mtl_portname": "aov_name"
+            }
+        }
+    },
+    "aiReadInt": {
+        "mtl_category": "aov_read_int",
+        "dcc_port": {
+            "aovName": {
+                "mtl_portname": "aov_name"
+            }
+        }
+    },
+    "aiReadRGB": {
+        "mtl_category": "aov_read_rgb",
+        "dcc_port": {
+            "aovName": {
+                "mtl_portname": "aov_name"
+            }
+        }
+    },
+    "aiReadRGBA": {
+        "mtl_category": "aov_read_rgba",
+        "dcc_port": {
+            "aovName": {
+                "mtl_portname": "aov_name"
+            }
+        }
+    },
+    "aiWriteFloat": {
+        "mtl_category": "aov_write_float",
+        "dcc_port": {
+            "beauty": {
+                "mtl_portname": "passthrough"
+            },
+            "input": {
+                "mtl_portname": "aov_input"
+            },
+            "aovName": {
+                "mtl_portname": "aov_name"
+            },
+            "blendOpacity": {
+                "mtl_portname": "blend_opacity"
+            }
+        }
+    },
+    "aiWriteInt": {
+        "mtl_category": "aov_write_int",
+        "dcc_port": {
+            "beauty": {
+                "mtl_portname": "passthrough"
+            },
+            "input": {
+                "mtl_portname": "aov_input"
+            },
+            "aovName": {
+                "mtl_portname": "aov_name"
+            }
+        }
+    },
+    "aiWriteColor": {
+        "mtl_category": "aov_write_rgb",
+        "dcc_port": {
+            "beauty": {
+                "mtl_portname": "passthrough"
+            },
+            "input": {
+                "mtl_portname": "aov_input"
+            },
+            "aovName": {
+                "mtl_portname": "aov_name"
+            },
+            "blend": {
+                "mtl_portname": "blend_opacity"
+            }
+        }
+    },
+    "aiWriteRgba": {
+        "mtl_category": "aov_write_rgba",
+        "dcc_port": {
+            "beauty": {
+                "mtl_portname": "passthrough"
+            },
+            "input": {
+                "mtl_portname": "aov_input"
+            },
+            "aovName": {
+                "mtl_portname": "aov_name"
+            },
+            "blend": {
+                "mtl_portname": "blend_opacity"
+            }
+        }
+    },
+    "aiAtan": {
+        "mtl_category": "atan",
+        "dcc_port": {
+            "y": {
+                "mtl_portname": "y"
+            },
+            "x": {
+                "mtl_portname": "x"
+            },
+            "units": {
+                "mtl_portname": "units"
+            }
+        }
+    },
+    "aiAtmosphereVolume": {
+        "mtl_category": "atmosphere_volume",
+        "dcc_port": {
+            "density": {
+                "mtl_portname": "density"
+            },
+            "samples": {
+                "mtl_portname": "samples"
+            },
+            "eccentricity": {
+                "mtl_portname": "eccentricity"
+            },
+            "attenuation": {
+                "mtl_portname": "attenuation"
+            },
+            "affectCamera": {
+                "mtl_portname": "affect_camera"
+            },
+            "affectDiffuse": {
+                "mtl_portname": "affect_diffuse"
+            },
+            "affectSpecular": {
+                "mtl_portname": "affect_specular"
+            },
+            "rgbDensity": {
+                "mtl_portname": "rgb_density"
+            },
+            "rgbAttenuation": {
+                "mtl_portname": "rgb_attenuation"
+            }
+        }
+    },
+    "aiBlackbody": {
+        "mtl_category": "blackbody",
+        "dcc_port": {
+            "temperature": {
+                "mtl_portname": "temperature"
+            },
+            "normalize": {
+                "mtl_portname": "normalize"
+            },
+            "intensity": {
+                "mtl_portname": "intensity"
+            }
+        }
+    },
+    "aiBump2d": {
+        "mtl_category": "bump2d",
+        "dcc_port": {
+            "bumpMap": {
+                "mtl_portname": "bump_map"
+            },
+            "bumpHeight": {
+                "mtl_portname": "bump_height"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiBump3d": {
+        "mtl_category": "bump3d",
+        "dcc_port": {
+            "bumpMap": {
+                "mtl_portname": "bump_map"
+            },
+            "bumpHeight": {
+                "mtl_portname": "bump_height"
+            },
+            "epsilon": {
+                "mtl_portname": "epsilon"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiCache": {
+        "mtl_category": "cache",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiCameraProjection": {
+        "mtl_category": "camera_projection",
+        "dcc_port": {
+            "projectionColor": {
+                "mtl_portname": "projection_color"
+            },
+            "offscreenColor": {
+                "mtl_portname": "offscreen_color"
+            },
+            "mask": {
+                "mtl_portname": "mask"
+            },
+            "camera": {
+                "mtl_portname": "camera"
+            },
+            "aspectRatio": {
+                "mtl_portname": "aspect_ratio"
+            },
+            "frontFacing": {
+                "mtl_portname": "front_facing"
+            },
+            "backFacing": {
+                "mtl_portname": "back_facing"
+            },
+            "useShadingNormal": {
+                "mtl_portname": "use_shading_normal"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "P": {
+                "mtl_portname": "P"
+            }
+        }
+    },
+    "aiCarPaint": {
+        "mtl_category": "car_paint",
+        "dcc_port": {
+            "base": {
+                "mtl_portname": "base"
+            },
+            "baseColor": {
+                "mtl_portname": "base_color"
+            },
+            "baseRoughness": {
+                "mtl_portname": "base_roughness"
+            },
+            "specular": {
+                "mtl_portname": "specular"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "specularFlipFlop": {
+                "mtl_portname": "specular_flip_flop"
+            },
+            "specularLightFacing": {
+                "mtl_portname": "specular_light_facing"
+            },
+            "specularFalloff": {
+                "mtl_portname": "specular_falloff"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularIOR": {
+                "mtl_portname": "specular_IOR"
+            },
+            "transmissionColor": {
+                "mtl_portname": "transmission_color"
+            },
+            "flakeColor": {
+                "mtl_portname": "flake_color"
+            },
+            "flakeFlipFlop": {
+                "mtl_portname": "flake_flip_flop"
+            },
+            "flakeLightFacing": {
+                "mtl_portname": "flake_light_facing"
+            },
+            "flakeFalloff": {
+                "mtl_portname": "flake_falloff"
+            },
+            "flakeRoughness": {
+                "mtl_portname": "flake_roughness"
+            },
+            "flakeIOR": {
+                "mtl_portname": "flake_IOR"
+            },
+            "flakeScale": {
+                "mtl_portname": "flake_scale"
+            },
+            "flakeDensity": {
+                "mtl_portname": "flake_density"
+            },
+            "flakeLayers": {
+                "mtl_portname": "flake_layers"
+            },
+            "flakeNormalRandomize": {
+                "mtl_portname": "flake_normal_randomize"
+            },
+            "flakeCoordSpace": {
+                "mtl_portname": "flake_coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "coat": {
+                "mtl_portname": "coat"
+            },
+            "coatColor": {
+                "mtl_portname": "coat_color"
+            },
+            "coatRoughness": {
+                "mtl_portname": "coat_roughness"
+            },
+            "coatIOR": {
+                "mtl_portname": "coat_IOR"
+            },
+            "coatNormal": {
+                "mtl_portname": "coat_normal"
+            }
+        }
+    },
+    "aiCellNoise": {
+        "mtl_category": "cell_noise",
+        "dcc_port": {
+            "pattern": {
+                "mtl_portname": "pattern"
+            },
+            "additive": {
+                "mtl_portname": "additive"
+            },
+            "octaves": {
+                "mtl_portname": "octaves"
+            },
+            "randomness": {
+                "mtl_portname": "randomness"
+            },
+            "lacunarity": {
+                "mtl_portname": "lacunarity"
+            },
+            "amplitude": {
+                "mtl_portname": "amplitude"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            },
+            "offset": {
+                "mtl_portname": "offset"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "P": {
+                "mtl_portname": "P"
+            },
+            "time": {
+                "mtl_portname": "time"
+            },
+            "color": {
+                "mtl_portname": "color"
+            },
+            "palette": {
+                "mtl_portname": "palette"
+            },
+            "density": {
+                "mtl_portname": "density"
+            }
+        }
+    },
+    "checker": {
+        "mtl_category": "checkerboard",
+        "dcc_port": {
+            "color1": {
+                "mtl_portname": "color1"
+            },
+            "color2": {
+                "mtl_portname": "color2"
+            },
+            "contrast": {
+                "mtl_portname": "contrast"
+            },
+            "filter": {
+                "mtl_portname": "filter_strength"
+            },
+            "filterOffset": {
+                "mtl_portname": "filter_offset"
+            }
+        }
+    },
+    "aiClamp": {
+        "mtl_category": "clamp",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            },
+            "min": {
+                "mtl_portname": "min"
+            },
+            "max": {
+                "mtl_portname": "max"
+            },
+            "minColor": {
+                "mtl_portname": "min_color"
+            },
+            "maxColor": {
+                "mtl_portname": "max_color"
+            }
+        }
+    },
+    "aiClipGeo": {
+        "mtl_category": "clip_geo",
+        "dcc_port": {
+            "intersection": {
+                "mtl_portname": "intersection"
+            },
+            "traceSet": {
+                "mtl_portname": "trace_set"
+            },
+            "inclusive": {
+                "mtl_portname": "inclusive"
+            }
+        }
+    },
+    "aiColorConvert": {
+        "mtl_category": "color_convert",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "from": {
+                "mtl_portname": "from"
+            },
+            "to": {
+                "mtl_portname": "to"
+            }
+        }
+    },
+    "aiColorCorrect": {
+        "mtl_category": "color_correct",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "alphaIsLuminance": {
+                "mtl_portname": "alpha_is_luminance"
+            },
+            "alphaMultiply": {
+                "mtl_portname": "alpha_multiply"
+            },
+            "alphaAdd": {
+                "mtl_portname": "alpha_add"
+            },
+            "invert": {
+                "mtl_portname": "invert"
+            },
+            "invertAlpha": {
+                "mtl_portname": "invert_alpha"
+            },
+            "gamma": {
+                "mtl_portname": "gamma"
+            },
+            "hueShift": {
+                "mtl_portname": "hue_shift"
+            },
+            "saturation": {
+                "mtl_portname": "saturation"
+            },
+            "contrast": {
+                "mtl_portname": "contrast"
+            },
+            "contrastPivot": {
+                "mtl_portname": "contrast_pivot"
+            },
+            "exposure": {
+                "mtl_portname": "exposure"
+            },
+            "multiply": {
+                "mtl_portname": "multiply"
+            },
+            "add": {
+                "mtl_portname": "add"
+            },
+            "mask": {
+                "mtl_portname": "mask"
+            }
+        }
+    },
+    "aiColorJitter": {
+        "mtl_category": "color_jitter",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "dataInput": {
+                "mtl_portname": "data_input"
+            },
+            "dataGainMin": {
+                "mtl_portname": "data_gain_min"
+            },
+            "dataGainMax": {
+                "mtl_portname": "data_gain_max"
+            },
+            "dataHueMin": {
+                "mtl_portname": "data_hue_min"
+            },
+            "dataHueMax": {
+                "mtl_portname": "data_hue_max"
+            },
+            "dataSaturationMin": {
+                "mtl_portname": "data_saturation_min"
+            },
+            "dataSaturationMax": {
+                "mtl_portname": "data_saturation_max"
+            },
+            "dataSeed": {
+                "mtl_portname": "data_seed"
+            },
+            "procGainMin": {
+                "mtl_portname": "proc_gain_min"
+            },
+            "procGainMax": {
+                "mtl_portname": "proc_gain_max"
+            },
+            "procHueMin": {
+                "mtl_portname": "proc_hue_min"
+            },
+            "procHueMax": {
+                "mtl_portname": "proc_hue_max"
+            },
+            "procSaturationMin": {
+                "mtl_portname": "proc_saturation_min"
+            },
+            "procSaturationMax": {
+                "mtl_portname": "proc_saturation_max"
+            },
+            "procSeed": {
+                "mtl_portname": "proc_seed"
+            },
+            "objGainMin": {
+                "mtl_portname": "obj_gain_min"
+            },
+            "objGainMax": {
+                "mtl_portname": "obj_gain_max"
+            },
+            "objHueMin": {
+                "mtl_portname": "obj_hue_min"
+            },
+            "objHueMax": {
+                "mtl_portname": "obj_hue_max"
+            },
+            "objSaturationMin": {
+                "mtl_portname": "obj_saturation_min"
+            },
+            "objSaturationMax": {
+                "mtl_portname": "obj_saturation_max"
+            },
+            "objSeed": {
+                "mtl_portname": "obj_seed"
+            },
+            "faceGainMin": {
+                "mtl_portname": "face_gain_min"
+            },
+            "faceGainMax": {
+                "mtl_portname": "face_gain_max"
+            },
+            "faceHueMin": {
+                "mtl_portname": "face_hue_min"
+            },
+            "faceHueMax": {
+                "mtl_portname": "face_hue_max"
+            },
+            "faceSaturationMin": {
+                "mtl_portname": "face_saturation_min"
+            },
+            "faceSaturationMax": {
+                "mtl_portname": "face_saturation_max"
+            },
+            "faceSeed": {
+                "mtl_portname": "face_seed"
+            },
+            "faceMode": {
+                "mtl_portname": "face_mode"
+            }
+        }
+    },
+    "aiCompare": {
+        "mtl_category": "compare",
+        "dcc_port": {
+            "test": {
+                "mtl_portname": "test"
+            },
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiComplement": {
+        "mtl_category": "complement",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiComplexIor": {
+        "mtl_category": "complex_ior",
+        "dcc_port": {
+            "material": {
+                "mtl_portname": "material"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            },
+            "reflectivity": {
+                "mtl_portname": "reflectivity"
+            },
+            "edgetint": {
+                "mtl_portname": "edgetint"
+            },
+            "n": {
+                "mtl_portname": "n"
+            },
+            "k": {
+                "mtl_portname": "k"
+            }
+        }
+    },
+    "aiComposite": {
+        "mtl_category": "composite",
+        "dcc_port": {
+            "A": {
+                "mtl_portname": "A"
+            },
+            "B": {
+                "mtl_portname": "B"
+            },
+            "operation": {
+                "mtl_portname": "operation"
+            },
+            "alphaOperation": {
+                "mtl_portname": "alpha_operation"
+            }
+        }
+    },
+    "aiCross": {
+        "mtl_category": "cross",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiCurvature": {
+        "mtl_category": "curvature",
+        "dcc_port": {
+            "output": {
+                "mtl_portname": "output"
+            },
+            "samples": {
+                "mtl_portname": "samples"
+            },
+            "radius": {
+                "mtl_portname": "radius"
+            },
+            "spread": {
+                "mtl_portname": "spread"
+            },
+            "threshold": {
+                "mtl_portname": "threshold"
+            },
+            "bias": {
+                "mtl_portname": "bias"
+            },
+            "multiply": {
+                "mtl_portname": "multiply"
+            },
+            "traceSet": {
+                "mtl_portname": "trace_set"
+            },
+            "inclusive": {
+                "mtl_portname": "inclusive"
+            },
+            "selfOnly": {
+                "mtl_portname": "self_only"
+            }
+        }
+    },
+    "aiDivide": {
+        "mtl_category": "divide",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiDot": {
+        "mtl_category": "dot",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiExp": {
+        "mtl_category": "exp",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiFacingRatio": {
+        "mtl_category": "facing_ratio",
+        "dcc_port": {
+            "bias": {
+                "mtl_portname": "bias"
+            },
+            "gain": {
+                "mtl_portname": "gain"
+            },
+            "linear": {
+                "mtl_portname": "linear"
+            },
+            "invert": {
+                "mtl_portname": "invert"
+            }
+        }
+    },
+    "aiFlakes": {
+        "mtl_category": "flakes",
+        "dcc_port": {
+            "scale": {
+                "mtl_portname": "scale"
+            },
+            "density": {
+                "mtl_portname": "density"
+            },
+            "step": {
+                "mtl_portname": "step"
+            },
+            "depth": {
+                "mtl_portname": "depth"
+            },
+            "IOR": {
+                "mtl_portname": "IOR"
+            },
+            "normalRandomize": {
+                "mtl_portname": "normal_randomize"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "outputSpace": {
+                "mtl_portname": "output_space"
+            }
+        }
+    },
+    "aiFlat": {
+        "mtl_category": "flat",
+        "dcc_port": {
+            "color": {
+                "mtl_portname": "color"
+            }
+        }
+    },
+    "aiFloatToInt": {
+        "mtl_category": "float_to_int",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            }
+        }
+    },
+    "aiFloatToRgba": {
+        "mtl_category": "float_to_rgba",
+        "dcc_port": {
+            "r": {
+                "mtl_portname": "r"
+            },
+            "g": {
+                "mtl_portname": "g"
+            },
+            "b": {
+                "mtl_portname": "b"
+            },
+            "a": {
+                "mtl_portname": "a"
+            }
+        }
+    },
+    "aiFog": {
+        "mtl_category": "fog",
+        "dcc_port": {
+            "distance": {
+                "mtl_portname": "distance"
+            },
+            "height": {
+                "mtl_portname": "height"
+            },
+            "color": {
+                "mtl_portname": "color"
+            },
+            "groundPoint": {
+                "mtl_portname": "ground_point"
+            },
+            "groundNormal": {
+                "mtl_portname": "ground_normal"
+            }
+        }
+    },
+    "aiFraction": {
+        "mtl_category": "fraction",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiHair": {
+        "mtl_category": "hair",
+        "dcc_port": {
+            "rootcolor": {
+                "mtl_portname": "rootcolor"
+            },
+            "tipcolor": {
+                "mtl_portname": "tipcolor"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            },
+            "ambdiff": {
+                "mtl_portname": "ambdiff"
+            },
+            "spec": {
+                "mtl_portname": "spec"
+            },
+            "specColor": {
+                "mtl_portname": "spec_color"
+            },
+            "specShift": {
+                "mtl_portname": "spec_shift"
+            },
+            "specGloss": {
+                "mtl_portname": "spec_gloss"
+            },
+            "spec2": {
+                "mtl_portname": "spec2"
+            },
+            "spec2Color": {
+                "mtl_portname": "spec2_color"
+            },
+            "spec2Shift": {
+                "mtl_portname": "spec2_shift"
+            },
+            "spec2Gloss": {
+                "mtl_portname": "spec2_gloss"
+            },
+            "transmission": {
+                "mtl_portname": "transmission"
+            },
+            "transmissionColor": {
+                "mtl_portname": "transmission_color"
+            },
+            "transmissionSpread": {
+                "mtl_portname": "transmission_spread"
+            },
+            "kdInd": {
+                "mtl_portname": "kd_ind"
+            }
+        }
+    },
+    "aiImage": {
+        "mtl_category": "image",
+        "dcc_port": {
+            "filename": {
+                "mtl_portname": "filename"
+            },
+            "colorSpace": {
+                "mtl_portname": "color_space"
+            },
+            "filter": {
+                "mtl_portname": "filter"
+            },
+            "mipmapBias": {
+                "mtl_portname": "mipmap_bias"
+            },
+            "singleChannel": {
+                "mtl_portname": "single_channel"
+            },
+            "startChannel": {
+                "mtl_portname": "start_channel"
+            },
+            "swrap": {
+                "mtl_portname": "swrap"
+            },
+            "twrap": {
+                "mtl_portname": "twrap"
+            },
+            "sscale": {
+                "mtl_portname": "sscale"
+            },
+            "tscale": {
+                "mtl_portname": "tscale"
+            },
+            "sflip": {
+                "mtl_portname": "sflip"
+            },
+            "tflip": {
+                "mtl_portname": "tflip"
+            },
+            "soffset": {
+                "mtl_portname": "soffset"
+            },
+            "toffset": {
+                "mtl_portname": "toffset"
+            },
+            "swapSt": {
+                "mtl_portname": "swap_st"
+            },
+            "uvcoords": {
+                "mtl_portname": "uvcoords"
+            },
+            "uvset": {
+                "mtl_portname": "uvset"
+            },
+            "multiply": {
+                "mtl_portname": "multiply"
+            },
+            "offset": {
+                "mtl_portname": "offset"
+            },
+            "ignoreMissingTextures": {
+                "mtl_portname": "ignore_missing_textures"
+            },
+            "missingTextureColor": {
+                "mtl_portname": "missing_texture_color"
+            }
+        }
+    },
+    "aiIsFinite": {
+        "mtl_category": "is_finite",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiLayerFloat": {
+        "mtl_category": "layer_float",
+        "dcc_port": {
+            "enable1": {
+                "mtl_portname": "enable1"
+            },
+            "name1": {
+                "mtl_portname": "name1"
+            },
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "mix1": {
+                "mtl_portname": "mix1"
+            },
+            "enable2": {
+                "mtl_portname": "enable2"
+            },
+            "name2": {
+                "mtl_portname": "name2"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            },
+            "mix2": {
+                "mtl_portname": "mix2"
+            },
+            "enable3": {
+                "mtl_portname": "enable3"
+            },
+            "name3": {
+                "mtl_portname": "name3"
+            },
+            "input3": {
+                "mtl_portname": "input3"
+            },
+            "mix3": {
+                "mtl_portname": "mix3"
+            },
+            "enable4": {
+                "mtl_portname": "enable4"
+            },
+            "name4": {
+                "mtl_portname": "name4"
+            },
+            "input4": {
+                "mtl_portname": "input4"
+            },
+            "mix4": {
+                "mtl_portname": "mix4"
+            },
+            "enable5": {
+                "mtl_portname": "enable5"
+            },
+            "name5": {
+                "mtl_portname": "name5"
+            },
+            "input5": {
+                "mtl_portname": "input5"
+            },
+            "mix5": {
+                "mtl_portname": "mix5"
+            },
+            "enable6": {
+                "mtl_portname": "enable6"
+            },
+            "name6": {
+                "mtl_portname": "name6"
+            },
+            "input6": {
+                "mtl_portname": "input6"
+            },
+            "mix6": {
+                "mtl_portname": "mix6"
+            },
+            "enable7": {
+                "mtl_portname": "enable7"
+            },
+            "name7": {
+                "mtl_portname": "name7"
+            },
+            "input7": {
+                "mtl_portname": "input7"
+            },
+            "mix7": {
+                "mtl_portname": "mix7"
+            },
+            "enable8": {
+                "mtl_portname": "enable8"
+            },
+            "name8": {
+                "mtl_portname": "name8"
+            },
+            "input8": {
+                "mtl_portname": "input8"
+            },
+            "mix8": {
+                "mtl_portname": "mix8"
+            }
+        }
+    },
+    "aiLayerRgba": {
+        "mtl_category": "layer_rgba",
+        "dcc_port": {
+            "enable1": {
+                "mtl_portname": "enable1"
+            },
+            "name1": {
+                "mtl_portname": "name1"
+            },
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "mix1": {
+                "mtl_portname": "mix1"
+            },
+            "operation1": {
+                "mtl_portname": "operation1"
+            },
+            "alphaOperation1": {
+                "mtl_portname": "alpha_operation1"
+            },
+            "enable2": {
+                "mtl_portname": "enable2"
+            },
+            "name2": {
+                "mtl_portname": "name2"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            },
+            "mix2": {
+                "mtl_portname": "mix2"
+            },
+            "operation2": {
+                "mtl_portname": "operation2"
+            },
+            "alphaOperation2": {
+                "mtl_portname": "alpha_operation2"
+            },
+            "enable3": {
+                "mtl_portname": "enable3"
+            },
+            "name3": {
+                "mtl_portname": "name3"
+            },
+            "input3": {
+                "mtl_portname": "input3"
+            },
+            "mix3": {
+                "mtl_portname": "mix3"
+            },
+            "operation3": {
+                "mtl_portname": "operation3"
+            },
+            "alphaOperation3": {
+                "mtl_portname": "alpha_operation3"
+            },
+            "enable4": {
+                "mtl_portname": "enable4"
+            },
+            "name4": {
+                "mtl_portname": "name4"
+            },
+            "input4": {
+                "mtl_portname": "input4"
+            },
+            "mix4": {
+                "mtl_portname": "mix4"
+            },
+            "operation4": {
+                "mtl_portname": "operation4"
+            },
+            "alphaOperation4": {
+                "mtl_portname": "alpha_operation4"
+            },
+            "enable5": {
+                "mtl_portname": "enable5"
+            },
+            "name5": {
+                "mtl_portname": "name5"
+            },
+            "input5": {
+                "mtl_portname": "input5"
+            },
+            "mix5": {
+                "mtl_portname": "mix5"
+            },
+            "operation5": {
+                "mtl_portname": "operation5"
+            },
+            "alphaOperation5": {
+                "mtl_portname": "alpha_operation5"
+            },
+            "enable6": {
+                "mtl_portname": "enable6"
+            },
+            "name6": {
+                "mtl_portname": "name6"
+            },
+            "input6": {
+                "mtl_portname": "input6"
+            },
+            "mix6": {
+                "mtl_portname": "mix6"
+            },
+            "operation6": {
+                "mtl_portname": "operation6"
+            },
+            "alphaOperation6": {
+                "mtl_portname": "alpha_operation6"
+            },
+            "enable7": {
+                "mtl_portname": "enable7"
+            },
+            "name7": {
+                "mtl_portname": "name7"
+            },
+            "input7": {
+                "mtl_portname": "input7"
+            },
+            "mix7": {
+                "mtl_portname": "mix7"
+            },
+            "operation7": {
+                "mtl_portname": "operation7"
+            },
+            "alphaOperation7": {
+                "mtl_portname": "alpha_operation7"
+            },
+            "enable8": {
+                "mtl_portname": "enable8"
+            },
+            "name8": {
+                "mtl_portname": "name8"
+            },
+            "input8": {
+                "mtl_portname": "input8"
+            },
+            "mix8": {
+                "mtl_portname": "mix8"
+            },
+            "operation8": {
+                "mtl_portname": "operation8"
+            },
+            "alphaOperation8": {
+                "mtl_portname": "alpha_operation8"
+            },
+            "clamp": {
+                "mtl_portname": "clamp"
+            }
+        }
+    },
+    "aiLayerShader": {
+        "mtl_category": "layer_shader",
+        "dcc_port": {
+            "enable1": {
+                "mtl_portname": "enable1"
+            },
+            "name1": {
+                "mtl_portname": "name1"
+            },
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "mix1": {
+                "mtl_portname": "mix1"
+            },
+            "enable2": {
+                "mtl_portname": "enable2"
+            },
+            "name2": {
+                "mtl_portname": "name2"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            },
+            "mix2": {
+                "mtl_portname": "mix2"
+            },
+            "enable3": {
+                "mtl_portname": "enable3"
+            },
+            "name3": {
+                "mtl_portname": "name3"
+            },
+            "input3": {
+                "mtl_portname": "input3"
+            },
+            "mix3": {
+                "mtl_portname": "mix3"
+            },
+            "enable4": {
+                "mtl_portname": "enable4"
+            },
+            "name4": {
+                "mtl_portname": "name4"
+            },
+            "input4": {
+                "mtl_portname": "input4"
+            },
+            "mix4": {
+                "mtl_portname": "mix4"
+            },
+            "enable5": {
+                "mtl_portname": "enable5"
+            },
+            "name5": {
+                "mtl_portname": "name5"
+            },
+            "input5": {
+                "mtl_portname": "input5"
+            },
+            "mix5": {
+                "mtl_portname": "mix5"
+            },
+            "enable6": {
+                "mtl_portname": "enable6"
+            },
+            "name6": {
+                "mtl_portname": "name6"
+            },
+            "input6": {
+                "mtl_portname": "input6"
+            },
+            "mix6": {
+                "mtl_portname": "mix6"
+            },
+            "enable7": {
+                "mtl_portname": "enable7"
+            },
+            "name7": {
+                "mtl_portname": "name7"
+            },
+            "input7": {
+                "mtl_portname": "input7"
+            },
+            "mix7": {
+                "mtl_portname": "mix7"
+            },
+            "enable8": {
+                "mtl_portname": "enable8"
+            },
+            "name8": {
+                "mtl_portname": "name8"
+            },
+            "input8": {
+                "mtl_portname": "input8"
+            },
+            "mix8": {
+                "mtl_portname": "mix8"
+            }
+        }
+    },
+    "aiLength": {
+        "mtl_category": "length",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            }
+        }
+    },
+    "aiLog": {
+        "mtl_category": "log",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "base": {
+                "mtl_portname": "base"
+            }
+        }
+    },
+    "aiMatrixInterpolate": {
+        "mtl_category": "matrix_interpolate",
+        "dcc_port": {
+            "type": {
+                "mtl_portname": "type"
+            },
+            "value": {
+                "mtl_portname": "value"
+            }
+        }
+    },
+    "aiMatrixMultiplyVector": {
+        "mtl_category": "matrix_multiply_vector",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "type": {
+                "mtl_portname": "type"
+            },
+            "matrix": {
+                "mtl_portname": "matrix"
+            }
+        }
+    },
+    "aiMatrixTransform": {
+        "mtl_category": "matrix_transform",
+        "dcc_port": {
+            "transformOrder": {
+                "mtl_portname": "transform_order"
+            },
+            "rotationType": {
+                "mtl_portname": "rotation_type"
+            },
+            "units": {
+                "mtl_portname": "units"
+            },
+            "rotationOrder": {
+                "mtl_portname": "rotation_order"
+            },
+            "rotation": {
+                "mtl_portname": "rotation"
+            },
+            "axis": {
+                "mtl_portname": "axis"
+            },
+            "angle": {
+                "mtl_portname": "angle"
+            },
+            "translate": {
+                "mtl_portname": "translate"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            },
+            "pivot": {
+                "mtl_portname": "pivot"
+            }
+        }
+    },
+    "aiMatte": {
+        "mtl_category": "matte",
+        "dcc_port": {
+            "passthrough": {
+                "mtl_portname": "passthrough"
+            },
+            "color": {
+                "mtl_portname": "color"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            }
+        }
+    },
+    "aiMax": {
+        "mtl_category": "max",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "layeredShader": {
+        "mtl_category": "maya_layered_shader",
+        "dcc_port": {
+            "compositingFlag": {
+                "mtl_portname": "compositingFlag"
+            }
+        }
+    },
+    "aiMin": {
+        "mtl_category": "min",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiMixShader": {
+        "mtl_category": "mix_shader",
+        "dcc_port": {
+            "mode": {
+                "mtl_portname": "mode"
+            },
+            "mix": {
+                "mtl_portname": "mix"
+            },
+            "shader1": {
+                "mtl_portname": "shader1"
+            },
+            "shader2": {
+                "mtl_portname": "shader2"
+            }
+        }
+    },
+    "aiModulo": {
+        "mtl_category": "modulo",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "divisor": {
+                "mtl_portname": "divisor"
+            }
+        }
+    },
+    "aiMotionVector": {
+        "mtl_category": "motion_vector",
+        "dcc_port": {
+            "raw": {
+                "mtl_portname": "raw"
+            },
+            "time0": {
+                "mtl_portname": "time0"
+            },
+            "time1": {
+                "mtl_portname": "time1"
+            },
+            "maxDisplace": {
+                "mtl_portname": "max_displace"
+            }
+        }
+    },
+    "aiMultiply": {
+        "mtl_category": "multiply",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiNegate": {
+        "mtl_category": "negate",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiNoise": {
+        "mtl_category": "noise",
+        "dcc_port": {
+            "octaves": {
+                "mtl_portname": "octaves"
+            },
+            "distortion": {
+                "mtl_portname": "distortion"
+            },
+            "lacunarity": {
+                "mtl_portname": "lacunarity"
+            },
+            "amplitude": {
+                "mtl_portname": "amplitude"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            },
+            "offset": {
+                "mtl_portname": "offset"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "P": {
+                "mtl_portname": "P"
+            },
+            "time": {
+                "mtl_portname": "time"
+            },
+            "color1": {
+                "mtl_portname": "color1"
+            },
+            "color2": {
+                "mtl_portname": "color2"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            }
+        }
+    },
+    "aiNormalMap": {
+        "mtl_category": "normal_map",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "tangent": {
+                "mtl_portname": "tangent"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "order": {
+                "mtl_portname": "order"
+            },
+            "invertX": {
+                "mtl_portname": "invert_x"
+            },
+            "invertY": {
+                "mtl_portname": "invert_y"
+            },
+            "invertZ": {
+                "mtl_portname": "invert_z"
+            },
+            "colorToSigned": {
+                "mtl_portname": "color_to_signed"
+            },
+            "tangentSpace": {
+                "mtl_portname": "tangent_space"
+            },
+            "strength": {
+                "mtl_portname": "strength"
+            }
+        }
+    },
+    "aiNormalize": {
+        "mtl_category": "normalize",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiPassthrough": {
+        "mtl_category": "passthrough",
+        "dcc_port": {
+            "passthrough": {
+                "mtl_portname": "passthrough"
+            },
+            "eval1": {
+                "mtl_portname": "eval1"
+            },
+            "eval2": {
+                "mtl_portname": "eval2"
+            },
+            "eval3": {
+                "mtl_portname": "eval3"
+            },
+            "eval4": {
+                "mtl_portname": "eval4"
+            },
+            "eval5": {
+                "mtl_portname": "eval5"
+            },
+            "eval6": {
+                "mtl_portname": "eval6"
+            },
+            "eval7": {
+                "mtl_portname": "eval7"
+            },
+            "eval8": {
+                "mtl_portname": "eval8"
+            },
+            "eval9": {
+                "mtl_portname": "eval9"
+            },
+            "eval10": {
+                "mtl_portname": "eval10"
+            },
+            "eval11": {
+                "mtl_portname": "eval11"
+            },
+            "eval12": {
+                "mtl_portname": "eval12"
+            },
+            "eval13": {
+                "mtl_portname": "eval13"
+            },
+            "eval14": {
+                "mtl_portname": "eval14"
+            },
+            "eval15": {
+                "mtl_portname": "eval15"
+            },
+            "eval16": {
+                "mtl_portname": "eval16"
+            },
+            "eval17": {
+                "mtl_portname": "eval17"
+            },
+            "eval18": {
+                "mtl_portname": "eval18"
+            },
+            "eval19": {
+                "mtl_portname": "eval19"
+            },
+            "eval20": {
+                "mtl_portname": "eval20"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiPhysicalSky": {
+        "mtl_category": "physical_sky",
+        "dcc_port": {
+            "turbidity": {
+                "mtl_portname": "turbidity"
+            },
+            "groundAlbedo": {
+                "mtl_portname": "ground_albedo"
+            },
+            "useDegrees": {
+                "mtl_portname": "use_degrees"
+            },
+            "elevation": {
+                "mtl_portname": "elevation"
+            },
+            "azimuth": {
+                "mtl_portname": "azimuth"
+            },
+            "sunDirection": {
+                "mtl_portname": "sun_direction"
+            },
+            "enableSun": {
+                "mtl_portname": "enable_sun"
+            },
+            "sunSize": {
+                "mtl_portname": "sun_size"
+            },
+            "sunTint": {
+                "mtl_portname": "sun_tint"
+            },
+            "skyTint": {
+                "mtl_portname": "sky_tint"
+            },
+            "intensity": {
+                "mtl_portname": "intensity"
+            },
+            "X": {
+                "mtl_portname": "X"
+            },
+            "Y": {
+                "mtl_portname": "Y"
+            },
+            "Z": {
+                "mtl_portname": "Z"
+            }
+        }
+    },
+    "aiPow": {
+        "mtl_category": "pow",
+        "dcc_port": {
+            "base": {
+                "mtl_portname": "base"
+            },
+            "exponent": {
+                "mtl_portname": "exponent"
+            }
+        }
+    },
+    "aiRampFloat": {
+        "mtl_category": "ramp_float",
+        "dcc_port": {
+            "type": {
+                "mtl_portname": "type"
+            },
+            "input": {
+                "mtl_portname": "input"
+            },
+            "ramp.ramp_Position": {
+                "mtl_portname": "position"
+            },
+            "ramp.ramp_FloatValue": {
+                "mtl_portname": "value"
+            },
+            "ramp.ramp_Interp": {
+                "mtl_portname": "interpolation"
+            },
+            "uvset": {
+                "mtl_portname": "uvset"
+            },
+            "useImplicitUvs": {
+                "mtl_portname": "use_implicit_uvs"
+            },
+            "wrapUvs": {
+                "mtl_portname": "wrap_uvs"
+            }
+        }
+    },
+    "aiRampRgb": {
+        "mtl_category": "ramp_rgb",
+        "dcc_port": {
+            "type": {
+                "mtl_portname": "type"
+            },
+            "input": {
+                "mtl_portname": "input"
+            },
+            "ramp.ramp_Position": {
+                "mtl_portname": "position"
+            },
+            "ramp.ramp_Color": {
+                "mtl_portname": "color"
+            },
+            "ramp.ramp_Interp": {
+                "mtl_portname": "interpolation"
+            },
+            "uvset": {
+                "mtl_portname": "uvset"
+            },
+            "useImplicitUvs": {
+                "mtl_portname": "use_implicit_uvs"
+            },
+            "wrapUvs": {
+                "mtl_portname": "wrap_uvs"
+            }
+        }
+    },
+    "aiRandom": {
+        "mtl_category": "random",
+        "dcc_port": {
+            "inputType": {
+                "mtl_portname": "input_type"
+            },
+            "inputInt": {
+                "mtl_portname": "input_int"
+            },
+            "inputFloat": {
+                "mtl_portname": "input_float"
+            },
+            "inputColor": {
+                "mtl_portname": "input_color"
+            },
+            "seed": {
+                "mtl_portname": "seed"
+            },
+            "grayscale": {
+                "mtl_portname": "grayscale"
+            }
+        }
+    },
+    "aiRange": {
+        "mtl_category": "range",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "inputMin": {
+                "mtl_portname": "input_min"
+            },
+            "inputMax": {
+                "mtl_portname": "input_max"
+            },
+            "outputMin": {
+                "mtl_portname": "output_min"
+            },
+            "outputMax": {
+                "mtl_portname": "output_max"
+            },
+            "smoothstep": {
+                "mtl_portname": "smoothstep"
+            },
+            "contrast": {
+                "mtl_portname": "contrast"
+            },
+            "contrastPivot": {
+                "mtl_portname": "contrast_pivot"
+            },
+            "bias": {
+                "mtl_portname": "bias"
+            },
+            "gain": {
+                "mtl_portname": "gain"
+            }
+        }
+    },
+    "aiRaySwitch": {
+        "mtl_category": "ray_switch_shader",
+        "dcc_port": {
+            "camera": {
+                "mtl_portname": "camera"
+            },
+            "shadow": {
+                "mtl_portname": "shadow"
+            },
+            "diffuseReflection": {
+                "mtl_portname": "diffuse_reflection"
+            },
+            "diffuseTransmission": {
+                "mtl_portname": "diffuse_transmission"
+            },
+            "specularReflection": {
+                "mtl_portname": "specular_reflection"
+            },
+            "specularTransmission": {
+                "mtl_portname": "specular_transmission"
+            },
+            "volume": {
+                "mtl_portname": "volume"
+            }
+        }
+    },
+    "aiReciprocal": {
+        "mtl_category": "reciprocal",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiColorToFloat": {
+        "mtl_category": "rgb_to_float",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            }
+        }
+    },
+    "aiRgbaToFloat": {
+        "mtl_category": "rgba_to_float",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "mode": {
+                "mtl_portname": "mode"
+            }
+        }
+    },
+    "aiRoundCorners": {
+        "mtl_category": "round_corners",
+        "dcc_port": {
+            "samples": {
+                "mtl_portname": "samples"
+            },
+            "radius": {
+                "mtl_portname": "radius"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "traceSet": {
+                "mtl_portname": "trace_set"
+            },
+            "inclusive": {
+                "mtl_portname": "inclusive"
+            },
+            "selfOnly": {
+                "mtl_portname": "self_only"
+            },
+            "objectSpace": {
+                "mtl_portname": "object_space"
+            }
+        }
+    },
+    "aiShadowMatte": {
+        "mtl_category": "shadow_matte",
+        "dcc_port": {
+            "background": {
+                "mtl_portname": "background"
+            },
+            "shadowColor": {
+                "mtl_portname": "shadow_color"
+            },
+            "shadowOpacity": {
+                "mtl_portname": "shadow_opacity"
+            },
+            "backgroundColor": {
+                "mtl_portname": "background_color"
+            },
+            "diffuseColor": {
+                "mtl_portname": "diffuse_color"
+            },
+            "diffuseUseBackground": {
+                "mtl_portname": "diffuse_use_background"
+            },
+            "diffuseIntensity": {
+                "mtl_portname": "diffuse_intensity"
+            },
+            "backlighting": {
+                "mtl_portname": "backlighting"
+            },
+            "indirectDiffuseEnable": {
+                "mtl_portname": "indirect_diffuse_enable"
+            },
+            "indirectSpecularEnable": {
+                "mtl_portname": "indirect_specular_enable"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "specularIntensity": {
+                "mtl_portname": "specular_intensity"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularIOR": {
+                "mtl_portname": "specular_IOR"
+            },
+            "alphaMask": {
+                "mtl_portname": "alpha_mask"
+            },
+            "aovGroup": {
+                "mtl_portname": "aov_group"
+            },
+            "aovShadow": {
+                "mtl_portname": "aov_shadow"
+            },
+            "aovShadowDiff": {
+                "mtl_portname": "aov_shadow_diff"
+            },
+            "aovShadowMask": {
+                "mtl_portname": "aov_shadow_mask"
+            }
+        }
+    },
+    "aiShuffle": {
+        "mtl_category": "shuffle",
+        "dcc_port": {
+            "color": {
+                "mtl_portname": "color"
+            },
+            "alpha": {
+                "mtl_portname": "alpha"
+            },
+            "channelR": {
+                "mtl_portname": "channel_r"
+            },
+            "channelG": {
+                "mtl_portname": "channel_g"
+            },
+            "channelB": {
+                "mtl_portname": "channel_b"
+            },
+            "channelA": {
+                "mtl_portname": "channel_a"
+            },
+            "negateR": {
+                "mtl_portname": "negate_r"
+            },
+            "negateG": {
+                "mtl_portname": "negate_g"
+            },
+            "negateB": {
+                "mtl_portname": "negate_b"
+            },
+            "negateA": {
+                "mtl_portname": "negate_a"
+            }
+        }
+    },
+    "aiSign": {
+        "mtl_category": "sign",
+        "dcc_port": {
+            "dcc_port": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiSkin": {
+        "mtl_category": "skin",
+        "dcc_port": {
+            "sssWeight": {
+                "mtl_portname": "sss_weight"
+            },
+            "shallowScatterColor": {
+                "mtl_portname": "shallow_scatter_color"
+            },
+            "shallowScatterWeight": {
+                "mtl_portname": "shallow_scatter_weight"
+            },
+            "shallowScatterRadius": {
+                "mtl_portname": "shallow_scatter_radius"
+            },
+            "midScatterColor": {
+                "mtl_portname": "mid_scatter_color"
+            },
+            "midScatterWeight": {
+                "mtl_portname": "mid_scatter_weight"
+            },
+            "midScatterRadius": {
+                "mtl_portname": "mid_scatter_radius"
+            },
+            "deepScatterColor": {
+                "mtl_portname": "deep_scatter_color"
+            },
+            "deepScatterWeight": {
+                "mtl_portname": "deep_scatter_weight"
+            },
+            "deepScatterRadius": {
+                "mtl_portname": "deep_scatter_radius"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "specularWeight": {
+                "mtl_portname": "specular_weight"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularIor": {
+                "mtl_portname": "specular_ior"
+            },
+            "sheenColor": {
+                "mtl_portname": "sheen_color"
+            },
+            "sheenWeight": {
+                "mtl_portname": "sheen_weight"
+            },
+            "sheenRoughness": {
+                "mtl_portname": "sheen_roughness"
+            },
+            "sheenIor": {
+                "mtl_portname": "sheen_ior"
+            },
+            "globalSssRadiusMultiplier": {
+                "mtl_portname": "global_sss_radius_multiplier"
+            },
+            "specularInSecondaryRays": {
+                "mtl_portname": "specular_in_secondary_rays"
+            },
+            "fresnelAffectSss": {
+                "mtl_portname": "fresnel_affect_sss"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            },
+            "opacityColor": {
+                "mtl_portname": "opacity_color"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiSky": {
+        "mtl_category": "sky",
+        "dcc_port": {
+            "color": {
+                "mtl_portname": "color"
+            },
+            "intensity": {
+                "mtl_portname": "intensity"
+            },
+            "visibility": {
+                "mtl_portname": "visibility"
+            },
+            "format": {
+                "mtl_portname": "format"
+            }
+        }
+    },
+    "aiSpaceTransform": {
+        "mtl_category": "space_transform",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "type": {
+                "mtl_portname": "type"
+            },
+            "from": {
+                "mtl_portname": "from"
+            },
+            "to": {
+                "mtl_portname": "to"
+            },
+            "tangent": {
+                "mtl_portname": "tangent"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "normalize": {
+                "mtl_portname": "normalize"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            }
+        }
+    },
+    "aiSqrt": {
+        "mtl_category": "sqrt",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            }
+        }
+    },
+    "aiStandard": {
+        "mtl_category": "standard",
+        "dcc_port": {
+            "Kd": {
+                "mtl_portname": "Kd"
+            },
+            "color": {
+                "mtl_portname": "Kd_color"
+            },
+            "diffuseRoughness": {
+                "mtl_portname": "diffuse_roughness"
+            },
+            "Ks": {
+                "mtl_portname": "Ks"
+            },
+            "KsColor": {
+                "mtl_portname": "Ks_color"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularAnisotropy": {
+                "mtl_portname": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "mtl_portname": "specular_rotation"
+            },
+            "specularDistribution": {
+                "mtl_portname": "specular_distribution"
+            },
+            "Kr": {
+                "mtl_portname": "Kr"
+            },
+            "KrColor": {
+                "mtl_portname": "Kr_color"
+            },
+            "reflectionExitColor": {
+                "mtl_portname": "reflection_exit_color"
+            },
+            "reflectionExitUseEnvironment": {
+                "mtl_portname": "reflection_exit_use_environment"
+            },
+            "Kt": {
+                "mtl_portname": "Kt"
+            },
+            "KtColor": {
+                "mtl_portname": "Kt_color"
+            },
+            "transmittance": {
+                "mtl_portname": "transmittance"
+            },
+            "refractionRoughness": {
+                "mtl_portname": "refraction_roughness"
+            },
+            "refractionExitColor": {
+                "mtl_portname": "refraction_exit_color"
+            },
+            "refractionExitUseEnvironment": {
+                "mtl_portname": "refraction_exit_use_environment"
+            },
+            "IOR": {
+                "mtl_portname": "IOR"
+            },
+            "dispersionAbbe": {
+                "mtl_portname": "dispersion_abbe"
+            },
+            "Kb": {
+                "mtl_portname": "Kb"
+            },
+            "Fresnel": {
+                "mtl_portname": "Fresnel"
+            },
+            "Krn": {
+                "mtl_portname": "Krn"
+            },
+            "specularFresnel": {
+                "mtl_portname": "specular_Fresnel"
+            },
+            "Ksn": {
+                "mtl_portname": "Ksn"
+            },
+            "FresnelUseIOR": {
+                "mtl_portname": "Fresnel_use_IOR"
+            },
+            "FresnelAffectDiff": {
+                "mtl_portname": "Fresnel_affect_diff"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "directSpecular": {
+                "mtl_portname": "direct_specular"
+            },
+            "indirectSpecular": {
+                "mtl_portname": "indirect_specular"
+            },
+            "directDiffuse": {
+                "mtl_portname": "direct_diffuse"
+            },
+            "indirectDiffuse": {
+                "mtl_portname": "indirect_diffuse"
+            },
+            "enableGlossyCaustics": {
+                "mtl_portname": "enable_glossy_caustics"
+            },
+            "enableReflectiveCaustics": {
+                "mtl_portname": "enable_reflective_caustics"
+            },
+            "enableRefractiveCaustics": {
+                "mtl_portname": "enable_refractive_caustics"
+            },
+            "enableInternalReflections": {
+                "mtl_portname": "enable_internal_reflections"
+            },
+            "Ksss": {
+                "mtl_portname": "Ksss"
+            },
+            "KsssColor": {
+                "mtl_portname": "Ksss_color"
+            },
+            "sssRadius": {
+                "mtl_portname": "sss_radius"
+            },
+            "bounceFactor": {
+                "mtl_portname": "bounce_factor"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiStandardHair": {
+        "mtl_category": "standard_hair",
+        "dcc_port": {
+            "base": {
+                "mtl_portname": "base"
+            },
+            "baseColor": {
+                "mtl_portname": "base_color"
+            },
+            "melanin": {
+                "mtl_portname": "melanin"
+            },
+            "melaninRedness": {
+                "mtl_portname": "melanin_redness"
+            },
+            "melaninRandomize": {
+                "mtl_portname": "melanin_randomize"
+            },
+            "roughness": {
+                "mtl_portname": "roughness"
+            },
+            "roughnessAzimuthal": {
+                "mtl_portname": "roughness_azimuthal"
+            },
+            "roughnessAnisotropic": {
+                "mtl_portname": "roughness_anisotropic"
+            },
+            "ior": {
+                "mtl_portname": "ior"
+            },
+            "shift": {
+                "mtl_portname": "shift"
+            },
+            "specularTint": {
+                "mtl_portname": "specular_tint"
+            },
+            "specular2Tint": {
+                "mtl_portname": "specular2_tint"
+            },
+            "transmissionTint": {
+                "mtl_portname": "transmission_tint"
+            },
+            "diffuse": {
+                "mtl_portname": "diffuse"
+            },
+            "diffuseColor": {
+                "mtl_portname": "diffuse_color"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            },
+            "indirectDiffuse": {
+                "mtl_portname": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "mtl_portname": "indirect_specular"
+            },
+            "extraDepth": {
+                "mtl_portname": "extra_depth"
+            },
+            "extraSamples": {
+                "mtl_portname": "extra_samples"
+            },
+            "aovId1": {
+                "mtl_portname": "aov_id1"
+            },
+            "id1": {
+                "mtl_portname": "id1"
+            },
+            "aovId2": {
+                "mtl_portname": "aov_id2"
+            },
+            "id2": {
+                "mtl_portname": "id2"
+            },
+            "aovId3": {
+                "mtl_portname": "aov_id3"
+            },
+            "id3": {
+                "mtl_portname": "id3"
+            },
+            "aovId4": {
+                "mtl_portname": "aov_id4"
+            },
+            "id4": {
+                "mtl_portname": "id4"
+            },
+            "aovId5": {
+                "mtl_portname": "aov_id5"
+            },
+            "id5": {
+                "mtl_portname": "id5"
+            },
+            "aovId6": {
+                "mtl_portname": "aov_id6"
+            },
+            "id6": {
+                "mtl_portname": "id6"
+            },
+            "aovId7": {
+                "mtl_portname": "aov_id7"
+            },
+            "id7": {
+                "mtl_portname": "id7"
+            },
+            "aovId8": {
+                "mtl_portname": "aov_id8"
+            },
+            "id8": {
+                "mtl_portname": "id8"
+            }
+        }
+    },
+    "aiStandardSurface": {
+        "mtl_category": "standard_surface",
+        "dcc_port": {
+            "base": {
+                "mtl_portname": "base"
+            },
+            "baseColor": {
+                "mtl_portname": "base_color"
+            },
+            "diffuseRoughness": {
+                "mtl_portname": "diffuse_roughness"
+            },
+            "specular": {
+                "mtl_portname": "specular"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularIOR": {
+                "mtl_portname": "specular_IOR"
+            },
+            "specularAnisotropy": {
+                "mtl_portname": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "mtl_portname": "specular_rotation"
+            },
+            "metalness": {
+                "mtl_portname": "metalness"
+            },
+            "transmission": {
+                "mtl_portname": "transmission"
+            },
+            "transmissionColor": {
+                "mtl_portname": "transmission_color"
+            },
+            "transmissionDepth": {
+                "mtl_portname": "transmission_depth"
+            },
+            "transmissionScatter": {
+                "mtl_portname": "transmission_scatter"
+            },
+            "transmissionScatterAnisotropy": {
+                "mtl_portname": "transmission_scatter_anisotropy"
+            },
+            "transmissionDispersion": {
+                "mtl_portname": "transmission_dispersion"
+            },
+            "transmissionExtraRoughness": {
+                "mtl_portname": "transmission_extra_roughness"
+            },
+            "transmitAovs": {
+                "mtl_portname": "transmit_aovs"
+            },
+            "subsurface": {
+                "mtl_portname": "subsurface"
+            },
+            "subsurfaceColor": {
+                "mtl_portname": "subsurface_color"
+            },
+            "subsurfaceRadius": {
+                "mtl_portname": "subsurface_radius"
+            },
+            "subsurfaceScale": {
+                "mtl_portname": "subsurface_scale"
+            },
+            "subsurfaceAnisotropy": {
+                "mtl_portname": "subsurface_anisotropy"
+            },
+            "subsurfaceType": {
+                "mtl_portname": "subsurface_type"
+            },
+            "sheen": {
+                "mtl_portname": "sheen"
+            },
+            "sheenColor": {
+                "mtl_portname": "sheen_color"
+            },
+            "sheenRoughness": {
+                "mtl_portname": "sheen_roughness"
+            },
+            "thinWalled": {
+                "mtl_portname": "thin_walled"
+            },
+            "tangent": {
+                "mtl_portname": "tangent"
+            },
+            "coat": {
+                "mtl_portname": "coat"
+            },
+            "coatColor": {
+                "mtl_portname": "coat_color"
+            },
+            "coatRoughness": {
+                "mtl_portname": "coat_roughness"
+            },
+            "coatIOR": {
+                "mtl_portname": "coat_IOR"
+            },
+            "coatAnisotropy": {
+                "mtl_portname": "coat_anisotropy"
+            },
+            "coatRotation": {
+                "mtl_portname": "coat_rotation"
+            },
+            "coatNormal": {
+                "mtl_portname": "coat_normal"
+            },
+            "thinFilmThickness": {
+                "mtl_portname": "thin_film_thickness"
+            },
+            "thinFilmIOR": {
+                "mtl_portname": "thin_film_IOR"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "opacity": {
+                "mtl_portname": "opacity"
+            },
+            "caustics": {
+                "mtl_portname": "caustics"
+            },
+            "internalReflections": {
+                "mtl_portname": "internal_reflections"
+            },
+            "exitToBackground": {
+                "mtl_portname": "exit_to_background"
+            },
+            "indirectDiffuse": {
+                "mtl_portname": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "mtl_portname": "indirect_specular"
+            },
+            "aovId1": {
+                "mtl_portname": "aov_id1"
+            },
+            "id1": {
+                "mtl_portname": "id1"
+            },
+            "aovId2": {
+                "mtl_portname": "aov_id2"
+            },
+            "id2": {
+                "mtl_portname": "id2"
+            },
+            "aovId3": {
+                "mtl_portname": "aov_id3"
+            },
+            "id3": {
+                "mtl_portname": "id3"
+            },
+            "aovId4": {
+                "mtl_portname": "aov_id4"
+            },
+            "id4": {
+                "mtl_portname": "id4"
+            },
+            "aovId5": {
+                "mtl_portname": "aov_id5"
+            },
+            "id5": {
+                "mtl_portname": "id5"
+            },
+            "aovId6": {
+                "mtl_portname": "aov_id6"
+            },
+            "id6": {
+                "mtl_portname": "id6"
+            },
+            "aovId7": {
+                "mtl_portname": "aov_id7"
+            },
+            "id7": {
+                "mtl_portname": "id7"
+            },
+            "aovId8": {
+                "mtl_portname": "aov_id8"
+            },
+            "id8": {
+                "mtl_portname": "id8"
+            },
+            "normalCamera": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiStandardVolume": {
+        "mtl_category": "standard_volume",
+        "dcc_port": {
+            "density": {
+                "mtl_portname": "density"
+            },
+            "densityChannel": {
+                "mtl_portname": "density_channel"
+            },
+            "scatter": {
+                "mtl_portname": "scatter"
+            },
+            "scatterColor": {
+                "mtl_portname": "scatter_color"
+            },
+            "scatterColorChannel": {
+                "mtl_portname": "scatter_color_channel"
+            },
+            "scatterAnisotropy": {
+                "mtl_portname": "scatter_anisotropy"
+            },
+            "transparent": {
+                "mtl_portname": "transparent"
+            },
+            "transparentDepth": {
+                "mtl_portname": "transparent_depth"
+            },
+            "transparentChannel": {
+                "mtl_portname": "transparent_channel"
+            },
+            "emissionMode": {
+                "mtl_portname": "emission_mode"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "emissionChannel": {
+                "mtl_portname": "emission_channel"
+            },
+            "temperature": {
+                "mtl_portname": "temperature"
+            },
+            "temperatureChannel": {
+                "mtl_portname": "temperature_channel"
+            },
+            "blackbodyKelvin": {
+                "mtl_portname": "blackbody_kelvin"
+            },
+            "blackbodyIntensity": {
+                "mtl_portname": "blackbody_intensity"
+            },
+            "displacement": {
+                "mtl_portname": "displacement"
+            },
+            "interpolation": {
+                "mtl_portname": "interpolation"
+            }
+        }
+    },
+    "aiStateFloat": {
+        "mtl_category": "state_float",
+        "dcc_port": {
+            "variable": {
+                "mtl_portname": "variable"
+            }
+        }
+    },
+    "aiStateInt": {
+        "mtl_category": "state_int",
+        "dcc_port": {
+            "variable": {
+                "mtl_portname": "variable"
+            }
+        }
+    },
+    "aiStateVector": {
+        "mtl_category": "state_vector",
+        "dcc_port": {
+            "variable": {
+                "mtl_portname": "variable"
+            }
+        }
+    },
+    "aiSubtract": {
+        "mtl_category": "subtract",
+        "dcc_port": {
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            }
+        }
+    },
+    "aiSwitch": {
+        "mtl_category": "switch_shader",
+        "dcc_port": {
+            "index": {
+                "mtl_portname": "index"
+            },
+            "input0": {
+                "mtl_portname": "input0"
+            },
+            "input1": {
+                "mtl_portname": "input1"
+            },
+            "input2": {
+                "mtl_portname": "input2"
+            },
+            "input3": {
+                "mtl_portname": "input3"
+            },
+            "input4": {
+                "mtl_portname": "input4"
+            },
+            "input5": {
+                "mtl_portname": "input5"
+            },
+            "input6": {
+                "mtl_portname": "input6"
+            },
+            "input7": {
+                "mtl_portname": "input7"
+            },
+            "input8": {
+                "mtl_portname": "input8"
+            },
+            "input9": {
+                "mtl_portname": "input9"
+            },
+            "input10": {
+                "mtl_portname": "input10"
+            },
+            "input11": {
+                "mtl_portname": "input11"
+            },
+            "input12": {
+                "mtl_portname": "input12"
+            },
+            "input13": {
+                "mtl_portname": "input13"
+            },
+            "input14": {
+                "mtl_portname": "input14"
+            },
+            "input15": {
+                "mtl_portname": "input15"
+            },
+            "input16": {
+                "mtl_portname": "input16"
+            },
+            "input17": {
+                "mtl_portname": "input17"
+            },
+            "input18": {
+                "mtl_portname": "input18"
+            },
+            "input19": {
+                "mtl_portname": "input19"
+            }
+        }
+    },
+    "aiThinFilm": {
+        "mtl_category": "thin_film",
+        "dcc_port": {
+            "thicknessMin": {
+                "mtl_portname": "thickness_min"
+            },
+            "thicknessMax": {
+                "mtl_portname": "thickness_max"
+            },
+            "thickness": {
+                "mtl_portname": "thickness"
+            },
+            "iorMedium": {
+                "mtl_portname": "ior_medium"
+            },
+            "iorFilm": {
+                "mtl_portname": "ior_film"
+            },
+            "iorInternal": {
+                "mtl_portname": "ior_internal"
+            }
+        }
+    },
+    "aiToon": {
+        "mtl_category": "toon",
+        "dcc_port": {
+            "maskColor": {
+                "mtl_portname": "mask_color"
+            },
+            "edgeColor": {
+                "mtl_portname": "edge_color"
+            },
+            "edgeTonemap": {
+                "mtl_portname": "edge_tonemap"
+            },
+            "edgeOpacity": {
+                "mtl_portname": "edge_opacity"
+            },
+            "edgeWidthScale": {
+                "mtl_portname": "edge_width_scale"
+            },
+            "silhouetteColor": {
+                "mtl_portname": "silhouette_color"
+            },
+            "silhouetteTonemap": {
+                "mtl_portname": "silhouette_tonemap"
+            },
+            "silhouetteOpacity": {
+                "mtl_portname": "silhouette_opacity"
+            },
+            "silhouetteWidthScale": {
+                "mtl_portname": "silhouette_width_scale"
+            },
+            "priority": {
+                "mtl_portname": "priority"
+            },
+            "enableSilhouette": {
+                "mtl_portname": "enable_silhouette"
+            },
+            "ignoreThroughput": {
+                "mtl_portname": "ignore_throughput"
+            },
+            "enable": {
+                "mtl_portname": "enable"
+            },
+            "idDifference": {
+                "mtl_portname": "id_difference"
+            },
+            "shaderDifference": {
+                "mtl_portname": "shader_difference"
+            },
+            "uvThreshold": {
+                "mtl_portname": "uv_threshold"
+            },
+            "angleThreshold": {
+                "mtl_portname": "angle_threshold"
+            },
+            "normalType": {
+                "mtl_portname": "normal_type"
+            },
+            "base": {
+                "mtl_portname": "base"
+            },
+            "baseColor": {
+                "mtl_portname": "base_color"
+            },
+            "baseTonemap": {
+                "mtl_portname": "base_tonemap"
+            },
+            "specular": {
+                "mtl_portname": "specular"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "specularRoughness": {
+                "mtl_portname": "specular_roughness"
+            },
+            "specularAnisotropy": {
+                "mtl_portname": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "mtl_portname": "specular_rotation"
+            },
+            "specularTonemap": {
+                "mtl_portname": "specular_tonemap"
+            },
+            "lights": {
+                "mtl_portname": "lights"
+            },
+            "highlightColor": {
+                "mtl_portname": "highlight_color"
+            },
+            "highlightSize": {
+                "mtl_portname": "highlight_size"
+            },
+            "aovHighlight": {
+                "mtl_portname": "aov_highlight"
+            },
+            "rimLight": {
+                "mtl_portname": "rim_light"
+            },
+            "rimLightColor": {
+                "mtl_portname": "rim_light_color"
+            },
+            "rimLightWidth": {
+                "mtl_portname": "rim_light_width"
+            },
+            "aovRimLight": {
+                "mtl_portname": "aov_rim_light"
+            },
+            "transmission": {
+                "mtl_portname": "transmission"
+            },
+            "transmissionColor": {
+                "mtl_portname": "transmission_color"
+            },
+            "transmissionRoughness": {
+                "mtl_portname": "transmission_roughness"
+            },
+            "transmissionAnisotropy": {
+                "mtl_portname": "transmission_anisotropy"
+            },
+            "transmissionRotation": {
+                "mtl_portname": "transmission_rotation"
+            },
+            "sheen": {
+                "mtl_portname": "sheen"
+            },
+            "sheenColor": {
+                "mtl_portname": "sheen_color"
+            },
+            "sheenRoughness": {
+                "mtl_portname": "sheen_roughness"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "IOR": {
+                "mtl_portname": "IOR"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "tangent": {
+                "mtl_portname": "tangent"
+            },
+            "indirectDiffuse": {
+                "mtl_portname": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "mtl_portname": "indirect_specular"
+            },
+            "bumpMode": {
+                "mtl_portname": "bump_mode"
+            },
+            "energyConserving": {
+                "mtl_portname": "energy_conserving"
+            },
+            "userId": {
+                "mtl_portname": "user_id"
+            }
+        }
+    },
+    "aiTraceSet": {
+        "mtl_category": "trace_set",
+        "dcc_port": {
+            "passthrough": {
+                "mtl_portname": "passthrough"
+            },
+            "traceSet": {
+                "mtl_portname": "trace_set"
+            },
+            "inclusive": {
+                "mtl_portname": "inclusive"
+            }
+        }
+    },
+    "aiTrigo": {
+        "mtl_category": "trigo",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "function": {
+                "mtl_portname": "function"
+            },
+            "units": {
+                "mtl_portname": "units"
+            },
+            "frequency": {
+                "mtl_portname": "frequency"
+            },
+            "phase": {
+                "mtl_portname": "phase"
+            }
+        }
+    },
+    "aiTriplanar": {
+        "mtl_category": "triplanar",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            },
+            "rotate": {
+                "mtl_portname": "rotate"
+            },
+            "offset": {
+                "mtl_portname": "offset"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "blend": {
+                "mtl_portname": "blend"
+            },
+            "cell": {
+                "mtl_portname": "cell"
+            },
+            "cellRotate": {
+                "mtl_portname": "cell_rotate"
+            },
+            "cellBlend": {
+                "mtl_portname": "cell_blend"
+            }
+        }
+    },
+    "aiTwoSided": {
+        "mtl_category": "two_sided",
+        "dcc_port": {
+            "front": {
+                "mtl_portname": "front"
+            },
+            "back": {
+                "mtl_portname": "back"
+            }
+        }
+    },
+    "aiUserDataFloat": {
+        "mtl_category": "user_data_float",
+        "dcc_port": {
+            "attribute": {
+                "mtl_portname": "attribute"
+            },
+            "default": {
+                "mtl_portname": "default"
+            }
+        }
+    },
+    "aiUserDataInt": {
+        "mtl_category": "user_data_int",
+        "dcc_port": {
+            "attribute": {
+                "mtl_portname": "attribute"
+            },
+            "default": {
+                "mtl_portname": "default"
+            }
+        }
+    },
+    "aiUserDataColor": {
+        "mtl_category": "user_data_rgb",
+        "dcc_port": {
+            "attribute": {
+                "mtl_portname": "attribute"
+            },
+            "default": {
+                "mtl_portname": "default"
+            }
+        }
+    },
+    "aiUserDataString": {
+        "mtl_category": "user_data_string",
+        "dcc_port": {
+            "attribute": {
+                "mtl_portname": "attribute"
+            },
+            "default": {
+                "mtl_portname": "default"
+            }
+        }
+    },
+    "aiUtility": {
+        "mtl_category": "utility",
+        "dcc_port": {
+            "colorMode": {
+                "mtl_portname": "color_mode"
+            },
+            "shadeMode": {
+                "mtl_portname": "shade_mode"
+            },
+            "overlayMode": {
+                "mtl_portname": "overlay_mode"
+            },
+            "color": {
+                "mtl_portname": "color"
+            },
+            "aoDistance": {
+                "mtl_portname": "ao_distance"
+            },
+            "roughness": {
+                "mtl_portname": "roughness"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+    "aiUvProjection": {
+        "mtl_category": "uv_projection",
+        "dcc_port": {
+            "projectionColor": {
+                "mtl_portname": "projection_color"
+            },
+            "projectionType": {
+                "mtl_portname": "projection_type"
+            },
+            "coordSpace": {
+                "mtl_portname": "coord_space"
+            },
+            "prefName": {
+                "mtl_portname": "pref_name"
+            },
+            "P": {
+                "mtl_portname": "P"
+            },
+            "uAngle": {
+                "mtl_portname": "u_angle"
+            },
+            "vAngle": {
+                "mtl_portname": "v_angle"
+            },
+            "clamp": {
+                "mtl_portname": "clamp"
+            },
+            "defaultColor": {
+                "mtl_portname": "default_color"
+            },
+            "placementMatrix": {
+                "mtl_portname": "matrix"
+            }
+        }
+    },
+    "aiUvTransform": {
+        "mtl_category": "uv_transform",
+        "dcc_port": {
+            "passthrough": {
+                "mtl_portname": "passthrough"
+            },
+            "unit": {
+                "mtl_portname": "unit"
+            },
+            "uvset": {
+                "mtl_portname": "uvset"
+            },
+            "coverage": {
+                "mtl_portname": "coverage"
+            },
+            "scaleFrame": {
+                "mtl_portname": "scale_frame"
+            },
+            "translateFrame": {
+                "mtl_portname": "translate_frame"
+            },
+            "rotateFrame": {
+                "mtl_portname": "rotate_frame"
+            },
+            "pivotFrame": {
+                "mtl_portname": "pivot_frame"
+            },
+            "wrapFrameU": {
+                "mtl_portname": "wrap_frame_u"
+            },
+            "wrapFrameV": {
+                "mtl_portname": "wrap_frame_v"
+            },
+            "wrapFrameColor": {
+                "mtl_portname": "wrap_frame_color"
+            },
+            "repeat": {
+                "mtl_portname": "repeat"
+            },
+            "offset": {
+                "mtl_portname": "offset"
+            },
+            "rotate": {
+                "mtl_portname": "rotate"
+            },
+            "pivot": {
+                "mtl_portname": "pivot"
+            },
+            "noise": {
+                "mtl_portname": "noise"
+            },
+            "mirrorU": {
+                "mtl_portname": "mirror_u"
+            },
+            "mirrorV": {
+                "mtl_portname": "mirror_v"
+            },
+            "flipU": {
+                "mtl_portname": "flip_u"
+            },
+            "flipV": {
+                "mtl_portname": "flip_v"
+            },
+            "swapUv": {
+                "mtl_portname": "swap_uv"
+            },
+            "stagger": {
+                "mtl_portname": "stagger"
+            }
+        }
+    },
+    "aiVectorMap": {
+        "mtl_category": "vector_map",
+        "dcc_port": {
+            "input": {
+                "mtl_portname": "input"
+            },
+            "tangent": {
+                "mtl_portname": "tangent"
+            },
+            "normal": {
+                "mtl_portname": "normal"
+            },
+            "order": {
+                "mtl_portname": "order"
+            },
+            "invertX": {
+                "mtl_portname": "invert_x"
+            },
+            "invertY": {
+                "mtl_portname": "invert_y"
+            },
+            "invertZ": {
+                "mtl_portname": "invert_z"
+            },
+            "colorToSigned": {
+                "mtl_portname": "color_to_signed"
+            },
+            "tangentSpace": {
+                "mtl_portname": "tangent_space"
+            },
+            "scale": {
+                "mtl_portname": "scale"
+            }
+        }
+    },
+    "aiVolumeCollector": {
+        "mtl_category": "volume_collector",
+        "dcc_port": {
+            "scatteringSource": {
+                "mtl_portname": "scattering_source"
+            },
+            "scattering": {
+                "mtl_portname": "scattering"
+            },
+            "scatteringChannel": {
+                "mtl_portname": "scattering_channel"
+            },
+            "scatteringColor": {
+                "mtl_portname": "scattering_color"
+            },
+            "scatteringIntensity": {
+                "mtl_portname": "scattering_intensity"
+            },
+            "anisotropy": {
+                "mtl_portname": "anisotropy"
+            },
+            "attenuationSource": {
+                "mtl_portname": "attenuation_source"
+            },
+            "attenuation": {
+                "mtl_portname": "attenuation"
+            },
+            "attenuationChannel": {
+                "mtl_portname": "attenuation_channel"
+            },
+            "attenuationColor": {
+                "mtl_portname": "attenuation_color"
+            },
+            "attenuationIntensity": {
+                "mtl_portname": "attenuation_intensity"
+            },
+            "attenuationMode": {
+                "mtl_portname": "attenuation_mode"
+            },
+            "emissionSource": {
+                "mtl_portname": "emission_source"
+            },
+            "emission": {
+                "mtl_portname": "emission"
+            },
+            "emissionChannel": {
+                "mtl_portname": "emission_channel"
+            },
+            "emissionColor": {
+                "mtl_portname": "emission_color"
+            },
+            "emissionIntensity": {
+                "mtl_portname": "emission_intensity"
+            },
+            "positionOffset": {
+                "mtl_portname": "position_offset"
+            },
+            "interpolation": {
+                "mtl_portname": "interpolation"
+            }
+        }
+    },
+    "aiVolumeSampleFloat": {
+        "mtl_category": "volume_sample_float",
+        "dcc_port": {
+            "channel": {
+                "mtl_portname": "channel"
+            },
+            "positionOffset": {
+                "mtl_portname": "position_offset"
+            },
+            "interpolation": {
+                "mtl_portname": "interpolation"
+            },
+            "volumeType": {
+                "mtl_portname": "volume_type"
+            },
+            "sdfOffset": {
+                "mtl_portname": "sdf_offset"
+            },
+            "sdfBlend": {
+                "mtl_portname": "sdf_blend"
+            },
+            "sdfInvert": {
+                "mtl_portname": "sdf_invert"
+            },
+            "inputMin": {
+                "mtl_portname": "input_min"
+            },
+            "inputMax": {
+                "mtl_portname": "input_max"
+            },
+            "contrast": {
+                "mtl_portname": "contrast"
+            },
+            "contrastPivot": {
+                "mtl_portname": "contrast_pivot"
+            },
+            "bias": {
+                "mtl_portname": "bias"
+            },
+            "gain": {
+                "mtl_portname": "gain"
+            },
+            "outputMin": {
+                "mtl_portname": "output_min"
+            },
+            "outputMax": {
+                "mtl_portname": "output_max"
+            },
+            "clampMin": {
+                "mtl_portname": "clamp_min"
+            },
+            "clampMax": {
+                "mtl_portname": "clamp_max"
+            }
+        }
+    },
+    "aiVolumeSampleRgb": {
+        "mtl_category": "volume_sample_rgb",
+        "dcc_port": {
+            "channel": {
+                "mtl_portname": "channel"
+            },
+            "positionOffset": {
+                "mtl_portname": "position_offset"
+            },
+            "interpolation": {
+                "mtl_portname": "interpolation"
+            },
+            "gamma": {
+                "mtl_portname": "gamma"
+            },
+            "hueShift": {
+                "mtl_portname": "hue_shift"
+            },
+            "saturation": {
+                "mtl_portname": "saturation"
+            },
+            "contrast": {
+                "mtl_portname": "contrast"
+            },
+            "contrastPivot": {
+                "mtl_portname": "contrast_pivot"
+            },
+            "exposure": {
+                "mtl_portname": "exposure"
+            },
+            "multiply": {
+                "mtl_portname": "multiply"
+            },
+            "add": {
+                "mtl_portname": "add"
+            }
+        }
+    },
+    "aiWireframe": {
+        "mtl_category": "wireframe",
+        "dcc_port": {
+            "lineWidth": {
+                "mtl_portname": "line_width"
+            },
+            "fillColor": {
+                "mtl_portname": "fill_color"
+            }, 
+            "lineColor": {
+                "mtl_portname": "line_color"
+            }, 
+            "rasterSpace": {
+                "mtl_portname": "raster_space"
+            }, 
+            "edgeType": {
+                "mtl_portname": "edge_type"
+            }
+        }
+    }
+}

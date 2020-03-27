@@ -206,11 +206,11 @@ def getObjectNonZeroTransAttrDic(objectLis):
         '.rotatePivot'
     ]
     if objectLis:
-        for objectString in objectLis:
+        for nodepathString in objectLis:
             subDic = bscMtdCore.orderedDict()
             for seq, channel in enumerate(channelSet):
-                subDic[channelLabel[seq]] = cmds.getAttr(objectString + channel)[0]
-                dic[objectString] = subDic
+                subDic[channelLabel[seq]] = cmds.getAttr(nodepathString + channel)[0]
+                dic[nodepathString] = subDic
     return dic
 
 
@@ -218,12 +218,12 @@ def getObjectNonZeroTransAttrDic(objectLis):
 def filterObjectHistoryNodeDic(objectLis):
     dic = bscMtdCore.orderedDict()
     if objectLis:
-        for objectString in objectLis:
-            stringLis = cmds.listHistory(objectString, pruneDagObjects=1)
+        for nodepathString in objectLis:
+            stringLis = cmds.listHistory(nodepathString, pruneDagObjects=1)
             if stringLis:
                 for i in stringLis:
                     typeData = cmds.ls(i, showType=1, long=1)
-                    dic.setdefault(objectString, []).append(typeData)
+                    dic.setdefault(nodepathString, []).append(typeData)
     return dic
 
 
@@ -288,8 +288,8 @@ def getShadingGroupsByObjects(objectLis):
     # List [ <Shading Engine> ]
     lis = []
     DEF_mya_default_shading_engine_list = ['initialShadingGroup', 'initialParticleSE', 'defaultLightSet', 'defaultObjectSet']
-    for objectString in objectLis:
-        shape = maUtils._getNodeShapeNodeString(objectString, 1)
+    for nodepathString in objectLis:
+        shape = maUtils._getNodeShapeNodeString(nodepathString, 1)
         shadingGroups = getOutputNode(shape, 'shadingEngine')
         if shadingGroups:
             [lis.append(shadingGroup) for shadingGroup in shadingGroups if shadingGroup not in DEF_mya_default_shading_engine_list]
@@ -310,10 +310,10 @@ def getAstUnitModelExtraData(assetName, namespace=none):
 
 #
 def getAstUnitModelBridgeAttrData(assetName, namespace=none):
-    def getBranch(objectString):
-        objectDefinedAttrData = maAttr.getNodeDefAttrDatumLis(objectString)
-        objectCustomAttrData = maAttr.getNodeUserDefAttrData(objectString)
-        dic[astUnitModelBridgeGroup + objectString.split(astUnitModelBridgeGroup)[-1]] = objectDefinedAttrData, objectCustomAttrData
+    def getBranch(nodepathString):
+        objectDefinedAttrData = maAttr.getNodeDefAttrDatumLis(nodepathString)
+        objectCustomAttrData = maAttr.getNodeUserDefAttrData(nodepathString)
+        dic[astUnitModelBridgeGroup + nodepathString.split(astUnitModelBridgeGroup)[-1]] = objectDefinedAttrData, objectCustomAttrData
     #
     dic = {}
     #
@@ -325,16 +325,16 @@ def getAstUnitModelBridgeAttrData(assetName, namespace=none):
 
 #
 def getAstUnitModelReferenceConnectionData(assetName, namespace=none):
-    def getBranch(objectString):
-        objectShape = maUtils._getNodeShapeNodeString(objectString)
+    def getBranch(nodepathString):
+        objectShape = maUtils._getNodeShapeNodeString(nodepathString)
         outputConnectLis = maUtils.getNodeOutputConnectionLis(objectShape)
         if outputConnectLis:
             for sourceAttr, targetAttr in outputConnectLis:
                 if sourceAttr.endswith('.message') and targetAttr.endswith('.referenceObject'):
-                    dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
+                    dic.setdefault(nodepathString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
         #
         objectShapeName = maUtils._nodeString2nodename_(objectShape)
-        maUtils.setAttrStringDatumForce_(objectString, prsConfigure.Product.DEF_key_attribute_shapename, objectShapeName)
+        maUtils.setAttrStringDatumForce_(nodepathString, prsConfigure.Product.DEF_key_attribute_shapename, objectShapeName)
     #
     dic = {}
     #
@@ -429,9 +429,9 @@ def getAstCfxGrowSourceConnectionDic(assetName, namespace=none):
     dic = bscMtdCore.orderedDict()
     objectPathLis = getAstCfxGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
-        for objectString in objectPathLis:
-            sourceObject = maUtils.getAttrDatum(objectString, 'growSource')
-            dic[sourceObject] = objectString
+        for nodepathString in objectPathLis:
+            sourceObject = maUtils.getAttrDatum(nodepathString, 'growSource')
+            dic[sourceObject] = nodepathString
     return dic
 
 
@@ -446,9 +446,9 @@ def getAstSolverGrowSourceConnectionDic(assetName, namespace=none):
     dic = bscMtdCore.orderedDict()
     objectPathLis = getAstSolverGrowSourceObjectLis(assetName, namespace)
     if objectPathLis:
-        for objectString in objectPathLis:
-            sourceObject = maUtils.getAttrDatum(objectString, 'growSource')
-            dic[sourceObject] = objectString
+        for nodepathString in objectPathLis:
+            sourceObject = maUtils.getAttrDatum(nodepathString, 'growSource')
+            dic[sourceObject] = nodepathString
     return dic
 
 
@@ -541,29 +541,29 @@ def getAstUnitRigSolExtraData(assetName, namespace=none):
 
 #
 def getAstUnitSolverConnectionData(assetName, namespace=none):
-    def getBranch(objectString):
-        objectShape = maUtils._getNodeShapeNodeString(objectString)
+    def getBranch(nodepathString):
+        objectShape = maUtils._getNodeShapeNodeString(nodepathString)
         inputConnections = maUtils.getNodeInputConnectionLis(objectShape)
         if inputConnections:
             for sourceAttr, targetAttr in inputConnections:
-                dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
+                dic.setdefault(nodepathString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
         #
         outputConnectLis = maUtils.getNodeOutputConnectionLis(objectShape)
         if outputConnectLis:
             for sourceAttr, targetAttr in outputConnectLis:
-                dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
+                dic.setdefault(nodepathString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
     #
     dic = {}
     #
     astUnitRoot = prsMethods.Asset.rootName(assetName)
     #
-    objectStrings = getAstUnitSolverNhrGuideObjects(assetName, namespace)
-    if objectStrings:
+    nodepathStrings = getAstUnitSolverNhrGuideObjects(assetName, namespace)
+    if nodepathStrings:
         # View Progress
         progressExplain = u'''Read Connection Data'''
-        maxValue = len(objectStrings)
+        maxValue = len(nodepathStrings)
         progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
-        for i in objectStrings:
+        for i in nodepathStrings:
             progressBar.update()
             getBranch(i)
     return dic
@@ -571,25 +571,25 @@ def getAstUnitSolverConnectionData(assetName, namespace=none):
 
 #
 def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
-    def getBranch(objectString):
-        objectShape = maUtils._getNodeShapeNodeString(objectString)
+    def getBranch(nodepathString):
+        objectShape = maUtils._getNodeShapeNodeString(nodepathString)
         outputConnectLis = maUtils.getNodeOutputConnectionLis(objectShape)
         if outputConnectLis:
             for sourceAttr, targetAttr in outputConnectLis:
                 if sourceAttr.endswith('.message') and targetAttr.endswith('.scatterObj'):
-                    dic.setdefault(objectString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
+                    dic.setdefault(nodepathString.split(astUnitRoot)[-1], []).append((sourceAttr, targetAttr))
     #
     dic = {}
     #
     astUnitRoot = prsMethods.Asset.rootName(assetName)
     #
-    objectStrings = getAstUnitCfxNhrGuideObjects(assetName, namespace)
-    if objectStrings:
+    nodepathStrings = getAstUnitCfxNhrGuideObjects(assetName, namespace)
+    if nodepathStrings:
         # View Progress
         progressExplain = u'''Read Connection Data'''
-        maxValue = len(objectStrings)
+        maxValue = len(nodepathStrings)
         progressBar = bscObjects.ProgressWindow(progressExplain, maxValue)
-        for i in objectStrings:
+        for i in nodepathStrings:
             progressBar.update()
             getBranch(i)
     #
@@ -598,11 +598,11 @@ def getAstUnitSolverNhrConnectionData(assetName, namespace=none):
 
 #
 def getAstUnitRigSolAttributeData(assetName, namespace=none):
-    def getBranch(objectString):
-        shapePath = maUtils._getNodeShapeNodeString(objectString)
+    def getBranch(nodepathString):
+        shapePath = maUtils._getNodeShapeNodeString(nodepathString)
         shapeDefinedAttrData = maAttr.getNodeDefAttrDatumLis(shapePath)
-        shapeCustomAttrData = maAttr.getNodeUserDefAttrData(objectString)
-        dic[rigSolLinkGroup + objectString.split(rigSolLinkGroup)[-1]] = shapeDefinedAttrData, shapeCustomAttrData
+        shapeCustomAttrData = maAttr.getNodeUserDefAttrData(nodepathString)
+        dic[rigSolLinkGroup + nodepathString.split(rigSolLinkGroup)[-1]] = shapeDefinedAttrData, shapeCustomAttrData
     #
     dic = bscMtdCore.orderedDict()
     rigSolLinkGroup = assetPr.astUnitRigSolFurSubGroupName(assetName)
@@ -687,8 +687,8 @@ def getTextureStatisticsDic(objectLis):
 
 
 # Str <Object's Volume>
-def getVolume(objectString):
-    box = cmds.polyEvaluate(objectString, boundingBox=1)
+def getVolume(nodepathString):
+    box = cmds.polyEvaluate(nodepathString, boundingBox=1)
     volume = (box[0][1] - box[0][0]) * (box[1][1] - box[1][0]) * (box[2][1] - box[2][0])
     return volume
 

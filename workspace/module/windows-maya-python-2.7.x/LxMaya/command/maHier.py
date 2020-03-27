@@ -229,16 +229,16 @@ def addHierarchyObject(parentPath, assetName, filterTypes, autoRename=True):
     selObjectStringLis = maUtils.getSelectedObjectsFilterByTypes(filterTypes)
     if maUtils._isAppExist(parentPath):
         if selObjectStringLis:
-            for objectString in selObjectStringLis:
-                meshUuid = maUuid._getNodeUniqueIdString(objectString)
-                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicHierarchyAttrLabel, keyword)
-                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicArtistAttrLabel, username)
-                maUtils.setAttrStringDatumForce(objectString, prsOutputs.Util.basicUpdateAttrLabel, timetag)
+            for nodepathString in selObjectStringLis:
+                meshUuid = maUuid._getNodeUniqueIdString(nodepathString)
+                maUtils.setAttrStringDatumForce(nodepathString, prsOutputs.Util.basicHierarchyAttrLabel, keyword)
+                maUtils.setAttrStringDatumForce(nodepathString, prsOutputs.Util.basicArtistAttrLabel, username)
+                maUtils.setAttrStringDatumForce(nodepathString, prsOutputs.Util.basicUpdateAttrLabel, timetag)
                 #
-                cmds.setAttr(objectString + '.useOutlinerColor', 1)
-                cmds.setAttr(objectString + '.outlinerColor', 0, 1, 0)
+                cmds.setAttr(nodepathString + '.useOutlinerColor', 1)
+                cmds.setAttr(nodepathString + '.outlinerColor', 0, 1, 0)
                 #
-                maUtils.setObjectParent(objectString, parentPath)
+                maUtils.setObjectParent(nodepathString, parentPath)
                 if autoRename:
                     newPath = maUuid.getObject(meshUuid)
                     newMeshName = assetPr.astBasicObjectNameSet(assetName, '_' + keyword) + '_0'

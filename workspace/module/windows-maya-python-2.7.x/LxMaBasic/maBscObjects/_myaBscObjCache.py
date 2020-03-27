@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxMaBasic import maBscObjCore
+from LxMaBasic import myaBscObjCore
 
 
-class MyaQueryCache(maBscObjCore.Abc_MyaQueryCache):
+class MyaQueryCache(myaBscObjCore.Abc_MyaQueryCache):
     def __init__(self):
         self._initAbcMyaQueryCache()
 

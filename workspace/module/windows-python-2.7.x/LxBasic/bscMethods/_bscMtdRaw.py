@@ -51,13 +51,13 @@ class String(bscMtdCore.Mtd_BscUtility):
     @classmethod
     def toList(cls, string, includes=None):
         lis = []
-        if isinstance(string, str) or isinstance(string, unicode):
+        if isinstance(string, (str, unicode)):
             if includes:
                 if string in includes:
                     lis = [string]
             else:
                 lis = [string]
-        elif isinstance(string, tuple) or isinstance(string, list):
+        elif isinstance(string, (tuple, list)):
             for i in string:
                 if includes:
                     if i in includes:
@@ -235,7 +235,7 @@ class TxtHtml(bscMtdCore.Mtd_BscUtility):
         def getBranch(attr):
             namespace = _bscMtdPath.MaNodeString.namespace(attr)
             name = _bscMtdPath.MaNodeString.nodename(attr)
-            attrName = _bscMtdPath.MaAttributeString.fullpathPortname(attr)
+            attrName = _bscMtdPath.MaAttributeString.portpathString(attr)
             #
             namespacesep = _bscMtdPath.MaAttributeString.portsep()
             #

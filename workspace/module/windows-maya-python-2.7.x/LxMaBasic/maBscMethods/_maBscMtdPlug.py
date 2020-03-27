@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxMaBasic import maBscMtdCore
+from LxMaBasic import myaBscMtdCore
 
 
-class Plug(maBscMtdCore.Mtd_MaBasic):
+class Plug(myaBscMtdCore.Mtd_MaBasic):
     @classmethod
     def names(cls):
         return cls.MOD_maya_cmds.pluginInfo(query=1, listPlugins=1)

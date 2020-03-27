@@ -1,0 +1,150 @@
+{
+    "color2": [
+        {
+            "mtl_portname": {
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.a"
+            },
+            "format": "outAlpha"
+        }
+    ],
+    "color3": [
+        {
+            "mtl_portname": {
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.g"
+            },
+            "format": "{0}.{0}G"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.b"
+            },
+            "format": "{0}.{0}B"
+        }
+    ],
+    "color4": [
+        {
+            "mtl_portname": {
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}G"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.b"
+            },
+            "format": "{0}.{0}B"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.a"
+            },
+            "format": "outAlpha"
+        }
+    ],
+    "vector2": [
+        {
+            "mtl_portname": {
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
+        }
+    ],
+    "vector3": [
+        {
+            "mtl_portname": {
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.z"
+            },
+            "format": "{0}.{0}Z"
+        }
+    ],
+    "vector4": [
+        {
+            "mtl_portname": {
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.z"
+            },
+            "format": "{0}.{0}Z"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.w"
+            },
+            "format": "{0}.{0}W"
+        }
+    ],
+    "uv_0": [
+        {
+            "mtl_portname": {
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}U"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}V"
+        }
+    ],
+    "uv_1": [
+        {
+            "mtl_portname": {
+                "format": "{0}.x"
+            },
+            "format": "{0}.{1}U"
+        },
+        {
+            "mtl_portname": {
+                "format": "{0}.y"
+            },
+            "format": "{0}.{1}V"
+        }
+    ]
+}

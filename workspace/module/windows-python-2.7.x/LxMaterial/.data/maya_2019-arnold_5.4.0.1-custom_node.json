@@ -1,0 +1,277 @@
+{
+    "displacementShader": {
+        "mtl_category": "range",
+        "dcc_port": {
+            "displacement": {
+                "dcc_porttype": "float",
+                "mtl_portname": [
+                    "input",
+                    "rgb"
+                ]
+            }
+        },
+
+        "create_expression": {
+            "command":
+            [
+                "mtl_port_0 = self.mtlNode().port('output_min')",
+                "mtl_port_1 = self.mtlNode().port('output_max')",
+                "mtl_port_2 = self.mtlNode().port('contrast_pivot')",
+                "dcc_port_0 = self.dccNode().port('aiDisplacementZeroValue')",
+                "dcc_zero_value = dcc_port_0.portdata()",
+                "mtl_port_0.setPortdata(0-dcc_zero_value);mtl_port_1.setPortdata(1-dcc_zero_value);mtl_port_2.setPortdata(0.0)"
+            ]
+        },
+        "after_expression": {
+            "command":
+            [
+                "mtlGeometries = self.mtlNode().allTargetNodes('mesh') or []",
+                "dcc_port_0 = self.dccNode().port('aiDisplacementAutoBump')",
+                "dcc_portdata_0 = dcc_port_0.portdata()",
+                "[i.port('disp_autobump').setPortdata(dcc_portdata_0) for i in mtlGeometries]",
+
+                "dcc_port_1 = self.dccNode().port('aiDisplacementPadding')",
+                "dcc_portdata_1 = dcc_port_1.portdata()",
+                "[i.port('disp_padding').setPortdata(dcc_portdata_1) for i in mtlGeometries]",
+
+                "dcc_port_2 = self.dccNode().port('aiDisplacementZeroValue')",
+                "dcc_portdata_2 = dcc_port_2.portdata()",
+                "[i.port('disp_zero_value').setPortdata(dcc_portdata_2) for i in mtlGeometries]"
+            ]
+        }
+    },
+
+    "file": {
+        "mtl_category": "image",
+        "dcc_port": {
+            "fileTextureName": {
+                "mtl_portname": "filename"
+            },
+            "colorSpace": {
+                "mtl_portname": "color_space"
+            },
+            "colorGain": {
+                "mtl_portname": "multiply"
+            },
+            "colorOffset": {
+                "mtl_portname": "offset"
+            }
+        },
+
+        "mtl_port": {
+            "ignore_missing_textures": {
+                "portdata": "true"
+            },
+            "missing_texture_color": {
+                "portdata": "0.5, 0.5, 0.5, 0"
+            }
+        },
+
+        "create_expression": {
+            "command":
+            [
+                "self._runInsertColorCorrectExpression_({'alpha_is_luminance': 'alphaIsLuminance'})",
+                "self.mtlNode().port('filename').setPortdata(self._convertDccMultiTexture_(self.mtlNode().input('filename').portdataString()))"
+            ]
+        }
+    },
+
+    "place2dTexture": {
+        "mtl_category": "uv_transform",
+        "dcc_port": {
+            "coverage": {
+                "dcc_porttype": "uv_0",
+                "mtl_portname": "coverage"
+            },
+            "translateFrame": {
+                "dcc_porttype": "uv_0",
+                "mtl_portname": "translate_frame"
+            },
+            "rotateFrame": {
+                "mtl_portname": "rotate_frame"
+            },
+            "mirrorU": {
+                "mtl_portname": "mirror_u"
+            },
+            "mirrorV": {
+                "mtl_portname": "mirror_v"
+            },
+            "stagger": {
+                "mtl_portname": "stagger"
+            },
+            "repeatUV": {
+                "dcc_porttype": "uv_1",
+                "mtl_portname": "repeat"
+            },
+            "offset": {
+                "dcc_porttype": "uv_0",
+                "mtl_portname": "offset"
+            },
+            "rotateUV": {
+                "mtl_portname": "rotate"
+            },
+            "noiseUV": {
+                "dcc_porttype": "uv_1",
+                "mtl_portname": "noise"
+            }
+        },
+
+        "create_expression": {
+            "command": [
+                "targetDccNodes = self.dccNode().targetNodes('file')",
+                "self._runInsertToTargetExpression_(targetDccNodes, 'rgba', 'passthrough', 'rgba')"
+            ]
+        }
+    },
+
+    "samplerInfo": {
+        "mtl_category": "facing_ratio",
+        "dcc_port": {
+            "facingRatio": {
+                "mtl_portname": "float"
+            }
+        },
+        "create_expression": {
+            "command": [
+                "targetDccNodes = self.dccNode().targetNodes('ramp')",
+                "[self.getTrsNode(i.nodepathString()).mtlNode().port('type').setPortdataString('custom') for i in targetDccNodes]",
+                "[self.mtlNode().output('float').connectTo(self.getTrsNode(i.nodepathString()).mtlNode().input('input')) for i in targetDccNodes]"
+            ]
+        }
+    },
+
+    "ramp": {
+        "mtl_category": "ramp_rgb",
+        "dcc_port": {
+            "type": {
+                "mtl_portname": "type"
+            },
+            "colorEntryList.color": {
+                "mtl_portname": "color"
+            },
+            "colorEntryList.position": {
+                "mtl_portname": "position"
+            },
+            "outAlpha": {
+                "mtl_portname": "position"
+            }
+        },
+
+        "mtl_portdata": {
+            "type": {
+                "V Ramp": "v",
+                "U Ramp": "u",
+                "Diagonal Ramp": "diagonal",
+                "Radial Ramp": "radial",
+                "Circular Ramp": "circular",
+                "Box Ramp": "box"
+            }
+        },
+
+        "create_expression": {
+            "command": [
+                "self._runInsertColorCorrectExpression_({'alpha_is_luminance': 'alphaIsLuminance', 'multiply': 'colorGain', 'add': 'colorOffset', 'alpha_multiply': 'alphaGain', 'alpha_add': 'alphaOffset'})",
+
+                "data = self.dccNode().port('interpolation').portdata(asString=False)",
+                "indexes = self.dccNode().port('colorEntryList').indexes()",
+                "self.mtlNode().input('interpolation').setPortdata([data]*len(indexes))"
+            ]
+        }
+    },
+
+    "bump2d@bump2d": {
+        "mtl_category": "normal_map",
+        "dcc_port": {
+            "bumpValue": {
+                "dcc_porttype": "float",
+                "mtl_portname": "input"
+            },
+            "bumpInterp": {
+                "mtl_portname": "order"
+            },
+            "aiFlipR": {
+                "mtl_portname": "invert_x"
+            },
+            "aiFlipG": {
+                "mtl_portname": "invert_y"
+            }
+        },
+
+        "mtl_portdata": {
+            "order": {
+                "Tangent Space Normals": "YXZ",
+                "Object Space Normals": "XYZ"
+            }
+        }
+    },
+
+    "bump2d": {
+        "mtl_category": "bump2d",
+        "dcc_port": {
+            "bumpValue": {
+                "dcc_porttype": "float",
+                "mtl_portname": "bump_map"
+            },
+            "bumpDepth": {
+                "mtl_portname": "bump_height"
+            }
+        }
+    },
+
+
+    "lambert": {
+        "mtl_category": "lambert",
+        "dcc_port": {
+            "diffuse": {
+                "mtl_portname": "Kd"
+            },
+            "color": {
+                "mtl_portname": "Kd_color"
+            },
+            "transparency": {
+                "mtl_portname": "opacity"
+            },
+            "normalCamera": {
+                "mtl_portname": "normal"
+            }
+        }
+    },
+
+    "blinn": {
+        "mtl_category": "standard_surface",
+        "dcc_port": {
+            "color": {
+                "mtl_portname": "base_color"
+            },
+            "specularRollOff": {
+                "mtl_portname": "specular"
+            },
+            "specularColor": {
+                "mtl_portname": "specular_color"
+            },
+            "eccentricity": {
+                "mtl_portname": "specular_roughness"
+            },
+            "reflectivity": {
+                "mtl_portname": "coat"
+            },
+            "reflectedColor": {
+                "mtl_portname": "coat_color"
+            }
+        },
+        "mtl_port": {
+            "specular_IOR": {
+                "portdata": "3"
+            },
+            "coat_IOR": {
+                "portdata": "3"
+            },
+            "emission": {
+                "portdata": "1"
+            },
+            "emission_color": {
+                "portdata": "0, 0, 0"
+            }
+        }
+    }
+}

@@ -1,146 +1,79 @@
 [TOC]
 
-# Reference
+# materialx
 
-## github
+## what?
 
-[https://github.com/materialx]: 
+- 基于XML格式的一种数据标准（扩展名“.mtlx”），用于记录“Graphics”（节点图， 主要是“Material”）的数据；
+- MTLX文件可以是完全独立的，或拆分成多个文件以实现共用和复用。
 
-## arnold
+## why?
 
-[https://docs.arnoldrenderer.com/display/A5AFMUG/MaterialX]: 
+- 解决不同生产环节/DCC软件/渲染器间的“Graphics”的数据传递；
+- 解决不同部门和供应商之间的“Graphics”数据传输。
 
-# Command
+## element
 
--   资源导出
+- 定义了处理节点图数据的标准节点；
+- 使用<nodedef>定义和扩展“BxDF Shader”（基于“BSDF”和“BRDF”算法的材质或者节点）标准节点集；
+- 使用<material>定义“Shader”（材质， 如Surface Shader， Displacement Shader）实例引用的数据流；
+- 使用<geominfo>定义可从节点图中引用的“Geometry”的属性；
+- 使用<look>定义与“Geometry”绑定的“Material”和“Property”（特定属性， 如细分等）组合。
 
->   ```python
->   from lxrender.maya import method
->   
->   groupString = 'geom_group_name_0'
->   
->   abcFile = 'file_path'
->   matlFile = 'file_path'
->   shaderVariant = 'look_name'
->   
->   renderAsset = method.MaRenderAsset(groupString)
->   
->   renderAsset.modelExport(abcFile)
->   renderAsset.shaderExport(matlFile, shaderVariant)
->   ```
->
+# reference
 
--   获取node信息
+- [github](https://github.com/materialx)
 
->   ```powershell
->   cmd
->   cd c:\_pipe\plug\maya\2019\arnold\3.3.0.1\deploy\bin
->   kick -info polymesh
->   ```
+- [arnold](https://docs.arnoldrenderer.com/display/A5AFMUG/MaterialX)
 
-# Geometry
+- [houdini - export](https://docs.arnoldrenderer.com/display/A5AFHUG/MaterialX+Export)
 
-# Shader
+# progress
 
-# example
+- 完成了Basic，Material（Graphic）模块的设计和实现，实现创建，读取和修改Node的数据和连接并统一管理，转化成特定格式（现在只有MaterialX）
+的数据并输出；
+- 完成了Maya - Basic，Maya - Material（Graphic）模块的设计和实现，实现读取Maya中“Arnold - Node”（以及部分的“Maya - Node”， 需要完善转化
+规则）的数据和连接，转化成特定格式（现在只有MaterialX）的数据并输出；
 
-## 	material
+# note
+- **Arnold**
+    - **Node**：不支持“Maya - Node”；
+        - Maya：存在使用“Maya - Node”的情况
+            - 解决方案：
+                - 导出的时候会自动转化成支持的一个“Arnold - Node”或者多个“Arnold - Node”
+                    - 目前支持的“DCC - Node”：
+                        1.  “displacementShader”
+                        2.  “file”
+                        3.  “place2dTexture”
+                        4.  “samplerInfo”
+                        5.  “ramp”
+                        6.  “bump2d > normal_map”
+                        7.  “blinn”
+                        8.  “lambert”
 
->   ```xml
->   <material name="look_name_ray_switch_shader_name_0_material_shader">
->       <shaderref name="ray_switch_shader_name_0" node="ray_switch_shader">
->       	<bindinput name="camera" type="color3" nodegraph="NG_look_name_ray_switch_shader_name_0_camera" output="out" />
->       </shaderref>
->   </material>
->   
->   <nodegraph name="NG_look_name_ray_switch_shader_name_0_camera">
->       <mix_shader name="mix_shader_name_0" type="closure">
->           <input name="mix" type="float" nodename="ramp_node_name0" />
->           <input name="shader1" type="closure" nodename="standard_surface_name_0" />
->           <input name="shader2" type="closure" nodename="standard_surface_name_1" />
->       </mix_shader>
->       <ramp_rgb name="ramp_node_name0" type="color3">
->           <input name="type" type="string" value="v" />
->           <input name="position" type="floatarray" value="0, 1" />
->           <input name="color" type="floatarray" value="0, 0, 0, 1, 1, 1" />
->           <input name="interpolation" type="integerarray" value="1, 1" />
->           <input name="use_implicit_uvs" type="string" value="curves_only" />
->           <input name="wrap_uvs" type="boolean" value="true" />
->       </ramp_rgb>
->       <standard_surface name="standard_surface_name_0" type="closure">
->       	<input name="base_color" type="color3" value="1, 0, 0" />
->       </standard_surface>
->       <standard_surface name="standard_surface_name_1" type="closure">
->       	<input name="base_color" type="color3" value="0, 1, 0" />
->       </standard_surface>
->       <output name="out" type="color3" nodename="mix_shader_name_0" />
->   </nodegraph>
->   ```
->
+        - Houdini：待测试
+        
+    - **Port**：“Array”类型的“Port”无法被连接（待补充）。
 
-## 	property
+    - **Output**：“Node”的“Output”为“唯一”复合型输出。
+        - Maya：存在多个“Output”输出。
+            - 解决方案：
+                - 导出的时候会转化为支持的“Output”。
 
->   ```xml
->   <look name="look_name">
->   	<propertysetassign name="/geom_group_name_0/geom_name_0/geom_name_0Shape_look_name_propertyset" geom="/geom_group_name_0/geom_name_0/geom_name_0Shape" />
->   </look>
->   
->   <propertyset name="/geom_group_name_0/geom_name_1/geom_name_1Shape_look_name_propertyset">
->   	<property name="subdiv_type" value="catclark" type="string" />
->   	<property name="subdiv_iterations" value="2" type="integer" />
->   </propertyset>
->   ```
->
+        - Houdini：符合规则
 
-## 	aov
+    - **Channel**：不支持“Channel”之间的直接连接。
+        - Maya：支持并存这种连接方式。
+            - 解决方案：
+                - 导出时会自动转化为支持的连接方式
 
->   ```xml
->   <material name="look_name_standard_surface_name_0SG_material_shader">
->       <shaderref name="standard_surface_name_0SG" node="aov_write_rgb">
->           <bindinput name="passthrough" type="color3" nodegraph="NG_look_name_standard_surface_name_0SG_passthrough" output="out" />
->           <bindinput name="aov_input" type="color3" nodegraph="NG_look_name_standard_surface_name_0SG_aov_input" output="out" />
->           <bindinput name="aov_name" type="string" value="aov_name_0" />
->       </shaderref>
->   </material>
->   
->   <nodegraph name="NG_look_name_standard_surface_name_0SG_passthrough">
->       <aov_write_rgb name="standard_surface_name_0SG@aov4" type="closure">
->           <input name="passthrough" type="closure" nodename="standard_surface_name_0" />
->           <input name="aov_input" type="color3" nodename="aov_shader_name_1" />
->           <input name="aov_name" type="string" value="aov_name_1" />
->       </aov_write_rgb>
->       <standard_surface name="standard_surface_name_0" type="closure">
->       	<input name="base_color" type="color3" value="1, 0, 0" />
->       </standard_surface>
->       <utility name="aov_shader_name_1" type="color3">
->           <input name="shade_mode" type="string" value="flat" />
->           <input name="color" type="color3" value="1, 0, 0" />
->       </utility>
->       <output name="out" type="color3" nodename="standard_surface_name_0SG@aov4" />
->   </nodegraph>
->   
->   <nodegraph name="NG_look_name_standard_surface_name_0SG_aov_input">
->       <utility name="aov_shader_name_0" type="color3">
->           <input name="shade_mode" type="string" value="flat" />
->           <input name="color" type="color3" value="0, 1, 0" />
->       </utility>
->       <output name="out" type="color3" nodename="aov_shader_name_0" />
->   </nodegraph>
->   ```
->
+        - Houdini：符合规则
 
-# DEBUG
+    - **Color Space**：需要统一色彩空间
+        - 现在Maya和Houdini的色彩空间存在问题，需要统一色彩空间的标准。
 
-## type
+# schedule
 
--   aiLayerShader, aiMixShader,aiRaySwitchShader
+- 完成Houdini - Basic，Houdini - Material模块的设计和实现，实现读取Houdini中Arnold - Node的数据和连接，转化成特定格式MaterialX
+的数据并输出， 导入；
 
->   ```xml
->   <standard_surface name="shader_name" type="closure">
->   <mix_shader name="shader_name" type="closure">
->   <ray_switch_shader name="shader_name" type="closure">
->   <aov_write_rgb name="shader_name" type="closure">
->   ```
->
-
--   存在重复写入：如aiRaySwitchShader的camera和shadow通道的连接是同一个材质， 会重复写入这个材质。

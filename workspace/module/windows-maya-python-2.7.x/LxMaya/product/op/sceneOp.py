@@ -60,14 +60,14 @@ def setRemoveSceneCameras(sceneName, cameras):
 
 
 #
-def setClearConstraint(objectString, startFrame, endFrame, frameOffset):
-    origObject = 'orig_%s_%s' % (cmds.nodeType(objectString), id(objectString))
-    tempObject = 'temp_%s_%s' % (cmds.nodeType(objectString), id(objectString))
+def setClearConstraint(nodepathString, startFrame, endFrame, frameOffset):
+    origObject = 'orig_%s_%s' % (cmds.nodeType(nodepathString), id(nodepathString))
+    tempObject = 'temp_%s_%s' % (cmds.nodeType(nodepathString), id(nodepathString))
     #
     maUtils.setCurrentFrame(startFrame)
     # Copy to Temp with Connection
     cmds.duplicate(
-        objectString,
+        nodepathString,
         name=tempObject, returnRootsOnly=0, upstreamNodes=0, inputConnections=1
     )
     maUtils.setCleanChild(tempObject)
@@ -75,7 +75,7 @@ def setClearConstraint(objectString, startFrame, endFrame, frameOffset):
     # Unlock Transform
     maUtils.setObjectLockTransform(tempObject, 0)
     # Get Translate
-    cmds.parentConstraint(objectString, tempObject)
+    cmds.parentConstraint(nodepathString, tempObject)
     #
     cmds.bakeResults(
         tempObject,

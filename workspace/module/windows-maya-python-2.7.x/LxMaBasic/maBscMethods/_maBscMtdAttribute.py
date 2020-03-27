@@ -1,117 +1,119 @@
 # coding:utf-8
-from LxMaBasic import maBscMtdCore
+from LxMaBasic import myaBscMtdCore
 
 
-class Attribute(maBscMtdCore.Mtd_MaBasic):
+class ObjectPort(myaBscMtdCore.Mtd_MaBasic):
     @classmethod
-    def isAppExist(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsAppExist(attributeString)
+    def indexes(cls, nodepathString, portpathString):
+        return myaBscMtdCore.Mtd_MaObjectPort._dcc_getObjectPortIndexes(nodepathString, portpathString)
+
+
+class Attribute(myaBscMtdCore.Mtd_MaBasic):
+    @classmethod
+    def isAppExist(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsAppExist(attrpathString)
 
     @classmethod
-    def hasSource(cls, attributeString):
-        if cls.isAppExist(attributeString):
-            return maBscMtdCore.Mtd_MaAttribute._getAttributeHasSource(attributeString)
+    def hasSource(cls, attrpathString):
+        if cls.isAppExist(attrpathString):
+            return myaBscMtdCore.Mtd_MaAttribute._getAttributeHasSource(attrpathString)
         return False
 
     @classmethod
-    def isSource(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsSource(attributeString)
+    def isSource(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsSource(attrpathString)
 
     @classmethod
-    def source(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeSource(attributeString)
+    def source(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeSource(attrpathString)
 
     @classmethod
-    def hasTargets(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasTargets(attributeString)
+    def hasTargets(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeHasTargets(attrpathString)
 
     @classmethod
-    def targets(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeTargetList(attributeString)
+    def targets(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeTargetList(attrpathString)
 
     @classmethod
-    def isTarget(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsTarget(attributeString)
+    def isTarget(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsTarget(attrpathString)
 
     @classmethod
-    def nodeString(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeNodeString(attributeString)
+    def nodepathString(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeNodeString(attrpathString)
 
     @classmethod
-    def portString(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeFullpathPortname(attributeString)
+    def portpathString(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeFullpathPortname(attrpathString)
 
     @classmethod
-    def fullpathPortname(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeFullpathPortname(attributeString)
+    def porttype(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributePorttype(attrpathString)
 
     @classmethod
-    def porttype(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributePorttype(attributeString)
+    def datatype(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeDatatype(attrpathString)
 
     @classmethod
-    def datatype(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeDatatype(attributeString)
+    def name(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributePortname(attrpathString)
 
     @classmethod
-    def name(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributePortname(attributeString)
+    def raw(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributePortdata(attrpathString, asString=False)
 
     @classmethod
-    def raw(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributePortdata(attributeString, asString=False)
+    def rawAsString(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributePortdata(attrpathString, asString=True)
 
     @classmethod
-    def rawAsString(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributePortdata(attributeString, asString=True)
+    def indexes(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIndexes(attrpathString)
 
     @classmethod
-    def arrayIndexes(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIndexes(attributeString)
+    def isCompound(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsCompound(attrpathString)
 
     @classmethod
-    def isCompound(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsCompound(attributeString)
+    def isMessage(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsMessage(attrpathString)
 
     @classmethod
-    def isMessage(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsMessage(attributeString)
+    def isColor(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsColor(attrpathString)
 
     @classmethod
-    def isColor(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsColor(attributeString)
+    def isFilename(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeIsFilename(attrpathString)
 
     @classmethod
-    def isFilename(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeIsFilename(attributeString)
+    def nicename(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeNicename(attrpathString)
 
     @classmethod
-    def nicename(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeNicename(attributeString)
-
-    @classmethod
-    def defaultValue(cls, attributeString):
+    def defaultValue(cls, attrpathString):
         pass
 
     @classmethod
-    def parent(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeParentPortname(attributeString)
+    def parent(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeParentPortname(attrpathString)
 
     @classmethod
-    def hasChildren(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasChild(attributeString)
+    def hasChildren(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeHasChild(attrpathString)
 
     @classmethod
-    def children(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeChildPortnameList(attributeString)
+    def children(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeChildPortnameList(attrpathString)
 
     @classmethod
-    def hasChannels(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeHasChannels(attributeString)
+    def hasChannels(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeHasChannels(attrpathString)
 
     @classmethod
-    def channels(cls, attributeString):
-        return maBscMtdCore.Mtd_MaAttribute._getAttributeChannelnameList(attributeString)
+    def channels(cls, attrpathString):
+        return myaBscMtdCore.Mtd_MaAttribute._getAttributeChannelnameList(attrpathString)
 
     @classmethod
     def composeBy(cls, *args):

@@ -45,13 +45,11 @@ DEF_mtl_value_cls_dict = {
 
 
 class Node(mtlObjCore.Abc_MtlNode):
-    CLS_mtl_type = _mtlObjRaw.TypeString
-    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
-    CLS_mtl_node_string = _mtlObjRaw.NodeName
+    CLS_grh_type = _mtlObjRaw.TypeString
+    CLS_grh_category = _mtlObjRaw.NodeCategory
+    CLS_grh_nodepath = _mtlObjRaw.NodeName
 
-    CLS_mtl_port_set = _mtlObjSet.PortSet
-
-    CLS_mtl_source_node = None
+    CLS_grh_port_set = _mtlObjSet.PortSet
 
     OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
     OBJ_mtl_obj_cache = _mtlObjCache.OBJ_mtl_obj_cache
@@ -59,16 +57,49 @@ class Node(mtlObjCore.Abc_MtlNode):
     VAR_mtl_value_class_dict = DEF_mtl_value_cls_dict
 
     VAR_mtl_port_class_dict = {
-        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.NodeInput,
-        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.NodeOutput,
-        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.NodeInputChannel,
-        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.NodeOutputChannel
+        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_property: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_visibility: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.Output,
+        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.InputChannel,
+        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.OutputChannel
     }
 
-    VAR_mtl_file_attribute_key = u'nodename'
+    VAR_mtl_file_attribute_attach_key = u'nodename'
 
     def __init__(self, *args):
         self._initAbcMtlNode(*args)
+
+
+class Geometry(mtlObjCore.Abc_MtlGeometry):
+    CLS_grh_type = _mtlObjRaw.TypeString
+    CLS_grh_category = _mtlObjRaw.NodeCategory
+    CLS_grh_nodepath = _mtlObjRaw.NodeName
+
+    CLS_grh_port_set = _mtlObjSet.PortSet
+
+    CLS_mtl_child_set = _mtlObjSet.GeometrySet
+    CLS_mtl_material_set = _mtlObjSet.MaterialSet
+
+    VAR_mtl_value_class_dict = DEF_mtl_value_cls_dict
+
+    VAR_mtl_port_class_dict = {
+        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_property: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_visibility: _mtlObjPort.Input,
+        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.Output,
+        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.InputChannel,
+        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.OutputChannel
+    }
+
+    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
+    OBJ_mtl_obj_cache = _mtlObjCache.OBJ_mtl_obj_cache
+
+    VAR_mtl_file_element_key = u'geometry'
+    VAR_mtl_file_attribute_attach_key = u'geom'
+
+    def __init__(self, *args):
+        self._initAbcMtlGeometry(*args)
 
 
 class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
@@ -81,106 +112,50 @@ class NodeGraph(mtlObjCore.Abc_MtlNodeGraph):
     CLS_mtl_node_graph_output = _mtlObjPort.NodeGraphOutput
 
     VAR_mtl_file_element_key = u'nodegraph'
-    VAR_mtl_file_attribute_key = u'nodegraph'
+    VAR_mtl_file_attribute_attach_key = u'nodegraph'
 
     def __init__(self, *args):
         self._initAbcMtlNodeGraph(*args)
 
 
-class Shader(mtlObjCore.Abc_MtlShader):
-    CLS_mtl_type = _mtlObjRaw.TypeString
-    CLS_mtl_category = _mtlObjRaw.ShaderCategoryString
-    CLS_mtl_node_string = _mtlObjRaw.NodeName
-
-    CLS_mtl_port_set = _mtlObjSet.PortSet
-
-    CLS_mtl_source_node = Node
+class ShaderProxy(mtlObjCore.Abc_MtlShaderProxy):
+    CLS_mtl_name = _mtlObjRaw.NameString
+    CLS_mtl_node = Node
 
     CLS_mtl_node_graph_set = _mtlObjSet.NodeGraphSet
     CLS_mtl_node_graph = NodeGraph
 
-    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
-    OBJ_mtl_obj_cache = _mtlObjCache.OBJ_mtl_obj_cache
-
-    VAR_mtl_value_class_dict = DEF_mtl_value_cls_dict
-    VAR_mtl_port_class_dict = {
-        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.ShaderInput,
-        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.ShaderOutput,
-        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.ShaderInputChannel,
-        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.ShaderOutputChannel
-    }
+    CLS_mtl_port_proxy_set = _mtlObjSet.PortSet
+    CLS_mtl_port_proxy = _mtlObjPort.BindInput
 
     VAR_mtl_file_element_key = u'shaderref'
 
     def __init__(self, *args):
-        """
-        :param args: str(shader_category), str(shader_name)
-        """
-        self._initAbcMtlShader(*args)
+        self._initAbcMtlShaderProxy(*args)
 
 
-class Material(mtlObjCore.Abc_MtlMaterial):
-    CLS_mtl_type = _mtlObjRaw.TypeString
-    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
-    CLS_mtl_node_string = _mtlObjRaw.Raw_MaterialDagpath
-
-    CLS_mtl_port_set = _mtlObjSet.PortSet
-
-    CLS_mtl_source_node = Shader
-
-    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
-    OBJ_mtl_obj_cache = _mtlObjCache.OBJ_mtl_obj_cache
-
-    VAR_mtl_value_class_dict = DEF_mtl_value_cls_dict
-    VAR_mtl_port_class_dict = {
-        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.MaterialInput,
-        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.MaterialOutput,
-        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.NodeInputChannel,
-        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.NodeOutputChannel
-    }
+class MaterialProxy(mtlObjCore.Abc_MtlMaterialProxy):
+    CLS_mtl_name = _mtlObjRaw.NameString
+    CLS_mtl_node = Node
 
     VAR_mtl_file_element_key = u'material'
-    VAR_mtl_file_attribute_key = u'material'
+    VAR_mtl_file_attribute_attach_key = u'material'
 
     def __init__(self, *args):
-        """
-        :param args: str(shader set name)
-            * 1.maya: shading engine name
-        """
-        self._initAbcMtlMaterial(*args)
+        self._initAbcMtlMaterialProxy(*args)
 
 
-class Geometry(mtlObjCore.Abc_MtlGeometry):
-    CLS_mtl_type = _mtlObjRaw.TypeString
-    CLS_mtl_category = _mtlObjRaw.NodeCategoryString
-    CLS_mtl_node_string = _mtlObjRaw.NodeName
+class GeometryProxy(mtlObjCore.Abc_MtlGeometryProxy):
+    CLS_mtl_name = _mtlObjRaw.NameString
+    CLS_mtl_node = Geometry
 
-    CLS_mtl_port_set = _mtlObjSet.PortSet
-
-    CLS_mtl_property_set = _mtlObjSet.PropertySet
-    CLS_mtl_visibility_set = _mtlObjSet.VisibilitySet
+    CLS_mtl_port_proxy_set = _mtlObjSet.PortSet
+    CLS_mtl_property = _mtlObjPort.Property
+    CLS_mtl_visibility = _mtlObjPort.Visibility
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
-    CLS_mtl_child_set = _mtlObjSet.GeometrySet
-    CLS_mtl_material_set = _mtlObjSet.MaterialSet
-
-    VAR_mtl_value_class_dict = DEF_mtl_value_cls_dict
-
-    VAR_mtl_port_class_dict = {
-        OBJ_mtl_config.DEF_mtl_keyword_input: _mtlObjPort.NodeInput,
-        OBJ_mtl_config.DEF_mtl_keyword_output: _mtlObjPort.NodeOutput,
-        OBJ_mtl_config.DEF_mtl_keyword_input_channel: _mtlObjPort.NodeInputChannel,
-        OBJ_mtl_config.DEF_mtl_keyword_output_channel: _mtlObjPort.NodeOutputChannel,
-        OBJ_mtl_config.DEF_mtl_keyword_property: _mtlObjPort.GeometryProperty,
-        OBJ_mtl_config.DEF_mtl_keyword_visibility: _mtlObjPort.GeometryVisibility,
-    }
-
-    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
-    OBJ_mtl_obj_cache = _mtlObjCache.OBJ_mtl_obj_cache
-
-    VAR_mtl_file_element_key = u'geom'
-    VAR_mtl_file_attribute_key = u'geom'
+    VAR_mtl_file_element_key = u'geometry'
 
     def __init__(self, *args):
-        self._initAbcMtlGeometry(*args)
+        self._initAbcMtlGeometryProxy(*args)

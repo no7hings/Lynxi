@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxMaBasic import maBscMtdCore
+from LxMaBasic import myaBscMtdCore
 
 
-class Frame(maBscMtdCore.Mtd_MaBasic):
+class Frame(myaBscMtdCore.Mtd_MaBasic):
     @classmethod
     def setCurrentFrame(cls, frame):
         cls.MOD_maya_cmds.currentTime(frame)

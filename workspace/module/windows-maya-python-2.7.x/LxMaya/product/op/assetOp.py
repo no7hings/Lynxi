@@ -40,20 +40,20 @@ def setRootDefaultShaderCmd(rootString):
 
 
 # Assign Default Shaders
-def setObjectDefaultShaderCmd(objectStrings):
+def setObjectDefaultShaderCmd(nodepathStrings):
     logWin_ = bscObjects.LogWindow()
 
     logWin_.addStartProgress(u'''Assign Initial - Shader''')
-    for objectString in objectStrings:
-        cmds.sets(objectString, forceElement='initialShadingGroup')
-        cmds.sets(maUtils._getNodeShapeNodeString(objectString), forceElement='initialShadingGroup')
-        logWin_.addResult(maUtils._nodeString2nodename_(objectString), 'initialShadingGroup')
+    for nodepathString in nodepathStrings:
+        cmds.sets(nodepathString, forceElement='initialShadingGroup')
+        cmds.sets(maUtils._getNodeShapeNodeString(nodepathString), forceElement='initialShadingGroup')
+        logWin_.addResult(maUtils._nodeString2nodename_(nodepathString), 'initialShadingGroup')
     logWin_.addCompleteProgress()
 
 
 #
-def setObjectTransparentRefresh(objectStrings):
-    for objectPath in objectStrings:
+def setObjectTransparentRefresh(nodepathStrings):
+    for objectPath in nodepathStrings:
         #
         attrDatum = maUtils.getAttrDatum(objectPath, 'primaryVisibility')
         maUtils.setAttrBooleanDatumForce(
@@ -67,20 +67,20 @@ def setObjectTransparentRefresh(objectStrings):
 
 
 # Clean Object's Unused Shape
-def setObjectUnusedShapeClear(objectStrings):
+def setObjectUnusedShapeClear(nodepathStrings):
     explain = u'''Clean Unused - Shape'''
     bscMethods.PyMessage.trace(explain)
     errorObjects = []
     # Get Error Objects
-    for objectString in objectStrings:
-        shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+    for nodepathString in nodepathStrings:
+        shapes = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=0, fullPath=1)
         if len(shapes) > 1:
-            errorObjects.append(objectString)
+            errorObjects.append(nodepathString)
     # Clean Error Objects's Shape
     if errorObjects:
-        for objectString in errorObjects:
-            shapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=0, fullPath=1)
-            usedShapes = cmds.listRelatives(objectString, children=1, shapes=1, noIntermediate=1, fullPath=1)
+        for nodepathString in errorObjects:
+            shapes = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=0, fullPath=1)
+            usedShapes = cmds.listRelatives(nodepathString, children=1, shapes=1, noIntermediate=1, fullPath=1)
             unusedShapes = [i for i in shapes if i and i not in usedShapes]
             if unusedShapes:
                 for shape in unusedShapes:
@@ -94,25 +94,25 @@ def setUnusedShaderClear():
 
 
 # Unlock and Soft Normal
-def setMeshVertexNormalUnlockCmd(objectStrings):
+def setMeshVertexNormalUnlockCmd(nodepathStrings):
     explain = '''Unlock Mesh's Vertex Normal'''
-    if objectStrings:
-        maxValue = len(objectStrings)
+    if nodepathStrings:
+        maxValue = len(nodepathStrings)
         progressBar = bscObjects.ProgressWindow(explain, maxValue)
-        for objectString in objectStrings:
+        for nodepathString in nodepathStrings:
             progressBar.update()
-            maGeom.setMeshVertexNormalUnlock(objectString)
+            maGeom.setMeshVertexNormalUnlock(nodepathString)
 
 
 # Unlock and Soft Normal
-def setMeshesSmoothNormal(objectStrings):
+def setMeshesSmoothNormal(nodepathStrings):
     explain = '''Soft ( Smooth ) Mesh's Edge'''
-    if objectStrings:
-        maxValue = len(objectStrings)
+    if nodepathStrings:
+        maxValue = len(nodepathStrings)
         progressBar = bscObjects.ProgressWindow(explain, maxValue)
-        for objectString in objectStrings:
+        for nodepathString in nodepathStrings:
             progressBar.update()
-            maGeom.setMeshEdgeSmooth(objectString, True)
+            maGeom.setMeshEdgeSmooth(nodepathString, True)
 
 
 # Clean Unknown Nde_Node
@@ -179,24 +179,24 @@ def setCleanReferenceNode():
 
 
 # Link Component Main Object Group Step01
-def linkComponentMainObjectGroupStep01(objectString, inData):
+def linkComponentMainObjectGroupStep01(nodepathString, inData):
     logWin_ = bscObjects.LogWindow()
     
     dic = collections.OrderedDict()
     for data in inData:
         for componentObjectData, shadingEngine in data.items():
             # Link Component Object Group
-            componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
+            componentObject = '%s.%s' % (nodepathString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
                 logWin_.addResult(componentObject, shadingEngine)
             else:
                 logWin_.addError(shadingEngine, u'Non - Exist')
-    linkComponentSubObjectGroup(objectString, dic)
+    linkComponentSubObjectGroup(nodepathString, dic)
 
 
 # Link Component Main Object Group Step 02
-def linkComponentMainObjectGroupStep02(objectString, inData):
+def linkComponentMainObjectGroupStep02(nodepathString, inData):
     logWin_ = bscObjects.LogWindow()
     
     dic = collections.OrderedDict()
@@ -204,40 +204,40 @@ def linkComponentMainObjectGroupStep02(objectString, inData):
         # Link Object Group
         for componentObjectData, shadingEngine in inData[0].items():
             if cmds.objExists(shadingEngine):
-                cmds.sets(objectString, forceElement=shadingEngine)
-                logWin_.addResult(objectString, shadingEngine)
+                cmds.sets(nodepathString, forceElement=shadingEngine)
+                logWin_.addResult(nodepathString, shadingEngine)
             else:
                 logWin_.addError(shadingEngine, u'Non - Exists')
         # Link Component Object Group
         for componentObjectData, shadingEngine in data.items():
-            componentObject = '%s.%s' % (objectString, (componentObjectData.split('.')[-1]))
+            componentObject = '%s.%s' % (nodepathString, (componentObjectData.split('.')[-1]))
             if cmds.objExists(shadingEngine):
                 dic.setdefault(shadingEngine, []).append(componentObject)
                 logWin_.addResult(componentObject, shadingEngine)
             else:
                 logWin_.addError(shadingEngine, u'Non - Exists')
-    linkComponentSubObjectGroup(objectString, dic)
+    linkComponentSubObjectGroup(nodepathString, dic)
 
 
 # Link Loop
-def linkComponentSubObjectGroup(objectString, data):
+def linkComponentSubObjectGroup(nodepathString, data):
     if data:
-        for shadingEngine, objectStrings in data.items():
-            cmds.sets(objectStrings, forceElement=shadingEngine)
-        for shadingEngine, objectStrings in data.items():
+        for shadingEngine, nodepathStrings in data.items():
+            cmds.sets(nodepathStrings, forceElement=shadingEngine)
+        for shadingEngine, nodepathStrings in data.items():
             linkData = cmds.sets(shadingEngine, query=1)
             linkObjects = []
             if linkData:
                 linkObjects = [
                     i for i in linkData
                     if '.f[' in i
-                    if i.startswith(objectString + '.')]
+                    if i.startswith(nodepathString + '.')]
             elif not linkData:
                 return True
-            elif linkObjects == objectStrings:
+            elif linkObjects == nodepathStrings:
                 return True
-            elif linkObjects != objectStrings:
-                linkComponentSubObjectGroup(objectString, data)
+            elif linkObjects != nodepathStrings:
+                linkComponentSubObjectGroup(nodepathString, data)
 
 
 # Get Arnold

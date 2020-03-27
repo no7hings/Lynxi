@@ -221,39 +221,39 @@ class MaNodeString(bscMtdCore.Mtd_BscPath):
         return cls.VAR_bsc_node_separator
 
     @classmethod
-    def namespace(cls, nodeString):
+    def namespace(cls, nodepathString):
         return cls._nodeString2namespace(
-            nodeString,
+            nodepathString,
             nodesep=cls.VAR_bsc_node_separator,
             namespacesep=cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
-    def nodename(cls, nodeString):
-        return cls._nodeString2nodename(
-            nodeString,
+    def nodename(cls, nodepathString):
+        return cls._nodepathString2nodenameString(
+            nodepathString,
             nodesep=cls.VAR_bsc_node_separator,
             namespacesep=cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
-    def nodenameWithNamespace(cls, nodeString):
+    def nodenameWithNamespace(cls, nodepathString):
         return cls._nodeString2nodenameWithNamespace(
-            nodeString,
+            nodepathString,
             nodesep=cls.VAR_bsc_node_separator
         )
 
     @classmethod
-    def namespaceTreeViewBuildDic(cls, nodeString):
+    def namespaceTreeViewBuildDic(cls, nodepathString):
         return cls._getDagpathRemapDict(
-            cls._toDagpathRemapList(nodeString, cls.VAR_bsc_namespace_separator),
+            cls._toDagpathRemapList(nodepathString, cls.VAR_bsc_namespace_separator),
             cls.VAR_bsc_namespace_separator
         )
 
     @classmethod
-    def nodeTreeViewBuildDic(cls, nodeString):
+    def nodeTreeViewBuildDic(cls, nodepathString):
         return cls._getDagpathRemapDict(
-            cls._toDagpathRemapList(nodeString, cls.VAR_bsc_node_separator),
+            cls._toDagpathRemapList(nodepathString, cls.VAR_bsc_node_separator),
             cls.VAR_bsc_node_separator
         )
 
@@ -270,26 +270,26 @@ class MaAttributeString(bscMtdCore.Mtd_BscPath):
         return cls.VAR_bsc_port_separator
 
     @classmethod
-    def nodeString(cls, attributeString):
+    def nodepathString(cls, attrpathString):
         return cls._portString2nodeString(
-            attributeString,
+            attrpathString,
             portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
-    def fullpathPortname(cls, attributeString):
-        return cls._portString2fullpathPortname(
-            attributeString,
+    def portpathString(cls, attrpathString):
+        return cls._attrpathString2portpathString(
+            attrpathString,
             portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
-    def name(cls, attributeString):
+    def name(cls, attrpathString):
         return cls._portString2portname(
-            attributeString,
+            attrpathString,
             portsep=cls.VAR_bsc_port_separator
         )
 
     @classmethod
-    def composeBy(cls, nodeString, portString):
-        return cls.VAR_bsc_port_separator.join([nodeString, portString])
+    def composeBy(cls, nodepathString, portpathString):
+        return cls.VAR_bsc_port_separator.join([nodepathString, portpathString])

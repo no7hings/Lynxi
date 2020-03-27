@@ -3,10 +3,10 @@ from LxBasic import bscMethods
 
 from LxMaBasic import maBscObjects
 
-from LxMaMaterial import maMtlObjCore
+from LxMaMaterial import myaMtlObjCore
 
 
-class Asset(maMtlObjCore.Abc_MyaMtlBasic):
+class Asset(myaMtlObjCore.Abc_MyaMtlBasic):
     DEF_option_dict = {
         '-noNormals': False,
         '-ro': False,
@@ -37,7 +37,7 @@ class Asset(maMtlObjCore.Abc_MyaMtlBasic):
         ).export()
     
 
-class _Material(maMtlObjCore.Abc_MyaMtlBasic):
+class _Material(myaMtlObjCore.Abc_MyaMtlBasic):
     PropertyAttrNameDic = {
         'visibility': True,
         'sidedness': False,

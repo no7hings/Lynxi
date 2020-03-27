@@ -5,12 +5,12 @@ from LxMaBasic import maBscMethods
 
 
 class AlembicCache(object):
-    def __init__(self, fileString, groupString=None, frame=None, step=None, attributeString=None, optionDic=None, dataFormat=None):
+    def __init__(self, fileString, groupString=None, frame=None, step=None, attrpathString=None, optionDic=None, dataFormat=None):
         self._fileString = fileString
         self._groupString = groupString
         self._frame = frame
         self._step = step
-        self._attributeString = attributeString
+        self._attributeString = attrpathString
         self._optionDic = optionDic
         self._dataFormat = dataFormat
 

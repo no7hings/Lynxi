@@ -14,12 +14,12 @@ class MaAlembicCacheExport(object):
     app_animation_method = method.Mtd_MaAnimation
     app_fle_cache_method = method.Mtd_MaAbcCache
 
-    def __init__(self, fileString, groupString=None, frame=None, step=None, attributeString=None, optionDic=None, dataFormat=None):
+    def __init__(self, fileString, groupString=None, frame=None, step=None, attrpathString=None, optionDic=None, dataFormat=None):
         self._fileString = fileString
         self._groupString = groupString
         self._frame = frame
         self._step = step
-        self._attributeString = attributeString
+        self._attributeString = attrpathString
         self._optionDic = optionDic
         self._dataFormat = dataFormat
     @classmethod

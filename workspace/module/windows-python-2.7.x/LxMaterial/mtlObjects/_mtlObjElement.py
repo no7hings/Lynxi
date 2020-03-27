@@ -8,7 +8,7 @@ class Look(mtlObjCore.Abc_MtlLook):
     CLS_mtl_name = _mtlObjRaw.NameString
     CLS_mtl_assign_set = _mtlObjSet.AssignSet
 
-    CLS_mtl_visibility = _mtlObjAssign.Visibility
+    CLS_mtl_visibility = _mtlObjAssign.VisibilityAssign
     CLS_mtl_visibility_set = _mtlObjSet.VisibilitySet
 
     CLS_mtl_material_assign = _mtlObjAssign.MaterialAssign
@@ -21,7 +21,7 @@ class Look(mtlObjCore.Abc_MtlLook):
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     VAR_mtl_file_element_key = u'look'
-    VAR_mtl_file_attribute_key = u'look'
+    VAR_mtl_file_attribute_attach_key = u'look'
 
     def __init__(self, *args):
         self._initAbcMtlLook(*args)
@@ -36,7 +36,7 @@ class Collection(mtlObjCore.Abc_MtlCollection):
     DEF_geometry_separator = u','
 
     VAR_mtl_file_element_key = u'collection'
-    VAR_mtl_file_attribute_key = u'collection'
+    VAR_mtl_file_attribute_attach_key = u'collection'
 
     def __init__(self, *args):
         self._initAbcMtlCollection(*args)

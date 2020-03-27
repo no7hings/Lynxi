@@ -74,28 +74,28 @@ class Resource(shmConfigure.Utility):
 
         self.resource_system_dict = {
             # Bin
-            'windows-python': {
+            'windows-python_0': {
                 self.Key_Category: self.Category_Plf_Language,
                 self.DEF_key_name: 'python',
                 self.Key_System: [
                     'windows', 'share'
                 ]
             },
-            'windows-kmplayer': {
+            'windows-kmplayer_0': {
                 self.Key_Category: self.Category_Plf_Application,
                 self.DEF_key_name: 'KMPlayer',
                 self.Key_System: [
                     'windows', 'share'
                 ]
             },
-            'windows-pdplayer64': {
+            'windows-pdplayer64_0': {
                 self.Key_Category: self.Category_Plf_Application,
                 self.DEF_key_name: 'pdplayer64',
                 self.Key_System: [
                     'windows', 'share'
                 ]
             },
-            'windows-sublime_text': {
+            'windows-sublime_text_0': {
                 self.Key_Category: self.Category_Plf_Application,
                 self.DEF_key_name: 'sublime_text',
                 self.Key_System: [
@@ -217,6 +217,13 @@ class Resource(shmConfigure.Utility):
                     'windows', 'share', 'python', '2.7.x'
                 ]
             },
+            'lx-graphic_0': {
+                self.Key_Category: self.Category_Plf_Lan_Module,
+                self.DEF_key_name: 'LxGraphic',
+                self.Key_System: [
+                    'windows', 'share', 'python', '2.7.x'
+                ]
+            },
             'lx-app_0': {
                 self.Key_Category: self.Category_Plf_Lan_Module,
                 self.DEF_key_name: 'LxApp',
@@ -327,19 +334,19 @@ class Resource(shmConfigure.Utility):
         }
         self.resource_version_dict = {
             # Bin
-            'windows-python': {
+            'windows-python_0': {
                 self.Key_Record: ['2.7.13'],
                 self.Key_Active: '2.7.13'
             },
-            'windows-kmplayer': {
+            'windows-kmplayer_0': {
                 self.Key_Record: ['4.0.8.1'],
                 self.Key_Active: '4.0.8.1'
             },
-            'windows-pdplayer64': {
+            'windows-pdplayer64_0': {
                 self.Key_Record: ['1.0.7.13'],
                 self.Key_Active: '1.0.7.13'
             },
-            'windows-sublime_text': {
+            'windows-sublime_text_0': {
                 self.Key_Record: ['1.0.0.1'],
                 self.Key_Active: '1.0.0.1'
             },
@@ -396,25 +403,25 @@ class Resource(shmConfigure.Utility):
         }
         self.resource_environ_dict = {
             # Bin
-            'windows-python': {
+            'windows-python_0': {
                 'PATH': {
                     self.Key_Value: u'{self.sourcepath}/bin',
                     self.Key_Operate: u'+'
                 }
             },
-            'windows-kmplayer': {
+            'windows-kmplayer_0': {
                 'PATH': {
                     self.Key_Value: u'{self.sourcepath}/bin',
                     self.Key_Operate: u'+'
                 }
             },
-            'windows-pdplayer64': {
+            'windows-pdplayer64_0': {
                 'PATH': {
                     self.Key_Value: u'{self.sourcepath}/bin',
                     self.Key_Operate: u'+'
                 }
             },
-            'windows-sublime_text': {
+            'windows-sublime_text_0': {
                 'PATH': {
                     self.Key_Value: u'{self.sourcepath}/bin',
                     self.Key_Operate: u'+'
@@ -484,6 +491,10 @@ class Resource(shmConfigure.Utility):
                         u'lxConvertNode',
                         u'lxProductNode'
                     ],
+                    self.Key_Operate: u'+'
+                },
+                'PYTHONPATH': {
+                    self.Key_Value: u'{self.sourcepath}/scripts',
                     self.Key_Operate: u'+'
                 },
                 'MAYA_PLUG_IN_PATH': {
@@ -682,6 +693,11 @@ class Resource(shmConfigure.Utility):
                     self.Key_System: self.Keyword_System_Active
                 },
                 'LxBasic': {
+                    self.Key_Category: self.Category_Plf_Lan_Module,
+                    self.Key_Version: self.Keyword_Version_Active,
+                    self.Key_System: self.Keyword_System_Active
+                },
+                'LxGraphic': {
                     self.Key_Category: self.Category_Plf_Lan_Module,
                     self.Key_Version: self.Keyword_Version_Active,
                     self.Key_System: self.Keyword_System_Active
@@ -942,7 +958,7 @@ class Resource(shmConfigure.Utility):
     def createDefConfigCaches(self):
         if self.resources():
             for i in self.resources():
-                i.createServerCache()
+                i.createServerConfigFile()
 
     def createDefDevelopDirectories(self):
         if self.resources():

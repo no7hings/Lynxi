@@ -27,7 +27,7 @@ def removeMayaWindow(window):
 
 
 # Make Snapshot
-def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, height=720, useDefaultView=1, overrideColor=None):
+def makeSnapshot(nodepathString, osImageFile, useDefaultMaterial=1, width=720, height=720, useDefaultView=1, overrideColor=None):
     temporaryFile = bscMethods.OsFile.temporaryName(osImageFile)
     tempPrv = os.path.splitext(temporaryFile)[0]
     #
@@ -100,7 +100,7 @@ def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, hei
         pluginObjects=['gpuCacheDisplayFilter', 1],
         displayAppearance='smoothShaded')
     #
-    cmds.select(objectString)
+    cmds.select(nodepathString)
     cmds.isolateSelect(snapView, state=1)
     #
     if useDefaultView:
@@ -149,9 +149,9 @@ def makeSnapshot(objectString, osImageFile, useDefaultMaterial=1, width=720, hei
 
 
 #
-def fbxExport(objectStrings, fileString):
-    objectStrings = bscMethods.String.toList(objectStrings)
-    maUtils.setNodeSelect(objectStrings)
+def fbxExport(nodepathStrings, fileString):
+    nodepathStrings = bscMethods.String.toList(nodepathStrings)
+    maUtils.setNodeSelect(nodepathStrings)
     #
     temporaryFile = bscMethods.OsFile.temporaryName(fileString)
     #
@@ -171,7 +171,7 @@ def fbxExport(objectStrings, fileString):
 
 
 #
-def abcExport(objectString, fileString, startFrame, endFrame, step, attrs=None):
+def abcExport(nodepathString, fileString, startFrame, endFrame, step, attrs=None):
     def getOptionArg():
         return '-worldSpace -writeVisibility -dataFormat ogawa'
     #
@@ -186,11 +186,11 @@ def abcExport(objectString, fileString, startFrame, endFrame, step, attrs=None):
         #
         lis = []
         #
-        if isinstance(objectString, str) or isinstance(objectString, unicode):
-            if maUtils._isAppExist(objectString):
-                lis = [objectString]
-        elif isinstance(objectString, tuple) or isinstance(objectString, list):
-            for i in objectString:
+        if isinstance(nodepathString, str) or isinstance(nodepathString, unicode):
+            if maUtils._isAppExist(nodepathString):
+                lis = [nodepathString]
+        elif isinstance(nodepathString, tuple) or isinstance(nodepathString, list):
+            for i in nodepathString:
                 if maUtils._isAppExist(i):
                     lis.append(i)
         #
@@ -241,15 +241,15 @@ def abcExport(objectString, fileString, startFrame, endFrame, step, attrs=None):
 
 
 #
-def gpuExport(objectString, fileString, startFrame, endFrame, withMaterial=0):
+def gpuExport(nodepathString, fileString, startFrame, endFrame, withMaterial=0):
     cmds.loadPlugin('gpuCache', quiet=1)
-    if cmds.objExists(objectString):
+    if cmds.objExists(nodepathString):
         temporaryFile = bscMethods.OsFile.temporaryName(fileString)
         #
         path = os.path.dirname(temporaryFile)
         fileName = os.path.splitext(os.path.basename(temporaryFile))[0]
         cmds.gpuCache(
-            objectString,
+            nodepathString,
             startTime=startFrame, endTime=endFrame,
             optimize=1, optimizationThreshold=40000,
             writeMaterials=withMaterial, dataFormat='ogawa',
@@ -261,7 +261,7 @@ def gpuExport(objectString, fileString, startFrame, endFrame, withMaterial=0):
 
 
 #
-def gpuSeqExport(objectString, startFrame, endFrame, fileString, withMaterial=0):
+def gpuSeqExport(nodepathString, startFrame, endFrame, fileString, withMaterial=0):
     frameRange = range(startFrame, endFrame + 1)
     sequenceRange = range(endFrame - startFrame + 1)
     # View Progress
@@ -273,7 +273,7 @@ def gpuSeqExport(objectString, startFrame, endFrame, fileString, withMaterial=0)
         progressBar.update()
         currentFrame = frameRange[seq]
         subGpu = ('_' + str(seq + 1).zfill(4)).join(os.path.splitext(fileString))
-        gpuExport(objectString, subGpu, currentFrame, currentFrame, withMaterial)
+        gpuExport(nodepathString, subGpu, currentFrame, currentFrame, withMaterial)
 
 
 #
@@ -287,19 +287,19 @@ def gpuImport(fileString, transformName):
 
 
 #
-def abcConnect(cache, objectString):
+def abcConnect(cache, nodepathString):
     cmds.loadPlugin('AbcImport', quiet=1)
     cmds.AbcImport(
         cache,
-        connect=objectString)
+        connect=nodepathString)
 
 
 #
-def animExport(fileString, objectString=none, mode=0):
+def animExport(fileString, nodepathString=none, mode=0):
     cmds.loadPlugin('animImportExport', quiet=1)
     bscMethods.OsFile.createDirectory(fileString)
-    if objectString:
-        cmds.select(objectString)
+    if nodepathString:
+        cmds.select(nodepathString)
     options = \
         "precision=8;" \
         "intValue=17;" \
@@ -338,10 +338,10 @@ def animExport(fileString, objectString=none, mode=0):
 
 
 #
-def animImport(fileString, objectString=none, namespace=':'):
+def animImport(fileString, nodepathString=none, namespace=':'):
     cmds.loadPlugin('animImportExport', quiet=1)
-    if objectString:
-        cmds.select(objectString)
+    if nodepathString:
+        cmds.select(nodepathString)
     animFile = fileString + '.anim'
     if os.path.isfile(animFile):
         command = '''file -import -type "animImport"  -ignoreVersion -ra true -mergeNamespacesOnClash true -namespace "%s" -options ";targetTime=4;copies=1;option=replace;pictures=0;connect=0;"  -pr "%s";''' \

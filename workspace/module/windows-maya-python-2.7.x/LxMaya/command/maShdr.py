@@ -43,12 +43,12 @@ def materialNodeTypeConfig():
 
 
 #
-def _getNodeShadingEngineNodeStringList(objectString):
+def _getNodeShadingEngineNodeStringList(nodepathString):
     lis = []
     #
-    shapePath = maUtils._getNodeShapeNodeString(objectString, 1)
+    shapePath = maUtils._getNodeShapeNodeString(nodepathString, 1)
     if not shapePath:
-        shapePath = objectString
+        shapePath = nodepathString
     #
     outputNodes = maUtils._getNodeTargetNodeStringList(shapePath, appCfg.DEF_mya_type_shading_engine)
     if outputNodes:
@@ -60,18 +60,18 @@ def _getNodeShadingEngineNodeStringList(objectString):
 def getObjectsShadingEngineLis(objectLis):
     lis = []
     if objectLis:
-        for objectString in objectLis:
-            shadingEngineLis = _getNodeShadingEngineNodeStringList(objectString)
+        for nodepathString in objectLis:
+            shadingEngineLis = _getNodeShadingEngineNodeStringList(nodepathString)
             if shadingEngineLis:
                 [lis.append(i) for i in shadingEngineLis if i not in lis]
     return lis
 
 
 #
-def getObjectMaterials(objectString):
+def getObjectMaterials(nodepathString):
     # List [ <Material Info Nde_Node> ]
     materials = []
-    shadingEngineLis = _getNodeShadingEngineNodeStringList(objectString)
+    shadingEngineLis = _getNodeShadingEngineNodeStringList(nodepathString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
             inputNodes = maUtils._getNodeTargetNodeStringList(shadingEngine, 'materialInfo')
@@ -87,8 +87,8 @@ def getObjectsMaterials(objectLis):
     # List [ <Shading Engine Nde_Node> ]
     materials = []
     if objectLis:
-        for objectString in objectLis:
-            subMaterials = getObjectMaterials(objectString)
+        for nodepathString in objectLis:
+            subMaterials = getObjectMaterials(nodepathString)
             for material in subMaterials:
                 if not material in materials:
                     materials.append(material)
@@ -152,10 +152,10 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
         explain = u'''Get Object's Material Rename Data'''
         maxValue = len(objectLis)
         progressBar = bscObjects.ProgressWindow(explain, maxValue)
-        for objSeq, objectString in enumerate(objectLis):
+        for objSeq, nodepathString in enumerate(objectLis):
             progressBar.update()
-            objectType = maUtils._getNodeShapeCategoryString(objectString)
-            materials = getObjectMaterials(objectString)
+            objectType = maUtils._getNodeShapeCategoryString(nodepathString)
+            materials = getObjectMaterials(nodepathString)
             index = 0
             if materials:
                 for matlSeq, material in enumerate(materials):
@@ -163,7 +163,7 @@ def getObjectsMaterialNodesRenameDic(objectLis, assetName, assetVariant, assetSt
                     if nodes:
                         for nodSeq, node in enumerate(nodes):
                             seq = str(index)
-                            hierarchyName = maUtils.getAttrDatum(objectString, prsOutputs.Util.basicHierarchyAttrLabel)
+                            hierarchyName = maUtils.getAttrDatum(nodepathString, prsOutputs.Util.basicHierarchyAttrLabel)
                             if hierarchyName is None:
                                 hierarchyName = assetStage + '_' + objectType + '_' + str(objSeq)
                             nodeType = maUtils._getNodeCategoryString(node)
@@ -502,8 +502,8 @@ def getMaterialEvaluateData(objectLis):
     totalNodes = []
     totalConnections = []
     if objectLis:
-        for objectString in objectLis:
-            shadingEngineLis = _getNodeShadingEngineNodeStringList(objectString)
+        for nodepathString in objectLis:
+            shadingEngineLis = _getNodeShadingEngineNodeStringList(nodepathString)
             if shadingEngineLis:
                 for shadingEngine in shadingEngineLis:
                     if not shadingEngine in totalMaterials:
@@ -533,9 +533,9 @@ def getMaterialEvaluateData(objectLis):
 def getObjectsMaterialRelinkData(objectLis):
     shaderObjectTypes = ['mesh', 'pgYetiMaya', 'nurbsHair']
     dic = bscMtdCore.orderedDict()
-    for objectString in objectLis:
+    for nodepathString in objectLis:
         linkDatumLis = []
-        shape = maUtils._getNodeShapeNodeString(objectString, fullPath=1)
+        shape = maUtils._getNodeShapeNodeString(nodepathString, fullPath=1)
         shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
         if shadingEngineLis:
             for shadingEngine in shadingEngineLis:
@@ -544,7 +544,7 @@ def getObjectsMaterialRelinkData(objectLis):
                     elementSetFullPathData = [i for i in cmds.ls(elementSetData, leaf=1, noIntermediate=1, long=1)]
                     for data in elementSetFullPathData:
                         # Object Group
-                        if data.startswith(objectString):
+                        if data.startswith(nodepathString):
                             showType = cmds.ls(data, showType=1)[1]
                             if showType in shaderObjectTypes:
                                 linkData = none, shadingEngine
@@ -556,7 +556,7 @@ def getObjectsMaterialRelinkData(objectLis):
                                 linkData = '.' + componentObjectIndex, shadingEngine
                                 if not linkData in linkDatumLis:
                                     linkDatumLis.append(linkData)
-        dic[objectString] = linkDatumLis
+        dic[nodepathString] = linkDatumLis
     return dic
 
 
@@ -580,20 +580,20 @@ def getShadingEngineMaterialUniqueId(shadingEngine):
 #
 def getShaderObjectsObjSetDic(objectLis):
     dic = bscMtdCore.orderedDict()
-    for objectString in objectLis:
-        compIndex = maUuid._getNodeUniqueIdString(objectString)
-        linkDatumLis = getShaderObjectObjSetSub(objectString)
+    for nodepathString in objectLis:
+        compIndex = maUuid._getNodeUniqueIdString(nodepathString)
+        linkDatumLis = getShaderObjectObjSetSub(nodepathString)
         dic[compIndex] = linkDatumLis
     return dic
 
 
 #
-def getShaderObjectObjSetSub(objectString):
+def getShaderObjectObjSetSub(nodepathString):
     shaderObjectTypes = ['mesh', 'pgYetiMaya', 'nurbsHair']
     #
     lis = []
     #
-    shadingEngineLis = _getNodeShadingEngineNodeStringList(objectString)
+    shadingEngineLis = _getNodeShadingEngineNodeStringList(nodepathString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
             compMaterialIndex = getShadingEngineMaterialUniqueId(shadingEngine)
@@ -602,7 +602,7 @@ def getShaderObjectObjSetSub(objectString):
                 elementSetFullPathData = [i for i in cmds.ls(elementSetData, leaf=1, noIntermediate=1, long=1)]
                 for data in elementSetFullPathData:
                     # Object Group
-                    if data.startswith(objectString):
+                    if data.startswith(nodepathString):
                         showType = cmds.ls(data, showType=1)[1]
                         if showType in shaderObjectTypes:
                             linkData = none, compMaterialIndex
@@ -624,12 +624,12 @@ def setLinkObjectsMaterial(data, objectNamespace=none, materialNamespace=none):
         explain = u'''Link / Relink Material'''
         maxValue = len(data)
         progressBar = bscObjects.ProgressWindow(explain, maxValue)
-        for objectString, linkDatumLis in data.items():
+        for nodepathString, linkDatumLis in data.items():
             # In Progress
             progressBar.update()
             #
             usedObject = \
-                [objectString, maUtils.getObjectPathJoinNamespace(objectString, objectNamespace)][objectNamespace != none]
+                [nodepathString, maUtils.getObjectPathJoinNamespace(nodepathString, objectNamespace)][objectNamespace != none]
             #
             if linkDatumLis:
                 # Clear >>> 01
@@ -664,43 +664,43 @@ def setMaterialsObjectSetsConnect(datumDic):
 
 #
 def setMaterialObjectSetConnect(compIndex, linkDatumLis):
-    objectString = maUuid.getObject(compIndex, fullPath=1)
-    if objectString:
+    nodepathString = maUuid.getObject(compIndex, fullPath=1)
+    if nodepathString:
         # Clear >>> 01
         if linkDatumLis:
-            setObjectCleanTransformShadingEngine(objectString)
-            setObjectCleanShapeShadingEngine(objectString)
+            setObjectCleanTransformShadingEngine(nodepathString)
+            setObjectCleanShapeShadingEngine(nodepathString)
             # Link >>> 02
             isComponentLink = len(linkDatumLis) > 1
             #
             if not isComponentLink:
                 componentObjectIndex, compMaterialIndex = linkDatumLis[0]
                 shadingEngine = getMaterialShadingEngine(compMaterialIndex)
-                setObjectAssignMaterial(objectString, None, shadingEngine)
+                setObjectAssignMaterial(nodepathString, None, shadingEngine)
             #
             else:
                 for componentObjectIndex, compMaterialIndex in linkDatumLis:
                     shadingEngine = getMaterialShadingEngine(compMaterialIndex)
-                    setObjectAssignMaterial(objectString, componentObjectIndex, shadingEngine)
+                    setObjectAssignMaterial(nodepathString, componentObjectIndex, shadingEngine)
 
 
 #
-def setObjectCleanShadingEngine(objectString):
-    setObjectCleanTransformShadingEngine(objectString)
-    setObjectCleanShapeShadingEngine(objectString)
+def setObjectCleanShadingEngine(nodepathString):
+    setObjectCleanTransformShadingEngine(nodepathString)
+    setObjectCleanShapeShadingEngine(nodepathString)
 
 
 #
-def setObjectCleanShapeShadingEngine(objectString):
-    shape = maUtils._getNodeShapeNodeString(objectString)
+def setObjectCleanShapeShadingEngine(nodepathString):
+    shape = maUtils._getNodeShapeNodeString(nodepathString)
     shapeShadingEngines = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
     if shapeShadingEngines:
         [cmds.sets(shape, remove=i) for i in shapeShadingEngines]
 
 
 #
-def setObjectCleanTransformShadingEngine(objectString):
-    outputConnections = maUtils.getNodeOutputConnectionLis(objectString)
+def setObjectCleanTransformShadingEngine(nodepathString):
+    outputConnections = maUtils.getNodeOutputConnectionLis(nodepathString)
     if outputConnections:
         for sourceAttr, targetAttr in outputConnections:
             if sourceAttr.endswith('instObjGroups'):
@@ -708,8 +708,8 @@ def setObjectCleanTransformShadingEngine(objectString):
 
 
 #
-def setObjectDefaultShadingEngine(objectString):
-    shape = maUtils._getNodeShapeNodeString(objectString)
+def setObjectDefaultShadingEngine(nodepathString):
+    shape = maUtils._getNodeShapeNodeString(nodepathString)
     shadingEngineLis = maUtils._getNodeTargetNodeStringList(shape, appCfg.DEF_mya_type_shading_engine)
     if not shadingEngineLis:
         cmds.sets(shape, forceElement='initialShadingGroup')
@@ -718,16 +718,16 @@ def setObjectDefaultShadingEngine(objectString):
 #
 def setObjectsDefaultShadingEngine(componentObjectIndexes):
     for componentObjectIndex in componentObjectIndexes:
-        objectString = maUuid.getObject(componentObjectIndex)
-        setObjectDefaultShadingEngine(objectString)
+        nodepathString = maUuid.getObject(componentObjectIndex)
+        setObjectDefaultShadingEngine(nodepathString)
 
 
 #
-def setObjectAssignMaterial(objectString, componentObjectIndex, shadingEngine):
+def setObjectAssignMaterial(nodepathString, componentObjectIndex, shadingEngine):
     if componentObjectIndex is None:
-        linkObject = maUtils._getNodeShapeNodeString(objectString, 1)
+        linkObject = maUtils._getNodeShapeNodeString(nodepathString, 1)
     else:
-        linkObject = objectString + componentObjectIndex
+        linkObject = nodepathString + componentObjectIndex
     #
     if maUtils._isAppExist(linkObject):
         if maUtils._isAppExist(shadingEngine):
@@ -920,9 +920,9 @@ def getObjectsAttrData(objectLis):
     dic = bscMtdCore.orderedDict()
     #
     if objectLis:
-        for objectString in objectLis:
-            objectShape = maUtils._getNodeShapeNodeString(objectString)
-            uniqueId = maUuid._getNodeUniqueIdString(objectString)
+        for nodepathString in objectLis:
+            objectShape = maUtils._getNodeShapeNodeString(nodepathString)
+            uniqueId = maUuid._getNodeUniqueIdString(nodepathString)
             renderAttrData = maAttr.getNodeRenderAttrData(objectShape)
             plugAttrData = maAttr.getNodePlugAttrData(objectShape)
             customAttrData = maAttr.getNodeUserDefAttrData(objectShape)
@@ -940,15 +940,15 @@ def setObjectsAttrsCreate(datumDic):
         for uniqueId, attrData in datumDic.items():
             progressBar.update()
             #
-            objectString = maUuid.getObject(uniqueId)
-            if objectString:
-                setObjectAttrsCreate(objectString, attrData)
+            nodepathString = maUuid.getObject(uniqueId)
+            if nodepathString:
+                setObjectAttrsCreate(nodepathString, attrData)
 
 
 #
-def setObjectAttrsCreate(objectString, attrData):
+def setObjectAttrsCreate(nodepathString, attrData):
     if attrData:
-        objectShape = maUtils._getNodeShapeNodeString(objectString, 1)
+        objectShape = maUtils._getNodeShapeNodeString(nodepathString, 1)
         renderAttrData, plugAttrData, customAttrData = attrData
         if renderAttrData:
             maAttr.setNodeDefAttrByData(objectShape, renderAttrData)
@@ -968,11 +968,11 @@ def setRefreshTextureColorSpace(textureNodes):
 
 
 #
-def setArnoldShaderCovert(objectString, texturePath):
+def setArnoldShaderCovert(nodepathString, texturePath):
     nodeTypeLis = [
         'aiStandardSurface'
     ]
-    shadingEngineLis = _getNodeShadingEngineNodeStringList(objectString)
+    shadingEngineLis = _getNodeShadingEngineNodeStringList(nodepathString)
     if shadingEngineLis:
         for shadingEngine in shadingEngineLis:
             targetAttr0 = maUtils._toNodeAttr([shadingEngine, 'surfaceShader'])

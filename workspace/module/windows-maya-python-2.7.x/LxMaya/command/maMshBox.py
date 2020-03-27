@@ -16,8 +16,8 @@ def getBBoxMPointArray(m2BoundingBox):
 
 
 #
-def getBBox(objectString):
-    MObject = maGeom.toM2DagNode(objectString)
+def getBBox(nodepathString):
+    MObject = maGeom.toM2DagNode(nodepathString)
     m2BoundingBox = MObject.boundingBox
     bBoxMPointArray = getBBoxMPointArray(m2BoundingBox)
     return maGeom.getPointArray(bBoxMPointArray)
@@ -247,7 +247,7 @@ def setMeshesBox(sourceGroup, targetGroup=none, existsOnly=True):
 
 
 #
-def getObjectBBoxInfo(objectString, roundLimit=6):
-    bBox = getBBox(objectString)
+def getObjectBBoxInfo(nodepathString, roundLimit=6):
+    bBox = getBBox(nodepathString)
     infoData = [j for i in bBox for j in i]
     return maInfo.getFloatHashKey(infoData, roundLimit)

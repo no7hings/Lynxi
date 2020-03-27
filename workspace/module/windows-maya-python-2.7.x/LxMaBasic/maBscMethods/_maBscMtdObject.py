@@ -1,28 +1,28 @@
 # coding:utf-8
-from LxMaBasic import maBscMtdCore
+from LxMaBasic import myaBscMtdCore
 
 
-class Node(maBscMtdCore.Mtd_MaBasic):
+class Node(myaBscMtdCore.Mtd_MaBasic):
     @classmethod
-    def isExist(cls, nodeString):
-        return maBscMtdCore.Mtd_MaObject._isAppExist(nodeString)
-
-    @classmethod
-    def category(cls, nodeString):
-        return maBscMtdCore.Mtd_MaObject._getNodeCategoryString(nodeString)
+    def isExist(cls, nodepathString):
+        return myaBscMtdCore.Mtd_MaObject._isAppExist(nodepathString)
 
     @classmethod
-    def isDag(cls, nodeString):
-        return maBscMtdCore.Mtd_MaObject._isNodeDag(nodeString)
+    def category(cls, nodepathString):
+        return myaBscMtdCore.Mtd_MaObject._getNodeCategoryString(nodepathString)
 
     @classmethod
-    def toFullpathName(cls, nodeString):
-        return maBscMtdCore.Mtd_MaObject._getNodeFullpathNameString(nodeString)
+    def isDag(cls, nodepathString):
+        return myaBscMtdCore.Mtd_MaObject._isNodeDag(nodepathString)
 
     @classmethod
-    def transformName(cls, nodeString, fullpath=False):
-        return maBscMtdCore.Mtd_MaObject._getNodeTransformNodeString(nodeString, fullpath)
+    def toFullpathName(cls, nodepathString):
+        return myaBscMtdCore.Mtd_MaObject._getNodeFullpathNameString(nodepathString)
 
     @classmethod
-    def shapeName(cls, nodeString, fullpath=False):
-        return maBscMtdCore.Mtd_MaObject._getNodeShapeNodeString(nodeString, fullpath)
+    def transformName(cls, nodepathString, fullpath=False):
+        return myaBscMtdCore.Mtd_MaObject._getNodeTransformNodeString(nodepathString, fullpath)
+
+    @classmethod
+    def shapeName(cls, nodepathString, fullpath=False):
+        return myaBscMtdCore.Mtd_MaObject._getNodeShapeNodeString(nodepathString, fullpath)

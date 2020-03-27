@@ -1,0 +1,84 @@
+{
+    "mesh": {
+        "mtl_category": "mesh",
+        "dcc_port": {
+            "aiDispHeight": {
+                "mtl_portname": "disp_height"
+            },
+            "aiDispPadding": {
+                "mtl_portname": "disp_padding"
+            },
+            "aiDispZeroValue": {
+                "mtl_portname": "disp_zero_value"
+            },
+            "aiDispAutobump": {
+                "mtl_portname": "disp_autobump"
+            },
+            "aiAutobumpVisibility": {
+                "mtl_portname": "autobump_visibility"
+            },
+            "aiSubdivType": {
+                "mtl_portname": "subdiv_type"
+            },
+            "aiSubdivIterations": {
+                "mtl_portname": "subdiv_iterations"
+            },
+            "aiSubdivPixelError": {
+                "mtl_portname": "subdiv_adaptive_error"
+            },
+            "aiSubdivAdaptiveMetric": {
+                "mtl_portname": "subdiv_adaptive_metric"
+            },
+            "aiSubdivAdaptiveSpace": {
+                "mtl_portname": "subdiv_adaptive_space"
+            },
+            "aiSubdivUvSmoothing": {
+                "mtl_portname": "subdiv_uv_smoothing"
+            },
+            "aiSubdivFrustumIgnore": {
+                "mtl_portname": "subdiv_frustum_ignore"
+            },
+            "aiSubdivSmoothDerivs": {
+                "mtl_portname": "subdiv_smooth_derivs"
+            },
+            "primaryVisibility": {
+                "mtl_portname": "camera"
+            },
+            "castsShadows": {
+                "mtl_portname": "shadow"
+            },
+            "aiVisibleInDiffuseTransmission": {
+                "mtl_portname": "diffuse_transmit"
+            },
+            "aiVisibleInSpecularTransmission": {
+                "mtl_portname": "specular_transmit"
+            },
+            "aiVisibleInDiffuseReflection": {
+                "mtl_portname": "diffuse_reflect"
+            },
+            "aiVisibleInSpecularReflection": {
+                "mtl_portname": "specular_reflect"
+            },
+            "aiVisibleInVolume": {
+                "mtl_portname": "volume"
+            }
+        },
+
+        "create_expression": {
+            "command":
+            [
+                "mtl_port_0 = self.mtlNode().port('subdiv_iterations')",
+                "dcc_port_0 = self.dccNode().port('aiSubdivIterations')",
+                "condition_0 = self.mtlNode().port('subdiv_type').isValueChanged()",
+                "portdata_0 = dcc_port_0.portdata() if condition_0 is True else 0",
+                "mtl_port_0.setPortdata(portdata_0)",
+
+                "mtl_port_1 = self.mtlNode().port('autobump_visibility')",
+                "dcc_port_1 = self.dccNode().port('aiAutobumpVisibility')",
+                "condition_1 = self.mtlNode().port('disp_autobump').isValueChanged()",
+                "portdata_1 = dcc_port_1.portdata() if condition_1 is True else 1",
+                "mtl_port_1.setPortdata(portdata_1)"
+            ]
+        }
+    }
+}

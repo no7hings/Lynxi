@@ -1,4 +1,18 @@
 {
+    "color2": [
+        {
+            "format": "{0}.r",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.a",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "channel"
+        }
+    ],
     "color3": [
         {
             "format": "{0}.r",
@@ -45,6 +59,20 @@
             "assign": "channel"
         }
     ],
+    "vector2": [
+        {
+            "format": "{0}.x",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.y",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "channel"
+        }
+    ],
     "vector3": [
         {
             "format": "{0}.x",
@@ -65,21 +93,27 @@
             "assign": "channel"
         }
     ],
-    "closure": [
+    "vector4": [
         {
-            "format": "{0}.r",
+            "format": "{0}.x",
             "porttype": "float",
             "portdata": "0.0",
             "assign": "channel"
         },
         {
-            "format": "{0}.g",
+            "format": "{0}.y",
             "porttype": "float",
             "portdata": "0.0",
             "assign": "channel"
         },
         {
-            "format": "{0}.b",
+            "format": "{0}.z",
+            "porttype": "float",
+            "portdata": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.w",
             "porttype": "float",
             "portdata": "0.0",
             "assign": "channel"

@@ -4,13 +4,15 @@
     <content url="file://$MODULE_DIR$/../doc">
       <excludeFolder url="file://$MODULE_DIR$/../doc" />
     </content>
-    <content url="file://$MODULE_DIR$/../plug/maya/share" />
     <content url="file://$MODULE_DIR$/../script/maya/pipeline" />
     <content url="file://$MODULE_DIR$/../setup">
       <sourceFolder url="file://$MODULE_DIR$/../setup" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../test" />
     <content url="file://$MODULE_DIR$/../tool/maya" />
+    <content url="file://$MODULE_DIR$/../workspace/module/windows-houdini-python-2.7.x">
+      <sourceFolder url="file://$MODULE_DIR$/../workspace/module/windows-houdini-python-2.7.x" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../workspace/module/windows-maya-python-2.7.x">
       <sourceFolder url="file://$MODULE_DIR$/../workspace/module/windows-maya-python-2.7.x" isTestSource="false" />
     </content>
@@ -21,8 +23,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../workspace/plug/windows-maya/lynxinode/scripts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../workspace/plug/windows-maya/lynxinode/plug-ins" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../workspace/scheme/windows-maya-python-2.7.x" />
-    <content url="file://$MODULE_DIR$/../workspace/scheme/windows-python-2.7.x" />
     <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

@@ -25,20 +25,20 @@ none = ''
 
 
 #
-def setOutAstProxy(fileString_, objectString, renderer):
+def setOutAstProxy(fileString_, nodepathString, renderer):
     bscMethods.OsFile.createDirectory(fileString_)
     # Export
-    cmds.select(objectString)
+    cmds.select(nodepathString)
     maProxy.setOutProxy(fileString_, renderer, 0)
     cmds.select(clear=1)
 
 
 #
-def setProxyCreate(objectString, box, gpu, proxy, renderer):
+def setProxyCreate(nodepathString, box, gpu, proxy, renderer):
     if renderer == 'Arnold':
-        setArnoldProxyCreate(objectString, box, gpu, proxy)
+        setArnoldProxyCreate(nodepathString, box, gpu, proxy)
     elif renderer == 'Redshift':
-        setRedshiftProxyCreate(objectString, box, gpu, proxy)
+        setRedshiftProxyCreate(nodepathString, box, gpu, proxy)
 
 
 #
@@ -58,12 +58,12 @@ def setCreateArnoldProxy(proxyObject, proxy):
 
 
 #
-def setArnoldProxyCreate(objectString, box, gpu, proxy):
+def setArnoldProxyCreate(nodepathString, box, gpu, proxy):
     def setRenderEnabled(node, enabled):
         if enabled is False:
             maAttr.setNodeUnrenderable(node)
     #
-    proxyObject = objectString + asbProxyFileLabel
+    proxyObject = nodepathString + asbProxyFileLabel
     if not cmds.objExists('ArnoldStandInDefaultLightSet'):
         cmds.createNode('objectSet', name='ArnoldStandInDefaultLightSet', shared=1)
         cmds.lightlink(object='ArnoldStandInDefaultLightSet', light='defaultLightSet')
@@ -125,12 +125,12 @@ def setArnoldProxyCreate(objectString, box, gpu, proxy):
 
 
 #
-def setRedshiftProxyCreate(objectString, box, gpu, proxy):
+def setRedshiftProxyCreate(nodepathString, box, gpu, proxy):
     def setRenderEnabled(node, enabled):
         if enabled is False:
             maAttr.setNodeUnrenderable(node)
     #
-    proxyObject = objectString + asbProxyFileLabel
+    proxyObject = nodepathString + asbProxyFileLabel
     #
     cmds.createNode('transform', name=proxyObject)
     # Switch
@@ -203,8 +203,8 @@ def getProxyAovData():
 
 
 #
-def setCreateAssemblyDefinition(objectString, box, gpu, proxy, asset, withLod=1):
-    adObject = objectString + definitionLabel
+def setCreateAssemblyDefinition(nodepathString, box, gpu, proxy, asset, withLod=1):
+    adObject = nodepathString + definitionLabel
     cmds.container(type='assemblyDefinition', name=adObject)
     # GPU
     cmds.assembly(
@@ -282,9 +282,9 @@ def randColor(colorRand, mesh=none):
 #
 def dynDso(overrideFrameRange, mode=2):
     objects = cmds.ls(type='aiStandIn')
-    for objectString in objects:
-        cmds.setAttr(objectString + '.mode', mode)
-        transform = cmds.listRelatives(objectString, parent=1, fullPath=1)[0]
+    for nodepathString in objects:
+        cmds.setAttr(nodepathString + '.mode', mode)
+        transform = cmds.listRelatives(nodepathString, parent=1, fullPath=1)[0]
         if not cmds.objExists(transform + '.overrideFrameRange'):
             cmds.addAttr(transform, ln='overrideFrameRange', at='long')
         cmds.setAttr(transform + '.overrideFrameRange', overrideFrameRange)
@@ -293,7 +293,7 @@ def dynDso(overrideFrameRange, mode=2):
         cmds.setAttr(transform + '.overrideFrameOffset', choice(range(0, 86)))
         try:
             exp = '%s.frameNumber = 1 + ((frame - %s.overrideFrameOffset)/%s.overrideFrameRange - floor((frame - %s.overrideFrameOffset)/%s.overrideFrameRange))*%s.overrideFrameRange'\
-                  % (objectString, transform, transform, transform, transform, transform)
-            cmds.expression(o=objectString, s=exp)
+                  % (nodepathString, transform, transform, transform, transform, transform)
+            cmds.expression(o=nodepathString, s=exp)
         except:
             pass

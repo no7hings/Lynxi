@@ -11,11 +11,14 @@
       <w>asbs</w>
       <w>attributeitem</w>
       <w>attributepath</w>
+      <w>attributestring</w>
+      <w>attrpath</w>
       <w>autobump</w>
       <w>basenames</w>
       <w>bindinput</w>
       <w>binname</w>
       <w>binversion</w>
+      <w>blinn</w>
       <w>brower</w>
       <w>buttontab</w>
       <w>channelname</w>
@@ -135,6 +138,8 @@
       <w>multifile</w>
       <w>myproject</w>
       <w>myworkspace</w>
+      <w>namepsacesep</w>
+      <w>namesep</w>
       <w>namespacesep</w>
       <w>nicename</w>
       <w>nodedef</w>
@@ -148,7 +153,11 @@
       <w>nonrep</w>
       <w>nurbs</w>
       <w>nurbscurve</w>
+      <w>objectsep</w>
+      <w>objname</w>
+      <w>objpath</w>
       <w>objs</w>
+      <w>objsep</w>
       <w>outliner</w>
       <w>outputport</w>
       <w>outputports</w>
@@ -158,6 +167,7 @@
       <w>packagepath</w>
       <w>packagesource</w>
       <w>packageversion</w>
+      <w>passthrough</w>
       <w>pathbasenames</w>
       <w>pathdata</w>
       <w>pathnames</w>
@@ -173,6 +183,7 @@
       <w>plugversion</w>
       <w>portdata</w>
       <w>portdef</w>
+      <w>portgiven</w>
       <w>portkey</w>
       <w>portname</w>
       <w>portpath</w>
@@ -187,6 +198,7 @@
       <w>productroot</w>
       <w>projectname</w>
       <w>propertyset</w>
+      <w>propertysetassign</w>
       <w>pyqt</w>
       <w>pyside</w>
       <w>pythonmodule</w>

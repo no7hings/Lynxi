@@ -17,11 +17,11 @@ def getUuid():
 
 
 #
-def setAttrUniqueId(objectString):
-    uniqueId = _getNodeUniqueIdString(objectString)
-    attr = objectString + '.' + assetUniqueIdLabel
+def setAttrUniqueId(nodepathString):
+    uniqueId = _getNodeUniqueIdString(nodepathString)
+    attr = nodepathString + '.' + assetUniqueIdLabel
     if not cmds.objExists(attr):
-        cmds.addAttr(objectString, longName=assetUniqueIdLabel, dataType='string')
+        cmds.addAttr(nodepathString, longName=assetUniqueIdLabel, dataType='string')
     #
     cmds.setAttr(attr, lock=0)
     cmds.setAttr(attr, uniqueId, type='string', lock=1)
@@ -29,21 +29,21 @@ def setAttrUniqueId(objectString):
 
 #
 def setAttrUniqueIds(objects):
-    for objectString in objects:
-        setAttrUniqueId(objectString)
+    for nodepathString in objects:
+        setAttrUniqueId(nodepathString)
 
 
 #
-def getAttrUniqueId(objectString):
-    attr = objectString + '.' + assetUniqueIdLabel
+def getAttrUniqueId(nodepathString):
+    attr = nodepathString + '.' + assetUniqueIdLabel
     if cmds.objExists(attr):
         return cmds.getAttr(attr)
 
 
 #
-def _getNodeUniqueIdString(objectString):
-    if cmds.objExists(objectString):
-        uniqueIds = cmds.ls(objectString, uuid=1)
+def _getNodeUniqueIdString(nodepathString):
+    if cmds.objExists(nodepathString):
+        uniqueIds = cmds.ls(nodepathString, uuid=1)
         if uniqueIds:
             return uniqueIds[0]
 
@@ -67,29 +67,29 @@ def setSelObject(uniqueId, add=False):
 
 
 #
-def setMayaUniqueId(objectString, uniqueId=none):
-    if cmds.objExists(objectString):
+def setMayaUniqueId(nodepathString, uniqueId=none):
+    if cmds.objExists(nodepathString):
         if not uniqueId:
-            uniqueId = getAttrUniqueId(objectString)
+            uniqueId = getAttrUniqueId(nodepathString)
         if uniqueId:
-            cmds.rename(objectString, uniqueId, uuid=1)
+            cmds.rename(nodepathString, uniqueId, uuid=1)
 
 
 #
-def setUniqueIdForce(objectString, uniqueId):
-    if cmds.objExists(objectString):
+def setUniqueIdForce(nodepathString, uniqueId):
+    if cmds.objExists(nodepathString):
         objectPaths = getObjects(uniqueId)
         if objectPaths:
             [cmds.rename(i, getUuid(), uuid=1) for i in objectPaths]
         #
-        cmds.rename(objectString, uniqueId, uuid=1)
+        cmds.rename(nodepathString, uniqueId, uuid=1)
 
 
 #
 def setRefreshMayaUniqueId(sourceUniqueId, targetUniqueId):
-    objectString = getObject(sourceUniqueId, fullPath=1)
-    if objectString:
-        setMayaUniqueId(objectString, targetUniqueId)
+    nodepathString = getObject(sourceUniqueId, fullPath=1)
+    if nodepathString:
+        setMayaUniqueId(nodepathString, targetUniqueId)
 
 
 #
