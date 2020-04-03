@@ -1,13 +1,11 @@
 # coding:utf-8
-from LxMaterial import mtlConfigure
+from .. import mtlConfigure, mtlObjAbs
 
-from LxMaterial import mtlObjCore
-
-from LxMaterial.mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
+from ..mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
 
 
-class MaterialAssign(mtlObjCore.Abc_MtlMaterialAssign):
-    CLS_mtl_name = _mtlObjRaw.NameString
+class MaterialAssign(mtlObjAbs.Abc_MtlMaterialAssign):
+    CLS_mtl_name = _mtlObjRaw.Name
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     DEF_geometry_separator = mtlConfigure.Utility.DEF_mtl_data_separator
@@ -21,8 +19,8 @@ class MaterialAssign(mtlObjCore.Abc_MtlMaterialAssign):
         self._initAbcMtlMaterialAssign(*args)
 
 
-class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
-    CLS_mtl_name = _mtlObjRaw.NameString
+class PropertysetAssign(mtlObjAbs.Abc_MtlPropertysetAssign):
+    CLS_mtl_name = _mtlObjRaw.Name
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
@@ -36,15 +34,15 @@ class PropertysetAssign(mtlObjCore.Abc_MtlPropertysetAssign):
         self._initAbcMtlPropertysetAssign(*args)
 
 
-class VisibilityAssign(mtlObjCore.Abc_MtlVisibilityAssign):
-    CLS_mtl_name = _mtlObjRaw.NameString
+class VisibilityAssign(mtlObjAbs.Abc_MtlVisibilityAssign):
+    CLS_mtl_name = _mtlObjRaw.Name
     CLS_grh_type = _mtlObjRaw.VistypeString
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
     CLS_set_geometry_viewer = _mtlObjSet.ViewerGeometrySet
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
 
-    OBJ_mtl_query_cache = _mtlObjCache.OBJ_mtl_query_cache
+    OBJ_grh_query_cache = _mtlObjCache.OBJ_grh_query_cache
 
     VAR_mtl_file_element_key = u'visibility'
 

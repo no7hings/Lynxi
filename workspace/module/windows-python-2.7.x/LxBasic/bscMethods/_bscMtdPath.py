@@ -262,7 +262,7 @@ class MaNodeString(bscMtdCore.Mtd_BscPath):
         return cls._setDicConvertToPathCreateDic(dic, cls.VAR_bsc_node_separator)
 
 
-class MaAttributeString(bscMtdCore.Mtd_BscPath):
+class MaAttrpath(bscMtdCore.Mtd_BscPath):
     VAR_bsc_port_separator = u'.'
 
     @classmethod

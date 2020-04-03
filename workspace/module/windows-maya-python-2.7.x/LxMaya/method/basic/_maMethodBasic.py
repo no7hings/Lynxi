@@ -94,7 +94,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNodeAttr(cls, stringLis):
-        return cls.DEF_mya_port_separator.join(stringLis)
+        return cls.DEF_mya_port_pathsep.join(stringLis)
 
     @classmethod
     def _toAppCompPathLis(cls, nodePath):
@@ -167,11 +167,11 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNodeNameByAttr(cls, attr):
-        return attr.split(cls.DEF_mya_port_separator)[0]
+        return attr.split(cls.DEF_mya_port_pathsep)[0]
 
     @classmethod
     def _toAttrName(cls, attr):
-        return cls.DEF_mya_port_separator.join(cls._nodeString2nodename_(attr).split(cls.DEF_mya_port_separator)[1:])
+        return cls.DEF_mya_port_pathsep.join(cls._nodeString2nodename_(attr).split(cls.DEF_mya_port_pathsep)[1:])
 
     @classmethod
     def _toAppExistStringList(cls, nodepathString, fullPath=True):
@@ -946,7 +946,7 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
                 #
                 if targetAttrLis:
                     for targetAttr in targetAttrLis:
-                        node = targetAttr.split(cls.DEF_mya_port_separator)[0]
+                        node = targetAttr.split(cls.DEF_mya_port_pathsep)[0]
                         lis.append(node)
         return lis
     # noinspection PyUnusedLocal
@@ -964,7 +964,7 @@ class MaConnectionMethodBasic(Mtd_AppMaya):
                 #
                 if sourceAttrLis:
                     for sourceAttr in sourceAttrLis:
-                        node = sourceAttr.split(cls.DEF_mya_port_separator)[0]
+                        node = sourceAttr.split(cls.DEF_mya_port_pathsep)[0]
                         lis.append(node)
         return lis
     @classmethod

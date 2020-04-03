@@ -1,70 +1,51 @@
 # coding:utf-8
-from LxBasic import bscObjCore
+from LxData import datObjAbs
 
-from LxGraphic.grhObjects import _grhObjRaw
+from LxData.datObjects import _datObjString
 
-from LxMaBasic import myaBscConfigure, myaBscObjCore
-
-
-class NodeName(myaBscObjCore.Abc_MyaNodeString):
-    VAR_bsc_namespace_separator = myaBscConfigure.Utility.DEF_mya_namespace_separator
-    VAR_bsc_node_separator = myaBscConfigure.Utility.DEF_mya_node_separator
-
-    def __init__(self, nodepathString):
-        self._initAbcMyaNodeString(nodepathString)
+from .. import myaBscConfigure
 
 
-class PortnameString(myaBscObjCore.Abc_MyaPortString):
-    VAR_bsc_port_separator = myaBscConfigure.Utility.DEF_mya_port_separator
+class Portpath(datObjAbs.Abs_DatPath):
+    CLS_dat_raw = unicode
 
-    def __init__(self, portpathString):
-        self._initAbcMyaPortString(portpathString)
+    CLS_dat_dirname = _datObjString.Name
+    CLS_dat_bscname = _datObjString.Name
 
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
-class NodeSet(myaBscObjCore.Abs_MyaObjSet):
-    def __init__(self, *args):
-        self._initAbsMyaObjSet(*args)
-
-
-class PortSet(myaBscObjCore.Abs_MyaObjSet):
-    def __init__(self, *args):
-        self._initAbsMyaObjSet(*args)
-
-    def _get_object_key_string_(self, obj):
-        return obj.portpathString()
-
-
-# ******************************************************************************************************************** #
-
-class Name(bscObjCore.Abs_BscName):
-    VAR_bsc_rawtype = str
+    VAR_dat_pathsep = myaBscConfigure.Utility.DEF_mya_port_pathsep
 
     def __init__(self, *args):
-        self._initAbsBscName(*args)
+        self._initAbsDatPath(*args)
 
 
-class Portpath(bscObjCore.Abs_BscObjpath):
-    CLS_bsc_raw = _grhObjRaw.Name
+class Nodename(datObjAbs.Abs_DatNodename):
+    CLS_dat_raw = unicode
 
-    VAR_bsc_pathsep = myaBscConfigure.Utility.DEF_mya_port_separator
+    CLS_dat_namespace = _datObjString.Name
+    CLS_dat_name = _datObjString.Name
 
-    def __init__(self, *args):
-        self._initAbsBscObjpath(*args)
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
-
-class Nodename(bscObjCore.Abs_BscNodename):
-    CLS_bsc_raw = _grhObjRaw.Name
-
-    VAR_bsc_namesep = u':'
+    VAR_dat_namesep = myaBscConfigure.Utility.DEF_mya_namespace_separator
 
     def __init__(self, *args):
-        self._initAbsBscNodename(*args)
+        self._initAbsDatNodename(*args)
 
 
-class Nodepath(bscObjCore.Abs_BscObjpath):
-    CLS_bsc_raw = Nodename
+class Nodepath(datObjAbs.Abs_DatPath):
+    CLS_dat_raw = unicode
 
-    VAR_bsc_pathsep = myaBscConfigure.Utility.DEF_mya_node_separator
+    CLS_dat_dirname = _datObjString.Nodename
+    CLS_dat_bscname = _datObjString.Nodename
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_dat_pathsep = myaBscConfigure.Utility.DEF_mya_node_separator
 
     def __init__(self, *args):
-        self._initAbsBscObjpath(*args)
+        self._initAbsDatPath(*args)

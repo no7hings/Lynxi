@@ -691,6 +691,29 @@ class Mtd_BscUtility(Mtd_BscBasic):
 
         cls._setOsFileCopy(temporaryName, fileString)
 
+    @classmethod
+    def _setAddMessage(cls, text):
+        print u'        |{}'.format(cls._getActivePrettifyTime())
+        print u'{}'.format(text)
+
+    @classmethod
+    def _setAddResult(cls, text):
+        cls._setAddMessage(
+            u''' result |{}'''.format(text)
+        )
+
+    @classmethod
+    def _setAddWarning(cls, text):
+        cls._setAddMessage(
+            u'''warning |{}'''.format(text)
+        )
+
+    @classmethod
+    def _setAddError(cls, text):
+        cls._setAddMessage(
+            u''' error |{}'''.format(text)
+        )
+
 
 class Mtd_BscPath(Mtd_BscUtility):
     @classmethod

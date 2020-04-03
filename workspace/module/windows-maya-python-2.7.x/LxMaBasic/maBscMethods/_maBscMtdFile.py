@@ -1,9 +1,9 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxMaBasic import myaBscMtdCore
+from .. import myaBscMtdCore
 
-from LxMaBasic.maBscMethods import _maBscMtdPlug
+from ..maBscMethods import _maBscMtdPlug
 
 
 class File(myaBscMtdCore.Mtd_MaBasic):

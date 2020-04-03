@@ -28,6 +28,10 @@ else:
         # noinspection PyUnresolvedReferences
         from PySide2.QtWidgets import *
 
+        mod_shiboken2 = bscMethods.PyLoader.reload('PySide2.shiboken2')
+        if mod_shiboken2:
+            LOAD_INDEX = 2
+
 
 #
 cgitb.enable(format='text')
@@ -129,19 +133,23 @@ none = ''
 load_dic = {
     'qtProperty': [
         ("PyQt5.QtCore", "pyqtProperty"),
+        ("PySide2.QtCore", "Property"),
         ("PySide2.QtCore", "Property")
     ],
     'qtSignal': [
         ("PyQt5.QtCore", "pyqtSignal"),
+        ("PySide2.QtCore", "Signal"),
         ("PySide2.QtCore", "Signal")
     ],
     'qtWrapinstance': [
         ("sip", "wrapinstance"),
-        ("shiboken2", "wrapInstance")
+        ("shiboken2", "wrapInstance"),
+        ("PySide2.shiboken2", "wrapInstance")
     ],
     'qtIsDeleted': [
         ("sip", "isdeleted"),
-        ("shiboken2", "isValid")
+        ("shiboken2", "isValid"),
+        ("PySide2.shiboken2", "isValid")
     ]
 }
 
@@ -315,22 +323,22 @@ def setupApp():
 # noinspection PyUnusedLocal
 def qtSignal(*args):
     module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(categoryString)
+    command = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(command)
 
 
 # noinspection PyUnusedLocal
 def qtWrapinstance(*args):
     module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(categoryString)
+    command = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(command)
 
 
 # noinspection PyUnusedLocal
 def qtIsDeleted(*args):
     module = bscMethods.PyLoader.reload(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][0])
-    categoryString = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
-    return eval(categoryString)
+    command = u'module.{}(*args)'.format(load_dic[sys._getframe().f_code.co_name][LOAD_INDEX][1])
+    return eval(command)
 
 
 # Font
@@ -482,6 +490,11 @@ class QPainterPath_(QtGui.QPainterPath):
 class QPainter_(QtGui.QPainter, uiCore.UiMtdBasic):
     def __init__(self, *args, **kwargs):
         super(QPainter_, self).__init__(*args, **kwargs)
+        #
+        parent = args[0]
+        if parent is not None:
+            if qtIsDeleted(parent) is False:
+                self.end()
         #
         self._borderColor = CLS_color(127, 127, 127, 255)
         self._backgroundColor = CLS_color(63, 63, 63, 255)
@@ -1506,7 +1519,7 @@ class QWidget__(QWidget):
     #
     def paintEvent(self, event):
         if self._drawFrame is True:
-            painter = QPainter_()
+            painter = QPainter_(self)
             # painter.begin(self)  # fix
 
             xPos = 0
@@ -2502,9 +2515,6 @@ def uiSetupShowMethod(method):
         from LxScheme import shmOutput
         shmOutput.Resource().loadActive()
         #
-        from LxCore.setup import plugSetup
-        plugSetup.setMayaPlugSetup()
-        #
         deleteMayaUi(method.__module__)
         #
         return method(*args, **kwargs)
@@ -2516,9 +2526,6 @@ def uiSetupShowMethod_(method):
     def subMethod(*args, **kwargs):
         from LxScheme import shmOutput
         shmOutput.Resource().loadActive()
-        #
-        from LxCore.setup import plugSetup
-        plugSetup.setMayaPlugSetup()
         #
         setExistsUiDelete(*args)
         #

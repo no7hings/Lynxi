@@ -92,10 +92,6 @@ class MayaApp(bscMtdCore.Mtd_BscApplication):
     DEF_name_application = 'maya'
 
     @classmethod
-    def isActive(cls):
-        return cls._isActiveApplication(cls.DEF_name_application)
-
-    @classmethod
     def fullVersion(cls):
         if cls.isActive():
             # noinspection PyUnresolvedReferences
@@ -130,6 +126,19 @@ class MayaApp(bscMtdCore.Mtd_BscApplication):
     def moduleDirectory(cls, versionString=None):
         mayaDocPath = cls.documentDirectory(versionString)
         return cls._toOsPathString([mayaDocPath, 'modules'])
+
+
+class HoudiniApp(bscMtdCore.Mtd_BscApplication):
+    DEF_name_application = 'houdini'
+
+    @classmethod
+    def _isActiveApplication(cls, applicationString):
+        data = cls.MTD_os_path.basename(cls.MOD_sys.argv[0])
+        if data.lower() == '{}.exe'.format(applicationString):
+            return True
+        elif data.lower() == applicationString:
+            return True
+        return False
 
 
 class OsTimestamp(bscMtdCore.Mtd_BscUtility):

@@ -9,7 +9,9 @@ from maya import cmds, OpenMaya, OpenMayaUI
 
 from LxBasic import bscMethods
 
-from LxMaBasic import myaBscConfigure
+from LxGraphic import grhConfigure
+
+from . import myaBscConfigure
 
 
 class Mtd_MaBasic(myaBscConfigure.Utility):
@@ -20,7 +22,6 @@ class Mtd_MaBasic(myaBscConfigure.Utility):
 
 
 class Mtd_MaUtility(Mtd_MaBasic):
-
     @classmethod
     def _getNodeFullpathNameString(cls, nodepathString):
         if not nodepathString.startswith(cls.DEF_mya_node_separator):
@@ -59,178 +60,234 @@ class Mtd_MaUtility(Mtd_MaBasic):
         return False
 
 
-class Mtd_MaObjectPort(Mtd_MaBasic):
+class Mtd_MyaNode(Mtd_MaBasic):
     DEF_mya_porttype_integer_list = [
         'long', 'short', 'byte'
     ]
+
     DEF_mya_porttype_float_list = [
         'float', 'double', 'char'
     ]
+
     # **************************************************************************************************************** #
     @classmethod
-    def _dcc_getObjectPortIsAppExist(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.objExists(
-            cls.DEF_mya_port_separator.join([nodepathString, portpathString])
-        )
+    def _dcc_getNodePortname_(cls, portpathString):
+        _ = portpathString.split(cls.DEF_mya_port_pathsep)[-1]
+        if _.endswith(u']'):
+            return _.split(u'[')[0]
+        return _
 
     @classmethod
-    def _dcc_getObjectPortIndexes(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.getAttr(
-            cls.DEF_mya_port_separator.join([nodepathString, portpathString]),
-            multiIndices=1,
-            silent=1
+    def _dcc_getNodePortnames(cls, categoryString):
+        return cls.MOD_maya_cmds.attributeInfo(
+            allAttributes=True,
+            type=categoryString
         ) or []
 
     @classmethod
-    def _dcc_getObjectPortIsReadable(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsExist(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
+            exists=1
+        )
+
+    @classmethod
+    def _dcc_getNodePortIsReadable(cls, categoryString, portpathString):
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             readable=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsWritable(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsWritable(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             writable=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsMessage(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsConnectable(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
+            connectable=1
+        )
+
+    @classmethod
+    def _dcc_getNodePortIsMessage(cls, categoryString, portpathString):
+        return cls.MOD_maya_cmds.attributeQuery(
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             message=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsColor(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsColor(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             usedAsColor=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsFilename(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsFilename(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             usedAsFilename=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsArray(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsArray(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             multi=1
         )
 
     @classmethod
-    def _dcc_getObjectPortIsEnumerate(cls, nodepathString, portpathString):
+    def _dcc_getNodePortIsEnumerate(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             enum=1
         )
 
     @classmethod
-    def _dcc_getObjectPorttype(cls, nodepathString, portpathString):
+    def _dcc_getNodePorttype(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             attributeType=1
         )
 
     @classmethod
-    def _dcc_getObjectPortHasChildren(cls, nodepathString, portpathString):
+    def _dcc_getNodePortHasChildren(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             numberOfChildren=1
         ) is not None
 
     @classmethod
-    def _dcc_getObjectPortChildren(cls, nodepathString, portpathString):
+    def _dcc_getNodePortChildren(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             listChildren=1
         ) or []
 
     @classmethod
-    def _dcc_getObjectPortHasParent(cls, nodepathString, portpathString):
+    def _dcc_getNodePortHasParent(cls, categoryString, portpathString):
         return cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             listParent=1
         ) is not None
 
     @classmethod
-    def _dcc_getObjectPortParent(cls, nodepathString, portpathString):
+    def _dcc_getNodePortParent(cls, categoryString, portpathString):
         _ = cls.MOD_maya_cmds.attributeQuery(
-            cls._mtl_getObjectPortname_(portpathString),
-            node=nodepathString,
+            cls._dcc_getNodePortname_(portpathString),
+            type=categoryString,
             listParent=1
         )
         if _:
             return _[0]
 
+    # **************************************************************************************************************** #
     @classmethod
-    def _dcc_getObjectPortnames(cls, nodepathString):
-        return cls.MOD_maya_cmds.listAttr(nodepathString) or []
+    def _dcc_getAttrpathNodepath(cls, attrpathString):
+        return bscMethods.MaAttrpath.nodepathString(attrpathString)
 
     @classmethod
-    def _dcc_toAttributeString(cls, nodepathString, portpathString):
-        return cls.DEF_mya_port_separator.join([nodepathString, portpathString])
+    def _dcc_getAttrpathPortpath(cls, attrpathString):
+        return bscMethods.MaAttrpath.portpathString(attrpathString)
 
     @classmethod
-    def _dcc_getObjectPortHasSource(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            isExactDestination=1
+    def _dcc_getNodeAttrpathString(cls, *args):
+        if len(args) > 1:
+            return cls.DEF_mya_port_pathsep.join(list(args))
+        return args[0]
+
+    @classmethod
+    def _dcc_getNodePortIsAppExist(cls, *args):
+        return cls.MOD_maya_cmds.objExists(
+            cls._dcc_getNodeAttrpathString(*args)
         )
 
     @classmethod
-    def _dcc_getObjectPortIsSource(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            isExactSource=1
-        )
-
-    @classmethod
-    def _dcc_getObjectPortSource(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            sourceFromDestination=1
-        )
-
-    @classmethod
-    def _dcc_getObjectPortHasTargets(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            isExactSource=1
-        )
-
-    @classmethod
-    def _dcc_getObjectPortIsTarget(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            isExactDestination=1
-        )
-
-    @classmethod
-    def _dcc_getObjectPortTargets(cls, nodepathString, portpathString):
-        return cls.MOD_maya_cmds.connectionInfo(
-            cls._dcc_toAttributeString(nodepathString, portpathString),
-            destinationFromSource=1
+    def _dcc_getNodePortIndexes(cls, *args):
+        return cls.MOD_maya_cmds.getAttr(
+            cls._dcc_getNodeAttrpathString(*args),
+            multiIndices=1,
+            silent=1
         ) or []
 
     @classmethod
-    def _dcc_getObjectPortDatatype(cls, nodepathString, portpathString):
+    def _dcc_toAttributeString(cls, nodepathString, portpathString):
+        return cls.DEF_mya_port_pathsep.join(
+            [nodepathString, portpathString]
+        )
+
+    @classmethod
+    def _dcc_getNodePortHasSource(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                isExactDestination=1
+            )
+        return False
+
+    @classmethod
+    def _dcc_getNodePortIsSource(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                isExactSource=1
+            )
+        return False
+
+    @classmethod
+    def _dcc_getNodePortSource(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                sourceFromDestination=1
+            )
+
+    @classmethod
+    def _dcc_getNodePortHasTargets(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                isExactSource=1
+            )
+        return False
+
+    @classmethod
+    def _dcc_getNodePortIsTarget(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                isExactDestination=1
+            )
+        return False
+
+    @classmethod
+    def _dcc_getNodePortTargets(cls, *args):
+        if cls._dcc_getNodePortIsAppExist(*args):
+            return cls.MOD_maya_cmds.connectionInfo(
+                cls._dcc_getNodeAttrpathString(*args),
+                destinationFromSource=1
+            ) or []
+        return []
+
+    @classmethod
+    def _dcc_getNodePortDatatype(cls, nodepathString, portpathString):
         return cls.MOD_maya_cmds.getAttr(
             cls._dcc_toAttributeString(nodepathString, portpathString),
             type=1,
@@ -238,35 +295,29 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
         )
 
     @classmethod
-    def _dcc_getObjectPortdata(cls, nodepathString, portpathString, asString):
+    def _dcc_getNodePortdata(cls, nodepathString, portpathString, asString):
         return cls.MOD_maya_cmds.getAttr(
             cls._dcc_toAttributeString(nodepathString, portpathString),
             asString=asString,
             silent=1
         )
+
     # **************************************************************************************************************** #
     @classmethod
-    def _mtl_getObjectPortname_(cls, portpathString):
-        _ = portpathString.split(cls.DEF_mya_port_separator)[-1]
-        if _.endswith(u']'):
-            return _.split(u'[')[0]
-        return _
-
-    @classmethod
-    def _mtl_getObjectPortkey_(cls, portpathString):
-        _ = portpathString.split(cls.DEF_mya_port_separator)
+    def _grh_getNodePortkey_(cls, portpathString):
+        _ = portpathString.split(cls.DEF_mya_port_pathsep)
         string = ''
         for seq, i in enumerate(_):
             if i.endswith(u']'):
                 i = i.split(u'[')[0]
             if seq > 0:
-                string += (cls.DEF_mya_port_separator + i)
+                string += (cls.DEF_mya_port_pathsep + i)
             else:
                 string += i
         return string
 
     @classmethod
-    def _mtl_getObjectPortPathdata_(cls, pathString):
+    def _grh_getNodePortPathdata_(cls, pathString):
         def addFnc_(item):
             if item:
                 if not item in lis:
@@ -286,97 +337,130 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
                 addFnc_(pathString_)
 
         lis = []
-        pathsep = cls.DEF_mya_port_separator
+        pathsep = cls.DEF_mya_port_pathsep
         getBranchFnc_(pathString)
         return lis
 
     @classmethod
-    def _mtl_getObjectPortChildren(cls, nodepathString, portpathString):
+    def _grh_getNodePortChildren(cls, categoryString, portpathString):
         lis = []
-        _children = cls._dcc_getObjectPortChildren(nodepathString, portpathString)
+
+        _children = cls._dcc_getNodePortChildren(categoryString, portpathString)
         if _children:
             for _i in _children:
-                _fullpathPortnameString = cls.DEF_mya_port_separator.join([portpathString, _i])
+                _fullpathPortnameString = cls.DEF_mya_port_pathsep.join([portpathString, _i])
                 lis.append(_fullpathPortnameString)
-
-        if cls._dcc_getObjectPortIsColor(nodepathString, portpathString):
+        if cls._dcc_getNodePortIsColor(categoryString, portpathString):
             if portpathString == u'outColor':
                 _alphaPortnameString = u'outAlpha'
             else:
                 _alphaPortnameString = portpathString + u'A'
-            if cls._dcc_getObjectPortIsAppExist(nodepathString, _alphaPortnameString):
+            if cls._dcc_getNodePortIsExist(categoryString, _alphaPortnameString):
                 lis.append(_alphaPortnameString)
 
         return lis
 
     @classmethod
-    def _mtl_getObjectPortSearchPortkeyStrings(cls, nodepathString, portpathString):
-        def recursionFnc_(nodeString_, portString_):
-            if cls._dcc_getObjectPortHasChildren(nodeString_, portString_):
-                _children = cls._mtl_getObjectPortChildren(nodeString_, portString_)
+    def _grh_getNodePortSearchPortkeyStrings(cls, nodepathString, portpathString):
+        def recursionFnc_(categoryString_, nodeString_, portString_):
+            if cls._dcc_getNodePortHasChildren(categoryString_, portString_):
+                _children = cls._grh_getNodePortChildren(categoryString_, portString_)
                 if _children:
                     for _i in _children:
-                        recursionFnc_(nodeString_, _i)
+                        recursionFnc_(categoryString_, nodeString_, _i)
             else:
                 lis.append(portString_)
 
         lis = []
-        recursionFnc_(nodepathString, portpathString)
+        categoryString = cls.MOD_maya_cmds.nodeType(nodepathString)
+
+        recursionFnc_(categoryString, nodepathString, portpathString)
         return lis
 
     @classmethod
-    def _mtl_getObjectPortParent(cls, nodepathString, portpathString):
-        _ = cls._dcc_getObjectPortParent(nodepathString, portpathString)
+    def _grh_getNodePortParent(cls, categoryString, portpathString):
+        _ = cls._dcc_getNodePortParent(categoryString, portpathString)
         if _:
             if portpathString == u'outAlpha':
                 return u'outColor'
             elif portpathString.endswith(u'A'):
                 s = portpathString[:-1]
-                if cls._dcc_getObjectPortIsAppExist(nodepathString, s):
+                if cls._dcc_getNodePortIsExist(categoryString, s):
                     return s
                 return _
             return _
     # **************************************************************************************************************** #
     @classmethod
-    def _mtl_getObjectPortkeyStringList(cls, nodepathString):
-        def recursionFnc_(portnameString_):
-            _children = cls._dcc_getObjectPortChildren(nodepathString, portnameString_)
+    def _grh_getNodePortpathStringList(cls, nodepathString):
+        def recursionFnc_(categoryString_, portnameString_):
+            _children = cls._dcc_getNodePortChildren(categoryString_, portnameString_)
             if _children:
                 for _i in _children:
                     _portnameString = u'{}.{}'.format(portnameString_, _i)
                     lis.append(_portnameString)
-                    recursionFnc_(_portnameString)
+                    recursionFnc_(categoryString_, _portnameString)
 
         lis = []
+        categoryString = cls.MOD_maya_cmds.nodeType(nodepathString)
+
         portStringList = bscMethods.List.cleanupTo(
             cls.MOD_maya_cmds.listAttr(nodepathString)
         )
         if portStringList:
             for k in portStringList:
-                if cls._dcc_getObjectPortHasParent(nodepathString, k) is False:
+                if cls._dcc_getNodePortHasParent(categoryString, k) is False:
                     lis.append(k)
-                    recursionFnc_(k)
+                    recursionFnc_(categoryString, k)
         return lis
 
     @classmethod
-    def _mtl_getObjectPortAssignString(cls, nodepathString, portkeyString):
-        _assignString = None
-        readable = cls._dcc_getObjectPortIsReadable(nodepathString, portkeyString)
-        writeable = cls._dcc_getObjectPortIsWritable(nodepathString, portkeyString)
-        if (readable, writeable) == (True, True):
-            return cls.DEF_mya_keyword_input
-        elif (readable, writeable) == (True, False):
-            return cls.DEF_mya_keyword_output
+    def _grh_getNodePortpathStringList_(cls, categoryString):
+        def recursionFnc_(categoryString_, portnameString_):
+            _children = cls._dcc_getNodePortChildren(categoryString_, portnameString_)
+            if _children:
+                for _i in _children:
+                    _portnameString = u'{}.{}'.format(portnameString_, _i)
+                    lis.append(_portnameString)
+                    recursionFnc_(categoryString_, _portnameString)
+
+        lis = []
+
+        portStringList = bscMethods.List.cleanupTo(
+            cls.MOD_maya_cmds.attributeInfo(
+                allAttributes=True,
+                type=categoryString
+            ) or []
+        )
+        if portStringList:
+            for k in portStringList:
+                if cls._dcc_getNodePortHasParent(categoryString, k) is False:
+                    lis.append(k)
+                    recursionFnc_(categoryString, k)
+        return lis
 
     @classmethod
-    def _mtl_getObjectPorttypeString(cls, nodepathString, portkeyString, isArray):
-        _portTypeString = cls._dcc_getObjectPorttype(nodepathString, portkeyString)
-        if cls._dcc_getObjectPortIsColor(nodepathString, portkeyString):
+    def _grh_getNodePortAssign(cls, categoryString, portkeyString):
+        _assignString = None
+
+        readable = cls._dcc_getNodePortIsReadable(categoryString, portkeyString)
+        writeable = cls._dcc_getNodePortIsWritable(categoryString, portkeyString)
+        connectable = cls._dcc_getNodePortIsConnectable(categoryString, portkeyString)
+        if (readable, writeable, connectable) == (True, True, False):
+            return grhConfigure.Utility.DEF_grh_keyword_parameter
+        elif (readable, writeable, connectable) == (True, True, True):
+            return grhConfigure.Utility.DEF_grh_keyword_input
+        elif (readable, writeable, connectable) == (True, False, True):
+            return grhConfigure.Utility.DEF_grh_keyword_output
+
+    @classmethod
+    def _grh_getNodePorttypeString(cls, categoryString, portkeyString, isArray):
+        _portTypeString = cls._dcc_getNodePorttype(categoryString, portkeyString)
+        if cls._dcc_getNodePortIsColor(categoryString, portkeyString):
             if portkeyString == u'outColor':
                 _alphaPortnameString = u'outAlpha'
             else:
                 _alphaPortnameString = portkeyString + u'A'
-            if cls._dcc_getObjectPortIsAppExist(nodepathString, _alphaPortnameString):
+            if cls._dcc_getNodePortIsExist(categoryString, _alphaPortnameString):
                 _ = u'color4'
             else:
                 _ = u'color3'
@@ -384,9 +468,9 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
             if isArray is True:
                 return _ + u'array'
             return _
-        elif cls._dcc_getObjectPortIsFilename(nodepathString, portkeyString):
+        elif cls._dcc_getNodePortIsFilename(categoryString, portkeyString):
             return u'filename'
-        elif cls._dcc_getObjectPortIsEnumerate(nodepathString, portkeyString):
+        elif cls._dcc_getNodePortIsEnumerate(categoryString, portkeyString):
             _ = u'string'
             if isArray is True:
                 return _ + u'array'
@@ -406,133 +490,114 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
         return _portTypeString
 
     @classmethod
-    def _mtl_getObjectPortDefDict(cls, nodepathString, portkeyStringList):
+    def _grh_getNodePortDefDict(cls, categoryString, portpathStringList):
         dic = cls.CLS_ordered_dict()
-        for portkeyString in portkeyStringList:
+
+        for portpathString in portpathStringList:
             portDict = cls.CLS_ordered_dict()
-            assignString = cls._mtl_getObjectPortAssignString(nodepathString, portkeyString)
+            assignString = cls._grh_getNodePortAssign(categoryString, portpathString)
             if assignString is not None:
-                isArray = cls._mtl_getObjectPortIsArray(nodepathString, portkeyString)
+                isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
 
-                porttypeString = cls._mtl_getObjectPorttypeString(nodepathString, portkeyString, isArray)
-                parentPortnameString = cls._mtl_getObjectPortParent(nodepathString, portkeyString)
-                childPortnameStrings = cls._mtl_getObjectPortChildren(nodepathString, portkeyString)
+                porttypeString = cls._grh_getNodePorttypeString(categoryString, portpathString, isArray)
+                parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
+                childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
 
-                portDict[cls.DEF_mya_key_porttype] = porttypeString
-                portDict[cls.DEF_mya_key_assign] = assignString
-                portDict[cls.DEF_mya_key_parent] = parentPortnameString
-                portDict[cls.DEF_mya_key_children] = childPortnameStrings
-                portDict[cls.DEF_mya_key_array] = isArray
+                portDict[grhConfigure.Utility.DEF_grh_key_porttype] = porttypeString
+                portDict[grhConfigure.Utility.DEF_grh_key_portpath] = portpathString
+                portDict[grhConfigure.Utility.DEF_grh_key_assign] = assignString
+                portDict[grhConfigure.Utility.DEF_grh_key_parent] = parentPortnameString
+                portDict[grhConfigure.Utility.DEF_grh_key_children] = childPortnameStrings
 
-                dic[portkeyString] = portDict
+                dic[portpathString] = portDict
 
         return dic
 
     @classmethod
-    def _mtl_getObjectPortIsArray(cls, nodepathString, portkeyString):
-        def recursionFnc_(nodepathString_, portString_):
-            if cls._dcc_getObjectPortIsAppExist(nodepathString_, portString_):
-                _indexes = cls._dcc_getObjectPortIndexes(nodepathString_, portString_)
-                _children = cls._dcc_getObjectPortChildren(nodepathString_, portString_)
+    def _grh_getNodePortRawList(cls, categoryString, portpathStringList):
+        lis = []
 
-                _hasIndex = _indexes != []
-                _hasChild = _children != []
+        for portpathString in portpathStringList:
+            portDict = {}
+            assignString = cls._grh_getNodePortAssign(categoryString, portpathString)
+            if assignString is not None:
+                isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
 
-                _check = (_hasIndex, _hasChild)
-                if _indexes:
-                    return True
+                porttypeString = cls._grh_getNodePorttypeString(categoryString, portpathString, isArray)
+                parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
+                childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
 
-                if _check == (True, True):
-                    for index_ in _indexes:
-                        for childPortname in _children:
-                            _fullpathPortnameString = u'{}[{}].{}'.format(portString_, index_, childPortname)
-                            recursionFnc_(nodepathString_, _fullpathPortnameString)
-                elif _check == (True, False):
-                    for index_ in _indexes:
-                        _fullpathPortnameString = u'{}[{}]'.format(portString_, index_)
-                        recursionFnc_(nodepathString_, _fullpathPortnameString)
-                elif _check == (False, True):
-                    for childPortname in _children:
-                        _fullpathPortnameString = u'{}.{}'.format(portString_, childPortname)
-                        recursionFnc_(nodepathString_, _fullpathPortnameString)
-                return False
-        portPathdata = cls._mtl_getObjectPortPathdata_(portkeyString)
-        for seq, i in enumerate(portPathdata):
-            return recursionFnc_(nodepathString, i)
+                portDict[grhConfigure.Utility.DEF_grh_key_porttype] = porttypeString
+                portDict[grhConfigure.Utility.DEF_grh_key_portpath] = portpathString
+                portDict[grhConfigure.Utility.DEF_grh_key_assign] = assignString
+                portDict[grhConfigure.Utility.DEF_grh_key_parent] = parentPortnameString
+                portDict[grhConfigure.Utility.DEF_grh_key_children] = childPortnameStrings
+
+                lis.append(portDict)
+
+        return lis
+
+    @classmethod
+    def _grh_getNodePortIsArray(cls, categoryString, portpathString):
+        portPathdata = cls._grh_getNodePortPathdata_(portpathString)
+        for seq, portpathString in enumerate(portPathdata):
+            _isArray = cls._dcc_getNodePortIsArray(categoryString, portpathString)
+            if _isArray:
+                return True
         return False
 
     @classmethod
-    def _mtl_getObjectPortkeyStringDict(cls, nodepathString, portStringList):
-        def recursionFnc_(portString_):
-            _children = cls._dcc_getObjectPortChildren(nodepathString, portString_)
+    def _grh_getNodePortkeyStringDict(cls, categoryString, portStringList):
+        def recursionFnc_(categoryString_, portString_):
+            _children = cls._dcc_getNodePortChildren(categoryString_, portString_)
             if _children:
                 for _i in _children:
                     _fullpathPortnameString = u'{}.{}'.format(portString_, _i)
                     dic[_i] = _fullpathPortnameString
-                    recursionFnc_(_fullpathPortnameString)
+                    recursionFnc_(categoryString_, _fullpathPortnameString)
 
         dic = cls.CLS_ordered_dict()
+
         if portStringList:
             for i in portStringList:
-                if cls._dcc_getObjectPortHasParent(nodepathString, i) is False:
+                if cls._dcc_getNodePortHasParent(categoryString, i) is False:
                     dic[i] = i
-                    recursionFnc_(i)
+                    recursionFnc_(categoryString, i)
         return dic
     # **************************************************************************************************************** #
     @classmethod
-    def _mtl_getObjectPortFormatString(cls, nodepathString, portkeyString):
-        portPathdata = cls._mtl_getObjectPortPathdata_(portkeyString)
-        s = ''
-        _ = []
-        for seq, i in enumerate(portPathdata):
-            _portname = i.split(cls.DEF_mya_port_separator)[-1]
-            if cls._dcc_getObjectPortIsArray(nodepathString, i) is True:
-                _indexString = u'[{{{}}}]'.format(len(_))
-                if seq > 0:
-                    s += (cls.DEF_mya_port_separator + _portname + _indexString)
-                else:
-                    s += (_portname + _indexString)
-                _.append(True)
-            else:
-                if seq > 0:
-                    s += '.' + _portname
-                else:
-                    s += _portname
-        if _:
-            return s
-
-    @classmethod
-    def _mtl_getObjectPortdata_(cls, nodepathString, portkeyString, asString):
+    def _grh_getNodePortdata_(cls, nodepathString, portkeyString, asString):
         exclude_datatype_list = [
             'mesh',
             'attributeAlias',
         ]
-        if cls._dcc_getObjectPortIsAppExist(nodepathString, portkeyString) is True:
-            if cls._dcc_getObjectPortIsMessage(nodepathString, portkeyString):
-                if cls._dcc_getObjectPortHasSource(nodepathString, portkeyString):
-                    return bscMethods.MaAttributeString.nodepathString(
-                        cls._dcc_getObjectPortSource(nodepathString, portkeyString)
+        categoryString = cls.MOD_maya_cmds.nodeType(nodepathString)
+
+        if cls._dcc_getNodePortIsAppExist(nodepathString, portkeyString) is True:
+            if cls._dcc_getNodePortIsMessage(categoryString, portkeyString):
+                if cls._dcc_getNodePortHasSource(nodepathString, portkeyString):
+                    return bscMethods.MaAttrpath.nodepathString(
+                        cls._dcc_getNodePortSource(nodepathString, portkeyString)
                     )
                 return ''
-            elif cls._dcc_getObjectPortIsEnumerate(nodepathString, portkeyString):
+            elif cls._dcc_getNodePortIsEnumerate(categoryString, portkeyString):
                 return cls.MOD_maya_cmds.getAttr(
                             cls._dcc_toAttributeString(nodepathString, portkeyString),
                             asString=asString,
                             silent=1
                         )
             else:
-                porttype = cls._dcc_getObjectPorttype(nodepathString, portkeyString)
-                datatype = cls._dcc_getObjectPorttype(nodepathString, portkeyString)
+                datatype = cls._dcc_getNodePorttype(categoryString, portkeyString)
                 if not datatype in exclude_datatype_list:
                     return cls.MOD_maya_cmds.getAttr(
                                 cls._dcc_toAttributeString(nodepathString, portkeyString), silent=1
                             )
 
     @classmethod
-    def _mtl_getObjectPortdata(cls, nodepathString, portkeyString, asString=True):
+    def _grh_getNodePortdata(cls, nodepathString, portkeyString, asString=True):
         def getArrayPortdataFnc_(nodepathString_, portStrings_):
             return [
-                cls._mtl_getObjectPortdata_(
+                cls._grh_getNodePortdata_(
                     nodepathString_,
                     _l,
                     asString=False
@@ -561,9 +626,9 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
         def getMultiBranchFnc_(nodepathString_, portkeyString_):
             _lis = []
             _isArrayEnable = False
-            _portkeyStringList = cls._mtl_getObjectPortSearchPortkeyStrings(nodepathString_, portkeyString_)
+            _portkeyStringList = cls._grh_getNodePortSearchPortkeyStrings(nodepathString_, portkeyString_)
             for _i in _portkeyStringList:
-                _format = cls._mtl_getObjectPortFormat(nodepathString_, _i)
+                _format = cls._grh_getNodePortFormat(nodepathString_, _i)
                 if _format is not None:
                     _isArrayEnable = True
                     _lis.append(_format)
@@ -575,27 +640,29 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
             else:
                 return getArrayPortdataFnc_(nodepathString_, _lis)
 
-        if cls._dcc_getObjectPortHasChildren(nodepathString, portkeyString) is True:
+        categoryString = cls.MOD_maya_cmds.nodeType(nodepathString)
+
+        if cls._dcc_getNodePortHasChildren(categoryString, portkeyString) is True:
             return getMultiBranchFnc_(nodepathString, portkeyString)
         else:
-            format_ = cls._mtl_getObjectPortFormat(nodepathString, portkeyString)
+            format_ = cls._grh_getNodePortFormat(nodepathString, portkeyString)
             if format_ is not None:
                 formatString, indexArray = format_
                 return getArrayFnc_(nodepathString, [(formatString, indexArray)])
             else:
-                return cls._mtl_getObjectPortdata_(
+                return cls._grh_getNodePortdata_(
                     nodepathString,
                     portkeyString,
                     asString=asString
                 )
 
     @classmethod
-    def _mtl_getObjectPortIndexArray(cls, nodepathString, portkeyString):
-        def recursionFnc_(nodepathString_, portString_):
-            if cls._dcc_getObjectPortIsAppExist(nodepathString_, portString_):
-                key = cls._mtl_getObjectPortkey_(portString_)
-                _indexes = cls._dcc_getObjectPortIndexes(nodepathString_, portString_)
-                _children = cls._dcc_getObjectPortChildren(nodepathString_, portString_)
+    def _grh_getNodePortIndexArray(cls, nodepathString, portkeyString):
+        def recursionFnc_(categoryString_, nodepathString_, portString_):
+            if cls._dcc_getNodePortIsAppExist(nodepathString_, portString_):
+                key = cls._grh_getNodePortkey_(portString_)
+                _indexes = cls._dcc_getNodePortIndexes(nodepathString_, portString_)
+                _children = cls._dcc_getNodePortChildren(categoryString_, portString_)
 
                 _hasIndex = _indexes != []
                 _hasChild = _children != []
@@ -616,40 +683,44 @@ class Mtd_MaObjectPort(Mtd_MaBasic):
                     for index_ in _indexes:
                         for childPortname in _children:
                             _fullpathPortnameString = u'{}[{}].{}'.format(portString_, index_, childPortname)
-                            recursionFnc_(nodepathString_, _fullpathPortnameString)
+                            recursionFnc_(categoryString_, nodepathString_, _fullpathPortnameString)
                 elif _check == (True, False):
                     for index_ in _indexes:
                         _fullpathPortnameString = u'{}[{}]'.format(portString_, index_)
-                        recursionFnc_(nodepathString_, _fullpathPortnameString)
+                        recursionFnc_(categoryString_, nodepathString_, _fullpathPortnameString)
                 elif _check == (False, True):
                     for childPortname in _children:
                         _fullpathPortnameString = u'{}.{}'.format(portString_, childPortname)
-                        recursionFnc_(nodepathString_, _fullpathPortnameString)
+                        recursionFnc_(categoryString_, nodepathString_, _fullpathPortnameString)
+
         dic = {}
-        portPathdata = cls._mtl_getObjectPortPathdata_(portkeyString)
+        categoryString = cls.MOD_maya_cmds.nodeType(nodepathString)
+
+        portPathdata = cls._grh_getNodePortPathdata_(portkeyString)
+
         for i in portPathdata:
-            recursionFnc_(nodepathString, i)
+            recursionFnc_(categoryString, nodepathString, i)
         return dic
 
     @classmethod
-    def _mtl_getObjectPortFormat(cls, nodepathString, portkeyString):
-        indexArrayDict = cls._mtl_getObjectPortIndexArray(nodepathString, portkeyString)
-        portPathdata = cls._mtl_getObjectPortPathdata_(portkeyString)
+    def _grh_getNodePortFormat(cls, nodepathString, portkeyString):
+        indexArrayDict = cls._grh_getNodePortIndexArray(nodepathString, portkeyString)
+        portPathdata = cls._grh_getNodePortPathdata_(portkeyString)
         _portString = ''
         _lis = []
         for seq, i in enumerate(portPathdata):
-            _portname = i.split(cls.DEF_mya_port_separator)[-1]
+            _portname = i.split(cls.DEF_mya_port_pathsep)[-1]
             if i in indexArrayDict:
                 indexes = indexArrayDict[i]
                 _indexString = u'[{{{}}}]'.format(len(_lis))
                 if seq > 0:
-                    _portString += (cls.DEF_mya_port_separator + _portname + _indexString)
+                    _portString += (cls.DEF_mya_port_pathsep + _portname + _indexString)
                 else:
                     _portString += (_portname + _indexString)
                 _lis.append(indexes)
             else:
                 if seq > 0:
-                    _portString += (cls.DEF_mya_port_separator + _portname)
+                    _portString += (cls.DEF_mya_port_pathsep + _portname)
                 else:
                     _portString += _portname
         if _lis:
@@ -669,15 +740,15 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeQueryNameString(cls, attrpathString):
-        _ = attrpathString.split(cls.DEF_mya_port_separator)[-1]
+        _ = attrpathString.split(cls.DEF_mya_port_pathsep)[-1]
         if _.endswith(u']'):
             return _.split(u'[')[0]
         return _
 
     @classmethod
     def _toAttributePortsepSplit(cls, attrpathString):
-        _ = attrpathString.split(cls.DEF_mya_port_separator)
-        return _[0], cls.DEF_mya_port_separator.join(_[1:])
+        _ = attrpathString.split(cls.DEF_mya_port_pathsep)
+        return _[0], cls.DEF_mya_port_pathsep.join(_[1:])
 
     @classmethod
     def _getAttributeType(cls, attrpathString):
@@ -693,7 +764,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         if cls._getAttributeIsAppExist(attrpathString) is True:
             if cls._getAttributeIsMessage(attrpathString):
                 if cls._getAttributeHasSource(attrpathString):
-                    return bscMethods.MaAttributeString.nodepathString(cls._getAttributeSource(attrpathString))
+                    return bscMethods.MaAttrpath.nodepathString(cls._getAttributeSource(attrpathString))
             else:
                 return cls.MOD_maya_cmds.getAttr(attrpathString, silent=1)
 
@@ -723,7 +794,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
         if cls._getAttributeIsAppExist(attrpathString) is True:
             if cls._getAttributeIsMessage(attrpathString):
                 if cls._getAttributeHasSource(attrpathString):
-                    return bscMethods.MaAttributeString.nodepathString(cls._getAttributeSource(attrpathString))
+                    return bscMethods.MaAttrpath.nodepathString(cls._getAttributeSource(attrpathString))
                 return ''
             else:
                 porttype = cls._getAttributePorttype(attrpathString)
@@ -873,7 +944,7 @@ class Mtd_MaAttribute(Mtd_MaBasic):
     @classmethod
     def _getAttributeString_(cls, attrpathString):
         if isinstance(attrpathString, (tuple, list)):
-            attrpathString = cls.DEF_mya_port_separator.join(list(attrpathString))
+            attrpathString = cls.DEF_mya_port_pathsep.join(list(attrpathString))
         return attrpathString
 
     @classmethod
@@ -925,15 +996,15 @@ class Mtd_MaAttribute(Mtd_MaBasic):
 
     @classmethod
     def _getAttributeNodeString(cls, attrpathString):
-        return bscMethods.MaAttributeString.nodepathString(attrpathString)
+        return bscMethods.MaAttrpath.nodepathString(attrpathString)
 
     @classmethod
     def _getAttributeFullpathPortname(cls, attrpathString):
-        return bscMethods.MaAttributeString.portpathString(attrpathString)
+        return bscMethods.MaAttrpath.portpathString(attrpathString)
 
     @classmethod
     def _getAttributePortname(cls, attrpathString):
-        return bscMethods.MaAttributeString.name(attrpathString)
+        return bscMethods.MaAttrpath.name(attrpathString)
 
 
 class Mtd_MaFile(Mtd_MaBasic):

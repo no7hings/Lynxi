@@ -329,7 +329,7 @@ class QtMapchart_(qtCore.QWidget_):
             xPosition = self.xPosition
             yPosition = self.yPosition
             #
-            painter = QtGui.QPainter(self)
+            painter = qtCore.QPainter_(self)
             # painter.begin(self)  # fix
 
             painter.setRenderHint(painter.Antialiasing)

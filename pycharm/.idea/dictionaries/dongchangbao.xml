@@ -20,6 +20,7 @@
       <w>binversion</w>
       <w>blinn</w>
       <w>brower</w>
+      <w>bscname</w>
       <w>buttontab</w>
       <w>channelname</w>
       <w>chardet</w>
@@ -35,11 +36,17 @@
       <w>colorchart</w>
       <w>compchannel</w>
       <w>compilepath</w>
+      <w>compnode</w>
+      <w>compraw</w>
+      <w>comprawstr</w>
+      <w>connectable</w>
       <w>coords</w>
       <w>ctom</w>
       <w>ctomcmds</w>
       <w>dagname</w>
       <w>dagpath</w>
+      <w>datasep</w>
+      <w>datasize</w>
       <w>datastring</w>
       <w>datetag</w>
       <w>datumset</w>
@@ -147,6 +154,7 @@
       <w>nodegraph</w>
       <w>nodeinput</w>
       <w>nodename</w>
+      <w>nodenamearray</w>
       <w>nodeoutput</w>
       <w>nodepath</w>
       <w>nodeport</w>
@@ -187,6 +195,7 @@
       <w>portkey</w>
       <w>portname</w>
       <w>portpath</w>
+      <w>portpaths</w>
       <w>portraw</w>
       <w>portset</w>
       <w>porttype</w>
@@ -207,8 +216,13 @@
       <w>pythonversion</w>
       <w>radarchart</w>
       <w>rangecase</w>
+      <w>rawobj</w>
       <w>raws</w>
+      <w>rawsep</w>
       <w>rawset</w>
+      <w>rawsize</w>
+      <w>rawstr</w>
+      <w>rawtypestr</w>
       <w>readlines</w>
       <w>recordview</w>
       <w>rects</w>
@@ -253,6 +267,7 @@
       <w>storable</w>
       <w>stringarray</w>
       <w>strs</w>
+      <w>strsep</w>
       <w>subdiv</w>
       <w>subname</w>
       <w>subpath</w>

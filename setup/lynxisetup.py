@@ -64,31 +64,31 @@ class Method(object):
         return 'python', platform.python_version()
 
     @staticmethod
-    def _getOsActiveViewTime():
+    def _getActivePrettifyTime():
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
     @classmethod
-    def traceMessage(cls, text):
+    def trace(cls, text):
         if Basic.isTraceEnable():
-            print u'@lynxi <{}>'.format(cls._getOsActiveViewTime())
-            print u'    {}'.format(text)
+            print u'        |{}'.format(cls._getActivePrettifyTime())
+            print u'{}'.format(text)
 
     @classmethod
     def traceResult(cls, text):
-        cls.traceMessage(
-            u'''@result <{}>'''.format(text)
+        cls.trace(
+            u''' result |{}'''.format(text)
         )
 
     @classmethod
     def traceWarning(cls, text):
-        cls.traceMessage(
-            u'''@warning <{}>'''.format(text)
+        cls.trace(
+            u'''warning |{}'''.format(text)
         )
 
     @classmethod
     def traceError(cls, text):
-        cls.traceMessage(
-            u'''@error <{}>'''.format(text)
+        cls.trace(
+            u''' error |{}'''.format(text)
         )
 
     @classmethod
@@ -312,6 +312,13 @@ class WindowsMayaPython27Scheme(Abc_Scheme):
 
 class WindowsMaya2019Python27Scheme(Abc_Scheme):
     scheme_subpath_string = u'resource/scheme/windows-maya-2019-python-2.7.x'
+
+    def __init__(self, schemeName, schemeVersion):
+        self._initAbcScheme(schemeName, schemeVersion)
+
+
+class WindowsHoudiniPython27Scheme(Abc_Scheme):
+    scheme_subpath_string = u'resource/scheme/windows-houdini-python-2.7.x'
 
     def __init__(self, schemeName, schemeVersion):
         self._initAbcScheme(schemeName, schemeVersion)

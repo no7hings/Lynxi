@@ -332,7 +332,7 @@ class MaCheckMethod(_maMethodBasic.M2GeometryNodeMethodBasic):
         dic = {}
         if errorLis:
             for i in errorLis:
-                meshPath = cls._getNodeFullpathNameString(i.split(cls.DEF_mya_port_separator)[0])
+                meshPath = cls._getNodeFullpathNameString(i.split(cls.DEF_mya_port_pathsep)[0])
                 compPath = i
                 #
                 dic.setdefault(meshPath, []).append(compPath)
@@ -895,7 +895,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_separator, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_pathsep, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]
@@ -932,7 +932,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(nodeName, attrName, index):
-            return '{1}{0}{2}[{3}]'.format(cls.DEF_mya_port_separator, nodeName, attrName, index)
+            return '{1}{0}{2}[{3}]'.format(cls.DEF_mya_port_pathsep, nodeName, attrName, index)
         #
         def getTargetAttr(nodeName, attrName):
             index = maxIndexDic[attrName]
@@ -994,7 +994,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
             return boolean
         #
         def toTargetAttr(mainAttrName, subAttrName, index):
-            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_separator, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
+            return '{1}{0}{2}[{3}]{0}{4}'.format(cls.DEF_mya_port_pathsep, cls.MaNodeName_LightLink, mainAttrName, index, subAttrName)
         #
         def getTargetAttr(mainAttrName, subAttrName):
             index = maxIndexDic[mainAttrName]

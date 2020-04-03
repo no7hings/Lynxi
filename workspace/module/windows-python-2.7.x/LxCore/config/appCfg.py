@@ -46,7 +46,7 @@ DEF_mya_type_assembly_reference = 'assemblyReference'
 #
 DEF_mya_node_separator = '|'
 DEF_mya_namespace_separator = ':'
-DEF_mya_port_separator = '.'
+DEF_mya_port_pathsep = '.'
 #
 MaNodeType_AiStandIn = 'aiStandIn'
 MaArnoldTxExt = '.tx'

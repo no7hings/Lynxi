@@ -23,4 +23,4 @@ if __name__ == '__main__':
 
     f.save()
 
-    print mtlObjects.OBJ_mtl_obj_cache.object('ast_ID000229_default_prop_base_file_3')
+    print mtlObjects.OBJ_grh_obj_cache.object('ast_ID000229_default_prop_base_file_3')

@@ -1,146 +1,180 @@
 # coding:utf-8
-from LxMaterial import mtlObjCore, mtlConfigure
+from LxData.datObjects import _datObjString
+
+from .. import mtlObjAbs, mtlConfigure
 
 
-class Raw_Closure(mtlObjCore.Abc_MtlRaw):
-    def __init__(self, *args):
-        self._initAbcMtlRaw(*args)
+class Name(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
 
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
-class NameString(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_element_key = u'name'
     VAR_mtl_file_attribute_attach_key = u'name'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class TypeString(mtlObjCore.Abc_MtlString):
+class Type(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
     VAR_mtl_file_element_key = u'string'
     VAR_mtl_file_attribute_attach_key = u'type'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class PorttypeString(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
+class Porttype(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_mtl_file_element_key = u'porttype'
     VAR_mtl_file_attribute_attach_key = u'type'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class VistypeString(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
+class VistypeString(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_mtl_file_element_key = u'vistype'
     VAR_mtl_file_attribute_attach_key = u'vistype'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class VersionString(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
+class Version(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_mtl_file_element_key = u'version'
     VAR_mtl_file_attribute_attach_key = u'version'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class DatatypeString(mtlObjCore.Abc_MtlString):
+class Datatype(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
     VAR_mtl_file_element_key = u'datatype'
     VAR_mtl_file_attribute_attach_key = u'type'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class ShaderCategoryString(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
+class Category(mtlObjAbs.Abs_MtlRaw):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_mtl_file_element_key = u'category'
     VAR_mtl_file_attribute_attach_key = u'node'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlRaw(*args)
 
 
-class NodeCategory(mtlObjCore.Abc_MtlString):
-    VAR_mtl_file_element_key = u'string'
-    VAR_mtl_file_attribute_attach_key = u'node'
+class Nodename(mtlObjAbs.Abs_MtlNodename):
+    CLS_dat_raw = unicode
+    CLS_dat_namespace = Name
+    CLS_dat_name = Name
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_dat_namesep = mtlConfigure.Utility.DEF_mtl_nodename_namesep
+
+    VAR_mtl_file_element_key = u'nodename'
+    VAR_mtl_file_attribute_attach_key = u'name'
 
     def __init__(self, *args):
-        self.Abc_initAbcMtlString(*args)
+        self._initAbsMtlNodename(*args)
 
 
-class Raw_NamespacePath(mtlObjCore.Abc_MtlNodeName):
-    CLS_bsc_raw = NameString
+class Portpath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_raw = unicode
+    CLS_dat_dirname = Name
+    CLS_dat_bscname = Name
 
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_namespace_separator
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_port_pathsep
+
+    VAR_mtl_file_element_key = u'portpath'
+    VAR_mtl_file_attribute_attach_key = u'name'
 
     def __init__(self, *args):
-        self._initAbcMtlNodeName(*args)
+        self._initAbsMtlPath(*args)
 
 
-class FileName(mtlObjCore.Abc_MtlFileName):
-    CLS_bsc_raw = NameString
+class Nodepath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_raw = unicode
+    CLS_dat_dirname = Nodename
+    CLS_dat_bscname = Nodename
 
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_file_separator
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
+    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_node_pathsep
+
+    VAR_mtl_file_element_key = u'nodepath'
+    VAR_mtl_file_attribute_attach_key = u'name'
+
+    def __init__(self, *args):
+        self._initAbsMtlPath(*args)
+
+
+class Filepath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_raw = unicode
+    CLS_dat_dirname = _datObjString.Name
+    CLS_dat_bscname = _datObjString.Filename
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_file_pathsep
+
+    VAR_mtl_file_element_key = u'filename'
     VAR_mtl_file_attribute_attach_key = u'filepath'
 
     def __init__(self, *args):
-        self._initAbcMtlFileName(*args)
+        self._initAbsMtlPath(*args)
 
 
-class ReferenceFileName(mtlObjCore.Abc_MtlFileName):
-    CLS_bsc_raw = NameString
+class RefFilepath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_raw = unicode
+    CLS_dat_dirname = _datObjString.Name
+    CLS_dat_bscname = _datObjString.Filename
 
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_file_separator
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
+    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_file_pathsep
+
+    VAR_mtl_file_element_key = u'filename'
     VAR_mtl_file_attribute_attach_key = u'href'
 
     def __init__(self, *args):
-        self._initAbcMtlFileName(*args)
-
-
-class Raw_MaterialDagpath(mtlObjCore.Abc_MtlMaterialName):
-    CLS_bsc_raw = NameString
-
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_node_separator
-
-    VAR_mtl_file_attribute_attach_key = u'name'
-
-    def __init__(self, *args):
-        self._initAbcMtlNodeName(*args)
-
-
-class NodeName(mtlObjCore.Abc_MtlNodeName):
-    CLS_bsc_raw = NameString
-
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_node_separator
-
-    VAR_mtl_file_attribute_attach_key = u'name'
-
-    def __init__(self, *args):
-        self._initAbcMtlNodeName(*args)
-
-
-class PortnameString(mtlObjCore.Abc_MtlPortName):
-    CLS_bsc_raw = NameString
-
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_port_separator
-
-    VAR_mtl_file_attribute_attach_key = u'name'
-
-    def __init__(self, *args):
-        self._initAbcMtlPortName(*args)
-
-
-class GeometryVisibilityName(mtlObjCore.Abc_MtlPortName):
-    CLS_bsc_raw = NameString
-
-    VAR_bsc_pathsep = mtlConfigure.Utility.DEF_mtl_port_separator
-
-    VAR_mtl_file_attribute_attach_key = u'vistype'
-
-    def __init__(self, *args):
-        self._initAbcMtlPortName(*args)
+        self._initAbsMtlPath(*args)

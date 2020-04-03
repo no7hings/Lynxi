@@ -1,2 +1,5 @@
 # coding:utf-8
-from ._grhObjRaw import *
+from ._grhObjSet import *
+
+from ._grhObjQuery import *
+

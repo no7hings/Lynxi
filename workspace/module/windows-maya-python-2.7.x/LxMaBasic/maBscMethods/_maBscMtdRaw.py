@@ -1,8 +1,8 @@
 # coding:utf-8
-from LxMaBasic import myaBscMtdCore
+from .. import myaBscMtdCore
 
 
-class NodeName(object):
+class Nodename(object):
     @classmethod
     def toExistList(cls, nodepathString):
         return myaBscMtdCore.Mtd_MaUtility._toAppExistStringList(nodepathString)

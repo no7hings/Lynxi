@@ -235,9 +235,9 @@ class TxtHtml(bscMtdCore.Mtd_BscUtility):
         def getBranch(attr):
             namespace = _bscMtdPath.MaNodeString.namespace(attr)
             name = _bscMtdPath.MaNodeString.nodename(attr)
-            attrName = _bscMtdPath.MaAttributeString.portpathString(attr)
+            attrName = _bscMtdPath.MaAttrpath.portpathString(attr)
             #
-            namespacesep = _bscMtdPath.MaAttributeString.portsep()
+            namespacesep = _bscMtdPath.MaAttrpath.portsep()
             #
             if namespace:
                 namespaceHtml = cls.toHtmlSpan(namespace, 7, 10) + cls.toHtmlSpan(namespacesep, 3, 10)

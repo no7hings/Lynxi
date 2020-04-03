@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxMaterial import mtlConfigure
+from .. import mtlConfigure
 
 
 class ArnoldDefs(mtlConfigure.Utility):

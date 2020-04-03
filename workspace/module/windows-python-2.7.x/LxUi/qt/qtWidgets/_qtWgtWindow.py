@@ -139,7 +139,7 @@ class QtTipWindow(qtObjWidget.QtAbcObj_Window):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtObjWidget._QtTextbrower()
+        self._textBrower = qtObjWidget._QtTextbrower(self)
         self._textBrower.setFontSize(10)
         self.addWidget(self._textBrower)
 
@@ -201,11 +201,12 @@ class QtLogWindow(qtObjWidget.QtAbcObj_Window):
         else:
             self.setShadowEnable(False)
             self.setMenuEnable(False)
+
         self.setMaximizeEnable(False), self.setMinimizeEnable(False)
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtObjWidget._QtTextbrower()
+        self._textBrower = qtObjWidget._QtTextbrower(self)
         self._textBrower.setFontSize(10)
         #
         self.addWidget(self._textBrower)
@@ -303,17 +304,16 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
         #
         self.setMargins(2, 2, 2, 2)
         #
-        self._textBrower = qtObjWidget._QtTextbrower()
+        self._textBrower = qtObjWidget._QtTextbrower(self)
         self._textBrower.setFontSize(10)
 
         self.addWidget(self._textBrower)
         self._textBrower.setEnterEnable(False)
 
     def _initMessageWindowVar(self):
-        self.normalWidth = 320
-        self.normalHeight = 96
-        #
-        self.quitTime = 3000
+        self._quitTimer = qtCore.CLS_timer(self)
+
+        self._quitTime = 3000
 
     @staticmethod
     def _setMessageCount(value):
@@ -355,15 +355,17 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
         self.show()
 
     def _quitLater(self):
-        self.inTimer = qtCore.CLS_timer()
-        self.inTimer.start(self.quitTime)
+        self._quitTimer.start(self._quitTime)
         #
-        self.inTimer.timeout.connect(self.uiQuit)
+        self._quitTimer.timeout.connect(self.uiQuit)
 
     def uiQuit(self):
+        # debug must stop first
+        self._quitTimer.stop()
+
         width, height = self.windowModel().defaultSize()
         self._setMessageCount(-height)
-        #
+
         self.windowModel().uiQuit()
 
     def startProgress(self, maxValue):

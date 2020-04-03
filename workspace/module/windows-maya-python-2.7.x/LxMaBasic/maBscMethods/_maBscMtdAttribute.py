@@ -1,11 +1,5 @@
 # coding:utf-8
-from LxMaBasic import myaBscMtdCore
-
-
-class ObjectPort(myaBscMtdCore.Mtd_MaBasic):
-    @classmethod
-    def indexes(cls, nodepathString, portpathString):
-        return myaBscMtdCore.Mtd_MaObjectPort._dcc_getObjectPortIndexes(nodepathString, portpathString)
+from .. import myaBscMtdCore
 
 
 class Attribute(myaBscMtdCore.Mtd_MaBasic):
@@ -117,4 +111,4 @@ class Attribute(myaBscMtdCore.Mtd_MaBasic):
 
     @classmethod
     def composeBy(cls, *args):
-        return cls.DEF_mya_port_separator.join(list(args))
+        return cls.DEF_mya_port_pathsep.join(list(args))

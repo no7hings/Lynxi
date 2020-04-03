@@ -8,7 +8,6 @@ class Utility(object):
     DEF_mya_key_parent = u'parent'
     DEF_mya_key_children = u'children'
     DEF_mya_key_array = u'array'
-    DEF_mya_key_connect = u'connect'
 
     DEF_mya_keyword_input = u'input'
     DEF_mya_keyword_output = u'output'
@@ -16,7 +15,7 @@ class Utility(object):
     DEF_mya_node_separator = '|'
     DEF_mya_set_separator = '/'
     DEF_mya_namespace_separator = ':'
-    DEF_mya_port_separator = '.'
+    DEF_mya_port_pathsep = '.'
     # Nde_Node Type
     DEF_mya_type_transform = 'transform'
     DEF_mya_type_shading_engine = 'shadingEngine'

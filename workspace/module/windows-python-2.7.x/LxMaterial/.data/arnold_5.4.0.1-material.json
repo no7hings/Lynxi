@@ -3,19 +3,19 @@
         "type": "material",
         "port": [
             {
-                "portname": "surfaceshader",
+                "portpath": "surfaceshader",
                 "porttype": "shader",
                 "portdata": "",
                 "assign": "input"
             },
             {
-                "portname": "displacementshader",
+                "portpath": "displacementshader",
                 "porttype": "shader",
                 "portdata": "",
                 "assign": "input"
             },
             {
-                "portname": "volumeshader",
+                "portpath": "volumeshader",
                 "porttype": "shader",
                 "portdata": "",
                 "assign": "input"

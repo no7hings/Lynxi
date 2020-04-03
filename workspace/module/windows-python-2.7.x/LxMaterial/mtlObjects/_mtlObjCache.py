@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaterial import mtlConfigure, mtlObjDef
+from .. import mtlConfigure, mtlObjDef
 
 
 class MtlRawTranslator(mtlObjDef.Abc_MtlRawTranslator):
@@ -34,11 +34,11 @@ class MtlQueryCache(mtlObjDef.Abc_MtlQueryCache):
         self._initAbcMtlQueryCache(*args)
 
 
-OBJ_mtl_query_cache = MtlQueryCache()
+OBJ_grh_query_cache = MtlQueryCache()
 
 
 class MtlDccRawTranslator(mtlObjDef.Abc_MtlDccRawTranslator):
-    OBJ_mtl_query_cache = OBJ_mtl_query_cache
+    OBJ_grh_query_cache = OBJ_grh_query_cache
 
     VAR_mtl_def_key_list = [
         mtlConfigure.Utility.DEF_mtl_key_mtl_port,
@@ -85,7 +85,7 @@ class MyaMtlQueryCache(mtlObjDef.Abc_MtlDccQueryCache):
 
     CLS_mtl_dcc_object_def = MtlDccObjectDef
 
-    OBJ_mtl_query_cache = OBJ_mtl_query_cache
+    OBJ_grh_query_cache = OBJ_grh_query_cache
 
     def __init__(self, *args):
         self._initAbcMtlDccQueryCache(*args)
@@ -96,7 +96,7 @@ class MtlObjCache(mtlObjDef.Abc_MtlObjCache):
         self._initAbcMtlObjCache()
 
 
-OBJ_mtl_obj_cache = MtlObjCache()
+OBJ_grh_obj_cache = MtlObjCache()
 
 
 class MtlTrsObjectCache(mtlObjDef.Abc_MtlObjCache):

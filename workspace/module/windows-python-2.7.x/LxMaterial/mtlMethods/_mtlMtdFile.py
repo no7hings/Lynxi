@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaterial import mtlMtdCore
+from .. import mtlMtdCore
 
 
 class File(mtlMtdCore.Mtd_MtlFile):

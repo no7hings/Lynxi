@@ -1,18 +1,20 @@
 # coding:utf-8
-from LxMaterial import mtlObjCore
+from LxGraphic.grhObjects import _grhObjSet
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjElement
+from .. import mtlObjAbs
+
+from ..mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjElement
 
 
-class Reference(mtlObjCore.Abc_MtlReference):
-    CLS_mtl_filepath = _mtlObjRaw.ReferenceFileName
-    CLS_mtl_version = _mtlObjRaw.VersionString
+class Reference(mtlObjAbs.Abc_MtlReference):
+    CLS_mtl_filepath = _mtlObjRaw.RefFilepath
+    CLS_mtl_version = _mtlObjRaw.Version
 
-    CLS_mtl_reference = None
     CLS_mtl_reference_set = _mtlObjSet.ReferenceSet
+    CLS_mtl_reference = None
 
+    CLS_mtl_look_set = _grhObjSet.ObjSet
     CLS_mtl_look = _mtlObjElement.Look
-    CLS_mtl_look_set = _mtlObjSet.LookSet
 
     VAR_mtl_file_element_key = u'xi:include'
     VAR_mtlx_version = u'1.36'
@@ -21,15 +23,15 @@ class Reference(mtlObjCore.Abc_MtlReference):
         self._initAbcMtlReference(*args)
 
 
-class File(mtlObjCore.Abc_MtlFile):
-    CLS_mtl_filepath = _mtlObjRaw.FileName
-    CLS_mtl_version = _mtlObjRaw.VersionString
+class File(mtlObjAbs.Abc_MtlFile):
+    CLS_mtl_filepath = _mtlObjRaw.Filepath
+    CLS_mtl_version = _mtlObjRaw.Version
 
     CLS_mtl_reference = Reference
     CLS_mtl_reference_set = _mtlObjSet.ReferenceSet
 
+    CLS_mtl_look_set = _grhObjSet.ObjSet
     CLS_mtl_look = _mtlObjElement.Look
-    CLS_mtl_look_set = _mtlObjSet.LookSet
 
     VAR_mtl_file_element_key = u'materialx'
     VAR_mtlx_version = u'1.36'

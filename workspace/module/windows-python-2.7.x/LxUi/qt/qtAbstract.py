@@ -3531,8 +3531,8 @@ class QtAbc_ActionDropviewModel(qtDefinition.QtDef_Widget):
         if self.widget()._shiftFlag is True:
             self._updateCheckItemsAt(self._curItemColumn)
         else:
-            self.widget().close()
-            self.widget().deleteLater()
+            self._widget.close()
+            # self._widget.deleteLater()
         #
         self._pressFlag, self._dragFlag = False, False
     #
@@ -4203,7 +4203,7 @@ class QtAbc_WindowModel(qtDefinition.QtDef_WindowModel):
                 i()
         #
         self._widget.close()
-        self._widget.deleteLater()
+        # self._widget.deleteLater()
         #
         qtCore.quitUi()
     #

@@ -26,7 +26,7 @@ class asbTransformMatrix(OpenMayaMPx.MPxTransformationMatrix):
 
 #
 class asbTransform(OpenMayaMPx.MPxTransform):
-    NodeName = 'asbTransform'
+    Nodename = 'asbTransform'
     # noinspection PyArgumentList
     TypeId = OpenMaya.MTypeId(0x8700D)
     NodeClass = 'lynxi/assembly'
@@ -180,7 +180,7 @@ def initializePlugin(obj):
     # Register Nde_Node
     try:
         plug.registerTransform(
-            asbTransform.NodeName,
+            asbTransform.Nodename,
             asbTransform.TypeId,
             asbTransform.create,
             asbTransform.initializer,
@@ -188,7 +188,7 @@ def initializePlugin(obj):
             asbTransformMatrix.TypeId
         )
     except:
-        sys.stderr.write('Failed to Register Nde_Node: %s' % asbTransform.NodeName)
+        sys.stderr.write('Failed to Register Nde_Node: %s' % asbTransform.Nodename)
         raise
 
 
@@ -202,5 +202,5 @@ def uninitializePlugin(obj):
             asbTransform.TypeId
         )
     except:
-        sys.stderr.write('Failed to Deregister Nde_Node: %s' % asbTransform.NodeName)
+        sys.stderr.write('Failed to Deregister Nde_Node: %s' % asbTransform.Nodename)
         raise

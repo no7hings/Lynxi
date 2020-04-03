@@ -66,8 +66,9 @@ class PyReloader(bscMtdCore.Mtd_BscUtility):
                         fileString = module.__file__
                         if cls.MTD_os_path.isfile(fileString):
                             if cls._isTraceEnable() is True:
-                                print u'reload <module = {}>'.format(nameString)
-                                print u'    <file = {}>'.format(fileString)
+                                cls._setAddResult('reload module "{}"'.format(nameString))
+                                # print u'reload <module = {}>'.format(nameString)
+                                # print u'    <file = {}>'.format(fileString)
                             cls.MOD_imp.reload(module)
 
     @classmethod
@@ -81,11 +82,6 @@ class PyReloader(bscMtdCore.Mtd_BscUtility):
 
 class PyMessage(bscMtdCore.Mtd_BscUtility):
     Enable_Print = True
-
-    @classmethod
-    def _setAddMessage(cls, text):
-        print u'        |{}'.format(cls._getActivePrettifyTime())
-        print u'{}'.format(text)
 
     @classmethod
     def setEnable(cls, boolean):
@@ -102,18 +98,15 @@ class PyMessage(bscMtdCore.Mtd_BscUtility):
 
     @classmethod
     def traceResult(cls, text):
-        cls.trace(
-            u''' result |{}'''.format(text)
-        )
+        if cls.isEnable() is True:
+            cls._setAddResult(text)
 
     @classmethod
     def traceWarning(cls, text):
-        cls.trace(
-            u'''warning |{}'''.format(text)
-        )
+        if cls.isEnable() is True:
+            cls._setAddWarning(text)
 
     @classmethod
     def traceError(cls, text):
-        cls.trace(
-            u''' error |{}'''.format(text)
-        )
+        if cls.isEnable() is True:
+            cls._setAddError(text)

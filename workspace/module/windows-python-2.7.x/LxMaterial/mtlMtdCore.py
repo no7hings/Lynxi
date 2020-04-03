@@ -5,9 +5,7 @@ import collections
 
 import MaterialX
 
-from LxBasic import bscMethods
-
-from LxMaterial import mtlConfigure
+from . import mtlConfigure
 
 
 class Mtd_MtlBasic(mtlConfigure.Utility):
@@ -32,12 +30,12 @@ class Mtd_MtlFile(Mtd_MtlBasic):
             nodeDic[cls.DEF_mtl_key_type] = nodeType
             nodeAttrLis = []
             for input_ in i.getInputs():
-                portname = input_.getName()
-                valueTypeString = input_.getType()
+                portpath = input_.getName()
+                porttypeString = input_.getType()
                 portdataString = input_.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[cls.DEF_mtl_key_portname] = portname
-                attrDic[cls.DEF_mtl_key_porttype] = valueTypeString
+                attrDic[cls.DEF_mtl_key_portpath] = portpath
+                attrDic[cls.DEF_mtl_key_porttype] = porttypeString
                 attrDic[cls.DEF_mtl_key_portdata] = portdataString
                 attrDic[cls.DEF_mtl_key_assign] = cls.DEF_mtl_keyword_input
                 nodeAttrLis.append(attrDic)

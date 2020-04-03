@@ -2,6 +2,7 @@
 
 if __name__ == '__main__':
     from LxMaterial import mtlObjects
+
     file0 = mtlObjects.File('e:/test_0.mtlx')
 
     reference0 = mtlObjects.Reference('e:/test_1.mtlx')

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxMaBasic import maBscMethods
+from .. import maBscMethods
 
 
 class AlembicCache(object):
@@ -61,7 +61,7 @@ class AlembicCache(object):
 
     @classmethod
     def _toRootArgString(cls, groupString):
-        lis = maBscMethods.NodeName.toExistList(groupString)
+        lis = maBscMethods.Nodename.toExistList(groupString)
         #
         if lis:
             argString = ' '.join(['{0} {1}'.format(maBscMethods.AlembicCache.RootKey, i) for i in lis])

@@ -1,7 +1,7 @@
 {
     "integer": [
         {
-            "portname": "integer",
+            "portpath": "integer",
             "porttype": "integer",
             "portdata": "0",
             "assign": "output"
@@ -9,7 +9,7 @@
     ],
     "float": [
         {
-            "portname": "float",
+            "portpath": "float",
             "porttype": "float",
             "portdata": "0.0",
             "assign": "output"
@@ -17,7 +17,7 @@
     ],
     "boolean": [
         {
-            "portname": "boolean",
+            "portpath": "boolean",
             "porttype": "boolean",
             "portdata": "false",
             "assign": "output"
@@ -25,7 +25,7 @@
     ],
     "string": [
         {
-            "portname": "string",
+            "portpath": "string",
             "porttype": "string",
             "portdata": "",
             "assign": "output"
@@ -33,7 +33,7 @@
     ],
     "color3": [
         {
-            "portname": "rgb",
+            "portpath": "rgb",
             "porttype": "color3",
             "portdata": "0.0, 0.0, 0.0",
             "assign": "output"
@@ -41,7 +41,7 @@
     ],
     "color4": [
         {
-            "portname": "rgba",
+            "portpath": "rgba",
             "porttype": "color4",
             "portdata": "0.0, 0.0, 0.0, 0.0",
             "assign": "output"
@@ -49,7 +49,7 @@
     ],
     "vector3": [
         {
-            "portname": "vector",
+            "portpath": "vector",
             "porttype": "vector3",
             "portdata": "0.0, 0.0, 0.0",
             "assign": "output"
@@ -57,7 +57,7 @@
     ],
     "vector4": [
         {
-            "portname": "vector",
+            "portpath": "vector",
             "porttype": "vector4",
             "portdata": "0.0, 0.0, 0.0, 0.0",
             "assign": "output"
@@ -65,7 +65,7 @@
     ],
     "matrix44": [
         {
-            "portname": "matrix",
+            "portpath": "matrix",
             "porttype": "matrix44",
             "portdata": "",
             "assign": "output"
@@ -73,7 +73,7 @@
     ],
     "closure": [
         {
-            "portname": "shader",
+            "portpath": "shader",
             "porttype": "closure",
             "portdata": "",
             "assign": "output"
@@ -81,7 +81,7 @@
     ],
     "material": [
         {
-            "portname": "material",
+            "portpath": "material",
             "porttype": "closure",
             "portdata": "",
             "assign": "output"

@@ -9,7 +9,7 @@ class MaConfig(object):
     DEF_mya_node_separator = '|'
     DEF_mya_set_separator = '>'
     DEF_mya_namespace_separator = ':'
-    DEF_mya_port_separator = '.'
+    DEF_mya_port_pathsep = '.'
     # Nde_Node Type
     DEF_mya_type_transform = 'transform'
     DEF_mya_type_shading_engine = 'shadingEngine'

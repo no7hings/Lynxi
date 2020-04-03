@@ -25,7 +25,9 @@ class Setup(object):
             lynxisetup.Basic.DEF_key_environ_path_toolkit, scheme_toolkit_path
         )
         # Scheme
-        scheme = lynxisetup.WindowsMayaPython27Scheme(scheme_name, scheme_version)
+        scheme = lynxisetup.WindowsMayaPython27Scheme(
+            scheme_name, scheme_version
+        )
         #
         scheme.setup()
         # Step 04

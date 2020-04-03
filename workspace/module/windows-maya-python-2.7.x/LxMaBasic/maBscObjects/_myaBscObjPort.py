@@ -1,17 +1,9 @@
 # coding:utf-8
-from LxGraphic.grhObjects import _grhObjRaw
+from LxData.datObjects import _datObjString
 
-from LxMaBasic import myaBscObjCore
+from .. import myaBscObjCore
 
-from LxMaBasic.maBscObjects import _myaBscObjRaw, _myaBscObjValue
-
-
-class Port(myaBscObjCore.Abc_MyaPort):
-    CLS_grh_portpath = _myaBscObjRaw.PortnameString
-    CLS_mya_value = _myaBscObjValue.Value
-
-    def __init__(self, *args):
-        self._initAbcMyaPort(*args)
+from ..maBscObjects import _myaBscObjRaw, _myaBscObjQuery
 
 
 class Connection(myaBscObjCore.Abc_MyaConnection):
@@ -19,10 +11,13 @@ class Connection(myaBscObjCore.Abc_MyaConnection):
         self._initAbcMyaConnection(*args)
 
 
-class Port_(myaBscObjCore.Abs_MyaPort):
-    CLS_grh_porttype = _grhObjRaw.Porttype
+class Port(myaBscObjCore.Abs_MyaPort):
+    CLS_grh_porttype = _datObjString.Porttype
 
     CLS_grh_portpath = _myaBscObjRaw.Portpath
+
+    OBJ_grh_query_cache = _myaBscObjQuery.OBJ_grh_query_cache
+    OBJ_grh_obj_cache = _myaBscObjQuery.OBJ_grh_obj_cache
 
     def __init__(self, *args):
         self._initAbsMyaPort(*args)

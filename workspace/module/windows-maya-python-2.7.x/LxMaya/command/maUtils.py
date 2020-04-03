@@ -1576,7 +1576,7 @@ def setNodeOverrideColor(nodepathString, color=17):
 
 #
 def _toNodeAttr(stringLis):
-    return appCfg.DEF_mya_port_separator.join(stringLis)
+    return appCfg.DEF_mya_port_pathsep.join(stringLis)
 
 
 #

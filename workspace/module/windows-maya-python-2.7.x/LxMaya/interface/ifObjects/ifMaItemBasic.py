@@ -25,7 +25,7 @@ class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
         return self._appName
     #
     def load(self, string):
-        if self.mtd_app_node.DEF_mya_port_separator in string:
+        if self.mtd_app_node.DEF_mya_port_pathsep in string:
             self.loadComp(string)
         else:
             self.loadNode(string)

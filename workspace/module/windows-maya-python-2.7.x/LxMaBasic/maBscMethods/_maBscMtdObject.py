@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxMaBasic import myaBscMtdCore
+from .. import myaBscMtdCore
 
 
 class Node(myaBscMtdCore.Mtd_MaBasic):

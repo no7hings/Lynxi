@@ -1,12 +1,14 @@
 # coding:utf-8
-from LxMaterial import mtlObjCore
+from LxGraphic.grhObjects import _grhObjSet
 
-from LxMaterial.mtlObjects import _mtlObjRaw, _mtlObjSet
+from .. import mtlObjAbs
+
+from ..mtlObjects import _mtlObjRaw
 
 
-class Input(mtlObjCore.Abc_MtlInput):
-    CLS_grh_porttype = _mtlObjRaw.PorttypeString
-    CLS_grh_portpath = _mtlObjRaw.PortnameString
+class Input(mtlObjAbs.Abc_MtlInput):
+    CLS_grh_porttype = _mtlObjRaw.Porttype
+    CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_mtl_file_element_key = u'input'
     VAR_mtl_file_attribute_attach_key = u'member'
@@ -15,9 +17,9 @@ class Input(mtlObjCore.Abc_MtlInput):
         self._initAbcMtlInput(*args)
 
 
-class InputChannel(mtlObjCore.Abc_MtlInput):
-    CLS_grh_porttype = _mtlObjRaw.PorttypeString
-    CLS_grh_portpath = _mtlObjRaw.PortnameString
+class InputChannel(mtlObjAbs.Abc_MtlInput):
+    CLS_grh_porttype = _mtlObjRaw.Porttype
+    CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_mtl_file_element_key = u'input'
     VAR_mtl_file_attribute_attach_key = u'channels'
@@ -26,9 +28,9 @@ class InputChannel(mtlObjCore.Abc_MtlInput):
         self._initAbcMtlInput(*args)
 
 
-class Output(mtlObjCore.Abc_MtlOutput):
-    CLS_grh_porttype = _mtlObjRaw.PorttypeString
-    CLS_grh_portpath = _mtlObjRaw.PortnameString
+class Output(mtlObjAbs.Abc_MtlOutput):
+    CLS_grh_porttype = _mtlObjRaw.Porttype
+    CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_mtl_file_element_key = u'output'
     VAR_mtl_file_attribute_attach_key = u'member'
@@ -37,9 +39,9 @@ class Output(mtlObjCore.Abc_MtlOutput):
         self._initAbcMtlOutput(*args)
 
 
-class OutputChannel(mtlObjCore.Abc_MtlOutput):
-    CLS_grh_porttype = _mtlObjRaw.PorttypeString
-    CLS_grh_portpath = _mtlObjRaw.PortnameString
+class OutputChannel(mtlObjAbs.Abc_MtlOutput):
+    CLS_grh_porttype = _mtlObjRaw.Porttype
+    CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_mtl_file_element_key = u'output'
     VAR_mtl_file_attribute_attach_key = u'channels'
@@ -48,8 +50,8 @@ class OutputChannel(mtlObjCore.Abc_MtlOutput):
         self._initAbcMtlOutput(*args)
 
 
-class NodeGraphOutput(mtlObjCore.Abc_MtlNodeGraphOutput):
-    CLS_mtl_name = _mtlObjRaw.NameString
+class NodeGraphOutput(mtlObjAbs.Abc_MtlNodeGraphOutput):
+    CLS_mtl_name = _mtlObjRaw.Name
 
     VAR_mtl_file_element_key = u'output'
     VAR_mtl_file_attribute_attach_key = u'output'
@@ -58,31 +60,37 @@ class NodeGraphOutput(mtlObjCore.Abc_MtlNodeGraphOutput):
         self._initAbcMtlNodeGraphOutput(*args)
 
 
-class BindInput(mtlObjCore.Abc_MtlBindInput):
+class BindInput(mtlObjAbs.Abc_MtlBindInput):
+    CLS_mtl_name = _mtlObjRaw.Name
+
     VAR_mtl_file_element_key = u'bindinput'
 
     def __init__(self, *args):
         self._initAbcMtlBindInput(*args)
 
 
-class Property(mtlObjCore.Abc_MtlProperty):
+class Property(mtlObjAbs.Abc_MtlProperty):
+    CLS_mtl_name = _mtlObjRaw.Name
+
     VAR_mtl_file_element_key = u'property'
 
     def __init__(self, *args):
         self._initAbcMtlProperty(*args)
 
 
-class Visibility(mtlObjCore.Abc_MtlVisibility_):
+class Visibility(mtlObjAbs.Abc_MtlVisibility_):
+    CLS_mtl_name = _mtlObjRaw.Name
+
     VAR_mtl_file_element_key = u'visibility'
 
     def __init__(self, *args):
         self._initAbcMtlVisibilityAssign(*args)
 
 
-class Propertyset(mtlObjCore.Abc_MtlPropertyset):
-    CLS_mtl_name = _mtlObjRaw.NameString
+class Propertyset(mtlObjAbs.Abc_MtlPropertyset):
+    CLS_mtl_name = _mtlObjRaw.Name
 
-    CLS_grh_port_set = _mtlObjSet.PortSet
+    CLS_grh_port_set = _grhObjSet.ObjSet
 
     VAR_mtl_file_element_key = u'propertyset'
     VAR_mtl_file_attribute_attach_key = u'propertyset'
