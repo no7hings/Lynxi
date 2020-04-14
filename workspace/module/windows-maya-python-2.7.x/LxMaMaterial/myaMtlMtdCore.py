@@ -1,14 +1,14 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxMaterial import mtlConfigure, mtlObjects
+from LxMaterial import mtlCfg, mtlObjects
 
-from LxMaBasic import myaBscConfigure, maBscObjects
+from LxMaBasic import myaBscCfg, maBscObjects
 
-from LxMaMaterial import myaMtlConfigure
+from LxMaMaterial import myaMtlCfg
 
 
-class Mtd_MaMtlBasic(myaMtlConfigure.Utility):
+class Mtd_MaMtlBasic(myaMtlCfg.Utility):
     pass
 
 

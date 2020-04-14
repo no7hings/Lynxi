@@ -12,11 +12,11 @@ class QtRadarchart(qtObjWidget.QtAbcObj_Chart):
 
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtRadarchart, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtRadarchart, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjChart()
         self._initRadarChart()
@@ -36,7 +36,7 @@ class QtRadarchart(qtObjWidget.QtAbcObj_Chart):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         if self.chartModel().image() is not None:
             if self.chartModel().imageClipPath() is not None:
@@ -93,7 +93,7 @@ class QtRadarchart(qtObjWidget.QtAbcObj_Chart):
                 painter.drawText(textPoint0, showText0)
                 painter.drawText(textPoint1, showText1)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def chartModel(self):
         return self._chartModel
@@ -105,11 +105,11 @@ class QtSectorchart(qtObjWidget.QtAbcObj_Chart):
 
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtSectorchart, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtSectorchart, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjChart()
         #
@@ -121,7 +121,7 @@ class QtSectorchart(qtObjWidget.QtAbcObj_Chart):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         if self.chartModel().image() is not None:
             painter.setDrawImage(
@@ -156,4 +156,4 @@ class QtSectorchart(qtObjWidget.QtAbcObj_Chart):
                 #
                 painter.drawText(textPoint, showPercent)
 
-        # painter.end()
+        # painter.end()  # for pyside2

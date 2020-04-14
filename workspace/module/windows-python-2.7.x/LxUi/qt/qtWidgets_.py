@@ -11,7 +11,7 @@ from LxUi.qt import qtWidgets, qtCore
 #
 cgitb.enable(format='text')
 #
-_families = uiCore.Lynxi_Ui_Family_Lis
+_families = guiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
@@ -57,11 +57,11 @@ class xExplainLabel(QWidget):
     doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xExplainLabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xExplainLabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -98,7 +98,7 @@ class xExplainLabel(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setBorderRgba(self._uiBorderRgba)
         painter.setBackgroundRgba(self._uiBackgroundRgba)
@@ -129,7 +129,7 @@ class xExplainLabel(QWidget):
             painter.setFont(qtCore.qtFont(size=8, weight=50, family=_families[0]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, self._superExplain)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def _setQtPressStatus(self, status):
         if status is qtCore.NormalStatus:
@@ -168,11 +168,11 @@ class xIconLabel(QWidget):
     doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xIconLabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xIconLabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -205,7 +205,7 @@ class xIconLabel(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setBorderRgba(self._uiBorderRgba)
         painter.setBackgroundRgba(self._uiBackgroundRgba)
@@ -256,7 +256,7 @@ class xIconLabel(QWidget):
         #
         xPos += frameWidth + spacing
 
-        # painter.end()
+        # painter.end()  # for pyside2
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
@@ -396,11 +396,11 @@ class xSpacer(QWidget):
     # noinspection PyArgumentList
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xSpacer, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xSpacer, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -418,8 +418,8 @@ class QTextEdit_(QTextEdit):
     menuWidth = 160
     # noinspection PyArgumentList
     def __init__(self, parent=None, *args, **kwargs):
-        self.clsSuper = super(QTextEdit_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QTextEdit_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -446,17 +446,17 @@ class QTextEdit_(QTextEdit):
                     parent._updateUiStyle()
     #
     def keyPressEvent(self, event):
-        self.clsSuper.keyPressEvent(event)
+        self._clsSuper.keyPressEvent(event)
         self.entryChanged.emit()
     #
     def focusInEvent(self, event):
-        self.clsSuper.focusInEvent(event)
+        self._clsSuper.focusInEvent(event)
         if self._parent:
             if not self.isReadOnly():
                 self._parent._setQtPressStyle(qtCore.OnState)
     #
     def focusOutEvent(self, event):
-        self.clsSuper.focusOutEvent(event)
+        self._clsSuper.focusOutEvent(event)
         if self._parent:
             if self.isReadOnly():
                 self._parent._setQtPressStyle(qtCore.OffState)
@@ -495,7 +495,7 @@ class QTextEdit_(QTextEdit):
                 self.contextMenu.setDrop()
     # noinspection PyArgumentList
     def paste(self):
-        self.clsSuper.paste()
+        self._clsSuper.paste()
         #
         self.entryChanged.emit()
     #
@@ -504,10 +504,10 @@ class QTextEdit_(QTextEdit):
             cursor = self.textCursor()
             cursor.insertText(source.text())
         else:
-            self.clsSuper.insertFromMimeData(source)
+            self._clsSuper.insertFromMimeData(source)
     #
     def setText(self, *args):
-        self.clsSuper.setText(*args)
+        self._clsSuper.setText(*args)
         self.entryChanged.emit()
     #
     def setEnterEnable(self, boolean):
@@ -539,8 +539,8 @@ class xBoxFrame(QWidget):
     #
     backgroundRgba = 56
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QWidget, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -548,7 +548,7 @@ class xBoxFrame(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         offset = 2
         #
@@ -564,7 +564,7 @@ class xBoxFrame(QWidget):
         painter.setBorderRgba(self._uiBorderRgba)
         painter.drawRect(backgroundRect)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def initUi(self):
         self._uiBackgroundRgba = 56, 56, 56, 255
@@ -573,8 +573,8 @@ class xBoxFrame(QWidget):
 
 class xTipFrame(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QWidget, self)
+        self._clsSuper.__init__(*args, **kwargs)
         self._dragFlag = True
         self._dragStartPoint = QtCore.QPoint(0, 0)
         #
@@ -597,7 +597,7 @@ class xTipFrame(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         borderRgba = 127
         backgroundRgba = 64
@@ -636,7 +636,7 @@ class xTipFrame(QWidget):
         )
         painter.setDrawFocusFrame(focusFramePointLis)
 
-        # painter.end()
+        # painter.end()  # for pyside2
 
 
 class xLineEdit(QLineEdit):
@@ -652,8 +652,8 @@ class xLineEdit(QLineEdit):
     menuWidth = 160
     # noinspection PyArgumentList
     def __init__(self, parent=None, *args, **kwargs):
-        self.clsSuper = super(xLineEdit, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(xLineEdit, self)
+        self._clsSuper.__init__(*args, **kwargs)
 
         # noinspection PyArgumentEqualDefault
         self.textChanged.connect(self.entryEvent)
@@ -670,21 +670,21 @@ class xLineEdit(QLineEdit):
         self.setUiSize()
     # noinspection PyArgumentList
     def mousePressEvent(self, event):
-        self.clsSuper.mousePressEvent(event)
+        self._clsSuper.mousePressEvent(event)
         if event.button() == QtCore.Qt.LeftButton:
             self.clicked.emit()
     # noinspection PyArgumentList
     def mouseDoubleClickEvent(self, event):
-        self.clsSuper.mouseDoubleClickEvent(event)
+        self._clsSuper.mouseDoubleClickEvent(event)
         if event.button() == QtCore.Qt.LeftButton:
             return self.doubleClicked.emit()
     #
     def focusInEvent(self, event):
-        self.clsSuper.focusInEvent(event)
+        self._clsSuper.focusInEvent(event)
         self._updateUiStyle()
     #
     def focusOutEvent(self, event):
-        self.clsSuper.focusOutEvent(event)
+        self._clsSuper.focusOutEvent(event)
         self._updateUiStyle()
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
@@ -719,11 +719,11 @@ class xLineEdit(QLineEdit):
             self.contextMenu.setDrop()
     #
     def paste(self):
-        self.clsSuper.paste()
+        self._clsSuper.paste()
         self.entryChanged.emit()
     #
     def del_(self):
-        self.clsSuper.del_()
+        self._clsSuper.del_()
         self.entryChanged.emit()
     #
     def isSelected(self):
@@ -779,11 +779,11 @@ class xEntryBox(QFrame):
     offBorderStyle = qtCore.SolidBorder
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QFrame, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QFrame, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xEntryBox, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xEntryBox, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -921,11 +921,11 @@ class xEntryLabel(QFrame):
     borderStyle = InsetBorder
     def __init__(self, explainVisible=True, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QFrame, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QFrame, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xEntryLabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xEntryLabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1332,11 +1332,11 @@ class xEntryLabel(QFrame):
 class xToolBar(QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xToolBar, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xToolBar, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1375,11 +1375,11 @@ class xToolBar(QWidget):
 class QTreeWidgetItem_(QTreeWidgetItem):
     def __init__(self, *args):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QTreeWidgetItem, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QTreeWidgetItem, self)
+            self._clsSuper.__init__(*args)
         else:
-            self.clsSuper = super(QTreeWidgetItem_, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QTreeWidgetItem_, self)
+            self._clsSuper.__init__(*args)
 
         self.setFlags(
             QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled
@@ -1628,11 +1628,11 @@ class QTreeWidget_(QTreeWidget):
     headerBorderStyle = SolidBorder
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QTreeWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QTreeWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QTreeWidget_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QTreeWidget_, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1891,13 +1891,13 @@ class QTreeWidget_(QTreeWidget):
     #
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
-            self.clsSuper.mousePressEvent(event)
+            self._clsSuper.mousePressEvent(event)
         elif event.button() == QtCore.Qt.RightButton:
             if self.actionData:
                 self.setMenu()
     #
     def focusInEvent(self, event):
-        self.clsSuper.focusInEvent(event)
+        self._clsSuper.focusInEvent(event)
         #
         # self.verticalScrollBar().show()
         # self.horizontalScrollBar().show()
@@ -1905,7 +1905,7 @@ class QTreeWidget_(QTreeWidget):
         self.focusIn.emit()
     #
     def focusOutEvent(self, event):
-        self.clsSuper.focusOutEvent(event)
+        self._clsSuper.focusOutEvent(event)
         #
         # self.verticalScrollBar().hide()
         # self.horizontalScrollBar().hide()
@@ -2140,11 +2140,11 @@ class xCheckItemWidget(QWidget):
     doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xCheckItemWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xCheckItemWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -2190,7 +2190,7 @@ class xCheckItemWidget(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         painter.setFont(qtCore.qtFont(size=8, weight=75, family=_families[2]))
         painter.setBorderRgba(self._uiBackgroundRgba)
@@ -2257,7 +2257,7 @@ class xCheckItemWidget(QWidget):
             painter.setFont(qtCore.qtFont(size=8, weight=75, italic=isItalic, family=_families[2]))
             painter.drawText(explainRect, QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter, showMessage)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
@@ -2431,11 +2431,11 @@ class xPresetItemWidget(QWidget):
     doubleClicked = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xPresetItemWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xPresetItemWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.initUi()
         #
@@ -2608,11 +2608,11 @@ class xPresetItemWidget(QWidget):
 class xRegisterListViewBox(QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xRegisterListViewBox, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xRegisterListViewBox, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -2669,11 +2669,11 @@ class QtExpandWidget(QWidget):
     expanded = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtExpandWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtExpandWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -2754,7 +2754,7 @@ class QtExpandWidget(QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         h = self._buttonHeight
         #
@@ -2806,7 +2806,7 @@ class QtExpandWidget(QWidget):
         #
         painter.setDrawImage(rect, self._expandBoxIcon)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def eventFilter(self, widget, event):
         # Filter by Widget is Press
@@ -2911,11 +2911,11 @@ class QtExpandWidget(QWidget):
 class xTreeLabelBar(QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xTreeLabelBar, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xTreeLabelBar, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setSizePolicy(

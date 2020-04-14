@@ -11,7 +11,7 @@ from itertools import product
 
 from LxBasic import bscMethods
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 #
@@ -629,7 +629,7 @@ class Mtd_M2Basic(Mtd_AppMaya, _maConfig.Cfg_M2):
 
 #
 class Mtd_MaUiBasic(
-    uiCore.UiMtdBasic,
+    guiCore.UiMtdBasic,
     _maConfig.MaUiConfig
 ):
     @staticmethod

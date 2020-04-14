@@ -1,59 +1,59 @@
 {
     "integer": {
         "outValue": {
-            "mtl_portname": "integer"
+            "target_portpath": "integer"
         }
     },
     "float": {
         "outValue": {
-            "mtl_portname": "float"
+            "target_portpath": "float"
         }
     },
     "boolean": {
         "outValue": {
-            "mtl_portname": "boolean"
+            "target_portpath": "boolean"
         }
     },
     "string": {
         "outValue": {
-            "mtl_portname": "string"
+            "target_portpath": "string"
         }
     },
     "color3": {
         "outColor": {
-            "mtl_portname": "rgb"
+            "target_portpath": "rgb"
         },
         "outTransparency": {
-            "mtl_portname": "rgb"
+            "target_portpath": "rgb"
         }
     },
     "color4": {
         "outColor": {
-            "mtl_portname": "rgba"
+            "target_portpath": "rgba"
         },
         "outAlpha": {
-            "mtl_portname": "rgba.a"
+            "target_portpath": "rgba.a"
         },
         "outTransparency": {
-            "mtl_portname": "rgba"
+            "target_portpath": "rgba"
         }
     },
     "vector3": {
         "outValue": {
-            "mtl_portname": "vector"
+            "target_portpath": "vector"
         },
         "outNormal": {
-            "mtl_portname": "vector"
+            "target_portpath": "vector"
         }
     },
     "matrix44": {
         "outValue": {
-            "mtl_portname": "matrix"
+            "target_portpath": "matrix"
         }
     },
     "closure": {
         "outColor": {
-            "mtl_portname": "shader"
+            "target_portpath": "shader"
         }
     }
 }

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from .. import maBscMethods
+from ..import maBscMethods
 
 
 class AlembicCache(object):

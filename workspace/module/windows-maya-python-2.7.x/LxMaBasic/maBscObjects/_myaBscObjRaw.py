@@ -3,7 +3,7 @@ from LxData import datObjAbs
 
 from LxData.datObjects import _datObjString
 
-from .. import myaBscConfigure
+from ..import myaBscCfg
 
 
 class Portpath(datObjAbs.Abs_DatPath):
@@ -15,7 +15,7 @@ class Portpath(datObjAbs.Abs_DatPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = myaBscConfigure.Utility.DEF_mya_port_pathsep
+    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_port_pathsep
 
     def __init__(self, *args):
         self._initAbsDatPath(*args)
@@ -30,7 +30,7 @@ class Nodename(datObjAbs.Abs_DatNodename):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_namesep = myaBscConfigure.Utility.DEF_mya_namespace_separator
+    VAR_dat_namesep = myaBscCfg.Utility.DEF_mya_namespace_separator
 
     def __init__(self, *args):
         self._initAbsDatNodename(*args)
@@ -45,7 +45,7 @@ class Nodepath(datObjAbs.Abs_DatPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = myaBscConfigure.Utility.DEF_mya_node_separator
+    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_node_separator
 
     def __init__(self, *args):
         self._initAbsDatPath(*args)

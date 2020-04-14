@@ -1,16 +1,16 @@
 # coding:utf-8
 from LxData.datObjects import _datObjString
 
-from LxGraphic import grhConfigure
+from LxGraphic import grhCfg
 
 from LxGraphic.grhObjects import _grhObjSet
 
-from .. import myaBscObjCore
+from ..import myaBscObjAbs
 
 from ..maBscObjects import _myaBscObjQuery, _myaBscObjRaw, _myaBscObjPort
 
 
-class Node(myaBscObjCore.Abs_MyaNode):
+class Node(myaBscObjAbs.Abs_MyaNode):
     CLS_grh_type = _datObjString.Type
     CLS_grh_category = _datObjString.Category
 
@@ -19,18 +19,21 @@ class Node(myaBscObjCore.Abs_MyaNode):
     CLS_grh_port_set = _grhObjSet.PortSet
 
     VAR_grh_port_cls_dict = {
-        grhConfigure.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_parameter: _myaBscObjPort.Port
+        grhCfg.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_param: _myaBscObjPort.Port
     }
     VAR_grh_input_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_input
+        grhCfg.Utility.DEF_grh_keyword_input,
+        grhCfg.Utility.DEF_grh_keyword_input_channel
     ]
     VAR_grh_output_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_output
+        grhCfg.Utility.DEF_grh_keyword_output,
+        grhCfg.Utility.DEF_grh_keyword_output_channel
     ]
-    VAR_grh_parameter_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_parameter
+    VAR_grh_param_assign_list = [
+        grhCfg.Utility.DEF_grh_keyword_param,
+        grhCfg.Utility.DEF_grh_keyword_param_channel
     ]
 
     OBJ_grh_query_cache = _myaBscObjQuery.OBJ_grh_query_cache
@@ -40,7 +43,7 @@ class Node(myaBscObjCore.Abs_MyaNode):
         self._initAbsMyaNode(*args)
 
 
-class Geometry(myaBscObjCore.Abc_MyaGeometry):
+class Geometry(myaBscObjAbs.Abc_MyaGeometry):
     CLS_grh_type = _datObjString.Type
     CLS_grh_category = _datObjString.Category
 
@@ -49,18 +52,21 @@ class Geometry(myaBscObjCore.Abc_MyaGeometry):
     CLS_grh_port_set = _grhObjSet.PortSet
 
     VAR_grh_port_cls_dict = {
-        grhConfigure.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_parameter: _myaBscObjPort.Port
+        grhCfg.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_param: _myaBscObjPort.Port
     }
     VAR_grh_input_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_input
+        grhCfg.Utility.DEF_grh_keyword_input,
+        grhCfg.Utility.DEF_grh_keyword_input_channel
     ]
     VAR_grh_output_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_output
+        grhCfg.Utility.DEF_grh_keyword_output,
+        grhCfg.Utility.DEF_grh_keyword_output_channel
     ]
-    VAR_grh_parameter_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_parameter
+    VAR_grh_param_assign_list = [
+        grhCfg.Utility.DEF_grh_keyword_param,
+        grhCfg.Utility.DEF_grh_keyword_param_channel
     ]
 
     CLS_mya_node = Node
@@ -72,7 +78,7 @@ class Geometry(myaBscObjCore.Abc_MyaGeometry):
         self._initAbcMyaGeometry(nodepathString)
 
 
-class GeometryRoot(myaBscObjCore.Abc_MyaGeometryGroup):
+class GeometryRoot(myaBscObjAbs.Abc_MyaGeometryGroup):
     CLS_grh_type = _datObjString.Type
     CLS_grh_category = _datObjString.Category
 
@@ -81,18 +87,21 @@ class GeometryRoot(myaBscObjCore.Abc_MyaGeometryGroup):
     CLS_grh_port_set = _grhObjSet.PortSet
 
     VAR_grh_port_cls_dict = {
-        grhConfigure.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
-        grhConfigure.Utility.DEF_grh_keyword_parameter: _myaBscObjPort.Port
+        grhCfg.Utility.DEF_grh_keyword_input: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_output: _myaBscObjPort.Port,
+        grhCfg.Utility.DEF_grh_keyword_param: _myaBscObjPort.Port
     }
     VAR_grh_input_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_input
+        grhCfg.Utility.DEF_grh_keyword_input,
+        grhCfg.Utility.DEF_grh_keyword_input_channel
     ]
     VAR_grh_output_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_output
+        grhCfg.Utility.DEF_grh_keyword_output,
+        grhCfg.Utility.DEF_grh_keyword_output_channel
     ]
-    VAR_grh_parameter_assign_list = [
-        grhConfigure.Utility.DEF_grh_keyword_parameter
+    VAR_grh_param_assign_list = [
+        grhCfg.Utility.DEF_grh_keyword_param,
+        grhCfg.Utility.DEF_grh_keyword_param_channel
     ]
 
     OBJ_grh_query_cache = _myaBscObjQuery.OBJ_grh_query_cache

@@ -3,9 +3,11 @@ from ._mtlObjRaw import *
 
 from ._mtlObjCache import *
 
+from ._mtlObjQuery import *
+
 from ._mtlObjPort import *
 
-from ._mtlObjObject import *
+from ._mtlObjNode import *
 
 from ._mtlObjElement import *
 

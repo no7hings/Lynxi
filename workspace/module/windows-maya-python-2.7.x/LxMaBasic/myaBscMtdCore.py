@@ -9,12 +9,12 @@ from maya import cmds, OpenMaya, OpenMayaUI
 
 from LxBasic import bscMethods
 
-from LxGraphic import grhConfigure
+from LxGraphic import grhCfg
 
-from . import myaBscConfigure
+from . import myaBscCfg
 
 
-class Mtd_MaBasic(myaBscConfigure.Utility):
+class Mtd_MaBasic(myaBscCfg.Utility):
     MOD_re = re
     MOD_copy = copy
     MOD_maya_cmds = cmds
@@ -446,11 +446,11 @@ class Mtd_MyaNode(Mtd_MaBasic):
         writeable = cls._dcc_getNodePortIsWritable(categoryString, portkeyString)
         connectable = cls._dcc_getNodePortIsConnectable(categoryString, portkeyString)
         if (readable, writeable, connectable) == (True, True, False):
-            return grhConfigure.Utility.DEF_grh_keyword_parameter
+            return grhCfg.Utility.DEF_grh_keyword_param
         elif (readable, writeable, connectable) == (True, True, True):
-            return grhConfigure.Utility.DEF_grh_keyword_input
+            return grhCfg.Utility.DEF_grh_keyword_input
         elif (readable, writeable, connectable) == (True, False, True):
-            return grhConfigure.Utility.DEF_grh_keyword_output
+            return grhCfg.Utility.DEF_grh_keyword_output
 
     @classmethod
     def _grh_getNodePorttypeString(cls, categoryString, portkeyString, isArray):
@@ -503,11 +503,11 @@ class Mtd_MyaNode(Mtd_MaBasic):
                 parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
                 childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
 
-                portDict[grhConfigure.Utility.DEF_grh_key_porttype] = porttypeString
-                portDict[grhConfigure.Utility.DEF_grh_key_portpath] = portpathString
-                portDict[grhConfigure.Utility.DEF_grh_key_assign] = assignString
-                portDict[grhConfigure.Utility.DEF_grh_key_parent] = parentPortnameString
-                portDict[grhConfigure.Utility.DEF_grh_key_children] = childPortnameStrings
+                portDict[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
+                portDict[grhCfg.Utility.DEF_grh_key_portpath] = portpathString
+                portDict[grhCfg.Utility.DEF_grh_key_assign] = assignString
+                portDict[grhCfg.Utility.DEF_grh_key_parent] = parentPortnameString
+                portDict[grhCfg.Utility.DEF_grh_key_children] = childPortnameStrings
 
                 dic[portpathString] = portDict
 
@@ -519,6 +519,7 @@ class Mtd_MyaNode(Mtd_MaBasic):
 
         for portpathString in portpathStringList:
             portDict = {}
+
             assignString = cls._grh_getNodePortAssign(categoryString, portpathString)
             if assignString is not None:
                 isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
@@ -527,11 +528,12 @@ class Mtd_MyaNode(Mtd_MaBasic):
                 parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
                 childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
 
-                portDict[grhConfigure.Utility.DEF_grh_key_porttype] = porttypeString
-                portDict[grhConfigure.Utility.DEF_grh_key_portpath] = portpathString
-                portDict[grhConfigure.Utility.DEF_grh_key_assign] = assignString
-                portDict[grhConfigure.Utility.DEF_grh_key_parent] = parentPortnameString
-                portDict[grhConfigure.Utility.DEF_grh_key_children] = childPortnameStrings
+                portDict[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
+                portDict[grhCfg.Utility.DEF_grh_key_portpath] = portpathString
+                portDict[grhCfg.Utility.DEF_grh_key_portdata] = None
+                portDict[grhCfg.Utility.DEF_grh_key_assign] = assignString
+                portDict[grhCfg.Utility.DEF_grh_key_parent] = parentPortnameString
+                portDict[grhCfg.Utility.DEF_grh_key_children] = childPortnameStrings
 
                 lis.append(portDict)
 

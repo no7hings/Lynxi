@@ -3,9 +3,11 @@ from LxMaterial import mtlObjects
 
 from LxMaBasic import maBscObjects
 
-from .. import myaMtlObjCore
+from ..import myaMtlObjCore
 
-OBJ_mtl_trs_query_cache = mtlObjects.MyaMtlQueryCache()
+from ..maMtlObjects import _myaMtlObjQuery
+
+OBJ_mtl_trs_query_cache = _myaMtlObjQuery.TrsObjQueryCache()
 
 
 class Translator(myaMtlObjCore.Abc_MyaTranslator):
@@ -21,27 +23,25 @@ class Node(myaMtlObjCore.Abc_MyaMtlNode):
 
     CLS_mtl_translator = Translator
 
-    OBJ_grh_query_cache = mtlObjects.OBJ_grh_query_cache
     OBJ_mtl_trs_query_cache = OBJ_mtl_trs_query_cache
 
-    OBJ_grh_obj_cache = mtlObjects.OBJ_grh_obj_cache
-    OBJ_mtl_trs_obj_cache = mtlObjects.OBJ_mtl_trs_obj_cache
+    OBJ_grh_obj_cache = mtlObjects.OBJ_grh_obj_cache_
+    OBJ_mtl_trs_obj_cache = mtlObjects.OBJ_grh_trs_obj_cache_
 
     def __init__(self, *args):
         self._initAbcMyaMtlNode(*args)
 
 
 class Geometry(myaMtlObjCore.Abc_MyaMtlGeometry):
-    CLS_mtl_object = mtlObjects.Geometry
+    CLS_mtl_object = mtlObjects.Node
     CLS_mtl_dcc_object = maBscObjects.Geometry
 
     CLS_mtl_translator = Translator
 
-    OBJ_grh_query_cache = mtlObjects.OBJ_grh_query_cache
     OBJ_mtl_trs_query_cache = OBJ_mtl_trs_query_cache
 
-    OBJ_grh_obj_cache = mtlObjects.OBJ_grh_obj_cache
-    OBJ_mtl_trs_obj_cache = mtlObjects.OBJ_mtl_trs_obj_cache
+    OBJ_grh_obj_cache = mtlObjects.OBJ_grh_obj_cache_
+    OBJ_mtl_trs_obj_cache = mtlObjects.OBJ_grh_trs_obj_cache_
 
     def __init__(self, *args):
         self._initAbcMyaMtlGeometry(*args)

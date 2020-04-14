@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 #
@@ -10,7 +10,7 @@ from LxUi.qt._qtModels import _qtMdlView
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiCore.Lynxi_Ui_Family_Lis
+_families = guiCore.Lynxi_Ui_Family_Lis
 #
 none = ''
 
@@ -19,11 +19,11 @@ none = ''
 class QtScrollBar(qtObjWidget.QtAbcObj_Scrollbar):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtScrollBar, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtScrollBar, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcScrollbarWidget()
 
@@ -33,11 +33,11 @@ class QtScrollArea(qtCore.QWidget):
     scrollWidth = 20
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtScrollArea, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtScrollArea, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initScrollArea()
         #
@@ -162,11 +162,11 @@ class QtScrollArea(qtCore.QWidget):
 class QtCheckview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtCheckview, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtCheckview, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -183,11 +183,11 @@ class QtCheckview(qtObjWidget.QtAbcObj_ViewWidget):
 class QtTreeview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtTreeview, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtTreeview, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         self._overrideUi()
@@ -213,7 +213,7 @@ class QtTreeview(qtObjWidget.QtAbcObj_ViewWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Placeholder
         if self.viewModel().isPlaceholderEnable():
             painter.setDrawImage(
@@ -347,7 +347,7 @@ class QtTreeview(qtObjWidget.QtAbcObj_ViewWidget):
                             #
                             y += h
 
-        # painter.end()
+        # painter.end()  # for pyside2
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
@@ -388,11 +388,11 @@ class QtTreeview(qtObjWidget.QtAbcObj_ViewWidget):
 class QtGridview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtGridview, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtGridview, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -465,7 +465,7 @@ class QtGridview(qtObjWidget.QtAbcObj_ViewWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Placeholder
         if self.viewModel().isPlaceholderEnable():
             painter.setDrawImage(
@@ -480,7 +480,7 @@ class QtGridview(qtObjWidget.QtAbcObj_ViewWidget):
                     self._uiBackgroundRgba, self._uiBorderRgba
                 )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
@@ -615,11 +615,11 @@ class QtGridview(qtObjWidget.QtAbcObj_ViewWidget):
 class QtPresetview(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtPresetview, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtPresetview, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #

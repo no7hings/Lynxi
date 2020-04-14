@@ -1,7 +1,7 @@
 # coding=utf-8
 from LxScheme import shmOutput
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtWidgets
 #
@@ -18,7 +18,7 @@ class QtIf_DevelopWindow(qtWidgets.QtWindow):
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         #
         self.setupWindow()
     #
@@ -36,7 +36,7 @@ class QtIf_SystemInformationWindow(qtWidgets.QtWindow):
         self.setNameText(self._Title)
         self.setIndexText(self._Version)
         #
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         #
         self.setupWindow()
 

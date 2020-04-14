@@ -1,240 +1,15 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from . import mtlConfigure
-
-
-class Abc_MtlRawTranslator(mtlConfigure.Utility):
-    def _initAbcMtlRawTranslator(self, objectRaw, outputRaw, portChildRaw):
-        self._objectRaw = objectRaw
-        self._outputRaw = outputRaw
-        self._portChildRaw = portChildRaw
-
-        self._outRawDict = self.CLS_ordered_dict()
-
-        self._translateObjectRaw_(self._objectRaw)
-
-    def _translateObjectRaw_(self, objectRaw_):
-        _typeString = objectRaw_[self.DEF_mtl_key_type]
-        self._outRawDict[self.DEF_mtl_key_type] = _typeString
-        self._outRawDict[self.DEF_mtl_key_port] = self.CLS_ordered_dict()
-
-        _portsRaw = objectRaw_[self.DEF_mtl_key_port]
-        self._translateDccPortsRaw_(_portsRaw)
-        _outputsRaw = self._outputRaw.get(_typeString, [])
-        self._translateDccPortsRaw_(_outputsRaw)
-
-    def _translateDccPortsRaw_(self, portRaws):
-        for i in portRaws:
-            self._translatePortRaw_(i)
-
-    def _translatePortRaw_(self, portRaw):
-        _portnameString = portRaw[self.DEF_mtl_key_portpath]
-        _porttypeString = portRaw[self.DEF_mtl_key_porttype]
-        _portdataString = portRaw[self.DEF_mtl_key_portdata]
-        _assignString = portRaw[self.DEF_mtl_key_assign]
-
-        _childPathStrList = []
-        _childPortsRaw = self._portChildRaw.get(_porttypeString, [])
-        for seq, _portraw in enumerate(_childPortsRaw):
-            _childPortnameString = self._translateChildPortRaw_(seq, _portnameString, _porttypeString, _portdataString, _assignString, _portraw)
-            if _childPortnameString is not None:
-                _childPathStrList.append(_childPortnameString)
-
-        self._addPortRaw_(_portnameString, _porttypeString, _portdataString, _assignString, None, _childPathStrList)
-
-    def _translateChildPortRaw_(self, childIndex_, parentPortnameString_, parentPorttypeString_, parentPortdataString_, parentAssignString_, portRaw):
-        _formatString = portRaw[self.DEF_mtl_key_format]
-
-        _portnameString = _formatString.format(*[parentPortnameString_])
-        _porttypeString = portRaw[self.DEF_mtl_key_porttype]
-
-        if parentPortdataString_:
-            _portdataString = parentPortdataString_.split(u',')[childIndex_].rstrip().lstrip()
-        else:
-            _portdataString = portRaw[self.DEF_mtl_key_portdata]
-
-        if parentAssignString_ == self.DEF_mtl_keyword_input:
-            _portAssignString = self.DEF_mtl_keyword_input_channel
-        elif parentAssignString_ == self.DEF_mtl_keyword_output:
-            _portAssignString = self.DEF_mtl_keyword_output_channel
-        else:
-            _portAssignString = None
-
-        if _portAssignString is not None:
-            self._addPortRaw_(_portnameString, parentPorttypeString_, _portdataString, _portAssignString, parentPortnameString_, [])
-            return _portnameString
-
-    def _addPortRaw_(self, portnameString_, porttypeString_, valueString_, assignString_, parentPortnameString_, childrenPortnameStrings_):
-        _dic = self.CLS_ordered_dict()
-        _dic[self.DEF_mtl_key_porttype] = porttypeString_
-        _dic[self.DEF_mtl_key_portdata] = valueString_
-        _dic[self.DEF_mtl_key_assign] = assignString_
-        _dic[self.DEF_mtl_key_parent] = parentPortnameString_
-        _dic[self.DEF_mtl_key_children] = childrenPortnameStrings_
-        self._outRawDict[self.DEF_mtl_key_port][portnameString_] = _dic
-
-    def outRaw(self):
-        return self._outRawDict
-
-
-# material port def
-class Abc_MtlPortDef(mtlConfigure.Utility):
-    def _initAbcMtlPortDef(self, portnameString, portRaw):
-        self._portname = portnameString
-        self._portraw = portRaw
-    @property
-    def portraw(self):
-        return self._portraw
-    @property
-    def portname(self):
-        return self._portname
-    @property
-    def porttype(self):
-        return self._portraw[self.DEF_mtl_key_porttype]
-    @property
-    def portdata(self):
-        return self._portraw[self.DEF_mtl_key_portdata]
-    @property
-    def assign(self):
-        return self._portraw[self.DEF_mtl_key_assign]
-    @property
-    def parent(self):
-        return self._portraw[self.DEF_mtl_key_parent]
-    @property
-    def children(self):
-        return self._portraw[self.DEF_mtl_key_children]
-
-
-# material object def
-class Abc_MtlObjectDef(mtlConfigure.Utility):
-    CLS_mtl_port_def = None
-
-    CLS_mtl_raw_translator = None
-
-    def _initAbcMtlObjectDef(self, categoryString, objectRaw, outputRaw, portChildRaw):
-        self._category = categoryString
-
-        self._objectRaw = objectRaw
-        self._outputRaw = outputRaw
-        self._portChildRaw = portChildRaw
-
-        self._objectDefDict = self.CLS_mtl_raw_translator(
-            objectRaw,
-            outputRaw,
-            portChildRaw
-        ).outRaw()
-
-        self._portDefObjDict = self.CLS_ordered_dict()
-        self._portDefObjList = []
-        self._inputDefObjDict = self.CLS_ordered_dict()
-        self._inputDefObjList = []
-        self._outputDefObjDict = self.CLS_ordered_dict()
-        self._outputDefObjList = []
-
-        self._getPortDefs_()
-
-    def _getPortDefs_(self):
-        for k, v in self._objectDefDict[self.DEF_mtl_key_port].items():
-            assignString = v[self.DEF_mtl_key_assign]
-            portDefObject = self.CLS_mtl_port_def(k, v)
-            if assignString in [self.DEF_mtl_keyword_input, self.DEF_mtl_keyword_input_channel]:
-                pass
-            elif assignString in [self.DEF_mtl_keyword_output, self.DEF_mtl_keyword_output_channel]:
-                pass
-            self._portDefObjDict[k] = portDefObject
-            self._portDefObjList.append(portDefObject)
-    @property
-    def category(self):
-        return self._category
-    @property
-    def type(self):
-        return self._objectDefDict[self.DEF_mtl_key_type]
-
-    def ports(self):
-        return self._portDefObjList
-
-    def port(self, portnameString):
-        return self._portDefObjDict[portnameString]
-    @property
-    def inputs(self):
-        return self._inputDefObjList
-
-    def input(self, portnameString):
-        return self._inputDefObjDict[portnameString]
-    @property
-    def outputs(self):
-        return self._outputDefObjList
-
-    def output(self, portnameString):
-        return self._outputDefObjList[portnameString]
-
-
-# material query
-class Abc_MtlQueryCache(mtlConfigure.Utility):
-    VAR_mtl_node_defs_file = None
-    VAR_mtl_geometry_def_file = None
-    VAR_mtl_material_def_file = None
-    VAR_mtl_output_defs_file = None
-    VAR_mtl_port_child_defs_file = None
-
-    CLS_mtl_object_def = None
-
-    # noinspection PyUnusedLocal
-    def _initAbcMtlQueryCache(self, *args):
-        self._nodeRaw = bscMethods.OsJsonFile.read(
-            self.VAR_mtl_node_defs_file
-        ) or {}
-        self._geometryRaw = bscMethods.OsJsonFile.read(
-            self.VAR_mtl_geometry_def_file
-        ) or {}
-        self._materialRaw = bscMethods.OsJsonFile.read(
-            self.VAR_mtl_material_def_file
-        ) or {}
-        self._outputRaw = bscMethods.OsJsonFile.read(
-            self.VAR_mtl_output_defs_file
-        ) or {}
-        self._portChildRaw = bscMethods.OsJsonFile.read(
-            self.VAR_mtl_port_child_defs_file
-        ) or {}
-
-        self._objectDefObjList = []
-        self._nodeDefObjDict = self.CLS_ordered_dict()
-
-        self._initializeCache_()
-
-    def nodeDefs(self):
-        return self._objectDefObjList
-
-    def nodeDef(self, categoryString):
-        return self._nodeDefObjDict[categoryString]
-
-    def categories(self):
-        return self._nodeDefObjDict.keys()
-
-    def _initializeCache_(self):
-        def getObjectDefFnc_(objectsRaw_):
-            for categoryString, objectRaw in objectsRaw_.items():
-                _objectDefObj = self.CLS_mtl_object_def(
-                    categoryString,
-                    objectRaw,
-                    self._outputRaw,
-                    self._portChildRaw
-                )
-                self._objectDefObjList.append(_objectDefObj)
-                self._nodeDefObjDict[categoryString] = _objectDefObj
-
-        getObjectDefFnc_(self._nodeRaw)
-        getObjectDefFnc_(self._materialRaw)
-        getObjectDefFnc_(self._geometryRaw)
+from . import mtlCfg
 
 
 # ******************************************************************************************************************** #
-class Abc_MtlDccRawTranslator(mtlConfigure.Utility):
+class Def_GrhTrsNodeRaw(mtlCfg.Utility):
     OBJ_grh_query_cache = None
     VAR_mtl_def_key_list = []
 
-    def _initMtlDccRawTranslator(self, dccObjectRaw, dccOutputRaw, dccPortChildRaw):
+    def _initDefGrhTrsNodeRaw(self, dccObjectRaw, dccOutputRaw, dccPortChildRaw):
         self._dccOutRawDict = self.CLS_ordered_dict()
 
         self._dccObjectRaw = dccObjectRaw
@@ -318,8 +93,8 @@ class Abc_MtlDccRawTranslator(mtlConfigure.Utility):
         return self._dccOutRawDict
 
 
-class Abc_MtlDccPortDef(mtlConfigure.Utility):
-    def _initAbcMtlDccPortDef(self, dccPortnameString, portRaw):
+class Def_GrhTrsPortQuery(mtlCfg.Utility):
+    def _initDefGrhTrsPortQuery(self, dccPortnameString, portRaw):
         self._dccPortname = dccPortnameString
         self._dccPortraw = portRaw
     @property
@@ -345,14 +120,14 @@ class Abc_MtlDccPortDef(mtlConfigure.Utility):
         return self._dccPortraw[self.DEF_mtl_key_children]
 
 
-class Abc_MtlDccObjectDef(mtlConfigure.Utility):
+class Def_GrhTrsNodeQuery(mtlCfg.Utility):
     CLS_mtl_dcc_port_def = None
 
     CLS_mtl_dcc_raw_translator = None
 
     VAR_mtl_def_key_list = []
 
-    def _initAbcMtlDccObjectDef(self, dccCategoryString, dccObjectRaw, dccOutputRaw, dccPortChildRaw):
+    def _initDefGrhTrsNodeQuery(self, dccCategoryString, dccObjectRaw, dccOutputRaw, dccPortChildRaw):
         self._dccCategoryString = dccCategoryString
 
         self._dccNodeDefDict = self.CLS_mtl_dcc_raw_translator(
@@ -449,7 +224,7 @@ class Abc_MtlDccObjectDef(mtlConfigure.Utility):
 
 
 # material dcc Query
-class Abc_MtlDccQueryCache(mtlConfigure.Utility):
+class Def_GrhTrsObjQueryCache(mtlCfg.Utility):
     VAR_mtl_dcc_node_file = None
     VAR_mtl_dcc_geometry_file = None
     VAR_mtl_dcc_material_file = None
@@ -464,7 +239,7 @@ class Abc_MtlDccQueryCache(mtlConfigure.Utility):
     OBJ_grh_query_cache = None
 
     # noinspection PyUnusedLocal
-    def _initAbcMtlDccQueryCache(self, *args):
+    def _initDefGrhTrsObjQueryCache(self, *args):
         self._dccObjectRaw = bscMethods.OsJsonFile.read(
             self.VAR_mtl_dcc_node_file
         ) or {}
@@ -542,91 +317,3 @@ class Def_XmlCacheObj(object):
             cacheObject = objectCls(*clsArgs)
             cacheQueryObject._set_obj_add_(cacheObject)
             return cacheObject
-
-
-class Abc_MtlObjCache(mtlConfigure.Utility):
-    DEF_mtl_key_index = u'index'
-
-    def _initAbcMtlObjCache(self):
-        self._objectFilterDict = {}
-        self._objectList = []
-
-        self._objectCount = 0
-
-    def _initializeCache_(self):
-        self._objectFilterDict = {}
-        self._objectList = []
-
-        self._objectCount = 0
-
-    def _set_obj_add_(self, *args):
-        if len(args) == 2:
-            objKeyString, obj = args
-        else:
-            obj = args[0]
-            objKeyString = obj._mtlCacheObjKeyString_()
-
-        if objKeyString not in self._objectFilterDict:
-            index = self._objectCount
-            self._objectFilterDict[objKeyString] = {}
-            if obj not in self._objectList:
-                self._objectList.append(obj)
-            self._objectFilterDict[objKeyString][self.DEF_mtl_key_index] = index
-            self._objectCount += 1
-
-    def _get_obj_exist_(self, *args):
-        if isinstance(args[0], (str, unicode)):
-            objKeyString = args[0]
-            return objKeyString in self._objectFilterDict
-        elif isinstance(args[0], int):
-            index = args[0]
-            return 0 <= index <= (self._objectCount - 1)
-        elif isinstance(args[0], Def_XmlCacheObj):
-            obj = args[0]
-            objKeyString = obj._mtlCacheObjKeyString_()
-            return objKeyString in self._objectFilterDict
-
-    def _get_obj_(self, *args):
-        if isinstance(args[0], (str, unicode)):
-            objKeyString = args[0]
-            index = self._objectFilterDict[objKeyString][self.DEF_mtl_key_index]
-            return self._objectList[index]
-        elif isinstance(args[0], (int, float)):
-            index = args[0]
-            return self._objectList[int(index)]
-
-    def _get_obj_index_(self, *args):
-        if isinstance(args[0], (str, unicode)):
-            objKeyString = args[0]
-            return self._objectFilterDict[objKeyString][self.DEF_mtl_key_index]
-        elif isinstance(args[0], Def_XmlCacheObj):
-            obj = args[0]
-            objKeyString = obj._mtlCacheObjKeyString_()
-            return self._objectFilterDict[objKeyString][self.DEF_mtl_key_index]
-
-    def addObject(self, obj):
-        objKeyString = obj._mtlCacheObjKeyString_()
-        assert objKeyString not in self._objectFilterDict, u'''"{}" is Registered.'''.format(objKeyString)
-        self._set_obj_add_(obj)
-
-    def objectCount(self):
-        """
-        :return: int
-        """
-        return self._objectCount
-
-    def hasObjects(self):
-        return self._objectList != []
-
-    def hasObject(self, objKeyString):
-        return self._get_obj_exist_(objKeyString)
-
-    def objects(self):
-        return self._objectList
-
-    def object(self, objKeyString):
-        assert objKeyString in self._objectFilterDict, u'''"{}" is Unregistered.'''.format(objKeyString)
-        return self._get_obj_(objKeyString)
-
-    def objectNames(self):
-        return [i._mtlCacheObjKeyString_() for i in self._objectList]

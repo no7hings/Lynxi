@@ -117,8 +117,8 @@ def getRegularPolygonPoints(xPos, yPos, sideCount, radius, side=0):
 #
 class QtPiechart_(qtCore.QWidget_):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtPiechart_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QtPiechart_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self._pressData = None
         #
@@ -151,7 +151,7 @@ class QtPiechart_(qtCore.QWidget_):
         yOffset = self._yOffset
         #
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHint(painter.Antialiasing)
         if self._pieDrawData:
@@ -195,7 +195,7 @@ class QtPiechart_(qtCore.QWidget_):
                 painter.setFont(qtCore.qtFont(size=10, weight=50, family=qtCore._families[1]))
                 painter.drawText(rect, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter, self._percent)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def pressAction(self, event):
         isPressEnabled = False
@@ -330,7 +330,7 @@ class QtMapchart_(qtCore.QWidget_):
             yPosition = self.yPosition
             #
             painter = qtCore.QPainter_(self)
-            # painter.begin(self)  # fix
+            # painter.begin(self)  # for pyside2
 
             painter.setRenderHint(painter.Antialiasing)
             #
@@ -354,7 +354,7 @@ class QtMapchart_(qtCore.QWidget_):
                     for i in drawData:
                         painter.drawPolygon(i, QtCore.Qt.WindingFill)
 
-            # painter.end()
+            # painter.end()  # for pyside2
         # self.draw = False
     # #
     # def wheelEvent(self, event):
@@ -402,8 +402,8 @@ class QtMapchart_(qtCore.QWidget_):
 #
 class QtSequencechart_(qtCore.QWidget_):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtSequencechart_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QtSequencechart_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -428,7 +428,7 @@ class QtSequencechart_(qtCore.QWidget_):
         side = 2
         #
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         painter.setFont(qtCore.qtFont(size=8, weight=75))
         #
@@ -490,7 +490,7 @@ class QtSequencechart_(qtCore.QWidget_):
                         subPoint = qtCore.CLS_point(xSubPos, ySubPos + 12)
                         painter.drawText(subPoint, '{}-{}'.format(subStartNum, subEndNum))
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setUiSize(self):
         self.setMaximumSize(166667, 20)
@@ -508,8 +508,8 @@ class QtSequencechart_(qtCore.QWidget_):
 #
 class QtHistogramchart_(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(qtCore.QWidget, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -607,7 +607,7 @@ class QtHistogramchart_(qtCore.QWidget):
         yGridMult = self._yGridMult
         #
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setDrawGrid(
             width, height, (1, -1),
@@ -692,7 +692,7 @@ class QtHistogramchart_(qtCore.QWidget):
             self._useMode
         )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setSelectedIndexRefresh(self, event):
         xPos = event.pos().x() - self._xTrackOffset - self._xGridOffset
@@ -769,8 +769,8 @@ class QtHistogramchart_(qtCore.QWidget):
 #
 class QtColorchart_(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(qtCore.QWidget, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -959,7 +959,7 @@ class QtColorchart_(qtCore.QWidget):
         points = []
         #
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         painter.setRenderHint(painter.Antialiasing)
         #
         width = self.width()
@@ -1021,7 +1021,7 @@ class QtColorchart_(qtCore.QWidget):
                 '#{}'.format(self._htmlColor)
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def zoomAction(self, delta):
         radix = 3

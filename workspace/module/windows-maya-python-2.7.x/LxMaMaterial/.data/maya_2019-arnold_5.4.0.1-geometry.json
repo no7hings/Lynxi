@@ -3,64 +3,64 @@
         "mtl_category": "mesh",
         "dcc_port": {
             "aiDispHeight": {
-                "mtl_portname": "disp_height"
+                "target_portpath": "disp_height"
             },
             "aiDispPadding": {
-                "mtl_portname": "disp_padding"
+                "target_portpath": "disp_padding"
             },
             "aiDispZeroValue": {
-                "mtl_portname": "disp_zero_value"
+                "target_portpath": "disp_zero_value"
             },
             "aiDispAutobump": {
-                "mtl_portname": "disp_autobump"
+                "target_portpath": "disp_autobump"
             },
             "aiAutobumpVisibility": {
-                "mtl_portname": "autobump_visibility"
+                "target_portpath": "autobump_visibility"
             },
             "aiSubdivType": {
-                "mtl_portname": "subdiv_type"
+                "target_portpath": "subdiv_type"
             },
             "aiSubdivIterations": {
-                "mtl_portname": "subdiv_iterations"
+                "target_portpath": "subdiv_iterations"
             },
             "aiSubdivPixelError": {
-                "mtl_portname": "subdiv_adaptive_error"
+                "target_portpath": "subdiv_adaptive_error"
             },
             "aiSubdivAdaptiveMetric": {
-                "mtl_portname": "subdiv_adaptive_metric"
+                "target_portpath": "subdiv_adaptive_metric"
             },
             "aiSubdivAdaptiveSpace": {
-                "mtl_portname": "subdiv_adaptive_space"
+                "target_portpath": "subdiv_adaptive_space"
             },
             "aiSubdivUvSmoothing": {
-                "mtl_portname": "subdiv_uv_smoothing"
+                "target_portpath": "subdiv_uv_smoothing"
             },
             "aiSubdivFrustumIgnore": {
-                "mtl_portname": "subdiv_frustum_ignore"
+                "target_portpath": "subdiv_frustum_ignore"
             },
             "aiSubdivSmoothDerivs": {
-                "mtl_portname": "subdiv_smooth_derivs"
+                "target_portpath": "subdiv_smooth_derivs"
             },
             "primaryVisibility": {
-                "mtl_portname": "camera"
+                "target_portpath": "camera"
             },
             "castsShadows": {
-                "mtl_portname": "shadow"
+                "target_portpath": "shadow"
             },
             "aiVisibleInDiffuseTransmission": {
-                "mtl_portname": "diffuse_transmit"
+                "target_portpath": "diffuse_transmit"
             },
             "aiVisibleInSpecularTransmission": {
-                "mtl_portname": "specular_transmit"
+                "target_portpath": "specular_transmit"
             },
             "aiVisibleInDiffuseReflection": {
-                "mtl_portname": "diffuse_reflect"
+                "target_portpath": "diffuse_reflect"
             },
             "aiVisibleInSpecularReflection": {
-                "mtl_portname": "specular_reflect"
+                "target_portpath": "specular_reflect"
             },
             "aiVisibleInVolume": {
-                "mtl_portname": "volume"
+                "target_portpath": "volume"
             }
         },
 

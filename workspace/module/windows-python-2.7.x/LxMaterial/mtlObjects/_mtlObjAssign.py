@@ -1,14 +1,14 @@
 # coding:utf-8
-from .. import mtlConfigure, mtlObjAbs
+from ..import mtlCfg, mtlObjAbs
 
-from ..mtlObjects import _mtlObjCache, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
+from ..mtlObjects import _mtlObjQuery, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mtlObjPort
 
 
 class MaterialAssign(mtlObjAbs.Abc_MtlMaterialAssign):
     CLS_mtl_name = _mtlObjRaw.Name
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
-    DEF_geometry_separator = mtlConfigure.Utility.DEF_mtl_data_separator
+    DEF_geometry_separator = mtlCfg.Utility.DEF_mtl_data_separator
 
     VAR_mtl_file_element_key = u'materialassign'
 
@@ -42,7 +42,7 @@ class VisibilityAssign(mtlObjAbs.Abc_MtlVisibilityAssign):
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
 
-    OBJ_grh_query_cache = _mtlObjCache.OBJ_grh_query_cache
+    OBJ_grh_query_cache = _mtlObjQuery.OBJ_grh_query_cache_
 
     VAR_mtl_file_element_key = u'visibility'
 

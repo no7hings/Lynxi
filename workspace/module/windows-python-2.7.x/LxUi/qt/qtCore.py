@@ -11,7 +11,7 @@ from LxBasic import bscConfigure, bscMethods
 
 from LxScheme import shmOutput
 #
-from LxUi import uiCore
+from LxUi import guiCore
 
 mod_pyqt5 = bscMethods.PyLoader.reload('PyQt5')
 if mod_pyqt5:
@@ -36,7 +36,7 @@ else:
 #
 cgitb.enable(format='text')
 #
-_families = uiCore.Lynxi_Ui_Family_Lis
+_families = guiCore.Lynxi_Ui_Family_Lis
 #
 CLS_color = QtGui.QColor
 CLS_brush = QtGui.QBrush
@@ -154,37 +154,29 @@ load_dic = {
 }
 
 misplaced_dic = {
-        "QtCore.pyqtProperty": "QtCore.Property",
-        "QtCore.pyqtSignal": "QtCore.Signal",
-        "QtCore.pyqtSlot": "QtCore.Slot",
-        "QtCore.QAbstractProxyModel": "QtCore.QAbstractProxyModel",
-        "QtCore.QSortFilterProxyModel": "QtCore.QSortFilterProxyModel",
-        "QtCore.QStringListModel": "QtCore.QStringListModel",
-        "QtCore.QItemSelection": "QtCore.QItemSelection",
-        "QtCore.QItemSelectionModel": "QtCore.QItemSelectionModel",
-        "QtCore.QItemSelectionRange": "QtCore.QItemSelectionRange",
-        "uic.loadUi": "QtCompat.loadUi",
-        "sip.wrapinstance": "QtCompat.wrapInstance",
-        "sip.unwrapinstance": "QtCompat.getCppPointer",
-        "sip.isdeleted": "QtCompat.isValid",
-        "QtWidgets.qApp": "QtWidgets.QApplication.instance()",
-        "QtCore.QCoreApplication.translate": "QtCompat.translate",
-        "QtWidgets.QApplication.translate": "QtCompat.translate",
-        "QtCore.qInstallMessageHandler": "QtCompat.qInstallMessageHandler",
-        "QtWidgets.QStyleOptionViewItem": "QtCompat.QStyleOptionViewItemV4",
-    }
+    "QtCore.pyqtProperty": "QtCore.Property",
+    "QtCore.pyqtSignal": "QtCore.Signal",
+    "QtCore.pyqtSlot": "QtCore.Slot",
+    "QtCore.QAbstractProxyModel": "QtCore.QAbstractProxyModel",
+    "QtCore.QSortFilterProxyModel": "QtCore.QSortFilterProxyModel",
+    "QtCore.QStringListModel": "QtCore.QStringListModel",
+    "QtCore.QItemSelection": "QtCore.QItemSelection",
+    "QtCore.QItemSelectionModel": "QtCore.QItemSelectionModel",
+    "QtCore.QItemSelectionRange": "QtCore.QItemSelectionRange",
+    "uic.loadUi": "QtCompat.loadUi",
+    "sip.wrapinstance": "QtCompat.wrapInstance",
+    "sip.unwrapinstance": "QtCompat.getCppPointer",
+    "sip.isdeleted": "QtCompat.isValid",
+    "QtWidgets.qApp": "QtWidgets.QApplication.instance()",
+    "QtCore.QCoreApplication.translate": "QtCompat.translate",
+    "QtWidgets.QApplication.translate": "QtCompat.translate",
+    "QtCore.qInstallMessageHandler": "QtCompat.qInstallMessageHandler",
+    "QtWidgets.QStyleOptionViewItem": "QtCompat.QStyleOptionViewItemV4",
+}
 
 
 def iconRoot():
     return shmOutput.Directory().icon.server
-
-
-def capitalize(s):
-    return s[0].upper() + s[1:] if s else s
-
-
-def prettify(s):
-    return ' '.join([capitalize(x) for x in re.findall('[a-zA-Z][a-z]*[0-9]*', s)])
 
 
 def matrix3x3():
@@ -437,7 +429,7 @@ def mtdTooltipStartModifier(method):
                 self._tooltipWidget.setTooltip(uiTip)
                 self._tooltipWidget.tooltipShow()
                 #
-                shmOutput.Interface().setTooltipAutoShow(True)
+                shmOutput.Gui().setTooltipAutoShow(True)
             #
             self._tooltipTimer.stop()
         # Class
@@ -487,14 +479,9 @@ class QPainterPath_(QtGui.QPainterPath):
         self.addPolygon(CLS_polygonF(points))
 
 
-class QPainter_(QtGui.QPainter, uiCore.UiMtdBasic):
+class QPainter_(QtGui.QPainter, guiCore.UiMtdBasic):
     def __init__(self, *args, **kwargs):
         super(QPainter_, self).__init__(*args, **kwargs)
-        #
-        parent = args[0]
-        if parent is not None:
-            if qtIsDeleted(parent) is False:
-                self.end()
         #
         self._borderColor = CLS_color(127, 127, 127, 255)
         self._backgroundColor = CLS_color(63, 63, 63, 255)
@@ -1280,8 +1267,8 @@ class QPainter_(QtGui.QPainter, uiCore.UiMtdBasic):
 class QThread_(QtCore.QThread):
     started = qtSignal()
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QThread_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QThread_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self._threadIndex = 0
         self._isStarted = False
@@ -1312,8 +1299,8 @@ class xPythonHighlighter(QtGui.QSyntaxHighlighter):
     ruleLis = []
     formatDic = {}
     def __init__(self, *args):
-        self.clsSuper = super(xPythonHighlighter, self)
-        self.clsSuper.__init__(*args)
+        self._clsSuper = super(xPythonHighlighter, self)
+        self._clsSuper.__init__(*args)
         #
         self.initializeFormat()
         self.initializeRule()
@@ -1470,8 +1457,8 @@ class xPythonHighlighter(QtGui.QSyntaxHighlighter):
 
 class QWidget_(QWidget):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QWidget_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QWidget_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setFocusPolicy(QtCore.Qt.NoFocus)
@@ -1485,11 +1472,11 @@ class QWidget_(QWidget):
 class QWidget__(QWidget):
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QWidget__, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QWidget__, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1520,7 +1507,7 @@ class QWidget__(QWidget):
     def paintEvent(self, event):
         if self._drawFrame is True:
             painter = QPainter_(self)
-            # painter.begin(self)  # fix
+            # painter.begin(self)  # for pyside2
 
             xPos = 0
             yPos = 0
@@ -1557,17 +1544,17 @@ class QWidget__(QWidget):
                 focusFramePointLis
             )
 
-            # painter.end()
+            # painter.end()  # for pyside2
 
 
 class QGridLayout_(QGridLayout):
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QGridLayout, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QGridLayout, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QGridLayout_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QGridLayout_, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
@@ -1590,11 +1577,11 @@ class QGridLayout_(QGridLayout):
 class QVBoxLayout_(QVBoxLayout):
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QVBoxLayout, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QVBoxLayout, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QVBoxLayout_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QVBoxLayout_, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
@@ -1617,11 +1604,11 @@ class QVBoxLayout_(QVBoxLayout):
 class QHBoxLayout_(QHBoxLayout):
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QHBoxLayout, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QHBoxLayout, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QHBoxLayout_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QHBoxLayout_, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self.setContentsMargins(0, 0, 0, 0)
         self.setSpacing(2)
@@ -1644,13 +1631,13 @@ class QHBoxLayout_(QHBoxLayout):
 class QScrollArea_(QScrollArea):
     def __init__(self, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QScrollArea, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QScrollArea, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
             self.setAttribute(QtCore.Qt.WA_TranslucentBackground | QtCore.Qt.WA_TransparentForMouseEvents)
         else:
-            self.clsSuper = super(QScrollArea_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QScrollArea_, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
             self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1740,11 +1727,11 @@ class QScrollArea_(QScrollArea):
 # Tool Tip Box
 class QtTooltipWidget_(
     QWidget,
-    uiCore.UiMtdBasic
+    guiCore.UiMtdBasic
 ):
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(QtTooltipWidget_, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(QtTooltipWidget_, self)
+        self._clsSuper.__init__(*args, **kwargs)
         #
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         #
@@ -1772,7 +1759,7 @@ class QtTooltipWidget_(
     #
     def paintEvent(self, event):
         painter = QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setFont(self.font())
         #
@@ -1786,16 +1773,16 @@ class QtTooltipWidget_(
                 self._uiMargin, self._uiShadowRadius, self._uiSide, self._region
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def tooltipShow(self):
         parent = self.parent()
         if parent:
             deskPos = getCursorPos()
-            deskRect = getDesktopRect()
+            desktopRect = getDesktopRect()
             #
             xd, yd = deskPos.x(), deskPos.y()
-            wd, hd = deskRect.width(), deskRect.height()
+            wd, hd = desktopRect.width(), desktopRect.height()
             #
             region = self.mtd_raw_position_2d.toRegion(
                 position=(xd, yd),
@@ -1814,7 +1801,7 @@ class QtTooltipWidget_(
     #
     def uiShow(self, xPos=None, yPos=None):
         deskPos = getCursorPos()
-        deskRect = getDesktopRect()
+        desktopRect = getDesktopRect()
         #
         parent = self.parent()
         if parent:
@@ -1823,7 +1810,7 @@ class QtTooltipWidget_(
             if yPos is None:
                 yPos = deskPos.y()
             #
-            maxWidth, maxHeight = deskRect.width(), deskRect.height()
+            maxWidth, maxHeight = desktopRect.width(), desktopRect.height()
             #
             xOffset = 4
             yOffset = 0
@@ -1889,11 +1876,11 @@ class QtTooltipWidget_(
 class QSplitter_(QSplitter):
     def __init__(self, *args):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QSplitter, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QSplitter, self)
+            self._clsSuper.__init__(*args)
         else:
-            self.clsSuper = super(QSplitter_, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QSplitter_, self)
+            self._clsSuper.__init__(*args)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -1913,11 +1900,11 @@ class QSplitter_(QSplitter):
 class QCommonStyle_(QCommonStyle):
     def __init__(self):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QCommonStyle, self)
-            self.clsSuper.__init__()
+            self._clsSuper = super(QCommonStyle, self)
+            self._clsSuper.__init__()
         else:
-            self.clsSuper = super(QCommonStyle_, self)
-            self.clsSuper.__init__()
+            self._clsSuper = super(QCommonStyle_, self)
+            self._clsSuper.__init__()
     #
     def drawPrimitive(self, *args):
         element, option, painter, widget = args
@@ -1932,11 +1919,11 @@ class QCommonStyle_(QCommonStyle):
 class QPalette_(QtGui.QPalette):
     def __init__(self, *args):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QtGui.QPalette, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QtGui.QPalette, self)
+            self._clsSuper.__init__(*args)
         else:
-            self.clsSuper = super(QPalette_, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QPalette_, self)
+            self._clsSuper.__init__(*args)
         #
         brush = CLS_brush(CLS_color(63, 127, 255, 127))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -1973,11 +1960,11 @@ class QRadioButton_(QRadioButton):
     # noinspection PyArgumentList
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QRadioButton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QRadioButton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QRadioButton_, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QRadioButton_, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._uiIconKeyword = 'basic#radioCheck'
         if iconKeyword:
@@ -1996,7 +1983,7 @@ class QRadioButton_(QRadioButton):
         self.setMinimumSize(QtCore.QSize(0, 20))
     #
     def setCheckable(self, *args):
-        self.clsSuper.setCheckable(*args)
+        self._clsSuper.setCheckable(*args)
         self._updateUiStyle()
     #
     def setTooltip(self, string):
@@ -2068,11 +2055,11 @@ class QRadioButton_(QRadioButton):
 class QCheckBox_(QCheckBox):
     def __init__(self, iconKeyword=None, *args):
         if LOAD_INDEX is 0:
-            self.clsSuper = super(QCheckBox, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QCheckBox, self)
+            self._clsSuper.__init__(*args)
         else:
-            self.clsSuper = super(QCheckBox_, self)
-            self.clsSuper.__init__(*args)
+            self._clsSuper = super(QCheckBox_, self)
+            self._clsSuper.__init__(*args)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -2110,20 +2097,20 @@ class QCheckBox_(QCheckBox):
             self.setLayoutDirection(QtCore.Qt.RightToLeft)
     #
     def setChecked(self, boolean):
-        self.clsSuper.setChecked(boolean)
+        self._clsSuper.setChecked(boolean)
         #
         self._isChecked = boolean
         self._updateUiStyle()
     #
     def setCheckable(self, boolean):
-        self.clsSuper.setCheckable(boolean)
+        self._clsSuper.setCheckable(boolean)
         #
         self._isCheckable = boolean
         self._updateUiStyle()
     #
     def isChecked(self):
         if self.isCheckable():
-            return self.clsSuper.isChecked()
+            return self._clsSuper.isChecked()
         else:
             return False
     #
@@ -2222,7 +2209,7 @@ def getWidgetMinimumHeight(widget):
 
 
 def getTooltipDelayTime():
-    if shmOutput.Interface().isTooltipAutoShow() is False:
+    if shmOutput.Gui().isTooltipAutoShow() is False:
         return bscConfigure.Utility.VAR_ui_time_tooltip_delay
     else:
         return 250
@@ -2230,7 +2217,7 @@ def getTooltipDelayTime():
 
 def closeTooltipAutoShow():
     if TOOLTIP_TIMER.isActive():
-        shmOutput.Interface().setTooltipAutoShow(False)
+        shmOutput.Gui().setTooltipAutoShow(False)
         TOOLTIP_TIMER.stop()
 
 

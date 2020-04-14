@@ -5,10 +5,10 @@ import collections
 
 import MaterialX
 
-from . import mtlConfigure
+from . import mtlCfg
 
 
-class Mtd_MtlBasic(mtlConfigure.Utility):
+class Mtd_MtlBasic(mtlCfg.Utility):
     MOD_materialx = MaterialX
     MOD_functools = functools
     CLS_ordered_dict = collections.OrderedDict

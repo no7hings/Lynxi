@@ -15,12 +15,12 @@ if __name__ == '__main__':
     geometry0 = mtlObjects.GeometryProxy('/group/geometry_0')
     geometry1 = mtlObjects.GeometryProxy('/group/geometry_1')
 
-    geometry0.node().input(u'shadow').setPortdata(False)
-    geometry0.node().input(u'camera').setPortdata(False)
-    geometry1.node().input(u'shadow').setPortdata(False)
+    geometry0.node().param(u'shadow').setPortdata(False)
+    geometry0.node().param(u'camera').setPortdata(False)
+    geometry1.node().param(u'shadow').setPortdata(False)
 
-    geometry0.node().input(u'matte').setPortdata(True)
-    geometry1.node().input(u'matte').setPortdata(True)
+    geometry0.node().param(u'matte').setPortdata(True)
+    geometry1.node().param(u'matte').setPortdata(True)
 
     look0.addGeometries(geometry0, geometry1)
 

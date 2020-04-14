@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 #
@@ -10,11 +10,11 @@ from LxMaya.method.basic import _maMethodBasic
 
 #
 class IfMaNodeTreeItem(qtObjWidget.QtAbcObj_Treeitem):
-    ui_qt_method = uiCore.UiMtdBasic
+    ui_qt_method = guiCore.UiMtdBasic
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
-        self.clsSuper = super(qtCore.QWidget, self)
-        self.clsSuper.__init__(*args, **kwargs)
+        self._clsSuper = super(qtCore.QWidget, self)
+        self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjTreeitem()
     @property

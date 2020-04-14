@@ -5,7 +5,7 @@ from LxScheme import shmOutput
 
 from LxPreset import prsConfigure
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxInterface.qt.qtIfBasic import _qtIfAbcWidget
 #
@@ -1468,7 +1468,7 @@ class IfSceneOverviewUnit(_qtIfAbcWidget.IfProductUnitOverviewUnitBasic):
                 from LxInterface.qt.ifWidgets import ifProductToolWindow
                 #
                 w = ifProductToolWindow.IfScIndexManagerWindow(parent=self)
-                w.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
+                w.setDefaultSize(*guiCore.Lynxi_Ui_Window_SubSize_Default)
                 w.setNameText(viewExplain)
                 w.setArgs(
                     '',

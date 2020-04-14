@@ -17,13 +17,13 @@ none = ''
 class QtWindow(qtObjWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         else:
-            self.clsSuper = super(QtWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtWindow, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window)
 
@@ -47,13 +47,13 @@ class QtWindow(qtObjWidget.QtAbcObj_Window):
 class QtToolWindow(qtObjWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         else:
-            self.clsSuper = super(QtToolWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtToolWindow, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window)
 
@@ -79,13 +79,13 @@ class QtToolWindow(qtObjWidget.QtAbcObj_Window):
 class QtDialogWindow(qtObjWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         else:
-            self.clsSuper = super(QtDialogWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtDialogWindow, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
 
@@ -109,13 +109,13 @@ class QtDialogWindow(qtObjWidget.QtAbcObj_Window):
 class QtTipWindow(qtObjWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
         else:
-            self.clsSuper = super(QtTipWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtTipWindow, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
 
@@ -177,13 +177,13 @@ class QtLogWindow(qtObjWidget.QtAbcObj_Window):
     method_html = bscMethods.TxtHtml
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
         else:
-            self.clsSuper = super(QtLogWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtLogWindow, self)
+            self._clsSuper.__init__(parent)
 
             self.setWindowFlags(QtCore.Qt.Window)
 
@@ -244,11 +244,11 @@ class QtLogWindow(qtObjWidget.QtAbcObj_Window):
 class QtFloatWindow(qtObjWidget.QtAbcObj_Window):
     def __init__(self, parent=qtCore.getAppWindow()):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
         else:
-            self.clsSuper = super(QtFloatWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtFloatWindow, self)
+            self._clsSuper.__init__(parent)
 
         self._initFloatWindow()
 
@@ -275,11 +275,11 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
 
     def __init__(self, parent=None):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(parent)
         else:
-            self.clsSuper = super(QtMessageWindow, self)
-            self.clsSuper.__init__(parent)
+            self._clsSuper = super(QtMessageWindow, self)
+            self._clsSuper.__init__(parent)
 
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
 
@@ -288,6 +288,7 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
     def _initMessageWindow(self):
         self._initAbcObjWindow()
         self._initMessageWindowVar()
+        self._initMessageWindowAction()
         #
         self.setupUi()
         #
@@ -315,16 +316,19 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
 
         self._quitTime = 3000
 
+    def _initMessageWindowAction(self):
+        self._quitTimer.timeout.connect(self.uiQuit)
+
     @staticmethod
     def _setMessageCount(value):
-        shmOutput.Interface().setMessageCount(value)
+        shmOutput.Gui().setMessageCount(value)
 
     def uiShow(self, *args):
         self._messageShow()
 
     @staticmethod
     def _messageCount():
-        return shmOutput.Interface().messageCount()
+        return shmOutput.Gui().messageCount()
 
     def _messageShow(self):
         width, height = self.windowModel().defaultSize()
@@ -334,9 +338,9 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
             parentWidth, parentHeight = parent.width(), parent.height()
             parentXPos, parentYPos = 0, 0
         else:
-            deskRect = qtCore.getDesktopPrimaryRect()
-            parentWidth, parentHeight = deskRect.width(), deskRect.height()
-            parentXPos, parentYPos = deskRect.x(), deskRect.y()
+            desktopRect = qtCore.getDesktopPrimaryRect()
+            parentWidth, parentHeight = desktopRect.width(), desktopRect.height()
+            parentXPos, parentYPos = desktopRect.x(), desktopRect.y()
 
         maxVCount = 960
         count = self._messageCount()
@@ -356,8 +360,6 @@ class QtMessageWindow(qtObjWidget.QtAbcObj_Window):
 
     def _quitLater(self):
         self._quitTimer.start(self._quitTime)
-        #
-        self._quitTimer.timeout.connect(self.uiQuit)
 
     def uiQuit(self):
         # debug must stop first

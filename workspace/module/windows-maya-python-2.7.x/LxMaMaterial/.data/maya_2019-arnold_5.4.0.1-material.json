@@ -3,19 +3,19 @@
         "mtl_category": "material",
         "dcc_port": {
             "surfaceShader": {
-                "mtl_portname": "surfaceshader"
+                "target_portpath": "surfaceshader"
             },
             "aiSurfaceShader": {
-                "mtl_portname": "surfaceshader"
+                "target_portpath": "surfaceshader"
             },
             "displacementShader": {
-                "mtl_portname": "displacementshader"
+                "target_portpath": "displacementshader"
             },
             "volumeShader": {
-                "mtl_portname": "volumeshader"
+                "target_portpath": "volumeshader"
             },
             "aiVolumeShader": {
-                "mtl_portname": "volumeshader"
+                "target_portpath": "volumeshader"
             }
         }
     }

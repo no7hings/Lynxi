@@ -3,8 +3,8 @@
         "mtl_category": "range",
         "dcc_port": {
             "displacement": {
-                "dcc_porttype": "float",
-                "mtl_portname": [
+                "source_porttype": "float",
+                "target_portpath": [
                     "input",
                     "rgb"
                 ]
@@ -45,16 +45,16 @@
         "mtl_category": "image",
         "dcc_port": {
             "fileTextureName": {
-                "mtl_portname": "filename"
+                "target_portpath": "filename"
             },
             "colorSpace": {
-                "mtl_portname": "color_space"
+                "target_portpath": "color_space"
             },
             "colorGain": {
-                "mtl_portname": "multiply"
+                "target_portpath": "multiply"
             },
             "colorOffset": {
-                "mtl_portname": "offset"
+                "target_portpath": "offset"
             }
         },
 
@@ -80,39 +80,39 @@
         "mtl_category": "uv_transform",
         "dcc_port": {
             "coverage": {
-                "dcc_porttype": "uv_0",
-                "mtl_portname": "coverage"
+                "source_porttype": "uv_0",
+                "target_portpath": "coverage"
             },
             "translateFrame": {
-                "dcc_porttype": "uv_0",
-                "mtl_portname": "translate_frame"
+                "source_porttype": "uv_0",
+                "target_portpath": "translate_frame"
             },
             "rotateFrame": {
-                "mtl_portname": "rotate_frame"
+                "target_portpath": "rotate_frame"
             },
             "mirrorU": {
-                "mtl_portname": "mirror_u"
+                "target_portpath": "mirror_u"
             },
             "mirrorV": {
-                "mtl_portname": "mirror_v"
+                "target_portpath": "mirror_v"
             },
             "stagger": {
-                "mtl_portname": "stagger"
+                "target_portpath": "stagger"
             },
             "repeatUV": {
-                "dcc_porttype": "uv_1",
-                "mtl_portname": "repeat"
+                "source_porttype": "uv_1",
+                "target_portpath": "repeat"
             },
             "offset": {
-                "dcc_porttype": "uv_0",
-                "mtl_portname": "offset"
+                "source_porttype": "uv_0",
+                "target_portpath": "offset"
             },
             "rotateUV": {
-                "mtl_portname": "rotate"
+                "target_portpath": "rotate"
             },
             "noiseUV": {
-                "dcc_porttype": "uv_1",
-                "mtl_portname": "noise"
+                "source_porttype": "uv_1",
+                "target_portpath": "noise"
             }
         },
 
@@ -128,7 +128,7 @@
         "mtl_category": "facing_ratio",
         "dcc_port": {
             "facingRatio": {
-                "mtl_portname": "float"
+                "target_portpath": "float"
             }
         },
         "create_expression": {
@@ -144,16 +144,16 @@
         "mtl_category": "ramp_rgb",
         "dcc_port": {
             "type": {
-                "mtl_portname": "type"
+                "target_portpath": "type"
             },
             "colorEntryList.color": {
-                "mtl_portname": "color"
+                "target_portpath": "color"
             },
             "colorEntryList.position": {
-                "mtl_portname": "position"
+                "target_portpath": "position"
             },
             "outAlpha": {
-                "mtl_portname": "position"
+                "target_portpath": "position"
             }
         },
 
@@ -183,17 +183,17 @@
         "mtl_category": "normal_map",
         "dcc_port": {
             "bumpValue": {
-                "dcc_porttype": "float",
-                "mtl_portname": "input"
+                "source_porttype": "float",
+                "target_portpath": "input"
             },
             "bumpInterp": {
-                "mtl_portname": "order"
+                "target_portpath": "order"
             },
             "aiFlipR": {
-                "mtl_portname": "invert_x"
+                "target_portpath": "invert_x"
             },
             "aiFlipG": {
-                "mtl_portname": "invert_y"
+                "target_portpath": "invert_y"
             }
         },
 
@@ -209,11 +209,11 @@
         "mtl_category": "bump2d",
         "dcc_port": {
             "bumpValue": {
-                "dcc_porttype": "float",
-                "mtl_portname": "bump_map"
+                "source_porttype": "float",
+                "target_portpath": "bump_map"
             },
             "bumpDepth": {
-                "mtl_portname": "bump_height"
+                "target_portpath": "bump_height"
             }
         }
     },
@@ -223,16 +223,16 @@
         "mtl_category": "lambert",
         "dcc_port": {
             "diffuse": {
-                "mtl_portname": "Kd"
+                "target_portpath": "Kd"
             },
             "color": {
-                "mtl_portname": "Kd_color"
+                "target_portpath": "Kd_color"
             },
             "transparency": {
-                "mtl_portname": "opacity"
+                "target_portpath": "opacity"
             },
             "normalCamera": {
-                "mtl_portname": "normal"
+                "target_portpath": "normal"
             }
         }
     },
@@ -241,22 +241,22 @@
         "mtl_category": "standard_surface",
         "dcc_port": {
             "color": {
-                "mtl_portname": "base_color"
+                "target_portpath": "base_color"
             },
             "specularRollOff": {
-                "mtl_portname": "specular"
+                "target_portpath": "specular"
             },
             "specularColor": {
-                "mtl_portname": "specular_color"
+                "target_portpath": "specular_color"
             },
             "eccentricity": {
-                "mtl_portname": "specular_roughness"
+                "target_portpath": "specular_roughness"
             },
             "reflectivity": {
-                "mtl_portname": "coat"
+                "target_portpath": "coat"
             },
             "reflectedColor": {
-                "mtl_portname": "coat_color"
+                "target_portpath": "coat_color"
             }
         },
         "mtl_port": {

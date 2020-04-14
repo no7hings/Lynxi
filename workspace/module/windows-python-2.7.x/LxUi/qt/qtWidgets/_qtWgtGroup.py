@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 #
@@ -10,18 +10,18 @@ from LxUi.qt._qtModels import _qtMdlGroup
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiCore.Lynxi_Ui_Family_Lis
+_families = guiCore.Lynxi_Ui_Family_Lis
 
 
 #
 class QtToolboxGroup(qtObjWidget.QtAbcObj_Group):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtToolboxGroup, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtToolboxGroup, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initGroupBasic()
         self.__override()
@@ -47,7 +47,7 @@ class QtToolboxGroup(qtObjWidget.QtAbcObj_Group):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -81,7 +81,7 @@ class QtToolboxGroup(qtObjWidget.QtAbcObj_Group):
             painter.setBorderRgba(self._uiIndexRgba)
             painter.drawText(rect, textOption, self.groupModel().indexText())
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setupUi(self):
         self._menuButton = qtObjWidget._QtActionIconbutton('svg_basic@svg#tabMenu_h', self)
@@ -107,11 +107,11 @@ class QtToolboxGroup(qtObjWidget.QtAbcObj_Group):
 class QtToolbox(qtObjWidget.QtAbcObj_Group):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtToolbox, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtToolbox, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initGroupBasic()
         self.__override()
@@ -126,7 +126,7 @@ class QtToolbox(qtObjWidget.QtAbcObj_Group):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Image
         if self.groupModel().isExpanded():
             if self.groupModel().image() is not None:
@@ -168,7 +168,7 @@ class QtToolbox(qtObjWidget.QtAbcObj_Group):
                 #
                 self._paintSeparators(painter)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def _paintSeparators(self, painter):
         widgetLis = self._separatorLis
@@ -318,11 +318,11 @@ class QtToolbox(qtObjWidget.QtAbcObj_Group):
 class _QtButtontabBar(qtObjWidget.QtAbcObj_Tabbar):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(_QtButtontabBar, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(_QtButtontabBar, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabbar()
         #
@@ -336,11 +336,11 @@ class _QtButtontabBar(qtObjWidget.QtAbcObj_Tabbar):
 class QtButtonTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtButtonTabgroup, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtButtonTabgroup, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabgroup()
         #
@@ -363,17 +363,17 @@ class QtButtonTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
 class _QtShelftabBar(qtObjWidget.QtAbcObj_Tabbar):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(_QtShelftabBar, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(_QtShelftabBar, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabbar()
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         #
         if self.viewModel()._uiTabBarPath:
             painter.setBackgroundRgba(self._uiBackgroundRgba)
@@ -395,7 +395,7 @@ class _QtShelftabBar(qtObjWidget.QtAbcObj_Tabbar):
                     #
                     painter.drawPath(i)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setupUi(self):
         self._viewModel = _qtMdlGroup.QtShelfTabBarModel(self)
@@ -405,11 +405,11 @@ class _QtShelftabBar(qtObjWidget.QtAbcObj_Tabbar):
 class QtVShelfTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtVShelfTabgroup, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtVShelfTabgroup, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabgroup()
         #
@@ -420,14 +420,14 @@ class QtVShelfTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         #
         painter.drawRect(self.viewModel().scrollRect())
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setupUi(self):
         self._tabBar = _QtShelftabBar(self)
@@ -453,11 +453,11 @@ class QtVShelfTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
 class QtHShelfTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtHShelfTabgroup, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtHShelfTabgroup, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjTabgroup()
         #
@@ -470,14 +470,14 @@ class QtHShelfTabgroup(qtObjWidget.QtAbcObj_Tabgroup):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
         #
         painter.drawRect(self.viewModel().scrollRect())
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def chooseTab(self):
         return self._chooseTab

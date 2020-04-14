@@ -1,5 +1,5 @@
 # coding:utf-8
-from .. import grhObjAbs
+from ..import grhObjAbs
 
 
 class PortQuerySet(grhObjAbs.Abs_GrhObjSet):
@@ -40,6 +40,14 @@ class CacheObjSet(grhObjAbs.Abs_GrhObjSet):
 
     def _get_object_key_string_(self, obj):
         return obj.pathString()
+
+
+class CacheTrsObjSet(grhObjAbs.Abs_GrhObjSet):
+    def __init__(self, *args):
+        self._initAbsGrhObjSet(*args)
+
+    def _get_object_key_string_(self, obj):
+        return obj.mtlNode().nodepathString()
 
 
 class ObjSet(grhObjAbs.Abs_GrhObjSet):

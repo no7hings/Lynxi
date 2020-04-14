@@ -5,7 +5,7 @@ from LxScheme import shmOutput
 
 from LxPreset import prsConfigure, prsMtdCore
 
-from LxUi import uiCore
+from LxUi import guiCore
 
 from LxUi.qt import qtModifiers, qtWidgets_, qtWidgets, qtCore
 
@@ -21,7 +21,7 @@ class IfPresetWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(IfPresetWindow, self).__init__()
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)

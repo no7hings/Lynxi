@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxData.datObjects import _datObjString
 
-from .. import mtlObjAbs, mtlConfigure
+from ..import mtlObjAbs, mtlCfg
 
 
 class Name(mtlObjAbs.Abs_MtlRaw):
@@ -23,7 +23,7 @@ class Type(mtlObjAbs.Abs_MtlRaw):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_mtl_file_element_key = u'string'
+    VAR_mtl_file_element_key = u'type'
     VAR_mtl_file_attribute_attach_key = u'type'
 
     def __init__(self, *args):
@@ -103,7 +103,7 @@ class Nodename(mtlObjAbs.Abs_MtlNodename):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_namesep = mtlConfigure.Utility.DEF_mtl_nodename_namesep
+    VAR_dat_namesep = mtlCfg.Utility.DEF_mtl_nodename_namesep
 
     VAR_mtl_file_element_key = u'nodename'
     VAR_mtl_file_attribute_attach_key = u'name'
@@ -120,7 +120,7 @@ class Portpath(mtlObjAbs.Abs_MtlPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_port_pathsep
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_port_pathsep
 
     VAR_mtl_file_element_key = u'portpath'
     VAR_mtl_file_attribute_attach_key = u'name'
@@ -137,7 +137,7 @@ class Nodepath(mtlObjAbs.Abs_MtlPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_node_pathsep
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_node_pathsep
 
     VAR_mtl_file_element_key = u'nodepath'
     VAR_mtl_file_attribute_attach_key = u'name'
@@ -154,7 +154,7 @@ class Filepath(mtlObjAbs.Abs_MtlPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_file_pathsep
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_file_pathsep
 
     VAR_mtl_file_element_key = u'filename'
     VAR_mtl_file_attribute_attach_key = u'filepath'
@@ -171,7 +171,7 @@ class RefFilepath(mtlObjAbs.Abs_MtlPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = mtlConfigure.Utility.DEF_mtl_file_pathsep
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_file_pathsep
 
     VAR_mtl_file_element_key = u'filename'
     VAR_mtl_file_attribute_attach_key = u'href'

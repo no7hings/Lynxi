@@ -1,5 +1,5 @@
 # coding:utf-8
-from .. import datCfg, datObjAbs
+from ..import datCfg, datObjAbs
 
 from . import _datObjString
 

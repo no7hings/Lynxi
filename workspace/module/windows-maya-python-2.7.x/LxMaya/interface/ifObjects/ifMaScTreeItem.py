@@ -264,8 +264,8 @@ class IfScCameraCacheItem(IfAbc_ScCameraProductItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScCameraCacheItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScCameraCacheItem, self)
+        self._clsSuper.__init__()
         #
         self._initScCameraProductItem(
             parentItem,
@@ -397,8 +397,8 @@ class IfScAssetProductItem(
         assetCategory, assetName, number, assetVariant,
         connectMethod
     ):
-        self.clsSuper = super(IfScAssetProductItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAssetProductItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAssetProductItem(
             parentItem,
@@ -822,8 +822,8 @@ class IfScAstModelProductItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstModelProductItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstModelProductItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -964,8 +964,8 @@ class IfScAstModelCacheItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstModelCacheItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstModelCacheItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -1097,8 +1097,8 @@ class IfScAstExtraCacheItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstExtraCacheItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstExtraCacheItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -1230,8 +1230,8 @@ class IfScAstCfxProductItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstCfxProductItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstCfxProductItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -1347,8 +1347,8 @@ class IfScAstCfxFurCacheItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstCfxFurCacheItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstCfxFurCacheItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -1494,8 +1494,8 @@ class IfScAstSolverProductItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstSolverProductItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstSolverProductItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,
@@ -1593,8 +1593,8 @@ class IfScAstSolverCacheItem(IfAbc_ScAstBranchItem):
     ):
         self._overrideAttr()
         #
-        self.clsSuper = super(IfScAstSolverCacheItem, self)
-        self.clsSuper.__init__()
+        self._clsSuper = super(IfScAstSolverCacheItem, self)
+        self._clsSuper.__init__()
         #
         self._initScAstBranchItem(
             parentItem,

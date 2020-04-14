@@ -5,7 +5,7 @@ from LxScheme import shmOutput
 #
 from LxPreset import prsConfigure, prsMethods
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtModifiers, qtWidgets, qtCore
 #
@@ -21,7 +21,7 @@ class QtIf_ProjectWindow(qtWidgets.QtToolWindow):
     def __init__(self):
         super(QtIf_ProjectWindow, self).__init__()
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -332,7 +332,7 @@ class If_QtProductManagerWindow(qtWidgets.QtWindow):
     def __init__(self):
         self._initWindow()
         #
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -355,7 +355,7 @@ class If_QtAssetManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtAssetManagerWindow, self).__init__(parent)
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -386,7 +386,7 @@ class If_QtSceneryManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneryManagerWindow, self).__init__(parent)
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)
@@ -417,7 +417,7 @@ class If_QtSceneManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(If_QtSceneManagerWindow, self).__init__(parent)
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Default)
         self.setMargins(0, 0, 0, 0)
         #
         self.setNameText(self._Title)

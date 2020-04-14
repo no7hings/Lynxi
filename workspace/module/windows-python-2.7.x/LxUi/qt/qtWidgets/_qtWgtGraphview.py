@@ -63,11 +63,11 @@ def setDrawKeyPressMark(painter, width, height, key, borderRgba):
 class xNodeViewport(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xNodeViewport, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xNodeViewport, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -77,7 +77,7 @@ class xNodeViewport(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHint(painter.Antialiasing)
         # Background
@@ -92,7 +92,7 @@ class xNodeViewport(qtCore.QWidget):
             rect = qtCore.CLS_rect(xPos, yPos, width, height)
             painter.drawRect(rect)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def initUi(self):
         self._uiBorderRgba = 255, 0, 63, 255
@@ -107,11 +107,11 @@ class xNodeViewport(qtCore.QWidget):
 class QtGraphview(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtGraphview, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtGraphview, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -197,7 +197,7 @@ class QtGraphview(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHint(painter.Antialiasing)
         #
@@ -245,7 +245,7 @@ class QtGraphview(qtCore.QWidget):
                 self._selectBorderRgba
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def addNodes_(self):
         xScale, yScale = self._viewModel._mScale
@@ -286,9 +286,9 @@ class QtGraphview(qtCore.QWidget):
         xOf = 0
         yOf = 0
         #
-        deskRect = qtCore.getDesktopPrimaryRect()
-        maxWidth = deskRect.width()
-        maxHeight = deskRect.height()
+        desktopRect = qtCore.getDesktopPrimaryRect()
+        maxWidth = desktopRect.width()
+        maxHeight = desktopRect.height()
         if qtCore.getAppWindow():
             parent = qtCore.getAppWindow()
             maxWidth = parent.width()

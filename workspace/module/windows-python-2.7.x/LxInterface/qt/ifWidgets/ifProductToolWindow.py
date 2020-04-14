@@ -11,7 +11,7 @@ from LxCore.preset.prod import scenePr
 #
 from LxDatabase import dtbMtdCore
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtModifiers, qtWidgets_, qtChart_, qtWidgets, qtCore
 #
@@ -25,7 +25,7 @@ class IfCacheManagerWindow(qtWidgets.QtToolWindow):
     def __init__(self, parent=qtCore.getAppWindow()):
         super(IfCacheManagerWindow, self).__init__(parent)
 
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_Size_Dialog)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_Size_Dialog)
         #
         self.setupWindow()
     #
@@ -86,7 +86,7 @@ class IfScRenderManagerWindow(qtWidgets.QtToolWindow):
         super(IfScRenderManagerWindow, self).__init__(parent)
 
         self.setNameText('Scene Render ( Image ) Manager')
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -272,7 +272,7 @@ class IfRenderImageComposeWindow(qtWidgets.QtToolWindow):
 
         self.setNameText('Scene Render ( Image ) Manager')
         #
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -460,7 +460,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
 
         self.setNameText('Scene Render ( Compose ) Manager')
         #
-        self.setDefaultSize(*uiCore.Lynxi_Ui_Window_SubSize_Default)
+        self.setDefaultSize(*guiCore.Lynxi_Ui_Window_SubSize_Default)
         #
         self.initializationPanel()
         #
@@ -709,7 +709,7 @@ class IfRenderFileComposeWindow(qtWidgets.QtToolWindow):
             copyThreads = []
             #
             for i, j in collectionDataArray:
-                t = uiCore.UiThread(copyFileThreadMethod, i, j)
+                t = guiCore.UiThread(copyFileThreadMethod, i, j)
                 copyThreads.append(t)
                 t.start()
             # View Progress

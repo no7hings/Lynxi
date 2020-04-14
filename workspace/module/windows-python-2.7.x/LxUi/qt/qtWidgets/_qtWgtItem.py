@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMtdCore, bscMethods
 #
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 #
@@ -13,7 +13,7 @@ from LxUi.qt._qtModels import _qtMdlItem
 QtGui = qtCore.QtGui
 QtCore = qtCore.QtCore
 #
-_families = uiCore.Lynxi_Ui_Family_Lis
+_families = guiCore.Lynxi_Ui_Family_Lis
 
 
 #
@@ -35,11 +35,11 @@ class QtMessageWidget(qtCore.QWidget):
     DrawColor = 5
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtMessageWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtMessageWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setMouseTracking(True)
@@ -107,7 +107,7 @@ class QtMessageWidget(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         borderWidth = 2
         borderRadius = 10
@@ -268,7 +268,7 @@ class QtMessageWidget(qtCore.QWidget):
                     painter.setPenWidth(2)
                 painter.drawEllipse(rect)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setDatumLis(self, messages, width=200, height=200):
         self._messages = self.getDrawDatum(messages, width, height)
@@ -654,11 +654,11 @@ class QtFilterCheckbutton(qtObjWidget.QtAbcObj_Item):
     itemSize = 20, 20
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtFilterCheckbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtFilterCheckbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -679,7 +679,7 @@ class QtFilterCheckbutton(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -732,7 +732,7 @@ class QtFilterCheckbutton(qtObjWidget.QtAbcObj_Item):
                 textOption, self.itemModel()._uiSubNameText
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     # noinspection PyUnusedLocal
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
@@ -795,11 +795,11 @@ class QtCheckbutton(qtObjWidget.QtAbcObj_Item):
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtCheckbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtCheckbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -817,7 +817,7 @@ class QtCheckbutton(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Check
         if self.itemModel().isCheckEnable() is True:
             painter.setDrawImage(
@@ -845,7 +845,7 @@ class QtCheckbutton(qtObjWidget.QtAbcObj_Item):
                 self.itemModel().drawNameText()
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=20, frameHeight=20):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -864,11 +864,11 @@ class QtRadioCheckbutton(qtObjWidget.QtAbcObj_Item):
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtRadioCheckbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtRadioCheckbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -892,7 +892,7 @@ class QtRadioCheckbutton(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Check
         if self.itemModel().isCheckEnable() is True:
             painter.setDrawImage(
@@ -920,7 +920,7 @@ class QtRadioCheckbutton(qtObjWidget.QtAbcObj_Item):
                 self.itemModel().drawNameText()
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=20, frameHeight=20):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -939,11 +939,11 @@ class QtEnablebutton(qtObjWidget.QtAbcObj_Item):
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtEnablebutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtEnablebutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -954,7 +954,7 @@ class QtEnablebutton(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Icon
         if self.itemModel().icon() is not None:
             painter.setDrawImage(
@@ -968,7 +968,7 @@ class QtEnablebutton(qtObjWidget.QtAbcObj_Item):
                 self.itemModel()._uiCheckIcon
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setIcon(self, iconKeyword, iconWidth=16, iconHeight=16, frameWidth=24, frameHeight=24):
         self.itemModel().setIcon(iconKeyword, iconWidth, iconHeight, frameWidth, frameHeight)
@@ -984,11 +984,11 @@ class QtEnablebutton(qtObjWidget.QtAbcObj_Item):
 class QtValueEnterlabel(qtObjWidget.QtAbcObj_ValueEnterlabel):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtValueEnterlabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtValueEnterlabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjValueEnterlabel()
 
@@ -997,11 +997,11 @@ class QtValueEnterlabel(qtObjWidget.QtAbcObj_ValueEnterlabel):
 class QtFilterEnterlabel(qtObjWidget.QtAbcObj_FilterEnterlabel):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtFilterEnterlabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtFilterEnterlabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjFilterEnterlabel()
 
@@ -1010,11 +1010,11 @@ class QtFilterEnterlabel(qtObjWidget.QtAbcObj_FilterEnterlabel):
 class QtEnterlabel(qtObjWidget.QtAbcObj_Enterlabel):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtEnterlabel, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtEnterlabel, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjEnterlabel()
 
@@ -1023,11 +1023,11 @@ class QtEnterlabel(qtObjWidget.QtAbcObj_Enterlabel):
 class QtEnterbox(qtObjWidget.QtAbcObj_Enterlabel):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtEnterbox, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtEnterbox, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjEnterbox()
 
@@ -1036,11 +1036,11 @@ class QtEnterbox(qtObjWidget.QtAbcObj_Enterlabel):
 class QtIconbutton(qtObjWidget.QtAbcObj_QtIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtIconbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtIconbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjIconbutton(iconKeyword)
 
@@ -1049,11 +1049,11 @@ class QtIconbutton(qtObjWidget.QtAbcObj_QtIconbutton):
 class QtMenuIconbutton(qtObjWidget.QtAbcObj_ActionIconbutton):
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtMenuIconbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtMenuIconbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjActionIconbutton(iconKeyword)
 
@@ -1064,11 +1064,11 @@ class QtPressbutton(qtObjWidget.QtAbcObj_Item):
 
     def __init__(self, iconKeyword=None, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtPressbutton, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtPressbutton, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1135,7 +1135,7 @@ class QtPressbutton(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         painter.setRenderHint(painter.Antialiasing)
         borderWidth = 1
         borderRadius = 4
@@ -1208,7 +1208,7 @@ class QtPressbutton(qtObjWidget.QtAbcObj_Item):
                     self.itemModel().percentText()
                 )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     # noinspection PyUnusedLocal
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
@@ -1259,11 +1259,11 @@ class QtPressbutton(qtObjWidget.QtAbcObj_Item):
 class QtTreeviewItem(qtObjWidget.QtAbcObj_Treeitem):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtTreeviewItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtTreeviewItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjTreeitem()
 
@@ -1272,11 +1272,11 @@ class QtTreeviewItem(qtObjWidget.QtAbcObj_Treeitem):
 class QtGridviewItem(qtObjWidget.QtAbcObj_Item):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtGridviewItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtGridviewItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1321,7 +1321,7 @@ class QtGridviewItem(qtObjWidget.QtAbcObj_Item):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # noinspection PyArgumentEqualDefault
         painter.setFont(qtCore.qtFont(size=8, weight=50, italic=False, family=_families[0]))
         # Shadow
@@ -1395,7 +1395,7 @@ class QtGridviewItem(qtObjWidget.QtAbcObj_Item):
             image = QtGui.QPixmap(self.itemModel()._uiImage)
             painter.drawPixmap(self.itemModel()._imageRect, image)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     # noinspection PyUnusedLocal
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
@@ -1453,11 +1453,11 @@ class QtPresetviewItem(qtObjWidget.QtAbcObj_Item):
     setChanged = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtPresetviewItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtPresetviewItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1501,7 +1501,7 @@ class QtPresetviewItem(qtObjWidget.QtAbcObj_Item):
     def paintEvent(self, event):
         if self.itemModel().itemLevel() == 0:
             painter = qtCore.QPainter_(self)
-            # painter.begin(self)  # fix
+            # painter.begin(self)  # for pyside2
             # Background
             painter.setBackgroundRgba(self._uiBackgroundRgba)
             painter.setBorderRgba(self._uiBorderRgba)
@@ -1552,7 +1552,7 @@ class QtPresetviewItem(qtObjWidget.QtAbcObj_Item):
                         string
                     )
 
-            # painter.end()
+            # painter.end()  # for pyside2
     # noinspection PyUnusedLocal
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
@@ -1704,11 +1704,11 @@ class QtRecordviewItemItem(qtObjWidget.QtAbcObj_Item):
     MODEL_ITEM_CLS = _qtMdlItem.QtRecordviewItemItemModel
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtRecordviewItemItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtRecordviewItemItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcObjItemWidget()
         #
@@ -1716,7 +1716,7 @@ class QtRecordviewItemItem(qtObjWidget.QtAbcObj_Item):
 
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         # Background
         painter.setBackgroundRgba(self._uiBackgroundRgba)
         painter.setBorderRgba(self._uiBorderRgba)
@@ -1776,17 +1776,17 @@ class QtRecordviewItemItem(qtObjWidget.QtAbcObj_Item):
                     string
                 )
 
-        # painter.end()
+        # painter.end()  # for pyside2
 
 
 #
 class QtTextbrower(qtObjWidget.QtAbcObj_Textbrower):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(QtTextbrower, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(QtTextbrower, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbcObjTextbrower()

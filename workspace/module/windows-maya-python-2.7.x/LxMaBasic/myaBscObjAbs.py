@@ -1,41 +1,34 @@
 # coding:utf-8
 from LxGraphic import grhObjAbs
 
-from . import myaBscConfigure, myaBscMtdCore, maBscMethods
+from . import myaBscCfg, myaBscMtdCore, maBscMethods
 
 
-class Abs_MyaQueryCache(grhObjAbs.Abs_GrhQueryCache):
-    def _initAbsMyaQueryCache(self, *args):
-        self._initAbsGrhQueryCache(*args)
+# ******************************************************************************************************************** #
+class Abs_MyaObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
+    def _initAbsMyaObjQueryCache(self, *args):
+        self._initAbsGrhObjQueryCache(*args)
 
-    def _get_node_portpaths_(self, *args):
-        categoryString = args[0]
-        return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortpathStringList_(
-            categoryString
-        )
+    def _get_node_type_(self, *args):
+        return self.DEF_grh_keyword_default
 
     def _get_node_port_raws_(self, *args):
         categoryString = args[0]
-        portpathStringList = self._get_node_portpaths_(categoryString)
         return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortRawList(
-            args[0], portpathStringList
+            categoryString,
+            myaBscMtdCore.Mtd_MyaNode._grh_getNodePortpathStringList_(
+                categoryString
+            )
         )
 
-    def _get_node_raw_(self, *args):
-        categoryString = args[0]
-        return {
-            self.DEF_grh_key_type: self.DEF_grh_keyword_default,
-            self.DEF_grh_key_category: categoryString,
-            self.DEF_grh_key_port: self._get_node_port_raws_(categoryString)
-        }
 
-
+# ******************************************************************************************************************** #
 class Abs_MyaObjCache(grhObjAbs.Abs_GrhObjCache):
     def _initAbsMayObjCache(self, *args):
         self._initAbsGrhObjCache(*args)
 
 
-class Abc_MyaBasic(myaBscConfigure.Utility):
+class Abc_MyaBasic(myaBscCfg.Utility):
     pass
 
 
@@ -57,6 +50,7 @@ class Abc_MyaConnection(Abc_MyaBasic):
         return self.__str__()
 
 
+# ******************************************************************************************************************** #
 class Abs_MyaPort(
     grhObjAbs.Abs_GrhPort,
     Abc_MyaBasic
@@ -148,7 +142,7 @@ class Abs_MyaNode(
 
         self._initAbsGrhNode(
             categoryString,
-            maBscMethods.Node.toFullpathName(nodepathString)
+            maBscMethods.Node.toFullpathName(nodepathString),
         )
 
     def _get_parent_(self):
@@ -187,16 +181,6 @@ class Abc_MyaCompnode(Abs_MyaNode):
         return self.CLS_mya_node(
             maBscMethods.Node.transformName(self._pathString)
         )
-
-    def __str__(self):
-        return u'{}(transform="{}")'.format(
-            self.__class__.__name__,
-            self.transform().nodepathString(),
-            self.category()
-        )
-
-    def __repr__(self):
-        return self.__str__()
 
 
 class Abc_MyaGeometry(Abc_MyaCompnode):

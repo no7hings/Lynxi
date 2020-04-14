@@ -1,5 +1,5 @@
 # coding:utf-8
-from .. import datCfg, datObjAbs
+from ..import datCfg, datObjAbs
 
 
 class Type(datObjAbs.Abs_DatRaw):

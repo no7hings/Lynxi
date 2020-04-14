@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxUi import uiCore
+from LxBasic import bscMethods
 #
 from LxUi.qt import qtCore
 #
@@ -17,11 +17,11 @@ none = ''
 class xGraphNodeItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xGraphNodeItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xGraphNodeItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -69,7 +69,7 @@ class xGraphNodeItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHints(painter.Antialiasing | painter.SmoothPixmapTransform)
         # Shadow
@@ -113,10 +113,10 @@ class xGraphNodeItem(qtCore.QWidget):
             painter.drawText(
                 self._itemModel._uiTypeTextRect,
                 QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter,
-                qtCore.prettify(self._itemModel._type)
+                bscMethods.StrUnderline.toCamelcase(self._itemModel._type)
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     @qtObjWidget.actionviewEventFilterModifier
     def eventFilter(self, *args):
         return False
@@ -169,11 +169,11 @@ class xGraphNodeItem(qtCore.QWidget):
 class xGraphGroupItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xGraphGroupItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xGraphGroupItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -211,7 +211,7 @@ class xGraphGroupItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHint(painter.Antialiasing)
         #
@@ -249,10 +249,10 @@ class xGraphGroupItem(qtCore.QWidget):
             painter.drawText(
                 self._itemModel._uiTypeTextRect,
                 QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter,
-                qtCore.prettify(self._itemModel._type)
+                bscMethods.StrUnderline.toCamelcase(self._itemModel._type)
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setColor(self, r, g, b):
         self._uiBorderRgba = r, g, b, 255
@@ -274,11 +274,11 @@ class xGraphGroupItem(qtCore.QWidget):
 class xGraphExplainItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xGraphExplainItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xGraphExplainItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -315,7 +315,7 @@ class xGraphExplainItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setFont(self.font())
         #
@@ -343,7 +343,7 @@ class xGraphExplainItem(qtCore.QWidget):
                 self._itemModel._uiIndexText
             )
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setNameText(self, string, color=None):
         self._itemModel.setNameText(string)
@@ -371,11 +371,11 @@ class xGraphExplainItem(qtCore.QWidget):
 class xGraphConnectionItem(qtCore.QWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xGraphConnectionItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xGraphConnectionItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         #
@@ -403,7 +403,7 @@ class xGraphConnectionItem(qtCore.QWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
 
         painter.setRenderHints(painter.Antialiasing | painter.SmoothPixmapTransform)
         #
@@ -417,7 +417,7 @@ class xGraphConnectionItem(qtCore.QWidget):
         painter.setBrush(brush)
         painter.drawPath(self._itemModel._curvePath)
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def setIndex(self, value):
         self._itemModel.setIndex(value)
@@ -434,11 +434,11 @@ class xGraphConnectionItem(qtCore.QWidget):
 class xGraphAttributePortItem(qtObjWidget.QtAbcObj_ViewWidget):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
-            self.clsSuper = super(qtCore.QWidget, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
         else:
-            self.clsSuper = super(xGraphAttributePortItem, self)
-            self.clsSuper.__init__(*args, **kwargs)
+            self._clsSuper = super(xGraphAttributePortItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
         #
         self._initAbcViewWidget()
         #
@@ -446,7 +446,7 @@ class xGraphAttributePortItem(qtObjWidget.QtAbcObj_ViewWidget):
     #
     def paintEvent(self, event):
         painter = qtCore.QPainter_(self)
-        # painter.begin(self)  # fix
+        # painter.begin(self)  # for pyside2
         painter.setRenderHint(painter.Antialiasing)
         # Shadow
         painter.setBorderRgba((0, 0, 0, 64))
@@ -574,7 +574,7 @@ class xGraphAttributePortItem(qtObjWidget.QtAbcObj_ViewWidget):
                         #
                         y += h
 
-        # painter.end()
+        # painter.end()  # for pyside2
     #
     def itemModel(self):
         return self._itemModel

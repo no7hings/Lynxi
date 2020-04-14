@@ -117,7 +117,7 @@ class Abs_DatPath(datObjDef.Def_DatPath):
                     dirnameString = None
                     bscnameString = _[-1]
                 else:
-                    dirnameString = self.VAR_dat_pathsep.join([i for i in _[:-1] if i])
+                    dirnameString = self.VAR_dat_pathsep.join([i for i in _[:-1]])
                     bscnameString = _[-1]
 
                 self._dirnameObj.setRaw(dirnameString)
@@ -143,24 +143,24 @@ class Abs_DatPath(datObjDef.Def_DatPath):
         )
 
 
-# ******************************************************************************************************************** #
+# value ************************************************************************************************************** #
 class Abs_DatData(datObjDef.Def_DatRaw):
     CLS_dat_data = None
 
     VAR_dat_compraw_strsep = None
 
     def _initAbsDatData(self, *args):
-        parent = args[0]
-        raw = args[1:]
+        self._parentObj = args[0]
+        rawArgs = args[1:]
 
         if isinstance(args[0], Abs_DatValue):
-            self._valueObj = parent
+            self._valueObj = self._parentObj
 
             self._rawtypePattern = self._valueObj.VAR_dat_rawtype_pattern
             self._rawtypeStrPattern = self._valueObj.VAR_dat_rawtype_str_pattern
             self._rawsizePattern = self._valueObj.VAR_dat_rawsize_pattern
         elif isinstance(args[0], Abs_DatData):
-            self._multidataObj = args[0]
+            self._multidataObj = self._parentObj
 
             if len(self._multidataObj._rawtypePattern) == 2:
                 self._rawtypePattern = self._multidataObj._rawtypePattern[-1]
@@ -183,7 +183,7 @@ class Abs_DatData(datObjDef.Def_DatRaw):
 
         self._childDataObjList = []
 
-        self._set_create_(*raw)
+        self._set_create_(*rawArgs)
 
     @staticmethod
     def _fnc_get_list_split_(lis, splitCount):
@@ -251,6 +251,9 @@ class Abs_DatData(datObjDef.Def_DatRaw):
         return self.children()[index]
 
     def childRawtype(self):
+        """
+        :return: class of raw
+        """
         return self._rawtypePattern[1]
 
     def childRawsize(self):
@@ -307,10 +310,10 @@ class Abs_DatData(datObjDef.Def_DatRaw):
                 self._rawObj = self._set_compraw_to_rawobj_(compraw)
             else:
                 raw = args[0]
+                if raw is not None:
+                    self._set_raw_val_(raw)
 
-                self._set_raw_val_(raw)
-
-                self._rawObj = self._set_raw_to_rawobj_(raw)
+                    self._rawObj = self._set_raw_to_rawobj_(raw)
 
     def _get_compraw_(self):
         cls = self._get_raw_cls_()
@@ -389,17 +392,24 @@ class Abs_DatValue(object):
     VAR_dat_rawsize_pattern = None
 
     def _initAbsDatValue(self, *args):
-        self._ini_datatype_(self.VAR_dat_rawtype_str_pattern)
+        self._set_data_build_(*args)
 
+    def _set_data_build_(self, *args):
+        self._set_datatype_(self.VAR_dat_rawtype_str_pattern)
+
+        self._set_data_(*args)
+
+    def _set_datatype_(self, *args):
+        _ = args[0]
+        if isinstance(_, (tuple, list)):
+            self._datatypeObj = self.CLS_dat_datatype(_[0])
+        else:
+            self._datatypeObj = self.CLS_dat_datatype(_)
+
+    def _set_data_(self, *args):
         self._dataObj = self.CLS_dat_data(
             self, *args
         )
-
-    def _ini_datatype_(self, *args):
-        if isinstance(args[0], (tuple, list)):
-            self._datatypeObj = self.CLS_dat_datatype(args[0][0])
-        else:
-            self._datatypeObj = self.CLS_dat_datatype(args[0])
 
     def datatype(self):
         """
@@ -439,6 +449,9 @@ class Abs_DatValue(object):
         :return: raw of typed
         """
         return self._dataObj.raw()
+
+    def rawString(self):
+        return self._dataObj.toString()
 
     def toString(self):
         """

@@ -1,5 +1,5 @@
 # coding:utf-8
-from .. import mtlMtdCore
+from ..import mtlMtdCore
 
 
 class File(mtlMtdCore.Mtd_MtlFile):

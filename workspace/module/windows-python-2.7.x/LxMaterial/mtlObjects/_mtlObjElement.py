@@ -1,9 +1,9 @@
 # coding:utf-8
 from LxGraphic.grhObjects import _grhObjSet
 
-from .. import mtlObjAbs
+from ..import mtlObjAbs
 
-from ..mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjObject, _mtlObjAssign
+from ..mtlObjects import _mtlObjRaw, _mtlObjSet, _mtlObjNode, _mtlObjAssign
 
 
 class Look(mtlObjAbs.Abc_MtlLook):
@@ -19,7 +19,6 @@ class Look(mtlObjAbs.Abc_MtlLook):
     CLS_mtl_propertyset_assign = _mtlObjAssign.PropertysetAssign
     CLS_mtl_propertyset_assign_set = _grhObjSet.ObjSet
 
-    CLS_mtl_geometry = _mtlObjObject.Geometry
     CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
 
     VAR_mtl_file_element_key = u'look'

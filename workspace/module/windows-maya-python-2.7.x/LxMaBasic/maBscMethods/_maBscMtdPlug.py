@@ -1,5 +1,5 @@
 # coding:utf-8
-from .. import myaBscMtdCore
+from ..import myaBscMtdCore
 
 
 class Plug(myaBscMtdCore.Mtd_MaBasic):

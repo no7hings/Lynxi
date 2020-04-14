@@ -3562,13 +3562,13 @@ class QtAbc_ActionDropviewModel(qtDefinition.QtDef_Widget):
         clearItems()
         clearVar()
     #
-    def _drop(self, worldPos, deskRect):
+    def _drop(self, worldPos, desktopRect):
         column = 0
         #
         xPos, yPos = worldPos.x(), worldPos.y()
         #
-        maxWidth = deskRect.width()
-        maxHeight = deskRect.height()
+        maxWidth = desktopRect.width()
+        maxHeight = desktopRect.height()
         #
         width, height = self._getWidthAt(column), self._getHeightAt(column)
         self._updateSubRectSize(column, width, height)
@@ -3601,7 +3601,7 @@ class QtAbc_ActionDropviewModel(qtDefinition.QtDef_Widget):
             _xP, _yP,
             width_, height_
         )
-        self.widget().setGeometry(deskRect)
+        self.widget().setGeometry(desktopRect)
         #
         self.widget().show()
         #
@@ -3889,11 +3889,11 @@ class QtAbc_ChooseDropviewModel(qtDefinition.QtDef_Widget):
                 item.setName(string)
                 item.setIcon(self._uiIconKeyword)
     #
-    def _drop(self, worldPos, deskRect):
+    def _drop(self, worldPos, desktopRect):
         xPos, yPos = worldPos.x(), worldPos.y()
         #
-        maxWidth = deskRect.width()
-        maxHeight = deskRect.height()
+        maxWidth = desktopRect.width()
+        maxHeight = desktopRect.height()
         #
         width = self._getUiWidth(self._names)
         self._uiMainWidth = width
@@ -3931,7 +3931,7 @@ class QtAbc_ChooseDropviewModel(qtDefinition.QtDef_Widget):
             _xP, _yP,
             width_, height_
         )
-        self.widget().setGeometry(deskRect)
+        self.widget().setGeometry(desktopRect)
         #
         self.widget().show()
         #
@@ -4178,8 +4178,8 @@ class QtAbc_WindowModel(qtDefinition.QtDef_WindowModel):
             parentWidth, parentHeight = parent.width(), parent.height()
             xOf, yOf = parent.pos().x(), parent.pos().y()
         else:
-            deskRect = qtCore.getDesktopPrimaryRect()
-            parentWidth, parentHeight = deskRect.width(), deskRect.height()
+            desktopRect = qtCore.getDesktopPrimaryRect()
+            parentWidth, parentHeight = desktopRect.width(), desktopRect.height()
             xOf, yOf = 0, 0
 
         if pos is not None:
@@ -4193,7 +4193,7 @@ class QtAbc_WindowModel(qtDefinition.QtDef_WindowModel):
         self.widget().show()
     #
     def uiQuit(self):
-        self.widget().closed.emit()
+        self._widget.closed.emit()
         #
         self._countdownCloseTimer.stop()
         self._progressTimer.stop()
@@ -4203,7 +4203,7 @@ class QtAbc_WindowModel(qtDefinition.QtDef_WindowModel):
                 i()
         #
         self._widget.close()
-        # self._widget.deleteLater()
+        self._widget.deleteLater()
         #
         qtCore.quitUi()
     #

@@ -28,8 +28,8 @@ class Utility(object):
     DEF_mtl_key_dcc_port = u'dcc_port'
 
     DEF_mtl_key_mtl_category = u'mtl_category'
-    DEF_mtl_key_mtl_portname = u'mtl_portname'
-    DEF_mtl_key_dcc_porttype = u'dcc_porttype'
+    DEF_mtl_key_mtl_portname = u'target_portpath'
+    DEF_mtl_key_dcc_porttype = u'source_porttype'
 
     DEF_mtl_key_custom_node = u'custom_node'
     DEF_mtl_key_portpath = u'portpath'
@@ -98,12 +98,3 @@ class Utility(object):
     DEF_mtl_arnold_node_defs_file = os.path.dirname(__file__) + '/.data/arnold_5.4.0.1-node.json'
     DEF_mtl_arnold_output_defs_file = os.path.dirname(__file__) + '/.data/arnold_5.4.0.1-output.json'
     DEF_mtl_arnold_port_child_defs_file = os.path.dirname(__file__) + '/.data/arnold_5.4.0.1-port_child.json'
-
-    DEF_mtl_maya_arnold_material_def_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-material.json'
-    DEF_mtl_maya_arnold_geometry_def_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-geometry.json'
-    DEF_mtl_maya_arnold_node_defs_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-node.json'
-    DEF_mtl_maya_arnold_port_child_defs_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-port_child.json'
-    DEF_mtl_maya_arnold_output_defs_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-output.json'
-
-    DEF_mtl_maya_arnold_custom_category_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-custom_category.json'
-    DEF_mtl_maya_arnold_custom_node_file = os.path.dirname(__file__) + '/.data/maya_2019-arnold_5.4.0.1-custom_node.json'

@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from LxUi import uiCore
+from LxUi import guiCore
 #
 from LxUi.qt import qtCore
 
@@ -10,8 +10,8 @@ QtCore = qtCore.QtCore
 
 
 # Widget
-class QtDef_Widget(uiCore.UiMtdBasic):
-    ui_method = uiCore.UiMtdBasic
+class QtDef_Widget(guiCore.UiMtdBasic):
+    ui_method = guiCore.UiMtdBasic
 
     def _initDefWidget(self):
         self._initDefWidgetAttr()
@@ -251,7 +251,7 @@ class QtDef_Widget(uiCore.UiMtdBasic):
 
 # Expand
 class QtDef_ExpandWidget(QtDef_Widget):
-    ui_method = uiCore.UiMtdBasic
+    ui_method = guiCore.UiMtdBasic
     def _initDefExpandWidget(self):
         self._initDefWidget()
         #

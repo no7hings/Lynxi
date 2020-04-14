@@ -1,8 +1,8 @@
 # coding:utf-8
-from .. import mtlConfigure
+from ..import mtlCfg
 
 
-class Attribute(mtlConfigure.Utility):
+class Attribute(mtlCfg.Utility):
     @classmethod
     def composeBy(cls, nodepathString, portpathString):
         return cls.DEF_mtl_port_pathsep.join([nodepathString, portpathString])

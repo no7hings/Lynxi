@@ -68,13 +68,8 @@ class Resource(shmConfigure.Utility):
     def loadActiveModules(self):
         bscMethods.PyReloader.reload(self.moduleNames)
 
-        bscObjects.MessageWindow(
-            u'Load Scheme: ',
-            u'{} ( {} )'.format(self.name, self.activeVersion)
-        )
-
     def loadActive(self, force=False):
-        ui = Interface()
+        ui = Gui()
         ui.restMessageCount()
 
         localVersion = self.version
@@ -99,9 +94,10 @@ class Resource(shmConfigure.Utility):
             self.version = serverVersion
 
 
-class Interface(shmConfigure.Utility):
+class Gui(shmConfigure.Utility):
     Environ_Key_Message_Count = 'LYNXI_VALUE_MESSAGE_COUNT'
     Environ_Key_Enable_Tooltip_Auto = 'LYNXI_ENABLE_TOOLTIP_AUTO_SHOW'
+
     def __init__(self):
         pass
 

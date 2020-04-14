@@ -1,13 +1,13 @@
 # coding:utf-8
 from LxData.datObjects import _datObjData
 
-from .. import mtlObjAbs, mtlConfigure
+from ..import mtlObjAbs, mtlCfg
 
 from ..mtlObjects import _mtlObjRaw
 
 
 # Method for Digit Calculate
-class _Val_DigitMethod(mtlObjAbs.Abs_MtlValue):
+class _Val_Digit(mtlObjAbs.Abs_MtlValue):
     def __add__(self, other):
         """
         :param other: object of Value
@@ -43,7 +43,7 @@ class Val_Closure(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_Closure
 
     VAR_dat_rawtype_pattern = None
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_closure
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_closure
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -64,7 +64,7 @@ class Val_Boolean(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_Boolean
 
     VAR_dat_rawtype_pattern = bool
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_boolean
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_boolean
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -84,7 +84,7 @@ class Val_Visibility(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_Boolean
 
     VAR_dat_rawtype_pattern = bool
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_boolean
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_boolean
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_attribute_attach_key = u'visible'
@@ -105,12 +105,12 @@ class Val_Visibility(mtlObjAbs.Abs_MtlValue):
 
 
 # Value Integer
-class Val_Integer(_Val_DigitMethod):
+class Val_Integer(_Val_Digit):
     CLS_dat_datatype = _mtlObjRaw.Datatype
     CLS_dat_data = _datObjData.Dat_Integer
 
     VAR_dat_rawtype_pattern = int
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_Integer
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_Integer
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -131,8 +131,8 @@ class Val_IntegerArray(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, int
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_integerarray,
-        mtlConfigure.Utility.DEF_mtl_porttype_Integer
+        mtlCfg.Utility.DEF_mtl_porttype_integerarray,
+        mtlCfg.Utility.DEF_mtl_porttype_Integer
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
@@ -150,12 +150,12 @@ class Val_IntegerArray(mtlObjAbs.Abs_MtlValue):
 
 
 # Value Float
-class Val_Float(_Val_DigitMethod):
+class Val_Float(_Val_Digit):
     CLS_dat_datatype = _mtlObjRaw.Datatype
     CLS_dat_data = _datObjData.Dat_Float
 
     VAR_dat_rawtype_pattern = float
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_float
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_float
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -176,8 +176,8 @@ class Val_FloatArray(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_floatarray,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_floatarray,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
@@ -201,8 +201,8 @@ class Val_Color2(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color2,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color2,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 2, 1
 
@@ -226,9 +226,9 @@ class Val_Color2Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color2array,
-        mtlConfigure.Utility.DEF_mtl_porttype_color2,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color2array,
+        mtlCfg.Utility.DEF_mtl_porttype_color2,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 2, 1
 
@@ -252,8 +252,8 @@ class Val_Color3(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color3,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color3,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 3, 1
 
@@ -277,9 +277,9 @@ class Val_Color3Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color3array,
-        mtlConfigure.Utility.DEF_mtl_porttype_color3,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color3array,
+        mtlCfg.Utility.DEF_mtl_porttype_color3,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 3, 1
 
@@ -303,8 +303,8 @@ class Val_Color4(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color4,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color4,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 4, 1
 
@@ -328,9 +328,9 @@ class Val_Color4Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_color4array,
-        mtlConfigure.Utility.DEF_mtl_porttype_color4,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_color4array,
+        mtlCfg.Utility.DEF_mtl_porttype_color4,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 4, 1
 
@@ -355,8 +355,8 @@ class Val_Vector2(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector2,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector2,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 2, 1
 
@@ -380,9 +380,9 @@ class Val_Vector2Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector2array,
-        mtlConfigure.Utility.DEF_mtl_porttype_vector2,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector2array,
+        mtlCfg.Utility.DEF_mtl_porttype_vector2,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 2, 1
 
@@ -405,8 +405,8 @@ class Val_Vector3(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector3,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector3,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 3, 1
 
@@ -430,9 +430,9 @@ class Val_Vector3Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector3array,
-        mtlConfigure.Utility.DEF_mtl_porttype_vector3,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector3array,
+        mtlCfg.Utility.DEF_mtl_porttype_vector3,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 3, 1
 
@@ -455,8 +455,8 @@ class Val_Vector4(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector4,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector4,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 4, 1
 
@@ -480,9 +480,9 @@ class Val_Vector4Array(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_vector4array,
-        mtlConfigure.Utility.DEF_mtl_porttype_vector4,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_vector4array,
+        mtlCfg.Utility.DEF_mtl_porttype_vector4,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = float('inf'), 4, 1
 
@@ -504,7 +504,7 @@ class Val_String(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_String
 
     VAR_dat_rawtype_pattern = unicode
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_string
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_string
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -523,8 +523,8 @@ class Val_StringArray(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, unicode
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_stringarray,
-        mtlConfigure.Utility.DEF_mtl_porttype_string
+        mtlCfg.Utility.DEF_mtl_porttype_stringarray,
+        mtlCfg.Utility.DEF_mtl_porttype_string
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
@@ -546,7 +546,7 @@ class Val_Filename(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_Filename
 
     VAR_dat_rawtype_pattern = unicode
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_filename
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_filename
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -565,8 +565,8 @@ class Val_FilenameArray(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, unicode
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_stringarray,
-        mtlConfigure.Utility.DEF_mtl_porttype_string
+        mtlCfg.Utility.DEF_mtl_porttype_stringarray,
+        mtlCfg.Utility.DEF_mtl_porttype_string
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
@@ -588,7 +588,7 @@ class Val_Nodename(mtlObjAbs.Abs_MtlValue):
     CLS_dat_data = _datObjData.Dat_Nodename
 
     VAR_dat_rawtype_pattern = unicode
-    VAR_dat_rawtype_str_pattern = mtlConfigure.Utility.DEF_mtl_porttype_nodename
+    VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_nodename
     VAR_dat_rawsize_pattern = 1
 
     VAR_mtl_file_element_key = u'value'
@@ -607,8 +607,8 @@ class Val_NodenameArray(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = list, unicode
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_nodenamearray,
-        mtlConfigure.Utility.DEF_mtl_porttype_nodename
+        mtlCfg.Utility.DEF_mtl_porttype_nodenamearray,
+        mtlCfg.Utility.DEF_mtl_porttype_nodename
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
@@ -631,9 +631,9 @@ class Val_Matrix33(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_matrix33,
-        mtlConfigure.Utility.DEF_mtl_porttype_vector3,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_matrix33,
+        mtlCfg.Utility.DEF_mtl_porttype_vector3,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 3, 3, 1
 
@@ -656,9 +656,9 @@ class Val_Matrix44(mtlObjAbs.Abs_MtlValue):
 
     VAR_dat_rawtype_pattern = tuple, tuple, float
     VAR_dat_rawtype_str_pattern = (
-        mtlConfigure.Utility.DEF_mtl_porttype_matrix44,
-        mtlConfigure.Utility.DEF_mtl_porttype_vector4,
-        mtlConfigure.Utility.DEF_mtl_porttype_float
+        mtlCfg.Utility.DEF_mtl_porttype_matrix44,
+        mtlCfg.Utility.DEF_mtl_porttype_vector4,
+        mtlCfg.Utility.DEF_mtl_porttype_float
     )
     VAR_dat_rawsize_pattern = 4, 4, 1
 

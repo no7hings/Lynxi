@@ -1,7 +1,7 @@
 # coding:utf-8
 from LxBasic import bscMethods
 
-from .. import myaBscMtdCore
+from ..import myaBscMtdCore
 
 from ..maBscMethods import _maBscMtdPlug
 

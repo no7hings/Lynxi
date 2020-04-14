@@ -1,8 +1,8 @@
 # coding:utf-8
-from .. import datCfg, datObjAbs
+from ..import datCfg, datObjAbs
 
 
-class _Dat_Method(datObjAbs.Abs_DatData):
+class _Dat_Digit(datObjAbs.Abs_DatData):
     def __add__(self, other):
         """
         :param other: object of "Data"
@@ -77,11 +77,11 @@ class Dat_Boolean(datObjAbs.Abs_DatData):
 
     def _get_rawstr_(self):
         if self.hasRaw():
-            return ['false', 'true'][self.raw()]
-        return 'false'
+            return [u'false', u'true'][self.raw()]
+        return u'false'
 
 
-class Dat_Integer(_Dat_Method):
+class Dat_Integer(_Dat_Digit):
     CLS_dat_raw = int
 
     VAR_dat_rawtype_pattern = int, float
@@ -134,7 +134,7 @@ class Dat_IntegerNN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_Float(_Dat_Method):
+class Dat_Float(_Dat_Digit):
     CLS_dat_raw = float
 
     VAR_dat_rawtype_pattern = float, int

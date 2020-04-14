@@ -3,12 +3,12 @@ import types
 
 from LxBasic import bscMethods
 
-from LxUi import uiCore
+from LxUi import guiCore
 
 from LxUi.qt import qtWidgets, qtCore
 
 
-class QtViewMethod(uiCore.UiMtdBasic):
+class QtViewMethod(guiCore.UiMtdBasic):
     @classmethod
     def setTreeView(cls, treeBox, treeViewBuildDic, branchViewMethod=None, expandedDic=None):
         def setBranch(parentData):
