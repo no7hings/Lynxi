@@ -3,7 +3,7 @@ from ..import mtlCfg, mtlObjAbs
 
 
 class GeometrySet(mtlObjAbs.Abs_MtlObjSet):
-    VAR_mtl_file_attribute_attach_key = u'geom'
+    VAR_dat_xml_file_attribute_attach_tag = u'geom'
 
     VAR_grh_objectsep = mtlCfg.Utility.DEF_mtl_data_separator
 
@@ -15,7 +15,7 @@ class GeometrySet(mtlObjAbs.Abs_MtlObjSet):
 
 
 class ViewerGeometrySet(mtlObjAbs.Abs_MtlObjSet):
-    VAR_mtl_file_attribute_attach_key = u'viewergeom'
+    VAR_dat_xml_file_attribute_attach_tag = u'viewergeom'
 
     VAR_grh_objectsep = mtlCfg.Utility.DEF_mtl_data_separator
 

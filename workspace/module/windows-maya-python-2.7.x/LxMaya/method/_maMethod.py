@@ -708,11 +708,11 @@ class MaHairNodeGraphMethod(_maMethodBasic.MaNodeGraphMethodBasic):
         hairLocalCurveGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairLocalCurve)
         hairSolverGroupName = cls.lxGroupName(cls.LynxiNameLabel_HairSolver)
         #
-        hairOutputCurveGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
+        hairOutputCurveGroupPath = cls.DEF_mya_node_pathsep.join([rootGroupPath, furHairGroupName, hairOutputCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairOutputCurveGroupPath)
-        hairLocalCurveGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
+        hairLocalCurveGroupPath = cls.DEF_mya_node_pathsep.join([rootGroupPath, furHairGroupName, hairLocalCurveGroupName, objectCompGroupPath])
         cls.setAppPathCreate(hairLocalCurveGroupPath)
-        hairSolverGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
+        hairSolverGroupPath = cls.DEF_mya_node_pathsep.join([rootGroupPath, furHairGroupName, hairSolverGroupName])
         cls.setAppPathCreate(hairSolverGroupPath)
         #
         hairFollicleObject = cls.getHairFollicleObjectByOutputCurve(hairOutputCurveObject)
@@ -807,7 +807,7 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
         stringLis = cls.getNodeLisByType(typeLis)
         if groupString is not None:
             if stringLis:
-                if not cls.DEF_mya_node_separator in groupString:
+                if not cls.DEF_mya_node_pathsep in groupString:
                     groupPath = cls._getNodeFullpathNameString(groupString)
                     return [i for i in stringLis if i.startswith(groupPath)]
         else:

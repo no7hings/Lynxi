@@ -1,7 +1,7 @@
 {
     "shadingEngine": {
-        "mtl_category": "material",
-        "dcc_port": {
+        "target_category": "material",
+        "source_port": {
             "surfaceShader": {
                 "target_portpath": "surfaceshader"
             },

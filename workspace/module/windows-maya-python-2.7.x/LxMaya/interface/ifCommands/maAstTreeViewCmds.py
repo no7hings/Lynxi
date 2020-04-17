@@ -128,7 +128,7 @@ def setAstHierarchyView(treeBox, root, searchDic=none, expandedDic=none):
         #
         treeItem.setExpanded(isParentExpanded)
     #
-    pathsep = appCfg.DEF_mya_node_separator
+    pathsep = appCfg.DEF_mya_node_pathsep
     paths = maUtils.getChildrenByRoot(root)
     if not paths:
         rootItem = qtWidgets_.QTreeWidgetItem_([root])
@@ -277,7 +277,7 @@ def setAstGeometryConstantSub(
     #
     def getHierarchyData():
         dic = collections.OrderedDict()
-        pathsep = appCfg.DEF_mya_node_separator
+        pathsep = appCfg.DEF_mya_node_pathsep
         subPaths = treeBox.getGraphPaths(paths, pathsep)
         hierarchyData = treeBox.getGraphDatumDic(subPaths, pathsep)
         for seq, (k, v) in enumerate(hierarchyData.items()):
@@ -533,7 +533,7 @@ def setAstMeshTopoConstantView(treeBox, assetIndex, assetName, assetNamespace=no
     #
     treeBox.clear()
     if serverMeshes:
-        pathsep = appCfg.DEF_mya_node_separator
+        pathsep = appCfg.DEF_mya_node_pathsep
         subPaths = treeBox.getGraphPaths(serverMeshes, pathsep)
         graphDatumDic = treeBox.getGraphDatumDic(subPaths, pathsep)
         if graphDatumDic:

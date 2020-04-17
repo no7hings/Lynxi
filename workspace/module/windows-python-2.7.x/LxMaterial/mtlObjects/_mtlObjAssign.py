@@ -10,7 +10,7 @@ class MaterialAssign(mtlObjAbs.Abc_MtlMaterialAssign):
 
     DEF_geometry_separator = mtlCfg.Utility.DEF_mtl_data_separator
 
-    VAR_mtl_file_element_key = u'materialassign'
+    VAR_dat_xml_file_element_tag = u'materialassign'
 
     def __init__(self, *args):
         """
@@ -25,7 +25,7 @@ class PropertysetAssign(mtlObjAbs.Abc_MtlPropertysetAssign):
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
-    VAR_mtl_file_element_key = u'propertysetassign'
+    VAR_dat_xml_file_element_tag = u'propertysetassign'
 
     def __init__(self, *args):
         """
@@ -42,9 +42,9 @@ class VisibilityAssign(mtlObjAbs.Abc_MtlVisibilityAssign):
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
 
-    OBJ_grh_query_cache = _mtlObjQuery.OBJ_grh_query_cache_
+    OBJ_grh_query_cache = _mtlObjQuery.GRH_QUERY_CACHE
 
-    VAR_mtl_file_element_key = u'visibility'
+    VAR_dat_xml_file_element_tag = u'visibility'
 
     def __init__(self, *args):
         """

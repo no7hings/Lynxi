@@ -34,6 +34,19 @@ class Nodepath(datObjAbs.Abs_DatPath):
         self._initAbsDatPath(*args)
 
 
+class Attrpath(datObjAbs.Abs_DatAttrpath):
+    CLS_dat_raw = unicode
+
+    CLS_dat_nodepath = Nodepath
+    CLS_dat_portpath = Portpath
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    def __init__(self, *args):
+        self._initAbsDatAttrpath(*args)
+
+
 class Filepath(datObjAbs.Abs_DatPath):
     CLS_dat_raw = unicode
 

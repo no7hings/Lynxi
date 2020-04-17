@@ -13,7 +13,7 @@ astSceneryClass = prsOutputs.Util.astSceneryClass
 #
 astDefaultVariant = prsOutputs.Util.astDefaultVersion
 #
-DEF_mya_node_separator = bscConfigure.DEF_mya_node_separator
+DEF_mya_node_pathsep = bscConfigure.DEF_mya_node_pathsep
 DEF_mya_namespace_separator = bscConfigure.DEF_mya_namespace_separator
 #
 none = ''
@@ -422,7 +422,7 @@ def getDbGeometryObjectPath(assetIndex, dbName, objectIndex):
             if parentPath.startswith('|'):
                 parentPath = parentPath[1:]
             #
-            string = parentPath + DEF_mya_node_separator + nodeName
+            string = parentPath + DEF_mya_node_pathsep + nodeName
             string = string.replace('<assetName>', dbName)
     return string
 

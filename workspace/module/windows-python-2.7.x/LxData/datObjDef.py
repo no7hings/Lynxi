@@ -40,6 +40,7 @@ class Def_DatRaw(datCfg.Utility):
 
     def _set_raw_to_rawobj_(self, *args):
         raw = args[0]
+
         if self.CLS_dat_raw is not None:
             return self.CLS_dat_raw(raw)
 
@@ -87,7 +88,7 @@ class Def_DatRaw(datCfg.Utility):
         return u''
 
     def setRawString(self, *args):
-        self._rawObj = self._set_rawstr_create_(*args)
+        self._set_rawstr_create_(*args)
 
     def rawString(self):
         return self._get_rawstr_()
@@ -223,6 +224,7 @@ class Def_DatPath(Def_DatRaw):
 
         self._initDefDatRaw(*args)
 
+    # **************************************************************************************************************** #
     def dirname(self):
         """
         :return: obj
@@ -235,6 +237,7 @@ class Def_DatPath(Def_DatRaw):
     def setDirnameString(self, *args):
         self._dirnameObj.setRawString(*args)
 
+    # **************************************************************************************************************** #
     def bscname(self):
         return self._bscnameObj
 
@@ -247,6 +250,7 @@ class Def_DatPath(Def_DatRaw):
     def setBscnameString(self, *args):
         self._bscnameObj.setRawString(*args)
 
+    # **************************************************************************************************************** #
     def name(self):
         return self.bscname()
 
@@ -262,3 +266,26 @@ class Def_DatPath(Def_DatRaw):
         :return: str
         """
         return cls.VAR_dat_pathsep
+
+
+class Def_DatAttrpath(Def_DatRaw):
+    CLS_dat_nodepath = None
+    CLS_dat_portpath = None
+
+    def _initDefDatAttrpath(self, *args):
+        self._nodepathObj = self.CLS_dat_nodepath()
+        self._portpathObj = self.CLS_dat_portpath()
+
+        self._initDefDatRaw(*args)
+
+    def nodepath(self):
+        return self._nodepathObj
+
+    def nodepathString(self):
+        return self._nodepathObj.toString()
+
+    def portpath(self):
+        return self._portpathObj
+
+    def portpathString(self):
+        return self._portpathObj.toString()

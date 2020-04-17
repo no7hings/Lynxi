@@ -100,13 +100,13 @@ class Mtd_AppMaya(_maConfig.MaConfig):
     def _toAppCompPathLis(cls, nodePath):
         lis = []
         #
-        stringLis = nodePath.split(cls.DEF_mya_node_separator)
+        stringLis = nodePath.split(cls.DEF_mya_node_pathsep)
         #
         count = len(stringLis)
         for seq, i in enumerate(stringLis):
             if i:
                 if seq + 1 < count:
-                    compPath = cls.DEF_mya_node_separator.join(stringLis[:seq + 1])
+                    compPath = cls.DEF_mya_node_pathsep.join(stringLis[:seq + 1])
                     lis.append(compPath)
         #
         lis.append(nodePath)
@@ -115,25 +115,25 @@ class Mtd_AppMaya(_maConfig.MaConfig):
     @classmethod
     def _nodeString2nodename_(cls, nodePath, withNamespace=False):
         if withNamespace:
-            string = nodePath.split(cls.DEF_mya_node_separator)[-1]
+            string = nodePath.split(cls.DEF_mya_node_pathsep)[-1]
         else:
             if nodePath.endswith(']'):
-                string = nodePath.split(cls.DEF_mya_node_separator)[-1]
+                string = nodePath.split(cls.DEF_mya_node_pathsep)[-1]
             else:
-                string = nodePath.split(cls.DEF_mya_node_separator)[-1].split(cls.DEF_mya_namespace_separator)[-1]
+                string = nodePath.split(cls.DEF_mya_node_pathsep)[-1].split(cls.DEF_mya_namespace_separator)[-1]
         return string
 
     @classmethod
     def _getNodeFullpathNameString(cls, nodepathString):
-        if not nodepathString.startswith(cls.DEF_mya_node_separator):
+        if not nodepathString.startswith(cls.DEF_mya_node_pathsep):
             return cmds.ls(nodepathString, long=1)[0]
         else:
             return nodepathString
 
     @classmethod
     def _toShapeTransformString(cls, nodePath):
-        if cls.DEF_mya_node_separator in nodePath:
-            return cls.DEF_mya_node_separator.join(nodePath.split(cls.DEF_mya_node_separator)[:-1])
+        if cls.DEF_mya_node_pathsep in nodePath:
+            return cls.DEF_mya_node_pathsep.join(nodePath.split(cls.DEF_mya_node_pathsep)[:-1])
         else:
             return nodePath
 
@@ -147,11 +147,11 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNodePathJoinNamespace(cls, nodePath, namespace):
-        return cls.DEF_mya_node_separator.join([namespace + i for i in nodePath.split(cls.DEF_mya_node_separator) if i])
+        return cls.DEF_mya_node_pathsep.join([namespace + i for i in nodePath.split(cls.DEF_mya_node_pathsep) if i])
 
     @classmethod
     def _toNamespaceByNodePath(cls, nodePath):
-        return cls._toNamespaceByPathString(nodePath, cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator)
+        return cls._toNamespaceByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
 
     @classmethod
     def _toNamespaceByNodeName(cls, nodeName):
@@ -159,7 +159,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNameByNodePath(cls, nodePath):
-        return cls._toNameByPathString(nodePath, cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator)
+        return cls._toNameByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
 
     @classmethod
     def _toNameByNodeName(cls, nodeName):
@@ -193,19 +193,19 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNodePathRebuildDatum(cls, nodePath):
-        return cls._toPathRebuildDatum(nodePath, cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator)
+        return cls._toPathRebuildDatum(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
 
     @classmethod
     def _toNodePathBySearchDatum(cls, pathDatum, namespaceDatum):
         return cls._toPathByPathRebuildDatum(
-            pathDatum, namespaceDatum, cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator
+            pathDatum, namespaceDatum, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
         )
 
     @classmethod
     def _toNodeNameBySearchDatum(cls, pathDatum, namespaceDatum):
         return cls._toNameStringBySearchDatum(
             pathDatum, namespaceDatum,
-            cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator
+            cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
         )
 
     @classmethod
@@ -221,15 +221,15 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             subNamespaceDatum = ['']*len(namespaceDatum)
             return fn(
                 pathDatum, namespaceDatum,
-                cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
             ), fn(
                 pathDatum, subNamespaceDatum,
-                cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
             )
         else:
             return fn(
                 pathDatum, namespaceDatum,
-                cls.DEF_mya_node_separator, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
             )
 
     @classmethod
@@ -384,7 +384,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         string = None
         objectPath = cls._getNodeFullpathNameString(nodepathString)
         if objectPath:
-            data = cls.DEF_mya_node_separator.join(objectPath.split(cls.DEF_mya_node_separator)[:-1])
+            data = cls.DEF_mya_node_pathsep.join(objectPath.split(cls.DEF_mya_node_pathsep)[:-1])
             if data:
                 string = data
         return string

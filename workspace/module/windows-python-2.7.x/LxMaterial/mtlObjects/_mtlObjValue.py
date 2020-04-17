@@ -46,14 +46,14 @@ class Val_Closure(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_closure
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1.bool;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -67,14 +67,14 @@ class Val_Boolean(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_boolean
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1.bool;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -87,14 +87,14 @@ class Val_Visibility(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_boolean
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_attribute_attach_key = u'visible'
-    VAR_mtl_file_element_key = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'visible'
+    VAR_dat_xml_file_element_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1.bool;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -113,14 +113,14 @@ class Val_Integer(_Val_Digit):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_Integer
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1.int;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -136,15 +136,15 @@ class Val_IntegerArray(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(int, ...);
             1-2.int, ...
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -158,14 +158,14 @@ class Val_Float(_Val_Digit):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_float
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1.float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -181,15 +181,15 @@ class Val_FloatArray(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(float, ...);
             1-2.float, ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -206,8 +206,8 @@ class Val_Color2(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 2, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -215,7 +215,7 @@ class Val_Color2(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float);
             1-2.float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -232,8 +232,8 @@ class Val_Color2Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 2, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -241,7 +241,7 @@ class Val_Color2Array(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(list(float, float), ...);
             1-2.list(float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -257,8 +257,8 @@ class Val_Color3(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 3, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -266,7 +266,7 @@ class Val_Color3(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float, float);
             1-2.float, float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -283,8 +283,8 @@ class Val_Color3Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 3, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -292,7 +292,7 @@ class Val_Color3Array(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(list(float, float, float), ...);
             1-2.list(float, float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -308,8 +308,8 @@ class Val_Color4(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 4, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -317,7 +317,7 @@ class Val_Color4(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float, float, float);
             1-2.float, float, float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -334,8 +334,8 @@ class Val_Color4Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 4, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -343,7 +343,7 @@ class Val_Color4Array(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(list(float, float, float, float), ...);
             1-2.list(float, float, float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -360,8 +360,8 @@ class Val_Vector2(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 2, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -369,7 +369,7 @@ class Val_Vector2(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float);
             1-2.float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -386,15 +386,15 @@ class Val_Vector2Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 2, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(list(float, float), ...);
             1-2.list(float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -410,8 +410,8 @@ class Val_Vector3(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 3, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -419,7 +419,7 @@ class Val_Vector3(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float, float);
             1-2.float, float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -436,15 +436,15 @@ class Val_Vector3Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 3, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(list(float, float, float), ...);
             1-2.list(float, float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -460,8 +460,8 @@ class Val_Vector4(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 4, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -469,7 +469,7 @@ class Val_Vector4(mtlObjAbs.Abs_MtlValue):
         :param args:
             1-1.list(float, float, float, float);
             1-2.float, float, float, float;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -486,15 +486,15 @@ class Val_Vector4Array(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 4, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(list(float, float, float, float), ...);
             1-2.list(float, float, float, float), ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -507,8 +507,8 @@ class Val_String(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_string
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -528,15 +528,15 @@ class Val_StringArray(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(unicode, ...);
             1-2.unicode, ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -549,8 +549,8 @@ class Val_Filename(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_filename
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -570,15 +570,15 @@ class Val_FilenameArray(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(unicode, ...);
             1-2.unicode, ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -591,8 +591,8 @@ class Val_Nodename(mtlObjAbs.Abs_MtlValue):
     VAR_dat_rawtype_str_pattern = mtlCfg.Utility.DEF_mtl_porttype_nodename
     VAR_dat_rawsize_pattern = 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
@@ -612,15 +612,15 @@ class Val_NodenameArray(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = float('inf'), 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(unicode, ...);
             1-2.unicode, ...;
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -637,15 +637,15 @@ class Val_Matrix33(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 3, 3, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(list(float, float, float), list(float, float, float), list(float, float, float));
             1-2.list(float, float, float), list(float, float, float), list(float, float, float);
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)
 
@@ -662,14 +662,14 @@ class Val_Matrix44(mtlObjAbs.Abs_MtlValue):
     )
     VAR_dat_rawsize_pattern = 4, 4, 1
 
-    VAR_mtl_file_element_key = u'value'
-    VAR_mtl_file_attribute_attach_key = u'value'
+    VAR_dat_xml_file_element_tag = u'value'
+    VAR_dat_xml_file_attribute_attach_tag = u'value'
 
     def __init__(self, *args):
         """
         :param args:
             1-1.list(list(float, float, float, float), list(float, float, float, float), list(float, float, float, float), list(float, float, float, float));
             1-2.list(float, float, float, float), list(float, float, float, float), list(float, float, float, float), list(float, float, float, float);
-            2.str(portdataString).
+            2.str(portrawString).
         """
         self._initAbsMtlValue(*args)

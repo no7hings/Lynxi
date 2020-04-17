@@ -1981,7 +1981,7 @@ class IfAstGeneralToolUnit(_qtIfAbcWidget.IfToolUnitBasic):
             objectPathLis = maUtils.getSelectedNodeLis()
             if objectPathLis:
                 objectPath = objectPathLis[0]
-                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_mya_node_separator + self._rootGroup):
+                if not objectPath.endswith(self._rootGroup) and not objectPath.endswith(self._linkGroup) and objectPath.startswith(appCfg.DEF_mya_node_pathsep + self._rootGroup):
                     if objectPath.endswith(prsOutputs.Util.basicGroupLabel):
                         objectName = maUtils._nodeString2nodename_(objectPath)
                         self._parentGroupLabel.setDatum(objectName)

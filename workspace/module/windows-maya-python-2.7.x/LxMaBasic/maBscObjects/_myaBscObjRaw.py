@@ -6,21 +6,6 @@ from LxData.datObjects import _datObjString
 from ..import myaBscCfg
 
 
-class Portpath(datObjAbs.Abs_DatPath):
-    CLS_dat_raw = unicode
-
-    CLS_dat_dirname = _datObjString.Name
-    CLS_dat_bscname = _datObjString.Name
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_port_pathsep
-
-    def __init__(self, *args):
-        self._initAbsDatPath(*args)
-
-
 class Nodename(datObjAbs.Abs_DatNodename):
     CLS_dat_raw = unicode
 
@@ -45,7 +30,35 @@ class Nodepath(datObjAbs.Abs_DatPath):
     VAR_dat_rawtype_pattern = unicode, str
     VAR_dat_raw_default = u''
 
-    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_node_separator
+    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_node_pathsep
 
     def __init__(self, *args):
         self._initAbsDatPath(*args)
+
+
+class Portpath(datObjAbs.Abs_DatPath):
+    CLS_dat_raw = unicode
+
+    CLS_dat_dirname = _datObjString.Name
+    CLS_dat_bscname = _datObjString.Name
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_port_pathsep
+
+    def __init__(self, *args):
+        self._initAbsDatPath(*args)
+
+
+class Attrpath(datObjAbs.Abs_DatAttrpath):
+    CLS_dat_raw = unicode
+
+    CLS_dat_nodepath = Nodepath
+    CLS_dat_portpath = Portpath
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    def __init__(self, *args):
+        self._initAbsDatAttrpath(*args)

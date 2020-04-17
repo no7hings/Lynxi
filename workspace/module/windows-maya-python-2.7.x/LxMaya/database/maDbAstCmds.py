@@ -9,7 +9,7 @@ from LxDatabase import dbBasic, dbGet
 #
 from LxMaya.command import maUtils, maUuid, maGeom, maShdr, maFur
 #
-DEF_mya_node_separator = '|'
+DEF_mya_node_pathsep = '|'
 
 
 # Nde_Geometry

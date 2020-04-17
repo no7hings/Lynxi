@@ -10,4 +10,4 @@ if __name__ == '__main__':
 
     # print n0.OBJ_grh_obj_cache.objects()
 
-    n0.output('rgb').connectTo(n1.input('input'))
+    n0.otparm('rgb').connectTo(n1.inparm('input'))

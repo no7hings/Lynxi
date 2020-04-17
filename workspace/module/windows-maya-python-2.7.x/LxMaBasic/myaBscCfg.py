@@ -3,16 +3,7 @@ import collections
 
 
 class Utility(object):
-    DEF_mya_key_porttype = u'porttype'
-    DEF_mya_key_assign = u'assign'
-    DEF_mya_key_parent = u'parent'
-    DEF_mya_key_children = u'children'
-    DEF_mya_key_array = u'array'
-
-    DEF_mya_keyword_input = u'input'
-    DEF_mya_keyword_output = u'output'
-
-    DEF_mya_node_separator = '|'
+    DEF_mya_node_pathsep = '|'
     DEF_mya_set_separator = '/'
     DEF_mya_namespace_separator = ':'
     DEF_mya_port_pathsep = '.'

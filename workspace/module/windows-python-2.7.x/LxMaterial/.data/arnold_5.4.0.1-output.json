@@ -3,88 +3,88 @@
         {
             "portpath": "integer",
             "porttype": "integer",
-            "portdata": "0",
-            "assign": "output"
+            "portraw": "0",
+            "assign": "otparm"
         }
     ],
     "float": [
         {
             "portpath": "float",
             "porttype": "float",
-            "portdata": "0.0",
-            "assign": "output"
+            "portraw": "0.0",
+            "assign": "otparm"
         }
     ],
     "boolean": [
         {
             "portpath": "boolean",
             "porttype": "boolean",
-            "portdata": "false",
-            "assign": "output"
+            "portraw": "false",
+            "assign": "otparm"
         }
     ],
     "string": [
         {
             "portpath": "string",
             "porttype": "string",
-            "portdata": "",
-            "assign": "output"
+            "portraw": "",
+            "assign": "otparm"
         }
     ],
     "color3": [
         {
             "portpath": "rgb",
             "porttype": "color3",
-            "portdata": "0.0, 0.0, 0.0",
-            "assign": "output"
+            "portraw": "0.0, 0.0, 0.0",
+            "assign": "otparm"
         }
     ],
     "color4": [
         {
             "portpath": "rgba",
             "porttype": "color4",
-            "portdata": "0.0, 0.0, 0.0, 0.0",
-            "assign": "output"
+            "portraw": "0.0, 0.0, 0.0, 0.0",
+            "assign": "otparm"
         }
     ],
     "vector3": [
         {
             "portpath": "vector",
             "porttype": "vector3",
-            "portdata": "0.0, 0.0, 0.0",
-            "assign": "output"
+            "portraw": "0.0, 0.0, 0.0",
+            "assign": "otparm"
         }
     ],
     "vector4": [
         {
             "portpath": "vector",
             "porttype": "vector4",
-            "portdata": "0.0, 0.0, 0.0, 0.0",
-            "assign": "output"
+            "portraw": "0.0, 0.0, 0.0, 0.0",
+            "assign": "otparm"
         }
     ],
     "matrix44": [
         {
             "portpath": "matrix",
             "porttype": "matrix44",
-            "portdata": "",
-            "assign": "output"
+            "portraw": "",
+            "assign": "otparm"
         }
     ],
     "closure": [
         {
             "portpath": "shader",
             "porttype": "closure",
-            "portdata": "",
-            "assign": "output"
+            "portraw": "",
+            "assign": "otparm"
         }
     ],
     "material": [
         {
             "portpath": "material",
             "porttype": "closure",
-            "portdata": "",
-            "assign": "output"
+            "portraw": "",
+            "assign": "otparm"
         }
     ]
 }

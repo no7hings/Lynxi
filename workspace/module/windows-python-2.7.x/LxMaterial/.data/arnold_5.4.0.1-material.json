@@ -5,20 +5,20 @@
             {
                 "portpath": "surfaceshader",
                 "porttype": "shader",
-                "portdata": "",
-                "assign": "input"
+                "portraw": "",
+                "assign": "inparm"
             },
             {
                 "portpath": "displacementshader",
                 "porttype": "shader",
-                "portdata": "",
-                "assign": "input"
+                "portraw": "",
+                "assign": "inparm"
             },
             {
                 "portpath": "volumeshader",
                 "porttype": "shader",
-                "portdata": "",
-                "assign": "input"
+                "portraw": "",
+                "assign": "inparm"
             }
         ]
     }

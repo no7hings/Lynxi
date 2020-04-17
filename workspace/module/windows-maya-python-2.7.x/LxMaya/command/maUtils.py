@@ -312,7 +312,7 @@ def setObjectsRandColor(objectLis):
 def setObjectAnnotation(nodepathString, message):
     annotationName = nodepathString + '_annotationShape'
     cmds.createNode('annotationShape', name=annotationName, parent=nodepathString)
-    annotationPath = nodepathString + appCfg.DEF_mya_node_separator + annotationName
+    annotationPath = nodepathString + appCfg.DEF_mya_node_pathsep + annotationName
     cmds.setAttr(annotationPath + '.text', message, type='string')
     cmds.setAttr(annotationPath + '.displayArrow', 0)
     shape = _getNodeShapeNodeString(nodepathString)
@@ -553,12 +553,12 @@ def _getNodeTransformNodeString(nodepathString, fullPath=True):
 
 #
 def _toTransformByNodePath(nodePath):
-    return appCfg.DEF_mya_node_separator.join(nodePath.split(appCfg.DEF_mya_node_separator)[:-1])
+    return appCfg.DEF_mya_node_pathsep.join(nodePath.split(appCfg.DEF_mya_node_pathsep)[:-1])
 
 
 #
 def _toNamespaceByNodePath(objectPath):
-    return appCfg.DEF_mya_namespace_separator.join(objectPath.split(appCfg.DEF_mya_node_separator)[-1].split(appCfg.DEF_mya_namespace_separator)[:-1])
+    return appCfg.DEF_mya_namespace_separator.join(objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_separator)[:-1])
 
 
 # Get Object's Shape
@@ -770,17 +770,17 @@ def setCleanSceneDirty():
 
 #
 def getObjectPathJoinNamespace(objectPath, namespace):
-    isFullPath = objectPath.startswith(appCfg.DEF_mya_node_separator)
+    isFullPath = objectPath.startswith(appCfg.DEF_mya_node_pathsep)
     if isFullPath:
-        return (appCfg.DEF_mya_node_separator + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_separator))
+        return (appCfg.DEF_mya_node_pathsep + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_pathsep))
     elif not isFullPath:
-        return namespace + ':' + (appCfg.DEF_mya_node_separator + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_separator))
+        return namespace + ':' + (appCfg.DEF_mya_node_pathsep + namespace + ':').join(objectPath.split(appCfg.DEF_mya_node_pathsep))
 
 
 #
 def getObjectPathRemoveNamespace(objectPath):
-    paths = [i.split(appCfg.DEF_mya_namespace_separator)[-1] for i in objectPath.split(appCfg.DEF_mya_node_separator)]
-    return appCfg.DEF_mya_node_separator.join(paths)
+    paths = [i.split(appCfg.DEF_mya_namespace_separator)[-1] for i in objectPath.split(appCfg.DEF_mya_node_pathsep)]
+    return appCfg.DEF_mya_node_pathsep.join(paths)
 
 
 #
@@ -790,7 +790,7 @@ def getNodeJoinNamespace(nodepathString, namespace):
 
 #
 def getObjectStringJoinNamespace(nodepathString, namespace):
-    if appCfg.DEF_mya_node_separator in nodepathString:
+    if appCfg.DEF_mya_node_pathsep in nodepathString:
         return getObjectPathJoinNamespace(nodepathString, namespace)
     else:
         return getNodeJoinNamespace(nodepathString, namespace)
@@ -912,7 +912,7 @@ def getAnimationKey(nodepathString, targetObject, startFrame, endFrame, frameOff
 #
 def _getNodeFullpathNameString(nodepathString):
     string = nodepathString
-    isPath = nodepathString.startswith(appCfg.DEF_mya_node_separator)
+    isPath = nodepathString.startswith(appCfg.DEF_mya_node_pathsep)
     if not isPath:
         data = cmds.ls(nodepathString, long=1)
         if data:
@@ -922,16 +922,16 @@ def _getNodeFullpathNameString(nodepathString):
 
 #
 def isObjectPath(string):
-    return string.startswith(appCfg.DEF_mya_node_separator)
+    return string.startswith(appCfg.DEF_mya_node_pathsep)
 
 
 #
 def _nodeString2nodename_(objectPath, useMode=0):
     string = none
     if useMode == 0:
-        string = objectPath.split(appCfg.DEF_mya_node_separator)[-1]
+        string = objectPath.split(appCfg.DEF_mya_node_pathsep)[-1]
     elif useMode == 1:
-        string = objectPath.split(appCfg.DEF_mya_node_separator)[-1].split(appCfg.DEF_mya_namespace_separator)[-1]
+        string = objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_separator)[-1]
     return string
 
 
@@ -947,7 +947,7 @@ def _toNodeParentPath(nodepathString):
     string = None
     objectPath = _getNodeFullpathNameString(nodepathString)
     if objectPath:
-        data = appCfg.DEF_mya_node_separator.join(objectPath.split(appCfg.DEF_mya_node_separator)[:-1])
+        data = appCfg.DEF_mya_node_pathsep.join(objectPath.split(appCfg.DEF_mya_node_pathsep)[:-1])
         if data:
             string = data
     return string
@@ -1581,7 +1581,7 @@ def _toNodeAttr(stringLis):
 
 #
 def _toNodePathString(stringLis):
-    return appCfg.DEF_mya_node_separator.join(stringLis)
+    return appCfg.DEF_mya_node_pathsep.join(stringLis)
 
 
 #
@@ -1713,7 +1713,7 @@ def setObjectParent(childPath, parentPath):
     if _isAppExist(parentPath) and _isAppExist(childPath):
         origParentPath = getObjectParent(childPath)
         if origParentPath:
-            if parentPath.startswith(appCfg.DEF_mya_node_separator):
+            if parentPath.startswith(appCfg.DEF_mya_node_pathsep):
                 if not parentPath == origParentPath:
                     cmds.parent(childPath, parentPath)
             else:
@@ -2620,7 +2620,7 @@ def getObjectHierarchyDic(mType, root):
     if root:
         hierarchyData = getObjectTransformsByType(mType, 1, root)
         for data in hierarchyData:
-            splitData = data.split(appCfg.DEF_mya_node_separator)
+            splitData = data.split(appCfg.DEF_mya_node_pathsep)
             # Check Naming Error( Overlapping Name )
             if len(splitData) == len(set(splitData)):
                 for seq, i in enumerate(splitData):
@@ -2883,12 +2883,12 @@ def getRoot(nodepathString, fullPath=True):
     objectFullPath = _getNodeFullpathNameString(nodepathString)
     if objectFullPath:
         root = nodepathString
-        if objectFullPath.startswith(appCfg.DEF_mya_node_separator):
-            splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
+        if objectFullPath.startswith(appCfg.DEF_mya_node_pathsep):
+            splitData = objectFullPath.split(appCfg.DEF_mya_node_pathsep)
             root = splitData[1]
             #
             if fullPath:
-                root = appCfg.DEF_mya_node_separator.join(splitData[:2])
+                root = appCfg.DEF_mya_node_pathsep.join(splitData[:2])
         return root
 
 
@@ -2897,7 +2897,7 @@ def getObjectParentFilter(nodepathString, keyword, fullPath=True):
     string = none
     objectFullPath = _getNodeFullpathNameString(nodepathString)
     if objectFullPath:
-        splitData = objectFullPath.split(appCfg.DEF_mya_node_separator)
+        splitData = objectFullPath.split(appCfg.DEF_mya_node_pathsep)
         hasParent = False
         loc = 0
         #
@@ -2909,7 +2909,7 @@ def getObjectParentFilter(nodepathString, keyword, fullPath=True):
         if hasParent:
             parent = splitData[loc]
             if fullPath:
-                parent = appCfg.DEF_mya_node_separator.join(splitData[:loc + 1])
+                parent = appCfg.DEF_mya_node_pathsep.join(splitData[:loc + 1])
             string = parent
     return string
 
@@ -3097,13 +3097,13 @@ def setCreateNode(nodeType, name):
 def _toAppCompPathLis(objectPath):
     lis = []
     #
-    dataArray = objectPath.split(appCfg.DEF_mya_node_separator)
+    dataArray = objectPath.split(appCfg.DEF_mya_node_pathsep)
     #
     dataCount = len(dataArray)
     for seq, data in enumerate(dataArray):
         if data:
             if seq + 1 < dataCount:
-                subPath = appCfg.DEF_mya_node_separator.join(dataArray[:seq + 1])
+                subPath = appCfg.DEF_mya_node_pathsep.join(dataArray[:seq + 1])
                 lis.append(subPath)
     #
     lis.append(objectPath)

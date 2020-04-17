@@ -1,8 +1,6 @@
 # coding:utf-8
 from ._mtlObjRaw import *
 
-from ._mtlObjCache import *
-
 from ._mtlObjQuery import *
 
 from ._mtlObjPort import *

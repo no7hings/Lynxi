@@ -3,13 +3,13 @@
         {
             "format": "{0}.r",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.a",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ],
@@ -17,19 +17,19 @@
         {
             "format": "{0}.r",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.g",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.b",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ],
@@ -37,25 +37,25 @@
         {
             "format": "{0}.r",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.g",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.b",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.a",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ],
@@ -63,13 +63,13 @@
         {
             "format": "{0}.x",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.y",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ],
@@ -77,19 +77,19 @@
         {
             "format": "{0}.x",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.y",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.z",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ],
@@ -97,25 +97,25 @@
         {
             "format": "{0}.x",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.y",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.z",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         },
         {
             "format": "{0}.w",
             "porttype": "float",
-            "portdata": "0.0",
+            "portraw": "0.0",
             "assign": "channel"
         }
     ]

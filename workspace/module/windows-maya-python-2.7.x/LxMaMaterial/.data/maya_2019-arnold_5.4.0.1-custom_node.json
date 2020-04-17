@@ -1,7 +1,7 @@
 {
     "displacementShader": {
-        "mtl_category": "range",
-        "dcc_port": {
+        "target_category": "range",
+        "source_port": {
             "displacement": {
                 "source_porttype": "float",
                 "target_portpath": [
@@ -14,36 +14,36 @@
         "create_expression": {
             "command":
             [
-                "mtl_port_0 = self.mtlNode().port('output_min')",
-                "mtl_port_1 = self.mtlNode().port('output_max')",
-                "mtl_port_2 = self.mtlNode().port('contrast_pivot')",
-                "dcc_port_0 = self.dccNode().port('aiDisplacementZeroValue')",
-                "dcc_zero_value = dcc_port_0.portdata()",
-                "mtl_port_0.setPortdata(0-dcc_zero_value);mtl_port_1.setPortdata(1-dcc_zero_value);mtl_port_2.setPortdata(0.0)"
+                "mtl_port_0 = self.tgtNode().port('output_min')",
+                "mtl_port_1 = self.tgtNode().port('output_max')",
+                "mtl_port_2 = self.tgtNode().port('contrast_pivot')",
+                "dcc_port_0 = self.srcNode().port('aiDisplacementZeroValue')",
+                "dcc_zero_value = dcc_port_0.portraw()",
+                "mtl_port_0.setPortraw(0-dcc_zero_value);mtl_port_1.setPortraw(1-dcc_zero_value);mtl_port_2.setPortraw(0.0)"
             ]
         },
         "after_expression": {
             "command":
             [
-                "mtlGeometries = self.mtlNode().allTargetNodes('mesh') or []",
-                "dcc_port_0 = self.dccNode().port('aiDisplacementAutoBump')",
-                "dcc_portdata_0 = dcc_port_0.portdata()",
-                "[i.port('disp_autobump').setPortdata(dcc_portdata_0) for i in mtlGeometries]",
+                "mtlGeometries = self.tgtNode().allTargetNodes('mesh') or []",
+                "dcc_port_0 = self.srcNode().port('aiDisplacementAutoBump')",
+                "dcc_portdata_0 = dcc_port_0.portraw()",
+                "[i.port('disp_autobump').setPortraw(dcc_portdata_0) for i in mtlGeometries]",
 
-                "dcc_port_1 = self.dccNode().port('aiDisplacementPadding')",
-                "dcc_portdata_1 = dcc_port_1.portdata()",
-                "[i.port('disp_padding').setPortdata(dcc_portdata_1) for i in mtlGeometries]",
+                "dcc_port_1 = self.srcNode().port('aiDisplacementPadding')",
+                "dcc_portdata_1 = dcc_port_1.portraw()",
+                "[i.port('disp_padding').setPortraw(dcc_portdata_1) for i in mtlGeometries]",
 
-                "dcc_port_2 = self.dccNode().port('aiDisplacementZeroValue')",
-                "dcc_portdata_2 = dcc_port_2.portdata()",
-                "[i.port('disp_zero_value').setPortdata(dcc_portdata_2) for i in mtlGeometries]"
+                "dcc_port_2 = self.srcNode().port('aiDisplacementZeroValue')",
+                "dcc_portdata_2 = dcc_port_2.portraw()",
+                "[i.port('disp_zero_value').setPortraw(dcc_portdata_2) for i in mtlGeometries]"
             ]
         }
     },
 
     "file": {
-        "mtl_category": "image",
-        "dcc_port": {
+        "target_category": "image",
+        "source_port": {
             "fileTextureName": {
                 "target_portpath": "filename"
             },
@@ -58,27 +58,29 @@
             }
         },
 
-        "mtl_port": {
+        "target_port": {
             "ignore_missing_textures": {
-                "portdata": "true"
+                "portraw": "true"
             },
             "missing_texture_color": {
-                "portdata": "0.5, 0.5, 0.5, 0"
+                "portraw": "0.5, 0.5, 0.5, 0"
             }
         },
 
         "create_expression": {
             "command":
             [
-                "self._runInsertColorCorrectExpression_({'alpha_is_luminance': 'alphaIsLuminance'})",
-                "self.mtlNode().port('filename').setPortdata(self._convertDccMultiTexture_(self.mtlNode().input('filename').portdataString()))"
+                "self._cmd_set_color_correct_insert_({'alpha_is_luminance': 'alphaIsLuminance'})",
+                "fileString = self.tgtNode().inparm('filename').portrawString()",
+                "convertFileString = self._cmd_set_multi_texture_covert_(fileString)",
+                "self.tgtNode().port('filename').setPortraw(convertFileString)"
             ]
         }
     },
 
     "place2dTexture": {
-        "mtl_category": "uv_transform",
-        "dcc_port": {
+        "target_category": "uv_transform",
+        "source_port": {
             "coverage": {
                 "source_porttype": "uv_0",
                 "target_portpath": "coverage"
@@ -118,31 +120,31 @@
 
         "create_expression": {
             "command": [
-                "targetDccNodes = self.dccNode().targetNodes('file')",
-                "self._runInsertToTargetExpression_(targetDccNodes, 'rgba', 'passthrough', 'rgba')"
+                "targetDccNodes = self.srcNode().targetNodes('file')",
+                "self._cmd_set_node_insert_(targetDccNodes, 'rgba', 'passthrough', 'rgba')"
             ]
         }
     },
 
     "samplerInfo": {
-        "mtl_category": "facing_ratio",
-        "dcc_port": {
+        "target_category": "facing_ratio",
+        "source_port": {
             "facingRatio": {
                 "target_portpath": "float"
             }
         },
         "create_expression": {
             "command": [
-                "targetDccNodes = self.dccNode().targetNodes('ramp')",
-                "[self.getTrsNode(i.nodepathString()).mtlNode().port('type').setPortdataString('custom') for i in targetDccNodes]",
-                "[self.mtlNode().output('float').connectTo(self.getTrsNode(i.nodepathString()).mtlNode().input('input')) for i in targetDccNodes]"
+                "targetDccNodes = self.srcNode().targetNodes('ramp')",
+                "[self.getTrsNode(i.nodepathString()).tgtNode().port('type').setPortrawString('custom') for i in targetDccNodes]",
+                "[self.tgtNode().otparm('float').connectTo(self.getTrsNode(i.nodepathString()).tgtNode().inparm('input')) for i in targetDccNodes]"
             ]
         }
     },
 
     "ramp": {
-        "mtl_category": "ramp_rgb",
-        "dcc_port": {
+        "target_category": "ramp_rgb",
+        "source_port": {
             "type": {
                 "target_portpath": "type"
             },
@@ -157,7 +159,7 @@
             }
         },
 
-        "mtl_portdata": {
+        "target_portraw": {
             "type": {
                 "V Ramp": "v",
                 "U Ramp": "u",
@@ -170,18 +172,18 @@
 
         "create_expression": {
             "command": [
-                "self._runInsertColorCorrectExpression_({'alpha_is_luminance': 'alphaIsLuminance', 'multiply': 'colorGain', 'add': 'colorOffset', 'alpha_multiply': 'alphaGain', 'alpha_add': 'alphaOffset'})",
+                "self._cmd_set_color_correct_insert_({'alpha_is_luminance': 'alphaIsLuminance', 'multiply': 'colorGain', 'add': 'colorOffset', 'alpha_multiply': 'alphaGain', 'alpha_add': 'alphaOffset'})",
 
-                "data = self.dccNode().port('interpolation').portdata(asString=False)",
-                "indexes = self.dccNode().port('colorEntryList').indexes()",
-                "self.mtlNode().input('interpolation').setPortdata([data]*len(indexes))"
+                "data = self.srcNode().port('interpolation').portraw(False)",
+                "indexes = self.srcNode().port('colorEntryList').indexes()",
+                "self.tgtNode().inparm('interpolation').setPortraw([data]*len(indexes))"
             ]
         }
     },
 
     "bump2d@bump2d": {
-        "mtl_category": "normal_map",
-        "dcc_port": {
+        "target_category": "normal_map",
+        "source_port": {
             "bumpValue": {
                 "source_porttype": "float",
                 "target_portpath": "input"
@@ -197,7 +199,7 @@
             }
         },
 
-        "mtl_portdata": {
+        "target_portraw": {
             "order": {
                 "Tangent Space Normals": "YXZ",
                 "Object Space Normals": "XYZ"
@@ -206,8 +208,8 @@
     },
 
     "bump2d": {
-        "mtl_category": "bump2d",
-        "dcc_port": {
+        "target_category": "bump2d",
+        "source_port": {
             "bumpValue": {
                 "source_porttype": "float",
                 "target_portpath": "bump_map"
@@ -220,8 +222,8 @@
 
 
     "lambert": {
-        "mtl_category": "lambert",
-        "dcc_port": {
+        "target_category": "lambert",
+        "source_port": {
             "diffuse": {
                 "target_portpath": "Kd"
             },
@@ -238,8 +240,8 @@
     },
 
     "blinn": {
-        "mtl_category": "standard_surface",
-        "dcc_port": {
+        "target_category": "standard_surface",
+        "source_port": {
             "color": {
                 "target_portpath": "base_color"
             },
@@ -259,18 +261,18 @@
                 "target_portpath": "coat_color"
             }
         },
-        "mtl_port": {
+        "target_port": {
             "specular_IOR": {
-                "portdata": "3"
+                "portraw": "3"
             },
             "coat_IOR": {
-                "portdata": "3"
+                "portraw": "3"
             },
             "emission": {
-                "portdata": "1"
+                "portraw": "1"
             },
             "emission_color": {
-                "portdata": "0, 0, 0"
+                "portraw": "0, 0, 0"
             }
         }
     }

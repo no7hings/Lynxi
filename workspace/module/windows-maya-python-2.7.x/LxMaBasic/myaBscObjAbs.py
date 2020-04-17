@@ -14,11 +14,12 @@ class Abs_MyaObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
 
     def _get_node_port_raws_(self, *args):
         categoryString = args[0]
+        portpathStringList = myaBscMtdCore.Mtd_MyaNode._grh_getNodePortpathStringList_(
+            categoryString
+        )
         return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortRawList(
             categoryString,
-            myaBscMtdCore.Mtd_MyaNode._grh_getNodePortpathStringList_(
-                categoryString
-            )
+            portpathStringList
         )
 
 
@@ -32,22 +33,9 @@ class Abc_MyaBasic(myaBscCfg.Utility):
     pass
 
 
-class Abc_MyaConnection(Abc_MyaBasic):
-    def _initAbcMyaConnection(self, sourceAttributeObject, targetAttributeObject):
-        self._sourceAttributeObj = sourceAttributeObject
-        self._targetAttributeObj = targetAttributeObject
-
-    def source(self):
-        return self._sourceAttributeObj
-
-    def target(self):
-        return self._targetAttributeObj
-
-    def __str__(self):
-        return 'connection(source="{}", target="{}")'.format(self.source().attrpathString(), self.target().attrpathString())
-
-    def __repr__(self):
-        return self.__str__()
+class Abs_MyaConnector(grhObjAbs.Abs_GrhConnector):
+    def _initAbsMyaConnector(self, *args):
+        self._initAbsGrhConnector(*args)
 
 
 # ******************************************************************************************************************** #
@@ -65,20 +53,15 @@ class Abs_MyaPort(
         )
 
     # **************************************************************************************************************** #
-    def _get_portdata_(self, *args):
+    def _get_portraw_(self, *args):
         if args:
             asString = args[0]
         else:
             asString = True
 
-        nodepathString = self.node().nodepathString()
-        portpathString = self.portpathString()
         return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortdata(
-            nodepathString, portpathString, asString
+            self.attrpath().nodepathString(), self.attrpath().portpathString(), asString
         )
-
-    def portdata(self, asString=True):
-        return self._get_portdata_(asString)
 
     # **************************************************************************************************************** #
     def _get_is_source_(self):
@@ -86,7 +69,7 @@ class Abs_MyaPort(
             self.attrpathString()
         )
 
-    def _get_source_exist_(self):
+    def _get_port_source_exist_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortHasSource(
             self.attrpathString()
         )

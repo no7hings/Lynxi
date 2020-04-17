@@ -1,7 +1,7 @@
 {
     "mesh": {
-        "mtl_category": "mesh",
-        "dcc_port": {
+        "target_category": "mesh",
+        "source_port": {
             "aiDispHeight": {
                 "target_portpath": "disp_height"
             },
@@ -67,17 +67,17 @@
         "create_expression": {
             "command":
             [
-                "mtl_port_0 = self.mtlNode().port('subdiv_iterations')",
-                "dcc_port_0 = self.dccNode().port('aiSubdivIterations')",
-                "condition_0 = self.mtlNode().port('subdiv_type').isValueChanged()",
-                "portdata_0 = dcc_port_0.portdata() if condition_0 is True else 0",
-                "mtl_port_0.setPortdata(portdata_0)",
+                "mtl_port_0 = self.tgtNode().port('subdiv_iterations')",
+                "dcc_port_0 = self.srcNode().port('aiSubdivIterations')",
+                "condition_0 = self.tgtNode().port('subdiv_type').isValueChanged()",
+                "portdata_0 = dcc_port_0.portraw() if condition_0 is True else 0",
+                "mtl_port_0.setPortraw(portdata_0)",
 
-                "mtl_port_1 = self.mtlNode().port('autobump_visibility')",
-                "dcc_port_1 = self.dccNode().port('aiAutobumpVisibility')",
-                "condition_1 = self.mtlNode().port('disp_autobump').isValueChanged()",
-                "portdata_1 = dcc_port_1.portdata() if condition_1 is True else 1",
-                "mtl_port_1.setPortdata(portdata_1)"
+                "mtl_port_1 = self.tgtNode().port('autobump_visibility')",
+                "dcc_port_1 = self.srcNode().port('aiAutobumpVisibility')",
+                "condition_1 = self.tgtNode().port('disp_autobump').isValueChanged()",
+                "portdata_1 = dcc_port_1.portraw() if condition_1 is True else 1",
+                "mtl_port_1.setPortraw(portdata_1)"
             ]
         }
     }

@@ -5,6 +5,8 @@ import collections
 
 import MaterialX
 
+from LxGraphic import grhCfg
+
 from . import mtlCfg
 
 
@@ -27,20 +29,20 @@ class Mtd_MtlFile(Mtd_MtlBasic):
             nodeType = i.getType()
 
             nodeDic = collections.OrderedDict()
-            nodeDic[cls.DEF_mtl_key_type] = nodeType
+            nodeDic[grhCfg.Utility.DEF_grh_key_type] = nodeType
             nodeAttrLis = []
             for input_ in i.getInputs():
                 portpath = input_.getName()
                 porttypeString = input_.getType()
-                portdataString = input_.getValueString()
+                portrawString = input_.getValueString()
                 attrDic = collections.OrderedDict()
-                attrDic[cls.DEF_mtl_key_portpath] = portpath
-                attrDic[cls.DEF_mtl_key_porttype] = porttypeString
-                attrDic[cls.DEF_mtl_key_portdata] = portdataString
-                attrDic[cls.DEF_mtl_key_assign] = cls.DEF_mtl_keyword_input
+                attrDic[grhCfg.Utility.DEF_grh_key_portpath] = portpath
+                attrDic[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
+                attrDic[grhCfg.Utility.DEF_grh_key_portraw] = portrawString
+                attrDic[grhCfg.Utility.DEF_grh_key_assign] = grhCfg.Utility.DEF_grh_keyword_inparm
                 nodeAttrLis.append(attrDic)
 
-            nodeDic[cls.DEF_mtl_key_port] = nodeAttrLis
+            nodeDic[grhCfg.Utility.DEF_grh_key_port] = nodeAttrLis
             dic[nodeCategory] = nodeDic
         return dic
 

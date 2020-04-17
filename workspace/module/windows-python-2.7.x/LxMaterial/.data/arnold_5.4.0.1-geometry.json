@@ -5,206 +5,206 @@
             {
                 "portpath": "material",
                 "porttype": "closure",
-                "portdata": "",
-                "assign": "input"
+                "portraw": "",
+                "assign": "inparm"
             },
             {
                 "portpath": "disp_height",
                 "porttype": "float",
-                "portdata": "1.0",
+                "portraw": "1.0",
                 "assign": "property"
             },
             {
                 "portpath": "disp_padding",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "disp_zero_value",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "disp_autobump",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "autobump_visibility",
                 "porttype": "integer",
-                "portdata": "1",
+                "portraw": "1",
                 "assign": "property"
             },
             {
                 "portpath": "smoothing",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "step_size",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_type",
                 "porttype": "string",
-                "portdata": "none",
+                "portraw": "none",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_iterations",
                 "porttype": "integer",
-                "portdata": "0",
+                "portraw": "0",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_adaptive_error",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_adaptive_metric",
                 "porttype": "string",
-                "portdata": "auto",
+                "portraw": "auto",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_adaptive_space",
                 "porttype": "string",
-                "portdata": "raster",
+                "portraw": "raster",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_uv_smoothing",
                 "porttype": "string",
-                "portdata": "pin_corners",
+                "portraw": "pin_corners",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_frustum_ignore",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "subdiv_smooth_derivs",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "invert_normals",
                 "porttype": "boolean",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "property"
             },
             {
                 "portpath": "opaque",
                 "porttype": "boolean",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "property"
             },
             {
                 "portpath": "matte",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "use_shadow_group",
                 "porttype": "boolean",
-                "portdata": "false",
+                "portraw": "false",
                 "assign": "property"
             },
             {
                 "portpath": "motion_start",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "motion_end",
                 "porttype": "float",
-                "portdata": "1.0",
+                "portraw": "1.0",
                 "assign": "property"
             },
             {
                 "portpath": "id",
                 "porttype": "integer",
-                "portdata": "0",
+                "portraw": "0",
                 "assign": "property"
             },
             {
                 "portpath": "volume_padding",
                 "porttype": "float",
-                "portdata": "0.0",
+                "portraw": "0.0",
                 "assign": "property"
             },
             {
                 "portpath": "self_shadows",
                 "porttype": "boolean",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "property"
             },
             {
                 "portpath": "receive_shadows",
                 "porttype": "boolean",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "property"
             },
 
             {
                 "portpath": "camera",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "shadow",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "diffuse_transmit",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "specular_transmit",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "diffuse_reflect",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "specular_reflect",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "subsurface",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             },
             {
                 "portpath": "volume",
                 "porttype": "visibility",
-                "portdata": "true",
+                "portraw": "true",
                 "assign": "visibility"
             }
         ]

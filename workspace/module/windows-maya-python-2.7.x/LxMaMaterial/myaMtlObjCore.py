@@ -2,6 +2,8 @@
 # noinspection PyUnresolvedReferences
 from maya import cmds, OpenMaya, OpenMayaUI
 
+from LxGraphic import grhObjAbs
+
 from LxMaterial import mtlObjAbs
 
 
@@ -9,19 +11,19 @@ class Abc_MyaMtlBasic(object):
     MOD_maya_cmds = cmds
 
 
-class Abc_MyaTranslator(mtlObjAbs.Abc_MtlDccTranslator):
-    def _initAbcMyaTranslator(self, *args):
-        self._initAbcMtlDccTranslator(*args)
+class Abs_MyaNodeTranslator(grhObjAbs.Abs_GrhNodeTranslator):
+    def _initAbsMyaNodeTranslator(self, *args):
+        self._initAbsGrhNodeTranslator(*args)
 
 
-class Abc_MyaMtlNode(mtlObjAbs.Abc_MtlTrsNode):
+class Abc_MyaMtlNode(grhObjAbs.Abs_GrhTrsNode):
     def _initAbcMyaMtlNode(self, *args):
-        self._initAbcMtlTrsNode(*args)
+        self._initAbsGrhTrsNode(*args)
 
 
-class Abc_MyaMtlGeometry(mtlObjAbs.Abc_MtlTrsNode):
+class Abc_MyaMtlGeometry(grhObjAbs.Abs_GrhTrsNode):
     def _initAbcMyaMtlGeometry(self, *args):
-        self._initAbcMtlTrsNode(*args)
+        self._initAbsGrhTrsNode(*args)
 
 
 class Abc_MyaMtlMaterialProxy(mtlObjAbs.Abc_MtlTrsMaterialProxy):

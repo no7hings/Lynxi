@@ -24,7 +24,7 @@ class Mtd_MaBasic(myaBscCfg.Utility):
 class Mtd_MaUtility(Mtd_MaBasic):
     @classmethod
     def _getNodeFullpathNameString(cls, nodepathString):
-        if not nodepathString.startswith(cls.DEF_mya_node_separator):
+        if not nodepathString.startswith(cls.DEF_mya_node_pathsep):
             return cls.MOD_maya_cmds.ls(nodepathString, long=1)[0]
         else:
             return nodepathString
@@ -445,12 +445,12 @@ class Mtd_MyaNode(Mtd_MaBasic):
         readable = cls._dcc_getNodePortIsReadable(categoryString, portkeyString)
         writeable = cls._dcc_getNodePortIsWritable(categoryString, portkeyString)
         connectable = cls._dcc_getNodePortIsConnectable(categoryString, portkeyString)
-        if (readable, writeable, connectable) == (True, True, False):
-            return grhCfg.Utility.DEF_grh_keyword_param
-        elif (readable, writeable, connectable) == (True, True, True):
-            return grhCfg.Utility.DEF_grh_keyword_input
+
+        if (readable, writeable, connectable) == (True, True, True):
+            return grhCfg.Utility.DEF_grh_keyword_inparm
         elif (readable, writeable, connectable) == (True, False, True):
-            return grhCfg.Utility.DEF_grh_keyword_output
+            return grhCfg.Utility.DEF_grh_keyword_otparm
+        return grhCfg.Utility.DEF_grh_keyword_param
 
     @classmethod
     def _grh_getNodePorttypeString(cls, categoryString, portkeyString, isArray):
@@ -530,7 +530,7 @@ class Mtd_MyaNode(Mtd_MaBasic):
 
                 portDict[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
                 portDict[grhCfg.Utility.DEF_grh_key_portpath] = portpathString
-                portDict[grhCfg.Utility.DEF_grh_key_portdata] = None
+                portDict[grhCfg.Utility.DEF_grh_key_portraw] = None
                 portDict[grhCfg.Utility.DEF_grh_key_assign] = assignString
                 portDict[grhCfg.Utility.DEF_grh_key_parent] = parentPortnameString
                 portDict[grhCfg.Utility.DEF_grh_key_children] = childPortnameStrings
@@ -1306,7 +1306,7 @@ class Mtd_MaObject(Mtd_MaUtility):
 
     @classmethod
     def _isNodeDag(cls, nodepathString):
-        return cls.DEF_mya_node_separator in cls._getNodeFullpathNameString(nodepathString)
+        return cls.DEF_mya_node_pathsep in cls._getNodeFullpathNameString(nodepathString)
 
     @classmethod
     def _getNodeUniqueIdString(cls, nodepathString):

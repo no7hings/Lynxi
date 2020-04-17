@@ -1,5 +1,5 @@
 # coding:utf-8
-DEF_mya_node_separator = u'|'
+DEF_mya_node_pathsep = u'|'
 DEF_mya_namespace_separator = u':'
 
 

@@ -16,6 +16,8 @@
       <w>autobump</w>
       <w>basenames</w>
       <w>bindinput</w>
+      <w>bindoutput</w>
+      <w>bindparam</w>
       <w>binname</w>
       <w>binversion</w>
       <w>blinn</w>
@@ -96,6 +98,8 @@
       <w>iconfont</w>
       <w>iconkeyword</w>
       <w>importname</w>
+      <w>inparm</w>
+      <w>inparms</w>
       <w>inputport</w>
       <w>inputports</w>
       <w>integerarray</w>
@@ -158,6 +162,7 @@
       <w>nodeoutput</w>
       <w>nodepath</w>
       <w>nodeport</w>
+      <w>nodestr</w>
       <w>nonrep</w>
       <w>nurbs</w>
       <w>nurbscurve</w>
@@ -166,6 +171,8 @@
       <w>objpath</w>
       <w>objs</w>
       <w>objsep</w>
+      <w>otparm</w>
+      <w>otparms</w>
       <w>outliner</w>
       <w>outputport</w>
       <w>outputports</w>
@@ -197,6 +204,7 @@
       <w>portpath</w>
       <w>portpaths</w>
       <w>portraw</w>
+      <w>portrawstr</w>
       <w>portset</w>
       <w>porttype</w>
       <w>prefixname</w>
@@ -214,6 +222,8 @@
       <w>pythonpackage</w>
       <w>pythonpath</w>
       <w>pythonversion</w>
+      <w>queryraw</w>
+      <w>queryraws</w>
       <w>radarchart</w>
       <w>rangecase</w>
       <w>rawobj</w>

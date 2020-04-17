@@ -14,98 +14,137 @@ class Node(mtlObjAbs.Abs_MtlNode):
     CLS_grh_nodepath = _mtlObjRaw.Nodepath
 
     CLS_grh_port_set = _grhObjSet.PortSet
-
     VAR_grh_port_cls_dict = {
         grhCfg.Utility.DEF_grh_keyword_param: _mtlObjPort.Param,
-        grhCfg.Utility.DEF_grh_keyword_param_channel: _mtlObjPort.ParamChannel,
-        grhCfg.Utility.DEF_grh_keyword_input: _mtlObjPort.Input,
-        grhCfg.Utility.DEF_grh_keyword_input_channel: _mtlObjPort.InputChannel,
-        grhCfg.Utility.DEF_grh_keyword_output: _mtlObjPort.Output,
-        grhCfg.Utility.DEF_grh_keyword_output_channel: _mtlObjPort.OutputChannel,
+
+        grhCfg.Utility.DEF_grh_keyword_inparm: _mtlObjPort.Inparm,
+        grhCfg.Utility.DEF_grh_keyword_inparm_channel: _mtlObjPort.InparmChannel,
+
+        grhCfg.Utility.DEF_grh_keyword_otparm: _mtlObjPort.Otparm,
+        grhCfg.Utility.DEF_grh_keyword_otparm_channel: _mtlObjPort.OtparmChannel,
 
         grhCfg.Utility.DEF_grh_keyword_property: _mtlObjPort.Param,
         grhCfg.Utility.DEF_grh_keyword_visibility: _mtlObjPort.Param
     }
-    VAR_grh_input_assign_list = [
-        grhCfg.Utility.DEF_grh_keyword_input,
-        grhCfg.Utility.DEF_grh_keyword_input_channel
-    ]
-    VAR_grh_output_assign_list = [
-        grhCfg.Utility.DEF_grh_keyword_output,
-        grhCfg.Utility.DEF_grh_keyword_output_channel
-    ]
-    VAR_grh_param_assign_list = [
-        grhCfg.Utility.DEF_grh_keyword_param,
-        grhCfg.Utility.DEF_grh_keyword_param_channel,
-        # geometry
-        grhCfg.Utility.DEF_grh_keyword_property,
-        grhCfg.Utility.DEF_grh_keyword_visibility
+
+    CLS_grh_connector = _mtlObjPort.Connector
+
+    VAR_grh_param_assign_keyword_list = grhCfg.Utility.DEF_grh_param_assign_keyword_list
+    VAR_grh_inparm_assign_keyword_list = grhCfg.Utility.DEF_grh_inparm_assign_keyword_list
+    VAR_grh_otparm_assign_keyword_list = grhCfg.Utility.DEF_grh_otparm_assign_keyword_list
+
+    VAR_grh_channel_assign_keyword_list = [
+        grhCfg.Utility.DEF_grh_keyword_inparm_channel,
+        grhCfg.Utility.DEF_grh_keyword_otparm_channel
     ]
 
-    OBJ_grh_query_cache = _mtlObjQuery.OBJ_grh_query_cache_
-    OBJ_grh_obj_cache = _mtlObjQuery.OBJ_grh_obj_cache_
+    OBJ_grh_query_cache = _mtlObjQuery.GRH_QUERY_CACHE
+    OBJ_grh_obj_cache = _mtlObjQuery.GRH_OBJ_CACHE
 
     # xml ************************************************************************************************************ #
-    VAR_mtl_file_attribute_attach_key = u'nodename'
+    VAR_dat_xml_file_attribute_attach_tag = u'nodename'
 
     def __init__(self, *args):
         self._initAbsMtlNode(*args)
 
 
 class NodeGraph(mtlObjAbs.Abc_MtlNodeGraph):
-    CLS_mtl_name = _mtlObjRaw.Name
+    CLS_grh_name = _mtlObjRaw.Name
 
-    CLS_mtl_node = Node
-    CLS_mtl_node_set = _grhObjSet.NodeSet
+    CLS_grh_node_set = _grhObjSet.NodeSet
 
-    CLS_mtl_node_graph_output_set = _grhObjSet.ObjSet
-    CLS_mtl_node_graph_output = _mtlObjPort.NodeGraphOutput
+    CLS_grh_node_graph_output_set = _grhObjSet.PortProxySet
+    CLS_grh_node_graph_output = _mtlObjPort.NodeGraphOutput
 
-    VAR_mtl_file_element_key = u'nodegraph'
-    VAR_mtl_file_attribute_attach_key = u'nodegraph'
+    VAR_dat_xml_file_element_tag = u'nodegraph'
+    VAR_dat_xml_file_attribute_attach_tag = u'nodegraph'
 
     def __init__(self, *args):
         self._initAbcMtlNodeGraph(*args)
 
 
 class ShaderProxy(mtlObjAbs.Abc_MtlShaderProxy):
-    CLS_mtl_name = _mtlObjRaw.Name
-    CLS_mtl_node = Node
+    CLS_grh_name = _mtlObjRaw.Name
+    CLS_grh_node = Node
 
-    CLS_mtl_node_graph_set = _grhObjSet.ObjSet
-    CLS_mtl_node_graph = NodeGraph
+    CLS_grh_node_graph_set = _grhObjSet.ObjSet
+    CLS_grh_node_graph = NodeGraph
 
-    CLS_mtl_port_proxy_set = _grhObjSet.ObjSet
-    CLS_mtl_port_proxy = _mtlObjPort.BindInput
+    CLS_grh_port_proxy_set = _grhObjSet.PortProxySet
+    VAR_grh_port_proxy_cls_dict = {
+        grhCfg.Utility.DEF_grh_keyword_param: _mtlObjPort.BindParm,
 
-    VAR_mtl_file_element_key = u'shaderref'
+        grhCfg.Utility.DEF_grh_keyword_inparm: _mtlObjPort.BindInparm,
+        grhCfg.Utility.DEF_grh_keyword_inparm_channel: _mtlObjPort.BindInparm,
+
+        grhCfg.Utility.DEF_grh_keyword_otparm: _mtlObjPort.BindOtparm,
+        grhCfg.Utility.DEF_grh_keyword_otparm_channel: _mtlObjPort.BindOtparm,
+
+        grhCfg.Utility.DEF_grh_keyword_property: _mtlObjPort.Property,
+        grhCfg.Utility.DEF_grh_keyword_visibility: _mtlObjPort.Visibility
+    }
+
+    VAR_dat_xml_file_element_tag = u'shaderref'
 
     def __init__(self, *args):
         self._initAbcMtlShaderProxy(*args)
 
 
 class MaterialProxy(mtlObjAbs.Abc_MtlMaterialProxy):
-    CLS_mtl_name = _mtlObjRaw.Name
-    CLS_mtl_node = Node
+    CLS_grh_name = _mtlObjRaw.Name
+    CLS_grh_node = Node
 
-    VAR_mtl_file_element_key = u'material'
-    VAR_mtl_file_attribute_attach_key = u'material'
+    CLS_grh_node_graph_set = _grhObjSet.ObjSet
+    CLS_grh_node_graph = NodeGraph
+
+    CLS_grh_port_proxy_set = _grhObjSet.PortProxySet
+    VAR_grh_port_proxy_cls_dict = {
+        grhCfg.Utility.DEF_grh_keyword_param: _mtlObjPort.BindParm,
+
+        grhCfg.Utility.DEF_grh_keyword_inparm: _mtlObjPort.BindInparm,
+        grhCfg.Utility.DEF_grh_keyword_inparm_channel: _mtlObjPort.BindInparm,
+
+        grhCfg.Utility.DEF_grh_keyword_otparm: _mtlObjPort.BindOtparm,
+        grhCfg.Utility.DEF_grh_keyword_otparm_channel: _mtlObjPort.BindOtparm,
+
+        grhCfg.Utility.DEF_grh_keyword_property: _mtlObjPort.Property,
+        grhCfg.Utility.DEF_grh_keyword_visibility: _mtlObjPort.Visibility
+    }
+
+    VAR_dat_xml_file_element_tag = u'material'
+    VAR_dat_xml_file_attribute_attach_tag = u'material'
 
     def __init__(self, *args):
         self._initAbcMtlMaterialProxy(*args)
 
 
 class GeometryProxy(mtlObjAbs.Abc_MtlGeometryProxy):
-    CLS_mtl_name = _mtlObjRaw.Name
-    CLS_mtl_node = Node
+    CLS_grh_name = _mtlObjRaw.Name
+    CLS_grh_node = Node
 
-    CLS_mtl_port_proxy_set = _grhObjSet.ObjSet
+    CLS_grh_node_graph_set = _grhObjSet.ObjSet
+    CLS_grh_node_graph = NodeGraph
+
+    CLS_grh_port_proxy_set = _grhObjSet.PortProxySet
+    VAR_grh_port_proxy_cls_dict = {
+        grhCfg.Utility.DEF_grh_keyword_param: _mtlObjPort.BindParm,
+
+        grhCfg.Utility.DEF_grh_keyword_inparm: _mtlObjPort.BindInparm,
+        grhCfg.Utility.DEF_grh_keyword_inparm_channel: _mtlObjPort.BindInparm,
+
+        grhCfg.Utility.DEF_grh_keyword_otparm: _mtlObjPort.BindOtparm,
+        grhCfg.Utility.DEF_grh_keyword_otparm_channel: _mtlObjPort.BindOtparm,
+
+        grhCfg.Utility.DEF_grh_keyword_property: _mtlObjPort.Property,
+        grhCfg.Utility.DEF_grh_keyword_visibility: _mtlObjPort.Visibility
+    }
+
     CLS_mtl_property = _mtlObjPort.Property
-    CLS_mtl_visibility = _mtlObjPort.Visibility
+    CLS_mtl_visibility_assign = _mtlObjPort.Visibility
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
-    VAR_mtl_file_element_key = u'geometry'
+    VAR_dat_xml_file_element_tag = u'geometry'
 
     def __init__(self, *args):
         self._initAbcMtlGeometryProxy(*args)

@@ -297,7 +297,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                 subGuideGroupName = cls.lxGroupName(yetiObjectName)
                 compGuideGroupName = cls.lxGroupName(importGuide)
                 #
-                objectCompGroupPath = cls.DEF_mya_node_separator.join(
+                objectCompGroupPath = cls.DEF_mya_node_pathsep.join(
                     [subGuideGroupName, compGuideGroupName]
                 )
                 for hairOutputCurveObject in hairOutputCurveObjectLis:
@@ -399,14 +399,14 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
                             importObjectUniqueId = cls._getNodeUniqueIdString(importObject)
                             importGroupName = cls.lxGroupName(importType)
                             #
-                            importGroupPath = cls.DEF_mya_node_separator.join([yetiFurGroupPath, importGroupName])
+                            importGroupPath = cls.DEF_mya_node_pathsep.join([yetiFurGroupPath, importGroupName])
                             cls.setAppPathCreate(importGroupPath)
                             cls.setObjectParentByUniqueId(importObjectUniqueId, importGroupPath)
                             #
                             refObject = cls.getObjectTextureReferenceByUniqueId(importObjectUniqueId)
                             if refObject:
                                 refObjectGroupName = cls.lxGroupName(importType + '_reference')
-                                cls.setAppPathCreate(cls.DEF_mya_node_separator.join([yetiFurGroupPath, refObjectGroupName]))
+                                cls.setAppPathCreate(cls.DEF_mya_node_pathsep.join([yetiFurGroupPath, refObjectGroupName]))
                                 cls.setObjectParent(refObject, refObjectGroupName)
                         elif importType == cls.MaYetiImportType_Guide:
                             importGuide = importParam
@@ -422,7 +422,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
             yetiObjectGroupName = cls.lxGroupName('yetiObject')
             yetiObjectUniqueId = cls._getNodeUniqueIdString(yetiObjectPath)
             #
-            yetiObjectGroupPath = cls.DEF_mya_node_separator.join([yetiFurGroupPath, yetiObjectGroupName])
+            yetiObjectGroupPath = cls.DEF_mya_node_pathsep.join([yetiFurGroupPath, yetiObjectGroupName])
             cls.setAppPathCreate(yetiObjectGroupPath)
             #
             importDatumLis = cls.getYetiImportDatumLis(yetiObjectPath)
@@ -442,7 +442,7 @@ class MaYetiGraphObjectMethod(MaYetiObjectMethod):
             cls.viewProgress('Collection Yeti Graph', maxValue=len(yetiObjectPathLis))
             #
             furYetiGroupName = cls.lxGroupName(cls.LynxiNameLabel_FurYeti)
-            yetiFurGroupPath = cls.DEF_mya_node_separator.join([rootGroupPath, furYetiGroupName])
+            yetiFurGroupPath = cls.DEF_mya_node_pathsep.join([rootGroupPath, furYetiGroupName])
             #
             yetiFurSetName = cls.lxSetName(cls.LynxiNameLabel_FurYeti)
             #

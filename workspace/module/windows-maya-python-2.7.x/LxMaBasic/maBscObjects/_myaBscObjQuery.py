@@ -12,6 +12,9 @@ class QueryCache(myaBscObjAbs.Abs_MyaObjQueryCache):
         self._initAbsMyaObjQueryCache(*args)
 
 
+GRH_QUERY_CACHE = QueryCache()
+
+
 class ObjCache(myaBscObjAbs.Abs_MyaObjCache):
     CLS_cache_obj_set = _grhObjSet.CacheObjSet
 
@@ -19,5 +22,4 @@ class ObjCache(myaBscObjAbs.Abs_MyaObjCache):
         self._initAbsMayObjCache(*args)
 
 
-OBJ_grh_query_cache = QueryCache()
-OBJ_grh_obj_cache = ObjCache()
+GRH_OBJ_CACHE = ObjCache()
