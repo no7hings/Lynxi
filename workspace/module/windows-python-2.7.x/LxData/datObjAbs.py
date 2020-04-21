@@ -11,10 +11,7 @@ class Abs_DatNodename(datObjDef.Def_DatNodename):
     def _initAbsDatNodename(self, *args):
         self._initDefDatFilename(*args)
 
-    def _set_raw_to_rawobj_(self, raw):
-        if self.CLS_dat_raw is not None:
-            return self.CLS_dat_raw(raw)
-
+    # **************************************************************************************************************** #
     def _set_raw_create_(self, *args):
         if args:
             raw = args[0]
@@ -37,6 +34,7 @@ class Abs_DatNodename(datObjDef.Def_DatNodename):
     def _set_rawstr_create_(self, *args):
         self._set_raw_create_(*args)
 
+    # **************************************************************************************************************** #
     def _get_raw_(self):
         return self._set_raw_to_rawobj_(
             self._get_rawstr_()
@@ -97,105 +95,25 @@ class Abs_DatFilename(datObjDef.Def_DatFilename):
         )
 
 
+class Abs_DatPortname(datObjDef.Def_DatRaw):
+    def _initAbsDatPortname(self, *args):
+        self._initDefDatRaw(*args)
+
+    def __str__(self):
+        return '{}(raw="{}")'.format(
+            self.__class__.__name__,
+            self.toString()
+        )
+
+
 class Abs_DatPath(datObjDef.Def_DatPath):
     def _initAbsDatPath(self, *args):
         self._initDefDatPath(*args)
-
-    def _set_raw_create_(self, *args):
-        if args:
-            raw = args[0]
-            if raw is not None:
-                self._set_raw_val_(raw)
-
-                pathsep = self.VAR_dat_pathsep
-
-                _ = raw.split(pathsep)
-
-                if len(_) == 1:
-                    dirnameString = None
-                    bscnameString = _[-1]
-                else:
-                    dirnameString = pathsep.join([i for i in _[:-1]])
-                    bscnameString = _[-1]
-
-                self._dirnameObj.setRaw(dirnameString)
-                self._bscnameObj.setRaw(bscnameString)
-
-                self._rawObj = self._get_raw_()
-
-    def _set_rawstr_create_(self, *args):
-        self._set_raw_create_(*args)
-
-    def _get_raw_(self):
-        return self._set_raw_to_rawobj_(
-            self._get_rawstr_()
-        )
-
-    def _get_rawstr_(self):
-        pathsep = self.VAR_dat_pathsep
-        return pathsep.join(
-           [
-               i
-               for i in [self._dirnameObj.toString(), self._bscnameObj.toString()]
-               if i
-           ]
-        )
 
 
 class Abs_DatAttrpath(datObjDef.Def_DatAttrpath):
     def _initAbsDatAttrpath(self, *args):
         self._initDefDatAttrpath(*args)
-
-    def _set_raw_create_(self, *args):
-        if args:
-            if len(args) == 1:
-                raw = args[0]
-                if raw is not None:
-                    self._set_raw_val_(raw)
-
-                    pathsep = self._portpathObj.pathsep()
-
-                    _ = raw.split(pathsep)
-
-                    if len(_) == 1:
-                        nodepathString = None
-                        portpathString = _[-1]
-                    else:
-                        nodepathString = _[0]
-                        portpathString = pathsep.join([i for i in _[1:]])
-
-                    self._nodepathObj.setRaw(nodepathString)
-                    self._portpathObj.setRaw(portpathString)
-
-            elif len(args) == 2:
-                nodepathRaw, portpathRaw = args
-                if isinstance(nodepathRaw, Abs_DatPath):
-                    self._nodepathObj = nodepathRaw
-                elif isinstance(nodepathRaw, (str, unicode)):
-                    self._nodepathObj.setRaw(nodepathRaw)
-
-                if isinstance(portpathRaw, Abs_DatPath):
-                    self._portpathObj = portpathRaw
-                elif isinstance(portpathRaw, (str, unicode)):
-                    self._portpathObj.setRawString(portpathRaw)
-
-    def _set_rawstr_create_(self, *args):
-        self._set_raw_create_(*args)
-
-    def _get_raw_(self):
-        return self._set_raw_to_rawobj_(
-            self._get_rawstr_()
-        )
-
-    def _get_rawstr_(self):
-        pathsep = self._portpathObj.pathsep()
-        return pathsep.join(
-           [
-               i
-               for i in [self._nodepathObj.toString(), self._portpathObj.toString()]
-               if i
-           ]
-        )
 
 
 # value ************************************************************************************************************** #

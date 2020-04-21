@@ -14,11 +14,22 @@ class Abs_GrhObjSet(grhObjDef.Def_GrhObjSet):
 
 
 # object query cache ************************************************************************************************* #
+class Abs_GrhPortQueryraw(grhObjDef.Def_GrhPortQueryraw):
+    def _initAbsGrhPortQueryraw(self, *args):
+        self._initDefGrhPortQueryraw(*args)
+
+
 class Abs_GrhNodeQueryraw(grhObjDef.Def_GrhNodeQueryraw):
     def _initAbsGrhNodeQueryraw(self, *args):
         self._initDefGrhNodeQueryraw(*args)
 
 
+class Abs_GrhObjQueryrawCache(grhObjDef.Def_GrhObjQueryrawCache):
+    def _initAbsGrhObjQueryCache(self, *args):
+        self._initDefGrhObjQueryrawCache(*args)
+
+
+# object query ******************************************************************************************************* #
 class Abs_GrhPortQuery(grhObjDef.Def_GrhPortQuery):
     def _initAbsGrhPortQuery(self, *args):
         self._initDefGrhPortQuery(*args)
@@ -29,17 +40,23 @@ class Abs_GrhNodeQuery(grhObjDef.Def_GrhNodeQuery):
         self._initDefGrhNodeQuery(*args)
 
 
-class Abs_GrhObjQueryCache(grhObjDef.Def_GrhObjQueryCache):
-    def _initAbsGrhObjQueryCache(self, *args):
-        self._initDefGrhObjQueryCache(*args)
-
-
 # translator object query cache ************************************************************************************** #
+class Abs_GrhTrsPortQueryraw(grhObjDef.Def_GrhTrsPortQueryraw):
+    def _initAbsGrhTrsPortQueryraw(self, *args):
+        self._initDefGrhPortQueryraw(*args)
+
+
 class Abs_GrhTrsNodeQueryraw(grhObjDef.Def_GrhTrsNodeQueryraw):
     def _initAbsGrhTrsNodeQueryraw(self, *args):
         self._initDefGrhTrsNodeQueryraw(*args)
 
 
+class Abs_GrhTrsObjQueryCache(grhObjDef.Def_GrhTrsObjQueryrawCache):
+    def _initAbsGrhTrsObjQueryCache(self, *args):
+        self._initDefGrhTrsObjQueryCache(*args)
+
+
+# translator object query ******************************************************************************************** #
 class Abs_GrhTrsPortQuery(grhObjDef.Def_GrhTrsPortQuery):
     def _initAbsGrhTrsPortQuery(self, *args):
         self._initDefGrhTrsPortQuery(*args)
@@ -48,11 +65,6 @@ class Abs_GrhTrsPortQuery(grhObjDef.Def_GrhTrsPortQuery):
 class Abs_GrhTrsNodeQuery(grhObjDef.Def_GrhTrsNodeQuery):
     def _initAbsGrhTrsNodeQuery(self, *args):
         self._initDefGrhTrsNodeQuery(*args)
-
-
-class Abs_GrhTrsObjQueryCache(grhObjDef.Def_GrhTrsObjQueryCache):
-    def _initAbsGrhTrsObjQueryCache(self, *args):
-        self._initDefGrhTrsObjQueryCache(*args)
 
 
 # cache ************************************************************************************************************** #
@@ -101,6 +113,7 @@ class Abs_GrhPort(grhObjDef.Def_GrhPort):
     def _set_parent_(self, *args):
         objpathString = args[0]
         self._parentPathStr = objpathString
+        # mark
 
     def _get_parent_exist_(self):
         return self._parentPathStr is not None
@@ -268,22 +281,20 @@ class Abs_GrhNodeGraphOutput(grhObjDef.Def_GrhNodeGraphOutput):
 
 # node translate ***************************************************************************************************** #
 class Abs_GrhNodeTranslator(grhCfg.Utility):
-    OBJ_grh_trs_query_cache = None
-
     VAR_mtl_channel_convert_dict = {}
 
     VAR_grh_trs_src_node_pathsep = None
     VAR_grh_trs_tgt_node_pathsep = None
 
     def _initAbsGrhNodeTranslator(self, *args):
-        self._srcNodeObj, self._tgtNodeCls = args[:3]
+        self._trsNodeObj, self._srcNodeObj, self._tgtNodeCls = args[:3]
 
         self._srcCategoryStr = self._srcNodeObj.categoryString()
         self._srcNodeStr = self._srcNodeObj.nodepathString()
-        self._trsNodeQueryObj = self.OBJ_grh_trs_query_cache.trsNode(self._srcCategoryStr)
+        self._trsNodeQueryObj = self._trsNodeObj.CLS_grh_trs_node_query(self._srcCategoryStr)
 
         self._tgtCategoryStr = self._trsNodeQueryObj.target_category
-        self._tgtNodeQueryObj = self._tgtNodeCls.OBJ_grh_query_cache.node(self._tgtCategoryStr)
+        self._tgtNodeQueryObj = self._tgtNodeCls.CLS_grh_node_query(self._tgtCategoryStr)
         self._tgtNodeStr = self._get_tgt_nodestr_(self._srcNodeStr)
         self._tgtNodeObj = self._get_tgt_node_(self._tgtCategoryStr, self._tgtNodeStr)
 
@@ -309,8 +320,9 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
 
         _srcNodeStr = _srcSourceNodeObject.nodepathString()
         _srcCategoryStr = _srcSourceNodeObject.categoryString()
-        if self.OBJ_grh_trs_query_cache.hasSrcCategory(_srcCategoryStr):
-            _trsNodeQueryObject = self.OBJ_grh_trs_query_cache.trsNode(_srcCategoryStr)
+
+        if self._trsNodeObj.CLS_grh_trs_node_query.OBJ_grh_trs_queryraw_cache.hasSrcCategory(_srcCategoryStr):
+            _trsNodeQueryObject = self._trsNodeObj.CLS_grh_trs_node_query(_srcCategoryStr)
             tgtCategoryString = _trsNodeQueryObject.target_category
 
             srcPortpathString = _srcSourcePortObject.portpathString()
@@ -326,7 +338,6 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
         else:
             print _srcSourcePortObject.node().nodepathString()
 
-    # translate port
     def _set_ports_trs_(self):
         # portraw
         for i in self._trsNodeQueryObj.trsParams():
@@ -435,147 +446,9 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
         return self._tgtNodeObj
 
 
-class Abs_GrhTrsNode(
-    grhCfg.Utility,
-    grhObjDef.Def_GrhCacheObj
-):
-    CLS_grh_src_node = None
-    CLS_grh_tgt_node = None
-
-    CLS_grh_node_translator = None
-
-    OBJ_grh_trs_query_cache = None
-
-    OBJ_grh_trs_obj_cache = None
-    OBJ_grh_src_obj_cache = None
-    OBJ_grh_tgt_obj_cache = None
-
+class Abs_GrhTrsNode(grhObjDef.Def_GrhTrsNode):
     def _initAbsGrhTrsNode(self, *args):
-        srcNodeString = args[0]
-
-        self._srcNodeObj = self.CLS_grh_src_node(srcNodeString)
-
-        self._translatorObj = self.CLS_grh_node_translator(
-            self._srcNodeObj,
-            self.CLS_grh_tgt_node
-        )
-
-        self._set_create_expressions_run_()
-
-    def _set_create_expressions_run_(self):
-        expressionDict = self._translatorObj._trsNodeQueryObj.createExpressionRaw
-        self._set_expressions_run_(expressionDict)
-
-    def _set_after_expressions_run_(self):
-        expressionDict = self._translatorObj._trsNodeQueryObj.afterExpressionRaw
-        self._set_expressions_run_(expressionDict)
-
-    # noinspection PyMethodMayBeStatic
-    def _set_expressions_run_(self, expressionDict):
-        if expressionDict:
-            if self.DEF_grh_keyword_command in expressionDict:
-                commands = expressionDict[self.DEF_grh_keyword_command]
-                if commands:
-                    cmdsStr = ';'.join(commands)
-                    exec cmdsStr
-
-    # **************************************************************************************************************** #
-    def _cmd_set_node_insert_(self, targetSrcNodeObjects, targetMtlOutputPortString, mtlInputPortString, mtlOutputPortString):
-        for srcNodeObject in targetSrcNodeObjects:
-            trsNodeObject = self.getTrsNode(srcNodeObject.nodepathString())
-            tgtNodeObject = trsNodeObject.tgtNode()
-
-            copyTgtNodeString = u'{}__{}'.format(tgtNodeObject.nodepathString(), self.tgtNode().categoryString())
-            copyTgtNodeObject = self.getTgtNode(self.tgtNode().categoryString(), copyTgtNodeString)
-
-            [i.setPortrawString(self.tgtNode().inparm(i.portpathString()).portrawString()) for i in copyTgtNodeObject.inparms()]
-
-            tgtNodeObject.otparm(targetMtlOutputPortString).insertTarget(
-                copyTgtNodeObject.inparm(mtlInputPortString),
-                copyTgtNodeObject.otparm(mtlOutputPortString)
-            )
-
-    def _cmd_set_color_correct_insert_(self, portdataDict=None):
-        tgtConnectors = self.tgtNode().outputConnectors()
-
-        mtl_category_0 = u'color_correct'
-        node_string_0 = u'{}__{}'.format(self.tgtNode().nodepathString(), mtl_category_0)
-
-        _tgtColorCorrectObject = self.getTgtNode(mtl_category_0, node_string_0)
-
-        for _tgtConnector in tgtConnectors:
-            if _tgtConnector.source().isChannel() is False:
-                _portObject = _tgtColorCorrectObject.otparm()
-            else:
-                _dict = {
-                    u'r': u'rgba.r',
-                    u'g': u'rgba.g',
-                    u'b': u'rgba.b',
-                    u'a': u'rgba.a'
-                }
-                _portpathString = _dict[_tgtConnector.source().portnameString()]
-                _portObject = _tgtColorCorrectObject.otparm(_portpathString)
-
-            _tgtConnector.insert(_portObject)
-
-        self.tgtNode().otparm().connectTo(_tgtColorCorrectObject.inparm(u'input'))
-        if portdataDict:
-            for k, v in portdataDict.items():
-                _tgtColorCorrectObject.port(k).setPortraw(self.srcNode().port(v).portraw())
-        return _tgtColorCorrectObject
-
-    def _cmd_set_multi_texture_covert_(self, filepathString):
-        srcNodeObject = self.srcNode()
-        if srcNodeObject.categoryString() == u'file':
-            isUdim = True
-            if filepathString:
-                isSequence = srcNodeObject.port(u'useFrameExtension').portraw()
-                uvTilingMode = srcNodeObject.port(u'uvTilingMode').portraw()
-                dirnameString = bscMethods.OsFile.dirname(filepathString)
-                basenameString = bscMethods.OsFile.basename(filepathString)
-                #
-                findKeys = self.MOD_re.findall(u'[0-9][0-9][0-9][0-9]', basenameString)
-                if findKeys:
-                    if u'<udim>' in basenameString.lower():
-                        isUdim = False
-                    elif not uvTilingMode == u'UDIM (Mari)':
-                        isUdim = False
-                    #
-                    if isUdim:
-                        basenameString = basenameString.replace(findKeys[-1], u'<udim>')
-                    elif isSequence:
-                        basenameString = basenameString.replace(findKeys[-1], u'<f>')
-                    #
-                    filepathString = bscMethods.OsPath.composeBy(dirnameString, basenameString)
-        return filepathString
-
-    # **************************************************************************************************************** #
-    def getTrsNode(self, srcNodeString):
-        return self._mtd_get_cache_obj_(
-            self.OBJ_grh_trs_obj_cache, srcNodeString,
-            self.__class__, (srcNodeString, )
-        )
-
-    def getTgtNode(self, tgtCategoryString, tgtNodeString):
-        return self._mtd_get_cache_obj_(
-            self.OBJ_grh_tgt_obj_cache, tgtNodeString,
-            self.CLS_grh_tgt_node, (tgtCategoryString, tgtNodeString)
-        )
-
-    def trsNodeQuery(self):
-        return self._translatorObj._trsNodeQueryObj
-
-    def srcNode(self):
-        return self._srcNodeObj
-
-    def tgtNodeQuery(self):
-        return self._translatorObj._tgtNodeQueryObj
-
-    def tgtNode(self):
-        return self._translatorObj.tgtNode()
-
-    def __str__(self):
-        return self.tgtNode().__str__()
+        self._initDefGrhTrsNode(*args)
 
 
 # node proxy translate *********************************************************************************************** #

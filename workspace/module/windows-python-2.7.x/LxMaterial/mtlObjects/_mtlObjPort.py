@@ -51,7 +51,10 @@ class Connector(mtlObjAbs.Abs_MtlConnector):
         self._initAbsMtlConnector(*args)
 
 
+# port *************************************************************************************************************** #
 class Param(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -68,6 +71,8 @@ class Param(mtlObjAbs.Abs_MtlPort):
 
 
 class ParamChannel(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -84,6 +89,8 @@ class ParamChannel(mtlObjAbs.Abs_MtlPort):
 
 
 class Inparm(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -100,6 +107,8 @@ class Inparm(mtlObjAbs.Abs_MtlPort):
 
 
 class InparmChannel(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -116,6 +125,8 @@ class InparmChannel(mtlObjAbs.Abs_MtlPort):
 
 
 class Otparm(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -132,6 +143,8 @@ class Otparm(mtlObjAbs.Abs_MtlPort):
 
 
 class OtparmChannel(mtlObjAbs.Abs_MtlPort):
+    CLS_grh_port_query = _mtlObjQuery.PortQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
@@ -147,7 +160,7 @@ class OtparmChannel(mtlObjAbs.Abs_MtlPort):
         self._initAbsMtlPort(*args)
 
 
-# ******************************************************************************************************************** #
+# port proxy ********************************************************************************************************* #
 class BindParm(mtlObjAbs.Abs_MtlPortProxy):
     CLS_grh_name = _mtlObjRaw.Name
 
@@ -185,7 +198,7 @@ class NodeGraphOutput(mtlObjAbs.Abc_MtlNodeGraphOutput):
         self._initAbcMtlNodeGraphOutput(*args)
 
 
-# ******************************************************************************************************************** #
+# geometry port proxy ************************************************************************************************ #
 class Property(mtlObjAbs.Abs_MtlPortProxy):
     CLS_grh_name = _mtlObjRaw.Name
 

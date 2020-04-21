@@ -1,14 +1,15 @@
 # coding:utf-8
+from LxGraphic import grhCfg, grhObjAbs
+
 from LxGraphic.grhObjects import _grhObjSet, _grhObjQuery
 
 from ..import mtlCfg, mtlObjAbs
 
 
-class QueryCache(mtlObjAbs.Abs_MtlObjQueryCache):
-    CLS_grh_node_raw = _grhObjQuery.NodeQueryraw
+class QueryrawCache(mtlObjAbs.Abs_MtlObjQueryCache):
+    CLS_grh_node_queryraw = _grhObjQuery.NodeQueryraw
 
-    CLS_grh_node_query_set = _grhObjSet.NodeQuerySet
-    CLS_grh_node_query = _grhObjQuery.NodeQuery
+    CLS_grh_node_queryraw_set = _grhObjSet.NodeQueryrawSet
 
     VAR_grh_node_file = mtlCfg.Utility.DEF_mtl_arnold_node_defs_file
     VAR_grh_geometry_file = mtlCfg.Utility.DEF_mtl_arnold_geometry_def_file
@@ -20,7 +21,7 @@ class QueryCache(mtlObjAbs.Abs_MtlObjQueryCache):
         self._initAbsMtlObjQueryCache(*args)
 
 
-GRH_QUERY_CACHE = QueryCache()
+GRH_QUERYRAW_CACHE = QueryrawCache()
 
 
 class ObjCache(mtlObjAbs.Abs_MtlObjCache):
@@ -31,3 +32,26 @@ class ObjCache(mtlObjAbs.Abs_MtlObjCache):
 
 
 GRH_OBJ_CACHE = ObjCache()
+
+
+class PortQuery(grhObjAbs.Abs_GrhPortQuery):
+    VAR_grh_portsep = grhCfg.Utility.DEF_grh_port_pathsep
+
+    OBJ_grh_queryraw_cache = GRH_QUERYRAW_CACHE
+
+    def __init__(self, *args):
+        self._initAbsGrhPortQuery(*args)
+
+
+class NodeQuery(grhObjAbs.Abs_GrhNodeQuery):
+    CLS_grh_port_query_set = _grhObjSet.PortQuerySet
+    CLS_grh_port_query = PortQuery
+
+    VAR_grh_param_assign_keyword_list = grhCfg.Utility.DEF_grh_param_assign_keyword_list
+    VAR_grh_inparm_assign_keyword_list = grhCfg.Utility.DEF_grh_inparm_assign_keyword_list
+    VAR_grh_otparm_assign_keyword_list = grhCfg.Utility.DEF_grh_otparm_assign_keyword_list
+
+    OBJ_grh_queryraw_cache = GRH_QUERYRAW_CACHE
+
+    def __init__(self, *args):
+        self._initAbsGrhNodeQuery(*args)

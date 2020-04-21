@@ -9,6 +9,8 @@ from ..mtlObjects import _mtlObjRaw, _mtlObjPort, _mtlObjQuery
 
 
 class Node(mtlObjAbs.Abs_MtlNode):
+    CLS_grh_node_query = _mtlObjQuery.NodeQuery
+
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_category = _mtlObjRaw.Category
     CLS_grh_nodepath = _mtlObjRaw.Nodepath
@@ -33,12 +35,6 @@ class Node(mtlObjAbs.Abs_MtlNode):
     VAR_grh_inparm_assign_keyword_list = grhCfg.Utility.DEF_grh_inparm_assign_keyword_list
     VAR_grh_otparm_assign_keyword_list = grhCfg.Utility.DEF_grh_otparm_assign_keyword_list
 
-    VAR_grh_channel_assign_keyword_list = [
-        grhCfg.Utility.DEF_grh_keyword_inparm_channel,
-        grhCfg.Utility.DEF_grh_keyword_otparm_channel
-    ]
-
-    OBJ_grh_query_cache = _mtlObjQuery.GRH_QUERY_CACHE
     OBJ_grh_obj_cache = _mtlObjQuery.GRH_OBJ_CACHE
 
     # xml ************************************************************************************************************ #

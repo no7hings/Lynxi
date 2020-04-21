@@ -42,8 +42,6 @@ class VisibilityAssign(mtlObjAbs.Abc_MtlVisibilityAssign):
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility
 
-    OBJ_grh_query_cache = _mtlObjQuery.GRH_QUERY_CACHE
-
     VAR_dat_xml_file_element_tag = u'visibility'
 
     def __init__(self, *args):

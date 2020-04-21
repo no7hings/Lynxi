@@ -134,24 +134,12 @@ class Def_DatXmlObj(mtlCfg.Utility):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtlObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
+class Abs_MtlObjQueryCache(grhObjAbs.Abs_GrhObjQueryrawCache):
     def _initAbsMtlObjQueryCache(self, *args):
         self._initAbsGrhObjQueryCache(*args)
 
-    def _get_node_raw_(self, *args):
-        categoryString = args[0]
-        return self._outNodeRawsDict[categoryString]
-
-    # xml ************************************************************************************************************ #
+    # **************************************************************************************************************** #
     def _set_node_queries_build_(self):
-        def getNodeQueryFnc_(nodeRaws_):
-            for _categoryString, _nodeRaw in nodeRaws_.items():
-                raw = self.CLS_grh_node_raw(
-                    _categoryString, _nodeRaw, self._outputRaws, self._portChildRaws
-                ).outRaw()
-
-                self._outNodeRawsDict[_categoryString] = raw
-
         self._nodeRaws = bscMethods.OsJsonFile.read(
             self.VAR_grh_node_file
         ) or {}
@@ -168,11 +156,38 @@ class Abs_MtlObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
             self.VAR_grh_port_child_file
         ) or {}
 
-        self._outNodeRawsDict = {}
+        self._nodeRawDict = {}
+        for i in [
+            self._nodeRaws, self._materialRaws, self._geometryRaws
+        ]:
+            self._nodeRawDict.update(i)
 
-        getNodeQueryFnc_(self._nodeRaws)
-        getNodeQueryFnc_(self._materialRaws)
-        getNodeQueryFnc_(self._geometryRaws)
+    # **************************************************************************************************************** #
+    def _get_node_raw_(self, *args):
+        categoryString = args[0]
+
+        if categoryString in self._nodeRawDict:
+            return self._nodeRawDict[categoryString]
+
+    def _get_node_queryraw_obj_(self, *args):
+        categoryString = args[0]
+
+        nodeRaw = self._get_node_raw_(categoryString)
+        if nodeRaw:
+            return self.CLS_grh_node_queryraw(
+                categoryString, nodeRaw,
+                self._outputRaws, self._portChildRaws
+            )
+        else:
+            print categoryString
+
+    # **************************************************************************************************************** #
+    def _get_category_exist_(self, *args):
+        categoryString = args[0]
+        return categoryString in self._nodeRawDict
+
+    def _get_categories_(self):
+        return self._nodeRawDict.keys()
 
 
 class Abs_MtlObjCache(grhObjAbs.Abs_GrhObjCache):
@@ -207,6 +222,16 @@ class Abs_MtlRaw(
         ]
 
 
+class Abs_MtlPortname(
+    Def_DatXmlObj,
+    datObjAbs.Abs_DatPortname,
+):
+    def _initAbsMtlPortname(self, *args):
+        self._initAbsDatPortname(*args)
+
+        self._initDefDatXmlObj()
+
+
 class Abs_MtlNodename(
     Def_DatXmlObj,
     datObjAbs.Abs_DatNodename,
@@ -219,7 +244,7 @@ class Abs_MtlNodename(
     # **************************************************************************************************************** #
     def _xmlAttributes_(self):
         return [
-            [('nodename', self.raw())]
+            [('raw', self.raw())]
         ]
 
     def _xmlAttributeAttachValueString_(self):
@@ -245,13 +270,13 @@ class Abs_MtlPath(
     # **************************************************************************************************************** #
     def _xmlAttributes_(self):
         return [
-            [('nodename', self.raw())]
+            [('raw', self.pathString())]
         ]
 
     def _xmlAttributeAttachValueString_(self):
         if self._xmlNamePrefixString_() is not None:
-            return u'{}{}'.format(self._xmlNamePrefixString_(), self.toString())
-        return self.toString()
+            return u'{}{}'.format(self._xmlNamePrefixString_(), self.pathString())
+        return self.pathString()
 
     def _xmlAttributeAttaches_(self):
         return [
@@ -439,25 +464,22 @@ class Abs_MtlNodeProxy(
 
 
 class Abc_MtlShaderProxy(Abs_MtlNodeProxy):
-    CLS_grh_node_graph_set = None
-    CLS_grh_node_graph = None
-
     def _initAbcMtlShaderProxy(self, *args):
         self._initAbsMtlNodeProxy(*args)
 
     def _get_material_context_(self):
-        for i in self._nodeObj.otparms():
-            if i.hasTargets():
-                targetPortObjects = i.targets()
+        for otparmObject in self._nodeObj.otparms():
+            if otparmObject.hasTargets():
+                targetPortObjects = otparmObject.targets()
                 for targetPortObject in targetPortObjects:
                     proxyNodeObject = targetPortObject.node().proxy()
                     if isinstance(proxyNodeObject, Abc_MtlMaterialProxy):
                         return targetPortObject.portnameString()
 
     def _get_material_node_proxy_(self):
-        for i in self._nodeObj.otparms():
-            if i.hasTargets():
-                targetPortObjects = i.targets()
+        for otparmObject in self._nodeObj.otparms():
+            if otparmObject.hasTargets():
+                targetPortObjects = otparmObject.targets()
                 for targetPortObject in targetPortObjects:
                     proxyNodeObject = targetPortObject.node().proxy()
                     if isinstance(proxyNodeObject, Abc_MtlMaterialProxy):
@@ -1430,6 +1452,7 @@ class Abc_MtlReference(Abc_MtlFile):
     def _initAbcMtlReference(self, *args):
         self._initAbcMtlFile(*args)
 
+    # xml ************************************************************************************************************ #
     def _xmlAttributes_(self):
         return [
             self._filepathObj
@@ -1438,10 +1461,6 @@ class Abc_MtlReference(Abc_MtlFile):
 
 # proxy ************************************************************************************************************** #
 class Abc_MtlTrsNodeProxy(grhObjAbs.Abs_GrhTrsNodeProxy):
-    CLS_grh_trs_node = None
-
-    CLS_grh_tgt_node_proxy = None
-
     def _initAbcMtlTrsNodeProxy(self, *args):
         self._initAbsGrhTrsNodeProxy(*args)
 
@@ -1457,7 +1476,7 @@ class Abc_MtlTrsShaderProxy(Abc_MtlTrsNodeProxy):
         for srcNode in srcNodes:
             srcCategoryString = srcNode.categoryString()
             srcNodeString = srcNode.nodepathString()
-            if self.CLS_grh_trs_node.OBJ_grh_trs_query_cache.hasSrcCategory(srcCategoryString):
+            if self.CLS_grh_trs_node.CLS_grh_trs_node_query.OBJ_grh_trs_queryraw_cache.hasSrcCategory(srcCategoryString):
                 _trsNodeObject = self.CLS_grh_trs_node._mtd_get_cache_obj_(
                     self.CLS_grh_trs_node.OBJ_grh_trs_obj_cache, srcNodeString,
                     self.CLS_grh_trs_node, (srcNodeString,)
@@ -1500,15 +1519,15 @@ class Abc_MtlTrsMaterialProxy(Abc_MtlTrsNodeProxy):
                     srcShaderObject = srcPortObject.source().node()
                     srcShaderNodeString = srcShaderObject.nodepathString()
 
-                    _sourceTrsNodeProxyObject = self.CLS_grh_trs_shader_proxy(srcShaderNodeString)
-                    sourceNodeDefObject = _sourceTrsNodeProxyObject._trsNodeObject.trsNodeQuery()
-                    sourcePortnameString = sourceNodeDefObject.trsPort(srcPortObject.source().portpathString()).target_portpath
+                    _scrTrsNodeProxyObject = self.CLS_grh_trs_shader_proxy(srcShaderNodeString)
+                    _scrTrsNodeQueryObject = _scrTrsNodeProxyObject._trsNodeObject.trsNodeQuery()
+                    sourcePortnameString = _scrTrsNodeQueryObject.trsPortQuery(srcPortObject.source().portpathString()).target_portpath
 
                     _targetTrsNodeProxyObject = self
                     targetDccNodeDefObject = _targetTrsNodeProxyObject._trsNodeObject.trsNodeQuery()
-                    targetPortnameString = targetDccNodeDefObject.trsPort(srcPortObject.portpathString()).target_portpath
+                    targetPortnameString = targetDccNodeDefObject.trsPortQuery(srcPortObject.portpathString()).target_portpath
 
-                    _sourceTrsNodeProxyObject.tgtNode().port(sourcePortnameString).connectTo(
+                    _scrTrsNodeProxyObject.tgtNode().port(sourcePortnameString).connectTo(
                         _targetTrsNodeProxyObject.tgtNode().port(targetPortnameString)
                     )
                 else:

@@ -5,13 +5,7 @@ from . import _datObjString
 
 
 class Portpath(datObjAbs.Abs_DatPath):
-    CLS_dat_raw = unicode
-
-    CLS_dat_dirname = _datObjString.Name
-    CLS_dat_bscname = _datObjString.Name
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    CLS_dat_name = _datObjString.Portname
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_port_pathsep
 
@@ -20,13 +14,7 @@ class Portpath(datObjAbs.Abs_DatPath):
 
 
 class Nodepath(datObjAbs.Abs_DatPath):
-    CLS_dat_raw = unicode
-
-    CLS_dat_dirname = _datObjString.Nodename
-    CLS_dat_bscname = _datObjString.Nodename
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    CLS_dat_name = _datObjString.Nodename
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_node_pathsep
 
@@ -48,13 +36,7 @@ class Attrpath(datObjAbs.Abs_DatAttrpath):
 
 
 class Filepath(datObjAbs.Abs_DatPath):
-    CLS_dat_raw = unicode
-
-    CLS_dat_dirname = _datObjString.Name
-    CLS_dat_bscname = _datObjString.Filename
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    CLS_dat_name = _datObjString.Filename
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_file_pathsep
 

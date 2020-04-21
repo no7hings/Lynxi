@@ -9,8 +9,6 @@ from ..maMtlObjects import _myaMtlObjQuery
 
 
 class NodeTranslator(myaMtlObjCore.Abs_MyaNodeTranslator):
-    OBJ_grh_trs_query_cache = _myaMtlObjQuery.GRH_TRS_QUERY_CACHE
-
     VAR_mtl_channel_convert_dict = {
         mtlCfg.Utility.DEF_mtl_porttype_color3: {
             u'category': u'float_to_rgb'
@@ -34,12 +32,12 @@ class NodeTranslator(myaMtlObjCore.Abs_MyaNodeTranslator):
 
 
 class Node(myaMtlObjCore.Abc_MyaMtlNode):
+    CLS_grh_trs_node_query = _myaMtlObjQuery.TrsNodeQuery
+
     CLS_grh_src_node = maBscObjects.Node
     CLS_grh_tgt_node = mtlObjects.Node
 
     CLS_grh_node_translator = NodeTranslator
-
-    OBJ_grh_trs_query_cache = _myaMtlObjQuery.GRH_TRS_QUERY_CACHE
 
     OBJ_grh_trs_obj_cache = _myaMtlObjQuery.GRH_TRS_OBJ_CACHE
     OBJ_grh_src_obj_cache = maBscObjects.GRH_OBJ_CACHE
@@ -50,12 +48,12 @@ class Node(myaMtlObjCore.Abc_MyaMtlNode):
 
 
 class Geometry(myaMtlObjCore.Abc_MyaMtlGeometry):
+    CLS_grh_trs_node_query = _myaMtlObjQuery.TrsNodeQuery
+
     CLS_grh_tgt_node = mtlObjects.Node
     CLS_grh_src_node = maBscObjects.Geometry
 
     CLS_grh_node_translator = NodeTranslator
-
-    OBJ_grh_trs_query_cache = _myaMtlObjQuery.GRH_TRS_QUERY_CACHE
 
     OBJ_grh_trs_obj_cache = _myaMtlObjQuery.GRH_TRS_OBJ_CACHE
     OBJ_grh_src_obj_cache = maBscObjects.GRH_OBJ_CACHE

@@ -95,6 +95,16 @@ class Category(mtlObjAbs.Abs_MtlRaw):
         self._initAbsMtlRaw(*args)
 
 
+class Portname(mtlObjAbs.Abs_MtlPortname):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    def __init__(self, *args):
+        self._initAbsMtlPortname(*args)
+
+
 class Nodename(mtlObjAbs.Abs_MtlNodename):
     CLS_dat_raw = unicode
     CLS_dat_namespace = Name
@@ -113,36 +123,24 @@ class Nodename(mtlObjAbs.Abs_MtlNodename):
         self._initAbsMtlNodename(*args)
 
 
-class Nodepath(mtlObjAbs.Abs_MtlPath):
-    CLS_dat_raw = unicode
+class Portpath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_name = Portname
 
-    CLS_dat_dirname = Nodename
-    CLS_dat_bscname = Nodename
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_port_pathsep
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_node_pathsep
-
-    VAR_dat_xml_file_element_tag = u'nodepath'
+    VAR_dat_xml_file_element_tag = u'portpath'
     VAR_dat_xml_file_attribute_attach_tag = u'name'
 
     def __init__(self, *args):
         self._initAbsMtlPath(*args)
 
 
-class Portpath(mtlObjAbs.Abs_MtlPath):
-    CLS_dat_raw = unicode
+class Nodepath(mtlObjAbs.Abs_MtlPath):
+    CLS_dat_name = Nodename
 
-    CLS_dat_dirname = Name
-    CLS_dat_bscname = Name
+    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_node_pathsep
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_port_pathsep
-
-    VAR_dat_xml_file_element_tag = u'portpath'
+    VAR_dat_xml_file_element_tag = u'nodepath'
     VAR_dat_xml_file_attribute_attach_tag = u'name'
 
     def __init__(self, *args):
@@ -166,12 +164,7 @@ class Attrpath(mtlObjAbs.Abs_MtlAttrpath):
 
 
 class Filepath(mtlObjAbs.Abs_MtlPath):
-    CLS_dat_raw = unicode
-    CLS_dat_dirname = _datObjString.Name
-    CLS_dat_bscname = _datObjString.Filename
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    CLS_dat_name = _datObjString.Filename
 
     VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_file_pathsep
 
@@ -183,12 +176,7 @@ class Filepath(mtlObjAbs.Abs_MtlPath):
 
 
 class RefFilepath(mtlObjAbs.Abs_MtlPath):
-    CLS_dat_raw = unicode
-    CLS_dat_dirname = _datObjString.Name
-    CLS_dat_bscname = _datObjString.Filename
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    CLS_dat_name = _datObjString.Filename
 
     VAR_dat_pathsep = mtlCfg.Utility.DEF_mtl_file_pathsep
 

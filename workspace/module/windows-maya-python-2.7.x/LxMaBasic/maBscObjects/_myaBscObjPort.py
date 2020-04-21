@@ -1,9 +1,9 @@
 # coding:utf-8
-from LxData.datObjects import _datObjString, _datObjPath
+from LxData.datObjects import _datObjString
 
 from ..import myaBscObjAbs
 
-from ..maBscObjects import _myaBscObjRaw
+from ..maBscObjects import _myaBscObjRaw, _myaBscObjQuery
 
 
 class Connector(myaBscObjAbs.Abs_MyaConnector):
@@ -11,7 +11,9 @@ class Connector(myaBscObjAbs.Abs_MyaConnector):
         self._initAbsMyaConnector(*args)
 
 
-class Port(myaBscObjAbs.Abs_MyaPort):
+class Parm(myaBscObjAbs.Abs_MyaPort):
+    CLS_grh_port_query = _myaBscObjQuery.PortQuery
+
     CLS_grh_type = _datObjString.Type
     CLS_grh_porttype = _datObjString.Porttype
 

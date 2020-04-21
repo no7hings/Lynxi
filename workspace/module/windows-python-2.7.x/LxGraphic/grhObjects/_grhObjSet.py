@@ -10,12 +10,28 @@ class PortQuerySet(grhObjAbs.Abs_GrhObjSet):
         return obj.portpath
 
 
-class NodeQuerySet(grhObjAbs.Abs_GrhObjSet):
+class PortQueryrawSet(grhObjAbs.Abs_GrhObjSet):
+    def __init__(self, *args):
+        self._initAbsGrhObjSet(*args)
+
+    def _get_object_key_string_(self, obj):
+        return obj.portpath
+
+
+class NodeQueryrawSet(grhObjAbs.Abs_GrhObjSet):
     def __init__(self, *args):
         self._initAbsGrhObjSet(*args)
 
     def _get_object_key_string_(self, obj):
         return obj.category
+
+
+class TrsPortQueryrawSet(grhObjAbs.Abs_GrhObjSet):
+    def __init__(self, *args):
+        self._initAbsGrhObjSet(*args)
+
+    def _get_object_key_string_(self, obj):
+        return obj.source_portpath
 
 
 class TrsPortQuerySet(grhObjAbs.Abs_GrhObjSet):
@@ -26,7 +42,7 @@ class TrsPortQuerySet(grhObjAbs.Abs_GrhObjSet):
         return obj.source_portpath
 
 
-class TrsNodeQuerySet(grhObjAbs.Abs_GrhObjSet):
+class TrsNodeQueryrawSet(grhObjAbs.Abs_GrhObjSet):
     def __init__(self, *args):
         self._initAbsGrhObjSet(*args)
 

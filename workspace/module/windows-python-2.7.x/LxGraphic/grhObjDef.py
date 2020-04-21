@@ -182,21 +182,66 @@ class Def_GrhObjSet(grhCfg.Utility):
 
 
 # object query cache ************************************************************************************************* #
+class Def_GrhPortQueryraw(grhCfg.Utility):
+    def _initDefGrhPortQueryraw(self, *args):
+        self._outPortRawDict = args[0]
+
+        self._set_port_queryraw_property_build_(self._outPortRawDict)
+
+    def _set_port_queryraw_property_build_(self, *args):
+        raw = args[0]
+        for k, v in raw.items():
+            self.__dict__[k] = raw[k]
+
+    def outPortRaw(self):
+        return self._outPortRawDict
+
+
 class Def_GrhNodeQueryraw(grhCfg.Utility):
+    CLS_grh_port_queryraw_set = None
+    CLS_grh_port_queryraw = None
+
     def _initDefGrhNodeQueryraw(self, *args):
-        self._categoryString, self._nodeRaw, self._outputRaw, self._portChildRaw = args
+        if len(args) == 2:
+            self._categoryString, self._outNodeRawDict = args
+        else:
+            (
+                self._categoryString,
+                self._nodeRaw, self._outputRaw, self._portChildRaw
+            ) = args
 
-        self._outRawDict = self.CLS_ordered_dict()
+            self._outNodeRawDict = self.CLS_ordered_dict()
 
-        self._set_node_raw_build_(self._nodeRaw)
+            self._set_node_raw_build_(self._nodeRaw)
 
+        self._set_node_property_build_(self._outNodeRawDict)
+
+        self._set_node_port_queryraw_build_(
+            self._outNodeRawDict[self.DEF_grh_key_port]
+        )
+
+    # **************************************************************************************************************** #
+    def _set_node_property_build_(self, *args):
+        raw = args[0]
+        for k, v in raw.items():
+            self.__dict__[k] = raw[k]
+
+    def _set_node_port_queryraw_build_(self, *args):
+        raw = args[0]
+
+        self._portQueryrawObjSet = self.CLS_grh_port_queryraw_set(self)
+        for i in raw:
+            portQueryrawObject = self.CLS_grh_port_queryraw(i)
+            self._portQueryrawObjSet._set_obj_add_(portQueryrawObject)
+
+    # **************************************************************************************************************** #
     def _set_node_raw_build_(self, nodeRaw):
         _typeString = nodeRaw[self.DEF_grh_key_type]
         # property
-        self._outRawDict[self.DEF_grh_key_type] = _typeString
-        self._outRawDict[self.DEF_grh_key_category] = self._categoryString
+        self._outNodeRawDict[self.DEF_grh_key_type] = _typeString
+        self._outNodeRawDict[self.DEF_grh_key_category] = self._categoryString
         # port
-        self._outRawDict[self.DEF_grh_key_port] = []
+        self._outNodeRawDict[self.DEF_grh_key_port] = []
         _portRaws = nodeRaw[self.DEF_grh_key_port]
         self._set_port_raws_build_(_portRaws)
         _outputRaws = self._outputRaw.get(_typeString, [])
@@ -252,21 +297,136 @@ class Def_GrhNodeQueryraw(grhCfg.Utility):
             return _portpathString
 
     def _set_port_raw_add_(self, portpath, porttype, portraw, assign, parent, children):
-        _dic = self.CLS_ordered_dict()
+        portRaw = self.CLS_ordered_dict()
 
-        _dic[self.DEF_grh_key_portpath] = portpath
-        _dic[self.DEF_grh_key_porttype] = porttype
-        _dic[self.DEF_grh_key_portraw] = portraw
-        _dic[self.DEF_grh_key_assign] = assign
-        _dic[self.DEF_grh_key_parent] = parent
-        _dic[self.DEF_grh_key_children] = children
+        portRaw[self.DEF_grh_key_portpath] = portpath
+        portRaw[self.DEF_grh_key_porttype] = porttype
+        portRaw[self.DEF_grh_key_portraw] = portraw
+        portRaw[self.DEF_grh_key_assign] = assign
+        portRaw[self.DEF_grh_key_parent] = parent
+        portRaw[self.DEF_grh_key_children] = children
 
-        self._outRawDict[self.DEF_grh_key_port].append(_dic)
+        self._outNodeRawDict[self.DEF_grh_key_port].append(portRaw)
 
-    def outRaw(self):
-        return self._outRawDict
+    # **************************************************************************************************************** #
+    def outNodeRaw(self):
+        return self._outNodeRawDict
+
+    # **************************************************************************************************************** #
+    def portQueryraws(self):
+        return self._portQueryrawObjSet.objects()
+
+    def hasPortQueryraw(self, *args):
+        return self._portQueryrawObjSet.hasObject(*args)
+
+    def portQueryraw(self, *args):
+        if self.hasPortQueryraw(*args):
+            return self._portQueryrawObjSet.object(*args)
+
+    def outPortRaw(self, *args):
+        if self.hasPortQueryraw(*args):
+            return self._portQueryrawObjSet.object(*args).outPortRaw()
 
 
+class Def_GrhObjQueryrawCache(grhCfg.Utility):
+    CLS_grh_node_queryraw = None
+
+    CLS_grh_node_queryraw_set = None
+
+    VAR_grh_node_file = None
+    VAR_grh_geometry_file = None
+    VAR_grh_material_file = None
+    VAR_grh_output_file = None
+    VAR_grh_port_child_file = None
+
+    # noinspection PyUnusedLocal
+    def _initDefGrhObjQueryrawCache(self, *args):
+        self._nodeQueryrawSetObj = self.CLS_grh_node_queryraw_set(self)
+
+        self._set_node_queries_build_()
+
+    def _set_node_queries_build_(self):
+        pass
+
+    # **************************************************************************************************************** #
+    def _get_node_type_(self, *args):
+        """
+        replace method
+        """
+
+    # **************************************************************************************************************** #
+    @classmethod
+    def _mtd_get_queryraw_(cls, *args):
+        setObj, getObjMtd, keyArgs = args
+        if setObj._get_obj_exist_(*keyArgs):
+            obj = setObj._get_obj_(*keyArgs)
+        else:
+            obj = getObjMtd(*keyArgs)
+            setObj._set_obj_add_(obj)
+        return obj
+
+    # **************************************************************************************************************** #
+    def _get_node_queryraw_obj_(self, *args):
+        pass
+
+    def _get_node_queryraw_(self, *args):
+        return self._mtd_get_queryraw_(
+            self._nodeQueryrawSetObj,
+            self._get_node_queryraw_obj_,
+            args
+        )
+
+    def nodeQueryraw(self, *args):
+        """
+        :param args:
+            1 args: ( str( "category" ), )
+        :return: objects.NodeQueryraw
+        """
+        return self._get_node_queryraw_(*args)
+
+    # **************************************************************************************************************** #
+    def _get_port_raw_(self, *args):
+        categoryString, portpathString = args
+        nodeQueryrawObject = self._get_node_queryraw_(categoryString)
+        return nodeQueryrawObject.outPortRaw(portpathString)
+
+    def _get_port_queryraw_obj_(self, *args):
+        categoryString, portpathString = args
+        portRaw = self._get_port_raw_(categoryString, portpathString)
+        return self.CLS_grh_node_queryraw.CLS_grh_port_queryraw(portRaw)
+
+    def _get_port_queryraw(self, *args):
+        categoryString, portpathString = args
+        if self.hasCategory(categoryString):
+            nodeQueryrawObject = self._get_node_queryraw_(categoryString)
+            return nodeQueryrawObject.portQueryraw(portpathString)
+        return self._get_port_queryraw_obj_(
+            categoryString, portpathString
+        )
+
+    def portQueryraw(self, *args):
+        """
+        :param args:
+            1 args: ( str( "category" ), str( "portpath" ) )
+        :return: objects.NodeQueryraw
+        """
+        return self._get_port_queryraw(*args)
+
+    # **************************************************************************************************************** #
+    def _get_category_exist_(self, *args):
+        pass
+
+    def _get_categories_(self):
+        pass
+
+    def categories(self):
+        return self._get_categories_()
+
+    def hasCategory(self, *args):
+        return self._get_category_exist_(*args)
+
+
+# object query ******************************************************************************************************* #
 class Def_GrhPortQuery(grhCfg.Utility):
     VAR_grh_portsep = None
 
@@ -279,23 +439,31 @@ class Def_GrhPortQuery(grhCfg.Utility):
         grhCfg.Utility.DEF_grh_key_children
     ]
 
+    OBJ_grh_queryraw_cache = None
+
     def _initDefGrhPortQuery(self, *args):
-        self._portQueryrawList = args[0]
+        if isinstance(args[0], Def_GrhPortQueryraw):
+            self._portQueryrawObj = args[0]
+        elif isinstance(args[0], (str, unicode)):
+            categoryString, portPathString = args
+            self._portQueryrawObj = self.OBJ_grh_queryraw_cache.portQueryraw(
+                categoryString, portPathString
+            )
+        else:
+            raise ValueError()
 
-        self._set_port_query_build_(self._portQueryrawList)
+        self._set_port_query_build_()
 
-    def _set_port_query_build_(self, *args):
-        raw = args[0]
+    def _set_port_query_build_(self):
         for i in self.VAR_grh_property_list:
-            self.__dict__[i] = raw[i]
+            self.__dict__[i] = self._portQueryrawObj.__dict__[i]
+
+    def portQueryraw(self):
+        return self._portQueryrawObj
 
     @property
     def portsep(self):
         return self.VAR_grh_portsep
-
-    @property
-    def portQueryraw(self):
-        return self._portQueryrawList
 
     def __str__(self):
         _ = u''
@@ -327,43 +495,45 @@ class Def_GrhNodeQuery(grhCfg.Utility):
     VAR_grh_inparm_assign_keyword_list = []
     VAR_grh_otparm_assign_keyword_list = []
 
-    VAR_grh_channel_assign_keyword_list = []
+    OBJ_grh_queryraw_cache = None
 
     def _initDefGrhNodeQuery(self, *args):
-        self._nodeQueryRawDict = args[0]
+        if isinstance(args[0], Def_GrhNodeQueryraw):
+            self._nodeQueryrawObj = args[0]
+        elif isinstance(args[0], (str, unicode)):
+            categoryString = args[0]
+            self._nodeQueryrawObj = self.OBJ_grh_queryraw_cache.nodeQueryraw(categoryString)
+        else:
+            raise ValueError()
+
         self._portpathDict = {}
 
-        self._set_node_query_build_(self._nodeQueryRawDict)
-        self._set_port_queries_build_(self._nodeQueryRawDict)
+        self._set_node_query_build_()
+        self._set_port_queries_build_()
 
-    def _set_node_query_build_(self, *args):
-        raw = args[0]
-
+    def _set_node_query_build_(self):
         for i in self.VAR_grh_property_list:
-            self.__dict__[i] = raw[i]
+            self.__dict__[i] = self._nodeQueryrawObj.__dict__[i]
 
-    def _set_port_queries_build_(self, *args):
-        raw = args[0]
-
+    def _set_port_queries_build_(self):
         self._portQuerySetObj = self.CLS_grh_port_query_set(self)
         self._paramQuerySetObj = self.CLS_grh_port_query_set(self)
         self._inparmQuerySetObj = self.CLS_grh_port_query_set(self)
         self._otparmQuerySetObj = self.CLS_grh_port_query_set(self)
 
-        portRaws = raw[self.DEF_grh_key_port]
-        for i in portRaws:
-            self._set_port_query_build_(i)
+        for portQueryrawObject in self._nodeQueryrawObj.portQueryraws():
+            self._set_port_query_build_(portQueryrawObject)
 
     def _set_port_query_build_(self, *args):
-        raw = args[0]
+        portQueryrawObject = args[0]
 
-        obj = self.CLS_grh_port_query(raw)
+        obj = self.CLS_grh_port_query(portQueryrawObject)
 
-        portpathString = raw[self.DEF_grh_key_portpath]
+        portpathString = portQueryrawObject.portpath
         portnameString = portpathString.split(obj.portsep)[-1]
         self._portpathDict[portnameString] = portpathString
 
-        assignString = raw[self.DEF_grh_key_assign]
+        assignString = portQueryrawObject.assign
         if assignString in self.VAR_grh_param_assign_keyword_list:
             self._paramQuerySetObj._set_obj_add_(obj)
         if assignString in self.VAR_grh_inparm_assign_keyword_list:
@@ -381,64 +551,64 @@ class Def_GrhNodeQuery(grhCfg.Utility):
         return portpathString
 
     # **************************************************************************************************************** #
-    def ports(self):
+    def portQueries(self):
         return self._portQuerySetObj.objects()
 
-    def hasPort(self, *args):
+    def hasPortQuery(self, *args):
         return self._portQuerySetObj.hasObject(
             self._get_portpath_(*args)
         )
 
-    def port(self, *args):
+    def portQuery(self, *args):
         return self._portQuerySetObj.object(
             self._get_portpath_(*args)
         )
 
     # **************************************************************************************************************** #
-    def params(self):
+    def paramQueries(self):
         return self._paramQuerySetObj.objects()
 
-    def hasParam(self, *args):
+    def hasParamQuery(self, *args):
         return self._paramQuerySetObj.hasObject(
             self._get_portpath_(*args)
         )
 
-    def param(self, *args):
+    def paramQuery(self, *args):
         return self._paramQuerySetObj.object(
             self._get_portpath_(*args)
         )
 
     # **************************************************************************************************************** #
-    def inparms(self):
+    def inparmQueries(self):
         return self._inparmQuerySetObj.objects()
 
-    def hasInparm(self, *args):
+    def hasInparmQuery(self, *args):
         return self._inparmQuerySetObj.hasObject(
             self._get_portpath_(*args)
         )
 
-    def inparm(self, *args):
+    def inparmQuery(self, *args):
         return self._inparmQuerySetObj.object(
             self._get_portpath_(*args)
         )
 
     # **************************************************************************************************************** #
-    def otparms(self):
+    def otparmQueries(self):
         return self._otparmQuerySetObj.objects()
 
-    def hasOtparm(self, *args):
+    def hasOtparmQuery(self, *args):
         return self._otparmQuerySetObj.hasObject(
             self._get_portpath_(*args)
         )
 
-    def otparm(self, *args):
+    def otparmQuery(self, *args):
         return self._otparmQuerySetObj.object(
             self._get_portpath_(*args)
         )
 
-    @property
+    # **************************************************************************************************************** #
     def nodeQueryraw(self):
-        return self._nodeQueryRawDict
+        return self._nodeQueryrawObj
 
     def __str__(self):
         _ = u''
@@ -457,77 +627,36 @@ class Def_GrhNodeQuery(grhCfg.Utility):
         return self.__str__()
 
 
-class Def_GrhObjQueryCache(grhCfg.Utility):
-    CLS_grh_node_raw = None
+# translator object query cache ************************************************************************************** #
+class Def_GrhTrsPortQueryraw(grhCfg.Utility):
+    VAR_grh_trs_query_key = None
 
-    CLS_grh_node_query_set = None
-    CLS_grh_node_query = None
+    def _initDefGrhPortQueryraw(self, *args):
+        self._srcPortQueryObj, self._tgtPortQueryObj, self._outTrsPortRaw = args
 
-    VAR_grh_node_file = None
-    VAR_grh_geometry_file = None
-    VAR_grh_material_file = None
-    VAR_grh_output_file = None
-    VAR_grh_port_child_file = None
+        self._set_trs_port_queryraw_property_build_(self._outTrsPortRaw)
 
-    # noinspection PyUnusedLocal
-    def _initDefGrhObjQueryCache(self, *args):
-        self._nodeQuerySetObj = self.CLS_grh_node_query_set(self)
-        
-        self._set_node_queries_build_()
-    
-    def _set_node_queries_build_(self):
-        pass
-
-    def _get_node_type_(self, *args):
-        """
-        replace method
-        """
-
-    def _get_node_port_raws_(self, *args):
-        """
-        replace method
-        """
-
-    def _get_node_raw_(self, *args):
-        categoryString = args[0]
-        return {
-            self.DEF_grh_key_category: categoryString,
-            self.DEF_grh_key_type: self._get_node_type_(categoryString),
-            self.DEF_grh_key_port: self._get_node_port_raws_(categoryString)
-        }
+    def _set_trs_port_queryraw_property_build_(self, *args):
+        raw = args[0]
+        for k, v in raw.items():
+            self.__dict__[k] = raw[k]
 
     # **************************************************************************************************************** #
-    def _get_node_exist_(self, *args):
-        return self._nodeQuerySetObj.hasObject(*args)
+    def outTrsPortRaw(self):
+        return self._outTrsPortRaw
 
-    def _get_nodes_(self):
-        return self._nodeQuerySetObj.objects()
+    # **************************************************************************************************************** #
+    def srcPortQueryraw(self):
+        return self._srcPortQueryObj
 
-    def _get_node_(self, *args):
-        if self._nodeQuerySetObj._get_obj_exist_(*args):
-            obj = self._nodeQuerySetObj._get_obj_(*args)
-        else:
-            raw = self._get_node_raw_(*args)
-            obj = self.CLS_grh_node_query(raw)
-            self._nodeQuerySetObj._set_obj_add_(obj)
-        return obj
-
-    def hasNode(self, *args):
-        return self._get_node_exist_(*args)
-
-    def nodes(self):
-        return self._get_nodes_()
-
-    def node(self, *args):
-        return self._get_node_(*args)
-
-    def nodePort(self, *args):
-        categoryString, portpathString = args
-        return self.node(categoryString).port(portpathString)
+    def tgtPortQueryraw(self):
+        return self._tgtPortQueryObj
 
 
-# translator object query cache ************************************************************************************** #
 class Def_GrhTrsNodeQueryraw(grhCfg.Utility):
+    CLS_grh_trs_port_queryraw_set = None
+    CLS_grh_trs_port_queryraw = None
+
     VAR_mtl_def_key_list = []
 
     VAR_grh_trs_port_key_dic = {
@@ -538,33 +667,60 @@ class Def_GrhTrsNodeQueryraw(grhCfg.Utility):
         grhCfg.Utility.DEF_grh_key_children: grhCfg.Utility.DEF_grh_key_target_children
     }
 
-    VAR_grh_trs_channel_keyword_list = []
-
     def _initDefGrhTrsNodeQueryraw(self, *args):
         (
-            self._tgtNodeQueryObj,
-            self._srcCategoryString,
+            self._srcNodeQueryrawObj, self._tgtNodeQueryrawObj,
             self._trsNodeRaws, self._trsOutputRaws, self._trsPortChildRaws
         ) = args
 
-        self._outTrsRawDict = self.CLS_ordered_dict()
+        self._outTrsNodeRawDict = self.CLS_ordered_dict()
 
         self._set_trs_node_raw_build_()
 
+        self._set_trs_node_queryraw_property_build_(self._outTrsNodeRawDict)
+
+        self._set_trs_node_port_queryraw_build_(
+            self._outTrsNodeRawDict[self.DEF_grh_key_source_port]
+        )
+
+    # **************************************************************************************************************** #
+    def _set_trs_node_queryraw_property_build_(self, *args):
+        raw = args[0]
+        for k, v in raw.items():
+            self.__dict__[k] = raw[k]
+
+    def _set_trs_node_port_queryraw_build_(self, *args):
+        raw = args[0]
+
+        self._trsPortQueryrawObjSet = self.CLS_grh_trs_port_queryraw_set(self)
+        for i in raw:
+            srcPortpathString = i[self.DEF_grh_key_source_portpath]
+            srcPortQueryrawObject = self._srcNodeQueryrawObj.portQueryraw(srcPortpathString)
+            tgtPortpathString = i[self.DEF_grh_key_target_portpath]
+            tgtPortQueryrawObject = self._tgtNodeQueryrawObj.portQueryraw(tgtPortpathString)
+
+            trsPortQueryrawObject = self.CLS_grh_trs_port_queryraw(
+                srcPortQueryrawObject, tgtPortQueryrawObject,
+                i
+            )
+            self._trsPortQueryrawObjSet._set_obj_add_(trsPortQueryrawObject)
+
+    # **************************************************************************************************************** #
     def _set_trs_node_raw_build_(self):
-        self._tgtCategoryString = self._trsNodeRaws[self.DEF_grh_key_target_category]
+        self._srcCategoryString = self._srcNodeQueryrawObj.category
+        self._tgtCategoryString = self._tgtNodeQueryrawObj.category
 
-        self._tgtTypeString = self._tgtNodeQueryObj.type
-        self._outTrsRawDict[self.DEF_grh_key_source_category] = self._srcCategoryString
-        self._outTrsRawDict[self.DEF_grh_key_target_category] = self._tgtCategoryString
+        self._tgtTypeString = self._tgtNodeQueryrawObj.type
+        self._outTrsNodeRawDict[self.DEF_grh_key_source_category] = self._srcCategoryString
+        self._outTrsNodeRawDict[self.DEF_grh_key_target_category] = self._tgtCategoryString
 
-        self._outTrsRawDict[self.DEF_grh_key_type] = self._tgtTypeString
+        self._outTrsNodeRawDict[self.DEF_grh_key_type] = self._tgtTypeString
 
-        self._outTrsRawDict[self.DEF_grh_key_source_port] = []
+        self._outTrsNodeRawDict[self.DEF_grh_key_source_port] = []
 
         for _key in self.VAR_mtl_def_key_list:
             if _key in self._trsNodeRaws:
-                self._outTrsRawDict[_key] = self._trsNodeRaws[_key]
+                self._outTrsNodeRawDict[_key] = self._trsNodeRaws[_key]
 
         trsPortQueryraws = self._trsNodeRaws[self.DEF_grh_key_source_port]
         self._set_trs_port_raws_build_(trsPortQueryraws)
@@ -591,16 +747,14 @@ class Def_GrhTrsNodeQueryraw(grhCfg.Utility):
                         )
 
     def _set_trs_port_raw_build_(self, trsPortQueryraw, srcPortpathString, tgtPortpathString):
-        tgtPortQueryObject = self._tgtNodeQueryObj.port(tgtPortpathString)
+        tgtPortQueryrawObject = self._tgtNodeQueryrawObj.portQueryraw(tgtPortpathString)
 
         if self.DEF_grh_key_source_porttype in trsPortQueryraw:
             srcPorttypeString = trsPortQueryraw[self.DEF_grh_key_source_porttype]
         else:
-            srcPorttypeString = tgtPortQueryObject.porttype
+            srcPorttypeString = tgtPortQueryrawObject.porttype
 
-        tgtAssignString = tgtPortQueryObject.assign
-
-        if tgtAssignString not in self.VAR_grh_trs_channel_keyword_list:
+        if tgtPortQueryrawObject.parent is None:
             trsChildPortQueryraws = self._trsPortChildRaws.get(srcPorttypeString, [])
             for trsChildPortQueryraw in trsChildPortQueryraws:
                 self._set_trs_port_child_raw_build_(
@@ -609,7 +763,7 @@ class Def_GrhTrsNodeQueryraw(grhCfg.Utility):
                     srcPorttypeString
                 )
 
-            self._set_trs_port_raw_add_(srcPortpathString, tgtPortpathString, tgtPortQueryObject)
+            self._set_trs_port_raw_add_(srcPortpathString, tgtPortpathString, tgtPortQueryrawObject)
 
     def _set_trs_port_child_raw_build_(self, trsPortQueryraw, srcParentPortpathString, tgtParentPortpathString, srcPorttypeString):
         srcFormatString = trsPortQueryraw[self.DEF_grh_keyword_format]
@@ -622,55 +776,200 @@ class Def_GrhTrsNodeQueryraw(grhCfg.Utility):
 
         tgtPortpathString = tgtFormatString.format(*[tgtParentPortpathString])
 
-        tgtPortQueryObject = self._tgtNodeQueryObj.port(tgtPortpathString)
+        tgtPortQueryrawObject = self._tgtNodeQueryrawObj.portQueryraw(tgtPortpathString)
 
-        self._set_trs_port_raw_add_(srcPortpathString, tgtPortpathString, tgtPortQueryObject)
+        self._set_trs_port_raw_add_(srcPortpathString, tgtPortpathString, tgtPortQueryrawObject)
 
-    def _set_trs_port_raw_add_(self, srcPortpath, tgtPortpath, tgtPortQueryObject):
+    def _set_trs_port_raw_add_(self, srcPortpath, tgtPortpath, tgtPortQueryrawObject):
         _dic = self.CLS_ordered_dict()
 
         _dic[self.DEF_grh_key_source_portpath] = srcPortpath
         _dic[self.DEF_grh_key_target_portpath] = tgtPortpath
 
-        for _k, _v in tgtPortQueryObject.portQueryraw.items():
-            _dic[_k] = _v
+        self._outTrsNodeRawDict[self.DEF_grh_key_source_port].append(_dic)
 
-        self._outTrsRawDict[self.DEF_grh_key_source_port].append(_dic)
+    # **************************************************************************************************************** #
+    def trsPortQueryraws(self):
+        return self._trsPortQueryrawObjSet.objects()
 
-    def outTrsRaw(self):
-        return self._outTrsRawDict
+    def hasTrsPortQueryraw(self, *args):
+        return self._trsPortQueryrawObjSet.hasObject(*args)
+
+    def trsPortQueryraw(self, *args):
+        if self.hasTrsPortQueryraw(*args):
+            return self._trsPortQueryrawObjSet.object(*args)
+
+    def outTrsPortRaw(self, *args):
+        if self.hasTrsPortQueryraw(*args):
+            return self._trsPortQueryrawObjSet.object(*args).outTrsPortRaw()
+
+    # **************************************************************************************************************** #
+    def outTrsNodeRaw(self):
+        return self._outTrsNodeRawDict
+
+    # **************************************************************************************************************** #
+    def srcNodeQueryraw(self):
+        raise self._srcNodeQueryrawObj
+
+    def tgtNodeQueryraw(self):
+        raise self._tgtNodeQueryrawObj
 
 
+class Def_GrhTrsObjQueryrawCache(grhCfg.Utility):
+    CLS_grh_trs_node_queryraw_set = None
+    CLS_grh_trs_node_queryraw = None
+
+    VAR_grh_trs_node_file = None
+    VAR_grh_trs_geometry_file = None
+    VAR_grh_trs_material_file = None
+    VAR_grh_trs_output_file = None
+    VAR_grh_trs_port_child_file = None
+
+    VAR_grh_trs_custom_category_file = None
+    VAR_grh_trs_custom_node_file = None
+
+    OBJ_grh_src_queryraw_cache = None
+    OBJ_grh_tgt_queryraw_cache = None
+
+    # noinspection PyUnusedLocal
+    def _initDefGrhTrsObjQueryCache(self, *args):
+        self._trsNodeQueryrawSetObj = self.CLS_grh_trs_node_queryraw_set(self)
+
+        self._set_trs_node_queries_build_()
+
+    # **************************************************************************************************************** #
+    def _set_trs_node_queries_build_(self):
+        self._trsNodeRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_node_file
+        ) or {}
+        self._trsGeometryRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_geometry_file
+        ) or {}
+        self._trsMaterialRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_material_file
+        ) or {}
+        self._trsOutputRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_output_file
+        ) or {}
+        self._trsPortChildRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_port_child_file
+        ) or {}
+
+        self._trsCustomCategoryRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_custom_category_file
+        ) or {}
+        self._trsCustomNodeRaws = bscMethods.OsJsonFile.read(
+            self.VAR_grh_trs_custom_node_file
+        ) or {}
+
+        self._trsNodeRawDict = {}
+
+        for i in [
+            self._trsNodeRaws, self._trsMaterialRaws, self._trsGeometryRaws, self._trsCustomNodeRaws
+        ]:
+            self._trsNodeRawDict.update(i)
+
+    # **************************************************************************************************************** #
+    @classmethod
+    def _mtd_get_trs_queryraw_(cls, *args):
+        setObj, getObjMtd, keyArgs = args
+        if setObj._get_obj_exist_(*keyArgs):
+            obj = setObj._get_obj_(*keyArgs)
+        else:
+            obj = getObjMtd(*keyArgs)
+            setObj._set_obj_add_(obj)
+        return obj
+
+    def _get_trs_node_raw_(self, *args):
+        srcCategoryString = args[0]
+        if srcCategoryString in self._trsNodeRawDict:
+            return self._trsNodeRawDict[srcCategoryString]
+
+    def _get_trs_node_queryraw_obj_(self, *args):
+        srcCategoryString = args[0]
+
+        trsNodeRaw = self._get_trs_node_raw_(srcCategoryString)
+        if trsNodeRaw:
+            _tgtCategoryString = trsNodeRaw[self.DEF_grh_key_target_category]
+            _srcNodeQueryrawObj = self.OBJ_grh_src_queryraw_cache.nodeQueryraw(srcCategoryString)
+            _tgtNodeQueryrawObj = self.OBJ_grh_tgt_queryraw_cache.nodeQueryraw(_tgtCategoryString)
+            return self.CLS_grh_trs_node_queryraw(
+                _srcNodeQueryrawObj,
+                _tgtNodeQueryrawObj,
+                trsNodeRaw,
+                self._trsOutputRaws, self._trsPortChildRaws
+            )
+        else:
+            print srcCategoryString
+
+    def _get_trs_node_queryraw_(self, *args):
+        return self._mtd_get_trs_queryraw_(
+            self._trsNodeQueryrawSetObj,
+            self._get_trs_node_queryraw_obj_,
+            args
+        )
+
+    def trsNodeQueryraw(self, *args):
+        return self._get_trs_node_queryraw_(*args)
+
+    # **************************************************************************************************************** #
+    def _get_trs_port_queryraw_(self, *args):
+        srcCategoryString, srcPortpathString = args
+        trsNodeQueryrawObject = self._get_trs_node_queryraw_(srcCategoryString)
+        return trsNodeQueryrawObject.trsPortQueryraw(srcPortpathString)
+
+    def trsPortQueryraw(self, *args):
+        return self._get_trs_port_queryraw_(*args)
+
+    # **************************************************************************************************************** #
+    def _get_trs_source_category_exist_(self, *args):
+        srcCategoryString = args[0]
+        return srcCategoryString in self._trsNodeRawDict
+
+    def _get_trs_source_categories_(self):
+        return self._trsNodeRawDict.keys()
+
+    def srcCategories(self):
+        return self._get_trs_source_categories_()
+
+    def hasSrcCategory(self, srcCategoryString):
+        return self._get_trs_source_category_exist_(srcCategoryString)
+
+
+# translator object query ******************************************************************************************** #
 class Def_GrhTrsPortQuery(grhCfg.Utility):
     VAR_grh_portsep = None
 
     VAR_grh_trs_property_list = [
         grhCfg.Utility.DEF_grh_key_source_portpath,
-        grhCfg.Utility.DEF_grh_key_target_portpath,
-        grhCfg.Utility.DEF_grh_key_porttype,
-        grhCfg.Utility.DEF_grh_key_portraw,
-        grhCfg.Utility.DEF_grh_key_assign,
-        grhCfg.Utility.DEF_grh_key_parent,
-        grhCfg.Utility.DEF_grh_key_children
+        grhCfg.Utility.DEF_grh_key_target_portpath
     ]
 
+    OBJ_grh_trs_queryraw_cache = None
+
     def _initDefGrhTrsPortQuery(self, *args):
-        self._trsPortQueryraw = args[0]
+        if isinstance(args[0], Def_GrhTrsPortQueryraw):
+            self._trsPortQueryrawObj = args[0]
+        elif isinstance(args[0], (str, unicode)):
+            srcCategoryString, srcPortpathString = args
+            self._trsPortQueryrawObj = self.OBJ_grh_trs_queryraw_cache.trsPortQueryraw(srcCategoryString, srcPortpathString)
+        else:
+            raise ValueError()
 
-        self._set_trs_port_query_build_(self._trsPortQueryraw)
+        self._set_trs_port_query_build_()
 
-    def _set_trs_port_query_build_(self, *args):
-        raw = args[0]
+    def _set_trs_port_query_build_(self):
         for i in self.VAR_grh_trs_property_list:
-            self.__dict__[i] = raw[i]
+            self.__dict__[i] = self._trsPortQueryrawObj.__dict__[i]
 
+    # **************************************************************************************************************** #
+    def trsPortQueryraw(self):
+        return self._trsPortQueryrawObj
+
+    # **************************************************************************************************************** #
     @property
     def portsep(self):
         return self.VAR_grh_portsep
-
-    @property
-    def trsPortQueryraw(self):
-        return self._trsPortQueryraw
 
     def __str__(self):
         _ = u''
@@ -703,52 +1002,59 @@ class Def_GrhTrsNodeQuery(grhCfg.Utility):
     VAR_grh_inparm_assign_keyword_list = []
     VAR_grh_otparm_assign_keyword_list = []
 
-    VAR_grh_channel_assign_keyword_list = []
+    OBJ_grh_trs_queryraw_cache = None
 
     def _initDefGrhTrsNodeQuery(self, *args):
-        self._trsNodeQueryrawDict = args[0]
+        if isinstance(args[0], (str, unicode)):
+            srcCategoryString = args[0]
+            self._trsNodeQueryrawObj = self.OBJ_grh_trs_queryraw_cache.trsNodeQueryraw(srcCategoryString)
+        elif isinstance(args[0], Def_GrhTrsNodeQueryraw):
+            self._trsNodeQueryrawObj = args[0]
+        else:
+            raise ValueError()
+
+        self._trsNodeQueryrawDict = self._trsNodeQueryrawObj.outTrsNodeRaw()
+
         self._srcPortpathDict = {}
 
-        self._set_trs_node_query_build_(self._trsNodeQueryrawDict)
-        self._set_trs_port_queries_build_(self._trsNodeQueryrawDict)
+        self._set_trs_node_query_build_()
 
-    def _set_trs_node_query_build_(self, *args):
-        raw = args[0]
+        self._set_trs_port_queries_build_()
 
+    def _set_trs_node_query_build_(self):
         for i in self.VAR_grh_trs_property_list:
-            self.__dict__[i] = raw[i]
+            self.__dict__[i] = self._trsNodeQueryrawObj.__dict__[i]
 
-    def _set_trs_port_queries_build_(self, *args):
-        raw = args[0]
-
+    def _set_trs_port_queries_build_(self):
         self._trsPortQuerySetObj = self.CLS_grh_trs_port_query_set(self)
         self._trsParamQuerySetObj = self.CLS_grh_trs_port_query_set(self)
         self._trsInparmQuerySetObj = self.CLS_grh_trs_port_query_set(self)
         self._trsOtparmQuerySetObj = self.CLS_grh_trs_port_query_set(self)
 
-        portRaws = raw[self.DEF_grh_key_source_port]
-        for i in portRaws:
-            self._set_trs_port_query_build_(i)
+        for trsPortQueryrawObject in self._trsNodeQueryrawObj.trsPortQueryraws():
+            self._set_trs_port_query_build_(trsPortQueryrawObject)
 
     def _set_trs_port_query_build_(self, *args):
-        raw = args[0]
+        trsPortQueryrawObject = args[0]
 
-        obj = self.CLS_grh_trs_port_query(raw)
+        trsPortQueryObject = self.CLS_grh_trs_port_query(trsPortQueryrawObject)
 
-        portpathString = raw[self.DEF_grh_key_portpath]
+        tgtPortQueryrawObject = trsPortQueryrawObject.tgtPortQueryraw()
 
-        portnameString = portpathString.split(obj.portsep)[-1]
+        portpathString = tgtPortQueryrawObject.portpath
+
+        portnameString = portpathString.split(trsPortQueryObject.portsep)[-1]
         self._srcPortpathDict[portnameString] = portpathString
 
-        assignString = raw[self.DEF_grh_key_assign]
+        assignString = tgtPortQueryrawObject.assign
         if assignString in self.VAR_grh_param_assign_keyword_list:
-            self._trsParamQuerySetObj._set_obj_add_(obj)
+            self._trsParamQuerySetObj._set_obj_add_(trsPortQueryObject)
         if assignString in self.VAR_grh_inparm_assign_keyword_list:
-            self._trsInparmQuerySetObj._set_obj_add_(obj)
+            self._trsInparmQuerySetObj._set_obj_add_(trsPortQueryObject)
         if assignString in self.VAR_grh_otparm_assign_keyword_list:
-            self._trsOtparmQuerySetObj._set_obj_add_(obj)
+            self._trsOtparmQuerySetObj._set_obj_add_(trsPortQueryObject)
 
-        self._trsPortQuerySetObj._set_obj_add_(obj)
+        self._trsPortQuerySetObj._set_obj_add_(trsPortQueryObject)
 
     # **************************************************************************************************************** #
     def _get_src_portpath_(self, *args):
@@ -757,16 +1063,27 @@ class Def_GrhTrsNodeQuery(grhCfg.Utility):
             return self._srcPortpathDict[portpathString]
         return portpathString
 
+    @classmethod
+    def isSrcCategoryAvailable(cls, *args):
+        if args:
+            srcCategoryString = args[0]
+            return cls.OBJ_grh_trs_queryraw_cache.hasSrcCategory(srcCategoryString)
+        if hasattr(cls, 'source_category'):
+            return cls.OBJ_grh_trs_queryraw_cache.hasSrcCategory(
+                cls.source_category
+            )
+        return False
+
     # **************************************************************************************************************** #
-    def trsPorts(self):
+    def trsPortQueries(self):
         return self._trsPortQuerySetObj.objects()
 
-    def hasTrsPort(self, *args):
+    def hasTrsPortQuery(self, *args):
         return self._trsPortQuerySetObj.hasObject(
             self._get_src_portpath_(*args)
         )
 
-    def trsPort(self, *args):
+    def trsPortQuery(self, *args):
         return self._trsPortQuerySetObj.object(
             self._get_src_portpath_(*args)
         )
@@ -854,117 +1171,6 @@ class Def_GrhTrsNodeQuery(grhCfg.Utility):
         )
 
 
-# cache
-class Def_GrhTrsObjQueryCache(grhCfg.Utility):
-    CLS_grh_trs_node_raw = None
-
-    CLS_grh_trs_node_query_set = None
-    CLS_grh_trs_node_query = None
-
-    VAR_grh_trs_node_file = None
-    VAR_grh_trs_geometry_file = None
-    VAR_grh_trs_material_file = None
-    VAR_grh_trs_output_file = None
-    VAR_grh_trs_port_child_file = None
-
-    VAR_grh_trs_custom_category_file = None
-    VAR_grh_trs_custom_node_file = None
-
-    OBJ_grh_query_cache = None
-
-    # noinspection PyUnusedLocal
-    def _initDefGrhTrsObjQueryCache(self, *args):
-        self._trsNodeQuerySetObj = self.CLS_grh_trs_node_query_set(self)
-
-        self._set_trs_node_queries_build_()
-
-    # **************************************************************************************************************** #
-    def _get_node_raw_(self, *args):
-        categoryString = args[0]
-        return self._outTrsNodeRawsDict[categoryString]
-
-    def _get_node_exist_(self, *args):
-        return self._trsNodeQuerySetObj.hasObject(*args)
-
-    def _get_nodes_(self):
-        return self._trsNodeQuerySetObj.objects()
-
-    def _get_node_(self, *args):
-        if self._trsNodeQuerySetObj._get_obj_exist_(*args):
-            obj = self._trsNodeQuerySetObj._get_obj_(*args)
-        else:
-            raw = self._get_node_raw_(*args)
-            obj = self.CLS_grh_trs_node_query(raw)
-            self._trsNodeQuerySetObj._set_obj_add_(obj)
-        return obj
-
-    def trsNodes(self):
-        return self._get_nodes_()
-
-    def hasTrsNode(self, *args):
-        return self._get_node_exist_(*args)
-
-    def trsNode(self, *args):
-        srcCategoryString = args[0]
-        assert srcCategoryString in self._outTrsNodeRawsDict, u'''Source Category "{}" is Unregistered!!!'''.format(srcCategoryString)
-        return self._get_node_(*args)
-
-    # **************************************************************************************************************** #
-    def srcCategories(self):
-        return self._outTrsNodeRawsDict.keys()
-
-    def hasSrcCategory(self, srcCategoryString):
-        return srcCategoryString in self._outTrsNodeRawsDict
-
-    def _set_trs_node_queries_build_(self):
-        def getTrsNodeQueryFnc_(nodeRaws_):
-            for _srcCategoryString, _trsNodeRaw in nodeRaws_.items():
-                _tgtCategoryString = _trsNodeRaw[self.DEF_grh_key_target_category]
-                _tgtNodeQueryObj = self.OBJ_grh_query_cache.node(_tgtCategoryString)
-
-                trsRaw = self.CLS_grh_trs_node_raw(
-                    _tgtNodeQueryObj,
-                    _srcCategoryString,
-                    _trsNodeRaw, self._trsOutputRaws, self._trsPortChildRaws
-                ).outTrsRaw()
-
-                _dccObjectDefObj = self.CLS_grh_trs_node_query(trsRaw)
-
-                self._outTrsNodeRawsDict[_srcCategoryString] = trsRaw
-
-        self._trsNodeRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_node_file
-        ) or {}
-        self._trsGeometryRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_geometry_file
-        ) or {}
-        self._trsMaterialRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_material_file
-        ) or {}
-        self._trsOutputRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_output_file
-        ) or {}
-        self._trsPortChildRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_port_child_file
-        ) or {}
-
-        self._trsCustomCategoryRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_custom_category_file
-        ) or {}
-        self._trsCustomNodeRaws = bscMethods.OsJsonFile.read(
-            self.VAR_grh_trs_custom_node_file
-        ) or {}
-
-        self._srcNodeRawDict = self.CLS_ordered_dict()
-
-        self._outTrsNodeRawsDict = {}
-
-        getTrsNodeQueryFnc_(self._trsNodeRaws)
-        getTrsNodeQueryFnc_(self._trsMaterialRaws)
-        getTrsNodeQueryFnc_(self._trsGeometryRaws)
-        getTrsNodeQueryFnc_(self._trsCustomNodeRaws)
-
-
 # object cache ******************************************************************************************************* #
 class Def_GrhCacheObj(object):
     @classmethod
@@ -1006,11 +1212,11 @@ class Def_GrhObjCache(grhCfg.Utility):
                 keyString = args[0]
                 return self._objSetObj._get_obj_(keyString)
         else:
-            keyString, cls, clsArgs = args
+            keyString, objCls, objClsArgs = args
             if self._objSetObj._get_obj_exist_(keyString) is True:
                 return self._objSetObj._get_obj_(keyString)
             else:
-                obj = cls(*clsArgs)
+                obj = objCls(*objClsArgs)
                 self._objSetObj._set_obj_add_(obj)
                 return obj
 
@@ -1199,6 +1405,8 @@ class Def_GrhPort(
     Def_GrhObj,
     Def_GrhCacheObj
 ):
+    CLS_grh_port_query = None
+
     CLS_grh_type = None
 
     CLS_grh_porttype = None
@@ -1214,11 +1422,17 @@ class Def_GrhPort(
         nodeObject, _ = args[:2]
         # node
         self._nodeObj = nodeObject
+        categoryString = self._nodeObj.categoryString()
         # port
         if isinstance(_, (str, unicode)):
-            self._set_portpath_build_(_)
-        if isinstance(_, Def_GrhPortQuery):
-            self._set_port_build_(_)
+            portpathString = _
+            self._portQueryObj = self.CLS_grh_port_query(categoryString, portpathString)
+        elif isinstance(_, Def_GrhPortQuery):
+            self._portQueryObj = _
+        else:
+            raise ValueError()
+
+        self._set_port_build_(self._portQueryObj)
         # source
         self._sourcePortIndex = None
         # target
@@ -1297,10 +1511,10 @@ class Def_GrhPort(
         return self._portpathObj.toString()
 
     def portname(self):
-        return self._portpathObj.bscname()
+        return self._portpathObj.name()
 
     def portnameString(self):
-        return self._portpathObj.bscnameString()
+        return self._portpathObj.nameString()
 
     # **************************************************************************************************************** #
     def _set_attrpath_build_(self, *args):
@@ -1320,10 +1534,10 @@ class Def_GrhPort(
         return self._attrpathObj.toString()
 
     def name(self):
-        return self._portpathObj.bscname()
+        return self._portpathObj.name()
 
     def nameString(self):
-        return self._portpathObj.bscnameString()
+        return self._portpathObj.nameString()
 
     # **************************************************************************************************************** #
     def _get_indexes_(self):
@@ -1612,6 +1826,8 @@ class Def_GrhNode(
     Def_GrhObj,
     Def_GrhCacheObj
 ):
+    CLS_grh_node_query = None
+
     CLS_grh_type = None
     CLS_grh_category = None
 
@@ -1626,18 +1842,20 @@ class Def_GrhNode(
     VAR_grh_inparm_assign_keyword_list = []
     VAR_grh_otparm_assign_keyword_list = []
 
-    VAR_grh_channel_assign_keyword_list = []
-
-    OBJ_grh_query_cache = None
     OBJ_grh_obj_cache = None
 
     def _initDefGrhNode(self, *args):
         self._initDefGrhObj()
 
-        categoryString, nodepathString = args[:2]
-        self._nodeQueryObj = self.OBJ_grh_query_cache.node(
-            categoryString
-        )
+        _, nodepathString = args[:2]
+
+        if isinstance(_, (str, unicode)):
+            categoryString = _
+            self._nodeQueryObj = self.CLS_grh_node_query(categoryString)
+        elif isinstance(_, Def_GrhPortQuery):
+            self._nodeQueryObj = _
+        else:
+            raise ValueError()
 
         self._set_nodepath_build_(nodepathString)
 
@@ -1703,10 +1921,10 @@ class Def_GrhNode(
         return self.nodepath().toString()
 
     def nodename(self):
-        return self._nodepathObj.bscname()
+        return self._nodepathObj.name()
 
     def nodenameString(self):
-        return self._nodepathObj.bscnameString()
+        return self._nodepathObj.nameString()
 
     # **************************************************************************************************************** #
     def path(self):
@@ -1763,7 +1981,7 @@ class Def_GrhNode(
         self._inparmSetObj = self.CLS_grh_port_set(self)
         self._otparmSetObj = self.CLS_grh_port_set(self)
 
-        for i in nodeQueryObject.ports():
+        for i in nodeQueryObject.portQueries():
             addPortFnc_(self.nodepathString(), i)
 
     def ports(self):
@@ -2071,10 +2289,11 @@ class Def_GrhNodeProxy(Def_GrhObjProxy):
                 self._set_node_graph_obj_add_(obj)
             return self._nodeGraphSetObj._get_obj_(keyString)
         elif isinstance(args[0], Def_GrhNodeProxy):
-            obj = args[0]
-            keyString = obj.nameString()
+            proxyObj = args[0]
+            obj = proxyObj.node()
+            keyString = obj.toString()
             if self._nodeGraphSetObj._get_obj_exist_(keyString) is False:
-                self._set_node_graph_obj_add_(obj.node())
+                self._set_node_graph_obj_add_(obj)
             return self._nodeGraphSetObj._get_obj_(keyString)
 
     def addNodeGraph(self, *args):
@@ -2177,9 +2396,9 @@ class Def_GrhNodeGraph(grhCfg.Utility):
 
     def _get_source_ports_(self):
         lis = []
-        for i in self._obj.inparms():
-            if i.hasSource():
-                lis.append(i)
+        for inparmObject in self._obj.inparms():
+            if inparmObject.hasSource():
+                lis.append(inparmObject)
         return lis
 
     def _set_node_graph_update_(self):
@@ -2309,3 +2528,146 @@ class Def_GrhNodeGraphOutput(Def_GrhObjProxy):
 
     def nodeGraph(self):
         return self._nodeGraphObj
+
+
+class Def_GrhTrsNode(
+    grhCfg.Utility,
+    Def_GrhCacheObj
+):
+    CLS_grh_trs_node_query = None
+
+    CLS_grh_src_node = None
+    CLS_grh_tgt_node = None
+
+    CLS_grh_node_translator = None
+
+    OBJ_grh_trs_query_cache = None
+
+    OBJ_grh_trs_obj_cache = None
+    OBJ_grh_src_obj_cache = None
+    OBJ_grh_tgt_obj_cache = None
+
+    def _initDefGrhTrsNode(self, *args):
+        srcNodeString = args[0]
+
+        self._srcNodeObj = self.CLS_grh_src_node(srcNodeString)
+
+        self._translatorObj = self.CLS_grh_node_translator(
+            self,
+            self._srcNodeObj,
+            self.CLS_grh_tgt_node
+        )
+
+        self._set_create_expressions_run_()
+
+    def _set_create_expressions_run_(self):
+        expressionDict = self._translatorObj._trsNodeQueryObj.createExpressionRaw
+        self._set_expressions_run_(expressionDict)
+
+    def _set_after_expressions_run_(self):
+        expressionDict = self._translatorObj._trsNodeQueryObj.afterExpressionRaw
+        self._set_expressions_run_(expressionDict)
+
+    # noinspection PyMethodMayBeStatic
+    def _set_expressions_run_(self, expressionDict):
+        if expressionDict:
+            if self.DEF_grh_keyword_command in expressionDict:
+                commands = expressionDict[self.DEF_grh_keyword_command]
+                if commands:
+                    cmdsStr = ';'.join(commands)
+                    exec cmdsStr
+
+    # **************************************************************************************************************** #
+    def _cmd_set_node_insert_(self, outputSrcNodeObjects, targetMtlOtparmString, tgtInparmString, tgtOtparmString):
+        for srcNodeObject in outputSrcNodeObjects:
+            trsNodeObject = self.getTrsNode(srcNodeObject.nodepathString())
+            tgtNodeObject = trsNodeObject.tgtNode()
+
+            copyTgtNodeString = u'{}__{}'.format(tgtNodeObject.nodepathString(), self.tgtNode().categoryString())
+            copyTgtNodeObject = self.getTgtNode(self.tgtNode().categoryString(), copyTgtNodeString)
+
+            [i.setPortrawString(self.tgtNode().inparm(i.portpathString()).portrawString()) for i in copyTgtNodeObject.inparms()]
+
+            tgtNodeObject.otparm(targetMtlOtparmString).insertTarget(
+                copyTgtNodeObject.inparm(tgtInparmString),
+                copyTgtNodeObject.otparm(tgtOtparmString)
+            )
+
+    def _cmd_set_color_correct_insert_(self, portdataDict=None):
+        tgtConnectors = self.tgtNode().outputConnectors()
+
+        mtl_category_0 = u'color_correct'
+        node_string_0 = u'{}__{}'.format(self.tgtNode().nodepathString(), mtl_category_0)
+
+        _tgtColorCorrectObject = self.getTgtNode(mtl_category_0, node_string_0)
+
+        for _tgtConnector in tgtConnectors:
+            if _tgtConnector.source().isChannel() is False:
+                _portObject = _tgtColorCorrectObject.otparm()
+            else:
+                _dict = {
+                    u'r': u'rgba.r',
+                    u'g': u'rgba.g',
+                    u'b': u'rgba.b',
+                    u'a': u'rgba.a'
+                }
+                _portpathString = _dict[_tgtConnector.source().portnameString()]
+                _portObject = _tgtColorCorrectObject.otparm(_portpathString)
+
+            _tgtConnector.insert(_portObject)
+
+        self.tgtNode().otparm().connectTo(_tgtColorCorrectObject.inparm(u'input'))
+        if portdataDict:
+            for k, v in portdataDict.items():
+                _tgtColorCorrectObject.port(k).setPortraw(self.srcNode().port(v).portraw())
+        return _tgtColorCorrectObject
+
+    def _cmd_set_multi_texture_covert_(self, filepathString):
+        srcNodeObject = self.srcNode()
+        if srcNodeObject.categoryString() == u'file':
+            isUdim = True
+            if filepathString:
+                isSequence = srcNodeObject.port(u'useFrameExtension').portraw()
+                uvTilingMode = srcNodeObject.port(u'uvTilingMode').portraw()
+                dirnameString = bscMethods.OsFile.dirname(filepathString)
+                basenameString = bscMethods.OsFile.basename(filepathString)
+                #
+                findKeys = self.MOD_re.findall(u'[0-9][0-9][0-9][0-9]', basenameString)
+                if findKeys:
+                    if u'<udim>' in basenameString.lower():
+                        isUdim = False
+                    elif not uvTilingMode == u'UDIM (Mari)':
+                        isUdim = False
+                    #
+                    if isUdim:
+                        basenameString = basenameString.replace(findKeys[-1], u'<udim>')
+                    elif isSequence:
+                        basenameString = basenameString.replace(findKeys[-1], u'<f>')
+                    #
+                    filepathString = bscMethods.OsPath.composeBy(dirnameString, basenameString)
+        return filepathString
+
+    # **************************************************************************************************************** #
+    def getTrsNode(self, srcNodeString):
+        return self._mtd_get_cache_obj_(
+            self.OBJ_grh_trs_obj_cache, srcNodeString,
+            self.__class__, (srcNodeString, )
+        )
+
+    def getTgtNode(self, tgtCategoryString, tgtNodeString):
+        return self._mtd_get_cache_obj_(
+            self.OBJ_grh_tgt_obj_cache, tgtNodeString,
+            self.CLS_grh_tgt_node, (tgtCategoryString, tgtNodeString)
+        )
+
+    def trsNodeQuery(self):
+        return self._translatorObj._trsNodeQueryObj
+
+    def srcNode(self):
+        return self._srcNodeObj
+
+    def tgtNode(self):
+        return self._translatorObj.tgtNode()
+
+    def __str__(self):
+        return self.tgtNode().__str__()

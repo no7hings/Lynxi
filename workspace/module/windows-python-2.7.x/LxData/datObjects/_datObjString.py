@@ -52,6 +52,16 @@ class Porttype(datObjAbs.Abs_DatRaw):
         self._initAbsDatRaw(*args)
 
 
+class Portname(datObjAbs.Abs_DatPortname):
+    CLS_dat_raw = unicode
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
+
+    def __init__(self, *args):
+        self._initAbsDatPortname(*args)
+
+
 class Nodename(datObjAbs.Abs_DatNodename):
     CLS_dat_raw = unicode
 

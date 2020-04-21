@@ -521,23 +521,39 @@ class Mtd_MyaNode(Mtd_MaBasic):
             portDict = {}
 
             assignString = cls._grh_getNodePortAssign(categoryString, portpathString)
-            if assignString is not None:
-                isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
+            isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
 
-                porttypeString = cls._grh_getNodePorttypeString(categoryString, portpathString, isArray)
-                parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
-                childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
+            porttypeString = cls._grh_getNodePorttypeString(categoryString, portpathString, isArray)
+            parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
+            childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
 
-                portDict[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
-                portDict[grhCfg.Utility.DEF_grh_key_portpath] = portpathString
-                portDict[grhCfg.Utility.DEF_grh_key_portraw] = None
-                portDict[grhCfg.Utility.DEF_grh_key_assign] = assignString
-                portDict[grhCfg.Utility.DEF_grh_key_parent] = parentPortnameString
-                portDict[grhCfg.Utility.DEF_grh_key_children] = childPortnameStrings
+            portDict[grhCfg.Utility.DEF_grh_key_porttype] = porttypeString
+            portDict[grhCfg.Utility.DEF_grh_key_portpath] = portpathString
+            portDict[grhCfg.Utility.DEF_grh_key_portraw] = None
+            portDict[grhCfg.Utility.DEF_grh_key_assign] = assignString
+            portDict[grhCfg.Utility.DEF_grh_key_parent] = parentPortnameString
+            portDict[grhCfg.Utility.DEF_grh_key_children] = childPortnameStrings
 
-                lis.append(portDict)
+            lis.append(portDict)
 
         return lis
+
+    @classmethod
+    def _grh_getNodePortRaw(cls, categoryString, portpathString):
+        assignString = cls._grh_getNodePortAssign(categoryString, portpathString)
+        isArray = cls._grh_getNodePortIsArray(categoryString, portpathString)
+
+        porttypeString = cls._grh_getNodePorttypeString(categoryString, portpathString, isArray)
+        parentPortnameString = cls._grh_getNodePortParent(categoryString, portpathString)
+        childPortnameStrings = cls._grh_getNodePortChildren(categoryString, portpathString)
+
+        return {
+            grhCfg.Utility.DEF_grh_key_porttype: porttypeString,
+            grhCfg.Utility.DEF_grh_key_portpath: portpathString, grhCfg.Utility.DEF_grh_key_portraw: None,
+            grhCfg.Utility.DEF_grh_key_assign: assignString,
+            grhCfg.Utility.DEF_grh_key_parent: parentPortnameString,
+            grhCfg.Utility.DEF_grh_key_children: childPortnameStrings
+        }
 
     @classmethod
     def _grh_getNodePortIsArray(cls, categoryString, portpathString):

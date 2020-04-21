@@ -5,14 +5,24 @@ from . import myaBscCfg, myaBscMtdCore, maBscMethods
 
 
 # ******************************************************************************************************************** #
-class Abs_MyaObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
+class Abs_MyaObjQueryCache(grhObjAbs.Abs_GrhObjQueryrawCache):
     def _initAbsMyaObjQueryCache(self, *args):
         self._initAbsGrhObjQueryCache(*args)
 
     def _get_node_type_(self, *args):
         return self.DEF_grh_keyword_default
 
-    def _get_node_port_raws_(self, *args):
+    # **************************************************************************************************************** #
+    def _get_node_raw_(self, *args):
+        categoryString = args[0]
+        return {
+            self.DEF_grh_key_category: categoryString,
+            self.DEF_grh_key_type: self._get_node_type_(categoryString),
+            self.DEF_grh_key_port: self._get_node_port_raws_(categoryString)
+        }
+
+    @classmethod
+    def _get_node_port_raws_(cls, *args):
         categoryString = args[0]
         portpathStringList = myaBscMtdCore.Mtd_MyaNode._grh_getNodePortpathStringList_(
             categoryString
@@ -21,6 +31,22 @@ class Abs_MyaObjQueryCache(grhObjAbs.Abs_GrhObjQueryCache):
             categoryString,
             portpathStringList
         )
+
+    def _get_node_queryraw_obj_(self, *args):
+        categoryString = args[0]
+
+        nodeRaw = self._get_node_raw_(categoryString)
+        if nodeRaw:
+            return self.CLS_grh_node_queryraw(
+                categoryString, nodeRaw
+            )
+        else:
+            print categoryString
+
+    # **************************************************************************************************************** #
+    def _get_port_raw_(self, *args):
+        categoryString, portpathString = args
+        return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortRaw(categoryString, portpathString)
 
 
 # ******************************************************************************************************************** #
