@@ -833,7 +833,7 @@ class IfNamespaceManagerUnit(
                 subNodeArray = []
                 for node in nodeLis:
 
-                    if node.startswith(appCfg.DEF_mya_namespace_separator):
+                    if node.startswith(appCfg.DEF_mya_namespace_pathsep):
                         objectPathLis.append(node)
                     else:
                         subNodeArray.append(node)

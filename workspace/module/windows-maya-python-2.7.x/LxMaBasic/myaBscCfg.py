@@ -5,7 +5,7 @@ import collections
 class Utility(object):
     DEF_mya_node_pathsep = '|'
     DEF_mya_set_separator = '/'
-    DEF_mya_namespace_separator = ':'
+    DEF_mya_namespace_pathsep = ':'
     DEF_mya_port_pathsep = '.'
     # Nde_Node Type
     DEF_mya_type_transform = 'transform'

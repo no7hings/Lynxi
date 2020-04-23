@@ -5,9 +5,8 @@ import os
 class Utility(object):
     MOD_os = os
 
+    DEF_dat_namespace_pathsep = u':'
     DEF_dat_port_pathsep = u'.'
-
-    DEF_dat_node_namesep = u':'
     DEF_dat_node_pathsep = u'/'
 
     DEF_dat_file_extsep = u'.'

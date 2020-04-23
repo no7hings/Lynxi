@@ -120,7 +120,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             if nodePath.endswith(']'):
                 string = nodePath.split(cls.DEF_mya_node_pathsep)[-1]
             else:
-                string = nodePath.split(cls.DEF_mya_node_pathsep)[-1].split(cls.DEF_mya_namespace_separator)[-1]
+                string = nodePath.split(cls.DEF_mya_node_pathsep)[-1].split(cls.DEF_mya_namespace_pathsep)[-1]
         return string
 
     @classmethod
@@ -140,7 +140,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
     @classmethod
     def _toNodePathRemoveNamespace(cls, nodePath):
         namespace = cls._toNamespaceByNodePath(nodePath)
-        if not namespace == cls.DEF_mya_namespace_separator:
+        if not namespace == cls.DEF_mya_namespace_pathsep:
             return nodePath.replace(namespace, '')
         else:
             return nodePath
@@ -151,19 +151,19 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNamespaceByNodePath(cls, nodePath):
-        return cls._toNamespaceByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
+        return cls._toNamespaceByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep)
 
     @classmethod
     def _toNamespaceByNodeName(cls, nodeName):
-        return cls._toNamespaceByNameString(nodeName, cls.DEF_mya_namespace_separator)
+        return cls._toNamespaceByNameString(nodeName, cls.DEF_mya_namespace_pathsep)
 
     @classmethod
     def _toNameByNodePath(cls, nodePath):
-        return cls._toNameByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
+        return cls._toNameByPathString(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep)
 
     @classmethod
     def _toNameByNodeName(cls, nodeName):
-        return cls._toNameByNameString(nodeName, cls.DEF_mya_namespace_separator)
+        return cls._toNameByNameString(nodeName, cls.DEF_mya_namespace_pathsep)
 
     @classmethod
     def _toNodeNameByAttr(cls, attr):
@@ -193,19 +193,19 @@ class Mtd_AppMaya(_maConfig.MaConfig):
 
     @classmethod
     def _toNodePathRebuildDatum(cls, nodePath):
-        return cls._toPathRebuildDatum(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator)
+        return cls._toPathRebuildDatum(nodePath, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep)
 
     @classmethod
     def _toNodePathBySearchDatum(cls, pathDatum, namespaceDatum):
         return cls._toPathByPathRebuildDatum(
-            pathDatum, namespaceDatum, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
+            pathDatum, namespaceDatum, cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep
         )
 
     @classmethod
     def _toNodeNameBySearchDatum(cls, pathDatum, namespaceDatum):
         return cls._toNameStringBySearchDatum(
             pathDatum, namespaceDatum,
-            cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
+            cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep
         )
 
     @classmethod
@@ -217,19 +217,19 @@ class Mtd_AppMaya(_maConfig.MaConfig):
             fn = cls._toPathByPathRebuildDatum
         #
         if ignoreNamespace is True:
-            namespaceDatum = ['*:'*(len(i.split(cls.DEF_mya_namespace_separator)) - 1) if i != cls.DEF_mya_namespace_separator else i for i in namespaceDatum]
+            namespaceDatum = ['*:'*(len(i.split(cls.DEF_mya_namespace_pathsep)) - 1) if i != cls.DEF_mya_namespace_pathsep else i for i in namespaceDatum]
             subNamespaceDatum = ['']*len(namespaceDatum)
             return fn(
                 pathDatum, namespaceDatum,
-                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep
             ), fn(
                 pathDatum, subNamespaceDatum,
-                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep
             )
         else:
             return fn(
                 pathDatum, namespaceDatum,
-                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_separator
+                cls.DEF_mya_node_pathsep, cls.DEF_mya_namespace_pathsep
             )
 
     @classmethod
@@ -422,7 +422,7 @@ class Mtd_AppMaya(_maConfig.MaConfig):
         if withNamespace:
             string = setPath.split(cls.DEF_mya_set_separator)[-1]
         else:
-            string = setPath.split(cls.DEF_mya_set_separator)[-1].split(cls.DEF_mya_namespace_separator)[-1]
+            string = setPath.split(cls.DEF_mya_set_separator)[-1].split(cls.DEF_mya_namespace_pathsep)[-1]
         return string
 
     @classmethod

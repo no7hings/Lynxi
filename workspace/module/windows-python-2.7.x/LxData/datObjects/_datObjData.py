@@ -104,7 +104,7 @@ class Dat_IntegerN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_Integer
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
 
     def __init__(self, *args):
         """
@@ -123,7 +123,7 @@ class Dat_IntegerNN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_IntegerN
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_compraw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_compraw_strsep
 
     def __init__(self, *args):
         """
@@ -157,7 +157,7 @@ class Dat_FloatN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_Float
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
 
     def __init__(self, *args):
         """
@@ -176,7 +176,7 @@ class Dat_FloatNN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_FloatN
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_compraw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_compraw_strsep
 
     def __init__(self, *args):
         """
@@ -210,7 +210,7 @@ class Dat_StringN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_String
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
 
     def __init__(self, *args):
         """
@@ -244,7 +244,7 @@ class Dat_FilenameN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_Filename
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
 
     def __init__(self, *args):
         """
@@ -278,7 +278,7 @@ class Dat_NodenameN(datObjAbs.Abs_DatData):
 
     CLS_dat_data = Dat_Nodename
 
-    VAR_dat_compraw_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
 
     def __init__(self, *args):
         """

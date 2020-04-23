@@ -159,7 +159,7 @@ class Abs_GrhNode(grhObjDef.Def_GrhNode):
     # **************************************************************************************************************** #
     def _get_source_nodes_(self, *args):
         def addFnc_(obj):
-            keyString = obj.nodepathString()
+            keyString = obj.pathString()
             if keyString not in keyStrList:
                 keyStrList.append(keyString)
                 lis.append(obj)
@@ -178,7 +178,7 @@ class Abs_GrhNode(grhObjDef.Def_GrhNode):
 
     def _get_all_source_nodes_(self, *args):
         def addFnc_(obj):
-            keyString = obj.nodepathString()
+            keyString = obj.pathString()
             if keyString not in keyStrList:
                 keyStrList.append(keyString)
                 lis.append(obj)
@@ -199,7 +199,7 @@ class Abs_GrhNode(grhObjDef.Def_GrhNode):
 
     def _get_target_nodes_(self, *args):
         def addFnc_(obj):
-            keyString = obj.nodepathString()
+            keyString = obj.pathString()
             if keyString not in keyStrList:
                 keyStrList.append(keyString)
                 lis.append(obj)
@@ -219,7 +219,7 @@ class Abs_GrhNode(grhObjDef.Def_GrhNode):
 
     def _get_all_target_nodes_(self, *args):
         def addFnc_(obj):
-            keyString = obj.nodepathString()
+            keyString = obj.pathString()
             if keyString not in keyStrList:
                 keyStrList.append(keyString)
                 lis.append(obj)
@@ -290,7 +290,7 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
         self._trsNodeObj, self._srcNodeObj, self._tgtNodeCls = args[:3]
 
         self._srcCategoryStr = self._srcNodeObj.categoryString()
-        self._srcNodeStr = self._srcNodeObj.nodepathString()
+        self._srcNodeStr = self._srcNodeObj.pathString()
         self._trsNodeQueryObj = self._trsNodeObj.CLS_grh_trs_node_query(self._srcCategoryStr)
 
         self._tgtCategoryStr = self._trsNodeQueryObj.target_category
@@ -318,7 +318,7 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
         _srcSourcePortObject = srcPortObject.source()
         _srcSourceNodeObject = _srcSourcePortObject.node()
 
-        _srcNodeStr = _srcSourceNodeObject.nodepathString()
+        _srcNodeStr = _srcSourceNodeObject.pathString()
         _srcCategoryStr = _srcSourceNodeObject.categoryString()
 
         if self._trsNodeObj.CLS_grh_trs_node_query.OBJ_grh_trs_queryraw_cache.hasSrcCategory(_srcCategoryStr):
@@ -334,9 +334,9 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
 
                 return _mtlNodeObject.otparm(tgtPortpathString)
             else:
-                print _srcSourcePortObject.node().nodepathString(), srcPortpathString
+                print _srcSourcePortObject.node().pathString(), srcPortpathString
         else:
-            print _srcSourcePortObject.node().nodepathString()
+            print _srcSourcePortObject.node().pathString()
 
     def _set_ports_trs_(self):
         # portraw
@@ -411,7 +411,7 @@ class Abs_GrhNodeTranslator(grhCfg.Utility):
         tgtTargetParentPortObject = tgtTargetPortObject.parent()
         tgtParentPorttypeString = tgtTargetParentPortObject.porttypeString()
         if tgtParentPorttypeString in convertDict:
-            tgtAttrpathString = tgtTargetParentPortObject.attrpathString()
+            tgtAttrpathString = tgtTargetParentPortObject.pathString()
             tgtCategoryString = convertDict[tgtParentPorttypeString][u'category']
 
             _tgtNodeString = u'{}__{}'.format(tgtAttrpathString.replace(self.DEF_grh_port_pathsep, u'__'), tgtCategoryString)

@@ -1,11 +1,11 @@
 # coding:utf-8
 from ..import datCfg, datObjAbs
 
-from . import _datObjString
+from . import _datObjRaw
 
 
 class Portpath(datObjAbs.Abs_DatPath):
-    CLS_dat_name = _datObjString.Portname
+    CLS_dat_name = _datObjRaw.Name
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_port_pathsep
 
@@ -14,7 +14,7 @@ class Portpath(datObjAbs.Abs_DatPath):
 
 
 class Nodepath(datObjAbs.Abs_DatPath):
-    CLS_dat_name = _datObjString.Nodename
+    CLS_dat_name = _datObjRaw.Nodename
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_node_pathsep
 
@@ -36,7 +36,7 @@ class Attrpath(datObjAbs.Abs_DatAttrpath):
 
 
 class Filepath(datObjAbs.Abs_DatPath):
-    CLS_dat_name = _datObjString.Filename
+    CLS_dat_name = _datObjRaw.Filename
 
     VAR_dat_pathsep = datCfg.Utility.DEF_dat_file_pathsep
 

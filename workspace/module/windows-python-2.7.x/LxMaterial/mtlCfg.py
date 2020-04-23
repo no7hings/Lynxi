@@ -14,7 +14,7 @@ class Utility(object):
     DEF_mtl_data_array_separator = u', '
 
     DEF_mya_node_pathsep = u'|'
-    DEF_mtl_nodename_namesep = u':'
+    DEF_mtl_namespace_pathsep = u':'
     DEF_mtl_node_pathsep = u'/'
     DEF_mtl_file_pathsep = u'/'
     DEF_mtl_port_pathsep = u'.'

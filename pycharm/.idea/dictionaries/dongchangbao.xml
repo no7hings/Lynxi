@@ -74,6 +74,7 @@
       <w>filebasename</w>
       <w>filebasenames</w>
       <w>filenames</w>
+      <w>filenmaestr</w>
       <w>filepath</w>
       <w>floatarray</w>
       <w>foldername</w>
@@ -152,6 +153,7 @@
       <w>namepsacesep</w>
       <w>namesep</w>
       <w>namespacesep</w>
+      <w>namestr</w>
       <w>nicename</w>
       <w>nodedef</w>
       <w>nodedefs</w>
@@ -159,6 +161,7 @@
       <w>nodeinput</w>
       <w>nodename</w>
       <w>nodenamearray</w>
+      <w>nodenamestr</w>
       <w>nodeoutput</w>
       <w>nodepath</w>
       <w>nodeport</w>

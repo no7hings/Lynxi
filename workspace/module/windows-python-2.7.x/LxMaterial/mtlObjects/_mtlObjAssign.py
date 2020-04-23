@@ -6,7 +6,7 @@ from ..mtlObjects import _mtlObjQuery, _mtlObjValue, _mtlObjRaw, _mtlObjSet, _mt
 
 class MaterialAssign(mtlObjAbs.Abc_MtlMaterialAssign):
     CLS_mtl_name = _mtlObjRaw.Name
-    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_proxy_set = _mtlObjSet.GeometryProxySet
 
     DEF_geometry_separator = mtlCfg.Utility.DEF_mtl_data_separator
 
@@ -21,7 +21,7 @@ class MaterialAssign(mtlObjAbs.Abc_MtlMaterialAssign):
 
 class PropertysetAssign(mtlObjAbs.Abc_MtlPropertysetAssign):
     CLS_mtl_name = _mtlObjRaw.Name
-    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_proxy_set = _mtlObjSet.GeometryProxySet
 
     CLS_mtl_propertyset = _mtlObjPort.Propertyset
 
@@ -37,7 +37,7 @@ class PropertysetAssign(mtlObjAbs.Abc_MtlPropertysetAssign):
 class VisibilityAssign(mtlObjAbs.Abc_MtlVisibilityAssign):
     CLS_mtl_name = _mtlObjRaw.Name
     CLS_grh_type = _mtlObjRaw.VistypeString
-    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_proxy_set = _mtlObjSet.GeometryProxySet
     CLS_set_geometry_viewer = _mtlObjSet.ViewerGeometrySet
 
     CLS_value_visibility = _mtlObjValue.Val_Visibility

@@ -222,14 +222,30 @@ class Abs_MtlRaw(
         ]
 
 
-class Abs_MtlPortname(
+class Abs_MtlName(
     Def_DatXmlObj,
-    datObjAbs.Abs_DatPortname,
+    datObjAbs.Abs_DatName
 ):
-    def _initAbsMtlPortname(self, *args):
-        self._initAbsDatPortname(*args)
+    def _initAbsMtlName(self, *args):
+        self._initAbsDatName(*args)
 
         self._initDefDatXmlObj()
+
+    # xml ************************************************************************************************************ #
+    def _xmlAttributes_(self):
+        return [
+            [('raw', self.raw())]
+        ]
+
+    def _xmlAttributeAttachValueString_(self):
+        if self._xmlNamePrefixString_() is not None:
+            return u'{}{}'.format(self._xmlNamePrefixString_(), self.toString())
+        return self.toString()
+
+    def _xmlAttributeAttaches_(self):
+        return [
+            (self._xmlAttributeAttachKeyString_(), self._xmlAttributeAttachValueString_())
+        ]
 
 
 class Abs_MtlNodename(
@@ -270,13 +286,13 @@ class Abs_MtlPath(
     # **************************************************************************************************************** #
     def _xmlAttributes_(self):
         return [
-            [('raw', self.pathString())]
+            [('raw', self.raw())]
         ]
 
     def _xmlAttributeAttachValueString_(self):
         if self._xmlNamePrefixString_() is not None:
-            return u'{}{}'.format(self._xmlNamePrefixString_(), self.pathString())
-        return self.pathString()
+            return u'{}{}'.format(self._xmlNamePrefixString_(), self.raw())
+        return self.raw()
 
     def _xmlAttributeAttaches_(self):
         return [
@@ -391,7 +407,7 @@ class Abs_MtlNode(
 
     def _xmlAttributes_(self):
         return [
-            self.nodepath(),
+            self.path(),
             self.type()
         ]
 
@@ -399,7 +415,7 @@ class Abs_MtlNode(
         return self.changedInparm()
 
     def _xmlAttributeAttachValueString_(self):
-        return self.nodepathString()
+        return self.pathString()
 
     def _xmlAttributeAttaches_(self):
         return [
@@ -488,7 +504,7 @@ class Abc_MtlShaderProxy(Abs_MtlNodeProxy):
     # **************************************************************************************************************** #
     def _xmlAttributes_(self):
         return [
-            self._nodeObj.nodepath(),
+            self._nodeObj.path(),
             self._nodeObj.category(),
             [(u'context', self._get_material_context_())]
         ]
@@ -659,7 +675,7 @@ class Abc_MtlGeometryProxy(Abs_MtlNodeProxy):
     # **************************************************************************************************************** #
     def _xmlAttributes_(self):
         return [
-            self._nodeObj.nodepath(),
+            self._nodeObj.path(),
             self._nodeObj.category()
         ]
 
@@ -791,7 +807,7 @@ class Abc_MtlPortset(Def_DatXmlObj):
 class Abc_MtlCollection(Def_DatXmlObj):
     CLS_mtl_name = None
 
-    CLS_mtl_geometry_set = None
+    CLS_mtl_geometry_proxy_set = None
     CLS_mtl_collection_set = None
 
     DEF_geometry_separator = None
@@ -799,9 +815,9 @@ class Abc_MtlCollection(Def_DatXmlObj):
     def _initAbcMtlCollection(self, *args):
         self._nameObj = self.CLS_mtl_name(*args)
 
-        self._geometrySetObj = self.CLS_mtl_geometry_set()
+        self._geometryProxySetObj = self.CLS_mtl_geometry_proxy_set()
         self._collectionSetObj = self.CLS_mtl_collection_set()
-        self._excludeGeometrySetObj = self.CLS_mtl_geometry_set()
+        self._excludeGeometrySetObj = self.CLS_mtl_geometry_proxy_set()
 
         self._initDefDatXmlObj()
 
@@ -823,7 +839,7 @@ class Abc_MtlCollection(Def_DatXmlObj):
         :param geometryObject: object of Geometry
         :return:
         """
-        self._geometrySetObj.addObject(geometryObject)
+        self._geometryProxySetObj.addObject(geometryObject)
 
     def addGeometries(self, *args):
         if isinstance(args[0], (list, tuple)):
@@ -837,25 +853,25 @@ class Abc_MtlCollection(Def_DatXmlObj):
         """
         :return: list(object or geometry, ...)
         """
-        return self._geometrySetObj.objects()
+        return self._geometryProxySetObj.objects()
 
     def hasGeometries(self):
         """
         :return: bool
         """
-        return self._geometrySetObj.hasObjects()
+        return self._geometryProxySetObj.hasObjects()
 
     def geometrynameStrings(self):
         """
         :return: list(str, ...)
         """
-        return [i.nodepathString() for i in self.geometries()]
+        return [i.node().pathString() for i in self.geometries()]
 
     def fullpathGeometrynameStrings(self):
         """
         :return: list(str, ...)
         """
-        return [i.nodepathString() for i in self.geometries()]
+        return [i.node().pathString() for i in self.geometries()]
 
     def excludeGeometrySet(self):
         return self._excludeGeometrySetObj
@@ -908,7 +924,7 @@ class Abc_MtlCollection(Def_DatXmlObj):
     def _xmlAttributes_(self):
         return [
             self._nameObj,
-            self._geometrySetObj,
+            self._geometryProxySetObj,
             self.collectionSet(),
             self.excludeGeometrySet()
         ]
@@ -925,14 +941,14 @@ class Abc_MtlCollection(Def_DatXmlObj):
 # assign ************************************************************************************************************* #
 class Abc_MtlAssign(Def_DatXmlObj):
     CLS_mtl_name = None
-    CLS_mtl_geometry_set = None
+    CLS_mtl_geometry_proxy_set = None
 
     DEF_geometry_separator = None
 
     def _initAbcMtlAssign(self, *args):
         self._nameObj = self.CLS_mtl_name(*args)
 
-        self._geometrySetObj = self.CLS_mtl_geometry_set(
+        self._geometryProxySetObj = self.CLS_mtl_geometry_proxy_set(
             self.nameString()
         )
         self._collectionObj = None
@@ -959,10 +975,10 @@ class Abc_MtlAssign(Def_DatXmlObj):
 
     def _addGeometry_(self, *args):
         geometryObject = args[0]
-        self._geometrySetObj.addObject(geometryObject)
+        self._geometryProxySetObj.addObject(geometryObject)
 
     def hasGeometry(self, *args):
-        return self._geometrySetObj._get_obj_exist_(*args)
+        return self._geometryProxySetObj._get_obj_exist_(*args)
 
     def addGeometry(self, geometryObject):
         """
@@ -983,13 +999,13 @@ class Abc_MtlAssign(Def_DatXmlObj):
         """
         :return: list(object or geometry, ...)
         """
-        return self._geometrySetObj.objects()
+        return self._geometryProxySetObj.objects()
 
     def hasGeometries(self):
         """
         :return: bool
         """
-        return self._geometrySetObj.hasObjects()
+        return self._geometryProxySetObj.hasObjects()
 
     def geometrynameStrings(self):
         """
@@ -1001,7 +1017,7 @@ class Abc_MtlAssign(Def_DatXmlObj):
         """
         :return: list(str, ...)
         """
-        return [i.nodepathString() for i in self.geometries()]
+        return [i.node().pathString() for i in self.geometries()]
 
     def setCollection(self, collectionObject):
         """
@@ -1058,7 +1074,7 @@ class Abc_MtlMaterialAssign(Abc_MtlAssign):
         return [
             self.name(),
             self.material(),
-            self._geometrySetObj,
+            self._geometryProxySetObj,
             self.collection()
         ]
 
@@ -1112,7 +1128,7 @@ class Abc_MtlPropertysetAssign(Abc_MtlAssign):
         return [
             self.name(),
             self.propertyset(),
-            self._geometrySetObj,
+            self._geometryProxySetObj,
             self.collection()
         ]
 
@@ -1167,7 +1183,7 @@ class Abc_MtlVisibilityAssign(Abc_MtlAssign):
             self.name(),
             self.type(),
             self.visible(),
-            self._geometrySetObj,
+            self._geometryProxySetObj,
             self._viewerGeometrySetObj,
             self.collection()
         ]
@@ -1188,7 +1204,7 @@ class Abc_MtlLook(Def_DatXmlObj):
     CLS_mtl_visibility_assign = None
     CLS_mtl_visibility_assign_set = None
 
-    CLS_mtl_geometry_set = None
+    CLS_mtl_geometry_proxy_set = None
 
     def _initAbcMtlLook(self, *args):
         nameString = args[0]
@@ -1199,28 +1215,28 @@ class Abc_MtlLook(Def_DatXmlObj):
         self._propertysetAssignSetObj = self.CLS_mtl_propertyset_assign_set(nameString)
 
         self._assignSetObj = self.CLS_mtl_assign_set(nameString)
-        self._geometrySetObj = self.CLS_mtl_geometry_set(nameString)
+        self._geometryProxySetObj = self.CLS_mtl_geometry_proxy_set(nameString)
 
         self._initDefDatXmlObj()
 
     def _addGeometryProxy_(self, *args):
         geometryProxyObject = args[0]
-        self._geometrySetObj.addObject(geometryProxyObject)
+        self._geometryProxySetObj.addObject(geometryProxyObject)
 
     def _updateAssigns_(self):
-        for i in self._geometrySetObj.objects():
+        for i in self._geometryProxySetObj.objects():
             self._addGeometryMaterialAssigns_(i)
             self._addGeometryPropertyAssigns_(i)
             self._addGeometryVisibilities_(i)
 
     def _addGeometryMaterialAssigns_(self, geometryProxyObject):
         def addFnc_(geometryProxyObject_, materialProxyObject_):
-            materialObject_ = materialProxyObject_.node()
+            _materialNodeObject = materialProxyObject_.node()
             materialProxyObject_.name()._setXmlNamePrefixString_(
                 u'{}/'.format(self.nameString())
             )
             _count = self._materialAssignSetObj.objectCount()
-            _keyString = materialObject_.nodepathString()
+            _keyString = _materialNodeObject.pathString()
             if self._materialAssignSetObj._get_obj_exist_(_keyString):
                 _materialAssignObject = self._materialAssignSetObj._get_obj_(_keyString)
             else:
@@ -1243,7 +1259,7 @@ class Abc_MtlLook(Def_DatXmlObj):
                 u'{}'.format(self.nameString())
             )
             _count = self._propertysetAssignSetObj.objectCount()
-            _keyString = geometryProxyObject_.node().nodepathString()
+            _keyString = geometryProxyObject_.node().pathString()
             if self._propertysetAssignSetObj._get_obj_exist_(_keyString):
                 _propertysetAssignObject = self._propertysetAssignSetObj._get_obj_(_keyString)
             else:
@@ -1289,10 +1305,10 @@ class Abc_MtlLook(Def_DatXmlObj):
         return self._nameObj.toString()
 
     def geometries(self):
-        return self._geometrySetObj.objects()
+        return self._geometryProxySetObj.objects()
 
     def hasGeometries(self):
-        return self._geometrySetObj.hasObjects()
+        return self._geometryProxySetObj.hasObjects()
 
     def addGeometry(self, geometryProxyObject):
         self._addGeometryProxy_(geometryProxyObject)
@@ -1304,10 +1320,10 @@ class Abc_MtlLook(Def_DatXmlObj):
             [self.addGeometry(i) for i in list(args)]
 
     def geometry(self, geometryString):
-        return self._geometrySetObj.object(geometryString)
+        return self._geometryProxySetObj.object(geometryString)
 
     def hasGeometry(self, *args):
-        return self._geometrySetObj._get_obj_exist_(*args)
+        return self._geometryProxySetObj._get_obj_exist_(*args)
 
     def materialAssigns(self):
         return self._materialAssignSetObj.objects()
@@ -1475,7 +1491,7 @@ class Abc_MtlTrsShaderProxy(Abc_MtlTrsNodeProxy):
         srcNodes = self._srcNodeObj.allSourceNodes()
         for srcNode in srcNodes:
             srcCategoryString = srcNode.categoryString()
-            srcNodeString = srcNode.nodepathString()
+            srcNodeString = srcNode.pathString()
             if self.CLS_grh_trs_node.CLS_grh_trs_node_query.OBJ_grh_trs_queryraw_cache.hasSrcCategory(srcCategoryString):
                 _trsNodeObject = self.CLS_grh_trs_node._mtd_get_cache_obj_(
                     self.CLS_grh_trs_node.OBJ_grh_trs_obj_cache, srcNodeString,
@@ -1505,8 +1521,8 @@ class Abc_MtlTrsMaterialProxy(Abc_MtlTrsNodeProxy):
             if isinstance(srcPortpathString, (str, unicode)):
                 srcPortObject = self._srcNodeObj.port(srcPortpathString)
                 if srcPortObject.hasSource():
-                    srcShaderObject = srcPortObject.source().node()
-                    srcShaderNodeString = srcShaderObject.nodepathString()
+                    srcShaderNodeObject = srcPortObject.source().node()
+                    srcShaderNodeString = srcShaderNodeObject.pathString()
 
                     _trsNodeProxyObject = self.CLS_grh_trs_shader_proxy(
                         srcShaderNodeString
@@ -1516,8 +1532,8 @@ class Abc_MtlTrsMaterialProxy(Abc_MtlTrsNodeProxy):
                 if dccPortObjects[0].hasSource():
                     srcPortObject = dccPortObjects[0]
 
-                    srcShaderObject = srcPortObject.source().node()
-                    srcShaderNodeString = srcShaderObject.nodepathString()
+                    srcShaderNodeObject = srcPortObject.source().node()
+                    srcShaderNodeString = srcShaderNodeObject.pathString()
 
                     _scrTrsNodeProxyObject = self.CLS_grh_trs_shader_proxy(srcShaderNodeString)
                     _scrTrsNodeQueryObject = _scrTrsNodeProxyObject._trsNodeObject.trsNodeQuery()
@@ -1533,8 +1549,8 @@ class Abc_MtlTrsMaterialProxy(Abc_MtlTrsNodeProxy):
                 else:
                     srcPortObject = dccPortObjects[1]
                     if srcPortObject.hasSource():
-                        srcShaderObject = srcPortObject.source().node()
-                        srcShaderNodeString = srcShaderObject.nodepathString()
+                        srcShaderNodeObject = srcPortObject.source().node()
+                        srcShaderNodeString = srcShaderNodeObject.pathString()
 
                         _trsNodeProxyObject = self.CLS_grh_trs_shader_proxy(
                             srcShaderNodeString
@@ -1550,11 +1566,11 @@ class Abc_MtlTrsGeometryProxy(Abc_MtlTrsNodeProxy):
         self._set_material_trs_()
 
     def _set_material_trs_(self):
-        dccMaterials = self._srcNodeObj.materials()
+        srcMaterialNodeObjects = self._srcNodeObj.materials()
 
-        for i in dccMaterials:
-            srcMaterialNodeString = i.nodepathString()
-            _trsNodeProxyObject = self.CLS_grh_trs_material_proxy(srcMaterialNodeString)
+        for srcMaterialNodeObject in srcMaterialNodeObjects:
+            srcMaterialNodepathString = srcMaterialNodeObject.pathString()
+            _trsNodeProxyObject = self.CLS_grh_trs_material_proxy(srcMaterialNodepathString)
             materialProxyObject = _trsNodeProxyObject.tgtNodeProxy()
             self._tgtNodeProxyObj.connectMaterial(materialProxyObject)
 
@@ -1579,7 +1595,7 @@ class Abc_MtlTrsLook(mtlCfg.Utility):
             self._mtlLookObj.addGeometry(mtlNodeProxyObject)
         else:
             bscMethods.PyMessage.traceWarning(
-                u'''Geometry "{}" is Exist.'''.format(mtlNodeProxyObject.nodepathString())
+                u'''Geometry "{}" is Exist.'''.format(mtlNodeProxyObject.pathString())
             )
 
     def addDccGeometries(self, *args):

@@ -19,7 +19,7 @@ class Look(mtlObjAbs.Abc_MtlLook):
     CLS_mtl_visibility_assign = _mtlObjAssign.VisibilityAssign
     CLS_mtl_visibility_assign_set = _grhObjSet.ObjSet
 
-    CLS_mtl_geometry_set = _mtlObjSet.GeometrySet
+    CLS_mtl_geometry_proxy_set = _mtlObjSet.GeometryProxySet
 
     VAR_dat_xml_file_element_tag = u'look'
     VAR_dat_xml_file_attribute_attach_tag = u'look'
@@ -31,7 +31,7 @@ class Look(mtlObjAbs.Abc_MtlLook):
 class Collection(mtlObjAbs.Abc_MtlCollection):
     CLS_mtl_name = _mtlObjRaw.Name
 
-    CLS_mtl_geometry_set = _grhObjSet.ObjSet
+    CLS_mtl_geometry_proxy_set = _grhObjSet.ObjSet
     CLS_mtl_collection_set = _grhObjSet.ObjSet
 
     DEF_geometry_separator = u','

@@ -14,7 +14,7 @@ astSceneryClass = prsOutputs.Util.astSceneryClass
 astDefaultVariant = prsOutputs.Util.astDefaultVersion
 #
 DEF_mya_node_pathsep = bscConfigure.DEF_mya_node_pathsep
-DEF_mya_namespace_separator = bscConfigure.DEF_mya_namespace_separator
+DEF_mya_namespace_pathsep = bscConfigure.DEF_mya_namespace_pathsep
 #
 none = ''
 
@@ -405,7 +405,7 @@ def getDbGeometryObjectsInfoDic(assetIndex, dbName, namespace, searchRoot):
             for objectIndex, info in data.items():
                 meshPath = getDbGeometryObjectPath(assetIndex, dbName, objectIndex)
                 if searchRoot in meshPath:
-                    key = [none, namespace + DEF_mya_namespace_separator][namespace is not none] + bscMethods.MaNodeString.nodename(meshPath)
+                    key = [none, namespace + DEF_mya_namespace_pathsep][namespace is not none] + bscMethods.MaNodeString.nodename(meshPath)
                     dic[key] = info
     return dic
 

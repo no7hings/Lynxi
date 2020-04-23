@@ -13,7 +13,7 @@ class Node(mtlObjAbs.Abs_MtlNode):
 
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_category = _mtlObjRaw.Category
-    CLS_grh_nodepath = _mtlObjRaw.Nodepath
+    CLS_grh_path = _mtlObjRaw.Nodepath
 
     CLS_grh_port_set = _grhObjSet.PortSet
     VAR_grh_port_cls_dict = {

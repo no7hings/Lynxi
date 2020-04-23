@@ -2,7 +2,7 @@
 from ..import mtlCfg, mtlObjAbs
 
 
-class GeometrySet(mtlObjAbs.Abs_MtlObjSet):
+class GeometryProxySet(mtlObjAbs.Abs_MtlObjSet):
     VAR_dat_xml_file_attribute_attach_tag = u'geom'
 
     VAR_grh_objectsep = mtlCfg.Utility.DEF_mtl_data_separator
@@ -11,7 +11,7 @@ class GeometrySet(mtlObjAbs.Abs_MtlObjSet):
         self._initAbsMtlObjSet(*args)
 
     def _get_object_key_string_(self, obj):
-        return obj.node().nodepathString()
+        return obj.node().pathString()
 
 
 class ViewerGeometrySet(mtlObjAbs.Abs_MtlObjSet):
@@ -23,4 +23,4 @@ class ViewerGeometrySet(mtlObjAbs.Abs_MtlObjSet):
         self._initAbsMtlObjSet(*args)
 
     def _get_object_key_string_(self, obj):
-        return obj.node().nodepathString()
+        return obj.node().pathString()

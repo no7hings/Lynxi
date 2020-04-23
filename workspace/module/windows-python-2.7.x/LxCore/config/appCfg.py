@@ -45,7 +45,7 @@ MaRN = 'RN'
 DEF_mya_type_assembly_reference = 'assemblyReference'
 #
 DEF_mya_node_pathsep = '|'
-DEF_mya_namespace_separator = ':'
+DEF_mya_namespace_pathsep = ':'
 DEF_mya_port_pathsep = '.'
 #
 MaNodeType_AiStandIn = 'aiStandIn'

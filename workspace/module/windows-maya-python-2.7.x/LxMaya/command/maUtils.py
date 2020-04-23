@@ -558,7 +558,7 @@ def _toTransformByNodePath(nodePath):
 
 #
 def _toNamespaceByNodePath(objectPath):
-    return appCfg.DEF_mya_namespace_separator.join(objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_separator)[:-1])
+    return appCfg.DEF_mya_namespace_pathsep.join(objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_pathsep)[:-1])
 
 
 # Get Object's Shape
@@ -779,7 +779,7 @@ def getObjectPathJoinNamespace(objectPath, namespace):
 
 #
 def getObjectPathRemoveNamespace(objectPath):
-    paths = [i.split(appCfg.DEF_mya_namespace_separator)[-1] for i in objectPath.split(appCfg.DEF_mya_node_pathsep)]
+    paths = [i.split(appCfg.DEF_mya_namespace_pathsep)[-1] for i in objectPath.split(appCfg.DEF_mya_node_pathsep)]
     return appCfg.DEF_mya_node_pathsep.join(paths)
 
 
@@ -931,7 +931,7 @@ def _nodeString2nodename_(objectPath, useMode=0):
     if useMode == 0:
         string = objectPath.split(appCfg.DEF_mya_node_pathsep)[-1]
     elif useMode == 1:
-        string = objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_separator)[-1]
+        string = objectPath.split(appCfg.DEF_mya_node_pathsep)[-1].split(appCfg.DEF_mya_namespace_pathsep)[-1]
     return string
 
 
@@ -1586,7 +1586,7 @@ def _toNodePathString(stringLis):
 
 #
 def _toNamespace(stringLis):
-    return appCfg.DEF_mya_namespace_separator.join(stringLis)
+    return appCfg.DEF_mya_namespace_pathsep.join(stringLis)
 
 
 #

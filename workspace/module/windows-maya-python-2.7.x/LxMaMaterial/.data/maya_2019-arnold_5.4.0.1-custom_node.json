@@ -120,8 +120,8 @@
 
         "create_expression": {
             "command": [
-                "targetDccNodes = self.srcNode().targetNodes('file')",
-                "self._cmd_set_node_insert_(targetDccNodes, 'rgba', 'passthrough', 'rgba')"
+                "targetSrcNodes = self.srcNode().targetNodes('file')",
+                "self._cmd_set_node_insert_(targetSrcNodes, 'rgba', 'passthrough', 'rgba')"
             ]
         }
     },
@@ -135,9 +135,9 @@
         },
         "create_expression": {
             "command": [
-                "targetDccNodes = self.srcNode().targetNodes('ramp')",
-                "[self.getTrsNode(i.nodepathString()).tgtNode().port('type').setPortrawString('custom') for i in targetDccNodes]",
-                "[self.tgtNode().otparm('float').connectTo(self.getTrsNode(i.nodepathString()).tgtNode().inparm('input')) for i in targetDccNodes]"
+                "targetSrcNodes = self.srcNode().targetNodes('ramp')",
+                "[self.getTrsNode(i.pathString()).tgtNode().port('type').setPortrawString('custom') for i in targetSrcNodes]",
+                "[self.tgtNode().otparm('float').connectTo(self.getTrsNode(i.pathString()).tgtNode().inparm('input')) for i in targetSrcNodes]"
             ]
         }
     },

@@ -1,5 +1,5 @@
 # coding:utf-8
-from LxData.datObjects import _datObjString
+from LxData.datObjects import _datObjRaw
 
 from LxGraphic import grhCfg
 
@@ -13,10 +13,10 @@ from ..maBscObjects import _myaBscObjRaw, _myaBscObjQuery, _myaBscObjPort
 class Node(myaBscObjAbs.Abs_MyaNode):
     CLS_grh_node_query = _myaBscObjQuery.NodeQuery
 
-    CLS_grh_type = _datObjString.Type
-    CLS_grh_category = _datObjString.Category
+    CLS_grh_type = _datObjRaw.Type
+    CLS_grh_category = _datObjRaw.Category
 
-    CLS_grh_nodepath = _myaBscObjRaw.Nodepath
+    CLS_grh_path = _myaBscObjRaw.Nodepath
 
     CLS_grh_port_set = _grhObjSet.PortSet
     VAR_grh_port_cls_dict = {
@@ -40,10 +40,10 @@ class Node(myaBscObjAbs.Abs_MyaNode):
 class Geometry(myaBscObjAbs.Abc_MyaGeometry):
     CLS_grh_node_query = _myaBscObjQuery.NodeQuery
 
-    CLS_grh_type = _datObjString.Type
-    CLS_grh_category = _datObjString.Category
+    CLS_grh_type = _datObjRaw.Type
+    CLS_grh_category = _datObjRaw.Category
 
-    CLS_grh_nodepath = _myaBscObjRaw.Nodepath
+    CLS_grh_path = _myaBscObjRaw.Nodepath
 
     CLS_grh_port_set = _grhObjSet.PortSet
     VAR_grh_port_cls_dict = {
@@ -69,10 +69,10 @@ class Geometry(myaBscObjAbs.Abc_MyaGeometry):
 class GeometryRoot(myaBscObjAbs.Abc_MyaGeometryGroup):
     CLS_grh_node_query = _myaBscObjQuery.NodeQuery
 
-    CLS_grh_type = _datObjString.Type
-    CLS_grh_category = _datObjString.Category
+    CLS_grh_type = _datObjRaw.Type
+    CLS_grh_category = _datObjRaw.Category
 
-    CLS_grh_nodepath = _myaBscObjRaw.Nodepath
+    CLS_grh_path = _myaBscObjRaw.Nodepath
 
     CLS_grh_port_set = _grhObjSet.PortSet
     VAR_grh_port_cls_dict = {

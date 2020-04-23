@@ -58,7 +58,7 @@ class Param(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict
@@ -76,7 +76,7 @@ class ParamChannel(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict
@@ -94,7 +94,7 @@ class Inparm(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict
@@ -112,7 +112,7 @@ class InparmChannel(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict
@@ -130,7 +130,7 @@ class Otparm(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict
@@ -148,7 +148,7 @@ class OtparmChannel(mtlObjAbs.Abs_MtlPort):
     CLS_grh_type = _mtlObjRaw.Type
     CLS_grh_porttype = _mtlObjRaw.Porttype
 
-    CLS_grh_attrpath = _mtlObjRaw.Attrpath
+    CLS_grh_path = _mtlObjRaw.Attrpath
     CLS_grh_portpath = _mtlObjRaw.Portpath
 
     VAR_grh_value_cls_dict = _VAR_mtl_value_cls_dict

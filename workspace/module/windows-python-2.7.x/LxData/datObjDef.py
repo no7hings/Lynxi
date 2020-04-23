@@ -157,24 +157,93 @@ class Def_DatRaw(datCfg.Utility):
         return self.__str__()
 
 
-class Def_DatNodename(Def_DatRaw):
+# ******************************************************************************************************************** #
+class Def_DatName(datCfg.Utility):
+    def _initDefDatName(self, *args):
+        self._set_name_build_(*args)
+
+    # **************************************************************************************************************** #
+    def _set_name_build_(self, *args):
+        if args:
+            raw = args[0]
+            self._raw = unicode(raw)
+
+    def _get_name_raw_(self):
+        return self._raw
+
+    def setRaw(self, *args):
+        self._set_name_build_(*args)
+
+    def raw(self):
+        return self._raw
+
+    # **************************************************************************************************************** #
+    def toString(self):
+        return self._get_name_raw_()
+
+    # **************************************************************************************************************** #
+    def __str__(self):
+        return '{}(raw="{}")'.format(
+            self.__class__.__name__,
+            self.raw()
+        )
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class Def_DatNodename(datCfg.Utility):
     CLS_dat_namespace = None
     CLS_dat_name = None
 
     VAR_dat_namesep = None
 
     def _initDefDatFilename(self, *args):
-        self._namespaceObj = self.CLS_dat_namespace()
-        self._nameObj = self.CLS_dat_name()
-
-        self._initDefDatRaw(*args)
+        self._set_nodename_build_(*args)
 
     # **************************************************************************************************************** #
+    def _set_nodename_build_(self, *args):
+        if args:
+            raw = args[0]
+            if raw is not None:
+                sep = self.VAR_dat_namesep
+                _ = raw.split(sep)
+                if len(_) == 1:
+                    namespaceString = sep
+                    nameString = _[0]
+                else:
+                    namespaceString = sep.join([i for i in _[:-1] if i])
+                    if namespaceString == u'':
+                        namespaceString = sep
+                    nameString = _[-1]
+
+                self._namespaceObj = self.CLS_dat_namespace(namespaceString)
+                self._nameObj = self.CLS_dat_name(nameString)
+
+    def _get_nodename_raw_(self):
+        sep = self.VAR_dat_namesep
+        if self.namespaceString() == sep:
+            return self.nameString()
+        return sep.join(
+            [self.namespaceString(), self.nameString()]
+        )
+
+    def setRaw(self, *args):
+        self._set_nodename_build_(*args)
+
+    def raw(self):
+        return self._get_nodename_raw_()
+
+    # **************************************************************************************************************** #
+    def hasNamespace(self):
+        return self._namespaceObj is not None
+
     def namespace(self):
         return self._namespaceObj
 
     def namespaceString(self):
-        return self._namespaceObj.toString()
+        if self.hasNamespace():
+            return self._namespaceObj.toString()
 
     # **************************************************************************************************************** #
     def name(self):
@@ -183,39 +252,103 @@ class Def_DatNodename(Def_DatRaw):
     def nameString(self):
         return self._nameObj.toString()
 
+    # **************************************************************************************************************** #
+    def nodenameString(self):
+        return self._get_nodename_raw_()
+
+    # **************************************************************************************************************** #
+    def toString(self):
+        return self._get_nodename_raw_()
+
+    # **************************************************************************************************************** #
     @classmethod
     def namesep(cls):
         return cls.VAR_dat_namesep
 
+    # **************************************************************************************************************** #
     def __str__(self):
         return '{}(raw="{}")'.format(
             self.__class__.__name__,
-            self.toString()
+            self.raw()
         )
 
+    def __repr__(self):
+        return self.__str__()
 
-class Def_DatFilename(Def_DatRaw):
+
+class Def_DatFilename(datCfg.Utility):
     CLS_dat_base = None
     CLS_dat_ext = None
 
     VAR_dat_extsep = None
 
     def _initDefDatFilename(self, *args):
-        self._baseObj = self.CLS_dat_base()
-        self._extObj = self.CLS_dat_ext()
-        self._initDefDatRaw(*args)
+        self._set_filename_build_(*args)
 
+    # **************************************************************************************************************** #
+    def _set_filename_build_(self, *args):
+        if args:
+            raw = args[0]
+            if raw is not None:
+                sep = self.VAR_dat_extsep
+
+                _ = raw.split(sep)
+                if len(_) == 1:
+                    baseString = _[0]
+                    self._baseObj = self.CLS_dat_base(baseString)
+                    self._extObj = None
+                else:
+                    baseString = sep.join(_[:-1])
+                    extString = sep + _[-1]
+                    self._baseObj = self.CLS_dat_base(baseString)
+                    self._extObj = self.CLS_dat_ext(extString)
+
+    def _get_filename_raw_(self):
+        if self.hasExt():
+            return self.baseString() + self.extString()
+        return self.baseString()
+
+    def setRaw(self, *args):
+        self._set_filename_build_(*args)
+
+    def raw(self):
+        return self._get_filename_raw_()
+
+    # **************************************************************************************************************** #
     def base(self):
         return self._baseObj
 
     def baseString(self):
         return self._baseObj.toString()
 
+    def hasExt(self):
+        return self._extObj is not None
+
     def ext(self):
         return self._extObj
 
     def extString(self):
-        return self._extObj.toString()
+        if self.hasExt():
+            return self._extObj.toString()
+
+    # **************************************************************************************************************** #
+    def toString(self):
+        return self._get_filename_raw_()
+
+    # **************************************************************************************************************** #
+    @classmethod
+    def extsep(cls):
+        return cls.VAR_dat_extsep
+
+    # **************************************************************************************************************** #
+    def __str__(self):
+        return '{}(raw="{}")'.format(
+            self.__class__.__name__,
+            self.raw()
+        )
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class Def_DatPath(datCfg.Utility):
@@ -229,6 +362,7 @@ class Def_DatPath(datCfg.Utility):
 
         self._set_path_build_(*args)
 
+    # **************************************************************************************************************** #
     def _set_path_build_(self, *args):
         if args:
             if len(args) == 1:
@@ -271,28 +405,60 @@ class Def_DatPath(datCfg.Utility):
             if self._parentObj is not None:
                 self._parentObj._set_child_add_(self)
 
+    def _get_path_raw_(self):
+        sep = self.VAR_dat_pathsep
+        if self._parentObj is None:
+            return self.nameString()
+        elif self.parentString() == sep:
+            return sep + sep.join(
+                [
+                    i
+                    for i in [self.nameString()]
+                ]
+            )
+        return sep.join(
+            [
+                i
+                for i in [self.parentString(), self.nameString()]
+            ]
+        )
+
+    def setRaw(self, *args):
+        self._set_path_build_(*args)
+
+    def raw(self):
+        return self._get_path_raw_()
+
+    # **************************************************************************************************************** #
     def _get_parent_exist_(self):
         return self._parentObj is not None
-
-    def create(self, *args):
-        self._set_path_build_(*args)
 
     def hasParent(self):
         return self._get_parent_exist_()
 
+    def setParent(self, *args):
+        pass
+
     def parent(self):
         return self._parentObj
 
+    def setParentString(self, *args):
+        pass
+
     def parentString(self):
         if self._get_parent_exist_():
-            return self._parentObj.pathString()
+            return self._parentObj.toString()
 
+    # **************************************************************************************************************** #
     def _set_child_add_(self, *args):
         obj = args[0]
         self._childObjList.append(obj)
 
     def children(self):
         return self._childObjList
+
+    def addChild(self, *args):
+        self._set_child_add_(*args)
 
     def child(self, *args):
         index = args[0]
@@ -314,6 +480,7 @@ class Def_DatPath(datCfg.Utility):
     def allChildren(self):
         return self._get_all_children_()
 
+    # **************************************************************************************************************** #
     def name(self):
         return self._nameObj
 
@@ -321,44 +488,30 @@ class Def_DatPath(datCfg.Utility):
         return self._nameObj.toString()
 
     def setNameString(self, *args):
-        self._nameObj = self.CLS_dat_name(args[0])
+        self._nameObj.setRaw(*args)
 
     # **************************************************************************************************************** #
-    def _get_pathstr(self):
-        sep = self.VAR_dat_pathsep
-        if self._parentObj is None:
-            return self.nameString()
-        elif self.parentString() == sep:
-            return sep + sep.join(
-                [
-                    i
-                    for i in [self.nameString()]
-                ]
-            )
-        return sep.join(
-            [
-                i
-                for i in [self.parentString(), self.nameString()]
-            ]
-        )
-
-    def pathString(self):
-        return self._get_pathstr()
-
     def toString(self):
-        return self._get_pathstr()
+        return self._get_path_raw_()
 
+    # **************************************************************************************************************** #
     @classmethod
     def pathsep(cls):
         return cls.VAR_dat_pathsep
 
+    # **************************************************************************************************************** #
     def __str__(self):
         return '{}(raw="{}")'.format(
-            self.__class__.__name__, self.pathString()
+            self.__class__.__name__, self.raw()
         )
 
     def __repr__(self):
         return self.__str__()
+
+
+class Def_DatNamespace(Def_DatPath):
+    def _initDefDatNamespace(self, *args):
+        self._initDefDatPath(*args)
 
 
 class Def_DatAttrpath(datCfg.Utility):
@@ -366,9 +519,10 @@ class Def_DatAttrpath(datCfg.Utility):
     CLS_dat_portpath = None
 
     def _initDefDatAttrpath(self, *args):
-        self._set_attrpath_build_(*args)
+        self._set_obj_path_build_(*args)
 
-    def _set_attrpath_build_(self, *args):
+    # **************************************************************************************************************** #
+    def _set_obj_path_build_(self, *args):
         if args:
             # str("nodepath.portpath")
             if len(args) == 1:
@@ -385,35 +539,22 @@ class Def_DatAttrpath(datCfg.Utility):
                         nodepathString = _[0]
                         portpathString = sep.join([i for i in _[1:]])
 
-                    self._nodepathObj = self.CLS_dat_nodepath(nodepathString)
+                    self._pathObj = self.CLS_dat_nodepath(nodepathString)
                     self._portpathObj = self.CLS_dat_portpath(portpathString)
             elif len(args) == 2:
                 nodepathRaw, portpathRaw = args
                 # *.objects.Nodepath / str("nodepath")
                 if isinstance(nodepathRaw, Def_DatPath):
-                    self._nodepathObj = nodepathRaw
+                    self._pathObj = nodepathRaw
                 elif isinstance(nodepathRaw, (str, unicode)):
-                    self._nodepathObj = self.CLS_dat_nodepath(nodepathRaw)
+                    self._pathObj = self.CLS_dat_nodepath(nodepathRaw)
                 # objects.Portpath / str("portpath")
                 if isinstance(portpathRaw, Def_DatPath):
                     self._portpathObj = portpathRaw
                 elif isinstance(portpathRaw, (str, unicode)):
                     self._portpathObj = self.CLS_dat_portpath(portpathRaw)
 
-    def nodepath(self):
-        return self._nodepathObj
-
-    def nodepathString(self):
-        return self._nodepathObj.toString()
-
-    def portpath(self):
-        return self._portpathObj
-
-    def portpathString(self):
-        return self._portpathObj.toString()
-
-    # **************************************************************************************************************** #
-    def _get_pathstr_(self):
+    def _get_attrpath_raw(self):
         sep = self.portsep()
         return sep.join(
            [
@@ -423,12 +564,30 @@ class Def_DatAttrpath(datCfg.Utility):
            ]
         )
 
-    def pathString(self):
-        return self._get_pathstr_()
+    def setRaw(self, *args):
+        self._set_obj_path_build_(*args)
 
+    def raw(self):
+        return self._get_attrpath_raw()
+
+    # **************************************************************************************************************** #
+    def nodepath(self):
+        return self._pathObj
+
+    def nodepathString(self):
+        return self._pathObj.toString()
+
+    def portpath(self):
+        return self._portpathObj
+
+    def portpathString(self):
+        return self._portpathObj.toString()
+
+    # **************************************************************************************************************** #
     def toString(self):
-        return self._get_pathstr_()
+        return self._get_attrpath_raw()
 
+    # **************************************************************************************************************** #
     @classmethod
     def nodesep(cls):
         return cls.CLS_dat_nodepath.pathsep()
@@ -436,3 +595,13 @@ class Def_DatAttrpath(datCfg.Utility):
     @classmethod
     def portsep(cls):
         return cls.CLS_dat_portpath.pathsep()
+
+    # **************************************************************************************************************** #
+    def __str__(self):
+        return '{}(raw="{}")'.format(
+            self.__class__.__name__,
+            self.raw()
+        )
+
+    def __repr__(self):
+        return self.__str__()

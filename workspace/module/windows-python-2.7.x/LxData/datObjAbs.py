@@ -7,108 +7,29 @@ class Abs_DatRaw(datObjDef.Def_DatRaw):
         self._initDefDatRaw(*args)
 
 
+class Abs_DatName(datObjDef.Def_DatName):
+    def _initAbsDatName(self, *args):
+        self._initDefDatName(*args)
+
+
 class Abs_DatNodename(datObjDef.Def_DatNodename):
     def _initAbsDatNodename(self, *args):
         self._initDefDatFilename(*args)
-
-    # **************************************************************************************************************** #
-    def _set_raw_create_(self, *args):
-        if args:
-            raw = args[0]
-            if raw is not None:
-                self._set_raw_val_(raw)
-
-                _ = raw.split(self.VAR_dat_namesep)
-                if len(_) == 1:
-                    namespaceString = None
-                    nameString = _[0]
-                else:
-                    namespaceString = self.VAR_dat_namesep.join([i for i in _[:-1] if i])
-                    nameString = _[-1]
-
-                self._namespaceObj.setRaw(namespaceString)
-                self._nameObj.setRaw(nameString)
-
-                self._rawObj = self._get_raw_()
-
-    def _set_rawstr_create_(self, *args):
-        self._set_raw_create_(*args)
-
-    # **************************************************************************************************************** #
-    def _get_raw_(self):
-        return self._set_raw_to_rawobj_(
-            self._get_rawstr_()
-        )
-
-    def _get_rawstr_(self):
-        return self.VAR_dat_namesep.join(
-            [
-                i
-                for i in [self._namespaceObj.toString(), self._nameObj.toString()]
-                if i
-            ]
-        )
 
 
 class Abs_DatFilename(datObjDef.Def_DatFilename):
     def _initAbsDatFilename(self, *args):
         self._initDefDatFilename(*args)
 
-    def _set_raw_to_rawobj_(self, raw):
-        if self.CLS_dat_raw is not None:
-            return self.CLS_dat_raw(raw)
-
-    def _set_raw_create_(self, *args):
-        if args:
-            raw = args[0]
-            if raw is not None:
-                self._set_raw_val_(raw)
-
-                _ = raw.split(self.VAR_dat_extsep)
-                if len(_) == 1:
-                    baseString = _[0]
-                    extString = None
-                else:
-                    baseString = self.VAR_dat_extsep.join(_[:-1])
-                    extString = _[-1]
-
-                self._baseObj.setRaw(baseString)
-                self._extObj.setRaw(extString)
-
-                self._rawObj = self._get_raw_()
-
-    def _set_rawstr_create_(self, *args):
-        self._set_raw_create_(*args)
-
-    def _get_raw_(self):
-        return self._set_raw_to_rawobj_(
-            self._get_rawstr_()
-        )
-
-    def _get_rawstr_(self):
-        return self.VAR_dat_extsep.join(
-            [
-                i
-                for i in [self._baseObj.toString(), self._extObj.toString()]
-                if i
-            ]
-        )
-
-
-class Abs_DatPortname(datObjDef.Def_DatRaw):
-    def _initAbsDatPortname(self, *args):
-        self._initDefDatRaw(*args)
-
-    def __str__(self):
-        return '{}(raw="{}")'.format(
-            self.__class__.__name__,
-            self.toString()
-        )
-
 
 class Abs_DatPath(datObjDef.Def_DatPath):
     def _initAbsDatPath(self, *args):
         self._initDefDatPath(*args)
+
+
+class Abs_DatNamespace(datObjDef.Def_DatNamespace):
+    def _initAbsDatNamespace(self, *args):
+        self._initDefDatNamespace(*args)
 
 
 class Abs_DatAttrpath(datObjDef.Def_DatAttrpath):
@@ -120,7 +41,7 @@ class Abs_DatAttrpath(datObjDef.Def_DatAttrpath):
 class Abs_DatData(datObjDef.Def_DatRaw):
     CLS_dat_data = None
 
-    VAR_dat_compraw_strsep = None
+    VAR_dat_data_strsep = None
 
     def _initAbsDatData(self, *args):
         self._parentObj = args[0]
@@ -133,22 +54,22 @@ class Abs_DatData(datObjDef.Def_DatRaw):
             self._rawtypeStrPattern = self._valueObj.VAR_dat_rawtype_str_pattern
             self._rawsizePattern = self._valueObj.VAR_dat_rawsize_pattern
         elif isinstance(args[0], Abs_DatData):
-            self._multidataObj = self._parentObj
+            self._dataObj = self._parentObj
 
-            if len(self._multidataObj._rawtypePattern) == 2:
-                self._rawtypePattern = self._multidataObj._rawtypePattern[-1]
+            if len(self._dataObj._rawtypePattern) == 2:
+                self._rawtypePattern = self._dataObj._rawtypePattern[-1]
             else:
-                self._rawtypePattern = self._multidataObj._rawtypePattern[1:]
+                self._rawtypePattern = self._dataObj._rawtypePattern[1:]
 
-            if len(self._multidataObj._rawtypeStrPattern) == 2:
-                self._rawtypeStrPattern = self._multidataObj._rawtypeStrPattern[-1]
+            if len(self._dataObj._rawtypeStrPattern) == 2:
+                self._rawtypeStrPattern = self._dataObj._rawtypeStrPattern[-1]
             else:
-                self._rawtypeStrPattern = self._multidataObj._rawtypeStrPattern[1:]
+                self._rawtypeStrPattern = self._dataObj._rawtypeStrPattern[1:]
 
-            if len(self._multidataObj._rawsizePattern) == 2:
-                self._rawsizePattern = self._multidataObj._rawsizePattern[-1]
+            if len(self._dataObj._rawsizePattern) == 2:
+                self._rawsizePattern = self._dataObj._rawsizePattern[-1]
             else:
-                self._rawsizePattern = self._multidataObj._rawsizePattern[1:]
+                self._rawsizePattern = self._dataObj._rawsizePattern[1:]
         else:
             self._rawtypePattern = None
             self._rawtypeStrPattern = None
@@ -191,12 +112,12 @@ class Abs_DatData(datObjDef.Def_DatRaw):
         return self._rawsizePattern
 
     # child ********************************************************************************************************** #
-    def addChild(self, datumObject):
+    def addChild(self, dataObj):
         """
-        :param datumObject: object of Data
+        :param dataObj: object of Data
         :return: None
         """
-        self._childDataObjList.append(datumObject)
+        self._childDataObjList.append(dataObj)
 
     def hasChildren(self):
         """
@@ -215,6 +136,10 @@ class Abs_DatData(datObjDef.Def_DatRaw):
         :return: int
         """
         return len(self._childDataObjList)
+
+    def child(self, *args):
+        if isinstance(args[0], (int, float)):
+            return self._childDataObjList[int(args[0])]
 
     def childAt(self, index):
         """
@@ -317,14 +242,14 @@ class Abs_DatData(datObjDef.Def_DatRaw):
             if rawstr is not None:
                 self._set_rawstr_val_(rawstr)
                 if self._get_is_comp_():
-                    valueStringLis = [i.lstrip().rstrip() for i in args[0].split(self.VAR_dat_compraw_strsep)]
+                    valueStringLis = [i.lstrip().rstrip() for i in args[0].split(self.VAR_dat_data_strsep)]
                     rawstr = self._fnc_get_list_split_(valueStringLis, self.childRawsize())
                     self._rawObj = self._set_comprawstr_to_rawobj_(rawstr)
                 else:
                     self._rawObj = self._set_rawstr_to_rawobj_(rawstr)
 
     def _get_comprawstr_(self):
-        return self.VAR_dat_compraw_strsep.join(
+        return self.VAR_dat_data_strsep.join(
             [i._get_rawstr_() for i in self.children()]
         )
 
@@ -351,6 +276,10 @@ class Abs_DatData(datObjDef.Def_DatRaw):
                 self._set_rawstr_create_(*args)
             else:
                 self._set_raw_create_(*args)
+
+    @classmethod
+    def datasep(cls):
+        return cls.VAR_dat_data_strsep
 
     def __len__(self):
         return self.childrenCount()

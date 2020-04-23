@@ -1,28 +1,32 @@
 # coding:utf-8
 from LxData import datObjAbs
 
-from LxData.datObjects import _datObjString
+from LxData.datObjects import _datObjRaw
 
 from ..import myaBscCfg
 
 
+class Namespace(datObjAbs.Abs_DatNamespace):
+    CLS_dat_name = _datObjRaw.Name
+
+    VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_namespace_pathsep
+
+    def __init__(self, *args):
+        self._initAbsDatNamespace(*args)
+
+
 class Nodename(datObjAbs.Abs_DatNodename):
-    CLS_dat_raw = unicode
+    CLS_dat_namespace = Namespace
+    CLS_dat_name = _datObjRaw.Name
 
-    CLS_dat_namespace = _datObjString.Name
-    CLS_dat_name = _datObjString.Name
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_namesep = myaBscCfg.Utility.DEF_mya_namespace_separator
+    VAR_dat_namesep = myaBscCfg.Utility.DEF_mya_namespace_pathsep
 
     def __init__(self, *args):
         self._initAbsDatNodename(*args)
 
 
 class Portpath(datObjAbs.Abs_DatPath):
-    CLS_dat_name = _datObjString.Portname
+    CLS_dat_name = _datObjRaw.Name
 
     VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_port_pathsep
 
@@ -31,7 +35,7 @@ class Portpath(datObjAbs.Abs_DatPath):
 
 
 class Nodepath(datObjAbs.Abs_DatPath):
-    CLS_dat_name = _datObjString.Nodename
+    CLS_dat_name = _datObjRaw.Nodename
 
     VAR_dat_pathsep = myaBscCfg.Utility.DEF_mya_node_pathsep
 

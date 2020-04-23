@@ -1012,8 +1012,8 @@ class MaLightNodeMethod(_maMethodBasic.MaNodeMethodBasic, _maMethodBasic.MaSetMe
                 for seq, connectionDatum in enumerate(connectionLis):
                     for attrDatum in connectionDatum:
                         namespace, nodeName, subAttrName = attrDatum
-                        if not namespace == cls.DEF_mya_namespace_separator:
-                            node = cls.DEF_mya_namespace_separator.join([namespace, nodeName])
+                        if not namespace == cls.DEF_mya_namespace_pathsep:
+                            node = cls.DEF_mya_namespace_pathsep.join([namespace, nodeName])
                         else:
                             node = nodeName
                         #

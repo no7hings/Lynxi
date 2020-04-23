@@ -75,7 +75,7 @@ class Abs_MyaPort(
     # **************************************************************************************************************** #
     def _get_indexes_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortIndexes(
-            self.attrpathString()
+            self.pathString()
         )
 
     # **************************************************************************************************************** #
@@ -86,23 +86,23 @@ class Abs_MyaPort(
             asString = True
 
         return myaBscMtdCore.Mtd_MyaNode._grh_getNodePortdata(
-            self.attrpath().nodepathString(), self.attrpath().portpathString(), asString
+            self.path().nodepathString(), self.path().portpathString(), asString
         )
 
     # **************************************************************************************************************** #
     def _get_is_source_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortIsSource(
-            self.attrpathString()
+            self.pathString()
         )
 
     def _get_port_source_exist_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortHasSource(
-            self.attrpathString()
+            self.pathString()
         )
 
     def _get_source_(self):
         sourceAttrpathString = myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortSource(
-            self.attrpathString()
+            self.pathString()
         )
         if sourceAttrpathString:
             _nodepathString = myaBscMtdCore.Mtd_MyaNode._dcc_getAttrpathNodepath(sourceAttrpathString)
@@ -113,19 +113,19 @@ class Abs_MyaPort(
     # **************************************************************************************************************** #
     def _get_is_target_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortIsTarget(
-            self.attrpathString()
+            self.pathString()
         )
 
     def _get_targets_exist_(self):
         return myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortHasTargets(
-            self.attrpathString()
+            self.pathString()
         )
 
     def _get_targets_(self):
         lis = []
 
         for _attrpathString in myaBscMtdCore.Mtd_MyaNode._dcc_getNodePortTargets(
-                self.attrpathString()
+                self.pathString()
         ):
             _nodepathString = myaBscMtdCore.Mtd_MyaNode._dcc_getAttrpathNodepath(_attrpathString)
             _portpathString = myaBscMtdCore.Mtd_MyaNode._dcc_getAttrpathPortpath(_attrpathString)
@@ -156,13 +156,17 @@ class Abs_MyaNode(
 
     def _get_parent_(self):
         return self.__class__(
-            myaBscMtdCore.Mtd_MaDag._getDagParentString(self.nodepathString())
+            myaBscMtdCore.Mtd_MaDag._getDagParentString(
+                self.pathString()
+            )
         )
 
     def _get_children_(self):
         return [
             self.__class__(i)
-            for i in myaBscMtdCore.Mtd_MaDag._getDagChildStringList(self.nodepathString())
+            for i in myaBscMtdCore.Mtd_MaDag._getDagChildStringList(
+                self.pathString()
+            )
         ]
 
 
@@ -200,7 +204,7 @@ class Abc_MyaGeometry(Abc_MyaCompnode):
         return [
             self.CLS_mya_node(i)
             for i in myaBscMtdCore.Mtd_MaObject._getNodeShadingEngineNodeStringList(
-                self.nodepathString()
+                self.pathString()
             )
         ]
 
@@ -215,7 +219,7 @@ class Abc_MyaGeometryGroup(Abs_MyaNode):
         return [
             self.CLS_grh_geometry(i)
             for i in myaBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.nodepathString(),
+                self.pathString(),
                 includeCategoryString=self.DEF_mya_type_mesh,
                 useShapeCategory=True,
                 withShape=False
@@ -226,7 +230,7 @@ class Abc_MyaGeometryGroup(Abs_MyaNode):
         return [
             self.CLS_grh_geometry(i)
             for i in myaBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.nodepathString(),
+                self.pathString(),
                 includeCategoryString=self.DEF_mya_type_nurbs_surface,
                 useShapeCategory=True,
                 withShape=False
@@ -237,7 +241,7 @@ class Abc_MyaGeometryGroup(Abs_MyaNode):
         return [
             self.CLS_grh_geometry(i)
             for i in myaBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.nodepathString(),
+                self.pathString(),
                 includeCategoryString=self.DEF_mya_type_nurbs_curve,
                 useShapeCategory=True,
                 withShape=False
@@ -248,7 +252,7 @@ class Abc_MyaGeometryGroup(Abs_MyaNode):
         return [
             self.CLS_grh_geometry(i)
             for i in myaBscMtdCore.Mtd_MaNodeGroup._getGroupChildNodeStringList(
-                self.nodepathString(),
+                self.pathString(),
                 includeCategoryString=self.DEF_mya_type_geometry_list,
                 useShapeCategory=True,
                 withShape=False

@@ -63,7 +63,7 @@ class PortProxySet(grhObjAbs.Abs_GrhObjSet):
         self._initAbsGrhObjSet(*args)
 
     def _get_object_key_string_(self, obj):
-        return obj.port().attrpathString()
+        return obj.port().pathString()
 
 
 class NodeSet(grhObjAbs.Abs_GrhObjSet):
@@ -71,7 +71,7 @@ class NodeSet(grhObjAbs.Abs_GrhObjSet):
         self._initAbsGrhObjSet(*args)
 
     def _get_object_key_string_(self, obj):
-        return obj.nodepathString()
+        return obj.pathString()
 
 
 class CacheObjSet(grhObjAbs.Abs_GrhObjSet):
@@ -87,7 +87,7 @@ class CacheTrsObjSet(grhObjAbs.Abs_GrhObjSet):
         self._initAbsGrhObjSet(*args)
 
     def _get_object_key_string_(self, obj):
-        return obj.tgtNode().nodepathString()
+        return obj.tgtNode().pathString()
 
 
 class ObjSet(grhObjAbs.Abs_GrhObjSet):
