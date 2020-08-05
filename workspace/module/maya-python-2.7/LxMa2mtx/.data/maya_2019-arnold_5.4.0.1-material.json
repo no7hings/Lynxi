@@ -1,6 +1,6 @@
 {
     "shadingEngine": {
-        "target_typepath": "material",
+        "target_category": "material",
         "source_port": {
             "surfaceShader": {
                 "target_portpath": "surfaceshader"

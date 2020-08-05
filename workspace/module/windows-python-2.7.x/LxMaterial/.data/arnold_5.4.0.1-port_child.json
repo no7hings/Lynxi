@@ -1,0 +1,122 @@
+{
+    "color2": [
+        {
+            "format": "{0}.r",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.a",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "color3": [
+        {
+            "format": "{0}.r",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.g",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.b",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "color4": [
+        {
+            "format": "{0}.r",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.g",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.b",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.a",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector2": [
+        {
+            "format": "{0}.x",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.y",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector3": [
+        {
+            "format": "{0}.x",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.y",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.z",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector4": [
+        {
+            "format": "{0}.x",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.y",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.z",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{0}.w",
+            "porttype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ]
+}

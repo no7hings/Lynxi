@@ -1,78 +1,47 @@
 # coding:utf-8
-from . import datCfg, datObjItf
+from . import datObjDef
 
 
-class Abs_DatRaw(datObjItf.Itf_DatRaw):
+class Abs_DatRaw(datObjDef.Def_DatRaw):
     def _initAbsDatRaw(self, *args):
-        self._initItfDatRaw(*args)
+        self._initDefDatRaw(*args)
 
 
-class Abs_DatTypename(datObjItf.Itf_DatTypename):
-    def _initAbsDatTypename(self, *args):
-        self._initItfDatTypename(*args)
-
-
-class Abs_DatDatatype(datObjItf.Itf_DatType):
-    def _initAbsDatDatatype(self, *args):
-        self._initItfDatType(*args)
-
-
-class Abs_DatPorttype(datObjItf.Itf_DatType):
-    def _initAbsDatPorttype(self, *args):
-        self._initItfDatType(*args)
-
-
-class Abs_DatName(datObjItf.Itf_DatName):
+class Abs_DatName(datObjDef.Def_DatName):
     def _initAbsDatName(self, *args):
-        self._initItfDatName(*args)
+        self._initDefDatName(*args)
 
 
-# object ************************************************************************************************************* #
-class Abs_DatObjName(datObjItf.Itf_DatObjName):
-    def _initAbsDatObjName(self, *args):
-        self._initItfDatObjName(*args)
+class Abs_DatNodename(datObjDef.Def_DatNodename):
+    def _initAbsDatNodename(self, *args):
+        self._initDefDatFilename(*args)
 
 
-class Abs_DatFilename(datObjItf.Itf_DatFilename):
+class Abs_DatFilename(datObjDef.Def_DatFilename):
     def _initAbsDatFilename(self, *args):
-        self._initItfDatFilename(*args)
+        self._initDefDatFilename(*args)
 
 
-class Abs_DatObjPath(datObjItf.Itf_DatObjPath):
-    def _initAbsDatObjPath(self, *args):
-        self._initItfDatObjPath(*args)
+class Abs_DatPath(datObjDef.Def_DatPath):
+    def _initAbsDatPath(self, *args):
+        self._initDefDatPath(*args)
 
 
-class Abs_DatObjVariant(datObjItf.Itf_DatObjVariant):
-    def _initAbsDatObjVariant(self, *args):
-        self._initItfDatObjVariant(*args)
+class Abs_DatNamespace(datObjDef.Def_DatNamespace):
+    def _initAbsDatNamespace(self, *args):
+        self._initDefDatNamespace(*args)
 
 
-class Abs_DatObjNamespace(datObjItf.Itf_DatObjNamespace):
-    def _initAbsDatObjNamespace(self, *args):
-        self._initItfDatObjNamespace(*args)
-
-    def _obj_path__get_raw_str_(self):
-        sep = self.sep()
-        # root
-        if self._parentObj is None:
-            return self.nameString()
-        # in root
-        elif self.parentString() == sep:
-            return self.nameString()
-        return sep.join([self.parentString(), self.nameString()])
-
-
-class Abs_DatObjComppath(datObjItf.Itf_DatObjComppath):
-    def _initAbsDatObjComppath(self, *args):
-        self._initItfDatObjComppath(*args)
+class Abs_DatAttrpath(datObjDef.Def_DatAttrpath):
+    def _initAbsDatAttrpath(self, *args):
+        self._initDefDatAttrpath(*args)
 
 
 # value ************************************************************************************************************** #
-class Abs_DatData(datObjItf.Itf_DatRaw):
-    CLS_dat__data__element = None
+class Abs_DatData(datObjDef.Def_DatRaw):
+    CLS_dat_data = None
 
-    VAR_dat__data__datasep = None
+    VAR_dat_data_strsep = None
 
     def _initAbsDatData(self, *args):
         self._parentObj = args[0]
@@ -81,9 +50,9 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         if isinstance(args[0], Abs_DatValue):
             self._valueObj = self._parentObj
 
-            self._rawtypePattern = self._valueObj.VAR_dat__value__rawtype_pattern
-            self._rawtypeStrPattern = self._valueObj.VAR_dat__value__rawtype_str_pattern
-            self._rawsizePattern = self._valueObj.VAR_dat__value__rawsize_pattern
+            self._rawtypePattern = self._valueObj.VAR_dat_rawtype_pattern
+            self._rawtypeStrPattern = self._valueObj.VAR_dat_rawtype_str_pattern
+            self._rawsizePattern = self._valueObj.VAR_dat_rawsize_pattern
         elif isinstance(args[0], Abs_DatData):
             self._dataObj = self._parentObj
 
@@ -106,10 +75,9 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
             self._rawtypeStrPattern = None
             self._rawsizePattern = None
 
-        self._rawObj = None
         self._childDataObjList = []
 
-        self._raw__set_create_(*rawArgs)
+        self._set_create_(*rawArgs)
 
     @staticmethod
     def _fnc_get_list_split_(lis, splitCount):
@@ -118,7 +86,7 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         count = len(lis)
         cutCount = int(count / splitCount)
         for i in range(cutCount + 1):
-            subLis = lis[i*splitCount:min((i + 1)*splitCount, count)]
+            subLis = lis[i * splitCount:min((i + 1) * splitCount, count)]
             if subLis:
                 if len(subLis) == 1:
                     lis_.append(subLis[0])
@@ -126,7 +94,7 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
                     lis_.append(subLis)
         return lis_
 
-    def _raw__get_rawtype_str_(self):
+    def _get_rawtypestr_(self):
         if self._rawtypeStrPattern is not None:
             if isinstance(self._rawtypeStrPattern, (tuple, list)):
                 return self._rawtypeStrPattern[0]
@@ -139,72 +107,72 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         """
         :return: int
         """
-        if self._data__get_is_comp_():
+        if self._get_is_comp_():
             return self._rawsizePattern[0]
         return self._rawsizePattern
 
-    # element ********************************************************************************************************** #
-    def addElement(self, dataObj):
+    # child ********************************************************************************************************** #
+    def addChild(self, dataObj):
         """
         :param dataObj: object of Data
         :return: None
         """
         self._childDataObjList.append(dataObj)
 
-    def hasElements(self):
+    def hasChildren(self):
         """
         :return: bool
         """
         return self._childDataObjList != []
 
-    def elements(self):
+    def children(self):
         """
         :return: list(object of Data)
         """
         return self._childDataObjList
 
-    def elementCount(self):
+    def childrenCount(self):
         """
         :return: int
         """
         return len(self._childDataObjList)
 
-    def element(self, *args):
+    def child(self, *args):
         if isinstance(args[0], (int, float)):
             return self._childDataObjList[int(args[0])]
 
-    def elementAt(self, index):
+    def childAt(self, index):
         """
         :param index: object of Data
         :return:
         """
-        return self.elements()[index]
+        return self.children()[index]
 
-    def elementRawtype(self):
+    def childRawtype(self):
         """
         :return: class of raw
         """
         return self._rawtypePattern[1]
 
-    def elementRawsize(self):
+    def childRawsize(self):
         """
         :return: int
         """
         return self._rawsizePattern[1]
 
-    def _data__get_is_comp_(self):
+    def _get_is_comp_(self):
         return isinstance(self._rawtypePattern, (tuple, list))
 
     # raw ************************************************************************************************************ #
-    def _raw__get_raw_cls_(self):
+    def _get_raw_cls_(self):
         if self._rawtypePattern is not None:
             if isinstance(self._rawtypePattern, (tuple, list)):
                 return self._rawtypePattern[0]
             return self._rawtypePattern
-        return self.CLS_dat__raw
+        return self.CLS_dat_raw
 
-    def _raw__get_obj_by_raw(self, raw):
-        cls = self._raw__get_raw_cls_()
+    def _set_raw_to_rawobj_(self, raw):
+        cls = self._get_raw_cls_()
         if cls is not None:
             return cls(raw)
 
@@ -212,21 +180,20 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         raw = args[0]
         self.clear()
 
-        [self.addElement(self.CLS_dat__data__element(self, i)) for i in raw]
-        cls = self._raw__get_raw_cls_()
+        [self.addChild(self.CLS_dat_data(self, i)) for i in raw]
+        cls = self._get_raw_cls_()
         if cls is not None:
-            return cls([i.raw() for i in self.elements()])
+            return cls([i.raw() for i in self.children()])
 
-    def _raw__set_create_by_raw_(self, *args):
+    def _set_raw_create_(self, *args):
         if args:
-            _ = args[0]
-            if self._data__get_is_comp_() is True:
-                if isinstance(_, (tuple, list)):
+            if self._get_is_comp_():
+                if isinstance(args[0], (tuple, list)):
                     if len(args) == 1:
-                        compraw = _
+                        compraw = args[0]
                     else:
-                        if self.elementRawtype() in (tuple, list):
-                            if len(_) == self.elementRawsize():
+                        if self.childRawtype() in (tuple, list):
+                            if len(args[0]) == self.childRawsize():
                                 compraw = args
                             else:
                                 raise ValueError("value format is error")
@@ -240,54 +207,54 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
 
                 self._rawObj = self._set_compraw_to_rawobj_(compraw)
             else:
-                raw = _
+                raw = args[0]
                 if raw is not None:
-                    self._raw__set_raw_val_(raw)
+                    self._set_raw_val_(raw)
 
-                    self._rawObj = self._raw__get_obj_by_raw(raw)
+                    self._rawObj = self._set_raw_to_rawobj_(raw)
 
-    def _data__get_compraw_(self):
-        cls = self._raw__get_raw_cls_()
+    def _get_compraw_(self):
+        cls = self._get_raw_cls_()
         if cls is not None:
-            return cls([i._raw__get_raw_() for i in self.elements()])
+            return cls([i._get_raw_() for i in self.children()])
 
-    def _raw__get_raw_(self):
-        if self._data__get_is_comp_():
-            return self._data__get_compraw_()
+    def _get_raw_(self):
+        if self._get_is_comp_():
+            return self._get_compraw_()
         return self._rawObj
 
     # rawstr ********************************************************************************************************* #
-    def _raw__get_raw_by_str(self, rawString):
-        if self.CLS_dat__raw is not None:
-            return self.CLS_dat__raw(rawString)
+    def _set_rawstr_to_rawobj_(self, rawString):
+        if self.CLS_dat_raw is not None:
+            return self.CLS_dat_raw(rawString)
 
     def _set_comprawstr_to_rawobj_(self, *args):
         rawstr = args[0]
         self.clear()
-        [self.addElement(self.CLS_dat__data__element(self, i)) for i in rawstr]
-        cls = self._raw__get_raw_cls_()
+        [self.addChild(self.CLS_dat_data(self, i)) for i in rawstr]
+        cls = self._get_raw_cls_()
         if cls is not None:
-            return cls([i.raw() for i in self.elements()])
+            return cls([i.raw() for i in self.children()])
 
-    def _raw__set_create_by_str_(self, *args):
+    def _set_rawstr_create_(self, *args):
         if args:
             rawstr = args[0]
             if rawstr is not None:
-                self._raw__set_str_val_(rawstr)
-                if self._data__get_is_comp_():
-                    valueStringLis = [i.lstrip().rstrip() for i in args[0].split(self.VAR_dat__data__datasep)]
-                    rawstr = self._fnc_get_list_split_(valueStringLis, self.elementRawsize())
+                self._set_rawstr_val_(rawstr)
+                if self._get_is_comp_():
+                    valueStringLis = [i.lstrip().rstrip() for i in args[0].split(self.VAR_dat_data_strsep)]
+                    rawstr = self._fnc_get_list_split_(valueStringLis, self.childRawsize())
                     self._rawObj = self._set_comprawstr_to_rawobj_(rawstr)
                 else:
-                    self._rawObj = self._raw__get_raw_by_str(rawstr)
+                    self._rawObj = self._set_rawstr_to_rawobj_(rawstr)
 
     def _get_comprawstr_(self):
-        return self.VAR_dat__data__datasep.join(
-            [i._raw__get_str_() for i in self.elements()]
+        return self.VAR_dat_data_strsep.join(
+            [i._get_rawstr_() for i in self.children()]
         )
 
-    def _raw__get_str_(self):
-        if self._data__get_is_comp_():
+    def _get_rawstr_(self):
+        if self._get_is_comp_():
             return self._get_comprawstr_()
 
         if self._rawObj is not None:
@@ -295,113 +262,83 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         return u''
 
     # create ********************************************************************************************************* #
-    def _raw__set_create_(self, *args):
-        if self._data__get_is_comp_():
+    def _set_create_(self, *args):
+        if self._get_is_comp_():
             if len(args) > 1:
-                self._raw__set_create_by_raw_(*args)
+                self._set_raw_create_(*args)
             else:
                 if isinstance(args[0], (str, unicode)):
-                    self._raw__set_create_by_str_(*args)
+                    self._set_rawstr_create_(*args)
                 else:
-                    self._raw__set_create_by_raw_(*args)
+                    self._set_raw_create_(*args)
         else:
             if isinstance(args[0], (str, unicode)):
-                self._raw__set_create_by_str_(*args)
+                self._set_rawstr_create_(*args)
             else:
-                self._raw__set_create_by_raw_(*args)
+                self._set_raw_create_(*args)
 
     @classmethod
     def datasep(cls):
-        return cls.VAR_dat__data__datasep
+        return cls.VAR_dat_data_strsep
 
     def __len__(self):
-        return self.elementCount()
+        return self.childrenCount()
 
 
-class Abs_DatValue(datCfg.DatUtility):
-    CLS_dat__value__datatype = None
-    CLS_dat__value__data = None
+class Abs_DatValue(object):
+    CLS_dat_datatype = None
+    CLS_dat_data = None
 
-    VAR_dat__value__rawtype_str_pattern = None
-    VAR_dat__value__rawtype_pattern = None
-    VAR_dat__value__rawsize_pattern = None
+    VAR_dat_rawtype_pattern = None
+    VAR_dat_rawtype_str_pattern = None
+    VAR_dat_rawsize_pattern = None
 
     def _initAbsDatValue(self, *args):
-        self._value__set_build_(*args)
+        self._set_data_build_(*args)
 
-    def _value__set_build_(self, *args):
-        # datatype
-        self._value__set_datatype_build_(self.VAR_dat__value__rawtype_str_pattern)
-        # data
-        self._dataKeyStrList = []
-        self._dataObjList = []
-        #
-        self._value__set_data_build_(*args)
-        self._value__set_default_data_build_(self._dataObj)
+    def _set_data_build_(self, *args):
+        self._set_datatype_(self.VAR_dat_rawtype_str_pattern)
 
-    def _value__set_datatype_build_(self, *args):
+        self._set_data_(*args)
+
+    def _set_datatype_(self, *args):
         _ = args[0]
         if isinstance(_, (tuple, list)):
-            self._nodeDatatypeObj = self.CLS_dat__value__datatype(_[0])
+            self._datatypeObj = self.CLS_dat_datatype(_[0])
         else:
-            self._nodeDatatypeObj = self.CLS_dat__value__datatype(_)
+            self._datatypeObj = self.CLS_dat_datatype(_)
 
-    def _value__set_data_build_(self, *args):
-        if isinstance(args[0], Abs_DatData):
-            self._dataObj = args[0]
-        else:
-            self._dataObj = self.CLS_dat__value__data(
-                self, *args
-            )
-
-    def _value__set_default_data_build_(self, *args):
-        if isinstance(args[0], Abs_DatData):
-            self._defaultDataObj = self.MOD_copy.deepcopy(
-                args[0]
-            )
-        else:
-            self._defaultDataObj = self.CLS_dat__value__data(
-                self, *args
-            )
+    def _set_data_(self, *args):
+        self._dataObj = self.CLS_dat_data(
+            self, *args
+        )
 
     def datatype(self):
         """
-        :return: *objects.Datatype
+        :return: object of Type
         """
-        return self._nodeDatatypeObj
+        return self._datatypeObj
 
     def datatypeString(self):
         """
         :return: str
         """
-        return self._nodeDatatypeObj.toString()
+        return self._datatypeObj.toString()
 
-    # **************************************************************************************************************** #
     def data(self):
         """
-        :return: *objects.Data
+        :return: object of Data
         """
         return self._dataObj
 
     def dataString(self):
         return self._dataObj.toString()
 
-    # **************************************************************************************************************** #
-    def defaultData(self):
-        return self._defaultDataObj
+    def setRaw(self, *args):
+        self._dataObj._set_raw_create_(*args)
 
-    def defaultDataString(self):
-        return self._defaultDataObj.toString()
-
-    # **************************************************************************************************************** #
-    def isDataChanged(self):
-        return self._dataObj != self._defaultDataObj
-
-    # **************************************************************************************************************** #
-    def setRaw(self, *args, **kwargs):
-        if kwargs:
-            pass
-        self._dataObj.setRaw(*args)
+    def setRawString(self, *args):
+        self._dataObj._set_rawstr_create_(*args)
 
     def hasRaw(self):
         """
@@ -415,33 +352,15 @@ class Abs_DatValue(datCfg.DatUtility):
         """
         return self._dataObj.raw()
 
-    # **************************************************************************************************************** #
-    def setRawString(self, *args):
-        self._dataObj.setRawString(*args)
-
     def rawString(self):
         return self._dataObj.toString()
 
-    # **************************************************************************************************************** #
     def toString(self):
         """
         :return: str
         """
         return self._dataObj.toString()
 
-    # **************************************************************************************************************** #
-    @classmethod
-    def typePattern(cls):
-        return cls.VAR_dat__value__rawtype_pattern
-
-    @classmethod
-    def sizePattern(cls):
-        return cls.VAR_dat__value__rawsize_pattern
-
-    def covertTo(self, dataType):
-        pass
-
-    # **************************************************************************************************************** #
     def __eq__(self, other):
         """
         :param other: object of Value
@@ -455,124 +374,3 @@ class Abs_DatValue(datCfg.DatUtility):
         :return: bool
         """
         return self.data() != other.data()
-
-
-# xml document ******************************************************************************************************* #
-class Abs_DatXmlObj(object):
-    VAR_dat__xml_obj__attribute_separator = u' '
-
-    VAR_dat__xml_obj__element_prefix_str = u''
-    VAR_dat__xml_obj__attribute_attach_str = u''
-
-    def _initAbsDatXmlObj(self):
-        self._xmlPrefixStr = u''
-
-        self._xmlNamePrefixString = None
-        self._xmlNameSuffixString = None
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_left_indent_str_(self):
-        return self._xmlPrefixStr
-
-    def _xml_obj__set_left_indent_str_(self, string):
-        self._xmlPrefixStr = string
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_element_prefix_str(self):
-        return self.VAR_dat__xml_obj__element_prefix_str
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_attribute_attach_key_str_(self):
-        return self.VAR_dat__xml_obj__attribute_attach_str
-
-    def _xml_obj__get_attribute_attach_value_str_(self):
-        pass
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_attribute_attach_list_(self):
-        pass
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_attribute_list_(self):
-        pass
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_sibling_element_list_(self):
-        pass
-
-    # **************************************************************************************************************** #
-    def _xml_obj__get_child_element_list_(self):
-        pass
-
-    @classmethod
-    def _xml_obj_cls__get_str_(cls, elementObj, indent=4):
-        def addPrefixFnc_(lis_, prefixStr_, lStr_, rStr_):
-            lis_.append(u'{}<{}{}'.format(lStr_, prefixStr_, rStr_))
-
-        def addAttributeFnc_(lis_, attributeArg_, lStr_, rStr_):
-            if attributeArg_ is not None:
-                if isinstance(attributeArg_, Abs_DatXmlObj):
-                    # noinspection PyNoneFunctionAssignment
-                    _attributeRaw = attributeArg_._xml_obj__get_attribute_attach_list_()
-                else:
-                    _attributeRaw = attributeArg_
-
-                if isinstance(_attributeRaw, (tuple, list)):
-                    if _attributeRaw:
-                        for _i in _attributeRaw:
-                            if isinstance(_i, Abs_DatXmlObj):
-                                addAttributeFnc_(lis_, _i, lStr_, rStr_)
-                            else:
-                                k, v = _i
-                                if v:
-                                    lis_.append(
-                                        u'{}{}="{}"{}'.format(lStr_, k, v, rStr_)
-                                    )
-
-        def addElementFnc_(lis_, elementObj_, rStr_, parentElementObj_=None):
-            if parentElementObj_ is not None:
-                _lStr = elementObj_._xml_obj__get_left_indent_str_()
-            else:
-                _lStr = u''
-
-            _prefixStr = elementObj_._xml_obj__get_element_prefix_str()
-            addPrefixFnc_(lis_, _prefixStr, lStr_=_lStr, rStr_=u'')
-            # Attribute
-            _attributeList = elementObj_._xml_obj__get_attribute_list_()
-            if _attributeList:
-                [addAttributeFnc_(lis_, _i, lStr_=cls.VAR_dat__xml_obj__attribute_separator, rStr_=u'') for _i in _attributeList]
-            # Child Element
-            _childElementList = elementObj_._xml_obj__get_child_element_list_()
-            if _childElementList:
-                lis.append(u'>{}'.format(linefeedStr))
-
-                for _i in _childElementList:
-                    if _i is not None:
-                        _i._xml_obj__set_left_indent_str_(_lStr + defIndentStr)
-                        addElementFnc_(lis_, _i, rStr_=rStr_, parentElementObj_=elementObj_)
-
-                lis.append(u'{}</{}>{}'.format(_lStr, _prefixStr, linefeedStr))
-            else:
-                lis.append(u'{}/>{}'.format(cls.VAR_dat__xml_obj__attribute_separator, linefeedStr))
-            # Sibling Element
-            _siblingElementList = elementObj_._xml_obj__get_sibling_element_list_()
-            if _siblingElementList:
-                for _i in _siblingElementList:
-                    _i._xml_obj__set_left_indent_str_(_lStr)
-                    addElementFnc_(lis_, _i, rStr_=u'', parentElementObj_=elementObj_)
-
-        linefeedStr = '\r\n'
-        defIndentStr = u' ' * indent
-
-        lis = [
-            u'<?xml version="1.0"?>{}'.format(linefeedStr),
-        ]
-
-        addElementFnc_(lis, elementObj, rStr_=u'')
-        return u''.join(lis)
-
-    def __str__(self):
-        return self._xml_obj_cls__get_str_(self)
-
-    def __repr__(self):
-        return self._xml_obj_cls__get_str_(self)

@@ -1,194 +1,150 @@
 {
     "color2": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}R"
-            },
             "target_portpath": {
-                "format": "{portpath}.r"
-            }
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}G"
-            },
             "target_portpath": {
-                "format": "{portpath}.g"
-            }
+                "format": "{0}.a"
+            },
+            "format": "outAlpha"
         }
     ],
     "color3": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}R"
-            },
             "target_portpath": {
-                "format": "{portpath}.r"
-            }
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}G"
-            },
             "target_portpath": {
-                "format": "{portpath}.g"
-            }
+                "format": "{0}.g"
+            },
+            "format": "{0}.{0}G"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}B"
-            },
             "target_portpath": {
-                "format": "{portpath}.b"
-            }
+                "format": "{0}.b"
+            },
+            "format": "{0}.{0}B"
         }
     ],
     "color4": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}R"
-            },
             "target_portpath": {
-                "format": "{portpath}.r"
-            }
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}R"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}G"
-            },
             "target_portpath": {
-                "format": "{portpath}.g"
-            }
+                "format": "{0}.r"
+            },
+            "format": "{0}.{0}G"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}B"
-            },
             "target_portpath": {
-                "format": "{portpath}.b"
-            }
+                "format": "{0}.b"
+            },
+            "format": "{0}.{0}B"
         },
         {
-            "source_portpath": {
-                "format": "outAlpha"
-            },
             "target_portpath": {
-                "format": "{portpath}.a"
-            }
+                "format": "{0}.a"
+            },
+            "format": "outAlpha"
         }
     ],
     "vector2": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}X"
-            },
             "target_portpath": {
-                "format": "{portpath}.x"
-            }
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}Y"
-            },
             "target_portpath": {
-                "format": "{portpath}.y"
-            }
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
         }
     ],
     "vector3": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}X"
-            },
             "target_portpath": {
-                "format": "{portpath}.x"
-            }
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}Y"
-            },
             "target_portpath": {
-                "format": "{portpath}.y"
-            }
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}Z"
-            },
             "target_portpath": {
-                "format": "{portpath}.z"
-            }
+                "format": "{0}.z"
+            },
+            "format": "{0}.{0}Z"
         }
     ],
     "vector4": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}X"
-            },
             "target_portpath": {
-                "format": "{portpath}.x"
-            }
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}X"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}Y"
-            },
             "target_portpath": {
-                "format": "{portpath}.y"
-            }
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}Y"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}Z"
-            },
             "target_portpath": {
-                "format": "{portpath}.z"
-            }
+                "format": "{0}.z"
+            },
+            "format": "{0}.{0}Z"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}W"
-            },
             "target_portpath": {
-                "format": "{portpath}.w"
-            }
+                "format": "{0}.w"
+            },
+            "format": "{0}.{0}W"
         }
     ],
-    "texturecoord2_0": [
+    "uv_0": [
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}U"
-            },
             "target_portpath": {
-                "format": "{portpath}.x"
-            }
+                "format": "{0}.x"
+            },
+            "format": "{0}.{0}U"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}.{portpath}V"
-            },
             "target_portpath": {
-                "format": "{portpath}.y"
-            }
+                "format": "{0}.y"
+            },
+            "format": "{0}.{0}V"
         }
     ],
-    "texturecoord2_1": [
+    "uv_1": [
         {
-            "source_portpath": {
-                "format": "{portpath}UV.{portpath}U"
-            },
             "target_portpath": {
-                "format": "{portpath}.x"
-            }
+                "format": "{0}.x"
+            },
+            "format": "{0}.{1}U"
         },
         {
-            "source_portpath": {
-                "format": "{portpath}UV.{portpath}V"
-            },
             "target_portpath": {
-                "format": "{portpath}.y"
-            }
+                "format": "{0}.y"
+            },
+            "format": "{0}.{1}V"
         }
     ]
 }

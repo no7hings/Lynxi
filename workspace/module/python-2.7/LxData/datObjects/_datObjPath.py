@@ -1,48 +1,44 @@
 # coding:utf-8
-from .. import datCfg, datObjAbs
+from ..import datCfg, datObjAbs
 
 from . import _datObjRaw
 
 
-class Typepath(datObjAbs.Abs_DatObjPath):
-    CLS_dat__obj_path__name = _datObjRaw.ObjTypename
+class Portpath(datObjAbs.Abs_DatPath):
+    CLS_dat_name = _datObjRaw.Name
 
-    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_type_pathsep
-
-    def __init__(self, *args):
-        self._initAbsDatObjPath(*args)
-
-
-class Portpath(datObjAbs.Abs_DatObjPath):
-    CLS_dat__obj_path__name = _datObjRaw.ObjName
-
-    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_port_pathsep
+    VAR_dat_pathsep = datCfg.Utility.DEF_dat_port_pathsep
 
     def __init__(self, *args):
-        self._initAbsDatObjPath(*args)
+        self._initAbsDatPath(*args)
 
 
-class Nodepath(datObjAbs.Abs_DatObjPath):
-    CLS_dat__obj_path__name = _datObjRaw.ObjName
+class Nodepath(datObjAbs.Abs_DatPath):
+    CLS_dat_name = _datObjRaw.Nodename
 
-    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_pathsep
-
-    def __init__(self, *args):
-        self._initAbsDatObjPath(*args)
-
-
-class Attrpath(datObjAbs.Abs_DatObjComppath):
-    CLS_dat__comppath__nodepath = Nodepath
-    CLS_dat__comppath__portpath = Portpath
+    VAR_dat_pathsep = datCfg.Utility.DEF_dat_node_pathsep
 
     def __init__(self, *args):
-        self._initAbsDatObjComppath(*args)
+        self._initAbsDatPath(*args)
 
 
-class Filepath(datObjAbs.Abs_DatObjPath):
-    CLS_dat__obj_path__name = _datObjRaw.Filename
+class Attrpath(datObjAbs.Abs_DatAttrpath):
+    CLS_dat_raw = unicode
 
-    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__file_pathsep
+    CLS_dat_nodepath = Nodepath
+    CLS_dat_portpath = Portpath
+
+    VAR_dat_rawtype_pattern = unicode, str
+    VAR_dat_raw_default = u''
 
     def __init__(self, *args):
-        self._initAbsDatObjPath(*args)
+        self._initAbsDatAttrpath(*args)
+
+
+class Filepath(datObjAbs.Abs_DatPath):
+    CLS_dat_name = _datObjRaw.Filename
+
+    VAR_dat_pathsep = datCfg.Utility.DEF_dat_file_pathsep
+
+    def __init__(self, *args):
+        self._initAbsDatPath(*args)
