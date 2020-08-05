@@ -1,0 +1,13 @@
+$ cat .gitignore
+/*
+!.gitignore
+!/workspace
+!/workspace/module
+!/workspace/scheme
+!/workspace/plug
+!/icon
+!/script
+!/script/python
+/.pycharm/
+!/.pycharm/.idea
+*.pyc
