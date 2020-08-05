@@ -1,6 +1,6 @@
 {
     "aiAbs": {
-        "target_category": "abs",
+        "target_typepath": "abs",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -8,7 +8,7 @@
         }
     },
     "aiAdd": {
-        "target_category": "add",
+        "target_typepath": "add",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -19,7 +19,7 @@
         }
     },
     "aiAmbientOcclusion": {
-        "target_category": "ambient_occlusion",
+        "target_typepath": "ambient_occlusion",
         "source_port": {
             "samples": {
                 "target_portpath": "samples"
@@ -60,7 +60,7 @@
         }
     },
     "aiReadFloat": {
-        "target_category": "aov_read_float",
+        "target_typepath": "aov_read_float",
         "source_port": {
             "aovName": {
                 "target_portpath": "aov_name"
@@ -68,7 +68,7 @@
         }
     },
     "aiReadInt": {
-        "target_category": "aov_read_int",
+        "target_typepath": "aov_read_int",
         "source_port": {
             "aovName": {
                 "target_portpath": "aov_name"
@@ -76,7 +76,7 @@
         }
     },
     "aiReadRGB": {
-        "target_category": "aov_read_rgb",
+        "target_typepath": "aov_read_rgb",
         "source_port": {
             "aovName": {
                 "target_portpath": "aov_name"
@@ -84,7 +84,7 @@
         }
     },
     "aiReadRGBA": {
-        "target_category": "aov_read_rgba",
+        "target_typepath": "aov_read_rgba",
         "source_port": {
             "aovName": {
                 "target_portpath": "aov_name"
@@ -92,7 +92,7 @@
         }
     },
     "aiWriteFloat": {
-        "target_category": "aov_write_float",
+        "target_typepath": "aov_write_float",
         "source_port": {
             "beauty": {
                 "target_portpath": "passthrough"
@@ -109,7 +109,7 @@
         }
     },
     "aiWriteInt": {
-        "target_category": "aov_write_int",
+        "target_typepath": "aov_write_int",
         "source_port": {
             "beauty": {
                 "target_portpath": "passthrough"
@@ -123,7 +123,7 @@
         }
     },
     "aiWriteColor": {
-        "target_category": "aov_write_rgb",
+        "target_typepath": "aov_write_rgb",
         "source_port": {
             "beauty": {
                 "target_portpath": "passthrough"
@@ -140,7 +140,7 @@
         }
     },
     "aiWriteRgba": {
-        "target_category": "aov_write_rgba",
+        "target_typepath": "aov_write_rgba",
         "source_port": {
             "beauty": {
                 "target_portpath": "passthrough"
@@ -157,7 +157,7 @@
         }
     },
     "aiAtan": {
-        "target_category": "atan",
+        "target_typepath": "atan",
         "source_port": {
             "y": {
                 "target_portpath": "y"
@@ -171,7 +171,7 @@
         }
     },
     "aiAtmosphereVolume": {
-        "target_category": "atmosphere_volume",
+        "target_typepath": "atmosphere_volume",
         "source_port": {
             "density": {
                 "target_portpath": "density"
@@ -203,7 +203,7 @@
         }
     },
     "aiBlackbody": {
-        "target_category": "blackbody",
+        "target_typepath": "blackbody",
         "source_port": {
             "temperature": {
                 "target_portpath": "temperature"
@@ -217,7 +217,7 @@
         }
     },
     "aiBump2d": {
-        "target_category": "bump2d",
+        "target_typepath": "bump2d",
         "source_port": {
             "bumpMap": {
                 "target_portpath": "bump_map"
@@ -231,7 +231,7 @@
         }
     },
     "aiBump3d": {
-        "target_category": "bump3d",
+        "target_typepath": "bump3d",
         "source_port": {
             "bumpMap": {
                 "target_portpath": "bump_map"
@@ -248,7 +248,7 @@
         }
     },
     "aiCache": {
-        "target_category": "cache",
+        "target_typepath": "cache",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -256,7 +256,7 @@
         }
     },
     "aiCameraProjection": {
-        "target_category": "camera_projection",
+        "target_typepath": "camera_projection",
         "source_port": {
             "projectionColor": {
                 "target_portpath": "projection_color"
@@ -294,7 +294,7 @@
         }
     },
     "aiCarPaint": {
-        "target_category": "car_paint",
+        "target_typepath": "car_paint",
         "source_port": {
             "base": {
                 "target_portpath": "base"
@@ -383,7 +383,7 @@
         }
     },
     "aiCellNoise": {
-        "target_category": "cell_noise",
+        "target_typepath": "cell_noise",
         "source_port": {
             "pattern": {
                 "target_portpath": "pattern"
@@ -433,7 +433,7 @@
         }
     },
     "checker": {
-        "target_category": "checkerboard",
+        "target_typepath": "checkerboard",
         "source_port": {
             "color1": {
                 "target_portpath": "color1"
@@ -453,7 +453,7 @@
         }
     },
     "aiClamp": {
-        "target_category": "clamp",
+        "target_typepath": "clamp",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -476,7 +476,7 @@
         }
     },
     "aiClipGeo": {
-        "target_category": "clip_geo",
+        "target_typepath": "clip_geo",
         "source_port": {
             "intersection": {
                 "target_portpath": "intersection"
@@ -490,7 +490,7 @@
         }
     },
     "aiColorConvert": {
-        "target_category": "color_convert",
+        "target_typepath": "color_convert",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -504,7 +504,7 @@
         }
     },
     "aiColorCorrect": {
-        "target_category": "color_correct",
+        "target_typepath": "color_correct",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -554,7 +554,7 @@
         }
     },
     "aiColorJitter": {
-        "target_category": "color_jitter",
+        "target_typepath": "color_jitter",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -652,7 +652,7 @@
         }
     },
     "aiCompare": {
-        "target_category": "compare",
+        "target_typepath": "compare",
         "source_port": {
             "test": {
                 "target_portpath": "test"
@@ -666,7 +666,7 @@
         }
     },
     "aiComplement": {
-        "target_category": "complement",
+        "target_typepath": "complement",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -674,7 +674,7 @@
         }
     },
     "aiComplexIor": {
-        "target_category": "complex_ior",
+        "target_typepath": "complex_ior",
         "source_port": {
             "material": {
                 "target_portpath": "material"
@@ -697,7 +697,7 @@
         }
     },
     "aiComposite": {
-        "target_category": "composite",
+        "target_typepath": "composite",
         "source_port": {
             "A": {
                 "target_portpath": "A"
@@ -714,7 +714,7 @@
         }
     },
     "aiCross": {
-        "target_category": "cross",
+        "target_typepath": "cross",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -725,7 +725,7 @@
         }
     },
     "aiCurvature": {
-        "target_category": "curvature",
+        "target_typepath": "curvature",
         "source_port": {
             "output": {
                 "target_portpath": "output"
@@ -760,7 +760,7 @@
         }
     },
     "aiDivide": {
-        "target_category": "divide",
+        "target_typepath": "divide",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -771,7 +771,7 @@
         }
     },
     "aiDot": {
-        "target_category": "dot",
+        "target_typepath": "dot",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -782,7 +782,7 @@
         }
     },
     "aiExp": {
-        "target_category": "exp",
+        "target_typepath": "exp",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -790,7 +790,7 @@
         }
     },
     "aiFacingRatio": {
-        "target_category": "facing_ratio",
+        "target_typepath": "facing_ratio",
         "source_port": {
             "bias": {
                 "target_portpath": "bias"
@@ -807,7 +807,7 @@
         }
     },
     "aiFlakes": {
-        "target_category": "flakes",
+        "target_typepath": "flakes",
         "source_port": {
             "scale": {
                 "target_portpath": "scale"
@@ -839,7 +839,7 @@
         }
     },
     "aiFlat": {
-        "target_category": "flat",
+        "target_typepath": "flat",
         "source_port": {
             "color": {
                 "target_portpath": "color"
@@ -847,7 +847,7 @@
         }
     },
     "aiFloatToInt": {
-        "target_category": "float_to_int",
+        "target_typepath": "float_to_int",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -858,7 +858,7 @@
         }
     },
     "aiFloatToRgba": {
-        "target_category": "float_to_rgba",
+        "target_typepath": "float_to_rgba",
         "source_port": {
             "r": {
                 "target_portpath": "r"
@@ -875,7 +875,7 @@
         }
     },
     "aiFog": {
-        "target_category": "fog",
+        "target_typepath": "fog",
         "source_port": {
             "distance": {
                 "target_portpath": "distance"
@@ -895,7 +895,7 @@
         }
     },
     "aiFraction": {
-        "target_category": "fraction",
+        "target_typepath": "fraction",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -903,7 +903,7 @@
         }
     },
     "aiHair": {
-        "target_category": "hair",
+        "target_typepath": "hair",
         "source_port": {
             "rootcolor": {
                 "target_portpath": "rootcolor"
@@ -956,7 +956,7 @@
         }
     },
     "aiImage": {
-        "target_category": "image",
+        "target_typepath": "image",
         "source_port": {
             "filename": {
                 "target_portpath": "filename"
@@ -1024,7 +1024,7 @@
         }
     },
     "aiIsFinite": {
-        "target_category": "is_finite",
+        "target_typepath": "is_finite",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1032,7 +1032,7 @@
         }
     },
     "aiLayerFloat": {
-        "target_category": "layer_float",
+        "target_typepath": "layer_float",
         "source_port": {
             "enable1": {
                 "target_portpath": "enable1"
@@ -1133,7 +1133,7 @@
         }
     },
     "aiLayerRgba": {
-        "target_category": "layer_rgba",
+        "target_typepath": "layer_rgba",
         "source_port": {
             "enable1": {
                 "target_portpath": "enable1"
@@ -1285,7 +1285,7 @@
         }
     },
     "aiLayerShader": {
-        "target_category": "layer_shader",
+        "target_typepath": "layer_shader",
         "source_port": {
             "enable1": {
                 "target_portpath": "enable1"
@@ -1386,7 +1386,7 @@
         }
     },
     "aiLength": {
-        "target_category": "length",
+        "target_typepath": "length",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1397,7 +1397,7 @@
         }
     },
     "aiLog": {
-        "target_category": "log",
+        "target_typepath": "log",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1408,7 +1408,7 @@
         }
     },
     "aiMatrixInterpolate": {
-        "target_category": "matrix_interpolate",
+        "target_typepath": "matrix_interpolate",
         "source_port": {
             "type": {
                 "target_portpath": "type"
@@ -1419,7 +1419,7 @@
         }
     },
     "aiMatrixMultiplyVector": {
-        "target_category": "matrix_multiply_vector",
+        "target_typepath": "matrix_multiply_vector",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1433,7 +1433,7 @@
         }
     },
     "aiMatrixTransform": {
-        "target_category": "matrix_transform",
+        "target_typepath": "matrix_transform",
         "source_port": {
             "transformOrder": {
                 "target_portpath": "transform_order"
@@ -1468,7 +1468,7 @@
         }
     },
     "aiMatte": {
-        "target_category": "matte",
+        "target_typepath": "matte",
         "source_port": {
             "passthrough": {
                 "target_portpath": "passthrough"
@@ -1482,7 +1482,7 @@
         }
     },
     "aiMax": {
-        "target_category": "max",
+        "target_typepath": "max",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -1493,7 +1493,7 @@
         }
     },
     "layeredShader": {
-        "target_category": "maya_layered_shader",
+        "target_typepath": "maya_layered_shader",
         "source_port": {
             "compositingFlag": {
                 "target_portpath": "compositingFlag"
@@ -1501,7 +1501,7 @@
         }
     },
     "aiMin": {
-        "target_category": "min",
+        "target_typepath": "min",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -1512,7 +1512,7 @@
         }
     },
     "aiMixShader": {
-        "target_category": "mix_shader",
+        "target_typepath": "mix_shader",
         "source_port": {
             "mode": {
                 "target_portpath": "mode"
@@ -1529,7 +1529,7 @@
         }
     },
     "aiModulo": {
-        "target_category": "modulo",
+        "target_typepath": "modulo",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1540,7 +1540,7 @@
         }
     },
     "aiMotionVector": {
-        "target_category": "motion_vector",
+        "target_typepath": "motion_vector",
         "source_port": {
             "raw": {
                 "target_portpath": "raw"
@@ -1557,7 +1557,7 @@
         }
     },
     "aiMultiply": {
-        "target_category": "multiply",
+        "target_typepath": "multiply",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -1568,7 +1568,7 @@
         }
     },
     "aiNegate": {
-        "target_category": "negate",
+        "target_typepath": "negate",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1576,7 +1576,7 @@
         }
     },
     "aiNoise": {
-        "target_category": "noise",
+        "target_typepath": "noise",
         "source_port": {
             "octaves": {
                 "target_portpath": "octaves"
@@ -1620,7 +1620,7 @@
         }
     },
     "aiNormalMap": {
-        "target_category": "normal_map",
+        "target_typepath": "normal_map",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1655,7 +1655,7 @@
         }
     },
     "aiNormalize": {
-        "target_category": "normalize",
+        "target_typepath": "normalize",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1663,7 +1663,7 @@
         }
     },
     "aiPassthrough": {
-        "target_category": "passthrough",
+        "target_typepath": "passthrough",
         "source_port": {
             "passthrough": {
                 "target_portpath": "passthrough"
@@ -1734,7 +1734,7 @@
         }
     },
     "aiPhysicalSky": {
-        "target_category": "physical_sky",
+        "target_typepath": "physical_sky",
         "source_port": {
             "turbidity": {
                 "target_portpath": "turbidity"
@@ -1781,7 +1781,7 @@
         }
     },
     "aiPow": {
-        "target_category": "pow",
+        "target_typepath": "pow",
         "source_port": {
             "base": {
                 "target_portpath": "base"
@@ -1792,7 +1792,7 @@
         }
     },
     "aiRampFloat": {
-        "target_category": "ramp_float",
+        "target_typepath": "ramp_float",
         "source_port": {
             "type": {
                 "target_portpath": "type"
@@ -1821,7 +1821,7 @@
         }
     },
     "aiRampRgb": {
-        "target_category": "ramp_rgb",
+        "target_typepath": "ramp_rgb",
         "source_port": {
             "type": {
                 "target_portpath": "type"
@@ -1850,7 +1850,7 @@
         }
     },
     "aiRandom": {
-        "target_category": "random",
+        "target_typepath": "random",
         "source_port": {
             "inputType": {
                 "target_portpath": "input_type"
@@ -1873,7 +1873,7 @@
         }
     },
     "aiRange": {
-        "target_category": "range",
+        "target_typepath": "range",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1908,7 +1908,7 @@
         }
     },
     "aiRaySwitch": {
-        "target_category": "ray_switch_shader",
+        "target_typepath": "ray_switch_shader",
         "source_port": {
             "camera": {
                 "target_portpath": "camera"
@@ -1934,7 +1934,7 @@
         }
     },
     "aiReciprocal": {
-        "target_category": "reciprocal",
+        "target_typepath": "reciprocal",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1942,7 +1942,7 @@
         }
     },
     "aiColorToFloat": {
-        "target_category": "rgb_to_float",
+        "target_typepath": "rgb_to_float",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1953,7 +1953,7 @@
         }
     },
     "aiRgbaToFloat": {
-        "target_category": "rgba_to_float",
+        "target_typepath": "rgba_to_float",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -1964,7 +1964,7 @@
         }
     },
     "aiRoundCorners": {
-        "target_category": "round_corners",
+        "target_typepath": "round_corners",
         "source_port": {
             "samples": {
                 "target_portpath": "samples"
@@ -1990,7 +1990,7 @@
         }
     },
     "aiShadowMatte": {
-        "target_category": "shadow_matte",
+        "target_typepath": "shadow_matte",
         "source_port": {
             "background": {
                 "target_portpath": "background"
@@ -2052,7 +2052,7 @@
         }
     },
     "aiShuffle": {
-        "target_category": "shuffle",
+        "target_typepath": "shuffle",
         "source_port": {
             "color": {
                 "target_portpath": "color"
@@ -2087,7 +2087,7 @@
         }
     },
     "aiSign": {
-        "target_category": "sign",
+        "target_typepath": "sign",
         "source_port": {
             "source_port": {
                 "target_portpath": "input"
@@ -2095,7 +2095,7 @@
         }
     },
     "aiSkin": {
-        "target_category": "skin",
+        "target_typepath": "skin",
         "source_port": {
             "sssWeight": {
                 "target_portpath": "sss_weight"
@@ -2172,7 +2172,7 @@
         }
     },
     "aiSky": {
-        "target_category": "sky",
+        "target_typepath": "sky",
         "source_port": {
             "color": {
                 "target_portpath": "color"
@@ -2189,7 +2189,7 @@
         }
     },
     "aiSpaceTransform": {
-        "target_category": "space_transform",
+        "target_typepath": "space_transform",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -2218,7 +2218,7 @@
         }
     },
     "aiSqrt": {
-        "target_category": "sqrt",
+        "target_typepath": "sqrt",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -2226,7 +2226,7 @@
         }
     },
     "aiStandard": {
-        "target_category": "standard",
+        "target_typepath": "standard",
         "source_port": {
             "Kd": {
                 "target_portpath": "Kd"
@@ -2363,7 +2363,7 @@
         }
     },
     "aiStandardHair": {
-        "target_category": "standard_hair",
+        "target_typepath": "standard_hair",
         "source_port": {
             "base": {
                 "target_portpath": "base"
@@ -2482,7 +2482,7 @@
         }
     },
     "aiStandardSurface": {
-        "target_category": "standard_surface",
+        "target_typepath": "standard_surface",
         "source_port": {
             "base": {
                 "target_portpath": "base"
@@ -2676,7 +2676,7 @@
         }
     },
     "aiStandardVolume": {
-        "target_category": "standard_volume",
+        "target_typepath": "standard_volume",
         "source_port": {
             "density": {
                 "target_portpath": "density"
@@ -2738,7 +2738,7 @@
         }
     },
     "aiStateFloat": {
-        "target_category": "state_float",
+        "target_typepath": "state_float",
         "source_port": {
             "variable": {
                 "target_portpath": "variable"
@@ -2746,7 +2746,7 @@
         }
     },
     "aiStateInt": {
-        "target_category": "state_int",
+        "target_typepath": "state_int",
         "source_port": {
             "variable": {
                 "target_portpath": "variable"
@@ -2754,7 +2754,7 @@
         }
     },
     "aiStateVector": {
-        "target_category": "state_vector",
+        "target_typepath": "state_vector",
         "source_port": {
             "variable": {
                 "target_portpath": "variable"
@@ -2762,7 +2762,7 @@
         }
     },
     "aiSubtract": {
-        "target_category": "subtract",
+        "target_typepath": "subtract",
         "source_port": {
             "input1": {
                 "target_portpath": "input1"
@@ -2773,7 +2773,7 @@
         }
     },
     "aiSwitch": {
-        "target_category": "switch_shader",
+        "target_typepath": "switch_shader",
         "source_port": {
             "index": {
                 "target_portpath": "index"
@@ -2841,7 +2841,7 @@
         }
     },
     "aiThinFilm": {
-        "target_category": "thin_film",
+        "target_typepath": "thin_film",
         "source_port": {
             "thicknessMin": {
                 "target_portpath": "thickness_min"
@@ -2864,7 +2864,7 @@
         }
     },
     "aiToon": {
-        "target_category": "toon",
+        "target_typepath": "toon",
         "source_port": {
             "maskColor": {
                 "target_portpath": "mask_color"
@@ -3028,7 +3028,7 @@
         }
     },
     "aiTraceSet": {
-        "target_category": "trace_set",
+        "target_typepath": "trace_set",
         "source_port": {
             "passthrough": {
                 "target_portpath": "passthrough"
@@ -3042,7 +3042,7 @@
         }
     },
     "aiTrigo": {
-        "target_category": "trigo",
+        "target_typepath": "trigo",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -3062,7 +3062,7 @@
         }
     },
     "aiTriplanar": {
-        "target_category": "triplanar",
+        "target_typepath": "triplanar",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -3097,7 +3097,7 @@
         }
     },
     "aiTwoSided": {
-        "target_category": "two_sided",
+        "target_typepath": "two_sided",
         "source_port": {
             "front": {
                 "target_portpath": "front"
@@ -3108,7 +3108,7 @@
         }
     },
     "aiUserDataFloat": {
-        "target_category": "user_data_float",
+        "target_typepath": "user_data_float",
         "source_port": {
             "attribute": {
                 "target_portpath": "attribute"
@@ -3119,7 +3119,7 @@
         }
     },
     "aiUserDataInt": {
-        "target_category": "user_data_int",
+        "target_typepath": "user_data_int",
         "source_port": {
             "attribute": {
                 "target_portpath": "attribute"
@@ -3130,7 +3130,7 @@
         }
     },
     "aiUserDataColor": {
-        "target_category": "user_data_rgb",
+        "target_typepath": "user_data_rgb",
         "source_port": {
             "attribute": {
                 "target_portpath": "attribute"
@@ -3141,7 +3141,7 @@
         }
     },
     "aiUserDataString": {
-        "target_category": "user_data_string",
+        "target_typepath": "user_data_string",
         "source_port": {
             "attribute": {
                 "target_portpath": "attribute"
@@ -3152,7 +3152,7 @@
         }
     },
     "aiUtility": {
-        "target_category": "utility",
+        "target_typepath": "utility",
         "source_port": {
             "colorMode": {
                 "target_portpath": "color_mode"
@@ -3178,7 +3178,7 @@
         }
     },
     "aiUvProjection": {
-        "target_category": "uv_projection",
+        "target_typepath": "uv_projection",
         "source_port": {
             "projectionColor": {
                 "target_portpath": "projection_color"
@@ -3213,7 +3213,7 @@
         }
     },
     "aiUvTransform": {
-        "target_category": "uv_transform",
+        "target_typepath": "uv_transform",
         "source_port": {
             "passthrough": {
                 "target_portpath": "passthrough"
@@ -3284,7 +3284,7 @@
         }
     },
     "aiVectorMap": {
-        "target_category": "vector_map",
+        "target_typepath": "vector_map",
         "source_port": {
             "input": {
                 "target_portpath": "input"
@@ -3319,7 +3319,7 @@
         }
     },
     "aiVolumeCollector": {
-        "target_category": "volume_collector",
+        "target_typepath": "volume_collector",
         "source_port": {
             "scatteringSource": {
                 "target_portpath": "scattering_source"
@@ -3381,7 +3381,7 @@
         }
     },
     "aiVolumeSampleFloat": {
-        "target_category": "volume_sample_float",
+        "target_typepath": "volume_sample_float",
         "source_port": {
             "channel": {
                 "target_portpath": "channel"
@@ -3437,7 +3437,7 @@
         }
     },
     "aiVolumeSampleRgb": {
-        "target_category": "volume_sample_rgb",
+        "target_typepath": "volume_sample_rgb",
         "source_port": {
             "channel": {
                 "target_portpath": "channel"
@@ -3475,7 +3475,7 @@
         }
     },
     "aiWireframe": {
-        "target_category": "wireframe",
+        "target_typepath": "wireframe",
         "source_port": {
             "lineWidth": {
                 "target_portpath": "line_width"

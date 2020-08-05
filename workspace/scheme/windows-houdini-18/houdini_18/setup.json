@@ -1,34 +1,47 @@
 {
-    "name": "houdini_18", 
-    "version": "0.0.0", 
-    "user": "nothings", 
-    "timestamp": 1596635176.555, 
+    "user": "dongchangbao", 
+    "timestamp": 1591866585.772, 
     "environ": {
-        "LYNXI_PYTHONPATH": {
-            "operate": "+", 
-            "value": [
-                "<LxApp>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxapp/0.0.0/source", 
-                "<LxBasic>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxbasic/0.0.0/source", 
-                "<LxData>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdata/0.0.0/source", 
-                "<LxGraphic>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxgraphic/0.0.0/source", 
-                "<LxHou2mtx>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhou2mtx/0.0.0/source", 
-                "<LxHouBasic>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhoubasic/0.0.0/source", 
-                "<LxHoudini>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhoudini/0.0.0/source", 
-                "<LxMtx>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxmtx/0.0.0/source", 
-                "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
-                "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
-                "<LxUsd2mtx>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxusd2mtx/0.0.0/source", 
-                "<LxUsd>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxusd/0.0.0/source", 
-                "<MaterialX>{root.active}/resource/package/windows-python-2.7-materialx/1.36.5/source", 
-                "<PIL>{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source", 
-                "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
-                "<houdini_18>{root.active}/resource/scheme/windows-houdini-18-houdini_18/0.0.0/source", 
-                "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
-            ]
+        "HOUDINI_PATH": {
+            "operate": ";&", 
+            "value": "htoa:{root.active}/resource/plug/windows-houdini-18-htoa/5.1.1/source;&"
         }, 
         "PATH": {
             "operate": "+", 
-            "value": "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin"
+            "value": [
+                "htoa:{root.active}/resource/plug/windows-houdini-18-htoa/5.1.1/source/scripts/bin", 
+                "sublime_text:{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin"
+            ]
+        }, 
+        "LYNXI_PYTHONPATH": {
+            "operate": "+", 
+            "value": [
+                "LxApp:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxapp/0.0.0/source",
+                "LxBasic:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxbasic/0.0.0/source",
+                "LxData:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxdata/0.0.0/source",
+                "LxGraphic:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxgraphic/0.0.0/source",
+                "LxHouBasic:{root.active}/workspace/module/windows-houdini-python-2.7|{root.active}/resource/module/windows-houdini-python-2.7-lxhobasic/0.0.0/source",
+                "LxHoudini:{root.active}/workspace/module/windows-houdini-python-2.7|{root.active}/resource/module/windows-houdini-python-2.7-lxhoudini/0.0.0/source",
+                "LxMtx:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxmtx/0.0.0/source",
+                "LxPreset:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxpreset/0.0.0/source",
+                "LxScheme:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxscheme/0.0.0/source",
+                "LxUsd2mtx:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxusd2mtx/0.0.0/source",
+                "LxUsd:{root.active}/workspace/module/windows-python-2.7|{root.active}/resource/module/windows-python-2.7-lxusd/0.0.0/source",
+                "MaterialX:{root.active}/resource/package/windows-python-2.7-materialx/1.36.5/source",
+                "PIL:{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source",
+                "certifi:{root.active}/resource/package/windows-python-2.7-certifi/2019.3.9/source",
+                "chardet:{root.active}/resource/package/windows-python-2.7-chardet/3.0.4/source",
+                "dingtalkchatbot:{root.active}/resource/package/windows-python-2.7-dingtalkchatbot/1.3.0/source",
+                "houdini_18:{root.active}/resource/scheme/windows-houdini-18-houdini_18/0.0.0/source", 
+                "idna:{root.active}/resource/package/windows-python-2.7-idna/2.8/source",
+                "requests:{root.active}/resource/package/windows-python-2.7-requests/2.22.0/source",
+                "urllib3:{root.active}/resource/package/windows-python-2.7-urllib3/1.25.2/source",
+                "yaml:{root.active}/resource/package/windows-python-2.7-yaml/3.13/source"
+            ]
+        }, 
+        "solidangle_LICENSE": {
+            "operate": "=", 
+            "value": "htoa:5053@192.168.16.240"
         }
     }, 
     "module": [
@@ -36,8 +49,7 @@
         "LxBasic", 
         "LxData", 
         "LxGraphic", 
-        "LxHou2mtx", 
-        "LxHouBasic", 
+        "LxHouBasic",
         "LxHoudini", 
         "LxMtx", 
         "LxPreset", 
@@ -45,5 +57,7 @@
         "LxUsd", 
         "LxUsd2mtx"
     ], 
-    "plug": []
+    "plug": [
+        "htoa"
+    ]
 }

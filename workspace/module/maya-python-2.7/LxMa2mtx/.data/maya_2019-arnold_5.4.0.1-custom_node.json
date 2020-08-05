@@ -1,9 +1,12 @@
 {
     "displacementShader": {
-        "target_category": "range",
+        "target_typepath": "range",
         "source_port": {
             "displacement": {
-                "source_porttype": "float",
+                "datatype_convert":{
+                    "source": "float",
+                    "target": "color3"
+                },
                 "target_portpath": [
                     "input",
                     "rgb"
@@ -17,32 +20,32 @@
                 "mtl_port_0 = self.tgtNode().port('output_min')",
                 "mtl_port_1 = self.tgtNode().port('output_max')",
                 "mtl_port_2 = self.tgtNode().port('contrast_pivot')",
-                "dcc_port_0 = self.srcNode().port('aiDisplacementZeroValue')",
-                "dcc_zero_value = dcc_port_0.portraw()",
+                "src_port_1 = self.srcNode().port('aiDisplacementZeroValue')",
+                "dcc_zero_value = src_port_1.portraw()",
                 "mtl_port_0.setPortraw(0-dcc_zero_value);mtl_port_1.setPortraw(1-dcc_zero_value);mtl_port_2.setPortraw(0.0)"
             ]
         },
         "after_expression": {
             "command":
             [
-                "mtlGeometries = self.tgtNode().allTargetNodes('mesh') or []",
-                "dcc_port_0 = self.srcNode().port('aiDisplacementAutoBump')",
-                "dcc_portdata_0 = dcc_port_0.portraw()",
-                "[i.port('disp_autobump').setPortraw(dcc_portdata_0) for i in mtlGeometries]",
+                "srcGeometryObjList = self.tgtNode().allOutputNodes(include='mesh') or []",
+                "src_port_1 = self.srcNode().port('aiDisplacementAutoBump')",
+                "dcc_portdata_0 = src_port_1.portraw()",
+                "[i.port('disp_autobump').setPortraw(dcc_portdata_0) for i in srcGeometryObjList]",
 
                 "dcc_port_1 = self.srcNode().port('aiDisplacementPadding')",
                 "dcc_portdata_1 = dcc_port_1.portraw()",
-                "[i.port('disp_padding').setPortraw(dcc_portdata_1) for i in mtlGeometries]",
+                "[i.port('disp_padding').setPortraw(dcc_portdata_1) for i in srcGeometryObjList]",
 
                 "dcc_port_2 = self.srcNode().port('aiDisplacementZeroValue')",
                 "dcc_portdata_2 = dcc_port_2.portraw()",
-                "[i.port('disp_zero_value').setPortraw(dcc_portdata_2) for i in mtlGeometries]"
+                "[i.port('disp_zero_value').setPortraw(dcc_portdata_2) for i in srcGeometryObjList]"
             ]
         }
     },
 
     "file": {
-        "target_category": "image",
+        "target_typepath": "image",
         "source_port": {
             "fileTextureName": {
                 "target_portpath": "filename"
@@ -71,7 +74,7 @@
             "command":
             [
                 "self._cmd_set_color_correct_insert_({'alpha_is_luminance': 'alphaIsLuminance'})",
-                "fileString = self.tgtNode().inparm('filename').portrawString()",
+                "fileString = self.tgtNode().inport('filename').portrawString()",
                 "convertFileString = self._cmd_set_multi_texture_covert_(fileString)",
                 "self.tgtNode().port('filename').setPortraw(convertFileString)"
             ]
@@ -79,14 +82,20 @@
     },
 
     "place2dTexture": {
-        "target_category": "uv_transform",
+        "target_typepath": "uv_transform",
         "source_port": {
             "coverage": {
-                "source_porttype": "uv_0",
+                "datatype_convert":{
+                    "source": "texturecoord2_0",
+                    "target": "vector2"
+                },
                 "target_portpath": "coverage"
             },
             "translateFrame": {
-                "source_porttype": "uv_0",
+                "datatype_convert":{
+                    "source": "texturecoord2_0",
+                    "target": "vector2"
+                },
                 "target_portpath": "translate_frame"
             },
             "rotateFrame": {
@@ -102,32 +111,41 @@
                 "target_portpath": "stagger"
             },
             "repeatUV": {
-                "source_porttype": "uv_1",
+                "datatype_convert":{
+                    "source": "texturecoord2_1",
+                    "target": "vector2"
+                },
                 "target_portpath": "repeat"
             },
             "offset": {
-                "source_porttype": "uv_0",
+                "datatype_convert":{
+                    "source": "texturecoord2_0",
+                    "target": "vector2"
+                },
                 "target_portpath": "offset"
             },
             "rotateUV": {
                 "target_portpath": "rotate"
             },
             "noiseUV": {
-                "source_porttype": "uv_1",
+                "datatype_convert":{
+                    "source": "texturecoord2_1",
+                    "target": "vector2"
+                },
                 "target_portpath": "noise"
             }
         },
 
         "create_expression": {
             "command": [
-                "targetSrcNodes = self.srcNode().targetNodes('file')",
+                "targetSrcNodes = self.srcNode().outputNodes(include='file')",
                 "self._cmd_set_node_insert_(targetSrcNodes, 'rgba', 'passthrough', 'rgba')"
             ]
         }
     },
 
     "samplerInfo": {
-        "target_category": "facing_ratio",
+        "target_typepath": "facing_ratio",
         "source_port": {
             "facingRatio": {
                 "target_portpath": "float"
@@ -135,18 +153,28 @@
         },
         "create_expression": {
             "command": [
-                "targetSrcNodes = self.srcNode().targetNodes('ramp')",
+                "targetSrcNodes = self.srcNode().outputNodes(include='ramp')",
                 "[self.getTrsNode(i.pathString()).tgtNode().port('type').setPortrawString('custom') for i in targetSrcNodes]",
-                "[self.tgtNode().otparm('float').connectTo(self.getTrsNode(i.pathString()).tgtNode().inparm('input')) for i in targetSrcNodes]"
+                "[self.tgtNode().otport('float').connectTo(self.getTrsNode(i.pathString()).tgtNode().inport('input')) for i in targetSrcNodes]"
             ]
         }
     },
 
     "ramp": {
-        "target_category": "ramp_rgb",
+        "target_typepath": "ramp_rgb",
         "source_port": {
             "type": {
-                "target_portpath": "type"
+                "target_portpath": "type",
+                "portraw_convert": {
+                    "enumerate": {
+                        "V Ramp": "v",
+                        "U Ramp": "u",
+                        "Diagonal Ramp": "diagonal",
+                        "Radial Ramp": "radial",
+                        "Circular Ramp": "circular",
+                        "Box Ramp": "box"
+                    }
+                }
             },
             "colorEntryList.color": {
                 "target_portpath": "color"
@@ -159,37 +187,35 @@
             }
         },
 
-        "target_portraw": {
-            "type": {
-                "V Ramp": "v",
-                "U Ramp": "u",
-                "Diagonal Ramp": "diagonal",
-                "Radial Ramp": "radial",
-                "Circular Ramp": "circular",
-                "Box Ramp": "box"
-            }
-        },
-
         "create_expression": {
             "command": [
                 "self._cmd_set_color_correct_insert_({'alpha_is_luminance': 'alphaIsLuminance', 'multiply': 'colorGain', 'add': 'colorOffset', 'alpha_multiply': 'alphaGain', 'alpha_add': 'alphaOffset'})",
 
-                "data = self.srcNode().port('interpolation').portraw(False)",
-                "indexes = self.srcNode().port('colorEntryList').indexes()",
-                "self.tgtNode().inparm('interpolation').setPortraw([data]*len(indexes))"
+                "data = self.srcNode().port('interpolation').portraw(asString=False)",
+                "indexes = self.srcNode().port('colorEntryList').multiIndexes()",
+                "self.tgtNode().inport('interpolation').setPortraw([data]*len(indexes))"
             ]
         }
     },
 
     "bump2d@bump2d": {
-        "target_category": "normal_map",
+        "target_typepath": "normal_map",
         "source_port": {
             "bumpValue": {
-                "source_porttype": "float",
+                "datatype_convert":{
+                    "source": "float",
+                    "target": "vector2"
+                },
                 "target_portpath": "input"
             },
             "bumpInterp": {
-                "target_portpath": "order"
+                "target_portpath": "order",
+                "portraw_convert": {
+                    "enumerate": {
+                        "Tangent Space Normals": "YXZ",
+                        "Object Space Normals": "XYZ"
+                    }
+                }
             },
             "aiFlipR": {
                 "target_portpath": "invert_x"
@@ -197,21 +223,17 @@
             "aiFlipG": {
                 "target_portpath": "invert_y"
             }
-        },
-
-        "target_portraw": {
-            "order": {
-                "Tangent Space Normals": "YXZ",
-                "Object Space Normals": "XYZ"
-            }
         }
     },
 
     "bump2d": {
-        "target_category": "bump2d",
+        "target_typepath": "bump2d",
         "source_port": {
             "bumpValue": {
-                "source_porttype": "float",
+                "datatype_convert":{
+                    "source": "float",
+                    "target": "vector2"
+                },
                 "target_portpath": "bump_map"
             },
             "bumpDepth": {
@@ -222,7 +244,7 @@
 
 
     "lambert": {
-        "target_category": "lambert",
+        "target_typepath": "lambert",
         "source_port": {
             "diffuse": {
                 "target_portpath": "Kd"
@@ -240,7 +262,7 @@
     },
 
     "blinn": {
-        "target_category": "standard_surface",
+        "target_typepath": "standard_surface",
         "source_port": {
             "color": {
                 "target_portpath": "base_color"

@@ -1,6 +1,6 @@
 {
     "mesh": {
-        "target_category": "mesh",
+        "target_typepath": "mesh",
         "source_port": {
             "aiDispHeight": {
                 "target_portpath": "disp_height"
@@ -41,6 +41,7 @@
             "aiSubdivSmoothDerivs": {
                 "target_portpath": "subdiv_smooth_derivs"
             },
+
             "primaryVisibility": {
                 "target_portpath": "camera"
             },

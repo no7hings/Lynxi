@@ -1,5 +1,5 @@
 # coding:utf-8
-from ..import datCfg, datObjAbs
+from .. import datCfg, datObjAbs
 
 
 class _Dat_Digit(datObjAbs.Abs_DatData):
@@ -8,7 +8,7 @@ class _Dat_Digit(datObjAbs.Abs_DatData):
         :param other: object of "Data"
         :return: number
         """
-        assert isinstance(other.raw(), self.VAR_dat_rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat_rawtype_pattern".'
+        assert isinstance(other.raw(), self.VAR_dat__raw__rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat__raw__rawtype_pattern".'
         return self.__class__(self, self.raw() + other.raw())
 
     def __sub__(self, other):
@@ -16,7 +16,7 @@ class _Dat_Digit(datObjAbs.Abs_DatData):
         :param other: object of "Data"
         :return: number
         """
-        assert isinstance(other.raw(), self.VAR_dat_rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat_rawtype_pattern".'
+        assert isinstance(other.raw(), self.VAR_dat__raw__rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat__raw__rawtype_pattern".'
         return self.__class__(self, self.raw() - other.raw())
 
     def __mul__(self, other):
@@ -24,7 +24,7 @@ class _Dat_Digit(datObjAbs.Abs_DatData):
         :param other: object of "Data"
         :return: number
         """
-        assert isinstance(other.raw(), self.VAR_dat_rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat_rawtype_pattern".'
+        assert isinstance(other.raw(), self.VAR_dat__raw__rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat__raw__rawtype_pattern".'
 
         return self.__class__(self, self.raw() * other.raw())
 
@@ -33,14 +33,14 @@ class _Dat_Digit(datObjAbs.Abs_DatData):
         :param other: object of "Data"
         :return: number
         """
-        assert isinstance(other.raw(), self.VAR_dat_rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat_rawtype_pattern".'
+        assert isinstance(other.raw(), self.VAR_dat__raw__rawtype_pattern), u'Argument Error, "arg" Must "VAR_dat__raw__rawtype_pattern".'
 
         return self.__class__(self, self.raw() / other.raw())
 
 
 class Dat_Closure(datObjAbs.Abs_DatData):
-    CLS_dat_raw = None
-    VAR_dat_rawtype_pattern = None
+    CLS_dat__raw = None
+    VAR_dat__raw__rawtype_pattern = None
 
     def __init__(self, *args):
         """
@@ -50,15 +50,15 @@ class Dat_Closure(datObjAbs.Abs_DatData):
         """
         self._initAbsDatData(*args)
 
-    def _get_rawstr_(self):
+    def _raw__get_str_(self):
         return u''
 
 
 class Dat_Boolean(datObjAbs.Abs_DatData):
-    CLS_dat_raw = bool
+    CLS_dat__raw = bool
 
-    VAR_dat_rawtype_pattern = bool, int
-    VAR_dat_raw_default = False
+    VAR_dat__raw__rawtype_pattern = bool, int
+    VAR_dat__raw__default = False
 
     def __init__(self, *args):
         """
@@ -68,24 +68,24 @@ class Dat_Boolean(datObjAbs.Abs_DatData):
         """
         self._initAbsDatData(*args)
 
-    def _set_rawstr_to_rawobj_(self, string):
+    def _raw__get_raw_by_str(self, string):
         _dict = {'false': False, 'true': True}
         if string in _dict:
             return _dict[string]
         else:
             return False
 
-    def _get_rawstr_(self):
+    def _raw__get_str_(self):
         if self.hasRaw():
             return [u'false', u'true'][self.raw()]
         return u'false'
 
 
 class Dat_Integer(_Dat_Digit):
-    CLS_dat_raw = int
+    CLS_dat__raw = int
 
-    VAR_dat_rawtype_pattern = int, float
-    VAR_dat_raw_default = 0
+    VAR_dat__raw__rawtype_pattern = int, float
+    VAR_dat__raw__default = 0
 
     def __init__(self, *args):
         """
@@ -97,14 +97,14 @@ class Dat_Integer(_Dat_Digit):
 
 
 class Dat_IntegerN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_Integer
+    CLS_dat__data__element = Dat_Integer
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__raw_strsep
 
     def __init__(self, *args):
         """
@@ -116,14 +116,14 @@ class Dat_IntegerN(datObjAbs.Abs_DatData):
 
 
 class Dat_IntegerNN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_IntegerN
+    CLS_dat__data__element = Dat_IntegerN
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_compraw_strsep
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__compraw_strsep
 
     def __init__(self, *args):
         """
@@ -135,10 +135,10 @@ class Dat_IntegerNN(datObjAbs.Abs_DatData):
 
 
 class Dat_Float(_Dat_Digit):
-    CLS_dat_raw = float
+    CLS_dat__raw = float
 
-    VAR_dat_rawtype_pattern = float, int
-    VAR_dat_raw_default = 0.0
+    VAR_dat__raw__rawtype_pattern = float, int
+    VAR_dat__raw__default = 0.0
 
     def __init__(self, *args):
         """
@@ -150,14 +150,14 @@ class Dat_Float(_Dat_Digit):
 
 
 class Dat_FloatN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_Float
+    CLS_dat__data__element = Dat_Float
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__raw_strsep
 
     def __init__(self, *args):
         """
@@ -169,14 +169,14 @@ class Dat_FloatN(datObjAbs.Abs_DatData):
 
 
 class Dat_FloatNN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_FloatN
+    CLS_dat__data__element = Dat_FloatN
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_compraw_strsep
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__compraw_strsep
 
     def __init__(self, *args):
         """
@@ -188,10 +188,10 @@ class Dat_FloatNN(datObjAbs.Abs_DatData):
 
 
 class Dat_String(datObjAbs.Abs_DatData):
-    CLS_dat_raw = unicode
+    CLS_dat__raw = unicode
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    VAR_dat__raw__rawtype_pattern = unicode, str
+    VAR_dat__raw__default = u''
 
     def __init__(self, *args):
         """
@@ -203,29 +203,14 @@ class Dat_String(datObjAbs.Abs_DatData):
 
 
 class Dat_StringN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_String
+    CLS_dat__data__element = Dat_String
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
-
-    def __init__(self, *args):
-        """
-        :param args:
-            1-1.object of value, raw;
-            1-2.object of data, raw.
-        """
-        self._initAbsDatData(*args)
-
-
-class Dat_Filename(datObjAbs.Abs_DatData):
-    CLS_dat_raw = unicode
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__raw_strsep
 
     def __init__(self, *args):
         """
@@ -236,15 +221,30 @@ class Dat_Filename(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_FilenameN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+class Dat_Filepath(datObjAbs.Abs_DatData):
+    CLS_dat__raw = unicode
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = unicode, str
+    VAR_dat__raw__default = u''
 
-    CLS_dat_data = Dat_Filename
+    def __init__(self, *args):
+        """
+        :param args:
+            1-1.object of value, raw;
+            1-2.object of data, raw.
+        """
+        self._initAbsDatData(*args)
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
+
+class Dat_FilepathN(datObjAbs.Abs_DatData):
+    CLS_dat__raw = list
+
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
+
+    CLS_dat__data__element = Dat_Filepath
+
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__raw_strsep
 
     def __init__(self, *args):
         """
@@ -256,10 +256,10 @@ class Dat_FilenameN(datObjAbs.Abs_DatData):
 
 
 class Dat_Nodename(datObjAbs.Abs_DatData):
-    CLS_dat_raw = unicode
+    CLS_dat__raw = unicode
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    VAR_dat__raw__rawtype_pattern = unicode, str
+    VAR_dat__raw__default = u''
 
     def __init__(self, *args):
         """
@@ -271,14 +271,14 @@ class Dat_Nodename(datObjAbs.Abs_DatData):
 
 
 class Dat_NodenameN(datObjAbs.Abs_DatData):
-    CLS_dat_raw = list
+    CLS_dat__raw = list
 
-    VAR_dat_rawtype_pattern = list, tuple
-    VAR_dat_raw_default = []
+    VAR_dat__raw__rawtype_pattern = list, tuple
+    VAR_dat__raw__default = []
 
-    CLS_dat_data = Dat_Nodename
+    CLS_dat__data__element = Dat_Nodename
 
-    VAR_dat_data_strsep = datCfg.Utility.DEF_dat_raw_strsep
+    VAR_dat__data__datasep = datCfg.DatUtility.DEF_dat__raw_strsep
 
     def __init__(self, *args):
         """

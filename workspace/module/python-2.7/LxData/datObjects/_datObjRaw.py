@@ -1,22 +1,12 @@
 # coding:utf-8
-from ..import datCfg, datObjAbs
+from .. import datCfg, datObjAbs
 
 
 class String(datObjAbs.Abs_DatRaw):
-    CLS_dat_raw = unicode
+    CLS_dat__raw = unicode
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    def __init__(self, *args):
-        self._initAbsDatRaw(*args)
-
-
-class Type(datObjAbs.Abs_DatRaw):
-    CLS_dat_raw = unicode
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+    VAR_dat__raw__rawtype_pattern = unicode, str
+    VAR_dat__raw__default = u''
 
     def __init__(self, *args):
         self._initAbsDatRaw(*args)
@@ -27,70 +17,69 @@ class Name(datObjAbs.Abs_DatName):
         self._initAbsDatName(*args)
 
 
-class Category(datObjAbs.Abs_DatRaw):
-    CLS_dat_raw = unicode
+class Typename(datObjAbs.Abs_DatTypename):
+    def __init__(self, *args):
+        self._initAbsDatTypename(*args)
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+
+class Datatype(datObjAbs.Abs_DatDatatype):
+    CLS_dat__type__typename = Typename
+
+    VAR_dat__type__category_dict = datCfg.DatUtility.DEF_dat__datatype__category_dict
+    VAR_dat__type__role_dict = datCfg.DatUtility.DEF_dat__datatype__role_dict
 
     def __init__(self, *args):
-        self._initAbsDatRaw(*args)
+        self._initAbsDatDatatype(*args)
 
 
-class Datatype(datObjAbs.Abs_DatRaw):
-    CLS_dat_raw = unicode
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
+class Porttype(datObjAbs.Abs_DatPorttype):
+    CLS_dat__type__typename = Typename
 
     def __init__(self, *args):
-        self._initAbsDatRaw(*args)
+        self._initAbsDatPorttype(*args)
 
 
-class Porttype(datObjAbs.Abs_DatRaw):
-    CLS_dat_raw = unicode
+class ObjVariant(datObjAbs.Abs_DatObjVariant):
+    CLS_dat__obj_path__name = Name
 
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    def __init__(self, *args):
-        self._initAbsDatRaw(*args)
-
-
-class Namespace(datObjAbs.Abs_DatNamespace):
-    CLS_dat_name = Name
-
-    VAR_dat_pathsep = datCfg.Utility.DEF_dat_namespace_pathsep
+    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_namespace_pathsep
 
     def __init__(self, *args):
-        self._initAbsDatNamespace(*args)
+        self._initAbsDatObjVariant(*args)
 
 
-class Nodename(datObjAbs.Abs_DatNodename):
-    CLS_dat_raw = unicode
+# object ************************************************************************************************************* #
+class ObjNamespace(datObjAbs.Abs_DatObjNamespace):
+    CLS_dat__obj_path__name = Name
 
-    CLS_dat_namespace = Namespace
-    CLS_dat_name = Name
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_namesep = datCfg.Utility.DEF_dat_namespace_pathsep
+    CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_namespace_pathsep
 
     def __init__(self, *args):
-        self._initAbsDatNodename(*args)
+        self._initAbsDatObjNamespace(*args)
 
 
+class ObjTypename(datObjAbs.Abs_DatObjName):
+    CLS_dat__obj_name__namespace = ObjNamespace
+    CLS_dat__obj_name__name = Name
+
+    def __init__(self, *args):
+        self._initAbsDatObjName(*args)
+
+
+class ObjName(datObjAbs.Abs_DatObjName):
+    CLS_dat__obj_name__namespace = ObjNamespace
+    CLS_dat__obj_name__name = Name
+
+    def __init__(self, *args):
+        self._initAbsDatObjName(*args)
+
+
+# file *************************************************************************************************************** #
 class Filename(datObjAbs.Abs_DatFilename):
-    CLS_dat_raw = unicode
+    CLS_dat__filename__base = Name
+    CLS_dat__filename__ext = Name
 
-    CLS_dat_base = Name
-    CLS_dat_ext = Name
-
-    VAR_dat_rawtype_pattern = unicode, str
-    VAR_dat_raw_default = u''
-
-    VAR_dat_extsep = datCfg.Utility.DEF_dat_file_extsep
+    VAR_dat__extsep = datCfg.DatUtility.DEF_dat__file_extsep
 
     def __init__(self, *args):
         self._initAbsDatFilename(*args)

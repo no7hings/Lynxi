@@ -1,43 +1,5 @@
 [TOC]
 
-# render flow
-
-```mermaid
-graph LR
-classDef red_0 fill:#f99,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef green_0 fill:#9f9,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef violet_0 fill:#ccf,stroke:#000,stroke-width:1px,fill-opacity:1
-classDef yellow_0 fill:#ff9,stroke:#000,stroke-width:1px,fill-opacity:1
-
-subgraph Cache
-    abcfile("*.abc"); class abcfile green_0
-    mtlxfile("*.mtlx"); class mtlxfile red_0
-end
-
-subgraph DCC
-    geometry("geometry"); class geometry green_0
-    material("material"); class material red_0
-end
-
-alembic("alembic"); class alembic green_0
-    
-materialx("materialx"); class materialx red_0
-
-renderer("renderer"); class renderer violet_0
-
-image("image"); class image yellow_0
-renderer --> image
-
-geometry -->|exattribute| alembic; alembic -->|imattribute| geometry
-alembic -->|write| abcfile; abcfile -->|read| alembic
-
-material -->|exattribute| materialx; materialx -->|imattribute| material
-materialx -->|write| mtlxfile; mtlxfile -->|read| materialx
-
-abcfile -->|read| renderer
-mtlxfile -->|read| renderer
-```
-
 # materialx
 
 ## what?

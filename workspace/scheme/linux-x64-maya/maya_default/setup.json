@@ -1,9 +1,31 @@
 {
     "name": "maya_default", 
     "version": "0.0.0", 
-    "user": "nothings", 
-    "timestamp": 1596635195.788, 
+    "user": "dongchangbao", 
+    "timestamp": 1595214704.884413, 
     "environ": {
+        "LYNXI_LOADNAME_PLUG": {
+            "operate": "+", 
+            "value": [
+                "<lynxinode>lxConvertNode", 
+                "<lynxinode>lxProductNode"
+            ]
+        }, 
+        "MAYA_PLUG_IN_PATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/plug-ins"
+        }, 
+        "PYTHONPATH": {
+            "operate": "+", 
+            "value": [
+                "<maya_default>{root.active}/resource/scheme/linux-x64-maya-maya_default/0.0.0/source/maya_default/lynxi/maya/scripts", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts"
+            ]
+        }, 
+        "MAYA_SCRIPT_PATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts"
+        }, 
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
             "value": [
@@ -22,13 +44,14 @@
                 "<PIL>{root.active}/resource/package/linux-x64-python-2.7-pil/1.1.7/source", 
                 "<PySide2>{root.active}/resource/package/linux-x64-python-2.7-pyside2/5.14.2.1/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
                 "<maya_default>{root.active}/resource/scheme/linux-x64-maya-maya_default/0.0.0/source/maya_default/lynxi/maya/scripts", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
         }, 
-        "PYTHONPATH": {
+        "XBMLANGPATH": {
             "operate": "+", 
-            "value": "<maya_default>{root.active}/resource/scheme/linux-x64-maya-maya_default/0.0.0/source/maya_default/lynxi/maya/scripts"
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/icons"
         }, 
         "PATH": {
             "operate": "+", 
@@ -49,5 +72,7 @@
         "LxPreset", 
         "LxScheme"
     ], 
-    "plug": []
+    "plug": [
+        "lynxinode"
+    ]
 }
