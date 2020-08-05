@@ -1,0 +1,182 @@
+{
+    "Object/geo": {
+        "target_typepath": "mesh",
+        "source_port": {
+            "shop_materialpath": {
+                "target_portpath": {
+                    "inport": "material"
+                }
+            },
+            "ar_disp_height": {
+                "target_portpath": {
+                    "property": "disp_height"
+                }
+            },
+            "ar_disp_padding": {
+                "target_portpath": {
+                    "property": "disp_padding"
+                }
+            },
+            "ar_disp_zero_value": {
+                "target_portpath": {
+                    "property": "disp_zero_value"
+                }
+            },
+            "ar_disp_autobump": {
+                "target_portpath": {
+                    "property": "disp_autobump"
+                }
+            },
+            "ar_autobump_visibility": {
+                "target_portpath": {
+                    "property": "autobump_visibility"
+                }
+            },
+            "ar_smoothing": {
+                "target_portpath": {
+                    "property": "smoothing"
+                }
+            },
+            "ar_step_size": {
+                "target_portpath": {
+                    "property": "step_size"
+                }
+            },
+            "ar_subdiv_type": {
+                "target_portpath": {
+                    "property": "subdiv_type"
+                }
+            },
+            "ar_subdiv_iterations": {
+                "target_portpath": {
+                    "property": "subdiv_iterations"
+                }
+            },
+            "ar_subdiv_adaptive_error": {
+                "target_portpath": {
+                    "property": "subdiv_adaptive_error"
+                }
+            },
+            "ar_subdiv_adaptive_metric": {
+                "target_portpath": {
+                    "property": "subdiv_adaptive_metric"
+                }
+            },
+            "ar_subdiv_adaptive_space": {
+                "target_portpath": {
+                    "property": "subdiv_adaptive_space"
+                }
+            },
+            "ar_subdiv_uv_smoothing": {
+                "target_portpath": {
+                    "property": "subdiv_uv_smoothing"
+                }
+            },
+            "ar_subdiv_frustum_ignore": {
+                "target_portpath": {
+                    "property": "subdiv_frustum_ignore"
+                }
+            },
+            "ar_subdiv_smooth_derivs": {
+                "target_portpath": {
+                    "property": "subdiv_smooth_derivs"
+                }
+            },
+            "ar_invert_normals": {
+                "target_portpath": {
+                    "property": "invert_normals"
+                }
+            },
+            "ar_opaque": {
+                "target_portpath": {
+                    "property": "opaque"
+                }
+            },
+            "ar_matte": {
+                "target_portpath": {
+                    "property": "matte"
+                }
+            },
+            "ar_use_shadow_group": {
+                "target_portpath": {
+                    "property": "use_shadow_group"
+                }
+            },
+            "ar_motion_start": {
+                "target_portpath": {
+                    "property": "motion_start"
+                }
+            },
+            "ar_motion_end": {
+                "target_portpath": {
+                    "property": "motion_end"
+                }
+            },
+            "ar_id": {
+                "target_portpath": {
+                    "property": "id"
+                }
+            },
+            "ar_volume_padding": {
+                "target_portpath": {
+                    "property": "volume_padding"
+                }
+            },
+            "ar_self_shadows": {
+                "target_portpath": {
+                    "property": "self_shadows"
+                }
+            },
+            "ar_receive_shadows": {
+                "target_portpath": {
+                    "property": "receive_shadows"
+                }
+            },
+            "ar_visibility_camera": {
+                "target_portpath": {
+                    "visibility": "camera"
+                }
+            },
+            "ar_visibility_shadow": {
+                "target_portpath": {
+                    "visibility": "shadow"
+                }
+            },
+            "ar_visibility_diffuse_transmit": {
+                "target_portpath": {
+                    "visibility": "diffuse_transmit"
+                }
+            },
+            "ar_visibility_specular_transmit": {
+                "target_portpath": {
+                    "visibility": "specular_transmit"
+                }
+            },
+            "ar_visibility_diffuse_reflect": {
+                "target_portpath": {
+                    "visibility": "diffuse_reflect"
+                }
+            },
+            "ar_visibility_specular_reflect": {
+                "target_portpath": {
+                    "visibility": "specular_reflect"
+                }
+            },
+            "ar_visibility_subsurface": {
+                "target_portpath": {
+                    "visibility": "subsurface"
+                }
+            },
+            "ar_visibility_volume": {
+                "target_portpath": {
+                    "visibility": "volume"
+                }
+            },
+            "materialassign": {
+                "target_portpath": {
+                    "asport": "materialassign"
+                }
+            }
+        }
+    }
+}

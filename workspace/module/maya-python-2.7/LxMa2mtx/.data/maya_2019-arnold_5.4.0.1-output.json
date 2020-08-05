@@ -1,0 +1,59 @@
+{
+    "integer": {
+        "outValue": {
+            "target_portpath": "integer"
+        }
+    },
+    "float": {
+        "outValue": {
+            "target_portpath": "float"
+        }
+    },
+    "boolean": {
+        "outValue": {
+            "target_portpath": "boolean"
+        }
+    },
+    "string": {
+        "outValue": {
+            "target_portpath": "string"
+        }
+    },
+    "color3": {
+        "outColor": {
+            "target_portpath": "rgb"
+        },
+        "outTransparency": {
+            "target_portpath": "rgb"
+        }
+    },
+    "color4": {
+        "outColor": {
+            "target_portpath": "rgba"
+        },
+        "outAlpha": {
+            "target_portpath": "rgba.a"
+        },
+        "outTransparency": {
+            "target_portpath": "rgba"
+        }
+    },
+    "vector3": {
+        "outValue": {
+            "target_portpath": "vector"
+        },
+        "outNormal": {
+            "target_portpath": "vector"
+        }
+    },
+    "matrix44": {
+        "outValue": {
+            "target_portpath": "matrix"
+        }
+    },
+    "closure": {
+        "outColor": {
+            "target_portpath": "shader"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "Material": {
+        "target_typepath": "material",
+        "source_port": {
+            "outputs:arnold:surface": {
+                "target_portpath": "surfaceshader"
+            },
+            "outputs:arnold:displacement": {
+                "target_portpath": "displacementshader"
+            },
+            "outputs:arnold:volume": {
+                "target_portpath": "volumeshader"
+            }
+        }
+    }
+}

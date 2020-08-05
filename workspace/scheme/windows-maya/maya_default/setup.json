@@ -1,0 +1,57 @@
+{
+    "name": "maya_default", 
+    "version": "0.0.0", 
+    "user": "nothings", 
+    "timestamp": 1596635173.269, 
+    "environ": {
+        "LYNXI_PYTHONPATH": {
+            "operate": "+", 
+            "value": [
+                "<LxApp>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxapp/0.0.0/source", 
+                "<LxBasic>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxbasic/0.0.0/source", 
+                "<LxCore>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxcore/0.0.0/source", 
+                "<LxDatabase>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdatabase/0.0.0/source", 
+                "<LxDeadline>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdeadline/0.0.0/source", 
+                "<LxGui>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxgui/0.0.0/source", 
+                "<LxKit>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxkit/0.0.0/source", 
+                "<LxMaBasic>{root.active}/workspace/module/maya-python-2.7|{root.active}/resource/module/maya-python-2.7-lxmabasic/0.0.0/source", 
+                "<LxMaInterface>{root.active}/workspace/module/maya-python-2.7|{root.active}/resource/module/maya-python-2.7-lxmainterface/0.0.0/source", 
+                "<LxMaya>{root.active}/workspace/module/maya-python-2.7|{root.active}/resource/module/maya-python-2.7-lxmaya/0.0.0/source", 
+                "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
+                "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
+                "<PIL>{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source", 
+                "<PySide2>{root.active}/resource/package/windows-python-2.7-pyside2/2.0.0~alpha0/source", 
+                "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
+                "<maya_default>{root.active}/resource/scheme/windows-maya-maya_default/0.0.0/source/scripts", 
+                "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
+            ]
+        }, 
+        "PYTHONPATH": {
+            "operate": "+", 
+            "value": "<maya_default>{root.active}/resource/scheme/windows-maya-maya_default/0.0.0/source/scripts"
+        }, 
+        "PATH": {
+            "operate": "+", 
+            "value": [
+                "<KMPlayer>{root.active}/resource/bin/windows-kmplayer/4.0.8.1/source/bin", 
+                "<pdplayer64>{root.active}/resource/bin/windows-pdplayer64/1.0.7.13/source/bin", 
+                "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin"
+            ]
+        }
+    }, 
+    "module": [
+        "LxApp", 
+        "LxBasic", 
+        "LxCore", 
+        "LxDatabase", 
+        "LxDeadline", 
+        "LxGui", 
+        "LxKit", 
+        "LxMaBasic", 
+        "LxMaInterface", 
+        "LxMaya", 
+        "LxPreset", 
+        "LxScheme"
+    ], 
+    "plug": []
+}

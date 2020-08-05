@@ -1,0 +1,243 @@
+{
+    "mesh": {
+        "datatype": "geometry",
+        "port": [
+            {
+                "portpath": "materialassign",
+                "datatype": "closure",
+                "portraw": "",
+                "assign": "asport"
+            },
+            {
+                "portpath": "material",
+                "datatype": "closure",
+                "portraw": "",
+                "assign": "inport"
+            },
+
+            {
+                "portpath": "disp_height",
+                "datatype": "float",
+                "portraw": "1.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "disp_padding",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "disp_zero_value",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "disp_autobump",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "autobump_visibility",
+                "datatype": "integer",
+                "portraw": "1",
+                "assign": "property"
+            },
+            {
+                "portpath": "smoothing",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "step_size",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_type",
+                "porttype": "enum",
+                "datatype": "string",
+                "portraw": "none",
+                "enumerate_portraw": [
+                    "none",
+                    "catclark",
+                    "linear"
+                ],
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_iterations",
+                "datatype": "integer",
+                "portraw": "0",
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_adaptive_error",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_adaptive_metric",
+                "porttype": "enum",
+                "datatype": "string",
+                "portraw": "auto",
+                "enumerate_portraw": [
+                    "auto",
+                    "edge_length",
+                    "flatness"
+                ],
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_adaptive_space",
+                "porttype": "enum",
+                "datatype": "string",
+                "portraw": "raster",
+                "enumerate_portraw": [
+                    "raster",
+                    "object"
+                ],
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_uv_smoothing",
+                "porttype": "enum",
+                "datatype": "string",
+                "portraw": "pin_corners",
+                "enumerate_portraw": [
+                    "pin_corners",
+                    "pin_borders",
+                    "linear",
+                    "smooth"
+                ],
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_frustum_ignore",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "subdiv_smooth_derivs",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "invert_normals",
+                "datatype": "boolean",
+                "portraw": "true",
+                "assign": "property"
+            },
+            {
+                "portpath": "opaque",
+                "datatype": "boolean",
+                "portraw": "true",
+                "assign": "property"
+            },
+            {
+                "portpath": "matte",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "use_shadow_group",
+                "datatype": "boolean",
+                "portraw": "false",
+                "assign": "property"
+            },
+            {
+                "portpath": "motion_start",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "motion_end",
+                "datatype": "float",
+                "portraw": "1.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "id",
+                "datatype": "integer",
+                "portraw": "0",
+                "assign": "property"
+            },
+            {
+                "portpath": "volume_padding",
+                "datatype": "float",
+                "portraw": "0.0",
+                "assign": "property"
+            },
+            {
+                "portpath": "self_shadows",
+                "datatype": "boolean",
+                "portraw": "true",
+                "assign": "property"
+            },
+            {
+                "portpath": "receive_shadows",
+                "datatype": "boolean",
+                "portraw": "true",
+                "assign": "property"
+            },
+
+            {
+                "portpath": "camera",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "shadow",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "diffuse_transmit",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "specular_transmit",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "diffuse_reflect",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "specular_reflect",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "subsurface",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            },
+            {
+                "portpath": "volume",
+                "datatype": "visibility",
+                "portraw": "true",
+                "assign": "visibility"
+            }
+        ]
+    }
+}

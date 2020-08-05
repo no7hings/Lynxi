@@ -1,0 +1,5105 @@
+{
+    "Shader/arnold:space_transform": {
+        "target_typepath": "space_transform",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:type": {
+                "target_portpath": "type"
+            },
+            "inputs:from": {
+                "target_portpath": "from"
+            },
+            "inputs:to": {
+                "target_portpath": "to"
+            },
+            "inputs:tangent": {
+                "target_portpath": "tangent"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:normalize": {
+                "target_portpath": "normalize"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:vector_map": {
+        "target_typepath": "vector_map",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:tangent": {
+                "target_portpath": "tangent"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:order": {
+                "target_portpath": "order"
+            },
+            "inputs:invert_x": {
+                "target_portpath": "invert_x"
+            },
+            "inputs:invert_y": {
+                "target_portpath": "invert_y"
+            },
+            "inputs:invert_z": {
+                "target_portpath": "invert_z"
+            },
+            "inputs:color_to_signed": {
+                "target_portpath": "color_to_signed"
+            },
+            "inputs:tangent_space": {
+                "target_portpath": "tangent_space"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:random": {
+        "target_typepath": "random",
+        "source_port": {
+            "inputs:input_type": {
+                "target_portpath": "input_type"
+            },
+            "inputs:input_int": {
+                "target_portpath": "input_int"
+            },
+            "inputs:input_float": {
+                "target_portpath": "input_float"
+            },
+            "inputs:input_color": {
+                "target_portpath": "input_color"
+            },
+            "inputs:seed": {
+                "target_portpath": "seed"
+            },
+            "inputs:grayscale": {
+                "target_portpath": "grayscale"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:color_jitter": {
+        "target_typepath": "color_jitter",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:data_input": {
+                "target_portpath": "data_input"
+            },
+            "inputs:data_gain_min": {
+                "target_portpath": "data_gain_min"
+            },
+            "inputs:data_gain_max": {
+                "target_portpath": "data_gain_max"
+            },
+            "inputs:data_hue_min": {
+                "target_portpath": "data_hue_min"
+            },
+            "inputs:data_hue_max": {
+                "target_portpath": "data_hue_max"
+            },
+            "inputs:data_saturation_min": {
+                "target_portpath": "data_saturation_min"
+            },
+            "inputs:data_saturation_max": {
+                "target_portpath": "data_saturation_max"
+            },
+            "inputs:data_seed": {
+                "target_portpath": "data_seed"
+            },
+            "inputs:proc_gain_min": {
+                "target_portpath": "proc_gain_min"
+            },
+            "inputs:proc_gain_max": {
+                "target_portpath": "proc_gain_max"
+            },
+            "inputs:proc_hue_min": {
+                "target_portpath": "proc_hue_min"
+            },
+            "inputs:proc_hue_max": {
+                "target_portpath": "proc_hue_max"
+            },
+            "inputs:proc_saturation_min": {
+                "target_portpath": "proc_saturation_min"
+            },
+            "inputs:proc_saturation_max": {
+                "target_portpath": "proc_saturation_max"
+            },
+            "inputs:proc_seed": {
+                "target_portpath": "proc_seed"
+            },
+            "inputs:obj_gain_min": {
+                "target_portpath": "obj_gain_min"
+            },
+            "inputs:obj_gain_max": {
+                "target_portpath": "obj_gain_max"
+            },
+            "inputs:obj_hue_min": {
+                "target_portpath": "obj_hue_min"
+            },
+            "inputs:obj_hue_max": {
+                "target_portpath": "obj_hue_max"
+            },
+            "inputs:obj_saturation_min": {
+                "target_portpath": "obj_saturation_min"
+            },
+            "inputs:obj_saturation_max": {
+                "target_portpath": "obj_saturation_max"
+            },
+            "inputs:obj_seed": {
+                "target_portpath": "obj_seed"
+            },
+            "inputs:face_gain_min": {
+                "target_portpath": "face_gain_min"
+            },
+            "inputs:face_gain_max": {
+                "target_portpath": "face_gain_max"
+            },
+            "inputs:face_hue_min": {
+                "target_portpath": "face_hue_min"
+            },
+            "inputs:face_hue_max": {
+                "target_portpath": "face_hue_max"
+            },
+            "inputs:face_saturation_min": {
+                "target_portpath": "face_saturation_min"
+            },
+            "inputs:face_saturation_max": {
+                "target_portpath": "face_saturation_max"
+            },
+            "inputs:face_seed": {
+                "target_portpath": "face_seed"
+            },
+            "inputs:face_mode": {
+                "target_portpath": "face_mode"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:skin": {
+        "target_typepath": "skin",
+        "source_port": {
+            "inputs:sss_weight": {
+                "target_portpath": "sss_weight"
+            },
+            "inputs:shallow_scatter_color": {
+                "target_portpath": "shallow_scatter_color"
+            },
+            "inputs:shallow_scatter_weight": {
+                "target_portpath": "shallow_scatter_weight"
+            },
+            "inputs:shallow_scatter_radius": {
+                "target_portpath": "shallow_scatter_radius"
+            },
+            "inputs:mid_scatter_color": {
+                "target_portpath": "mid_scatter_color"
+            },
+            "inputs:mid_scatter_weight": {
+                "target_portpath": "mid_scatter_weight"
+            },
+            "inputs:mid_scatter_radius": {
+                "target_portpath": "mid_scatter_radius"
+            },
+            "inputs:deep_scatter_color": {
+                "target_portpath": "deep_scatter_color"
+            },
+            "inputs:deep_scatter_weight": {
+                "target_portpath": "deep_scatter_weight"
+            },
+            "inputs:deep_scatter_radius": {
+                "target_portpath": "deep_scatter_radius"
+            },
+            "inputs:specular_color": {
+                "target_portpath": "specular_color"
+            },
+            "inputs:specular_weight": {
+                "target_portpath": "specular_weight"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_ior": {
+                "target_portpath": "specular_ior"
+            },
+            "inputs:sheen_color": {
+                "target_portpath": "sheen_color"
+            },
+            "inputs:sheen_weight": {
+                "target_portpath": "sheen_weight"
+            },
+            "inputs:sheen_roughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "inputs:sheen_ior": {
+                "target_portpath": "sheen_ior"
+            },
+            "inputs:global_sss_radius_multiplier": {
+                "target_portpath": "global_sss_radius_multiplier"
+            },
+            "inputs:specular_in_secondary_rays": {
+                "target_portpath": "specular_in_secondary_rays"
+            },
+            "inputs:fresnel_affect_sss": {
+                "target_portpath": "fresnel_affect_sss"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:opacity_color": {
+                "target_portpath": "opacity_color"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:range": {
+        "target_typepath": "range",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:input_min": {
+                "target_portpath": "input_min"
+            },
+            "inputs:input_max": {
+                "target_portpath": "input_max"
+            },
+            "inputs:output_min": {
+                "target_portpath": "output_min"
+            },
+            "inputs:output_max": {
+                "target_portpath": "output_max"
+            },
+            "inputs:smoothstep": {
+                "target_portpath": "smoothstep"
+            },
+            "inputs:contrast": {
+                "target_portpath": "contrast"
+            },
+            "inputs:contrast_pivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "inputs:bias": {
+                "target_portpath": "bias"
+            },
+            "inputs:gain": {
+                "target_portpath": "gain"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:facing_ratio": {
+        "target_typepath": "facing_ratio",
+        "source_port": {
+            "inputs:bias": {
+                "target_portpath": "bias"
+            },
+            "inputs:gain": {
+                "target_portpath": "gain"
+            },
+            "inputs:linear": {
+                "target_portpath": "linear"
+            },
+            "inputs:invert": {
+                "target_portpath": "invert"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:normal_map": {
+        "target_typepath": "normal_map",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:tangent": {
+                "target_portpath": "tangent"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:order": {
+                "target_portpath": "order"
+            },
+            "inputs:invert_x": {
+                "target_portpath": "invert_x"
+            },
+            "inputs:invert_y": {
+                "target_portpath": "invert_y"
+            },
+            "inputs:invert_z": {
+                "target_portpath": "invert_z"
+            },
+            "inputs:color_to_signed": {
+                "target_portpath": "color_to_signed"
+            },
+            "inputs:tangent_space": {
+                "target_portpath": "tangent_space"
+            },
+            "inputs:strength": {
+                "target_portpath": "strength"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:cache": {
+        "target_typepath": "cache",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:sky": {
+        "target_typepath": "sky",
+        "source_port": {
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:intensity": {
+                "target_portpath": "intensity"
+            },
+            "inputs:visibility": {
+                "target_portpath": "visibility"
+            },
+            "inputs:opaque_alpha": {
+                "target_portpath": "opaque_alpha"
+            },
+            "inputs:format": {
+                "target_portpath": "format"
+            },
+            "inputs:X_angle": {
+                "target_portpath": "X_angle"
+            },
+            "inputs:Y_angle": {
+                "target_portpath": "Y_angle"
+            },
+            "inputs:Z_angle": {
+                "target_portpath": "Z_angle"
+            },
+            "inputs:X": {
+                "target_portpath": "X"
+            },
+            "inputs:Y": {
+                "target_portpath": "Y"
+            },
+            "inputs:Z": {
+                "target_portpath": "Z"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:layer_shader": {
+        "target_typepath": "layer_shader",
+        "source_port": {
+            "inputs:enable1": {
+                "target_portpath": "enable1"
+            },
+            "inputs:name1": {
+                "target_portpath": "name1"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:mix1": {
+                "target_portpath": "mix1"
+            },
+            "inputs:enable2": {
+                "target_portpath": "enable2"
+            },
+            "inputs:name2": {
+                "target_portpath": "name2"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:mix2": {
+                "target_portpath": "mix2"
+            },
+            "inputs:enable3": {
+                "target_portpath": "enable3"
+            },
+            "inputs:name3": {
+                "target_portpath": "name3"
+            },
+            "inputs:input3": {
+                "target_portpath": "input3"
+            },
+            "inputs:mix3": {
+                "target_portpath": "mix3"
+            },
+            "inputs:enable4": {
+                "target_portpath": "enable4"
+            },
+            "inputs:name4": {
+                "target_portpath": "name4"
+            },
+            "inputs:input4": {
+                "target_portpath": "input4"
+            },
+            "inputs:mix4": {
+                "target_portpath": "mix4"
+            },
+            "inputs:enable5": {
+                "target_portpath": "enable5"
+            },
+            "inputs:name5": {
+                "target_portpath": "name5"
+            },
+            "inputs:input5": {
+                "target_portpath": "input5"
+            },
+            "inputs:mix5": {
+                "target_portpath": "mix5"
+            },
+            "inputs:enable6": {
+                "target_portpath": "enable6"
+            },
+            "inputs:name6": {
+                "target_portpath": "name6"
+            },
+            "inputs:input6": {
+                "target_portpath": "input6"
+            },
+            "inputs:mix6": {
+                "target_portpath": "mix6"
+            },
+            "inputs:enable7": {
+                "target_portpath": "enable7"
+            },
+            "inputs:name7": {
+                "target_portpath": "name7"
+            },
+            "inputs:input7": {
+                "target_portpath": "input7"
+            },
+            "inputs:mix7": {
+                "target_portpath": "mix7"
+            },
+            "inputs:enable8": {
+                "target_portpath": "enable8"
+            },
+            "inputs:name8": {
+                "target_portpath": "name8"
+            },
+            "inputs:input8": {
+                "target_portpath": "input8"
+            },
+            "inputs:mix8": {
+                "target_portpath": "mix8"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:add": {
+        "target_typepath": "add",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:fog": {
+        "target_typepath": "fog",
+        "source_port": {
+            "inputs:distance": {
+                "target_portpath": "distance"
+            },
+            "inputs:height": {
+                "target_portpath": "height"
+            },
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:ground_point": {
+                "target_portpath": "ground_point"
+            },
+            "inputs:ground_normal": {
+                "target_portpath": "ground_normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:ray_switch_shader": {
+        "target_typepath": "ray_switch_shader",
+        "source_port": {
+            "inputs:camera": {
+                "target_portpath": "camera"
+            },
+            "inputs:shadow": {
+                "target_portpath": "shadow"
+            },
+            "inputs:diffuse_reflection": {
+                "target_portpath": "diffuse_reflection"
+            },
+            "inputs:diffuse_transmission": {
+                "target_portpath": "diffuse_transmission"
+            },
+            "inputs:specular_reflection": {
+                "target_portpath": "specular_reflection"
+            },
+            "inputs:specular_transmission": {
+                "target_portpath": "specular_transmission"
+            },
+            "inputs:volume": {
+                "target_portpath": "volume"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:pow": {
+        "target_typepath": "pow",
+        "source_port": {
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "inputs:exponent": {
+                "target_portpath": "exponent"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:volume_sample_rgb": {
+        "target_typepath": "volume_sample_rgb",
+        "source_port": {
+            "inputs:channel": {
+                "target_portpath": "channel"
+            },
+            "inputs:position_offset": {
+                "target_portpath": "position_offset"
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "inputs:gamma": {
+                "target_portpath": "gamma"
+            },
+            "inputs:hue_shift": {
+                "target_portpath": "hue_shift"
+            },
+            "inputs:saturation": {
+                "target_portpath": "saturation"
+            },
+            "inputs:contrast": {
+                "target_portpath": "contrast"
+            },
+            "inputs:contrast_pivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "inputs:exposure": {
+                "target_portpath": "exposure"
+            },
+            "inputs:multiply": {
+                "target_portpath": "multiply"
+            },
+            "inputs:add": {
+                "target_portpath": "add"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:trigo": {
+        "target_typepath": "trigo",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:function": {
+                "target_portpath": "function"
+            },
+            "inputs:units": {
+                "target_portpath": "units"
+            },
+            "inputs:frequency": {
+                "target_portpath": "frequency"
+            },
+            "inputs:phase": {
+                "target_portpath": "phase"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:aov_read_int": {
+        "target_typepath": "aov_read_int",
+        "source_port": {
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "outputs:integer": {
+                "target_portpath": "integer"
+            }
+        }
+    },
+    "Shader/arnold:lambert": {
+        "target_typepath": "lambert",
+        "source_port": {
+            "inputs:Kd": {
+                "target_portpath": "Kd"
+            },
+            "inputs:Kd_color": {
+                "target_portpath": "Kd_color"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:layer_rgba": {
+        "target_typepath": "layer_rgba",
+        "source_port": {
+            "inputs:enable1": {
+                "target_portpath": "enable1"
+            },
+            "inputs:name1": {
+                "target_portpath": "name1"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:mix1": {
+                "target_portpath": "mix1"
+            },
+            "inputs:operation1": {
+                "target_portpath": "operation1"
+            },
+            "inputs:alpha_operation1": {
+                "target_portpath": "alpha_operation1"
+            },
+            "inputs:enable2": {
+                "target_portpath": "enable2"
+            },
+            "inputs:name2": {
+                "target_portpath": "name2"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:mix2": {
+                "target_portpath": "mix2"
+            },
+            "inputs:operation2": {
+                "target_portpath": "operation2"
+            },
+            "inputs:alpha_operation2": {
+                "target_portpath": "alpha_operation2"
+            },
+            "inputs:enable3": {
+                "target_portpath": "enable3"
+            },
+            "inputs:name3": {
+                "target_portpath": "name3"
+            },
+            "inputs:input3": {
+                "target_portpath": "input3"
+            },
+            "inputs:mix3": {
+                "target_portpath": "mix3"
+            },
+            "inputs:operation3": {
+                "target_portpath": "operation3"
+            },
+            "inputs:alpha_operation3": {
+                "target_portpath": "alpha_operation3"
+            },
+            "inputs:enable4": {
+                "target_portpath": "enable4"
+            },
+            "inputs:name4": {
+                "target_portpath": "name4"
+            },
+            "inputs:input4": {
+                "target_portpath": "input4"
+            },
+            "inputs:mix4": {
+                "target_portpath": "mix4"
+            },
+            "inputs:operation4": {
+                "target_portpath": "operation4"
+            },
+            "inputs:alpha_operation4": {
+                "target_portpath": "alpha_operation4"
+            },
+            "inputs:enable5": {
+                "target_portpath": "enable5"
+            },
+            "inputs:name5": {
+                "target_portpath": "name5"
+            },
+            "inputs:input5": {
+                "target_portpath": "input5"
+            },
+            "inputs:mix5": {
+                "target_portpath": "mix5"
+            },
+            "inputs:operation5": {
+                "target_portpath": "operation5"
+            },
+            "inputs:alpha_operation5": {
+                "target_portpath": "alpha_operation5"
+            },
+            "inputs:enable6": {
+                "target_portpath": "enable6"
+            },
+            "inputs:name6": {
+                "target_portpath": "name6"
+            },
+            "inputs:input6": {
+                "target_portpath": "input6"
+            },
+            "inputs:mix6": {
+                "target_portpath": "mix6"
+            },
+            "inputs:operation6": {
+                "target_portpath": "operation6"
+            },
+            "inputs:alpha_operation6": {
+                "target_portpath": "alpha_operation6"
+            },
+            "inputs:enable7": {
+                "target_portpath": "enable7"
+            },
+            "inputs:name7": {
+                "target_portpath": "name7"
+            },
+            "inputs:input7": {
+                "target_portpath": "input7"
+            },
+            "inputs:mix7": {
+                "target_portpath": "mix7"
+            },
+            "inputs:operation7": {
+                "target_portpath": "operation7"
+            },
+            "inputs:alpha_operation7": {
+                "target_portpath": "alpha_operation7"
+            },
+            "inputs:enable8": {
+                "target_portpath": "enable8"
+            },
+            "inputs:name8": {
+                "target_portpath": "name8"
+            },
+            "inputs:input8": {
+                "target_portpath": "input8"
+            },
+            "inputs:mix8": {
+                "target_portpath": "mix8"
+            },
+            "inputs:operation8": {
+                "target_portpath": "operation8"
+            },
+            "inputs:alpha_operation8": {
+                "target_portpath": "alpha_operation8"
+            },
+            "inputs:clamp": {
+                "target_portpath": "clamp"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:mix_shader": {
+        "target_typepath": "mix_shader",
+        "source_port": {
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "inputs:mix": {
+                "target_portpath": "mix"
+            },
+            "inputs:shader1": {
+                "target_portpath": "shader1"
+            },
+            "inputs:shader2": {
+                "target_portpath": "shader2"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:aov_write_rgb": {
+        "target_typepath": "aov_write_rgb",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:aov_input": {
+                "target_portpath": "aov_input"
+            },
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "inputs:blend_opacity": {
+                "target_portpath": "blend_opacity"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:user_data_rgb": {
+        "target_typepath": "user_data_rgb",
+        "source_port": {
+            "inputs:attribute": {
+                "target_portpath": "attribute"
+            },
+            "inputs:default": {
+                "target_portpath": "default"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:rgb_to_vector": {
+        "target_typepath": "rgb_to_vector",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:user_data_rgba": {
+        "target_typepath": "user_data_rgba",
+        "source_port": {
+            "inputs:attribute": {
+                "target_portpath": "attribute"
+            },
+            "inputs:default": {
+                "target_portpath": "default"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:clamp": {
+        "target_typepath": "clamp",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "inputs:min": {
+                "target_portpath": "min"
+            },
+            "inputs:max": {
+                "target_portpath": "max"
+            },
+            "inputs:min_color": {
+                "target_portpath": "min_color"
+            },
+            "inputs:max_color": {
+                "target_portpath": "max_color"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:modulo": {
+        "target_typepath": "modulo",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:divisor": {
+                "target_portpath": "divisor"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:state_vector": {
+        "target_typepath": "state_vector",
+        "source_port": {
+            "inputs:variable": {
+                "target_portpath": "variable"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:sign": {
+        "target_typepath": "sign",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:hair": {
+        "target_typepath": "hair",
+        "source_port": {
+            "inputs:rootcolor": {
+                "target_portpath": "rootcolor"
+            },
+            "inputs:tipcolor": {
+                "target_portpath": "tipcolor"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:ambdiff": {
+                "target_portpath": "ambdiff"
+            },
+            "inputs:spec": {
+                "target_portpath": "spec"
+            },
+            "inputs:spec_color": {
+                "target_portpath": "spec_color"
+            },
+            "inputs:spec_shift": {
+                "target_portpath": "spec_shift"
+            },
+            "inputs:spec_gloss": {
+                "target_portpath": "spec_gloss"
+            },
+            "inputs:spec2": {
+                "target_portpath": "spec2"
+            },
+            "inputs:spec2_color": {
+                "target_portpath": "spec2_color"
+            },
+            "inputs:spec2_shift": {
+                "target_portpath": "spec2_shift"
+            },
+            "inputs:spec2_gloss": {
+                "target_portpath": "spec2_gloss"
+            },
+            "inputs:transmission": {
+                "target_portpath": "transmission"
+            },
+            "inputs:transmission_color": {
+                "target_portpath": "transmission_color"
+            },
+            "inputs:transmission_spread": {
+                "target_portpath": "transmission_spread"
+            },
+            "inputs:kd_ind": {
+                "target_portpath": "kd_ind"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:rgba_to_float": {
+        "target_typepath": "rgba_to_float",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:matrix_multiply_vector": {
+        "target_typepath": "matrix_multiply_vector",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:type": {
+                "target_portpath": "type"
+            },
+            "inputs:matrix": {
+                "target_portpath": "matrix"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:aov_write_rgba": {
+        "target_typepath": "aov_write_rgba",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:aov_input": {
+                "target_portpath": "aov_input"
+            },
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "inputs:blend_opacity": {
+                "target_portpath": "blend_opacity"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:float_to_matrix": {
+        "target_typepath": "float_to_matrix",
+        "source_port": {
+            "inputs:input_00": {
+                "target_portpath": "input_00"
+            },
+            "inputs:input_01": {
+                "target_portpath": "input_01"
+            },
+            "inputs:input_02": {
+                "target_portpath": "input_02"
+            },
+            "inputs:input_03": {
+                "target_portpath": "input_03"
+            },
+            "inputs:input_10": {
+                "target_portpath": "input_10"
+            },
+            "inputs:input_11": {
+                "target_portpath": "input_11"
+            },
+            "inputs:input_12": {
+                "target_portpath": "input_12"
+            },
+            "inputs:input_13": {
+                "target_portpath": "input_13"
+            },
+            "inputs:input_20": {
+                "target_portpath": "input_20"
+            },
+            "inputs:input_21": {
+                "target_portpath": "input_21"
+            },
+            "inputs:input_22": {
+                "target_portpath": "input_22"
+            },
+            "inputs:input_23": {
+                "target_portpath": "input_23"
+            },
+            "inputs:input_30": {
+                "target_portpath": "input_30"
+            },
+            "inputs:input_31": {
+                "target_portpath": "input_31"
+            },
+            "inputs:input_32": {
+                "target_portpath": "input_32"
+            },
+            "inputs:input_33": {
+                "target_portpath": "input_33"
+            },
+            "outputs:matrix": {
+                "target_portpath": "matrix"
+            }
+        }
+    },
+    "Shader/arnold:wireframe": {
+        "target_typepath": "wireframe",
+        "source_port": {
+            "inputs:line_width": {
+                "target_portpath": "line_width"
+            },
+            "inputs:fill_color": {
+                "target_portpath": "fill_color"
+            },
+            "inputs:line_color": {
+                "target_portpath": "line_color"
+            },
+            "inputs:raster_space": {
+                "target_portpath": "raster_space"
+            },
+            "inputs:edge_type": {
+                "target_portpath": "edge_type"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:volume_sample_float": {
+        "target_typepath": "volume_sample_float",
+        "source_port": {
+            "inputs:channel": {
+                "target_portpath": "channel"
+            },
+            "inputs:position_offset": {
+                "target_portpath": "position_offset"
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "inputs:volume_type": {
+                "target_portpath": "volume_type"
+            },
+            "inputs:sdf_offset": {
+                "target_portpath": "sdf_offset"
+            },
+            "inputs:sdf_blend": {
+                "target_portpath": "sdf_blend"
+            },
+            "inputs:sdf_invert": {
+                "target_portpath": "sdf_invert"
+            },
+            "inputs:input_min": {
+                "target_portpath": "input_min"
+            },
+            "inputs:input_max": {
+                "target_portpath": "input_max"
+            },
+            "inputs:contrast": {
+                "target_portpath": "contrast"
+            },
+            "inputs:contrast_pivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "inputs:bias": {
+                "target_portpath": "bias"
+            },
+            "inputs:gain": {
+                "target_portpath": "gain"
+            },
+            "inputs:output_min": {
+                "target_portpath": "output_min"
+            },
+            "inputs:output_max": {
+                "target_portpath": "output_max"
+            },
+            "inputs:clamp_min": {
+                "target_portpath": "clamp_min"
+            },
+            "inputs:clamp_max": {
+                "target_portpath": "clamp_max"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:abs": {
+        "target_typepath": "abs",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:cell_noise": {
+        "target_typepath": "cell_noise",
+        "source_port": {
+            "inputs:pattern": {
+                "target_portpath": "pattern"
+            },
+            "inputs:additive": {
+                "target_portpath": "additive"
+            },
+            "inputs:octaves": {
+                "target_portpath": "octaves"
+            },
+            "inputs:randomness": {
+                "target_portpath": "randomness"
+            },
+            "inputs:lacunarity": {
+                "target_portpath": "lacunarity"
+            },
+            "inputs:amplitude": {
+                "target_portpath": "amplitude"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "inputs:offset": {
+                "target_portpath": "offset"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:P": {
+                "target_portpath": "P"
+            },
+            "inputs:time": {
+                "target_portpath": "time"
+            },
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:palette": {
+                "target_portpath": "palette"
+            },
+            "inputs:density": {
+                "target_portpath": "density"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:noise": {
+        "target_typepath": "noise",
+        "source_port": {
+            "inputs:octaves": {
+                "target_portpath": "octaves"
+            },
+            "inputs:distortion": {
+                "target_portpath": "distortion"
+            },
+            "inputs:lacunarity": {
+                "target_portpath": "lacunarity"
+            },
+            "inputs:amplitude": {
+                "target_portpath": "amplitude"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "inputs:offset": {
+                "target_portpath": "offset"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:P": {
+                "target_portpath": "P"
+            },
+            "inputs:time": {
+                "target_portpath": "time"
+            },
+            "inputs:color1": {
+                "target_portpath": "color1"
+            },
+            "inputs:color2": {
+                "target_portpath": "color2"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:user_data_float": {
+        "target_typepath": "user_data_float",
+        "source_port": {
+            "inputs:attribute": {
+                "target_portpath": "attribute"
+            },
+            "inputs:default": {
+                "target_portpath": "default"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:complement": {
+        "target_typepath": "complement",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:mix_rgba": {
+        "target_typepath": "mix_rgba",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:mix": {
+                "target_portpath": "mix"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:standard": {
+        "target_typepath": "standard",
+        "source_port": {
+            "inputs:Kd": {
+                "target_portpath": "Kd"
+            },
+            "inputs:Kd_color": {
+                "target_portpath": "Kd_color"
+            },
+            "inputs:diffuse_roughness": {
+                "target_portpath": "diffuse_roughness"
+            },
+            "inputs:Ks": {
+                "target_portpath": "Ks"
+            },
+            "inputs:Ks_color": {
+                "target_portpath": "Ks_color"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_anisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "inputs:specular_rotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "inputs:specular_distribution": {
+                "target_portpath": "specular_distribution"
+            },
+            "inputs:Kr": {
+                "target_portpath": "Kr"
+            },
+            "inputs:Kr_color": {
+                "target_portpath": "Kr_color"
+            },
+            "inputs:reflection_exit_color": {
+                "target_portpath": "reflection_exit_color"
+            },
+            "inputs:reflection_exit_use_environment": {
+                "target_portpath": "reflection_exit_use_environment"
+            },
+            "inputs:Kt": {
+                "target_portpath": "Kt"
+            },
+            "inputs:Kt_color": {
+                "target_portpath": "Kt_color"
+            },
+            "inputs:transmittance": {
+                "target_portpath": "transmittance"
+            },
+            "inputs:refraction_roughness": {
+                "target_portpath": "refraction_roughness"
+            },
+            "inputs:refraction_exit_color": {
+                "target_portpath": "refraction_exit_color"
+            },
+            "inputs:refraction_exit_use_environment": {
+                "target_portpath": "refraction_exit_use_environment"
+            },
+            "inputs:IOR": {
+                "target_portpath": "IOR"
+            },
+            "inputs:dispersion_abbe": {
+                "target_portpath": "dispersion_abbe"
+            },
+            "inputs:Kb": {
+                "target_portpath": "Kb"
+            },
+            "inputs:Fresnel": {
+                "target_portpath": "Fresnel"
+            },
+            "inputs:Krn": {
+                "target_portpath": "Krn"
+            },
+            "inputs:specular_Fresnel": {
+                "target_portpath": "specular_Fresnel"
+            },
+            "inputs:Ksn": {
+                "target_portpath": "Ksn"
+            },
+            "inputs:Fresnel_use_IOR": {
+                "target_portpath": "Fresnel_use_IOR"
+            },
+            "inputs:Fresnel_affect_diff": {
+                "target_portpath": "Fresnel_affect_diff"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:direct_specular": {
+                "target_portpath": "direct_specular"
+            },
+            "inputs:indirect_specular": {
+                "target_portpath": "indirect_specular"
+            },
+            "inputs:direct_diffuse": {
+                "target_portpath": "direct_diffuse"
+            },
+            "inputs:indirect_diffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "inputs:enable_glossy_caustics": {
+                "target_portpath": "enable_glossy_caustics"
+            },
+            "inputs:enable_reflective_caustics": {
+                "target_portpath": "enable_reflective_caustics"
+            },
+            "inputs:enable_refractive_caustics": {
+                "target_portpath": "enable_refractive_caustics"
+            },
+            "inputs:enable_internal_reflections": {
+                "target_portpath": "enable_internal_reflections"
+            },
+            "inputs:Ksss": {
+                "target_portpath": "Ksss"
+            },
+            "inputs:Ksss_color": {
+                "target_portpath": "Ksss_color"
+            },
+            "inputs:sss_radius": {
+                "target_portpath": "sss_radius"
+            },
+            "inputs:bounce_factor": {
+                "target_portpath": "bounce_factor"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:motion_vector": {
+        "target_typepath": "motion_vector",
+        "source_port": {
+            "inputs:raw": {
+                "target_portpath": "raw"
+            },
+            "inputs:time0": {
+                "target_portpath": "time0"
+            },
+            "inputs:time1": {
+                "target_portpath": "time1"
+            },
+            "inputs:max_displace": {
+                "target_portpath": "max_displace"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:maya_layered_shader": {
+        "target_typepath": "maya_layered_shader",
+        "source_port": {
+            "inputs:compositingFlag": {
+                "target_portpath": "compositingFlag"
+            },
+            "inputs:numInputs": {
+                "target_portpath": "numInputs"
+            },
+            "inputs:color0": {
+                "target_portpath": "color0"
+            },
+            "inputs:color1": {
+                "target_portpath": "color1"
+            },
+            "inputs:color2": {
+                "target_portpath": "color2"
+            },
+            "inputs:color3": {
+                "target_portpath": "color3"
+            },
+            "inputs:color4": {
+                "target_portpath": "color4"
+            },
+            "inputs:color5": {
+                "target_portpath": "color5"
+            },
+            "inputs:color6": {
+                "target_portpath": "color6"
+            },
+            "inputs:color7": {
+                "target_portpath": "color7"
+            },
+            "inputs:color8": {
+                "target_portpath": "color8"
+            },
+            "inputs:color9": {
+                "target_portpath": "color9"
+            },
+            "inputs:color10": {
+                "target_portpath": "color10"
+            },
+            "inputs:color11": {
+                "target_portpath": "color11"
+            },
+            "inputs:color12": {
+                "target_portpath": "color12"
+            },
+            "inputs:color13": {
+                "target_portpath": "color13"
+            },
+            "inputs:color14": {
+                "target_portpath": "color14"
+            },
+            "inputs:color15": {
+                "target_portpath": "color15"
+            },
+            "inputs:transparency0": {
+                "target_portpath": "transparency0"
+            },
+            "inputs:transparency1": {
+                "target_portpath": "transparency1"
+            },
+            "inputs:transparency2": {
+                "target_portpath": "transparency2"
+            },
+            "inputs:transparency3": {
+                "target_portpath": "transparency3"
+            },
+            "inputs:transparency4": {
+                "target_portpath": "transparency4"
+            },
+            "inputs:transparency5": {
+                "target_portpath": "transparency5"
+            },
+            "inputs:transparency6": {
+                "target_portpath": "transparency6"
+            },
+            "inputs:transparency7": {
+                "target_portpath": "transparency7"
+            },
+            "inputs:transparency8": {
+                "target_portpath": "transparency8"
+            },
+            "inputs:transparency9": {
+                "target_portpath": "transparency9"
+            },
+            "inputs:transparency10": {
+                "target_portpath": "transparency10"
+            },
+            "inputs:transparency11": {
+                "target_portpath": "transparency11"
+            },
+            "inputs:transparency12": {
+                "target_portpath": "transparency12"
+            },
+            "inputs:transparency13": {
+                "target_portpath": "transparency13"
+            },
+            "inputs:transparency14": {
+                "target_portpath": "transparency14"
+            },
+            "inputs:transparency15": {
+                "target_portpath": "transparency15"
+            },
+            "inputs:useTransparency0": {
+                "target_portpath": "useTransparency0"
+            },
+            "inputs:useTransparency1": {
+                "target_portpath": "useTransparency1"
+            },
+            "inputs:useTransparency2": {
+                "target_portpath": "useTransparency2"
+            },
+            "inputs:useTransparency3": {
+                "target_portpath": "useTransparency3"
+            },
+            "inputs:useTransparency4": {
+                "target_portpath": "useTransparency4"
+            },
+            "inputs:useTransparency5": {
+                "target_portpath": "useTransparency5"
+            },
+            "inputs:useTransparency6": {
+                "target_portpath": "useTransparency6"
+            },
+            "inputs:useTransparency7": {
+                "target_portpath": "useTransparency7"
+            },
+            "inputs:useTransparency8": {
+                "target_portpath": "useTransparency8"
+            },
+            "inputs:useTransparency9": {
+                "target_portpath": "useTransparency9"
+            },
+            "inputs:useTransparency10": {
+                "target_portpath": "useTransparency10"
+            },
+            "inputs:useTransparency11": {
+                "target_portpath": "useTransparency11"
+            },
+            "inputs:useTransparency12": {
+                "target_portpath": "useTransparency12"
+            },
+            "inputs:useTransparency13": {
+                "target_portpath": "useTransparency13"
+            },
+            "inputs:useTransparency14": {
+                "target_portpath": "useTransparency14"
+            },
+            "inputs:useTransparency15": {
+                "target_portpath": "useTransparency15"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:subtract": {
+        "target_typepath": "subtract",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:round_corners": {
+        "target_typepath": "round_corners",
+        "source_port": {
+            "inputs:samples": {
+                "target_portpath": "samples"
+            },
+            "inputs:radius": {
+                "target_portpath": "radius"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:trace_set": {
+                "target_portpath": "trace_set"
+            },
+            "inputs:inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "inputs:self_only": {
+                "target_portpath": "self_only"
+            },
+            "inputs:object_space": {
+                "target_portpath": "object_space"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:standard_hair": {
+        "target_typepath": "standard_hair",
+        "source_port": {
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "inputs:base_color": {
+                "target_portpath": "base_color"
+            },
+            "inputs:melanin": {
+                "target_portpath": "melanin"
+            },
+            "inputs:melanin_redness": {
+                "target_portpath": "melanin_redness"
+            },
+            "inputs:melanin_randomize": {
+                "target_portpath": "melanin_randomize"
+            },
+            "inputs:roughness": {
+                "target_portpath": "roughness"
+            },
+            "inputs:roughness_azimuthal": {
+                "target_portpath": "roughness_azimuthal"
+            },
+            "inputs:roughness_anisotropic": {
+                "target_portpath": "roughness_anisotropic"
+            },
+            "inputs:ior": {
+                "target_portpath": "ior"
+            },
+            "inputs:shift": {
+                "target_portpath": "shift"
+            },
+            "inputs:specular_tint": {
+                "target_portpath": "specular_tint"
+            },
+            "inputs:specular2_tint": {
+                "target_portpath": "specular2_tint"
+            },
+            "inputs:transmission_tint": {
+                "target_portpath": "transmission_tint"
+            },
+            "inputs:diffuse": {
+                "target_portpath": "diffuse"
+            },
+            "inputs:diffuse_color": {
+                "target_portpath": "diffuse_color"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:indirect_diffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "inputs:indirect_specular": {
+                "target_portpath": "indirect_specular"
+            },
+            "inputs:extra_depth": {
+                "target_portpath": "extra_depth"
+            },
+            "inputs:extra_samples": {
+                "target_portpath": "extra_samples"
+            },
+            "inputs:aov_id1": {
+                "target_portpath": "aov_id1"
+            },
+            "inputs:id1": {
+                "target_portpath": "id1"
+            },
+            "inputs:aov_id2": {
+                "target_portpath": "aov_id2"
+            },
+            "inputs:id2": {
+                "target_portpath": "id2"
+            },
+            "inputs:aov_id3": {
+                "target_portpath": "aov_id3"
+            },
+            "inputs:id3": {
+                "target_portpath": "id3"
+            },
+            "inputs:aov_id4": {
+                "target_portpath": "aov_id4"
+            },
+            "inputs:id4": {
+                "target_portpath": "id4"
+            },
+            "inputs:aov_id5": {
+                "target_portpath": "aov_id5"
+            },
+            "inputs:id5": {
+                "target_portpath": "id5"
+            },
+            "inputs:aov_id6": {
+                "target_portpath": "aov_id6"
+            },
+            "inputs:id6": {
+                "target_portpath": "id6"
+            },
+            "inputs:aov_id7": {
+                "target_portpath": "aov_id7"
+            },
+            "inputs:id7": {
+                "target_portpath": "id7"
+            },
+            "inputs:aov_id8": {
+                "target_portpath": "aov_id8"
+            },
+            "inputs:id8": {
+                "target_portpath": "id8"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:physical_sky": {
+        "target_typepath": "physical_sky",
+        "source_port": {
+            "inputs:turbidity": {
+                "target_portpath": "turbidity"
+            },
+            "inputs:ground_albedo": {
+                "target_portpath": "ground_albedo"
+            },
+            "inputs:use_degrees": {
+                "target_portpath": "use_degrees"
+            },
+            "inputs:elevation": {
+                "target_portpath": "elevation"
+            },
+            "inputs:azimuth": {
+                "target_portpath": "azimuth"
+            },
+            "inputs:sun_direction": {
+                "target_portpath": "sun_direction"
+            },
+            "inputs:enable_sun": {
+                "target_portpath": "enable_sun"
+            },
+            "inputs:sun_size": {
+                "target_portpath": "sun_size"
+            },
+            "inputs:sun_tint": {
+                "target_portpath": "sun_tint"
+            },
+            "inputs:sky_tint": {
+                "target_portpath": "sky_tint"
+            },
+            "inputs:intensity": {
+                "target_portpath": "intensity"
+            },
+            "inputs:X": {
+                "target_portpath": "X"
+            },
+            "inputs:Y": {
+                "target_portpath": "Y"
+            },
+            "inputs:Z": {
+                "target_portpath": "Z"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:user_data_string": {
+        "target_typepath": "user_data_string",
+        "source_port": {
+            "inputs:attribute": {
+                "target_portpath": "attribute"
+            },
+            "inputs:default": {
+                "target_portpath": "default"
+            },
+            "outputs:string": {
+                "target_portpath": "string"
+            }
+        }
+    },
+    "Shader/arnold:query_shape": {
+        "target_typepath": "query_shape",
+        "source_port": {
+            "outputs:boolean": {
+                "target_portpath": "boolean"
+            }
+        }
+    },
+    "Shader/arnold:c4d_texture_tag_rgba": {
+        "target_typepath": "c4d_texture_tag_rgba",
+        "source_port": {
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:proj": {
+                "target_portpath": "proj"
+            },
+            "inputs:lenx": {
+                "target_portpath": "lenx"
+            },
+            "inputs:leny": {
+                "target_portpath": "leny"
+            },
+            "inputs:ox": {
+                "target_portpath": "ox"
+            },
+            "inputs:oy": {
+                "target_portpath": "oy"
+            },
+            "inputs:tilex": {
+                "target_portpath": "tilex"
+            },
+            "inputs:tiley": {
+                "target_portpath": "tiley"
+            },
+            "inputs:m": {
+                "target_portpath": "m"
+            },
+            "inputs:camera": {
+                "target_portpath": "camera"
+            },
+            "inputs:aspect_ratio": {
+                "target_portpath": "aspect_ratio"
+            },
+            "inputs:use_pref": {
+                "target_portpath": "use_pref"
+            },
+            "inputs:side": {
+                "target_portpath": "side"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:length": {
+        "target_typepath": "length",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:atmosphere_volume": {
+        "target_typepath": "atmosphere_volume",
+        "source_port": {
+            "inputs:density": {
+                "target_portpath": "density"
+            },
+            "inputs:samples": {
+                "target_portpath": "samples"
+            },
+            "inputs:eccentricity": {
+                "target_portpath": "eccentricity"
+            },
+            "inputs:attenuation": {
+                "target_portpath": "attenuation"
+            },
+            "inputs:affect_camera": {
+                "target_portpath": "affect_camera"
+            },
+            "inputs:affect_diffuse": {
+                "target_portpath": "affect_diffuse"
+            },
+            "inputs:affect_specular": {
+                "target_portpath": "affect_specular"
+            },
+            "inputs:rgb_density": {
+                "target_portpath": "rgb_density"
+            },
+            "inputs:rgb_attenuation": {
+                "target_portpath": "rgb_attenuation"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:aov_write_int": {
+        "target_typepath": "aov_write_int",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:aov_input": {
+                "target_portpath": "aov_input"
+            },
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:float_to_int": {
+        "target_typepath": "float_to_int",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:integer": {
+                "target_portpath": "integer"
+            }
+        }
+    },
+    "Shader/arnold:triplanar": {
+        "target_typepath": "triplanar",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "inputs:rotate": {
+                "target_portpath": "rotate"
+            },
+            "inputs:offset": {
+                "target_portpath": "offset"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:blend": {
+                "target_portpath": "blend"
+            },
+            "inputs:cell": {
+                "target_portpath": "cell"
+            },
+            "inputs:cell_rotate": {
+                "target_portpath": "cell_rotate"
+            },
+            "inputs:cell_blend": {
+                "target_portpath": "cell_blend"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:aov_read_rgba": {
+        "target_typepath": "aov_read_rgba",
+        "source_port": {
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:blackbody": {
+        "target_typepath": "blackbody",
+        "source_port": {
+            "inputs:temperature": {
+                "target_portpath": "temperature"
+            },
+            "inputs:normalize": {
+                "target_portpath": "normalize"
+            },
+            "inputs:intensity": {
+                "target_portpath": "intensity"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:shuffle": {
+        "target_typepath": "shuffle",
+        "source_port": {
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:alpha": {
+                "target_portpath": "alpha"
+            },
+            "inputs:channel_r": {
+                "target_portpath": "channel_r"
+            },
+            "inputs:channel_g": {
+                "target_portpath": "channel_g"
+            },
+            "inputs:channel_b": {
+                "target_portpath": "channel_b"
+            },
+            "inputs:channel_a": {
+                "target_portpath": "channel_a"
+            },
+            "inputs:negate_r": {
+                "target_portpath": "negate_r"
+            },
+            "inputs:negate_g": {
+                "target_portpath": "negate_g"
+            },
+            "inputs:negate_b": {
+                "target_portpath": "negate_b"
+            },
+            "inputs:negate_a": {
+                "target_portpath": "negate_a"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:divide": {
+        "target_typepath": "divide",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:passthrough": {
+        "target_typepath": "passthrough",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:eval1": {
+                "target_portpath": "eval1"
+            },
+            "inputs:eval2": {
+                "target_portpath": "eval2"
+            },
+            "inputs:eval3": {
+                "target_portpath": "eval3"
+            },
+            "inputs:eval4": {
+                "target_portpath": "eval4"
+            },
+            "inputs:eval5": {
+                "target_portpath": "eval5"
+            },
+            "inputs:eval6": {
+                "target_portpath": "eval6"
+            },
+            "inputs:eval7": {
+                "target_portpath": "eval7"
+            },
+            "inputs:eval8": {
+                "target_portpath": "eval8"
+            },
+            "inputs:eval9": {
+                "target_portpath": "eval9"
+            },
+            "inputs:eval10": {
+                "target_portpath": "eval10"
+            },
+            "inputs:eval11": {
+                "target_portpath": "eval11"
+            },
+            "inputs:eval12": {
+                "target_portpath": "eval12"
+            },
+            "inputs:eval13": {
+                "target_portpath": "eval13"
+            },
+            "inputs:eval14": {
+                "target_portpath": "eval14"
+            },
+            "inputs:eval15": {
+                "target_portpath": "eval15"
+            },
+            "inputs:eval16": {
+                "target_portpath": "eval16"
+            },
+            "inputs:eval17": {
+                "target_portpath": "eval17"
+            },
+            "inputs:eval18": {
+                "target_portpath": "eval18"
+            },
+            "inputs:eval19": {
+                "target_portpath": "eval19"
+            },
+            "inputs:eval20": {
+                "target_portpath": "eval20"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:image": {
+        "target_typepath": "image",
+        "source_port": {
+            "inputs:filename": {
+                "target_portpath": "filename"
+            },
+            "inputs:color_space": {
+                "target_portpath": "color_space"
+            },
+            "inputs:filter": {
+                "target_portpath": "filter"
+            },
+            "inputs:mipmap_bias": {
+                "target_portpath": "mipmap_bias"
+            },
+            "inputs:single_channel": {
+                "target_portpath": "single_channel"
+            },
+            "inputs:start_channel": {
+                "target_portpath": "start_channel"
+            },
+            "inputs:swrap": {
+                "target_portpath": "swrap"
+            },
+            "inputs:twrap": {
+                "target_portpath": "twrap"
+            },
+            "inputs:sscale": {
+                "target_portpath": "sscale"
+            },
+            "inputs:tscale": {
+                "target_portpath": "tscale"
+            },
+            "inputs:sflip": {
+                "target_portpath": "sflip"
+            },
+            "inputs:tflip": {
+                "target_portpath": "tflip"
+            },
+            "inputs:soffset": {
+                "target_portpath": "soffset"
+            },
+            "inputs:toffset": {
+                "target_portpath": "toffset"
+            },
+            "inputs:swap_st": {
+                "target_portpath": "swap_st"
+            },
+            "inputs:uvcoords": {
+                "target_portpath": "uvcoords"
+            },
+            "inputs:uvset": {
+                "target_portpath": "uvset"
+            },
+            "inputs:multiply": {
+                "target_portpath": "multiply"
+            },
+            "inputs:offset": {
+                "target_portpath": "offset"
+            },
+            "inputs:ignore_missing_textures": {
+                "target_portpath": "ignore_missing_textures"
+            },
+            "inputs:missing_texture_color": {
+                "target_portpath": "missing_texture_color"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:matte": {
+        "target_typepath": "matte",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:volume_collector": {
+        "target_typepath": "volume_collector",
+        "source_port": {
+            "inputs:scattering_source": {
+                "target_portpath": "scattering_source"
+            },
+            "inputs:scattering": {
+                "target_portpath": "scattering"
+            },
+            "inputs:scattering_channel": {
+                "target_portpath": "scattering_channel"
+            },
+            "inputs:scattering_color": {
+                "target_portpath": "scattering_color"
+            },
+            "inputs:scattering_intensity": {
+                "target_portpath": "scattering_intensity"
+            },
+            "inputs:anisotropy": {
+                "target_portpath": "anisotropy"
+            },
+            "inputs:attenuation_source": {
+                "target_portpath": "attenuation_source"
+            },
+            "inputs:attenuation": {
+                "target_portpath": "attenuation"
+            },
+            "inputs:attenuation_channel": {
+                "target_portpath": "attenuation_channel"
+            },
+            "inputs:attenuation_color": {
+                "target_portpath": "attenuation_color"
+            },
+            "inputs:attenuation_intensity": {
+                "target_portpath": "attenuation_intensity"
+            },
+            "inputs:attenuation_mode": {
+                "target_portpath": "attenuation_mode"
+            },
+            "inputs:emission_source": {
+                "target_portpath": "emission_source"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_channel": {
+                "target_portpath": "emission_channel"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:emission_intensity": {
+                "target_portpath": "emission_intensity"
+            },
+            "inputs:position_offset": {
+                "target_portpath": "position_offset"
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:negate": {
+        "target_typepath": "negate",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:utility": {
+        "target_typepath": "utility",
+        "source_port": {
+            "inputs:color_mode": {
+                "target_portpath": "color_mode"
+            },
+            "inputs:shade_mode": {
+                "target_portpath": "shade_mode"
+            },
+            "inputs:overlay_mode": {
+                "target_portpath": "overlay_mode"
+            },
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:ao_distance": {
+                "target_portpath": "ao_distance"
+            },
+            "inputs:roughness": {
+                "target_portpath": "roughness"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:bump2d": {
+        "target_typepath": "bump2d",
+        "source_port": {
+            "inputs:bump_map": {
+                "target_portpath": "bump_map"
+            },
+            "inputs:bump_height": {
+                "target_portpath": "bump_height"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:user_data_int": {
+        "target_typepath": "user_data_int",
+        "source_port": {
+            "inputs:attribute": {
+                "target_portpath": "attribute"
+            },
+            "inputs:default": {
+                "target_portpath": "default"
+            },
+            "outputs:integer": {
+                "target_portpath": "integer"
+            }
+        }
+    },
+    "Shader/arnold:uv_transform": {
+        "target_typepath": "uv_transform",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:unit": {
+                "target_portpath": "unit"
+            },
+            "inputs:uvset": {
+                "target_portpath": "uvset"
+            },
+            "inputs:coverage": {
+                "target_portpath": "coverage"
+            },
+            "inputs:scale_frame": {
+                "target_portpath": "scale_frame"
+            },
+            "inputs:translate_frame": {
+                "target_portpath": "translate_frame"
+            },
+            "inputs:rotate_frame": {
+                "target_portpath": "rotate_frame"
+            },
+            "inputs:pivot_frame": {
+                "target_portpath": "pivot_frame"
+            },
+            "inputs:wrap_frame_u": {
+                "target_portpath": "wrap_frame_u"
+            },
+            "inputs:wrap_frame_v": {
+                "target_portpath": "wrap_frame_v"
+            },
+            "inputs:wrap_frame_color": {
+                "target_portpath": "wrap_frame_color"
+            },
+            "inputs:repeat": {
+                "target_portpath": "repeat"
+            },
+            "inputs:offset": {
+                "target_portpath": "offset"
+            },
+            "inputs:rotate": {
+                "target_portpath": "rotate"
+            },
+            "inputs:pivot": {
+                "target_portpath": "pivot"
+            },
+            "inputs:noise": {
+                "target_portpath": "noise"
+            },
+            "inputs:mirror_u": {
+                "target_portpath": "mirror_u"
+            },
+            "inputs:mirror_v": {
+                "target_portpath": "mirror_v"
+            },
+            "inputs:flip_u": {
+                "target_portpath": "flip_u"
+            },
+            "inputs:flip_v": {
+                "target_portpath": "flip_v"
+            },
+            "inputs:swap_uv": {
+                "target_portpath": "swap_uv"
+            },
+            "inputs:stagger": {
+                "target_portpath": "stagger"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:log": {
+        "target_typepath": "log",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:shadow_matte": {
+        "target_typepath": "shadow_matte",
+        "source_port": {
+            "inputs:background": {
+                "target_portpath": "background"
+            },
+            "inputs:shadow_color": {
+                "target_portpath": "shadow_color"
+            },
+            "inputs:shadow_opacity": {
+                "target_portpath": "shadow_opacity"
+            },
+            "inputs:background_color": {
+                "target_portpath": "background_color"
+            },
+            "inputs:diffuse_color": {
+                "target_portpath": "diffuse_color"
+            },
+            "inputs:diffuse_use_background": {
+                "target_portpath": "diffuse_use_background"
+            },
+            "inputs:diffuse_intensity": {
+                "target_portpath": "diffuse_intensity"
+            },
+            "inputs:backlighting": {
+                "target_portpath": "backlighting"
+            },
+            "inputs:indirect_diffuse_enable": {
+                "target_portpath": "indirect_diffuse_enable"
+            },
+            "inputs:indirect_specular_enable": {
+                "target_portpath": "indirect_specular_enable"
+            },
+            "inputs:specular_color": {
+                "target_portpath": "specular_color"
+            },
+            "inputs:specular_intensity": {
+                "target_portpath": "specular_intensity"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_IOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "inputs:alpha_mask": {
+                "target_portpath": "alpha_mask"
+            },
+            "inputs:aov_group": {
+                "target_portpath": "aov_group"
+            },
+            "inputs:aov_shadow": {
+                "target_portpath": "aov_shadow"
+            },
+            "inputs:aov_shadow_diff": {
+                "target_portpath": "aov_shadow_diff"
+            },
+            "inputs:aov_shadow_mask": {
+                "target_portpath": "aov_shadow_mask"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:matrix_interpolate": {
+        "target_typepath": "matrix_interpolate",
+        "source_port": {
+            "inputs:type": {
+                "target_portpath": "type"
+            },
+            "inputs:value": {
+                "target_portpath": "value"
+            },
+            "outputs:matrix": {
+                "target_portpath": "matrix"
+            }
+        }
+    },
+    "Shader/arnold:standard_surface": {
+        "target_typepath": "standard_surface",
+        "source_port": {
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "inputs:base_color": {
+                "target_portpath": "base_color"
+            },
+            "inputs:diffuse_roughness": {
+                "target_portpath": "diffuse_roughness"
+            },
+            "inputs:specular": {
+                "target_portpath": "specular"
+            },
+            "inputs:specular_color": {
+                "target_portpath": "specular_color"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_IOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "inputs:specular_anisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "inputs:specular_rotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "inputs:metalness": {
+                "target_portpath": "metalness"
+            },
+            "inputs:transmission": {
+                "target_portpath": "transmission"
+            },
+            "inputs:transmission_color": {
+                "target_portpath": "transmission_color"
+            },
+            "inputs:transmission_depth": {
+                "target_portpath": "transmission_depth"
+            },
+            "inputs:transmission_scatter": {
+                "target_portpath": "transmission_scatter"
+            },
+            "inputs:transmission_scatter_anisotropy": {
+                "target_portpath": "transmission_scatter_anisotropy"
+            },
+            "inputs:transmission_dispersion": {
+                "target_portpath": "transmission_dispersion"
+            },
+            "inputs:transmission_extra_roughness": {
+                "target_portpath": "transmission_extra_roughness"
+            },
+            "inputs:transmit_aovs": {
+                "target_portpath": "transmit_aovs"
+            },
+            "inputs:subsurface": {
+                "target_portpath": "subsurface"
+            },
+            "inputs:subsurface_color": {
+                "target_portpath": "subsurface_color"
+            },
+            "inputs:subsurface_radius": {
+                "target_portpath": "subsurface_radius"
+            },
+            "inputs:subsurface_scale": {
+                "target_portpath": "subsurface_scale"
+            },
+            "inputs:subsurface_anisotropy": {
+                "target_portpath": "subsurface_anisotropy"
+            },
+            "inputs:subsurface_type": {
+                "target_portpath": "subsurface_type"
+            },
+            "inputs:sheen": {
+                "target_portpath": "sheen"
+            },
+            "inputs:sheen_color": {
+                "target_portpath": "sheen_color"
+            },
+            "inputs:sheen_roughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "inputs:thin_walled": {
+                "target_portpath": "thin_walled"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:tangent": {
+                "target_portpath": "tangent"
+            },
+            "inputs:coat": {
+                "target_portpath": "coat"
+            },
+            "inputs:coat_color": {
+                "target_portpath": "coat_color"
+            },
+            "inputs:coat_roughness": {
+                "target_portpath": "coat_roughness"
+            },
+            "inputs:coat_IOR": {
+                "target_portpath": "coat_IOR"
+            },
+            "inputs:coat_anisotropy": {
+                "target_portpath": "coat_anisotropy"
+            },
+            "inputs:coat_rotation": {
+                "target_portpath": "coat_rotation"
+            },
+            "inputs:coat_normal": {
+                "target_portpath": "coat_normal"
+            },
+            "inputs:coat_affect_color": {
+                "target_portpath": "coat_affect_color"
+            },
+            "inputs:coat_affect_roughness": {
+                "target_portpath": "coat_affect_roughness"
+            },
+            "inputs:thin_film_thickness": {
+                "target_portpath": "thin_film_thickness"
+            },
+            "inputs:thin_film_IOR": {
+                "target_portpath": "thin_film_IOR"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:opacity": {
+                "target_portpath": "opacity"
+            },
+            "inputs:caustics": {
+                "target_portpath": "caustics"
+            },
+            "inputs:internal_reflections": {
+                "target_portpath": "internal_reflections"
+            },
+            "inputs:exit_to_background": {
+                "target_portpath": "exit_to_background"
+            },
+            "inputs:indirect_diffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "inputs:indirect_specular": {
+                "target_portpath": "indirect_specular"
+            },
+            "inputs:aov_id1": {
+                "target_portpath": "aov_id1"
+            },
+            "inputs:id1": {
+                "target_portpath": "id1"
+            },
+            "inputs:aov_id2": {
+                "target_portpath": "aov_id2"
+            },
+            "inputs:id2": {
+                "target_portpath": "id2"
+            },
+            "inputs:aov_id3": {
+                "target_portpath": "aov_id3"
+            },
+            "inputs:id3": {
+                "target_portpath": "id3"
+            },
+            "inputs:aov_id4": {
+                "target_portpath": "aov_id4"
+            },
+            "inputs:id4": {
+                "target_portpath": "id4"
+            },
+            "inputs:aov_id5": {
+                "target_portpath": "aov_id5"
+            },
+            "inputs:id5": {
+                "target_portpath": "id5"
+            },
+            "inputs:aov_id6": {
+                "target_portpath": "aov_id6"
+            },
+            "inputs:id6": {
+                "target_portpath": "id6"
+            },
+            "inputs:aov_id7": {
+                "target_portpath": "aov_id7"
+            },
+            "inputs:id7": {
+                "target_portpath": "id7"
+            },
+            "inputs:aov_id8": {
+                "target_portpath": "aov_id8"
+            },
+            "inputs:id8": {
+                "target_portpath": "id8"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:fraction": {
+        "target_typepath": "fraction",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:rgb_to_float": {
+        "target_typepath": "rgb_to_float",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:vector_to_rgb": {
+        "target_typepath": "vector_to_rgb",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:matrix_transform": {
+        "target_typepath": "matrix_transform",
+        "source_port": {
+            "inputs:transform_order": {
+                "target_portpath": "transform_order"
+            },
+            "inputs:rotation_type": {
+                "target_portpath": "rotation_type"
+            },
+            "inputs:units": {
+                "target_portpath": "units"
+            },
+            "inputs:rotation_order": {
+                "target_portpath": "rotation_order"
+            },
+            "inputs:rotation": {
+                "target_portpath": "rotation"
+            },
+            "inputs:axis": {
+                "target_portpath": "axis"
+            },
+            "inputs:angle": {
+                "target_portpath": "angle"
+            },
+            "inputs:translate": {
+                "target_portpath": "translate"
+            },
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "inputs:pivot": {
+                "target_portpath": "pivot"
+            },
+            "outputs:matrix": {
+                "target_portpath": "matrix"
+            }
+        }
+    },
+    "Shader/arnold:aov_read_float": {
+        "target_typepath": "aov_read_float",
+        "source_port": {
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:flat": {
+        "target_typepath": "flat",
+        "source_port": {
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:uv_projection": {
+        "target_typepath": "uv_projection",
+        "source_port": {
+            "inputs:projection_color": {
+                "target_portpath": "projection_color"
+            },
+            "inputs:projection_type": {
+                "target_portpath": "projection_type"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:P": {
+                "target_portpath": "P"
+            },
+            "inputs:u_angle": {
+                "target_portpath": "u_angle"
+            },
+            "inputs:v_angle": {
+                "target_portpath": "v_angle"
+            },
+            "inputs:clamp": {
+                "target_portpath": "clamp"
+            },
+            "inputs:default_color": {
+                "target_portpath": "default_color"
+            },
+            "inputs:matrix": {
+                "target_portpath": "matrix"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:toon": {
+        "target_typepath": "toon",
+        "source_port": {
+            "inputs:mask_color": {
+                "target_portpath": "mask_color"
+            },
+            "inputs:edge_color": {
+                "target_portpath": "edge_color"
+            },
+            "inputs:edge_tonemap": {
+                "target_portpath": "edge_tonemap"
+            },
+            "inputs:edge_opacity": {
+                "target_portpath": "edge_opacity"
+            },
+            "inputs:edge_width_scale": {
+                "target_portpath": "edge_width_scale"
+            },
+            "inputs:silhouette_color": {
+                "target_portpath": "silhouette_color"
+            },
+            "inputs:silhouette_tonemap": {
+                "target_portpath": "silhouette_tonemap"
+            },
+            "inputs:silhouette_opacity": {
+                "target_portpath": "silhouette_opacity"
+            },
+            "inputs:silhouette_width_scale": {
+                "target_portpath": "silhouette_width_scale"
+            },
+            "inputs:priority": {
+                "target_portpath": "priority"
+            },
+            "inputs:enable_silhouette": {
+                "target_portpath": "enable_silhouette"
+            },
+            "inputs:ignore_throughput": {
+                "target_portpath": "ignore_throughput"
+            },
+            "inputs:enable": {
+                "target_portpath": "enable"
+            },
+            "inputs:id_difference": {
+                "target_portpath": "id_difference"
+            },
+            "inputs:shader_difference": {
+                "target_portpath": "shader_difference"
+            },
+            "inputs:uv_threshold": {
+                "target_portpath": "uv_threshold"
+            },
+            "inputs:angle_threshold": {
+                "target_portpath": "angle_threshold"
+            },
+            "inputs:normal_type": {
+                "target_portpath": "normal_type"
+            },
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "inputs:base_color": {
+                "target_portpath": "base_color"
+            },
+            "inputs:base_tonemap": {
+                "target_portpath": "base_tonemap"
+            },
+            "inputs:specular": {
+                "target_portpath": "specular"
+            },
+            "inputs:specular_color": {
+                "target_portpath": "specular_color"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_anisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "inputs:specular_rotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "inputs:specular_tonemap": {
+                "target_portpath": "specular_tonemap"
+            },
+            "inputs:lights": {
+                "target_portpath": "lights"
+            },
+            "inputs:highlight_color": {
+                "target_portpath": "highlight_color"
+            },
+            "inputs:highlight_size": {
+                "target_portpath": "highlight_size"
+            },
+            "inputs:aov_highlight": {
+                "target_portpath": "aov_highlight"
+            },
+            "inputs:rim_light": {
+                "target_portpath": "rim_light"
+            },
+            "inputs:rim_light_color": {
+                "target_portpath": "rim_light_color"
+            },
+            "inputs:rim_light_width": {
+                "target_portpath": "rim_light_width"
+            },
+            "inputs:aov_rim_light": {
+                "target_portpath": "aov_rim_light"
+            },
+            "inputs:transmission": {
+                "target_portpath": "transmission"
+            },
+            "inputs:transmission_color": {
+                "target_portpath": "transmission_color"
+            },
+            "inputs:transmission_roughness": {
+                "target_portpath": "transmission_roughness"
+            },
+            "inputs:transmission_anisotropy": {
+                "target_portpath": "transmission_anisotropy"
+            },
+            "inputs:transmission_rotation": {
+                "target_portpath": "transmission_rotation"
+            },
+            "inputs:sheen": {
+                "target_portpath": "sheen"
+            },
+            "inputs:sheen_color": {
+                "target_portpath": "sheen_color"
+            },
+            "inputs:sheen_roughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:IOR": {
+                "target_portpath": "IOR"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:tangent": {
+                "target_portpath": "tangent"
+            },
+            "inputs:indirect_diffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "inputs:indirect_specular": {
+                "target_portpath": "indirect_specular"
+            },
+            "inputs:bump_mode": {
+                "target_portpath": "bump_mode"
+            },
+            "inputs:energy_conserving": {
+                "target_portpath": "energy_conserving"
+            },
+            "inputs:user_id": {
+                "target_portpath": "user_id"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:switch_shader": {
+        "target_typepath": "switch_shader",
+        "source_port": {
+            "inputs:index": {
+                "target_portpath": "index"
+            },
+            "inputs:input0": {
+                "target_portpath": "input0"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:input3": {
+                "target_portpath": "input3"
+            },
+            "inputs:input4": {
+                "target_portpath": "input4"
+            },
+            "inputs:input5": {
+                "target_portpath": "input5"
+            },
+            "inputs:input6": {
+                "target_portpath": "input6"
+            },
+            "inputs:input7": {
+                "target_portpath": "input7"
+            },
+            "inputs:input8": {
+                "target_portpath": "input8"
+            },
+            "inputs:input9": {
+                "target_portpath": "input9"
+            },
+            "inputs:input10": {
+                "target_portpath": "input10"
+            },
+            "inputs:input11": {
+                "target_portpath": "input11"
+            },
+            "inputs:input12": {
+                "target_portpath": "input12"
+            },
+            "inputs:input13": {
+                "target_portpath": "input13"
+            },
+            "inputs:input14": {
+                "target_portpath": "input14"
+            },
+            "inputs:input15": {
+                "target_portpath": "input15"
+            },
+            "inputs:input16": {
+                "target_portpath": "input16"
+            },
+            "inputs:input17": {
+                "target_portpath": "input17"
+            },
+            "inputs:input18": {
+                "target_portpath": "input18"
+            },
+            "inputs:input19": {
+                "target_portpath": "input19"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:state_int": {
+        "target_typepath": "state_int",
+        "source_port": {
+            "inputs:variable": {
+                "target_portpath": "variable"
+            },
+            "outputs:integer": {
+                "target_portpath": "integer"
+            }
+        }
+    },
+    "Shader/arnold:curvature": {
+        "target_typepath": "curvature",
+        "source_port": {
+            "inputs:output": {
+                "target_portpath": "output"
+            },
+            "inputs:samples": {
+                "target_portpath": "samples"
+            },
+            "inputs:radius": {
+                "target_portpath": "radius"
+            },
+            "inputs:spread": {
+                "target_portpath": "spread"
+            },
+            "inputs:threshold": {
+                "target_portpath": "threshold"
+            },
+            "inputs:bias": {
+                "target_portpath": "bias"
+            },
+            "inputs:multiply": {
+                "target_portpath": "multiply"
+            },
+            "inputs:trace_set": {
+                "target_portpath": "trace_set"
+            },
+            "inputs:inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "inputs:self_only": {
+                "target_portpath": "self_only"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:complex_ior": {
+        "target_typepath": "complex_ior",
+        "source_port": {
+            "inputs:material": {
+                "target_portpath": "material"
+            },
+            "inputs:mode": {
+                "target_portpath": "mode"
+            },
+            "inputs:reflectivity": {
+                "target_portpath": "reflectivity"
+            },
+            "inputs:edgetint": {
+                "target_portpath": "edgetint"
+            },
+            "inputs:n": {
+                "target_portpath": "n"
+            },
+            "inputs:k": {
+                "target_portpath": "k"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:reciprocal": {
+        "target_typepath": "reciprocal",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:layer_float": {
+        "target_typepath": "layer_float",
+        "source_port": {
+            "inputs:enable1": {
+                "target_portpath": "enable1"
+            },
+            "inputs:name1": {
+                "target_portpath": "name1"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:mix1": {
+                "target_portpath": "mix1"
+            },
+            "inputs:enable2": {
+                "target_portpath": "enable2"
+            },
+            "inputs:name2": {
+                "target_portpath": "name2"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:mix2": {
+                "target_portpath": "mix2"
+            },
+            "inputs:enable3": {
+                "target_portpath": "enable3"
+            },
+            "inputs:name3": {
+                "target_portpath": "name3"
+            },
+            "inputs:input3": {
+                "target_portpath": "input3"
+            },
+            "inputs:mix3": {
+                "target_portpath": "mix3"
+            },
+            "inputs:enable4": {
+                "target_portpath": "enable4"
+            },
+            "inputs:name4": {
+                "target_portpath": "name4"
+            },
+            "inputs:input4": {
+                "target_portpath": "input4"
+            },
+            "inputs:mix4": {
+                "target_portpath": "mix4"
+            },
+            "inputs:enable5": {
+                "target_portpath": "enable5"
+            },
+            "inputs:name5": {
+                "target_portpath": "name5"
+            },
+            "inputs:input5": {
+                "target_portpath": "input5"
+            },
+            "inputs:mix5": {
+                "target_portpath": "mix5"
+            },
+            "inputs:enable6": {
+                "target_portpath": "enable6"
+            },
+            "inputs:name6": {
+                "target_portpath": "name6"
+            },
+            "inputs:input6": {
+                "target_portpath": "input6"
+            },
+            "inputs:mix6": {
+                "target_portpath": "mix6"
+            },
+            "inputs:enable7": {
+                "target_portpath": "enable7"
+            },
+            "inputs:name7": {
+                "target_portpath": "name7"
+            },
+            "inputs:input7": {
+                "target_portpath": "input7"
+            },
+            "inputs:mix7": {
+                "target_portpath": "mix7"
+            },
+            "inputs:enable8": {
+                "target_portpath": "enable8"
+            },
+            "inputs:name8": {
+                "target_portpath": "name8"
+            },
+            "inputs:input8": {
+                "target_portpath": "input8"
+            },
+            "inputs:mix8": {
+                "target_portpath": "mix8"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:aov_read_rgb": {
+        "target_typepath": "aov_read_rgb",
+        "source_port": {
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:standard_volume": {
+        "target_typepath": "standard_volume",
+        "source_port": {
+            "inputs:density": {
+                "target_portpath": "density"
+            },
+            "inputs:density_channel": {
+                "target_portpath": "density_channel"
+            },
+            "inputs:scatter": {
+                "target_portpath": "scatter"
+            },
+            "inputs:scatter_color": {
+                "target_portpath": "scatter_color"
+            },
+            "inputs:scatter_color_channel": {
+                "target_portpath": "scatter_color_channel"
+            },
+            "inputs:scatter_anisotropy": {
+                "target_portpath": "scatter_anisotropy"
+            },
+            "inputs:transparent": {
+                "target_portpath": "transparent"
+            },
+            "inputs:transparent_depth": {
+                "target_portpath": "transparent_depth"
+            },
+            "inputs:transparent_channel": {
+                "target_portpath": "transparent_channel"
+            },
+            "inputs:emission_mode": {
+                "target_portpath": "emission_mode"
+            },
+            "inputs:emission": {
+                "target_portpath": "emission"
+            },
+            "inputs:emission_color": {
+                "target_portpath": "emission_color"
+            },
+            "inputs:emission_channel": {
+                "target_portpath": "emission_channel"
+            },
+            "inputs:temperature": {
+                "target_portpath": "temperature"
+            },
+            "inputs:temperature_channel": {
+                "target_portpath": "temperature_channel"
+            },
+            "inputs:blackbody_kelvin": {
+                "target_portpath": "blackbody_kelvin"
+            },
+            "inputs:blackbody_intensity": {
+                "target_portpath": "blackbody_intensity"
+            },
+            "inputs:displacement": {
+                "target_portpath": "displacement"
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:color_convert": {
+        "target_typepath": "color_convert",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:from": {
+                "target_portpath": "from"
+            },
+            "inputs:to": {
+                "target_portpath": "to"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:compare": {
+        "target_typepath": "compare",
+        "source_port": {
+            "inputs:test": {
+                "target_portpath": "test"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:boolean": {
+                "target_portpath": "boolean"
+            }
+        }
+    },
+    "Shader/arnold:clip_geo": {
+        "target_typepath": "clip_geo",
+        "source_port": {
+            "inputs:intersection": {
+                "target_portpath": "intersection"
+            },
+            "inputs:trace_set": {
+                "target_portpath": "trace_set"
+            },
+            "inputs:inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:thin_film": {
+        "target_typepath": "thin_film",
+        "source_port": {
+            "inputs:thickness_min": {
+                "target_portpath": "thickness_min"
+            },
+            "inputs:thickness_max": {
+                "target_portpath": "thickness_max"
+            },
+            "inputs:thickness": {
+                "target_portpath": "thickness"
+            },
+            "inputs:ior_medium": {
+                "target_portpath": "ior_medium"
+            },
+            "inputs:ior_film": {
+                "target_portpath": "ior_film"
+            },
+            "inputs:ior_internal": {
+                "target_portpath": "ior_internal"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:switch_rgba": {
+        "target_typepath": "switch_rgba",
+        "source_port": {
+            "inputs:index": {
+                "target_portpath": "index"
+            },
+            "inputs:input0": {
+                "target_portpath": "input0"
+            },
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "inputs:input3": {
+                "target_portpath": "input3"
+            },
+            "inputs:input4": {
+                "target_portpath": "input4"
+            },
+            "inputs:input5": {
+                "target_portpath": "input5"
+            },
+            "inputs:input6": {
+                "target_portpath": "input6"
+            },
+            "inputs:input7": {
+                "target_portpath": "input7"
+            },
+            "inputs:input8": {
+                "target_portpath": "input8"
+            },
+            "inputs:input9": {
+                "target_portpath": "input9"
+            },
+            "inputs:input10": {
+                "target_portpath": "input10"
+            },
+            "inputs:input11": {
+                "target_portpath": "input11"
+            },
+            "inputs:input12": {
+                "target_portpath": "input12"
+            },
+            "inputs:input13": {
+                "target_portpath": "input13"
+            },
+            "inputs:input14": {
+                "target_portpath": "input14"
+            },
+            "inputs:input15": {
+                "target_portpath": "input15"
+            },
+            "inputs:input16": {
+                "target_portpath": "input16"
+            },
+            "inputs:input17": {
+                "target_portpath": "input17"
+            },
+            "inputs:input18": {
+                "target_portpath": "input18"
+            },
+            "inputs:input19": {
+                "target_portpath": "input19"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:ambient_occlusion": {
+        "target_typepath": "ambient_occlusion",
+        "source_port": {
+            "inputs:samples": {
+                "target_portpath": "samples"
+            },
+            "inputs:spread": {
+                "target_portpath": "spread"
+            },
+            "inputs:near_clip": {
+                "target_portpath": "near_clip"
+            },
+            "inputs:far_clip": {
+                "target_portpath": "far_clip"
+            },
+            "inputs:falloff": {
+                "target_portpath": "falloff"
+            },
+            "inputs:black": {
+                "target_portpath": "black"
+            },
+            "inputs:white": {
+                "target_portpath": "white"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "inputs:invert_normals": {
+                "target_portpath": "invert_normals"
+            },
+            "inputs:trace_set": {
+                "target_portpath": "trace_set"
+            },
+            "inputs:inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "inputs:self_only": {
+                "target_portpath": "self_only"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:state_float": {
+        "target_typepath": "state_float",
+        "source_port": {
+            "inputs:variable": {
+                "target_portpath": "variable"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:camera_projection": {
+        "target_typepath": "camera_projection",
+        "source_port": {
+            "inputs:projection_color": {
+                "target_portpath": "projection_color"
+            },
+            "inputs:offscreen_color": {
+                "target_portpath": "offscreen_color"
+            },
+            "inputs:mask": {
+                "target_portpath": "mask"
+            },
+            "inputs:camera": {
+                "target_portpath": "camera"
+            },
+            "inputs:aspect_ratio": {
+                "target_portpath": "aspect_ratio"
+            },
+            "inputs:front_facing": {
+                "target_portpath": "front_facing"
+            },
+            "inputs:back_facing": {
+                "target_portpath": "back_facing"
+            },
+            "inputs:use_shading_normal": {
+                "target_portpath": "use_shading_normal"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:P": {
+                "target_portpath": "P"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:trace_set": {
+        "target_typepath": "trace_set",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:trace_set": {
+                "target_portpath": "trace_set"
+            },
+            "inputs:inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:normalize": {
+        "target_typepath": "normalize",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:min": {
+        "target_typepath": "min",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:cross": {
+        "target_typepath": "cross",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:sqrt": {
+        "target_typepath": "sqrt",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:composite": {
+        "target_typepath": "composite",
+        "source_port": {
+            "inputs:A": {
+                "target_portpath": "A"
+            },
+            "inputs:B": {
+                "target_portpath": "B"
+            },
+            "inputs:operation": {
+                "target_portpath": "operation"
+            },
+            "inputs:alpha_operation": {
+                "target_portpath": "alpha_operation"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:aov_write_float": {
+        "target_typepath": "aov_write_float",
+        "source_port": {
+            "inputs:passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "inputs:aov_input": {
+                "target_portpath": "aov_input"
+            },
+            "inputs:aov_name": {
+                "target_portpath": "aov_name"
+            },
+            "inputs:blend_opacity": {
+                "target_portpath": "blend_opacity"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:float_to_rgba": {
+        "target_typepath": "float_to_rgba",
+        "source_port": {
+            "inputs:r": {
+                "target_portpath": "r"
+            },
+            "inputs:g": {
+                "target_portpath": "g"
+            },
+            "inputs:b": {
+                "target_portpath": "b"
+            },
+            "inputs:a": {
+                "target_portpath": "a"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:color_correct": {
+        "target_typepath": "color_correct",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:alpha_is_luminance": {
+                "target_portpath": "alpha_is_luminance"
+            },
+            "inputs:alpha_multiply": {
+                "target_portpath": "alpha_multiply"
+            },
+            "inputs:alpha_add": {
+                "target_portpath": "alpha_add"
+            },
+            "inputs:invert": {
+                "target_portpath": "invert"
+            },
+            "inputs:invert_alpha": {
+                "target_portpath": "invert_alpha"
+            },
+            "inputs:gamma": {
+                "target_portpath": "gamma"
+            },
+            "inputs:hue_shift": {
+                "target_portpath": "hue_shift"
+            },
+            "inputs:saturation": {
+                "target_portpath": "saturation"
+            },
+            "inputs:contrast": {
+                "target_portpath": "contrast"
+            },
+            "inputs:contrast_pivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "inputs:exposure": {
+                "target_portpath": "exposure"
+            },
+            "inputs:multiply": {
+                "target_portpath": "multiply"
+            },
+            "inputs:add": {
+                "target_portpath": "add"
+            },
+            "inputs:mask": {
+                "target_portpath": "mask"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:atan": {
+        "target_typepath": "atan",
+        "source_port": {
+            "inputs:y": {
+                "target_portpath": "y"
+            },
+            "inputs:x": {
+                "target_portpath": "x"
+            },
+            "inputs:units": {
+                "target_portpath": "units"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:max": {
+        "target_typepath": "max",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:is_finite": {
+        "target_typepath": "is_finite",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:boolean": {
+                "target_portpath": "boolean"
+            }
+        }
+    },
+    "Shader/arnold:ramp_float": {
+        "target_typepath": "ramp_float",
+        "source_port": {
+            "inputs:type": {
+                "target_portpath": "type"
+            },
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:position": {
+                "target_portpath": "position"
+            },
+            "inputs:value": {
+                "target_portpath": "value"
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "inputs:uvset": {
+                "target_portpath": "uvset"
+            },
+            "inputs:use_implicit_uvs": {
+                "target_portpath": "use_implicit_uvs"
+            },
+            "inputs:wrap_uvs": {
+                "target_portpath": "wrap_uvs"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    },
+    "Shader/arnold:ray_switch_rgba": {
+        "target_typepath": "ray_switch_rgba",
+        "source_port": {
+            "inputs:camera": {
+                "target_portpath": "camera"
+            },
+            "inputs:shadow": {
+                "target_portpath": "shadow"
+            },
+            "inputs:diffuse_reflection": {
+                "target_portpath": "diffuse_reflection"
+            },
+            "inputs:diffuse_transmission": {
+                "target_portpath": "diffuse_transmission"
+            },
+            "inputs:specular_reflection": {
+                "target_portpath": "specular_reflection"
+            },
+            "inputs:specular_transmission": {
+                "target_portpath": "specular_transmission"
+            },
+            "inputs:volume": {
+                "target_portpath": "volume"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:multiply": {
+        "target_typepath": "multiply",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:car_paint": {
+        "target_typepath": "car_paint",
+        "source_port": {
+            "inputs:base": {
+                "target_portpath": "base"
+            },
+            "inputs:base_color": {
+                "target_portpath": "base_color"
+            },
+            "inputs:base_roughness": {
+                "target_portpath": "base_roughness"
+            },
+            "inputs:specular": {
+                "target_portpath": "specular"
+            },
+            "inputs:specular_color": {
+                "target_portpath": "specular_color"
+            },
+            "inputs:specular_flip_flop": {
+                "target_portpath": "specular_flip_flop"
+            },
+            "inputs:specular_light_facing": {
+                "target_portpath": "specular_light_facing"
+            },
+            "inputs:specular_falloff": {
+                "target_portpath": "specular_falloff"
+            },
+            "inputs:specular_roughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "inputs:specular_IOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "inputs:transmission_color": {
+                "target_portpath": "transmission_color"
+            },
+            "inputs:flake_color": {
+                "target_portpath": "flake_color"
+            },
+            "inputs:flake_flip_flop": {
+                "target_portpath": "flake_flip_flop"
+            },
+            "inputs:flake_light_facing": {
+                "target_portpath": "flake_light_facing"
+            },
+            "inputs:flake_falloff": {
+                "target_portpath": "flake_falloff"
+            },
+            "inputs:flake_roughness": {
+                "target_portpath": "flake_roughness"
+            },
+            "inputs:flake_IOR": {
+                "target_portpath": "flake_IOR"
+            },
+            "inputs:flake_scale": {
+                "target_portpath": "flake_scale"
+            },
+            "inputs:flake_density": {
+                "target_portpath": "flake_density"
+            },
+            "inputs:flake_layers": {
+                "target_portpath": "flake_layers"
+            },
+            "inputs:flake_normal_randomize": {
+                "target_portpath": "flake_normal_randomize"
+            },
+            "inputs:flake_coord_space": {
+                "target_portpath": "flake_coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:coat": {
+                "target_portpath": "coat"
+            },
+            "inputs:coat_color": {
+                "target_portpath": "coat_color"
+            },
+            "inputs:coat_roughness": {
+                "target_portpath": "coat_roughness"
+            },
+            "inputs:coat_IOR": {
+                "target_portpath": "coat_IOR"
+            },
+            "inputs:coat_normal": {
+                "target_portpath": "coat_normal"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:c4d_texture_tag": {
+        "target_typepath": "c4d_texture_tag",
+        "source_port": {
+            "inputs:color": {
+                "target_portpath": "color"
+            },
+            "inputs:proj": {
+                "target_portpath": "proj"
+            },
+            "inputs:lenx": {
+                "target_portpath": "lenx"
+            },
+            "inputs:leny": {
+                "target_portpath": "leny"
+            },
+            "inputs:ox": {
+                "target_portpath": "ox"
+            },
+            "inputs:oy": {
+                "target_portpath": "oy"
+            },
+            "inputs:tilex": {
+                "target_portpath": "tilex"
+            },
+            "inputs:tiley": {
+                "target_portpath": "tiley"
+            },
+            "inputs:m": {
+                "target_portpath": "m"
+            },
+            "inputs:camera": {
+                "target_portpath": "camera"
+            },
+            "inputs:aspect_ratio": {
+                "target_portpath": "aspect_ratio"
+            },
+            "inputs:use_pref": {
+                "target_portpath": "use_pref"
+            },
+            "inputs:side": {
+                "target_portpath": "side"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:bump3d": {
+        "target_typepath": "bump3d",
+        "source_port": {
+            "inputs:bump_map": {
+                "target_portpath": "bump_map"
+            },
+            "inputs:bump_height": {
+                "target_portpath": "bump_height"
+            },
+            "inputs:epsilon": {
+                "target_portpath": "epsilon"
+            },
+            "inputs:normal": {
+                "target_portpath": "normal"
+            },
+            "outputs:vector": {
+                "target_portpath": "vector"
+            },
+            "outputs:x": {
+                "target_portpath": "vector.x"
+            },
+            "outputs:y": {
+                "target_portpath": "vector.y"
+            },
+            "outputs:z": {
+                "target_portpath": "vector.z"
+            }
+        }
+    },
+    "Shader/arnold:two_sided": {
+        "target_typepath": "two_sided",
+        "source_port": {
+            "inputs:front": {
+                "target_portpath": "front"
+            },
+            "inputs:back": {
+                "target_portpath": "back"
+            },
+            "outputs:shader": {
+                "target_portpath": "shader"
+            }
+        }
+    },
+    "Shader/arnold:float_to_rgb": {
+        "target_typepath": "float_to_rgb",
+        "source_port": {
+            "inputs:r": {
+                "target_portpath": "r"
+            },
+            "inputs:g": {
+                "target_portpath": "g"
+            },
+            "inputs:b": {
+                "target_portpath": "b"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:checkerboard": {
+        "target_typepath": "checkerboard",
+        "source_port": {
+            "inputs:color1": {
+                "target_portpath": "color1"
+            },
+            "inputs:color2": {
+                "target_portpath": "color2"
+            },
+            "inputs:u_frequency": {
+                "target_portpath": "u_frequency"
+            },
+            "inputs:v_frequency": {
+                "target_portpath": "v_frequency"
+            },
+            "inputs:u_offset": {
+                "target_portpath": "u_offset"
+            },
+            "inputs:v_offset": {
+                "target_portpath": "v_offset"
+            },
+            "inputs:contrast": {
+                "target_portpath": "contrast"
+            },
+            "inputs:filter_strength": {
+                "target_portpath": "filter_strength"
+            },
+            "inputs:filter_offset": {
+                "target_portpath": "filter_offset"
+            },
+            "inputs:uvset": {
+                "target_portpath": "uvset"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:flakes": {
+        "target_typepath": "flakes",
+        "source_port": {
+            "inputs:scale": {
+                "target_portpath": "scale"
+            },
+            "inputs:density": {
+                "target_portpath": "density"
+            },
+            "inputs:step": {
+                "target_portpath": "step"
+            },
+            "inputs:depth": {
+                "target_portpath": "depth"
+            },
+            "inputs:IOR": {
+                "target_portpath": "IOR"
+            },
+            "inputs:normal_randomize": {
+                "target_portpath": "normal_randomize"
+            },
+            "inputs:coord_space": {
+                "target_portpath": "coord_space"
+            },
+            "inputs:pref_name": {
+                "target_portpath": "pref_name"
+            },
+            "inputs:output_space": {
+                "target_portpath": "output_space"
+            },
+            "outputs:rgba": {
+                "target_portpath": "rgba"
+            },
+            "outputs:r": {
+                "target_portpath": "rgba.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgba.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgba.b"
+            },
+            "outputs:a": {
+                "target_portpath": "rgba.a"
+            }
+        }
+    },
+    "Shader/arnold:exp": {
+        "target_typepath": "exp",
+        "source_port": {
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:ramp_rgb": {
+        "target_typepath": "ramp_rgb",
+        "source_port": {
+            "inputs:type": {
+                "target_portpath": "type"
+            },
+            "inputs:input": {
+                "target_portpath": "input"
+            },
+            "inputs:position": {
+                "target_portpath": "position"
+            },
+            "inputs:color": {
+                "target_portpath": "color",
+                "portraw_convert": {
+                    "datatype": {
+                        "source": "float3array",
+                        "target": "floatarray"
+                    }
+                }
+            },
+            "inputs:interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "inputs:uvset": {
+                "target_portpath": "uvset"
+            },
+            "inputs:use_implicit_uvs": {
+                "target_portpath": "use_implicit_uvs"
+            },
+            "inputs:wrap_uvs": {
+                "target_portpath": "wrap_uvs"
+            },
+            "outputs:rgb": {
+                "target_portpath": "rgb"
+            },
+            "outputs:r": {
+                "target_portpath": "rgb.r"
+            },
+            "outputs:g": {
+                "target_portpath": "rgb.g"
+            },
+            "outputs:b": {
+                "target_portpath": "rgb.b"
+            }
+        }
+    },
+    "Shader/arnold:dot": {
+        "target_typepath": "dot",
+        "source_port": {
+            "inputs:input1": {
+                "target_portpath": "input1"
+            },
+            "inputs:input2": {
+                "target_portpath": "input2"
+            },
+            "outputs:float": {
+                "target_portpath": "float"
+            }
+        }
+    }
+}

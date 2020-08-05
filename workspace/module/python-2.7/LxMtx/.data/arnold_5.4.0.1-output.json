@@ -1,0 +1,90 @@
+{
+    "integer": [
+        {
+            "portpath": "integer",
+            "datatype": "integer",
+            "portraw": "0",
+            "assign": "otport"
+        }
+    ],
+    "float": [
+        {
+            "portpath": "float",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "otport"
+        }
+    ],
+    "boolean": [
+        {
+            "portpath": "boolean",
+            "datatype": "boolean",
+            "portraw": "false",
+            "assign": "otport"
+        }
+    ],
+    "string": [
+        {
+            "portpath": "string",
+            "datatype": "string",
+            "portraw": "",
+            "assign": "otport"
+        }
+    ],
+    "color3": [
+        {
+            "portpath": "rgb",
+            "datatype": "color3",
+            "portraw": "0.0, 0.0, 0.0",
+            "assign": "otport"
+        }
+    ],
+    "color4": [
+        {
+            "portpath": "rgba",
+            "datatype": "color4",
+            "portraw": "0.0, 0.0, 0.0, 0.0",
+            "assign": "otport"
+        }
+    ],
+    "vector3": [
+        {
+            "portpath": "vector",
+            "datatype": "vector3",
+            "portraw": "0.0, 0.0, 0.0",
+            "assign": "otport"
+        }
+    ],
+    "vector4": [
+        {
+            "portpath": "vector",
+            "datatype": "vector4",
+            "portraw": "0.0, 0.0, 0.0, 0.0",
+            "assign": "otport"
+        }
+    ],
+    "matrix44": [
+        {
+            "portpath": "matrix",
+            "datatype": "matrix44",
+            "portraw": "",
+            "assign": "otport"
+        }
+    ],
+    "closure": [
+        {
+            "portpath": "shader",
+            "datatype": "closure",
+            "portraw": "",
+            "assign": "otport"
+        }
+    ],
+    "material": [
+        {
+            "portpath": "material",
+            "datatype": "closure",
+            "portraw": "",
+            "assign": "otport"
+        }
+    ]
+}

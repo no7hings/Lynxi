@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <toolshelf name="lynxi" label="Lynxi">
+    <memberTool name="usd2mtx"/>
+    <memberTool name="hou2mtx"/>
+    <memberTool name="start_rpc_server"/>
+  </toolshelf>
+  <tool name="usd2mtx" label="USD to MaterialX" icon="LX_upload">
+    <script scriptType="python"><![CDATA[]]></script>
+  </tool>
+  <tool name="hou2mtx" label="Houdini to MaterialX" icon="LX_upload">
+    <script scriptType="python"><![CDATA[]]></script>
+  </tool>
+  <tool name="start_rpc_server" label="Start RPC server" icon="LX_server">
+    <script scriptType="python"><![CDATA[import hrpyc, hou;hrpyc.start_server();hou.ui.displayMessage("Start PRC Server Complete.")]]></script>
+  </tool>
+</shelfDocument>

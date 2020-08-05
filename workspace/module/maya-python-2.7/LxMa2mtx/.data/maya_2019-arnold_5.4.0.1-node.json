@@ -1,0 +1,3497 @@
+{
+    "aiAbs": {
+        "target_typepath": "abs",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiAdd": {
+        "target_typepath": "add",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiAmbientOcclusion": {
+        "target_typepath": "ambient_occlusion",
+        "source_port": {
+            "samples": {
+                "target_portpath": "samples"
+            },
+            "spread": {
+                "target_portpath": "spread"
+            },
+            "nearClip": {
+                "target_portpath": "near_clip"
+            },
+            "farClip": {
+                "target_portpath": "far_clip"
+            },
+            "falloff": {
+                "target_portpath": "falloff"
+            },
+            "black": {
+                "target_portpath": "black"
+            },
+            "white": {
+                "target_portpath": "white"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "invertNormals": {
+                "target_portpath": "invert_normals"
+            },
+            "traceSet": {
+                "target_portpath": "trace_set"
+            },
+            "inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "selfOnly": {
+                "target_portpath": "self_only"
+            }
+        }
+    },
+    "aiReadFloat": {
+        "target_typepath": "aov_read_float",
+        "source_port": {
+            "aovName": {
+                "target_portpath": "aov_name"
+            }
+        }
+    },
+    "aiReadInt": {
+        "target_typepath": "aov_read_int",
+        "source_port": {
+            "aovName": {
+                "target_portpath": "aov_name"
+            }
+        }
+    },
+    "aiReadRGB": {
+        "target_typepath": "aov_read_rgb",
+        "source_port": {
+            "aovName": {
+                "target_portpath": "aov_name"
+            }
+        }
+    },
+    "aiReadRGBA": {
+        "target_typepath": "aov_read_rgba",
+        "source_port": {
+            "aovName": {
+                "target_portpath": "aov_name"
+            }
+        }
+    },
+    "aiWriteFloat": {
+        "target_typepath": "aov_write_float",
+        "source_port": {
+            "beauty": {
+                "target_portpath": "passthrough"
+            },
+            "input": {
+                "target_portpath": "aov_input"
+            },
+            "aovName": {
+                "target_portpath": "aov_name"
+            },
+            "blendOpacity": {
+                "target_portpath": "blend_opacity"
+            }
+        }
+    },
+    "aiWriteInt": {
+        "target_typepath": "aov_write_int",
+        "source_port": {
+            "beauty": {
+                "target_portpath": "passthrough"
+            },
+            "input": {
+                "target_portpath": "aov_input"
+            },
+            "aovName": {
+                "target_portpath": "aov_name"
+            }
+        }
+    },
+    "aiWriteColor": {
+        "target_typepath": "aov_write_rgb",
+        "source_port": {
+            "beauty": {
+                "target_portpath": "passthrough"
+            },
+            "input": {
+                "target_portpath": "aov_input"
+            },
+            "aovName": {
+                "target_portpath": "aov_name"
+            },
+            "blend": {
+                "target_portpath": "blend_opacity"
+            }
+        }
+    },
+    "aiWriteRgba": {
+        "target_typepath": "aov_write_rgba",
+        "source_port": {
+            "beauty": {
+                "target_portpath": "passthrough"
+            },
+            "input": {
+                "target_portpath": "aov_input"
+            },
+            "aovName": {
+                "target_portpath": "aov_name"
+            },
+            "blend": {
+                "target_portpath": "blend_opacity"
+            }
+        }
+    },
+    "aiAtan": {
+        "target_typepath": "atan",
+        "source_port": {
+            "y": {
+                "target_portpath": "y"
+            },
+            "x": {
+                "target_portpath": "x"
+            },
+            "units": {
+                "target_portpath": "units"
+            }
+        }
+    },
+    "aiAtmosphereVolume": {
+        "target_typepath": "atmosphere_volume",
+        "source_port": {
+            "density": {
+                "target_portpath": "density"
+            },
+            "samples": {
+                "target_portpath": "samples"
+            },
+            "eccentricity": {
+                "target_portpath": "eccentricity"
+            },
+            "attenuation": {
+                "target_portpath": "attenuation"
+            },
+            "affectCamera": {
+                "target_portpath": "affect_camera"
+            },
+            "affectDiffuse": {
+                "target_portpath": "affect_diffuse"
+            },
+            "affectSpecular": {
+                "target_portpath": "affect_specular"
+            },
+            "rgbDensity": {
+                "target_portpath": "rgb_density"
+            },
+            "rgbAttenuation": {
+                "target_portpath": "rgb_attenuation"
+            }
+        }
+    },
+    "aiBlackbody": {
+        "target_typepath": "blackbody",
+        "source_port": {
+            "temperature": {
+                "target_portpath": "temperature"
+            },
+            "normalize": {
+                "target_portpath": "normalize"
+            },
+            "intensity": {
+                "target_portpath": "intensity"
+            }
+        }
+    },
+    "aiBump2d": {
+        "target_typepath": "bump2d",
+        "source_port": {
+            "bumpMap": {
+                "target_portpath": "bump_map"
+            },
+            "bumpHeight": {
+                "target_portpath": "bump_height"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiBump3d": {
+        "target_typepath": "bump3d",
+        "source_port": {
+            "bumpMap": {
+                "target_portpath": "bump_map"
+            },
+            "bumpHeight": {
+                "target_portpath": "bump_height"
+            },
+            "epsilon": {
+                "target_portpath": "epsilon"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiCache": {
+        "target_typepath": "cache",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiCameraProjection": {
+        "target_typepath": "camera_projection",
+        "source_port": {
+            "projectionColor": {
+                "target_portpath": "projection_color"
+            },
+            "offscreenColor": {
+                "target_portpath": "offscreen_color"
+            },
+            "mask": {
+                "target_portpath": "mask"
+            },
+            "camera": {
+                "target_portpath": "camera"
+            },
+            "aspectRatio": {
+                "target_portpath": "aspect_ratio"
+            },
+            "frontFacing": {
+                "target_portpath": "front_facing"
+            },
+            "backFacing": {
+                "target_portpath": "back_facing"
+            },
+            "useShadingNormal": {
+                "target_portpath": "use_shading_normal"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "P": {
+                "target_portpath": "P"
+            }
+        }
+    },
+    "aiCarPaint": {
+        "target_typepath": "car_paint",
+        "source_port": {
+            "base": {
+                "target_portpath": "base"
+            },
+            "baseColor": {
+                "target_portpath": "base_color"
+            },
+            "baseRoughness": {
+                "target_portpath": "base_roughness"
+            },
+            "specular": {
+                "target_portpath": "specular"
+            },
+            "specularColor": {
+                "target_portpath": "specular_color"
+            },
+            "specularFlipFlop": {
+                "target_portpath": "specular_flip_flop"
+            },
+            "specularLightFacing": {
+                "target_portpath": "specular_light_facing"
+            },
+            "specularFalloff": {
+                "target_portpath": "specular_falloff"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularIOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "transmissionColor": {
+                "target_portpath": "transmission_color"
+            },
+            "flakeColor": {
+                "target_portpath": "flake_color"
+            },
+            "flakeFlipFlop": {
+                "target_portpath": "flake_flip_flop"
+            },
+            "flakeLightFacing": {
+                "target_portpath": "flake_light_facing"
+            },
+            "flakeFalloff": {
+                "target_portpath": "flake_falloff"
+            },
+            "flakeRoughness": {
+                "target_portpath": "flake_roughness"
+            },
+            "flakeIOR": {
+                "target_portpath": "flake_IOR"
+            },
+            "flakeScale": {
+                "target_portpath": "flake_scale"
+            },
+            "flakeDensity": {
+                "target_portpath": "flake_density"
+            },
+            "flakeLayers": {
+                "target_portpath": "flake_layers"
+            },
+            "flakeNormalRandomize": {
+                "target_portpath": "flake_normal_randomize"
+            },
+            "flakeCoordSpace": {
+                "target_portpath": "flake_coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "coat": {
+                "target_portpath": "coat"
+            },
+            "coatColor": {
+                "target_portpath": "coat_color"
+            },
+            "coatRoughness": {
+                "target_portpath": "coat_roughness"
+            },
+            "coatIOR": {
+                "target_portpath": "coat_IOR"
+            },
+            "coatNormal": {
+                "target_portpath": "coat_normal"
+            }
+        }
+    },
+    "aiCellNoise": {
+        "target_typepath": "cell_noise",
+        "source_port": {
+            "pattern": {
+                "target_portpath": "pattern"
+            },
+            "additive": {
+                "target_portpath": "additive"
+            },
+            "octaves": {
+                "target_portpath": "octaves"
+            },
+            "randomness": {
+                "target_portpath": "randomness"
+            },
+            "lacunarity": {
+                "target_portpath": "lacunarity"
+            },
+            "amplitude": {
+                "target_portpath": "amplitude"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            },
+            "offset": {
+                "target_portpath": "offset"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "P": {
+                "target_portpath": "P"
+            },
+            "time": {
+                "target_portpath": "time"
+            },
+            "color": {
+                "target_portpath": "color"
+            },
+            "palette": {
+                "target_portpath": "palette"
+            },
+            "density": {
+                "target_portpath": "density"
+            }
+        }
+    },
+    "checker": {
+        "target_typepath": "checkerboard",
+        "source_port": {
+            "color1": {
+                "target_portpath": "color1"
+            },
+            "color2": {
+                "target_portpath": "color2"
+            },
+            "contrast": {
+                "target_portpath": "contrast"
+            },
+            "filter": {
+                "target_portpath": "filter_strength"
+            },
+            "filterOffset": {
+                "target_portpath": "filter_offset"
+            }
+        }
+    },
+    "aiClamp": {
+        "target_typepath": "clamp",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            },
+            "min": {
+                "target_portpath": "min"
+            },
+            "max": {
+                "target_portpath": "max"
+            },
+            "minColor": {
+                "target_portpath": "min_color"
+            },
+            "maxColor": {
+                "target_portpath": "max_color"
+            }
+        }
+    },
+    "aiClipGeo": {
+        "target_typepath": "clip_geo",
+        "source_port": {
+            "intersection": {
+                "target_portpath": "intersection"
+            },
+            "traceSet": {
+                "target_portpath": "trace_set"
+            },
+            "inclusive": {
+                "target_portpath": "inclusive"
+            }
+        }
+    },
+    "aiColorConvert": {
+        "target_typepath": "color_convert",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "from": {
+                "target_portpath": "from"
+            },
+            "to": {
+                "target_portpath": "to"
+            }
+        }
+    },
+    "aiColorCorrect": {
+        "target_typepath": "color_correct",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "alphaIsLuminance": {
+                "target_portpath": "alpha_is_luminance"
+            },
+            "alphaMultiply": {
+                "target_portpath": "alpha_multiply"
+            },
+            "alphaAdd": {
+                "target_portpath": "alpha_add"
+            },
+            "invert": {
+                "target_portpath": "invert"
+            },
+            "invertAlpha": {
+                "target_portpath": "invert_alpha"
+            },
+            "gamma": {
+                "target_portpath": "gamma"
+            },
+            "hueShift": {
+                "target_portpath": "hue_shift"
+            },
+            "saturation": {
+                "target_portpath": "saturation"
+            },
+            "contrast": {
+                "target_portpath": "contrast"
+            },
+            "contrastPivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "exposure": {
+                "target_portpath": "exposure"
+            },
+            "multiply": {
+                "target_portpath": "multiply"
+            },
+            "add": {
+                "target_portpath": "add"
+            },
+            "mask": {
+                "target_portpath": "mask"
+            }
+        }
+    },
+    "aiColorJitter": {
+        "target_typepath": "color_jitter",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "dataInput": {
+                "target_portpath": "data_input"
+            },
+            "dataGainMin": {
+                "target_portpath": "data_gain_min"
+            },
+            "dataGainMax": {
+                "target_portpath": "data_gain_max"
+            },
+            "dataHueMin": {
+                "target_portpath": "data_hue_min"
+            },
+            "dataHueMax": {
+                "target_portpath": "data_hue_max"
+            },
+            "dataSaturationMin": {
+                "target_portpath": "data_saturation_min"
+            },
+            "dataSaturationMax": {
+                "target_portpath": "data_saturation_max"
+            },
+            "dataSeed": {
+                "target_portpath": "data_seed"
+            },
+            "procGainMin": {
+                "target_portpath": "proc_gain_min"
+            },
+            "procGainMax": {
+                "target_portpath": "proc_gain_max"
+            },
+            "procHueMin": {
+                "target_portpath": "proc_hue_min"
+            },
+            "procHueMax": {
+                "target_portpath": "proc_hue_max"
+            },
+            "procSaturationMin": {
+                "target_portpath": "proc_saturation_min"
+            },
+            "procSaturationMax": {
+                "target_portpath": "proc_saturation_max"
+            },
+            "procSeed": {
+                "target_portpath": "proc_seed"
+            },
+            "objGainMin": {
+                "target_portpath": "obj_gain_min"
+            },
+            "objGainMax": {
+                "target_portpath": "obj_gain_max"
+            },
+            "objHueMin": {
+                "target_portpath": "obj_hue_min"
+            },
+            "objHueMax": {
+                "target_portpath": "obj_hue_max"
+            },
+            "objSaturationMin": {
+                "target_portpath": "obj_saturation_min"
+            },
+            "objSaturationMax": {
+                "target_portpath": "obj_saturation_max"
+            },
+            "objSeed": {
+                "target_portpath": "obj_seed"
+            },
+            "faceGainMin": {
+                "target_portpath": "face_gain_min"
+            },
+            "faceGainMax": {
+                "target_portpath": "face_gain_max"
+            },
+            "faceHueMin": {
+                "target_portpath": "face_hue_min"
+            },
+            "faceHueMax": {
+                "target_portpath": "face_hue_max"
+            },
+            "faceSaturationMin": {
+                "target_portpath": "face_saturation_min"
+            },
+            "faceSaturationMax": {
+                "target_portpath": "face_saturation_max"
+            },
+            "faceSeed": {
+                "target_portpath": "face_seed"
+            },
+            "faceMode": {
+                "target_portpath": "face_mode"
+            }
+        }
+    },
+    "aiCompare": {
+        "target_typepath": "compare",
+        "source_port": {
+            "test": {
+                "target_portpath": "test"
+            },
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiComplement": {
+        "target_typepath": "complement",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiComplexIor": {
+        "target_typepath": "complex_ior",
+        "source_port": {
+            "material": {
+                "target_portpath": "material"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            },
+            "reflectivity": {
+                "target_portpath": "reflectivity"
+            },
+            "edgetint": {
+                "target_portpath": "edgetint"
+            },
+            "n": {
+                "target_portpath": "n"
+            },
+            "k": {
+                "target_portpath": "k"
+            }
+        }
+    },
+    "aiComposite": {
+        "target_typepath": "composite",
+        "source_port": {
+            "A": {
+                "target_portpath": "A"
+            },
+            "B": {
+                "target_portpath": "B"
+            },
+            "operation": {
+                "target_portpath": "operation"
+            },
+            "alphaOperation": {
+                "target_portpath": "alpha_operation"
+            }
+        }
+    },
+    "aiCross": {
+        "target_typepath": "cross",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiCurvature": {
+        "target_typepath": "curvature",
+        "source_port": {
+            "output": {
+                "target_portpath": "output"
+            },
+            "samples": {
+                "target_portpath": "samples"
+            },
+            "radius": {
+                "target_portpath": "radius"
+            },
+            "spread": {
+                "target_portpath": "spread"
+            },
+            "threshold": {
+                "target_portpath": "threshold"
+            },
+            "bias": {
+                "target_portpath": "bias"
+            },
+            "multiply": {
+                "target_portpath": "multiply"
+            },
+            "traceSet": {
+                "target_portpath": "trace_set"
+            },
+            "inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "selfOnly": {
+                "target_portpath": "self_only"
+            }
+        }
+    },
+    "aiDivide": {
+        "target_typepath": "divide",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiDot": {
+        "target_typepath": "dot",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiExp": {
+        "target_typepath": "exp",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiFacingRatio": {
+        "target_typepath": "facing_ratio",
+        "source_port": {
+            "bias": {
+                "target_portpath": "bias"
+            },
+            "gain": {
+                "target_portpath": "gain"
+            },
+            "linear": {
+                "target_portpath": "linear"
+            },
+            "invert": {
+                "target_portpath": "invert"
+            }
+        }
+    },
+    "aiFlakes": {
+        "target_typepath": "flakes",
+        "source_port": {
+            "scale": {
+                "target_portpath": "scale"
+            },
+            "density": {
+                "target_portpath": "density"
+            },
+            "step": {
+                "target_portpath": "step"
+            },
+            "depth": {
+                "target_portpath": "depth"
+            },
+            "IOR": {
+                "target_portpath": "IOR"
+            },
+            "normalRandomize": {
+                "target_portpath": "normal_randomize"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "outputSpace": {
+                "target_portpath": "output_space"
+            }
+        }
+    },
+    "aiFlat": {
+        "target_typepath": "flat",
+        "source_port": {
+            "color": {
+                "target_portpath": "color"
+            }
+        }
+    },
+    "aiFloatToInt": {
+        "target_typepath": "float_to_int",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            }
+        }
+    },
+    "aiFloatToRgba": {
+        "target_typepath": "float_to_rgba",
+        "source_port": {
+            "r": {
+                "target_portpath": "r"
+            },
+            "g": {
+                "target_portpath": "g"
+            },
+            "b": {
+                "target_portpath": "b"
+            },
+            "a": {
+                "target_portpath": "a"
+            }
+        }
+    },
+    "aiFog": {
+        "target_typepath": "fog",
+        "source_port": {
+            "distance": {
+                "target_portpath": "distance"
+            },
+            "height": {
+                "target_portpath": "height"
+            },
+            "color": {
+                "target_portpath": "color"
+            },
+            "groundPoint": {
+                "target_portpath": "ground_point"
+            },
+            "groundNormal": {
+                "target_portpath": "ground_normal"
+            }
+        }
+    },
+    "aiFraction": {
+        "target_typepath": "fraction",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiHair": {
+        "target_typepath": "hair",
+        "source_port": {
+            "rootcolor": {
+                "target_portpath": "rootcolor"
+            },
+            "tipcolor": {
+                "target_portpath": "tipcolor"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            },
+            "ambdiff": {
+                "target_portpath": "ambdiff"
+            },
+            "spec": {
+                "target_portpath": "spec"
+            },
+            "specColor": {
+                "target_portpath": "spec_color"
+            },
+            "specShift": {
+                "target_portpath": "spec_shift"
+            },
+            "specGloss": {
+                "target_portpath": "spec_gloss"
+            },
+            "spec2": {
+                "target_portpath": "spec2"
+            },
+            "spec2Color": {
+                "target_portpath": "spec2_color"
+            },
+            "spec2Shift": {
+                "target_portpath": "spec2_shift"
+            },
+            "spec2Gloss": {
+                "target_portpath": "spec2_gloss"
+            },
+            "transmission": {
+                "target_portpath": "transmission"
+            },
+            "transmissionColor": {
+                "target_portpath": "transmission_color"
+            },
+            "transmissionSpread": {
+                "target_portpath": "transmission_spread"
+            },
+            "kdInd": {
+                "target_portpath": "kd_ind"
+            }
+        }
+    },
+    "aiImage": {
+        "target_typepath": "image",
+        "source_port": {
+            "filename": {
+                "target_portpath": "filename"
+            },
+            "colorSpace": {
+                "target_portpath": "color_space"
+            },
+            "filter": {
+                "target_portpath": "filter"
+            },
+            "mipmapBias": {
+                "target_portpath": "mipmap_bias"
+            },
+            "singleChannel": {
+                "target_portpath": "single_channel"
+            },
+            "startChannel": {
+                "target_portpath": "start_channel"
+            },
+            "swrap": {
+                "target_portpath": "swrap"
+            },
+            "twrap": {
+                "target_portpath": "twrap"
+            },
+            "sscale": {
+                "target_portpath": "sscale"
+            },
+            "tscale": {
+                "target_portpath": "tscale"
+            },
+            "sflip": {
+                "target_portpath": "sflip"
+            },
+            "tflip": {
+                "target_portpath": "tflip"
+            },
+            "soffset": {
+                "target_portpath": "soffset"
+            },
+            "toffset": {
+                "target_portpath": "toffset"
+            },
+            "swapSt": {
+                "target_portpath": "swap_st"
+            },
+            "uvcoords": {
+                "target_portpath": "uvcoords"
+            },
+            "uvset": {
+                "target_portpath": "uvset"
+            },
+            "multiply": {
+                "target_portpath": "multiply"
+            },
+            "offset": {
+                "target_portpath": "offset"
+            },
+            "ignoreMissingTextures": {
+                "target_portpath": "ignore_missing_textures"
+            },
+            "missingTextureColor": {
+                "target_portpath": "missing_texture_color"
+            }
+        }
+    },
+    "aiIsFinite": {
+        "target_typepath": "is_finite",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiLayerFloat": {
+        "target_typepath": "layer_float",
+        "source_port": {
+            "enable1": {
+                "target_portpath": "enable1"
+            },
+            "name1": {
+                "target_portpath": "name1"
+            },
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "mix1": {
+                "target_portpath": "mix1"
+            },
+            "enable2": {
+                "target_portpath": "enable2"
+            },
+            "name2": {
+                "target_portpath": "name2"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            },
+            "mix2": {
+                "target_portpath": "mix2"
+            },
+            "enable3": {
+                "target_portpath": "enable3"
+            },
+            "name3": {
+                "target_portpath": "name3"
+            },
+            "input3": {
+                "target_portpath": "input3"
+            },
+            "mix3": {
+                "target_portpath": "mix3"
+            },
+            "enable4": {
+                "target_portpath": "enable4"
+            },
+            "name4": {
+                "target_portpath": "name4"
+            },
+            "input4": {
+                "target_portpath": "input4"
+            },
+            "mix4": {
+                "target_portpath": "mix4"
+            },
+            "enable5": {
+                "target_portpath": "enable5"
+            },
+            "name5": {
+                "target_portpath": "name5"
+            },
+            "input5": {
+                "target_portpath": "input5"
+            },
+            "mix5": {
+                "target_portpath": "mix5"
+            },
+            "enable6": {
+                "target_portpath": "enable6"
+            },
+            "name6": {
+                "target_portpath": "name6"
+            },
+            "input6": {
+                "target_portpath": "input6"
+            },
+            "mix6": {
+                "target_portpath": "mix6"
+            },
+            "enable7": {
+                "target_portpath": "enable7"
+            },
+            "name7": {
+                "target_portpath": "name7"
+            },
+            "input7": {
+                "target_portpath": "input7"
+            },
+            "mix7": {
+                "target_portpath": "mix7"
+            },
+            "enable8": {
+                "target_portpath": "enable8"
+            },
+            "name8": {
+                "target_portpath": "name8"
+            },
+            "input8": {
+                "target_portpath": "input8"
+            },
+            "mix8": {
+                "target_portpath": "mix8"
+            }
+        }
+    },
+    "aiLayerRgba": {
+        "target_typepath": "layer_rgba",
+        "source_port": {
+            "enable1": {
+                "target_portpath": "enable1"
+            },
+            "name1": {
+                "target_portpath": "name1"
+            },
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "mix1": {
+                "target_portpath": "mix1"
+            },
+            "operation1": {
+                "target_portpath": "operation1"
+            },
+            "alphaOperation1": {
+                "target_portpath": "alpha_operation1"
+            },
+            "enable2": {
+                "target_portpath": "enable2"
+            },
+            "name2": {
+                "target_portpath": "name2"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            },
+            "mix2": {
+                "target_portpath": "mix2"
+            },
+            "operation2": {
+                "target_portpath": "operation2"
+            },
+            "alphaOperation2": {
+                "target_portpath": "alpha_operation2"
+            },
+            "enable3": {
+                "target_portpath": "enable3"
+            },
+            "name3": {
+                "target_portpath": "name3"
+            },
+            "input3": {
+                "target_portpath": "input3"
+            },
+            "mix3": {
+                "target_portpath": "mix3"
+            },
+            "operation3": {
+                "target_portpath": "operation3"
+            },
+            "alphaOperation3": {
+                "target_portpath": "alpha_operation3"
+            },
+            "enable4": {
+                "target_portpath": "enable4"
+            },
+            "name4": {
+                "target_portpath": "name4"
+            },
+            "input4": {
+                "target_portpath": "input4"
+            },
+            "mix4": {
+                "target_portpath": "mix4"
+            },
+            "operation4": {
+                "target_portpath": "operation4"
+            },
+            "alphaOperation4": {
+                "target_portpath": "alpha_operation4"
+            },
+            "enable5": {
+                "target_portpath": "enable5"
+            },
+            "name5": {
+                "target_portpath": "name5"
+            },
+            "input5": {
+                "target_portpath": "input5"
+            },
+            "mix5": {
+                "target_portpath": "mix5"
+            },
+            "operation5": {
+                "target_portpath": "operation5"
+            },
+            "alphaOperation5": {
+                "target_portpath": "alpha_operation5"
+            },
+            "enable6": {
+                "target_portpath": "enable6"
+            },
+            "name6": {
+                "target_portpath": "name6"
+            },
+            "input6": {
+                "target_portpath": "input6"
+            },
+            "mix6": {
+                "target_portpath": "mix6"
+            },
+            "operation6": {
+                "target_portpath": "operation6"
+            },
+            "alphaOperation6": {
+                "target_portpath": "alpha_operation6"
+            },
+            "enable7": {
+                "target_portpath": "enable7"
+            },
+            "name7": {
+                "target_portpath": "name7"
+            },
+            "input7": {
+                "target_portpath": "input7"
+            },
+            "mix7": {
+                "target_portpath": "mix7"
+            },
+            "operation7": {
+                "target_portpath": "operation7"
+            },
+            "alphaOperation7": {
+                "target_portpath": "alpha_operation7"
+            },
+            "enable8": {
+                "target_portpath": "enable8"
+            },
+            "name8": {
+                "target_portpath": "name8"
+            },
+            "input8": {
+                "target_portpath": "input8"
+            },
+            "mix8": {
+                "target_portpath": "mix8"
+            },
+            "operation8": {
+                "target_portpath": "operation8"
+            },
+            "alphaOperation8": {
+                "target_portpath": "alpha_operation8"
+            },
+            "clamp": {
+                "target_portpath": "clamp"
+            }
+        }
+    },
+    "aiLayerShader": {
+        "target_typepath": "layer_shader",
+        "source_port": {
+            "enable1": {
+                "target_portpath": "enable1"
+            },
+            "name1": {
+                "target_portpath": "name1"
+            },
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "mix1": {
+                "target_portpath": "mix1"
+            },
+            "enable2": {
+                "target_portpath": "enable2"
+            },
+            "name2": {
+                "target_portpath": "name2"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            },
+            "mix2": {
+                "target_portpath": "mix2"
+            },
+            "enable3": {
+                "target_portpath": "enable3"
+            },
+            "name3": {
+                "target_portpath": "name3"
+            },
+            "input3": {
+                "target_portpath": "input3"
+            },
+            "mix3": {
+                "target_portpath": "mix3"
+            },
+            "enable4": {
+                "target_portpath": "enable4"
+            },
+            "name4": {
+                "target_portpath": "name4"
+            },
+            "input4": {
+                "target_portpath": "input4"
+            },
+            "mix4": {
+                "target_portpath": "mix4"
+            },
+            "enable5": {
+                "target_portpath": "enable5"
+            },
+            "name5": {
+                "target_portpath": "name5"
+            },
+            "input5": {
+                "target_portpath": "input5"
+            },
+            "mix5": {
+                "target_portpath": "mix5"
+            },
+            "enable6": {
+                "target_portpath": "enable6"
+            },
+            "name6": {
+                "target_portpath": "name6"
+            },
+            "input6": {
+                "target_portpath": "input6"
+            },
+            "mix6": {
+                "target_portpath": "mix6"
+            },
+            "enable7": {
+                "target_portpath": "enable7"
+            },
+            "name7": {
+                "target_portpath": "name7"
+            },
+            "input7": {
+                "target_portpath": "input7"
+            },
+            "mix7": {
+                "target_portpath": "mix7"
+            },
+            "enable8": {
+                "target_portpath": "enable8"
+            },
+            "name8": {
+                "target_portpath": "name8"
+            },
+            "input8": {
+                "target_portpath": "input8"
+            },
+            "mix8": {
+                "target_portpath": "mix8"
+            }
+        }
+    },
+    "aiLength": {
+        "target_typepath": "length",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            }
+        }
+    },
+    "aiLog": {
+        "target_typepath": "log",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "base": {
+                "target_portpath": "base"
+            }
+        }
+    },
+    "aiMatrixInterpolate": {
+        "target_typepath": "matrix_interpolate",
+        "source_port": {
+            "type": {
+                "target_portpath": "type"
+            },
+            "value": {
+                "target_portpath": "value"
+            }
+        }
+    },
+    "aiMatrixMultiplyVector": {
+        "target_typepath": "matrix_multiply_vector",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "type": {
+                "target_portpath": "type"
+            },
+            "matrix": {
+                "target_portpath": "matrix"
+            }
+        }
+    },
+    "aiMatrixTransform": {
+        "target_typepath": "matrix_transform",
+        "source_port": {
+            "transformOrder": {
+                "target_portpath": "transform_order"
+            },
+            "rotationType": {
+                "target_portpath": "rotation_type"
+            },
+            "units": {
+                "target_portpath": "units"
+            },
+            "rotationOrder": {
+                "target_portpath": "rotation_order"
+            },
+            "rotation": {
+                "target_portpath": "rotation"
+            },
+            "axis": {
+                "target_portpath": "axis"
+            },
+            "angle": {
+                "target_portpath": "angle"
+            },
+            "translate": {
+                "target_portpath": "translate"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            },
+            "pivot": {
+                "target_portpath": "pivot"
+            }
+        }
+    },
+    "aiMatte": {
+        "target_typepath": "matte",
+        "source_port": {
+            "passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "color": {
+                "target_portpath": "color"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            }
+        }
+    },
+    "aiMax": {
+        "target_typepath": "max",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "layeredShader": {
+        "target_typepath": "maya_layered_shader",
+        "source_port": {
+            "compositingFlag": {
+                "target_portpath": "compositingFlag"
+            }
+        }
+    },
+    "aiMin": {
+        "target_typepath": "min",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiMixShader": {
+        "target_typepath": "mix_shader",
+        "source_port": {
+            "mode": {
+                "target_portpath": "mode"
+            },
+            "mix": {
+                "target_portpath": "mix"
+            },
+            "shader1": {
+                "target_portpath": "shader1"
+            },
+            "shader2": {
+                "target_portpath": "shader2"
+            }
+        }
+    },
+    "aiModulo": {
+        "target_typepath": "modulo",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "divisor": {
+                "target_portpath": "divisor"
+            }
+        }
+    },
+    "aiMotionVector": {
+        "target_typepath": "motion_vector",
+        "source_port": {
+            "raw": {
+                "target_portpath": "raw"
+            },
+            "time0": {
+                "target_portpath": "time0"
+            },
+            "time1": {
+                "target_portpath": "time1"
+            },
+            "maxDisplace": {
+                "target_portpath": "max_displace"
+            }
+        }
+    },
+    "aiMultiply": {
+        "target_typepath": "multiply",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiNegate": {
+        "target_typepath": "negate",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiNoise": {
+        "target_typepath": "noise",
+        "source_port": {
+            "octaves": {
+                "target_portpath": "octaves"
+            },
+            "distortion": {
+                "target_portpath": "distortion"
+            },
+            "lacunarity": {
+                "target_portpath": "lacunarity"
+            },
+            "amplitude": {
+                "target_portpath": "amplitude"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            },
+            "offset": {
+                "target_portpath": "offset"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "P": {
+                "target_portpath": "P"
+            },
+            "time": {
+                "target_portpath": "time"
+            },
+            "color1": {
+                "target_portpath": "color1"
+            },
+            "color2": {
+                "target_portpath": "color2"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            }
+        }
+    },
+    "aiNormalMap": {
+        "target_typepath": "normal_map",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "tangent": {
+                "target_portpath": "tangent"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "order": {
+                "target_portpath": "order"
+            },
+            "invertX": {
+                "target_portpath": "invert_x"
+            },
+            "invertY": {
+                "target_portpath": "invert_y"
+            },
+            "invertZ": {
+                "target_portpath": "invert_z"
+            },
+            "colorToSigned": {
+                "target_portpath": "color_to_signed"
+            },
+            "tangentSpace": {
+                "target_portpath": "tangent_space"
+            },
+            "strength": {
+                "target_portpath": "strength"
+            }
+        }
+    },
+    "aiNormalize": {
+        "target_typepath": "normalize",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiPassthrough": {
+        "target_typepath": "passthrough",
+        "source_port": {
+            "passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "eval1": {
+                "target_portpath": "eval1"
+            },
+            "eval2": {
+                "target_portpath": "eval2"
+            },
+            "eval3": {
+                "target_portpath": "eval3"
+            },
+            "eval4": {
+                "target_portpath": "eval4"
+            },
+            "eval5": {
+                "target_portpath": "eval5"
+            },
+            "eval6": {
+                "target_portpath": "eval6"
+            },
+            "eval7": {
+                "target_portpath": "eval7"
+            },
+            "eval8": {
+                "target_portpath": "eval8"
+            },
+            "eval9": {
+                "target_portpath": "eval9"
+            },
+            "eval10": {
+                "target_portpath": "eval10"
+            },
+            "eval11": {
+                "target_portpath": "eval11"
+            },
+            "eval12": {
+                "target_portpath": "eval12"
+            },
+            "eval13": {
+                "target_portpath": "eval13"
+            },
+            "eval14": {
+                "target_portpath": "eval14"
+            },
+            "eval15": {
+                "target_portpath": "eval15"
+            },
+            "eval16": {
+                "target_portpath": "eval16"
+            },
+            "eval17": {
+                "target_portpath": "eval17"
+            },
+            "eval18": {
+                "target_portpath": "eval18"
+            },
+            "eval19": {
+                "target_portpath": "eval19"
+            },
+            "eval20": {
+                "target_portpath": "eval20"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiPhysicalSky": {
+        "target_typepath": "physical_sky",
+        "source_port": {
+            "turbidity": {
+                "target_portpath": "turbidity"
+            },
+            "groundAlbedo": {
+                "target_portpath": "ground_albedo"
+            },
+            "useDegrees": {
+                "target_portpath": "use_degrees"
+            },
+            "elevation": {
+                "target_portpath": "elevation"
+            },
+            "azimuth": {
+                "target_portpath": "azimuth"
+            },
+            "sunDirection": {
+                "target_portpath": "sun_direction"
+            },
+            "enableSun": {
+                "target_portpath": "enable_sun"
+            },
+            "sunSize": {
+                "target_portpath": "sun_size"
+            },
+            "sunTint": {
+                "target_portpath": "sun_tint"
+            },
+            "skyTint": {
+                "target_portpath": "sky_tint"
+            },
+            "intensity": {
+                "target_portpath": "intensity"
+            },
+            "X": {
+                "target_portpath": "X"
+            },
+            "Y": {
+                "target_portpath": "Y"
+            },
+            "Z": {
+                "target_portpath": "Z"
+            }
+        }
+    },
+    "aiPow": {
+        "target_typepath": "pow",
+        "source_port": {
+            "base": {
+                "target_portpath": "base"
+            },
+            "exponent": {
+                "target_portpath": "exponent"
+            }
+        }
+    },
+    "aiRampFloat": {
+        "target_typepath": "ramp_float",
+        "source_port": {
+            "type": {
+                "target_portpath": "type"
+            },
+            "input": {
+                "target_portpath": "input"
+            },
+            "ramp.ramp_Position": {
+                "target_portpath": "position"
+            },
+            "ramp.ramp_FloatValue": {
+                "target_portpath": "value"
+            },
+            "ramp.ramp_Interp": {
+                "target_portpath": "interpolation"
+            },
+            "uvset": {
+                "target_portpath": "uvset"
+            },
+            "useImplicitUvs": {
+                "target_portpath": "use_implicit_uvs"
+            },
+            "wrapUvs": {
+                "target_portpath": "wrap_uvs"
+            }
+        }
+    },
+    "aiRampRgb": {
+        "target_typepath": "ramp_rgb",
+        "source_port": {
+            "type": {
+                "target_portpath": "type"
+            },
+            "input": {
+                "target_portpath": "input"
+            },
+            "ramp.ramp_Position": {
+                "target_portpath": "position"
+            },
+            "ramp.ramp_Color": {
+                "target_portpath": "color"
+            },
+            "ramp.ramp_Interp": {
+                "target_portpath": "interpolation"
+            },
+            "uvset": {
+                "target_portpath": "uvset"
+            },
+            "useImplicitUvs": {
+                "target_portpath": "use_implicit_uvs"
+            },
+            "wrapUvs": {
+                "target_portpath": "wrap_uvs"
+            }
+        }
+    },
+    "aiRandom": {
+        "target_typepath": "random",
+        "source_port": {
+            "inputType": {
+                "target_portpath": "input_type"
+            },
+            "inputInt": {
+                "target_portpath": "input_int"
+            },
+            "inputFloat": {
+                "target_portpath": "input_float"
+            },
+            "inputColor": {
+                "target_portpath": "input_color"
+            },
+            "seed": {
+                "target_portpath": "seed"
+            },
+            "grayscale": {
+                "target_portpath": "grayscale"
+            }
+        }
+    },
+    "aiRange": {
+        "target_typepath": "range",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "inputMin": {
+                "target_portpath": "input_min"
+            },
+            "inputMax": {
+                "target_portpath": "input_max"
+            },
+            "outputMin": {
+                "target_portpath": "output_min"
+            },
+            "outputMax": {
+                "target_portpath": "output_max"
+            },
+            "smoothstep": {
+                "target_portpath": "smoothstep"
+            },
+            "contrast": {
+                "target_portpath": "contrast"
+            },
+            "contrastPivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "bias": {
+                "target_portpath": "bias"
+            },
+            "gain": {
+                "target_portpath": "gain"
+            }
+        }
+    },
+    "aiRaySwitch": {
+        "target_typepath": "ray_switch_shader",
+        "source_port": {
+            "camera": {
+                "target_portpath": "camera"
+            },
+            "shadow": {
+                "target_portpath": "shadow"
+            },
+            "diffuseReflection": {
+                "target_portpath": "diffuse_reflection"
+            },
+            "diffuseTransmission": {
+                "target_portpath": "diffuse_transmission"
+            },
+            "specularReflection": {
+                "target_portpath": "specular_reflection"
+            },
+            "specularTransmission": {
+                "target_portpath": "specular_transmission"
+            },
+            "volume": {
+                "target_portpath": "volume"
+            }
+        }
+    },
+    "aiReciprocal": {
+        "target_typepath": "reciprocal",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiColorToFloat": {
+        "target_typepath": "rgb_to_float",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            }
+        }
+    },
+    "aiRgbaToFloat": {
+        "target_typepath": "rgba_to_float",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "mode": {
+                "target_portpath": "mode"
+            }
+        }
+    },
+    "aiRoundCorners": {
+        "target_typepath": "round_corners",
+        "source_port": {
+            "samples": {
+                "target_portpath": "samples"
+            },
+            "radius": {
+                "target_portpath": "radius"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "traceSet": {
+                "target_portpath": "trace_set"
+            },
+            "inclusive": {
+                "target_portpath": "inclusive"
+            },
+            "selfOnly": {
+                "target_portpath": "self_only"
+            },
+            "objectSpace": {
+                "target_portpath": "object_space"
+            }
+        }
+    },
+    "aiShadowMatte": {
+        "target_typepath": "shadow_matte",
+        "source_port": {
+            "background": {
+                "target_portpath": "background"
+            },
+            "shadowColor": {
+                "target_portpath": "shadow_color"
+            },
+            "shadowOpacity": {
+                "target_portpath": "shadow_opacity"
+            },
+            "backgroundColor": {
+                "target_portpath": "background_color"
+            },
+            "diffuseColor": {
+                "target_portpath": "diffuse_color"
+            },
+            "diffuseUseBackground": {
+                "target_portpath": "diffuse_use_background"
+            },
+            "diffuseIntensity": {
+                "target_portpath": "diffuse_intensity"
+            },
+            "backlighting": {
+                "target_portpath": "backlighting"
+            },
+            "indirectDiffuseEnable": {
+                "target_portpath": "indirect_diffuse_enable"
+            },
+            "indirectSpecularEnable": {
+                "target_portpath": "indirect_specular_enable"
+            },
+            "specularColor": {
+                "target_portpath": "specular_color"
+            },
+            "specularIntensity": {
+                "target_portpath": "specular_intensity"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularIOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "alphaMask": {
+                "target_portpath": "alpha_mask"
+            },
+            "aovGroup": {
+                "target_portpath": "aov_group"
+            },
+            "aovShadow": {
+                "target_portpath": "aov_shadow"
+            },
+            "aovShadowDiff": {
+                "target_portpath": "aov_shadow_diff"
+            },
+            "aovShadowMask": {
+                "target_portpath": "aov_shadow_mask"
+            }
+        }
+    },
+    "aiShuffle": {
+        "target_typepath": "shuffle",
+        "source_port": {
+            "color": {
+                "target_portpath": "color"
+            },
+            "alpha": {
+                "target_portpath": "alpha"
+            },
+            "channelR": {
+                "target_portpath": "channel_r"
+            },
+            "channelG": {
+                "target_portpath": "channel_g"
+            },
+            "channelB": {
+                "target_portpath": "channel_b"
+            },
+            "channelA": {
+                "target_portpath": "channel_a"
+            },
+            "negateR": {
+                "target_portpath": "negate_r"
+            },
+            "negateG": {
+                "target_portpath": "negate_g"
+            },
+            "negateB": {
+                "target_portpath": "negate_b"
+            },
+            "negateA": {
+                "target_portpath": "negate_a"
+            }
+        }
+    },
+    "aiSign": {
+        "target_typepath": "sign",
+        "source_port": {
+            "source_port": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiSkin": {
+        "target_typepath": "skin",
+        "source_port": {
+            "sssWeight": {
+                "target_portpath": "sss_weight"
+            },
+            "shallowScatterColor": {
+                "target_portpath": "shallow_scatter_color"
+            },
+            "shallowScatterWeight": {
+                "target_portpath": "shallow_scatter_weight"
+            },
+            "shallowScatterRadius": {
+                "target_portpath": "shallow_scatter_radius"
+            },
+            "midScatterColor": {
+                "target_portpath": "mid_scatter_color"
+            },
+            "midScatterWeight": {
+                "target_portpath": "mid_scatter_weight"
+            },
+            "midScatterRadius": {
+                "target_portpath": "mid_scatter_radius"
+            },
+            "deepScatterColor": {
+                "target_portpath": "deep_scatter_color"
+            },
+            "deepScatterWeight": {
+                "target_portpath": "deep_scatter_weight"
+            },
+            "deepScatterRadius": {
+                "target_portpath": "deep_scatter_radius"
+            },
+            "specularColor": {
+                "target_portpath": "specular_color"
+            },
+            "specularWeight": {
+                "target_portpath": "specular_weight"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularIor": {
+                "target_portpath": "specular_ior"
+            },
+            "sheenColor": {
+                "target_portpath": "sheen_color"
+            },
+            "sheenWeight": {
+                "target_portpath": "sheen_weight"
+            },
+            "sheenRoughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "sheenIor": {
+                "target_portpath": "sheen_ior"
+            },
+            "globalSssRadiusMultiplier": {
+                "target_portpath": "global_sss_radius_multiplier"
+            },
+            "specularInSecondaryRays": {
+                "target_portpath": "specular_in_secondary_rays"
+            },
+            "fresnelAffectSss": {
+                "target_portpath": "fresnel_affect_sss"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            },
+            "opacityColor": {
+                "target_portpath": "opacity_color"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiSky": {
+        "target_typepath": "sky",
+        "source_port": {
+            "color": {
+                "target_portpath": "color"
+            },
+            "intensity": {
+                "target_portpath": "intensity"
+            },
+            "visibility": {
+                "target_portpath": "visibility"
+            },
+            "format": {
+                "target_portpath": "format"
+            }
+        }
+    },
+    "aiSpaceTransform": {
+        "target_typepath": "space_transform",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "type": {
+                "target_portpath": "type"
+            },
+            "from": {
+                "target_portpath": "from"
+            },
+            "to": {
+                "target_portpath": "to"
+            },
+            "tangent": {
+                "target_portpath": "tangent"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "normalize": {
+                "target_portpath": "normalize"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            }
+        }
+    },
+    "aiSqrt": {
+        "target_typepath": "sqrt",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            }
+        }
+    },
+    "aiStandard": {
+        "target_typepath": "standard",
+        "source_port": {
+            "Kd": {
+                "target_portpath": "Kd"
+            },
+            "color": {
+                "target_portpath": "Kd_color"
+            },
+            "diffuseRoughness": {
+                "target_portpath": "diffuse_roughness"
+            },
+            "Ks": {
+                "target_portpath": "Ks"
+            },
+            "KsColor": {
+                "target_portpath": "Ks_color"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularAnisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "specularDistribution": {
+                "target_portpath": "specular_distribution"
+            },
+            "Kr": {
+                "target_portpath": "Kr"
+            },
+            "KrColor": {
+                "target_portpath": "Kr_color"
+            },
+            "reflectionExitColor": {
+                "target_portpath": "reflection_exit_color"
+            },
+            "reflectionExitUseEnvironment": {
+                "target_portpath": "reflection_exit_use_environment"
+            },
+            "Kt": {
+                "target_portpath": "Kt"
+            },
+            "KtColor": {
+                "target_portpath": "Kt_color"
+            },
+            "transmittance": {
+                "target_portpath": "transmittance"
+            },
+            "refractionRoughness": {
+                "target_portpath": "refraction_roughness"
+            },
+            "refractionExitColor": {
+                "target_portpath": "refraction_exit_color"
+            },
+            "refractionExitUseEnvironment": {
+                "target_portpath": "refraction_exit_use_environment"
+            },
+            "IOR": {
+                "target_portpath": "IOR"
+            },
+            "dispersionAbbe": {
+                "target_portpath": "dispersion_abbe"
+            },
+            "Kb": {
+                "target_portpath": "Kb"
+            },
+            "Fresnel": {
+                "target_portpath": "Fresnel"
+            },
+            "Krn": {
+                "target_portpath": "Krn"
+            },
+            "specularFresnel": {
+                "target_portpath": "specular_Fresnel"
+            },
+            "Ksn": {
+                "target_portpath": "Ksn"
+            },
+            "FresnelUseIOR": {
+                "target_portpath": "Fresnel_use_IOR"
+            },
+            "FresnelAffectDiff": {
+                "target_portpath": "Fresnel_affect_diff"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "directSpecular": {
+                "target_portpath": "direct_specular"
+            },
+            "indirectSpecular": {
+                "target_portpath": "indirect_specular"
+            },
+            "directDiffuse": {
+                "target_portpath": "direct_diffuse"
+            },
+            "indirectDiffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "enableGlossyCaustics": {
+                "target_portpath": "enable_glossy_caustics"
+            },
+            "enableReflectiveCaustics": {
+                "target_portpath": "enable_reflective_caustics"
+            },
+            "enableRefractiveCaustics": {
+                "target_portpath": "enable_refractive_caustics"
+            },
+            "enableInternalReflections": {
+                "target_portpath": "enable_internal_reflections"
+            },
+            "Ksss": {
+                "target_portpath": "Ksss"
+            },
+            "KsssColor": {
+                "target_portpath": "Ksss_color"
+            },
+            "sssRadius": {
+                "target_portpath": "sss_radius"
+            },
+            "bounceFactor": {
+                "target_portpath": "bounce_factor"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiStandardHair": {
+        "target_typepath": "standard_hair",
+        "source_port": {
+            "base": {
+                "target_portpath": "base"
+            },
+            "baseColor": {
+                "target_portpath": "base_color"
+            },
+            "melanin": {
+                "target_portpath": "melanin"
+            },
+            "melaninRedness": {
+                "target_portpath": "melanin_redness"
+            },
+            "melaninRandomize": {
+                "target_portpath": "melanin_randomize"
+            },
+            "roughness": {
+                "target_portpath": "roughness"
+            },
+            "roughnessAzimuthal": {
+                "target_portpath": "roughness_azimuthal"
+            },
+            "roughnessAnisotropic": {
+                "target_portpath": "roughness_anisotropic"
+            },
+            "ior": {
+                "target_portpath": "ior"
+            },
+            "shift": {
+                "target_portpath": "shift"
+            },
+            "specularTint": {
+                "target_portpath": "specular_tint"
+            },
+            "specular2Tint": {
+                "target_portpath": "specular2_tint"
+            },
+            "transmissionTint": {
+                "target_portpath": "transmission_tint"
+            },
+            "diffuse": {
+                "target_portpath": "diffuse"
+            },
+            "diffuseColor": {
+                "target_portpath": "diffuse_color"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            },
+            "indirectDiffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "target_portpath": "indirect_specular"
+            },
+            "extraDepth": {
+                "target_portpath": "extra_depth"
+            },
+            "extraSamples": {
+                "target_portpath": "extra_samples"
+            },
+            "aovId1": {
+                "target_portpath": "aov_id1"
+            },
+            "id1": {
+                "target_portpath": "id1"
+            },
+            "aovId2": {
+                "target_portpath": "aov_id2"
+            },
+            "id2": {
+                "target_portpath": "id2"
+            },
+            "aovId3": {
+                "target_portpath": "aov_id3"
+            },
+            "id3": {
+                "target_portpath": "id3"
+            },
+            "aovId4": {
+                "target_portpath": "aov_id4"
+            },
+            "id4": {
+                "target_portpath": "id4"
+            },
+            "aovId5": {
+                "target_portpath": "aov_id5"
+            },
+            "id5": {
+                "target_portpath": "id5"
+            },
+            "aovId6": {
+                "target_portpath": "aov_id6"
+            },
+            "id6": {
+                "target_portpath": "id6"
+            },
+            "aovId7": {
+                "target_portpath": "aov_id7"
+            },
+            "id7": {
+                "target_portpath": "id7"
+            },
+            "aovId8": {
+                "target_portpath": "aov_id8"
+            },
+            "id8": {
+                "target_portpath": "id8"
+            }
+        }
+    },
+    "aiStandardSurface": {
+        "target_typepath": "standard_surface",
+        "source_port": {
+            "base": {
+                "target_portpath": "base"
+            },
+            "baseColor": {
+                "target_portpath": "base_color"
+            },
+            "diffuseRoughness": {
+                "target_portpath": "diffuse_roughness"
+            },
+            "specular": {
+                "target_portpath": "specular"
+            },
+            "specularColor": {
+                "target_portpath": "specular_color"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularIOR": {
+                "target_portpath": "specular_IOR"
+            },
+            "specularAnisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "metalness": {
+                "target_portpath": "metalness"
+            },
+            "transmission": {
+                "target_portpath": "transmission"
+            },
+            "transmissionColor": {
+                "target_portpath": "transmission_color"
+            },
+            "transmissionDepth": {
+                "target_portpath": "transmission_depth"
+            },
+            "transmissionScatter": {
+                "target_portpath": "transmission_scatter"
+            },
+            "transmissionScatterAnisotropy": {
+                "target_portpath": "transmission_scatter_anisotropy"
+            },
+            "transmissionDispersion": {
+                "target_portpath": "transmission_dispersion"
+            },
+            "transmissionExtraRoughness": {
+                "target_portpath": "transmission_extra_roughness"
+            },
+            "transmitAovs": {
+                "target_portpath": "transmit_aovs"
+            },
+            "subsurface": {
+                "target_portpath": "subsurface"
+            },
+            "subsurfaceColor": {
+                "target_portpath": "subsurface_color"
+            },
+            "subsurfaceRadius": {
+                "target_portpath": "subsurface_radius"
+            },
+            "subsurfaceScale": {
+                "target_portpath": "subsurface_scale"
+            },
+            "subsurfaceAnisotropy": {
+                "target_portpath": "subsurface_anisotropy"
+            },
+            "subsurfaceType": {
+                "target_portpath": "subsurface_type"
+            },
+            "sheen": {
+                "target_portpath": "sheen"
+            },
+            "sheenColor": {
+                "target_portpath": "sheen_color"
+            },
+            "sheenRoughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "thinWalled": {
+                "target_portpath": "thin_walled"
+            },
+            "tangent": {
+                "target_portpath": "tangent"
+            },
+            "coat": {
+                "target_portpath": "coat"
+            },
+            "coatColor": {
+                "target_portpath": "coat_color"
+            },
+            "coatRoughness": {
+                "target_portpath": "coat_roughness"
+            },
+            "coatIOR": {
+                "target_portpath": "coat_IOR"
+            },
+            "coatAnisotropy": {
+                "target_portpath": "coat_anisotropy"
+            },
+            "coatRotation": {
+                "target_portpath": "coat_rotation"
+            },
+            "coatNormal": {
+                "target_portpath": "coat_normal"
+            },
+            "thinFilmThickness": {
+                "target_portpath": "thin_film_thickness"
+            },
+            "thinFilmIOR": {
+                "target_portpath": "thin_film_IOR"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "opacity": {
+                "target_portpath": "opacity"
+            },
+            "caustics": {
+                "target_portpath": "caustics"
+            },
+            "internalReflections": {
+                "target_portpath": "internal_reflections"
+            },
+            "exitToBackground": {
+                "target_portpath": "exit_to_background"
+            },
+            "indirectDiffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "target_portpath": "indirect_specular"
+            },
+            "aovId1": {
+                "target_portpath": "aov_id1"
+            },
+            "id1": {
+                "target_portpath": "id1"
+            },
+            "aovId2": {
+                "target_portpath": "aov_id2"
+            },
+            "id2": {
+                "target_portpath": "id2"
+            },
+            "aovId3": {
+                "target_portpath": "aov_id3"
+            },
+            "id3": {
+                "target_portpath": "id3"
+            },
+            "aovId4": {
+                "target_portpath": "aov_id4"
+            },
+            "id4": {
+                "target_portpath": "id4"
+            },
+            "aovId5": {
+                "target_portpath": "aov_id5"
+            },
+            "id5": {
+                "target_portpath": "id5"
+            },
+            "aovId6": {
+                "target_portpath": "aov_id6"
+            },
+            "id6": {
+                "target_portpath": "id6"
+            },
+            "aovId7": {
+                "target_portpath": "aov_id7"
+            },
+            "id7": {
+                "target_portpath": "id7"
+            },
+            "aovId8": {
+                "target_portpath": "aov_id8"
+            },
+            "id8": {
+                "target_portpath": "id8"
+            },
+            "normalCamera": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiStandardVolume": {
+        "target_typepath": "standard_volume",
+        "source_port": {
+            "density": {
+                "target_portpath": "density"
+            },
+            "densityChannel": {
+                "target_portpath": "density_channel"
+            },
+            "scatter": {
+                "target_portpath": "scatter"
+            },
+            "scatterColor": {
+                "target_portpath": "scatter_color"
+            },
+            "scatterColorChannel": {
+                "target_portpath": "scatter_color_channel"
+            },
+            "scatterAnisotropy": {
+                "target_portpath": "scatter_anisotropy"
+            },
+            "transparent": {
+                "target_portpath": "transparent"
+            },
+            "transparentDepth": {
+                "target_portpath": "transparent_depth"
+            },
+            "transparentChannel": {
+                "target_portpath": "transparent_channel"
+            },
+            "emissionMode": {
+                "target_portpath": "emission_mode"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "emissionChannel": {
+                "target_portpath": "emission_channel"
+            },
+            "temperature": {
+                "target_portpath": "temperature"
+            },
+            "temperatureChannel": {
+                "target_portpath": "temperature_channel"
+            },
+            "blackbodyKelvin": {
+                "target_portpath": "blackbody_kelvin"
+            },
+            "blackbodyIntensity": {
+                "target_portpath": "blackbody_intensity"
+            },
+            "displacement": {
+                "target_portpath": "displacement"
+            },
+            "interpolation": {
+                "target_portpath": "interpolation"
+            }
+        }
+    },
+    "aiStateFloat": {
+        "target_typepath": "state_float",
+        "source_port": {
+            "variable": {
+                "target_portpath": "variable"
+            }
+        }
+    },
+    "aiStateInt": {
+        "target_typepath": "state_int",
+        "source_port": {
+            "variable": {
+                "target_portpath": "variable"
+            }
+        }
+    },
+    "aiStateVector": {
+        "target_typepath": "state_vector",
+        "source_port": {
+            "variable": {
+                "target_portpath": "variable"
+            }
+        }
+    },
+    "aiSubtract": {
+        "target_typepath": "subtract",
+        "source_port": {
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            }
+        }
+    },
+    "aiSwitch": {
+        "target_typepath": "switch_shader",
+        "source_port": {
+            "index": {
+                "target_portpath": "index"
+            },
+            "input0": {
+                "target_portpath": "input0"
+            },
+            "input1": {
+                "target_portpath": "input1"
+            },
+            "input2": {
+                "target_portpath": "input2"
+            },
+            "input3": {
+                "target_portpath": "input3"
+            },
+            "input4": {
+                "target_portpath": "input4"
+            },
+            "input5": {
+                "target_portpath": "input5"
+            },
+            "input6": {
+                "target_portpath": "input6"
+            },
+            "input7": {
+                "target_portpath": "input7"
+            },
+            "input8": {
+                "target_portpath": "input8"
+            },
+            "input9": {
+                "target_portpath": "input9"
+            },
+            "input10": {
+                "target_portpath": "input10"
+            },
+            "input11": {
+                "target_portpath": "input11"
+            },
+            "input12": {
+                "target_portpath": "input12"
+            },
+            "input13": {
+                "target_portpath": "input13"
+            },
+            "input14": {
+                "target_portpath": "input14"
+            },
+            "input15": {
+                "target_portpath": "input15"
+            },
+            "input16": {
+                "target_portpath": "input16"
+            },
+            "input17": {
+                "target_portpath": "input17"
+            },
+            "input18": {
+                "target_portpath": "input18"
+            },
+            "input19": {
+                "target_portpath": "input19"
+            }
+        }
+    },
+    "aiThinFilm": {
+        "target_typepath": "thin_film",
+        "source_port": {
+            "thicknessMin": {
+                "target_portpath": "thickness_min"
+            },
+            "thicknessMax": {
+                "target_portpath": "thickness_max"
+            },
+            "thickness": {
+                "target_portpath": "thickness"
+            },
+            "iorMedium": {
+                "target_portpath": "ior_medium"
+            },
+            "iorFilm": {
+                "target_portpath": "ior_film"
+            },
+            "iorInternal": {
+                "target_portpath": "ior_internal"
+            }
+        }
+    },
+    "aiToon": {
+        "target_typepath": "toon",
+        "source_port": {
+            "maskColor": {
+                "target_portpath": "mask_color"
+            },
+            "edgeColor": {
+                "target_portpath": "edge_color"
+            },
+            "edgeTonemap": {
+                "target_portpath": "edge_tonemap"
+            },
+            "edgeOpacity": {
+                "target_portpath": "edge_opacity"
+            },
+            "edgeWidthScale": {
+                "target_portpath": "edge_width_scale"
+            },
+            "silhouetteColor": {
+                "target_portpath": "silhouette_color"
+            },
+            "silhouetteTonemap": {
+                "target_portpath": "silhouette_tonemap"
+            },
+            "silhouetteOpacity": {
+                "target_portpath": "silhouette_opacity"
+            },
+            "silhouetteWidthScale": {
+                "target_portpath": "silhouette_width_scale"
+            },
+            "priority": {
+                "target_portpath": "priority"
+            },
+            "enableSilhouette": {
+                "target_portpath": "enable_silhouette"
+            },
+            "ignoreThroughput": {
+                "target_portpath": "ignore_throughput"
+            },
+            "enable": {
+                "target_portpath": "enable"
+            },
+            "idDifference": {
+                "target_portpath": "id_difference"
+            },
+            "shaderDifference": {
+                "target_portpath": "shader_difference"
+            },
+            "uvThreshold": {
+                "target_portpath": "uv_threshold"
+            },
+            "angleThreshold": {
+                "target_portpath": "angle_threshold"
+            },
+            "normalType": {
+                "target_portpath": "normal_type"
+            },
+            "base": {
+                "target_portpath": "base"
+            },
+            "baseColor": {
+                "target_portpath": "base_color"
+            },
+            "baseTonemap": {
+                "target_portpath": "base_tonemap"
+            },
+            "specular": {
+                "target_portpath": "specular"
+            },
+            "specularColor": {
+                "target_portpath": "specular_color"
+            },
+            "specularRoughness": {
+                "target_portpath": "specular_roughness"
+            },
+            "specularAnisotropy": {
+                "target_portpath": "specular_anisotropy"
+            },
+            "specularRotation": {
+                "target_portpath": "specular_rotation"
+            },
+            "specularTonemap": {
+                "target_portpath": "specular_tonemap"
+            },
+            "lights": {
+                "target_portpath": "lights"
+            },
+            "highlightColor": {
+                "target_portpath": "highlight_color"
+            },
+            "highlightSize": {
+                "target_portpath": "highlight_size"
+            },
+            "aovHighlight": {
+                "target_portpath": "aov_highlight"
+            },
+            "rimLight": {
+                "target_portpath": "rim_light"
+            },
+            "rimLightColor": {
+                "target_portpath": "rim_light_color"
+            },
+            "rimLightWidth": {
+                "target_portpath": "rim_light_width"
+            },
+            "aovRimLight": {
+                "target_portpath": "aov_rim_light"
+            },
+            "transmission": {
+                "target_portpath": "transmission"
+            },
+            "transmissionColor": {
+                "target_portpath": "transmission_color"
+            },
+            "transmissionRoughness": {
+                "target_portpath": "transmission_roughness"
+            },
+            "transmissionAnisotropy": {
+                "target_portpath": "transmission_anisotropy"
+            },
+            "transmissionRotation": {
+                "target_portpath": "transmission_rotation"
+            },
+            "sheen": {
+                "target_portpath": "sheen"
+            },
+            "sheenColor": {
+                "target_portpath": "sheen_color"
+            },
+            "sheenRoughness": {
+                "target_portpath": "sheen_roughness"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "IOR": {
+                "target_portpath": "IOR"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "tangent": {
+                "target_portpath": "tangent"
+            },
+            "indirectDiffuse": {
+                "target_portpath": "indirect_diffuse"
+            },
+            "indirectSpecular": {
+                "target_portpath": "indirect_specular"
+            },
+            "bumpMode": {
+                "target_portpath": "bump_mode"
+            },
+            "energyConserving": {
+                "target_portpath": "energy_conserving"
+            },
+            "userId": {
+                "target_portpath": "user_id"
+            }
+        }
+    },
+    "aiTraceSet": {
+        "target_typepath": "trace_set",
+        "source_port": {
+            "passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "traceSet": {
+                "target_portpath": "trace_set"
+            },
+            "inclusive": {
+                "target_portpath": "inclusive"
+            }
+        }
+    },
+    "aiTrigo": {
+        "target_typepath": "trigo",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "function": {
+                "target_portpath": "function"
+            },
+            "units": {
+                "target_portpath": "units"
+            },
+            "frequency": {
+                "target_portpath": "frequency"
+            },
+            "phase": {
+                "target_portpath": "phase"
+            }
+        }
+    },
+    "aiTriplanar": {
+        "target_typepath": "triplanar",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            },
+            "rotate": {
+                "target_portpath": "rotate"
+            },
+            "offset": {
+                "target_portpath": "offset"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "blend": {
+                "target_portpath": "blend"
+            },
+            "cell": {
+                "target_portpath": "cell"
+            },
+            "cellRotate": {
+                "target_portpath": "cell_rotate"
+            },
+            "cellBlend": {
+                "target_portpath": "cell_blend"
+            }
+        }
+    },
+    "aiTwoSided": {
+        "target_typepath": "two_sided",
+        "source_port": {
+            "front": {
+                "target_portpath": "front"
+            },
+            "back": {
+                "target_portpath": "back"
+            }
+        }
+    },
+    "aiUserDataFloat": {
+        "target_typepath": "user_data_float",
+        "source_port": {
+            "attribute": {
+                "target_portpath": "attribute"
+            },
+            "default": {
+                "target_portpath": "default"
+            }
+        }
+    },
+    "aiUserDataInt": {
+        "target_typepath": "user_data_int",
+        "source_port": {
+            "attribute": {
+                "target_portpath": "attribute"
+            },
+            "default": {
+                "target_portpath": "default"
+            }
+        }
+    },
+    "aiUserDataColor": {
+        "target_typepath": "user_data_rgb",
+        "source_port": {
+            "attribute": {
+                "target_portpath": "attribute"
+            },
+            "default": {
+                "target_portpath": "default"
+            }
+        }
+    },
+    "aiUserDataString": {
+        "target_typepath": "user_data_string",
+        "source_port": {
+            "attribute": {
+                "target_portpath": "attribute"
+            },
+            "default": {
+                "target_portpath": "default"
+            }
+        }
+    },
+    "aiUtility": {
+        "target_typepath": "utility",
+        "source_port": {
+            "colorMode": {
+                "target_portpath": "color_mode"
+            },
+            "shadeMode": {
+                "target_portpath": "shade_mode"
+            },
+            "overlayMode": {
+                "target_portpath": "overlay_mode"
+            },
+            "color": {
+                "target_portpath": "color"
+            },
+            "aoDistance": {
+                "target_portpath": "ao_distance"
+            },
+            "roughness": {
+                "target_portpath": "roughness"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            }
+        }
+    },
+    "aiUvProjection": {
+        "target_typepath": "uv_projection",
+        "source_port": {
+            "projectionColor": {
+                "target_portpath": "projection_color"
+            },
+            "projectionType": {
+                "target_portpath": "projection_type"
+            },
+            "coordSpace": {
+                "target_portpath": "coord_space"
+            },
+            "prefName": {
+                "target_portpath": "pref_name"
+            },
+            "P": {
+                "target_portpath": "P"
+            },
+            "uAngle": {
+                "target_portpath": "u_angle"
+            },
+            "vAngle": {
+                "target_portpath": "v_angle"
+            },
+            "clamp": {
+                "target_portpath": "clamp"
+            },
+            "defaultColor": {
+                "target_portpath": "default_color"
+            },
+            "placementMatrix": {
+                "target_portpath": "matrix"
+            }
+        }
+    },
+    "aiUvTransform": {
+        "target_typepath": "uv_transform",
+        "source_port": {
+            "passthrough": {
+                "target_portpath": "passthrough"
+            },
+            "unit": {
+                "target_portpath": "unit"
+            },
+            "uvset": {
+                "target_portpath": "uvset"
+            },
+            "coverage": {
+                "target_portpath": "coverage"
+            },
+            "scaleFrame": {
+                "target_portpath": "scale_frame"
+            },
+            "translateFrame": {
+                "target_portpath": "translate_frame"
+            },
+            "rotateFrame": {
+                "target_portpath": "rotate_frame"
+            },
+            "pivotFrame": {
+                "target_portpath": "pivot_frame"
+            },
+            "wrapFrameU": {
+                "target_portpath": "wrap_frame_u"
+            },
+            "wrapFrameV": {
+                "target_portpath": "wrap_frame_v"
+            },
+            "wrapFrameColor": {
+                "target_portpath": "wrap_frame_color"
+            },
+            "repeat": {
+                "target_portpath": "repeat"
+            },
+            "offset": {
+                "target_portpath": "offset"
+            },
+            "rotate": {
+                "target_portpath": "rotate"
+            },
+            "pivot": {
+                "target_portpath": "pivot"
+            },
+            "noise": {
+                "target_portpath": "noise"
+            },
+            "mirrorU": {
+                "target_portpath": "mirror_u"
+            },
+            "mirrorV": {
+                "target_portpath": "mirror_v"
+            },
+            "flipU": {
+                "target_portpath": "flip_u"
+            },
+            "flipV": {
+                "target_portpath": "flip_v"
+            },
+            "swapUv": {
+                "target_portpath": "swap_uv"
+            },
+            "stagger": {
+                "target_portpath": "stagger"
+            }
+        }
+    },
+    "aiVectorMap": {
+        "target_typepath": "vector_map",
+        "source_port": {
+            "input": {
+                "target_portpath": "input"
+            },
+            "tangent": {
+                "target_portpath": "tangent"
+            },
+            "normal": {
+                "target_portpath": "normal"
+            },
+            "order": {
+                "target_portpath": "order"
+            },
+            "invertX": {
+                "target_portpath": "invert_x"
+            },
+            "invertY": {
+                "target_portpath": "invert_y"
+            },
+            "invertZ": {
+                "target_portpath": "invert_z"
+            },
+            "colorToSigned": {
+                "target_portpath": "color_to_signed"
+            },
+            "tangentSpace": {
+                "target_portpath": "tangent_space"
+            },
+            "scale": {
+                "target_portpath": "scale"
+            }
+        }
+    },
+    "aiVolumeCollector": {
+        "target_typepath": "volume_collector",
+        "source_port": {
+            "scatteringSource": {
+                "target_portpath": "scattering_source"
+            },
+            "scattering": {
+                "target_portpath": "scattering"
+            },
+            "scatteringChannel": {
+                "target_portpath": "scattering_channel"
+            },
+            "scatteringColor": {
+                "target_portpath": "scattering_color"
+            },
+            "scatteringIntensity": {
+                "target_portpath": "scattering_intensity"
+            },
+            "anisotropy": {
+                "target_portpath": "anisotropy"
+            },
+            "attenuationSource": {
+                "target_portpath": "attenuation_source"
+            },
+            "attenuation": {
+                "target_portpath": "attenuation"
+            },
+            "attenuationChannel": {
+                "target_portpath": "attenuation_channel"
+            },
+            "attenuationColor": {
+                "target_portpath": "attenuation_color"
+            },
+            "attenuationIntensity": {
+                "target_portpath": "attenuation_intensity"
+            },
+            "attenuationMode": {
+                "target_portpath": "attenuation_mode"
+            },
+            "emissionSource": {
+                "target_portpath": "emission_source"
+            },
+            "emission": {
+                "target_portpath": "emission"
+            },
+            "emissionChannel": {
+                "target_portpath": "emission_channel"
+            },
+            "emissionColor": {
+                "target_portpath": "emission_color"
+            },
+            "emissionIntensity": {
+                "target_portpath": "emission_intensity"
+            },
+            "positionOffset": {
+                "target_portpath": "position_offset"
+            },
+            "interpolation": {
+                "target_portpath": "interpolation"
+            }
+        }
+    },
+    "aiVolumeSampleFloat": {
+        "target_typepath": "volume_sample_float",
+        "source_port": {
+            "channel": {
+                "target_portpath": "channel"
+            },
+            "positionOffset": {
+                "target_portpath": "position_offset"
+            },
+            "interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "volumeType": {
+                "target_portpath": "volume_type"
+            },
+            "sdfOffset": {
+                "target_portpath": "sdf_offset"
+            },
+            "sdfBlend": {
+                "target_portpath": "sdf_blend"
+            },
+            "sdfInvert": {
+                "target_portpath": "sdf_invert"
+            },
+            "inputMin": {
+                "target_portpath": "input_min"
+            },
+            "inputMax": {
+                "target_portpath": "input_max"
+            },
+            "contrast": {
+                "target_portpath": "contrast"
+            },
+            "contrastPivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "bias": {
+                "target_portpath": "bias"
+            },
+            "gain": {
+                "target_portpath": "gain"
+            },
+            "outputMin": {
+                "target_portpath": "output_min"
+            },
+            "outputMax": {
+                "target_portpath": "output_max"
+            },
+            "clampMin": {
+                "target_portpath": "clamp_min"
+            },
+            "clampMax": {
+                "target_portpath": "clamp_max"
+            }
+        }
+    },
+    "aiVolumeSampleRgb": {
+        "target_typepath": "volume_sample_rgb",
+        "source_port": {
+            "channel": {
+                "target_portpath": "channel"
+            },
+            "positionOffset": {
+                "target_portpath": "position_offset"
+            },
+            "interpolation": {
+                "target_portpath": "interpolation"
+            },
+            "gamma": {
+                "target_portpath": "gamma"
+            },
+            "hueShift": {
+                "target_portpath": "hue_shift"
+            },
+            "saturation": {
+                "target_portpath": "saturation"
+            },
+            "contrast": {
+                "target_portpath": "contrast"
+            },
+            "contrastPivot": {
+                "target_portpath": "contrast_pivot"
+            },
+            "exposure": {
+                "target_portpath": "exposure"
+            },
+            "multiply": {
+                "target_portpath": "multiply"
+            },
+            "add": {
+                "target_portpath": "add"
+            }
+        }
+    },
+    "aiWireframe": {
+        "target_typepath": "wireframe",
+        "source_port": {
+            "lineWidth": {
+                "target_portpath": "line_width"
+            },
+            "fillColor": {
+                "target_portpath": "fill_color"
+            }, 
+            "lineColor": {
+                "target_portpath": "line_color"
+            }, 
+            "rasterSpace": {
+                "target_portpath": "raster_space"
+            }, 
+            "edgeType": {
+                "target_portpath": "edge_type"
+            }
+        }
+    }
+}

@@ -1,0 +1,138 @@
+{
+    "Mesh": {
+        "target_typepath": "mesh",
+        "source_port": {
+            "material:binding": {
+                "target_portpath": "materialassign"
+            },
+
+            "primvars:arnold:disp_height": {
+                "target_portpath": "disp_height"
+            },
+            "primvars:arnold:disp_padding": {
+                "target_portpath": "disp_padding"
+            },
+            "primvars:arnold:disp_zero_value": {
+                "target_portpath": "disp_zero_value"
+            },
+            "primvars:arnold:disp_autobump": {
+                "target_portpath": "disp_autobump"
+            },
+            "primvars:arnold:autobump_visibility": {
+                "target_portpath": "autobump_visibility"
+            },
+            "primvars:arnold:smoothing": {
+                "target_portpath": "smoothing"
+            },
+            "primvars:arnold:step_size": {
+                "target_portpath": "step_size"
+            },
+            "primvars:arnold:subdiv_type": {
+                "target_portpath": "subdiv_type",
+                "portraw_convert": {
+                    "enumerate": [
+                        "none",
+                        "catclark",
+                        "linear"
+                    ]
+                }
+            },
+            "primvars:arnold:subdiv_iterations": {
+                "target_portpath": "subdiv_iterations"
+            },
+            "primvars:arnold:subdiv_adaptive_error": {
+                "target_portpath": "subdiv_adaptive_error"
+            },
+            "primvars:arnold:subdiv_adaptive_metric": {
+                "target_portpath": "subdiv_adaptive_metric",
+                "portraw_convert": {
+                    "enumerate": [
+                        "auto",
+                        "edge_length",
+                        "flatness"
+                    ]
+                }
+            },
+            "primvars:arnold:subdiv_adaptive_space": {
+                "target_portpath": "subdiv_adaptive_space",
+                "portraw_convert": {
+                    "enumerate": [
+                        "raster",
+                        "object"
+                    ]
+                }
+            },
+            "primvars:arnold:subdiv_uv_smoothing": {
+                "target_portpath": "subdiv_uv_smoothing",
+                "portraw_convert": {
+                    "enumerate": [
+                        "pin_corners",
+                        "pin_borders",
+                        "linear",
+                        "smooth"
+                    ]
+                }
+            },
+            "primvars:arnold:subdiv_frustum_ignore": {
+                "target_portpath": "subdiv_frustum_ignore"
+            },
+            "primvars:arnold:subdiv_smooth_derivs": {
+                "target_portpath": "subdiv_smooth_derivs"
+            },
+            "primvars:arnold:invert_normals": {
+                "target_portpath": "invert_normals"
+            },
+            "primvars:arnold:opaque": {
+                "target_portpath": "opaque"
+            },
+            "primvars:arnold:matte": {
+                "target_portpath": "matte"
+            },
+            "primvars:arnold:use_shadow_group": {
+                "target_portpath": "use_shadow_group"
+            },
+            "primvars:arnold:motion_start": {
+                "target_portpath": "motion_start"
+            },
+            "primvars:arnold:motion_end": {
+                "target_portpath": "motion_end"
+            },
+            "primvars:arnold:id": {
+                "target_portpath": "id"
+            },
+            "primvars:arnold:volume_padding": {
+                "target_portpath": "volume_padding"
+            },
+            "primvars:arnold:self_shadows": {
+                "target_portpath": "self_shadows"
+            },
+            "primvars:arnold:receive_shadows": {
+                "target_portpath": "receive_shadows"
+            },
+            "primvars:arnold:visibility:camera": {
+                "target_portpath": "camera"
+            },
+            "primvars:arnold:visibility:shadow": {
+                "target_portpath": "shadow"
+            },
+            "primvars:arnold:visibility:diffuse_transmit": {
+                "target_portpath": "diffuse_transmit"
+            },
+            "primvars:arnold:visibility:specular_transmit": {
+                "target_portpath": "specular_transmit"
+            },
+            "primvars:arnold:visibility:diffuse_reflect": {
+                "target_portpath": "diffuse_reflect"
+            },
+            "primvars:arnold:visibility:specular_reflect": {
+                "target_portpath": "specular_reflect"
+            },
+            "primvars:arnold:visibility:subsurface": {
+                "target_portpath": "subsurface"
+            },
+            "primvars:arnold:visibility:volume": {
+                "target_portpath": "volume"
+            }
+        }
+    }
+}

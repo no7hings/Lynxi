@@ -1,0 +1,122 @@
+{
+    "color2": [
+        {
+            "format": "{portpath}.r",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.a",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "color3": [
+        {
+            "format": "{portpath}.r",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.g",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.b",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "color4": [
+        {
+            "format": "{portpath}.r",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.g",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.b",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.a",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector2": [
+        {
+            "format": "{portpath}.x",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.y",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector3": [
+        {
+            "format": "{portpath}.x",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.y",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.z",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ],
+    "vector4": [
+        {
+            "format": "{portpath}.x",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.y",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.z",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        },
+        {
+            "format": "{portpath}.w",
+            "datatype": "float",
+            "portraw": "0.0",
+            "assign": "channel"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "Vop/arnold_material": {
+        "target_typepath": "material",
+        "source_port": {
+            "surface": {
+                "target_portpath": "surfaceshader"
+            },
+            "displacement": {
+                "target_portpath": "displacementshader"
+            },
+            "volume": {
+                "target_portpath": "volumeshader"
+            },
+            "shader": {
+                "target_portpath": "material"
+            }
+        }
+    }
+}

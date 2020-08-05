@@ -1,0 +1,25 @@
+{
+    "material": {
+        "datatype": "material",
+        "port": [
+            {
+                "portpath": "surfaceshader",
+                "datatype": "shader",
+                "portraw": "",
+                "assign": "inport"
+            },
+            {
+                "portpath": "displacementshader",
+                "datatype": "shader",
+                "portraw": "",
+                "assign": "inport"
+            },
+            {
+                "portpath": "volumeshader",
+                "datatype": "shader",
+                "portraw": "",
+                "assign": "inport"
+            }
+        ]
+    }
+}

@@ -1,0 +1,70 @@
+{
+	"nodesep": "/",
+    "portsep": ".",
+	"port": {
+		"*/asset": {
+            "enable": true,
+            "uiname": "Asset",
+            "icon": "svg_basic/tag",
+            "tip": "Asset."
+        },
+        "*/shot": {
+            "enable": true,
+            "uiname": "Shot",
+            "icon": "svg_basic/tag",
+            "tip": "Shot."
+        },
+        "*/set": {
+            "enable": true,
+            "uiname": "Set Dressing",
+            "icon": "svg_basic/tag",
+            "tip": "Set Dressing."
+        },
+        "*/td": {
+            "enable": true,
+            "uiname": "TD",
+            "icon": "svg_basic/tag",
+            "tip": "TD."
+        },
+        "*/rnd": {
+            "enable": true,
+            "uiname": "RnD",
+            "icon": "svg_basic/tag",
+            "tip": "RnD."
+        },
+        "*/utility": {
+            "enable": true,
+            "uiname": "Utility",
+            "icon": "svg_basic/tag",
+            "tip": "Utility."
+        }
+    },
+    "node":{
+    	"/": [
+    		"asset",
+    		"shot",
+    		"set",
+            "td",
+            "utility",
+            "rnd"
+    	],
+    	"/asset": [
+    		"utility"
+    	],
+    	"/shot": [
+    		"utility"
+    	],
+        "/set": [
+    		"utility"
+    	],
+        "/td": [
+            "utility"
+        ],
+        "/rnd": [
+            "utility"
+        ],
+        "/utility": [
+            "utility"
+        ]
+    }
+}

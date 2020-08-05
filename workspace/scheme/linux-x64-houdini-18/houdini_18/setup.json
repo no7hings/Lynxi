@@ -1,0 +1,63 @@
+{
+    "name": "houdini_18", 
+    "version": "0.0.0", 
+    "user": "nothings", 
+    "timestamp": 1596635188.966, 
+    "environ": {
+        "HOUDINI_PATH": {
+            "operate": ";&", 
+            "value": "<houdini_18>{root.active}/resource/scheme/linux-x64-houdini-18-houdini_18/0.0.0/source/houdini_18/lynxi/houdini:&"
+        }, 
+        "LYNXI_PYTHONPATH": {
+            "operate": "+", 
+            "value": [
+                "<LxApp>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxapp/0.0.0/source", 
+                "<LxBasic>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxbasic/0.0.0/source", 
+                "<LxCore>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxcore/0.0.0/source", 
+                "<LxData>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdata/0.0.0/source", 
+                "<LxDatabase>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdatabase/0.0.0/source", 
+                "<LxDeadline>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxdeadline/0.0.0/source", 
+                "<LxGraphic>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxgraphic/0.0.0/source", 
+                "<LxGui>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxgui/0.0.0/source", 
+                "<LxHou2mtx>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhou2mtx/0.0.0/source", 
+                "<LxHouBasic>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhoubasic/0.0.0/source", 
+                "<LxHoudini>{root.active}/workspace/module/houdini-python-2.7|{root.active}/resource/module/houdini-python-2.7-lxhoudini/0.0.0/source", 
+                "<LxKit>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxkit/0.0.0/source", 
+                "<LxMtx>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxmtx/0.0.0/source", 
+                "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
+                "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
+                "<LxUsd2mtx>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxusd2mtx/0.0.0/source", 
+                "<LxUsd>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxusd/0.0.0/source", 
+                "<MaterialX>{root.active}/resource/package/linux-python-2.7-materialx/1.37.1/source", 
+                "<PIL>{root.active}/resource/package/linux-x64-python-2.7-pil/1.1.7/source", 
+                "<PySide2>{root.active}/resource/package/linux-x64-python-2.7-pyside2/5.14.2.1/source", 
+                "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
+                "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
+            ]
+        }, 
+        "PATH": {
+            "operate": "+", 
+            "value": "<sublime_text>{root.active}/resource/bin/linux-x64-sublime_text/build.3211/source/bin"
+        }
+    }, 
+    "module": [
+        "LxApp", 
+        "LxBasic", 
+        "LxCore", 
+        "LxData", 
+        "LxDatabase", 
+        "LxDeadline", 
+        "LxGraphic", 
+        "LxGui", 
+        "LxHou2mtx", 
+        "LxHouBasic", 
+        "LxHoudini", 
+        "LxKit", 
+        "LxMtx", 
+        "LxPreset", 
+        "LxScheme", 
+        "LxUsd", 
+        "LxUsd2mtx"
+    ], 
+    "plug": []
+}

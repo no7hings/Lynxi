@@ -1,0 +1,134 @@
+{
+	"nodesep": "/",
+    "portsep": ".",
+	"port": {
+		"*/asset": {
+            "enable": true,
+            "uiname": "Asset",
+            "tip": "to be edited."
+        },
+        "*/shot": {
+            "enable": true,
+            "uiname": "Shot"
+        },
+        "*/set": {
+            "enable": true,
+            "uiname": "Set Dressing"
+        },
+        "*/td": {
+            "enable": true,
+            "uiname": "TD"
+        },
+        "*/rnd": {
+            "enable": true,
+            "uiname": "RnD"
+        },
+        "*/utility": {
+            "enable": true,
+            "uiname": "Utility"
+        },
+        "*/model": {
+            "enable": true,
+            "uiname": "Modeling"
+        },
+        "*/shade": {
+            "enable": true,
+            "uiname": "Shading"
+        },
+        "*/groom": {
+            "enable": true,
+            "uiname": "Grooming"
+        },
+        "*/tailor": {
+            "enable": true,
+            "uiname": "Tailoring"
+        },
+        "*/rig": {
+            "enable": true,
+            "uiname": "Rigging"
+        },
+        "*/layout": {
+            "enable": true,
+            "uiname": "Layout"
+        },
+        "*/animation": {
+            "enable": true,
+            "uiname": "Animation"
+        },
+        "*/simulation": {
+            "enable": true,
+            "uiname": "Simulation"
+        },
+        "*/crowd": {
+            "enable": true,
+            "uiname": "Crowd"
+        },
+        "*/light": {
+            "enable": true,
+            "uiname": "Lighting"
+        },
+        "*/fx": {
+            "enable": true,
+            "uiname": "FX"
+        },
+        "*/render": {
+            "enable": true,
+            "uiname": "Rendering"
+        },
+        "*/composition": {
+            "enable": true,
+            "uiname": "Compositing"
+        }
+    },
+    "node":{
+    	"/": [
+    		"asset",
+    		"shot",
+    		"set",
+            "td",
+            "rnd",
+            "utility"
+    	],
+    	"/asset": [
+    		"model",
+    		"shade",
+    		"groom",
+    		"tailor",
+    		"rig",
+    		"utility"
+    	],
+    	"/shot": [
+    		"layout",
+    		"animation",
+    		"simulation",
+    		"crowd",
+    		"fx",
+    		"light",
+    		"render",
+    		"composition",
+    		"utility"
+    	],
+        "/utility": [
+            "model",
+            "shade",
+            "groom",
+            "tailor",
+            "rig",
+            "layout",
+            "animation",
+            "simulation",
+            "crowd",
+            "fx",
+            "light",
+            "render",
+            "composition",
+            "utility"
+        ],
+        "/td": [
+          "utility"
+        ],
+        "/rnd": [
+          "utility"
+        ]
+    }
+}

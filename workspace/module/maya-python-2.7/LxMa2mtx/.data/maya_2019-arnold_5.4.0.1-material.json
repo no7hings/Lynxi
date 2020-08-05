@@ -1,0 +1,22 @@
+{
+    "shadingEngine": {
+        "target_typepath": "material",
+        "source_port": {
+            "surfaceShader": {
+                "target_portpath": "surfaceshader"
+            },
+            "aiSurfaceShader": {
+                "target_portpath": "surfaceshader"
+            },
+            "displacementShader": {
+                "target_portpath": "displacementshader"
+            },
+            "volumeShader": {
+                "target_portpath": "volumeshader"
+            },
+            "aiVolumeShader": {
+                "target_portpath": "volumeshader"
+            }
+        }
+    }
+}

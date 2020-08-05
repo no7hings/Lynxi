@@ -1,0 +1,476 @@
+{
+    "system": {
+        "windows-pdplayer64_0": {
+            "category": "plf-application", 
+            "name": "pdplayer64", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "windows-python-2.7-idna": {
+            "category": "plf-lan-package", 
+            "name": "idna", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-houdini-houdini_default_0": {
+            "category": "plf-app-scheme", 
+            "name": "houdini_default", 
+            "system": [
+                "windows", 
+                "share", 
+                "houdini", 
+                "share"
+            ]
+        }, 
+        "windows-maya-2019-usd": {
+            "category": "plf-app-plug", 
+            "name": "usd", 
+            "system": [
+                "windows", 
+                "share", 
+                "maya", 
+                "2019"
+            ]
+        }, 
+        "windows-python-2.7-pyside": {
+            "category": "plf-lan-package", 
+            "name": "PySide", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_maya_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxMaya", 
+            "system": [
+                "share", 
+                "share", 
+                "maya", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-pil": {
+            "category": "plf-lan-package", 
+            "name": "PIL", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_houdini_basic_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxHouBasic",
+            "system": [
+                "share", 
+                "share", 
+                "houdini", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-sublime_text_0": {
+            "category": "plf-application", 
+            "name": "sublime_text", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "scheme@windows-maya-2019-maya_2019": {
+            "category": "plf-app-scheme", 
+            "name": "maya_2019", 
+            "system": [
+                "windows", 
+                "share", 
+                "maya", 
+                "2019"
+            ]
+        }, 
+        "scheme@windows-default_0": {
+            "category": "plf-scheme", 
+            "name": "default", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "scheme@windows-maya-maya_default_0": {
+            "category": "plf-app-scheme", 
+            "name": "maya_default", 
+            "system": [
+                "windows", 
+                "share", 
+                "maya", 
+                "share"
+            ]
+        }, 
+        "python-2.7-lx_usd_0": {
+            "category": "plf-lan-module", 
+            "name": "LxUsd", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_app_0": {
+            "category": "plf-lan-module", 
+            "name": "LxApp", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-pyqt5": {
+            "category": "plf-lan-package", 
+            "name": "PyQt5", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_interface_0": {
+            "category": "plf-lan-module", 
+            "name": "LxKit", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-requests": {
+            "category": "plf-lan-package", 
+            "name": "requests", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_maya_basic_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxMaBasic", 
+            "system": [
+                "share", 
+                "share", 
+                "maya", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-chardet": {
+            "category": "plf-lan-package", 
+            "name": "chardet", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python_0": {
+            "category": "plf-language", 
+            "name": "python", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "python-2.7-lx_ma_interface_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxMaInterface", 
+            "system": [
+                "share", 
+                "share", 
+                "maya", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_data_0": {
+            "category": "plf-lan-module", 
+            "name": "LxData", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_preset_0": {
+            "category": "plf-lan-module", 
+            "name": "LxPreset", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-yaml": {
+            "category": "plf-lan-package", 
+            "name": "yaml", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-houdini-18-htoa": {
+            "category": "plf-app-plug", 
+            "name": "htoa", 
+            "system": [
+                "windows", 
+                "share", 
+                "houdini", 
+                "18"
+            ]
+        }, 
+        "windows-python-2.7-dingtalkchatbot": {
+            "category": "plf-lan-package", 
+            "name": "dingtalkchatbot", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_graphic_0": {
+            "category": "plf-lan-module", 
+            "name": "LxGraphic", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_database_0": {
+            "category": "plf-lan-module", 
+            "name": "LxDatabase", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_scheme_0": {
+            "category": "plf-lan-module", 
+            "name": "LxScheme", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-urllib3": {
+            "category": "plf-lan-package", 
+            "name": "urllib3", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-maya-2019-mtoa": {
+            "category": "plf-app-plug", 
+            "name": "mtoa", 
+            "system": [
+                "windows", 
+                "share", 
+                "maya", 
+                "2019"
+            ]
+        }, 
+        "python-2.7-lx_ma_core_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxMaCore", 
+            "system": [
+                "share", 
+                "share", 
+                "maya", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_houdini_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxHoudini", 
+            "system": [
+                "share", 
+                "share", 
+                "houdini", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-houdini-18-houdini_18": {
+            "category": "plf-app-scheme", 
+            "name": "houdini_18", 
+            "system": [
+                "windows", 
+                "share", 
+                "houdini", 
+                "18"
+            ]
+        }, 
+        "windows-usd": {
+            "category": "plf-plug", 
+            "name": "usd", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "windows-python-2.7-pyside2": {
+            "category": "plf-lan-package", 
+            "name": "PySide2", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_deadline_0": {
+            "category": "plf-lan-module", 
+            "name": "LxDeadline", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_material_0": {
+            "category": "plf-lan-module", 
+            "name": "LxMtx", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-maya-lynxinode": {
+            "category": "plf-app-plug", 
+            "name": "lynxinode", 
+            "system": [
+                "windows", 
+                "share", 
+                "maya", 
+                "share"
+            ]
+        }, 
+        "python-2.7-lx_ma_material_0": {
+            "category": "plf-app-lan-module", 
+            "name": "LxMa2mtx",
+            "system": [
+                "share", 
+                "share", 
+                "maya", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_usd2mtx_0": {
+            "category": "plf-lan-module", 
+            "name": "LxUsd2mtx",
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-kmplayer_0": {
+            "category": "plf-application", 
+            "name": "KMPlayer", 
+            "system": [
+                "windows", 
+                "share"
+            ]
+        }, 
+        "python-2.7-lx_core_0": {
+            "category": "plf-lan-module", 
+            "name": "LxCore", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_basic_0": {
+            "category": "plf-lan-module", 
+            "name": "LxBasic", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-materialx": {
+            "category": "plf-lan-package", 
+            "name": "MaterialX", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "windows-python-2.7-certifi": {
+            "category": "plf-lan-package", 
+            "name": "certifi", 
+            "system": [
+                "windows", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }, 
+        "python-2.7-lx_ui_0": {
+            "category": "plf-lan-module", 
+            "name": "LxGui", 
+            "system": [
+                "share", 
+                "share", 
+                "python", 
+                "2.7"
+            ]
+        }
+    }
+}
