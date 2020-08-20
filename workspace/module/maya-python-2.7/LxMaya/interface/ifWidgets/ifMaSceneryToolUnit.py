@@ -25,7 +25,7 @@ none = ''
 
 
 # Assembly Loaded
-class IfScnAssemblyLoadedUnit(kitQtWgtAbs.Abs_KitQtWgtUnit_):
+class IfScnAssemblyLoadedUnit(kitQtWgtAbs.AbsKitQtWgtUnit_):
     VAR_kit__qt_wgt__unit__uiname = 'Assembly Load Unit'
     VAR_kit__qt_wgt__unit__icon = 'window/sceneryToolPanel'
     VAR_kit__qt_wgt__unit__tip = u'''组装加载工具'''

@@ -10,7 +10,7 @@ from .. import maBscObjAbs
 from ..maBscObjects import _maBscObjRaw, _maBscObjQuery, _maBscObjPort
 
 
-class Node(maBscObjAbs.Abs_MaNode):
+class Node(maBscObjAbs.AbsMaNode):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -47,7 +47,7 @@ class Node(maBscObjAbs.Abs_MaNode):
         self._initAbsMaNode(*args, **kwargs)
 
 
-class Geometry(maBscObjAbs.Abs_MaGeometry):
+class Geometry(maBscObjAbs.AbsMaGeometry):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -86,7 +86,7 @@ class Geometry(maBscObjAbs.Abs_MaGeometry):
         self._initAbsMaGeometry(*args, **kwargs)
 
 
-class GeometryRoot(maBscObjAbs.Abs_MaGeometryGroup):
+class GeometryRoot(maBscObjAbs.AbsMaGeometryGroup):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

@@ -4,14 +4,14 @@ from LxGraphic import grhCfg, grhObjAbs
 from . import usdCfg
 
 
-class Abs_UsdBasic(usdCfg.UsdUtility):
+class AbsUsdBasic(usdCfg.UsdUtility):
     pass
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdObjSceneLoader(
-    Abs_UsdBasic,
-    grhObjAbs.Abs_GrhObjSceneLoader
+class AbsUsdObjSceneLoader(
+    AbsUsdBasic,
+    grhObjAbs.AbsGrhObjSceneLoader
 ):
     def _initAbsUsdObjScene(self, *args, **kwargs):
         self._initAbsGrhObjScene(*args, **kwargs)
@@ -50,9 +50,9 @@ class Abs_UsdObjSceneLoader(
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdObjLoader(
-    Abs_UsdBasic,
-    grhObjAbs.Abs_GrhObjLoader,
+class AbsUsdObjLoader(
+    AbsUsdBasic,
+    grhObjAbs.AbsGrhObjLoader,
 ):
     # noinspection PyUnusedLocal
     def _initAbsUsdObjLoader(self, *args):
@@ -330,7 +330,7 @@ class Abs_UsdObjLoader(
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
+class AbsUsdObjQueryrawCreator(grhObjAbs.AbsGrhObjQueryrawCreator):
     def _initAbsUsdObjQueryrawCreator(self, *args):
         self._initAbsGrhObjQueryBuilder(*args)
 
@@ -340,19 +340,19 @@ class Abs_UsdObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdObjQueue(grhObjAbs.Abs_GrhObjQueue):
+class AbsUsdObjQueue(grhObjAbs.AbsGrhObjQueue):
     def _initAbsUsdObjQueue(self, *args):
         self._initAbsGrhObjQueue(*args)
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdConnector(grhObjAbs.Abs_GrhConnector):
+class AbsUsdConnector(grhObjAbs.AbsGrhConnector):
     def _initAbsUsdConnector(self, *args):
         self._initAbsGrhConnector(*args)
 
 
 # ******************************************************************************************************************** #
-class Abs_UsdPort(grhObjAbs.Abs_GrhPort):
+class AbsUsdPort(grhObjAbs.AbsGrhPort):
     def _initAbsUsdPort(self, *args):
         self._initAbsGrhPort(*args)
 
@@ -398,7 +398,7 @@ class Abs_UsdPort(grhObjAbs.Abs_GrhPort):
         return []
 
 
-class Abs_UsdNode(grhObjAbs.Abs_GrhNode):
+class AbsUsdNode(grhObjAbs.AbsGrhNode):
     def _initAbsUsdNode(self, *args, **kwargs):
         if args:
             # nodepath

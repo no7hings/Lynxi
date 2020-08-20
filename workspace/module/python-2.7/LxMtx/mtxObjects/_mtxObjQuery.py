@@ -8,12 +8,12 @@ from LxGraphic.grhObjects import _grhObjStack, _grhObjQuery
 from .. import mtxCfg, mtxObjAbs
 
 
-class ObjLoader(mtxObjAbs.Abs_MtxObjLoader):
+class ObjLoader(mtxObjAbs.AbsMtxObjLoader):
     def __init__(self, *args):
         self._initAbsMtxObjLoader(*args)
 
 
-class ObjQueryrawCreator(mtxObjAbs.Abs_MtxObjQueryBuilder):
+class ObjQueryrawCreator(mtxObjAbs.AbsMtxObjQueryBuilder):
     CLS_grh__obj_query_creator__node_queryraw_stack = _grhObjStack.NodeQueryrawStack
     CLS_grh__obj_query_creator__node_queryraw = _grhObjQuery.NodeQueryraw
 
@@ -32,7 +32,7 @@ class ObjQueryrawCreator(mtxObjAbs.Abs_MtxObjQueryBuilder):
 GRH_OBJ_QUERYRAW_CREATOR = ObjQueryrawCreator()
 
 
-class PortQuery(grhObjAbs.Abs_GrhPortQuery):
+class PortQuery(grhObjAbs.AbsGrhPortQuery):
     VAR_grh__port_query__portsep = grhCfg.GrhUtility.DEF_grh__node_port_pathsep
 
     IST_grh__obj_query__queryraw_builder = GRH_OBJ_QUERYRAW_CREATOR
@@ -41,7 +41,7 @@ class PortQuery(grhObjAbs.Abs_GrhPortQuery):
         self._initAbsGrhPortQuery(*args)
 
 
-class NodeQuery(grhObjAbs.Abs_GrhNodeQuery):
+class NodeQuery(grhObjAbs.AbsGrhNodeQuery):
     CLS_grh__node_query__port_query_stack = _grhObjStack.PortQueryStack
     CLS_grh__node_query__port_query = PortQuery
 
@@ -51,7 +51,7 @@ class NodeQuery(grhObjAbs.Abs_GrhNodeQuery):
         self._initAbsGrhNodeQuery(*args)
 
 
-class ObjQueryBuilder(grhObjAbs.Abs_GrhObjQueryBuilder):
+class ObjQueryBuilder(grhObjAbs.AbsGrhObjQueryBuilder):
     CLS_grh__obj_query_builder__node_query = NodeQuery
     CLS_grh__obj_query_builder__node_query_stack = _grhObjStack.NodeQueryStack
 
@@ -64,7 +64,7 @@ GRH_OBJ_QUERY_BUILDER = ObjQueryBuilder(
 )
 
 
-class ObjQueue(mtxObjAbs.Abs_MtxObjQueue):
+class ObjQueue(mtxObjAbs.AbsMtxObjQueue):
     CLS_grh__obj_queue__node_stack = _grhObjStack.NodeStack
 
     def __init__(self, *args):

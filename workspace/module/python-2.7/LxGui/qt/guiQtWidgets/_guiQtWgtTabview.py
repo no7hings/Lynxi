@@ -6,7 +6,7 @@ from LxGui.qt.guiQtModels import _guiQtMdlTabview
 from ..guiQtWidgets import _guiQtWgtBasic, _guiQtWgtValueitem, _guiQtWgtTabitem, _guiQtWgtItem
 
 
-class _QtButtonTabbar(guiQtWgtAbs.Abs_GuiQtTabbarWgt):
+class _QtButtonTabbar(guiQtWgtAbs.AbsGuiQtTabbarWgt):
     CLS_gui_qt__tabbar_wgt_model = _guiQtMdlTabview.QtButtonTabbarModel
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class _QtButtonTabbar(guiQtWgtAbs.Abs_GuiQtTabbarWgt):
 
 
 #
-class QtButtonTabgroup(guiQtWgtAbs.Abs_GuiQtTabgroupWgt):
+class QtButtonTabgroup(guiQtWgtAbs.AbsGuiQtTabgroupWgt):
     CLS_gui_qt__tabgroup_wgt__model = _guiQtMdlTabview.QtButtonTabGroupModel
     CLS_gui_qt__tabgroup_wgt__tabbutton = _guiQtWgtTabitem.QtTabbutton
 
@@ -58,7 +58,7 @@ class QtButtonTabgroup(guiQtWgtAbs.Abs_GuiQtTabgroupWgt):
 
 
 # Shelf Tab Bar
-class _QtShelfTabbar(guiQtWgtAbs.Abs_GuiQtTabbarWgt):
+class _QtShelfTabbar(guiQtWgtAbs.AbsGuiQtTabbarWgt):
     CLS_gui_qt__tabbar_wgt_model = _guiQtMdlTabview.QtShelfTabbarModel
 
     def __init__(self, *args, **kwargs):
@@ -102,7 +102,7 @@ class _QtShelfTabbar(guiQtWgtAbs.Abs_GuiQtTabbarWgt):
 
 
 # Shelf Tab Group
-class QtVShelfTabgroup(guiQtWgtAbs.Abs_GuiQtTabgroupWgt):
+class QtVShelfTabgroup(guiQtWgtAbs.AbsGuiQtTabgroupWgt):
     CLS_gui_qt__tabgroup_wgt__model = _guiQtMdlTabview.QtShelfTabGroupModel
 
     CLS_gui_qt__tabgroup_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -162,7 +162,7 @@ class QtVShelfTabgroup(guiQtWgtAbs.Abs_GuiQtTabgroupWgt):
 
 
 # Shelf Tab Group
-class QtHShelfTabgroup(guiQtWgtAbs.Abs_GuiQtTabgroupWgt):
+class QtHShelfTabgroup(guiQtWgtAbs.AbsGuiQtTabgroupWgt):
     CLS_gui_qt__tabgroup_wgt__model = _guiQtMdlTabview.QtShelfTabGroupModel
 
     CLS_gui_qt__tabgroup_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton

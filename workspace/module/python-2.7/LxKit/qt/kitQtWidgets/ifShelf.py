@@ -8,7 +8,7 @@ none = ''
 
 
 #
-class QtIf_ProjectShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class QtIf_ProjectShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(QtIf_ProjectShelf, self).__init__()
         self._initAbsKitQtWgtShelf()
@@ -26,7 +26,7 @@ class QtIf_ProjectShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
 
 
 #
-class IfPersonnelShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class IfPersonnelShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(IfPersonnelShelf, self).__init__()
         self._initAbsKitQtWgtShelf()
@@ -44,7 +44,7 @@ class IfPersonnelShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
 
 
 #
-class IfProductShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class IfProductShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(IfProductShelf, self).__init__()
         self._initAbsKitQtWgtShelf()
@@ -79,7 +79,7 @@ class IfProductShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
 
 
 #
-class IfToolKitShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class IfToolKitShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(IfToolKitShelf, self).__init__()
         self._initAbsKitQtWgtShelf()
@@ -100,7 +100,7 @@ class IfToolKitShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
 
 
 #
-class IfDevelopShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class IfDevelopShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(IfDevelopShelf, self).__init__()
         self._initAbsKitQtWgtShelf()

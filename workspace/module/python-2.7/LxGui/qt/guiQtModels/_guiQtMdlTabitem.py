@@ -2,7 +2,7 @@
 from LxGui.qt import qtCore, guiQtMdlAbs
 
 
-class _QtButtontabModel(guiQtMdlAbs.Abs_GuiQtTabWgtModel):
+class _QtButtontabModel(guiQtMdlAbs.AbsGuiQtTabWgtModel):
     def __init__(self, widget):
         self._initTabModelBasic(widget)
     #
@@ -43,7 +43,7 @@ class _QtButtontabModel(guiQtMdlAbs.Abs_GuiQtTabWgtModel):
             self.widget()._uiFontItalic = False
 
 
-class _QtShelftabModel(guiQtMdlAbs.Abs_GuiQtTabWgtModel):
+class _QtShelftabModel(guiQtMdlAbs.AbsGuiQtTabWgtModel):
     def __init__(self, widget):
         self._initTabModelBasic(widget)
     #

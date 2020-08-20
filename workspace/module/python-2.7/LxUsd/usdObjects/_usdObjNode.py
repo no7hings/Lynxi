@@ -10,7 +10,7 @@ from .. import usdObjAbs
 from ..usdObjects import _usdObjRaw, _usdObjQuery, _usdObjPort
 
 
-class Node(usdObjAbs.Abs_UsdNode):
+class Node(usdObjAbs.AbsUsdNode):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

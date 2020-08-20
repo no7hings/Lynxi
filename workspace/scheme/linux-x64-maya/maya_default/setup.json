@@ -1,8 +1,8 @@
 {
     "name": "maya_default", 
     "version": "0.0.0", 
-    "user": "dongchangbao", 
-    "timestamp": 1595214704.884413, 
+    "user": "nothings", 
+    "timestamp": 1597843984.962, 
     "environ": {
         "LYNXI_LOADNAME_PLUG": {
             "operate": "+", 
@@ -26,6 +26,10 @@
             "operate": "+", 
             "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts"
         }, 
+        "XBMLANGPATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/icons"
+        }, 
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
             "value": [
@@ -42,16 +46,11 @@
                 "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
                 "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
                 "<PIL>{root.active}/resource/package/linux-x64-python-2.7-pil/1.1.7/source", 
-                "<PySide2>{root.active}/resource/package/linux-x64-python-2.7-pyside2/5.14.2.1/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
                 "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
                 "<maya_default>{root.active}/resource/scheme/linux-x64-maya-maya_default/0.0.0/source/maya_default/lynxi/maya/scripts", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
-        }, 
-        "XBMLANGPATH": {
-            "operate": "+", 
-            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/icons"
         }, 
         "PATH": {
             "operate": "+", 

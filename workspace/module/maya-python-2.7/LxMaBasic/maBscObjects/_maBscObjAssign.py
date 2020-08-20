@@ -6,7 +6,7 @@ from .. import maBscObjAbs
 from ..maBscObjects import _maBscObjNode
 
 
-class GeomAssign(maBscObjAbs.Abs_MaGeomAssign):
+class GeomAssign(maBscObjAbs.AbsMaGeomAssign):
     CLS_grh__assign__obj = _maBscObjNode.Node
 
     def __init__(self, *args):

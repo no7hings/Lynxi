@@ -3,7 +3,7 @@ from ...qt import guiQtMdlAbs
 
 
 # Choose View
-class QtChooseViewportModel(guiQtMdlAbs.Abs_QtWgtViewModel):
+class QtChooseViewportModel(guiQtMdlAbs.AbsQtWgtViewModel):
     def __init__(self, widget):
         self._initAbsQtWgtViewModel(widget)
         #
@@ -14,6 +14,6 @@ class QtChooseViewportModel(guiQtMdlAbs.Abs_QtWgtViewModel):
 
 
 # Choose Drop View Model
-class QtChooseWindowModel(guiQtMdlAbs.Abs_GuiQtChooseWindowMdl):
+class QtChooseWindowModel(guiQtMdlAbs.AbsGuiQtChooseWindowMdl):
     def __init__(self, *args):
         self._initAbsGuiQtChooseWindowMdl(*args)

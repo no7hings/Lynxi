@@ -6,7 +6,7 @@ from LxData.datObjects import _datObjRaw
 from .. import mtxObjAbs, mtxCfg
 
 
-class Name(mtxObjAbs.Abs_MtxName):
+class Name(mtxObjAbs.AbsMtxName):
     VAR_dat__xml_obj__element_prefix_str = u'name'
     VAR_dat__xml_obj__attribute_attach_str = u'name'
 
@@ -14,7 +14,7 @@ class Name(mtxObjAbs.Abs_MtxName):
         self._initAbsMtxName(*args)
 
 
-class Porttype(mtxObjAbs.Abs_MtxRaw):
+class Porttype(mtxObjAbs.AbsMtxRaw):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -27,7 +27,7 @@ class Porttype(mtxObjAbs.Abs_MtxRaw):
         self._initAbsMtxRaw(*args)
 
 
-class VistypeString(mtxObjAbs.Abs_MtxRaw):
+class VistypeString(mtxObjAbs.AbsMtxRaw):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -40,7 +40,7 @@ class VistypeString(mtxObjAbs.Abs_MtxRaw):
         self._initAbsMtxRaw(*args)
 
 
-class Version(mtxObjAbs.Abs_MtxRaw):
+class Version(mtxObjAbs.AbsMtxRaw):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -53,7 +53,7 @@ class Version(mtxObjAbs.Abs_MtxRaw):
         self._initAbsMtxRaw(*args)
 
 
-class Datatype(mtxObjAbs.Abs_MtxDatatype):
+class Datatype(mtxObjAbs.AbsMtxDatatype):
     CLS_dat__type__typename = _datObjRaw.Typename
 
     VAR_dat__type__category_dict = datCfg.DatUtility.DEF_dat__datatype__category_dict
@@ -66,7 +66,7 @@ class Datatype(mtxObjAbs.Abs_MtxDatatype):
         self._initAbsMtxDatatype(*args)
 
 
-class ObjProxyNamespace(mtxObjAbs.Abs_MtxObjProxyNamespace):
+class ObjProxyNamespace(mtxObjAbs.AbsMtxObjProxyNamespace):
     CLS_dat__obj_path__name = Name
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_namespace_pathsep
@@ -78,7 +78,7 @@ class ObjProxyNamespace(mtxObjAbs.Abs_MtxObjProxyNamespace):
         self._initAbsDatObjNamespace(*args)
 
 
-class ObjTypename(mtxObjAbs.Abs_MtxObjName):
+class ObjTypename(mtxObjAbs.AbsMtxObjName):
     CLS_dat__obj_name__namespace = _datObjRaw.ObjNamespace
     CLS_dat__obj_name__name = Name
 
@@ -89,7 +89,7 @@ class ObjTypename(mtxObjAbs.Abs_MtxObjName):
         self._initAbsMtxObjName(*args)
 
 
-class Typepath(mtxObjAbs.Abs_MtxPath):
+class Typepath(mtxObjAbs.AbsMtxPath):
     CLS_dat__obj_path__name = ObjTypename
 
     CLS_dat__obj_path__objsep = mtxCfg.MtxUtility.DEF_mtx__node_pathsep
@@ -101,7 +101,7 @@ class Typepath(mtxObjAbs.Abs_MtxPath):
         self._initAbsMtxPath(*args)
 
 
-class ObjName(mtxObjAbs.Abs_MtxObjName):
+class ObjName(mtxObjAbs.AbsMtxObjName):
     CLS_dat__obj_name__namespace = _datObjRaw.ObjNamespace
     CLS_dat__obj_name__name = Name
 
@@ -112,7 +112,7 @@ class ObjName(mtxObjAbs.Abs_MtxObjName):
         self._initAbsMtxObjName(*args)
 
 
-class Portpath(mtxObjAbs.Abs_MtxPath):
+class Portpath(mtxObjAbs.AbsMtxPath):
     CLS_dat__obj_path__name = ObjName
 
     CLS_dat__obj_path__objsep = mtxCfg.MtxUtility.DEF_mtx__node_port_pathsep
@@ -124,7 +124,7 @@ class Portpath(mtxObjAbs.Abs_MtxPath):
         self._initAbsMtxPath(*args)
 
 
-class Nodepath(mtxObjAbs.Abs_MtxPath):
+class Nodepath(mtxObjAbs.AbsMtxPath):
     CLS_dat__obj_path__name = ObjName
 
     CLS_dat__obj_path__objsep = mtxCfg.MtxUtility.DEF_mtx__node_pathsep
@@ -136,7 +136,7 @@ class Nodepath(mtxObjAbs.Abs_MtxPath):
         self._initAbsMtxPath(*args)
 
 
-class Attrpath(mtxObjAbs.Abs_MtxAttrpath):
+class Attrpath(mtxObjAbs.AbsMtxAttrpath):
     CLS_dat__comppath__nodepath = Nodepath
     CLS_dat__comppath__portpath = Portpath
 
@@ -147,7 +147,7 @@ class Attrpath(mtxObjAbs.Abs_MtxAttrpath):
         self._initAbsMtxAttrpath(*args)
 
 
-class Filepath(mtxObjAbs.Abs_MtxPath):
+class Filepath(mtxObjAbs.AbsMtxPath):
     CLS_dat__obj_path__name = _datObjRaw.Filename
 
     CLS_dat__obj_path__objsep = mtxCfg.MtxUtility.DEF_mtx__file_pathsep
@@ -159,7 +159,7 @@ class Filepath(mtxObjAbs.Abs_MtxPath):
         self._initAbsMtxPath(*args)
 
 
-class RefFilepath(mtxObjAbs.Abs_MtxPath):
+class RefFilepath(mtxObjAbs.AbsMtxPath):
     CLS_dat__obj_path__name = _datObjRaw.Filename
 
     CLS_dat__obj_path__objsep = mtxCfg.MtxUtility.DEF_mtx__file_pathsep

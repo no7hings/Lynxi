@@ -6,7 +6,7 @@ from .. import usd2mtxObjAbs
 from ..usd2mtxObjects import _usd2mtxObjQuery, _usd2mtxObjElement
 
 
-class File(usd2mtxObjAbs.Abs_Usd2mtxFile):
+class File(usd2mtxObjAbs.AbsUsd2mtxFile):
     CLS_mtx__trs_file__tgt_file = mtxObjects.File
     CLS_mtx__trs_file__trs_look = _usd2mtxObjElement.Look
 

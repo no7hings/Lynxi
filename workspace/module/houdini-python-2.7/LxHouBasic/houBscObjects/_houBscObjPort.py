@@ -8,12 +8,12 @@ from .. import houBscObjAbs
 from ..houBscObjects import _houBscObjData, _houBscObjQuery
 
 
-class Connector(houBscObjAbs.Abs_HouConnector):
+class Connector(houBscObjAbs.AbsHouConnector):
     def __init__(self, *args):
         self._initAbsHoConnector(*args)
 
 
-class Gnport(houBscObjAbs.Abs_HouPort):
+class Gnport(houBscObjAbs.AbsHouPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -32,7 +32,7 @@ class Gnport(houBscObjAbs.Abs_HouPort):
         self._initAbsHoPort(*args, **kwargs)
 
 
-class Inport(houBscObjAbs.Abs_HouPort):
+class Inport(houBscObjAbs.AbsHouPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -51,7 +51,7 @@ class Inport(houBscObjAbs.Abs_HouPort):
         self._initAbsHoPort(*args, **kwargs)
 
 
-class Otport(houBscObjAbs.Abs_HouPort):
+class Otport(houBscObjAbs.AbsHouPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -71,7 +71,7 @@ class Otport(houBscObjAbs.Abs_HouPort):
         self._initAbsHoPort(*args, **kwargs)
 
 
-class Asport(houBscObjAbs.Abs_HouPort):
+class Asport(houBscObjAbs.AbsHouPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

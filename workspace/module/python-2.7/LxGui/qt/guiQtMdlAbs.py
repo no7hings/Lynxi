@@ -13,9 +13,9 @@ QtCore = qtCore.QtCore
 
 
 # Item Model
-class Abs_GuiQtItemMdl(
-    guiQtObjAbs.Abs_GuiQtItemObj,
-    guiQtObjAbs.Abs_GuiQtValueLineObj
+class AbsGuiQtItemMdl(
+    guiQtObjAbs.AbsGuiQtItemObj,
+    guiQtObjAbs.AbsGuiQtValueLineObj
 ):
     def _initAbsGuiQtItemMdl(self, widget):
         self._initAbsGuiQtItemObj()
@@ -277,7 +277,7 @@ class Abs_GuiQtItemMdl(
             self.setChecked(True)
 
 
-class Abs_GuiQtValueLineMdl(Abs_GuiQtItemMdl):
+class AbsGuiQtValueLineMdl(AbsGuiQtItemMdl):
     def _initAbsGuiQtValueLineMdl(self, *args):
         widget = args[0]
 
@@ -588,7 +588,7 @@ class Abs_GuiQtValueLineMdl(Abs_GuiQtItemMdl):
             self._uiCheckIcon = qtCore._toLxOsIconFile(self._uiCheckIconKeyword + ['', 'on'][self.isCheckHovered()])
 
 
-class Abs_GuiQtIconbuttonMdl(Abs_GuiQtItemMdl):
+class AbsGuiQtIconbuttonMdl(AbsGuiQtItemMdl):
     def _initAbsGuiQtIconbuttonMdl(self, *args):
         widget = args[0]
 
@@ -674,7 +674,7 @@ class Abs_GuiQtIconbuttonMdl(Abs_GuiQtItemMdl):
         self.setPressHovered(False)
 
 
-class Abs_GuiQtIconViewitemMdl(Abs_GuiQtItemMdl):
+class AbsGuiQtIconViewitemMdl(AbsGuiQtItemMdl):
     def _initAbsGuiQtIconViewitemMdl(self, *args):
         widget = args[0]
 
@@ -764,7 +764,7 @@ class Abs_GuiQtIconViewitemMdl(Abs_GuiQtItemMdl):
         self.setPressHovered(False)
 
 
-class Abs_GuiQtPressbuttonMdl(Abs_GuiQtItemMdl):
+class AbsGuiQtPressbuttonMdl(AbsGuiQtItemMdl):
     def _initAbsGuiQtPressbuttonMdl(self, *args):
         widget = args[0]
         self._initAbsGuiQtItemMdl(widget)
@@ -930,7 +930,7 @@ class Abs_GuiQtPressbuttonMdl(Abs_GuiQtItemMdl):
 
 
 # Attribute Item Model
-class _QtAttributeitemModel(Abs_GuiQtItemMdl):
+class _QtAttributeitemModel(AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -943,7 +943,7 @@ class _QtAttributeitemModel(Abs_GuiQtItemMdl):
 
 
 # Action Item Model
-class Abs_GuiQtActionViewitemWgtModel(Abs_GuiQtItemMdl):
+class AbsGuiQtActionViewitemWgtModel(AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -1255,9 +1255,9 @@ class Abs_GuiQtActionViewitemWgtModel(Abs_GuiQtItemMdl):
 
 
 # View Model
-class Abs_QtWgtViewModel(
-    guiQtObjAbs.Abs_QtViewObj,
-    guiQtObjAbs.Abs_QtScrollareaObj
+class AbsQtWgtViewModel(
+    guiQtObjAbs.AbsQtViewObj,
+    guiQtObjAbs.AbsQtScrollareaObj
 ):
     def _initAbsQtWgtViewModel(self, widget):
         self._initAbsGuiQtViewObj()
@@ -2242,7 +2242,7 @@ class Abs_QtWgtViewModel(
 
 
 # Choose Drop View Model
-class Abs_GuiQtChooseWindowMdl(guiQtObjAbs.Abs_GuiQtChooseWindowObj):
+class AbsGuiQtChooseWindowMdl(guiQtObjAbs.AbsGuiQtChooseWindowObj):
     def _initAbsGuiQtChooseWindowMdl(self, *args):
         widget, itemClass = args
         self._initAbsGuiQtChooseWindowObj()
@@ -2254,7 +2254,7 @@ class Abs_GuiQtChooseWindowMdl(guiQtObjAbs.Abs_GuiQtChooseWindowObj):
 
 
 # Scroll Model
-class Abs_GuiQtScrollareaMdl(guiQtObjAbs.Abs_QtScrollareaObj):
+class AbsGuiQtScrollareaMdl(guiQtObjAbs.AbsQtScrollareaObj):
     def _initAbsGuiQtScrollareaMdl(self, widget):
         self._initAbsQtScrollareaObj()
         #
@@ -2347,7 +2347,7 @@ class Abs_GuiQtScrollareaMdl(guiQtObjAbs.Abs_QtScrollareaObj):
 
 
 # Value Enter Label Model
-class _QtValueArrayLineModel(guiQtObjAbs.Abs_GuiQtValueArrayLineObj):
+class _QtValueArrayLineModel(guiQtObjAbs.AbsGuiQtValueArrayLineObj):
     def __init__(self, widget):
         self._initAbsGuiQtValueArrayLineObj()
         self.setWidget(widget)
@@ -2412,7 +2412,7 @@ class _QtValueArrayLineModel(guiQtObjAbs.Abs_GuiQtValueArrayLineObj):
 
 
 # Filter Enter Label Model
-class Abs_GuiQtFilterLineMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
+class AbsGuiQtFilterLineMdl(guiQtObjAbs.AbsGuiQtValueLineObj):
     def _initAbsGuiQtFilterLineMdl(self, *args):
         widget = args[0]
         self._initAbsGuiQtValueLineObj()
@@ -2719,7 +2719,7 @@ class Abs_GuiQtFilterLineMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
 
 
 # Choose Tab Item
-class Abs_GuiQtChooseTabbuttonMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
+class AbsGuiQtChooseTabbuttonMdl(guiQtObjAbs.AbsGuiQtValueLineObj):
     def __init__(self, widget):
         self._initAbsGuiQtChooseTabbuttonMdl(widget)
 
@@ -2768,7 +2768,7 @@ class Abs_GuiQtChooseTabbuttonMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
 
 
 # Text Brower Model
-class Abs_GuiQtTextbrowerMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
+class AbsGuiQtTextbrowerMdl(guiQtObjAbs.AbsGuiQtValueLineObj):
     def _initAbsGuiQtTextbrowerMdl(self, widget):
         self._initAbsGuiQtValueLineObj()
         #
@@ -2907,7 +2907,7 @@ class Abs_GuiQtTextbrowerMdl(guiQtObjAbs.Abs_GuiQtValueLineObj):
 
 
 # Scroll Bar Model
-class _QtScrollbarModel(guiQtObjAbs.Abs_QtScrollbarObj):
+class _QtScrollbarModel(guiQtObjAbs.AbsQtScrollbarObj):
     def __init__(self, widget):
         self._initAbsQtScrollbarObj()
         #
@@ -2915,7 +2915,7 @@ class _QtScrollbarModel(guiQtObjAbs.Abs_QtScrollbarObj):
 
 
 # Tab Model
-class Abs_GuiQtTabWgtModel(guiQtObjAbs.QtAbc_TabitemModel):
+class AbsGuiQtTabWgtModel(guiQtObjAbs.QtAbc_TabitemModel):
     def _initTabModelBasic(self, widget):
         self._initAbcTabitemModel()
         #
@@ -3048,7 +3048,7 @@ class Abs_GuiQtTabWgtModel(guiQtObjAbs.QtAbc_TabitemModel):
 
 
 # Tab Bar Model
-class Abs_GuiQtTabbarWgtModel(guiQtObjAbs.QtAbc_TabbarModel):
+class AbsGuiQtTabbarWgtModel(guiQtObjAbs.QtAbc_TabbarModel):
     def _initTabBarModelBasic(self, widget):
         self._initAbcTabbarModel()
         #
@@ -3144,7 +3144,7 @@ class Abs_GuiQtTabbarWgtModel(guiQtObjAbs.QtAbc_TabbarModel):
 
 
 # Tab Group Model
-class Abs_GuiQtTabgroupMdl(guiQtObjAbs.Abs_GuiQtTabviewObj):
+class AbsGuiQtTabgroupMdl(guiQtObjAbs.AbsGuiQtTabviewObj):
     def _initAbsGuiQtTabgroupMdl(self, widget):
         self._initAbsGuiQtTabviewObj()
         #
@@ -3271,7 +3271,7 @@ class Abs_GuiQtTabgroupMdl(guiQtObjAbs.Abs_GuiQtTabviewObj):
 
 
 # Action Drop View
-class Abs_GuiQtActionViewportMdl(guiQtObjAbs.Abs_GuiQtActionViewportObj):
+class AbsGuiQtActionViewportMdl(guiQtObjAbs.AbsGuiQtActionViewportObj):
     def _initAbsQtActionDropviewMdl(self, *args):
         widget, itemClass = args
         self._initAbsQtActionDropviewObj()
@@ -3284,7 +3284,7 @@ class Abs_GuiQtActionViewportMdl(guiQtObjAbs.Abs_GuiQtActionViewportObj):
 
 
 # Chart Model
-class Abs_GuiQtChartMdl(guiQtObjAbs.Abs_GuiQtChartObj):
+class AbsGuiQtChartMdl(guiQtObjAbs.AbsGuiQtChartObj):
     fnc_angle = math.radians
     fnc_sin = math.sin
     fnc_cos = math.cos
@@ -3334,7 +3334,7 @@ class Abs_GuiQtChartMdl(guiQtObjAbs.Abs_GuiQtChartObj):
 
 
 # Group Model
-class Abs_GuiQtGroupMdl(guiQtObjAbs.Abs_GuiQtGroupObj):
+class AbsGuiQtGroupMdl(guiQtObjAbs.AbsGuiQtGroupObj):
     def _initAbsGuiQtGroupMdl(self, widget):
         self._initAbsGuiQtGroupObj()
         #
@@ -3561,13 +3561,13 @@ class Abs_GuiQtGroupMdl(guiQtObjAbs.Abs_GuiQtGroupObj):
         self._updateQtExpandStyle()
 
 
-class GuiQtGroupModel(Abs_GuiQtGroupMdl):
+class GuiQtGroupModel(AbsGuiQtGroupMdl):
     def __init__(self, widget):
         self._initAbsGuiQtGroupMdl(widget)
 
 
 # Window Model
-class Abs_GuiQtWindowMdl(guiQtObjAbs.Abs_GuiQtWindowObj):
+class AbsGuiQtWindowMdl(guiQtObjAbs.AbsGuiQtWindowObj):
     def _overrideAttr(self):
         self._isExpandEnable = True
         self._isExpandable = True

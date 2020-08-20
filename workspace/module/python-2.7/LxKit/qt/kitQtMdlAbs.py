@@ -3,6 +3,6 @@ from . import kitQtObjAbs
 
 
 # custom tool unit *************************************************************************************************** #
-class Abs_KitQtCustomToolUnitMdl(kitQtObjAbs.Abs_KitQtCustomToolUnitObj):
+class AbsKitQtCustomToolUnitMdl(kitQtObjAbs.AbsKitQtCustomToolUnitObj):
     def _initAbsKitCustomUnitMdl(self, *args):
         pass

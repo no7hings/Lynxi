@@ -4,7 +4,7 @@ from .. import shmCfg, shmObjAbs
 from . import _shmObjSystem, _shmObjRaw, _shmObjFile
 
 
-class Rsc_Operate(shmObjAbs.Abs_ShmRscOperate):
+class Rsc_Operate(shmObjAbs.AbsShmRscOperate):
     def __init__(self, config, version):
         self.VAR_shm__rsc_op__rsc_cls_dict = {
             # bin
@@ -114,7 +114,7 @@ class Rsc_Operate(shmObjAbs.Abs_ShmRscOperate):
 
 
 # Bin
-class Rsc_PltLanguage(shmObjAbs.Abs_ShmResource):
+class Rsc_PltLanguage(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_Platform
     CLS_shm__resource_file = _shmObjFile.Fle_RscBin
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -129,7 +129,7 @@ class Rsc_PltLanguage(shmObjAbs.Abs_ShmResource):
         )
 
 
-class Rsc_PltApplication(shmObjAbs.Abs_ShmResource):
+class Rsc_PltApplication(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_Platform
     CLS_shm__resource_file = _shmObjFile.Fle_RscBin
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -145,7 +145,7 @@ class Rsc_PltApplication(shmObjAbs.Abs_ShmResource):
 
 
 # package > platform language **************************************************************************************** #
-class Rsc_PltLanPackage(shmObjAbs.Abs_ShmResource):
+class Rsc_PltLanPackage(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscPackage
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -162,7 +162,7 @@ class Rsc_PltLanPackage(shmObjAbs.Abs_ShmResource):
 
 
 # package > platform application ( plug ? )
-class Rsc_PltAppPackage(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppPackage(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltApplication
     CLS_shm__resource_file = _shmObjFile.Fle_RscPackage
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -179,7 +179,7 @@ class Rsc_PltAppPackage(shmObjAbs.Abs_ShmResource):
 
 
 # package > platform application language
-class Rsc_PltAppLanPackage(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppLanPackage(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltAppLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscPackage
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -197,7 +197,7 @@ class Rsc_PltAppLanPackage(shmObjAbs.Abs_ShmResource):
 
 
 # plug > platform **************************************************************************************************** #
-class Rsc_PltPlug(shmObjAbs.Abs_ShmResource):
+class Rsc_PltPlug(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_Platform
     CLS_shm__resource_file = _shmObjFile.Fle_RscPlug
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -213,7 +213,7 @@ class Rsc_PltPlug(shmObjAbs.Abs_ShmResource):
 
 
 # plug > platform language
-class Rsc_PltLanPlug(shmObjAbs.Abs_ShmResource):
+class Rsc_PltLanPlug(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscPlug
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -229,7 +229,7 @@ class Rsc_PltLanPlug(shmObjAbs.Abs_ShmResource):
         )
 
 
-class Rsc_PltAppLanPlug(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppLanPlug(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltAppLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscPlug
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -246,7 +246,7 @@ class Rsc_PltAppLanPlug(shmObjAbs.Abs_ShmResource):
         )
 
 
-class Rsc_PltAppPlug(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppPlug(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltApplication
     CLS_shm__resource_file = _shmObjFile.Fle_RscPlug
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -263,7 +263,7 @@ class Rsc_PltAppPlug(shmObjAbs.Abs_ShmResource):
 
 
 # Module
-class Rsc_PltLanModule(shmObjAbs.Abs_ShmResource):
+class Rsc_PltLanModule(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscModule
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -286,7 +286,7 @@ class Rsc_PltLanModule(shmObjAbs.Abs_ShmResource):
         )
 
 
-class Rsc_PltAppModule(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppModule(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltApplication
     CLS_shm__resource_file = _shmObjFile.Fle_RscModule
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -301,7 +301,7 @@ class Rsc_PltAppModule(shmObjAbs.Abs_ShmResource):
         self._initAbsShmResource(*args)
 
 
-class Rsc_PltAppLanModule(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppLanModule(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltAppLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscModule
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -318,7 +318,7 @@ class Rsc_PltAppLanModule(shmObjAbs.Abs_ShmResource):
 
 
 # Scheme
-class Rsc_PltScheme(shmObjAbs.Abs_ShmResource):
+class Rsc_PltScheme(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_Platform
     CLS_shm__resource_file = _shmObjFile.Fle_RscScheme
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -333,7 +333,7 @@ class Rsc_PltScheme(shmObjAbs.Abs_ShmResource):
         self._initAbsShmResource(*args)
 
 
-class Rsc_PltLanScheme(shmObjAbs.Abs_ShmResource):
+class Rsc_PltLanScheme(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscScheme
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -348,7 +348,7 @@ class Rsc_PltLanScheme(shmObjAbs.Abs_ShmResource):
         self._initAbsShmResource(*args)
 
 
-class Rsc_PltAppScheme(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppScheme(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltApplication
     CLS_shm__resource_file = _shmObjFile.Fle_RscScheme
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure
@@ -364,7 +364,7 @@ class Rsc_PltAppScheme(shmObjAbs.Abs_ShmResource):
         self._initAbsShmResource(*args)
 
 
-class Rsc_PltAppLanScheme(shmObjAbs.Abs_ShmResource):
+class Rsc_PltAppLanScheme(shmObjAbs.AbsShmResource):
     CLS_shm__resource_system = _shmObjSystem.Sys_PltAppLanguage
     CLS_shm__resource_file = _shmObjFile.Fle_RscScheme
     CLS_shm__resource_raw = _shmObjRaw.RscResourceConfigure

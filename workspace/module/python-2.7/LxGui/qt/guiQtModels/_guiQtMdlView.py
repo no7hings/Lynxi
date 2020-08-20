@@ -15,13 +15,13 @@ CLS_rect = QtCore.QRect
 
 
 #
-class QtScrollareaModel(guiQtMdlAbs.Abs_GuiQtScrollareaMdl):
+class QtScrollareaModel(guiQtMdlAbs.AbsGuiQtScrollareaMdl):
     def __init__(self, widget):
         self._initAbsGuiQtScrollareaMdl(widget)
 
 
 #
-class QtPresetviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
+class QtPresetviewModel(guiQtMdlAbs.AbsQtWgtViewModel):
     def __init__(self, widget):
         self._initAbsQtWgtViewModel(widget)
         #
@@ -43,7 +43,7 @@ class QtPresetviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
 
 
 #
-class QtTreeviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
+class QtTreeviewModel(guiQtMdlAbs.AbsQtWgtViewModel):
     def __init__(self, widget):
         self._initAbsQtWgtViewModel(widget)
         #
@@ -62,7 +62,7 @@ class QtTreeviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
 
 
 #
-class QtCheckviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
+class QtCheckviewModel(guiQtMdlAbs.AbsQtWgtViewModel):
     def __init__(self, widget):
         self._initAbsQtWgtViewModel(widget)
         #
@@ -83,7 +83,7 @@ class QtCheckviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
 
 
 #
-class QtGridviewModel(guiQtMdlAbs.Abs_QtWgtViewModel):
+class QtGridviewModel(guiQtMdlAbs.AbsQtWgtViewModel):
     def __init__(self, widget):
         self._initAbsQtWgtViewModel(widget)
         #

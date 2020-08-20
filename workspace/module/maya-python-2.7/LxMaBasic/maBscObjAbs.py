@@ -4,13 +4,13 @@ from LxGraphic import grhCfg, grhObjAbs
 from . import maBscCfg, maBscMtdCore
 
 
-class Abs_MaBasic(maBscCfg.MaUtility):
+class AbsMaBasic(maBscCfg.MaUtility):
     pass
 
 
-class Abs_MaObjLoader(
-    Abs_MaBasic,
-    grhObjAbs.Abs_GrhObjLoader,
+class AbsMaObjLoader(
+    AbsMaBasic,
+    grhObjAbs.AbsGrhObjLoader,
 ):
     def _initAbsMaObjLoader(self, *args):
         self._initAbsGrhObjLoader(*args)
@@ -100,7 +100,7 @@ class Abs_MaObjLoader(
 
 
 # ******************************************************************************************************************** #
-class Abs_MaObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
+class AbsMaObjQueryrawCreator(grhObjAbs.AbsGrhObjQueryrawCreator):
     def _initAbsMaObjQueryrawCreator(self, *args):
         self._initAbsGrhObjQueryBuilder(*args)
 
@@ -118,20 +118,20 @@ class Abs_MaObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
 
 
 # ******************************************************************************************************************** #
-class Abs_MaObjQueue(grhObjAbs.Abs_GrhObjQueue):
+class AbsMaObjQueue(grhObjAbs.AbsGrhObjQueue):
     def _initAbsMayObjQueue(self, *args):
         self._initAbsGrhObjQueue(*args)
 
 
-class Abs_MaConnector(grhObjAbs.Abs_GrhConnector):
+class AbsMaConnector(grhObjAbs.AbsGrhConnector):
     def _initAbsMaConnector(self, *args):
         self._initAbsGrhConnector(*args)
 
 
 # ******************************************************************************************************************** #
-class Abs_MaPort(
-    Abs_MaBasic,
-    grhObjAbs.Abs_GrhPort,
+class AbsMaPort(
+    AbsMaBasic,
+    grhObjAbs.AbsGrhPort,
 ):
     def _initAbsMaPort(self, *args, **kwargs):
         self._initAbsGrhPort(*args, **kwargs)
@@ -208,9 +208,9 @@ class Abs_MaPort(
         )
 
 
-class Abs_MaNode(
-    Abs_MaBasic,
-    grhObjAbs.Abs_GrhNode,
+class AbsMaNode(
+    AbsMaBasic,
+    grhObjAbs.AbsGrhNode,
 ):
     def _initAbsMaNode(self, *args, **kwargs):
         if args:
@@ -293,7 +293,7 @@ class Abs_MaNode(
         asString = getArgsFnc_(kwargs)
 
 
-class Abs_MaGroup(Abs_MaNode):
+class AbsMaGroup(AbsMaNode):
     def _initAbsMaGroup(self, *args, **kwargs):
         self._initAbsMaNode(*args, **kwargs)
 
@@ -304,7 +304,7 @@ class Abs_MaGroup(Abs_MaNode):
         pass
 
 
-class Abs_MaCompnode(Abs_MaNode):
+class AbsMaCompnode(AbsMaNode):
     CLS_mya_node = None
 
     def _initAbsMaCompnode(self, *args, **kwargs):
@@ -321,7 +321,7 @@ class Abs_MaCompnode(Abs_MaNode):
         )
 
 
-class Abs_MaGeometry(Abs_MaCompnode):
+class AbsMaGeometry(AbsMaCompnode):
     def _initAbsMaGeometry(self, *args, **kwargs):
         self._initAbsMaCompnode(*args, **kwargs)
 
@@ -334,7 +334,7 @@ class Abs_MaGeometry(Abs_MaCompnode):
         ]
 
 
-class Abs_MaGeometryGroup(Abs_MaNode):
+class AbsMaGeometryGroup(AbsMaNode):
     CLS_grh__geometry = None
 
     def _initAbsMaGeometryGroup(self, *args, **kwargs):
@@ -386,16 +386,16 @@ class Abs_MaGeometryGroup(Abs_MaNode):
 
 
 # geometry assign **************************************************************************************************** #
-class Abs_MaGeomAssign(
-    Abs_MaBasic,
-    grhObjAbs.Abs_GrhGeometryAssign,
+class AbsMaGeomAssign(
+    AbsMaBasic,
+    grhObjAbs.AbsGrhGeometryAssign,
 ):
     def _initAbsMaGeomAssign(self, *args, **kwargs):
         self._initAbsGrhGeometryAssign(*args, **kwargs)
 
     def _grh__geometry_assign__set_build_(self, *args):
         self._grh__geometry_assign__set_material_relation_build_(
-            Abs_MaObjLoader._obj_loader_cls__get_material_assign_relation_dict_(*args)
+            AbsMaObjLoader._obj_loader_cls__get_material_assign_relation_dict_(*args)
         )
         # geometry
         self._grh__geometry_assign__set_geometry_build_(

@@ -12,7 +12,7 @@ from .. import kitQtWgtAbs
 from ..kitQtWidgets import ifDevelopGroup, ifProductGroup, ifGroup
 
 
-class QtAppkitShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class QtAppkitShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(QtAppkitShelf, self).__init__()
         self._initAbsKitQtWgtShelf()

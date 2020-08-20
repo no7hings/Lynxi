@@ -7,7 +7,7 @@ from . import _guiQtWgtBasic, _guiQtWgtItem
 
 
 #
-class QtToolboxGroup(guiQtWgtAbs.Abs_GuiQtGroupWgt):
+class QtToolboxGroup(guiQtWgtAbs.AbsGuiQtGroupWgt):
     CLS_gui_qt__group_wgt__model = _guiQtMdlGroup.QtToolboxGroupModel
 
     CLS_gui_qt__group_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -106,7 +106,7 @@ class QtToolboxGroup(guiQtWgtAbs.Abs_GuiQtGroupWgt):
 
 
 #
-class QtToolbox(guiQtWgtAbs.Abs_GuiQtGroupWgt):
+class QtToolbox(guiQtWgtAbs.AbsGuiQtGroupWgt):
     CLS_gui_qt__group_wgt__model = _guiQtMdlGroup.QtToolboxModel
 
     CLS_gui_qt__group_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton

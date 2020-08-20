@@ -240,9 +240,10 @@ class BscUtility(object):
 
     DEF_Value_Default = 'default'
 
-    DEF_bsc__linesep = MOD_os.linesep
-    DEF_bsc__pathsep = MTD_os_path.sep
-    DEF_bsc__extsep = MTD_os_path.extsep
+    DEF_bsc__python__pathsep = '/'
+    DEF_bsc__os__linesep = MOD_os.linesep
+    DEF_bsc__os__pathsep = MOD_os.sep
+    DEF_bsc__os__extsep = MOD_os.extsep
 
 
 class BscAppQuery(object):

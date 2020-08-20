@@ -5,7 +5,7 @@ from LxGui.qt import qtCore
 
 
 #
-class Abs_KitQtShelfObj(object):
+class AbsKitQtShelfObj(object):
     def _initAbsKitQtShelfObj(self):
         self._initAbsKitQtShelfObjAttr()
     #
@@ -14,7 +14,7 @@ class Abs_KitQtShelfObj(object):
 
 
 #
-class Abs_KitQtGroupObj(object):
+class AbsKitQtGroupObj(object):
     VAR_kit__qt_wgt__group__name = None
     VAR_kit__qt_wgt__group__uiname = None
     VAR_kit__qt_wgt__group__icon = None
@@ -28,7 +28,7 @@ class Abs_KitQtGroupObj(object):
 
 
 # Unit Basic
-class Abs_KitQtUnitObj(object):
+class AbsKitQtUnitObj(object):
     VAR_kit__qt_wgt__unit__name = None
     VAR_kit__qt_wgt__unit__uiname = None
     VAR_kit__qt_wgt__unit__icon = None
@@ -157,7 +157,7 @@ class Abs_KitQtUnitObj(object):
 
 
 # Maya Tool Unit Basic
-class IfToolUnitAbs(Abs_KitQtUnitObj):
+class IfToolUnitAbs(AbsKitQtUnitObj):
     def _initToolUnitAbs(self):
         self._initAbsKitQtUnitObj()
         #
@@ -193,6 +193,6 @@ class IfToolUnitAbs(Abs_KitQtUnitObj):
 
 
 # custom tool unit *************************************************************************************************** #
-class Abs_KitQtCustomToolUnitObj(object):
+class AbsKitQtCustomToolUnitObj(object):
     def _initAbsKitCustomUnitObj(self, *args):
         pass

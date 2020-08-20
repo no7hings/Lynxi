@@ -18,7 +18,7 @@ none = ''
 
 
 #
-class QtWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -46,7 +46,7 @@ class QtWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtToolWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtToolWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -60,7 +60,7 @@ class QtToolWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
             self._clsSuper = super(QtToolWindow, self)
             self._clsSuper.__init__(parent)
 
-        self.setWindowFlags(qtCore.QtCore.Qt.Tool | qtCore.QtCore.Qt.FramelessWindowHint)
+        self.setWindowFlags(qtCore.QtCore.Qt.Window | qtCore.QtCore.Qt.FramelessWindowHint)
         self._initToolWindow()
 
     def _initToolWindow(self):
@@ -75,7 +75,7 @@ class QtToolWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtDialogWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtDialogWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -89,7 +89,7 @@ class QtDialogWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
             self._clsSuper = super(QtDialogWindow, self)
             self._clsSuper.__init__(parent)
 
-        self.setWindowFlags(qtCore.QtCore.Qt.SubWindow | qtCore.QtCore.Qt.FramelessWindowHint | qtCore.QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(qtCore.QtCore.Qt.Window | qtCore.QtCore.Qt.FramelessWindowHint | qtCore.QtCore.Qt.WindowStaysOnTopHint)
         self._initDialogWindow()
 
     def _initDialogWindow(self):
@@ -102,7 +102,7 @@ class QtDialogWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtTipWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtTipWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -116,7 +116,7 @@ class QtTipWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
             self._clsSuper = super(QtTipWindow, self)
             self._clsSuper.__init__(parent)
 
-        self.setWindowFlags(qtCore.QtCore.Qt.SubWindow | qtCore.QtCore.Qt.FramelessWindowHint | qtCore.QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(qtCore.QtCore.Qt.Window | qtCore.QtCore.Qt.FramelessWindowHint | qtCore.QtCore.Qt.WindowStaysOnTopHint)
         self.setWindowModality(qtCore.QtCore.Qt.ApplicationModal)
         self._initTipWindow()
 
@@ -168,7 +168,7 @@ class QtTipWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtLogWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtLogWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -266,7 +266,7 @@ class QtLogWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtFloatWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtFloatWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -299,7 +299,7 @@ class QtFloatWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 #
-class QtMessageWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtMessageWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
 
     CLS_gui_qt__window_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton

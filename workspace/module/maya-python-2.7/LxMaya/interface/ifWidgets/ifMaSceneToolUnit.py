@@ -66,7 +66,7 @@ class IfScLightLinkToolUnit(kitQtWgtAbs.IfToolUnitBasic):
 
 
 #
-class IfScMayaComposeToolUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfScMayaComposeToolUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     projectName = currentProjectName
     #
     VAR_kit__qt_wgt__unit__uiname = 'Scene Maya Compose Manager'
@@ -524,7 +524,7 @@ class IfScMayaComposeToolUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
 
 
 #
-class IfScOsComposeToolUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfScOsComposeToolUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     projectName = currentProjectName
     #
     VAR_kit__qt_wgt__unit__uiname = 'Scene Os Compose Manager'

@@ -4,7 +4,7 @@ from .. import houBscObjAbs
 from ..houBscObjects import _houBscObjNode
 
 
-class GeomAssign(houBscObjAbs.Abs_HouGeomAssign):
+class GeomAssign(houBscObjAbs.AbsHouGeomAssign):
     CLS_grh__assign__obj = _houBscObjNode.Node
     VAR_grh__assign__mesh_typepath_str = 'Object/geo'
 

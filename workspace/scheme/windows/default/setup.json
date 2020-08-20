@@ -2,7 +2,7 @@
     "name": "default", 
     "version": "0.0.0", 
     "user": "nothings", 
-    "timestamp": 1596635179.515, 
+    "timestamp": 1597843978.688, 
     "environ": {
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
@@ -17,15 +17,19 @@
                 "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
                 "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
                 "<PIL>{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source", 
-                "<PySide2>{root.active}/resource/package/windows-python-2.7-pyside2/2.0.0~alpha0/source", 
+                "<PyQt5>{root.active}/resource/package/windows-python-2.7-pyqt5/5.3.2/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
                 "<default>{root.active}/resource/scheme/windows-default/0.0.0/source/scripts", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib/python", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
         }, 
         "PYTHONPATH": {
             "operate": "+", 
-            "value": "<default>{root.active}/resource/scheme/windows-default/0.0.0/source/scripts"
+            "value": [
+                "<default>{root.active}/resource/scheme/windows-default/0.0.0/source/scripts", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib/python"
+            ]
         }, 
         "PATH": {
             "operate": "+", 
@@ -33,7 +37,9 @@
                 "<KMPlayer>{root.active}/resource/bin/windows-kmplayer/4.0.8.1/source/bin", 
                 "<pdplayer64>{root.active}/resource/bin/windows-pdplayer64/1.0.7.13/source/bin", 
                 "<python>{root.active}/resource/bin/windows-python/2.7.13/source/bin", 
-                "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin"
+                "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/bin", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib"
             ]
         }
     }, 
@@ -48,5 +54,7 @@
         "LxPreset", 
         "LxScheme"
     ], 
-    "plug": []
+    "plug": [
+        "usd"
+    ]
 }

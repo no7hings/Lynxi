@@ -2,8 +2,8 @@
 from . import datCfg
 
 
-# ******************************************************************************************************************** #
-class Itf_DatRaw(datCfg.DatUtility):
+# raw **************************************************************************************************************** #
+class ItfDatRaw(datCfg.DatUtility):
     CLS_dat__raw = None
 
     VAR_dat__raw__rawtype_pattern = None
@@ -20,6 +20,9 @@ class Itf_DatRaw(datCfg.DatUtility):
     VAR_dat__raw__default = None
 
     def _initItfDatRaw(self, *args):
+        """
+        for __init__
+        """
         self._rawObj = None
 
         self._raw__set_create_by_raw_(*args)
@@ -32,10 +35,12 @@ class Itf_DatRaw(datCfg.DatUtility):
         if self.VAR_dat__raw__rawtype_pattern is not None:
             if isinstance(raw, self.VAR_dat__raw__rawtype_pattern) is False:
                 if isinstance(self.VAR_dat__raw__rawtype_pattern, (tuple, list)):
-                    _ = ' or '.join(['"{}"'.format(i.__name__) for i in self.VAR_dat__raw__rawtype_pattern])
+                    _ = u' or '.join([u'"{}"'.format(i.__name__) for i in self.VAR_dat__raw__rawtype_pattern])
                 else:
-                    _ = '"{}"'.format(self.VAR_dat__raw__rawtype_pattern)
-                tipString = u'class "{}" input raw must be type of {} not "{}".'.format(self.__class__.__name__, _, raw.__class__.__name__)
+                    _ = u'"{}"'.format(self.VAR_dat__raw__rawtype_pattern)
+                tipString = u'class "{}" input raw must be type of {} not "{}".'.format(
+                    self.__class__.__name__, _, raw.__class__.__name__
+                )
                 raise TypeError(tipString)
 
     def _raw__get_obj_by_raw(self, *args):
@@ -51,6 +56,10 @@ class Itf_DatRaw(datCfg.DatUtility):
                 self._rawObj = self._raw__get_obj_by_raw(raw)
 
     def setRaw(self, *args):
+        """
+        :param args: raw
+        :return: None
+        """
         self._raw__set_create_by_raw_(*args)
 
     def _raw__get_raw_(self):
@@ -58,7 +67,7 @@ class Itf_DatRaw(datCfg.DatUtility):
 
     def raw(self):
         """
-        :return: raw of typed
+        :return: raw
         """
         return self._raw__get_raw_()
 
@@ -82,6 +91,10 @@ class Itf_DatRaw(datCfg.DatUtility):
             return self.CLS_dat__raw(rawstr)
 
     def setRawString(self, *args):
+        """
+        :param args: str(raw)
+        :return: None
+        """
         self._raw__set_create_by_str_(*args)
 
     def _raw__get_str_(self):
@@ -90,6 +103,9 @@ class Itf_DatRaw(datCfg.DatUtility):
         return u''
 
     def rawString(self):
+        """
+        :return: str(raw)
+        """
         return self._raw__get_str_()
 
     # create ********************************************************************************************************* #
@@ -102,21 +118,29 @@ class Itf_DatRaw(datCfg.DatUtility):
     def create(self, *args):
         """
         :param args:
-            1.raw of typed
-            2.str
+            1.raw
+            2.str(raw)
         :return: None
         """
-        assert args is not (), u'argument must not be "empty".'
-        self._raw__set_create_(*args)
+        if args:
+            self._raw__set_create_(*args)
+        else:
+            raise TypeError(u'argument must not be "empty".')
 
-    # **************************************************************************************************************** #
+    # type *********************************************************************************************************** #
     def _raw__get_rawtype_str_(self):
         return self.VAR_dat__raw__rawtype_str_dict[self.CLS_dat__raw.__name__]
 
     def rawtype(self):
+        """
+        :return: class(raw)
+        """
         return self._raw__get_raw_cls_()
 
     def rawtypeString(self):
+        """
+        :return: str(type)
+        """
         return self._raw__get_rawtype_str_()
 
     def hasRaw(self):
@@ -125,43 +149,38 @@ class Itf_DatRaw(datCfg.DatUtility):
         """
         return self._rawObj is not None
 
+    # **************************************************************************************************************** #
     def toString(self):
         """
-        :return: str
+        :return: str(raw)
         """
         return self._raw__get_str_()
 
     # **************************************************************************************************************** #
     def __eq__(self, other):
-        """
-        :param other: typed raw
-        :return: bool
-        """
         return self.toString() == other.toString()
 
     def __ne__(self, other):
-        """
-        :param other: typed raw
-        :return: bool
-        """
         return self.toString() != other.toString()
 
     # **************************************************************************************************************** #
     def __str__(self):
-        return u'{}("{}")'.format(self._raw__get_rawtype_str_(), self._raw__get_str_())
+        return u'{}("{}")'.format(
+            self._raw__get_rawtype_str_(), self._raw__get_str_()
+        )
 
     def __repr__(self):
         return self.__str__()
 
 
-# ******************************************************************************************************************** #
-class Itf_DatObjKey(datCfg.DatUtility):
+# obj key ************************************************************************************************************ #
+class ItfDatObjKey(datCfg.DatUtility):
     def _obj_key_str_(self):
         pass
 
 
-# ******************************************************************************************************************** #
-class Itf_DatName(Itf_DatObjKey):
+# name *************************************************************************************************************** #
+class ItfDatName(ItfDatObjKey):
     def _initItfDatName(self, *args):
         self._set_name_build_(*args)
 
@@ -189,7 +208,7 @@ class Itf_DatName(Itf_DatObjKey):
 
     # **************************************************************************************************************** #
     def __str__(self):
-        return '{}(raw="{}")'.format(
+        return u'{}(raw="{}")'.format(
             self.__class__.__name__,
             self.raw()
         )
@@ -199,20 +218,20 @@ class Itf_DatName(Itf_DatObjKey):
 
     # **************************************************************************************************************** #
     def __eq__(self, other):
-        if isinstance(other, Itf_DatName):
+        if isinstance(other, ItfDatName):
             return self.toString() == other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() == unicode(other)
 
     def __ne__(self, other):
-        if isinstance(other, Itf_DatName):
+        if isinstance(other, ItfDatName):
             return self.toString() != other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() != unicode(other)
 
 
-# ******************************************************************************************************************** #
-class Itf_DatTypename(Itf_DatObjKey):
+# type name ********************************************************************************************************** #
+class ItfDatTypename(ItfDatObjKey):
     def _initItfDatTypename(self, *args):
         self._typeObj, self._raw = args
 
@@ -241,19 +260,19 @@ class Itf_DatTypename(Itf_DatObjKey):
 
     # **************************************************************************************************************** #
     def __eq__(self, other):
-        if isinstance(other, Itf_DatTypename):
+        if isinstance(other, ItfDatTypename):
             return self.toString() == other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() == unicode(other)
 
     def __ne__(self, other):
-        if isinstance(other, Itf_DatTypename):
+        if isinstance(other, ItfDatTypename):
             return self.toString() != other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() != unicode(other)
 
 
-class Itf_DatType(Itf_DatObjKey):
+class ItfDatType(ItfDatObjKey):
     CLS_dat__type__typename = None
 
     VAR_dat__type__category_dict = {}
@@ -336,20 +355,20 @@ class Itf_DatType(Itf_DatObjKey):
 
     # **************************************************************************************************************** #
     def __eq__(self, other):
-        if isinstance(other, Itf_DatType):
+        if isinstance(other, ItfDatType):
             return self.toString() == other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() == unicode(other)
 
     def __ne__(self, other):
-        if isinstance(other, Itf_DatType):
+        if isinstance(other, ItfDatType):
             return self.toString() != other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() != unicode(other)
 
 
 # ******************************************************************************************************************** #
-class Itf_DatObjName(Itf_DatObjKey):
+class ItfDatObjName(ItfDatObjKey):
     CLS_dat__obj_name__namespace = None
     CLS_dat__obj_name__name = None
 
@@ -435,7 +454,7 @@ class Itf_DatObjName(Itf_DatObjKey):
 
 
 # ******************************************************************************************************************** #
-class Itf_DatFilename(Itf_DatObjKey):
+class ItfDatFilename(ItfDatObjKey):
     CLS_dat__filename__base = None
     CLS_dat__filename__ext = None
 
@@ -510,7 +529,7 @@ class Itf_DatFilename(Itf_DatObjKey):
         return self.__str__()
 
 
-class Itf_DatObjPath(Itf_DatObjKey):
+class ItfDatObjPath(ItfDatObjKey):
     CLS_dat__obj_path__name = None
 
     CLS_dat__obj_path__objsep = None
@@ -570,12 +589,12 @@ class Itf_DatObjPath(Itf_DatObjKey):
             #
             elif len(args) == 2:
                 parentRaw, nameRaw = args
-                if isinstance(parentRaw, Itf_DatObjPath):
+                if isinstance(parentRaw, ItfDatObjPath):
                     self._parentObj = parentRaw
                 elif isinstance(parentRaw, (str, unicode)):
                     self._parentObj = self.__class__(parentRaw)
 
-                if isinstance(nameRaw, Itf_DatRaw):
+                if isinstance(nameRaw, ItfDatRaw):
                     self._nameObj = nameRaw
                 elif isinstance(nameRaw, (str, unicode)):
                     self._nameObj = self.CLS_dat__obj_path__name(nameRaw)
@@ -640,7 +659,7 @@ class Itf_DatObjPath(Itf_DatObjKey):
 
     def _obj_path__set_parent_(self, *args):
         if self._get_path_parent_exist_(*args) is False:
-            if isinstance(args[0], Itf_DatObjPath):
+            if isinstance(args[0], ItfDatObjPath):
                 self._obj_path__set_cache_parent_update_(args[0])
             elif isinstance(args[0], (str, unicode)):
                 self._obj_path__set_cache_parent_update_(self.__class__(args[0]))
@@ -704,7 +723,7 @@ class Itf_DatObjPath(Itf_DatObjKey):
 
     def _obj_path__get_child_exist_(self, *args):
         if args:
-            if isinstance(args[0], Itf_DatObjPath):
+            if isinstance(args[0], ItfDatObjPath):
                 pathObject = args[0]
                 return self._get_path_cache_child_name_obj_exist_(
                     pathObject.name()
@@ -776,31 +795,31 @@ class Itf_DatObjPath(Itf_DatObjKey):
 
     # **************************************************************************************************************** #
     def __eq__(self, other):
-        if isinstance(other, Itf_DatObjPath):
+        if isinstance(other, ItfDatObjPath):
             return self.toString() == other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() == other
         return False
 
     def __ne__(self, other):
-        if isinstance(other, Itf_DatObjPath):
+        if isinstance(other, ItfDatObjPath):
             return self.toString() != other.toString()
         elif isinstance(other, (str, unicode)):
             return self.toString() != other
         return False
 
 
-class Itf_DatObjVariant(Itf_DatObjPath):
+class ItfDatObjVariant(ItfDatObjPath):
     def _initItfDatObjVariant(self, *args):
         self._initItfDatObjPath(*args)
 
 
-class Itf_DatObjNamespace(Itf_DatObjPath):
+class ItfDatObjNamespace(ItfDatObjPath):
     def _initItfDatObjNamespace(self, *args):
         self._initItfDatObjPath(*args)
 
 
-class Itf_DatObjComppath(Itf_DatObjKey):
+class ItfDatObjComppath(ItfDatObjKey):
     CLS_dat__comppath__nodepath = None
     CLS_dat__comppath__portpath = None
 

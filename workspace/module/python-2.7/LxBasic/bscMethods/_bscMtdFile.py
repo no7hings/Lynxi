@@ -181,8 +181,11 @@ class _FileBasic(bscMtdCore.Mtd_BscBasic):
 
     @classmethod
     def reduceFilename(cls, fileString):
-        pathsep = cls.DEF_bsc__pathsep
-        return cls.MOD_re.sub('{0}|{1}'.format(pathsep * 2, pathsep * 3), pathsep, fileString)
+        pathsep = cls.DEF_bsc__python__pathsep
+        return cls.MOD_re.sub(
+            r'{0}|{1}'.format(pathsep*2, pathsep*3),
+            pathsep, fileString
+        )
 
     @classmethod
     def toExtSplit(cls, fileString):
@@ -249,9 +252,9 @@ class _FileBasic(bscMtdCore.Mtd_BscBasic):
         dirname, filename, ext = bscMtdCore.Mtd_BscUtility._getOsFileDirname(fileString), bscMtdCore.Mtd_BscUtility._getOsFileName(fileString), bscMtdCore.Mtd_BscUtility._getOsFileExt(
             fileString)
         #
-        targetFileString = cls.DEF_bsc__pathsep.join(
+        targetFileString = cls.DEF_bsc__os__pathsep.join(
             [bscMtdCore.Mtd_BscUtility._getOsFileDirname(fileString), cls.LynxiOsFolder_History, filename + ext, hashKey])
-        osVersionFile = cls.DEF_bsc__pathsep.join(
+        osVersionFile = cls.DEF_bsc__os__pathsep.join(
             [bscMtdCore.Mtd_BscUtility._getOsFileDirname(fileString), cls.LynxiOsFolder_History, filename + cls.LynxiOsExtVAR_kit__window__version])
         return targetFileString, osVersionFile
 
@@ -470,7 +473,7 @@ class OsMultifile(bscMtdCore.Mtd_BscBasic):
             index = fileString.lower().index(placeholderString.lower())
             a, b = fileString[:index], fileString[index + len(placeholderString):]
             for i in xrange(endFrame - startFrame + 1):
-                subFileString = (a + str(i + startFrame).zfill(paddingValue) + b).replace('\\', cls.DEF_bsc__pathsep)
+                subFileString = (a + str(i + startFrame).zfill(paddingValue) + b).replace('\\', cls.DEF_bsc__os__pathsep)
                 lis.append(subFileString)
         return lis
 
@@ -486,7 +489,7 @@ class OsMultifile(bscMtdCore.Mtd_BscBasic):
             globData = cls.MOD_glob.glob(globString)
             if globData:
                 for i in globData:
-                    lis.append(i.replace('\\', cls.DEF_bsc__pathsep))
+                    lis.append(i.replace('\\', cls.DEF_bsc__os__pathsep))
         return lis
 
     @classmethod
@@ -530,7 +533,7 @@ class OsMultifile(bscMtdCore.Mtd_BscBasic):
     @classmethod
     def existFiles(cls, fileString):
         if bscMtdCore.Mtd_BscUtility._isOsFileExist(fileString):
-            return [fileString.replace('\\', cls.DEF_bsc__pathsep)]
+            return [fileString.replace('\\', cls.DEF_bsc__os__pathsep)]
         else:
             for i in cls.DEF_placeholder_multifile_list:
                 if i in bscMtdCore.Mtd_BscUtility._getOsFileBasename(fileString).lower():

@@ -2,22 +2,22 @@
 from . import bscCfg, bscMtdCore, bscObjItf
 
 
-class Abs_BscPort(bscObjItf.Itf_BscPort):
+class AbsBscPort(bscObjItf.ItfBscPort):
     def _initAbsBscPort(self, *args, **kwargs):
         self._initItfBscPort(*args, **kwargs)
 
 
-class Abs_BscNode(bscObjItf.Itf_BscNode):
+class AbsBscNode(bscObjItf.ItfBscNode):
     def _initAbsBscNode(self, *args, **kwargs):
         self._initItfBscNode(*args, **kwargs)
 
 
-class Abs_BscObjStack(bscObjItf.Itf_BscObjStack):
+class AbsBscObjStack(bscObjItf.ItfBscObjStack):
     def _initAbsBscObjStack(self, *args):
         self._initItfBscObjStack(*args)
 
 
-class Abs_BscDagTree(bscObjItf.Itf_BscDagTree):
+class AbsBscDagTree(bscObjItf.ItfBscDagTree):
     def _initAbsBscDagTree(self, *args):
         self._initItfBscDagTree(*args)
 

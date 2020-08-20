@@ -8,12 +8,12 @@ from .. import maBscObjAbs
 from ..maBscObjects import _maBscObjRaw, _maBscObjQuery
 
 
-class Connector(maBscObjAbs.Abs_MaConnector):
+class Connector(maBscObjAbs.AbsMaConnector):
     def __init__(self, *args):
         self._initAbsMaConnector(*args)
 
 
-class Gnport(maBscObjAbs.Abs_MaPort):
+class Gnport(maBscObjAbs.AbsMaPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -32,7 +32,7 @@ class Gnport(maBscObjAbs.Abs_MaPort):
         self._initAbsMaPort(*args, **kwargs)
 
 
-class Inport(maBscObjAbs.Abs_MaPort):
+class Inport(maBscObjAbs.AbsMaPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -51,7 +51,7 @@ class Inport(maBscObjAbs.Abs_MaPort):
         self._initAbsMaPort(*args, **kwargs)
 
 
-class Otport(maBscObjAbs.Abs_MaPort):
+class Otport(maBscObjAbs.AbsMaPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -70,7 +70,7 @@ class Otport(maBscObjAbs.Abs_MaPort):
         self._initAbsMaPort(*args, **kwargs)
 
 
-class Asport(maBscObjAbs.Abs_MaPort):
+class Asport(maBscObjAbs.AbsMaPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

@@ -5,7 +5,7 @@ from ...qt import qtCore, guiQtMdlAbs
 
 
 # Window Model
-class QtWindowModel(guiQtMdlAbs.Abs_GuiQtWindowMdl):
+class QtWindowModel(guiQtMdlAbs.AbsGuiQtWindowMdl):
     CLS_gui_qt__mdl_obj__point = qtCore.QtCore.QPoint
     CLS_gui_qt__mdl_obj__line = qtCore.QtCore.QLine
     CLS_gui_qt__mdl_obj__size = qtCore.QtCore.QSize

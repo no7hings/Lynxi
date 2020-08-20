@@ -11,7 +11,7 @@ from ..kitQtWidgets import ifDevelopUnit
 
 
 #
-class IfDevelopGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfDevelopGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     publishConfig = [
         ('Python Module', ('.pyc', 'module', 'module.pyc')),
         ('Python Tool', ('.py', 'tool', 'tool')),

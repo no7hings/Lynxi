@@ -10,7 +10,7 @@ from .. import mtxObjAbs
 from . import _mtxObjRaw, _mtxObjPort, _mtxObjQuery
 
 
-class Node(mtxObjAbs.Abs_MtxNode):
+class Node(mtxObjAbs.AbsMtxNode):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -50,7 +50,7 @@ class Node(mtxObjAbs.Abs_MtxNode):
         self._initAbsMtxNode(*args, **kwargs)
 
 
-class NodeGraph(mtxObjAbs.Abs_MtxNodeGraph):
+class NodeGraph(mtxObjAbs.AbsMtxNodeGraph):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Nodepath
 
@@ -67,7 +67,7 @@ class NodeGraph(mtxObjAbs.Abs_MtxNodeGraph):
         self._initAbsMtxNodeGraph(*args, **kwargs)
 
 
-class ShaderProxy(mtxObjAbs.Abs_MtxShaderProxy):
+class ShaderProxy(mtxObjAbs.AbsMtxShaderProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Nodepath
 
@@ -98,7 +98,7 @@ class ShaderProxy(mtxObjAbs.Abs_MtxShaderProxy):
         self._initAbsMtxShaderProxy(*args, **kwargs)
 
 
-class MaterialProxy(mtxObjAbs.Abs_MtxMaterialProxy):
+class MaterialProxy(mtxObjAbs.AbsMtxMaterialProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Nodepath
 
@@ -133,7 +133,7 @@ class MaterialProxy(mtxObjAbs.Abs_MtxMaterialProxy):
         self._initAbsMtxMaterialProxy(*args, **kwargs)
 
 
-class GeometryProxy(mtxObjAbs.Abs_MtxGeometryProxy):
+class GeometryProxy(mtxObjAbs.AbsMtxGeometryProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Nodepath
 

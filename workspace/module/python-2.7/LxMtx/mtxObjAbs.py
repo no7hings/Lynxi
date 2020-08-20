@@ -8,12 +8,12 @@ from LxGraphic import grhObjAbs
 from . import mtxCfg
 
 
-class Abs_MtxBasic(mtxCfg.MtxUtility):
+class AbsMtxBasic(mtxCfg.MtxUtility):
     pass
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxObjLoader(grhObjAbs.Abs_GrhObjLoader):
+class AbsMtxObjLoader(grhObjAbs.AbsGrhObjLoader):
     def _initAbsMtxObjLoader(self, *args):
         self._initAbsGrhObjLoader(*args)
 
@@ -146,7 +146,7 @@ class Abs_MtxObjLoader(grhObjAbs.Abs_GrhObjLoader):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxObjQueryBuilder(grhObjAbs.Abs_GrhObjQueryrawCreator):
+class AbsMtxObjQueryBuilder(grhObjAbs.AbsGrhObjQueryrawCreator):
     def _initAbsMtxObjQueryBuilder(self, *args):
         self._initAbsGrhObjQueryBuilder(*args)
 
@@ -194,16 +194,16 @@ class Abs_MtxObjQueryBuilder(grhObjAbs.Abs_GrhObjQueryrawCreator):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxObjQueue(grhObjAbs.Abs_GrhObjQueue):
+class AbsMtxObjQueue(grhObjAbs.AbsGrhObjQueue):
     def _initAbsMtxObjQueue(self, *args):
         self._initAbsGrhObjQueue(*args)
 
 
 # raw **************************************************************************************************************** #
-class Abs_MtxRaw(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatRaw
+class AbsMtxRaw(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatRaw
 ):
     def _initAbsMtxRaw(self, *args):
         self._initAbsDatRaw(*args)
@@ -225,10 +225,10 @@ class Abs_MtxRaw(
         ]
 
 
-class Abs_MtxDatatype(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatDatatype
+class AbsMtxDatatype(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatDatatype
 ):
     def _initAbsMtxDatatype(self, *args):
         self._initAbsDatDatatype(*args)
@@ -250,10 +250,10 @@ class Abs_MtxDatatype(
         ]
 
 
-class Abs_MtxObjProxyNamespace(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatObjNamespace
+class AbsMtxObjProxyNamespace(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatObjNamespace
 ):
     def _initAbsMtxObjProxyNamespace(self, *args):
         self._initAbsDatObjNamespace(*args)
@@ -275,10 +275,10 @@ class Abs_MtxObjProxyNamespace(
         ]
 
 
-class Abs_MtxName(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatName
+class AbsMtxName(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatName
 ):
     def _initAbsMtxName(self, *args):
         self._initAbsDatName(*args)
@@ -300,10 +300,10 @@ class Abs_MtxName(
         ]
 
 
-class Abs_MtxObjTypename(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatObjName,
+class AbsMtxObjTypename(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatObjName,
 ):
     def _initAbsMtxObjTypename(self, *args):
         self._initAbsDatObjName(*args)
@@ -325,10 +325,10 @@ class Abs_MtxObjTypename(
         ]
 
 
-class Abs_MtxObjName(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatObjName,
+class AbsMtxObjName(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatObjName,
 ):
     def _initAbsMtxObjName(self, *args):
         self._initAbsDatObjName(*args)
@@ -350,10 +350,10 @@ class Abs_MtxObjName(
         ]
 
 
-class Abs_MtxPath(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatObjPath
+class AbsMtxPath(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatObjPath
 ):
     def _initAbsMtxPath(self, *args):
         self._initAbsDatObjPath(*args)
@@ -375,10 +375,10 @@ class Abs_MtxPath(
         ]
 
 
-class Abs_MtxAttrpath(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatObjComppath
+class AbsMtxAttrpath(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatObjComppath
 ):
     def _initAbsMtxAttrpath(self, *args):
         self._initAbsDatObjComppath(*args)
@@ -401,10 +401,10 @@ class Abs_MtxAttrpath(
 
 
 # object set ********************************************************************************************************* #
-class Abs_MtxObjSet(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhObjStack
+class AbsMtxObjSet(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhObjStack
 ):
     def _initAbsMtxObjSet(self, *args):
         self._initAbsGrhObjStack(*args)
@@ -422,10 +422,10 @@ class Abs_MtxObjSet(
 
 
 # value ************************************************************************************************************** #
-class Abs_MtxValue(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    datObjAbs.Abs_DatValue
+class AbsMtxValue(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    datObjAbs.AbsDatValue
 ):
 
     def _initAbsMtxValue(self, *args):
@@ -449,10 +449,10 @@ class Abs_MtxValue(
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxPort(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhPort
+class AbsMtxPort(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhPort
 ):
     def _initAbsMtxPort(self, *args, **kwargs):
         self._initAbsGrhPort(*args, **kwargs)
@@ -487,10 +487,10 @@ class Abs_MtxPort(
         ]
 
 
-class Abs_MtxNode(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhNode
+class AbsMtxNode(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhNode
 ):
     def _initAbsMtxNode(self, *args, **kwargs):
         self._initAbsGrhNode(*args, **kwargs)
@@ -519,18 +519,18 @@ class Abs_MtxNode(
         ]
 
 
-class Abs_MtxConnector(
-    grhObjAbs.Abs_GrhConnector
+class AbsMtxConnector(
+    grhObjAbs.AbsGrhConnector
 ):
     def _initAbsMtxConnector(self, *args):
         self._initAbsGrhConnector(*args)
 
 
 # port proxy ********************************************************************************************************* #
-class Abs_MtxPortProxy(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhPortProxy,
+class AbsMtxPortProxy(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhPortProxy,
 ):
     def _initAbsMtxPortProxy(self, *args, **kwargs):
         self._initAbsGrhPortProxy(*args, **kwargs)
@@ -545,10 +545,10 @@ class Abs_MtxPortProxy(
         ]
 
 
-class Abs_MtxShaderProxy(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhShaderProxy
+class AbsMtxShaderProxy(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhShaderProxy
 ):
     def _initAbsMtxShaderProxy(self, *args, **kwargs):
         self._initAbsGrhShaderProxy(*args, **kwargs)
@@ -567,10 +567,10 @@ class Abs_MtxShaderProxy(
         return self.changedBindInportProxies()
 
 
-class Abs_MtxMaterialProxy(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhMaterialProxy
+class AbsMtxMaterialProxy(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhMaterialProxy
 ):
     def _initAbsMtxMaterialProxy(self, *args, **kwargs):
         self._initAbsGrhMaterialProxy(*args, **kwargs)
@@ -611,10 +611,10 @@ class Abs_MtxMaterialProxy(
         ]
 
 
-class Abs_MtxGeometryProxy(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhGeometryProxy
+class AbsMtxGeometryProxy(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhGeometryProxy
 ):
     def _initAbsMtxGeometryProxy(self, *args, **kwargs):
         self._initAbsGrhGeometryProxy(*args, **kwargs)
@@ -633,10 +633,10 @@ class Abs_MtxGeometryProxy(
 
 
 # node graph ********************************************************************************************************* #
-class Abs_MtxNodeGraph(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhNodeGraph
+class AbsMtxNodeGraph(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhNodeGraph
 ):
     def _initAbsMtxNodeGraph(self, *args, **kwargs):
         self._initAbsGrhNodeGraph(*args, **kwargs)
@@ -659,10 +659,10 @@ class Abs_MtxNodeGraph(
         ]
 
 
-class Abs_MtxNodeGraphOtportProxy(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj,
-    grhObjAbs.Abs_GrhNodeGraphPortProxy,
+class AbsMtxNodeGraphOtportProxy(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj,
+    grhObjAbs.AbsGrhNodeGraphPortProxy,
 ):
     def _initAbsMtxNodeGraphOtportProxy(self, *args, **kwargs):
         self._initAbsGrhNodeGraphPortProxy(*args, **kwargs)
@@ -688,9 +688,9 @@ class Abs_MtxNodeGraphOtportProxy(
 
 
 # portset ************************************************************************************************************ #
-class Abs_MtxPortset(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj
+class AbsMtxPortset(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj
 ):
     CLS_mtx__name = None
 
@@ -757,9 +757,9 @@ class Abs_MtxPortset(
 
 
 # geometry collection
-class Abs_MtxCollection(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj
+class AbsMtxCollection(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj
 ):
     CLS_mtx__name = None
 
@@ -896,9 +896,9 @@ class Abs_MtxCollection(
 
 
 # assign ************************************************************************************************************* #
-class Abs_MtxAssign(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj
+class AbsMtxAssign(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj
 ):
     CLS_mtx__name = None
     CLS_mtx__look__geometry_proxy_stack = None
@@ -1005,7 +1005,7 @@ class Abs_MtxAssign(
         pass
 
 
-class Abs_MtxMaterialAssign(Abs_MtxAssign):
+class AbsMtxMaterialAssign(AbsMtxAssign):
     def _initAbsMtxMaterialAssign(self, *args):
         self._initAbsMtxAssign(*args)
 
@@ -1042,12 +1042,12 @@ class Abs_MtxMaterialAssign(Abs_MtxAssign):
         ]
 
 
-class Abs_MtxPropertyAssign(Abs_MtxAssign):
+class AbsMtxPropertyAssign(AbsMtxAssign):
     def _initAbsMtxPropertyAssign(self, *args):
         pass
 
 
-class Abs_MtxPropertysetAssign(Abs_MtxAssign):
+class AbsMtxPropertysetAssign(AbsMtxAssign):
     CLS_mtx__propertyset = None
 
     def _initAbsMtxPropertysetAssign(self, *args):
@@ -1096,7 +1096,7 @@ class Abs_MtxPropertysetAssign(Abs_MtxAssign):
         ]
 
 
-class Abs_MtxVisibilityAssign(Abs_MtxAssign):
+class AbsMtxVisibilityAssign(AbsMtxAssign):
     CLS_grh__type = None
 
     CLS_mtx__value_visibility = None
@@ -1152,9 +1152,9 @@ class Abs_MtxVisibilityAssign(Abs_MtxAssign):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxLook(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj
+class AbsMtxLook(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj
 ):
     CLS_mtx__look__name = None
     CLS_mtx__look__namespace = None
@@ -1353,9 +1353,9 @@ class Abs_MtxLook(
         return self._xmlElementAttaches_()
 
 
-class Abs_MtxFile(
-    Abs_MtxBasic,
-    datObjAbs.Abs_DatXmlObj
+class AbsMtxFile(
+    AbsMtxBasic,
+    datObjAbs.AbsDatXmlObj
 ):
     CLS_mtx__file__path = None
 
@@ -1470,7 +1470,7 @@ class Abs_MtxFile(
         return self.references() + self.looks()
 
 
-class Abs_MtxReference(Abs_MtxFile):
+class AbsMtxReference(AbsMtxFile):
     def _initAbsMtxReference(self, *args):
         self._initAbsMtxFile(*args)
 
@@ -1482,7 +1482,7 @@ class Abs_MtxReference(Abs_MtxFile):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxTrsLook(Abs_MtxBasic):
+class AbsMtxTrsLook(AbsMtxBasic):
     CLS_mtx__trs_look__tgt_look = None
     CLS_mtx__trs_look__trs_geometry_proxy = None
 
@@ -1533,7 +1533,7 @@ class Abs_MtxTrsLook(Abs_MtxBasic):
 
 
 # ******************************************************************************************************************** #
-class Abs_MtxTrsFile(Abs_MtxBasic):
+class AbsMtxTrsFile(AbsMtxBasic):
     CLS_mtx__trs_file__tgt_file = None
     CLS_mtx__trs_file__trs_look = None
 

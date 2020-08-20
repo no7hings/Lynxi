@@ -1,4 +1,3 @@
-# coding:utf-8
 #!/bin/sh
 # ---------------------------------------------------------------------
 # lynxi startup script.
@@ -11,7 +10,7 @@ export LYNXI_ENABLE_DEVELOP=FALSE
 export LYNXI_PATH="/l/packages/pg/prod/lynxitool/0.0.3/lynxitool"
 export LYNXI_SCHEME_VAR="resource/scheme/linux-x64-houdini-18-houdini_18/0.0.0/source/houdini_18"
 
-export PYTHONPATH="$LYNXI_PATH/python/lynxi"
+export PYTHONPATH="$LYNXI_PATH/script/python"
 
 export LYNXI_PATH_HOUDINI="/opt/hfs18.0.460/"
 export LYNXI_BIN_HOUDINI="$LYNXI_PATH_HOUDINI/bin/houdinifx"

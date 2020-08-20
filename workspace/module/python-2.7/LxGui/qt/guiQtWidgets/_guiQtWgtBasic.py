@@ -83,7 +83,7 @@ def gui_qt__mdf__set_actionview_event_filter(method):
     return subFnc_
 
 
-class QtIconbutton(guiQtWgtAbs.Abs_GuiQtQtIconbuttonWgt):
+class QtIconbutton(guiQtWgtAbs.AbsGuiQtQtIconbuttonWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtIconbuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -105,7 +105,7 @@ class QtIconbutton(guiQtWgtAbs.Abs_GuiQtQtIconbuttonWgt):
         pass
 
 
-class QtEnablebutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtEnablebutton(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtEnablebuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -151,7 +151,7 @@ class QtEnablebutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
         self.setMinimumSize(*self.itemModel().frameSize())
 
 
-class QtCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtCheckbutton(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtCheckbuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -219,7 +219,7 @@ class QtCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
         self.setMinimumSize(0, h)
 
 
-class QtRadioCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtRadioCheckbutton(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtCheckbuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -293,7 +293,7 @@ class QtRadioCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
         self.setMinimumSize(0, h)
 
 
-class QtActionIconbutton(guiQtWgtAbs.Abs_GuiQtActionIconbuttonWgt):
+class QtActionIconbutton(guiQtWgtAbs.AbsGuiQtActionIconbuttonWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtIconbuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -651,7 +651,7 @@ class QtTextEdit_(qtCore.QTextEdit):
         qtCore.setScrollBarStyle(self)
 
 
-class QtFilterLine(guiQtWgtAbs.Abs_GuiQtFilterLineWgt):
+class QtFilterLine(guiQtWgtAbs.AbsGuiQtFilterLineWgt):
     CLS_gui_qt__filter_line_wgt__model = _guiQtMdlBasic.QtFilterLineModel
     CLS_gui_qt__filter_line_wgt__line_edit = QtLineEdit_
 
@@ -670,7 +670,7 @@ class QtFilterLine(guiQtWgtAbs.Abs_GuiQtFilterLineWgt):
 
 
 # Scroll Bar
-class QtScrollBar(guiQtWgtAbs.Abs_GuiQtScrollbarWgt):
+class QtScrollBar(guiQtWgtAbs.AbsGuiQtScrollbarWgt):
     CLS_gui_qt__scrollbar_wgt_iconbutton = QtIconbutton
 
     def __init__(self, *args, **kwargs):
@@ -685,7 +685,7 @@ class QtScrollBar(guiQtWgtAbs.Abs_GuiQtScrollbarWgt):
 
 
 # choose ************************************************************************************************************* #
-class QtChooseViewitem(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtChooseViewitem(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlBasic.QtItemModel
 
     def __init__(self, *args, **kwargs):
@@ -701,7 +701,7 @@ class QtChooseViewitem(guiQtWgtAbs.Abs_GuiQtItemWgt):
         self.setupUi()
 
 
-class QtChooseViewport(guiQtWgtAbs.Abs_GuiQtChooseViewportWgt):
+class QtChooseViewport(guiQtWgtAbs.AbsGuiQtChooseViewportWgt):
     CLS_gui_qt__view_wgt__model = _guiQtMdlViewport.QtChooseViewportModel
 
     CLS_gui_qt__view_wgt__scrollbar = QtScrollBar
@@ -717,7 +717,7 @@ class QtChooseViewport(guiQtWgtAbs.Abs_GuiQtChooseViewportWgt):
         self._initAbsGuiQtChooseViewportWgt()
 
 
-class QtChooseWindow(guiQtWgtAbs.Abs_GuiQtChooseWindowWgt):
+class QtChooseWindow(guiQtWgtAbs.AbsGuiQtChooseWindowWgt):
     CLS_gui_qt__choose_window_wgt__model = _guiQtMdlViewport.QtChooseWindowModel
 
     CLS_gui_qt__choose_window_wgt__viewport = QtChooseViewport
@@ -742,7 +742,7 @@ class QtChooseWindow(guiQtWgtAbs.Abs_GuiQtChooseWindowWgt):
         self._initAbsGuiQtChooseWindowWgt()
 
 
-class QtSeparateWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
+class QtSeparateWindow(guiQtWgtAbs.AbsGuiQtWindowWgt):
     CLS_gui_qt__window_wgt__model = _guiQtMdlWindow.QtWindowModel
     CLS_gui_qt__window_wgt__iconbutton = QtIconbutton
     CLS_gui_qt__window_wgt__action_iconbutton = QtActionIconbutton
@@ -782,7 +782,7 @@ class QtSeparateWindow(guiQtWgtAbs.Abs_GuiQtWindowWgt):
 
 
 # action ************************************************************************************************************* #
-class QtActionViewitem(guiQtWgtAbs.Abs_GuiQtActionViewitemWgt):
+class QtActionViewitem(guiQtWgtAbs.AbsGuiQtActionViewitemWgt):
     CLS_gui_qt__action_viewitem_wgt__iconbutton = QtIconbutton
 
     def __init__(self, *args, **kwargs):
@@ -796,7 +796,7 @@ class QtActionViewitem(guiQtWgtAbs.Abs_GuiQtActionViewitemWgt):
         self._initAbsGuiQtActionViewitemWgt()
 
 
-class QtActionViewport(guiQtWgtAbs.Abs_GuiQtActionViewportWgt):
+class QtActionViewport(guiQtWgtAbs.AbsGuiQtActionViewportWgt):
     CLS_gui_qt__action_viewport_wgt__model = _guiQtMdlBasic.QtActionViewportModel
 
     CLS_gui_qt__action_viewport_wgt__viewitem = QtActionViewitem

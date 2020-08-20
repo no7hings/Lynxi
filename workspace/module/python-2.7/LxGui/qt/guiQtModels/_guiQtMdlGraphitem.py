@@ -20,7 +20,7 @@ CLS_painterPath = QtGui.QPainterPath
 
 
 #
-class xGraphNodeItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class xGraphNodeItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -492,7 +492,7 @@ class xGraphNodeItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class xGraphGroupItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class xGraphGroupItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -827,7 +827,7 @@ class xGraphGroupItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class xGraphConnectionItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class xGraphConnectionItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -1044,7 +1044,7 @@ class xGraphConnectionItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class xGraphExplainItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class xGraphExplainItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget, (pointClass, rectClass)):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -1173,8 +1173,8 @@ class xGraphExplainItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 #
 class xGraphAttributePortItemModel(
-    guiQtObjItf.Itf_GuiQtItemDef,
-    guiQtObjItf.Itf_QtViewModel
+    guiQtObjItf.ItfGuiQtItemDef,
+    guiQtObjItf.ItfQtViewModel
 ):
     def __init__(self, widget):
         super(xGraphAttributePortItemModel, self).__init__(widget)

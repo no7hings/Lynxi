@@ -2,8 +2,71 @@
     "name": "maya_2019", 
     "version": "0.0.0", 
     "user": "nothings", 
-    "timestamp": 1596635169.355, 
+    "timestamp": 1597843974.302, 
     "environ": {
+        "MAYA_CUSTOM_TEMPLATE_PATH": {
+            "operate": "+", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/scripts/mtoa/ui/templates"
+        }, 
+        "MAYA_PLUG_IN_PATH": {
+            "operate": "+", 
+            "value": [
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/plug-ins", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/plug-ins"
+            ]
+        }, 
+        "LYNXI_LOADNAME_PLUG": {
+            "operate": "+", 
+            "value": [
+                "<lynxinode>lxConvertNode", 
+                "<lynxinode>lxProductNode", 
+                "<mtoa>mtoa"
+            ]
+        }, 
+        "PYTHONPATH": {
+            "operate": "+", 
+            "value": [
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
+                "<maya_2019>{root.active}/resource/scheme/windows-maya-2019-maya_2019/0.0.0/source/scripts", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/scripts", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib/python"
+            ]
+        }, 
+        "MTOA_EXTENSIONS_PATH": {
+            "operate": "+", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/extensions"
+        }, 
+        "MAYA_SCRIPT_PATH": {
+            "operate": "+", 
+            "value": [
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/scripts", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/scripts/mtoa/mel"
+            ]
+        }, 
+        "MAYA_RENDER_DESC_PATH": {
+            "operate": "=", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source"
+        }, 
+        "MTOA_PATH": {
+            "operate": "+", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source"
+        }, 
+        "solidangle_LICENSE": {
+            "operate": "=", 
+            "value": "<mtoa>5053@192.168.16.240"
+        }, 
+        "XBMLANGPATH": {
+            "operate": "+", 
+            "value": [
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/icons", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/icons"
+            ]
+        }, 
+        "MAYA_PRESET_PATH": {
+            "operate": "+", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/presets"
+        }, 
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
             "value": [
@@ -25,22 +88,34 @@
                 "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
                 "<MaterialX>{root.active}/resource/package/windows-python-2.7-materialx/1.36.5/source", 
                 "<PIL>{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source", 
-                "<PySide2>{root.active}/resource/package/windows-python-2.7-pyside2/2.0.0~alpha0/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
                 "<maya_2019>{root.active}/resource/scheme/windows-maya-2019-maya_2019/0.0.0/source/scripts", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/scripts", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib/python", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
-        }, 
-        "PYTHONPATH": {
-            "operate": "+", 
-            "value": "<maya_2019>{root.active}/resource/scheme/windows-maya-2019-maya_2019/0.0.0/source/scripts"
         }, 
         "PATH": {
             "operate": "+", 
             "value": [
                 "<KMPlayer>{root.active}/resource/bin/windows-kmplayer/4.0.8.1/source/bin", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/bin", 
                 "<pdplayer64>{root.active}/resource/bin/windows-pdplayer64/1.0.7.13/source/bin", 
-                "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin"
+                "<sublime_text>{root.active}/resource/bin/windows-sublime_text/1.0.0.1/source/bin", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/bin", 
+                "<usd>{root.active}/resource/plug/windows-usd/19.12/source/lib"
+            ]
+        }, 
+        "MAYA_PLUG_IN_RESOURCE_PATH": {
+            "operate": "+", 
+            "value": "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/resources"
+        }, 
+        "ARNOLD_PLUGIN_PATH": {
+            "operate": "+", 
+            "value": [
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/shaders", 
+                "<mtoa>{root.active}/resource/plug/windows-maya-2019-mtoa/3.3.0.1/source/procedurals"
             ]
         }
     }, 
@@ -62,5 +137,9 @@
         "LxPreset", 
         "LxScheme"
     ], 
-    "plug": []
+    "plug": [
+        "lynxinode", 
+        "mtoa", 
+        "usd"
+    ]
 }

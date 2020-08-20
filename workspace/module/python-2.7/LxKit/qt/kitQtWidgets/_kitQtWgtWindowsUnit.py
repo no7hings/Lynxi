@@ -4,7 +4,7 @@ from .. import kitQtWgtAbs
 from ..kitQtModels import _kitQtMdlUtility
 
 
-class KitQtArnoldCommandRender(kitQtWgtAbs.Abs_KitQtCustomToolUnitWgt):
+class KitQtArnoldCommandRender(kitQtWgtAbs.AbsKitQtCustomToolUnitWgt):
     CLS_kit__qt__custom_unit__model = _kitQtMdlUtility.KitQtCustomToolUnitModel
 
     def __init__(self):

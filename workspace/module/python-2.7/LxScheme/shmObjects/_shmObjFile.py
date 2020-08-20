@@ -6,7 +6,7 @@ from .. import shmObjAbs
 from . import _shmObjPath
 
 
-class Fle_RscBin(shmObjAbs.Abs_ShmFile):
+class Fle_RscBin(shmObjAbs.AbsShmFile):
     CLS_shm__directory = _shmObjPath.OsDirectory
     CLS_shm__file = bscObjects.OsJsonFile
 
@@ -26,7 +26,7 @@ class Fle_RscBin(shmObjAbs.Abs_ShmFile):
         }
 
 
-class Fle_RscPackage(shmObjAbs.Abs_ShmFile):
+class Fle_RscPackage(shmObjAbs.AbsShmFile):
     CLS_shm__directory = _shmObjPath.OsDirectory
     CLS_shm__file = bscObjects.OsJsonFile
 
@@ -46,7 +46,7 @@ class Fle_RscPackage(shmObjAbs.Abs_ShmFile):
         }
 
 
-class Fle_RscPlug(shmObjAbs.Abs_ShmFile):
+class Fle_RscPlug(shmObjAbs.AbsShmFile):
     CLS_shm__directory = _shmObjPath.OsDirectory
     CLS_shm__file = bscObjects.OsJsonFile
 
@@ -66,7 +66,7 @@ class Fle_RscPlug(shmObjAbs.Abs_ShmFile):
         }
 
 
-class Fle_RscModule(shmObjAbs.Abs_ShmFile):
+class Fle_RscModule(shmObjAbs.AbsShmFile):
     CLS_shm__directory = _shmObjPath.OsDirectory
     CLS_shm__file = bscObjects.OsJsonFile
 
@@ -86,7 +86,7 @@ class Fle_RscModule(shmObjAbs.Abs_ShmFile):
         }
 
 
-class Fle_RscScheme(shmObjAbs.Abs_ShmFile):
+class Fle_RscScheme(shmObjAbs.AbsShmFile):
     CLS_shm__directory = _shmObjPath.OsDirectory
     CLS_shm__file = bscObjects.OsJsonFile
 

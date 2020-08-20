@@ -10,7 +10,7 @@ QtCore = qtCore.QtCore
 
 
 # Widget
-class Itf_GuiQtObjDef(guiCore.UiMtdBasic):
+class ItfGuiQtObjDef(guiCore.UiMtdBasic):
     CLS_gui_qt__mdl_obj__point = None
     CLS_gui_qt__mdl_obj__line = None
     CLS_gui_qt__mdl_obj__size = None
@@ -260,17 +260,17 @@ class Itf_GuiQtObjDef(guiCore.UiMtdBasic):
 
 
 # Expand
-class Itf_QtExpandWidget(Itf_GuiQtObjDef):
+class ItfGuiQtExpandObjDef(ItfGuiQtObjDef):
     ui_method = guiCore.UiMtdBasic
-    def _initDefExpandWidget(self):
+    def _initGuiQtExpandObjDef(self):
         self._initItfGuiQtObjDef()
         #
-        self._initDefExpandWidgetAttr()
-        self._initDefExpandWidgetAction()
+        self._initGuiQtExpandObjDefAttr()
+        self._initGuiQtExpandObjDefAction()
         self._initExpandAbsRect()
         self._initExpandAbsUi()
     #
-    def _initDefExpandWidgetAttr(self):
+    def _initGuiQtExpandObjDefAttr(self):
         self._isExpandButton = False
         #
         self._isExpandEnable = False
@@ -281,7 +281,7 @@ class Itf_QtExpandWidget(Itf_GuiQtObjDef):
         #
         self._expandTimer = qtCore.CLS_timer()
     #
-    def _initDefExpandWidgetAction(self):
+    def _initGuiQtExpandObjDefAction(self):
         self._expandFlag = False
     #
     def _initExpandAbsRect(self):
@@ -423,7 +423,7 @@ class Itf_QtExpandWidget(Itf_GuiQtObjDef):
 
 
 # Color
-class Itf_QtColorDef(Itf_GuiQtObjDef):
+class ItfQtColorDef(ItfGuiQtObjDef):
     def _initItfQtColorDef(self):
         self._initItfGuiQtObjDef()
         #
@@ -496,7 +496,7 @@ class Itf_QtColorDef(Itf_GuiQtObjDef):
 
 
 # Press
-class Itf_QtPressDef(Itf_GuiQtObjDef):
+class ItfQtPressDef(ItfGuiQtObjDef):
     def _initItfQtPressDef(self):
         self._initItfGuiQtObjDef()
         #
@@ -855,7 +855,7 @@ class Itf_QtPressDef(Itf_GuiQtObjDef):
 
 
 # Check
-class Itf_QtCheckWidget(Itf_GuiQtObjDef):
+class ItfQtCheckWidget(ItfGuiQtObjDef):
     def _initDefCheckWidget(self):
         self._initItfGuiQtObjDef()
         #
@@ -1135,7 +1135,7 @@ class Itf_QtCheckWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtGraphitemWidget(Itf_GuiQtObjDef):
+class ItfQtGraphitemWidget(ItfGuiQtObjDef):
     def _initDefGraphitemWidget(self):
         self._initItfGuiQtObjDef()
         #
@@ -1174,7 +1174,7 @@ class Itf_QtGraphitemWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_GuiQtGroupDef(Itf_GuiQtObjDef):
+class ItfGuiQtGroupDef(ItfGuiQtObjDef):
     def _initItfGuiQtGroupDef(self):
         self._initItfGuiQtObjDef()
         #
@@ -1255,7 +1255,7 @@ class Itf_GuiQtGroupDef(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtViewWidget(Itf_GuiQtObjDef):
+class ItfQtViewWidget(ItfGuiQtObjDef):
     def _initDefViewWidget(self):
         self._initItfGuiQtObjDef()
         #
@@ -1380,7 +1380,7 @@ class Itf_QtViewWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtTabbarWidget(Itf_GuiQtObjDef):
+class ItfQtTabbarWidget(ItfGuiQtObjDef):
     def _initDefTabbarWidget(self):
         self._initDefTabbarWidgetAttr()
         self._initDefTabbarWidgetRect()
@@ -1439,7 +1439,7 @@ class Itf_QtTabbarWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_GuiQtTabviewObj(Itf_GuiQtObjDef):
+class ItfGuiQtTabviewObj(ItfGuiQtObjDef):
     def _initDefTabviewWidget(self):
         self._initItfGuiQtObjDef()
         #
@@ -1567,7 +1567,7 @@ class Itf_GuiQtTabviewObj(Itf_GuiQtObjDef):
 
 
 # window
-class Itf_GuiQtWindowDef(Itf_GuiQtObjDef):
+class ItfGuiQtWindowDef(ItfGuiQtObjDef):
     def _initItfGuiQtWindowDef(self):
         self._initItfGuiQtObjDef()
         #
@@ -1896,7 +1896,7 @@ class Itf_GuiQtWindowDef(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtScrollbarWidget(Itf_GuiQtObjDef):
+class ItfQtScrollbarWidget(ItfGuiQtObjDef):
     def _initDefScrollbarWidget(self):
         self._initItfGuiQtObjDef()
         #
@@ -2150,7 +2150,7 @@ class Itf_QtScrollbarWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtScrollareaWidget(Itf_GuiQtObjDef):
+class ItfQtScrollareaWidget(ItfGuiQtObjDef):
     def _initDefScrollarea(self):
         self._initItfGuiQtObjDef()
         #
@@ -2311,7 +2311,7 @@ class Itf_QtScrollareaWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtSplitterWidget(Itf_GuiQtObjDef):
+class ItfQtSplitterWidget(ItfGuiQtObjDef):
     def _initDefSplitter(self):
         self._initItfGuiQtObjDef()
         #
@@ -2338,7 +2338,7 @@ class Itf_QtSplitterWidget(Itf_GuiQtObjDef):
 
 
 #
-class Itf_QtLayout(object):
+class ItfQtLayout(object):
     def _initDefLayout(self):
         self._initDefLayoutAttr()
         self._initDefLayoutVar()
@@ -2373,17 +2373,17 @@ class Itf_QtLayout(object):
 
 
 #
-class Itf_GuiQtItemDef(
-    Itf_QtPressDef,
-    Itf_QtCheckWidget,
-    Itf_QtExpandWidget,
-    Itf_QtColorDef,
-    Itf_QtGraphitemWidget,
+class ItfGuiQtItemDef(
+    ItfQtPressDef,
+    ItfQtCheckWidget,
+    ItfGuiQtExpandObjDef,
+    ItfQtColorDef,
+    ItfQtGraphitemWidget,
 ):
     def _initGuiQtItemDef(self):
         self._initItfQtPressDef()
         self._initDefCheckWidget()
-        self._initDefExpandWidget()
+        self._initGuiQtExpandObjDef()
         self._initItfQtColorDef()
         self._initDefGraphitemWidget()
         #
@@ -2626,17 +2626,17 @@ class Itf_GuiQtItemDef(
 
 
 #
-class Itf_GuiQtGroupObj(
-    Itf_GuiQtGroupDef,
-    Itf_QtPressDef,
-    Itf_QtExpandWidget,
-    Itf_QtColorDef
+class ItfGuiQtGroupObj(
+    ItfGuiQtGroupDef,
+    ItfQtPressDef,
+    ItfGuiQtExpandObjDef,
+    ItfQtColorDef
 ):
     def _initGuiQtGroupDef(self):
         self._initItfGuiQtGroupDef()
         #
         self._initItfQtPressDef()
-        self._initDefExpandWidget()
+        self._initGuiQtExpandObjDef()
         self._initItfQtColorDef()
         #
         self._initGuiQtGroupDefVar()
@@ -2746,10 +2746,10 @@ class Itf_GuiQtGroupObj(
 
 
 #
-class Itf_QtViewModel(
-    Itf_QtViewWidget,
-    Itf_QtScrollareaWidget,
-    Itf_QtPressDef
+class ItfQtViewModel(
+    ItfQtViewWidget,
+    ItfQtScrollareaWidget,
+    ItfQtPressDef
 ):
     def _initDefViewModel(self):
         self._initDefViewWidget()
@@ -3280,15 +3280,15 @@ class Itf_QtViewModel(
 
 
 #
-class Itf_GuiQtWindowObj(
-    Itf_GuiQtWindowDef,
-    Itf_QtPressDef,
-    Itf_QtExpandWidget,
+class ItfGuiQtWindowObj(
+    ItfGuiQtWindowDef,
+    ItfQtPressDef,
+    ItfGuiQtExpandObjDef,
 ):
     def _initDefWindowModel(self):
         self._initItfGuiQtWindowDef()
         self._initItfQtPressDef()
-        self._initDefExpandWidget()
+        self._initGuiQtExpandObjDef()
 
     def _gui_qt__mdl__get_widget_geometry_args_(self, x, y, w, h):
         if self.isMaximized():
@@ -3311,8 +3311,8 @@ class Itf_GuiQtWindowObj(
 
 
 #
-class Itf_QtSplitterModel(
-    Itf_QtSplitterWidget
+class ItfQtSplitterModel(
+    ItfQtSplitterWidget
 ):
     def _initDefSplitterModel(self):
         self._initDefSplitter()

@@ -138,5 +138,5 @@ class Texture(object):
     @classmethod
     def existFiles(cls, fileString):
         if bscMethods.OsFile.isExist(fileString):
-            return [fileString.replace('\\', bscMethods.OsPath.DEF_bsc__pathsep)]
+            return [fileString.replace('\\', bscMethods.OsPath.DEF_bsc__os__pathsep)]
         return bscMethods.OsMultifile._getOsMultifileExistFileList(fileString, '<udim>', bscMethods.OsMultifile.VAR_padding_multifile)

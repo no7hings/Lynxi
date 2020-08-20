@@ -348,7 +348,7 @@ class QtGraphview(qtCore.QWidget):
             (
                 _guiQtWgtGraphitem.xGraphNodeItem, _guiQtWgtGraphitem.xGraphConnectionItem, _guiQtWgtGraphitem.xGraphGroupItem,
                 _guiQtWgtGraphitem.xGraphExplainItem, _guiQtWgtGraphitem.xGraphAttributePortItem,
-                guiQtWgtAbs.Abs_GuiQtActionViewportWgt,
+                guiQtWgtAbs.AbsGuiQtActionViewportWgt,
                 qtCore.CLS_point, qtCore.CLS_pointF,
                 qtCore.CLS_rect, qtCore.CLS_rectF,
                 qtCore.CLS_painterPath

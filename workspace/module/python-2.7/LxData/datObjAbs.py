@@ -2,53 +2,53 @@
 from . import datCfg, datObjItf
 
 
-class Abs_DatRaw(datObjItf.Itf_DatRaw):
+class AbsDatRaw(datObjItf.ItfDatRaw):
     def _initAbsDatRaw(self, *args):
         self._initItfDatRaw(*args)
 
 
-class Abs_DatTypename(datObjItf.Itf_DatTypename):
+class AbsDatTypename(datObjItf.ItfDatTypename):
     def _initAbsDatTypename(self, *args):
         self._initItfDatTypename(*args)
 
 
-class Abs_DatDatatype(datObjItf.Itf_DatType):
+class AbsDatDatatype(datObjItf.ItfDatType):
     def _initAbsDatDatatype(self, *args):
         self._initItfDatType(*args)
 
 
-class Abs_DatPorttype(datObjItf.Itf_DatType):
+class AbsDatPorttype(datObjItf.ItfDatType):
     def _initAbsDatPorttype(self, *args):
         self._initItfDatType(*args)
 
 
-class Abs_DatName(datObjItf.Itf_DatName):
+class AbsDatName(datObjItf.ItfDatName):
     def _initAbsDatName(self, *args):
         self._initItfDatName(*args)
 
 
 # object ************************************************************************************************************* #
-class Abs_DatObjName(datObjItf.Itf_DatObjName):
+class AbsDatObjName(datObjItf.ItfDatObjName):
     def _initAbsDatObjName(self, *args):
         self._initItfDatObjName(*args)
 
 
-class Abs_DatFilename(datObjItf.Itf_DatFilename):
+class AbsDatFilename(datObjItf.ItfDatFilename):
     def _initAbsDatFilename(self, *args):
         self._initItfDatFilename(*args)
 
 
-class Abs_DatObjPath(datObjItf.Itf_DatObjPath):
+class AbsDatObjPath(datObjItf.ItfDatObjPath):
     def _initAbsDatObjPath(self, *args):
         self._initItfDatObjPath(*args)
 
 
-class Abs_DatObjVariant(datObjItf.Itf_DatObjVariant):
+class AbsDatObjVariant(datObjItf.ItfDatObjVariant):
     def _initAbsDatObjVariant(self, *args):
         self._initItfDatObjVariant(*args)
 
 
-class Abs_DatObjNamespace(datObjItf.Itf_DatObjNamespace):
+class AbsDatObjNamespace(datObjItf.ItfDatObjNamespace):
     def _initAbsDatObjNamespace(self, *args):
         self._initItfDatObjNamespace(*args)
 
@@ -63,13 +63,13 @@ class Abs_DatObjNamespace(datObjItf.Itf_DatObjNamespace):
         return sep.join([self.parentString(), self.nameString()])
 
 
-class Abs_DatObjComppath(datObjItf.Itf_DatObjComppath):
+class AbsDatObjComppath(datObjItf.ItfDatObjComppath):
     def _initAbsDatObjComppath(self, *args):
         self._initItfDatObjComppath(*args)
 
 
 # value ************************************************************************************************************** #
-class Abs_DatData(datObjItf.Itf_DatRaw):
+class AbsDatData(datObjItf.ItfDatRaw):
     CLS_dat__data__element = None
 
     VAR_dat__data__datasep = None
@@ -78,13 +78,13 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         self._parentObj = args[0]
         rawArgs = args[1:]
 
-        if isinstance(args[0], Abs_DatValue):
+        if isinstance(args[0], AbsDatValue):
             self._valueObj = self._parentObj
 
             self._rawtypePattern = self._valueObj.VAR_dat__value__rawtype_pattern
             self._rawtypeStrPattern = self._valueObj.VAR_dat__value__rawtype_str_pattern
             self._rawsizePattern = self._valueObj.VAR_dat__value__rawsize_pattern
-        elif isinstance(args[0], Abs_DatData):
+        elif isinstance(args[0], AbsDatData):
             self._dataObj = self._parentObj
 
             if len(self._dataObj._rawtypePattern) == 2:
@@ -318,7 +318,7 @@ class Abs_DatData(datObjItf.Itf_DatRaw):
         return self.elementCount()
 
 
-class Abs_DatValue(datCfg.DatUtility):
+class AbsDatValue(datCfg.DatUtility):
     CLS_dat__value__datatype = None
     CLS_dat__value__data = None
 
@@ -347,7 +347,7 @@ class Abs_DatValue(datCfg.DatUtility):
             self._nodeDatatypeObj = self.CLS_dat__value__datatype(_)
 
     def _value__set_data_build_(self, *args):
-        if isinstance(args[0], Abs_DatData):
+        if isinstance(args[0], AbsDatData):
             self._dataObj = args[0]
         else:
             self._dataObj = self.CLS_dat__value__data(
@@ -355,7 +355,7 @@ class Abs_DatValue(datCfg.DatUtility):
             )
 
     def _value__set_default_data_build_(self, *args):
-        if isinstance(args[0], Abs_DatData):
+        if isinstance(args[0], AbsDatData):
             self._defaultDataObj = self.MOD_copy.deepcopy(
                 args[0]
             )
@@ -458,7 +458,7 @@ class Abs_DatValue(datCfg.DatUtility):
 
 
 # xml document ******************************************************************************************************* #
-class Abs_DatXmlObj(object):
+class AbsDatXmlObj(object):
     VAR_dat__xml_obj__attribute_separator = u' '
 
     VAR_dat__xml_obj__element_prefix_str = u''
@@ -511,7 +511,7 @@ class Abs_DatXmlObj(object):
 
         def addAttributeFnc_(lis_, attributeArg_, lStr_, rStr_):
             if attributeArg_ is not None:
-                if isinstance(attributeArg_, Abs_DatXmlObj):
+                if isinstance(attributeArg_, AbsDatXmlObj):
                     # noinspection PyNoneFunctionAssignment
                     _attributeRaw = attributeArg_._xml_obj__get_attribute_attach_list_()
                 else:
@@ -520,7 +520,7 @@ class Abs_DatXmlObj(object):
                 if isinstance(_attributeRaw, (tuple, list)):
                     if _attributeRaw:
                         for _i in _attributeRaw:
-                            if isinstance(_i, Abs_DatXmlObj):
+                            if isinstance(_i, AbsDatXmlObj):
                                 addAttributeFnc_(lis_, _i, lStr_, rStr_)
                             else:
                                 k, v = _i

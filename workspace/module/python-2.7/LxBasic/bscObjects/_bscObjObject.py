@@ -2,7 +2,7 @@
 from..import bscObjAbs
 
 
-class ObjStack(bscObjAbs.Abs_BscObjStack):
+class ObjStack(bscObjAbs.AbsBscObjStack):
     def __init__(self, *args):
         self._initAbsBscObjStack(*args)
 
@@ -10,12 +10,12 @@ class ObjStack(bscObjAbs.Abs_BscObjStack):
         return obj.path()
 
 
-class Port(bscObjAbs.Abs_BscPort):
+class Port(bscObjAbs.AbsBscPort):
     def __init__(self, *args, **kwargs):
         self._initAbsBscPort(*args, **kwargs)
 
 
-class Node(bscObjAbs.Abs_BscNode):
+class Node(bscObjAbs.AbsBscNode):
     CLS_bsc__node__port = Port
     CLS_bsc__node__port_stack = ObjStack
 
@@ -23,7 +23,7 @@ class Node(bscObjAbs.Abs_BscNode):
         self._initAbsBscNode(*args, **kwargs)
 
 
-class DagTree(bscObjAbs.Abs_BscDagTree):
+class DagTree(bscObjAbs.AbsBscDagTree):
     CLS_bsc__node_tree__node = Node
     CLS_bsc__node_tree__node_stack = ObjStack
 

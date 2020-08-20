@@ -4,12 +4,12 @@ from LxScheme import shmCfg, shmObjAbs
 from LxScheme.shmObjects import _shmObjResource
 
 
-class ShareResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
+class ShareResourceBuilder(shmObjAbs.AbsShmRscBuilder):
     def __init__(self, *args):
         self._initAbsShmRscBuilder(*args)
 
 
-class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
+class WindowsResourceBuilder(shmObjAbs.AbsShmRscBuilder):
     def __init__(self, *args):
         self.VAR_shm__rsc__class_dict = {
             self.DEF_shm__rsc__category__plf_language: _shmObjResource.Rsc_PltLanguage,
@@ -329,7 +329,7 @@ class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
                 self.Key_Active: '1.2.4'
             },
             'package@windows-python-2.7-pyside2': {
-                self.Key_Record: ['2.0.0~alpha0'],
+                self.Key_Record: ['2.0.0~alpha0', '5.11.3'],
                 self.Key_Active: '2.0.0~alpha0'
             },
             'package@windows-python-2.7-materialx': {
@@ -595,11 +595,7 @@ class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
             # scheme > windows-maya
             'scheme@windows-maya-maya_default_0': {
                 u'LYNXI_PYTHONPATH': {
-                    self.Key_Value: '{self.sourcepath}/scripts',
-                    self.Key_Operate: u'+'
-                },
-                u'PYTHONPATH': {
-                    self.Key_Value: '{self.sourcepath}/scripts',
+                    self.Key_Value: '{self.sourcepath}/{self.name}/lynxi/maya/scripts/python',
                     self.Key_Operate: u'+'
                 }
             },
@@ -706,11 +702,6 @@ class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
                 }
             },
             'module@python-2.7-lx_gui_0': {
-                'PySide2': {
-                    self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_lng_package,
-                    self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
-                    self.DEF_shm__key__system: self.DEF_shm_keyword__system_active
-                },
                 'LxBasic': {
                     self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_lng_module,
                     self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
@@ -1019,6 +1010,12 @@ class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
                     self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
                     self.DEF_shm__key__system: self.DEF_shm_keyword__system_active
                 },
+                # package
+                'PyQt5': {
+                    self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_lng_package,
+                    self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
+                    self.DEF_shm__key__system: self.DEF_shm_keyword__system_active
+                },
                 # plug >  windows
                 'usd': {
                     self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_plug,
@@ -1168,7 +1165,7 @@ class WindowsResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
         # ).write(self._raw)
 
 
-class LinuxResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
+class LinuxResourceBuilder(shmObjAbs.AbsShmRscBuilder):
     def __init__(self, *args):
         self.VAR_shm__rsc__class_dict = {
             self.DEF_shm__rsc__category__plf_language: _shmObjResource.Rsc_PltLanguage,
@@ -1360,6 +1357,12 @@ class LinuxResourceBuilder(shmObjAbs.Abs_ShmRscBuilder):
                 },
                 'sublime_text': {
                     self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_language,
+                    self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
+                    self.DEF_shm__key__system: self.DEF_shm_keyword__system_active
+                },
+                # package
+                'PySide2': {
+                    self.DEF_shm__key__category: self.DEF_shm__rsc__category__plf_lng_package,
                     self.DEF_shm__key__version: self.DEF_shm_keyword__version_active,
                     self.DEF_shm__key__system: self.DEF_shm_keyword__system_active
                 },

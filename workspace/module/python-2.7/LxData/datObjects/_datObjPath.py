@@ -4,7 +4,7 @@ from .. import datCfg, datObjAbs
 from . import _datObjRaw
 
 
-class Typepath(datObjAbs.Abs_DatObjPath):
+class Typepath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.ObjTypename
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_type_pathsep
@@ -13,7 +13,7 @@ class Typepath(datObjAbs.Abs_DatObjPath):
         self._initAbsDatObjPath(*args)
 
 
-class Portpath(datObjAbs.Abs_DatObjPath):
+class Portpath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.ObjName
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_port_pathsep
@@ -22,7 +22,7 @@ class Portpath(datObjAbs.Abs_DatObjPath):
         self._initAbsDatObjPath(*args)
 
 
-class Nodepath(datObjAbs.Abs_DatObjPath):
+class Nodepath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.ObjName
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_pathsep
@@ -31,7 +31,7 @@ class Nodepath(datObjAbs.Abs_DatObjPath):
         self._initAbsDatObjPath(*args)
 
 
-class Attrpath(datObjAbs.Abs_DatObjComppath):
+class Attrpath(datObjAbs.AbsDatObjComppath):
     CLS_dat__comppath__nodepath = Nodepath
     CLS_dat__comppath__portpath = Portpath
 
@@ -39,7 +39,7 @@ class Attrpath(datObjAbs.Abs_DatObjComppath):
         self._initAbsDatObjComppath(*args)
 
 
-class Filepath(datObjAbs.Abs_DatObjPath):
+class Filepath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.Filename
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__file_pathsep

@@ -15,7 +15,7 @@ class Sys_Python27(shmCfg.ShmUtility):
         return '2.7'
 
 
-class Sys_Platform(shmObjAbs.Abs_ShmSystem):
+class Sys_Platform(shmObjAbs.AbsShmSystem):
     VAR_shm__system__category = shmCfg.ShmUtility.DEF_shm__rsc__category__platform
     VAR_shm__system__raw_key = shmCfg.ShmUtility.Key_Platform
 
@@ -42,7 +42,7 @@ class Sys_Platform(shmObjAbs.Abs_ShmSystem):
         return Sys_Python27()
 
 
-class Sys_PltLanguage(shmObjAbs.Abs_ShmSystem):
+class Sys_PltLanguage(shmObjAbs.AbsShmSystem):
     CLS_shm__system = Sys_Platform
 
     VAR_shm__system__category = shmCfg.ShmUtility.DEF_shm__rsc__category__plf_language
@@ -83,7 +83,7 @@ class Sys_PltLanguage(shmObjAbs.Abs_ShmSystem):
         )
 
 
-class Sys_PltApplication(shmObjAbs.Abs_ShmSystem):
+class Sys_PltApplication(shmObjAbs.AbsShmSystem):
     CLS_shm__system = Sys_Platform
 
     VAR_shm__system__category = shmCfg.ShmUtility.DEF_shm__rsc__category__plf_application
@@ -129,7 +129,7 @@ class Sys_PltApplication(shmObjAbs.Abs_ShmSystem):
         )
 
 
-class Sys_PltAppLanguage(shmObjAbs.Abs_ShmSystem):
+class Sys_PltAppLanguage(shmObjAbs.AbsShmSystem):
     CLS_shm__system = Sys_PltApplication
 
     VAR_shm__system__category = shmCfg.ShmUtility.DEF_shm__rsc__category__plf_lng_language

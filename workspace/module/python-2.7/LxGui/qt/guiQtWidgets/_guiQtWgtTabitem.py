@@ -6,7 +6,7 @@ from ..guiQtModels import _guiQtMdlTabitem
 from ..guiQtWidgets import _guiQtWgtBasic, _guiQtWgtItem
 
 
-class QtTabbutton(guiQtWgtAbs.Abs_GuiQtTabitemWgt):
+class QtTabbutton(guiQtWgtAbs.AbsGuiQtTabitemWgt):
     CLS_gui_qt__tabitem_wgt__model = _guiQtMdlTabitem._QtButtontabModel
 
     CLS_gui_qt__tabitem_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -38,7 +38,7 @@ class QtTabbutton(guiQtWgtAbs.Abs_GuiQtTabitemWgt):
         self._itemModel = self.CLS_gui_qt__tabitem_wgt__model(self)
 
 
-class QtShelfTabbutton(guiQtWgtAbs.Abs_GuiQtTabitemWgt):
+class QtShelfTabbutton(guiQtWgtAbs.AbsGuiQtTabitemWgt):
     CLS_gui_qt__tabitem_wgt__model = _guiQtMdlTabitem._QtShelftabModel
 
     CLS_gui_qt__tabitem_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton

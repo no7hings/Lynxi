@@ -2,13 +2,13 @@
 from LxGui.qt import qtCore, guiQtMdlAbs
 
 
-class QtButtonTabbarModel(guiQtMdlAbs.Abs_GuiQtTabbarWgtModel):
+class QtButtonTabbarModel(guiQtMdlAbs.AbsGuiQtTabbarWgtModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
 
 
 # Tab Bar
-class QtShelfTabbarModel(guiQtMdlAbs.Abs_GuiQtTabbarWgtModel):
+class QtShelfTabbarModel(guiQtMdlAbs.AbsGuiQtTabbarWgtModel):
     def __init__(self, widget):
         self._initTabBarModelBasic(widget)
         #
@@ -143,13 +143,13 @@ class QtShelfTabbarModel(guiQtMdlAbs.Abs_GuiQtTabbarWgtModel):
 
 
 # Tab View
-class QtButtonTabGroupModel(guiQtMdlAbs.Abs_GuiQtTabgroupMdl):
+class QtButtonTabGroupModel(guiQtMdlAbs.AbsGuiQtTabgroupMdl):
     def __init__(self, widget):
         self._initAbsGuiQtTabgroupMdl(widget)
 
 
 #
-class QtShelfTabGroupModel(guiQtMdlAbs.Abs_GuiQtTabgroupMdl):
+class QtShelfTabGroupModel(guiQtMdlAbs.AbsGuiQtTabgroupMdl):
     def __init__(self, widget):
         self._initAbsGuiQtTabgroupMdl(widget)
     #

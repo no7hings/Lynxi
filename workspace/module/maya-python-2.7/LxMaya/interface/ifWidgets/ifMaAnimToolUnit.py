@@ -48,7 +48,7 @@ none = ''
 
 
 #
-class IfScRigLoadedUnit(kitQtWgtAbs.Abs_KitQtWgtUnit_):
+class IfScRigLoadedUnit(kitQtWgtAbs.AbsKitQtWgtUnit_):
     VAR_kit__qt_wgt__unit__uiname = 'Asset Rig Load'
     VAR_kit__qt_wgt__unit__side_width = 320
     #

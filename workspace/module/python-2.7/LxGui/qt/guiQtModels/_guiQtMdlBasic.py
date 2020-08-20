@@ -2,30 +2,30 @@
 from .. import guiQtMdlAbs, qtCore
 
 
-class QtItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
 
 
-class QtIconbuttonModel(guiQtMdlAbs.Abs_GuiQtIconbuttonMdl):
+class QtIconbuttonModel(guiQtMdlAbs.AbsGuiQtIconbuttonMdl):
     def __init__(self, *args):
         self._initAbsGuiQtIconbuttonMdl(*args)
 
 
 # Text Brower Model
-class QtTextbrowerModel(guiQtMdlAbs.Abs_GuiQtTextbrowerMdl):
+class QtTextbrowerModel(guiQtMdlAbs.AbsGuiQtTextbrowerMdl):
     def __init__(self, widget):
         self._initAbsGuiQtTextbrowerMdl(widget)
 
 
-class QtActionViewportModel(guiQtMdlAbs.Abs_GuiQtActionViewportMdl):
+class QtActionViewportModel(guiQtMdlAbs.AbsGuiQtActionViewportMdl):
     CLS_gui_qt__mdl_obj__rect = qtCore.QtCore.QRect
 
     def __init__(self, *args):
         self._initAbsQtActionDropviewMdl(*args)
 
 
-class QtEnablebuttonModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtEnablebuttonModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -84,7 +84,7 @@ class QtEnablebuttonModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
             self._updateQtCheckStyle()
 
 
-class QtCheckbuttonModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtCheckbuttonModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -201,7 +201,7 @@ class QtCheckbuttonModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 # Filter Enter Label Model
-class QtFilterLineModel(guiQtMdlAbs.Abs_GuiQtFilterLineMdl):
+class QtFilterLineModel(guiQtMdlAbs.AbsGuiQtFilterLineMdl):
     CLS_gui_qt__mdl_obj__line = qtCore.QtCore.QLine
     CLS_gui_qt__mdl_obj__rect = qtCore.QtCore.QRect
 

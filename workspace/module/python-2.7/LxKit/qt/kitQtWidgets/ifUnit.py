@@ -82,7 +82,7 @@ class IfAstModelRadarUnit(qtCore.QWidget):
         layout.addWidget(self._astModelRadarChart)
 
 
-class IfScIndexManagerUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfScIndexManagerUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     W = 120
 
     ConfigUiDic = {
@@ -616,7 +616,7 @@ class IfScIndexManagerUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self.setupRightBox(rightScrollBox)
 
 
-class IfScCacheManagerUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfScCacheManagerUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self):
         super(IfScCacheManagerUnit, self).__init__()
         self._initAbsKitQtWgtUnit()
@@ -970,7 +970,7 @@ class IfScCacheManagerUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self.meshEvaluateBox.setDef()
 
 
-class IfProductUnitRegisterUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfProductUnitRegisterUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self):
         super(IfProductUnitRegisterUnit, self).__init__()
         self._initAbsKitQtWgtUnit()
@@ -1026,7 +1026,7 @@ class IfProductUnitRegisterUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self._kit__unit__set_central_build_(self._centralScrollLayout)
 
 
-class IfProductUnitRecordUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfProductUnitRecordUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     w = 80
     dicMain = {
         0: 'Date',
@@ -1239,7 +1239,7 @@ class IfProductUnitRecordUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self.setupMainToolUiBox(self._mainToolBox)
 
 
-class IfProductUnitRecordUnit_(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfProductUnitRecordUnit_(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self, *args, **kwargs):
         super(IfProductUnitRecordUnit_, self).__init__(*args, **kwargs)
         self._initAbsKitQtWgtUnit()
@@ -1247,7 +1247,7 @@ class IfProductUnitRecordUnit_(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self._kit__unit__set_build_()
 
 
-class QtIf_ProjectOverviewUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class QtIf_ProjectOverviewUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self):
         super(QtIf_ProjectOverviewUnit, self).__init__()
         self._initAbsKitQtWgtUnit()
@@ -1568,7 +1568,7 @@ class QtIf_ProjectOverviewUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self.setupRightWidget(rightScrollBox)
 
 
-class IfPersonnelRegisterUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfPersonnelRegisterUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     tips = [
         u"提示：",
         u"1：输入 中文名（ CH - Name ） ；",
@@ -1733,7 +1733,7 @@ class IfPersonnelRegisterUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self._kit__unit__set_central_build_(layout)
 
 
-class IfPersonnelOverviewUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfPersonnelOverviewUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self):
         super(IfPersonnelOverviewUnit, self).__init__()
         self._initAbsKitQtWgtUnit()
@@ -1826,7 +1826,7 @@ class IfPersonnelOverviewUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self._kit__unit__set_central_build_(layout)
 
 
-class IfToolkitUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfToolkitUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     UnitConnectLinks = [
     ]
 
@@ -2050,7 +2050,7 @@ class IfToolkitUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
         self._kit__unit__set_central_build_(centralLayout)
 
 
-class QtIf_SystemInformationUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class QtIf_SystemInformationUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     def __init__(self):
         super(QtIf_SystemInformationUnit, self).__init__()
         self._initAbsKitQtWgtUnit()

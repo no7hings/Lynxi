@@ -10,7 +10,7 @@ none = ''
 
 
 # Item
-class Abs_GuiQtItemObj(guiQtObjItf.Itf_GuiQtItemDef):
+class AbsGuiQtItemObj(guiQtObjItf.ItfGuiQtItemDef):
     def _initAbsGuiQtItemObj(self):
         self._initGuiQtItemDef()
         #
@@ -871,7 +871,7 @@ class Abs_GuiQtItemObj(guiQtObjItf.Itf_GuiQtItemDef):
 
 
 # Enter Item
-class Abs_GuiQtValueLineObj(guiQtObjItf.Itf_GuiQtItemDef):
+class AbsGuiQtValueLineObj(guiQtObjItf.ItfGuiQtItemDef):
     def _initAbsGuiQtValueLineObj(self):
         self._initGuiQtItemDef()
         #
@@ -1169,7 +1169,7 @@ class Abs_GuiQtValueLineObj(guiQtObjItf.Itf_GuiQtItemDef):
 
 
 # Value Enter Item
-class Abs_GuiQtValueArrayLineObj(guiQtObjItf.Itf_GuiQtItemDef):
+class AbsGuiQtValueArrayLineObj(guiQtObjItf.ItfGuiQtItemDef):
     def _initAbsGuiQtValueArrayLineObj(self):
         self._initGuiQtItemDef()
         #
@@ -1389,7 +1389,7 @@ class Abs_GuiQtValueArrayLineObj(guiQtObjItf.Itf_GuiQtItemDef):
 
 
 # View
-class Abs_QtViewObj(guiQtObjItf.Itf_QtViewModel):
+class AbsQtViewObj(guiQtObjItf.ItfQtViewModel):
     def _initAbsGuiQtViewObj(self):
         self._initDefViewModel()
         #
@@ -2503,7 +2503,7 @@ class Abs_QtViewObj(guiQtObjItf.Itf_QtViewModel):
 
 
 # Group
-class Abs_GuiQtGroupObj(guiQtObjItf.Itf_GuiQtGroupObj):
+class AbsGuiQtGroupObj(guiQtObjItf.ItfGuiQtGroupObj):
     def _initAbsGuiQtGroupObj(self):
         self._initGuiQtGroupDef()
     #
@@ -2512,7 +2512,7 @@ class Abs_GuiQtGroupObj(guiQtObjItf.Itf_GuiQtGroupObj):
 
 
 # Scroll Bar
-class Abs_QtScrollbarObj(guiQtObjItf.Itf_QtScrollbarWidget):
+class AbsQtScrollbarObj(guiQtObjItf.ItfQtScrollbarWidget):
     def _initAbsQtScrollbarObj(self):
         self._initDefScrollbarWidget()
     #
@@ -3063,7 +3063,7 @@ class Abs_QtScrollbarObj(guiQtObjItf.Itf_QtScrollbarWidget):
 
 
 # Scroll Area
-class Abs_QtScrollareaObj(guiQtObjItf.Itf_QtScrollareaWidget):
+class AbsQtScrollareaObj(guiQtObjItf.ItfQtScrollareaWidget):
     def _initAbsQtScrollareaObj(self):
         self._initDefScrollarea()
         #
@@ -3113,7 +3113,7 @@ class Abs_QtScrollareaObj(guiQtObjItf.Itf_QtScrollareaWidget):
 
 
 # Action Drop View
-class Abs_GuiQtActionViewportObj(guiQtObjItf.Itf_GuiQtObjDef):
+class AbsGuiQtActionViewportObj(guiQtObjItf.ItfGuiQtObjDef):
     def _initAbsQtActionDropviewObj(self):
         self._initItfGuiQtObjDef()
         #
@@ -3787,7 +3787,7 @@ class Abs_GuiQtActionViewportObj(guiQtObjItf.Itf_GuiQtObjDef):
 
 
 # Choose Window
-class Abs_GuiQtChooseWindowObj(guiQtObjItf.Itf_GuiQtObjDef):
+class AbsGuiQtChooseWindowObj(guiQtObjItf.ItfGuiQtObjDef):
     def _initAbsGuiQtChooseWindowObj(self):
         self._initItfGuiQtObjDef()
         #
@@ -4016,7 +4016,7 @@ class Abs_GuiQtChooseWindowObj(guiQtObjItf.Itf_GuiQtObjDef):
 
 
 #
-class QtAbc_TabitemModel(guiQtObjItf.Itf_GuiQtItemDef):
+class QtAbc_TabitemModel(guiQtObjItf.ItfGuiQtItemDef):
     def _initAbcTabitemModel(self):
         self._initGuiQtItemDef()
         self._initAbcTabitemModelAttr()
@@ -4069,8 +4069,8 @@ class QtAbc_TabitemModel(guiQtObjItf.Itf_GuiQtItemDef):
 
 # Tab Bar
 class QtAbc_TabbarModel(
-    guiQtObjItf.Itf_QtViewModel,
-    guiQtObjItf.Itf_QtTabbarWidget,
+    guiQtObjItf.ItfQtViewModel,
+    guiQtObjItf.ItfQtTabbarWidget,
 ):
     def _initAbcTabbarModel(self):
         self._initDefViewModel()
@@ -4126,13 +4126,13 @@ class QtAbc_TabbarModel(
 
 
 # Tab View
-class Abs_GuiQtTabviewObj(guiQtObjItf.Itf_GuiQtTabviewObj):
+class AbsGuiQtTabviewObj(guiQtObjItf.ItfGuiQtTabviewObj):
     def _initAbsGuiQtTabviewObj(self):
         self._initDefTabviewWidget()
 
 
 # Window
-class Abs_GuiQtWindowObj(guiQtObjItf.Itf_GuiQtWindowObj):
+class AbsGuiQtWindowObj(guiQtObjItf.ItfGuiQtWindowObj):
     def _initAbsGuiQtWindowObj(self):
         self._initDefWindowModel()
         #
@@ -4274,7 +4274,7 @@ class Abs_GuiQtWindowObj(guiQtObjItf.Itf_GuiQtWindowObj):
 
 
 #
-class Abs_GuiQtChartObj(guiQtObjItf.Itf_QtPressDef):
+class AbsGuiQtChartObj(guiQtObjItf.ItfQtPressDef):
     def _initAbsGuiQtChartObj(self):
         self._initItfQtPressDef()
         #

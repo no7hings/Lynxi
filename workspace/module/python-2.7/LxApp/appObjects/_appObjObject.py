@@ -4,7 +4,7 @@ from LxBasic import bscObjAbs, bscObjects
 from .. import appCfg, appObjAbs
 
 
-class AppToolStack(appObjAbs.Abs_AppObjStack):
+class AppToolStack(appObjAbs.AbsAppObjStack):
     def __init__(self, *args):
         self._initAbsAppObjStack(*args)
 
@@ -12,7 +12,7 @@ class AppToolStack(appObjAbs.Abs_AppObjStack):
         return obj.path
 
 
-class AppTagObj(bscObjAbs.Abs_BscNode):
+class AppTagObj(bscObjAbs.AbsBscNode):
     CLS_bsc__node__port = bscObjects.Port
     CLS_bsc__node__port_stack = bscObjects.ObjStack
 
@@ -22,7 +22,7 @@ class AppTagObj(bscObjAbs.Abs_BscNode):
         self._initAbsBscNode(*args, **kwargs)
 
 
-class AppTagTree(bscObjAbs.Abs_BscDagTree):
+class AppTagTree(bscObjAbs.AbsBscDagTree):
     CLS_bsc__node_tree__node = AppTagObj
     CLS_bsc__node_tree__node_stack = bscObjects.ObjStack
 

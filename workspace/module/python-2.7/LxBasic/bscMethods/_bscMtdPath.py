@@ -5,7 +5,7 @@ from LxBasic.bscMethods import _bscMtdPython, _bscMtdSystem
 
 
 class OsPath(bscMtdCore.Mtd_BscPath):
-    separator_path = bscCfg.BscUtility.DEF_bsc__pathsep
+    separator_path = bscCfg.BscUtility.DEF_bsc__os__pathsep
     @classmethod
     def composeBy(cls, *args):
         return cls._toOsPathString(*args)
@@ -35,7 +35,7 @@ class OsPath(bscMtdCore.Mtd_BscPath):
 
     @classmethod
     def cleanupTo(cls, pathString):
-        pathsep = cls.DEF_bsc__pathsep
+        pathsep = cls.DEF_bsc__os__pathsep
         _ = pathString.replace('\\', pathsep)
         if _bscMtdSystem.LinuxPlatform.isActive():
             return pathsep + pathsep.join([i for i in _.split(pathsep) if i])

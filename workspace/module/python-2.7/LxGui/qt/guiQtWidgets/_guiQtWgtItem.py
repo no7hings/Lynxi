@@ -648,7 +648,7 @@ class QtMessageWidget(qtCore.QWidget):
 
 
 #
-class QtFilterCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtFilterCheckbutton(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtFilterCheckviewItemModel
 
     itemSize = 20, 20
@@ -790,7 +790,7 @@ class QtFilterCheckbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
 
 
 #
-class QtValueArrayLine(guiQtWgtAbs.Abs_GuiQtValueArrayLineWgt):
+class QtValueArrayLine(guiQtWgtAbs.AbsGuiQtValueArrayLineWgt):
     CLS_gui_qt__value_array_line_wgt__line_edit = _guiQtWgtBasic.QtLineEdit_
 
     def __init__(self, *args, **kwargs):
@@ -805,7 +805,7 @@ class QtValueArrayLine(guiQtWgtAbs.Abs_GuiQtValueArrayLineWgt):
 
 
 # value
-class QtValueLine(guiQtWgtAbs.Abs_GuiQtValueLineWgt):
+class QtValueLine(guiQtWgtAbs.AbsGuiQtValueLineWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtValueLineModel
 
     CLS_gui_qt__value_line_wgt__line_edit = _guiQtWgtBasic.QtLineEdit_
@@ -831,7 +831,7 @@ class QtValueLine(guiQtWgtAbs.Abs_GuiQtValueLineWgt):
         pass
 
 
-class QtValueBox(guiQtWgtAbs.Abs_GuiQtValueLineWgt):
+class QtValueBox(guiQtWgtAbs.AbsGuiQtValueLineWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtValueLineModel
 
     CLS_gui_qt__value_line_wgt__iconbutton = _guiQtWgtBasic.QtIconbutton
@@ -856,7 +856,7 @@ class QtValueBox(guiQtWgtAbs.Abs_GuiQtValueLineWgt):
 
 
 #
-class QtPressbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtPressbutton(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtPressbuttonModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):
@@ -1058,7 +1058,7 @@ class QtPressbutton(guiQtWgtAbs.Abs_GuiQtItemWgt):
 
 
 #
-class QtTreeItem(guiQtWgtAbs.Abs_GuiQtTreeitemWgt):
+class QtTreeItem(guiQtWgtAbs.AbsGuiQtTreeitemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtTreeItemModel
 
     def __init__(self, *args, **kwargs):
@@ -1082,7 +1082,7 @@ class QtTreeItem(guiQtWgtAbs.Abs_GuiQtTreeitemWgt):
 
 
 #
-class QtGridViewitem(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtGridViewitem(guiQtWgtAbs.AbsGuiQtItemWgt):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
             self._clsSuper = super(qtCore.QWidget, self)
@@ -1264,7 +1264,7 @@ class QtGridViewitem(guiQtWgtAbs.Abs_GuiQtItemWgt):
 
 
 #
-class QtPresetviewItem(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtPresetviewItem(guiQtWgtAbs.AbsGuiQtItemWgt):
     indexChanged = qtCore.qtSignal()
     setChanged = qtCore.qtSignal()
     def __init__(self, *args, **kwargs):
@@ -1516,7 +1516,7 @@ class QtPresetviewItem(guiQtWgtAbs.Abs_GuiQtItemWgt):
 
 
 #
-class QtRecordviewItemItem(guiQtWgtAbs.Abs_GuiQtItemWgt):
+class QtRecordviewItemItem(guiQtWgtAbs.AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtRecordviewItemItemModel
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
@@ -1596,7 +1596,7 @@ class QtRecordviewItemItem(guiQtWgtAbs.Abs_GuiQtItemWgt):
 
 
 #
-class QtTextbrower(guiQtWgtAbs.Abs_GuiQtTextbrowerWgt):
+class QtTextbrower(guiQtWgtAbs.AbsGuiQtTextbrowerWgt):
     CLS_gui_qt__text_brower_wgt__model = _guiQtMdlBasic.QtTextbrowerModel
 
     CLS_gui_qt__mdl_textbrower__filter_line = _guiQtWgtBasic.QtFilterLine

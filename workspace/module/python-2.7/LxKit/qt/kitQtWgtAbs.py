@@ -13,9 +13,9 @@ none = ''
 
 
 #
-class Abs_KitQtWgtShelf(
+class AbsKitQtWgtShelf(
     guiQtWidgets.QtVShelfTabgroup,
-    kitQtObjAbs.Abs_KitQtShelfObj
+    kitQtObjAbs.AbsKitQtShelfObj
 ):
     ShelfWidth = 800
     VAR_kit__qt_wgt__unit__side_width = 320
@@ -54,9 +54,9 @@ class Abs_KitQtWgtShelf(
 
 
 #
-class Abs_KitQtWgtGroup(
+class AbsKitQtWgtGroup(
     guiQtWidgets.QtHShelfTabgroup,
-    kitQtObjAbs.Abs_KitQtGroupObj
+    kitQtObjAbs.AbsKitQtGroupObj
 ):
     GroupWidth = 800
     VAR_kit__qt_wgt__unit__side_width = 320
@@ -98,9 +98,9 @@ class Abs_KitQtWgtGroup(
 
 
 #
-class Abs_KitQtWgtUnit_(
+class AbsKitQtWgtUnit_(
     qtCore.QWidget__,
-    kitQtObjAbs.Abs_KitQtUnitObj
+    kitQtObjAbs.AbsKitQtUnitObj
 ):
     VAR_kit__qt_wgt__unit__side_width = 320
     def _initAbsKitQtWgtUnit(self):
@@ -257,9 +257,9 @@ class Abs_KitQtWgtUnit_(
 
 
 #
-class Abs_KitQtWgtUnit(
+class AbsKitQtWgtUnit(
     qtCore.QWidget__,
-    kitQtObjAbs.Abs_KitQtUnitObj
+    kitQtObjAbs.AbsKitQtUnitObj
 ):
     VAR_kit__qt_wgt__unit__side_width = 240
     def _initAbsKitQtWgtUnit(self):
@@ -415,7 +415,7 @@ class Abs_KitQtWgtUnit(
 #
 class IfOverviewUnitBasic(
     qtCore.QWidget__,
-    kitQtObjAbs.Abs_KitQtUnitObj
+    kitQtObjAbs.AbsKitQtUnitObj
 ):
     VAR_kit__qt_wgt__unit__side_width = 320
     def _initOverviewUnitBasic(self):
@@ -512,7 +512,7 @@ class IfOverviewUnitBasic(
 #
 class IfProductUnitOverviewUnitBasic(
     qtCore.QWidget__,
-    kitQtObjAbs.Abs_KitQtUnitObj
+    kitQtObjAbs.AbsKitQtUnitObj
 ):
     VAR_kit__qt_wgt__unit__side_width = 320
     def _initOverviewUnitBasic(self):
@@ -820,7 +820,7 @@ class IfProductUnitOverviewUnitBasic(
 #
 class IfProductToolUnitBasic(
     qtCore.QWidget__,
-    kitQtObjAbs.Abs_KitQtUnitObj
+    kitQtObjAbs.AbsKitQtUnitObj
 ):
     pass
 
@@ -885,7 +885,7 @@ class IfToolUnitBasic(
 
 
 # custom tool unit *************************************************************************************************** #
-class Abs_KitQtCustomToolUnitWgt(qtCore.QWidget__):
+class AbsKitQtCustomToolUnitWgt(qtCore.QWidget__):
     CLS_kit__qt__custom_unit__model = None
 
     def _initAbsKitQtCustomToolUnitWgt(self, *args):

@@ -8,12 +8,12 @@ from .. import usdObjAbs
 from ..usdObjects import _usdObjRaw, _usdObjQuery
 
 
-class Connector(usdObjAbs.Abs_UsdConnector):
+class Connector(usdObjAbs.AbsUsdConnector):
     def __init__(self, *args):
         self._initAbsUsdConnector(*args)
 
 
-class Gnport(usdObjAbs.Abs_UsdPort):
+class Gnport(usdObjAbs.AbsUsdPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -33,7 +33,7 @@ class Gnport(usdObjAbs.Abs_UsdPort):
         self._initAbsUsdPort(*args)
 
 
-class Inport(usdObjAbs.Abs_UsdPort):
+class Inport(usdObjAbs.AbsUsdPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -53,7 +53,7 @@ class Inport(usdObjAbs.Abs_UsdPort):
         self._initAbsUsdPort(*args)
 
 
-class Otport(usdObjAbs.Abs_UsdPort):
+class Otport(usdObjAbs.AbsUsdPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 
@@ -73,7 +73,7 @@ class Otport(usdObjAbs.Abs_UsdPort):
         self._initAbsUsdPort(*args)
 
 
-class Asport(usdObjAbs.Abs_UsdPort):
+class Asport(usdObjAbs.AbsUsdPort):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

@@ -433,7 +433,7 @@ class xGraphConnectionItem(qtCore.QWidget):
 
 
 #
-class xGraphAttributePortItem(guiQtWgtAbs.Abs_GuiQtViewWgt):
+class xGraphAttributePortItem(guiQtWgtAbs.AbsGuiQtViewWgt):
     def __init__(self, *args, **kwargs):
         if qtCore.LOAD_INDEX is 0:
             self._clsSuper = super(qtCore.QWidget, self)

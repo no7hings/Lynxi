@@ -2,7 +2,7 @@
 from .. import mtxCfg, mtxObjAbs
 
 
-class GeometryProxySet(mtxObjAbs.Abs_MtxObjSet):
+class GeometryProxySet(mtxObjAbs.AbsMtxObjSet):
     VAR_grh__obj_stack__objsep = mtxCfg.MtxUtility.DEF_mtx__data_separator
 
     VAR_dat__xml_obj__attribute_attach_str = u'geom'
@@ -14,7 +14,7 @@ class GeometryProxySet(mtxObjAbs.Abs_MtxObjSet):
         return obj.bindPathString()
 
 
-class ViewerGeometrySet(mtxObjAbs.Abs_MtxObjSet):
+class ViewerGeometrySet(mtxObjAbs.AbsMtxObjSet):
     VAR_grh__obj_stack__objsep = mtxCfg.MtxUtility.DEF_mtx__data_separator
 
     VAR_dat__xml_obj__attribute_attach_str = u'viewergeom'

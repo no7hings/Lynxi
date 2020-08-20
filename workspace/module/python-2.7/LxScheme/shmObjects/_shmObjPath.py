@@ -4,7 +4,7 @@ from LxBasic import bscCfg
 from .. import shmCfg, shmObjAbs
 
 
-class Pth_Root(shmObjAbs.Abs_ShmRoot):
+class Pth_Root(shmObjAbs.AbsShmRoot):
     DEF_shm__root__key_local = bscCfg.BscUtility.DEF_util__environ_key__path_local
     DEF_shm__root__key_develop = bscCfg.BscUtility.DEF_util__environ_key__path_develop
     DEF_shm__root__key_product = bscCfg.BscUtility.DEF_util__environ_key__path_product
@@ -28,7 +28,7 @@ class Pth_Root(shmObjAbs.Abs_ShmRoot):
         return self._shm__path__get_develop_path_str_()
 
 
-class Pth_IconRoot(shmObjAbs.Abs_ShmRoot):
+class Pth_IconRoot(shmObjAbs.AbsShmRoot):
     DEF_shm__root__key_local = bscCfg.BscUtility.DEF_util__environ_key__path_local
     DEF_shm__root__key_develop = bscCfg.BscUtility.DEF_util__environ_key__path_develop
     DEF_shm__root__key_product = bscCfg.BscUtility.DEF_util__environ_key__path_product
@@ -52,7 +52,7 @@ class Pth_IconRoot(shmObjAbs.Abs_ShmRoot):
         return self._shm__path__get_develop_path_str_()
 
 
-class Pth_PresetRoot(shmObjAbs.Abs_ShmRoot):
+class Pth_PresetRoot(shmObjAbs.AbsShmRoot):
     DEF_shm__root__key_local = bscCfg.BscUtility.DEF_util__environ_key__path_local
     DEF_shm__root__key_develop = bscCfg.BscUtility.DEF_util__environ_key__path_develop
     DEF_shm__root__key_product = shmCfg.ShmUtility.DEF_util__environ_key__path_preset
@@ -74,7 +74,7 @@ class Pth_PresetRoot(shmObjAbs.Abs_ShmRoot):
         return self._shm__path__get_develop_path_str_()
 
 
-class Pth_KitRoot(shmObjAbs.Abs_ShmRoot):
+class Pth_KitRoot(shmObjAbs.AbsShmRoot):
     DEF_shm__root__key_local = bscCfg.BscUtility.DEF_util__environ_key__path_local
     DEF_shm__root__key_develop = bscCfg.BscUtility.DEF_util__environ_key__path_develop
     DEF_shm__root__key_product = shmCfg.ShmUtility.DEF_util__environ_key__path_kit
@@ -98,14 +98,14 @@ class Pth_KitRoot(shmObjAbs.Abs_ShmRoot):
         return self._shm__path__get_develop_path_str_()
 
 
-class OsDirectory(shmObjAbs.Abs_ShmDirectory):
+class OsDirectory(shmObjAbs.AbsShmDirectory):
     CLS_shm__root = Pth_Root
 
     def __init__(self, *args):
         self._initAbsShmDirectory(*args)
 
 
-class Pth_IconDirectory(shmObjAbs.Abs_ShmDirectory):
+class Pth_IconDirectory(shmObjAbs.AbsShmDirectory):
     CLS_shm__root = Pth_IconRoot
 
     def __init__(self):

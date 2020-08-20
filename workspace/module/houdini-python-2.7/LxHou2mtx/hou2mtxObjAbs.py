@@ -8,11 +8,11 @@ from LxMtx import mtxObjAbs
 from . import hou2mtxCfg
 
 
-class Abs_Hou2mtxBasic(hou2mtxCfg.Hou2mtxUtility):
+class AbsHou2mtxBasic(hou2mtxCfg.Hou2mtxUtility):
     pass
 
 
-class Abs_Hou2mtxTrsObjLoader(grhObjAbs.Abs_GrhTrsObjLoader):
+class AbsHou2mtxTrsObjLoader(grhObjAbs.AbsGrhTrsObjLoader):
     def _initAbsHou2mtxTrsObjLoader(self, *args):
         pass
 
@@ -150,7 +150,7 @@ class Abs_Hou2mtxTrsObjLoader(grhObjAbs.Abs_GrhTrsObjLoader):
         return out_node_raw_dict
 
 
-class Abs_Hou2mtxObjQueryrawCreator(grhObjAbs.Abs_GrhTrsObjQueryrawCreator):
+class AbsHou2mtxObjQueryrawCreator(grhObjAbs.AbsGrhTrsObjQueryrawCreator):
     def _initAbsHou2mtxObjQueryrawCreator(self, *args):
         self._initAbsGrhTrsObjQueryrawCreator(*args)
 
@@ -190,28 +190,28 @@ class Abs_Hou2mtxObjQueryrawCreator(grhObjAbs.Abs_GrhTrsObjQueryrawCreator):
 
 
 # ******************************************************************************************************************** #
-class Abs_Hou2mtxObjTranslator(grhObjAbs.Abs_GrhObjTranslator):
+class AbsHou2mtxObjTranslator(grhObjAbs.AbsGrhObjTranslator):
     def _initAbsHou2mtxObjTranslator(self, *args):
         self._initAbsGrhObjTranslator(*args)
 
 
-class Abs_Hou2mtxNode(grhObjAbs.Abs_GrhTrsNode):
+class AbsHou2mtxNode(grhObjAbs.AbsGrhTrsNode):
     def _initAbsHou2mtxNode(self, *args):
         self._initAbsGrhTrsNode(*args)
 
 
 # node proxy ********************************************************************************************************* #
-class Abs_Hou2mtxShaderProxy(grhObjAbs.Abs_GrhTrsShaderProxy):
+class AbsHou2mtxShaderProxy(grhObjAbs.AbsGrhTrsShaderProxy):
     def _initAbsHou2mtxShaderProxy(self, *args, **kwargs):
         self._initAbsGrhTrsShaderProxy(*args, **kwargs)
 
 
-class Abs_Hou2mtxMaterialProxy(grhObjAbs.Abs_GrhTrsMaterialProxy):
+class AbsHou2mtxMaterialProxy(grhObjAbs.AbsGrhTrsMaterialProxy):
     def _initAbsHou2mtxMaterialProxy(self, *args, **kwargs):
         self._initAbsGrhTrsMaterialProxy(*args, **kwargs)
 
 
-class Abs_Hou2mtxGeometryProxy(grhObjAbs.Abs_GrhTrsGeometryProxy):
+class AbsHou2mtxGeometryProxy(grhObjAbs.AbsGrhTrsGeometryProxy):
     def _initAbsHou2mtxGeometryProxy(self, *args, **kwargs):
         self._initAbsGrhTrsGeometryProxy(*args, **kwargs)
 
@@ -233,7 +233,7 @@ class Abs_Hou2mtxGeometryProxy(grhObjAbs.Abs_GrhTrsGeometryProxy):
 
 
 # element ************************************************************************************************************ #
-class Abs_Hou2mtxLook(mtxObjAbs.Abs_MtxTrsLook):
+class AbsHou2mtxLook(mtxObjAbs.AbsMtxTrsLook):
     def _initAbsHou2mtxLook(self, *args):
         self._initAbsMtxTrsLook(*args)
 
@@ -245,6 +245,6 @@ class Abs_Hou2mtxLook(mtxObjAbs.Abs_MtxTrsLook):
             self.addSrcGeometry(srcGeometryPathStr)
 
 
-class Abs_Hou2mtxFile(mtxObjAbs.Abs_MtxTrsFile):
+class AbsHou2mtxFile(mtxObjAbs.AbsMtxTrsFile):
     def _initAbsHou2mtxFile(self, *args):
         self._initAbsMtxTrsFile(*args)

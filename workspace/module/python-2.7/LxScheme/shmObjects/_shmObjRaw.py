@@ -2,7 +2,7 @@
 from .. import shmObjAbs
 
 
-class RscVersionRaw(shmObjAbs.Abs_ShmRaw):
+class RscVersionRaw(shmObjAbs.AbsShmRaw):
     def __init__(self, raw=None):
         self._initAbsShmRaw(
             raw,
@@ -42,7 +42,7 @@ class RscVersionRaw(shmObjAbs.Abs_ShmRaw):
         return self
 
 
-class RscEnvironRaw(shmObjAbs.Abs_ShmRaw):
+class RscEnvironRaw(shmObjAbs.AbsShmRaw):
     def __init__(self, raw=None):
         self._initAbsShmRaw(
             raw,
@@ -101,7 +101,7 @@ class RscEnvironRaw(shmObjAbs.Abs_ShmRaw):
         return lis
 
 
-class RscDependentRaw(shmObjAbs.Abs_ShmRaw):
+class RscDependentRaw(shmObjAbs.AbsShmRaw):
     def __init__(self, raw=None):
         self._initAbsShmRaw(
             raw,
@@ -120,7 +120,7 @@ class RscDependentRaw(shmObjAbs.Abs_ShmRaw):
         return self
 
 
-class RscResourceConfigure(shmObjAbs.Abs_ShmConfigure):
+class RscResourceConfigure(shmObjAbs.AbsShmConfigure):
     CLS_shm__resource__version = RscVersionRaw
     CLS_shm__resource__environ = RscEnvironRaw
     CLS_shm__resource__dependent = RscDependentRaw

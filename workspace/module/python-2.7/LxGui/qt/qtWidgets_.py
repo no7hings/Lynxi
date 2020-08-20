@@ -24,7 +24,7 @@ def gui_qt__mdf__set_chooseview_drop(fn):
         self = args[0]
         chooseNames = self._messages
         if chooseNames:
-            dropBox = guiQtWgtAbs.Abs_GuiQtChooseWindowWgt(self)
+            dropBox = guiQtWgtAbs.AbsGuiQtChooseWindowWgt(self)
             dropBox.setCurrentIndex(self.currentIndex)
             dropBox.installEventFilter(self)
             dropBox._viewModel.addItems(chooseNames, self._uiIconKeyword)
@@ -40,7 +40,7 @@ def gui_qt__mdf__set_chooseview_event_filter(fn):
         widget_ = args[1]
         event = args[2]
         # Filter by Widget is Press
-        if type(widget_) == guiQtWgtAbs.Abs_GuiQtChooseWindowWgt:
+        if type(widget_) == guiQtWgtAbs.AbsGuiQtChooseWindowWgt:
             if event.type() == QtCore.QEvent.MouseButtonPress:
                 widget_.close()
                 #
@@ -489,7 +489,7 @@ class QtTextEdit_(QTextEdit):
                 ]
             #
             if actions:
-                self.contextMenu = guiQtWgtAbs.Abs_GuiQtActionViewportWgt(self)
+                self.contextMenu = guiQtWgtAbs.AbsGuiQtActionViewportWgt(self)
                 self.contextMenu.setFocusProxy(self)
                 self.contextMenu.installEventFilter(self)
                 self.contextMenu.setActionData(actions)
@@ -713,7 +713,7 @@ class xLineEdit(QLineEdit):
             ]
         #
         if actions:
-            self.contextMenu = guiQtWgtAbs.Abs_GuiQtActionViewportWgt(self)
+            self.contextMenu = guiQtWgtAbs.AbsGuiQtActionViewportWgt(self)
             self.contextMenu.setFocusProxy(self)
             self.contextMenu.installEventFilter(self)
             self.contextMenu.setActionData(actions)

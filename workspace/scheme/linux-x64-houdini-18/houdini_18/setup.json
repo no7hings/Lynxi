@@ -1,21 +1,14 @@
 {
     "name": "houdini_18", 
     "version": "0.0.0", 
-    "user": "dongchangbao", 
-    "timestamp": 1594709730.129472, 
+    "user": "nothings", 
+    "timestamp": 1597843982.366, 
     "environ": {
         "HOUDINI_PATH": {
             "operate": ";&", 
             "value": [
                 "<houdini_18>{root.active}/resource/scheme/linux-x64-houdini-18-houdini_18/0.0.0/source/houdini_18/lynxi/houdini:&", 
                 "<htoa>{root.active}/resource/plug/linux-houdini-18-htoa/5.3.0/source:&"
-            ]
-        }, 
-        "PATH": {
-            "operate": "+", 
-            "value": [
-                "<htoa>{root.active}/resource/plug/linux-houdini-18-htoa/5.3.0/source/scripts/bin", 
-                "<sublime_text>{root.active}/resource/bin/linux-x64-sublime_text/build.3211/source/bin"
             ]
         }, 
         "LYNXI_PYTHONPATH": {
@@ -40,7 +33,6 @@
                 "<LxUsd>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxusd/0.0.0/source", 
                 "<MaterialX>{root.active}/resource/package/linux-python-2.7-materialx/1.37.1/source", 
                 "<PIL>{root.active}/resource/package/linux-x64-python-2.7-pil/1.1.7/source", 
-                "<PySide2>{root.active}/resource/package/linux-x64-python-2.7-pyside2/5.14.2.1/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
@@ -48,6 +40,13 @@
         "solidangle_LICENSE": {
             "operate": "=", 
             "value": "<htoa>5053@192.168.16.240"
+        }, 
+        "PATH": {
+            "operate": "+", 
+            "value": [
+                "<htoa>{root.active}/resource/plug/linux-houdini-18-htoa/5.3.0/source/scripts/bin", 
+                "<sublime_text>{root.active}/resource/bin/linux-x64-sublime_text/build.3211/source/bin"
+            ]
         }
     }, 
     "module": [

@@ -2,7 +2,7 @@
 from .. import datCfg, datObjAbs
 
 
-class _Dat_Digit(datObjAbs.Abs_DatData):
+class _Dat_Digit(datObjAbs.AbsDatData):
     def __add__(self, other):
         """
         :param other: object of "Data"
@@ -38,7 +38,7 @@ class _Dat_Digit(datObjAbs.Abs_DatData):
         return self.__class__(self, self.raw() / other.raw())
 
 
-class Dat_Closure(datObjAbs.Abs_DatData):
+class Dat_Closure(datObjAbs.AbsDatData):
     CLS_dat__raw = None
     VAR_dat__raw__rawtype_pattern = None
 
@@ -54,7 +54,7 @@ class Dat_Closure(datObjAbs.Abs_DatData):
         return u''
 
 
-class Dat_Boolean(datObjAbs.Abs_DatData):
+class Dat_Boolean(datObjAbs.AbsDatData):
     CLS_dat__raw = bool
 
     VAR_dat__raw__rawtype_pattern = bool, int
@@ -96,7 +96,7 @@ class Dat_Integer(_Dat_Digit):
         self._initAbsDatData(*args)
 
 
-class Dat_IntegerN(datObjAbs.Abs_DatData):
+class Dat_IntegerN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -115,7 +115,7 @@ class Dat_IntegerN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_IntegerNN(datObjAbs.Abs_DatData):
+class Dat_IntegerNN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -149,7 +149,7 @@ class Dat_Float(_Dat_Digit):
         self._initAbsDatData(*args)
 
 
-class Dat_FloatN(datObjAbs.Abs_DatData):
+class Dat_FloatN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -168,7 +168,7 @@ class Dat_FloatN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_FloatNN(datObjAbs.Abs_DatData):
+class Dat_FloatNN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -187,7 +187,7 @@ class Dat_FloatNN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_String(datObjAbs.Abs_DatData):
+class Dat_String(datObjAbs.AbsDatData):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -202,7 +202,7 @@ class Dat_String(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_StringN(datObjAbs.Abs_DatData):
+class Dat_StringN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -221,7 +221,7 @@ class Dat_StringN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_Filepath(datObjAbs.Abs_DatData):
+class Dat_Filepath(datObjAbs.AbsDatData):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -236,7 +236,7 @@ class Dat_Filepath(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_FilepathN(datObjAbs.Abs_DatData):
+class Dat_FilepathN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple
@@ -255,7 +255,7 @@ class Dat_FilepathN(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_Nodename(datObjAbs.Abs_DatData):
+class Dat_Nodename(datObjAbs.AbsDatData):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -270,7 +270,7 @@ class Dat_Nodename(datObjAbs.Abs_DatData):
         self._initAbsDatData(*args)
 
 
-class Dat_NodenameN(datObjAbs.Abs_DatData):
+class Dat_NodenameN(datObjAbs.AbsDatData):
     CLS_dat__raw = list
 
     VAR_dat__raw__rawtype_pattern = list, tuple

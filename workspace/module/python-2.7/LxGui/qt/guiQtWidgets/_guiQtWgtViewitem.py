@@ -6,7 +6,7 @@ from ..guiQtModels import _guiQtMdlViewitem
 from . import _guiQtWgtBasic
 
 
-class QtIconViewitem(guiQtWgtAbs.Abs_GuiQtIconViewitemWgt):
+class QtIconViewitem(guiQtWgtAbs.AbsGuiQtIconViewitemWgt):
     CLS_gui_qt__item_wgt__model = _guiQtMdlViewitem.QtIconViewitemModel
 
     def __init__(self, iconKeywordStr=None, *args, **kwargs):

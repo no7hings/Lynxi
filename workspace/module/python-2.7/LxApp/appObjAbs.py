@@ -6,18 +6,18 @@ from LxScheme import shmCfg
 from . import appCfg
 
 
-class Abs_AppBasic(appCfg.AppUtility):
+class AbsAppBasic(appCfg.AppUtility):
     @property
     def raw(self):
         return {}
 
 
-class Abs_AppObjStack(bscObjItf.Itf_BscObjStack):
+class AbsAppObjStack(bscObjItf.ItfBscObjStack):
     def _initAbsAppObjStack(self, *args):
         self._initItfBscObjStack(*args)
 
 
-class Abs_AppObjDef(object):
+class AbsAppObjDef(object):
     def _initAbsAppObjDef(self, *args):
         self._objNameStr, self._objVersionStr = args
 
@@ -40,9 +40,9 @@ class Abs_AppObjDef(object):
         return self.__str__()
 
 
-class Abs_AppPlatform(
-    Abs_AppBasic,
-    Abs_AppObjDef
+class AbsAppPlatform(
+    AbsAppBasic,
+    AbsAppObjDef
 ):
     # noinspection PyUnusedLocal
     def _initAbsAppPlatform(self, *args):
@@ -68,9 +68,9 @@ class Abs_AppPlatform(
         )
 
 
-class Abs_AppApplication(
-    Abs_AppBasic,
-    Abs_AppObjDef
+class AbsAppApplication(
+    AbsAppBasic,
+    AbsAppObjDef
 ):
     # noinspection PyUnusedLocal
     def _initAbsAppApplication(self, *args):
@@ -90,16 +90,16 @@ class Abs_AppApplication(
         return nameStr, versionStr
 
 
-class Abs_AppProject(object):
+class AbsAppProject(object):
     pass
 
 
-class Abs_AppLanguage(Abs_AppBasic):
+class AbsAppLanguage(AbsAppBasic):
     def _initAbsAppLanguage(self, *args):
         pass
 
 
-class Abs_AppSystem(Abs_AppBasic):
+class AbsAppSystem(AbsAppBasic):
     CLS_app__system__platform = None
     CLS_app__system__application = None
 
@@ -158,7 +158,7 @@ class Abs_AppSystem(Abs_AppBasic):
         )
 
 
-class Abs_AppConfig(Abs_AppBasic):
+class AbsAppConfig(AbsAppBasic):
     VAR_app__config__filename = None
 
     def _initAbsAppConfig(self, *args):
@@ -190,12 +190,12 @@ class Abs_AppConfig(Abs_AppBasic):
         raise self._raw
 
 
-class Abs_AppTagObj(bscObjItf.Itf_BscNode):
+class AbsAppTagObj(bscObjItf.ItfBscNode):
     def _initAbsAppTagObj(self, *args):
         self._initItfBscNode(*args)
 
 
-class Abs_AppTool(Abs_AppBasic):
+class AbsAppTool(AbsAppBasic):
     CLS_app__tool__config = None
 
     def _initAbsAppTool(self, *args):
@@ -336,7 +336,7 @@ class Abs_AppTool(Abs_AppBasic):
         return self.__str__()
 
 
-class Abs_AppKit(Abs_AppBasic):
+class AbsAppKit(AbsAppBasic):
     CLS_app__kit__system = None
 
     CLS_app__kit__config = None

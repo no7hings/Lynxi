@@ -6,17 +6,17 @@ from .. import appCfg, appObjAbs
 from . import _appObjObject
 
 
-class AppPlatform(appObjAbs.Abs_AppPlatform):
+class AppPlatform(appObjAbs.AbsAppPlatform):
     def __init__(self, *args):
         self._initAbsAppPlatform(*args)
 
 
-class AppApplication(appObjAbs.Abs_AppApplication):
+class AppApplication(appObjAbs.AbsAppApplication):
     def __init__(self, *args):
         self._initAbsAppApplication(*args)
 
 
-class AppAppkitSystem(appObjAbs.Abs_AppSystem):
+class AppAppkitSystem(appObjAbs.AbsAppSystem):
     CLS_app__system__platform = AppPlatform
     CLS_app__system__application = AppApplication
 
@@ -24,7 +24,7 @@ class AppAppkitSystem(appObjAbs.Abs_AppSystem):
         self._initAbsAppSystem(*args)
 
 
-class AppToolkitSystem(appObjAbs.Abs_AppSystem):
+class AppToolkitSystem(appObjAbs.AbsAppSystem):
     CLS_app__system__platform = AppPlatform
     CLS_app__system__application = AppApplication
 
@@ -32,19 +32,19 @@ class AppToolkitSystem(appObjAbs.Abs_AppSystem):
         self._initAbsAppSystem(*args)
 
 
-class AppConfig(appObjAbs.Abs_AppConfig):
+class AppConfig(appObjAbs.AbsAppConfig):
     def __init__(self, *args):
         self._initAbsAppConfig(*args)
 
 
-class AppTool(appObjAbs.Abs_AppTool):
+class AppTool(appObjAbs.AbsAppTool):
     CLS_app__tool__config = AppConfig
 
     def __init__(self, *args):
         self._initAbsAppTool(*args)
 
 
-class AppAppkit(appObjAbs.Abs_AppKit):
+class AppAppkit(appObjAbs.AbsAppKit):
     CLS_app__kit__system = AppToolkitSystem
     CLS_app__kit__config = AppConfig
 
@@ -64,7 +64,7 @@ class AppAppkit(appObjAbs.Abs_AppKit):
         self._initAbsAppKit(*args)
 
 
-class AppToolkit(appObjAbs.Abs_AppKit):
+class AppToolkit(appObjAbs.AbsAppKit):
     CLS_app__kit__system = AppToolkitSystem
     CLS_app__kit__config = AppConfig
 

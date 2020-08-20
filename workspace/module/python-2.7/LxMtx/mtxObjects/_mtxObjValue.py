@@ -7,7 +7,7 @@ from . import _mtxObjRaw
 
 
 # Method for Digit Calculate
-class _Val_Digit(mtxObjAbs.Abs_MtxValue):
+class _Val_Digit(mtxObjAbs.AbsMtxValue):
     def __add__(self, other):
         """
         :param other: object of Value
@@ -38,7 +38,7 @@ class _Val_Digit(mtxObjAbs.Abs_MtxValue):
 
 
 # Value Def
-class Val_Closure(mtxObjAbs.Abs_MtxValue):
+class Val_Closure(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_Closure
 
@@ -59,7 +59,7 @@ class Val_Closure(mtxObjAbs.Abs_MtxValue):
 
 
 # Value Boolean ****************************************************************************************************** #
-class Val_Boolean(mtxObjAbs.Abs_MtxValue):
+class Val_Boolean(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_Boolean
 
@@ -79,7 +79,7 @@ class Val_Boolean(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Visibility(mtxObjAbs.Abs_MtxValue):
+class Val_Visibility(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_Boolean
 
@@ -125,7 +125,7 @@ class Val_Integer(_Val_Digit):
         self._initAbsMtxValue(*args)
 
 
-class Val_IntegerArray(mtxObjAbs.Abs_MtxValue):
+class Val_IntegerArray(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_IntegerN
 
@@ -170,7 +170,7 @@ class Val_Float(_Val_Digit):
         self._initAbsMtxValue(*args)
 
 
-class Val_FloatArray(mtxObjAbs.Abs_MtxValue):
+class Val_FloatArray(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -195,7 +195,7 @@ class Val_FloatArray(mtxObjAbs.Abs_MtxValue):
 
 
 # Value Color
-class Val_Color2(mtxObjAbs.Abs_MtxValue):
+class Val_Color2(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -220,7 +220,7 @@ class Val_Color2(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Color2Array(mtxObjAbs.Abs_MtxValue):
+class Val_Color2Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -246,7 +246,7 @@ class Val_Color2Array(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Color3(mtxObjAbs.Abs_MtxValue):
+class Val_Color3(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -271,7 +271,7 @@ class Val_Color3(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Color3Array(mtxObjAbs.Abs_MtxValue):
+class Val_Color3Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -297,7 +297,7 @@ class Val_Color3Array(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Color4(mtxObjAbs.Abs_MtxValue):
+class Val_Color4(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -322,7 +322,7 @@ class Val_Color4(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Color4Array(mtxObjAbs.Abs_MtxValue):
+class Val_Color4Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -349,7 +349,7 @@ class Val_Color4Array(mtxObjAbs.Abs_MtxValue):
 
 
 # Value Vector
-class Val_Vector2(mtxObjAbs.Abs_MtxValue):
+class Val_Vector2(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -374,7 +374,7 @@ class Val_Vector2(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Vector2Array(mtxObjAbs.Abs_MtxValue):
+class Val_Vector2Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -399,7 +399,7 @@ class Val_Vector2Array(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Vector3(mtxObjAbs.Abs_MtxValue):
+class Val_Vector3(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -424,7 +424,7 @@ class Val_Vector3(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Vector3Array(mtxObjAbs.Abs_MtxValue):
+class Val_Vector3Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -449,7 +449,7 @@ class Val_Vector3Array(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Vector4(mtxObjAbs.Abs_MtxValue):
+class Val_Vector4(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -474,7 +474,7 @@ class Val_Vector4(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Vector4Array(mtxObjAbs.Abs_MtxValue):
+class Val_Vector4Array(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -499,7 +499,7 @@ class Val_Vector4Array(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_String(mtxObjAbs.Abs_MtxValue):
+class Val_String(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_String
 
@@ -517,7 +517,7 @@ class Val_String(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_StringArray(mtxObjAbs.Abs_MtxValue):
+class Val_StringArray(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_StringN
 
@@ -541,7 +541,7 @@ class Val_StringArray(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Filepath(mtxObjAbs.Abs_MtxValue):
+class Val_Filepath(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_Filepath
 
@@ -559,7 +559,7 @@ class Val_Filepath(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_FilepathArray(mtxObjAbs.Abs_MtxValue):
+class Val_FilepathArray(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_StringN
 
@@ -583,7 +583,7 @@ class Val_FilepathArray(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Nodename(mtxObjAbs.Abs_MtxValue):
+class Val_Nodename(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_Nodename
 
@@ -601,7 +601,7 @@ class Val_Nodename(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_NodenameArray(mtxObjAbs.Abs_MtxValue):
+class Val_NodenameArray(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_StringN
 
@@ -625,7 +625,7 @@ class Val_NodenameArray(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Matrix33(mtxObjAbs.Abs_MtxValue):
+class Val_Matrix33(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -650,7 +650,7 @@ class Val_Matrix33(mtxObjAbs.Abs_MtxValue):
         self._initAbsMtxValue(*args)
 
 
-class Val_Matrix44(mtxObjAbs.Abs_MtxValue):
+class Val_Matrix44(mtxObjAbs.AbsMtxValue):
     CLS_dat__value__datatype = _mtxObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 

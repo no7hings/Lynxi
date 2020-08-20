@@ -2,8 +2,31 @@
     "name": "maya_default", 
     "version": "0.0.0", 
     "user": "nothings", 
-    "timestamp": 1596635173.269, 
+    "timestamp": 1597843976.024, 
     "environ": {
+        "LYNXI_LOADNAME_PLUG": {
+            "operate": "+", 
+            "value": [
+                "<lynxinode>lxConvertNode", 
+                "<lynxinode>lxProductNode"
+            ]
+        }, 
+        "MAYA_PLUG_IN_PATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/plug-ins"
+        }, 
+        "PYTHONPATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts"
+        }, 
+        "MAYA_SCRIPT_PATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts"
+        }, 
+        "XBMLANGPATH": {
+            "operate": "+", 
+            "value": "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/icons"
+        }, 
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
             "value": [
@@ -20,15 +43,11 @@
                 "<LxPreset>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxpreset/0.0.0/source", 
                 "<LxScheme>{root.active}/workspace/module/python-2.7|{root.active}/resource/module/python-2.7-lxscheme/0.0.0/source", 
                 "<PIL>{root.active}/resource/package/windows-python-2.7-pil/1.1.7/source", 
-                "<PySide2>{root.active}/resource/package/windows-python-2.7-pyside2/2.0.0~alpha0/source", 
                 "<chardet>{root.active}/resource/package/python-2.7-chardet/3.0.4/source", 
-                "<maya_default>{root.active}/resource/scheme/windows-maya-maya_default/0.0.0/source/scripts", 
+                "<lynxinode>{root.active}/resource/plug/maya-lynxinode/0.0.0/source/scripts", 
+                "<maya_default>{root.active}/resource/scheme/windows-maya-maya_default/0.0.0/source/maya_default/lynxi/maya/scripts/python", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
-        }, 
-        "PYTHONPATH": {
-            "operate": "+", 
-            "value": "<maya_default>{root.active}/resource/scheme/windows-maya-maya_default/0.0.0/source/scripts"
         }, 
         "PATH": {
             "operate": "+", 
@@ -53,5 +72,7 @@
         "LxPreset", 
         "LxScheme"
     ], 
-    "plug": []
+    "plug": [
+        "lynxinode"
+    ]
 }

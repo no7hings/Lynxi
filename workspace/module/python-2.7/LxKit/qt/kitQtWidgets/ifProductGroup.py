@@ -11,7 +11,7 @@ none = ''
 
 
 #
-class IfAssetProductGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfAssetProductGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfAssetProductGroup, self).__init__(mainWindow)
@@ -91,7 +91,7 @@ class IfAssetProductGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
 
 
 #
-class IfSceneryProductGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfSceneryProductGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneryProductGroup, self).__init__(mainWindow)
@@ -172,7 +172,7 @@ class IfSceneryProductGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
 
 
 #
-class IfSceneProductGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfSceneProductGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfSceneProductGroup, self).__init__(mainWindow)

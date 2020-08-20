@@ -4,12 +4,12 @@ from .. import grhCfg, grhObjAbs
 from . import _grhObjStack
 
 
-class PortQueryraw(grhObjAbs.Abs_GrhPortQueryraw):
+class PortQueryraw(grhObjAbs.AbsGrhPortQueryraw):
     def __init__(self, *args):
         self._initAbsGrhPortQueryraw(*args)
 
 
-class NodeQueryraw(grhObjAbs.Abs_GrhNodeQueryraw):
+class NodeQueryraw(grhObjAbs.AbsGrhNodeQueryraw):
     CLS_grh__node_queryraw__port_queryraw_stack = _grhObjStack.PortQueryrawStack
     CLS_grh__node_queryraw__port_queryraw = PortQueryraw
 
@@ -17,12 +17,12 @@ class NodeQueryraw(grhObjAbs.Abs_GrhNodeQueryraw):
         self._initAbsGrhNodeQueryraw(*args)
 
 
-class TrsPortQueryraw(grhObjAbs.Abs_GrhTrsPortQueryraw):
+class TrsPortQueryraw(grhObjAbs.AbsGrhTrsPortQueryraw):
     def __init__(self, *args):
         self._initAbsGrhTrsPortQueryraw(*args)
 
 
-class TrsNodeQueryraw(grhObjAbs.Abs_GrhTrsNodeQueryraw):
+class TrsNodeQueryraw(grhObjAbs.AbsGrhTrsNodeQueryraw):
     CLS_grh__trs_node_queryraw__port_stack = _grhObjStack.TrsPortQueryrawStack
     CLS_grh__trs_node_queryraw__port = TrsPortQueryraw
 

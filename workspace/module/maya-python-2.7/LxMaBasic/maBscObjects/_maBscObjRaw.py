@@ -6,7 +6,7 @@ from LxData.datObjects import _datObjRaw
 from .. import maBscCfg
 
 
-class Objnamespace(datObjAbs.Abs_DatObjNamespace):
+class Objnamespace(datObjAbs.AbsDatObjNamespace):
     CLS_dat__obj_path__name = _datObjRaw.Name
 
     CLS_dat__obj_path__objsep = maBscCfg.MaUtility.DEF_mya_node_namespace_pathsep
@@ -15,7 +15,7 @@ class Objnamespace(datObjAbs.Abs_DatObjNamespace):
         self._initAbsDatObjNamespace(*args)
 
 
-class ObjName(datObjAbs.Abs_DatObjName):
+class ObjName(datObjAbs.AbsDatObjName):
     CLS_dat__obj_name__namespace = Objnamespace
     CLS_dat__obj_name__name = _datObjRaw.Name
 
@@ -23,7 +23,7 @@ class ObjName(datObjAbs.Abs_DatObjName):
         self._initAbsDatObjName(*args)
 
 
-class Portpath(datObjAbs.Abs_DatObjPath):
+class Portpath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.Name
 
     CLS_dat__obj_path__objsep = maBscCfg.MaUtility.DEF_mya_node_port_pathsep
@@ -32,7 +32,7 @@ class Portpath(datObjAbs.Abs_DatObjPath):
         self._initAbsDatObjPath(*args)
 
 
-class Nodepath(datObjAbs.Abs_DatObjPath):
+class Nodepath(datObjAbs.AbsDatObjPath):
     CLS_dat__obj_path__name = _datObjRaw.ObjName
 
     CLS_dat__obj_path__objsep = maBscCfg.MaUtility.DEF_mya_node_pathsep
@@ -41,7 +41,7 @@ class Nodepath(datObjAbs.Abs_DatObjPath):
         self._initAbsDatObjPath(*args)
 
 
-class Attrpath(datObjAbs.Abs_DatObjComppath):
+class Attrpath(datObjAbs.AbsDatObjComppath):
     CLS_dat__comppath__nodepath = Nodepath
     CLS_dat__comppath__portpath = Portpath
 

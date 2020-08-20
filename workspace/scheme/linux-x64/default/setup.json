@@ -1,13 +1,9 @@
 {
     "name": "default", 
     "version": "0.0.0", 
-    "user": "dongchangbao", 
-    "timestamp": 1594709729.183041, 
+    "user": "nothings", 
+    "timestamp": 1597843986.47, 
     "environ": {
-        "PATH": {
-            "operate": "+", 
-            "value": "<sublime_text>{root.active}/resource/bin/linux-x64-sublime_text/build.3211/source/bin"
-        }, 
         "LYNXI_PYTHONPATH": {
             "operate": "+", 
             "value": [
@@ -27,6 +23,10 @@
                 "<python>{root.active}/resource/bin/linux-x64-python/2.7.18/source", 
                 "<yaml>{root.active}/resource/package/python-2.7-yaml/3.13/source"
             ]
+        }, 
+        "PATH": {
+            "operate": "+", 
+            "value": "<sublime_text>{root.active}/resource/bin/linux-x64-sublime_text/build.3211/source/bin"
         }
     }, 
     "module": [

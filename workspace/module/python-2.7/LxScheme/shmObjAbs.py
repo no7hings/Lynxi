@@ -4,7 +4,7 @@ from LxBasic import bscMethods
 from LxScheme import shmCfg
 
 
-class Abs_ShmObject(shmCfg.ShmUtility):
+class AbsShmObject(shmCfg.ShmUtility):
     def _initAbsShmObject(self, category, name):
         self._category = category
         self._name = name
@@ -36,7 +36,7 @@ class Abs_ShmObject(shmCfg.ShmUtility):
 
 
 # path
-class Abs_ShmPath(shmCfg.ShmUtility):
+class AbsShmPath(shmCfg.ShmUtility):
     def _initAbsShmPath(self):
         pass
 
@@ -102,7 +102,7 @@ class Abs_ShmPath(shmCfg.ShmUtility):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abs_ShmRoot(Abs_ShmPath):
+class AbsShmRoot(AbsShmPath):
     DEF_shm__root__key_develop = None
     DEF_shm__root__key_product = None
     DEF_shm__root__key_local = None
@@ -133,7 +133,7 @@ class Abs_ShmRoot(Abs_ShmPath):
         )
 
 
-class Abs_ShmDirectory(Abs_ShmPath):
+class AbsShmDirectory(AbsShmPath):
     CLS_shm__root = None
 
     def _initAbsShmDirectory(self, *args):
@@ -189,7 +189,7 @@ class Abs_ShmDirectory(Abs_ShmPath):
         return self.pathFormatString[self.Path_Key_Workspace].format(**self._formatDict_())
 
 
-class Abs_ShmFile(shmCfg.ShmUtility):
+class AbsShmFile(shmCfg.ShmUtility):
     CLS_shm__directory = None
     CLS_shm__file = None
 
@@ -296,7 +296,7 @@ class Abs_ShmFile(shmCfg.ShmUtility):
 
 
 # system
-class Abs_ShmSystem(Abs_ShmObject):
+class AbsShmSystem(AbsShmObject):
     CLS_shm__system = None
 
     VAR_shm__system__category = None
@@ -366,7 +366,7 @@ class Abs_ShmSystem(Abs_ShmObject):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abs_ShmRaw(shmCfg.ShmUtility):
+class AbsShmRaw(shmCfg.ShmUtility):
     def _initAbsShmRaw(self, raw, defRaw):
         if raw is not None:
             self._raw = raw
@@ -396,7 +396,7 @@ class Abs_ShmRaw(shmCfg.ShmUtility):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abs_ShmConfigure(Abs_ShmRaw):
+class AbsShmConfigure(AbsShmRaw):
     def _initAbsShmConfigure(self, enable, category, name):
         self.create(
             self.CLS_dic_order(
@@ -432,7 +432,7 @@ class Abs_ShmConfigure(Abs_ShmRaw):
         return self._raw[self.DEF_shm__key__name]
 
 
-class Abs_ShmResource(Abs_ShmObject):
+class AbsShmResource(AbsShmObject):
     CLS_shm__resource_system = None
     CLS_shm__resource_file = None
     CLS_shm__resource_raw = None
@@ -601,7 +601,7 @@ class Abs_ShmResource(Abs_ShmObject):
         return self.__str__()
 
 
-class Abs_ShmRscOperate(shmCfg.ShmUtility):
+class AbsShmRscOperate(shmCfg.ShmUtility):
     VAR_shm__rsc_op__rsc_cls_dict = {}
     VAR_shm__rsc_op__rsc_sys_args_format_dict = {}
 
@@ -1099,7 +1099,7 @@ class Abs_ShmRscOperate(shmCfg.ShmUtility):
         return self._toJsonStringMethod(self.raw())
 
 
-class Abs_ShmRscBuilder(shmCfg.ShmUtility):
+class AbsShmRscBuilder(shmCfg.ShmUtility):
     VAR_shm__rsc__system_dict = {}
     VAR_shm__rsc__class_dict = {}
     VAR_shm__rsc__version_dict = {}

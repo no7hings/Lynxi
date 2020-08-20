@@ -2,17 +2,24 @@
 from LxGui import guiCore
 #
 from LxGui.qt import qtCore, guiQtWgtAbs
+
+from LxGui.qt.guiQtModels import _guiQtMdlItem
 #
 from LxMaya.method.basic import _maMethodBasic
 
 
 #
-class IfMaNodeTreeItem(guiQtWgtAbs.Abs_GuiQtTreeitemWgt):
+class IfMaNodeTreeItem(guiQtWgtAbs.AbsGuiQtTreeitemWgt):
+    CLS_gui_qt__item_wgt__model = _guiQtMdlItem.QtTreeItemModel
     ui_qt_method = guiCore.UiMtdBasic
     mtd_app_node = _maMethodBasic.MaNodeMethodBasic
     def __init__(self, *args, **kwargs):
-        self._clsSuper = super(qtCore.QWidget, self)
-        self._clsSuper.__init__(*args, **kwargs)
+        if qtCore.LOAD_INDEX is 0:
+            self._clsSuper = super(qtCore.QWidget, self)
+            self._clsSuper.__init__(*args, **kwargs)
+        else:
+            self._clsSuper = super(IfMaNodeTreeItem, self)
+            self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbsGuiQtTreeitemWgt()
     @property

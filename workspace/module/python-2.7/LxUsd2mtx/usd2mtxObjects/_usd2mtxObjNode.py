@@ -11,7 +11,7 @@ from .. import usd2mtxObjAbs
 from ..usd2mtxObjects import _usd2mtxObjQuery
 
 
-class ObjTranslator(usd2mtxObjAbs.Abs_Usd2mtxObjTranslator):
+class ObjTranslator(usd2mtxObjAbs.AbsUsd2mtxObjTranslator):
     VAR_grh__obj_translator__channel_convert_dict = {
         mtxCfg.MtxUtility.DEF_mtx__datatype__color3: {
             grhCfg.GrhNodeQuery.typepath: u'float_to_rgb'
@@ -34,7 +34,7 @@ class ObjTranslator(usd2mtxObjAbs.Abs_Usd2mtxObjTranslator):
         self._initAbsUsd2mtxObjTranslator(*args)
 
 
-class Node(usd2mtxObjAbs.Abs_Usd2mtxNode):
+class Node(usd2mtxObjAbs.AbsUsd2mtxNode):
     CLS_grh__trs_node__src_node = usdObjects.Node
     CLS_grh__trs_node__tgt_node = mtxObjects.Node
 
@@ -49,7 +49,7 @@ class Node(usd2mtxObjAbs.Abs_Usd2mtxNode):
 
 
 # proxy ************************************************************************************************************** #
-class ShaderProxy(usd2mtxObjAbs.Abs_Usd2mtxShaderProxy):
+class ShaderProxy(usd2mtxObjAbs.AbsUsd2mtxShaderProxy):
     CLS_grh__trs_node_proxy__trs_node = Node
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.ShaderProxy
@@ -58,7 +58,7 @@ class ShaderProxy(usd2mtxObjAbs.Abs_Usd2mtxShaderProxy):
         self._initAbsUsd2mtxShaderProxy(*args, **kwargs)
 
 
-class MaterialProxy(usd2mtxObjAbs.Abs_Usd2mtxMaterialProxy):
+class MaterialProxy(usd2mtxObjAbs.AbsUsd2mtxMaterialProxy):
     CLS_grh__trs_node_proxy__trs_node = Node
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.MaterialProxy
@@ -75,7 +75,7 @@ class MaterialProxy(usd2mtxObjAbs.Abs_Usd2mtxMaterialProxy):
         self._initAbsUsd2mtxMaterialProxy(*args, **kwargs)
 
 
-class GeometryProxy(usd2mtxObjAbs.Abs_Usd2mtxGeometryProxy):
+class GeometryProxy(usd2mtxObjAbs.AbsUsd2mtxGeometryProxy):
     CLS_grh__trs_node_proxy__trs_node = Node
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.GeometryProxy

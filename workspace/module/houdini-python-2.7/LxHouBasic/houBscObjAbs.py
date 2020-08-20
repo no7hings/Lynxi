@@ -8,14 +8,14 @@ from . import houBscCfg, houBscMtdCore, houBscMethods
 from .houBscMethods import _houBscMtdMtx
 
 
-class Abs_HouBasic(houBscCfg.HouBscUtility):
+class AbsHouBasic(houBscCfg.HouBscUtility):
     pass
 
 
 # ******************************************************************************************************************** #
-class Abs_HouObjLoader(
-    Abs_HouBasic,
-    grhObjAbs.Abs_GrhObjLoader
+class AbsHouObjLoader(
+    AbsHouBasic,
+    grhObjAbs.AbsGrhObjLoader
 ):
     def _initAbsHoObjLoader(self, *args):
         self._initAbsGrhObjLoader(*args)
@@ -59,7 +59,7 @@ class Abs_HouObjLoader(
             _datatypeStr = cls._obj_loader_cls__get_port_datatype_(parmTemplateObj)
             if _datatypeStr is not None:
                 _assignStr = grhCfg.GrhPortAssignQuery.inport
-                _childPathStrList = []
+                _childObjPathList = []
                 # add parent first
                 cls._obj_loader_cls__set_port_raw_add_(
                     out_portRawList,
@@ -67,12 +67,12 @@ class Abs_HouObjLoader(
                     porttype=_datatypeStr,
                     datatype=_datatypeStr,
                     assign=_assignStr,
-                    children=_childPathStrList
+                    children=_childObjPathList
                 )
 
                 cls._obj_loader_cls__set_port_children_add_(
                     out_portRawList,
-                    _childPathStrList,
+                    _childObjPathList,
                     _assignStr,
                     parmTemplateObj
                 )
@@ -286,7 +286,7 @@ class Abs_HouObjLoader(
                     parmTemplateObj_.name()
                 )
                 _assignStr = grhCfg.GrhPortAssignQuery.inport
-                _childPathStrList = []
+                _childObjPathList = []
                 _ps = parmTemplateObj_.parmTemplates()
 
                 _portRaw = cls._obj_loader_cls__set_port_raw_add_(
@@ -297,10 +297,10 @@ class Abs_HouObjLoader(
                     assign=_assignStr,
                     format=_formatStr,
                     parent=_parentPortpathStr,
-                    children=_childPathStrList
+                    children=_childObjPathList
                 )
                 for _p in _ps:
-                    _childPathStrList.append(_p.name())
+                    _childObjPathList.append(_p.name())
                     rcsFnc_(_p, _portRaw)
             else:
                 if parentPortRaw_ is not None:
@@ -315,7 +315,7 @@ class Abs_HouObjLoader(
                     )
                     _assignStr = grhCfg.GrhPortAssignQuery.inport
                     _parentPortnameString = None
-                    _childPathStrList = []
+                    _childObjPathList = []
                     # add parent first
                     cls._obj_loader_cls__set_port_raw_add_(
                         out_portRawList,
@@ -325,12 +325,12 @@ class Abs_HouObjLoader(
                         assign=_assignStr,
                         format=_formatStr,
                         parent=_parentPortpathStr,
-                        children=_childPathStrList
+                        children=_childObjPathList
                     )
 
                     cls._obj_loader_cls__set_port_children_add_(
                         out_portRawList,
-                        _childPathStrList,
+                        _childObjPathList,
                         _assignStr,
                         parmTemplateObj_
                     )
@@ -668,7 +668,7 @@ class Abs_HouObjLoader(
 
 
 # ******************************************************************************************************************** #
-class Abs_HouObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
+class AbsHouObjQueryrawCreator(grhObjAbs.AbsGrhObjQueryrawCreator):
     def _initAbsHoObjQueryrawCreator(self, *args):
         self._initAbsGrhObjQueryBuilder(*args)
 
@@ -679,21 +679,21 @@ class Abs_HouObjQueryrawCreator(grhObjAbs.Abs_GrhObjQueryrawCreator):
 
 
 # ******************************************************************************************************************** #
-class Abs_HouObjQueue(grhObjAbs.Abs_GrhObjQueue):
+class AbsHouObjQueue(grhObjAbs.AbsGrhObjQueue):
     def _initAbsHoObjQueue(self, *args):
         self._initAbsGrhObjQueue(*args)
 
 
 # ******************************************************************************************************************** #
-class Abs_HouConnector(grhObjAbs.Abs_GrhConnector):
+class AbsHouConnector(grhObjAbs.AbsGrhConnector):
     def _initAbsHoConnector(self, *args):
         self._initAbsGrhConnector(*args)
 
 
 # ******************************************************************************************************************** #
-class Abs_HouPort(
-    grhObjAbs.Abs_GrhPort,
-    Abs_HouBasic
+class AbsHouPort(
+    grhObjAbs.AbsGrhPort,
+    AbsHouBasic
 ):
     def _initAbsHoPort(self, *args, **kwargs):
         self._initAbsGrhPort(*args, **kwargs)
@@ -716,7 +716,7 @@ class Abs_HouPort(
     # **************************************************************************************************************** #
     def _grh__port__get_multi_indexes_(self):
         def getCountFnc_(portpathStr_):
-            return Abs_HouObjLoader._obj_loader_cls__get_port_portraw_(
+            return AbsHouObjLoader._obj_loader_cls__get_port_portraw_(
                 self.path().nodepathString(), portpathStr_
             )
 
@@ -783,11 +783,11 @@ class Abs_HouPort(
     def _inport__get_source_exist_(self, *args, **kwargs):
         if self._isHouVirtualEnable is True:
             return self._inportSourceOtportObj is not None
-        elif Abs_HouObjLoader._grh__obj_loader_cls__get_port_exist_(
+        elif AbsHouObjLoader._grh__obj_loader_cls__get_port_exist_(
                 self.path().nodepathString(), self.path().portpathString()
         ) is True:
             if grhCfg.GrhPortAssignQuery.isInport(self.assignString()):
-                return Abs_HouObjLoader._grh__obj_loader_cls__get_port_source_exist_(
+                return AbsHouObjLoader._grh__obj_loader_cls__get_port_source_exist_(
                     self.path().nodepathString(), self.path().portpathString()
                 )
             return False
@@ -798,7 +798,7 @@ class Abs_HouPort(
             if self._isHouVirtualEnable is True:
                 return self._inportSourceOtportObj
 
-            _nodepathString, portpathStr = Abs_HouObjLoader._obj_loader_cls__get_port_source_str_(
+            _nodepathString, portpathStr = AbsHouObjLoader._obj_loader_cls__get_port_source_str_(
                 self.path().nodepathString(), self.path().portpathString()
             )
 
@@ -811,11 +811,11 @@ class Abs_HouPort(
 
     # **************************************************************************************************************** #
     def _otport__get_target_port_exist_(self, *args):
-        if Abs_HouObjLoader._grh__obj_loader_cls__get_port_exist_(
+        if AbsHouObjLoader._grh__obj_loader_cls__get_port_exist_(
                 self.path().nodepathString(), self.path().portpathString()
         ) is True:
             if grhCfg.GrhPortAssignQuery.isOtport(self.assignString()):
-                return Abs_HouObjLoader._obj_loader_cls__get_port_target_exist_(
+                return AbsHouObjLoader._obj_loader_cls__get_port_target_exist_(
                     self.path().nodepathString(), self.path().portpathString()
                 )
             return False
@@ -824,7 +824,7 @@ class Abs_HouPort(
     def _otport__get_target_port_obj_list_(self):
         lis = []
         if self._otport__get_target_port_exist_() is True:
-            connectionLis = Abs_HouObjLoader._obj_loader_cls__get_port_target_str_list_(
+            connectionLis = AbsHouObjLoader._obj_loader_cls__get_port_target_str_list_(
                 self.path().nodepathString(), self.path().portpathString()
             )
             for _nodepathString, portpathStr in connectionLis:
@@ -839,19 +839,19 @@ class Abs_HouPort(
     # **************************************************************************************************************** #
     def _grh__port__get_portraw_(self, *args, **kwargs):
         def getPortrawFnc_(portpathStr_):
-            return Abs_HouObjLoader._obj_loader_cls__get_port_portraw_(
+            return AbsHouObjLoader._obj_loader_cls__get_port_portraw_(
                 self.path().nodepathString(), portpathStr_
             )
 
         if self._isHouVirtualEnable is True:
-            if Abs_HouObjLoader._grh__obj_loader_cls__get_port_exist_(
+            if AbsHouObjLoader._grh__obj_loader_cls__get_port_exist_(
                 self._houVirtualNodePathStr, self.path().portpathString()
             ):
-                return Abs_HouObjLoader._obj_loader_cls__get_port_portraw_(
+                return AbsHouObjLoader._obj_loader_cls__get_port_portraw_(
                     self._houVirtualNodePathStr, self.path().portpathString(), **kwargs
                 )
 
-        elif Abs_HouObjLoader._grh__obj_loader_cls__get_port_exist_(
+        elif AbsHouObjLoader._grh__obj_loader_cls__get_port_exist_(
                 self.path().nodepathString(), self.path().portpathString()
         ) is True:
             if self.isCompound():
@@ -883,7 +883,7 @@ class Abs_HouPort(
                 )
             elif self.hasChildren():
                 return [i.portraw() for i in self.children()]
-            return Abs_HouObjLoader._obj_loader_cls__get_port_portraw_(
+            return AbsHouObjLoader._obj_loader_cls__get_port_portraw_(
                 self.path().nodepathString(), self.path().portpathString(), **kwargs
             )
 
@@ -892,9 +892,9 @@ class Abs_HouPort(
             self._houVirtualRaw = args[0]
 
 
-class Abs_HouNode(
-    grhObjAbs.Abs_GrhNode,
-    Abs_HouBasic
+class AbsHouNode(
+    grhObjAbs.AbsGrhNode,
+    AbsHouBasic
 ):
     def _initAbsHouNode(self, *args, **kwargs):
         if args:
@@ -903,7 +903,7 @@ class Abs_HouNode(
             if len(args) == 1:
                 _nodepathStr = args[0]
 
-                typepathStr = Abs_HouObjLoader._obj_loader_cls__get_node_typepath_(_nodepathStr)
+                typepathStr = AbsHouObjLoader._obj_loader_cls__get_node_typepath_(_nodepathStr)
                 nodepathStr = houBscMtdCore.Mtd_HouGrh._dcc_getNodFullpathNodepathStr(_nodepathStr)
                 addCustomEnable = True
             # ( category, nodepath )
@@ -940,9 +940,9 @@ class Abs_HouNode(
 
 
 # geometry assign **************************************************************************************************** #
-class Abs_HouGeomAssign(
-    grhObjAbs.Abs_GrhGeometryAssign,
-    Abs_HouBasic
+class AbsHouGeomAssign(
+    grhObjAbs.AbsGrhGeometryAssign,
+    AbsHouBasic
 ):
     def _initAbsHoGeomAssign(self, *args, **kwargs):
         self._initAbsGrhGeometryAssign(*args, **kwargs)

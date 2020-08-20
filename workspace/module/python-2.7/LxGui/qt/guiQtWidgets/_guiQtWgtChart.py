@@ -6,7 +6,7 @@ from LxGui.qt.guiQtModels import _guiQtMdlChart
 
 
 #
-class QtRadarchart(guiQtWgtAbs.Abs_GuiQtChartWgt):
+class QtRadarchart(guiQtWgtAbs.AbsGuiQtChartWgt):
     MODEL_CHART_CLS = _guiQtMdlChart.QtRadarchartModel
 
     def __init__(self, *args, **kwargs):
@@ -99,7 +99,7 @@ class QtRadarchart(guiQtWgtAbs.Abs_GuiQtChartWgt):
 
 
 #
-class QtSectorchart(guiQtWgtAbs.Abs_GuiQtChartWgt):
+class QtSectorchart(guiQtWgtAbs.AbsGuiQtChartWgt):
     MODEL_CHART_CLS = _guiQtMdlChart.QtSectorchartModel
 
     def __init__(self, *args, **kwargs):

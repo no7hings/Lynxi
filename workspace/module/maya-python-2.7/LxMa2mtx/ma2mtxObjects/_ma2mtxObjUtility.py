@@ -6,7 +6,7 @@ from LxMaBasic import maBscObjects
 from LxMa2mtx import ma2mtxObjAbs
 
 
-class Asset(ma2mtxObjAbs.Abs_Ma2mtxBasic):
+class Asset(ma2mtxObjAbs.AbsMa2mtxBasic):
     DEF_option_dict = {
         '-noNormals': False,
         '-ro': False,
@@ -37,7 +37,7 @@ class Asset(ma2mtxObjAbs.Abs_Ma2mtxBasic):
         ).export()
     
 
-class _Material(ma2mtxObjAbs.Abs_Ma2mtxBasic):
+class _Material(ma2mtxObjAbs.AbsMa2mtxBasic):
     PropertyAttrNameDic = {
         'visibility': True,
         'sidedness': False,

@@ -6,7 +6,7 @@ from .. import mtxObjAbs
 from . import _mtxObjRaw, _mtxObjStack, _mtxObjAssign
 
 
-class Look(mtxObjAbs.Abs_MtxLook):
+class Look(mtxObjAbs.AbsMtxLook):
     CLS_mtx__look__name = _mtxObjRaw.Name
     CLS_mtx__look__namespace = _mtxObjRaw.ObjProxyNamespace
 
@@ -30,7 +30,7 @@ class Look(mtxObjAbs.Abs_MtxLook):
         self._initAbsMtxLook(*args)
 
 
-class Collection(mtxObjAbs.Abs_MtxCollection):
+class Collection(mtxObjAbs.AbsMtxCollection):
     CLS_mtx__name = _mtxObjRaw.Name
 
     CLS_mtx__look__geometry_proxy_stack = _grhObjStack.ObjStack

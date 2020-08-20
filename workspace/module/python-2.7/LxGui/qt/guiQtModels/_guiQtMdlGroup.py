@@ -3,7 +3,7 @@ from LxGui.qt import qtCore, guiQtMdlAbs
 
 
 #
-class QtToolboxGroupModel(guiQtMdlAbs.Abs_GuiQtGroupMdl):
+class QtToolboxGroupModel(guiQtMdlAbs.AbsGuiQtGroupMdl):
     def __init__(self, widget):
         self._initAbsGuiQtGroupMdl(widget)
         self._overrideAttr()
@@ -124,7 +124,7 @@ class QtToolboxGroupModel(guiQtMdlAbs.Abs_GuiQtGroupMdl):
 
 
 #
-class QtToolboxModel(guiQtMdlAbs.Abs_GuiQtGroupMdl):
+class QtToolboxModel(guiQtMdlAbs.AbsGuiQtGroupMdl):
     def __init__(self, widget):
         self._initAbsGuiQtGroupMdl(widget)
         self._overrideAttr()

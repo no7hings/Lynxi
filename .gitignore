@@ -8,6 +8,6 @@ $ cat .gitignore
 !/icon
 !/script
 !/script/python
-/.pycharm/
+/.pycharm/*
 !/.pycharm/.idea
 *.pyc

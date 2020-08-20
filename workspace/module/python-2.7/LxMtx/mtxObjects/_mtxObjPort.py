@@ -8,7 +8,7 @@ from .. import mtxCfg, mtxObjAbs
 from . import _mtxObjRaw, _mtxObjValue, _mtxObjQuery
 
 
-class Connector(mtxObjAbs.Abs_MtxConnector):
+class Connector(mtxObjAbs.AbsMtxConnector):
     IST_grh__obj__queue = _mtxObjQuery.GRH_OBJ_QUEUE
 
     def __init__(self, *args):
@@ -56,7 +56,7 @@ class __PortDef__(object):
 
 class Gnport(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -82,7 +82,7 @@ class Gnport(
 
 class Gnchannel(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -108,7 +108,7 @@ class Gnchannel(
 
 class Inport(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -133,7 +133,7 @@ class Inport(
 
 class Inchannel(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -159,7 +159,7 @@ class Inchannel(
 
 class Otport(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -185,7 +185,7 @@ class Otport(
 
 class Otchannel(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -211,7 +211,7 @@ class Otchannel(
 
 class Asport(
     __PortDef__,
-    mtxObjAbs.Abs_MtxPort
+    mtxObjAbs.AbsMtxPort
 ):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
@@ -236,7 +236,7 @@ class Asport(
 
 
 # port proxy ********************************************************************************************************* #
-class GnportProxy(mtxObjAbs.Abs_MtxPortProxy):
+class GnportProxy(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -247,7 +247,7 @@ class GnportProxy(mtxObjAbs.Abs_MtxPortProxy):
         self._initAbsMtxPortProxy(*args, **kwargs)
 
 
-class InportProxy(mtxObjAbs.Abs_MtxPortProxy):
+class InportProxy(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -258,7 +258,7 @@ class InportProxy(mtxObjAbs.Abs_MtxPortProxy):
         self._initAbsMtxPortProxy(*args, **kwargs)
 
 
-class OtportProxy(mtxObjAbs.Abs_MtxPortProxy):
+class OtportProxy(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -269,7 +269,7 @@ class OtportProxy(mtxObjAbs.Abs_MtxPortProxy):
         self._initAbsMtxPortProxy(*args, **kwargs)
 
 
-class AsportProxy(mtxObjAbs.Abs_MtxPortProxy):
+class AsportProxy(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -280,7 +280,7 @@ class AsportProxy(mtxObjAbs.Abs_MtxPortProxy):
         self._initAbsMtxPortProxy(*args, **kwargs)
 
 
-class NodeGraphOtportProxy(mtxObjAbs.Abs_MtxNodeGraphOtportProxy):
+class NodeGraphOtportProxy(mtxObjAbs.AbsMtxNodeGraphOtportProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -293,7 +293,7 @@ class NodeGraphOtportProxy(mtxObjAbs.Abs_MtxNodeGraphOtportProxy):
 
 
 # geometry port proxy ************************************************************************************************ #
-class Property(mtxObjAbs.Abs_MtxPortProxy):
+class Property(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -304,7 +304,7 @@ class Property(mtxObjAbs.Abs_MtxPortProxy):
         self._initAbsMtxPortProxy(*args, **kwargs)
 
 
-class Visibility(mtxObjAbs.Abs_MtxPortProxy):
+class Visibility(mtxObjAbs.AbsMtxPortProxy):
     CLS_grh__obj_proxy__obj_namespace = _mtxObjRaw.ObjProxyNamespace
     CLS_grh__obj_proxy__obj_path = _mtxObjRaw.Attrpath
 
@@ -316,7 +316,7 @@ class Visibility(mtxObjAbs.Abs_MtxPortProxy):
 
 
 # ******************************************************************************************************************** #
-class Propertyset(mtxObjAbs.Abs_MtxPortset):
+class Propertyset(mtxObjAbs.AbsMtxPortset):
     CLS_mtx__name = _mtxObjRaw.Name
 
     CLS_grh__node__port_stack = _grhObjStack.ObjStack

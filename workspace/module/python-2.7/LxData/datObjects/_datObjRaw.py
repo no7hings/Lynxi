@@ -2,7 +2,7 @@
 from .. import datCfg, datObjAbs
 
 
-class String(datObjAbs.Abs_DatRaw):
+class String(datObjAbs.AbsDatRaw):
     CLS_dat__raw = unicode
 
     VAR_dat__raw__rawtype_pattern = unicode, str
@@ -12,17 +12,17 @@ class String(datObjAbs.Abs_DatRaw):
         self._initAbsDatRaw(*args)
 
 
-class Name(datObjAbs.Abs_DatName):
+class Name(datObjAbs.AbsDatName):
     def __init__(self, *args):
         self._initAbsDatName(*args)
 
 
-class Typename(datObjAbs.Abs_DatTypename):
+class Typename(datObjAbs.AbsDatTypename):
     def __init__(self, *args):
         self._initAbsDatTypename(*args)
 
 
-class Datatype(datObjAbs.Abs_DatDatatype):
+class Datatype(datObjAbs.AbsDatDatatype):
     CLS_dat__type__typename = Typename
 
     VAR_dat__type__category_dict = datCfg.DatUtility.DEF_dat__datatype__category_dict
@@ -32,14 +32,14 @@ class Datatype(datObjAbs.Abs_DatDatatype):
         self._initAbsDatDatatype(*args)
 
 
-class Porttype(datObjAbs.Abs_DatPorttype):
+class Porttype(datObjAbs.AbsDatPorttype):
     CLS_dat__type__typename = Typename
 
     def __init__(self, *args):
         self._initAbsDatPorttype(*args)
 
 
-class ObjVariant(datObjAbs.Abs_DatObjVariant):
+class ObjVariant(datObjAbs.AbsDatObjVariant):
     CLS_dat__obj_path__name = Name
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_namespace_pathsep
@@ -49,7 +49,7 @@ class ObjVariant(datObjAbs.Abs_DatObjVariant):
 
 
 # object ************************************************************************************************************* #
-class ObjNamespace(datObjAbs.Abs_DatObjNamespace):
+class ObjNamespace(datObjAbs.AbsDatObjNamespace):
     CLS_dat__obj_path__name = Name
 
     CLS_dat__obj_path__objsep = datCfg.DatUtility.DEF_dat__node_namespace_pathsep
@@ -58,7 +58,7 @@ class ObjNamespace(datObjAbs.Abs_DatObjNamespace):
         self._initAbsDatObjNamespace(*args)
 
 
-class ObjTypename(datObjAbs.Abs_DatObjName):
+class ObjTypename(datObjAbs.AbsDatObjName):
     CLS_dat__obj_name__namespace = ObjNamespace
     CLS_dat__obj_name__name = Name
 
@@ -66,7 +66,7 @@ class ObjTypename(datObjAbs.Abs_DatObjName):
         self._initAbsDatObjName(*args)
 
 
-class ObjName(datObjAbs.Abs_DatObjName):
+class ObjName(datObjAbs.AbsDatObjName):
     CLS_dat__obj_name__namespace = ObjNamespace
     CLS_dat__obj_name__name = Name
 
@@ -75,7 +75,7 @@ class ObjName(datObjAbs.Abs_DatObjName):
 
 
 # file *************************************************************************************************************** #
-class Filename(datObjAbs.Abs_DatFilename):
+class Filename(datObjAbs.AbsDatFilename):
     CLS_dat__filename__base = Name
     CLS_dat__filename__ext = Name
 

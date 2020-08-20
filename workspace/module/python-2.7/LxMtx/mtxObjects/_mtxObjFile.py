@@ -6,7 +6,7 @@ from .. import mtxObjAbs
 from . import _mtxObjRaw, _mtxObjElement
 
 
-class Reference(mtxObjAbs.Abs_MtxReference):
+class Reference(mtxObjAbs.AbsMtxReference):
     CLS_mtx__file__path = _mtxObjRaw.RefFilepath
     CLS_mtx__file__version = _mtxObjRaw.Version
 
@@ -23,7 +23,7 @@ class Reference(mtxObjAbs.Abs_MtxReference):
         self._initAbsMtxReference(*args)
 
 
-class File(mtxObjAbs.Abs_MtxFile):
+class File(mtxObjAbs.AbsMtxFile):
     CLS_mtx__file__path = _mtxObjRaw.Filepath
     CLS_mtx__file__version = _mtxObjRaw.Version
 

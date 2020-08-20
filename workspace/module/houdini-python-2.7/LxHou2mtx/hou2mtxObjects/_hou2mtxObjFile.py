@@ -6,7 +6,7 @@ from .. import hou2mtxObjAbs
 from ..hou2mtxObjects import _hou2mtxObjQuery, _hou2mtxObjElement
 
 
-class File(hou2mtxObjAbs.Abs_Hou2mtxFile):
+class File(hou2mtxObjAbs.AbsHou2mtxFile):
     CLS_mtx__trs_file__tgt_file = mtxObjects.File
     CLS_mtx__trs_file__trs_look = _hou2mtxObjElement.Look
 

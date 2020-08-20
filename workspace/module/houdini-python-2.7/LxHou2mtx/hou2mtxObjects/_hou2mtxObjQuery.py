@@ -16,7 +16,7 @@ from LxHouBasic.houBscObjects import _houBscObjQuery
 from .. import hou2mtxCfg, hou2mtxObjAbs
 
 
-class TrsObjLoader(hou2mtxObjAbs.Abs_Hou2mtxTrsObjLoader):
+class TrsObjLoader(hou2mtxObjAbs.AbsHou2mtxTrsObjLoader):
     VAR_grh__trs_obj_loader__node_property_key_list = [
         grhCfg.GrhUtility.DEF_grh__key_target_port,
         grhCfg.GrhUtility.DEF_grh__keyword__custom_node,
@@ -33,7 +33,7 @@ class TrsObjLoader(hou2mtxObjAbs.Abs_Hou2mtxTrsObjLoader):
         self._initAbsHou2mtxTrsObjLoader(*args)
 
 
-class TrsObjQueryrawCreator(hou2mtxObjAbs.Abs_Hou2mtxObjQueryrawCreator):
+class TrsObjQueryrawCreator(hou2mtxObjAbs.AbsHou2mtxObjQueryrawCreator):
     CLS_grh__trs_obj_queryraw_creator__node_stack = _grhObjStack.TrsNodeQueryrawStack
     CLS_grh__trs_obj_queryraw_creator__node = _grhObjQuery.TrsNodeQueryraw
 
@@ -53,14 +53,14 @@ class TrsObjQueryrawCreator(hou2mtxObjAbs.Abs_Hou2mtxObjQueryrawCreator):
 GRH_TRS_OBJ_QUERYRAW_CREATOR = TrsObjQueryrawCreator()
 
 
-class TrsPortQuery(grhObjAbs.Abs_GrhTrsPortQuery):
+class TrsPortQuery(grhObjAbs.AbsGrhTrsPortQuery):
     IST_grh__trs_obj__queryraw_creator = GRH_TRS_OBJ_QUERYRAW_CREATOR
 
     def __init__(self, *args):
         self._initAbsGrhTrsPortQuery(*args)
 
 
-class TrsNodeQuery(grhObjAbs.Abs_GrhTrsNodeQuery):
+class TrsNodeQuery(grhObjAbs.AbsGrhTrsNodeQuery):
     CLS_grh__trs_port_query_set = _grhObjStack.TrsPortQueryStack
     CLS_grh__trs_port_query = TrsPortQuery
 
@@ -70,7 +70,7 @@ class TrsNodeQuery(grhObjAbs.Abs_GrhTrsNodeQuery):
         self._initAbsGrhTrsNodeQuery(*args)
 
 
-class TrsObjQueryBuilder(grhObjAbs.Abs_GrhTrsObjQueryBuilder):
+class TrsObjQueryBuilder(grhObjAbs.AbsGrhTrsObjQueryBuilder):
     CLS_grh__trs_node_query_set = _grhObjStack.TrsNodeQueryStack
     CLS_grh__trs_node_query = TrsNodeQuery
 
@@ -83,7 +83,7 @@ GRH_TRS_OBJ_QUERY_BUILDER = TrsObjQueryBuilder(
 )
 
 
-class TrsObjQueue(grhObjAbs.Abs_GrhObjQueue):
+class TrsObjQueue(grhObjAbs.AbsGrhObjQueue):
     CLS_grh__obj_queue__node_stack = _grhObjStack.TrsNodeStack
 
     def __init__(self, *args):

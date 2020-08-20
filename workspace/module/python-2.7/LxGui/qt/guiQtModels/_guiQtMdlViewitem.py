@@ -2,6 +2,6 @@
 from .. import guiQtMdlAbs
 
 
-class QtIconViewitemModel(guiQtMdlAbs.Abs_GuiQtIconViewitemMdl):
+class QtIconViewitemModel(guiQtMdlAbs.AbsGuiQtIconViewitemMdl):
     def __init__(self, *args):
         self._initAbsGuiQtIconViewitemMdl(*args)

@@ -3,7 +3,7 @@ from .. import grhObjAbs
 
 
 # ******************************************************************************************************************** #
-class PortQueryrawStack(grhObjAbs.Abs_GrhObjStack):
+class PortQueryrawStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -11,7 +11,7 @@ class PortQueryrawStack(grhObjAbs.Abs_GrhObjStack):
         return obj.portpath
 
 
-class NodeQueryrawStack(grhObjAbs.Abs_GrhObjStack):
+class NodeQueryrawStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -20,7 +20,7 @@ class NodeQueryrawStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class PortQueryStack(grhObjAbs.Abs_GrhObjStack):
+class PortQueryStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -28,7 +28,7 @@ class PortQueryStack(grhObjAbs.Abs_GrhObjStack):
         return obj.portpath
 
 
-class NodeQueryStack(grhObjAbs.Abs_GrhObjStack):
+class NodeQueryStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -37,7 +37,7 @@ class NodeQueryStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class TrsPortQueryrawStack(grhObjAbs.Abs_GrhObjStack):
+class TrsPortQueryrawStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -45,7 +45,7 @@ class TrsPortQueryrawStack(grhObjAbs.Abs_GrhObjStack):
         return obj.source_portpath
 
 
-class TrsNodeQueryrawStack(grhObjAbs.Abs_GrhObjStack):
+class TrsNodeQueryrawStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -54,7 +54,7 @@ class TrsNodeQueryrawStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class TrsPortQueryStack(grhObjAbs.Abs_GrhObjStack):
+class TrsPortQueryStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -62,7 +62,7 @@ class TrsPortQueryStack(grhObjAbs.Abs_GrhObjStack):
         return obj.source_portpath
 
 
-class TrsNodeQueryStack(grhObjAbs.Abs_GrhObjStack):
+class TrsNodeQueryStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -71,7 +71,7 @@ class TrsNodeQueryStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class VariantObjStack(grhObjAbs.Abs_GrhObjStack):
+class VariantObjStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -79,7 +79,7 @@ class VariantObjStack(grhObjAbs.Abs_GrhObjStack):
         return obj.variantString()
 
 
-class PortStack(grhObjAbs.Abs_GrhObjStack):
+class PortStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -87,14 +87,14 @@ class PortStack(grhObjAbs.Abs_GrhObjStack):
         return obj.portpathString()
 
 
-class PortStackSite(grhObjAbs.Abs_GrhObjStackSite):
+class PortStackSite(grhObjAbs.AbsGrhObjStackSite):
     CLS_grh__variant_set__obj_stack = PortStack
 
     def __init__(self, *args):
         self._initAbsGrhObjStackSite(*args)
 
 
-class NodeStack(grhObjAbs.Abs_GrhObjStack):
+class NodeStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -103,7 +103,7 @@ class NodeStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class TrsPortStack(grhObjAbs.Abs_GrhObjStack):
+class TrsPortStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -111,7 +111,7 @@ class TrsPortStack(grhObjAbs.Abs_GrhObjStack):
         return obj.srcPort().pathString()
 
 
-class TrsNodeStack(grhObjAbs.Abs_GrhObjStack):
+class TrsNodeStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -120,7 +120,7 @@ class TrsNodeStack(grhObjAbs.Abs_GrhObjStack):
 
 
 # ******************************************************************************************************************** #
-class ObjProxyStack(grhObjAbs.Abs_GrhObjStack):
+class ObjProxyStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -128,7 +128,7 @@ class ObjProxyStack(grhObjAbs.Abs_GrhObjStack):
         return obj.namespaceString()
 
 
-class PortProxyStack(grhObjAbs.Abs_GrhObjStack):
+class PortProxyStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -136,7 +136,7 @@ class PortProxyStack(grhObjAbs.Abs_GrhObjStack):
         return obj.bindObject().portpathString()
 
 
-class NodeGraphOtportProxyStack(grhObjAbs.Abs_GrhObjStack):
+class NodeGraphOtportProxyStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -144,7 +144,7 @@ class NodeGraphOtportProxyStack(grhObjAbs.Abs_GrhObjStack):
         return obj.bindPathString()
 
 
-class CacheObjStack(grhObjAbs.Abs_GrhObjStack):
+class CacheObjStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -152,7 +152,7 @@ class CacheObjStack(grhObjAbs.Abs_GrhObjStack):
         return obj.pathString()
 
 
-class CacheTrsObjStack(grhObjAbs.Abs_GrhObjStack):
+class CacheTrsObjStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 
@@ -160,7 +160,7 @@ class CacheTrsObjStack(grhObjAbs.Abs_GrhObjStack):
         return obj.srcNode().pathString()
 
 
-class ObjStack(grhObjAbs.Abs_GrhObjStack):
+class ObjStack(grhObjAbs.AbsGrhObjStack):
     def __init__(self, *args):
         self._initAbsGrhObjStack(*args)
 

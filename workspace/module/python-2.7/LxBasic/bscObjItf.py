@@ -2,11 +2,11 @@
 from . import bscCfg, bscMethods
 
 
-class Itf_BscBasic(bscCfg.BscUtility):
+class ItfBscBasic(bscCfg.BscUtility):
     pass
 
 
-class Itf_BscObjStack(Itf_BscBasic):
+class ItfBscObjStack(ItfBscBasic):
     VAR_grh__obj_stack__objsep = u','
 
     def _initItfBscObjStack(self, *args):
@@ -285,7 +285,7 @@ class Itf_BscObjStack(Itf_BscBasic):
 
 
 # obj **************************************************************************************************************** #
-class ItfBscObjDef(Itf_BscBasic):
+class ItfBscObjDef(ItfBscBasic):
     def _initItfBscObjDef(self, *args, **kwargs):
         self._objTypeStr = None
         self._objPathStr = args[0]
@@ -409,7 +409,7 @@ class ItfBscObjDef(Itf_BscBasic):
         return self.__str__()
 
 
-class Itf_BscPort(ItfBscObjDef):
+class ItfBscPort(ItfBscObjDef):
     def _initItfBscPort(self, *args, **kwargs):
         self._initItfBscObjDef(*args, **kwargs)
 
@@ -422,7 +422,7 @@ class Itf_BscPort(ItfBscObjDef):
         return self._raw
 
 
-class Itf_BscNode(ItfBscObjDef):
+class ItfBscNode(ItfBscObjDef):
     CLS_bsc__node__port = None
     CLS_bsc__node__port_stack = None
 
@@ -479,7 +479,7 @@ class Itf_BscNode(ItfBscObjDef):
             self._portStackObj.addObject(obj)
 
 
-class Itf_BscDagTree(Itf_BscBasic):
+class ItfBscDagTree(ItfBscBasic):
     CLS_bsc__node_tree__node = None
     CLS_bsc__node_tree__node_stack = None
 
@@ -669,10 +669,10 @@ class Itf_BscDagTree(Itf_BscBasic):
         lis = []
         rootObj = self.root()
         rscFnc_(rootObj, 0)
-        return self.DEF_bsc__linesep.join(lis)
+        return self.DEF_bsc__os__linesep.join(lis)
 
     def __iadd__(self, other):
-        if isinstance(other, Itf_BscDagTree):
+        if isinstance(other, ItfBscDagTree):
             for i in other.nodes():
                 pathStr = i.path()
                 if self.hasNode(pathStr) is False:

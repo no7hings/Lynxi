@@ -152,7 +152,7 @@ class QtScrollArea(qtCore.QWidget):
 
 
 #
-class QtCheckview(guiQtWgtAbs.Abs_GuiQtViewWgt):
+class QtCheckview(guiQtWgtAbs.AbsGuiQtViewWgt):
     CLS_gui_qt__view_wgt__model = _guiQtMdlView.QtCheckviewModel
 
     def __init__(self, *args, **kwargs):
@@ -172,7 +172,7 @@ class QtCheckview(guiQtWgtAbs.Abs_GuiQtViewWgt):
 
 
 #
-class QtTreeview(guiQtWgtAbs.Abs_GuiQtViewWgt):
+class QtTreeview(guiQtWgtAbs.AbsGuiQtViewWgt):
     CLS_gui_qt__view_wgt__model = _guiQtMdlView.QtTreeviewModel
 
     CLS_gui_qt__view_wgt__scrollbar = _guiQtWgtBasic.QtScrollBar
@@ -381,7 +381,7 @@ class QtTreeview(guiQtWgtAbs.Abs_GuiQtViewWgt):
 
 
 #
-class QtGridview(guiQtWgtAbs.Abs_GuiQtViewWgt):
+class QtGridview(guiQtWgtAbs.AbsGuiQtViewWgt):
     CLS_gui_qt__view_wgt__model = _guiQtMdlView.QtGridviewModel
 
     CLS_gui_qt__view_wgt__scrollbar = _guiQtWgtBasic.QtScrollBar
@@ -614,7 +614,7 @@ class QtGridview(guiQtWgtAbs.Abs_GuiQtViewWgt):
 
 
 # Preset
-class QtPresetview(guiQtWgtAbs.Abs_GuiQtViewWgt):
+class QtPresetview(guiQtWgtAbs.AbsGuiQtViewWgt):
     CLS_gui_qt__view_wgt__model = _guiQtMdlView.QtGridviewModel
 
     CLS_gui_qt__view_wgt__scrollbar = _guiQtWgtBasic.QtScrollBar

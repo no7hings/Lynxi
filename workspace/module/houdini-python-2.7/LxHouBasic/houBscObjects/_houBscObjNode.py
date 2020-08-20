@@ -10,7 +10,7 @@ from .. import houBscObjAbs
 from ..houBscObjects import _houBscObjData, _houBscObjQuery, _houBscObjPort
 
 
-class Node(houBscObjAbs.Abs_HouNode):
+class Node(houBscObjAbs.AbsHouNode):
     CLS_grh__cache_obj__variant = _datObjRaw.ObjVariant
     CLS_grh__cache_obj__variant_obj_stack = _grhObjStack.VariantObjStack
 

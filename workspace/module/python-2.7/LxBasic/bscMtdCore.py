@@ -113,7 +113,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
     @classmethod
     def _getOsEnvironRawAsPath(cls, key, failobj=None):
         if key in cls.MOD_os.environ:
-            return cls._getOsEnvironRawWithKey(key).replace('\\', cls.DEF_bsc__pathsep)
+            return cls._getOsEnvironRawWithKey(key).replace('\\', cls.DEF_bsc__os__pathsep)
         elif failobj is not None:
             return failobj
         return ''
@@ -130,7 +130,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
     def _getOsEnvironRawAsPathList(cls, key, failobj=None):
         if key in cls.MOD_os.environ:
             return [
-                i.replace('\\', cls.DEF_bsc__pathsep)
+                i.replace('\\', cls.DEF_bsc__os__pathsep)
                 for i in
                 cls._getOsEnvironRawWithKey(key).split(cls.MOD_os.pathsep)
             ]
@@ -140,7 +140,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
 
     @classmethod
     def _osPathToPythonStyle(cls, pathStr):
-        return pathStr.replace('\\', cls.DEF_bsc__pathsep)
+        return pathStr.replace('\\', cls.DEF_bsc__os__pathsep)
 
     @classmethod
     def _isOsDirectory(cls, pathStr):
@@ -198,17 +198,17 @@ class Mtd_BscUtility(Mtd_BscBasic):
     @classmethod
     def _setOsPathOpen(cls, pathStr):
         if cls._isOsPathExist(pathStr) is True:
-            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__pathsep, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__os__pathsep, cls.MOD_os.sep))
 
     @classmethod
     def _setOsFileOpen(cls, pathStr):
         if cls._isOsFileExist(pathStr) is True:
-            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__pathsep, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__os__pathsep, cls.MOD_os.sep))
 
     @classmethod
     def _setOsDirectoryOpen(cls, pathStr):
         if cls._isOsPathExist(pathStr) is True:
-            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__pathsep, cls.MOD_os.sep))
+            cls.MOD_os.startfile(pathStr.replace(cls.DEF_bsc__os__pathsep, cls.MOD_os.sep))
 
     @classmethod
     def _getOsFileMtimestamp(cls, fileString):
@@ -330,7 +330,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
     
     @classmethod
     def _toOsFilename(cls, directoryString, basenameString):
-        return cls.MTD_os_path.join(directoryString, basenameString).replace('\\', cls.DEF_bsc__pathsep)
+        return cls.MTD_os_path.join(directoryString, basenameString).replace('\\', cls.DEF_bsc__os__pathsep)
 
     @classmethod
     def _getPathnameListByOsDirectory(cls, rootString, extString, isFile, isFullpath, isAll):
@@ -472,7 +472,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
 
     @classmethod
     def _toOsPathString(cls, *args):
-        return cls._toPathString(cls.DEF_bsc__pathsep, *args).replace('\\', cls.DEF_bsc__pathsep)
+        return cls._toPathString(cls.DEF_bsc__os__pathsep, *args).replace('\\', cls.DEF_bsc__os__pathsep)
 
     @classmethod
     def _bsc_mtd__set_python_module_load_(cls, moduleName):
@@ -534,7 +534,7 @@ class Mtd_BscUtility(Mtd_BscBasic):
                 stringLis = cls.MOD_glob.glob(backupName)
                 if stringLis:
                     for i in stringLis:
-                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', cls.DEF_bsc__pathsep)
+                        dic[cls._getOsFileTimetag(i)] = i.replace('\\', cls.DEF_bsc__os__pathsep)
         return dic
 
     @classmethod
@@ -1051,8 +1051,8 @@ class Mtd_BscFile(Mtd_BscUtility):
 
     @classmethod
     def reduceFilename(cls, fileString):
-        pathsep = cls.DEF_bsc__pathsep
-        return cls.MOD_re.sub('{0}|{1}'.format(pathsep * 2, pathsep * 3), pathsep, fileString)
+        pathsep = cls.DEF_bsc__python__pathsep
+        return cls.MOD_re.sub(r'{0}|{1}'.format(pathsep * 2, pathsep * 3), pathsep, fileString)
     
     @classmethod
     def toExtSplit(cls, fileString):
@@ -1117,8 +1117,8 @@ class Mtd_BscFile(Mtd_BscUtility):
         hashKey = cls._getOsFileHash(fileString)
         dirname, filename, ext = cls._getOsFileDirname(fileString), cls._getOsFileName(fileString), cls._getOsFileExt(fileString)
         #
-        targetFileString = cls.DEF_bsc__pathsep.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + ext, hashKey])
-        osVersionFile = cls.DEF_bsc__pathsep.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + cls.LynxiOsExtVAR_kit__window__version])
+        targetFileString = cls.DEF_bsc__os__pathsep.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + ext, hashKey])
+        osVersionFile = cls.DEF_bsc__os__pathsep.join([cls._getOsFileDirname(fileString),  cls.LynxiOsFolder_History, filename + cls.LynxiOsExtVAR_kit__window__version])
         return targetFileString, osVersionFile
 
     @classmethod

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<mainMenu>
+	<menuBar>
+		<subMenu id="lynxi_menu">
+			<label>Lynxi</label>
+			<insertBefore>help_menu</insertBefore>
+			<scriptItem id="usd_to_materialx">
+				<label>USD to MaterialX</label>
+			</scriptItem>
+			<separatorItem />
+			<scriptItem id="log_window">
+				<label>Log Window</label>
+				<scriptCode><![CDATA[from LxBasic import bscObjects;l=bscObjects.LogWindow();l.showUi();bscObjects.connectPrint()]]></scriptCode>
+			</scriptItem>
+			<separatorItem />
+			<scriptItem id="update_module">
+				<label>Update Module(s)</label>
+			</scriptItem>
+        </subMenu>
+	</menuBar>
+</mainMenu>

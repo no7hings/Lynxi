@@ -14,7 +14,7 @@ from .. import kitQtWgtAbs
 serverBasicPath = shmOutput.Root().basic.server
 
 
-class IfToolkitOverviewUnit(kitQtWgtAbs.Abs_KitQtWgtUnit):
+class IfToolkitOverviewUnit(kitQtWgtAbs.AbsKitQtWgtUnit):
     UnitConnectLinks = [
     ]
 

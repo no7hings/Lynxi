@@ -8,7 +8,7 @@ from LxGui.qt import qtCore, guiQtMdlAbs
 
 
 #
-class QtRadarchartModel(guiQtMdlAbs.Abs_GuiQtChartMdl):
+class QtRadarchartModel(guiQtMdlAbs.AbsGuiQtChartMdl):
     def __init__(self, widget):
         self._initAbsGuiQtChartMdl()
         self._initRadarChart()
@@ -193,7 +193,7 @@ class QtRadarchartModel(guiQtMdlAbs.Abs_GuiQtChartMdl):
 
 
 #
-class QtSectorchartModel(guiQtMdlAbs.Abs_GuiQtChartMdl):
+class QtSectorchartModel(guiQtMdlAbs.AbsGuiQtChartMdl):
     # noinspection PyUnusedLocal
     def __init__(self, widget):
         self._initAbsGuiQtChartMdl()

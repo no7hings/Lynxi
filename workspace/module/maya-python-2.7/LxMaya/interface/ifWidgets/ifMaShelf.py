@@ -6,7 +6,7 @@ from LxMaya.interface.ifWidgets import ifMaGroup
 
 #
 class IfScLightShelf(
-    kitQtWgtAbs.Abs_KitQtWgtShelf
+    kitQtWgtAbs.AbsKitQtWgtShelf
 ):
     def __init__(self, mainWindow=None):
         super(IfScLightShelf, self).__init__()
@@ -25,7 +25,7 @@ class IfScLightShelf(
 
 
 #
-class IfProductComposeShelf(kitQtWgtAbs.Abs_KitQtWgtShelf):
+class IfProductComposeShelf(kitQtWgtAbs.AbsKitQtWgtShelf):
     def __init__(self, mainWindow=None):
         super(IfProductComposeShelf, self).__init__()
         self._initAbsKitQtWgtShelf()

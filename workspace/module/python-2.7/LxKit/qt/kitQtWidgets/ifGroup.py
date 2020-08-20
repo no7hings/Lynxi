@@ -13,7 +13,7 @@ none = ''
 
 
 #
-class QtIf_ProjectGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class QtIf_ProjectGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     def __init__(self, mainWindow=None):
         super(QtIf_ProjectGroup, self).__init__(mainWindow)
         self._initAbsKitQtWgtGroup()
@@ -51,7 +51,7 @@ class QtIf_ProjectGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
 
 
 #
-class IfPersonnelGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfPersonnelGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     userLevel = prsMethods.Personnel.userLevel()
     def __init__(self, mainWindow=None):
         super(IfPersonnelGroup, self).__init__(mainWindow)
@@ -97,7 +97,7 @@ class IfPersonnelGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
 
 
 #
-class IfToolkitGroup(kitQtWgtAbs.Abs_KitQtWgtGroup):
+class IfToolkitGroup(kitQtWgtAbs.AbsKitQtWgtGroup):
     VAR_kit__qt_wgt__group__name = 'toolkit_group'
     VAR_kit__qt_wgt__group__uiname = 'Toolkit Group'
     VAR_kit__qt_wgt__group__icon = 'svg_basic/toolshelf'

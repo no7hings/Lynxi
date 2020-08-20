@@ -4,146 +4,146 @@ from LxBasic import bscObjItf, bscMethods
 from . import grhObjItf
 
 
-class Abs_GrhObjStack(bscObjItf.Itf_BscObjStack):
+class AbsGrhObjStack(bscObjItf.ItfBscObjStack):
     def _initAbsGrhObjStack(self, *args):
         self._initItfBscObjStack(*args)
 
 
-class Abs_GrhObjStackSite(grhObjItf.Itf_GrhObjStackSite):
+class AbsGrhObjStackSite(grhObjItf.ItfGrhObjStackSite):
     def _initAbsGrhObjStackSite(self, *args):
         self._initItfGrhVariantObjStack(*args)
 
 
 # object scene ******************************************************************************************************* #
-class Abs_GrhObjSceneLoader(grhObjItf.Itf_GrhObjSceneLoader):
+class AbsGrhObjSceneLoader(grhObjItf.ItfGrhObjSceneLoader):
     def _initAbsGrhObjScene(self, *args, **kwargs):
         self._initItfGrhObjScene(*args, **kwargs)
 
 
 # object loader ****************************************************************************************************** #
-class Abs_GrhObjLoader(grhObjItf.Itf_GrhObjLoader):
+class AbsGrhObjLoader(grhObjItf.ItfGrhObjLoader):
     def _initAbsGrhObjLoader(self, *args):
         self._initItfGrhObjLoader(*args)
 
 
 # object queryraw **************************************************************************************************** #
-class Abs_GrhPortQueryraw(grhObjItf.Itf_GrhPortQueryraw):
+class AbsGrhPortQueryraw(grhObjItf.ItfGrhPortQueryraw):
     def _initAbsGrhPortQueryraw(self, *args):
         self._initItfGrhPortQueryraw(*args)
 
 
-class Abs_GrhNodeQueryraw(grhObjItf.Itf_GrhNodeQueryraw):
+class AbsGrhNodeQueryraw(grhObjItf.ItfGrhNodeQueryraw):
     def _initAbsGrhNodeQueryraw(self, *args):
         self._initItfGrhNodeQueryraw(*args)
 
 
-class Abs_GrhObjQueryrawCreator(grhObjItf.Itf_GrhObjQueryrawCreator):
+class AbsGrhObjQueryrawCreator(grhObjItf.ItfGrhObjQueryrawCreator):
     def _initAbsGrhObjQueryBuilder(self, *args):
         self._initItfGrhObjQueryrawCreator(*args)
 
 
 # object query ******************************************************************************************************* #
-class Abs_GrhPortQuery(grhObjItf.Itf_GrhPortQuery):
+class AbsGrhPortQuery(grhObjItf.ItfGrhPortQuery):
     def _initAbsGrhPortQuery(self, *args):
         self._initItfGrhPortQuery(*args)
 
 
-class Abs_GrhNodeQuery(grhObjItf.Itf_GrhNodeQuery):
+class AbsGrhNodeQuery(grhObjItf.ItfGrhNodeQuery):
     def _initAbsGrhNodeQuery(self, *args):
         self._initItfGrhNodeQuery(*args)
 
 
-class Abs_GrhObjQueryBuilder(grhObjItf.Itf_GrhObjQueryBuilder):
+class AbsGrhObjQueryBuilder(grhObjItf.ItfGrhObjQueryBuilder):
     def _initAbsGrhObjQueryBuilder(self, *args):
         self._initItfGrhObjQueryBuilder(*args)
 
 
 # translator object query cache ************************************************************************************** #
-class Abs_GrhTrsObjLoader(grhObjItf.Itf_GrhTrsObjLoader):
+class AbsGrhTrsObjLoader(grhObjItf.ItfGrhTrsObjLoader):
     def _initAbsGrhTrsObjLoader(self, *args):
         self._initItfGrhTrsObjLoader(*args)
 
 
 # translator object query cache ************************************************************************************** #
-class Abs_GrhTrsPortQueryraw(grhObjItf.Itf_GrhTrsPortQueryraw):
+class AbsGrhTrsPortQueryraw(grhObjItf.ItfGrhTrsPortQueryraw):
     def _initAbsGrhTrsPortQueryraw(self, *args):
         self._initItfGrhPortQueryraw(*args)
 
 
-class Abs_GrhTrsNodeQueryraw(grhObjItf.Itf_GrhTrsNodeQueryraw):
+class AbsGrhTrsNodeQueryraw(grhObjItf.ItfGrhTrsNodeQueryraw):
     def _initAbsGrhTrsNodeQueryraw(self, *args):
         self._initItfGrhTrsNodeQueryraw(*args)
 
 
-class Abs_GrhTrsObjQueryrawCreator(grhObjItf.Itf_GrhTrsObjQueryrawCreator):
+class AbsGrhTrsObjQueryrawCreator(grhObjItf.ItfGrhTrsObjQueryrawCreator):
     def _initAbsGrhTrsObjQueryrawCreator(self, *args):
         self._initItfGrhTrsObjQueryBuilder(*args)
 
 
 # translator object query ******************************************************************************************** #
-class Abs_GrhTrsPortQuery(grhObjItf.Itf_GrhTrsPortQuery):
+class AbsGrhTrsPortQuery(grhObjItf.ItfGrhTrsPortQuery):
     def _initAbsGrhTrsPortQuery(self, *args):
         self._initItfGrhTrsPortQuery(*args)
 
 
-class Abs_GrhTrsNodeQuery(grhObjItf.Itf_GrhTrsNodeQuery):
+class AbsGrhTrsNodeQuery(grhObjItf.ItfGrhTrsNodeQuery):
     def _initAbsGrhTrsNodeQuery(self, *args):
         self._initItfGrhTrsNodeQuery(*args)
 
 
-class Abs_GrhTrsObjQueryBuilder(grhObjItf.Itf_GrhTrsObjQueryBuilder):
+class AbsGrhTrsObjQueryBuilder(grhObjItf.ItfGrhTrsObjQueryBuilder):
     def _initAbsGrhTrsObjQueryBuilder(self, *args):
         self._initItfGrhTrsObjQueryBuilder(*args)
 
 
 # cache ************************************************************************************************************** #
-class Abs_GrhObjQueue(grhObjItf.Itf_GrhObjQueue):
+class AbsGrhObjQueue(grhObjItf.ItfGrhObjQueue):
     def _initAbsGrhObjQueue(self, *args):
         self._initItfGrhObjQueue(*args)
 
 
 # object ************************************************************************************************************* #
-class Abs_GrhPort(grhObjItf.Itf_GrhPort):
+class AbsGrhPort(grhObjItf.ItfGrhPort):
     def _initAbsGrhPort(self, *args, **kwargs):
         self._initItfGrhPort(*args, **kwargs)
 
     # **************************************************************************************************************** #
-    def _obj__set_parent_build_(self, *args):
+    def _obj__set_parent_(self, *args):
         objpathStr = args[0]
-        self._parentPathStr = objpathStr
+        self._parentObjPath = objpathStr
 
     def _obj__set_children_build_(self, *args):
         portpathStrList = args[0]
-        self._childPathStrList = portpathStrList
+        self._childObjPathList = portpathStrList
 
     # **************************************************************************************************************** #
     def _obj__get_parent_exist_(self, *args):
         if args:
             if isinstance(args[0], self.__class__):
                 portObject = args[0]
-                return portObject.portpathString() == self._parentPathStr
+                return portObject.portpathString() == self._parentObjPath
             elif isinstance(args[0], (str, unicode)):
                 portpathString = args[0]
-                return portpathString == self._parentPathStr
-        return self._parentPathStr is not None
+                return portpathString == self._parentObjPath
+        return self._parentObjPath is not None
 
     def _obj__get_parent_obj_(self):
         if self._obj__get_parent_exist_() is True:
             return self.node().port(
-                self._parentPathStr,
+                self._parentObjPath,
                 self.assignString()
             )
 
     def _obj__get_child_obj_list_(self, *args, **kwargs):
         return [
             self._obj__get_child_obj_(i)
-            for i in self._childPathStrList
+            for i in self._childObjPathList
         ]
 
     def _obj__get_child_exist_(self, *args):
         if args:
             portpathString = args[0]
-            return portpathString in self._childPathStrList
+            return portpathString in self._childObjPathList
         return self._obj__get_parent_exist_()
 
     def _obj__get_child_obj_(self, *args):
@@ -152,10 +152,10 @@ class Abs_GrhPort(grhObjItf.Itf_GrhPort):
                 portpathString = args[0]
                 return self.node().port(portpathString, self.assignString())
             elif isinstance(args[0], (int, float)):
-                return self.node().port(self._childPathStrList[int(args[0])], self.assignString())
+                return self.node().port(self._childObjPathList[int(args[0])], self.assignString())
 
     def _obj__get_children_exist_(self):
-        return self._childPathStrList != []
+        return self._childObjPathList != []
 
     # **************************************************************************************************************** #
     @classmethod
@@ -163,35 +163,35 @@ class Abs_GrhPort(grhObjItf.Itf_GrhPort):
         return cls.CLS_grh__obj__path(*args).toString()
 
 
-class Abs_GrhNode(grhObjItf.Itf_GrhNode):
+class AbsGrhNode(grhObjItf.ItfGrhNode):
     def _initAbsGrhNode(self, *args, **kwargs):
         self._initItfGrhNode(*args, **kwargs)
 
 
 # connector ********************************************************************************************************** #
-class Abs_GrhConnector(grhObjItf.Itf_GrhConnector):
+class AbsGrhConnector(grhObjItf.ItfGrhConnector):
     def _initAbsGrhConnector(self, *args):
         self._initItfGrhConnector(*args)
 
 
 # geometry assign **************************************************************************************************** #
-class Abs_GrhGeometryAssign(grhObjItf.Itf_GrhGeometryAssign):
+class AbsGrhGeometryAssign(grhObjItf.ItfGrhGeometryAssign):
     def _initAbsGrhGeometryAssign(self, *args, **kwargs):
         self._initItfGrhGeometryAssign(*args, **kwargs)
 
 
 # object proxy ******************************************************************************************************* #
-class Abs_GrhPortProxy(grhObjItf.Itf_GrhPortProxy):
+class AbsGrhPortProxy(grhObjItf.ItfGrhPortProxy):
     def _initAbsGrhPortProxy(self, *args, **kwargs):
         self._initItfGrhPortProxy(*args, **kwargs)
 
 
-class Abs_GrhNodeProxy(grhObjItf.Itf_GrhNodeProxy):
+class AbsGrhNodeProxy(grhObjItf.ItfGrhNodeProxy):
     def _initAbsGrhNodeProxy(self, *args, **kwargs):
         self._initItfGrhNodeProxy(*args, **kwargs)
 
 
-class Abs_GrhShaderProxy(grhObjItf.Itf_GrhNodeProxy):
+class AbsGrhShaderProxy(grhObjItf.ItfGrhNodeProxy):
     def _initAbsGrhShaderProxy(self, *args, **kwargs):
         self._initItfGrhNodeProxy(*args, **kwargs)
 
@@ -221,7 +221,7 @@ class Abs_GrhShaderProxy(grhObjItf.Itf_GrhNodeProxy):
                         return targetNodeObj.proxy(materialNamespaceStr)
 
 
-class Abs_GrhMaterialProxy(grhObjItf.Itf_GrhNodeProxy):
+class AbsGrhMaterialProxy(grhObjItf.ItfGrhNodeProxy):
     VAR_grh_material_proxy__surface_shader_port_str = None
     VAR_grh_material_proxy__displacement_shader_port_str = None
     VAR_grh_material_proxy__volume_port_str = None
@@ -233,15 +233,15 @@ class Abs_GrhMaterialProxy(grhObjItf.Itf_GrhNodeProxy):
     def _material_proxy_cls__set_shader_connect(self, *args):
         shaderInportObj, _ = args
         connectNamespaceStr = self.connectNamespaceString()
-        if isinstance(_, Abs_GrhPort):
+        if isinstance(_, AbsGrhPort):
             shaderNodeObj = _.node()
             shaderOtportObj = _
             shaderNodeProxyObj = shaderNodeObj.proxy(connectNamespaceStr)
-        elif isinstance(_, Abs_GrhNode):
+        elif isinstance(_, AbsGrhNode):
             shaderNodeObj = _
             shaderOtportObj = shaderNodeObj.otport()
             shaderNodeProxyObj = shaderNodeObj.proxy(connectNamespaceStr)
-        elif isinstance(_, Abs_GrhShaderProxy):
+        elif isinstance(_, AbsGrhShaderProxy):
             shaderNodeProxyObj = _
             shaderOtportObj = shaderNodeProxyObj.bindObject().otport()
         else:
@@ -314,7 +314,7 @@ class Abs_GrhMaterialProxy(grhObjItf.Itf_GrhNodeProxy):
         return self.bindOtport(u'material')
 
 
-class Abs_GrhGeometryProxy(grhObjItf.Itf_GrhNodeProxy):
+class AbsGrhGeometryProxy(grhObjItf.ItfGrhNodeProxy):
     def _initAbsGrhGeometryProxy(self, *args, **kwargs):
         self._initItfGrhNodeProxy(*args, **kwargs)
 
@@ -421,34 +421,34 @@ class Abs_GrhGeometryProxy(grhObjItf.Itf_GrhNodeProxy):
 
 
 # node graph ********************************************************************************************************* #
-class Abs_GrhNodeGraph(grhObjItf.Itf_GrhNodeGraph):
+class AbsGrhNodeGraph(grhObjItf.ItfGrhNodeGraph):
     def _initAbsGrhNodeGraph(self, *args, **kwargs):
         self._initItfGrhNodeGraph(*args, **kwargs)
 
 
-class Abs_GrhNodeGraphPortProxy(grhObjItf.Itf_GrhNodeGraphPortProxy):
+class AbsGrhNodeGraphPortProxy(grhObjItf.ItfGrhNodeGraphPortProxy):
     def _initAbsGrhNodeGraphPortProxy(self, *args, **kwargs):
         self._initAbsItfNodeGraphOtportProxy(*args, **kwargs)
 
 
 # node translate ***************************************************************************************************** #
-class Abs_GrhObjTranslator(grhObjItf.Itf_GrhObjTranslator):
+class AbsGrhObjTranslator(grhObjItf.ItfGrhObjTranslator):
     def _initAbsGrhObjTranslator(self, *args):
         self._initItfGrhObjTranslator(*args)
 
 
-class Abs_GrhTrsNode(grhObjItf.Itf_GrhTrsNode):
+class AbsGrhTrsNode(grhObjItf.ItfGrhTrsNode):
     def _initAbsGrhTrsNode(self, *args):
         self._initItfGrhTrsNode(*args)
 
 
 # node proxy translate *********************************************************************************************** #
-class Abs_GrhTrsNodeProxy(grhObjItf.Itf_GrhTrsNodeProxy):
+class AbsGrhTrsNodeProxy(grhObjItf.ItfGrhTrsNodeProxy):
     def _initAbsGrhTrsNodeProxy(self, *args, **kwargs):
         self._initItfGrhTrsNodeProxy(*args, **kwargs)
 
 
-class Abs_GrhTrsShaderProxy(grhObjItf.Itf_GrhTrsNodeProxy):
+class AbsGrhTrsShaderProxy(grhObjItf.ItfGrhTrsNodeProxy):
     def _initAbsGrhTrsShaderProxy(self, *args, **kwargs):
         self._initItfGrhTrsNodeProxy(*args, **kwargs)
 
@@ -471,7 +471,7 @@ class Abs_GrhTrsShaderProxy(grhObjItf.Itf_GrhTrsNodeProxy):
                 )
 
 
-class Abs_GrhTrsMaterialProxy(grhObjItf.Itf_GrhTrsNodeProxy):
+class AbsGrhTrsMaterialProxy(grhObjItf.ItfGrhTrsNodeProxy):
     CLS_grh__trs_input_node_proxy = None
 
     VAR_grh__trs_src_source_portpath_list = []
@@ -526,7 +526,7 @@ class Abs_GrhTrsMaterialProxy(grhObjItf.Itf_GrhTrsNodeProxy):
                     tgtShaderPortObj.connectTo(tgtMaterialPortObj)
 
 
-class Abs_GrhTrsGeometryProxy(grhObjItf.Itf_GrhTrsNodeProxy):
+class AbsGrhTrsGeometryProxy(grhObjItf.ItfGrhTrsNodeProxy):
     CLS_grh__trs_input_node_proxy = None
 
     VAR_grh__trs_src_material_portpath = None

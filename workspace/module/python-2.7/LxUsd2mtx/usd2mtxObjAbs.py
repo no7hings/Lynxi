@@ -6,11 +6,11 @@ from LxGraphic import grhCfg, grhObjAbs
 from LxMtx import mtxObjAbs
 
 
-class Abs_Usd2mtxBasic(object):
+class AbsUsd2mtxBasic(object):
     pass
 
 
-class Abs_Usd2mtxTrsObjLoader(grhObjAbs.Abs_GrhTrsObjLoader):
+class AbsUsd2mtxTrsObjLoader(grhObjAbs.AbsGrhTrsObjLoader):
     def _initAbsUsd2mtxTrsObjLoader(self, *args):
         pass
 
@@ -107,7 +107,7 @@ class Abs_Usd2mtxTrsObjLoader(grhObjAbs.Abs_GrhTrsObjLoader):
         return out_node_raw_dict
 
 
-class Abs_Usd2mtxObjQueryrawCreator(grhObjAbs.Abs_GrhTrsObjQueryrawCreator):
+class AbsUsd2mtxObjQueryrawCreator(grhObjAbs.AbsGrhTrsObjQueryrawCreator):
     def _initAbsUsd2mtxObjQueryrawCreator(self, *args):
         self._initAbsGrhTrsObjQueryrawCreator(*args)
 
@@ -147,28 +147,28 @@ class Abs_Usd2mtxObjQueryrawCreator(grhObjAbs.Abs_GrhTrsObjQueryrawCreator):
             return _trsObjRaw
 
 
-class Abs_Usd2mtxObjTranslator(grhObjAbs.Abs_GrhObjTranslator):
+class AbsUsd2mtxObjTranslator(grhObjAbs.AbsGrhObjTranslator):
     def _initAbsUsd2mtxObjTranslator(self, *args):
         self._initAbsGrhObjTranslator(*args)
 
 
-class Abs_Usd2mtxNode(grhObjAbs.Abs_GrhTrsNode):
+class AbsUsd2mtxNode(grhObjAbs.AbsGrhTrsNode):
     def _initAbsUsd2mtxNode(self, *args):
         self._initAbsGrhTrsNode(*args)
 
 
 # node proxy ********************************************************************************************************* #
-class Abs_Usd2mtxShaderProxy(grhObjAbs.Abs_GrhTrsShaderProxy):
+class AbsUsd2mtxShaderProxy(grhObjAbs.AbsGrhTrsShaderProxy):
     def _initAbsUsd2mtxShaderProxy(self, *args, **kwargs):
         self._initAbsGrhTrsShaderProxy(*args, **kwargs)
 
 
-class Abs_Usd2mtxMaterialProxy(grhObjAbs.Abs_GrhTrsMaterialProxy):
+class AbsUsd2mtxMaterialProxy(grhObjAbs.AbsGrhTrsMaterialProxy):
     def _initAbsUsd2mtxMaterialProxy(self, *args, **kwargs):
         self._initAbsGrhTrsMaterialProxy(*args, **kwargs)
 
 
-class Abs_Usd2mtxGeometryProxy(grhObjAbs.Abs_GrhTrsGeometryProxy):
+class AbsUsd2mtxGeometryProxy(grhObjAbs.AbsGrhTrsGeometryProxy):
     def _initAbsUsd2mtxGeometryProxy(self, *args, **kwargs):
         self._initAbsGrhTrsGeometryProxy(*args, **kwargs)
 
@@ -194,11 +194,11 @@ class Abs_Usd2mtxGeometryProxy(grhObjAbs.Abs_GrhTrsGeometryProxy):
 
 
 # element ************************************************************************************************************ #
-class Abs_Usd2mtxLook(mtxObjAbs.Abs_MtxTrsLook):
+class AbsUsd2mtxLook(mtxObjAbs.AbsMtxTrsLook):
     def _initAbsUsd2mtxLook(self, *args):
         self._initAbsMtxTrsLook(*args)
 
 
-class Abs_Usd2mtxFile(mtxObjAbs.Abs_MtxTrsFile):
+class AbsUsd2mtxFile(mtxObjAbs.AbsMtxTrsFile):
     def _initAbsUsd2mtxFile(self, *args):
         self._initAbsMtxTrsFile(*args)

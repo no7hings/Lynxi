@@ -2,7 +2,7 @@
 from .. import usdObjAbs
 
 
-class ObjSceneLoader(usdObjAbs.Abs_UsdObjSceneLoader):
+class ObjSceneLoader(usdObjAbs.AbsUsdObjSceneLoader):
     def __init__(self, *args, **kwargs):
         self._initAbsUsdObjScene(*args, **kwargs)
 

@@ -6,7 +6,7 @@ from LxScheme import shmCfg
 from .. import guiObjAbs
 
 
-class GuiIconStack(bscObjAbs.Abs_BscObjStack):
+class GuiIconStack(bscObjAbs.AbsBscObjStack):
     def __init__(self, *args):
         self._initAbsBscObjStack(*args)
 
@@ -14,12 +14,12 @@ class GuiIconStack(bscObjAbs.Abs_BscObjStack):
         return obj.key
 
 
-class GuiIcon(guiObjAbs.Abs_GuiIcon):
+class GuiIcon(guiObjAbs.AbsGuiIcon):
     def __init__(self, *args):
         self._initAbsGuiIcon(*args)
 
 
-class GuiIconLoader(guiObjAbs.Abs_GuiIconLoader):
+class GuiIconLoader(guiObjAbs.AbsGuiIconLoader):
     CLS_gui__icon_loader__icon = GuiIcon
     CLS_gui__icon_loader__icon_stack = GuiIconStack
 

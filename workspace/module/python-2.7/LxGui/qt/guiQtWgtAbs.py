@@ -18,7 +18,7 @@ none = ''
 
 
 # Item
-class Abs_GuiQtItemWgt(qtCore.QWidget):
+class AbsGuiQtItemWgt(qtCore.QWidget):
     CLS_gui_qt__item_wgt__model = None
 
     toggled = qtCore.qtSignal(bool)
@@ -339,7 +339,7 @@ class Abs_GuiQtItemWgt(qtCore.QWidget):
 
 
 # Tree Item
-class Abs_GuiQtTreeitemWgt(Abs_GuiQtItemWgt):
+class AbsGuiQtTreeitemWgt(AbsGuiQtItemWgt):
     def _initAbsGuiQtTreeitemWgt(self):
         self._initAbsGuiQtItemWgt()
         self.setupUi()
@@ -445,7 +445,7 @@ class Abs_GuiQtTreeitemWgt(Abs_GuiQtItemWgt):
 
 
 # Icon Button
-class Abs_GuiQtQtIconbuttonWgt(Abs_GuiQtItemWgt):
+class AbsGuiQtQtIconbuttonWgt(AbsGuiQtItemWgt):
     upScrolled = qtCore.qtSignal()
     downScrolled = qtCore.qtSignal()
 
@@ -548,7 +548,7 @@ class Abs_GuiQtQtIconbuttonWgt(Abs_GuiQtItemWgt):
         self.actionData = []
 
 
-class Abs_GuiQtIconViewitemWgt(Abs_GuiQtItemWgt):
+class AbsGuiQtIconViewitemWgt(AbsGuiQtItemWgt):
     upScrolled = qtCore.qtSignal()
     downScrolled = qtCore.qtSignal()
 
@@ -653,7 +653,7 @@ class Abs_GuiQtIconViewitemWgt(Abs_GuiQtItemWgt):
 
 
 # Action Icon Button
-class Abs_GuiQtActionIconbuttonWgt(Abs_GuiQtItemWgt):
+class AbsGuiQtActionIconbuttonWgt(AbsGuiQtItemWgt):
     def _initAbsGuiQtActionIconbuttonWgt(self, iconKeywordStr=None):
         # self.setSizePolicy(qtCore.QSizePolicy.Expanding, qtCore.QSizePolicy.Preferred)
         self._initAbsGuiQtItemWgt()
@@ -747,7 +747,7 @@ class Abs_GuiQtActionIconbuttonWgt(Abs_GuiQtItemWgt):
 
 
 # Enter Label
-class Abs_GuiQtValueLineWgt(Abs_GuiQtItemWgt):
+class AbsGuiQtValueLineWgt(AbsGuiQtItemWgt):
     CLS_gui_qt__value_line_wgt__line_edit = None
     CLS_gui_qt__value_line_wgt__iconbutton = None
 
@@ -1036,7 +1036,7 @@ class Abs_GuiQtValueLineWgt(Abs_GuiQtItemWgt):
 
 
 # Attribute Item
-class _QtAttributeitem(Abs_GuiQtItemWgt):
+class _QtAttributeitem(AbsGuiQtItemWgt):
     CLS_gui_qt__item_wgt__model = guiQtMdlAbs._QtAttributeitemModel
 
     def __init__(self, *args, **kwargs):
@@ -1097,7 +1097,7 @@ class _QtAttributeitem(Abs_GuiQtItemWgt):
 
 
 # View
-class Abs_GuiQtViewWgt(qtCore.QWidget):
+class AbsGuiQtViewWgt(qtCore.QWidget):
     CLS_gui_qt__view_wgt__model = None
 
     CLS_gui_qt__view_wgt__scrollbar = None
@@ -1325,7 +1325,7 @@ class Abs_GuiQtViewWgt(qtCore.QWidget):
 
 
 # window
-class Abs_GuiQtWindowWgt(qtCore.QWidget):
+class AbsGuiQtWindowWgt(qtCore.QWidget):
     CLS_gui_qt__window_wgt__model = None
     CLS_gui_qt__window_wgt__iconbutton = None
     CLS_gui_qt__window_wgt__action_iconbutton = None
@@ -1829,7 +1829,7 @@ class Abs_GuiQtWindowWgt(qtCore.QWidget):
 
 
 # Chart
-class Abs_GuiQtChartWgt(qtCore.QWidget):
+class AbsGuiQtChartWgt(qtCore.QWidget):
     MODEL_CHART_CLS = None
 
     def _initAbsGuiQtChartWgt(self):
@@ -1914,7 +1914,7 @@ class Abs_GuiQtChartWgt(qtCore.QWidget):
         self._chartModel = self.MODEL_CHART_CLS(self)
 
 
-class Abs_GuiQtScrollbarWgt(qtCore.QWidget):
+class AbsGuiQtScrollbarWgt(qtCore.QWidget):
     CLS_gui_qt__scrollbar_wgt_iconbutton = None
 
     valueChanged = qtCore.qtSignal()
@@ -2127,7 +2127,7 @@ class Abs_GuiQtScrollbarWgt(qtCore.QWidget):
 
 
 # Value Enter Label
-class Abs_GuiQtValueArrayLineWgt(qtCore.QWidget):
+class AbsGuiQtValueArrayLineWgt(qtCore.QWidget):
     CLS_gui_qt__value_array_line_wgt__line_edit = None
 
     def _initAbsQtWgtValueEnterlabel(self):
@@ -2241,7 +2241,7 @@ class Abs_GuiQtValueArrayLineWgt(qtCore.QWidget):
 
 
 # Filter Enter Label
-class Abs_GuiQtFilterLineWgt(qtCore.QWidget):
+class AbsGuiQtFilterLineWgt(qtCore.QWidget):
     CLS_gui_qt__filter_line_wgt__model = None
 
     CLS_gui_qt__filter_line_wgt__line_edit = None
@@ -2491,7 +2491,7 @@ class Abs_GuiQtFilterLineWgt(qtCore.QWidget):
 
 
 # Choose View
-class Abs_GuiQtChooseViewportWgt(Abs_GuiQtViewWgt):
+class AbsGuiQtChooseViewportWgt(AbsGuiQtViewWgt):
     CLS_gui_qt__view_wgt__model = None
 
     CLS_gui_qt__view_wgt__scrollbar = None
@@ -2507,7 +2507,7 @@ class Abs_GuiQtChooseViewportWgt(Abs_GuiQtViewWgt):
         self._viewModel = self.CLS_gui_qt__view_wgt__model(self)
 
 
-class Abs_GuiQtChooseWindowWgt(qtCore.QWidget):
+class AbsGuiQtChooseWindowWgt(qtCore.QWidget):
     CLS_gui_qt__choose_window_wgt__model = None
 
     CLS_gui_qt__choose_window_wgt__viewport = None
@@ -2524,7 +2524,7 @@ class Abs_GuiQtChooseWindowWgt(qtCore.QWidget):
             self._clsSuper = super(qtCore.QWidget, self)
             self._clsSuper.__init__(*args, **kwargs)
         else:
-            self._clsSuper = super(Abs_GuiQtChooseWindowWgt, self)
+            self._clsSuper = super(AbsGuiQtChooseWindowWgt, self)
             self._clsSuper.__init__(*args, **kwargs)
         #
         self.setWindowFlags(qtCore.QtCore.Qt.Drawer | qtCore.QtCore.Qt.FramelessWindowHint)
@@ -2607,7 +2607,7 @@ class Abs_GuiQtChooseWindowWgt(qtCore.QWidget):
         )
 
 
-class Abs_GuiQtActionViewitemWgt(qtCore.QWidget):
+class AbsGuiQtActionViewitemWgt(qtCore.QWidget):
     CLS_gui_qt__action_viewitem_wgt__iconbutton = None
 
     clicked = qtCore.qtSignal()
@@ -2618,7 +2618,7 @@ class Abs_GuiQtActionViewitemWgt(qtCore.QWidget):
             self._clsSuper = super(qtCore.QWidget, self)
             self._clsSuper.__init__(*args, **kwargs)
         else:
-            self._clsSuper = super(Abs_GuiQtActionViewitemWgt, self)
+            self._clsSuper = super(AbsGuiQtActionViewitemWgt, self)
             self._clsSuper.__init__(*args, **kwargs)
 
         self._initAbsGuiQtActionViewitemWgt()
@@ -2715,10 +2715,10 @@ class Abs_GuiQtActionViewitemWgt(qtCore.QWidget):
         self._extendButton = self.CLS_gui_qt__action_viewitem_wgt__iconbutton('svg_basic/subwindow', self)
         self._extendButton.hide()
         #
-        self._itemModel = guiQtMdlAbs.Abs_GuiQtActionViewitemWgtModel(self)
+        self._itemModel = guiQtMdlAbs.AbsGuiQtActionViewitemWgtModel(self)
 
 
-class Abs_GuiQtActionViewportWgt(qtCore.QWidget):
+class AbsGuiQtActionViewportWgt(qtCore.QWidget):
     CLS_gui_qt__action_viewport_wgt__model = None
 
     CLS_gui_qt__action_viewport_wgt__viewitem = None
@@ -2867,7 +2867,7 @@ class Abs_GuiQtActionViewportWgt(qtCore.QWidget):
         )
 
 
-class Abs_GuiQtTabitemWgt(qtCore.QWidget):
+class AbsGuiQtTabitemWgt(qtCore.QWidget):
     CLS_gui_qt__tabitem_wgt__model = None
 
     CLS_gui_qt__tabitem_wgt__iconbutton = None
@@ -3008,7 +3008,7 @@ class Abs_GuiQtTabitemWgt(qtCore.QWidget):
 
 
 # Tab Bar
-class Abs_GuiQtTabbarWgt(qtCore.QWidget):
+class AbsGuiQtTabbarWgt(qtCore.QWidget):
     CLS_gui_qt__tabbar_wgt_model = None
     # Scroll
     valueChanged = qtCore.qtSignal()
@@ -3095,7 +3095,7 @@ class Abs_GuiQtTabbarWgt(qtCore.QWidget):
 
 
 # Tab View
-class Abs_GuiQtTabgroupWgt(qtCore.QWidget):
+class AbsGuiQtTabgroupWgt(qtCore.QWidget):
     CLS_gui_qt__tabgroup_wgt__model = None
 
     CLS_gui_qt__tabgroup_wgt__iconbutton = None
@@ -3179,7 +3179,7 @@ class Abs_GuiQtTabgroupWgt(qtCore.QWidget):
 
 
 # Group
-class Abs_GuiQtGroupWgt(qtCore.QWidget):
+class AbsGuiQtGroupWgt(qtCore.QWidget):
     CLS_gui_qt__group_wgt__model = None
 
     CLS_gui_qt__group_wgt__iconbutton = None
@@ -3324,7 +3324,7 @@ class Abs_GuiQtGroupWgt(qtCore.QWidget):
 
 
 # Text Brower
-class Abs_GuiQtTextbrowerWgt(qtCore.QWidget):
+class AbsGuiQtTextbrowerWgt(qtCore.QWidget):
     CLS_gui_qt__text_brower_wgt__model = None
 
     CLS_gui_qt__text_brower_wgt__text_edit = None

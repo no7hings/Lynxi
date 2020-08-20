@@ -4,7 +4,7 @@ from .. import mtxCfg, mtxObjAbs
 from . import _mtxObjValue, _mtxObjRaw, _mtxObjStack, _mtxObjPort
 
 
-class MaterialAssign(mtxObjAbs.Abs_MtxMaterialAssign):
+class MaterialAssign(mtxObjAbs.AbsMtxMaterialAssign):
     CLS_mtx__name = _mtxObjRaw.Name
     CLS_mtx__look__geometry_proxy_stack = _mtxObjStack.GeometryProxySet
 
@@ -19,7 +19,7 @@ class MaterialAssign(mtxObjAbs.Abs_MtxMaterialAssign):
         self._initAbsMtxMaterialAssign(*args)
 
 
-class PropertysetAssign(mtxObjAbs.Abs_MtxPropertysetAssign):
+class PropertysetAssign(mtxObjAbs.AbsMtxPropertysetAssign):
     CLS_mtx__name = _mtxObjRaw.Name
     CLS_mtx__look__geometry_proxy_stack = _mtxObjStack.GeometryProxySet
 
@@ -34,7 +34,7 @@ class PropertysetAssign(mtxObjAbs.Abs_MtxPropertysetAssign):
         self._initAbsMtxPropertysetAssign(*args)
 
 
-class VisibilityAssign(mtxObjAbs.Abs_MtxVisibilityAssign):
+class VisibilityAssign(mtxObjAbs.AbsMtxVisibilityAssign):
     CLS_grh__type = _mtxObjRaw.VistypeString
     CLS_mtx__name = _mtxObjRaw.Name
 

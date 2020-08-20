@@ -6,7 +6,7 @@ from .. import ma2mtxObjAbs
 from ..ma2mtxObjects import _ma2mtxObjQuery, _ma2mtxObjElement
 
 
-class File(ma2mtxObjAbs.Abs_Ma2mtxFile):
+class File(ma2mtxObjAbs.AbsMa2mtxFile):
     CLS_mtx__trs_file__tgt_file = mtxObjects.File
     CLS_mtx__trs_file__trs_look = _ma2mtxObjElement.Look
 

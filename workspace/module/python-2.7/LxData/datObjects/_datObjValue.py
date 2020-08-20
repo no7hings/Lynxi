@@ -7,7 +7,7 @@ from . import _datObjRaw
 
 
 # Method for Digit Calculate
-class _Val_Digit(datObjAbs.Abs_DatValue):
+class _Val_Digit(datObjAbs.AbsDatValue):
     def __add__(self, other):
         """
         :param other: object of Value
@@ -50,7 +50,7 @@ class Val_Float(_Val_Digit):
         self._initAbsDatValue(*args)
 
 
-class Val_FloatArray(datObjAbs.Abs_DatValue):
+class Val_FloatArray(datObjAbs.AbsDatValue):
     CLS_dat__value__datatype = _datObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatN
 
@@ -65,7 +65,7 @@ class Val_FloatArray(datObjAbs.Abs_DatValue):
         self._initAbsDatValue(*args)
 
 
-class Val_Float2Array(datObjAbs.Abs_DatValue):
+class Val_Float2Array(datObjAbs.AbsDatValue):
     CLS_dat__value__datatype = _datObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -81,7 +81,7 @@ class Val_Float2Array(datObjAbs.Abs_DatValue):
         self._initAbsDatValue(*args)
 
 
-class Val_Float3Array(datObjAbs.Abs_DatValue):
+class Val_Float3Array(datObjAbs.AbsDatValue):
     CLS_dat__value__datatype = _datObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 
@@ -97,7 +97,7 @@ class Val_Float3Array(datObjAbs.Abs_DatValue):
         self._initAbsDatValue(*args)
 
 
-class Val_Float4Array(datObjAbs.Abs_DatValue):
+class Val_Float4Array(datObjAbs.AbsDatValue):
     CLS_dat__value__datatype = _datObjRaw.Datatype
     CLS_dat__value__data = _datObjData.Dat_FloatNN
 

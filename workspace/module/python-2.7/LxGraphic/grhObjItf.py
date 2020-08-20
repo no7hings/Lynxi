@@ -4,7 +4,7 @@ from LxBasic import bscMethods
 from . import grhCfg, grhMtdCore
 
 
-class Itf_GrhObjStackSite(grhCfg.GrhUtility):
+class ItfGrhObjStackSite(grhCfg.GrhUtility):
     CLS_grh__variant_set__obj_stack = None
 
     def _initItfGrhVariantObjStack(self, *args):
@@ -133,7 +133,7 @@ class Itf_GrhObjStackSite(grhCfg.GrhUtility):
 
 
 # object query loader ************************************************************************************************ #
-class Itf_GrhObjSceneLoader(grhCfg.GrhUtility):
+class ItfGrhObjSceneLoader(grhCfg.GrhUtility):
     def _initItfGrhObjScene(self, *args, **kwargs):
         self._obj_scene_loader__set_build_(*args, **kwargs)
 
@@ -168,7 +168,7 @@ class Itf_GrhObjSceneLoader(grhCfg.GrhUtility):
         return self._obj_scene_loader__get_all_node_str_list_(**kwargs)
 
 
-class Itf_GrhObjLoader(grhCfg.GrhUtility):
+class ItfGrhObjLoader(grhCfg.GrhUtility):
     CALL_grh__obj_loader__get_obj_scene = None
 
     VAR_grh__obj_loader__node_type__transform = None
@@ -432,7 +432,7 @@ class Itf_GrhObjLoader(grhCfg.GrhUtility):
 
 
 # object query raw creator ******************************************************************************************* #
-class Itf_GrhPortQueryraw(grhCfg.GrhUtility):
+class ItfGrhPortQueryraw(grhCfg.GrhUtility):
     def _initItfGrhPortQueryraw(self, *args):
         self._portRaw = args[0]
 
@@ -460,7 +460,7 @@ class Itf_GrhPortQueryraw(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhNodeQueryraw(grhCfg.GrhUtility):
+class ItfGrhNodeQueryraw(grhCfg.GrhUtility):
     CLS_grh__node_queryraw__port_queryraw_stack = None
     CLS_grh__node_queryraw__port_queryraw = None
 
@@ -598,7 +598,7 @@ class Itf_GrhNodeQueryraw(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhObjQueryrawCreator(grhCfg.GrhUtility):
+class ItfGrhObjQueryrawCreator(grhCfg.GrhUtility):
     CLS_grh__obj_query_creator__node_queryraw_stack = None
     CLS_grh__obj_query_creator__node_queryraw = None
 
@@ -717,16 +717,16 @@ class Itf_GrhObjQueryrawCreator(grhCfg.GrhUtility):
 
 
 # object query builder *********************************************************************************************** #
-class Itf_GrhObjQueryDef(object):
+class ItfGrhObjQueryDef(object):
     IST_grh__obj_query__queryraw_builder = None
 
     def _initItfGrhObjQueryDef(self, *args):
         pass
 
 
-class Itf_GrhPortQuery(
+class ItfGrhPortQuery(
     grhCfg.GrhUtility,
-    Itf_GrhObjQueryDef
+    ItfGrhObjQueryDef
 ):
     VAR_grh__port_query__portsep = None
 
@@ -734,9 +734,9 @@ class Itf_GrhPortQuery(
         # build
         if args:
             nodeArg, portArg = args
-            if isinstance(nodeArg, Itf_GrhNodeQuery):
+            if isinstance(nodeArg, ItfGrhNodeQuery):
                 self._nodeQueryrawObj = nodeArg.nodeQueryraw()
-            elif isinstance(nodeArg, Itf_GrhNodeQueryraw):
+            elif isinstance(nodeArg, ItfGrhNodeQueryraw):
                 self._nodeQueryrawObj = nodeArg
             elif isinstance(nodeArg, (str, unicode)):
                 typepathStr = nodeArg
@@ -744,7 +744,7 @@ class Itf_GrhPortQuery(
             else:
                 raise TypeError()
 
-            if isinstance(portArg, Itf_GrhPortQueryraw):
+            if isinstance(portArg, ItfGrhPortQueryraw):
                 self._portQueryrawObj = portArg
             elif isinstance(portArg, (str, unicode)):
                 typepathStr = self._nodeQueryrawObj.typepath
@@ -789,9 +789,9 @@ class Itf_GrhPortQuery(
         return self.__str__()
 
 
-class Itf_GrhNodeQuery(
+class ItfGrhNodeQuery(
     grhCfg.GrhUtility,
-    Itf_GrhObjQueryDef
+    ItfGrhObjQueryDef
 ):
     CLS_grh__node_query__port_query_stack = None
     CLS_grh__node_query__port_query = None
@@ -799,7 +799,7 @@ class Itf_GrhNodeQuery(
     def _initItfGrhNodeQuery(self, *args):
         if args:
             self._graphicNameString = u'unknown'
-            if isinstance(args[0], Itf_GrhNodeQueryraw):
+            if isinstance(args[0], ItfGrhNodeQueryraw):
                 self._nodeQueryrawObj = args[0]
             elif isinstance(args[0], dict):
                 pass
@@ -932,7 +932,7 @@ class Itf_GrhNodeQuery(
         return self.__str__()
 
 
-class Itf_GrhObjQueryBuilder(grhCfg.GrhUtility):
+class ItfGrhObjQueryBuilder(grhCfg.GrhUtility):
     CLS_grh__obj_query_builder__node_query_stack = None
     CLS_grh__obj_query_builder__node_query = None
 
@@ -1000,7 +1000,7 @@ class Itf_GrhObjQueryBuilder(grhCfg.GrhUtility):
 
 
 # object queue ******************************************************************************************************* #
-class Itf_GrhCacheObjDef(object):
+class ItfGrhCacheObjDef(object):
     CLS_grh__cache_obj__variant = None
     CLS_grh__cache_obj__variant_obj_stack = None
 
@@ -1043,7 +1043,7 @@ class Itf_GrhCacheObjDef(object):
         return self._variantObj.toString()
 
 
-class Itf_GrhObjQueue(grhCfg.GrhUtility):
+class ItfGrhObjQueue(grhCfg.GrhUtility):
     CLS_grh__obj_queue__node_stack = None
 
     # noinspection PyUnusedLocal
@@ -1076,7 +1076,7 @@ class Itf_GrhObjQueue(grhCfg.GrhUtility):
 
         # gain exist
         if len(args) == 1:
-            if isinstance(args[0], Itf_GrhCacheObjDef):
+            if isinstance(args[0], ItfGrhCacheObjDef):
                 obj = args[0]
                 return self._objQueueNodeStackObj._obj_stack__get_obj_(obj)
             elif isinstance(args[0], (float, int)):
@@ -1129,7 +1129,10 @@ class Itf_GrhObjQueue(grhCfg.GrhUtility):
 
 
 # object ************************************************************************************************************* #
-class Itf_GrhObjDef(object):
+class ItfGrhObjDef(object):
+    """
+    basic primitive
+    """
     CLS_grh__obj__obj_stack = None
     CLS_grh__obj__obj_proxy_stack = None
 
@@ -1144,73 +1147,111 @@ class Itf_GrhObjDef(object):
 
     # noinspection PyUnusedLocal
     def _initItfGrhObjDef(self, *args):
-        self._objProxyStackObj = self.CLS_grh__obj__obj_proxy_stack(self)
         # parent
-        self._parentPathStr = None
+        self._parentObjPath = None
         # children
-        self._childPathStrList = []
+        self._childObjPathList = []
+        # proxy stack
+        self._objProxyStackObj = self.CLS_grh__obj__obj_proxy_stack(self)
 
-    # **************************************************************************************************************** #
+    # build ********************************************************************************************************** #
     def _obj__set_path_build_(self, *args):
         self._objPathObj = self.CLS_grh__obj__path(*args)
-
-    def _obj__set_parent_build_(self, *args):
-        """
-        replace method
-        """
 
     def _obj__set_children_build_(self, *args):
         """
         replace method
         """
+        raise NotImplementedError
 
-    # **************************************************************************************************************** #
+    # create ********************************************************************************************************* #
     def _obj__set_create_(self, *args):
-        pass
+        """
+        replace method
+        """
+        raise NotImplementedError
 
     def create(self, *args):
-        pass
+        """
+        :param args:
+        :return:
+        """
+        self._obj__set_create_(*args)
 
-    # **************************************************************************************************************** #
+    # path *********************************************************************************************************** #
     def path(self):
+        """
+        :return: instance(ObjPath)
+        """
         return self._objPathObj
 
     def pathString(self):
+        """
+        :return: str(ObjPath)
+        """
         return self._objPathObj.toString()
 
     def name(self):
         """
-        :return: objects.Objname / objects.Portname
+        :return: instance(ObjName)
         """
         return self._objPathObj.name()
 
     def nameString(self):
         """
-        :return: str("name")
+        :return: str(ObjName)
         """
         return self._objPathObj.nameString()
 
-    # **************************************************************************************************************** #
+    # parent ********************************************************************************************************* #
     def _obj__get_parent_exist_(self, *args):
         """
         replace method
         """
+        raise NotImplementedError
 
     def isParent(self):
+        """
+        :return: bool
+        """
         return self._obj__get_children_exist_()
 
     def hasParent(self, *args):
+        """
+        :param args:
+            1.instance(Obj)
+            2.instance(ObjPath)
+            3.str(ObjPath)
+        :return: bool
+        """
         return self._obj__get_parent_exist_(*args)
 
+    def _obj__set_parent_(self, *args):
+        """
+        replace method
+        """
+        raise NotImplementedError
+
     def setParent(self, *args):
-        self._obj__set_parent_build_(*args)
+        """
+        :param args:
+            1.instance(Obj)
+            2.instance(ObjPath)
+            3.str(ObjPath)
+        :return:
+        """
+        self._obj__set_parent_(*args)
 
     def _obj__get_parent_obj_(self, *args):
         """
         replace method
         """
+        raise NotImplementedError
 
     def parent(self):
+        """
+        :return: instance(Obj)
+        """
         return self._obj__get_parent_obj_()
 
     # **************************************************************************************************************** #
@@ -1229,30 +1270,23 @@ class Itf_GrhObjDef(object):
         return lis
 
     def allParents(self, **kwargs):
+        """
+        :param kwargs:
+        :return: list(obj)
+        """
         return self._obj__get_parent_obj_list_(**kwargs)
 
-    # **************************************************************************************************************** #
+    # child ********************************************************************************************************** #
     def _obj__get_child_exist_(self, *args):
         """
         replace method
         """
-
-    def _obj__get_child_obj_(self, *args):
-        """
-        replace method
-        """
-
-    def _obj_child__get_index_(self, *args):
-        """
-        replace method
-        """
-
-    def _obj__set_child_add_(self, *args):
-        """
-        replace method
-        """
+        raise NotImplementedError
 
     def isChild(self):
+        """
+        :return: bool
+        """
         return self._obj__get_parent_exist_()
 
     def hasChild(self, *args):
@@ -1261,22 +1295,51 @@ class Itf_GrhObjDef(object):
         """
         return self._obj__get_child_exist_(*args)
 
+    def _obj__set_child_add_(self, *args):
+        """
+        replace method
+        """
+        raise NotImplementedError
+
     def addChild(self, *args):
+        """
+        :param args: instance(Obj)
+        :return: None
+        """
         self._obj__set_child_add_(*args)
+
+    def _obj__get_child_obj_(self, *args):
+        """
+        replace method
+        """
+        raise NotImplementedError
 
     def child(self, *args):
         """
-        :param args: str
-        :return: object
+        :param args: = ObjStack.object(*args)
+        :return: instance(Obj)
         """
         return self._obj__get_child_obj_(*args)
 
+    def _obj_child__get_index_(self, *args):
+        """
+        replace method
+        """
+        raise NotImplementedError
+
     def childIndex(self, *args):
+        """
+        :param args: = ObjStack.objectIndex(*args)
+        :return: int
+        """
         return self._obj_child__get_index_(*args)
 
     # **************************************************************************************************************** #
     def _obj__get_children_exist_(self, *args, **kwargs):
-        pass
+        """
+        replace method
+        """
+        raise NotImplementedError
 
     def hasChildren(self):
         """
@@ -1288,28 +1351,44 @@ class Itf_GrhObjDef(object):
         """
         replace method
         """
+        raise NotImplementedError
 
     def children(self, *args, **kwargs):
         """
-        :return: list(*objects.Obj)
+        :return: list(Obj)
         """
         return self._obj__get_child_obj_list_(*args, **kwargs)
 
     # **************************************************************************************************************** #
     def _obj__get_all_child_obj_list_(self, *args, **kwargs):
-        """
-        replace method
-        """
+        def rcsFnc_(obj_):
+            if obj_.hasParent():
+                _childObjList = obj_._obj__get_child_obj_list_()
+                for _childObj in _childObjList:
+                    lis.append(_childObj)
+                    rcsFnc_(_childObj)
+
+        if kwargs:
+            pass
+
+        lis = []
+        rcsFnc_(self)
+        return lis
 
     def allChildren(self, *args, **kwargs):
+        """
+        :param args: = ObjStack.objects(*args, **kwargs)
+        :param kwargs:
+        :return: list
+        """
         return self._obj__get_all_child_obj_list_(
             *args, **kwargs
         )
 
-    # **************************************************************************************************************** #
+    # to string ****************************************************************************************************** #
     def toString(self):
         """
-        :return: str
+        :return: str(ObjPath)
         """
         return self.pathString()
 
@@ -1319,7 +1398,7 @@ class Itf_GrhObjDef(object):
 
     def hasProxy(self, *args):
         """
-        :param args:
+        :param args: = ObjStack.hasObject(*args)
         :return: bool
         """
         return self._obj__get_proxy_obj_exist_(*args)
@@ -1331,30 +1410,41 @@ class Itf_GrhObjDef(object):
             self._objProxyStackObj._obj_stack__set_obj_add_(*args)
 
     def addProxy(self, *args, **kwargs):
+        """
+        :param args: = ObjStack.add(*args, **kwargs)
+        :param kwargs:
+        :return: None
+        """
         self._obj__set_proxy_obj_add_(*args, **kwargs)
 
     def proxies(self):
+        """
+        :return: list(object(proxy))
+        """
         return self._objProxyStackObj._obj_stack__get_obj_list_()
 
     def proxy(self, *args):
         """
         :param args:
-            1: str("namespace")
-        :return: *objects.Node / *objects.Port
+            1.instance(NamespacePath)
+            2.str(NamespacePath)
+        :return: instance(ObjProxy)
         """
         if args:
             if self._objProxyStackObj._obj_stack__get_obj_exist_(*args) is True:
                 return self._objProxyStackObj._obj_stack__get_obj_(*args)
-            else:
-                print self.pathString(), self.proxyNamespaceStrings(), args
         return self._objProxyStackObj._obj_stack__get_obj_list_()[-1]
 
     def proxyNamespaceStrings(self):
+        """
+        :return: list(str(NamespacePath))
+        """
         return self._objProxyStackObj.keys()
 
 
 # port *************************************************************************************************************** #
-class Itf_GrhInportDef(object):
+# input port definition
+class ItfGrhInportDef(object):
     def _initItfGrhInportDef(self):
         self._inportSourceOtportObj = None
 
@@ -1365,19 +1455,23 @@ class Itf_GrhInportDef(object):
             return otportObj == self._inportSourceOtportObj
         return self._inportSourceOtportObj is not None
 
-    def _inport__get_source_port_obj_(self, **kwargs):
-        if self._inport__get_source_exist_() is True:
-            return self._inportSourceOtportObj
-
     def hasSource(self, *args, **kwargs):
         """
         :param args:
-            1.args[0]: object or "Port"
+            1.args[0]: object(Port)
         :return: bool
         """
         return self._inport__get_source_exist_(*args, **kwargs)
 
+    def _inport__get_source_port_obj_(self, **kwargs):
+        if self._inport__get_source_exist_() is True:
+            return self._inportSourceOtportObj
+
     def source(self, **kwargs):
+        """
+        :param kwargs:
+        :return: instance(Port)
+        """
         return self._inport__get_source_port_obj_(**kwargs)
 
     # **************************************************************************************************************** #
@@ -1394,7 +1488,7 @@ class Itf_GrhInportDef(object):
         if self._inport__get_source_exist_(otportObj) is False:
             self._inportSourceOtportObj = otportObj
         else:
-            raise
+            raise TypeError()
 
     def addSource(self, *args):
         """
@@ -1428,13 +1522,20 @@ class Itf_GrhInportDef(object):
             self._inportSourceOtportObj = None
 
     def removeSource(self):
+        """
+        :return: None
+        """
         self._inport__set_source_port_obj_del_()
 
-    def disconnectFrom(self):
+    def disconnect(self):
+        """
+        = self.removeSource()
+        """
         self._inport__set_source_port_obj_del_()
 
 
-class Itf_GrhOtportDef(object):
+# output port definition
+class ItfGrhOtportDef(object):
     def _initItfGrhOtportDef(self):
         self._otportTargetInportObjList = []
 
@@ -1453,7 +1554,7 @@ class Itf_GrhOtportDef(object):
     def hasTarget(self, *args):
         """
         :param args:
-            1.*objects.Port()
+            1.instance(Port)
         :return: bool
         """
         return self._otport__get_target_port_exist_(*args)
@@ -1467,7 +1568,7 @@ class Itf_GrhOtportDef(object):
     def target(self, *args):
         """
         :param args:
-            1.int( " target index " )
+            1.int
         :return: *objects.Port()
         """
         return self._otport__get_target_port_obj_(*args)
@@ -1498,7 +1599,7 @@ class Itf_GrhOtportDef(object):
     def addTarget(self, *args, **kwargs):
         """
         :param args:
-            1.args[0]: *objects.Port()
+            1.args[0]: instance(Port)
         :return: None
         """
         self._otport__set_target_port_obj_add_(*args, **kwargs)
@@ -1526,9 +1627,18 @@ class Itf_GrhOtportDef(object):
             self._otportTargetInportObjList.remove(inportObj)
 
     def removeTarget(self, *args, **kwargs):
+        """
+        :param args:
+            1.args[0]: instance(Port)
+        :param kwargs:
+        :return: None
+        """
         self._otport__set_target_port_obj_del_(*args, **kwargs)
 
     def disconnectTo(self, *args, **kwargs):
+        """
+        = self.removeTarget(*args, **kwargs)
+        """
         self._otport__set_target_port_obj_del_(*args, **kwargs)
 
     # **************************************************************************************************************** #
@@ -1540,11 +1650,14 @@ class Itf_GrhOtportDef(object):
 
     def hasTargets(self):
         """
-        :return: list
+        :return: bool
         """
         return self._otport__get_target_ports_exist_()
 
     def targets(self):
+        """
+        :return: list(instance(Port))
+        """
         return self._otport__get_target_port_obj_list_()
 
     # **************************************************************************************************************** #
@@ -1557,10 +1670,16 @@ class Itf_GrhOtportDef(object):
         self._otport__set_target_port_obj_add_(inportObj)
 
     def insertTarget(self, *args):
+        """
+        :param args:
+            args[0]: instance(Port)
+        :return:
+        """
         self._otport__set_target_insert_(*args)
 
 
-class Itf_GrhAsportDef(object):
+# assign port definition
+class ItfGrhAsportDef(object):
     def _initItfGrhAsportDef(self, *args):
         objStackCls = args[0]
         self._asportAssignNodeStackObj = objStackCls(self)
@@ -1582,15 +1701,27 @@ class Itf_GrhAsportDef(object):
         self._asportAssignNodeStackObj._obj_stack__set_obj_add_(*args)
 
     def addAssignmentNode(self, *args):
+        """
+        :param args:
+            args[0]: instance(Node)
+        :return:
+        """
         self._asport__set_assignment_node_obj_add_(*args)
 
     def _asport__get_assignment_node_obj_(self, *args):
         return self._asportAssignNodeStackObj.object(*args)
 
     def assignmentNode(self, *args):
+        """
+        :param args: = ObjStack
+        :return: instance(Node)
+        """
         return self._asport__get_assignment_node_obj_(*args)
 
     def restoreAssignment(self):
+        """
+        :return: None
+        """
         self._asportAssignNodeStackObj.restore()
 
     # **************************************************************************************************************** #
@@ -1598,6 +1729,10 @@ class Itf_GrhAsportDef(object):
         return self._asportAssignNodeStackObj.hasObjects(**kwargs)
 
     def hasAssignmentNodes(self, **kwargs):
+        """
+        :param kwargs:
+        :return: bool
+        """
         return self._asport__get_assignment_nodes_exist_(**kwargs)
 
     def _asport__get_assignment_node_obj_list_(self, **kwargs):
@@ -1606,19 +1741,19 @@ class Itf_GrhAsportDef(object):
     def assignmentNodes(self, **kwargs):
         """
         :param kwargs:
-        :return: list
+        :return: list(instance(Node))
         """
         return self._asport__get_assignment_node_obj_list_(**kwargs)
 
 
-class Itf_GrhPort(
+class ItfGrhPort(
     grhCfg.GrhUtility,
-    Itf_GrhObjDef,
-    Itf_GrhCacheObjDef,
+    ItfGrhObjDef,
+    ItfGrhCacheObjDef,
     # port definition
-    Itf_GrhInportDef,
-    Itf_GrhOtportDef,
-    Itf_GrhAsportDef
+    ItfGrhInportDef,
+    ItfGrhOtportDef,
+    ItfGrhAsportDef
 ):
     CLS_grh__port__porttype = None
     CLS_grh__port__datatype = None
@@ -1641,7 +1776,7 @@ class Itf_GrhPort(
         nodeObj = nodeArg
         # port
         # port query
-        if isinstance(portArg, Itf_GrhPortQuery):
+        if isinstance(portArg, ItfGrhPortQuery):
             self._portQueryObj = portArg
         # portpath
         elif isinstance(portArg, (str, unicode)):
@@ -1692,7 +1827,7 @@ class Itf_GrhPort(
         self._grh__port__set_assign_build_(portQueryObj.assign)
 
         parentString = portQueryObj.parent
-        self._obj__set_parent_build_(parentString)
+        self._obj__set_parent_(parentString)
         self._obj__set_children_build_(portQueryObj.children)
 
         valueCls = self._get_port_value_cls_(datatypeStr)
@@ -2030,10 +2165,10 @@ class Itf_GrhPort(
 
 
 # node *************************************************************************************************************** #
-class Itf_GrhNode(
+class ItfGrhNode(
     grhCfg.GrhUtility,
-    Itf_GrhObjDef,
-    Itf_GrhCacheObjDef
+    ItfGrhObjDef,
+    ItfGrhCacheObjDef
 ):
     CLS_grh__node__typepath = None
     CLS_grh__node__datatype = None
@@ -2655,7 +2790,7 @@ class Itf_GrhNode(
         return self.__str__()
 
 
-class Itf_GrhStage(grhCfg.GrhUtility):
+class ItfGrhStage(grhCfg.GrhUtility):
     def _initTrsGrhStage(self, *args):
         pass
 
@@ -2673,7 +2808,7 @@ class Itf_GrhStage(grhCfg.GrhUtility):
 
 
 # connector ********************************************************************************************************** #
-class Itf_GrhConnector(grhCfg.GrhUtility):
+class ItfGrhConnector(grhCfg.GrhUtility):
     IST_grh__obj__queue = None
 
     def _initItfGrhConnector(self, *args):
@@ -2717,7 +2852,7 @@ class Itf_GrhConnector(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhGeometryAssign(grhCfg.GrhUtility):
+class ItfGrhGeometryAssign(grhCfg.GrhUtility):
     CLS_grh__assign__obj = None
     VAR_grh__assign__mesh_typepath_str = None
     VAR_grh__assign__material_typepath_str = None
@@ -2772,7 +2907,7 @@ class Itf_GrhGeometryAssign(grhCfg.GrhUtility):
 
 
 # object proxy ******************************************************************************************************* #
-class Itf_GrhObjProxy(grhCfg.GrhUtility):
+class ItfGrhObjProxy(grhCfg.GrhUtility):
     CLS_grh__obj_proxy__bind_obj = None
 
     CLS_grh__obj_proxy__obj_namespace = None
@@ -2789,13 +2924,13 @@ class Itf_GrhObjProxy(grhCfg.GrhUtility):
             raise TypeError()
         # path
         # use as "port proxy" or "node proxy"
-        if isinstance(pathArg, Itf_GrhObjDef):
+        if isinstance(pathArg, ItfGrhObjDef):
             obj = pathArg
             self._objPoxyPathObj = self.CLS_grh__obj_proxy__obj_path(
                 obj.pathString()
             )
         # use as "node graph"
-        elif isinstance(pathArg, Itf_GrhNodeProxy):
+        elif isinstance(pathArg, ItfGrhNodeProxy):
             nodeProxyObj = pathArg
             self._objPoxyPathObj = self.CLS_grh__obj_proxy__obj_path(
                 nodeProxyObj.bindPathString()
@@ -2919,7 +3054,7 @@ class Itf_GrhObjProxy(grhCfg.GrhUtility):
         return self.pathString()
 
 
-class Itf_GrhPortProxy(Itf_GrhObjProxy):
+class ItfGrhPortProxy(ItfGrhObjProxy):
     def _initItfGrhPortProxy(self, *args, **kwargs):
         self._initItfGrhObjProxy(*args, **kwargs)
         # build
@@ -2982,7 +3117,7 @@ class Itf_GrhPortProxy(Itf_GrhObjProxy):
 
 
 # node
-class Itf_GrhNodeProxy(Itf_GrhObjProxy):
+class ItfGrhNodeProxy(ItfGrhObjProxy):
     CLS_grh__node_proxy__bind_port_proxy_stack = None
     VAR_grh__node_proxy__bind_port_proxy_cls_dict = {}
 
@@ -3230,7 +3365,7 @@ class Itf_GrhNodeProxy(Itf_GrhObjProxy):
                 index = _
                 if self._inputNodeGraphStackObj._obj_stack__get_obj_exist_(index):
                     return self._inputNodeGraphStackObj._obj_stack__get_obj_(index)
-            elif isinstance(_, Itf_GrhNodeProxy):
+            elif isinstance(_, ItfGrhNodeProxy):
                 objProxyObj = _
                 return self._node_proxy__set_input_node_graph_obj_add_(objProxyObj)
         #
@@ -3256,7 +3391,7 @@ class Itf_GrhNodeProxy(Itf_GrhObjProxy):
 
     def _node_proxy__set_input_node_proxy_connect_(self, *args):
         _ = args[0]
-        if isinstance(_, Itf_GrhNodeProxy):
+        if isinstance(_, ItfGrhNodeProxy):
             nodeProxyObj = _
             if self._inputNodeProxyObjStack._obj_stack__get_obj_exist_(nodeProxyObj) is False:
                 if nodeProxyObj.namespace().isRoot() is True:
@@ -3283,7 +3418,7 @@ class Itf_GrhNodeProxy(Itf_GrhObjProxy):
 
 
 # node graph ********************************************************************************************************* #
-class Itf_GrhNodeGraph(Itf_GrhObjProxy):
+class ItfGrhNodeGraph(ItfGrhObjProxy):
     CLS_grh__node_graph__node_stack = None
 
     CLS_grh__node_graph__port_proxy_stack = None
@@ -3417,7 +3552,7 @@ class Itf_GrhNodeGraph(Itf_GrhObjProxy):
         return self._nodeGraphOtportProxyStackObj.objectsCount()
 
 
-class Itf_GrhNodeGraphPortProxy(Itf_GrhPortProxy):
+class ItfGrhNodeGraphPortProxy(ItfGrhPortProxy):
     def _initAbsItfNodeGraphOtportProxy(self, *args, **kwargs):
         self._initItfGrhPortProxy(*args, **kwargs)
 
@@ -3426,7 +3561,7 @@ class Itf_GrhNodeGraphPortProxy(Itf_GrhPortProxy):
 
 
 # translator object query cache ************************************************************************************** #
-class Itf_GrhTrsObjLoader(grhCfg.GrhUtility):
+class ItfGrhTrsObjLoader(grhCfg.GrhUtility):
     VAR_grh__trs_obj_loader__node_property_key_list = []
 
     VAR_grh__trs_obj_loader__port_property_key_list = []
@@ -3444,7 +3579,7 @@ class Itf_GrhTrsObjLoader(grhCfg.GrhUtility):
 
 
 # translator object query cache ************************************************************************************** #
-class Itf_GrhTrsPortQueryraw(grhCfg.GrhUtility):
+class ItfGrhTrsPortQueryraw(grhCfg.GrhUtility):
     def _initItfGrhPortQueryraw(self, *args):
         self._srcPortQueryrawObj, self._tgtPortQueryrawObj, self._outTrsPortRaw = args
 
@@ -3483,7 +3618,7 @@ class Itf_GrhTrsPortQueryraw(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhTrsNodeQueryraw(grhCfg.GrhUtility):
+class ItfGrhTrsNodeQueryraw(grhCfg.GrhUtility):
     CLS_grh__trs_node_queryraw__port_stack = None
     CLS_grh__trs_node_queryraw__port = None
 
@@ -3617,7 +3752,7 @@ class Itf_GrhTrsNodeQueryraw(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhTrsObjQueryrawCreator(grhCfg.GrhUtility):
+class ItfGrhTrsObjQueryrawCreator(grhCfg.GrhUtility):
     CLS_grh__trs_obj_queryraw_creator__node_stack = None
     CLS_grh__trs_obj_queryraw_creator__node = None
 
@@ -3712,7 +3847,7 @@ class Itf_GrhTrsObjQueryrawCreator(grhCfg.GrhUtility):
 
 
 # translator object query ******************************************************************************************** #
-class Itf_GrhTrsPortQuery(grhCfg.GrhUtility):
+class ItfGrhTrsPortQuery(grhCfg.GrhUtility):
     VAR_grh__portsep = None
 
     VAR_grh__trs_property_list = [
@@ -3723,7 +3858,7 @@ class Itf_GrhTrsPortQuery(grhCfg.GrhUtility):
     IST_grh__trs_obj__queryraw_creator = None
 
     def _initItfGrhTrsPortQuery(self, *args):
-        if isinstance(args[0], Itf_GrhTrsPortQueryraw):
+        if isinstance(args[0], ItfGrhTrsPortQueryraw):
             self._trsPortQueryrawObj = args[0]
         elif isinstance(args[0], (str, unicode)):
             srcTypepathStr, srcPortpathStr = args
@@ -3764,7 +3899,7 @@ class Itf_GrhTrsPortQuery(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhTrsNodeQuery(grhCfg.GrhUtility):
+class ItfGrhTrsNodeQuery(grhCfg.GrhUtility):
     CLS_grh__trs_port_query_set = None
     CLS_grh__trs_port_query = None
 
@@ -3772,7 +3907,7 @@ class Itf_GrhTrsNodeQuery(grhCfg.GrhUtility):
 
     def _initItfGrhTrsNodeQuery(self, *args):
         self._srcGraphicNameString, self._tgtGraphicNameString = u'unknown', u'unknown'
-        if isinstance(args[0], Itf_GrhTrsNodeQueryraw):
+        if isinstance(args[0], ItfGrhTrsNodeQueryraw):
             self._trsNodeQueryrawObj = args[0]
         elif isinstance(args[0], (str, unicode)):
             srcTypepathStr = args[0]
@@ -3952,7 +4087,7 @@ class Itf_GrhTrsNodeQuery(grhCfg.GrhUtility):
         return self.__str__()
 
 
-class Itf_GrhTrsObjQueryBuilder(grhCfg.GrhUtility):
+class ItfGrhTrsObjQueryBuilder(grhCfg.GrhUtility):
     CLS_grh__trs_node_query_set = None
     CLS_grh__trs_node_query = None
 
@@ -3989,7 +4124,7 @@ class Itf_GrhTrsObjQueryBuilder(grhCfg.GrhUtility):
 
 
 # translator ********************************************************************************************************* #
-class Itf_GrhObjTranslator(grhCfg.GrhUtility):
+class ItfGrhObjTranslator(grhCfg.GrhUtility):
     VAR_grh__obj_translator__channel_convert_dict = {}
 
     VAR_grh__obj_translator__src_node_pathsep = None
@@ -4182,9 +4317,9 @@ class Itf_GrhObjTranslator(grhCfg.GrhUtility):
         return self._tgtNodeObj
 
 
-class Itf_GrhTrsNode(
+class ItfGrhTrsNode(
     grhCfg.GrhUtility,
-    Itf_GrhCacheObjDef
+    ItfGrhCacheObjDef
 ):
     CLS_grh__trs_node__src_node = None
     CLS_grh__trs_node__tgt_node = None
@@ -4396,12 +4531,12 @@ class Itf_GrhTrsNode(
 
 
 # ******************************************************************************************************************** #
-class Itf_GrhNodeTrsRawLoader(grhCfg.GrhUtility):
+class ItfGrhNodeTrsRawLoader(grhCfg.GrhUtility):
     pass
 
 
 # node proxy translate *********************************************************************************************** #
-class Itf_GrhTrsNodeProxy(grhCfg.GrhUtility):
+class ItfGrhTrsNodeProxy(grhCfg.GrhUtility):
     CLS_grh__trs_node_proxy__trs_node = None
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = None

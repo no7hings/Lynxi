@@ -10,7 +10,7 @@ from .. import ma2mtxObjAbs
 from ..ma2mtxObjects import _ma2mtxObjQuery
 
 
-class ObjTranslator(ma2mtxObjAbs.Abs_Ma2mtxObjTranslator):
+class ObjTranslator(ma2mtxObjAbs.AbsMa2mtxObjTranslator):
     VAR_grh__obj_translator__channel_convert_dict = {
         mtxCfg.MtxUtility.DEF_mtx__datatype__color3: {
             grhCfg.GrhNodeQuery.typepath: u'float_to_rgb'
@@ -33,7 +33,7 @@ class ObjTranslator(ma2mtxObjAbs.Abs_Ma2mtxObjTranslator):
         self._initAbsMa2mtxObjTranslator(*args)
 
 
-class Node(ma2mtxObjAbs.Abs_Ma2mtxNode):
+class Node(ma2mtxObjAbs.AbsMa2mtxNode):
     CLS_grh__trs_node__src_node = maBscObjects.Node
     CLS_grh__trs_node__tgt_node = mtxObjects.Node
 
@@ -47,7 +47,7 @@ class Node(ma2mtxObjAbs.Abs_Ma2mtxNode):
         self._initAbsMa2mtxNode(*args)
 
 
-class Geometry(ma2mtxObjAbs.Abs_Ma2mtxGeometry):
+class Geometry(ma2mtxObjAbs.AbsMa2mtxGeometry):
     CLS_grh__trs_node__tgt_node = mtxObjects.Node
     CLS_grh__trs_node__src_node = maBscObjects.Geometry
 
@@ -62,7 +62,7 @@ class Geometry(ma2mtxObjAbs.Abs_Ma2mtxGeometry):
 
 
 # proxy ************************************************************************************************************** #
-class ShaderProxy(ma2mtxObjAbs.Abs_Ma2mtxShaderProxy):
+class ShaderProxy(ma2mtxObjAbs.AbsMa2mtxShaderProxy):
     CLS_grh__trs_node_proxy__trs_node = Node
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.ShaderProxy
@@ -71,7 +71,7 @@ class ShaderProxy(ma2mtxObjAbs.Abs_Ma2mtxShaderProxy):
         self._initAbsMa2mtxShaderProxy(*args, **kwargs)
 
 
-class MaterialProxy(ma2mtxObjAbs.Abs_Ma2mtxMaterialProxy):
+class MaterialProxy(ma2mtxObjAbs.AbsMa2mtxMaterialProxy):
     CLS_grh__trs_node_proxy__trs_node = Node
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.MaterialProxy
@@ -88,7 +88,7 @@ class MaterialProxy(ma2mtxObjAbs.Abs_Ma2mtxMaterialProxy):
         self._initAbsMa2mtxMaterialProxy(*args, **kwargs)
 
 
-class GeometryProxy(ma2mtxObjAbs.Abs_Ma2mtxGeometryProxy):
+class GeometryProxy(ma2mtxObjAbs.AbsMa2mtxGeometryProxy):
     CLS_grh__trs_node_proxy__trs_node = Geometry
 
     CLS_grh__trs_node_proxy__tgt_node_proxy = mtxObjects.GeometryProxy

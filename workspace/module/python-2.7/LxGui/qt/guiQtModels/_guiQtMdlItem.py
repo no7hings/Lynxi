@@ -10,7 +10,7 @@ CLS_rect = QtCore.QRect
 
 
 #
-class QtFilterCheckviewItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtFilterCheckviewItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -163,7 +163,7 @@ class QtFilterCheckviewItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class QtGridViewitemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtGridViewitemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -308,7 +308,7 @@ class QtGridViewitemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class QtPresetviewItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtPresetviewItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -483,7 +483,7 @@ class QtPresetviewItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
 
 
 #
-class QtRecordviewItemItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtRecordviewItemItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
         #
@@ -532,16 +532,16 @@ class QtRecordviewItemItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
             self._updateNameTextRect(xPos, yPos, width, height)
 
 
-class QtTreeItemModel(guiQtMdlAbs.Abs_GuiQtItemMdl):
+class QtTreeItemModel(guiQtMdlAbs.AbsGuiQtItemMdl):
     def __init__(self, widget):
         self._initAbsGuiQtItemMdl(widget)
 
 
-class QtValueLineModel(guiQtMdlAbs.Abs_GuiQtValueLineMdl):
+class QtValueLineModel(guiQtMdlAbs.AbsGuiQtValueLineMdl):
     def __init__(self, *args):
         self._initAbsGuiQtValueLineMdl(*args)
 
 
-class QtPressbuttonModel(guiQtMdlAbs.Abs_GuiQtPressbuttonMdl):
+class QtPressbuttonModel(guiQtMdlAbs.AbsGuiQtPressbuttonMdl):
     def __init__(self, *args):
         self._initAbsGuiQtPressbuttonMdl(*args)
